@@ -9,12 +9,26 @@ export const relationshipLabels = {
   OTHER: 'Other',
 };
 
+export const transferMethodLabels = {
+  SOLD: 'Sold',
+  GIFTED: 'Gifted',
+  CONVEYED: 'Conveyed',
+  TRADED: 'Traded',
+  OTHER: 'Other',
+};
+
 export const claimantTypeLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Surviving spouse',
   CHILD: 'Surviving child',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child beneficiary',
+};
+
+export const incomeFrequencyLabels = {
+  RECURRING: 'Recurring',
+  IRREGULAR: 'Irregular',
+  ONE_TIME: 'One time payment',
 };
 
 export const incomeTypeLabels = {
@@ -36,4 +50,17 @@ export const ownedAssetTypeLabels = {
   BUSINESS: 'Business',
   FARM: 'Farm',
   RENTAL_PROPERTY: 'Rental property',
+};
+
+export const generatedIncomeTypeLabels = {
+  INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
+  MINERALS_LUMBER: 'Extraction of minerals/lumbar',
+  USE_OF_LAND: 'Use of land',
+  OTHER: 'Other',
+};
+
+export const trustTypeLabels = {
+  REVOCABLE: 'Revocable',
+  IRREVOCABLE: 'Irrevocable',
+  BURIAL: 'Burial trust',
 };

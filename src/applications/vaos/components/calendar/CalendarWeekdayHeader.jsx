@@ -28,10 +28,10 @@ export default function CalendarWeekdayHeader({ showFullWeek = false }) {
             role="columnheader"
             className="vaos-calendar__weekday vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0p5"
           >
-            <span className="vads-u-display--none large-screen:vads-u-display--inline">
+            <span className="vads-u-display--none desktop-lg:vads-u-display--inline">
               {day.name}
             </span>
-            <span className="large-screen:vads-u-display--none">
+            <span className="desktop-lg:vads-u-display--none">
               <span aria-hidden="true">{day.abbr}</span>
               <span className="sr-only">{day.name}</span>
             </span>

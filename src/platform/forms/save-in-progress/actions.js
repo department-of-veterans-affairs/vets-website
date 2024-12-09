@@ -271,7 +271,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
             SAVE_STATUSES.success,
             savedAt,
             json.data.attributes.metadata.expiresAt,
-            json.data.id,
+            json.data.attributes.metadata.inProgressFormId,
           ),
         );
 

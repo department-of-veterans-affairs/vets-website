@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
 import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -10,6 +11,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Accreditation"
           onClick={() => {
             onShowModal('accreditation');
@@ -45,6 +47,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Credit for military training"
           onClick={() => {
             onShowModal('militaryTrainingCredit');
@@ -64,6 +67,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Independent study"
           onClick={() => {
             onShowModal('independentStudy');
@@ -83,6 +87,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Priority Enrollment"
           onClick={() => {
             onShowModal('priorityEnrollment');
@@ -139,3 +144,7 @@ export default function Academics({ institution, onShowModal }) {
     </div>
   );
 }
+Academics.propTypes = {
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func,
+};

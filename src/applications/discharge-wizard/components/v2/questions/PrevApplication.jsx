@@ -21,7 +21,7 @@ const PrevApplication = ({
   const shortName = SHORT_NAME_MAP.PREV_APPLICATION;
   const H1 = QUESTION_MAP[shortName];
   const prevApplication = formResponses[shortName];
-  const { PREV_APPLICATION_1, PREV_APPLICATION_2 } = RESPONSES;
+  const { YES, NO } = RESPONSES;
   const hint =
     'Note: You can still apply even if you’ve been denied before. We’ll tell you where to send your application based on your answer. ';
 
@@ -48,7 +48,7 @@ const PrevApplication = ({
       formValue={prevApplication}
       H1={H1}
       hint={hint}
-      responses={[PREV_APPLICATION_1, PREV_APPLICATION_2]}
+      responses={[YES, NO]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

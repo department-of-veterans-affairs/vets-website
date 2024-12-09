@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,
@@ -8,21 +9,31 @@ import {
 } from '../../actions';
 
 describe('Verify VA file number actions: verifyVaFileNumber', () => {
-  beforeEach(() => mockFetch());
+  const server = setupServer();
+
+  before(() => {
+    server.listen();
+  });
+
+  after(() => {
+    server.close();
+  });
 
   it('should fetch a va file number', () => {
     const verified = {
       attributes: {
-        code: 200,
-        hasNumber: true,
+        validVAFileNumber: true,
       },
     };
 
-    global.fetch.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(verified) }),
-      }),
-    });
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
+        (_, res, ctx) => {
+          return res(ctx.status(200), ctx.json(verified));
+        },
+      ),
+    );
 
     const thunk = verifyVaFileNumber();
     const dispatchSpy = sinon.spy();
@@ -45,11 +56,14 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
         },
       ],
     };
-    global.fetch.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-      }),
-    });
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
+        (_, res, ctx) => {
+          return res(ctx.status(401), ctx.json(response));
+        },
+      ),
+    );
     const thunk = verifyVaFileNumber();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {

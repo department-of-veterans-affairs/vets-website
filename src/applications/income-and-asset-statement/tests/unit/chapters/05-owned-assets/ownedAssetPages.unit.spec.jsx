@@ -7,7 +7,7 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-describe('associated income list and loop pages', () => {
+describe('owned asset list and loop pages', () => {
   const { ownedAssetPagesSummary } = ownedAssetPages;
 
   describe('summary page', () => {

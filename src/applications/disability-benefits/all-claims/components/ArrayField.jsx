@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
-import Scroll from 'react-scroll';
 
 import {
   toIdSchema,
@@ -11,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
 import {
   scrollToFirstError,
@@ -21,8 +21,6 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
-
-const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:

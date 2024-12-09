@@ -80,7 +80,7 @@ export function SearchPage({
   const handleBrowserButtonClick = () => {
     const tabName = deriveTabName();
     window.addEventListener('popstate', e => {
-      e.preventDefault();
+      e?.preventDefault();
       recordEvent({
         event: 'back-button-click',
         'tab-text': `Search by ${tabName}`,
@@ -144,7 +144,7 @@ export function SearchPage({
       <GIBillHeaderInfo />
       <span className="search-page">
         <div className={searchPageClasses}>
-          <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
+          <div className="column medium-screen:vads-u-padding-bottom--2 mobile-lg:vads-u-padding-bottom--0 vads-u-padding-x--0">
             {!smallScreen && (
               <SearchTabs
                 onChange={tabChange}

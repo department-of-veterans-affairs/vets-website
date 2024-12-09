@@ -5,6 +5,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { EVIDENCE_VA_REQUEST } from '../constants';
 
+import { isOnReviewPage } from '../../../shared/utils/helpers';
+
 const recordActionLinkClick = () => {
   recordEvent({
     event: 'cta-action-link-click',
@@ -21,6 +23,7 @@ export const content = {
   remove: 'Remove', // for locations
   delete: 'Delete', // for files
   update: 'Update page',
+  noDate: 'I don’t have the date',
 
   summaryTitle: 'Review the evidence you’re submitting',
 
@@ -30,20 +33,23 @@ export const content = {
 
   otherTitle: 'You uploaded these documents:',
 
-  addMoreLink: (
-    <>
-      <h4 className="sr-only">Are you missing evidence?</h4>
-      <p>
-        <Link
-          to={`/${EVIDENCE_VA_REQUEST}`}
-          className="vads-c-action-link--green"
-          onClick={recordActionLinkClick}
-        >
-          Add more evidence
-        </Link>
-      </p>
-    </>
-  ),
+  addMoreLink: () => {
+    const Header = isOnReviewPage() ? 'h5' : 'h4';
+    return (
+      <>
+        <Header className="sr-only">Are you missing evidence?</Header>
+        <p>
+          <Link
+            to={`/${EVIDENCE_VA_REQUEST}`}
+            className="vads-c-action-link--green"
+            onClick={recordActionLinkClick}
+          >
+            Add more evidence
+          </Link>
+        </p>
+      </>
+    );
+  },
 
   // remove messages
   removeEvidence: {
@@ -54,6 +60,7 @@ export const content = {
     limitation: '',
     upload: 'We’ll remove the uploaded document',
     modalRemove: 'Yes, remove this',
+    modalDelete: 'Yes, delete this file',
     modalNotRemove: 'No, keep this',
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',

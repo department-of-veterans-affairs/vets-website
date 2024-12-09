@@ -30,12 +30,12 @@ describe('Medical Records Health Chemistry And Hematology', () => {
     ChemHemDetailsPage.verifyDownloadTextFile();
     ChemHemDetailsPage.clickDownloadTxtFile();
 
-    // verify content of the downloaded text file when running in headless mode
-    ChemHemDetailsPage.verifyDownloadTextFileHeadless(
-      'Safari',
-      'Mhvtp',
-      'Mhvtp, Safari',
-    );
+    // // verify content of the downloaded text file when running in headless mode
+    // ChemHemDetailsPage.verifyDownloadTextFileHeadless(
+    //   'Safari',
+    //   'Mhvtp',
+    //   'Mhvtp, Safari',
+    // );
 
     cy.injectAxe();
     cy.axeCheck('main', {

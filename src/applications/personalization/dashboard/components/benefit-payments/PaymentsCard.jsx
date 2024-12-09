@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import CTALink from '../CTALink';
 
 export const PaymentsCard = ({ lastPayment }) => {
   const paymentDate = new Date(lastPayment.payCheckDt);
@@ -46,7 +46,7 @@ export const PaymentsCard = ({ lastPayment }) => {
   );
 
   return (
-    <div className="vads-u-margin-bottom--3 vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1">
+    <div className="vads-u-margin-bottom--3 vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1">
       <va-card>
         <div className="vads-u-padding--1" data-testid="payment-card">
           {content}

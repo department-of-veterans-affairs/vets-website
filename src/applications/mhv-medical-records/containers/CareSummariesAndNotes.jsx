@@ -7,7 +7,6 @@ import {
   getCareSummariesAndNotesList,
   reloadRecords,
 } from '../actions/careSummariesAndNotes';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import useListRefresh from '../hooks/useListRefresh';
 import {
   ALERT_TYPE_ERROR,
@@ -25,7 +24,6 @@ const CareSummariesAndNotes = () => {
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
-
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -61,14 +59,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/',
-            label: 'Medical records',
-          },
-        ]),
-      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
@@ -106,6 +96,7 @@ const CareSummariesAndNotes = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

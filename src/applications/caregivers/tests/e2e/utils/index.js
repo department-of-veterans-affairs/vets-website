@@ -48,14 +48,9 @@ export const fillAddressWebComponentPattern = (fieldName, { state }) => {
 export const fillStatementOfTruthPattern = (label, signature) => {
   cy.findByTestId(label)
     .find('.signature-input')
-    .shadow()
-    .find('input')
-    .first()
-    .type(signature);
+    .then($el => cy.fillVaTextInput($el, signature));
 
   cy.findByTestId(label)
     .find('.signature-checkbox')
-    .shadow()
-    .find('label')
-    .click();
+    .then($el => cy.selectVaCheckbox($el, true));
 };

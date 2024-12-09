@@ -22,12 +22,12 @@ const PrevApplicationYear = ({
   const H1 = QUESTION_MAP[shortName];
   const prevApplicationYear = formResponses[shortName];
   const {
-    PREV_APPLICATION_YEAR_1A,
-    PREV_APPLICATION_YEAR_1B,
-    PREV_APPLICATION_YEAR_2A,
-    PREV_APPLICATION_YEAR_2B,
-    PREV_APPLICATION_YEAR_1C,
-    PREV_APPLICATION_YEAR_2C,
+    PREV_APPLICATION_BEFORE_2014,
+    PREV_APPLICATION_BEFORE_2011,
+    PREV_APPLICATION_AFTER_2014,
+    PREV_APPLICATION_AFTER_2011,
+    PREV_APPLICATION_BEFORE_2017,
+    PREV_APPLICATION_AFTER_2017,
   } = RESPONSES;
 
   useEffect(
@@ -48,15 +48,17 @@ const PrevApplicationYear = ({
 
   const prevApplicationOptions = () => {
     if (
-      [RESPONSES.REASON_1, RESPONSES.REASON_2].includes(formResponses.REASON)
+      [RESPONSES.REASON_PTSD, RESPONSES.REASON_TBI].includes(
+        formResponses.REASON,
+      )
     ) {
-      return [PREV_APPLICATION_YEAR_1A, PREV_APPLICATION_YEAR_2A];
+      return [PREV_APPLICATION_BEFORE_2014, PREV_APPLICATION_AFTER_2014];
     }
-    if (formResponses.REASON === RESPONSES.REASON_3) {
-      return [PREV_APPLICATION_YEAR_1B, PREV_APPLICATION_YEAR_2B];
+    if (formResponses.REASON === RESPONSES.REASON_SEXUAL_ORIENTATION) {
+      return [PREV_APPLICATION_BEFORE_2011, PREV_APPLICATION_AFTER_2011];
     }
-    if (formResponses.REASON === RESPONSES.REASON_4) {
-      return [PREV_APPLICATION_YEAR_1C, PREV_APPLICATION_YEAR_2C];
+    if (formResponses.REASON === RESPONSES.REASON_SEXUAL_ASSAULT) {
+      return [PREV_APPLICATION_BEFORE_2017, PREV_APPLICATION_AFTER_2017];
     }
     return [];
   };

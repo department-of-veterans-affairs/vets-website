@@ -14,7 +14,9 @@ describe('LabsAndTestsListItem component', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[0].resource,
+        ),
       },
     },
   };
@@ -23,7 +25,7 @@ describe('LabsAndTestsListItem component', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -55,7 +57,7 @@ describe('LabsAndTestsListItem component', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByText('Potassium, Sodium', {
-      selector: 'a',
+      selector: 'div',
       exact: true,
     });
     expect(recordDetailsLink).to.exist;
@@ -67,7 +69,9 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[0].resource,
+        ),
       },
     },
   };
@@ -76,7 +80,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -89,7 +93,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getAllByText('Potassium, Sodium', {
-      selector: 'a',
+      selector: 'div',
       exact: true,
     })[0];
     expect(recordName).to.exist;
@@ -104,7 +108,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE, JANE A', {
+    const date = screen.getByText('Ordered by JANE A DOE', {
       selector: 'div',
       exact: true,
     });
@@ -117,7 +121,9 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[4]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[4].resource,
+        ),
       },
     },
   };
@@ -126,7 +132,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[4])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[4].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -138,15 +144,15 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   });
 
   it('should display the name of the record as a link to view record details', () => {
-    const recordName = screen.getAllByText('Microbiology', {
-      selector: 'a',
+    const recordName = screen.getAllByText('LR MICROBIOLOGY REPORT', {
+      selector: 'div',
       exact: true,
     })[0];
     expect(recordName).to.exist;
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getAllByText('January 20, 2021', {
+    const date = screen.getAllByText('January 20, 2021, 4:38 p.m.', {
       selector: 'div',
       exact: true,
     });
@@ -167,7 +173,9 @@ describe('LabsAndTestsListItem component with pathology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[5]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[5].resource,
+        ),
       },
     },
   };
@@ -176,7 +184,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[5])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[5].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -189,14 +197,14 @@ describe('LabsAndTestsListItem component with pathology record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
-      selector: 'a',
+      selector: 'div',
       exact: true,
     })[0];
     expect(recordName).to.exist;
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getByText('August 11, 1999', {
+    const date = screen.getByText('August 11, 1999, 4:09 p.m.', {
       selector: 'div',
       exact: true,
     });
@@ -239,14 +247,14 @@ describe('LabsAndTestsListItem component with radiology record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getByText('DEXA, PERIPHERAL STUDY', {
-      selector: 'a',
+      selector: 'div',
       exact: true,
     });
     expect(recordName).to.exist;
   });
 
   // This test will give different results when run in different time zones.
-  it.skip('should display the date of the record', () => {
+  it('should display the date of the record', () => {
     const date = screen.getByText('January 6, 2004, 7:27 p.m.', {
       selector: 'div',
       exact: true,
@@ -255,7 +263,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE,JANE', {
+    const date = screen.getByText('Ordered by JANE DOE', {
       selector: 'div',
       exact: true,
     });

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
-export function prefillTransformer(pages, formData, metadata) {
+export function prefillTransformer(pages, formData, metadata, state) {
   const { homePhone, mobilePhone, email, remainingEntitlement } = formData;
+  const { edipi, icn } = state.user.profile;
 
   const totalDays = remainingEntitlement
     ? remainingEntitlement.months * 30 + remainingEntitlement.days
@@ -13,6 +14,8 @@ export function prefillTransformer(pages, formData, metadata) {
       'mobilePhone',
       'email',
       'remainingEntitlement',
+      'edipi',
+      'icn',
     ]),
     'view:otherContactInfo': {
       homePhone,
@@ -23,6 +26,8 @@ export function prefillTransformer(pages, formData, metadata) {
       ...remainingEntitlement,
       totalDays,
     },
+    edipi,
+    icn,
   };
 
   return {

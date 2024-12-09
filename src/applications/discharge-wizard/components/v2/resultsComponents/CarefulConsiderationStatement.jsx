@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import AlertMessage from './AlertMessage';
 import {
   SHORT_NAME_MAP,
   RESPONSES,
 } from '../../../constants/question-data-map';
+import { ROUTES } from '../../../constants';
 
-const CarefulConsiderationStatement = ({ formResponses }) => {
+const CarefulConsiderationStatement = ({ formResponses, router }) => {
   const reasonStatement = () => {
     const reason = formResponses[SHORT_NAME_MAP.REASON];
     const dischargeType = formResponses[SHORT_NAME_MAP.DISCHARGE_TYPE];
 
     switch (reason) {
-      case RESPONSES.REASON_1:
+      case RESPONSES.REASON_PTSD:
         return (
           <p>
             Because you answered that your discharge was related to
@@ -24,7 +24,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             or undocumented PTSD or mental health condition.
           </p>
         );
-      case RESPONSES.REASON_2:
+      case RESPONSES.REASON_TBI:
         return (
           <p>
             Because you answered that your discharge was related to a traumatic
@@ -34,8 +34,8 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             undiagnosed or undocumented TBI.
           </p>
         );
-      case RESPONSES.REASON_3:
-        if (dischargeType === RESPONSES.DISCHARGE_TYPE_2) {
+      case RESPONSES.REASON_SEXUAL_ORIENTATION:
+        if (dischargeType === RESPONSES.DISCHARGE_DISHONORABLE) {
           return (
             <p>
               Because you answered that your discharge was due to your sexual
@@ -50,7 +50,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             </p>
           );
         }
-        if (dischargeType === RESPONSES.DISCHARGE_TYPE_1) {
+        if (dischargeType === RESPONSES.DISCHARGE_HONORABLE) {
           return (
             <p>
               Many Veterans have received general or honorable discharges due to
@@ -61,7 +61,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
           );
         }
         return null;
-      case RESPONSES.REASON_4:
+      case RESPONSES.REASON_SEXUAL_ASSAULT:
         return (
           <p>
             Because you answered that your discharge was related to sexual
@@ -76,7 +76,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             argue that your discharge was unjust punishment for those events.
           </p>
         );
-      case RESPONSES.REASON_5:
+      case RESPONSES.REASON_TRANSGENDER:
         return (
           <p>
             This is a common request for transgender Veterans whose DD214 name
@@ -89,18 +89,22 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
   };
 
   const priorServiceStatement = () => {
+    const onDD214LinkClick = () => {
+      router.push(ROUTES.DD214);
+    };
+
     switch (formResponses[SHORT_NAME_MAP.PRIOR_SERVICE]) {
-      case RESPONSES.PRIOR_SERVICE_1:
+      case RESPONSES.PRIOR_SERVICE_PAPERWORK_YES:
         return (
           <AlertMessage
             isVisible
             status="info"
             content={
               <>
-                <h4 className="usa-alert-heading">
+                <h2 className="usa-alert-heading">
                   You can apply for VA benefits using your honorable
                   characterization.
-                </h4>
+                </h2>
                 <p>
                   Because you served honorably in one period of service, you can
                   apply for VA benefits using that honorable characterization.
@@ -117,17 +121,17 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             }
           />
         );
-      case RESPONSES.PRIOR_SERVICE_2:
+      case RESPONSES.PRIOR_SERVICE_PAPERWORK_NO:
         return (
           <AlertMessage
             isVisible
             status="info"
             content={
               <>
-                <h4 className="usa-alert-heading">
+                <h2 className="usa-alert-heading">
                   You can apply for VA benefits using your honorable
                   characterization.
-                </h4>
+                </h2>
                 <div className="vads-u-font-size--base">
                   <p className="vads-u-margin-top--2">
                     Because you served honorably in one period of service, you
@@ -151,10 +155,12 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
                     If you want a DD214 for your period of honorable service for
                     other reasons, unrelated to applying for VA benefits, you
                     can request one.{' '}
-                    <Link to="/request-dd214" target="_blank">
-                      Find out how to request a DD214 for your period of
-                      honorable service (opens in a new tab)
-                    </Link>
+                    <va-link
+                      href="#"
+                      text="Find out how to request a DD214 for your period of
+                      honorable service"
+                      onClick={onDD214LinkClick}
+                    />
                   </p>
                 </div>
               </>
@@ -169,13 +175,16 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
   return (
     <>
       {reasonStatement()}
-      {priorServiceStatement()}
+      <div className="vads-u-padding-bottom--2">{priorServiceStatement()}</div>
     </>
   );
 };
 
 CarefulConsiderationStatement.propTypes = {
   formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default CarefulConsiderationStatement;

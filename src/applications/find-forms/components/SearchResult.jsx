@@ -130,7 +130,6 @@ const SearchResult = ({
 
   const {
     attributes: {
-      firstIssuedOn,
       formName,
       formType,
       formToolUrl,
@@ -148,7 +147,6 @@ const SearchResult = ({
     ? replaceWithStagingDomain(formToolUrl)
     : formToolUrl;
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
-  const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   const relatedTo = deriveRelatedTo({
     vaFormAdministration,
@@ -174,8 +172,9 @@ const SearchResult = ({
         formName={formName}
       />
       <div className="vads-u-margin-y--1 vsa-from-last-updated">
-        <span className="vads-u-font-weight--bold">Form last updated:</span>{' '}
-        {lastRevision}
+        <span className="vads-u-font-weight--bold">Form revision date:</span>{' '}
+        {moment(lastRevisionOn)?.format(FORM_MOMENT_PRESENTATION_DATE_FORMAT) ||
+          'N/A'}
       </div>
 
       {relatedTo}
@@ -197,7 +196,6 @@ const SearchResult = ({
           className="va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
-          tabIndex="0"
           onKeyDown={event => {
             if (event === 13) {
               pdfDownloadHandler();

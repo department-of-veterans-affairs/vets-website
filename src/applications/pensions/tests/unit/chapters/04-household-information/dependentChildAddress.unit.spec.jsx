@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
+
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { formatISO, subYears } from 'date-fns';
 import formConfig from '../../../../config/form';
 import dependentChildAddress from '../../../../config/chapters/04-household-information/dependentChildAddress';
 import { testNumberOfFieldsByType } from '../pageTests.spec';
@@ -29,9 +30,7 @@ const dependentData = {
         first: 'Jane',
         last: 'Doe',
       },
-      childDateOfBirth: moment()
-        .subtract(19, 'years')
-        .toISOString(),
+      childDateOfBirth: formatISO(subYears(new Date(), 19)),
       childInHousehold: false,
     },
   ],

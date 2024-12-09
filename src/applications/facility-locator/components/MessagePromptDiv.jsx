@@ -6,9 +6,11 @@ const MessagePromptDiv = ({ id, message, waitBeforeShow = 0 }) => {
 
   useEffect(
     () => {
-      setTimeout(() => {
+      const timeoutFn = setTimeout(() => {
         setIsShown(true);
       }, waitBeforeShow);
+
+      return () => clearTimeout(timeoutFn);
     },
     [waitBeforeShow],
   );

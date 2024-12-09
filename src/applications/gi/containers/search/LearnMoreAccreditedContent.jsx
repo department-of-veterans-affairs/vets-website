@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const LearnMoreAccreditedContent = ({ onCloseEvent, visible }) => {
@@ -41,5 +42,9 @@ const LearnMoreAccreditedContent = ({ onCloseEvent, visible }) => {
       </p>
     </VaModal>
   );
+};
+LearnMoreAccreditedContent.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onCloseEvent: PropTypes.func.isRequired,
 };
 export default LearnMoreAccreditedContent;

@@ -73,6 +73,7 @@ describe('AppointmentListItem', () => {
               app="preCheckIn"
               appointment={appointments[0]}
               page="intro"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -92,6 +93,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[0]}
               page="confirmation"
               goToDetails={() => {}}
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -105,6 +107,7 @@ describe('AppointmentListItem', () => {
               app="preCheckIn"
               appointment={appointments[0]}
               page="intro"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -119,6 +122,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[0]}
               page="details"
               goToDetails={() => {}}
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -136,6 +140,7 @@ describe('AppointmentListItem', () => {
               app="preCheckIn"
               appointment={appointments[1]}
               page="intro"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -154,6 +159,7 @@ describe('AppointmentListItem', () => {
               app="preCheckIn"
               appointment={appointments[1]}
               page="confirmation"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -168,6 +174,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[1]}
               page="confirmation"
               goToDetails={() => {}}
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -186,6 +193,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[2]}
               page="confirmation"
               goToDetails={() => {}}
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -207,6 +215,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[3]}
               page="confirmation"
               goToDetails={() => {}}
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -228,6 +237,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[0]}
               goToDetails={() => {}}
               page="intro"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -241,6 +251,7 @@ describe('AppointmentListItem', () => {
               appointment={appointments[0]}
               goToDetails={() => {}}
               page="details"
+              count={3}
             />
           </CheckInProvider>,
         );
@@ -255,11 +266,40 @@ describe('AppointmentListItem', () => {
               appointment={appointments[0]}
               goToDetails={goToDetails}
               page="details"
+              count={3}
             />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('details-link'));
         expect(goToDetails.calledOnce).to.be.true;
+      });
+      it('renders as a list item when more than one', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              goToDetails={() => {}}
+              page="details"
+              count={3}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByRole('listitem')).to.exist;
+      });
+      it('does not render as a list item when only one', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              goToDetails={() => {}}
+              page="details"
+              count={1}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByRole('listitem')).to.not.exist;
       });
     });
   });

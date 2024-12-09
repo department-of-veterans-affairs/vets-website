@@ -15,7 +15,7 @@ export default function FormLayout({ children, pageTitle }) {
   return (
     <>
       <MhvSecondaryNav />
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--8">
         <Breadcrumbs>
           <a href={`/my-health/appointments/${match.url}`}>{pageTitle}</a>
         </Breadcrumbs>

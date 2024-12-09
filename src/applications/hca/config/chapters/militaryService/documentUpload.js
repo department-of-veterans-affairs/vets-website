@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import DischargePapersDescription from '../../../components/FormDescriptions/DischargePapersDescription';
+import { createPayload, parseResponse } from '../../../utils/helpers';
 import { attachmentsSchema } from '../../../definitions/attachments';
 
 export default {
@@ -14,16 +15,8 @@ export default {
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
       maxSize: 1024 * 1024 * 10,
       hideLabelText: true,
-      createPayload: file => {
-        const payload = new FormData();
-        payload.append('hca_attachment[file_data]', file);
-        return payload;
-      },
-      parseResponse: (response, file) => ({
-        name: file.name,
-        confirmationCode: response.data.attributes.guid,
-        size: file.size,
-      }),
+      createPayload,
+      parseResponse,
       attachmentSchema: {
         'ui:title': 'Document type',
       },

@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import { focusElement } from '~/platform/utilities/ui';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-
+} from 'platform/monitoring/DowntimeNotification';
+import { selectAuthStatus, selectEnrollmentStatus } from '../utils/selectors';
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import GetStarted from '../components/IntroductionPage/GetStarted';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
-import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ route }) => {

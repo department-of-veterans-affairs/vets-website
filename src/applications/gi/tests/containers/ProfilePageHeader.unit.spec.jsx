@@ -476,7 +476,10 @@ describe('<ProfilePageHeader>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ProfilePageHeader institution={RAITINGS_TEST_INSTITUTION} />,
+      <ProfilePageHeader
+        institution={RAITINGS_TEST_INSTITUTION}
+        isShowRatingsToggle
+      />,
       {
         initialState: {
           constants: mockConstants(),

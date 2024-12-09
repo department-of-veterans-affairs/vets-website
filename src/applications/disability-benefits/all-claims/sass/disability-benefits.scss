@@ -1,6 +1,4 @@
-// Variables
-
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -292,7 +290,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 
 // Adjusts labels in the ArrayField around combobox groups.
-.cc-combobox-container {
+.cc-autocomplete-container {
   .schemaform-label,
   .va-growable-expanded legend {
     display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
@@ -300,6 +298,46 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 
 // Overrides spacing coming from foundation-sites.scss breaking layout.
-.cc-combobox-container .row {
+.cc-autocomplete-container .row {
   margin: 0;
+}
+
+/* addDisabilities autocomplete styles */
+.cc-autocomplete {
+  position: relative;
+
+  &__list {
+    position: absolute;
+    width: 100%;
+    max-width: 30rem;
+    background-color: var(--vads-color-white);
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    z-index: 100;
+    max-height: 27.5rem;
+    border: 1px solid var(--vads-color-black);
+  }
+
+  &__option {
+    display: block;
+    padding: units(1);
+    margin: 0;
+    cursor: pointer;
+
+    &--active {
+      background-color: var(--vads-color-primary);
+      border-color: var(--vads-color-primary);
+      color: var(--vads-color-white);
+    }
+
+    &:first-child {
+      border-bottom: 1px solid var(--vads-color-gray-warm-light);
+    }
+  }
+
+  // Adjusts spacing on label inside web component text input.
+  va-text-input::part(label) {
+    margin-top: 0;
+  }
 }

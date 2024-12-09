@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { format, add } from 'date-fns';
 import sinon from 'sinon';
 
 import {
@@ -218,6 +218,109 @@ describe('Schemaform validations', () => {
         ),
       ).to.be.true;
     });
+
+    it('can use global formData for validation on fields in array', () => {
+      const errors = {};
+      const validatorLocal = sinon.spy();
+      const validatorGlobal = sinon.spy();
+      const schemaArray = {
+        type: 'array',
+        items: [
+          {
+            properties: {
+              field1: {
+                type: 'string',
+              },
+              field2: {
+                type: 'string',
+              },
+            },
+          },
+        ],
+      };
+      const schema = {
+        type: 'object',
+        properties: {
+          otherItem: {
+            type: 'string',
+          },
+          arrayItems: schemaArray,
+        },
+      };
+      const uiSchemaArray = {
+        items: {
+          field1: {
+            'ui:title': 'Field 1',
+            'ui:validations': [validatorLocal],
+          },
+          field2: {
+            'ui:title': 'Field 2',
+            'ui:validations': [validatorGlobal],
+            'ui:options': {
+              useAllFormData: true,
+            },
+          },
+        },
+      };
+      const uiSchema = {
+        otherItem: {
+          'ui:title': 'Other item',
+        },
+        arrayItems: uiSchemaArray,
+      };
+      const arrayFormData = [
+        {
+          field1: 'foo',
+          field2: 'bar',
+        },
+      ];
+
+      const globalFormData = {
+        otherItem: 'test',
+        arrayItems: arrayFormData,
+      };
+
+      const getFormData = ({ all }) => (all ? globalFormData : arrayFormData);
+
+      uiSchemaValidate(
+        errors,
+        uiSchemaArray,
+        schemaArray,
+        arrayFormData,
+        undefined,
+        undefined,
+        undefined,
+        getFormData,
+      );
+
+      let v = validatorLocal.args[0];
+      expect(v[1]).to.equal('foo');
+      expect(v[2]).to.equal(arrayFormData);
+
+      [v] = validatorGlobal.args;
+      expect(v[1]).to.equal('bar');
+      expect(v[2]).to.equal(globalFormData);
+
+      uiSchemaValidate(
+        {},
+        uiSchema,
+        schema,
+        globalFormData,
+        undefined,
+        undefined,
+        undefined,
+        getFormData,
+      );
+
+      [v] = validatorLocal.args;
+      expect(v[1]).to.equal('foo');
+      expect(v[2]).to.equal(arrayFormData);
+
+      [v] = validatorGlobal.args;
+      expect(v[1]).to.equal('bar');
+      expect(v[2]).to.equal(globalFormData);
+    });
+
     it('should skip validation when array is undefined', () => {
       const errors = {};
       const validator = sinon.spy();
@@ -278,9 +381,7 @@ describe('Schemaform validations', () => {
   describe('validateCurrentOrPastDate', () => {
     it('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(2, 'year')
-        .format('YYYY-MM-DD');
+      const futureDate = format(add(new Date(), { years: 2 }), 'yyyy-MM-d');
       validateCurrentOrPastDate(errors, futureDate);
 
       expect(errors.addError.callCount).to.equal(1);
@@ -301,9 +402,7 @@ describe('Schemaform validations', () => {
     });
     it('should use custom message', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(2, 'year')
-        .format('YYYY-MM-DD');
+      const futureDate = format(add(new Date(), { years: 2 }), 'yyyy-MM-d');
       validateCurrentOrPastDate(errors, futureDate, null, null, {
         futureDate: 'Blah blah',
       });
@@ -315,9 +414,7 @@ describe('Schemaform validations', () => {
   describe('validateCurrentOrFutureDate', () => {
     it('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
-      const pastDate = moment()
-        .add(-2, 'year')
-        .format('YYYY-MM-DD');
+      const pastDate = format(add(new Date(), { years: -2 }), 'yyyy-MM-d');
       validateCurrentOrFutureDate(errors, pastDate);
 
       expect(errors.addError.callCount).to.equal(1);
@@ -327,9 +424,7 @@ describe('Schemaform validations', () => {
     });
     it('should use custom message', () => {
       const errors = { addError: sinon.spy() };
-      const pastDate = moment()
-        .add(-2, 'year')
-        .format('YYYY-MM-DD');
+      const pastDate = format(add(new Date(), { years: -2 }), 'yyyy-MM-d');
       validateCurrentOrFutureDate(errors, pastDate, null, null, {
         pastDate: 'Blah blah',
       });
@@ -855,9 +950,7 @@ describe('Schemaform validations', () => {
       const errors = { addError: sinon.spy() };
       validateCurrentOrPastMonthYear(
         errors,
-        moment()
-          .add(1, 'year')
-          .format('YYYY-MM-[XX]'),
+        format(add(new Date(), { years: 1 }), 'yyyy-MM-[XX]'),
       );
 
       expect(errors.addError.firstCall.args[0]).to.equal(

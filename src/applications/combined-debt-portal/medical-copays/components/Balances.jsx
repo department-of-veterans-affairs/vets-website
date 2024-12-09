@@ -4,15 +4,19 @@ import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
 
 export const Balances = ({ statements }) => {
-  const single = <h2 id="balance-list">What you owe to your facility</h2>;
+  const single = (
+    <h2 id="balance-list" className="vads-u-margin-top--2">
+      What you owe to your facility
+    </h2>
+  );
   const multiple = (
-    <h2 id="balance-list">
+    <h2 id="balance-list" className="vads-u-margin-top--2">
       Your most recent statement balances for the last six months
     </h2>
   );
 
   return (
-    <>
+    <article className="vads-u-padding-x--0">
       {statements?.length === 1 ? single : multiple}
       <p>
         Any payments you may have made to your current copays will not be
@@ -39,7 +43,7 @@ export const Balances = ({ statements }) => {
           );
         })}
       </ul>
-    </>
+    </article>
   );
 };
 

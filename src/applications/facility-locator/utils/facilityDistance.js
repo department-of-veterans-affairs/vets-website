@@ -1,4 +1,4 @@
-import { MIN_RADIUS } from '../constants';
+import { MIN_RADIUS, MIN_RADIUS_CCP } from '../constants';
 import { mapboxToken } from './mapboxToken';
 
 function toRadians(value) {
@@ -25,16 +25,21 @@ export function distBetween(lat1, lng1, lat2, lng2) {
   return R * c;
 }
 
-export const radiusFromBoundingBox = fbox => {
+export const radiusFromBoundingBox = (fbox, ccp = false) => {
   let radius = distBetween(
     fbox[0].bbox[1],
     fbox[0].bbox[0],
     fbox[0].bbox[3],
     fbox[0].bbox[2],
   );
-
-  if (radius < MIN_RADIUS) radius = MIN_RADIUS;
-
+  if (ccp && radius < MIN_RADIUS_CCP) {
+    radius = MIN_RADIUS_CCP;
+  } else if (!ccp && radius < MIN_RADIUS) {
+    radius = MIN_RADIUS;
+  }
+  if (ccp) {
+    return Math.max(radius, MIN_RADIUS_CCP);
+  }
   return Math.max(radius, MIN_RADIUS);
 };
 

@@ -45,6 +45,7 @@ const ClaimantType = props => {
 ClaimantType.propTypes = {
   route: PropTypes.object,
   setFormData: PropTypes.func,
+  router: PropTypes.object,
 };
 
 const mapDispatchToProps = {

@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { datadogRum } from '@datadog/browser-rum';
-import { isAuthenticatedWithSSOe } from '../selectors';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
 const goBackLinkText = 'Go back to the previous version of My HealtheVet';
@@ -12,9 +10,11 @@ const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 const HeaderLayout = ({
   showWelcomeMessage = false,
   showLearnMore = false,
+  showMhvGoBack = false,
+  ssoe = false,
 }) => {
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const goBackUrl = mhvUrl(ssoe, 'home');
+  const mhvHomeUrl = mhvUrl(ssoe, 'home');
+  const mhvDownloadUrl = mhvUrl(ssoe, 'download-my-data');
 
   const alertExpandableRef = useRef(null);
 
@@ -22,25 +22,17 @@ const HeaderLayout = ({
 
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
-    if (alertExpandable) {
-      try {
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .alert-expandable-trigger {
-            align-items: center !important;
-          }
-          .alert-expandable-icon {
-            vertical-align: middle !important;
-          }
-        `;
-        alertExpandable.shadowRoot.appendChild(style);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'Error adding custom styles to alert-expandable component',
-          error,
-        );
-      }
+    if (alertExpandable?.shadowRoot) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .alert-expandable-trigger {
+          align-items: center !important;
+        }
+        .alert-expandable-icon {
+          vertical-align: middle !important;
+        }
+      `;
+      alertExpandable.shadowRoot.appendChild(style);
     }
   }, []);
 
@@ -73,21 +65,23 @@ const HeaderLayout = ({
               health care needs in the same place where you manage your other VA
               benefits and services—right here on VA.gov.
             </p>
-            <p>
-              If you’re not ready to try the new My HealtheVet, you can use the
-              previous version anytime.{' '}
-              <a
-                onClick={() =>
-                  datadogRum.addAction(
-                    `Click on Landing Page: Intro - ${goBackLinkText}`,
-                  )
-                }
-                data-testid="mhv-go-back-1"
-                href={goBackUrl}
-              >
-                {goBackLinkText}
-              </a>
-            </p>
+            {showMhvGoBack && (
+              <p>
+                If you’re not ready to try the new My HealtheVet, you can use
+                the previous version anytime.{' '}
+                <a
+                  onClick={() =>
+                    datadogRum.addAction(
+                      `Click on Landing Page: Intro - ${goBackLinkText}`,
+                    )
+                  }
+                  data-testid="mhv-go-back-1"
+                  href={mhvHomeUrl}
+                >
+                  {goBackLinkText}
+                </a>
+              </p>
+            )}
           </div>
           {showLearnMore && (
             <div>
@@ -130,7 +124,7 @@ const HeaderLayout = ({
                         )
                       }
                       data-testid="mhv-go-back-2"
-                      href={goBackUrl}
+                      href={mhvDownloadUrl}
                     >
                       {goBackLinkText}
                     </a>
@@ -173,7 +167,9 @@ const HeaderLayout = ({
 
 HeaderLayout.propTypes = {
   showLearnMore: PropTypes.bool,
+  showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
+  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

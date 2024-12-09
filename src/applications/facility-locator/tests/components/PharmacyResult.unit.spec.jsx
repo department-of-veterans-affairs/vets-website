@@ -9,10 +9,13 @@ describe('PharmacyResult', () => {
     const query = {
       facilityType: 'pharmacy',
     };
+
     const wrapper = shallow(
       <PharmacyResult provider={testData.data[9]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);

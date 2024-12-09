@@ -22,7 +22,11 @@ import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
-import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+import {
+  ErrorMessages,
+  draftAutoSaveTimeout,
+  Alerts,
+} from '../../util/constants';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -45,6 +49,7 @@ const ReplyDraftItem = props => {
     showBlockedTriageGroupAlert,
     setHideDraft,
     setIsEditing,
+    setIsSending,
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -64,7 +69,6 @@ const ReplyDraftItem = props => {
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const [navigationError, setNavigationError] = useState(null);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
-  const [modalVisible, setModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -73,6 +77,18 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
+  const [savedDraft, setSavedDraft] = useState(false);
+
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList?.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
+  );
 
   const localStorageValues = useMemo(() => {
     return {
@@ -141,7 +157,7 @@ const ReplyDraftItem = props => {
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
-      return messageValid;
+      return { messageValid };
     },
     [messageBody],
   );
@@ -150,15 +166,6 @@ const ReplyDraftItem = props => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
   };
-
-  // Send message navigation error with attachments message
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
 
   useEffect(
     () => {
@@ -177,18 +184,18 @@ const ReplyDraftItem = props => {
         return;
       }
 
-      const isValidMessage = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
-        setMessageInvalid(false);
-        if (isValidMessage) {
-          setLastFocusableElement(e.target);
+        if (messageValid) {
+          setSavedDraft(true);
+          setLastFocusableElement(e?.target);
         }
         if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-        }
+        } else focusOnErrorField();
         setNavigationError(
           attachments.length
             ? {
@@ -218,7 +225,7 @@ const ReplyDraftItem = props => {
         body: messageBody,
       };
 
-      if (isValidMessage) {
+      if (messageValid) {
         if (!draftId) {
           setFieldsString(newFieldsString);
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
@@ -228,6 +235,7 @@ const ReplyDraftItem = props => {
             saveReplyDraft(replyMessage.messageId, formData, type, draftId),
           );
         }
+        setSavedDraft(true);
       }
       if (!attachments.length) setNavigationError(null);
     },
@@ -248,35 +256,53 @@ const ReplyDraftItem = props => {
   );
   const sendMessageHandler = useCallback(
     async e => {
+      const { messageValid } = checkMessageValidity();
+
       await setMessageInvalid(false);
-      if (checkMessageValidity()) {
+      if (messageValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
-      }
+      } else focusOnErrorField();
     },
     [checkMessageValidity, setLastFocusableElement],
   );
 
-  // Before Save
+  // Navigation error effect
   useEffect(
     () => {
       const draftBody = draft && draft.body;
-      if (
-        messageBody === draftBody ||
-        (messageBody === '' && draftBody === undefined)
-      ) {
+      const blankDraft = messageBody === '' && draftBody === undefined;
+      const savedEdits = messageBody === draftBody;
+      if (savedEdits || blankDraft) {
         setNavigationError(null);
-      } else if (messageBody !== draftBody) {
-        // Stimulates unable to save navigation error modal on reply drafts after messagebody changes
+      }
+      if (!savedEdits && blankDraft && attachments.length > 0) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
+        });
+      }
+      if (
+        (!savedEdits && !blankDraft && attachments.length > 0) ||
+        (savedEdits && attachments.length > 0)
+      ) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          p1: '',
+        });
+      }
+      if (!draft && !savedEdits && !blankDraft && attachments.length === 0) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
+        });
+      }
+      if (draft && draftBody !== messageBody && attachments.length === 0) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
         });
       }
     },
-    [draft, messageBody],
+    [attachments.length, draft, messageBody],
   );
 
   useEffect(
@@ -298,7 +324,7 @@ const ReplyDraftItem = props => {
         debouncedMessageBody &&
         isAutosave &&
         !cannotReply &&
-        !modalVisible
+        !isModalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -307,7 +333,7 @@ const ReplyDraftItem = props => {
       cannotReply,
       debouncedMessageBody,
       isAutosave,
-      modalVisible,
+      isModalVisible,
       saveDraftHandler,
     ],
   );
@@ -336,20 +362,26 @@ const ReplyDraftItem = props => {
         } else {
           sendData = JSON.stringify(messageData);
         }
-
+        setIsSending(true);
         dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
           .then(() => {
-            if (draftsCount > 1) {
-              // send a call to get updated thread
-              dispatch(retrieveMessageThread(replyMessage.messageId));
-            } else {
-              navigateToFolderByFolderId(
-                draft?.threadFolderId ? draft?.threadFolderId : folderId,
-                history,
-              );
-            }
+            setTimeout(() => {
+              if (draftsCount > 1) {
+                // send a call to get updated thread
+                dispatch(retrieveMessageThread(replyMessage.messageId)).then(
+                  setIsSending(false),
+                );
+              } else {
+                setIsSending(false);
+                navigateToFolderByFolderId(
+                  draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                  history,
+                );
+              }
+            }, 1000);
           })
           .catch(() => {
+            setIsSending(false);
             setSendMessageFlag(false);
             setIsAutosave(true);
           });
@@ -392,15 +424,6 @@ const ReplyDraftItem = props => {
     [draft, formPopulated],
   );
 
-  // Send message navigation error with attachments message
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
-
   useEffect(
     () => {
       if (editMode && focusToTextarea) {
@@ -436,8 +459,9 @@ const ReplyDraftItem = props => {
       )}
       <RouteLeavingGuard
         when={!!navigationError}
-        modalVisible={modalVisible}
-        updateModalVisible={setModalVisible}
+        modalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        setSetErrorModal={setSavedDraft}
         navigate={path => {
           history.push(path);
         }}
@@ -449,6 +473,8 @@ const ReplyDraftItem = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        saveDraftHandler={saveDraftHandler}
+        savedDraft={savedDraft}
       />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
@@ -461,6 +487,7 @@ const ReplyDraftItem = props => {
           data-testid="draft-reply-to"
           style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
           data-dd-privacy="mask"
+          data-dd-action-name="Reply Draft Accordion Header"
         >
           <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
             <va-icon icon="undo" aria-hidden="true" />
@@ -516,6 +543,7 @@ const ReplyDraftItem = props => {
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
 
               <FileInput
@@ -523,6 +551,7 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
             </section>
           )}
@@ -567,6 +596,7 @@ ReplyDraftItem.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyDraftItem;

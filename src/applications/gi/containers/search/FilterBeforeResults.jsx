@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
@@ -19,15 +23,17 @@ import {
   createId,
   specializedMissionDefinitions,
   sortedSpecializedMissionDefinitions,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
   isShowCommunityFocusVACheckbox,
+  isEmptyCheckboxFilters,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
@@ -69,18 +75,19 @@ export function schoolTypesCheckboxes(
   smallScreen,
   automatedTest = false,
 ) {
+  const schoolTypes = (
+    <h3
+      className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
+      aria-level={2}
+    >
+      School types
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         className="about-school-checkbox"
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-            aria-level={2}
-          >
-            School types
-          </h3>
-        }
+        label={schoolTypes}
         onChange={handleIncludedSchoolTypesChange}
         options={options}
         row={!smallScreen}
@@ -94,14 +101,7 @@ export function schoolTypesCheckboxes(
   return (
     <CheckboxGroup
       className="about-school-checkbox"
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-          aria-level={2}
-        >
-          School types
-        </h3>
-      }
+      label={schoolTypes}
       onChange={handleIncludedSchoolTypesChange}
       options={options}
       row={!smallScreen}
@@ -153,7 +153,10 @@ export function aboutTheSchoolOptions(
       checked: excludeCautionFlags,
       dataTestId: 'exclude-caution-flags',
       optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="excludeCautionFlags"
+        >
           Has no cautionary warnings
         </label>
       ),
@@ -163,7 +166,10 @@ export function aboutTheSchoolOptions(
       dataTestId: 'accredited',
       checked: accredited,
       optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="accredited"
+        >
           Is accredited
         </label>
       ),
@@ -189,16 +195,17 @@ export function aboutTheSchool(
   smallScreen,
   automatedTest = false,
 ) {
+  const aboutTheSchoolLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      About the school
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         // setIsCleared={setIsCleared}
         className="about-school-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            About the school
-          </h3>
-        }
+        label={aboutTheSchoolLabel}
         onChange={onChangeCheckbox}
         options={options}
         row={!smallScreen}
@@ -211,14 +218,7 @@ export function aboutTheSchool(
     <CheckboxGroup
       // setIsCleared={setIsCleared}
       className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          About the school
-        </h3>
-      }
+      label={aboutTheSchoolLabel}
       onChange={onChangeCheckbox}
       options={options}
       row={!smallScreen}
@@ -234,15 +234,16 @@ export function otherCheckboxes(
   smallScreen,
   automatedTest = false,
 ) {
+  const otherLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      Other
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         className="other-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            Other
-          </h3>
-        }
+        label={otherLabel}
         onChange={handleVetTechPreferredProviderChange}
         options={options}
         // setIsCleared={setIsCleared}
@@ -254,14 +255,7 @@ export function otherCheckboxes(
   return (
     <CheckboxGroup
       className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          Other
-        </h3>
-      }
+      label={otherLabel}
       onChange={handleVetTechPreferredProviderChange}
       options={options}
       // setIsCleared={setIsCleared}
@@ -344,6 +338,33 @@ export function FilterBeforeResults({
     specialMissionTRIBAL,
   } = filters;
 
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
+
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
@@ -396,7 +417,6 @@ export function FilterBeforeResults({
       'gibct-home-form-value': e.target.checked,
     });
   };
-
   const handleVetTechPreferredProviderChange = (e, currentName) => {
     const { checked } = e.target;
     const name = currentName || e.target.name;
@@ -536,7 +556,7 @@ export function FilterBeforeResults({
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
+      employers: true,
       vettec: false,
       preferredProvider: false,
       country: 'ALL',
@@ -571,7 +591,13 @@ export function FilterBeforeResults({
 
   const closeAndUpdate = () => {
     if (
-      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameVal,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       recordEvent({
         event: 'gibct-form-change',
@@ -776,35 +802,17 @@ export function FilterBeforeResults({
           {specializedMissionAttributes()}
           {smallScreen && renderLocation()}
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button apply-filter-button vads-u-margin-top--3"
+              className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}
-            >
-              Apply filters
-            </button>
-            {isProductionOrTestProdEnv() ? (
-              <ClearFiltersBtn
-                testId="clear-button"
-                // isCleared={isCleared}
-                // setIsCleared={setIsCleared}
-                onClick={onApplyFilterClick}
-              >
-                Reset search
-              </ClearFiltersBtn>
-            ) : (
-              <button
-                onClick={clearAllFilters}
-                className={
-                  smallScreen
-                    ? 'clear-filters-button mobile-clear-filter-button'
-                    : 'clear-filters-button'
-                }
-              >
-                Reset search
-              </button>
-            )}
+              data-testid="update-filter-your-results-button"
+              text="Apply filters"
+            />
+            <ClearFiltersBtn
+              className="vads-u-margin-left--2"
+              onClick={onApplyFilterClick}
+            />
           </div>
           <div
             id="learn-more-about-specialized-missions-accordion-button"
@@ -886,7 +894,18 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
   dispatchError: setError,
 };
-
+FilterBeforeResults.propTypes = {
+  dispatchError: PropTypes.func,
+  dispatchFilterChange: PropTypes.func,
+  errorReducer: PropTypes.object,
+  filters: PropTypes.object,
+  modalClose: PropTypes.func,
+  nameVal: PropTypes.string,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  searchType: PropTypes.string,
+  onApplyFilterClick: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 
@@ -40,22 +39,6 @@ const RadiologySingleImage = () => {
       ],
     };
   }, []);
-
-  useEffect(
-    () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              url: `/labs-and-tests/radiology-images/${labId}`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ]),
-        );
-      }
-    },
-    [labAndTestDetails, labId, dispatch],
-  );
 
   useEffect(
     () => {
@@ -149,27 +132,31 @@ const RadiologySingleImage = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Reason for test
             </h3>
-            <p className="vads-u-margin--0">{labAndTestDetails.reason}</p>
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
+              {labAndTestDetails.reason}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Clinical history
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.clinicalHistory}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Ordered by
             </h3>
-            <p className="vads-u-margin--0">{labAndTestDetails.orderedBy}</p>
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
+              {labAndTestDetails.orderedBy}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Imaging location
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.imagingLocation}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Imaging provider
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.imagingProvider}
             </p>
           </div>

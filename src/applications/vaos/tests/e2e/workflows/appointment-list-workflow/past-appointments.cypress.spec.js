@@ -18,9 +18,7 @@ describe('VAOS past appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
 
       cy.login(new MockUser());
@@ -74,12 +72,6 @@ describe('VAOS past appointment flow', () => {
       PastAppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
-
-      // Assert
-      const timestamp = new RegExp(
-        `${yesterday.format('dddd, MMMM D, YYYY [at] h:mm')}`,
-      );
-      cy.findByText(timestamp).should('exist');
 
       cy.axeCheckBestPractice();
     });

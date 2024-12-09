@@ -8,11 +8,6 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
-  profileShowProofOfVeteranStatus: false,
-  profileShowDirectDepositSingleForm: false,
-  profileShowDirectDepositSingleFormUAT: false,
-  profileShowDirectDepositSingleFormAlert: false,
-  profileShowDirectDepositSingleFormEduDowntime: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -142,6 +137,22 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   QUICK_SUBMIT: 'group5',
 });
 
+export const NOTIFICATION_ITEM_IDS = Object.freeze({
+  APPEAL_HEARING_REMINDERS: 'item1',
+  HEALTH_APPOINTMENT_REMINDERS: 'item3',
+  PRESCRIPTION_SHIPMENT: 'item4',
+  DISABILITY_PENSION_DEPOSIT: 'item5',
+  APPEAL_STATUS_UPDATES: 'item6',
+  RX_REFILL: 'item7',
+  VA_APPOINTMENT_REMINDERS: 'item8',
+  SECURE_MESSAGING: 'item9',
+  MEDICAL_IMAGES: 'item10',
+  BIWEEKLY_MHV_NEWSLETTER: 'item11',
+  QUICK_SUBMIT: 'item12',
+  BENEFIT_OVERPAYMENT_DEBT: 'item13',
+  HEALTH_CARE_COPAY_BILL: 'item14',
+});
+
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
   TEXT: '1',
   EMAIL: '2',
@@ -161,16 +172,16 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
  * 9 - Securing messaging alert
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
+ * 12 - QuickSubmit
  *
  * These are all email based notifications
  *
  */
 export const BLOCKED_MHV_NOTIFICATION_IDS = [
-  'item7',
-  'item8',
-  'item9',
-  'item10',
-  'item11',
+  NOTIFICATION_ITEM_IDS.RX_REFILL,
+  NOTIFICATION_ITEM_IDS.VA_APPOINTMENT_REMINDERS,
+  NOTIFICATION_ITEM_IDS.BIWEEKLY_MHV_NEWSLETTER,
+  NOTIFICATION_ITEM_IDS.QUICK_SUBMIT,
 ];
 
 // used for api status GA events
@@ -189,4 +200,10 @@ export const ACCOUNT_TYPES_OPTIONS = {
 export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
+};
+
+// end dates for each credential type
+export const CREDENTIAL_DEADLINES = {
+  'My HealtheVet': 'January 31, 2025',
+  'DS Logon': 'September 30, 2025',
 };

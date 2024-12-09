@@ -24,9 +24,6 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 1');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -122,7 +119,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .last()
       .click({ force: true });
     cy.get('[class="usa-checkbox__label"]').should(
@@ -140,7 +137,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click();
     cy.get(

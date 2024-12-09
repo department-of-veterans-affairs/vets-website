@@ -2,44 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-
 import { getAppData } from '../selectors/selectors';
-import HowToApplyPost911GiBillV2 from '../components/HowToApplyPost911GiBillV2';
-import IntroductionLoginV2 from '../components/IntroductionLoginV2';
+import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
+import IntroductionLogin from '../components/IntroductionLogin';
 import LoadingIndicator from '../components/LoadingIndicator';
-import IntroductionProcessListV2 from '../components/IntroductionProcessListV2';
+import IntroductionProcessList from '../components/IntroductionProcessList';
 
-export const IntroductionPage = ({
-  featureTogglesLoaded,
-  route,
-  showMebDgi40Features,
-}) => {
+export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
   return (
     <div className="schemaform-intro">
-      {showMebDgi40Features ? (
-        <>
-          <h1 className="vads-u-margin-bottom--1p5">
-            Apply for VA education benefits
-          </h1>
-          <h2 className="vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-            Equal to VA Form 22-1990 (Application for VA Education Benefits)
-          </h2>
-        </>
-      ) : (
-        <>
-          <FormTitle title="Apply for VA education benefits" />
-          <p>
-            Equal to VA Form 22-1990 (Application for VA Education Benefits)
-          </p>
-        </>
-      )}
-
-      <HowToApplyPost911GiBillV2 route={route} />
+      <>
+        <h1 className="vads-u-margin-bottom--1p5">
+          Apply for VA education benefits Form 22-1990
+        </h1>
+        <h2 className="vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
+          Equal to VA Form 22-1990 (Application for VA Education Benefits)
+        </h2>
+      </>
+      <HowToApplyPost911GiBill route={route} />
       <h2>Follow these steps to get started</h2>
-      <IntroductionProcessListV2 />
+      <IntroductionProcessList />
       {!featureTogglesLoaded && <LoadingIndicator />}
-      <IntroductionLoginV2 route={route} />
+      <IntroductionLogin route={route} />
       <va-omb-info
         res-burden={15}
         omb-number="2900-0154"
@@ -52,7 +36,6 @@ export const IntroductionPage = ({
 IntroductionPage.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   route: PropTypes.object,
-  showMebDgi40Features: PropTypes.bool,
 };
 
 const mapStateToProps = state => getAppData(state);

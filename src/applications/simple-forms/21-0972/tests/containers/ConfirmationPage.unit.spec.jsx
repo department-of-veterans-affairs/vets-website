@@ -38,13 +38,14 @@ describe('Confirmation page', () => {
   it('it should show status success and the correct name of person', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.have.attr(
       'status',
       'success',
     );
-    getByText(/Arthur Preparer/);
+    getByText('Arthur');
+    getByText('Preparer');
   });
 });

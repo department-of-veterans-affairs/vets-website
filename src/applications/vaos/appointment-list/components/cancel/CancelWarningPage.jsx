@@ -46,7 +46,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
 
   return (
     <>
-      <BackLink appointment={appointment} featureAppointmentDetailsRedesign />
+      <BackLink appointment={appointment} />
       <h1 className="vads-u-margin-y--2p5">{heading}</h1>
       <p>
         If you want to reschedule, you’ll need to call us or schedule a new

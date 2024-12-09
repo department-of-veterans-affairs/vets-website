@@ -43,7 +43,7 @@ describe('<PeriodsToVerify />', () => {
       dispatchVerifyEnrollmentAction: sinon.spy(),
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,
@@ -90,7 +90,7 @@ describe('<PeriodsToVerify />', () => {
       link: () => {},
       toggleEnrollmentSuccess: false,
     };
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,
@@ -114,7 +114,7 @@ describe('<PeriodsToVerify />', () => {
       link: () => {},
       toggleEnrollmentSuccess: false,
     };
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,
@@ -167,7 +167,7 @@ describe('<PeriodsToVerify />', () => {
 
       const alert = wrapper.find('va-alert');
       expect(alert.at(0).text()).to.include(
-        ' We’re sorry. Something went wrong on our end. Please try again',
+        'We’re sorry. Something went wrong on our end. Please try again',
       );
       wrapper.unmount();
     });

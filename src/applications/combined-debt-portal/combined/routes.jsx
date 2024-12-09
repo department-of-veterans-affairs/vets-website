@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
+import recordEvent from '~/platform/monitoring/record-event';
 import OverviewPage from './containers/OverviewPage';
 import CombinedPortalApp from './containers/CombinedPortalApp';
 import DetailPage from '../medical-copays/containers/DetailPage';
 import HTMLStatementPage from '../medical-copays/containers/HTMLStatementPage';
-import MCPOverview from '../medical-copays/containers/OverviewPage';
+import MCPOverview from '../medical-copays/containers/SummaryPage';
 import DebtDetails from '../debt-letters/containers/DebtDetails';
 import DebtLettersDownload from '../debt-letters/containers/DebtLettersDownload';
 import DebtLettersSummary from '../debt-letters/containers/DebtLettersSummary';
-import recordEvent from '~/platform/monitoring/record-event';
 
 const Routes = () => (
   <CombinedPortalApp>

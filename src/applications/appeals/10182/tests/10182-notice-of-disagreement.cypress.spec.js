@@ -66,10 +66,7 @@ const testConfig = createTestConfig(
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${NOD_BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#issue-name')
-                  .shadow()
-                  .find('input')
-                  .type(additionalIssue.issue);
+                cy.fillVaTextInput('issue-name', additionalIssue.issue);
                 cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
               }
@@ -121,14 +118,14 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cypressSetup();
 
-      cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
+      cy.intercept('POST', 'v1/decision_review_evidence', mockUpload);
       cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
       cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-        cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
+        cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         }).as('getIssues');
       });

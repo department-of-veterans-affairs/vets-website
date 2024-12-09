@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
-import {
-  VaAdditionalInfo,
-  VaTelephone,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
 import Instructions from './Instructions';
@@ -56,24 +53,13 @@ const Contacts = ({ data }) => {
 
   return (
     <>
-      <div className="vads-u-margin-bottom--3">
-        <VaAdditionalInfo
-          data-testid="phcc-how-to-update"
-          trigger="Learn how to update your personal health care contact information"
-        >
-          <p>If this information isn’t correct, here’s how to update it:</p>
-          <ul>
-            <li>Ask a staff member at your next appointment, or</li>
-            <li>
-              Call the Health Eligibility Center at{' '}
-              <VaTelephone contact={CONTACTS['222_VETS']} /> (
-              <VaTelephone contact={CONTACTS['711']} tty />
-              ). We’re available Monday through Friday, 8:00 a.m. to 8:00 p.m.
-              ET.
-            </li>
-          </ul>
-        </VaAdditionalInfo>
-      </div>
+      <p>
+        To update this information, call us at{' '}
+        <VaTelephone contact={CONTACTS['222_VETS']} /> (
+        <VaTelephone contact={CONTACTS['711']} tty />
+        ). We’re available Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or
+        ask a staff member at your next appointment.
+      </p>
 
       <ProfileInfoCard
         title="Emergency contacts"

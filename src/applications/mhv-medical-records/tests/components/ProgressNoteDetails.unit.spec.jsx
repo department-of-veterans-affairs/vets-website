@@ -8,7 +8,7 @@ import progressNote from '../fixtures/physicianProcedureNote.json';
 import noteWithFieldsMissing from '../fixtures/physicianProcedureNoteWithFieldsMissing.json';
 import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 
-describe('Adverse React/Allergy details component', () => {
+describe('ProgressNoteDetails', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -85,7 +85,7 @@ describe('Adverse React/Allergy details component', () => {
   });
 });
 
-describe('Adverse React/Allergy details component with fields missing', () => {
+describe('ProgressNoteDetails component with fields missing', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -117,11 +117,11 @@ describe('Adverse React/Allergy details component with fields missing', () => {
     );
   });
 
-  it('should not display a signer if one is not present in the data', () => {
-    const signer = screen.queryByText('Signed by', {
+  it('should display none noted for signer if signer is not present in the data', () => {
+    const signer = screen.getAllByText('None noted', {
       exact: true,
-      selector: 'h3',
+      selector: 'p',
     });
-    expect(signer).to.not.exist;
+    expect(signer).to.exist;
   });
 });

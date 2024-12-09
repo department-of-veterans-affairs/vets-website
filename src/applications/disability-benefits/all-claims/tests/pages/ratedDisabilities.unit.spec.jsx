@@ -111,9 +111,16 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       labels
         .at(0)
         .find('p')
-        .last()
+        .first()
         .text(),
     ).to.equal('Current rating: 40%');
+    expect(
+      labels
+        .at(0)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('You’re already at the maximum rating for this disability.');
 
     expect(
       labels
@@ -128,37 +135,20 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .last()
         .text(),
     ).to.equal('Current rating: 0%');
-    form.unmount();
-  });
 
-  it('renders maximum rating education when available and relevant', () => {
-    window.sessionStorage.setItem('showDisability526MaximumRating', true);
-    const form = mount(
-      <Provider store={store}>
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={initialData}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
-
-    const labels = form.find('input[type="checkbox"] + label');
     expect(
       labels
-        .at(0)
-        .find('p')
-        .last()
+        .at(2)
+        .find('h3')
         .text(),
-    ).to.equal('You’re already at the maximum rating for this disability.');
+    ).to.equal('Migraines');
     expect(
       labels
-        .at(1)
+        .at(2)
         .find('p')
-        .last()
+        .first()
         .text(),
-    ).to.equal('Current rating: 0%');
+    ).to.equal('Current rating: 100%');
     expect(
       labels
         .at(2)
@@ -166,12 +156,11 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .last()
         .text(),
     ).to.equal('You’re already at the maximum rating for this disability.');
+
     form.unmount();
-    window.sessionStorage.removeItem('showDisability526MaximumRating');
   });
 
   it('renders and submits when unknown condition', () => {
-    window.sessionStorage.setItem('showDisability526MaximumRating', true);
     const testData = JSON.parse(JSON.stringify(initialData));
     testData.ratedDisabilities[0].name = undefined;
 
@@ -208,7 +197,6 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       .onChange({ target: { checked: true } });
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
-    window.sessionStorage.removeItem('showDisability526MaximumRating');
     form.unmount();
   });
 });

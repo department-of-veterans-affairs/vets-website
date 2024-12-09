@@ -94,12 +94,16 @@ const testConfig = createTestConfig(
       // ============================================================
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-debt"]`)
-            .first()
-            .check();
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="debt-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -310,18 +314,11 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(testData => {
-            const monetaryAssetChecklistLength = testData[
-              'view:streamlinedWaiverAssetUpdate'
-            ]
-              ? 5
-              : 8;
-            cy.get('va-checkbox')
-              .shadow()
-              .find('input[type=checkbox]')
-              .as('checklist')
-              .should('have.length', monetaryAssetChecklistLength);
-          });
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 5);
 
           // Check specific checkboxes
           cy.get('va-checkbox')
@@ -346,33 +343,16 @@ const testConfig = createTestConfig(
           cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
-
-          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
-          cy.get('@testData').then(testData => {
-            if (testData['view:streamlinedWaiverAssetUpdate']) {
-              cy.get('[id="U.S. Savings Bonds0"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            } else {
-              cy.get('#Cash0')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Checking accounts1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            }
-          });
+          cy.get('[id="U.S. Savings Bonds0"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -702,7 +682,7 @@ const testConfig = createTestConfig(
       // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('va-radio-option[value="monthly"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -718,13 +698,17 @@ const testConfig = createTestConfig(
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('va-radio-option[value="waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]').check();
+          cy.get('va-checkbox')
+            .first()
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },

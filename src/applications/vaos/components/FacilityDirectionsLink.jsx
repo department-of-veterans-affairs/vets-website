@@ -30,7 +30,7 @@ function buildAddressArray(location) {
   return [];
 }
 
-export default function FacilityDirectionsLink({ location }) {
+export default function FacilityDirectionsLink({ location, icon }) {
   if (!location) {
     return null;
   }
@@ -49,9 +49,9 @@ export default function FacilityDirectionsLink({ location }) {
     <span>
       <NewTabAnchor
         href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-        aria-label={`Directions to ${location.name ||
-          location.providerPractice}`}
+        renderAriaLabel={false}
       >
+        {icon && <va-icon icon="directions" size="3" />}
         Directions
       </NewTabAnchor>
     </span>
@@ -59,5 +59,6 @@ export default function FacilityDirectionsLink({ location }) {
 }
 
 FacilityDirectionsLink.propTypes = {
+  icon: PropTypes.bool,
   location: PropTypes.object,
 };

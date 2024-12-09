@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 
 const staticData = {
   typeOfCare: 'Primary Care',
@@ -30,7 +30,7 @@ export default function ConfirmApprovedPage() {
   }, []);
 
   return (
-    <FormLayout>
+    <ReferralLayout hasEyebrow>
       <div>
         <h1>Review your appointment details</h1>
         <h3>You're scheduling a {confirmedData.typeOfCare} appointment</h3>
@@ -47,7 +47,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit what information"
                 text="Edit"
                 data-testid="edit-what-information-link"
-                tabindex="0"
               />
             </div>
           </div>
@@ -62,7 +61,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit provider information"
                 text="Edit"
                 data-testid="edit-provider-information-link"
-                tabindex="0"
               />
             </div>
           </div>
@@ -81,7 +79,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit when information"
                 text="Edit"
                 data-testid="edit-when-information-link"
-                tabindex="0"
               />
             </div>
           </div>
@@ -99,7 +96,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit details share"
                 text="Edit"
                 data-testid="edit-details-shared-link"
-                tabindex="0"
               />
             </div>
           </div>
@@ -116,6 +112,6 @@ export default function ConfirmApprovedPage() {
           />
         </div>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }

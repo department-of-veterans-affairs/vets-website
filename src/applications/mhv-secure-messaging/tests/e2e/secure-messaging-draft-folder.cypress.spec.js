@@ -1,10 +1,12 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
-import { AXE_CONTEXT, Data } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-response.json';
 
-describe('secure Messaging Draft Folder checks', () => {
+describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -43,5 +45,22 @@ describe('secure Messaging Draft Folder checks', () => {
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
     FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
     FolderLoadPage.verifyBreadCrumbText(3, 'Drafts');
+  });
+
+  it('verify subheaders', () => {
+    cy.get(Locators.DROPDOWN.SORT)
+      .shadow()
+      .find(`label`)
+      .should(`have.text`, `Show drafts in this order`);
+
+    cy.get(Locators.SUBHEADERS.NUMBER_OF_THREADS).should(
+      `include.text`,
+      `drafts`,
+    );
+
+    PatientMessageDraftsPage.verifyThreadRecipientName(mockDraftMessages, 0);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

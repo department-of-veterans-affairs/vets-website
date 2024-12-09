@@ -52,8 +52,6 @@ export const scrollAndFocusTarget = () => {
   focusByOrder(['va-segmented-progress-bar', 'h1']);
 };
 
-export const isUnverifiedUser = formData => formData?.veteran?.loa !== 3;
-
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
 export const mask = value => {
@@ -66,4 +64,8 @@ export const mask = value => {
 
 export const onCloseAlert = e => {
   e.target.visible = false;
+};
+
+export const getMockData = (mockData, isLocalhost) => {
+  return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 };

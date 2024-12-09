@@ -7,6 +7,7 @@ import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
 import allergy from '../fixtures/allergy.json';
 import allergyWithMissingFields from '../fixtures/allergyWithMissingFields.json';
+import allergyWithMultipleCategories from '../fixtures/allergyWithMultipleCategories.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
@@ -185,6 +186,35 @@ describe('Allergy details container with errors', () => {
           exact: false,
         }),
       ).to.exist;
+    });
+  });
+});
+
+describe('Allergy details container with multiple categories/types', () => {
+  const initialState = {
+    user,
+    mr: {
+      allergies: {
+        allergyDetails: convertAllergy(allergyWithMultipleCategories),
+      },
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies/123',
+    });
+  });
+
+  it('should include the array of allergy types as a joined list', async () => {
+    await waitFor(() => {
+      expect(screen.getByText('Food, medication, drug allergy')).to.exist;
     });
   });
 });

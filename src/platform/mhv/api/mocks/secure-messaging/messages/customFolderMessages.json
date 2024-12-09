@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": "3004387",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3004387,
+        "category": "TEST_RESULTS",
+        "subject": "Test Results",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-09-07T13:35:55.000Z",
+        "senderId": 2992380,
+        "senderName": "COSTELLO, ANNE  M",
+        "recipientId": 2991831,
+        "recipientName": "LEE, JAMIE",
+        "readReceipt": "READ",
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004387"
+      
+}
+    
+},
+    {
+      "id": "3004370",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3004370,
+        "category": "TEST_RESULTS",
+        "subject": "Test Results",
+        "body": null,
+        "attachment": true,
+        "sentDate": "2023-09-07T13:30:27.000Z",
+        "senderId": 2992380,
+        "senderName": "COSTELLO, ANNE  M",
+        "recipientId": 2991831,
+        "recipientName": "LEE, JAMIE",
+        "readReceipt": "READ",
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004370"
+      
+}
+    
+}
+  
+]
+}

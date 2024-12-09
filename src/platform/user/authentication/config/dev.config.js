@@ -1,4 +1,8 @@
-import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from '../constants';
+import {
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  EXTERNAL_REDIRECTS_ALT,
+} from '../constants';
 import {
   defaultSignUpProviders,
   defaultSignInProviders,
@@ -47,6 +51,7 @@ export default {
     OAuthEnabled: false,
     requiresVerification: true,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    alternateRedirectUrl: EXTERNAL_REDIRECTS_ALT[EXTERNAL_APPS.MY_VA_HEALTH],
   },
   [EXTERNAL_APPS.EBENEFITS]: {
     allowedSignInProviders: { ...defaultSignInProviders },

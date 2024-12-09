@@ -2,8 +2,6 @@ import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
-  dateOfBirthUI,
-  dateOfBirthSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -24,20 +22,19 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI('Beneficiary’s name and date of birth'),
+    ...titleUI(
+      ({ formData }) =>
+        `${
+          formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+        } name`,
+    ),
     applicantName: fullNameMiddleInitialUI,
-    applicantDOB: dateOfBirthUI({
-      required: true,
-      hint: 'For example: January 19 2000',
-    }),
   },
   schema: {
     type: 'object',
-    required: ['applicantDOB'],
     properties: {
       titleSchema,
       applicantName: fullNameSchema,
-      applicantDOB: dateOfBirthSchema,
     },
   },
 };
@@ -78,6 +75,7 @@ export const applicantAddressInfoSchema = {
     applicantNewAddress: {
       ...radioUI({
         updateUiSchema: formData => {
+          const name = nameWording(formData, undefined, false, true);
           const labels = {
             yes: 'Yes',
             no: 'No',
@@ -85,15 +83,12 @@ export const applicantAddressInfoSchema = {
           };
 
           return {
-            'ui:title': `Has ${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} mailing address changed since their last CHAMPVA form submission?`,
+            'ui:title': `Has ${name} mailing address changed since ${
+              name === 'your' ? name : 'their'
+            } last CHAMPVA form submission?`,
             'ui:options': {
               labels,
-              hint: `If yes, we will update our records with the new mailing address`,
+              hint: `If yes, we will update our records with the new mailing address.`,
             },
           };
         },
@@ -153,7 +148,7 @@ export const applicantGenderSchema = {
             'ui:title': `What's ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} sex listed at birth?`,
             'ui:options': {
@@ -161,7 +156,7 @@ export const applicantGenderSchema = {
               hint: `Enter the sex that appears on ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} birth certificate.`,
             },

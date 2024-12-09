@@ -7,7 +7,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
-describe('Supplemental Claims (Custom) Private evidence page', () => {
+describe('Supplemental Claims (Custom) Private evidence limitations page', () => {
   const {
     schema,
     uiSchema,

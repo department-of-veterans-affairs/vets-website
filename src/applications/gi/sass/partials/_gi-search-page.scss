@@ -49,6 +49,9 @@
     margin-top: auto;
     margin-bottom: 6px;
   }
+  @include media-maxwidth($small-screen) {
+    margin-bottom: -1.5rem;
+  }
 
   button.name-search-button {
     width: 120px;
@@ -234,7 +237,7 @@
       h4 {
         margin-top: 0;
         font-size: 1em;
-        font-family: $font-sans;
+        font-family: var(--font-source-sans);
       }
       h4 {
         padding-bottom: 0;
@@ -355,7 +358,8 @@
     }
   }
   .gi-checkbox-label:before {
-    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-gray-medium);
+    box-shadow: 0 0 0 2px var(--vads-color-white),
+      0 0 0 3px var(--vads-color-gray-medium);
   }
 
   .usa-alert {
@@ -460,4 +464,18 @@
 }
 .school-types-label {
   margin-top: -15px !important;
+}
+.search-by-name-btn {
+  @media screen and (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+.search-by-name-btn::part(button) {
+  border-radius: 0;
+  padding-block: 13.5px;
+  border-radius: 0 5px 5px 0;
+  margin-right: 0;
+  @media screen and (max-width: $small-screen) {
+    border-radius: 5px;
+  }
 }

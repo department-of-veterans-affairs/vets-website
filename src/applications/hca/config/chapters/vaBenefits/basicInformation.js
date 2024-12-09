@@ -1,10 +1,10 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   CompensationInfoDescription,
   CompensationTypeDescription,
 } from '../../../components/FormDescriptions';
 
-const { vaCompensationType } = fullSchemaHca.properties;
+const { vaCompensationType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

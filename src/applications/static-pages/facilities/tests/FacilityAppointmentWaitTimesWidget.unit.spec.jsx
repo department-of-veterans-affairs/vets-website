@@ -23,7 +23,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
 
     expect(tree.find('va-loading-indicator').exists()).to.be.false;
 
-    const appointmentWaitTimesHeader = tree.find('h3');
+    const appointmentWaitTimesHeader = tree.find('h4');
     expect(appointmentWaitTimesHeader.text()).to.contain(
       'Average number of days to get an appointment',
     );

@@ -91,7 +91,7 @@ const PersonalInformationSection = ({ dob }) => {
               href="/find-locations/"
               text="Find your VA medical center"
             />
-            <p className="vads-u-margin-bottom--0 vads-u-padding-right--0 small-screen:vads-u-padding-right--6">
+            <p className="vads-u-margin-bottom--0 vads-u-padding-right--0 mobile-lg:vads-u-padding-right--6">
               <span className="vads-u-font-weight--bold vads-u-display--block">
                 If you receive VA benefits, but aren’t enrolled in VA health
                 care

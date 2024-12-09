@@ -12,13 +12,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';
-import {
-  show526Wizard,
-  show526MaxRating,
-  isBDD,
-  getPageTitle,
-  getStartText,
-} from '../utils';
+import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -33,10 +27,6 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
-    window.sessionStorage.setItem(
-      'showDisability526MaximumRating',
-      this.props.showMaxRating,
-    );
   }
 
   render() {
@@ -304,7 +294,7 @@ class IntroductionPage extends React.Component {
         <va-omb-info
           res-burden={25}
           omb-number={OMB_CONTROL}
-          exp-date="03/31/2021"
+          exp-date="11/30/2025"
         />
       </div>
     );
@@ -316,7 +306,6 @@ const mapStateToProps = state => ({
   isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
-  showMaxRating: show526MaxRating(state),
 });
 
 IntroductionPage.propTypes = {
@@ -333,7 +322,6 @@ IntroductionPage.propTypes = {
   }).isRequired,
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
-  showMaxRating: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
 

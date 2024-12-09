@@ -91,33 +91,27 @@ describe('MHV Secure Messaging helpers', () => {
   });
 
   it('setUnsavedNavigationError should set the correct unable to save draft error', () => {
-    const setNavigationError = sinon.spy();
+    const setNavigationErrorSpy = sinon.spy();
     const navigationError = {
-      title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-      saveDraft: 'Save draft without attachments',
-      editDraft: 'Keep editing',
-      confirmButtonText: 'Keep editing',
-      cancelButtonText: 'Save draft without attachments',
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
     };
     setUnsavedNavigationError(
       ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-      setNavigationError,
+      setNavigationErrorSpy,
       ErrorMessages,
     );
-    sinon.assert.calledWith(setNavigationError, navigationError);
+    sinon.assert.calledWith(setNavigationErrorSpy, navigationError);
   });
 
   it('setUnsavedNavigationError should set the correct unable to save error', () => {
     const setNavigationError = sinon.spy();
     const navigationError = {
-      title: "We can't save this message yet",
-      p1: 'We need more information from you before we can save this draft.',
-      p2:
-        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'Delete draft',
+      title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title,
+      p1: ErrorMessages.ComposeForm.UNABLE_TO_SAVE.p1,
+      confirmButtonText:
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE.confirmButtonText,
+      cancelButtonText:
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE.cancelButtonText,
     };
     setUnsavedNavigationError(
       ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,

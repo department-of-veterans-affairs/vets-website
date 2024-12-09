@@ -124,4 +124,23 @@ describe('<CompareGrid>', () => {
     expect(tree.find('div.field-label').text()).to.eql('Test Field');
     tree.unmount();
   });
+  it('should render section label and sub section label', () => {
+    const tree = shallow(
+      <CompareGrid
+        institutions={[]}
+        fieldData={[
+          {
+            label: 'Test Field',
+            mapper: institution => institution.testValue,
+          },
+        ]}
+        smallScreen
+        sectionLabel="Test Section"
+        subSectionLabel="Test Sub Section"
+      />,
+    );
+    expect(tree.find('h2').text()).to.equal('Test Section');
+    expect(tree.find('h3').text()).to.equal('Test Sub Section');
+    tree.unmount();
+  });
 });

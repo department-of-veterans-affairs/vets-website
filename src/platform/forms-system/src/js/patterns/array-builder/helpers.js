@@ -36,17 +36,21 @@ export function initGetText({
   /**
    * @param {ArrayBuilderTextKey} key
    * @param {any} itemData
+   * @param {any} [formData]
+   * @param {number} [index]
    * @returns {string}
    */
-  return (key, itemData) => {
+  return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return typeof keyVal === 'function' ? keyVal(itemData) : keyVal;
+      return typeof keyVal === 'function' ? keyVal(itemData, index) : keyVal;
     }
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,
           itemData,
+          formData,
+          index,
         })
       : keyVal;
   };
@@ -73,6 +77,7 @@ export function onNavBackRemoveAddingItem({
   arrayPath,
   summaryRoute,
   introRoute,
+  reviewRoute,
 }) {
   return function onNavBack({ goPath, formData, setFormData, urlParams }) {
     const arrayData = get(arrayPath, formData);
@@ -86,7 +91,7 @@ export function onNavBackRemoveAddingItem({
 
     let path = introRoute && !newArrayData?.length ? introRoute : summaryRoute;
     if (urlParams?.review) {
-      path = `${path}?review=true`;
+      path = reviewRoute;
     }
     goPath(path);
   };

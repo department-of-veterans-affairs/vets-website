@@ -7,22 +7,24 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import {
-  selectAddressValidation,
   hasBadAddress,
+  selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import * as VAP_SERVICE from '../constants';
 import {
-  openModal,
+  closeModal,
   createTransaction,
+  openModal,
+  resetAddressValidation as resetAddressValidationAction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal,
-  resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
@@ -145,7 +147,7 @@ class AddressValidationView extends React.Component {
       confirmedSuggestions,
     } = this.props;
 
-    let buttonText = 'Update';
+    let buttonText = 'Use this address';
 
     if (confirmedSuggestions.length === 0 && validationKey) {
       buttonText = 'Use this address';
@@ -160,20 +162,28 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button
-          type="button"
-          className="usa-button-primary"
-          onClick={this.onEditClick}
+        <Toggler.Hoc
+          toggleName={TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert}
         >
-          Edit Address
-        </button>
+          {toggleValue =>
+            !toggleValue ? (
+              <button
+                onClick={this.onEditClick}
+                type="submit"
+                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+              >
+                Edit Address
+              </button>
+            ) : null
+          }
+        </Toggler.Hoc>
       );
     }
 
     return (
       <LoadingButton
         isLoading={isLoading}
-        className="usa-button-primary"
+        type="submit"
         data-testid="confirm-address-button"
         aria-label={isLoading ? 'Loading' : buttonText}
       >
@@ -199,10 +209,7 @@ class AddressValidationView extends React.Component {
     const { street, cityStateZip, country } = formatAddress(address);
 
     return (
-      <div
-        key={id}
-        className="vads-u-margin-bottom--1p5 address-validation-container"
-      >
+      <div key={id} className="address-validation-container">
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
@@ -214,6 +221,7 @@ class AddressValidationView extends React.Component {
               checked={selectedAddressId === id}
             />
           )}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -247,12 +255,16 @@ class AddressValidationView extends React.Component {
       transaction,
       transactionRequest,
       isLoading,
+      validationKey,
+      isNoValidationKeyAlertEnabled,
     } = this.props;
 
     const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
       addressValidationError,
       confirmedSuggestions,
+      validationKey,
+      isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
     });
 
     const addressValidationMessage =
@@ -300,15 +312,18 @@ class AddressValidationView extends React.Component {
             </div>
           )}
 
-          {this.renderPrimaryButton()}
-
-          {!isLoading && (
-            <va-button
-              secondary
-              onClick={this.onEditClick}
-              text="Go back to edit"
-            />
-          )}
+          <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
+            {this.renderPrimaryButton()}
+            {!isLoading && (
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                onClick={this.onEditClick}
+              >
+                Go back to edit
+              </button>
+            )}
+          </div>
         </form>
       </>
     );
@@ -328,6 +343,8 @@ const mapStateToProps = (state, ownProps) => {
     validationKey,
   } = selectAddressValidation(state);
   const userHasBadAddress = hasBadAddress(state);
+  const isNoValidationKeyAlertEnabled =
+    state.featureToggles?.profileShowNoValidationKeyAddressAlert; // remove when profileShowNoValidationKeyAddressAlert flag is retired
   return {
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
@@ -343,6 +360,7 @@ const mapStateToProps = (state, ownProps) => {
     suggestedAddresses,
     userHasBadAddress,
     validationKey,
+    isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
   };
 };
 
@@ -381,8 +399,13 @@ AddressValidationView.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
+  isLoading: PropTypes.bool,
+  isNoValidationKeyAlertEnabled: PropTypes.bool,
+  refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
+  transaction: PropTypes.string,
+  transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   validationKey: PropTypes.number,
 };

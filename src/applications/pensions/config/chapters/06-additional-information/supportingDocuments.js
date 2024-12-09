@@ -197,7 +197,7 @@ function Documents({ formData }) {
                   <p>You can submit these types of additional evidence:</p>
                   <ul>
                     <li>Doctor’s reports</li>
-                    <li>Medical labs, test results or X-rays</li>
+                    <li>Medical labs, test results, or X-rays</li>
                     <li>Military medical or personnel records</li>
                     <li>
                       Social Security Administration or other federal or state
@@ -206,7 +206,7 @@ function Documents({ formData }) {
                   </ul>
                   <p>
                     <strong>Note:</strong> Your disability doesn’t have to be
-                    service oriented
+                    service connected.
                   </p>
                 </va-accordion-item>
               </>

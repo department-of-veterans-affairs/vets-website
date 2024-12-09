@@ -118,9 +118,7 @@ describe('Summary of Evidence', () => {
           // to select at least one type if hasEvidence is true, but it lets us
           // test that unselected evidence types aren't displayed
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {},
-          },
+          'view:selectableEvidenceTypes': {},
           vaTreatmentFacilities,
           privateMedicalRecordAttachments,
           additionalDocuments,
@@ -141,10 +139,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
           vaTreatmentFacilities,
         }}
@@ -163,10 +159,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasPrivateMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
           },
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': false,
@@ -190,10 +184,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasPrivateMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
           },
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': true,
@@ -228,10 +220,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasPrivateMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
           },
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': true,
@@ -253,10 +243,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasPrivateMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
           },
           'view:uploadPrivateRecordsQualifier': {
             'view:hasPrivateRecordsToUpload': false,
@@ -278,10 +266,8 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasOtherEvidence': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasOtherEvidence': true,
           },
           additionalDocuments,
         }}

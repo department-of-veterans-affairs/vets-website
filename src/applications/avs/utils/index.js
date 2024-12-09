@@ -2,12 +2,33 @@ import { parse } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+const parseProblemDateTime = dateString => {
+  // Parse dates in the format "Thu Apr 07 00:00:00 PDT 2005"
+
+  // Extract the month, day, and year
+  const parts = dateString.split(' ');
+  const month = parts[1];
+  const day = parseInt(parts[2], 10);
+  const year = parseInt(parts[5], 10);
+
+  return new Date(`${month} ${day}, ${year}`);
+};
+
 const parseVistaDateTime = date => {
   return parse(date, 'MM/dd/yyyy@HH:mm', new Date());
 };
 
 const parseVistaDate = date => {
   return parse(date, 'MM/dd/yyyy', new Date());
+};
+
+const formatImmunizationDate = date => {
+  try {
+    return formatDateLong(parseVistaDate(date));
+  } catch {
+    // Not all dates returned by AVS are valid.
+    return 'N/A';
+  }
 };
 
 const stripDst = (timeZone, shortTimezone) => {
@@ -84,10 +105,12 @@ export {
   allArraysEmpty,
   allFieldsEmpty,
   fieldHasValue,
+  formatImmunizationDate,
   getFormattedAppointmentDate,
   getFormattedAppointmentTime,
   getFormattedGenerationDate,
   getShortTimezone,
+  parseProblemDateTime,
   parseVistaDate,
   parseVistaDateTime,
   stripDst,

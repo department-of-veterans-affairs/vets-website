@@ -1,6 +1,5 @@
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -12,29 +11,24 @@ import dataUtils from 'platform/utilities/data/index';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+} from '~/platform/forms-system/src/js/web-component-patterns';
+
 const { get, omit, set } = dataUtils;
 
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
 
 import {
-  accreditationLabel,
-  changeInDegreeLabel,
   conditionallyShowPrefillMessage,
-  creditTransferLabel,
-  financialIssuesLabel,
-  gradePolicyLabel,
-  jobOpportunitiesLabel,
   PREFILL_FLAGS,
   prefillTransformer,
-  qualityLabel,
-  recruitingLabel,
-  refundIssuesLabel,
-  studentLoansLabel,
   submit,
   trackingPrefix,
-  transcriptReleaseLabel,
   transform,
   validateMatch,
 } from '../helpers';
@@ -58,7 +52,6 @@ const {
   phone,
   serviceAffiliation,
   serviceBranch,
-  serviceDateRange,
 } = fullSchema.properties;
 
 const { school, programs, assistance } = educationDetails.properties;
@@ -251,7 +244,7 @@ const formConfig = {
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
-            serviceDateRange: dateRangeUI(
+            serviceDateRange: currentOrPastDateRangeUI(
               'Service start date',
               'Service end date',
               'End of service must be after start of service',
@@ -261,8 +254,9 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceBranch,
-              serviceDateRange,
+              serviceDateRange: currentOrPastDateRangeSchema,
             },
+            required: ['serviceDateRange'],
           },
         },
         contactInformation: {
@@ -520,8 +514,10 @@ const formConfig = {
                 'Which topic best describes your feedback? (Select all that apply)',
               'ui:description': issueUIDescription,
               'ui:validations': [validateBooleanGroup],
+              'ui:webComponentField': VaCheckboxGroupField,
               'ui:options': {
                 showFieldLabel: true,
+                tile: true,
               },
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one',
@@ -541,37 +537,57 @@ const formConfig = {
                 'other',
               ],
               recruiting: {
-                'ui:title': recruitingLabel,
+                'ui:title': 'Recruiting or marketing practices',
+                'ui:description':
+                  'The school made inaccurate claims about the quality of its education or its school requirements.',
               },
               studentLoans: {
-                'ui:title': studentLoansLabel,
+                'ui:title': 'Student loan',
+                'ui:description':
+                  'The school didn’t provide you a total cost of your school loan.',
               },
               quality: {
-                'ui:title': qualityLabel,
+                'ui:title': 'Quality of education',
+                'ui:description': 'The school doesn’t have qualified teachers.',
               },
               creditTransfer: {
-                'ui:title': creditTransferLabel,
+                'ui:title': 'Transfer of credits',
+                'ui:description':
+                  'The school isn’t accredited for transfer of credits.',
               },
               accreditation: {
-                'ui:title': accreditationLabel,
+                'ui:title': 'Accreditation',
+                'ui:description':
+                  'The school is unable to get or keep accreditation.',
               },
               jobOpportunities: {
-                'ui:title': jobOpportunitiesLabel,
+                'ui:title': 'Post-graduation job opportunity',
+                'ui:description':
+                  'The school made promises to you about job placement or salary after graduation.',
               },
               gradePolicy: {
-                'ui:title': gradePolicyLabel,
+                'ui:title': 'Grade policy',
+                'ui:description':
+                  'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
               },
               refundIssues: {
-                'ui:title': refundIssuesLabel,
+                'ui:title': 'Refund issues',
+                'ui:description':
+                  'The school won’t refund your GI Bill payment.',
               },
               financialIssues: {
-                'ui:title': financialIssuesLabel,
+                'ui:title': 'Financial concern',
+                'ui:description':
+                  'The school is charging you a higher tuition or extra fees.',
               },
               changeInDegree: {
-                'ui:title': changeInDegreeLabel,
+                'ui:title': 'Change in degree plan or requirements',
+                'ui:description':
+                  'The school added new hour or course requirements after you enrolled.',
               },
               transcriptRelease: {
-                'ui:title': transcriptReleaseLabel,
+                'ui:title': 'Release of transcripts',
+                'ui:description': 'The school won’t release your transcripts.',
               },
               other: {
                 'ui:title': 'Other',

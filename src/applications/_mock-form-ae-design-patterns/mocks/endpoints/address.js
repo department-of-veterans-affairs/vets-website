@@ -5,7 +5,6 @@ const mailingAddressUpdateReceived = {
     payload: {
       id: 311999,
       addressLine1: '123 Mailing Address St.',
-      addressLine2: 'Apt 1',
       addressType: 'DOMESTIC',
       city: 'Fulton',
       countryCodeIso3: 'USA',
@@ -68,12 +67,12 @@ const homeAddressUpdateReceived = {
   },
 };
 
-const homeAddressDeleteReceived = {
+const mailingAddressUpdateReceivedPrefillTaskGreen = {
   data: {
     id: '',
     type: 'async_transaction_va_profile_address_transactions',
     attributes: {
-      transactionId: 'mock-delete-home-address-transaction-id',
+      transactionId: 'mock-update-mailing-address-success-transaction-id',
       transactionStatus: 'RECEIVED',
       type: 'AsyncTransaction::VAProfile::AddressTransaction',
       metadata: [],
@@ -116,12 +115,30 @@ const addressValidation = {
   validationKey: -981994727,
 };
 
+const addressValidationMatch = (req, res) => {
+  return res.json({
+    addresses: [
+      {
+        address: req.body.address,
+        addressMetaData: {
+          confidenceScore: 100,
+          addressType: 'Domestic',
+          deliveryPointValidation: 'CONFIRMED',
+          residentialDeliveryIndicator: 'RESIDENTIAL',
+        },
+      },
+    ],
+    validationKey: -1565212962,
+  });
+};
+
 module.exports = {
   mailingAddressUpdateReceived,
+  mailingAddressUpdateReceivedPrefillTaskGreen,
   mailingAddressUpdateNoChangeDetected,
   mailingAddressStatusSuccess,
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,
-  homeAddressDeleteReceived,
   addressValidation,
+  addressValidationMatch,
 };

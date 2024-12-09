@@ -23,17 +23,17 @@ export default function DirectDepositViewField({ formData }) {
           <dd>{financialInstitutionName}</dd> */}
 
           <dt className="toe-definition-list_term toe-definition-list_term--normal">
-            Bank account number:
-          </dt>
-          <dd className="toe-definition-list_definition">
-            {obfuscate(accountNumber)}
-          </dd>
-
-          <dt className="toe-definition-list_term toe-definition-list_term--normal">
             Bank routing number:
           </dt>
           <dd className="toe-definition-list_definition">
             {obfuscate(routingNumber)}
+          </dd>
+
+          <dt className="toe-definition-list_term toe-definition-list_term--normal">
+            Bank account number:
+          </dt>
+          <dd className="toe-definition-list_definition">
+            {obfuscate(accountNumber)}
           </dd>
         </dl>
       </div>

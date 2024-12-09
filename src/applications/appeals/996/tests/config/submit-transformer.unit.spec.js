@@ -145,4 +145,31 @@ describe('transform', () => {
 
     expect(transformedResult).to.deep.equal(result);
   });
+  it('should pass a default socOptIn false boolean value if undefined', () => {
+    const data = { data: {} };
+    const transformedResult = JSON.parse(transform(formConfig, data));
+    // copy over variables that change based on date & location
+    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
+
+    expect(transformedResult).to.deep.equal({
+      data: {
+        attributes: {
+          benefitType: 'compensation',
+          informalConference: false,
+          socOptIn: false,
+          veteran: {
+            address: {
+              zipCode5: '00000',
+            },
+            email: '',
+            homeless: false,
+            phone: {},
+            timezone: 'America/Los_Angeles',
+          },
+        },
+        type: 'higherLevelReview',
+      },
+      included: [],
+    });
+  });
 });

@@ -8,13 +8,25 @@ import { DOWNLOAD_FORMAT } from '../../../util/constants';
 
 describe('Medicaitons Print/Download button component', () => {
   let handleFullListDownload;
+  let handlePrintPage;
+  let handleTextDownload;
   const setup = (
-    download = handleFullListDownload,
+    onDownload = handleFullListDownload,
     success = false,
     list = false,
+    onText = undefined,
+    onPrint = undefined,
+    isLoading = undefined,
   ) => {
     return renderWithStoreAndRouter(
-      <PrintDownload download={download} isSuccess={success} list={list} />,
+      <PrintDownload
+        onDownload={onDownload}
+        onText={onText}
+        onPrint={onPrint}
+        isSuccess={success}
+        list={list}
+        isLoading={isLoading}
+      />,
       {
         path: '/',
       },
@@ -23,6 +35,8 @@ describe('Medicaitons Print/Download button component', () => {
 
   beforeEach(() => {
     handleFullListDownload = sinon.spy();
+    handlePrintPage = sinon.spy();
+    handleTextDownload = sinon.spy();
   });
 
   it('renders without errors', () => {
@@ -60,6 +74,19 @@ describe('Medicaitons Print/Download button component', () => {
     expect(sucessMessage).to.exist;
   });
 
+  it('displays spinner when loading ', () => {
+    const screen = setup(
+      handleFullListDownload,
+      false,
+      false,
+      undefined,
+      undefined,
+      true,
+    );
+
+    expect(screen.getByTestId('print-download-loading-indicator')).to.exist;
+  });
+
   it('button displays different text for list', () => {
     const screen = setup(handleFullListDownload, true, true);
 
@@ -68,6 +95,9 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start downloading PDF on PDF button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText('Download a PDF of this list');
     fireEvent.click(downloadButton);
@@ -77,6 +107,9 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start downloading TXT on TXT button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
       'Download a text file (.txt) of this list',
@@ -85,6 +118,29 @@ describe('Medicaitons Print/Download button component', () => {
     expect(handleFullListDownload.getCalls().length).to.equal(1);
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.false;
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.true;
+  });
+
+  it('should start print page using custom fn on print button click', () => {
+    const screen = setup(undefined, false, false, undefined, handlePrintPage);
+    const printBtn = screen.getByText('Print this page');
+    fireEvent.click(printBtn);
+    expect(handlePrintPage.getCalls().length).to.equal(1);
+  });
+
+  it('should start txt download using custom fn on txt button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
+    const screen = setup(
+      undefined,
+      false,
+      false,
+      handleTextDownload,
+      undefined,
+    );
+    const txtBtn = screen.getByText('Download a text file (.txt) of this page');
+    fireEvent.click(txtBtn);
+    expect(handleTextDownload.getCalls().length).to.equal(1);
   });
 
   it('user keyboard events: upArrow, downArrow, and esc keys', () => {

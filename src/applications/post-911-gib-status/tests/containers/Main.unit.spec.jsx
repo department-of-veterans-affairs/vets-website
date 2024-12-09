@@ -2,7 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
-
+import sinon from 'sinon';
+import { mount } from 'enzyme';
 import { Main } from '../../containers/Main';
 
 const defaultProps = {
@@ -15,6 +16,16 @@ describe('Main', () => {
     const tree = SkinDeep.shallowRender(<Main {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
+  });
+  it('should call getEnrollmentData in componentDidMount', () => {
+    const props = {
+      getEnrollmentData: sinon.spy(),
+      apiVersion: 'some-api-version',
+    };
+    const wrapper = mount(<Main {...props} />);
+    wrapper.instance().componentDidMount();
+    expect(props.getEnrollmentData.calledWith(props.apiVersion)).to.be.true;
+    wrapper.unmount();
   });
 
   it('should show data when service is available', () => {
@@ -49,6 +60,19 @@ describe('Main', () => {
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#authenticationErrorMessage')).to.be.ok;
+  });
+  it('should show generic error message for service downtime', () => {
+    const props = _.merge({}, defaultProps, {
+      availability: 'serviceDowntimeError',
+    });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
+    expect(tree.subTree('#appContent')).to.be.ok;
+  });
+
+  it('should show generic error message for unknown availability', () => {
+    const props = _.merge({}, defaultProps, { availability: 'unknown' });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
+    expect(tree.subTree('#appContent')).to.be.ok;
   });
 
   /*

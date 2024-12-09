@@ -48,7 +48,7 @@ describe('Additional Exposures Summary', () => {
       },
     };
 
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
@@ -68,9 +68,6 @@ describe('Additional Exposures Summary', () => {
     getByText('March 2000 - March 2001');
 
     getByText(goBackLinkExposures);
-    getByLabelText(
-      'go back and edit hazards and dates for Other toxic exposures',
-    );
   });
 
   it('does not render a hazard if not checked', () => {

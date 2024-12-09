@@ -3,7 +3,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
-    checkInExperienceTranslationDislaimerTagalogEnabled = true,
+    checkInExperienceTranslationDisclaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperienceUpcomingAppointmentsEnabled = false,
@@ -28,7 +28,7 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'check_in_experience_translation_disclaimer_tagalog_enabled',
-          value: checkInExperienceTranslationDislaimerTagalogEnabled,
+          value: checkInExperienceTranslationDisclaimerTagalogEnabled,
         },
         {
           name: 'check_in_experience_travel_reimbursement',

@@ -49,7 +49,7 @@ export const Notifications = ({
         <DashboardWidgetWrapper>
           <div
             data-testid="dashboard-notifications-error"
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+            className="vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
             <va-alert
               status={status}

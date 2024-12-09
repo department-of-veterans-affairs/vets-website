@@ -46,6 +46,11 @@ describe('Medications Prescriptions container', () => {
           totalPages: 7,
           totalEntries: 122,
         },
+        prescriptionsFilteredPagination: {
+          currentPage: 1,
+          totalPages: 7,
+          totalEntries: 122,
+        },
         prescriptionDetails: {
           prescriptionId: 1234567890,
         },
@@ -312,5 +317,31 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
       'If you print or download this list, we’ll include a list of your allergies.',
     );
+  });
+  it('displays filter accordion if mhv_medications_display_filter feature flag is set to true', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: true,
+      },
+    });
+    expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+  it('does not display filter accordion if mhv_medications_display_filter feature flag is set to false', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: false,
+      },
+    });
+    expect(await screen.queryByTestId('filter-accordion')).to.not.exist;
   });
 });

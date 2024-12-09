@@ -6,6 +6,7 @@ import {
   debtLettersShowLettersVBMS,
 } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DebtLettersDownload = () => {
   const { debtLinks, isError, isVBMSError, hasDependentDebts } = useSelector(
@@ -16,6 +17,9 @@ const DebtLettersDownload = () => {
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
   );
+
+  const title = 'Download debt letters';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -35,7 +39,7 @@ const DebtLettersDownload = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
           {
             href: '/manage-va-debt/summary/debt-balances/letters',
@@ -51,7 +55,7 @@ const DebtLettersDownload = () => {
           className="vads-u-margin-bottom--2"
           tabIndex="-1"
         >
-          Download debt letters
+          {title}
         </h1>
         <p className="va-introtext">
           Download your debt letters, learn your payment options, or find out
@@ -85,7 +89,7 @@ const DebtLettersDownload = () => {
             For medical copay debt, please go to
             <a
               className="vads-u-margin-x--0p5"
-              href="/health-care/pay-copay-bill/"
+              href="/manage-va-debt/summary/copay-balances"
             >
               pay your VA copay bill
             </a>

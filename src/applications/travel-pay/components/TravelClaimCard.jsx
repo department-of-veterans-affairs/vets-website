@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
   const {
+    canViewClaimDetails,
     id,
     createdOn,
     claimStatus,
@@ -13,11 +15,18 @@ export default function TravelClaimCard(props) {
     modifiedOn,
   } = props;
 
-  const [appointmentDate, appointmentTime] = formatDateTime(
-    appointmentDateTime,
-  );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
+  let appointmentDateTitle;
+  if (appointmentDateTime == null) {
+    appointmentDateTitle = 'Appointment information not available';
+  } else {
+    const [appointmentDate, appointmentTime] = formatDateTime(
+      appointmentDateTime,
+    );
+    appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
+  }
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
@@ -25,11 +34,10 @@ export default function TravelClaimCard(props) {
         className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
         data-testid="travel-claim-details"
       >
-        {`${appointmentDate} at ${appointmentTime} appointment`}
+        {appointmentDateTitle}
       </h3>
       <h4 className="vads-u-margin-bottom--1">Where</h4>
       <p className="vads-u-margin-top--0">{facilityName}</p>
-
       <h4 className="vads-u-margin-bottom--1">Claim Details</h4>
       <ul className="vads-u-margin-top--0">
         <li>
@@ -43,12 +51,24 @@ export default function TravelClaimCard(props) {
           Updated on {updateDate} at {updateTime}
         </li>
       </ul>
+      {canViewClaimDetails && (
+        <Link
+          to={{
+            pathname: `/${id}`,
+            state: { claimDetailsProps: props },
+          }}
+          className="vads-u-display--flex vads-u-align-items--center"
+        >
+          Travel reimbursement claim details <va-icon icon="chevron_right" />
+        </Link>
+      )}
     </va-card>
   );
 }
 
 TravelClaimCard.propTypes = {
   appointmentDateTime: PropTypes.string,
+  canViewClaimDetails: PropTypes.bool,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,

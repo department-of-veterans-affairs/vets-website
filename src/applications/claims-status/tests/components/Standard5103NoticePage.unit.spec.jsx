@@ -45,7 +45,9 @@ describe('<Standard5103NoticePage>', () => {
       <Standard5103NoticePage {...props} />,
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
-    expect(document.title).to.equal('5103 Evidence Notice | Veterans Affairs');
+    expect(document.title).to.equal(
+      'Review your evidence list (5103 notice) | Veterans Affairs',
+    );
   });
 
   it('should render loading div', () => {

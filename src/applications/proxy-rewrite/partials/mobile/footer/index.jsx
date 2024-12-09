@@ -17,7 +17,7 @@ const MobileFooter = ({ footerData }) => {
         <div className="usa-grid-full flex-container">
           <ul className="usa-accordion">
             <li>
-              <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+              <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--1">
                 <button
                   className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open"
                   type="button"
@@ -181,7 +181,7 @@ const MobileFooter = ({ footerData }) => {
           />
         </a>
       </div>
-      <div className="usa-grid usa-grid-full vads-u-margin-bottom--2 va-footer-links-bottom">
+      <div className="usa-grid usa-grid-full vads-u-margin-bottom--3 va-footer-links-bottom">
         <ul>{buildBottomRail(bottomRail)}</ul>
       </div>
     </footer>

@@ -16,10 +16,10 @@ const Description = (
       You can submit your supporting documents and additional evidence with your
       pension claim.
     </p>
-    <p>Guidelines to upload a file:</p>
+    <p>Guidelines to uploading a file:</p>
     <ul>
-      <li>You can upload a .pdf, .jpeg, or .png file</li>
-      <li>Your file should be no larger than 20MB</li>
+      <li>You can upload a .pdf, .jpeg, or .png file.</li>
+      <li>Your file should be no larger than 20MB.</li>
     </ul>
   </>
 );

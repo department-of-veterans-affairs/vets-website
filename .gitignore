@@ -44,6 +44,7 @@ all-links.csv
 .tern-port
 *.iml
 .ignore
+.tool-versions
 
 # Track shared IDE config
 !.vscode/extensions.json

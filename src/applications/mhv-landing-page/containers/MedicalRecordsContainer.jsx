@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -13,10 +12,9 @@ const Placeholder = () => <div style={{ height: '555px' }} />;
 const pageHeading = 'Medical records';
 
 const MedicalRecordsContainer = () => {
-  const {
-    loading: featureTogglesLoading,
-    mhvTransitionalMedicalRecordsLandingPage,
-  } = useSelector(state => state.featureToggles);
+  const { loading: featureTogglesLoading } = useSelector(
+    state => state.featureToggles,
+  );
   const profileLoading = useSelector(isProfileLoading);
 
   useEffect(() => {
@@ -35,8 +33,6 @@ const MedicalRecordsContainer = () => {
   const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
 
   if (featureTogglesLoading) return <Placeholder />;
-
-  if (!mhvTransitionalMedicalRecordsLandingPage) return <PageNotFound />;
 
   return profileLoading ? (
     <Placeholder />

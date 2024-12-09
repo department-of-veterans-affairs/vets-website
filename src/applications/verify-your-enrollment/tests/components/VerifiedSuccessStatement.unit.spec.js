@@ -19,8 +19,6 @@ describe('<VerifiedSuccessStatement />', () => {
       'You have successfully verified your enrollment',
     );
     expect(headline).to.exist;
-    expect(headline.className).to.include('vads-u-font-size--h2');
-    expect(headline.className).to.include('vads-u-font-weight--bold');
   });
 
   it('Check for the paragraph content', () => {

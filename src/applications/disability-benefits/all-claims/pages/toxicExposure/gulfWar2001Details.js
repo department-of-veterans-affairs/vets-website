@@ -1,19 +1,17 @@
+import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { formTitle } from '../../utils';
-import {
-  dateRangePageDescription,
+  dateRangeAdditionalInfo,
+  detailsPageBegin,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  dateRangeAdditionalInfo,
-  startDateApproximate,
   gulfWar2001PageTitle,
-  showCheckboxLoopDetailsPage,
-  teSubtitle,
   notSureDatesDetails,
+  showCheckboxLoopDetailsPage,
+  startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -24,12 +22,14 @@ import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
  */
 function makeUiSchema(locationId) {
   return {
-    'ui:title': formTitle(gulfWar2001PageTitle),
-    'ui:description': ({ formData }) =>
-      dateRangePageDescription(
-        getKeyIndex(locationId, 'gulfWar2001', formData),
-        getSelectedCount('gulfWar2001', formData),
-        GULF_WAR_2001_LOCATIONS[locationId],
+    'ui:title': ({ formData }) =>
+      detailsPageBegin(
+        gulfWar2001PageTitle,
+        teSubtitle(
+          getKeyIndex(locationId, 'gulfWar2001', formData),
+          getSelectedCount('gulfWar2001', formData),
+          GULF_WAR_2001_LOCATIONS[locationId],
+        ),
       ),
     toxicExposure: {
       gulfWar2001Details: {
@@ -42,6 +42,10 @@ function makeUiSchema(locationId) {
           }),
           'view:notSure': {
             'ui:title': notSureDatesDetails,
+            'ui:webComponentField': VaCheckboxField,
+            'ui:options': {
+              classNames: 'vads-u-margin-y--3',
+            },
           },
         },
       },
@@ -70,8 +74,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: currentOrPastDateSchema,
-                  endDate: currentOrPastDateSchema,
+                  startDate: full526EZSchema.definitions.minimumYearDate,
+                  endDate: full526EZSchema.definitions.minimumYearDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

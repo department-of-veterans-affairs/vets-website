@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -8,7 +8,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
 import {
-  MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
   LocationType,
@@ -17,7 +16,6 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from '../constants';
 
-import { setFocus } from '../utils/helpers';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
@@ -32,21 +30,41 @@ import SearchResultMessage from './SearchResultMessage';
 export const ResultsList = ({
   facilityTypeName,
   inProgress,
+  isMobile,
   searchString,
   results,
   searchError,
   pagination,
   currentQuery,
   query,
+  searchResultMessageRef,
   ...props
 }) => {
-  const searchResultTitle = useRef();
+  const [resultsData, setResultsData] = useState(null);
+  const currentPage = pagination ? pagination.currentPage : 1;
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current);
+      setResultsData(
+        results.map((result, index) => ({
+          ...result,
+          resultItem: true,
+          searchString,
+          currentPage,
+          markerText: index + 1,
+        })),
+      );
     },
-    [results, inProgress, props.error],
+    [results],
+  );
+
+  useEffect(
+    () => {
+      if (resultsData?.length) {
+        recordSearchResultsEvents(props, resultsData);
+      }
+    },
+    [resultsData],
   );
 
   function isHealthAndHealthConnect(apiResult, searchQuery) {
@@ -67,7 +85,7 @@ export const ResultsList = ({
    * @returns [] list of results
    */
   const renderResultItems = (searchQuery, apiResults) => {
-    return apiResults.map((result, index) => {
+    return apiResults?.map((result, index) => {
       let item;
       const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
 
@@ -184,7 +202,6 @@ export const ResultsList = ({
     });
   };
 
-  const currentPage = pagination ? pagination.currentPage : 1;
   if (inProgress) {
     return (
       <div>
@@ -208,47 +225,39 @@ export const ResultsList = ({
     if (searchError.type === 'mapBox') {
       return (
         <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultRef={searchResultTitle}
+          resultRef={searchResultMessageRef}
           message={Error.LOCATION}
+          searchStarted={currentQuery.searchStarted}
         />
       );
     }
+
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultRef={searchResultTitle}
-        message={Error.DEFAULT}
         error={searchError}
+        isMobile={isMobile}
+        message={Error.DEFAULT}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
 
-  if (facilityTypeName && (!results || results.length < 1)) {
+  if (facilityTypeName && !results.length) {
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultsFound={results === 0}
-        resultRef={searchResultTitle}
+        isMobile={isMobile}
+        resultsFound={false}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
+
   if (!facilityTypeName || !currentQuery.facilityType) {
-    return <SearchResultMessage />;
+    return <SearchResultMessage searchStarted={currentQuery.searchStarted} />;
   }
 
-  const markers = MARKER_LETTERS.values();
-  const resultsData = results.map(result => ({
-    ...result,
-    resultItem: true,
-    searchString,
-    currentPage,
-    markerText: markers.next().value,
-  }));
-
-  if (resultsData.length > 0) {
-    recordSearchResultsEvents(props, resultsData);
-  }
   return <div>{renderResultItems(query, resultsData)}</div>;
 };
 
@@ -257,10 +266,12 @@ ResultsList.propTypes = {
   error: PropTypes.object,
   facilityTypeName: PropTypes.string,
   inProgress: PropTypes.bool,
+  isMobile: PropTypes.bool,
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.object,
+  searchError: PropTypes.shape(PropTypes.any),
+  searchResultMessageRef: PropTypes.object,
   searchString: PropTypes.string,
 };
 

@@ -341,4 +341,23 @@ export default [
     }
     return { formData: newFormData, metadata };
   },
+  // 9 > 10, remove invalid service branches
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.serviceBranch) {
+      newFormData.serviceBranch = Object.keys(formData.serviceBranch).reduce(
+        (branches, key) => {
+          if (!key || !key.length) {
+            return branches;
+          }
+          return {
+            ...branches,
+            [key]: formData.serviceBranch[key],
+          };
+        },
+        {},
+      );
+    }
+    return { formData: newFormData, metadata };
+  },
 ];

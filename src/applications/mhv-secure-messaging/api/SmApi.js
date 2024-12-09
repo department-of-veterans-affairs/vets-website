@@ -350,11 +350,30 @@ export const getTriageTeamList = () => {
  * Get a list of all recipients in triage teams.
  * @returns
  */
-export const getAllRecipients = () => {
-  return apiRequest(`${apiBasePath}/messaging/allrecipients`, {
+export const getAllRecipients = isPilot => {
+  return apiRequest(
+    `${apiBasePath}/messaging/allrecipients?useCache=false${
+      isPilot ? '&requires_oh=1' : ''
+    }`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
+ * Update list of preferred recipients in triage teams.
+ * @returns
+ */
+export const updatePreferredRecipients = updatedTriageTeams => {
+  return apiRequest(`${apiBasePath}/messaging/preferences/recipients`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ updatedTriageTeams }),
   });
 };
 

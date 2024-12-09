@@ -187,7 +187,7 @@ export const IssueCard = ({
   const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
-    <li id={`issue-${index}`} key={index}>
+    <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
           <div

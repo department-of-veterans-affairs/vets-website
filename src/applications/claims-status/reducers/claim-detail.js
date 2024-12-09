@@ -1,6 +1,7 @@
 import set from 'platform/utilities/data/set';
 
 import {
+  CLEAR_CLAIM_DETAIL,
   GET_CLAIM_DETAIL,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
@@ -23,6 +24,9 @@ export default function claimDetailReducer(state = initialState, action) {
     }
     case GET_CLAIM_DETAIL: {
       return set('loading', true, state);
+    }
+    case CLEAR_CLAIM_DETAIL: {
+      return initialState;
     }
     case SET_CLAIMS_UNAVAILABLE: {
       return {

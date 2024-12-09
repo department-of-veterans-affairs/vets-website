@@ -8,7 +8,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -16,7 +15,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList, reloadRecords } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -32,6 +30,8 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  getLastUpdatedText,
+  formatNameFirstLast,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -86,7 +86,6 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
@@ -101,9 +100,17 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro();
+    const { title, subject, preface } = generateVaccinesIntro(
+      vaccines,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
@@ -117,15 +124,14 @@ ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
 Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n
-Provider notes: ${processList(item.notes)}\n`;
+Reaction: ${processList(item.reactions)}\n`;
   };
 
   const generateVaccinesTxt = async () => {
     const content = `
 ${crisisLineHeader}\n\n
 Vaccines\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
@@ -146,10 +152,12 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to
         vaccines), go to your allergy records.{' '}
+      </p>
+      <div className="vads-u-margin-bottom--4">
         <Link to="/allergies" className="no-print">
           Go to your allergy records
         </Link>
-      </p>
+      </div>
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -171,6 +179,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

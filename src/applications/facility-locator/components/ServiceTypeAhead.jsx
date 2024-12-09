@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
-import { getProviderSpecialties } from '../actions';
 import classNames from 'classnames';
+import { getProviderSpecialties } from '../actions';
 import MessagePromptDiv from './MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
@@ -71,7 +71,8 @@ class ServiceTypeAhead extends Component {
       return this.state.services.filter(specialty =>
         this.shouldShow(inputValue, specialty),
       );
-    } else return null;
+    }
+    return null;
   };
 
   renderSearchForAvailableServicePrompt = inputValue => {
@@ -87,7 +88,8 @@ class ServiceTypeAhead extends Component {
           id="search-available-service-prompt"
         />
       );
-    } else return null;
+    }
+    return null;
   };
 
   renderServiceTypeDropdownOptions = (
@@ -99,7 +101,7 @@ class ServiceTypeAhead extends Component {
       <div className="dropdown" role="listbox">
         {this.matchingServices(inputValue).map((specialty, index) => (
           <div
-            key={this.getSpecialtyName(specialty)}
+            key={`${this.getSpecialtyName(specialty)}-${index}`}
             {...getItemProps({
               item: specialty,
               className: this.optionClasses(index === highlightedIndex),
@@ -127,7 +129,8 @@ class ServiceTypeAhead extends Component {
           waitBeforeShow={2000}
         />
       );
-    } else return null;
+    }
+    return null;
   };
 
   render() {

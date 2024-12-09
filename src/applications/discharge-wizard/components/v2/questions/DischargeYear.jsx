@@ -41,7 +41,7 @@ const DischargeYear = ({
 
   const dischargeYear = formResponses[shortName];
   const currentYear = new Date().getFullYear();
-  const yearOptions = range(currentYear - 1992).map(i => {
+  const yearOptions = range(currentYear - 1991).map(i => {
     const year = currentYear - i;
     return (
       <option data-testid="va-select-option" key={i} value={year.toString()}>

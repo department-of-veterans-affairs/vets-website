@@ -86,6 +86,10 @@ const ConfirmationPage = props => {
             Status Tool. After your pension claim appears, you can upload your
             documents in the Files tab.
           </p>
+          <va-link
+            href="/track-claims"
+            text="Use the Claim Status Tool to upload your documents"
+          />
           <h3>Option 2: Mail us copies of your documents</h3>
           <p>
             Don’t send us a printed copy of your pension claim. We already have
@@ -161,7 +165,8 @@ const ConfirmationPage = props => {
         </p>
         <p>
           If you’ve opted to receive VA emails or texts, we’ll send you updates
-          about the status of your application.
+          about the status of your application. You can manage your notification
+          settings within your Va.gov profile.
         </p>
         <p>
           You can also{' '}

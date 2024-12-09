@@ -21,6 +21,7 @@ export default function prefillTransformer(pages, formData, metadata) {
       country: 'USA',
     },
     homePhone: '1234567890',
+    emailAddress: 'john.preparer@email.com',
   };
 
   if (preparerType === PREPARER_TYPES.CITIZEN) {

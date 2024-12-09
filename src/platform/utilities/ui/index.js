@@ -103,6 +103,7 @@ export function formatARN(arnString = '') {
   return val;
 }
 
+let timer;
 /**
  * Custom focus - focuses on a page's H3 by default (unique header) if it exists
  * will fall back to the breadcrumb H2 (Step _ of _). This function is called
@@ -114,13 +115,16 @@ export function formatARN(arnString = '') {
  * @param {Number} pageIndex - index inside of a page array loop
  */
 export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
-  if (typeof scrollAndFocusTarget === 'string') {
-    scrollAndFocus(document.querySelector(scrollAndFocusTarget));
-  } else if (typeof scrollAndFocusTarget === 'function') {
-    scrollAndFocusTarget(pageIndex);
-  } else {
-    scrollTo('topContentElement', getScrollOptions());
-    // h3 should be a unique header on the page
-    focusByOrder(['#main h3', defaultFocusSelector]);
-  }
+  if (timer) clearTimeout(timer); // simple debounce
+  timer = setTimeout(() => {
+    if (typeof scrollAndFocusTarget === 'string') {
+      scrollAndFocus(document.querySelector(scrollAndFocusTarget));
+    } else if (typeof scrollAndFocusTarget === 'function') {
+      scrollAndFocusTarget(pageIndex);
+    } else {
+      scrollTo('topContentElement', getScrollOptions());
+      // h3 should be a unique header on the page
+      focusByOrder(['#main h3', defaultFocusSelector]);
+    }
+  }, 150);
 }

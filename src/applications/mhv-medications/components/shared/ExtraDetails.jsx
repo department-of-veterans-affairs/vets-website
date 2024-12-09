@@ -66,11 +66,11 @@ const ExtraDetails = rx => {
           data-testid="submitted-refill-request"
         >
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
-          <div className="vads-u-padding-left--2">
+          <span className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
             updates.
-          </div>
+          </span>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (

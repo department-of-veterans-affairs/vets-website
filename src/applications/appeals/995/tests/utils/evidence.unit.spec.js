@@ -1,14 +1,23 @@
 import { expect } from 'chai';
 
 import {
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
   getIndex,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
+  onFormLoaded,
 } from '../../utils/evidence';
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
+import {
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+  SC_NEW_FORM_DATA,
+} from '../../constants';
 
 import { SELECTED } from '../../../shared/constants';
 
@@ -31,6 +40,63 @@ describe('getIndex', () => {
   });
   it('should return zero when missing an index & testIndex', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
+  });
+});
+
+describe('getVAEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
+    ).to.deep.equal([]);
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
+      [],
+    );
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
+    ).to.deep.equal([]);
+  });
+});
+
+describe('getPrivateEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getPrivateEvidence({
+        [EVIDENCE_PRIVATE]: undefined,
+        providerFacility: [{}],
+      }),
+    ).to.deep.equal([]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [] }),
+    ).to.deep.equal([]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: false, providerFacility: [{}] }),
+    ).to.deep.equal([]);
+  });
+});
+
+describe('getOtherEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getOtherEvidence({
+        [EVIDENCE_OTHER]: undefined,
+        additionalDocuments: [{}],
+      }),
+    ).to.deep.equal([]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [] }),
+    ).to.deep.equal([]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
+    ).to.deep.equal([]);
   });
 });
 
@@ -119,6 +185,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
+    [EVIDENCE_VA]: true,
     locations: [
       {
         foo: true,
@@ -131,6 +198,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
         issues: ['test 1', 'test 2', addLocation].filter(Boolean),
       },
     ],
+    [EVIDENCE_PRIVATE]: true,
     providerFacility: [
       {
         foo: false,
@@ -165,5 +233,76 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
     const data = getData('test 3', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
+  });
+});
+
+describe('onFormLoaded', () => {
+  const getLocation = ({ from, treatmentDate }) => ({
+    evidenceDates: { from },
+    treatmentDate,
+    noDate: !treatmentDate,
+  });
+  const getData = ({ toggle = false, locations = [] } = {}) => ({
+    [SC_NEW_FORM_DATA]: toggle,
+    locations,
+  });
+  const returnUrl = '/test';
+
+  it('should do nothing when locations is an empty array', () => {
+    const router = [];
+    const formData = getData();
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal(getData());
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should do nothing when feature toggle is not set', () => {
+    const router = [];
+    const locations = [getLocation({ from: '2010-03-04' })];
+    const props = { locations };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal(getData(props));
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should update treatment date when feature toggle is set', () => {
+    const router = [];
+    const from = '2010-03-04';
+    const locations = [getLocation({ from })];
+    const props = { toggle: true, locations };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal({
+      ...getData(props),
+      locations: [getLocation({ from, treatmentDate: '2010-03' })],
+    });
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should not update treatment date when it is already defined & feature toggle is set', () => {
+    const router = [];
+    const from = '2010-03-04';
+    const locations = [getLocation({ from, treatmentDate: '2020-04' })];
+    const props = { toggle: true, locations };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal({
+      ...getData(props),
+      locations: [getLocation({ from, treatmentDate: '2020-04' })],
+    });
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should set no date when evidence date and treatment date are undefined & feature toggle is set', () => {
+    const router = [];
+    const props = { toggle: true, locations: [{}] };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal({
+      ...getData(props),
+      locations: [{ noDate: true, treatmentDate: '' }],
+    });
+    expect(router[0]).to.eq(returnUrl);
   });
 });

@@ -39,6 +39,7 @@ const CrisisLineConnectButton = () => {
       class="vads-u-margin-y--1p5"
       secondary="true"
       text="Connect with the Veterans Crisis Line"
+      data-dd-action-name="Connect with the Veterans Crisis Line Button"
       onClick={e => {
         setLastFocusableElement(e.target.shadowRoot.firstChild);
         setCrisisModalOpened(true);

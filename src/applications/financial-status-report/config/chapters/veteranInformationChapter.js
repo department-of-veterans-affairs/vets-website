@@ -104,7 +104,7 @@ export default {
         title: 'Spouse name',
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData => formData.questions?.isMarried,
       },
       spouseTransition: {
         path: 'spouse-transition',
@@ -116,15 +116,15 @@ export default {
         depends: formData => {
           const globalState = getGlobalState();
           return (
-            formData.questions.isMarried &&
-            !formData.reviewNavigation &&
+            formData.questions?.isMarried &&
+            !formData?.reviewNavigation &&
             globalState.spouseChanged
           );
         },
       },
       dependentCount: {
         path: 'dependents-count',
-        title: 'Dependents count',
+        title: 'Dependent count',
         uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
@@ -137,7 +137,7 @@ export default {
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0' &&
+          formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,

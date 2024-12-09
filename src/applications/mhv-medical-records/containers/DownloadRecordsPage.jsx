@@ -8,7 +8,6 @@ import {
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { accessAlertTypes, pageTitles } from '../util/constants';
 import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/blueButton';
@@ -42,15 +41,6 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/download-all',
-            label: 'Download all medical records',
-          },
-        ),
-      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },

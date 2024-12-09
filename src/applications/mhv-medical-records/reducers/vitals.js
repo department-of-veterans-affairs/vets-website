@@ -47,7 +47,7 @@ const getUnit = (type, unit) => {
 };
 
 const getMeasurement = (record, type) => {
-  if (type === vitalTypes.BLOOD_PRESSURE) {
+  if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
     const systolic = record.component.find(
       item => item.code.coding[0].code === loincCodes.SYSTOLIC,
     );
@@ -56,8 +56,13 @@ const getMeasurement = (record, type) => {
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  const unit = getUnit(type, record.valueQuantity?.code);
-  return `${record.valueQuantity?.value}${unit}`;
+
+  if (record.valueQuantity) {
+    const unit = getUnit(type, record.valueQuantity?.code);
+    return `${record.valueQuantity?.value}${unit}`;
+  }
+
+  return record.valueString || EMPTY_FIELD;
 };
 
 export const extractLocation = vital => {
@@ -85,6 +90,7 @@ export const convertVital = record => {
     date: record?.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
+    effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
     notes:
       (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
@@ -122,6 +128,7 @@ export const vitalReducer = (state = initialState, action) => {
       if (
         Array.isArray(originalList) &&
         Array.isArray(updatedList) &&
+        // FIXME: the updated list could be the same length as the original list but have different contents.
         originalList.length !== updatedList.length
       ) {
         return {

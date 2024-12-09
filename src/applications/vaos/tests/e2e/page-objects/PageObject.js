@@ -36,6 +36,15 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  /**
+   *
+   *
+   * @param {Object} props - Properties used to determine what type of mock appointment to create.
+   * @param {string|RegExp=} props.name - Set video appointment URL.
+   * @param {number=} props.level - Set video appointment URL.
+   * @returns
+   * @memberof PageObject
+   */
   assertHeading({ name, level = 1, exist = true } = {}) {
     cy.findByRole('heading', { level, name }).should(
       exist ? 'exist' : 'not.exist',
@@ -60,7 +69,7 @@ export default class PageObject {
     return this;
   }
 
-  assertNexButton({ isEnabled = true, label = 'Continue' } = {}) {
+  assertNextButton({ isEnabled = true, label = 'Continue' } = {}) {
     cy.contains('button', label)
       .as('button')
       .should(isEnabled ? 'be.enabled' : 'be.disabled');
@@ -77,6 +86,15 @@ export default class PageObject {
     return this;
   }
 
+  /**
+   *
+   *
+   * @param {Object} props - Properties used to determine what type of mock appointment to create.
+   * @param {string|RegExp=} props.text - Text to assert.
+   * @param {boolean=} props.exist - True or false.
+   * @returns
+   * @memberof PageObject
+   */
   assertText({ text, exist = true } = {}) {
     cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
       'not.exist',

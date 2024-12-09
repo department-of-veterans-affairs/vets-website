@@ -47,3 +47,14 @@ export const typeOfIncomeLabels = {
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
 };
+
+export const careTypeLabels = {
+  CARE_FACILITY: 'Care facility',
+  IN_HOME_CARE_PROVIDER: 'In-home care provider',
+};
+
+export const careFrequencyLabels = {
+  ONCE_MONTH: 'Once a month',
+  ONCE_YEAR: 'Once a year',
+  ONE_TIME: 'One-time',
+};

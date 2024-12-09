@@ -133,4 +133,92 @@ describe('<CalculateYourBenefitsForm>', () => {
     ).to.be.false;
     wrapper.unmount();
   });
+  describe('test rendering sections', () => {
+    it('should not render inState if displayedInputs.inState is null', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{
+            classesoutsideus: 'classesoutsideus',
+            inState: 'no',
+            tuitionFees: 0,
+          }}
+          displayedInputs={{ inState: false, tuition: true }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+        />,
+      );
+      const radioButton = wrapper.find('VARadioButton');
+      expect(radioButton).to.have.lengthOf(0);
+      wrapper.unmount();
+    });
+    it('should render books if displayedInputs.books is true', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{ classesoutsideus: 'classesoutsideus', inState: 'no' }}
+          displayedInputs={{ inState: true, books: true }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+          profile={{ attributes: 'attributes' }}
+        />,
+      );
+      const input = wrapper.find('input#books');
+      expect(input).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+    it('should not render yellowRibbon if displayedInputs.yellowRibbon is false', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{
+            classesoutsideus: 'classesoutsideus',
+            inState: 'no',
+            tuitionAssist: 0,
+          }}
+          displayedInputs={{ yellowRibbon: false, tuitionAssist: true }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+        />,
+      );
+      const radioButton = wrapper.find('VARadioButton');
+      expect(radioButton).to.have.lengthOf(0);
+      wrapper.unmount();
+    });
+    it('should render enrollOld if displayedInputs.shouldRenderEnrolledOld is true', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{ classesoutsideus: 'classesoutsideus', inState: 'no' }}
+          displayedInputs={{
+            inState: true,
+            enrolled: false,
+            enrolledOld: true,
+          }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+          profile={{ attributes: 'attributes' }}
+        />,
+      );
+      const dropDown = wrapper.find('Dropdown');
+      expect(dropDown).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+    it('should render buyUp if displayedInputs.buyUp is true', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{ classesoutsideus: 'classesoutsideus', inState: 'no' }}
+          displayedInputs={{ buyUp: true }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+        />,
+      );
+      const input = wrapper.find('input#buyUpAmount');
+      expect(input).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+    it('should render working if displayedInputs.working is true', () => {
+      const wrapper = shallow(
+        <CalculateYourBenefitsForm
+          inputs={{ classesoutsideus: 'classesoutsideus', inState: 'no' }}
+          displayedInputs={{ working: true }}
+          eligibility={{ onlineClasses: 'onlineClasses' }}
+        />,
+      );
+      const dropDown = wrapper.find('Dropdown');
+      expect(dropDown).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+  });
 });

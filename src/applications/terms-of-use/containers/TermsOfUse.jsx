@@ -21,9 +21,11 @@ import touData from '../touData';
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
   const isAuthenticatedWithIAM = useSelector(isAuthenticatedWithSSOe);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const [buttonPushed, setButtonPushed] = useState(0);
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
@@ -53,14 +55,56 @@ export default function TermsOfUse() {
     [termsCodeExists, redirectUrl],
   );
 
+  useEffect(
+    () => {
+      let timeoutId;
+      const resetButton = () => {
+        setButtonPushed(0);
+        setIsDisabled(false);
+        setError({ isError: false, message: '' });
+      };
+
+      if (error.isError && buttonPushed >= 3) {
+        timeoutId = setTimeout(resetButton, 25000);
+      }
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    },
+    [error, buttonPushed],
+  );
+
   const handleTouClick = async type => {
-    const termsCode = termsCodeExists
-      ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
-      : '';
+    const params = {
+      ...(redirectLocation.searchParams.get('terms_code') && {
+        // eslint-disable-next-line camelcase
+        terms_code: redirectLocation.searchParams.get('terms_code'),
+      }),
+      ...(redirectLocation.searchParams.get('skip_mhv_account_creation') && {
+        // eslint-disable-next-line camelcase
+        skip_mhv_account_creation: redirectLocation.searchParams.get(
+          'skip_mhv_account_creation',
+        ),
+      }),
+    };
+
+    const queryString = `?${new URLSearchParams(params).toString()}`;
+
+    setButtonPushed(buttonPushed + 1);
 
     try {
+      if (buttonPushed >= 3) {
+        setError({
+          isError: true,
+          message: errorMessages.tooManyRequests,
+        });
+        return;
+      }
+
+      setIsDisabled(true);
       const response = await apiRequest(
-        `/terms_of_use_agreements/v1/${type}${termsCode}`,
+        `/terms_of_use_agreements/v1/${type}${queryString}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -71,11 +115,13 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
+          setIsDisabled(false);
           window.location = parseRedirectUrl(redirectUrl);
         }
 
         if (type === 'decline') {
           setShowDeclineModal(false);
+          setIsDisabled(false);
           declineAndLogout({
             termsCodeExists,
             shouldRedirectToMobile,
@@ -86,6 +132,7 @@ export default function TermsOfUse() {
     } catch (err) {
       if (type === 'decline') setShowDeclineModal(true);
       setError({ isError: true, message: errorMessages.network });
+      setIsDisabled(false);
     }
   };
 
@@ -194,6 +241,7 @@ export default function TermsOfUse() {
             setShowDeclineModal={setShowDeclineModal}
             isFullyAuthenticated={isFullyAuthenticated}
             isUnauthenticated={isUnauthenticated}
+            isDisabled={isDisabled}
           />
         </article>
         <VaModal
@@ -201,10 +249,6 @@ export default function TermsOfUse() {
           clickToClose
           onCloseEvent={() => setShowDeclineModal(false)}
           modalTitle="Decline the terms of use and sign out?"
-          onPrimaryButtonClick={() => handleTouClick('decline')}
-          onSecondaryButtonClick={() => setShowDeclineModal(false)}
-          primaryButtonText="Decline and sign out"
-          secondaryButtonText="Go back"
           data-testid="modal-show"
         >
           {error.isError && (
@@ -228,6 +272,17 @@ export default function TermsOfUse() {
             account and accept these terms. If you don’t have one of these
             accounts, you’ll need to create one.
           </p>
+          <va-button
+            onClick={() => handleTouClick('decline')}
+            disabled={isDisabled}
+            text="Decline and sign out"
+          />
+          <va-button
+            onClick={() => setShowDeclineModal(false)}
+            text="Go back"
+            secondary
+            disabled={isDisabled}
+          />
         </VaModal>
       </section>
     </>

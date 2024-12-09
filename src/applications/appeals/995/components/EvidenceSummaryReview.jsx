@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -16,7 +16,7 @@ import {
   PrivateContent,
   UploadContent,
 } from './EvidenceSummaryLists';
-import { SUMMARY_EDIT } from '../constants';
+import { SUMMARY_EDIT, SC_NEW_FORM_DATA } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
@@ -39,13 +39,11 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   );
 
   // on review & submit in review mode (not editing)
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
+
+  const showScNewForm = data[SC_NEW_FORM_DATA];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -86,7 +84,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         </dl>
       ) : null}
 
-      <VaContent list={vaEvidence} reviewMode />
+      <VaContent list={vaEvidence} reviewMode showScNewForm={showScNewForm} />
       <PrivateContent
         list={privateEvidence}
         limitedConsent={limitedConsent}

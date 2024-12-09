@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
-import arpUserReducer from './user';
+import userReducer from './user';
 
 const rootReducer = combineReducers({
-  user: arpUserReducer,
+  user: userReducer,
   featureToggles: FeatureToggleReducer,
 });
 

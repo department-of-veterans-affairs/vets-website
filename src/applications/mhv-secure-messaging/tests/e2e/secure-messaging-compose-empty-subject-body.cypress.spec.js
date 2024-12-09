@@ -13,19 +13,20 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
   });
 
-  it('empty message body error', () => {
-    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    PatientComposePage.clickOnSendMessageButton();
-    PatientComposePage.verifyBodyErrorMessage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-  });
   it('empty message subject error', () => {
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
     PatientComposePage.clickOnSendMessageButton();
-    // PatientComposePage.verifySubjectErrorMessage();
+    PatientComposePage.verifySubjectErrorMessage();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('empty message body error', () => {
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.clickOnSendMessageButton();
+    PatientComposePage.verifyBodyErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

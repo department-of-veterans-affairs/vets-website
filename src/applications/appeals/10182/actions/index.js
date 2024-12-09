@@ -12,7 +12,7 @@ export const getContestableIssues = () => {
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
-    return apiRequest(CONTESTABLE_ISSUES_API)
+    return apiRequest(CONTESTABLE_ISSUES_API, { apiVersion: 'v1' })
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,

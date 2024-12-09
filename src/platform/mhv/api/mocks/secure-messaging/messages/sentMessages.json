@@ -1,0 +1,1786 @@
+{
+    "data": [
+      {
+        "id": "3813790",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3813790,
+          "category": "TEST_RESULTS",
+          "subject": "Test Result",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-08-01T15:34:46.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3813790"
+        }
+      },
+      {
+        "id": "3805616",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3805616,
+          "category": "OTHER",
+          "subject": "Reroute Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-07-29T15:11:13.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3805616"
+        }
+      },
+      {
+        "id": "3805610",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3805610,
+          "category": "OTHER",
+          "subject": "Reroute Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-07-29T15:09:30.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3805610"
+        }
+      },
+      {
+        "id": "3805296",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3805296,
+          "category": "OTHER",
+          "subject": "Reroute Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-07-29T13:04:59.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 3805285,
+          "recipientName": "DETROIT: Audiology, Justice, French, MD",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Audiology, Justice, French, MD",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3805296"
+        }
+      },
+      {
+        "id": "3619280",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3619280,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-05-21T13:10:34.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3619280"
+        }
+      },
+      {
+        "id": "3580278",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3580278,
+          "category": "OTHER",
+          "subject": "Wrong Triage Group",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-05-07T14:13:47.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3580278"
+        }
+      },
+      {
+        "id": "3579883",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3579883,
+          "category": "OTHER",
+          "subject": "Wrong Group",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-05-07T13:37:00.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3579883"
+        }
+      },
+      {
+        "id": "3550437",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3550437,
+          "category": "OTHER",
+          "subject": "General Inquiry",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-04-23T15:15:18.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 3550420,
+          "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3550437"
+        }
+      },
+      {
+        "id": "3549590",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3549590,
+          "category": "OTHER",
+          "subject": "TEST",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-04-23T13:11:53.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993579,
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3549590"
+        }
+      },
+      {
+        "id": "3549574",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3549574,
+          "category": "OTHER",
+          "subject": "TEST",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-04-23T13:08:52.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993579,
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3549574"
+        }
+      },
+      {
+        "id": "3397742",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3397742,
+          "category": "OTHER",
+          "subject": "Usability Test",
+          "body": null,
+          "attachment": true,
+          "sentDate": "2024-03-05T20:10:11.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993579,
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3397742"
+        }
+      },
+      {
+        "id": "3258261",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3258261,
+          "category": "OTHER",
+          "subject": "General Inquiry",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2024-01-09T19:36:01.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3258261"
+        }
+      },
+      {
+        "id": "3109063",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3109063,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T16:35:22.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3109063"
+        }
+      },
+      {
+        "id": "3109056",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3109056,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T16:33:06.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3109056"
+        }
+      },
+      {
+        "id": "3108802",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108802,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T14:21:44.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108802"
+        }
+      },
+      {
+        "id": "3108797",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108797,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T14:20:53.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108797"
+        }
+      },
+      {
+        "id": "3108792",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108792,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T14:20:16.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108792"
+        }
+      },
+      {
+        "id": "3108787",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108787,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T14:19:39.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108787"
+        }
+      },
+      {
+        "id": "3108779",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108779,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": true,
+          "sentDate": "2023-11-03T14:08:46.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108779"
+        }
+      },
+      {
+        "id": "3108773",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108773,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T14:01:23.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108773"
+        }
+      },
+      {
+        "id": "3108764",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108764,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T13:55:31.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108764"
+        }
+      },
+      {
+        "id": "3108759",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108759,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T13:53:23.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108759"
+        }
+      },
+      {
+        "id": "3108456",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108456,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T13:44:30.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993579,
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108456"
+        }
+      },
+      {
+        "id": "3108450",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3108450,
+          "category": "MEDICATIONS",
+          "subject": "Meds!",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-03T13:44:13.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 3004609,
+          "recipientName": "DETROIT: Pharmacy",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Pharmacy",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3108450"
+        }
+      },
+      {
+        "id": "3107716",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3107716,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-02T23:14:14.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3107716"
+        }
+      },
+      {
+        "id": "3107706",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3107706,
+          "category": "OTHER",
+          "subject": "Test message, please ignore",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-02T23:09:32.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3107706"
+        }
+      },
+      {
+        "id": "3106859",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106859,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-02T13:39:04.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106859"
+        }
+      },
+      {
+        "id": "3106852",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106852,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-02T13:29:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106852"
+        }
+      },
+      {
+        "id": "3106842",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106842,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-02T13:20:59.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106842"
+        }
+      },
+      {
+        "id": "3106148",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106148,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T21:32:01.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106148"
+        }
+      },
+      {
+        "id": "3106137",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106137,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T21:13:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106137"
+        }
+      },
+      {
+        "id": "3106129",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106129,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T21:10:39.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106129"
+        }
+      },
+      {
+        "id": "3106083",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106083,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T20:33:13.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106083"
+        }
+      },
+      {
+        "id": "3106049",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3106049,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T20:05:47.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3106049"
+        }
+      },
+      {
+        "id": "3105995",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105995,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T19:41:36.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105995"
+        }
+      },
+      {
+        "id": "3105969",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105969,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T19:13:41.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105969"
+        }
+      },
+      {
+        "id": "3105963",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105963,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T19:08:19.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105963"
+        }
+      },
+      {
+        "id": "3105957",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105957,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T19:01:53.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105957"
+        }
+      },
+      {
+        "id": "3105949",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105949,
+          "category": "OTHER",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T18:56:34.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105949"
+        }
+      },
+      {
+        "id": "3105917",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105917,
+          "category": "COVID",
+          "subject": "test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T18:49:50.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105917"
+        }
+      },
+      {
+        "id": "3105905",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105905,
+          "category": "OTHER",
+          "subject": "test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T18:49:03.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2343333,
+          "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105905"
+        }
+      },
+      {
+        "id": "3105891",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3105891,
+          "category": "OTHER",
+          "subject": "This is a Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-11-01T18:40:23.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105891"
+        }
+      },
+      {
+        "id": "3071791",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3071791,
+          "category": "MEDICATIONS",
+          "subject": "Appt",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-16T17:06:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3071791"
+        }
+      },
+      {
+        "id": "3071760",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3071760,
+          "category": "EDUCATION",
+          "subject": "Hearing Aid",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-16T16:54:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3071760"
+        }
+      },
+      {
+        "id": "3071753",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3071753,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-16T16:53:02.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3071753"
+        }
+      },
+      {
+        "id": "3071732",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3071732,
+          "category": "OTHER",
+          "subject": "Test 1",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-16T16:50:27.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993579,
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3071732"
+        }
+      },
+      {
+        "id": "3051984",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3051984,
+          "category": "MEDICATIONS",
+          "subject": "Renew",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-05T17:50:28.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3051984"
+        }
+      },
+      {
+        "id": "3051884",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3051884,
+          "category": "MEDICATIONS",
+          "subject": "Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-05T15:58:52.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3051884"
+        }
+      },
+      {
+        "id": "3047787",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3047787,
+          "category": "MEDICATIONS",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-10-03T15:46:17.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3047787"
+        }
+      },
+      {
+        "id": "3042238",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3042238,
+          "category": "MEDICATIONS",
+          "subject": "Rx Refill please",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-29T17:38:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3042238"
+        }
+      },
+      {
+        "id": "3041233",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3041233,
+          "category": "COVID",
+          "subject": "Test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-28T18:50:09.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3041233"
+        }
+      },
+      {
+        "id": "3037890",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3037890,
+          "category": "MEDICATIONS",
+          "subject": "Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-26T20:43:57.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3037890"
+        }
+      },
+      {
+        "id": "3036658",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3036658,
+          "category": "MEDICATIONS",
+          "subject": "Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-26T13:31:41.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3036658"
+        }
+      },
+      {
+        "id": "3033876",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3033876,
+          "category": "TEST_RESULTS",
+          "subject": "Test Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-25T13:45:47.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": null,
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3033876"
+        }
+      },
+      {
+        "id": "3032884",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3032884,
+          "category": "MEDICATIONS",
+          "subject": "Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-22T18:08:12.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3032884"
+        }
+      },
+      {
+        "id": "3032733",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3032733,
+          "category": "MEDICATIONS",
+          "subject": "Request refill on meds",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-22T16:23:23.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3032733"
+        }
+      },
+      {
+        "id": "3031969",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3031969,
+          "category": "MEDICATIONS",
+          "subject": "Renew Perscription For Vitame B #99999999",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-21T23:03:22.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3031969"
+        }
+      },
+      {
+        "id": "3031912",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3031912,
+          "category": "MEDICATIONS",
+          "subject": "Refill Request",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-21T19:19:18.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3031912"
+        }
+      },
+      {
+        "id": "3031674",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3031674,
+          "category": "MEDICATIONS",
+          "subject": "Need Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-21T16:17:59.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3031674"
+        }
+      },
+      {
+        "id": "3031583",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3031583,
+          "category": "MEDICATIONS",
+          "subject": "RX Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-21T14:23:49.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3031583"
+        }
+      },
+      {
+        "id": "3029980",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3029980,
+          "category": "MEDICATIONS",
+          "subject": "Medication Refil",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-19T21:20:12.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3029980"
+        }
+      },
+      {
+        "id": "3029425",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3029425,
+          "category": "MEDICATIONS",
+          "subject": "Med Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-19T16:29:55.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3029425"
+        }
+      },
+      {
+        "id": "3027574",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3027574,
+          "category": "MEDICATIONS",
+          "subject": "New Medication Request",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-18T19:16:48.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3027574"
+        }
+      },
+      {
+        "id": "3026604",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3026604,
+          "category": "MEDICATIONS",
+          "subject": "request new medication",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-18T15:11:31.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3026604"
+        }
+      },
+      {
+        "id": "3026479",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3026479,
+          "category": "MEDICATIONS",
+          "subject": "Request for refill on Omeprazole",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-18T13:19:33.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3026479"
+        }
+      },
+      {
+        "id": "3019743",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3019743,
+          "category": "MEDICATIONS",
+          "subject": "Question on new medication",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-14T16:21:54.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3019743"
+        }
+      },
+      {
+        "id": "3015928",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3015928,
+          "category": "MEDICATIONS",
+          "subject": "Medication",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-12T19:19:43.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3015928"
+        }
+      },
+      {
+        "id": "3015263",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3015263,
+          "category": "OTHER",
+          "subject": "test",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-12T17:36:55.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3015263"
+        }
+      },
+      {
+        "id": "3012566",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3012566,
+          "category": "MEDICATIONS",
+          "subject": "Meds",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-11T16:37:47.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3012566"
+        }
+      },
+      {
+        "id": "3007452",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3007452,
+          "category": "MEDICATIONS",
+          "subject": "More medication X",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-08T18:25:01.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3007452"
+        }
+      },
+      {
+        "id": "3005766",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3005766,
+          "category": "MEDICATIONS",
+          "subject": "new prescription",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T20:32:33.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3005766"
+        }
+      },
+      {
+        "id": "3004695",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004695,
+          "category": "TEST_RESULTS",
+          "subject": "Test Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T14:54:12.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": "READ",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004695"
+        }
+      },
+      {
+        "id": "3004681",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004681,
+          "category": "TEST_RESULTS",
+          "subject": "Test Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T14:52:01.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": "READ",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004681"
+        }
+      },
+      {
+        "id": "3004522",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004522,
+          "category": "TEST_RESULTS",
+          "subject": "EKG Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T13:53:43.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004522"
+        }
+      },
+      {
+        "id": "3004514",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004514,
+          "category": "MEDICATIONS",
+          "subject": "Losartan Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T13:51:25.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004514"
+        }
+      },
+      {
+        "id": "3004416",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004416,
+          "category": "APPOINTMENTS",
+          "subject": "Appointment Request",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T13:47:45.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993563,
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004416"
+        }
+      },
+      {
+        "id": "3004395",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004395,
+          "category": "MEDICATIONS",
+          "subject": "Losartan Refill",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T13:45:56.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993571,
+          "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "readReceipt": "READ",
+          "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004395"
+        }
+      },
+      {
+        "id": "3004379",
+        "type": "messages",
+        "attributes": {
+          "messageId": 3004379,
+          "category": "TEST_RESULTS",
+          "subject": "Test Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-07T13:32:32.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": "READ",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004379"
+        }
+      },
+      {
+        "id": "2993398",
+        "type": "messages",
+        "attributes": {
+          "messageId": 2993398,
+          "category": "TEST_RESULTS",
+          "subject": "CBC Lab Results",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-09-01T14:54:30.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2993382,
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "readReceipt": "READ",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2993398"
+        }
+      },
+      {
+        "id": "2991856",
+        "type": "messages",
+        "attributes": {
+          "messageId": 2991856,
+          "category": "OTHER",
+          "subject": "General Inquiry - 1",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-08-31T15:38:54.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2343333,
+          "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2991856"
+        }
+      },
+      {
+        "id": "2991848",
+        "type": "messages",
+        "attributes": {
+          "messageId": 2991848,
+          "category": "OTHER",
+          "subject": "Test_1",
+          "body": null,
+          "attachment": false,
+          "sentDate": "2023-08-31T15:34:56.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientId": 2343333,
+          "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "readReceipt": null,
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "proxySenderName": null
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2991848"
+        }
+      }
+    ]
+  }

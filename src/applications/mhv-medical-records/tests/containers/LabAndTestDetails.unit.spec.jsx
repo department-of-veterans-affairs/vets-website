@@ -52,7 +52,7 @@ describe('LabsAndTests details container', () => {
   it('displays the type of test', () => {
     const element = screen.getByTestId('chem-hem-category');
     expect(element).to.exist;
-    expect(element.textContent).to.equal('Chemistry/Hematology');
+    expect(element.textContent).to.equal('Chemistry and hematology');
   });
 
   it('displays the site or sample tested', () => {
@@ -60,10 +60,10 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays who the test was ordered by', () => {
-    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+    expect(screen.getByText('JANE A DOE', { exact: false })).to.exist;
   });
 
-  it('displays the collecting location', () => {
+  it('displays the location', () => {
     expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
   });
 

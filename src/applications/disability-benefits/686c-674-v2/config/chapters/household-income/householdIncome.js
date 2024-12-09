@@ -1,17 +1,22 @@
-import environment from 'platform/utilities/environment';
-import { netWorthCalculation, netWorthTitle } from './helpers';
-import { householdIncome } from '../../utilities';
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { whatAreAssets, netWorthTitle } from './helpers';
 
-export const schema = householdIncome;
+export const schema = {
+  type: 'object',
+  properties: {
+    householdIncome: yesNoSchema,
+  },
+};
 
 export const uiSchema = {
-  householdIncome: {
-    'ui:options': {
-      hideIf: () => environment.isProduction(),
-      hideOnReview: () => environment.isProduction(),
-    },
-    'ui:title': netWorthCalculation,
-    'ui:description': netWorthTitle,
-    'ui:widget': 'yesNo',
-  },
+  ...titleUI(
+    'Your net worth',
+    'If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you’re married, include the value of your spouse’s assets and annual income too.',
+  ),
+  'ui:description': whatAreAssets,
+  householdIncome: yesNoUI(netWorthTitle),
 };

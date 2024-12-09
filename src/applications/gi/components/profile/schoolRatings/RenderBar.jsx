@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RenderBar = ({ label, avgRating }) => {
   const starMax = '4.0';
@@ -32,6 +33,11 @@ const RenderBar = ({ label, avgRating }) => {
       </div>
     </div>
   );
+};
+
+RenderBar.propTypes = {
+  avgRating: PropTypes.number.isRequired,
+  label: PropTypes.string,
 };
 
 export default RenderBar;

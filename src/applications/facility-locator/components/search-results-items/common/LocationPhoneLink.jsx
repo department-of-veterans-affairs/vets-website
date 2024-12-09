@@ -26,7 +26,7 @@ export const renderPhoneNumber = (
   const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
 
   return (
-    <div>
+    <p>
       {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
@@ -41,7 +41,7 @@ export const renderPhoneNumber = (
       >
         {formattedPhoneNumber}
       </va-telephone>
-    </div>
+    </p>
   );
 };
 
@@ -68,9 +68,8 @@ const LocationPhoneLink = ({
   }
 
   return (
-    <div className="facility-phone-group vads-u-margin-top--2">
+    <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from, location)}
-      {showHealthConnectNumber && <div style={{ minHeight: '20px' }} />}
       {showHealthConnectNumber &&
         renderPhoneNumber(
           'VA health connect',
@@ -79,7 +78,6 @@ const LocationPhoneLink = ({
           from,
           location,
         )}
-      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
       {renderPhoneNumber(
         'Mental health',
         null,

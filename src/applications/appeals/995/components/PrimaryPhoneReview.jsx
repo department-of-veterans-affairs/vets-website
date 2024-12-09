@@ -17,12 +17,10 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
   const error =
     getPhoneString(phone).trim() === '' || label === '' ? (
       <strong className="usa-input-error-message">
-        {errorMessages.missingPrimaryPhone}
+        {errorMessages.missingPrimaryPhoneReview}
       </strong>
     ) : null;
-  const labelWrapClasses = error
-    ? 'vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--1p5'
-    : '';
+
   return hasHomeAndMobilePhone(data) ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
@@ -40,9 +38,9 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt className={labelWrapClasses}>{error || label}</dt>
+          <dt>{label || 'Primary phone number'}</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="primary phone">
-            <strong>{error ? '' : getFormattedPhone(phone)}</strong>
+            {error ?? <strong>{getFormattedPhone(phone)}</strong>}
           </dd>
         </div>
       </dl>

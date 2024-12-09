@@ -1,0 +1,106 @@
+{
+  "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
+  "data": {
+    "view:hasPolicies": true,
+    "primaryEob": [
+      {
+        "name": "file.png",
+        "confirmationCode": "06d807fc-3089-4868-9c09-2dca72ebfcf1",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "medicalUpload": [
+      {
+        "name": "file.png",
+        "confirmationCode": "72d6c6f3-e764-4f2b-821f-eac506e852d3",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "claimIsAutoRelated": true,
+    "claimIsWorkRelated": true,
+    "claimType": "medical",
+    "hasOhi": true,
+    "applicantPhone": "4105552233",
+    "applicantAddress": {
+      "country": "DZA",
+      "street": "123 Alger St",
+      "street2": "St 2",
+      "city": "Algerialand",
+      "state": "AG",
+      "postalCode": "12345"
+    },
+    "applicantNewAddress": "yes",
+    "applicantMemberNumber": "123123123",
+    "applicantName": {
+      "first": "Beneficiary",
+      "middle": "Middle",
+      "last": "Lastname",
+      "suffix": "II"
+    },
+    "applicantDOB": "2022-05-14",
+    "sponsorName": {
+      "first": "Sponsor",
+      "middle": "Middle",
+      "last": "Jones",
+      "suffix": "Sr."
+    },
+    "certifierRelationship": "other",
+    "certifierOtherRelationship": "Uncle",
+    "certifierPhone": "5554443333",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Cert St",
+      "street2": "St 2",
+      "street3": "St 3",
+      "city": "Certland",
+      "state": "AS",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "middle": "Middle",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "certifierRole": "other",
+    "policies": [
+      {
+        "type": "group",
+        "name": "BCBS",
+        "policyNum": "123",
+        "providerPhone": "6014441212"
+      },
+      {
+        "type": "nonGroup",
+        "name": "Cigna",
+        "policyNum": "321",
+        "providerPhone": "1231231235"
+      }
+    ],
+    "sharesAddressWith": "not-shared",
+    "missingUploads": [
+      {
+        "name": "medicalUpload",
+        "path": "medical-claim-upload",
+        "required": false,
+        "uploaded": true
+      },
+      {
+        "name": "primaryEob",
+        "path": "eob-upload",
+        "required": false,
+        "uploaded": true
+      },
+      {
+        "name": "secondaryEob",
+        "path": "additional-eob-upload",
+        "required": false,
+        "uploaded": true
+      }
+    ],
+    "statementOfTruthSignature": "Certifier Middle Jones",
+    "statementOfTruthCertified": true
+  }
+}

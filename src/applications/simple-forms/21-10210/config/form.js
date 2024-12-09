@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import manifest from '../manifest.json';
@@ -59,7 +60,9 @@ const formConfig = {
   trackingPrefix: 'lay-witness-10210-',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
+  hideUnauthedStartLink: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
@@ -125,7 +128,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
+            !!mockData &&
+            (environment.isLocalhost() || environment.isDev()) &&
+            !environment.isTest()
               ? mockData
               : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
@@ -234,7 +239,7 @@ const formConfig = {
     },
     claimantPersonalInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your personal information'
           : 'Claimant’s personal information',
@@ -253,7 +258,7 @@ const formConfig = {
     },
     claimantIdInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your identification information'
           : 'Claimant’s identification information',
@@ -272,7 +277,7 @@ const formConfig = {
     },
     claimantAddrInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your mailing address' // Flow 3
           : 'Claimant’s mailing address', // Flow 4
@@ -291,7 +296,7 @@ const formConfig = {
     },
     claimantContactInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your contact information'
           : 'Claimant’s contact information',
@@ -328,7 +333,7 @@ const formConfig = {
     },
     veteranPersonalInfoChapter: {
       // for All flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your personal information'
@@ -345,7 +350,7 @@ const formConfig = {
     },
     veteranIdentificationInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your identification information'
@@ -362,7 +367,7 @@ const formConfig = {
     },
     veteranMailingAddressInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your mailing address'
@@ -379,7 +384,7 @@ const formConfig = {
     },
     veteranContactInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your contact information'
@@ -412,6 +417,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

@@ -1,10 +1,10 @@
 import { isEqual } from 'lodash';
-import { add, format, isAfter } from 'date-fns';
+import { add, format, isAfter, isValid, isWithinInterval } from 'date-fns';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from '~/platform/forms-system/src/js/validation';
-import { isValidDateRange } from '~/platform/forms/validations';
+} from 'platform/forms-system/src/js/validation';
+import { isValidDateRange } from 'platform/forms/validations';
 
 export function validateServiceDates(
   errors,
@@ -116,4 +116,33 @@ export function validatePolicyNumber(errors, fieldData) {
       'Policy number (either this or the group code is required)',
     );
   }
+}
+
+export function validateInsurancePolicy(item) {
+  const {
+    insuranceName,
+    insurancePolicyHolderName,
+    'view:policyNumberOrGroupCode': policyNumberOrGroupCode = {},
+  } = item || {};
+  const { insurancePolicyNumber, insuranceGroupCode } = policyNumberOrGroupCode;
+  return (
+    !insuranceName ||
+    !insurancePolicyHolderName ||
+    (!insurancePolicyNumber && !insuranceGroupCode)
+  );
+}
+
+export function validateVeteranDob(dateOfBirth) {
+  if (!dateOfBirth) return null;
+
+  const birthdate = new Date(dateOfBirth);
+  if (!isValid(birthdate)) return null;
+
+  const isWithinRange = isWithinInterval(birthdate, {
+    start: new Date('1900-01-01'),
+    end: new Date(),
+  });
+  if (!isWithinRange) return null;
+
+  return dateOfBirth;
 }

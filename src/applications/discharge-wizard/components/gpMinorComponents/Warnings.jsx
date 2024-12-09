@@ -38,15 +38,11 @@ const Warnings = ({ formValues }) => {
     const boardToSubmit = board(formValues);
     const prevAppType = formValues['7_courtMartial'];
 
-    const alertContent = (
-      <p>
-        Because you answered that you’re not sure if your discharge was the
+    const alertContent = `Because you answered that you’re not sure if your discharge was the
         outcome of a general court-martial, it’s important for you to check your
         military records. The results below are for Veterans who have discharges
         that are administrative or the result of a special or summary
-        court-martial.
-      </p>
-    );
+        court-martial.`;
 
     return (
       <AlertMessage
@@ -61,16 +57,12 @@ const Warnings = ({ formValues }) => {
     const prevAppType = formValues['10_prevApplicationType'];
     const reason = formValues['4_reason'];
 
-    const alertContent = (
-      <p>
-        Because you answered that you weren’t sure where you applied for an
+    const alertContent = `Because you answered that you weren’t sure where you applied for an
         upgrade before, it’s important for you to check your records. The
         instructions below are for Veterans who had a successful upgrade
-        application reviewed by the{' '}
-        {branchOfService(formValues['1_branchOfService'])} Discharge Review
-        Board (DRB).
-      </p>
-    );
+        application reviewed by the${' '}
+        ${branchOfService(formValues['1_branchOfService'])} Discharge Review
+        Board (DRB).`;
 
     return (
       <AlertMessage

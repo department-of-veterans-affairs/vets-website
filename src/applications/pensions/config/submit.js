@@ -1,7 +1,7 @@
-import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { format } from 'date-fns-tz';
 
 const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
 
@@ -32,11 +32,11 @@ export function transform(formConfig, form) {
       form: formData,
     },
     // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
+    localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
   });
 }
 
-export function submit(form, formConfig, apiPath = '/v0/pension_claims') {
+export function submit(form, formConfig, apiPath = '/pensions/v0/claims') {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 

@@ -55,6 +55,7 @@ export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
  * @param {Array<VAOSRequest>} params.request Request to be returned from the mock
  * @param {boolean} [params.error=null] Whether or not to return a fetch error from the mock
  * @param {boolean} [params.backendServiceFailures=null] Whether or not to return a backend service error with the mock
+ * @param {boolean} [params.avs=false] Flag to include after visit summary information or not.
  */
 export function mockVAOSAppointmentsFetch({
   start,
@@ -63,10 +64,14 @@ export function mockVAOSAppointmentsFetch({
   requests,
   error = null,
   backendServiceFailures = null,
+  avs = false,
+  fetchClaimStatus = false,
 }) {
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+  }/vaos/v2/appointments?_include=facilities,clinics${avs ? ',avs' : ''}${
+    fetchClaimStatus ? ',claims' : ''
+  }&start=${start}&end=${end}&${statuses
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 
@@ -297,11 +302,19 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {boolean} [arguments.avs=false] Flag to include after visit summary information or not.
  */
-export function mockAppointmentApi({ response: data, responseCode = 200 }) {
+export function mockAppointmentApi({
+  response: data,
+  responseCode = 200,
+  avs = false,
+  fetchClaimStatus = false,
+}) {
   const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
     data.id
-  }?_include=facilities,clinics`;
+  }?_include=facilities,clinics${avs ? ',avs' : ''}${
+    fetchClaimStatus ? ',claims' : ''
+  }`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
@@ -401,7 +414,7 @@ export function mockGetPendingAppointmentsApi({
   responseCode = 200,
 }) {
   const end = moment()
-    .add(1, 'day')
+    .add(2, 'day')
     .format('YYYY-MM-DD');
   const start = moment()
     .subtract(120, 'days')
@@ -507,7 +520,7 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
@@ -518,7 +531,7 @@ export function mockCCProviderFetch(
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude

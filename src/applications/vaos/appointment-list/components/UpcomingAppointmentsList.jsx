@@ -98,17 +98,12 @@ export default function UpcomingAppointmentsList() {
               className={classNames('vads-u-font-size--h3', {
                 'vads-u-margin-top--0': index === 0,
               })}
-              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-testid="appointment-list-header"
             >
-              <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              aria-labelledby={`appointment_list_${monthDate.format(
-                'YYYY-MM',
-              )}`}
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',

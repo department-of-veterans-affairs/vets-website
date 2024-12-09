@@ -8,16 +8,15 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import DetailPageLayout, {
   When,
   What,
   Where,
-  Section,
   ClinicOrFacilityPhone,
   Prepare,
   Who,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
@@ -42,10 +41,6 @@ export default function ClaimExamLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -118,8 +113,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
@@ -160,8 +154,7 @@ export default function ClaimExamLayout({ data: appointment }) {
         </Section>
       )}
 
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>

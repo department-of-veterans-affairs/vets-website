@@ -2,9 +2,8 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import * as recordEventModule from '~/platform/monitoring/record-event';
-import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import * as recordEventModule from 'platform/monitoring/record-event';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import IdentityVerificationAlert from '../../../../components/FormAlerts/IdentityVerificationAlert';
 
 describe('hca <IdentityVerificationAlert>', () => {

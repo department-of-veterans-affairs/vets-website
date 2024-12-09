@@ -11,6 +11,12 @@ export const boardReviewLabels = {
   evidence_submission: 'Submit more evidence',
   hearing: 'Request a hearing',
 };
+// Text shown on the confirmation page
+export const boardReviewConfirmationLabels = {
+  direct_review: 'Direct review',
+  evidence_submission: 'Evidence submission',
+  hearing: 'Hearing',
+};
 export const boardReviewDescriptions = {
   direct_review:
     'A Veterans Law Judge will review your appeal based on evidence already submitted. Because the Board has all your evidence, choosing this option will often result in a faster decision.',

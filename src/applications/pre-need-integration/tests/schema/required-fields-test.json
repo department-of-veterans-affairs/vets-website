@@ -34,7 +34,7 @@
           "first": "Joe",
           "last": "Test"
         },
-        "ssn": "234-24-4444",
+        "ssn": "234244444",
         "dateOfBirth": "1990-03-02",
         "relationshipToVet": "husband",
         "email": "test@test.com",
@@ -77,7 +77,7 @@
           "first": "Jane",
           "last": "Johnson"
         },
-        "ssn": "234-55-4443",
+        "ssn": "234554443",
         "address": {
           "country": "USA"
         },

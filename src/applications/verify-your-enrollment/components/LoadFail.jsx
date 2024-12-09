@@ -3,7 +3,7 @@ import NeedHelp from './NeedHelp';
 
 export default function LoadFail() {
   return (
-    <div className="vads-u-margin-top--9 vads-u-margin-bottom--8 vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-u-margin-top--9 vads-u-margin-bottom--8 vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <va-alert
         status="warning"
         visible

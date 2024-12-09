@@ -10,7 +10,6 @@ import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
 import StemClaimStatusPage from './containers/StemClaimStatusPage';
 import FilesPage from './containers/FilesPage';
-import DetailsPage from './containers/DetailsPage';
 import AskVAPage from './containers/AskVAPage';
 import DocumentRequestPage from './containers/DocumentRequestPage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
@@ -21,19 +20,7 @@ import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 import Standard5103NoticePage from './containers/Standard5103NoticePage';
 
-const { cstUseClaimDetailsV2, cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
-
-const detailsRoute = (
-  <TogglerRoute toggleName={cstUseClaimDetailsV2} redirectWhenToggleEnabled>
-    <DetailsPage />
-  </TogglerRoute>
-);
-
-const overviewRoute = (
-  <TogglerRoute toggleName={cstUseClaimDetailsV2}>
-    <OverviewPage />
-  </TogglerRoute>
-);
+const { cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
 
 const askVARoute = (
   <TogglerRoute toggleName={cst5103UpdateEnabled} redirectWhenToggleEnabled>
@@ -65,13 +52,12 @@ const routes = (
           element={standard5103EvidenceNoticeRoute}
         />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
-        <Route path="details" element={detailsRoute} />
         <Route
           path="document-request/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />
-        <Route path="overview" element={overviewRoute} />
+        <Route path="overview" element={<OverviewPage />} />
         <Route path="status" element={<ClaimStatusPage />} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />

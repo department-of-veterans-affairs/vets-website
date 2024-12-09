@@ -143,14 +143,6 @@ export const Search = ({ onSearch }) => {
 
     let filterList;
 
-    const recordGAEvent = eventName => {
-      recordEvent({
-        event: eventName,
-        'filter-by': selectedOption?.value,
-        'filters-list': filterList,
-      });
-    };
-
     if (selectedOption?.value === 'specific-date') {
       filterList = {
         startDateMonth,
@@ -159,8 +151,6 @@ export const Search = ({ onSearch }) => {
       };
 
       if (!startDateMonth || !startDateDay || !startDateYear) {
-        recordGAEvent('events-apply-filter-failed');
-
         setStartDateMonthError(!startDateMonth);
         setStartDateDayError(!startDateDay);
         setStartDateYearError(!startDateYear);
@@ -194,8 +184,6 @@ export const Search = ({ onSearch }) => {
         !endDateDay ||
         !endDateYear
       ) {
-        recordGAEvent('events-apply-filter-failed');
-
         setStartDateMonthError(!startDateMonth);
         setStartDateDayError(!startDateDay);
         setStartDateYearError(!startDateYear);
@@ -206,14 +194,16 @@ export const Search = ({ onSearch }) => {
       }
 
       if (startDate > endDate) {
-        recordGAEvent('events-impossible-date-range');
-
         setFullDateError(true);
         return;
       }
     }
 
-    recordGAEvent('events-apply-filter-click');
+    recordEvent({
+      event: 'events-apply-filter-click',
+      'filter-by': selectedOption?.value,
+      'filters-list': filterList,
+    });
 
     onSearch(event, filterList, selectedOption.value);
     resetErrorState();
@@ -247,6 +237,7 @@ export const Search = ({ onSearch }) => {
       )}
       <va-button
         className="vads-u-margin--0"
+        disable-analytics
         id="events-apply-filter-button"
         type="submit"
         text="Apply filter"

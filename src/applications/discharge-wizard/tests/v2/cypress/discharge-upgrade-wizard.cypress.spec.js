@@ -8,7 +8,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}1`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -68,6 +68,11 @@ xdescribe('Discharge Upgrade Wizard', () => {
       // FAILURE_TO_EXHAUST
       h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
       h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
+      h.clickContinue();
+
+      // PRIOR_SERVICE
+      h.verifyUrl(ROUTES.PRIOR_SERVICE);
+      h.selectRadio(h.PRIOR_SERVICE_INPUT, 1);
       h.clickContinue();
 
       // REVIEW
@@ -79,7 +84,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}1`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -139,10 +144,20 @@ xdescribe('Discharge Upgrade Wizard', () => {
       // FAILURE_TO_EXHAUST
       h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
       h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
-      h.clickBack();
+      h.clickContinue();
+
+      // PRIOR_SERVICE
+      h.verifyUrl(ROUTES.PRIOR_SERVICE);
+      h.selectRadio(h.PRIOR_SERVICE_INPUT, 1);
+      h.clickContinue();
 
       // REVIEW
       h.verifyUrl(ROUTES.REVIEW);
+      h.clickBack();
+
+      // PRIOR_SERVICE
+      h.verifyUrl(ROUTES.PRIOR_SERVICE);
+      h.clickBack();
 
       // FAILURE_TO_EXHAUST
       h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
@@ -185,14 +200,14 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.clickBack();
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}1`);
+      h.verifyUrl(ROUTES.HOME);
     });
 
     it('navigates through the flow forward/backward successfully with changed answers for Reason question', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}1`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -272,7 +287,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.clickBack();
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}1`);
+      h.verifyUrl(ROUTES.HOME);
     });
   });
 });

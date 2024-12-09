@@ -1,4 +1,5 @@
 import defaultAllergies from '../fixtures/allergies.json';
+import sessionStatus from '../fixtures/session-status.json';
 import BaseListPage from './BaseListPage';
 
 class AllergiesListPage extends BaseListPage {
@@ -6,8 +7,14 @@ class AllergiesListPage extends BaseListPage {
     allergies = defaultAllergies,
     waitForAllergies = false,
   ) => {
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.wait('@session');
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -19,7 +26,6 @@ class AllergiesListPage extends BaseListPage {
       .then(() => {
         cy.get('[data-testid="allergies-landing-page-link"]').click();
       });
-    //
     if (waitForAllergies) {
       cy.wait('@allergiesList');
     }
@@ -47,6 +53,18 @@ class AllergiesListPage extends BaseListPage {
     cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
       matchCase: false,
     });
+  };
+
+  verifySecondaryNav = () => {
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .contains('Records')
+      .should('be.visible');
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .should('have.attr', 'href', '/my-health/medical-records');
   };
 }
 export default new AllergiesListPage();

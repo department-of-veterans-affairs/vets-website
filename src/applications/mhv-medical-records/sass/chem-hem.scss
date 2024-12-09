@@ -8,32 +8,9 @@
     background: var(--vads-color-base-lightest);
     border: 2px solid var(--vads-color-base-lighter);
 
-    h3 {
-      margin: 0px;
-      padding: 16px;
-    }
-
     div {
       background: var(--vads-color-white);
       border-top: 2px solid var(--vads-color-base-lighter);
-      padding: 8px 16px 8px 16px;
-
-      h4 {
-        margin: 0px;
-      }
-
-      .data {
-        margin: 0px 0px 16px 0px;
-      }
-
-      .range {
-        @media screen {
-          margin-top: 0px;
-        }
-        @media print {
-          margin-top: 0px;
-        }
-      }
     }
   }
 }

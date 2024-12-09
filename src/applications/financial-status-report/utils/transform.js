@@ -1,12 +1,13 @@
-import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import { formatDateShort } from 'platform/utilities/date';
+import { isValid } from 'date-fns';
 import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
 } from './streamlinedDepends';
 import {
   sumValues,
-  dateFormatter,
+  monthYearFormatter,
   getFsrReason,
   getEmploymentHistory,
   getTotalAssets,
@@ -45,6 +46,12 @@ export const transform = (formConfig, form) => {
   try {
     const isShortStreamlined = isStreamlinedShortForm(form.data);
     const isLongStreamlined = isStreamlinedLongForm(form.data);
+
+    // === Date of Birth ===
+    const birthDate = new Date(dateOfBirth.replace(/-/g, '/'));
+    const formattedBirthDate = isValid(birthDate)
+      ? formatDateShort(birthDate)
+      : '';
 
     // === Set Streamlined FSR flag ===
     let streamlinedData;
@@ -175,7 +182,7 @@ export const transform = (formConfig, form) => {
           countryName: address.countryCodeIso2,
         },
         telephoneNumber: getFormattedPhone(mobilePhone),
-        dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
+        dateOfBirth: formattedBirthDate,
         married: questions.isMarried,
         spouseFullName: {
           first: spouseFirst,
@@ -232,7 +239,7 @@ export const transform = (formConfig, form) => {
       installmentContractsAndOtherDebts: installmentContractsAndCreditCards?.map(
         debt => ({
           ...debt,
-          dateStarted: dateFormatter(debt.dateStarted),
+          dateStarted: monthYearFormatter(debt.dateStarted),
           creditorAddress: {
             addresslineOne: '',
             addresslineTwo: '',
@@ -265,7 +272,7 @@ export const transform = (formConfig, form) => {
       additionalData: {
         bankruptcy: {
           hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,
-          dateDischarged: dateFormatter(
+          dateDischarged: monthYearFormatter(
             additionalData?.bankruptcy?.dateDischarged,
           ),
           courtLocation: additionalData?.bankruptcy?.courtLocation,
@@ -278,7 +285,7 @@ export const transform = (formConfig, form) => {
       },
       applicantCertifications: {
         veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
-        veteranDateSigned: moment().format('MM/DD/YYYY'),
+        veteranDateSigned: formatDateShort(new Date()),
       },
       selectedDebtsAndCopays: [...selectedDebtsAndCopays],
       streamlined: streamlinedData,

@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/component-library/dist/main.css";
 
 /************************************/
@@ -178,7 +178,7 @@ button:not([disabled]):focus {
 
 .ratingMaxLabel {
   padding-left: 45px !important;
-  padding-right: 20px !important;
+  padding-right: 18px !important;
   text-align: right !important;
   width: 80px !important;
 }
@@ -282,4 +282,26 @@ button:not([disabled]):focus {
 /* powered by div */
 ._10o3Ogtkx0b1R7N7tOe-dr {
   padding-top: 80px !important
+}
+
+/* very specific styles to override inline styling for mhv and avs surveys */
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_intro > div > p > span > span > span {
+  color: var(--vads-color-base-darker) !important;
+}
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_crises > div > ul > li:nth-child(1) > span > span > span:nth-child(1) {
+  color: var(--vads-color-base-darker) !important;
+}
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_crises > div > ul > li:nth-child(1) > span > span > span:nth-child(3) > span > span {
+  color: var(--vads-color-base-darker) !important;
+}
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_crises > div > ul > li:nth-child(2) > span > span > span:nth-child(2) > span {
+  color: var(--vads-color-base-darker) !important;
+}
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_crises > div > ul > li:nth-child(3) > span > span > span > span {
+  color: var(--vads-color-base-darker) !important;
 }

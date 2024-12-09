@@ -10,72 +10,66 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
+  afterEach(() => {
+    FolderLoadPage.backToParentFolder();
+    PatientComposePage.clickDeleteDraftModalButton();
+  });
 
   it('focus on error message for no provider', () => {
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
-      force: true,
-    });
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('SELECT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.selectRecipient();
   });
 
   it('focus on error message for empty category', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.selectRecipient();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('INPUT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.selectCategory();
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
   });
 
   it('focus on error message for empty message subject', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('INPUT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.getMessageSubjectField().type(
-      Data.TEST_MESSAGE_SUBJECT,
-      { force: true },
-    );
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_MESSAGE_SUBJECT);
   });
 
   it('focus on error message for empty message body', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
       force: true,
     });
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('TEXTAREA');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
   });
 });

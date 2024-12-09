@@ -15,10 +15,6 @@
         "value": true
       },
       {
-        "name": "cst_use_claim_details_v2",
-        "value": false
-      },
-      {
         "name": "cst_claim_phases",
         "value": true
       },

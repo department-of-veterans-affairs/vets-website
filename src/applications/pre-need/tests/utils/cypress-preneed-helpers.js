@@ -164,7 +164,7 @@ function fillBenefitSelection(
     desiredCemetery,
   );
   cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-  cy.get('body').click();
+  cy.get('body').click({ force: true });
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
@@ -258,7 +258,10 @@ function submitForm() {
     .invoke('attr', 'data-location')
     .should('not.contain', '/review-and-submit');
 
-  cy.get('.confirmation-page-title').should('be.visible');
+  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
+    'contain',
+    'Your claim has been submitted.',
+  );
   cy.axeCheck();
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import FormQuestion from './FormQuestion';
 import sinon from 'sinon';
+import FormQuestion from './FormQuestion';
 
 let mockQuestion;
 let mockRecordStart;

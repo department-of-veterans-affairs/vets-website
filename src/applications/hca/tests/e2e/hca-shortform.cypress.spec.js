@@ -1,4 +1,5 @@
 import { getTime } from 'date-fns';
+import mockFacilities from 'applications/hca/tests/e2e/fixtures/mocks/mockFacilitiesV1.json';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
@@ -8,7 +9,7 @@ import minTestData from './fixtures/data/minimal-test.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
-  shortFormAdditionalHelpAssertion,
+  selectDropdownWebComponent,
   shortFormSelfDisclosureToSubmit,
 } from './utils';
 
@@ -46,6 +47,11 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
@@ -76,34 +82,16 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .click();
 
-    cy.findAllByText(/you can fill out a shorter application/i, {
-      selector: 'h3',
-    })
-      .first()
-      .should('exist');
-
-    cy.get('va-alert')
-      .contains(disabilityRating)
-      .should('exist');
-
     cy.injectAxe();
     cy.axeCheck();
 
     goToNextPage('/veteran-information/maiden-name-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/birth-sex');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/demographic-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/veteran-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
 
     goToNextPage('/veteran-information/veteran-home-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('#root_veteranHomeAddress_street').type(
       testData.veteranAddress.street,
     );
@@ -116,8 +104,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
 
     goToNextPage('/veteran-information/contact-information');
-    shortFormAdditionalHelpAssertion();
-
     cy.wait('@mockSip');
 
     // TERA response
@@ -126,27 +112,21 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     // medicaid
     goToNextPage('/insurance-information/medicaid');
-    shortFormAdditionalHelpAssertion();
-    cy.get('[type=radio]#root_isMedicaidEligibleNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isMedicaidEligibleNo').check('N');
 
-    // general insurance
+    // insurance policies
+    goToNextPage('/insurance-information/your-health-insurance');
     goToNextPage('/insurance-information/general');
-    shortFormAdditionalHelpAssertion();
-
-    cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isCoveredByHealthInsuranceNo').check('N');
 
     goToNextPage('/insurance-information/va-facility');
-    shortFormAdditionalHelpAssertion();
-    cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+    selectDropdownWebComponent(
+      'view:preferredFacility_view:facilityState',
       testData['view:preferredFacility']['view:facilityState'],
     );
-    cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+    cy.wait('@getFacilities');
+    selectDropdownWebComponent(
+      'view:preferredFacility_vaMedicalFacility',
       testData['view:preferredFacility'].vaMedicalFacility,
     );
 
@@ -190,6 +170,11 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
@@ -252,6 +237,11 @@ describe('HCA-Shortform-UnAuthenticated', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {

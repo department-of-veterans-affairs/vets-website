@@ -4,70 +4,63 @@ import { expect } from 'chai';
 
 import AuthProfileInformation from '../../../../components/VeteranInformation/AuthProfileInformation';
 
-describe('hca AuthProfileInformation', () => {
-  const getData = ({ dob = undefined }) => ({
+describe('hca <AuthProfileInformation>', () => {
+  const getData = ({ disabilityRating = 30, dob = undefined }) => ({
     props: {
       user: {
-        userFullName: { first: 'John', middle: null, last: 'Smith' },
-        dob,
+        veteranFullName: { first: 'John', middle: null, last: 'Smith' },
+        veteranDateOfBirth: dob,
+        totalDisabilityRating: disabilityRating,
       },
     },
   });
-
-  context('when the component renders', () => {
-    it('should render full name from the user profile', () => {
-      const { props } = getData({});
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-fullname"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('John Smith');
+  const subject = ({ props }) => {
+    const { container } = render(<AuthProfileInformation {...props} />);
+    const selectors = () => ({
+      alert: container.querySelector('va-alert-expandable'),
+      vetName: container.querySelector('[data-dd-action-name="Veteran name"]'),
+      vetDOB: container.querySelector('[data-dd-action-name="Date of birth"]'),
+      disabilityRating: container.querySelector(
+        '[data-dd-action-name="Disability rating"]',
+      ),
     });
-  });
+    return { selectors };
+  };
 
-  context('when date of birth is not in the profile data', () => {
+  it('should render full name from profile', () => {
     const { props } = getData({});
-
-    it('should only reference `name` in the opening paragraph', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-profile-intro"]',
-      );
-      expect(selector).to.contain.text(
-        'Here’s the name we have on file for you.',
-      );
-    });
-
-    it('should not render date of birth container', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-dob"]',
-      );
-      expect(selector).to.not.exist;
-    });
+    const { selectors } = subject({ props });
+    const { vetName } = selectors();
+    expect(vetName).to.exist;
+    expect(vetName).to.contain.text('John Smith');
   });
 
-  context('when date of birth is in the profile data', () => {
+  it('should render total disability rating from form data', () => {
+    const { props } = getData({});
+    const { selectors } = subject({ props });
+    const { alert, disabilityRating } = selectors();
+    expect(alert).to.not.exist;
+    expect(disabilityRating).to.exist;
+    expect(disabilityRating).to.contain.text('30%');
+  });
+
+  it('should render short form alert when disability rating meets the requirement', () => {
+    const { props } = getData({ disabilityRating: 80 });
+    const { selectors } = subject({ props });
+    expect(selectors().alert).to.exist;
+  });
+
+  it('should not render birthdate container when profile data omits date of birth value', () => {
+    const { props } = getData({});
+    const { selectors } = subject({ props });
+    expect(selectors().vetDOB).to.not.exist;
+  });
+
+  it('should render birthdate container when profile data contains date of birth value', () => {
     const { props } = getData({ dob: '1990-01-01' });
-
-    it('should reference `personal information` in the opening paragraph', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-profile-intro"]',
-      );
-      expect(selector).to.contain.text(
-        'This is the personal information we have on file for you.',
-      );
-    });
-
-    it('should render date of birth container', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-dob"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('January 01, 1990');
-    });
+    const { selectors } = subject({ props });
+    const { vetDOB } = selectors();
+    expect(vetDOB).to.exist;
+    expect(vetDOB).to.contain.text('January 01, 1990');
   });
 });

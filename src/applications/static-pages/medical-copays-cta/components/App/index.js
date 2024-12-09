@@ -9,11 +9,7 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
-export const App = ({ loggedIn, show, toggleLoginModal }) => {
-  if (!show) {
-    return null;
-  }
-
+export const App = ({ loggedIn, toggleLoginModal }) => {
   return (
     <va-alert status={loggedIn ? 'info' : 'continue'}>
       {/* Title */}
@@ -61,12 +57,10 @@ App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
   // From mapStateToProps.
   loggedIn: PropTypes.bool,
-  show: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  show: state?.featureToggles?.showMedicalCopays,
 });
 
 const mapDispatchToProps = dispatch => ({

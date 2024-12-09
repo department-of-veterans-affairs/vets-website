@@ -6,6 +6,8 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
+const buttonText = 'Sign in or create an account';
+
 const UnverifiedPrefillAlert = ({ toggle }) => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
     <div className="usa-alert-body">
@@ -28,13 +30,10 @@ const UnverifiedPrefillAlert = ({ toggle }) => (
           </li>
         </ul>
         <p>
-          <button
-            className="usa-button-primary"
-            type="button"
+          <va-button
+            text={buttonText}
             onClick={() => toggle(true, 'cta-form')}
-          >
-            Sign in or create an account
-          </button>
+          />
         </p>
       </div>
     </div>

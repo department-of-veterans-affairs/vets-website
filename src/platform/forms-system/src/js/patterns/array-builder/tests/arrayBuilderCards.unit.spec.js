@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
 import ArrayBuilderCards from '../ArrayBuilderCards';
+import { initGetText } from '../helpers';
 
 const mockRedux = ({
   review = false,
@@ -51,7 +52,14 @@ describe('ArrayBuilderCards', () => {
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
     const onRemove = sinon.spy();
-    let getText = key => key;
+    let getText = initGetText({
+      textOverrides: {
+        cardDescription: 'cardDescription',
+      },
+      nounPlural: 'employers',
+      nounSingular: 'employer',
+      getItemName: (item, index) => `getItemName ${index + 1}`,
+    });
     getText = sinon.spy(getText);
     const { mockStore } = mockRedux({
       formData: {
@@ -64,7 +72,7 @@ describe('ArrayBuilderCards', () => {
       <Provider store={mockStore}>
         <ArrayBuilderCards
           arrayPath="employers"
-          editItemPathUrl="edit"
+          getEditItemPathUrl={() => 'edit'}
           nounSingular="employer"
           onRemoveAll={onRemoveAll}
           onRemove={onRemove}
@@ -95,6 +103,7 @@ describe('ArrayBuilderCards', () => {
     expect(getByText('Edit')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
+    expect(getByText('getItemName 1')).to.exist;
   });
 
   it('should handle remove flow correctly', () => {

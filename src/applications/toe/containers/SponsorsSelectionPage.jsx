@@ -1,4 +1,4 @@
-import React, { /* useEffect, */ useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Formik } from 'formik';
@@ -26,7 +26,6 @@ function SponsorSelectionPage({
   setFormData,
   sponsors,
   updatePage,
-  showMebEnhancements08,
 }) {
   const [dirty, setDirty] = useState(false);
 
@@ -36,7 +35,6 @@ function SponsorSelectionPage({
 
   const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
     sponsors,
-    showMebEnhancements08,
   );
 
   const onValueChange = event => {
@@ -85,9 +83,13 @@ function SponsorSelectionPage({
             />
           ))}
         </VaCheckboxGroup>
-        <button className="vads-u-margin-y--2" type="submit">
-          Update page
-        </button>
+        <va-button
+          uswds
+          className="vads-u-margin-y--2"
+          type="submit"
+          text="Update page"
+          onClick={updatePage}
+        />
       </Form>
     </Formik>
   );
@@ -100,7 +102,6 @@ SponsorSelectionPage.propTypes = {
   formContext: PropTypes.object,
   formData: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements08: PropTypes.bool,
   sponsors: PropTypes.object,
   updatePage: PropTypes.func,
 };

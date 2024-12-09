@@ -263,7 +263,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ClinicChoicePageObject.assertUrl()
             .assertSingleClinic()
-            .selectRadioButton(/Yes. make my appointment here/i)
+            .selectClinic({ selection: /Yes. make my appointment here/i })
             .clickNextButton();
 
           PreferredDatePageObject.assertUrl()
@@ -271,12 +271,14 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeSelectPageObject.assertUrl()
-            .assertHeading({ name: /Choose a date and time/i })
+            .assertHeading({
+              name: /What date and time do you want for this appointment?/i,
+            })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .assertHeading({ name: /Tell us the reason for this appointment/i })
+            .assertHeading({ name: /What’s the reason for this appointment?/i })
             .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
@@ -342,7 +344,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
-            .selectRadioButton(/I need a different clinic/i)
+            .selectClinic({ selection: /I need a different clinic/i })
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl();
@@ -597,7 +599,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
-            .selectRadioButton(/I need a different clinic/i)
+            .selectClinic({ selection: /I need a different clinic/i })
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl();

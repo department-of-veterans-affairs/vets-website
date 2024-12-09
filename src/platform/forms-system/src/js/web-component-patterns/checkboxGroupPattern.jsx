@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import React from 'react';
 import { validateBooleanGroup } from '../validation';
 import VaCheckboxGroupField from '../web-component-fields/VaCheckboxGroupField';
 
@@ -121,6 +122,31 @@ export const checkboxGroupUI = ({
         }
       },
     ],
+    'ui:confirmationField': ({ formData }) => {
+      if (!formData) {
+        return null;
+      }
+      const selected = Object.entries(formData)
+        // eslint-disable-next-line no-unused-vars
+        .filter(([key, value]) => value)
+        .map(([key]) => labels[key]?.title || labels[key]);
+
+      let data = null;
+      if (selected.length === 1) {
+        [data] = selected;
+      } else if (selected.length > 1) {
+        data = (
+          <ul>
+            {selected.map((label, i) => (
+              <li key={i}>{label}</li>
+            ))}
+          </ul>
+        );
+      }
+      return {
+        data,
+      };
+    },
     'ui:options': {
       ...uiOptions,
     },

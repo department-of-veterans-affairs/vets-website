@@ -33,12 +33,7 @@ export function FileFieldCustom(props) {
   }
 
   function uploadsMissing(data) {
-    return (
-      hasReq(data.applicants, true, true) ||
-      hasReq(data.applicants, false, true) ||
-      hasReq(data, true, true) ||
-      hasReq(data, false, true)
-    );
+    return hasReq(data.applicants, true, true) || hasReq(data, true, true);
   }
 
   function customSet(data) {
@@ -63,8 +58,13 @@ export function FileFieldCustom(props) {
       if (uploadsMissing(props.contentAfterButtons.props.form.data)) {
         props.goToPath('/supporting-files');
       } else {
-        // Since we just uploaded the last file, bypass files overview page
-        props.goToPath('/review-and-submit');
+        // Since we just uploaded the last file, bypass files overview page.
+        // Optionally, jump to a predefined path. Otherwise, go to review page.
+        props.goToPath(
+          props.uploadsCompletePath
+            ? `/${props.uploadsCompletePath}`
+            : '/review-and-submit',
+        );
       }
     } else {
       props.goForward(args);
@@ -129,6 +129,7 @@ FileFieldCustom.propTypes = {
   trackingPrefix: PropTypes.string,
   uiSchema: PropTypes.object,
   updatePage: PropTypes.func,
+  uploadsCompletePath: PropTypes.string,
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };

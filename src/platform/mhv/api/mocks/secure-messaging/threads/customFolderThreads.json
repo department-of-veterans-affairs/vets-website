@@ -1,0 +1,32 @@
+{
+    "data": [
+      {
+        "id": "3004369",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3004369,
+          "folderId": 3624168,
+          "messageId": 3004387,
+          "body": "Testing 123",
+          "threadPageSize": 1,
+          "messageCount": 4,
+          "category": "TEST_RESULTS",
+          "subject": "Test Results",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "sentDate": "2023-09-07T13:35:55.000Z",
+          "draftDate": null,
+          "senderId": 2992380,
+          "senderName": "COSTELLO, ANNE  M",
+          "recipientName": "LEE, JAMIE ",
+          "recipientId": 2991831,
+          "proxySenderName": null,
+          "hasAttachment": true,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3004369"
+        }
+      }
+    ]
+  }

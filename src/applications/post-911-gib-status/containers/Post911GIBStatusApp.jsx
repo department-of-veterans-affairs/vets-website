@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import DowntimeNotification, {
-  externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import Main from './Main';
 
@@ -49,14 +46,9 @@ function Post911GIBStatusApp({ user, children }) {
       serviceRequired={backendServices.EVSS_CLAIMS}
       user={user}
     >
-      <DowntimeNotification
-        appTitle="Post-9/11 GI Bill benefits tracking tool"
-        dependencies={[externalServices.evss]}
-      >
-        <AppContent>
-          <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
-        </AppContent>
-      </DowntimeNotification>
+      <AppContent>
+        <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
+      </AppContent>
     </RequiredLoginView>
   );
 }

@@ -9,6 +9,33 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
+import { splitAddressLine } from '../helpers';
+
+const initializeAddressLine1 = formData => {
+  return formData?.addressLine1 !== undefined
+    ? splitAddressLine(formData?.addressLine1, 20).line1
+    : splitAddressLine(formData?.street?.trim(), 20).line1;
+};
+
+const initializeAddressLine2 = formData => {
+  const address1 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.addressLine1, 20).line2
+      : splitAddressLine(formData?.addressLine2, 20).line1;
+  const address2 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.street?.trim(), 20).line2
+      : splitAddressLine(formData?.street2?.trim(), 20).line1;
+
+  if (formData?.addressLine2 === undefined && address2 === '') {
+    return undefined;
+  }
+  return formData?.addressLine2 !== undefined ? address1 : address2;
+};
+
+const cleanZipCode = zipcode => {
+  return zipcode?.substring(0, 5);
+};
 
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
@@ -48,14 +75,14 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine1,
+        default: initializeAddressLine1(formData),
       },
       addressLine2: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine2,
+        default: initializeAddressLine2(formData),
       },
       addressLine3: {
         type: 'string',
@@ -82,23 +109,13 @@ export const getFormSchema = (formData = {}) => {
         enumNames: Object.values(ADDRESS_DATA.states),
         default: formData?.stateCode,
       },
-      province: {
-        type: 'string',
-        pattern: blockURLsRegEx,
-        default: formData?.province,
-      },
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
-        default: formData?.zipCode,
-      },
-      internationalPostalCode: {
-        type: 'string',
-        pattern: blockURLsRegEx,
-        default: formData?.internationalPostalCode,
+        default: cleanZipCode(formData?.zipCode),
       },
     },
-    required: ['countryCodeIso3', 'addressLine1', 'city'],
+    required: ['addressLine1', 'city'],
   };
 };
 
@@ -125,9 +142,8 @@ export const getUiSchema = () => {
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
-        required: 'Country is required',
+      'ui:options': {
+        inert: true,
       },
     },
     addressLine1: {
@@ -183,16 +199,6 @@ export const getUiSchema = () => {
       },
       'ui:webComponentField': VaSelectField,
     },
-    province: {
-      'ui:title': 'State/Province/Region',
-      'ui:autocomplete': 'address-level1',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'State/Province/Region is required',
-        pattern: `Please enter a valid state, province, or region`,
-      },
-      'ui:validations': [validateAsciiCharacters],
-    },
     zipCode: {
       'ui:title': 'Zip code',
       'ui:autocomplete': 'postal-code',
@@ -201,16 +207,6 @@ export const getUiSchema = () => {
         required: 'Zip code is required',
         pattern: 'Zip code must be 5 digits',
       },
-    },
-    internationalPostalCode: {
-      'ui:title': 'International postal code',
-      'ui:autocomplete': 'postal-code',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Postal code is required',
-        pattern: 'Please enter a valid postal code',
-      },
-      'ui:validations': [validateAsciiCharacters],
     },
   };
 };

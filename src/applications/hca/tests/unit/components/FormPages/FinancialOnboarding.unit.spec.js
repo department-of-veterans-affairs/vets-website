@@ -1,32 +1,24 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
 import FinancialOnboarding from '../../../../components/FormPages/FinancialOnboarding';
 
 describe('hca Financial Onboarding page', () => {
-  const getData = () => ({
-    props: { data: {}, goBack: () => {}, goForward: () => {} },
-  });
-
-  context('when the component renders', () => {
-    const { props } = getData();
-
-    it('should render with correct title', () => {
-      const { container } = render(<FinancialOnboarding {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-custom-page-title"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text(
-        'How we use your household financial information',
-      );
+  const subject = () => {
+    const props = { data: {}, goBack: () => {}, goForward: () => {} };
+    const { container } = render(<FinancialOnboarding {...props} />);
+    const selectors = () => ({
+      continueBtn: container.querySelector('.usa-button-primary'),
+      backBtn: container.querySelector('.usa-button-secondary'),
     });
+    return { container, selectors };
+  };
 
-    it('should render navigation buttons', () => {
-      const { container } = render(<FinancialOnboarding {...props} />);
-      expect(container.querySelector('.usa-button-primary')).to.exist;
-      expect(container.querySelector('.usa-button-secondary')).to.exist;
-    });
+  it('should render the page with content and navigation buttons', () => {
+    const { container, selectors } = subject();
+    const { continueBtn, backBtn } = selectors();
+    expect(container).to.not.be.empty;
+    expect(continueBtn).to.exist;
+    expect(backBtn).to.exist;
   });
 });

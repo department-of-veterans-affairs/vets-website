@@ -11,11 +11,14 @@ const ResolutionCommentsReview = ({ data }) => {
           Personal statement
         </h4>
       </div>
-      <div className="review">
+      <dl className="review">
         <div className="review-row" key="resolution-comments">
-          {additionalData?.additionalComments}
+          <dt className="sr-only">Additional comments</dt>
+          <dd className="vads-u-width--full vads-u-padding-left--0 vads-u-text-align--left vads-u-font-weight--normal">
+            {additionalData?.additionalComments}
+          </dd>
         </div>
-      </div>
+      </dl>
     </div>
   );
 };

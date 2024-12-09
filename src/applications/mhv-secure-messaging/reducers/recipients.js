@@ -34,7 +34,8 @@ export const recipientsReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        associatedTriageGroupsQty: associatedTriageGroups,
+        associatedTriageGroupsQty:
+          associatedTriageGroups === undefined ? null : associatedTriageGroups,
 
         associatedBlockedTriageGroupsQty: associatedBlockedTriageGroups,
 

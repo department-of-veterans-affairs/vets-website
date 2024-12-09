@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function IconWithInfo({ icon, children, present }) {
   if (!present) return null;
@@ -11,3 +12,8 @@ export default function IconWithInfo({ icon, children, present }) {
     </p>
   );
 }
+IconWithInfo.propTypes = {
+  children: PropTypes.node.isRequired,
+  icon: PropTypes.string.isRequired,
+  present: PropTypes.any,
+};

@@ -8,21 +8,18 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
 } from '../util/helpers';
-import ItemList from '../components/shared/ItemList';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -36,7 +33,6 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -54,8 +50,6 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       if (vaccineId) {
@@ -67,14 +61,6 @@ const VaccineDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vaccines',
-            label: 'Vaccines',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVaccineDetails());
       };
@@ -114,13 +100,12 @@ const VaccineDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
-Location: ${record.location}\n
-Provider notes: ${processList(record.notes)}\n`;
+Location: ${record.location}\n`;
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
@@ -165,7 +150,7 @@ Provider notes: ${processList(record.notes)}\n`;
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
-            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
               Location
             </h2>
             <p
@@ -175,14 +160,10 @@ Provider notes: ${processList(record.notes)}\n`;
             >
               {record.location}
             </p>
-            {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {/* <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
             <ItemList list={record.reactions} /> */}
-            <h2 className="vads-u-margin-top--2 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              Provider notes
-            </h2>
-            <ItemList list={record.notes} />
           </div>
         </>
       );

@@ -110,16 +110,6 @@ export const postItf = () => ({
 });
 
 /**
- * Get the toggle value within a given list of toggles and for a given a name
- * @param {object} toggles - feature toggles object, based on api response
- * @param {string} name - unique name for the toggle
- * @returns {boolean} true if the toggle is enabled, false otherwise
- */
-function getToggleValue(toggles, name) {
-  return toggles.data.features.find(item => item.name === name)?.value;
-}
-
-/**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
  * @param {object} testOptions - object with optional prefill data or toggles
@@ -236,6 +226,29 @@ function makeUnreleasedPageHooks(testOptions) {
   );
 }
 
+export const reviewAndSubmitPageFlow = (
+  signerName,
+  submitButtonText = 'Submit application',
+) => {
+  let veteranSignature = signerName;
+
+  if (typeof veteranSignature === 'object') {
+    const first = veteranSignature['view:first'];
+    const middle = veteranSignature['view:middle'];
+    const last = veteranSignature['view:last'];
+
+    veteranSignature = middle
+      ? `${first} ${middle} ${last}`
+      : `${first} ${last}`;
+  }
+
+  cy.fillVaTextInput('veteran-signature', veteranSignature);
+  cy.selectVaCheckbox('veteran-certify', true);
+  cy.findByText(submitButtonText, {
+    selector: 'button',
+  }).click();
+};
+
 export const pageHooks = (cy, testOptions = {}) => ({
   start: () => {
     // skip wizard
@@ -305,32 +318,52 @@ export const pageHooks = (cy, testOptions = {}) => ({
     });
   },
 
-  'new-disabilities-revised/add': () => {
+  'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        if (
-          getToggleValue(
-            testOptions.toggles,
-            'disability_526_improved_autosuggestions_add_disabilities_page',
-          ) !== true
-        ) {
-          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
-        }
+        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const input = '#inputField';
+        const option = '[role="option"]';
 
-        // if not first index
-        // click the add another condition button
+        // click add another if more than 1
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
+
+          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
         }
 
-        // click on input and enter data
-        // enterData() condition name into input
-        cy.get('#root_newDisabilities_0_condition')
+        // click on input and type search text
+        cy.get(comboBox)
           .shadow()
-          .find('#inputField')
+          .find(input)
           .type(disability.condition, { force: true });
-        // select the first option from the autosuggestions list
-        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+
+        // select the option based on loop index and then check that the value matches
+        if (index === 0) {
+          cy.get(option)
+            .first()
+            .click();
+
+          cy.get(comboBox)
+            .shadow()
+            .find(input)
+            .should('have.value', disability.condition);
+        } else {
+          cy.get(option)
+            .eq(1)
+            .invoke('text')
+            .then(selectedOption => {
+              cy.get(option)
+                .eq(1)
+                .click();
+
+              cy.get(comboBox)
+                .shadow()
+                .find(input)
+                .should('have.value', selectedOption);
+            });
+        }
+
         // click save
         cy.findByText(/save/i, { selector: 'button' }).click();
       });
@@ -360,5 +393,22 @@ export const pageHooks = (cy, testOptions = {}) => ({
       }
     });
   },
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
+  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
+  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
+  // locally. this will be uncommented when we launch. note for the e2e test to run properly, the
+  // "view:userFullName" object must also be added to the json fixture. see
+  // tests/fixtures/data/minimal-test.json for an example
+  // 'review-and-submit': ({ afterHook }) => {
+  //   afterHook(() => {
+  //     cy.get('@testData').then(data => {
+  //       // if (environment.isLocalhost()) {
+  //       const fullName = data['view:userFullName'];
+
+  //       reviewAndSubmitPageFlow(fullName);
+  //       // }
+  //     });
+  //   });
+  // },
   ...makeUnreleasedPageHooks(testOptions),
 });

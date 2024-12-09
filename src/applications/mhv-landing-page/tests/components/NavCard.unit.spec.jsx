@@ -96,4 +96,20 @@ describe('NavCard component', () => {
       expect(linkElement.text).to.include(externalLinkText);
     });
   });
+
+  describe('renders other properties', () => {
+    it('introduction and tag', () => {
+      const intructionText = 'This is my introduction.';
+      const tagText = 'NEW';
+      const { getByText, getAllByText } = render(
+        <NavCard
+          title="Card title"
+          introduction={intructionText}
+          tag={tagText}
+        />,
+      );
+      expect(getByText(intructionText)).to.exist;
+      expect(getAllByText(tagText)).to.exist;
+    });
+  });
 });

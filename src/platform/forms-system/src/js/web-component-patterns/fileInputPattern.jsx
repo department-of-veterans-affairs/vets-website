@@ -89,7 +89,15 @@ export const fileInputUI = stringOrOptions => {
     'ui:webComponentField': VaFileInputField,
     'ui:reviewField': reviewField,
     'ui:hidden': hidden,
-    'ui:validations': [filePresenceValidation],
+    'ui:validations': [
+      (errors, data, formData, schema, errMessages) => {
+        const isRequired =
+          typeof required === 'function' ? required(formData) : required;
+        if (isRequired) {
+          filePresenceValidation(errors, data, formData, schema, errMessages);
+        }
+      },
+    ],
     'ui:options': {
       ...uiOptions,
     },

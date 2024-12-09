@@ -15,7 +15,6 @@ import {
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
-  teraInformationEnabled,
   teraUploadEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
@@ -28,6 +27,10 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  canVeteranProvideRadiationCleanupResponse,
+  canVeteranProvideGulfWarResponse,
+  canVeteranProvideCombatOperationsResponse,
+  canVeteranProvideAgentOrangeResponse,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -224,21 +227,20 @@ const formConfig = {
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
-          depends: teraInformationEnabled,
           uiSchema: toxicExposure.uiSchema,
           schema: toxicExposure.schema,
         },
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideRadiationCleanupResponse,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
           title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideGulfWarResponse,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
@@ -252,14 +254,14 @@ const formConfig = {
         combatOperationService: {
           path: 'military-service/operation-support',
           title: 'Operations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideCombatOperationsResponse,
           uiSchema: combatOperationService.uiSchema,
           schema: combatOperationService.schema,
         },
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideAgentOrangeResponse,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },

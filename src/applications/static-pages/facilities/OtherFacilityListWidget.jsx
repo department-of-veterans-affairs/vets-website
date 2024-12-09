@@ -66,7 +66,7 @@ export default class OtherFacilityListWidget extends React.Component {
         return (
           <div
             key={facility.id}
-            className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
+            className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 mobile-lg:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
           >
             <section key={facility.id} className="usa-width-one-half">
               <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">

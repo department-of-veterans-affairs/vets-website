@@ -13,6 +13,7 @@ import {
   fillDependentBasicInformation,
   fillSpousalBasicInformation,
 } from './utils';
+import mockFacilities from './fixtures/mocks/mockFacilitiesV1.json';
 
 const { data: testData } = maxTestData;
 
@@ -47,6 +48,11 @@ describe('HCA-Household-Non-Disclosure', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works without sharing household information', () => {
@@ -192,6 +198,11 @@ describe('HCA-Household-Spousal-Disclosure', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with spouse who lived with Veteran', () => {
@@ -410,6 +421,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with dependent who is of college age, lived with Veteran and did not earn income', () => {
@@ -1084,6 +1100,11 @@ describe('HCA-Household-Full-Disclosure', () => {
         timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with full spousal and dependent information', () => {

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import useFormState from '../../../hooks/useFormState';
 import { getSiteIdFromFacilityId } from '../../../services/location';
 import { getClinicId } from '../../../services/healthcare-service';
@@ -26,13 +27,8 @@ const initialSchema = {
     },
   },
 };
-const uiSchema = {
-  clinicId: {
-    'ui:widget': 'radio',
-  },
-};
 
-export default function useClinicFormState() {
+export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
 
@@ -46,60 +42,72 @@ export default function useClinicFormState() {
     selectFeatureVAOSServiceVAAppointments(state),
   );
 
+  let filteredClinics = clinics;
+
+  // filter the clinics based on Direct Scheduling value from VATS
+  // v2 uses boolean while v0 uses Y/N string
+  if (featureClinicFilter) {
+    if (useV2) {
+      filteredClinics = clinics.filter(
+        clinic => clinic.patientDirectScheduling === true,
+      );
+    } else {
+      // v0 is pre-filtered; don't need this this line
+      filteredClinics = clinics.filter(
+        clinic => clinic.patientDirectScheduling === 'Y',
+      );
+    }
+  }
+
+  // Past appointment history check
+  // primary care and mental health are exempt
+  // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
+  const isCheckTypeOfCare = featureClinicFilter
+    ? initialData.typeOfCareId !== MENTAL_HEALTH &&
+      initialData.typeOfCareId !== PRIMARY_CARE &&
+      location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+        ?.patientHistoryRequired === true
+    : !!pastAppointments;
+  if (isCheckTypeOfCare) {
+    const pastAppointmentDateMap = new Map();
+    const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
+
+    pastAppointments.forEach(appt => {
+      const apptTime = appt.version === 2 ? appt.start : appt.startDate;
+      const clinicId =
+        appt.version === 2 ? appt.location.clinicId : appt.clinicId;
+      const facilityId =
+        appt.version === 2 ? appt.location.vistaId : appt.facilityId;
+      const latestApptTime = pastAppointmentDateMap.get(clinicId);
+      if (
+        // Remove parse function when converting the past appointment call to FHIR service
+        facilityId === siteId &&
+        (!latestApptTime || latestApptTime > apptTime)
+      ) {
+        pastAppointmentDateMap.set(clinicId, apptTime);
+      }
+    });
+    // filter clinic where past appts contains clinicId
+    filteredClinics = filteredClinics.filter(clinic =>
+      pastAppointmentDateMap.has(getClinicId(clinic)),
+    );
+  }
+
+  const uiSchema = {
+    clinicId: {
+      'ui:widget': 'radio', // Required
+      'ui:webComponentField': VaRadioField,
+      'ui:options': {
+        classNames: 'vads-u-margin-top--neg2',
+        showFieldLabel: false,
+        ...(filteredClinics.length > 1 && { labelHeaderLevel: '1' }),
+      },
+    },
+  };
+
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
-
-      let filteredClinics = clinics;
-
-      // filter the clinics based on Direct Scheduling value from VATS
-      // v2 uses boolean while v0 uses Y/N string
-      if (featureClinicFilter) {
-        if (useV2) {
-          filteredClinics = clinics.filter(
-            clinic => clinic.patientDirectScheduling === true,
-          );
-        } else {
-          // v0 is pre-filtered; don't need this this line
-          filteredClinics = clinics.filter(
-            clinic => clinic.patientDirectScheduling === 'Y',
-          );
-        }
-      }
-
-      // Past appointment history check
-      // primary care and mental health are exempt
-      // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
-      const isCheckTypeOfCare = featureClinicFilter
-        ? initialData.typeOfCareId !== MENTAL_HEALTH &&
-          initialData.typeOfCareId !== PRIMARY_CARE &&
-          location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-            ?.patientHistoryRequired === true
-        : !!pastAppointments;
-      if (isCheckTypeOfCare) {
-        const pastAppointmentDateMap = new Map();
-        const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
-
-        pastAppointments.forEach(appt => {
-          const apptTime = appt.version === 2 ? appt.start : appt.startDate;
-          const clinicId =
-            appt.version === 2 ? appt.location.clinicId : appt.clinicId;
-          const facilityId =
-            appt.version === 2 ? appt.location.vistaId : appt.facilityId;
-          const latestApptTime = pastAppointmentDateMap.get(clinicId);
-          if (
-            // Remove parse function when converting the past appointment call to FHIR service
-            facilityId === siteId &&
-            (!latestApptTime || latestApptTime > apptTime)
-          ) {
-            pastAppointmentDateMap.set(clinicId, apptTime);
-          }
-        });
-        // filter clinic where past appts contains clinicId
-        filteredClinics = filteredClinics.filter(clinic =>
-          pastAppointmentDateMap.has(getClinicId(clinic)),
-        );
-      }
 
       if (filteredClinics.length === 1) {
         const clinic = filteredClinics[0];
@@ -125,8 +133,7 @@ export default function useClinicFormState() {
           properties: {
             clinicId: {
               type: 'string',
-              title:
-                'Choose a clinic below or request a different clinic for this appointment.',
+              title: pageTitle,
               enum: filteredClinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: filteredClinics
                 .map(clinic => clinic.serviceName)

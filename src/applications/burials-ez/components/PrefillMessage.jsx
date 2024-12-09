@@ -6,12 +6,7 @@ export default function PrefillMessage() {
   const loggedIn = useSelector(isLoggedIn);
   return loggedIn ? (
     <>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="info"
-        uswds
-        visible
-      >
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <p className="vads-u-margin-y--0">
           We’ve prefilled some of your information from your account. If you
           need to correct anything, you can edit the form fields below.

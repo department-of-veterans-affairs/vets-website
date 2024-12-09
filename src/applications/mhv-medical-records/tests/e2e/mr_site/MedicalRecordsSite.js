@@ -1,88 +1,55 @@
 import mockUser from '../fixtures/user.json';
-import mockNonMRuser from '../fixtures/non_mr_user.json';
+import vamc from '../fixtures/facilities/vamc-ehr.json';
+
+// import mockNonMRuser from '../fixtures/non_mr_user.json';
+// import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
-  login = (isMRUser = true) => {
-    if (isMRUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'mhvMedicalRecordsPhrRefreshOnLogin',
-              value: false,
-            },
-            {
-              name: 'mhv_medical_records_phr_refresh_on_login',
-              value: false,
-            },
-            {
-              name: 'mhvMedicalRecordsToVAGovRelease',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_to_va_gov_release',
-              value: true,
-            },
-            {
-              name: 'mhvMedicalRecordsDisplayDomains',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_domains',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_allow_txt_downloads',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_vaccines',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_notes',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_conditions',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_vitals',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_labs_and_tests',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_settings_page',
-              value: true,
-            },
-            {
-              name: 'mhvMedicalRecordsDisplaySidenav',
-              value: true,
-            },
-            {
-              name: 'mhv_medical_records_display_sidenav',
-              value: true,
-            },
-          ],
-        },
-      }).as('featureToggle');
-      return;
+  login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
+    if (useDefaultFeatureToggles) {
+      this.mockFeatureToggles();
     }
-    cy.login();
-    window.localStorage.setItem('isLoggedIn', true);
-    cy.intercept('GET', '/v0/user', mockNonMRuser).as('mockNonMRUser');
+    this.mockVamcEhr();
+    this.mockMaintenanceWindow();
+    cy.login(userFixture);
+    // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+    // window.localStorage.setItem('isLoggedIn', true);
+    // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+  };
+
+  mockFeatureToggles = ({
+    isAcceleratingEnabled = false,
+    isAcceleratingAllergies = false,
+    isAcceleratingVitals = false,
+  } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [
+          {
+            name: 'mhv_integration_medical_records_to_phase_1',
+            value: true,
+          },
+          {
+            name: 'mhv_accelerated_delivery_enabled',
+            value: isAcceleratingEnabled,
+          },
+          {
+            name: 'mhv_accelerated_delivery_allergies_enabled',
+            value: isAcceleratingAllergies,
+          },
+          {
+            name: 'mhv_accelerated_delivery_vital_signs_enabled',
+            value: isAcceleratingVitals,
+          },
+          {
+            name: 'mhvMedicalRecordsPhrRefreshOnLogin',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_phr_refresh_on_login',
+            value: false,
+          },
           {
             name: 'mhvMedicalRecordsToVAGovRelease',
             value: true,
@@ -107,9 +74,45 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_display_vaccines',
             value: true,
           },
+          {
+            name: 'mhv_medical_records_display_notes',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_display_conditions',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_display_vitals',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_display_labs_and_tests',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_display_settings_page',
+            value: true,
+          },
+          {
+            name: 'mhvMedicalRecordsDisplaySidenav',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_display_sidenav',
+            value: true,
+          },
         ],
       },
-    }).as('featureToggle');
+    }).as('featureToggles');
+  };
+
+  mockVamcEhr = () => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamc).as('vamcEhr');
+  };
+
+  mockMaintenanceWindow = () => {
+    cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
@@ -166,12 +169,7 @@ class MedicalRecordsSite {
     });
   };
 
-  loadPageUnauthenticated = () => {
-    cy.visit('my-health/medical-records');
-    cy.wait('@mockNonMRUser');
-  };
-
-  loadPageAuthenticated = () => {
+  loadPage = () => {
     cy.visit('my-health/medical-records');
     cy.wait('@mockUser');
   };

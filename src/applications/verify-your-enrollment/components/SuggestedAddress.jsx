@@ -14,6 +14,7 @@ import {
   addressLabel,
   noSuggestedAddress,
   prepareAddressData,
+  removeCommas,
 } from '../helpers';
 
 const SuggestedAddress = ({
@@ -44,14 +45,11 @@ const SuggestedAddress = ({
     handleAddNewClick(event);
     setGoBackToEdit(true);
   };
-  const isUSA = chooseAddress
-    ? formData.countryCodeIso3 === 'USA'
-    : address.countryCodeIso3 === 'USA';
   const source = chooseAddress ? formData : address;
 
   const stateAndZip = {
-    stateCode: isUSA ? source.stateCode : source.province,
-    zipCode: isUSA ? source.zipCode : source.internationalPostalCode,
+    stateCode: source.stateCode,
+    zipCode: source.zipCode,
   };
   const handleChange = event => {
     setChooseAddress(event.target.value);
@@ -79,17 +77,16 @@ const SuggestedAddress = ({
       }
     } else {
       try {
-        await dispatch(
-          postMailingAddress({
-            veteranName: applicantName,
-            address1: formData.addressLine1,
-            address2: formData.addressLine2,
-            address3: formData.addressLine3,
-            address4: formData.addressLine4,
-            city: formData.city,
-            ...addressState,
-          }),
-        );
+        const enteredAddress = {
+          veteranName: applicantName,
+          address1: formData.addressLine1,
+          address2: formData.addressLine2,
+          address3: formData.addressLine3,
+          address4: formData.addressLine4,
+          city: formData.city,
+          ...addressState,
+        };
+        await dispatch(postMailingAddress(removeCommas(enteredAddress)));
         setAddressToUI({
           street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
           city: formData.city,
@@ -116,7 +113,7 @@ const SuggestedAddress = ({
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
-          formData={formData}
+          formData={removeCommas(formData)}
           setChooseAddress={setChooseAddress}
         />
       </div>
@@ -143,7 +140,7 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {addressLabel(formData)}
+              {addressLabel(removeCommas(formData))}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">

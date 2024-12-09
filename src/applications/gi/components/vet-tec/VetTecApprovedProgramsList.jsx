@@ -149,6 +149,7 @@ class VetTecApprovedProgramsList extends React.Component {
       if (viewAll) {
         return (
           <div>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               type="button"
               className="va-button-link learn-more-button"
@@ -167,6 +168,7 @@ class VetTecApprovedProgramsList extends React.Component {
 
       return (
         <div>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <button
             type="button"
             className="va-button-link learn-more-button"
@@ -180,6 +182,7 @@ class VetTecApprovedProgramsList extends React.Component {
             />
           </button>
           <span className="vads-u-padding--2">|</span>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <button
             type="button"
             className="va-button-link learn-more-button"

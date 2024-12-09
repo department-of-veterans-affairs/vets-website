@@ -25,26 +25,27 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import mockData from '../tests/e2e/fixtures/data/default.json';
+import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
   employersDatesPage,
   employersIntroPage,
+  employersOptionalPage,
   employersOptions,
   employersPageNameAndAddressPage,
   employersSummaryPage,
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
-const chapterSelectInitialData = {
+const initialData = {
   chapterSelect: {
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
     arraySinglePage: true,
     checkbox: true,
-    confirmationPageNew: false,
     date: true,
     formsPattern: true,
     miscellaneous: true,
@@ -55,8 +56,18 @@ const chapterSelectInitialData = {
   },
 };
 
+// Prefill entire form with data:
+// Helpful for testing confirmation page
+if (
+  (environment.isLocalhost() || environment.isDev()) &&
+  !environment.isTest()
+) {
+  Object.assign(initialData, mockData.data);
+  Object.assign(initialData, mockArrayBuilderData.data);
+}
+
 function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
+  return formData => formData?.chapterSelect?.[page];
 }
 
 /** @type {FormConfig} */
@@ -91,7 +102,7 @@ const formConfig = {
           title: 'Chapter Select',
           path: 'chapter-select',
           ...chapterSelect,
-          initialData: chapterSelectInitialData,
+          initialData,
         },
       },
     },
@@ -350,21 +361,19 @@ const formConfig = {
             schema: employersDatesPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
+          multiPageBuilderOptional: pageBuilder.itemPage({
+            title: 'Optional page',
+            path: 'array-multiple-page-builder/:index/optional',
+            uiSchema: employersOptionalPage.uiSchema,
+            schema: employersOptionalPage.schema,
+            depends: (formData, index) => {
+              return (
+                includeChapter('arrayMultiPageBuilder') &&
+                formData?.employers?.[index]?.address?.state === 'CA'
+              );
+            },
+          }),
         })),
-      },
-    },
-    staticPages: {
-      title: 'Static Pages',
-      pages: {
-        confirmationPageNew: {
-          path: 'confirmation-page-new',
-          title: 'New Confirmation Page',
-          CustomPage: NewConfirmationPage,
-          uiSchema: mockCustomPage.uiSchema,
-          schema: mockCustomPage.schema,
-          pageKey: 'confirmation-page-new',
-          depends: () => false,
-        },
       },
     },
   },

@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import UpcomingAppointmentsListItem from '../UpcomingAppointmentsListItem';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const appointments = [
   {
@@ -66,10 +67,7 @@ const appointments = [
 ];
 
 const mockRouter = {
-  location: {
-    basename: 'https://localhost:3001/health-care/appointment-check-in',
-  },
-  currentPage: '/health-care/appointment-check-in',
+  currentPage: '/appointments',
 };
 
 describe('unified check-in experience', () => {
@@ -88,6 +86,7 @@ describe('unified check-in experience', () => {
             appointment={appointments[0]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -115,6 +114,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -130,6 +130,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -143,6 +144,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -155,6 +157,7 @@ describe('unified check-in experience', () => {
             appointment={appointments[1]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -169,10 +172,79 @@ describe('unified check-in experience', () => {
             appointment={appointments[4]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
       expect(screen.getByTestId('appointment-details-cancelled')).to.exist;
+    });
+    it('renders as a list item when more than one', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            router={mockRouter}
+            count={5}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByRole('listitem')).to.exist;
+    });
+    it('does not render as a list item when only one', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            router={mockRouter}
+            count={1}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByRole('listitem')).to.not.exist;
+    });
+    it('should render an action link on day-of appointments page', () => {
+      const screen = render(
+        <CheckInProvider router={mockRouter}>
+          <UpcomingAppointmentsListItem
+            app={APP_NAMES.CHECK_IN}
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            count={1}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('appointment-action')).to.exist;
+    });
+    it('should not render an action link on pre-check-in appointments page', () => {
+      const screen = render(
+        <CheckInProvider router={mockRouter}>
+          <UpcomingAppointmentsListItem
+            app={APP_NAMES.PRE_CHECK_IN}
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            count={1}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByTestId('appointment-action')).to.not.exist;
+    });
+    it('should not render an action link on upcoming appointments page', () => {
+      const upcomingRouter = {
+        currentPage: '/upcoming-appointments',
+      };
+      const screen = render(
+        <CheckInProvider router={upcomingRouter}>
+          <UpcomingAppointmentsListItem
+            app={APP_NAMES.CHECK_IN}
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            count={1}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByTestId('appointment-action')).to.not.exist;
     });
   });
 });

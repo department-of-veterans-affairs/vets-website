@@ -8,9 +8,10 @@ import YesNoReviewField from './components/YesNoReviewField';
 import { formFields } from './constants';
 import { titleCase } from './helpers';
 import { validateHomePhone, validateMobilePhone } from './utils/validation';
+import CustomPhoneNumberField from './components/CustomPhoneNumberField';
 
 export function phoneUISchema(category) {
-  return {
+  const schema = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -45,6 +46,13 @@ export function phoneUISchema(category) {
       },
     },
   };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
 }
 
 export function phoneSchema() {

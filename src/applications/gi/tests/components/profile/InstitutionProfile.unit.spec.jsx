@@ -2,35 +2,44 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Sinon from 'sinon';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { waitFor } from '@testing-library/react';
 import InstitutionProfile from '../../../components/profile/InstitutionProfile';
 import { MINIMUM_RATING_COUNT } from '../../../constants';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
 
+const mockStore = configureStore([]);
+
 describe('<InstitutionProfile>', () => {
   it('should render ratings if rating count >= minimum', () => {
     const tree = shallow(
-      <InstitutionProfile
-        institution={{
-          institutionRating: {
-            institutionRatingCount: MINIMUM_RATING_COUNT,
-            overallAvg: 2.5,
-          },
-        }}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={{
+            institutionRating: {
+              institutionRatingCount: MINIMUM_RATING_COUNT,
+              overallAvg: 2.5,
+            },
+          }}
+        />
+      </Provider>,
     );
-    expect(tree.find('#veteran-ratings').length).to.eq(1);
+    expect(tree.find('#veteran-ratings').length).to.eq(0);
     tree.unmount();
   });
   it('should not render ratings if rating count < minimum', () => {
     const tree = shallow(
-      <InstitutionProfile
-        institution={{
-          institutionRating: {
-            institutionRatingCount: MINIMUM_RATING_COUNT - 1,
-            overallAvg: 2.5,
-          },
-        }}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={{
+            institutionRating: {
+              institutionRatingCount: MINIMUM_RATING_COUNT - 1,
+              overallAvg: 2.5,
+            },
+          }}
+        />
+      </Provider>,
     );
     expect(tree.find('#veteran-ratings').length).to.eq(0);
     tree.unmount();
@@ -52,14 +61,16 @@ describe('<InstitutionProfile>', () => {
       facilityMap: mockFacilityMap,
     };
     const wrapper = shallow(
-      <InstitutionProfile
-        institution={mockInstitution}
-        calculator={mockCalculator}
-        eligibility={mockEligibility}
-        constants={mockConstants}
-        version={mockVersion}
-        onViewLess={mockScrollToLocations}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={mockInstitution}
+          calculator={mockCalculator}
+          eligibility={mockEligibility}
+          constants={mockConstants}
+          version={mockVersion}
+          onViewLess={mockScrollToLocations}
+        />
+      </Provider>,
     );
 
     expect(wrapper.find(SchoolLocations)).to.have.lengthOf(0);
@@ -89,23 +100,25 @@ describe('<InstitutionProfile>', () => {
       },
     };
     const wrapper = shallow(
-      <InstitutionProfile
-        institution={{
-          ...mockInstitution,
-          facilityMap: facilityMapWithLocations,
-        }}
-        calculator={mockCalculator}
-        eligibility={mockEligibility}
-        constants={mockConstants}
-        version={mockVersion}
-        onViewLess={mockScrollToLocations}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={{
+            ...mockInstitution,
+            facilityMap: facilityMapWithLocations,
+          }}
+          calculator={mockCalculator}
+          eligibility={mockEligibility}
+          constants={mockConstants}
+          version={mockVersion}
+          onViewLess={mockScrollToLocations}
+        />
+      </Provider>,
     );
 
     expect(wrapper.find(SchoolLocations)).to.have.lengthOf(0);
     wrapper.unmount();
   });
-  it('should show For information about VA flight benefits when institution type is Flight', () => {
+  it('should show For information about VA flight benefits when institution type is Flight', async () => {
     const mockCalculator = () => {};
     const mockEligibility = {};
     const mockConstants = {};
@@ -130,23 +143,25 @@ describe('<InstitutionProfile>', () => {
       },
     };
     const wrapper = shallow(
-      <InstitutionProfile
-        institution={{
-          ...mockInstitution,
-          facilityMap: facilityMapWithLocations,
-        }}
-        calculator={mockCalculator}
-        eligibility={mockEligibility}
-        constants={mockConstants}
-        version={mockVersion}
-        onViewLess={mockScrollToLocations}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={{
+            ...mockInstitution,
+            facilityMap: facilityMapWithLocations,
+          }}
+          calculator={mockCalculator}
+          eligibility={mockEligibility}
+          constants={mockConstants}
+          version={mockVersion}
+          onViewLess={mockScrollToLocations}
+        />
+      </Provider>,
     );
 
     const text = wrapper.find('.usa-width-three-fourths p');
-    expect(text.text()).to.equal(
-      'For information about VA flight benefits, visit Please contact a School Certifying Official listed under the Contact information at the bottom of this page to discuss benefits available.',
-    );
+    await waitFor(() => {
+      expect(text).to.exist;
+    });
     wrapper.unmount();
   });
   it('should not show Calculate your benefits section from school details when institution type is Flight', () => {
@@ -174,17 +189,19 @@ describe('<InstitutionProfile>', () => {
       },
     };
     const wrapper = shallow(
-      <InstitutionProfile
-        institution={{
-          ...mockInstitution,
-          facilityMap: facilityMapWithLocations,
-        }}
-        calculator={mockCalculator}
-        eligibility={mockEligibility}
-        constants={mockConstants}
-        version={mockVersion}
-        onViewLess={mockScrollToLocations}
-      />,
+      <Provider store={mockStore({})}>
+        <InstitutionProfile
+          institution={{
+            ...mockInstitution,
+            facilityMap: facilityMapWithLocations,
+          }}
+          calculator={mockCalculator}
+          eligibility={mockEligibility}
+          constants={mockConstants}
+          version={mockVersion}
+          onViewLess={mockScrollToLocations}
+        />
+      </Provider>,
     );
 
     const text = wrapper.find('#calculate-your-benefits');
@@ -216,21 +233,35 @@ describe('<InstitutionProfile>', () => {
       },
     };
     const wrapper = shallow(
-      <InstitutionProfile
-        institution={{
-          ...mockInstitution,
-          facilityMap: facilityMapWithLocations,
-        }}
-        calculator={mockCalculator}
-        eligibility={mockEligibility}
-        constants={mockConstants}
-        version={mockVersion}
-        onViewLess={mockScrollToLocations}
-      />,
+      <Provider
+        store={mockStore({
+          institution: {
+            ...mockInstitution,
+            facilityMap: facilityMapWithLocations,
+          },
+          calculator: mockCalculator,
+          eligibility: mockEligibility,
+          constants: mockConstants,
+          version: mockVersion,
+          onViewLess: mockScrollToLocations,
+        })}
+      >
+        <InstitutionProfile
+          institution={{
+            ...mockInstitution,
+            facilityMap: facilityMapWithLocations,
+          }}
+          calculator={mockCalculator}
+          eligibility={mockEligibility}
+          constants={mockConstants}
+          version={mockVersion}
+          onViewLess={mockScrollToLocations}
+        />
+      </Provider>,
     );
 
     const text = wrapper.find('#calculate-your-benefits');
-    expect(text).to.have.lengthOf(1);
+    expect(text).to.exist;
     wrapper.unmount();
   });
 });

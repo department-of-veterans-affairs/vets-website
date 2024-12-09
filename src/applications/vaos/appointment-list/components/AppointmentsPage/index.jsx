@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
@@ -28,6 +28,10 @@ import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
+import ReferralTaskCard from '../../../referral-appointments/components/ReferralTaskCard';
+import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { routeToCCPage } from '../../../referral-appointments/flow';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -45,9 +49,12 @@ renderWarningNotification.propTypes = {
 };
 
 export default function AppointmentsPage() {
+  const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
+  const [referral, setReferral] = useState();
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
@@ -62,6 +69,30 @@ export default function AppointmentsPage() {
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
+
+  useEffect(
+    () => {
+      if (!featureCCDirectScheduling || !location?.search) {
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      if (!id) {
+        return;
+      }
+      // TODO: Get referral data from redux
+      const referralFromId = createReferral('2024-09-09', id);
+      setReferral(referralFromId);
+    },
+    [location, featureCCDirectScheduling],
+  );
+
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('appointments'));
+    },
+    [location, dispatch],
+  );
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -121,11 +152,16 @@ export default function AppointmentsPage() {
     [pendingAppointments],
   );
 
+  const handleCCLinkClick = e => {
+    e.preventDefault();
+    routeToCCPage(history, 'referralsAndRequests');
+  };
+
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
         className={classNames(
-          `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
+          `mobile:vads-u-margin-bottom--3 small-screen:${
             isPast || isPending
               ? 'vads-u-margin-bottom--3'
               : 'vads-u-margin-bottom--4'
@@ -152,13 +188,36 @@ export default function AppointmentsPage() {
       <ScheduleNewAppointment />
       {featureCCDirectScheduling && (
         <div>
-          <ReferralAppLink
-            linkText="Review and manage your appointment notifications"
-            linkPath="/appointment-notifications"
+          <ReferralAppLink linkText="Review and manage your appointment notifications" />
+        </div>
+      )}
+      {featureCCDirectScheduling && <ReferralTaskCard data={referral} />}
+      {featureCCDirectScheduling && (
+        <div
+          className={classNames(
+            'vads-u-padding-y--3',
+            'vads-u-margin-bottom--3',
+            'vads-u-margin-top--1',
+            'vads-u-border-top--1px',
+            'vads-u-border-color--info-light',
+            'vads-u-border-bottom--1px',
+            'vads-u-border-color--info-light',
+          )}
+        >
+          <va-link
+            calendar
+            href="/my-health/appointments/referrals-requests"
+            text="Review requests and referrals"
+            data-testid="review-requests-and-referrals"
+            onClick={handleCCLinkClick}
           />
         </div>
       )}
-      <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
+      <AppointmentListNavigation
+        hidePendingTab={featureCCDirectScheduling}
+        count={count}
+        callback={setHasTypeChanged}
+      />
       <Switch>
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />

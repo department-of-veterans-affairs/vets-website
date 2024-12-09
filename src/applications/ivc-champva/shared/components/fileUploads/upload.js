@@ -73,6 +73,10 @@ export const fileUploadUi = content => {
           'ui:title': 'Document name',
         }
       : false,
+    //   ? {
+    //       'ui:title': 'Document name',
+    //     }
+    //   : false,
     uswds: true,
   });
 };

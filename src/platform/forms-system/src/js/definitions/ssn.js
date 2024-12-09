@@ -7,7 +7,7 @@ const uiSchema = {
   'ui:reviewWidget': SSNReviewWidget,
   'ui:title': 'Social Security number',
   'ui:options': {
-    widgetClassNames: 'usa-input-medium',
+    widgetClassNames: 'usa-input-medium masked-ssn',
   },
   'ui:validations': [validateSSN],
   'ui:errorMessages': {

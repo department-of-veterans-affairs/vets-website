@@ -1,0 +1,23 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "address": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "idNumber": { "ssn": "234232345", "vaFileNumber": "456454567" },
+    "uploadedFile": {
+      "confirmationCode": "03d52b41-bc92-4830-beda-dfc3c2669af4",
+      "name": "Mock File",
+      "size": 161111,
+      "isEncrypted": true,
+      "warnings": []
+    }
+  }
+}

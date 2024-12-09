@@ -18,11 +18,14 @@ describe('RouteLeavingGuard component', () => {
     },
   };
 
-  const cancelButtonText =
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft;
+  const {
+    cancelButtonText,
+    confirmButtonText,
+  } = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
+
   const initialProps = {
     cancelButtonText,
-    confirmButtonText: 'confirm',
+    confirmButtonText,
     modalVisible: false,
     navigate: () => {},
     p1: 'p1',
@@ -33,6 +36,7 @@ describe('RouteLeavingGuard component', () => {
     updateModalVisible: () => {},
     when: true,
   };
+
   const setup = (props = initialProps) => {
     return renderWithStoreAndRouter(
       <>
@@ -46,6 +50,7 @@ describe('RouteLeavingGuard component', () => {
       },
     );
   };
+
   it('triggers shouldBlock callback on navigating away ', async () => {
     const updateModalVisibleSpy = sinon.spy();
     const shouldBlockSpy = sinon.spy(() => {
@@ -66,7 +71,7 @@ describe('RouteLeavingGuard component', () => {
     expect(shouldBlockSpy.calledOnce).to.be.true;
 
     await fireEvent.click(
-      document.querySelector(`[text="${cancelButtonText}"]`),
+      document.querySelector(`[text="${confirmButtonText}"]`),
     );
     expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
   });
@@ -77,12 +82,18 @@ describe('RouteLeavingGuard component', () => {
       ...initialProps,
       modalVisible: true,
       updateModalVisible: updateModalVisibleSpy,
+      saveError: {
+        cancelButtonText,
+        confirmButtonText,
+        title: 'Unable to save draft',
+      },
+      savedDraft: true,
     };
     setup(customProps);
     await fireEvent.click(
       document.querySelector(`[text="${cancelButtonText}"]`),
     );
-    expect(updateModalVisibleSpy.calledWith(false)).to.be.true;
+    expect(updateModalVisibleSpy.calledWith(false));
   });
 
   it(`not blocking navigation when criteria is satisfied`, async () => {
@@ -104,7 +115,7 @@ describe('RouteLeavingGuard component', () => {
   });
 
   it(`save draft handler not called if a secondary button name is not ${
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
+    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText
   }`, async () => {
     const updateModalVisibleSpy = sinon.spy();
     const shouldBlockSpy = sinon.spy(() => {

@@ -29,10 +29,12 @@ class FolderLoadPage {
     });
   };
 
-  loadFolders = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
-      'foldersResponse',
-    );
+  loadFolders = (foldersResponse = mockFolders) => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDER}`,
+      foldersResponse,
+    ).as('foldersResponse');
     cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
   };
 
@@ -99,11 +101,11 @@ class FolderLoadPage {
     });
   };
 
-  backToInbox = () => {
-    cy.get('.sm-breadcrumb-list-item > a').click({ force: true });
+  backToParentFolder = () => {
+    cy.get(Locators.BACK_TO).click({ force: true });
   };
 
-  backToFolder = name => {
+  backToInbox = name => {
     cy.get(Locators.LINKS.CRUMB)
       .contains(name)
       .click({ force: true });

@@ -1,24 +1,14 @@
-import FormElementTitle from '../../../components/FormElementTitle';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 import {
   personalInformationFormSchemas,
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = FormElementTitle({ title: CHAPTER_3.ABOUT_THE_VET.TITLE });
-
-const aboutVetUiSchema = { ...personalInformationUiSchemas };
-delete aboutVetUiSchema.genderIdentity;
-delete aboutVetUiSchema.pronouns;
-
-const aboutVetFormSchema = { ...personalInformationFormSchemas };
-delete aboutVetFormSchema.genderIdentity;
-delete aboutVetFormSchema.pronouns;
-
 const aboutTheVeteranPage = {
   uiSchema: {
-    'ui:title': question,
-    aboutTheVeteran: aboutVetUiSchema,
+    ...titleUI(CHAPTER_3.ABOUT_THE_VET.TITLE),
+    aboutTheVeteran: personalInformationUiSchemas,
   },
   schema: {
     type: 'object',
@@ -26,7 +16,7 @@ const aboutTheVeteranPage = {
     properties: {
       aboutTheVeteran: {
         type: 'object',
-        properties: aboutVetFormSchema,
+        properties: personalInformationFormSchemas,
       },
     },
   },

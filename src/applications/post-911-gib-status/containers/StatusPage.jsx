@@ -9,12 +9,11 @@ import {
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('va-breadcrumbs');
   }
 
   navigateToPrint = () => {
@@ -30,10 +29,9 @@ class StatusPage extends React.Component {
       introText = (
         <div className="va-introtext">
           <p>
-            The information on this page is the same information that’s in your
-            Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
-            (Chapter 33) benefits. You can print this page and use it instead of
-            your COE to show that you qualify for benefits.
+            You can print your statement and use it as a replacement for a
+            Certificate of Eligibility (COE) to show that you qualify for
+            benefits.
           </p>
         </div>
       );
@@ -50,10 +48,10 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <div className="gib-info vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="gib-info vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--9">
-            <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
+            <h1>Check your remaining Post-9/11 GI Bill benefits</h1>
             {introText}
             {printButton}
             <UserInfoSection enrollmentData={enrollmentData} />
@@ -66,7 +64,6 @@ class StatusPage extends React.Component {
               </a>
               .
             </div>
-            <EnrollmentHistory enrollmentData={enrollmentData} />
             <VaNeedHelp>
               <div slot="content">
                 <p>

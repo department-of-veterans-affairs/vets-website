@@ -6,8 +6,6 @@
  */
 /* eslint-disable no-await-in-loop */
 
-import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
-
 import {
   createImageDetailItem,
   createAccessibleDoc,
@@ -76,7 +74,7 @@ const generateIntroductionContent = async (doc, parent, data) => {
       introduction.add(
         createSubHeading(doc, config, element.value, {
           x: 16,
-          paragraphGap: 6,
+          paragraphGap: element.paragraphGap ?? 6,
           ...(element.weight === 'bold' && {
             font: config.subHeading.boldFont,
           }),
@@ -115,10 +113,16 @@ const generateResultsMedicationListContent = async (
   for (const section of medication.sections) {
     if (section.header) {
       results.add(
-        await createHeading(doc, 'H4', config, section.header, {
-          paragraphGap: 10,
-          x: 16,
-        }),
+        await createHeading(
+          doc,
+          section.headerSize || 'H4',
+          config,
+          section.header,
+          {
+            paragraphGap: 10,
+            x: 16,
+          },
+        ),
       );
     }
 
@@ -127,25 +131,40 @@ const generateResultsMedicationListContent = async (
       let structs;
       // image item
       if (resultItem.value?.type === 'image') {
-        structs = await createImageDetailItem(doc, config, 32, resultItem);
+        structs = await createImageDetailItem(
+          doc,
+          config,
+          resultItem.noIndentation ? 16 : 32,
+          resultItem,
+        );
         // rich text item
       } else if (resultItem.isRich) {
-        structs = await createRichTextDetailItem(doc, config, 32, resultItem);
+        structs = await createRichTextDetailItem(
+          doc,
+          config,
+          resultItem.noIndentation ? 16 : 32,
+          resultItem,
+        );
         // regular item
       } else {
-        structs = await createDetailItem(doc, config, 32, resultItem);
+        structs = await createDetailItem(
+          doc,
+          config,
+          resultItem.noIndentation ? 16 : 32,
+          resultItem,
+        );
       }
 
       // If the next item does not fit - move to the next page
-      let height = !resultItem.value?.type
-        ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, {
-            font: config.text.font,
-            size: config.text.size,
-          })
-        : resultItem.value?.options?.height;
-      height = resultItem.inline ? height : height + 24;
-      if (doc.y + height > doc.page.height - doc.page.margins.bottom)
-        await doc.addPage();
+      if (!resultItem.disablePageSplit) {
+        doc.fontSize(config.text.size);
+        let height = !resultItem.value?.type
+          ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`)
+          : resultItem.value?.options?.height;
+        height = resultItem.inline ? height : height + 24;
+        if (doc.y + height > doc.page.height - doc.page.margins.bottom)
+          await doc.addPage();
+      }
 
       for (const struct of structs) {
         results.add(struct);
@@ -215,24 +234,7 @@ const generateResultsContent = async (doc, parent, data) => {
   }
 };
 
-const validate = data => {
-  const requiredFields = [
-    'title',
-    'headerLeft',
-    'headerRight',
-    'footerLeft',
-    'footerRight',
-  ];
-
-  const missingFields = requiredFields.filter(field => !data[field]);
-  if (missingFields.length) {
-    throw new MissingFieldsException(missingFields);
-  }
-};
-
 const generate = async data => {
-  validate(data);
-
   const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);

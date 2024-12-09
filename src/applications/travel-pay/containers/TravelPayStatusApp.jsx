@@ -5,7 +5,6 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -37,6 +36,7 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -88,18 +88,22 @@ export default function App({ children }) {
   }
 
   // TODO: Move this logic to the API-side
+  const compareClaimsDate = (a, b) => {
+    // Date.parse(null) evaluates to NaN, which is falsy. By including
+    // the OR condition, any comparison with a null appointmentDateTime
+    // will fallback to comparing the createOn value instead.
+    return (
+      Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
+      Date.parse(b.createdOn) - Date.parse(a.createdOn)
+    );
+  };
+
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
@@ -151,16 +155,20 @@ export default function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && !hasFetchedClaims && travelClaims.length === 0) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -258,7 +266,6 @@ export default function App({ children }) {
 
   return (
     <>
-      <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1
@@ -344,9 +351,13 @@ export default function App({ children }) {
                   id="travel-claims-list"
                   className="travel-claim-list-container"
                 >
-                  {displayedClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
+                  {displayedClaims.map(travelClaim => (
+                    <TravelClaimCard
+                      key={travelClaim.id}
+                      {...travelClaim}
+                      canViewClaimDetails={canViewClaimDetails}
+                    />
+                  ))}
                 </section>
                 {shouldPaginate && (
                   <VaPagination

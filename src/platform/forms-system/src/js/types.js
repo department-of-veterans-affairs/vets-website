@@ -44,6 +44,7 @@
  * @property {boolean} [prefillEnabled]
  * @property {Function} [prefillTransformer]
  * @property {PreSubmitInfo} [preSubmitInfo]
+ * @property {boolean} [reviewEditFocusOnHeaders]
  * @property {Object} [reviewErrors]
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
@@ -138,12 +139,16 @@
 
 /**
  * @typedef {Object} FormConfigChapter
- * @property {Record<string, FormConfigPage>} [pages]
+ * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
+ */
+
+/**
+ * @typedef {Record<string, FormConfigPage>} FormConfigPages
  */
 
 /**
@@ -153,13 +158,13 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
+ * @property {((formData: Object) => boolean, index: number) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
- * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
- * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
+ * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
@@ -217,6 +222,11 @@
  */
 
 /**
+ * Icon - any value from https://design.va.gov/storybook/?path=/docs/uswds-va-icon--docs
+ * @typedef {'credit_card' | 'comment' | 'attach_money' | OrAnyString} Icon
+ */
+
+/**
  * @typedef {Array<{
  *    pageKey: string,
  *    path: string,
@@ -237,7 +247,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: boolean) => boolean,
+ *   'ui:required'?: (formData: any, index: number) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -271,6 +281,7 @@
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
+ * @property {boolean} [currency] For textUI / vaTextInputField. If true, will show a currency symbol in the input field.
  * @property {string} [customTitle] For the review page, for arrays and some widgets. This doesn't appear to change any text, but is just used for a hack to prevent an outer DL wrapper. Often set to `' '`, and used with `useDlWrap: true` to get a11y issues to pass. Will format field title and body vertically instead of horizontally. `useDlWrap` will format text horizontally.
  * @property {number} [debounceRate] Used for AutoSuggest widget
  * @property {boolean} [displayEmptyObjectOnReview] For objects with empty properties object. This will display ui:title and ui:description on the review page.
@@ -304,6 +315,10 @@
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {boolean} [monthSelect] For VaMemorableDate web component. If true, will use a select dropdown for the month instead of an input.
+ * @property {string} [inputPrefix] For textUI / VaTextInputField. Displays a fixed prefix string at the start of the input field.
+ * @property {Icon} [inputIconPrefix] For textUI / VaTextInputField. This property displays a prefix that accepts a string which represents icon name.
+ * @property {string} [inputSuffix] For textUI / VaTextInputField. Displays a fixed suffix string at the start of the input field.
+ * @property {Icon} [inputIconSuffix] For textUI / VaTextInputField. This property displays a suffix that accepts a string which represents icon name.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.
  *
  * Also accepts `title` one-off property to update `'ui:title'` as long as `'ui:title'` it is not defined. (can be useful if you are working inside of an array where `updateUiSchema` is not supported).
@@ -324,6 +339,7 @@
  * @property {boolean} [useVaCards] For arrays on a single page. If true, will use the `VaCard` component to wrap each item in the array. Has a white background with border instead of gray background.
  * @property {boolean} [reflectInputError] Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {string} [reviewItemHeaderLevel] Optional level for the item-header on Review page - for arrays. Defaults to '5' for a <h5> header-tag.
+ * @property {boolean} [useAllFormData] `formData` will return all form data instead of just the current item in an array. Applicable to `ui:validations`. TODO other fields.
  * @property {boolean} [useDlWrap] On the review page, moves \<dl\> tag to immediately surrounding the \<dt\> field instead of using a \<div\>. \<dt\> fields should be wrapped in \<dl\> fields, so this fixes that a11y issue. Formats fields horizontally.
  * @property {'single' | 'multiple'} [useFormsPattern] Used if you want to define the formHeading and formDescription for the web component field, which can include JSX, so it can be read out by screen readers. Accepts 'single' for a single field on the page where the error will show on the entire block, or 'multiple' for multiple fields on the page where the error will show only on the field.
  * @property {boolean} [useHeaderStyling] Enables developer to implement and use alternate style classes for auto generated html elements such as in ObjectField or ArrayField
@@ -379,10 +395,11 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any) => string,
+ *   getItemName: (itemData: any, index: number) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
+ *   index?: number,
  * }} ArrayBuilderTextProps
  */
 
@@ -406,7 +423,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any) => string,
+ *   getItemName?: (itemData: any, index: number) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
@@ -414,6 +431,11 @@
  *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */
@@ -438,4 +460,6 @@
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
+ * @property {boolean} [useLinkInsteadOfYesNo]
+ * @property {boolean} [useButtonInsteadOfYesNo]
  */

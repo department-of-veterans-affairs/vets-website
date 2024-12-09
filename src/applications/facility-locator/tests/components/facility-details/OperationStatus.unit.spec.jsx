@@ -32,7 +32,7 @@ describe('facility-locator', () => {
       expect(getByText('Facility Closed')).to.be.ok;
       expect(
         container.querySelector('va-alert').getAttribute('status'),
-      ).to.equal('error');
+      ).to.equal('warning');
     });
     it('should render the operation status for NOTICE', () => {
       const operatingStatus = { code: 'NOTICE' };
@@ -44,12 +44,52 @@ describe('facility-locator', () => {
         container.querySelector('va-alert').getAttribute('status'),
       ).to.equal('info');
     });
-    it('should render warning alert for status of limited', () => {
+    it('should render info alert for status of limited', () => {
       const operatingStatus = { code: 'LIMITED' };
       const { getByText, container } = render(
         <OperationStatus operatingStatus={operatingStatus} />,
       );
       expect(getByText('Limited services and hours')).to.be.ok;
+      expect(
+        container.querySelector('va-alert').getAttribute('status'),
+      ).to.equal('info');
+    });
+    it('should render warning alert for status of TEMPORARY_CLOSURE', () => {
+      const operatingStatus = { code: 'TEMPORARY_CLOSURE' };
+      const { getByText, container } = render(
+        <OperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Temporary facility closure')).to.be.ok;
+      expect(
+        container.querySelector('va-alert').getAttribute('status'),
+      ).to.equal('warning');
+    });
+    it('should render warning alert for status of TEMPORARY_LOCATION', () => {
+      const operatingStatus = { code: 'TEMPORARY_LOCATION' };
+      const { getByText, container } = render(
+        <OperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Temporary location')).to.be.ok;
+      expect(
+        container.querySelector('va-alert').getAttribute('status'),
+      ).to.equal('warning');
+    });
+    it('should render warning alert for status of VIRTUAL_CARE', () => {
+      const operatingStatus = { code: 'VIRTUAL_CARE' };
+      const { getByText, container } = render(
+        <OperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Virtual care only')).to.be.ok;
+      expect(
+        container.querySelector('va-alert').getAttribute('status'),
+      ).to.equal('warning');
+    });
+    it('should render warning alert for status of COMING_SOON', () => {
+      const operatingStatus = { code: 'COMING_SOON' };
+      const { getByText, container } = render(
+        <OperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Coming soon')).to.be.ok;
       expect(
         container.querySelector('va-alert').getAttribute('status'),
       ).to.equal('warning');
@@ -64,7 +104,7 @@ describe('facility-locator', () => {
       );
       expect(getByText('Additional info')).to.be.ok;
     });
-    it('should render visitText website if it exists for facility type of VA_CEMETARY', () => {
+    it('should render visitText website if it exists for facility type of VA_CEMETERY', () => {
       const operatingStatus = {
         code: 'NOTICE',
       };
@@ -72,7 +112,7 @@ describe('facility-locator', () => {
         <OperationStatus
           operatingStatus={operatingStatus}
           website="http://www.foo.bar.va.gov"
-          facilityType={FacilityType.VA_CEMETARY}
+          facilityType={FacilityType.VA_CEMETERY}
         />,
       );
       expect(getByTestId('visit-text')).to.contain.text(
@@ -80,7 +120,7 @@ describe('facility-locator', () => {
       );
       expect(
         getByTestId('visit-text')
-          .querySelector('a')
+          .querySelector('va-link')
           .getAttribute('href'),
       ).to.equal('http://www.foo.bar.va.gov');
     });
@@ -99,7 +139,7 @@ describe('facility-locator', () => {
       );
       expect(
         getByTestId('visit-text')
-          .querySelector('a')
+          .querySelector('va-link')
           .getAttribute('href'),
       ).to.equal('http://www.foo.bar.va.gov');
     });

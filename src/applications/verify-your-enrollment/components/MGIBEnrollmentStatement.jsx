@@ -1,4 +1,5 @@
 import React from 'react';
+import VyeOmbInfo from './VyeOmbInfo';
 
 const MGIBEnrollmentStatement = () => {
   return (
@@ -9,6 +10,7 @@ const MGIBEnrollmentStatement = () => {
         If you’re currently using Montgomery GI Bill benefits, you’ll need to
         verify your enrollment after each month to receive payments.
       </p>
+      <VyeOmbInfo />
     </div>
   );
 };

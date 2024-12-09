@@ -15,8 +15,8 @@ const dateUiTitle = 'When was your exam?';
 export default {
   uiSchema: {
     ...titleUI(
-      'Disability exam details',
-      'You requested access to your disability examinations (C&P exams). Any extra information you can share will help us find your records.',
+      'Claim exam details',
+      'You requested access to your claim exams (sometimes called disability examinations or C&P exams). Any extra information you can share will help us find your records.',
     ),
     disabilityExams: {
       'ui:options': {
@@ -33,7 +33,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         confirmRemoveDescription:
-          'This will remove the date of your disability exam and may make it harder to find your record.',
+          'This will remove the date of your claim exam and may make it harder to find your record.',
         useDlWrap: true,
         showSave: true,
         reviewMode: true,

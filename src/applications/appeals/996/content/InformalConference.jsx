@@ -19,19 +19,21 @@ export const InformalConferenceDescription = (
         informal conference. If you request an informal conference, we’ll
         conduct only one informal conference for this Higher-Level Review.
       </p>
+      <p>
+        If you request an informal conference, it may take us longer to make a
+        decision on your Higher-Level Review.
+      </p>
       <va-additional-info trigger="What happens during an informal conference">
         <div>
           <p className="vads-u-margin-top--0">
             An informal conference is a call with the higher-level reviewer for
-            your case. If you choose to have an informal conference, the
-            reviewer will contact <strong>you</strong> or{' '}
-            <strong>your accredited representative, if you have one</strong>, to
-            schedule a time to discuss your case with you.
+            your case.
           </p>
           <p className="vads-u-margin-bottom--0">
-            During the call, you or your accredited representative can identify
-            errors and discuss why you think the decision should change. You
-            can’t submit new evidence.
+            During the call, you or your accredited representative should
+            identify any errors in the decision, and discuss why you think the
+            decision should change. The reviewer will consider the errors you
+            identify. But you can’t submit new evidence.
           </p>
         </div>
       </va-additional-info>
@@ -76,8 +78,7 @@ export const newInformalConferenceReviewLabels = {
 export const informalConferenceDescriptions = {
   yes:
     'I understand that if I request an informal conference, I can’t discuss or introduce new evidence that wasn’t part of my file at the time of the decision at issue.',
-  no:
-    'I understand that if I don’t request an informal conference, VA will proceed to make a decision on my Higher-Level Review.',
+  no: '',
   me:
     'VA may contact me by mail, telephone, email, or by other means to schedule my conference.',
   rep:

@@ -9,7 +9,6 @@ import AppointmentColumn from './AppointmentColumn';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModalityText,
   selectModalityIcon,
   selectTypeOfCareName,
   selectApptDetailAriaText,
@@ -20,16 +19,17 @@ import {
   selectFeatureCCDirectScheduling,
 } from '../../../redux/selectors';
 
-export default function RequestAppointmentLayout({ appointment }) {
+export default function RequestAppointmentLayout({ appointment, index }) {
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(appointment, true),
   );
-  const first = true;
-  const grouped = true;
+  const first = index === 0;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
-  const modality = useSelector(() => selectModalityText(appointment, true));
+  const modality = isCommunityCare
+    ? 'Community care'
+    : appointment?.preferredModality;
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
@@ -50,22 +50,18 @@ export default function RequestAppointmentLayout({ appointment }) {
   }`;
 
   return (
-    <ListItem appointment={appointment} borderBottom status="pending">
+    <ListItem
+      appointment={appointment}
+      borderTop={first}
+      borderBottom
+      status="pending"
+    >
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
-        <AppointmentRow className="vads-u-margin-x--1p5 xsmall-screen:vads-u-flex-direction--row">
-          <AppointmentColumn
-            className={classNames(
-              'vads-u-border-color--gray-medium',
-              'vads-u-padding-y--2',
-              {
-                'vads-u-border-top--1px': grouped && !first,
-              },
-            )}
-            size="1"
-          >
-            <AppointmentRow className="vaos-appts__column-gap--3 small-screen:vads-u-flex-direction--row">
+        <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
+          <AppointmentColumn className="vads-u-padding-y--1" size="1">
+            <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
-                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
                   <AppointmentColumn
                     padding="0"
                     size="1"
@@ -143,4 +139,5 @@ export default function RequestAppointmentLayout({ appointment }) {
 
 RequestAppointmentLayout.propTypes = {
   appointment: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
 };

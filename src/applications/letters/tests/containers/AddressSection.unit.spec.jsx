@@ -45,7 +45,7 @@ describe('<AddressSection>', () => {
     stub.restore();
   });
 
-  it('should enable the View Letters button with default props', () => {
+  it('should enable the View letters button with default props', () => {
     const { container } = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
         <AddressSection address={address} />
@@ -53,12 +53,12 @@ describe('<AddressSection>', () => {
     );
 
     expect($('va-button', container).getAttribute('text')).to.eq(
-      'View Letters',
+      'View letters',
     );
-    expect($('va-button', container).getAttribute('disabled')).to.eq('false');
+    expect($('va-button', container).getAttribute('disabled')).to.be.null;
   });
 
-  it('should render an empty address warning on the view screen and disable the View Letters button', () => {
+  it('should render an empty address warning on the view screen and disable the View letters button', () => {
     const { container, getByText } = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
         <AddressSection address={emptyAddress} />
@@ -67,7 +67,7 @@ describe('<AddressSection>', () => {
 
     expect(getByText('We don’t have a valid address on file for you').exist);
     expect($('va-button', container).getAttribute('text')).to.eq(
-      'View Letters',
+      'View letters',
     );
     expect($('va-button', container).getAttribute('disabled')).to.eq('true');
   });

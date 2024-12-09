@@ -17,6 +17,8 @@ import { FORMAT_READABLE_DATE_FNS } from '../constants';
 export const ConfirmationDecisionReviews = ({
   pageTitle,
   alertTitle,
+  alertContent,
+  appType = 'claim',
   children,
 }) => {
   const alertRef = useRef(null);
@@ -29,7 +31,7 @@ export const ConfirmationDecisionReviews = ({
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('h2', alertRef.current);
+        waitForRenderThenFocus('#main h2', alertRef.current);
       }
     },
     [alertRef],
@@ -50,25 +52,24 @@ export const ConfirmationDecisionReviews = ({
           alt="VA logo"
           width="300"
         />
-        <h2>{pageTitle}</h2>
+        <h2 className="vads-u-margin-top--0">{pageTitle}</h2>
       </div>
 
       <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">{alertTitle}</h2>
-        <p>
-          When we’ve completed our review, we’ll mail you a decision packet with
-          the details of our decision.
-        </p>
+        <p>{alertContent}</p>
       </va-alert>
 
       <va-summary-box uswds class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
-          Your information for this claim
+          Your information for this {appType}
         </h3>
 
         <h4>Your name</h4>
         {renderFullName(name)}
-        {submitDate && <DateSubmitted submitDate={submitDate} />}
+        {submitDate && (
+          <DateSubmitted appType={appType} submitDate={submitDate} />
+        )}
         <IssuesSubmitted issues={issues} />
       </va-summary-box>
 
@@ -78,8 +79,10 @@ export const ConfirmationDecisionReviews = ({
 };
 
 ConfirmationDecisionReviews.propTypes = {
+  alertContent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   alertDescription: PropTypes.element,
   alertTitle: PropTypes.string,
+  appType: PropTypes.string,
   children: PropTypes.array,
   form: PropTypes.shape({
     data: PropTypes.shape({}),

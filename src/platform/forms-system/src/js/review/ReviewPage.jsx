@@ -6,20 +6,11 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { getScrollOptions } from 'platform/utilities/ui';
-import { focusElement } from '../utilities/ui';
+
 import ReviewChapters from './ReviewChapters';
 import SubmitController from './SubmitController';
 
 class ReviewPage extends React.Component {
-  componentDidMount() {
-    scrollToTop('topScrollElement', getScrollOptions());
-    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
-    // containing multiple pages, so the h2 won't be unique between pages
-    focusElement('h2');
-  }
-
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
@@ -55,6 +46,11 @@ class ReviewPage extends React.Component {
 }
 
 ReviewPage.propTypes = {
+  formConfig: PropTypes.shape({
+    downtime: PropTypes.shape({
+      message: PropTypes.element,
+    }),
+  }).isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired,
     pageList: PropTypes.array.isRequired,

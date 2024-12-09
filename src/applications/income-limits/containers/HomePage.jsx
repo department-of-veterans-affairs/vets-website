@@ -10,7 +10,6 @@ import {
   updateZipCode,
 } from '../actions';
 import { ROUTES } from '../constants';
-import { customizeTitle } from '../utilities/customize-title';
 
 const HomePage = ({
   router,
@@ -19,12 +18,6 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
-  const H1 = 'Income limits and your VA health care';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
-
   useEffect(
     () => {
       const clearForm = () => {
@@ -54,7 +47,7 @@ const HomePage = ({
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1>Income limits and your VA health care</h1>
       <p>
         Answer 2 questions to find out how your income may affect your VA health
         care eligibility and costs.

@@ -144,10 +144,10 @@ export default class DisabilityRatingCalculator extends React.Component {
             Enter each of your disability ratings separately below. You can also
             add a description of each for your notes, if you'd like. Then click{' '}
             <strong>Calculate</strong> to get your combined rating.{' '}
-            <strong className="vads-u-display--inline small-screen:vads-u-display--none">
+            <strong className="vads-u-display--inline mobile-lg:vads-u-display--none">
               Disability ratings are given in 10% increments, between 0 and 100.
             </strong>
-            <span className="vads-u-display--none small-screen:vads-u-display--inline">
+            <span className="vads-u-display--none mobile-lg:vads-u-display--inline">
               Disability ratings are given in 10% increments, between 0 and 100.
             </span>
           </p>
@@ -158,7 +158,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                 id="ratingLabel"
               >
                 Disability rating
-                <span className="vads-u-display--none small-screen:vads-u-display--block">
+                <span className="vads-u-display--none mobile-lg:vads-u-display--block">
                   In 10% increments
                 </span>
               </div>

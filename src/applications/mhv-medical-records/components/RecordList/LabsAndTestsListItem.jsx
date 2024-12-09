@@ -9,33 +9,30 @@ const LabsAndTestsListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
-        <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
-          {record.name} <span className="sr-only">on {record.date}</span>
-        </Link>
-      </h3>
+      <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
+        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+          {record.name} <span className="sr-only">{`on ${record.date}`}</span>
+        </div>
+      </Link>
+
       <div>
         {/* date */}
-        <div>{record.date}</div>
-
-        {/* location */}
-        {(record.type === labTypes.CHEM_HEM ||
-          record.type === labTypes.MICROBIOLOGY) && (
-          <div>{record.collectingLocation}</div>
-        )}
-        {record.type === labTypes.PATHOLOGY && <div>{record.labLocation}</div>}
-        {record.type === labTypes.RADIOLOGY && (
-          <div>{record.imagingLocation}</div>
-        )}
+        <div className="vads-u-margin-bottom--0p5" data-dd-privacy="mask">
+          {record.date}
+        </div>
 
         {/* ordered by */}
         {(record.type === labTypes.CHEM_HEM ||
           record.type === labTypes.MICROBIOLOGY ||
-          record.type === labTypes.RADIOLOGY) && (
-          <div>{`Ordered by ${record.orderedBy}`}</div>
+          record.type === labTypes.RADIOLOGY ||
+          record.type === labTypes.PATHOLOGY) && (
+          <div data-dd-privacy="mask">{`Ordered by ${record.orderedBy}`}</div>
+        )}
+        {record.type === labTypes.EKG && (
+          <div data-dd-privacy="mask">{`Signed by ${record.signedBy}`}</div>
         )}
       </div>
     </va-card>

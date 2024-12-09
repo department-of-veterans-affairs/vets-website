@@ -24,12 +24,25 @@ import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInformation';
+import mockContactInfo, {
+  MockContactInfoReview,
+} from '../pages/_mockContactInfo';
 import primaryPhone from '../pages/primaryPhone';
+
+import housingRisk from '../pages/housingRisk';
+import livingSituation from '../pages/livingSituation';
+import otherHousingRisk from '../pages/otherHousingRisk';
+import pointOfContact from '../pages/pointOfContact';
+
 import contestableIssues from '../pages/contestableIssues';
+import addIssue from '../pages/addIssue';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+
+import optionForMst from '../pages/optionForMst';
+import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
+import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
@@ -43,6 +56,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  hasMstOption,
 } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
@@ -67,17 +81,22 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence } from '../utils/focus';
-
-import submissionError from '../../../shared/content/submissionError';
-import NeedHelp from '../../../shared/content/NeedHelp';
-import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
+  focusEvidence,
   focusAlertH3,
   focusRadioH3,
   focusH3,
   focusOnAlert,
-} from '../../../shared/utils/focus';
+  focusIssue,
+} from '../utils/focus';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
+
+import maximalData from '../tests/fixtures/data/prototype-test.json';
+
+import submissionError from '../../../shared/content/submissionError';
+
+import GetFormHelp from '../../../shared/content/GetFormHelp';
+import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
@@ -122,6 +141,12 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3,
+  reviewEditFocusOnHeaders: true,
+  formOptions: {
+    focusOnAlertRole: true,
+  },
+
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -137,16 +162,24 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: MockContactInfoReview, // FOR NON_AUTH TESTING ONLY
       pages: {
         veteranInfo: {
           title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          scrollAndFocusTarget: focusH3,
+          initialData: maximalData.data, // FOR NON-AUTH TESTING ONLY
         },
 
-        ...contactInfo,
+        // ...contactInfo,
+        mockContactInfo: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: mockContactInfo.uiSchema,
+          schema: mockContactInfo.schema,
+        },
+
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
@@ -161,6 +194,44 @@ const formConfig = {
       },
     },
 
+    housing: {
+      title: 'Living situation',
+      pages: {
+        housingRisk: {
+          title: 'Housing risk',
+          path: 'housing-risk',
+          uiSchema: housingRisk.uiSchema,
+          schema: housingRisk.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        livingSituation: {
+          title: 'Living situation',
+          path: 'living-situation',
+          uiSchema: livingSituation.uiSchema,
+          schema: livingSituation.schema,
+          depends: hasHousingRisk,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        otherHousingRisk: {
+          title: 'Other housing risks',
+          path: 'other-housing-risks',
+          uiSchema: otherHousingRisk.uiSchema,
+          schema: otherHousingRisk.schema,
+          depends: hasOtherHousingRisk,
+          initialData: {
+            'view:otherHousingRisk': {},
+          },
+        },
+        contact: {
+          title: 'Your point of contact',
+          path: 'point-of-contact',
+          uiSchema: pointOfContact.uiSchema,
+          schema: pointOfContact.schema,
+          depends: hasHousingRisk,
+        },
+      },
+    },
+
     issues: {
       title: 'Issues for review',
       pages: {
@@ -170,7 +241,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -179,17 +250,15 @@ const formConfig = {
           depends: () => false, // accessed from contestable issues
           CustomPage: AddContestableIssue,
           CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
-          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -197,7 +266,20 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          scrollAndFocusTarget: focusH3,
+        },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },
@@ -213,9 +295,13 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
-          initialData: {
-            form5103Acknowledged: false,
-          },
+        },
+        facilityTypes: {
+          title: 'Facility types',
+          path: 'facility-types',
+          uiSchema: facilityTypes.uiSchema,
+          schema: facilityTypes.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
@@ -252,7 +338,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
@@ -272,7 +357,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -287,7 +371,6 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
@@ -296,13 +379,13 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
         },
       },
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

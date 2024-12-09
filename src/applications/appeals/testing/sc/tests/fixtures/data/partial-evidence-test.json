@@ -72,6 +72,7 @@
     "additionalIssues": [],
     "socOptIn": true,
     "form5103Acknowledged": true,
+    "evidencePrivacyAgreementAccepted": true,
     "privacyAgreementAccepted": true,
     "locations": [
       {

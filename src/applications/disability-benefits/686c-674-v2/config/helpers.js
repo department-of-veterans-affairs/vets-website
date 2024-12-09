@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -57,6 +58,14 @@ export const ServerErrorAlert = (
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
+);
+
+export const certificateNotice = () => (
+  <p className="vads-u-font-size--base vads-u-margin-top--neg3">
+    You’ll need to submit a copy of your marriage certificate or a church record
+    of your marriage. We’ll ask you to submit this document at the end of the
+    form
+  </p>
 );
 
 export const isInsideListLoopReturn = (
@@ -188,6 +197,38 @@ export const classesPerWeekUiSchema = {
   ],
 };
 
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
+
+export const customLocationSchema = {
+  type: 'object',
+  properties: {
+    outsideUsa: {
+      type: 'boolean',
+    },
+    location: {
+      type: 'object',
+      properties: {
+        city: {
+          type: 'string',
+        },
+        state: {
+          type: 'string',
+          enum: STATE_VALUES,
+          enumNames: STATE_NAMES,
+        },
+      },
+    },
+  },
+};
+
 export const PensionIncomeRemovalQuestionTitle = (
   <p>
     Did this dependent earn an income in the last 365 days? Answer this question{' '}
@@ -196,6 +237,30 @@ export const PensionIncomeRemovalQuestionTitle = (
   </p>
 );
 
+export const generateHelpText = (text, className = 'vads-u-color--gray') => {
+  return <span className={className}>{text}</span>;
+};
+
+export const generateTransition = (text, className = 'vads-u-margin-y--6') => {
+  return <p className={className}>{text}</p>;
+};
+
 export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
+};
+
+export const marriageEnums = ['Death', 'Divorce', 'Annulment', 'Other'];
+
+export const spouseFormerMarriageLabels = {
+  Death: 'The former spouse died',
+  Divorce: 'They divorced',
+  Annulment: 'They got an annulment',
+  Other: 'Some other way',
+};
+
+export const veteranFormerMarriageLabels = {
+  Death: 'My former spouse died',
+  Divorce: 'We divorced',
+  Annulment: 'We got an annulment',
+  Other: 'Some other way',
 };

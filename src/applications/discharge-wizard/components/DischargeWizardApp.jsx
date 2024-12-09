@@ -9,7 +9,7 @@ export default function DischargeWizardApp({ children }) {
 
   if (isProd) {
     return (
-      <div className="discharge-wizard row vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+      <div className="discharge-wizard row vads-u-padding-x--1 desktop-lg:vads-u-padding-x--0">
         <Breadcrumbs />
         {children}
       </div>
@@ -18,7 +18,7 @@ export default function DischargeWizardApp({ children }) {
   return (
     <div className="row discharge-wizard-v2 vads-u-padding-bottom--8">
       <BreadcrumbsV2 />
-      <div className="columns">{children}</div>
+      <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>
   );
 }

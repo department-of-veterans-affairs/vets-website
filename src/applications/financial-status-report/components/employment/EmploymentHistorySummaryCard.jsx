@@ -11,7 +11,7 @@ import {
   setJobButton,
   jobButtonConstants,
 } from '../../utils/session';
-import { dateFormatter, firstLetterLowerCase } from '../../utils/helpers';
+import { monthYearFormatter, firstLetterLowerCase } from '../../utils/helpers';
 
 const EmploymentHistorySummaryCard = ({
   job,
@@ -96,8 +96,8 @@ const EmploymentHistorySummaryCard = ({
       {/* Render date information */}
       <EmploymentCardBody
         label="Dates"
-        value={`${dateFormatter(from)} - ${
-          isCurrent ? 'Present' : dateFormatter(to)
+        value={`${monthYearFormatter(from)} - ${
+          isCurrent ? 'Present' : monthYearFormatter(to)
         }`}
       />
 
@@ -170,19 +170,12 @@ const EmploymentHistorySummaryCard = ({
             </span>
           </Link>
 
-          <button
-            type="button"
-            aria-label={`Delete ${ariaLabel}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
+          <va-button-icon
+            button-type="delete"
+            class="vads-u-margin-right--neg1 mobile-lg:vads-u-margin-right--neg2 summary-card-delete-button"
             onClick={() => handleDeleteClick(index)}
-          >
-            <va-icon
-              icon="delete"
-              size={3}
-              className="vads-u-padding-right--0p5"
-            />
-            <span>DELETE</span>
-          </button>
+          />
+
           {isModalOpen ? (
             <DeleteConfirmationModal
               isOpen={isModalOpen}

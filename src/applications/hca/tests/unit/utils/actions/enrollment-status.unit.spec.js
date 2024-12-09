@@ -3,11 +3,11 @@ import sinon from 'sinon';
 import {
   mockApiRequest,
   setFetchJSONResponse,
-} from '~/platform/testing/unit/helpers';
+} from 'platform/testing/unit/helpers';
 import {
   fetchEnrollmentStatus,
   resetEnrollmentStatus,
-} from '../../../../utils/actions/enrollment-status';
+} from '../../../../utils/actions';
 import {
   MOCK_ENROLLMENT_RESPONSE,
   ENROLLMENT_STATUS_ACTIONS,

@@ -1,7 +1,7 @@
 // Dependencies
 import React from 'react';
 import { expect } from 'chai';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import AlertMessage from '../../../components/v2/resultsComponents/AlertMessage';
 import CarefulConsiderationStatement from '../../../components/v2/resultsComponents/CarefulConsiderationStatement';
 import {
@@ -11,7 +11,7 @@ import {
 
 describe('Discharge Wizard CarefulConsiderationStatement', () => {
   it('should show nothing of the component if no reason && dischargeType is populated on props', () => {
-    const tree = shallow(
+    const wrapper = mount(
       <CarefulConsiderationStatement
         formResponses={{
           [SHORT_NAME_MAP.REASON]: null,
@@ -19,8 +19,8 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
         }}
       />,
     );
-    expect(tree.html()).to.equal(''); // component renders null
-    tree.unmount();
+    expect(wrapper.find(AlertMessage)).to.have.lengthOf(0); // component renders null
+    wrapper.unmount();
   });
 
   it('should show alert box if 12_priorService is populated on props', () => {
@@ -29,7 +29,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
         formResponses={{
           [SHORT_NAME_MAP.REASON]: null,
           [SHORT_NAME_MAP.DISCHARGE_TYPE]: null,
-          [SHORT_NAME_MAP.PRIOR_SERVICE]: RESPONSES.PRIOR_SERVICE_1,
+          [SHORT_NAME_MAP.PRIOR_SERVICE]: RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
         }}
       />,
     );
@@ -41,8 +41,8 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
     const wrapper = mount(
       <CarefulConsiderationStatement
         formResponses={{
-          [SHORT_NAME_MAP.REASON]: RESPONSES.REASON_3,
-          [SHORT_NAME_MAP.DISCHARGE_TYPE]: RESPONSES.DISCHARGE_TYPE_2,
+          [SHORT_NAME_MAP.REASON]: RESPONSES.REASON_SEXUAL_ORIENTATION,
+          [SHORT_NAME_MAP.DISCHARGE_TYPE]: RESPONSES.DISCHARGE_DISHONORABLE,
         }}
       />,
     );

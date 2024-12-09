@@ -11,12 +11,12 @@ const ActionLink = props => {
 
   const linkText =
     app === APP_NAMES.PRE_CHECK_IN
-      ? t('review-your-information-now')
+      ? t('review-your-information-now-to-complete-pre-check-in')
       : t('check-in-now');
 
-  const attrs = {};
+  let label = false;
   if (app === APP_NAMES.CHECK_IN && startTime) {
-    attrs['aria-label'] = t('check-in-now-for-your-date-time-appointment', {
+    label = t('check-in-now-for-your-date-time-appointment', {
       date: new Date(startTime),
     });
   }
@@ -35,15 +35,13 @@ const ActionLink = props => {
           : 'check-in-button'
       }
     >
-      <a
-        data-testid="action-link"
-        className="vads-c-action-link--green"
+      <va-link-action
         href="/"
         onClick={e => action(e, appointmentId)}
-        {...attrs}
-      >
-        {linkText}
-      </a>
+        text={linkText}
+        data-testid="action-link"
+        label={label}
+      />
     </p>
   );
 };

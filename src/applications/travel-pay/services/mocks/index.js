@@ -9,10 +9,23 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [{ name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true }],
+      features: [
+        { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
+        { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
+      ],
     },
   },
-  'GET /travel_pay/claims': travelClaims,
+  'GET /travel_pay/v0/claims': travelClaims,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    return res.json({
+      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+      claimNumber: 'TC0928098230498',
+      claimStatus: 'Claim Submitted',
+      appointmentDateTime: '2024-05-26T16:40:45.781Z',
+      facilityName: 'Tomah VA Medical Center',
+      createdOn: '2024-05-27T16:40:45.781Z',
+      modifiedOn: '2024-05-31T16:40:45.781Z',
+    });
+  },
 };
-
 module.exports = delay(responses, 1000);

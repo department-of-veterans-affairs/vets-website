@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { convertRatingToStars } from '../../../utils/helpers';
 
 export const RatingsStars = ({ rating }) => {
@@ -37,3 +38,7 @@ export const RatingsStars = ({ rating }) => {
 };
 
 export default RatingsStars;
+
+RatingsStars.propTypes = {
+  rating: PropTypes.number.isRequired,
+};

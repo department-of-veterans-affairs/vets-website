@@ -14,11 +14,11 @@ const mockLetter = {
   documentId: '{27832B64-2D88-4DEE-9F6F-DF80E4CAAA87}',
   receivedAt: '2022-09-22',
   docType: '184',
-  typeDescription: 'Notification Letter (e.g. VA 20-8993, VA 21-0290, PCGL)',
+  typeDescription: 'Notification letter',
 };
 
-const mockLetterWithoutDocType = { ...mockLetter };
-delete mockLetterWithoutDocType.docType;
+const mockLetterWithouttypeDescription = { ...mockLetter };
+delete mockLetterWithouttypeDescription.typeDescription;
 
 describe('<ClaimLetterListItem>', () => {
   it('should render', () => {
@@ -27,22 +27,17 @@ describe('<ClaimLetterListItem>', () => {
     expect(container).to.exist;
   });
 
-  it('should have the correct title', () => {
+  it('should have the correct title and description', () => {
     const { getByRole } = render(<ClaimLetterListItem letter={mockLetter} />);
 
     const title = getByRole('heading', { level: 2 });
-    expect(title.textContent).to.eq('September 22, 2022 letter');
+    // Both the title and description are contained in the <h2>
+    expect(title.textContent).to.eq('Notification letter September 22, 2022');
   });
 
-  it('should have the correct description', () => {
-    const { getByText } = render(<ClaimLetterListItem letter={mockLetter} />);
-
-    getByText('Notification letter');
-  });
-
-  it('should use the default description when no `docType` is provided', () => {
+  it('should use the default description when no `typeDescription` is provided', () => {
     const { getByText } = render(
-      <ClaimLetterListItem letter={mockLetterWithoutDocType} />,
+      <ClaimLetterListItem letter={mockLetterWithouttypeDescription} />,
     );
 
     getByText('Notification letter');
@@ -61,6 +56,7 @@ describe('<ClaimLetterListItem>', () => {
         'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${
           mockLetter.docType
         }]:id.pdf`,
+        'letter-type': 'Claim decision or other notification',
       }),
     ).to.be.true;
     recordEventStub.restore();

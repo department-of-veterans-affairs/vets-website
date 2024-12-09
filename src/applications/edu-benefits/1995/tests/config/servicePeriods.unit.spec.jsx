@@ -61,39 +61,6 @@ describe('Edu 1995 servicePeriods', () => {
     ).to.equal(6);
   });
 
-  it('should render service period view', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          applicantServed: 'Yes',
-          'view:newService': true,
-          toursOfDuty: [
-            {
-              serviceBranch: 'Army',
-              dateRange: {
-                to: '2010-01-01',
-                from: '2008-01-03',
-              },
-            },
-            {
-              dateRange: {},
-            },
-          ],
-        }}
-        uiSchema={uiSchema}
-        definitions={definitions}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    const firstPeriod = Array.from(
-      formDOM.querySelectorAll('.va-growable-background'),
-    )[0];
-
-    expect(firstPeriod.textContent).to.contain('Army');
-    expect(firstPeriod.textContent).to.contain('01/03/2008 — 01/01/2010');
-    expect(firstPeriod.querySelector('button').textContent).to.equal('Edit');
-  });
   it('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(

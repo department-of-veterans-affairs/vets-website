@@ -37,6 +37,7 @@ export default function TypeOfCarePage() {
     pageChangeInProgress,
     showCommunityCare,
     showDirectScheduling,
+    removePodiatry,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
@@ -70,7 +71,9 @@ export default function TypeOfCarePage() {
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+        typeOfCare =>
+          typeOfCare.id !== PODIATRY_ID ||
+          (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
@@ -90,16 +93,24 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:title': 'What care do you need?',
         'ui:widget': 'radio',
+        'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
+          hideLabelText: true,
+        },
       },
     },
     initialData,
   });
 
   return (
-    <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field">
+      <h1 className="vads-u-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {

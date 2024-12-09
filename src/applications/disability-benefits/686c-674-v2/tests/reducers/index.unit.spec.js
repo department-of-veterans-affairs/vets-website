@@ -8,8 +8,16 @@ const initialState = {
 
 describe('verifyVaFileNumber reducer', () => {
   it('should return initial state', () => {
-    const state = vaFileNumber.vaFileNumber(initialState, {});
+    const state = vaFileNumber.vaFileNumber(undefined, {});
     expect(state.hasVaFileNumber).to.equal(null);
+  });
+
+  it('should handle a successful check for VA file number', () => {
+    const state = vaFileNumber.vaFileNumber(initialState, {
+      type: 'VERIFY_VA_FILE_NUMBER_STARTED',
+      response: true,
+    });
+    expect(state.isLoading).to.be.true;
   });
 
   it('should handle a successful check for VA file number', () => {

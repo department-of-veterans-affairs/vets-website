@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { WIP } from '../../shared/components/WIP';
 import { workInProgressContent } from '../config/constants';
@@ -26,7 +30,12 @@ function App({ location, children, showForm, isLoading }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="priority processing request system"
+        dependencies={[externalServices.lighthouseBenefitsIntake]}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 }

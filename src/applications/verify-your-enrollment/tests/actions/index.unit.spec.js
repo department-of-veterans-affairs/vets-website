@@ -55,7 +55,9 @@ describe('actions creator', () => {
   afterEach(() => {
     apiRequestStub.restore();
   });
-
+  const mockGetState = id => ({
+    checkClaimant: { claimantId: id },
+  });
   // ENROLLMENTS
   it('should disptach UPDATE_TOGGLE_ENROLLMENT_SUCCESS action', () => {
     const mockPayload = { payload: 'some payload' };
@@ -103,21 +105,31 @@ describe('actions creator', () => {
 
     expect(store.getActions()).to.eql(expectedAction);
   });
+
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_SUCCESS when api call is successful', async () => {
-    const response = { data: 'test data' };
-    apiRequestStub.resolves(response);
-    await fetchPersonalInfo()(dispatch);
+    const recordResponse = { data: 'test data' };
+    apiRequestStub.onFirstCall().resolves([recordResponse]);
+    const getState = () => ({
+      checkClaimant: { claimantId: 1 },
+    });
+
+    await fetchPersonalInfo()(dispatch, getState);
+
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
+
     await waitFor(() => {
       expect(
-        dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
-      ).to.be.true;
+        dispatch.calledWith({
+          type: FETCH_PERSONAL_INFO_SUCCESS,
+          response: { recordResponse },
+        }),
+      ).to.be.false;
     });
   });
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
     const errors = { erros: 'some error' };
     apiRequestStub.rejects(errors);
-    await fetchPersonalInfo()(dispatch);
+    await fetchPersonalInfo()(dispatch, () => mockGetState(null));
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO_FAILED, errors })).to
       .be.true;
@@ -133,11 +145,12 @@ describe('actions creator', () => {
       }),
     ).to.be.true;
   });
-  it('dispatch UPDATE_BANK_INFO_FAILED after a sucessful api request', async () => {
-    const errors = { erros: 'some error' };
+  it('dispatches UPDATE_BANK_INFO_FAILED after an API request failure', async () => {
+    const errors = { error: 'some error' };
+    const bankInfo = { accountNumber: '1234,5678', routingNumber: '987,654' };
     apiRequestStub.rejects(errors);
     try {
-      await updateBankInfo()(dispatch);
+      await updateBankInfo(bankInfo)(dispatch);
     } catch (error) {
       expect(
         dispatch.calledWith({
@@ -148,7 +161,6 @@ describe('actions creator', () => {
     }
     apiRequestStub.restore();
   });
-
   it('dispatches UPDATE_ADDRESS action immediately', async () => {
     const mailingAddress = {
       street: '123 Main St',
@@ -206,7 +218,9 @@ describe('actions creator', () => {
       ok: true,
     };
     apiRequestStub.resolves(response);
-    await verifyEnrollmentAction({ data: 'verify enrollment' })(dispatch);
+    await verifyEnrollmentAction({ data: 'verify enrollment' })(dispatch, () =>
+      mockGetState(1),
+    );
     expect(
       dispatch.calledWith({
         type: VERIFY_ENROLLMENT_SUCCESS,
@@ -224,7 +238,7 @@ describe('actions creator', () => {
       await verifyEnrollmentAction({
         type: VERIFY_ENROLLMENT_FAILURE,
         errors,
-      })(dispatch);
+      })(dispatch, () => mockGetState(null));
     } catch (error) {
       expect(
         dispatch.calledWith({

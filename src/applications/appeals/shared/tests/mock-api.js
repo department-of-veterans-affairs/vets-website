@@ -67,7 +67,7 @@ const responses = {
 
   'GET /v0/intent_to_file': itf,
 
-  'GET /v0/notice_of_disagreements/contestable_issues': issues,
+  'GET /v1/notice_of_disagreements/contestable_issues': issues,
   'GET /v1/supplemental_claims/contestable_issues/compensation': issues,
   'GET /v1/higher_level_reviews/contestable_issues/compensation': hlrIssues,
 };

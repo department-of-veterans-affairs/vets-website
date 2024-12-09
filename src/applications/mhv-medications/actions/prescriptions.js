@@ -4,9 +4,12 @@ import {
   getPaginatedSortedList,
   getRefillablePrescriptionList,
   fillRx,
+  fillRxs,
   getAllergies,
+  getFilteredList,
 } from '../api/rxApi';
 
+// **Remove once filter feature is developed and live.**
 export const getPrescriptionsPaginatedSortedList = (
   pageNumber,
   sortEndpoint,
@@ -15,6 +18,30 @@ export const getPrescriptionsPaginatedSortedList = (
     const response = await getPaginatedSortedList(pageNumber, sortEndpoint);
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      response,
+    });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const getPaginatedFilteredList = (
+  pageNumber,
+  filterOption,
+  sortEndpoint,
+) => async dispatch => {
+  try {
+    const response = await getFilteredList(
+      pageNumber,
+      filterOption,
+      sortEndpoint,
+    );
+    dispatch({
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response,
     });
     return null;
@@ -92,4 +119,22 @@ export const fillPrescription = prescriptionId => async dispatch => {
     });
     return error;
   }
+};
+
+export const fillPrescriptions = prescriptions => async dispatch => {
+  try {
+    const response = await fillRxs(prescriptions.map(p => p.prescriptionId));
+    response.prescriptions = prescriptions;
+    dispatch({ type: Actions.Prescriptions.FILL_NOTIFICATION, response });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const clearFillNotification = () => async dispatch => {
+  dispatch({ type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION });
 };

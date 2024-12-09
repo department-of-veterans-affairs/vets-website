@@ -9,6 +9,7 @@ import CreateAccountLink from '~/platform/user/authentication/components/CreateA
 import VerifyAccountLink from '~/platform/user/authentication/components/VerifyAccountLink';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { CREDENTIAL_DEADLINES } from '../../../constants';
 
 const CredentialRetirementMessaging = () => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -20,7 +21,8 @@ const CredentialRetirementMessaging = () => {
   const serviceLabelFormatted = serviceLabel ? ` ${serviceLabel}` : '';
   return showCredentialRetirementMessaging ? (
     <>
-      Starting December 31, 2024, you’ll no longer be able to sign in with your
+      Starting {CREDENTIAL_DEADLINES[serviceLabel]}, you’ll no longer be able to
+      sign in with your
       {serviceLabelFormatted} username and password.
     </>
   ) : null;

@@ -8,7 +8,7 @@ import { CHAPTER_3 } from '../../../constants';
 const familyMembersLocationOfResidencePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE),
-    locationOfResidence: selectUI({
+    familyMembersLocationOfResidence: selectUI({
       title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
         required: 'Please select your location',
@@ -17,9 +17,9 @@ const familyMembersLocationOfResidencePage = {
   },
   schema: {
     type: 'object',
-    required: ['locationOfResidence'],
+    required: ['familyMembersLocationOfResidence'],
     properties: {
-      locationOfResidence: {
+      familyMembersLocationOfResidence: {
         type: 'string',
         enum: states.USA.map(state => state.label),
       },

@@ -9,11 +9,7 @@ import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
-// Test was skipped on 2/23/2024 due to CI failures.
-// Seems that keyboard only tests using FireFox and Electron
-// fail while Chrome works fine. Further investigation is needed to resolve
-// https://dsva.slack.com/archives/CBU0KDSB1/p1708717681733839
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+describe('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cypressSetup();
 
@@ -26,7 +22,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
+      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(
@@ -34,7 +30,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.injectAxeThenAxeCheck();
 
-      // Intro page
+      // *** Intro page
       // TODO: tabToStartForm Cypress function needs to be updated to only
       // target action links
       cy.tabToElement('.vads-c-action-link--green');
@@ -42,33 +38,33 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       cy.wait('@getIssues');
 
-      // Veteran details
+      // *** Veteran details
       cy.url().should(
         'include',
         chapters.infoPages.pages.veteranInformation.path,
       );
       cy.tabToContinueForm();
 
-      // Homelessness radios
+      // *** Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
       cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio('N');
       cy.tabToContinueForm();
 
-      // Contact info
+      // *** Contact info
       cy.url().should('include', CONTACT_INFO_PATH);
       // cy.tabToContinueForm();
       cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
       cy.realPress('Space');
 
-      // Filing deadlines
+      // *** Filing deadlines
       cy.url().should(
         'include',
         chapters.conditions.pages.filingDeadlines.path,
       );
       cy.tabToContinueForm();
 
-      // Request extension
+      // *** Request extension
       cy.url().should(
         'include',
         chapters.conditions.pages.extensionRequest.path,
@@ -77,7 +73,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
       cy.tabToContinueForm();
 
-      // Request reason
+      // *** Request reason
       cy.url().should(
         'include',
         chapters.conditions.pages.extensionReason.path,
@@ -86,7 +82,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.realType(data.extensionReason);
       cy.tabToContinueForm();
 
-      // Denial of VHA benefits
+      // *** Denial of VHA benefits
       cy.url().should(
         'include',
         chapters.conditions.pages.appealingVhaDenial.path,
@@ -95,9 +91,9 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
       cy.tabToContinueForm();
 
-      // Issues for review (sorted by random decision date) - only selecting one,
-      // or more complex code is needed to find if the next checkbox is before or
-      // after the first
+      // *** Issues for review (sorted by random decision date) - only selecting
+      // one, or more complex code is needed to find if the next checkbox is
+      // before or after the first
       cy.url().should(
         'include',
         chapters.conditions.pages.contestableIssues.path,
@@ -106,7 +102,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.realPress('Space');
       cy.tabToContinueForm();
 
-      // area of disagreement for tinnitus
+      // *** Area of disagreement for tinnitus
       cy.url().should(
         'include',
         chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
@@ -123,11 +119,11 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
       cy.realPress('Space');
 
-      // Issue summary
+      // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
       cy.tabToContinueForm();
 
-      // Board review option
+      // *** Board review option
       cy.url().should(
         'include',
         chapters.boardReview.pages.boardReviewOption.path,
@@ -136,18 +132,19 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.chooseRadio('hearing');
       cy.tabToContinueForm();
 
-      // Hearing type
+      // *** Hearing type
       cy.url().should('include', chapters.boardReview.pages.hearingType.path);
       cy.tabToElement('[name="root_hearingTypePreference"]');
       cy.chooseRadio('video_conference');
       cy.tabToContinueForm();
 
-      // Review & submit page
+      // *** Review & submit page
       cy.url().should('include', 'review-and-submit');
       cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
+      // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
       cy.get('va-button.screen-only').should('exist');

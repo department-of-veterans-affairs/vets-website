@@ -19,7 +19,13 @@ const getFromToNums = (page, total) => {
   return [from, to];
 };
 
-const Payments = ({ data, fields, tableVersion, textContent }) => {
+const Payments = ({
+  data,
+  fields,
+  tableVersion,
+  textContent,
+  alertMessage,
+}) => {
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   // Using `useRef` here to avoid triggering a rerender whenever these are
@@ -44,9 +50,10 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
     return (
       <>
         {textContent}
-        <p className="vads-u-font-size--lg vads-u-font-family--serif">
-          Displaying {from} - {to} of {data.length}
-        </p>
+        {alertMessage}
+        <h3 className="vads-u-font-size--lg vads-u-font-family--serif">
+          Displaying {from} - {to} of {data.length} payments
+        </h3>
         <va-table>
           <va-table-row slot="headers">
             {fields.map(field => (
@@ -83,6 +90,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
+  alertMessage: PropTypes.element,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

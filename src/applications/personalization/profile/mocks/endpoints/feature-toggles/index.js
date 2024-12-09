@@ -7,16 +7,17 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileShowMhvNotificationSettings: false,
+  profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+  profileShowNewHealthCareCopayBillNotificationSetting: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
-  profileShowDirectDepositSingleForm: false,
-  profileShowDirectDepositSingleFormUAT: false,
-  profileShowDirectDepositSingleFormAlert: false,
-  profileShowDirectDepositSingleFormEduDowntime: false,
-  profileShowEmailNotificationSettings: false,
   profileShowPrivacyPolicy: false,
+  profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+  profileShowMhvNotificationSettingsNewSecureMessaging: false,
+  profileShowMhvNotificationSettingsEmailRxShipment: false,
+  profileShowMhvNotificationSettingsMedicalImages: false,
+  profileShowNoValidationKeyAddressAlert: false,
 };
 
 const makeAllTogglesTrue = toggles => {

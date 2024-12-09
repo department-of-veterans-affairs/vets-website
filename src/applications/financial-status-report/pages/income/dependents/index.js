@@ -1,25 +1,17 @@
-import React from 'react';
-import DependentExplainer from '../../../components/household/DependentExplainer';
+import { validateIsNumber } from '../../../utils/validations';
 
 export const uiSchemaEnhanced = {
-  'ui:title': () => (
-    <>
-      <legend className="schemaform-block-title">
-        <h3 className="vads-u-margin--0">Your dependents</h3>
-      </legend>
-    </>
-  ),
   questions: {
     'ui:options': {
       hideOnReview: false, // change this to true to hide this question on review page
     },
     hasDependents: {
       'ui:title': 'Number of dependents',
-    },
-  },
-  'view:components': {
-    'view:dependentsAdditionalInfo': {
-      'ui:description': DependentExplainer,
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your dependent(s) information.',
+      },
+      'ui:validations': [validateIsNumber],
     },
   },
 };

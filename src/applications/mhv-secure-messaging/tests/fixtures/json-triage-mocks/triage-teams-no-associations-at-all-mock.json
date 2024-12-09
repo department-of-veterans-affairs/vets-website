@@ -7,5 +7,7 @@
   "mockAllRecipients": [],
   "mockAllowedRecipients": [],
   "mockBlockedRecipients": [],
-  "mockBlokedFacilities": []
+  "mockBlokedFacilities": [],
+  "mockAllFacilities": [],
+  "mockBlockedFacilities": []
 }

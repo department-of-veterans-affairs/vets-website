@@ -73,7 +73,7 @@ export const schema = {
       properties: {},
     },
     authorizeAddressRadio: radioSchema([
-      `Yes, they can change my address if it's incorrect or outdated`,
+      `Yes, they can change my address if it’s incorrect or outdated`,
       `No, they can't change my address`,
     ]),
     'view:authorizationNote3': {

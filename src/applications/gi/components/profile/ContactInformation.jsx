@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { ScoContact } from './ScoContact';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
-import classNames from 'classnames';
 
 export default function ContactInformation({ institution, showModal }) {
   const isOJT = institution.type && institution.type.toLowerCase() === 'ojt';
@@ -23,7 +23,7 @@ export default function ContactInformation({ institution, showModal }) {
     institution.physicalAddress1 && (
       <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
+          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Physical address
           </h3>
         </div>
@@ -51,7 +51,7 @@ export default function ContactInformation({ institution, showModal }) {
     institution.address1 && (
       <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
+          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Mailing address
           </h3>
         </div>
@@ -77,12 +77,13 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
-            text={'Single point of contact for Veterans'}
+            bold
+            text="Single point of contact for Veterans"
             onClick={() => {
               showModal('singleContact');
             }}
             ariaLabel={ariaLabels.learnMore.singlePoint}
-            buttonId={'singleContact-button'}
+            buttonId="singleContact-button"
             buttonClassName="small-screen-font"
           />
           :
@@ -144,12 +145,13 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
-            text={'VA Facility Code'}
+            bold
+            text="VA Facility Code"
             onClick={() => {
               showModal('facilityCode');
             }}
             ariaLabel={ariaLabels.learnMore.facilityCode}
-            buttonId={'facilityCode-button'}
+            buttonId="facilityCode-button"
             buttonClassName="small-screen-font"
           />
           :
@@ -161,12 +163,13 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
-              text={'ED IPEDS code'}
+              bold
+              text="ED IPEDS code"
               onClick={() => {
                 showModal('ipedsCode');
               }}
               ariaLabel={ariaLabels.learnMore.ipedsCode}
-              buttonId={'ipedsCode-button'}
+              buttonId="ipedsCode-button"
               buttonClassName="small-screen-font"
             />
             :
@@ -179,12 +182,13 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
-              text={'ED OPE code'}
+              bold
+              text="ED OPE code"
               onClick={() => {
                 showModal('opeCode');
               }}
               ariaLabel={ariaLabels.learnMore.opeCode}
-              buttonId={'opeCode-button'}
+              buttonId="opeCode-button"
               buttonClassName="small-screen-font"
             />
             :
@@ -206,3 +210,7 @@ export default function ContactInformation({ institution, showModal }) {
     </div>
   );
 }
+ContactInformation.propTypes = {
+  showModal: PropTypes.func.isRequired,
+  institution: PropTypes.object,
+};

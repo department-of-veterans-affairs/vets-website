@@ -71,7 +71,7 @@ class PatientMessageTrashPage {
     option = 'Oldest to newest',
     sortedResponse,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${option}`, { force: true });
@@ -90,7 +90,7 @@ class PatientMessageTrashPage {
       .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(JSON.stringify(listBefore));
+        cy.log(`Before sorting - ${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.clickSortMessagesByDateButton(option, data);
@@ -99,7 +99,7 @@ class PatientMessageTrashPage {
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            cy.log(JSON.stringify(listAfter));
+            cy.log(`After sorting -${JSON.stringify(listAfter)}`);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
@@ -186,7 +186,7 @@ class PatientMessageTrashPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });

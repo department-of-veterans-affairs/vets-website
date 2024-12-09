@@ -127,12 +127,7 @@ export const getPastItf = cy => {
     .should('be.visible')
     .then(() => {
       // Click past the ITF message
-      cy.get('va-button-pair')
-        .shadow()
-        .find('va-button[continue]')
-        .shadow()
-        .find('button')
-        .click();
+      cy.selectVaButtonPairPrimary();
     });
 };
 

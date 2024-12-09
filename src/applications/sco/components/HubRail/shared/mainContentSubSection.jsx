@@ -5,9 +5,9 @@ const MainContentSubSection = ({ id, header, children }) => {
   return (
     <section className="merger-majorlinks va-nav-linkslist va-nav-linkslist--related">
       <section className="field_related_links">
-        <h3 className="va-nav-linkslist-heading" id={id}>
+        <h2 className="va-nav-linkslist-heading" id={id}>
           {header}
-        </h3>
+        </h2>
         <ul className="va-nav-linkslist-list">{children}</ul>
       </section>
     </section>

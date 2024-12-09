@@ -46,16 +46,15 @@ function getFirstDayOfMonth(momentDate) {
  * @param {string} maxDate YYYY-DD-MM
  * @returns {string} YYYY-MM
  */
-export function getMaxMonth(maxDate) {
+export function getMaxMonth(maxDate, overrideMaxDays) {
   const defaultMaxMonth = moment()
     .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
     .format('YYYY-MM');
   const maxMonth = moment(maxDate).startOf('month');
 
-  if (maxDate && maxMonth.isAfter(defaultMaxMonth)) {
+  if (maxDate && (maxMonth.isAfter(defaultMaxMonth) || overrideMaxDays)) {
     return maxMonth.format('YYYY-MM');
   }
-
   // If no available dates array provided, set max to default from now
   return defaultMaxMonth;
 }
@@ -235,6 +234,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {string} props.timezone America/Denver
  * @param {Array<string>} props.value
  * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
+ * @param {boolean} [props.overrideMaxDays=false] Disables the default max days value
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
@@ -249,6 +249,7 @@ function CalendarWidget({
   onChange,
   onNextMonth,
   onPreviousMonth,
+  overrideMaxDays = false,
   renderOptions,
   renderIndicator,
   renderSelectedLabel,
@@ -268,7 +269,7 @@ function CalendarWidget({
     return null;
   });
   const currentDate = moment();
-  const maxMonth = getMaxMonth(maxDate);
+  const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
@@ -390,6 +391,7 @@ function CalendarWidget({
 }
 
 CalendarWidget.propTypes = {
+  id: PropTypes.string.isRequired,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string.isRequired,
@@ -398,22 +400,24 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
-  minDate: PropTypes.string,
   maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
   maxSelectionsError: PropTypes.string,
-  startMonth: PropTypes.string,
-  onChange: PropTypes.func,
-  onNextMonth: PropTypes.func,
-  onPreviousMonth: PropTypes.func,
+  minDate: PropTypes.string,
+  overrideMaxDays: PropTypes.bool,
   renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
+  renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
   showValidation: PropTypes.bool,
-  id: PropTypes.string.isRequired,
+  showWeekends: PropTypes.bool,
+  startMonth: PropTypes.string,
   timezone: PropTypes.string,
   value: PropTypes.array,
+  onChange: PropTypes.func,
+  onNextMonth: PropTypes.func,
+  onPreviousMonth: PropTypes.func,
 };
 
 export default CalendarWidget;

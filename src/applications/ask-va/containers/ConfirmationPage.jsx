@@ -1,11 +1,15 @@
 import { lowerCase } from 'lodash';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
 
-const ConfirmationPage = () => {
+const ConfirmationPage = ({ location }) => {
+  const inquiryNumber = location.state?.inquiryNumber || 'A-123456-7890';
+
   const { user, form } = useSelector(state => state);
-  const { submission, data } = form;
+  const { data } = form;
   const {
     login: { currentlyLoggedIn },
     profile: { loading },
@@ -22,7 +26,6 @@ const ConfirmationPage = () => {
   );
 
   const contactOption = lowerCase(data?.contactPreference) || 'email';
-  const referenceID = submission?.id || 'A-123456-7890';
 
   if (loading) {
     return (
@@ -52,6 +55,7 @@ const ConfirmationPage = () => {
         visible
         uswds
         ref={alertRef}
+        slim
       >
         <p className="vads-u-margin-y--0">
           Your question was submitted successfully.
@@ -59,7 +63,7 @@ const ConfirmationPage = () => {
       </va-alert>
       <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
         Your confirmation number is{' '}
-        <span className="vads-u-font-weight--bold">{referenceID}.</span> We’ll
+        <span className="vads-u-font-weight--bold">{inquiryNumber}</span>. We’ll
         also send you an email confirmation.
       </p>
       <p className="vads-u-margin-bottom--3">
@@ -73,4 +77,7 @@ const ConfirmationPage = () => {
   );
 };
 
-export default ConfirmationPage;
+ConfirmationPage.propTypes = {
+  location: PropTypes.object,
+};
+export default withRouter(ConfirmationPage);

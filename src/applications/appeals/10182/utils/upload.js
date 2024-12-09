@@ -15,7 +15,7 @@ import { createPayload, parseResponse } from '../../shared/utils/upload';
 
 export const evidenceUploadUI = {
   ...fileUiSchema(EvidenceUploadLabel, {
-    fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
+    fileUploadUrl: `${environment.API_URL}/v1/decision_review_evidence`,
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     maxSizeText: `${MAX_FILE_SIZE_MB}MB`,

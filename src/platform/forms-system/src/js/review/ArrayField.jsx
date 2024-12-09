@@ -5,6 +5,9 @@ import {
   getDefaultFormState,
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+
+import { Element } from 'platform/utilities/scroll';
+
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -13,7 +16,6 @@ import { focusElement } from '../utilities/ui';
 
 import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
-const { Element } = Scroll;
 const { scroller } = Scroll;
 const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 

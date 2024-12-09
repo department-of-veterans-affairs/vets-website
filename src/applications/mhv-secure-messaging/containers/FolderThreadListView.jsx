@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import {
   Paths,
   threadSortingOptions,
   PageTitles,
+  THREADS_PER_PAGE_DEFAULT,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -20,25 +21,21 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import {
-  getListOfThreads,
-  setThreadPage,
-  setThreadSortOrder,
-} from '../actions/threads';
+import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase } from '../util/helpers';
+import { convertPathNameToTitleCase, scrollTo } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const error = null;
-  const threadsPerPage = 10;
-  const { threadList, threadSort, isLoading } = useSelector(
-    state => state.sm.threads,
-  );
+  const threadsPerPage = THREADS_PER_PAGE_DEFAULT;
+  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
+  const folderId = folder?.folderId;
   const {
     searchFolder,
     searchResults,
@@ -57,13 +54,42 @@ const FolderThreadListView = props => {
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
 
+  const retrieveListOfThreads = useCallback(
+    ({
+      sortFolderId = threadSort.folderId,
+      perPage = threadsPerPage,
+      page = threadSort.page,
+      value = threadSort.value,
+      update = false,
+    }) => {
+      dispatch(
+        setThreadSortOrder({
+          value,
+          folderId: sortFolderId,
+          page,
+        }),
+      );
+      dispatch(getListOfThreads(sortFolderId, perPage, page, value, update));
+    },
+    [dispatch, threadSort, threadsPerPage],
+  );
+
   const handleSortCallback = sortOrderValue => {
-    dispatch(setThreadSortOrder(sortOrderValue, folder.folderId, 1));
+    retrieveListOfThreads({
+      sortFolderId: folderId,
+      value: sortOrderValue,
+      page: 1,
+    });
     waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   const handlePagination = page => {
-    dispatch(setThreadPage(page));
+    scrollTo(document.querySelector('h1'));
+    retrieveListOfThreads({
+      sortFolderId: threadSort.folderId,
+      value: threadSort.value,
+      page,
+    });
     waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
@@ -108,59 +134,31 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (folder?.folderId !== (null || undefined)) {
+      if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
           updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
         }
-        if (folder.folderId !== threadSort?.folderId) {
+        if (folderId !== threadSort?.folderId) {
+          let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
           if (location.pathname === Paths.DRAFTS) {
-            dispatch(
-              setThreadSortOrder(
-                threadSortingOptions.DRAFT_DATE_DESCENDING.value,
-                folder.folderId,
-                1,
-              ),
-            );
-          } else {
-            dispatch(
-              setThreadSortOrder(
-                threadSortingOptions.SENT_DATE_DESCENDING.value,
-                folder.folderId,
-                1,
-              ),
-            );
+            sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
           }
-          // updates page title
-        } else {
-          dispatch(
-            setThreadSortOrder(
-              threadSort.value,
-              folder.folderId,
-              threadSort.page,
-            ),
-          );
-          if (threadSort.page > 1 && threadList.length === 0) {
-            const decrementPage = threadSort.page - 1;
-            dispatch(
-              getListOfThreads(
-                folder.folderId,
-                threadsPerPage,
-                decrementPage,
-                threadSort.value,
-                true,
-              ),
-            );
-            dispatch(setThreadPage(decrementPage));
-          }
+          retrieveListOfThreads({
+            sortFolderId: folderId,
+            value: sortOption,
+            page: 1,
+          });
         }
-        if (folder.folderId !== searchFolder?.folderId) {
+
+        if (folderId !== searchFolder?.folderId) {
           dispatch(clearSearchResults());
         }
       }
     },
     [
-      folder?.folderId,
+      folderId,
       dispatch,
+      retrieveListOfThreads,
       folder?.name,
       location?.pathname,
       threadSort?.folderId,
@@ -169,25 +167,6 @@ const FolderThreadListView = props => {
       searchFolder?.folderId,
       threadList?.length,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        folder?.folderId !== (null || undefined) &&
-        threadSort.value !== null
-      ) {
-        dispatch(
-          getListOfThreads(
-            folder.folderId,
-            threadsPerPage,
-            threadSort.page,
-            threadSort.value,
-          ),
-        );
-      }
-    },
-    [dispatch, threadSort.value, threadSort.folderId, threadSort.page],
   );
 
   useEffect(
@@ -203,10 +182,10 @@ const FolderThreadListView = props => {
   );
 
   useInterval(() => {
-    if (folder?.folderId !== null) {
+    if (folderId !== null) {
       dispatch(
         getListOfThreads(
-          folder.folderId,
+          threadSort.folderId,
           threadsPerPage,
           threadSort.page,
           threadSort.value,
@@ -313,9 +292,9 @@ const FolderThreadListView = props => {
         {folder === null ? (
           <></>
         ) : (
-          folder?.folderId === undefined && <LoadingIndicator />
+          folderId === undefined && <LoadingIndicator />
         )}
-        {folder?.folderId !== undefined && (
+        {folderId !== undefined && (
           <>
             <FolderHeader
               folder={folder}
