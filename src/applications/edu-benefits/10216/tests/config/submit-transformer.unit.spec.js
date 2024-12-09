@@ -2,16 +2,6 @@ import { expect } from 'chai';
 import { transform } from '../../config/submit-transformer';
 
 describe('transform function', () => {
-  before(() => {
-    global.calculatedPercentage = () => {
-      return 75;
-    };
-  });
-
-  after(() => {
-    delete global.calculatedPercentage;
-  });
-
   it('should transform form data correctly', () => {
     const formConfig = {};
     const form = {
