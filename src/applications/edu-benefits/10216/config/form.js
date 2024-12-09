@@ -89,11 +89,7 @@ const formConfig = {
           uiSchema: { 'ui:webComponentField': () => <Alert /> },
           schema: {
             type: 'object',
-            properties: {
-              isAccredited: {
-                type: 'boolean',
-              },
-            },
+            properties: {},
           },
         },
       },
