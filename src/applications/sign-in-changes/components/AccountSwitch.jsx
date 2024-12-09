@@ -8,12 +8,10 @@ const CspDisplay = ({ csp, email, name }) => {
     <>
       <p>
         We found an existing <strong>{name}</strong> account for your email
-        address: <strong>{maskEmail(email)}</strong>
+        address: {maskEmail(email, `${csp}email`)}
       </p>
-      {/* change line below */}
       <VerifyButton
         csp={csp}
-        data-testid={csp}
         queryParam={{ operation: 'interstitial_verify' }}
       />
     </>
@@ -37,16 +35,10 @@ export default function AccountSwitch({ userEmails }) {
           csp="logingov"
           email={userEmails.logingov}
           name="Login.gov"
-          id="logingovButton"
         />
       )}
       {userHasIdme && (
-        <CspDisplay
-          csp="idme"
-          email={userEmails.idme}
-          name="ID.me"
-          id="idmeButton"
-        />
+        <CspDisplay csp="idme" email={userEmails.idme} name="ID.me" />
       )}
     </div>
   );
