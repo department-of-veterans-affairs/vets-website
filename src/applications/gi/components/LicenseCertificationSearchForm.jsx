@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import { handleUpdateLcFilterDropdowns } from '../utils/helpers';
-import LcKeywordSearch from './LcKeywordSearch';
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+import {
+  capitalizeFirstLetter,
+  filterLcResults,
+  handleUpdateLcFilterDropdowns,
+} from '../utils/helpers';
+import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 
 const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
@@ -39,21 +39,6 @@ export const dropdownSchema = [
   },
 ];
 
-const filterSuggestions = (suggestions, value, filters) => {
-  const { type } = filters; // destructure state once it's added to the response
-
-  if (!value) {
-    return [];
-  }
-
-  return suggestions.filter(suggestion => {
-    if (type !== suggestion.type && type !== 'all') return false;
-    // TODO add logic to account for state
-
-    return suggestion.name.toLowerCase().includes(value.toLowerCase());
-  });
-};
-
 const resetStateDropdown = dropdowns => {
   return dropdowns.map(dropdown => {
     return dropdown.label === 'state'
@@ -70,15 +55,21 @@ const resetStateDropdown = dropdowns => {
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
+  handleUpdateQueryParam,
+  location,
 }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const [name, setName] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showStateAlert, setShowStateAlert] = useState(false);
 
+  const searchParams = new URLSearchParams(location.search);
+  const name = searchParams.get('name') ?? '';
+  const category = searchParams.get('category') ?? '';
+  const stateParam = searchParams.get('state') ?? '';
+
   useEffect(
     () => {
-      const newSuggestions = filterSuggestions(suggestions, name, {
+      const newSuggestions = filterLcResults(suggestions, name, {
         type: dropdowns[0].current.optionValue,
       });
 
@@ -97,7 +88,6 @@ export default function LicenseCertificationSearchForm({
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
-    setName('');
   };
 
   const handleChange = e => {
@@ -107,18 +97,17 @@ export default function LicenseCertificationSearchForm({
       setDropdowns(resetStateDropdown);
     }
 
-    setDropdowns(current => {
-      // update url params
-      return handleUpdateLcFilterDropdowns(current, e.target);
-    });
+    handleUpdateQueryParam()(e.target.id, e.target.value);
+
+    setDropdowns(current => handleUpdateLcFilterDropdowns(current, e.target));
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    setName(value); // update url params
+    handleUpdateQueryParam()('name', value);
   };
 
   const onSelection = selection => {
-    const { type, state } = selection; // TODO ensure state is added to response object coming from BE
+    const { type, state } = selection;
 
     const updateDropdowns = dropdowns.map(dropdown => {
       if (dropdown.label === 'state') {
@@ -146,7 +135,7 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleClearInput = () => {
-    onUpdateAutocompleteSearchTerm('');
+    handleUpdateQueryParam()('name', '');
     setShowStateAlert(false);
   };
 
@@ -158,7 +147,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[0].label}
         options={dropdowns[0].options}
-        value={dropdowns[0].current.optionValue}
+        value={category ?? dropdowns[0].current.optionValue}
         onChange={handleChange}
         alt={dropdowns[0].alt}
         selectClassName="lc-dropdown-filter"
@@ -171,7 +160,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[1].label}
         options={dropdowns[1].options}
-        value={dropdowns[1].current.optionValue}
+        value={stateParam ?? dropdowns[1].current.optionValue}
         onChange={handleChange}
         alt={dropdowns[1].alt}
         selectClassName="lc-dropdown-filter"
@@ -199,7 +188,7 @@ export default function LicenseCertificationSearchForm({
         )}
       </Dropdown>
       <div>
-        <LcKeywordSearch
+        <LicenseCertificationKeywordSearch
           inputValue={name}
           suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
@@ -211,7 +200,7 @@ export default function LicenseCertificationSearchForm({
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() => handleSearch(name, dropdowns[0].current.optionValue)}
+          onClick={() => handleSearch(dropdowns[0].current.optionValue, name)}
         />
         <va-button
           text="Reset Search"
