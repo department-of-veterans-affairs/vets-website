@@ -173,10 +173,10 @@ const AddressValidationRadio = props => {
         )}
       </div>
       <div>
-        <span className="vads-u-font-weight--bold">You entered:</span>
+        <span className="vads-u-font-weight--bold">You entered</span>
         {renderAddressOption(formData.address)}
         <span className="vads-u-font-weight--bold">
-          Suggested {apiData.length > 1 ? 'addresses' : 'address'}:
+          Suggested {apiData.length > 1 ? 'addresses' : 'address'}
         </span>
         {shouldShowSuggestions ? (
           apiData.map((item, index) =>
