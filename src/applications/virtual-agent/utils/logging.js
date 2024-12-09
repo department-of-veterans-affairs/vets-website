@@ -1,12 +1,15 @@
 import { datadogLogs } from '@datadog/browser-logs';
 
-// Initialize Datadog logging
-datadogLogs.init({
-  clientToken: 'YOUR_DATADOG_CLIENT_TOKEN', // Replace with your Datadog API key
-  site: 'datadoghq.com',
-  forwardErrorsToLogs: true, // Automatically capture unhandled errors
-  sampleRate: 100, // Percentage of sessions to log (adjust as needed)
-});
+// Conditional added to prevent initialization of Datadog as it was causing tests to hang indefinitely and prevented coverage report generation
+if (!process.env.NODE_ENV === 'test') {
+  // Initialize Datadog logging
+  datadogLogs.init({
+    clientToken: 'YOUR_DATADOG_CLIENT_TOKEN', // Replace with your Datadog API key
+    site: 'datadoghq.com',
+    forwardErrorsToLogs: true, // Automatically capture unhandled errors
+    sampleRate: 100, // Percentage of sessions to log (adjust as needed)
+  });
+}
 
 /**
  * Logs an error to Datadog if the logging feature toggle is enabled.
