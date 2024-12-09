@@ -67,13 +67,10 @@ export const getAllergies = async () => {
 };
 
 export const getDocumentation = id => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions/${id}/documentation?id=${id}`,
-    {
-      method: 'GET',
-      headers,
-    },
-  );
+  return apiRequest(`${apiBasePath}/prescriptions/${id}/documentation`, {
+    method: 'GET',
+    headers,
+  });
 };
 
 // **Remove once filter feature is developed and live.**
