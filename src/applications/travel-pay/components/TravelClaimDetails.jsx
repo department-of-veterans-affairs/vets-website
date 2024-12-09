@@ -91,7 +91,7 @@ export default function TravelClaimDetails() {
   }
 
   if (!canViewClaimDetails) {
-    window.location.replace('/my-health/travel-claim-status');
+    window.location.replace('/my-health/travel-pay');
     return null;
   }
 

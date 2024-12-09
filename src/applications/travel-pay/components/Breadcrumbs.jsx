@@ -20,7 +20,7 @@ export default function BreadCrumbs() {
       label: 'My HealtheVet',
     },
     {
-      href: '/my-health/travel-claim-status',
+      href: '/my-health/travel-pay',
       label: 'Check your travel reimbursement claim status',
       isRouterLink: true,
     },
