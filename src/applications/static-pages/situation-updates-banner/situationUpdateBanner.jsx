@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DOMPurify from 'dompurify';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export default function SituationUpdateBanner({
   id,
@@ -7,15 +9,33 @@ export default function SituationUpdateBanner({
   headline,
   showClose,
   content,
+  operatingStatusCta = false,
+  operatingStatusPage,
 }) {
   return (
     <va-banner
-      banner-id={id}
+      data-testid="situation-update-banner"
+      banner-id={`situation-update-banner-${id}`}
       type={alertType}
       headline={headline}
       show-close={showClose}
     >
-      <p>{content}</p>
+      {/* eslint-disable-next-line react/no-danger */}
+      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+      {operatingStatusCta &&
+        operatingStatusPage && (
+          <p>
+            <va-link
+              disable-analytics
+              onclick={recordEvent({
+                event: 'nav-warning-alert-box-content-link-click',
+                alertBoxHeading: headline,
+              })}
+              href={operatingStatusPage}
+              text="Get updates on affected services and facilities"
+            />
+          </p>
+        )}
     </va-banner>
   );
 }
@@ -25,5 +45,7 @@ SituationUpdateBanner.propTypes = {
   content: PropTypes.node.isRequired,
   headline: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  operatingStatusCta: PropTypes.bool,
+  operatingStatusPage: PropTypes.string,
   showClose: PropTypes.bool,
 };

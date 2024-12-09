@@ -49,7 +49,7 @@ const LevelTwoLinks = ({
             key={index}
           >
             <button
-              className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+              className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--link-default"
               id={`${title}--2`}
               onClick={() => onButtonClick(title)}
               onKeyDown={event => keyDownHandler(event, onButtonClick, title)}
@@ -91,7 +91,7 @@ const LevelTwoLinks = ({
           id={mainTitle}
         >
           <button
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--link-default"
             id={`${mainTitle}--2`}
             type="button"
             onClick={() => onButtonClick(mainTitle)}
@@ -106,7 +106,7 @@ const LevelTwoLinks = ({
           id={oneTitle}
         >
           <button
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--link-default"
             id={`${oneTitle}--2`}
             type="button"
             onClick={() => onButtonClick(oneTitle)}
@@ -121,7 +121,7 @@ const LevelTwoLinks = ({
           id={twoTitle}
         >
           <button
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--link-default"
             id={`${twoTitle}--2`}
             type="button"
             onClick={() => onButtonClick(twoTitle)}
