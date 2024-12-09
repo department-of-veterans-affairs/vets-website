@@ -116,9 +116,13 @@ export async function fetchPatientEligibility({
  */
 
 export async function fetchPatientRelationships({ typeOfCare, location }) {
-  return transformPatientRelationships(
-    getPatientRelationships(location.id, typeOfCare.idV2),
-  );
+  try {
+    const data = await getPatientRelationships(location.id, typeOfCare.idV2);
+    return transformPatientRelationships(data || []);
+  } catch (e) {
+    captureError(e);
+    throw e;
+  }
 }
 
 function locationSupportsDirectScheduling(location, typeOfCare) {
