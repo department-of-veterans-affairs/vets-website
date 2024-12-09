@@ -266,26 +266,20 @@ export class ConfirmationPage extends React.Component {
           status="info"
           visible
         >
-          <h2>Resources for transitioning service members</h2>
-          <span>
-            You may be eligible for some VA benefits if you're currently serving
-            on
-          </span>
-          <br />
-          <span>active duty, in the National Guard, or in the Reserves.</span>
-          <br />
-          <span>
+          <h2>Benefits for transitioning service members</h2>
+          <p>
+            We can help guide you as you transition from active-duty service or
+            from service in the Guard or Reserve. You’ll need to act quickly to
+            take advantage of certain time-sensitive benefits.
+            <br />
             <va-link
               href="https://www.va.gov/service-member-benefits/"
               external
-              text="Visit this page"
+              text="Learn more about VA benefits for service members"
               type="secondary"
-              label="visit this page"
+              label="Learn more about VA benefits for service members"
             />
-            to find out which benefits
-          </span>
-          <br />
-          <span>you may qualify for&mdash;and when to apply.</span>
+          </p>
         </va-alert>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
