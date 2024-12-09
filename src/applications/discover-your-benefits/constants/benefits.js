@@ -547,7 +547,7 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
   },
   {
-    name: 'Veterans Group Life Insurance (VGLI)',
+    name: "Veterans' Group Life Insurance (VGLI)",
     category: categories.LIFE_INSURANCE,
     id: 'VGL',
     description:
@@ -558,18 +558,14 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [yesNoType.YES],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
         separationTypes.UP_TO_2_YEARS,
       ],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
