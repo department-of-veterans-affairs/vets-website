@@ -32,14 +32,14 @@ export default function LicenseCertificationInfoTabs({ onChange, tab }) {
       'search-tab',
       `${tabName}-search-tab`,
     );
-    const testId = label.replaceAll(' ', '-');
+    // const testId = label.replaceAll(' ', '-');
     return (
       /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
       <button
         type="button"
         className={tabClasses}
         aria-selected={activeTab}
-        data-testid={testId}
+        // data-testid={testId}
         role="tab"
         onClick={() => {
           onChange(tabName);
@@ -61,6 +61,6 @@ export default function LicenseCertificationInfoTabs({ onChange, tab }) {
   );
 }
 LicenseCertificationInfoTabs.propTypes = {
-  search: PropTypes.object.isRequired,
+  tab: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
 };
