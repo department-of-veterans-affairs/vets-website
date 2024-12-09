@@ -10,7 +10,7 @@ import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
   document.title =
-    'You’ll need to sign in with a different account after January 31, 2025';
+    'You’ll need to sign in with a different account after January 31, 2025 | Veterans Affairs.';
 
   const [userEmails, setUserEmails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +67,7 @@ export default function InterstitialChanges() {
       <h2 id="interstitialH2">Or continue using your old account</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
         You’ll can use your <strong>My HealtheVet</strong> account to sign in
-        until <strong>January 31, 2025</strong>.
+        until January 31, 2025.
       </p>
       <VaLink
         text="Continue with your My HealtheVet account for now"
