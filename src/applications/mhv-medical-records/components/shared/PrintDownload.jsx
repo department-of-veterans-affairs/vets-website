@@ -1,9 +1,16 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { sendDataDogAction } from '../../util/helpers';
 
 const PrintDownload = props => {
-  const { downloadPdf, downloadTxt, list, allowTxtDownloads } = props;
+  const {
+    downloadPdf,
+    downloadTxt,
+    list,
+    allowTxtDownloads,
+    description,
+  } = props;
   const menu = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,7 +79,10 @@ const PrintDownload = props => {
       <button
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={() => {
+          setMenuOpen(!menuOpen);
+          sendDataDogAction(`Print Button - ${description}`);
+        }}
         id="print-download-menu"
         data-testid="print-download-menu"
         aria-expanded={menuOpen}
@@ -94,7 +104,10 @@ const PrintDownload = props => {
           <button
             className="vads-u-padding-x--2"
             type="button"
-            onClick={handlePrint}
+            onClick={() => {
+              handlePrint();
+              sendDataDogAction(`Print this List option - ${description}`);
+            }}
             id="printButton-0"
             data-testid="printButton-0"
           >
@@ -105,7 +118,12 @@ const PrintDownload = props => {
           <button
             className="vads-u-padding-x--2"
             type="button"
-            onClick={handlePdfDownload}
+            onClick={() => {
+              handlePdfDownload();
+              sendDataDogAction(
+                `Download PDF of this List option - ${description}`,
+              );
+            }}
             id="printButton-1"
             data-testid="printButton-1"
           >
@@ -119,7 +137,12 @@ const PrintDownload = props => {
               type="button"
               id="printButton-2"
               data-testid="printButton-2"
-              onClick={handleTxtDownload}
+              onClick={() => {
+                handleTxtDownload();
+                sendDataDogAction(
+                  `Download TXT of this List option - ${description}`,
+                );
+              }}
             >
               Download a text file (.txt) of this {list ? 'list' : 'page'}
             </button>
@@ -134,6 +157,7 @@ export default PrintDownload;
 
 PrintDownload.propTypes = {
   allowTxtDownloads: PropTypes.bool,
+  description: PropTypes.string,
   downloadPdf: PropTypes.any,
   downloadTxt: PropTypes.any,
   list: PropTypes.any,
