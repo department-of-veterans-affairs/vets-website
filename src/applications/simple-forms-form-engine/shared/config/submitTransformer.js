@@ -6,7 +6,10 @@ const transformForSubmit = (formConfig, form) => {
   // eslint-disable-next-line no-console
   console.log(transformedData);
 
-  return transformedData;
+  return JSON.stringify({
+    ...transformedData,
+    formNumber: formConfig.formId,
+  });
 };
 
 export default transformForSubmit;
