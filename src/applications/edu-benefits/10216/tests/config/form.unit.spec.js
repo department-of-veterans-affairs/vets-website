@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 describe('22-10216 Form Config', () => {
   it('should render', () => {

@@ -48,4 +48,14 @@ describe('Student Ratio Calculation', () => {
     expect(form.find('va-text-input[error]').length).to.equal(2);
     form.unmount();
   });
+  it('should navigate to additional form if not accredited', async () => {
+    const goPath = sinon.spy();
+    const formData = {
+      facilityCode: '45769814',
+      institutionName: 'test',
+      startDate: '2024-01-01',
+    };
+    await studentRatioCalc.onNavBack({ formData, goPath });
+    expect(goPath.calledWith('/additional-form')).to.be.true;
+  });
 });
