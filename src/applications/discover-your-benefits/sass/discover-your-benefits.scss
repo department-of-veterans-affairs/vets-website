@@ -85,6 +85,14 @@
   list-style-type: none !important;
 }
 
+.all-benefits {
+  margin-top: 1rem;
+
+  span {
+    margin-bottom: 1rem;
+  }
+}
+
 @media (max-width: $small-screen) {
   .vads-l-grid-container {
 

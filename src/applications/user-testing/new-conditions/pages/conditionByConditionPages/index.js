@@ -35,16 +35,20 @@ const conditionByConditionPages = arrayBuilderPages(
       depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
+      // TODO: use depends: (formData, index) instead on the dynamic page for routing.
       onNavForward: props => {
-        const { formData, pathname, urlParams, goPath } = props;
-        const index = getArrayIndexFromPathName(pathname);
+        const { formData, urlParams, goPath, index } = props;
         const urlParamsString = stringifyUrlParams(urlParams) || '';
+        const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
 
-        // TODO: This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
-        // However, with this fix, when user doesn't change condition, side of body is cleared which could confuse users
-        formData.sideOfBody = undefined;
+        if (item) {
+          // TODO: This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
+          // However, with this fix, when user doesn't change condition, side of body is cleared which could confuse users
+          // TODO: use setFormData instead of mutating formData directly.
+          item.sideOfBody = undefined;
+        }
 
-        return hasSideOfBody(formData, index)
+        return hasSideOfBody(item, index)
           ? helpers.navForwardKeepUrlParams(props)
           : goPath(
               `new-conditions-${CONDITION_BY_CONDITION}/${index}/date${urlParamsString}`,
@@ -64,6 +68,7 @@ const conditionByConditionPages = arrayBuilderPages(
       depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavBack: props => {
         const { formData, pathname, urlParams, goPath } = props;
         const index = getArrayIndexFromPathName(pathname);
@@ -71,7 +76,9 @@ const conditionByConditionPages = arrayBuilderPages(
 
         return hasSideOfBody(formData, index)
           ? helpers.navBackKeepUrlParams(props)
-          : goPath(`new-conditions/${index}/condition${urlParamsString}`);
+          : goPath(
+              `new-conditions-${CONDITION_BY_CONDITION}/${index}/condition${urlParamsString}`,
+            );
       },
     }),
     conditionByConditionCause: pageBuilder.itemPage({

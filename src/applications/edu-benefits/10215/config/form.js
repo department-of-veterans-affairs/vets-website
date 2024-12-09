@@ -1,14 +1,17 @@
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// import fullSchema from 'vets-json-schema/dist/22-10215-schema.json';
-// import fullSchema from '../22-10215-schema.json';
-
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import React from 'react';
+
+// In a real app this would not be imported directly; instead the schema you
+// imported above would import and use these common definitions:
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
+import { institutionDetails } from '../pages';
 import { ProgramIntro } from '../pages/program-intro';
 import { programInfo } from '../pages/program-info';
 import { ProgramSummary } from '../pages/program-summary';
@@ -22,6 +25,8 @@ const arrayBuilderOptions = {
     getItemName: item => item.programName,
   },
 };
+
+const { date } = commonDefinitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -38,11 +43,32 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for new form benefits.',
     noAuth:
-      'Please sign in again to continue your application for new form benefits.',
+      'Please sign in again to continue your application for education benefits.',
+  },
+  title: 'Report 85/15 Rule enrollment ratios',
+  subTitle: () => (
+    <p className="vads-u-margin-bottom--0">
+      Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
+      22-10215)
+    </p>
+  ),
+  defaultDefinitions: {
+    date,
   },
   title: 'Report 85/15 Rule enrollment ratios',
   defaultDefinitions: {},
   chapters: {
+    institutionDetailsChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetails: {
+          path: 'institution-details',
+          title: 'Institution details',
+          uiSchema: institutionDetails.uiSchema,
+          schema: institutionDetails.schema,
+        },
+      },
+    },
     programsChapter: {
       title: '85/15 calculations',
       pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({

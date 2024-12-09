@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
 const CheckAppStatusAlert = ({ toggleLoginModal }) => (
   <va-alert status="info" data-testid="hca-check-status-alert" uswds>

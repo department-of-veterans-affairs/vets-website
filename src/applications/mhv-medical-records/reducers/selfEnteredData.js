@@ -16,6 +16,7 @@ const initialState = {
   foodJournal: undefined,
   activityJournal: undefined,
   medications: undefined,
+  errors: [],
 };
 
 export const NONE_ENTERED = 'None entered';
@@ -809,6 +810,18 @@ export const selfEnteredReducer = (state = initialState, action) => {
       return {
         ...state,
         medications: convertMedications(action.payload),
+      };
+    }
+    case Actions.SelfEntered.CLEAR_ERRORS: {
+      return {
+        ...state,
+        errors: [],
+      };
+    }
+    case Actions.SelfEntered.ADD_ERROR: {
+      return {
+        ...state,
+        errors: [...state.errors, action.payload.type],
       };
     }
     default:

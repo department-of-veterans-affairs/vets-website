@@ -1,46 +1,117 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
-import { getPatientReferralById } from '../../../../services/referral';
+import * as getPatientReferralByIdModule from '../../../../services/referral';
+import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
+import { createReferral } from '../../../utils/referrals';
+import { FETCH_STATUS } from '../../../../utils/constants';
 
 import TestComponent from './TestComponent';
 
 describe('Community Care Referrals', () => {
-  describe('useGerReferralById hook', () => {
+  describe('useGetReferralById hook', () => {
+    const now = '2024-11-20';
     const sandbox = sinon.createSandbox();
-    let store;
-    const api = { fetchReferral: getPatientReferralById };
     beforeEach(() => {
       global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
+    });
+    afterEach(() => {
+      sandbox.restore();
+    });
+    it('Loads test component with hook and fetches referral when state is empty', () => {
+      sandbox
+        .stub(getPatientReferralByIdModule, 'getPatientReferralById')
+        .resolves(createReferral(now, '111'));
+      const initialState = {
         featureToggles: {
           vaOnlineSchedulingCCDirectScheduling: true,
         },
         referral: {
           facility: null,
           referrals: [],
-          referralFetchStatus: 'notStarted',
+          referralFetchStatus: FETCH_STATUS.notStarted,
         },
       };
-      store = mockStore(initState);
-      sandbox.stub(api, 'fetchReferral').resolves({});
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
-    it.skip('Loads test component with hook', () => {
-      const screen = render(
-        <Provider store={store}>
-          <TestComponent />
-        </Provider>,
+      const screen = renderWithStoreAndRouter(<TestComponent />, {
+        initialState,
+      });
+      expect(screen.getByText(/Test component/i)).to.exist;
+      sandbox.assert.calledOnce(
+        getPatientReferralByIdModule.getPatientReferralById,
       );
-      expect(screen.getByText(/TestComponent/i)).to.exist;
-      sandbox.assert.calledOnce(api.fetchReferral);
+    });
+    it('Returns the referral from store if exists without calling endpoint', () => {
+      sandbox
+        .stub(getPatientReferralByIdModule, 'getPatientReferralById')
+        .resolves(createReferral(now, '111'));
+      const initialState = {
+        featureToggles: {
+          vaOnlineSchedulingCCDirectScheduling: true,
+        },
+        referral: {
+          facility: null,
+          referrals: [
+            createReferral(now, 'add2f0f4-a1ea-4dea-a504-a54ab57c6800'),
+          ],
+          referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+      };
+      const screen = renderWithStoreAndRouter(<TestComponent />, {
+        initialState,
+      });
+      expect(screen.getByText('add2f0f4-a1ea-4dea-a504-a54ab57c6800')).to.exist;
+      sandbox.assert.notCalled(
+        getPatientReferralByIdModule.getPatientReferralById,
+      );
+    });
+    it('Returns the referral not found when referral not in store', () => {
+      sandbox
+        .stub(getPatientReferralByIdModule, 'getPatientReferralById')
+        .resolves(createReferral(now, '111'));
+      const initialState = {
+        featureToggles: {
+          vaOnlineSchedulingCCDirectScheduling: true,
+        },
+        referral: {
+          facility: null,
+          referrals: [
+            createReferral(now, 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
+          ],
+          referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+      };
+      const screen = renderWithStoreAndRouter(<TestComponent />, {
+        initialState,
+      });
+      expect(screen.getByText('Referral not found: true')).to.exist;
+      sandbox.assert.notCalled(
+        getPatientReferralByIdModule.getPatientReferralById,
+      );
+    });
+    it('Returns the referral not found when referral not in fetch', async () => {
+      sandbox
+        .stub(getPatientReferralByIdModule, 'getPatientReferralById')
+        .resolves({});
+      const initialState = {
+        featureToggles: {
+          vaOnlineSchedulingCCDirectScheduling: true,
+        },
+        referral: {
+          facility: null,
+          referrals: [],
+          referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+      };
+      const screen = renderWithStoreAndRouter(<TestComponent />, {
+        initialState,
+      });
+      await waitFor(() => {
+        expect(screen.getByText('Referral not found: true')).to.exist;
+      });
+      sandbox.assert.calledOnce(
+        getPatientReferralByIdModule.getPatientReferralById,
+      );
     });
   });
 });

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
-import LicenseCertificationSearchResult from './LicenseCertificationSearchResult';
 import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearchResults({
@@ -16,21 +15,21 @@ function LicenseCertificationSearchResults({
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name');
-  const type = searchParams.get('type');
+  // const type = searchParams.get('type');
 
   const itemsPerPage = 5;
 
   const totalPages = Math.ceil(lcResults.length / itemsPerPage);
-  const currentResults = lcResults.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  // const currentResults = lcResults.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage,
+  // );
 
   useEffect(
     () => {
-      dispatchFetchLicenseCertificationResults(name, type);
+      dispatchFetchLicenseCertificationResults();
     },
-    [dispatchFetchLicenseCertificationResults, name, type],
+    [dispatchFetchLicenseCertificationResults],
   );
 
   const handlePageChange = page => {
@@ -60,16 +59,23 @@ function LicenseCertificationSearchResults({
               </p>
             </div>
             <div className="row">
-              <va-accordion openSingle>
-                {currentResults.map((result, index) => {
-                  return (
-                    <LicenseCertificationSearchResult
-                      key={index}
-                      result={result}
-                    />
-                  );
-                })}
-              </va-accordion>
+              {lcResults.map((result, index) => {
+                return (
+                  <div className="vads-u-padding-bottom--2" key={index}>
+                    <va-card class="vads-u-background-color--gray-lightest">
+                      <h3 className="vads-u-margin--0">{result.name}</h3>
+                      <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                        {result.type}
+                      </h4>
+                      <va-link-action
+                        href={`results/${result.link.split('lce/')[1]}`}
+                        text="View test amount details"
+                        type="secondary"
+                      />
+                    </va-card>
+                  </div>
+                );
+              })}
             </div>
             <VaPagination
               page={currentPage}

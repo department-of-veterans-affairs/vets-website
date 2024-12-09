@@ -77,6 +77,7 @@ export function onNavBackRemoveAddingItem({
   arrayPath,
   summaryRoute,
   introRoute,
+  reviewRoute,
 }) {
   return function onNavBack({ goPath, formData, setFormData, urlParams }) {
     const arrayData = get(arrayPath, formData);
@@ -90,7 +91,7 @@ export function onNavBackRemoveAddingItem({
 
     let path = introRoute && !newArrayData?.length ? introRoute : summaryRoute;
     if (urlParams?.review) {
-      path = `${path}?review=true`;
+      path = reviewRoute;
     }
     goPath(path);
   };

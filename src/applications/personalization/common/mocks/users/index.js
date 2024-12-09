@@ -22,9 +22,9 @@ const simpleUser = {
       ],
       account: {
         accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
-        createdAt: '2023-10-05T12:00:00+00:00',
       },
       profile: {
+        initialSignIn: '2023-10-05T12:00:00+00:00',
         email: 'vets.gov.user+75@gmail.com',
         firstName: 'MITCHELL',
         middleName: 'G',

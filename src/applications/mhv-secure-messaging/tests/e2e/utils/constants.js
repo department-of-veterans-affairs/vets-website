@@ -251,7 +251,8 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    RECIPIENTS: `select#options`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
@@ -305,8 +306,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
-  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
+  VIRUS_ATTCH: `Our file scanner found a problem with your attachment. To send your message, remove this attachment.`,
+  VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
 };
@@ -323,6 +324,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',

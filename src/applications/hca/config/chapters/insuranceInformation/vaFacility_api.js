@@ -1,11 +1,11 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { emptyObjectSchema } from '../../../definitions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { wantsInitialVaContact } = fullSchemaHca.properties;
+const { wantsInitialVaContact } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
