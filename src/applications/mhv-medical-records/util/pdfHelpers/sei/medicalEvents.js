@@ -1,12 +1,27 @@
 export const generateMedicalEventsContent = record => {
   return {
-    title: record.asdf,
+    title: record.medicalEvent,
     details: [
       {
         items: [
           {
-            title: 'asdf',
-            value: record.asdf,
+            title: 'Start date',
+            value: record.startDate,
+            inline: true,
+          },
+          {
+            title: 'Stop date',
+            value: record.stopDate,
+            inline: true,
+          },
+          {
+            title: 'Response',
+            value: record.response,
+            inline: true,
+          },
+          {
+            title: 'Comments',
+            value: record.comments,
             inline: true,
           },
         ],
