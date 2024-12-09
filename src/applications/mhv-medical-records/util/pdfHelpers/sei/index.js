@@ -8,7 +8,10 @@ import { generateHealthInsuranceContent } from './healthInsurance';
 import { generateHealthProvidersContent } from './healthProviders';
 import { generateMedicalEventsContent } from './medicalEvents';
 import { generateMedicationsContent } from './medications';
+import { generateMilitaryHistoryContent } from './militaryHistory';
 import { generateTestEntriesContent } from './testEntries';
+import { generateTreatmentFacilitiesContent } from './treatmentFacilities';
+import { generateVaccinesContent } from './vaccines';
 
 export const generateSelfEnteredData = ({
   activityJournal,
@@ -22,9 +25,9 @@ export const generateSelfEnteredData = ({
   testEntries,
   medicalEvents,
   medications,
-  // militaryHistory,
-  // treatmentFacilities,
-  // vaccines,
+  militaryHistory,
+  treatmentFacilities,
+  vaccines,
   // vitals,
 }) => {
   const data = [];
@@ -159,35 +162,40 @@ export const generateSelfEnteredData = ({
     });
   }
 
-  // if (militaryHistory) {
-  //   console.log('militaryHistory: ', militaryHistory);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
+  if (militaryHistory) {
+    data.push({
+      type: selfEnteredTypes.MILITARY_HISTORY,
+      title: `Self-entered ${selfEnteredTypes.MILITARY_HISTORY}`,
+      subtitles: [
+        `Showing ${militaryHistory.length} records, from newest to oldest`,
+      ],
+      records: militaryHistory.map(record =>
+        generateMilitaryHistoryContent(record),
+      ),
+    });
+  }
 
-  // if (treatmentFacilities) {
-  //   console.log('treatmentFacilities: ', treatmentFacilities);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
+  if (treatmentFacilities) {
+    data.push({
+      type: selfEnteredTypes.TREATMENT_FACILITIES,
+      title: `Self-entered ${selfEnteredTypes.TREATMENT_FACILITIES}`,
+      subtitles: [
+        `Showing ${treatmentFacilities.length} records, from newest to oldest`,
+      ],
+      records: treatmentFacilities.map(record =>
+        generateTreatmentFacilitiesContent(record),
+      ),
+    });
+  }
 
-  // if (vaccines) {
-  //   console.log('vaccines: ', vaccines);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
+  if (vaccines) {
+    data.push({
+      type: selfEnteredTypes.VACCINES,
+      title: `Self-entered ${selfEnteredTypes.VACCINES}`,
+      subtitles: [`Showing ${vaccines.length} records, from newest to oldest`],
+      records: vaccines.map(record => generateVaccinesContent(record)),
+    });
+  }
 
   // if (vitals) {
   //   console.log('vitals: ', vitals);
