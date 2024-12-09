@@ -73,7 +73,6 @@ const childContent = (
         secondary
         text="Print this page"
         onClick={() => window.print()}
-        data-testid="ezr-print-button"
       />
     </p>
     <p>
