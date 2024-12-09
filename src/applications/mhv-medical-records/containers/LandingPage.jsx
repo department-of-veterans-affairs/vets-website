@@ -299,27 +299,6 @@ const LandingPage = () => {
               )}
             </section>
           )}
-          {phase0p5Flag && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Manage your medical records settings
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Review and update your medical records sharing and notification
-                settings.
-              </p>
-              <Link
-                to={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'electronic-record-sharing-options',
-                )}
-                className="vads-c-action-link--blue"
-                data-testid="settings-landing-page-link"
-              >
-                Go to your medical records settings
-              </Link>
-            </section>
-          )}
 
           {phase0p5Flag && (
             <section>
