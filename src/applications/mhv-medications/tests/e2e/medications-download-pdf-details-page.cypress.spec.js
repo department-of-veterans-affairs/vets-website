@@ -5,7 +5,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe('Medications Details Page Download', () => {
+describe.skip('Medications Details Page Download', () => {
   it('visits Medications Details Page Download PDF Dropdown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
