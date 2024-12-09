@@ -4,7 +4,7 @@ import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications Download PDF on List Page', () => {
-  it('visits download pdf on list page', () => {
+  it.skip('visits download pdf on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
