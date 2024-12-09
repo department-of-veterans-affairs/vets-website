@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import {
   HCA_ENROLLMENT_STATUSES,
   ENROLLMENT_STATUS_INIT_STATE,

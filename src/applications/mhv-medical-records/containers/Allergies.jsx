@@ -194,18 +194,20 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.ALLERGY}
-          newRecordsFound={
-            Array.isArray(allergies) &&
-            Array.isArray(updatedRecordList) &&
-            allergies.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingAllergies && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.ALLERGY}
+            newRecordsFound={
+              Array.isArray(allergies) &&
+              Array.isArray(updatedRecordList) &&
+              allergies.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         <PrintDownload
           list

@@ -77,6 +77,8 @@ describe('<ConfirmationPage>', () => {
   });
 
   it('should handle back link', async () => {
+    sinon.stub(window, 'history').value({ length: 10 });
+
     const { mockStore, props } = getData();
     const { container } = subject({ mockStore, props });
 
@@ -261,6 +263,8 @@ describe('<ConfirmationPage> with <va-banner />', () => {
   });
 
   it('should handle "Go back" link', async () => {
+    sinon.stub(window, 'history').value({ length: 10 });
+
     const { mockStore, props } = getData([]);
     const { container } = subject({ mockStore, props });
 

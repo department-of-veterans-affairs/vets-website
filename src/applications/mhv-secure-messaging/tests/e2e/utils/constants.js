@@ -251,7 +251,8 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    RECIPIENTS: `select#options`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
@@ -323,6 +324,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',

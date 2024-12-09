@@ -342,7 +342,10 @@ export const isLocationOfResidenceRequired = data => {
 
   // Check general question
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
     return true;
   }
 
@@ -456,6 +459,13 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
+  if (
+    selectCategory === 'Health care' &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return true;
+  }
+
   // Default to false if none of the conditions are met
   return false;
 };
@@ -468,5 +478,59 @@ export const isStateOfPropertyRequired = data => {
     selectCategory === CategoryHousingAssistanceAndHomeLoans &&
     (selectTopic === TopicSpeciallyAdapatedHousing ||
       selectTopic === TopicAppraisals)
+  );
+};
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const isBranchOfServiceRequired = data => {
+  const { selectCategory, whoIsYourQuestionAbout } = data;
+
+  const branchOfServiceRuleforCategories = [
+    'Veteran ID Card (VIC)',
+    'Disability compensation',
+    'Survivor benefits',
+    'Burials and memorials',
+    'Center for Women Veterans',
+    'Benefits issues outside the U.S.',
+  ];
+
+  return (
+    branchOfServiceRuleforCategories.includes(selectCategory) ||
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
+};
+
+// Veteran Readiness and Employment (VR&E) rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#veteran-readiness-and-employment-vre-information
+export const isVRERequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryVeteranReadinessAndEmployment ||
+    (selectCategory === CategoryEducation &&
+      selectTopic === TopicVeteranReadinessAndEmploymentChapter31)
+  );
+};
+
+export const isHealthFacilityRequired = data => {
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
+
+  const healthTopics = [
+    'Prosthetics',
+    'Audiology and hearing aids',
+    'Getting care at a local VA medical center',
+  ];
+
+  if (
+    selectCategory === 'Health care' &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return false;
+  }
+
+  return (
+    (selectCategory === 'Health care' && healthTopics.includes(selectTopic)) ||
+    (selectCategory ===
+      'Debt for benefit overpayments and health care copay bills' &&
+      selectTopic === 'Health care copay debt')
   );
 };

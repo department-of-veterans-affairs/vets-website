@@ -21,10 +21,12 @@ export const facilityTypeChoices = {
   },
 };
 
-export const facilityTypeReviewField = ({ formData }) => {
-  const selected = Object.entries(formData).filter(([_key, value]) => value);
+export const facilityTypeList = formData => {
+  const selected = Object.entries(formData || {}).filter(
+    ([_key, value]) => value,
+  );
 
-  const list = readableList(
+  return readableList(
     selected.map(([key, value]) => {
       if (key in facilityTypeChoices) {
         return facilityTypeChoices[key]?.title || facilityTypeChoices[key];
@@ -33,13 +35,13 @@ export const facilityTypeReviewField = ({ formData }) => {
       return key === 'other' ? value : 'Unknown facility type choice';
     }),
   );
-
-  return (
-    <div className="review-row">
-      <dt>{facilityTypeTitle}</dt>
-      <dd className="dd-privacy-hidden" data-dd-action-name="facility type">
-        {list}
-      </dd>
-    </div>
-  );
 };
+
+export const facilityTypeReviewField = ({ formData }) => (
+  <div className="review-row">
+    <dt>{facilityTypeTitle}</dt>
+    <dd className="dd-privacy-hidden" data-dd-action-name="facility type">
+      {facilityTypeList(formData)}
+    </dd>
+  </div>
+);

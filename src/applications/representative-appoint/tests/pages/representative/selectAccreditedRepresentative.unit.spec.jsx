@@ -1,83 +1,84 @@
-// import React from 'react';
-// import { Provider } from 'react-redux';
-// import { expect } from 'chai';
-// import {
-//   render,
-//   waitFor,
-//   fireEvent,
-//   getByTestId,
-//   prettyDOM,
-// } from '@testing-library/react';
-// import sinon from 'sinon';
-// import { SelectAccreditedRepresentative } from '../../../components/SelectAccreditedRepresentative';
-// import * as api from '../../../api/fetchRepStatus';
-// import repResults from '../../fixtures/data/representative-results.json';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { expect } from 'chai';
+import {
+  render,
+  waitFor,
+  fireEvent,
+  getByTestId,
+} from '@testing-library/react';
+import sinon from 'sinon';
+import { SelectAccreditedRepresentative } from '../../../components/SelectAccreditedRepresentative';
+import * as api from '../../../api/fetchRepStatus';
+import repResults from '../../fixtures/data/representative-results.json';
 
-// describe('<SelectAccreditedRepresentative>', () => {
-//   const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
-//     return {
-//       props: {
-//         formContext: {
-//           submitted,
-//         },
-//         formData: { 'view:representativeSearchResults': repResults },
-//         setFormData,
-//       },
-//       mockStore: {
-//         getState: () => ({
-//           form: {
-//             data: { 'view:representativeSearchResults': repResults },
-//           },
-//         }),
-//         subscribe: () => {},
-//         dispatch: () => ({
-//           setFormData: () => {},
-//         }),
-//       },
-//     };
-//   };
+describe('<SelectAccreditedRepresentative>', () => {
+  const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
+    return {
+      props: {
+        formContext: {
+          submitted,
+        },
+        loggedIn: true,
+        formData: { 'view:representativeSearchResults': repResults },
+        setFormData,
+      },
+      mockStore: {
+        getState: () => ({
+          form: {
+            data: { 'view:representativeSearchResults': repResults },
+          },
+        }),
+        loggedIn: true,
+        subscribe: () => {},
+        dispatch: () => ({
+          setFormData: () => {},
+        }),
+      },
+    };
+  };
 
-//   it('should render component', () => {
-//     const { props, mockStore } = getProps();
+  it('should render component', () => {
+    const { props, mockStore } = getProps();
 
-//     const { container } = render(
-//       <Provider store={mockStore}>
-//         <SelectAccreditedRepresentative {...props} />
-//       </Provider>,
-//     );
-//     expect(container).to.exist;
-//   });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <SelectAccreditedRepresentative {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
 
-//   // it('should call getRepStatus and update state accordingly', async () => {
-//   //   const { props, mockStore } = getProps();
+  it('should call getRepStatus and update state accordingly', async () => {
+    const { props, mockStore } = getProps();
 
-//   //   const fetchRepStatusStub = sinon.stub(api, 'fetchRepStatus').resolves({
-//   //     data: { status: 'active' },
-//   //   });
+    const fetchRepStatusStub = sinon.stub(api, 'fetchRepStatus').resolves({
+      data: { status: 'active' },
+    });
 
-//   //   const setFormDataSpy = sinon.spy(props, 'setFormData');
+    const setFormDataSpy = sinon.spy(props, 'setFormData');
 
-//   //   const { container } = render(
-//   //     <Provider store={mockStore}>
-//   //       <SelectAccreditedRepresentative {...props} />
-//   //     </Provider>,
-//   //   );
+    const { container } = render(
+      <Provider store={mockStore}>
+        <SelectAccreditedRepresentative {...props} />
+      </Provider>,
+    );
 
-//   //   const selectRepButton = getByTestId(container, 'rep-select-19731');
+    const selectRepButton = getByTestId(container, 'rep-select-19731');
 
-//   //   expect(selectRepButton).to.exist;
+    expect(selectRepButton).to.exist;
 
-//   //   fireEvent.click(selectRepButton);
+    fireEvent.click(selectRepButton);
 
-//   //   await waitFor(() => {
-//   //     expect(fetchRepStatusStub.calledOnce).to.be.true;
-//   //     expect(setFormDataSpy.called).to.be.true;
-//   //     expect(setFormDataSpy.args[0][0]).to.include({
-//   //       'view:selectedRepresentative': repResults[0].data,
-//   //     });
-//   //   });
+    await waitFor(() => {
+      expect(fetchRepStatusStub.calledOnce).to.be.true;
+      expect(setFormDataSpy.called).to.be.true;
+      expect(setFormDataSpy.args[0][0]).to.include({
+        'view:selectedRepresentative': repResults[0].data,
+      });
+    });
 
-//   //   fetchRepStatusStub.restore();
-//   //   setFormDataSpy.restore();
-//   // });
-// });
+    // fetchRepStatusStub.restore();
+    // setFormDataSpy.restore();
+  });
+});
