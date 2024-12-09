@@ -1,9 +1,12 @@
 import * as h from '../../../utilities/e2eHelpers';
 import { ROUTES } from '../../../constants/routes';
+import { makeMockUser } from '../../fixtures/data/user';
 import mockRepResults from '../../fixtures/data/representative-results.json';
 
-describe('Unauthenticated 21-22 flow where user is the veteran', () => {
+describe('Authenticated 21-22 flow where user is the veteran', () => {
   beforeEach(() => {
+    const user = makeMockUser();
+    cy.login(user);
     cy.intercept(
       'GET',
       '/representation_management/v0/original_entities?query=**',
@@ -17,7 +20,7 @@ describe('Unauthenticated 21-22 flow where user is the veteran', () => {
     // INTRO
     h.verifyUrl(ROUTES.INTRO);
     cy.injectAxeThenAxeCheck();
-    h.clickStart();
+    h.clickStartAuth();
 
     // CLAIMANT_TYPE
     h.verifyUrl(ROUTES.CLAIMANT_TYPE);
