@@ -281,7 +281,7 @@ export class ConfirmationPage extends React.Component {
               text="Visit this page"
               type="secondary"
               label="visit this page"
-            />
+            />{' '}
             to find out which benefits
           </span>
           <br />
