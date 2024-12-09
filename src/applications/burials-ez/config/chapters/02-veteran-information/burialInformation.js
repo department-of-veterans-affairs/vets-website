@@ -1,11 +1,12 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import { dateOfDeathUI } from 'platform/forms-system/src/js/web-component-patterns';
-import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
+import {
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+  dateOfDeathUI,
+  dateOfDeathSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import differenceInCalendarMonths from 'date-fns/differenceInCalendarMonths';
 import { generateTitle } from '../../../utils/helpers';
-
-const { deathDate, burialDate } = fullSchemaBurials.properties;
 
 export const ReviewField = ({ children }) => (
   <div className="review-row">
@@ -32,8 +33,9 @@ export default {
     'ui:title': generateTitle('Burial information'),
     deathDate: dateOfDeathUI('Date of death'),
     burialDate: {
-      'ui:title': 'Date of burial (includes cremation or interment)',
-      'ui:webComponentField': VaMemorableDateField,
+      ...currentOrPastDateUI({
+        title: 'Date of burial (includes cremation or interment)',
+      }),
       'ui:validations': [
         (errors, value, formData) => {
           if (formData.burialDate && formData.deathDate) {
@@ -53,10 +55,6 @@ export default {
           return errors;
         },
       ],
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid current or past date',
-        required: 'Please enter a date',
-      },
       'ui:reviewField': ReviewField,
     },
   },
@@ -64,8 +62,8 @@ export default {
     type: 'object',
     required: ['burialDate', 'deathDate'],
     properties: {
-      deathDate,
-      burialDate,
+      deathDate: dateOfDeathSchema,
+      burialDate: currentOrPastDateSchema,
     },
   },
 };

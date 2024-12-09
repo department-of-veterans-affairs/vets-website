@@ -441,6 +441,35 @@ const formConfig = {
             },
           },
         },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => `${sponsorWording(formData)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         page10b1: {
           path: 'sponsor-mailing-address',
           title: formData => `${sponsorWording(formData)} mailing address`,

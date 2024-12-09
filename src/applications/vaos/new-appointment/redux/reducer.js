@@ -137,6 +137,10 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
       newData = unset('vaFacility', newData);
     }
 
+    if (newData.isSingleVaFacility) {
+      newData = unset('isSingleVaFacility', newData);
+    }
+
     // reset community care provider if type of care changes
     if (pages.ccPreferences || !!newData.communityCareProvider?.id) {
       newPages = unset('ccPreferences', newPages);
@@ -273,8 +277,6 @@ export default function formReducer(state = initialState, action) {
         data: {
           ...state.data,
           facilityType: action.facilityType,
-          isSingleVaFacility:
-            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
         },
       };
     }

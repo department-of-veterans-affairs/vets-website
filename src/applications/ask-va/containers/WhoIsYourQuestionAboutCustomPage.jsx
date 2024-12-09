@@ -7,16 +7,10 @@ import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequired from '../components/SignInMyBeRequired';
-import { flowPaths } from '../config/schema-helpers/formFlowHelper';
-import {
-  CategoryEducation,
-  CHAPTER_2,
-  CHAPTER_3,
-  whoIsYourQuestionAboutLabels,
-} from '../constants';
+import { CHAPTER_2, whoIsYourQuestionAboutLabels } from '../constants';
 
 const WhoIsYourQuestionAboutCustomPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData } = props;
+  const { onChange, loggedIn, goBack, formData, goForward } = props;
   const [validationError, setValidationError] = useState(null);
   const [showModal, setShowModal] = useState({ show: false, message: '' });
 
@@ -35,13 +29,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 
   const showError = data => {
     if (data.whoIsYourQuestionAbout) {
-      if (
-        data.selectCategory !== CategoryEducation &&
-        data.whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
-      ) {
-        return goToPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
-      }
-      return goToPath(`/${flowPaths.general}-1`);
+      goForward(data);
     }
     focusElement('va-radio');
     return setValidationError('Please select who your question is about');
@@ -49,7 +37,6 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    onChange({ ...formData, whoIsYourQuestionAbout: selectedValue });
     if (
       !loggedIn &&
       (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
@@ -90,7 +77,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
               name="who-is-your-question-about"
               label={option.label}
               value={option.label}
-              checked={formData.whoIsYourQuestionAbout === option.value}
+              checked={formData.whoIsYourQuestionAbout === option.label}
               aria-describedby={
                 formData.whoIsYourQuestionAbout === option.value
                   ? option.value
@@ -117,7 +104,7 @@ WhoIsYourQuestionAboutCustomPage.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   goBack: PropTypes.func,
-  goToPath: PropTypes.func,
+  goForward: PropTypes.func,
   formData: PropTypes.shape({
     whoIsYourQuestionAbout: PropTypes.string,
   }),

@@ -6,6 +6,7 @@ import { keyDownHandler } from '../../../utilities/keydown';
 
 const MobileHeader = ({ isDesktop, megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
 
@@ -22,6 +23,10 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
     }
   };
 
+  const handleBannerClick = () => {
+    setGovBannerIsOpen(!govBannerIsOpen);
+  };
+
   return (
     <header role="banner">
       <div id="preview-site-alert" />
@@ -29,7 +34,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* start US Gov banner */}
       <div className="usa-accordion">
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+          <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--1">
             <img
               alt="U.S. flag"
               className="vads-u-margin-right--1"
@@ -38,6 +43,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               width="20"
             />
             <button
+              onClick={() => handleBannerClick()}
               aria-controls="official-govt-site-explanation"
               aria-expanded="false"
               className="expand-official-govt-explanation usa-accordion-button va-button-link vads-u-text-decoration--none"
@@ -65,8 +71,10 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
           </div>
         </div>
         <div
-          aria-hidden="true"
-          className="usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
+          aria-hidden={!govBannerIsOpen ? 'true' : 'false'}
+          className={`usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--2p5 vads-u-padding-y--3 ${
+            !govBannerIsOpen ? 'banner-display--none' : 'banner-display--flex'
+          }`}
           id="official-govt-site-explanation"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
@@ -101,7 +109,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* end US Gov banner */}
 
       {/* start Veterans Crisis Line banner */}
-      <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+      <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--1">
         <button
           className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open"
           type="button"
@@ -127,7 +135,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* end Veterans Crisis Line banner */}
 
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
-        <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+        <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--2p5 vads-u-padding-left--2p5 vads-u-padding-right--1p5">
           {/* start VA logo */}
           <a
             aria-label="VA logo"
@@ -159,7 +167,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               aria-controls="header-nav-items"
               aria-expanded={menuIsOpen}
               id="header-menu-button"
-              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
+              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin--0 vads-u-margin-left--3 vads-u-position--relative"
               type="button"
               onClick={toggleMenu}
               onKeyDown={event => keyDownHandler(event, toggleMenu)}

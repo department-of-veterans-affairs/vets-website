@@ -197,7 +197,7 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find a VA accredited representative or VSO (opens in new tab)"
+        text="Find a VA accredited representative or VSO"
         external
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />

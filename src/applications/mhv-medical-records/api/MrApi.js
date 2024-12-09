@@ -1,18 +1,16 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import notes from '../tests/fixtures/notes.json';
-import labsAndTests from '../tests/fixtures/labsAndTests.json';
-import vitals from '../tests/fixtures/vitals.json';
-import conditions from '../tests/fixtures/conditions.json';
-import vaccines from '../tests/fixtures/vaccines.json';
-import allergies from '../tests/fixtures/allergies.json';
+import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
-import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 const headers = {
   'Content-Type': 'application/json',
+};
+
+const textHeaders = {
+  'Content-Type': 'text/plain',
 };
 
 export const createSession = () => {
@@ -95,6 +93,17 @@ export const getVitalsList = () => {
   return apiRequest(`${apiBasePath}/medical_records/vitals`, {
     headers,
   });
+};
+
+export const getAcceleratedVitals = async vitalsDate => {
+  const from = `&from=${vitalsDate}`;
+  const to = `&to=${vitalsDate}`;
+  return apiRequest(
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getConditions = async () => {
@@ -184,28 +193,61 @@ export const postSharingUpdateStatus = (optIn = false) => {
 };
 
 /**
- * Get all of a patient's medical records for generating a Blue Button report
- * @returns an object with
- * - labsAndTests
- * - careSummariesAndNotes
- * - vaccines
- * - allergies
- * - healthConditions
- * - vitals
+ * Get a patient's medications
+ * @returns list of patient's medications
  */
-export const getDataForBlueButton = () => {
-  return new Promise(resolve => {
-    const data = {
-      radiology,
-      labsAndTests,
-      careSummariesAndNotes: notes,
-      vaccines,
-      allergies,
-      healthConditions: conditions,
-      vitals,
-    };
-    setTimeout(() => {
-      resolve(data);
-    }, 1000);
+export const getMedications = () => {
+  return apiRequest(`${apiBasePath}/prescriptions`, {
+    headers,
+  });
+};
+
+/**
+ * Get a patient's appointments
+ * @returns list of patient's appointments
+ */
+export const getAppointments = () => {
+  const now = new Date();
+  const startDate = formatISO(now);
+  const beginningOfTime = new Date(0);
+  const endDate = formatISO(beginningOfTime);
+  const statusParams =
+    '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
+  const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
+
+  return apiRequest(`${apiBasePath}/vaos/v2/appointments?${params}`, {
+    headers,
+  });
+};
+
+/**
+ * Get a patient's demographic info
+ * @returns patient's demographic info
+ */
+export const getDemographicInfo = () => {
+  return apiRequest(`${apiBasePath}/medical_records/patient/demographic`, {
+    headers,
+  });
+};
+
+// military service
+/**
+ * Get a patient's military service info
+ * @returns patient's military service info
+ */
+export const getMilitaryService = () => {
+  return apiRequest(`${apiBasePath}/medical_records/military_service`, {
+    textHeaders,
+  });
+};
+
+// account summary (treatment facilities)
+/**
+ * Get a patient's account summary (treatment facilities)
+ * @returns patient profile including a list of patient's treatment facilities
+ */
+export const getPatient = () => {
+  return apiRequest(`${apiBasePath}/medical_records/patient`, {
+    headers,
   });
 };

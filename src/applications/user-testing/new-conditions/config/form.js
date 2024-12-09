@@ -9,7 +9,9 @@ import manifest from '../manifest.json';
 import chooseDemo from '../pages/chooseDemo';
 import conditionByConditionPages from '../pages/conditionByConditionPages';
 import conditionsFirstPages from '../pages/conditionsFirstPages';
-import followUp from '../pages/followUp';
+import followUpCause from '../pages/followUpCause';
+import followUpCauseDescription from '../pages/followUpCauseDescription';
+import followUpDate from '../pages/followUpDate';
 import followUpIntro from '../pages/followUpIntro';
 
 const FormFooter = () => (
@@ -73,7 +75,9 @@ const formConfig = {
         ...conditionByConditionPages,
         ...conditionsFirstPages,
         followUpIntro,
-        followUp,
+        followUpDate,
+        followUpCause,
+        followUpCauseDescription,
       },
     },
   },

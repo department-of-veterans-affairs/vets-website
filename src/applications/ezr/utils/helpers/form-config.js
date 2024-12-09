@@ -1,3 +1,4 @@
+import { isBefore, subYears } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -47,6 +48,50 @@ export function includeTeraInformation(formData) {
   return formData.hasTeraResponse;
 }
 
+export function canVeteranProvideAgentOrangeResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideRadiationCleanupResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideGulfWarResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
+  );
+}
+
+export function canVeteranProvideCombatOperationsResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
+  );
+}
+
 /**
  * Helper that determines if the form data contains values that enable the
  * toxic exposure file upload in the Military Service chapter
@@ -68,7 +113,11 @@ export function teraUploadEnabled(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return gulfWarService && includeTeraInformation(formData);
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideGulfWarResponse(formData)
+  );
 }
 
 /**
@@ -80,7 +129,11 @@ export function includeGulfWarServiceDates(formData) {
  */
 export function includeAgentOrangeExposureDates(formData) {
   const { exposedToAgentOrange } = formData;
-  return exposedToAgentOrange && includeTeraInformation(formData);
+  return (
+    exposedToAgentOrange &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideAgentOrangeResponse(formData)
+  );
 }
 
 /**

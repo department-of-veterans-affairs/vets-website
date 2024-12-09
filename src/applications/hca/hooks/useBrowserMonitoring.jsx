@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-
-import { isProfileLoading } from '@department-of-veterans-affairs/platform-user/selectors';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
-import { selectRumUser } from '../utils/selectors/datadog-rum';
+import { isProfileLoading } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
+import { selectFeatureToggles, selectRumUser } from '../utils/selectors';
 
 const initializeRealUserMonitoring = user => {
   // Prevent RUM from running on local/CI environments

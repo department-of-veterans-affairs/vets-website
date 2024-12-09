@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getAppData } from '../selectors/selectors';
-import HowToApplyPost911GiBillV2 from '../components/HowToApplyPost911GiBillV2';
-import IntroductionLoginV2 from '../components/IntroductionLoginV2';
+import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
+import IntroductionLogin from '../components/IntroductionLogin';
 import LoadingIndicator from '../components/LoadingIndicator';
-import IntroductionProcessListV2 from '../components/IntroductionProcessListV2';
+import IntroductionProcessList from '../components/IntroductionProcessList';
 
 export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
   return (
@@ -19,11 +19,11 @@ export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
           Equal to VA Form 22-1990 (Application for VA Education Benefits)
         </h2>
       </>
-      <HowToApplyPost911GiBillV2 route={route} />
+      <HowToApplyPost911GiBill route={route} />
       <h2>Follow these steps to get started</h2>
-      <IntroductionProcessListV2 />
+      <IntroductionProcessList />
       {!featureTogglesLoaded && <LoadingIndicator />}
-      <IntroductionLoginV2 route={route} />
+      <IntroductionLogin route={route} />
       <va-omb-info
         res-burden={15}
         omb-number="2900-0154"

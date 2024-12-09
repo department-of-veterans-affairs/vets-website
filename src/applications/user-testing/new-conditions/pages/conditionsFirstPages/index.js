@@ -31,13 +31,18 @@ const conditionsFirstPages = arrayBuilderPages(
       depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
         const { formData, pathname } = props;
         const index = getArrayIndexFromPathName(pathname);
+        const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
 
-        // TODO: This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
-        // However, with this fix, when user doesn't change condition, side of body is cleared which could confuse users
-        formData.sideOfBody = undefined;
+        if (item) {
+          // TODO: This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
+          // However, with this fix, when user doesn't change condition, side of body is cleared which could confuse users
+          // TODO: use setFormData instead of mutating formData directly
+          item.sideOfBody = undefined;
+        }
 
         return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)

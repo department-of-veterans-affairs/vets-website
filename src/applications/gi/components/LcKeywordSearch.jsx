@@ -9,6 +9,7 @@ export default function LcKeywordSearch({
   suggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
+  handleClearInput,
 }) {
   const handleChange = e => {
     const { value } = e.target;
@@ -16,15 +17,11 @@ export default function LcKeywordSearch({
   };
 
   const handleSuggestionSelected = selected => {
-    onUpdateAutocompleteSearchTerm(selected.label);
+    const { name, type } = selected;
 
-    if (onSelection) {
-      onSelection(selected);
-    }
-  };
+    onUpdateAutocompleteSearchTerm(name);
 
-  const handleClearInput = () => {
-    onUpdateAutocompleteSearchTerm('');
+    onSelection({ type, state: type === 'license' ? 'FL' : 'all' }); // remove hardcoded state
   };
 
   return (
@@ -56,6 +53,11 @@ export default function LcKeywordSearch({
             </label>
             <div className="lc-name-search-container vads-u-display--flex">
               <input
+                style={
+                  inputValue === ''
+                    ? { maxWidth: '30rem' }
+                    : { width: '100%', borderRight: 'none' }
+                }
                 aria-controls="lcKeywordSearch"
                 className="lc-name-search-input"
                 {...getInputProps({
@@ -70,7 +72,7 @@ export default function LcKeywordSearch({
                     size={3}
                     icon="cancel"
                     id="clear-input"
-                    class="vads-u-display--flex vads-u-align-items--center"
+                    class="lc-clear vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}
@@ -83,21 +85,38 @@ export default function LcKeywordSearch({
                   id="lcKeywordSearch"
                   style={{ maxWidth: '30rem' }}
                 >
-                  {suggestions.map((item, index) => (
-                    <div
-                      key={index}
-                      role="option"
-                      aria-selected={
-                        selectedItem === item.label ? 'true' : 'false'
-                      }
-                      className={classNames('suggestion', {
-                        'suggestion-highlighted': highlightedIndex === index,
-                      })}
-                      {...getItemProps({ item })}
-                    >
-                      {item.name}
-                    </div>
-                  ))}
+                  {suggestions
+                    .map((item, index) => (
+                      <div
+                        key={index}
+                        role="option"
+                        aria-selected={
+                          selectedItem === item.label ? 'true' : 'false'
+                        }
+                        className={classNames('suggestion', {
+                          'suggestion-highlighted': highlightedIndex === index,
+                        })}
+                        {...getItemProps({ item })}
+                      >
+                        {index !== 0 ? (
+                          item.name
+                        ) : (
+                          <div className="keyword-suggestion-container">
+                            <span className="vads-u-padding-right--1">
+                              {item.name}
+                            </span>
+                            <span>
+                              {`(${
+                                suggestions.length > 1
+                                  ? suggestions.length
+                                  : 'No'
+                              } results)`}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                    .slice(0, 6)}
                 </div>
               )}
           </div>
@@ -108,8 +127,8 @@ export default function LcKeywordSearch({
 }
 
 LcKeywordSearch.propTypes = {
+  onSelection: PropTypes.func.isRequired,
   inputValue: PropTypes.string,
   suggestions: PropTypes.array,
-  onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
 };

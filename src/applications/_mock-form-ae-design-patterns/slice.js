@@ -5,8 +5,8 @@ const initialState = {
   selectedApps: [],
 };
 
-const mockFormAeDesignPatternsSlice = createSlice({
-  name: 'AE_DES_PAT',
+const vadxSlice = createSlice({
+  name: 'VADX',
   initialState,
   reducers: {
     setSelectedApps: (state, action) => {
@@ -15,6 +15,6 @@ const mockFormAeDesignPatternsSlice = createSlice({
   },
 });
 
-export const { setSelectedApps } = mockFormAeDesignPatternsSlice.actions;
+export const { setSelectedApps } = vadxSlice.actions;
 
-export const vadxReducer = mockFormAeDesignPatternsSlice.reducer;
+export const vadxReducer = vadxSlice.reducer;
