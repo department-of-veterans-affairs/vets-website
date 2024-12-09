@@ -37,10 +37,12 @@ export const applicantHasMedicareSchema = {
       ...yesNoUI({
         updateUiSchema: formData => {
           return {
-            'ui:title': `Does ${nameWording(
+            'ui:title': `${
+              formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+            } ${nameWording(
               formData,
               false,
-              undefined,
+              false,
               true,
             )} have Medicare information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
@@ -79,12 +81,9 @@ export const applicantMedicareClassSchema = {
         },
         updateUiSchema: formData => {
           return {
-            'ui:title': `Which Medicare plan is ${nameWording(
-              formData,
-              false,
-              false,
-              true,
-            )} enrolled in?`,
+            'ui:title': `Which Medicare plan ${
+              formData.certifierRole === 'applicant' ? 'are' : 'is'
+            } ${nameWording(formData, false, false, true)} enrolled in?`,
             'ui:options': {
               hint:
                 'You can find this information on the front of your Medicare card.',
@@ -121,7 +120,7 @@ export const applicantMedicarePharmacySchema = {
             'ui:title': `Does ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} Medicare plan provide pharmacy benefits?`,
             'ui:options': {
@@ -217,7 +216,7 @@ export const applicantMedicareABUploadSchema = {
     ...titleUI(
       'Upload Medicare card for hospital and medical coverage',
       ({ formData }) => {
-        const appName = nameWording(formData, undefined, undefined, true);
+        const appName = nameWording(formData, undefined, false, true);
         return (
           <>
             You’ll need to submit a copy of the front and back of {appName}{' '}
@@ -279,10 +278,12 @@ export const applicantHasMedicareDSchema = {
       ...yesNoUI({
         updateUiSchema: formData => {
           return {
-            'ui:title': `Does ${nameWording(
+            'ui:title': `${
+              formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+            } ${nameWording(
               formData,
               false,
-              undefined,
+              false,
               true,
             )} have Medicare Part D information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
@@ -331,7 +332,7 @@ export const applicantMedicarePartDCarrierSchema = {
 export const applicantMedicareDUploadSchema = {
   uiSchema: {
     ...titleUI('Upload Medicare Part D card', ({ formData }) => {
-      const appName = nameWording(formData, undefined, undefined, true);
+      const appName = nameWording(formData, undefined, false, true);
       return (
         <>
           You’ll need to submit a copy of the front and back of {appName}{' '}
