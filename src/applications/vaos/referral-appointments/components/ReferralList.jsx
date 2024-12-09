@@ -29,9 +29,11 @@ const ReferralList = ({ referrals, referralsError }) => {
         data-testid="no-referral-content"
         className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3"
       >
-        <h3>You don’t have any referrals</h3>
-        <p>
-          If you think you should have referrals here, call your
+        <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+          You don’t have any referrals
+        </h2>
+        <p className="vads-u-margin-bottom--0">
+          If you think you should have referrals here, call your{' '}
           <NewTabAnchor href="/find-locations">VA health facility</NewTabAnchor>
         </p>
       </div>

@@ -59,6 +59,10 @@ export default function ReferralsAndRequests() {
         appointments with these providers now.
       </p>
       <ReferralList referrals={referrals} referralsError={referralsError} />
+      <h2>Active requests</h2>
+      <p className="vaos-hide-for-print">
+        We’ll contact you to finish scheduling these appointments.
+      </p>
       <RequestsList
         appointments={pendingAppointments}
         showScheduleButton={showScheduleButton}

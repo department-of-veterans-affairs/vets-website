@@ -65,14 +65,6 @@ const RequestList = ({ appointments, showScheduleButton }) => {
                 </p>
               </>
             )}
-            {statusBucket[0] === APPOINTMENT_STATUS.proposed && (
-              <>
-                <h2>Active requests</h2>
-                <p className="vaos-hide-for-print">
-                  We’ll contact you to finish scheduling these appointments.
-                </p>
-              </>
-            )}
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               className="vads-u-padding-left--0 vads-u-margin-top--0"
