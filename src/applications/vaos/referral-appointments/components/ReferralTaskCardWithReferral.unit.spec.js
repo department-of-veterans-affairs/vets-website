@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 
 import {
   renderWithStoreAndRouter,
@@ -17,13 +18,21 @@ const initialState = {
   referral: {
     facility: null,
     referrals: [
-      createReferral('11-29-2024', 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
+      createReferral('2024-11-29', 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
     ],
     referralFetchStatus: FETCH_STATUS.succeeded,
   },
 };
 
-describe('VAOS Component: ReferralTaskCard', () => {
+describe('VAOS Component: ReferralTaskCardWithReferral', () => {
+  beforeEach(() => {
+    // Set the current date to after the referral date but before the expiration date
+    MockDate.set('2025-01-01');
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   it('should display the task card when an ID is found', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
