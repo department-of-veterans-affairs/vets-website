@@ -78,7 +78,7 @@ describe('InterstitialChanges', () => {
     );
     await waitFor(() => {
       expect(screen.getByText(/Start using your/i)).to.exist;
-      expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
+      expect(screen.getByTestId('logingovemail')).to.exist;
     });
   });
   it('renders AccountSwitch when user has ID.me account', async () => {
@@ -100,7 +100,7 @@ describe('InterstitialChanges', () => {
       expect(
         screen.getAllByRole('heading', { level: 2 })[0].textContent,
       ).to.match(/Start using your/i);
-      expect(screen.getByText(/idm\*@test\.com/i)).to.exist;
+      expect(screen.getByTestId('idmeemail')).to.exist;
     });
   });
 

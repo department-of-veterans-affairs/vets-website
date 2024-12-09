@@ -3,8 +3,9 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe.skip('Medications Download PDF on List Page', () => {
-  it('visits download pdf on list page', () => {
+
+describe('Medications Download PDF on List Page', () => {
+  it.skip('visits download pdf on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
