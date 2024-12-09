@@ -100,3 +100,87 @@ export const birminghamWoContext = {
   path: '/birmingham-health-care/locations/birmingham-va-medical-center',
   bannerType: 'full_width_banner_alert',
 };
+
+export const bostonTestWithJustFind = {
+  banners: [
+    {
+      id: 29,
+      entityId: 75538,
+      entityBundle: 'full_width_banner_alert',
+      headline: 'Boston Update',
+      alertType: 'warning',
+      showClose: true,
+      content:
+        '<ul>\n<li>Limited to Homepage and Operating status page</li>\n<li>Warning type</li>\n<li>Dismissible</li>\n<li>Find other VA Facilities link</li>\n<li>NO Get updates link or Subscribe link</li>\n</ul>\n',
+      context: [
+        {
+          entity: {
+            title: 'Operating status | VA Boston health care',
+            entityUrl: {
+              path: '/boston-health-care/operating-status',
+            },
+            fieldOffice: {
+              entity: {
+                title: 'VA Boston health care',
+                entityUrl: {
+                  path: '/boston-health-care',
+                },
+                fieldVamcEhrSystem: 'vista',
+              },
+            },
+          },
+        },
+      ],
+      operatingStatusCta: false,
+      emailUpdatesButton: false,
+      findFacilitiesCta: true,
+      limitSubpageInheritance: true,
+      createdAt: '2024-12-09T16:48:59.471Z',
+      updatedAt: '2024-12-09T16:48:59.471Z',
+    },
+  ],
+  path: '/boston-health-care',
+  bannerType: 'full_width_banner_alert',
+};
+
+export const bostonTestWithBothCtAs = {
+  banners: [
+    {
+      id: 29,
+      entityId: 75538,
+      entityBundle: 'full_width_banner_alert',
+      headline: 'Boston Update',
+      alertType: 'warning',
+      showClose: true,
+      content:
+        '<ul>\n<li>Limited to Homepage and Operating status page</li>\n<li>Warning type</li>\n<li>Dismissible</li>\n<li>Find other VA Facilities link</li>\n<li>NO Get updates link or Subscribe link</li>\n</ul>\n',
+      context: [
+        {
+          entity: {
+            title: 'Operating status | VA Boston health care',
+            entityUrl: {
+              path: '/boston-health-care/operating-status',
+            },
+            fieldOffice: {
+              entity: {
+                title: 'VA Boston health care',
+                entityUrl: {
+                  path: '/boston-health-care',
+                },
+                fieldVamcEhrSystem: 'vista',
+              },
+            },
+          },
+        },
+      ],
+      operatingStatusCta: true,
+      emailUpdatesButton: false,
+      findFacilitiesCta: true,
+      limitSubpageInheritance: true,
+      createdAt: '2024-12-09T16:48:59.471Z',
+      updatedAt: '2024-12-09T16:48:59.471Z',
+    },
+  ],
+  path: '/boston-health-care',
+  bannerType: 'full_width_banner_alert',
+};
