@@ -46,14 +46,17 @@ export const generateBlueButtonData = ({
       type: recordType.LABS_AND_TESTS,
       title: 'Lab and test results',
       subtitles: [
-        "If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health.",
+        'Most lab and test results are available 36 hours after the lab confirms them. Pathology results may take 14 days or longer to confirm.',
+        'If you have questions about these results, send a secure message to your care team.',
+        'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.',
+        `Showing ${labsAndTests.length} records from newest to oldest`,
       ],
-      toc: {
-        title: 'Lab and test results…………………………………………',
-        subtitle: 'Review lab and test results in your VA medical records.',
-      },
+      // toc: {
+      //   title: 'Lab and test results…………………………………………',
+      //   subtitle: 'Review lab and test results in your VA medical records.',
+      // },
       records: labsAndTests.map(record => {
-        const title = `${record.name} on ${record.date}`;
+        const title = record.name;
         let content;
 
         if (record.type === labTypes.CHEM_HEM) {
@@ -84,11 +87,11 @@ export const generateBlueButtonData = ({
         'This report only includes care summaries and notes from 2013 and later.',
         'For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.',
       ],
-      toc: {
-        title: 'Care summaries and notes………………………………',
-        subtitle:
-          'Review notes from your VA providers about your health and health care.',
-      },
+      // toc: {
+      //   title: 'Care summaries and notes………………………………',
+      //   subtitle:
+      //     'Review notes from your VA providers about your health and health care.',
+      // },
       records: notes.map(record => {
         const title = record.name;
         let content;
@@ -115,11 +118,11 @@ export const generateBlueButtonData = ({
         'This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.',
         'For complete records of your allergies and reactions to vaccines, review your allergy records in this report.',
       ],
-      toc: {
-        title: 'Vaccines……………………………………………………………',
-        subtitle:
-          'Review a list of all vaccines (immunizations) in your VA medical records.',
-      },
+      // toc: {
+      //   title: 'Vaccines……………………………………………………………',
+      //   subtitle:
+      //     'Review a list of all vaccines (immunizations) in your VA medical records.',
+      // },
       records: generateVaccinesContent(vaccines),
     });
   }
@@ -127,15 +130,16 @@ export const generateBlueButtonData = ({
   if (allergies.length) {
     data.push({
       type: recordType.ALLERGIES,
-      title: 'Allergies',
+      title: 'Allergies and reactions',
       subtitles: [
-        'If you have allergies that are missing from this list, send a secure message to your care team.',
+        'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+        `Showing ${allergies.length} records from newest to oldest`,
       ],
-      toc: {
-        title: 'Allergies…………………………………………………………',
-        subtitle:
-          'Review a list of all allergies, reactions, and side effects in your VA medical records.',
-      },
+      // toc: {
+      //   title: 'Allergies…………………………………………………………',
+      //   subtitle:
+      //     'Review a list of all allergies, reactions, and side effects in your VA medical records.',
+      // },
       records: generateAllergiesContent(allergies),
     });
   }
@@ -146,11 +150,11 @@ export const generateBlueButtonData = ({
       subtitles: [
         'This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.',
       ],
-      toc: {
-        title: 'Health conditions……………………………………………',
-        subtitle:
-          'Review a list of all health conditions in your VA medical records.',
-      },
+      // toc: {
+      //   title: 'Health conditions……………………………………………',
+      //   subtitle:
+      //     'Review a list of all health conditions in your VA medical records.',
+      // },
       records: conditions.map(record => {
         const title = record.name;
         const content = generateConditionContent(record);
@@ -166,11 +170,11 @@ export const generateBlueButtonData = ({
       subtitles: [
         'This list includes vitals and other basic health numbers your providers check at your appointments.',
       ],
-      toc: {
-        title: 'Vitals…………………………………………………………………',
-        subtitle:
-          'Review a list of vitals and other basic health numbers your providers check at your appointments. This includes your blood pressure, breathing rate, heart rate, height, temperature, pain level, and weight.',
-      },
+      // toc: {
+      //   title: 'Vitals…………………………………………………………………',
+      //   subtitle:
+      //     'Review a list of vitals and other basic health numbers your providers check at your appointments. This includes your blood pressure, breathing rate, heart rate, height, temperature, pain level, and weight.',
+      // },
       records: generateVitalsContentByType(vitals),
     });
   }

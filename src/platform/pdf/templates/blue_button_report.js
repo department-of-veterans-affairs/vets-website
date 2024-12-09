@@ -432,9 +432,27 @@ export const generateResultsContent = async (doc, parent, data) => {
       paragraphGap: 12,
       x: data.results.prefaceIndent || 30,
     };
-    results.add(
-      createSubHeading(doc, config, data.results.preface, prefaceOptions),
-    );
+    if (Array.isArray(data.results.preface)) {
+      data.results.preface.forEach(item => {
+        results.add(
+          createSubHeading(doc, config, item.value, {
+            ...prefaceOptions,
+            ...item.prefaceOptions,
+          }),
+        );
+      });
+    } else if (typeof data.results.preface === 'object') {
+      results.add(
+        createSubHeading(doc, config, data.results.preface.value, {
+          ...prefaceOptions,
+          ...data.results.preface.prefaceOptions,
+        }),
+      );
+    } else {
+      results.add(
+        createSubHeading(doc, config, data.results.preface, prefaceOptions),
+      );
+    }
   }
 
   const hasHorizontalRule = data.results.sectionSeparators !== false;

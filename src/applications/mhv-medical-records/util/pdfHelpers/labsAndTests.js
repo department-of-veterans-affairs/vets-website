@@ -39,13 +39,25 @@ export const generateChemHemContent = record => ({
       {
         title: 'Lab comments',
         value: record.comments,
-        inline: !record.comments,
+        inline: true,
       },
     ],
   },
   results: {
     header: 'Results',
-    sectionSeparators: true,
+    preface: [
+      {
+        prefaceOptions: { paragraphGap: 20 },
+        value:
+          'If your results are outside the reference range (the expected range for that test), your results may include a word like “high” or “low.” But this doesn’t automatically mean you have a health problem.',
+      },
+      {
+        prefaceOptions: { paragraphGap: 20 },
+        value:
+          'Your provider will review your results. If you need to do anything, your provider will contact you.',
+      },
+    ],
+    sectionSeparators: false,
     items: record.results.map(item => ({
       header: item.name,
       items: [
@@ -77,17 +89,13 @@ export const generateChemHemContent = record => ({
 export const generateMicrobioContent = record => ({
   details: {
     header: 'Details about this test',
-    sectionSeparators: true,
+    sectionSeparators: false,
     items: [
-      ...(record.labType
-        ? [
-            {
-              title: 'Lab type',
-              value: record.labType,
-              inline: true,
-            },
-          ]
-        : []),
+      {
+        title: 'Date and time collected',
+        value: record.date,
+        inline: true,
+      },
       {
         title: 'Site or sample tested',
         value: record.sampleTested,
@@ -117,6 +125,11 @@ export const generateMicrobioContent = record => ({
   },
   results: {
     header: 'Results',
+    preface: {
+      prefaceOptions: { paragraphGap: 20 },
+      value:
+        'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.',
+    },
     sectionSeparators: false,
     items: [
       {
@@ -136,8 +149,18 @@ export const generatePathologyContent = record => ({
     header: 'Details about this test',
     items: [
       {
+        title: 'Date and time collected',
+        value: record.dateCollected,
+        inline: true,
+      },
+      {
         title: 'Site or sample tested',
         value: record.sampleTested,
+        inline: true,
+      },
+      {
+        title: 'Collection sample',
+        value: record.sampleFrom,
         inline: true,
       },
       {
@@ -150,7 +173,19 @@ export const generatePathologyContent = record => ({
   },
   results: {
     header: 'Results',
-    sectionSeparators: true,
+    preface: [
+      {
+        prefaceOptions: { paragraphGap: 20 },
+        value:
+          'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.',
+      },
+      {
+        prefaceOptions: { paragraphGap: 20 },
+        value:
+          'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.',
+      },
+    ],
+    sectionSeparators: false,
     items: [
       {
         items: [
@@ -166,7 +201,7 @@ export const generatePathologyContent = record => ({
 
 export const generateEkgContent = record => ({
   results: {
-    sectionSeparators: true,
+    sectionSeparators: false,
     items: [
       {
         items: [
@@ -234,7 +269,7 @@ export const generateRadiologyContent = record => ({
   },
   results: {
     header: 'Results',
-    sectionSeparators: true,
+    sectionSeparators: false,
     items: [{ items: [{ value: record.results, monospace: true }] }],
   },
 });

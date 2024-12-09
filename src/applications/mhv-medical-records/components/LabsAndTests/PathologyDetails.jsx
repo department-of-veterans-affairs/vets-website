@@ -76,10 +76,17 @@ ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
+Date and time collected: ${record.date}\n
 Site or sample tested: ${record.sampleTested} \n
+Collection sample: ${record.sampleFrom} \n
 Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
+'Your provider will review your results. If you need to do anything, 
+your provider will contact you. If you have questions, 
+send a message to the care team that ordered this test.\n
+'Note: If you have questions about more than 1 test ordered by the same care team, 
+send 1 message with all of your questions.\n
 ${record.results} \n`;
 
     const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
