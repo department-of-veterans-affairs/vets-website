@@ -28,7 +28,7 @@ import submitForm from './submitForm';
 
 const { date, dateRange } = commonDefinitions;
 
-const subTitle = (
+const subTitle = () => (
   <div className="schemaform-subtitle vads-u-color--gray">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </div>
