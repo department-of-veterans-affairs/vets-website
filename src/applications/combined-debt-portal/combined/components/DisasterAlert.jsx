@@ -34,6 +34,7 @@ const GenericDisasterAlert = () => {
   );
 };
 
+// Leaving in place as it can be reused in forthcoming years with minor changes
 const SpecialHurricaneAlert = () => {
   const specialHurricaneAlertDisplay = isBefore(
     new Date(),
