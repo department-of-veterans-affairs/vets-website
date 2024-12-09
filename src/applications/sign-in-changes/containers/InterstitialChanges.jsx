@@ -66,8 +66,8 @@ export default function InterstitialChanges() {
       )}
       <h2 id="interstitialH2">Or continue using your old account</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
-        You’ll can use your <strong>My HealtheVet</strong> account to sign in
-        until January 31, 2025.
+        You can use your <strong>My HealtheVet</strong> account to sign in until
+        January 31, 2025.
       </p>
       <VaLink
         text="Continue with your My HealtheVet account for now"
