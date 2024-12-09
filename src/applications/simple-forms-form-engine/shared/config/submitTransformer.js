@@ -12,10 +12,17 @@ const transformForSubmit = (formConfig, form) => {
     formNumber: formConfig.formId,
   };
 
-  const transformedData = platformTransformForSubmit(formConfig, {
-    ...form,
-    data: formData,
-  });
+  /** @type {ReplacerOptions} */
+  const options = { replaceEscapedCharacters: true };
+
+  const transformedData = platformTransformForSubmit(
+    formConfig,
+    {
+      ...form,
+      data: formData,
+    },
+    options,
+  );
 
   // eslint-disable-next-line no-console
   console.log(transformedData);

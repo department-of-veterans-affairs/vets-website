@@ -21,7 +21,11 @@ describe('transformForSubmit', () => {
   });
 
   it('calls the platform transformForSubmit', () => {
-    expect(spy.calledOnce).to.eq(true);
+    expect(spy.calledWith(formConfig)).to.eq(true);
+
+    const options = spy.getCall(0).args[2];
+
+    expect(options.replaceEscapedCharacters).to.eq(true);
   });
 
   it('includes the form number', () => {
