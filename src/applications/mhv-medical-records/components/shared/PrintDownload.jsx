@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { sendDataDogAction } from '../../util/helpers';
@@ -15,6 +15,8 @@ const PrintDownload = props => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
+
+  const listOrPage = useMemo(() => (list ? 'list' : 'page'), [list]);
 
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
@@ -106,12 +108,14 @@ const PrintDownload = props => {
             type="button"
             onClick={() => {
               handlePrint();
-              sendDataDogAction(`Print this List option - ${description}`);
+              sendDataDogAction(
+                `Print this ${listOrPage} option - ${description}`,
+              );
             }}
             id="printButton-0"
             data-testid="printButton-0"
           >
-            Print this {list ? 'list' : 'page'}
+            Print this {listOrPage}
           </button>
         </li>
         <li>
@@ -121,13 +125,13 @@ const PrintDownload = props => {
             onClick={() => {
               handlePdfDownload();
               sendDataDogAction(
-                `Download PDF of this List option - ${description}`,
+                `Download PDF of this ${listOrPage} option - ${description}`,
               );
             }}
             id="printButton-1"
             data-testid="printButton-1"
           >
-            Download PDF of this {list ? 'list' : 'page'}
+            Download PDF of this {listOrPage}
           </button>
         </li>
         {allowTxtDownloads && (
@@ -140,11 +144,11 @@ const PrintDownload = props => {
               onClick={() => {
                 handleTxtDownload();
                 sendDataDogAction(
-                  `Download TXT of this List option - ${description}`,
+                  `Download TXT of this ${listOrPage} option - ${description}`,
                 );
               }}
             >
-              Download a text file (.txt) of this {list ? 'list' : 'page'}
+              Download a text file (.txt) of this {listOrPage}
             </button>
           </li>
         )}
