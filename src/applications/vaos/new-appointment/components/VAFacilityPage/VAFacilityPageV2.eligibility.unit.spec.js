@@ -679,7 +679,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByTestId('eligibilityModal');
       expect(screen.getByRole('alertdialog')).to.be.ok;
-      // expect(screen.baseElement).to.contain.text('last 36 months');
       fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
       await waitFor(
