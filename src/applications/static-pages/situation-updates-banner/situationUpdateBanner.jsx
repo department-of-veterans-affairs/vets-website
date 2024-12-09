@@ -11,6 +11,7 @@ export default function SituationUpdateBanner({
   content,
   operatingStatusCta = false,
   operatingStatusPage,
+  findFacilitiesCta = false,
 }) {
   return (
     <va-banner
@@ -36,6 +37,14 @@ export default function SituationUpdateBanner({
             />
           </p>
         )}
+      {findFacilitiesCta && (
+        <p>
+          <va-link
+            href="/find-locations"
+            text="Find other VA facilities near you"
+          />
+        </p>
+      )}
     </va-banner>
   );
 }
@@ -45,6 +54,7 @@ SituationUpdateBanner.propTypes = {
   content: PropTypes.node.isRequired,
   headline: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  findFacilitiesCta: PropTypes.bool,
   operatingStatusCta: PropTypes.bool,
   operatingStatusPage: PropTypes.string,
   showClose: PropTypes.bool,

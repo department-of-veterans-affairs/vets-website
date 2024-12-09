@@ -12,6 +12,8 @@ import { BannerContainer } from '../bannerContainer';
 import {
   birmingham,
   birminghamWoContext,
+  bostonTestWithBothCtAs,
+  bostonTestWithJustFind,
   maine,
 } from './mocks/mockSituationUpdatesBanner';
 
@@ -63,7 +65,53 @@ describe('featureToggles allow banners', () => {
       wrapper.update();
       expect(wrapper.find('va-banner')).to.have.length(1);
       const banner = wrapper.find('va-banner');
-      expect(banner.find('va-link')).to.have.length(1);
+      const vaLink = banner.find('va-link');
+      expect(vaLink).to.have.length(1);
+      expect(vaLink.props().text).to.equal(
+        'Get updates on affected services and facilities',
+      );
+      wrapper.unmount();
+      done();
+    }, 1500);
+  });
+
+  it('should display the Boston banner and display 1 link for find locations', done => {
+    sinon.stub(window, 'location').value({
+      pathname: '/boston-health-care',
+    });
+    mockApiRequest(bostonTestWithJustFind);
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(1);
+      const banner = wrapper.find('va-banner');
+      const vaLink = banner.find('va-link');
+      expect(vaLink).to.have.length(1);
+      expect(vaLink.props().text).to.equal('Find other VA facilities near you');
+      wrapper.unmount();
+      done();
+    }, 1500);
+  });
+
+  it('should display the Boston banner and display 2 links for find locations and updates', done => {
+    sinon.stub(window, 'location').value({
+      pathname: '/boston-health-care',
+    });
+    mockApiRequest(bostonTestWithBothCtAs);
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(1);
+      const banner = wrapper.find('va-banner');
+      expect(banner.find('va-link')).to.have.length(2);
       wrapper.unmount();
       done();
     }, 1500);
