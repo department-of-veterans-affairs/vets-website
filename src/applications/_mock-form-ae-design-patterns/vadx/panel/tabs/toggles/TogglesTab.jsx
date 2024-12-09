@@ -6,7 +6,7 @@ import {
 import React, { useContext } from 'react';
 import environment from '~/platform/utilities/environment';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { VADXContext } from '../../context/vadx';
+import { VADXContext } from '../../../context/vadx';
 
 export const TogglesTab = () => {
   const {
