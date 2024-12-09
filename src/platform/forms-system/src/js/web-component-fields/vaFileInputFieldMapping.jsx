@@ -1,10 +1,15 @@
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
 
-const allPropertiesAreUndefined = fileInput =>
-  Object.keys(fileInput).every(
+const allPropertiesAreUndefined = fileInput => {
+  if (!fileInput) {
+    return true;
+  }
+
+  return Object.keys(fileInput).every(
     property => typeof fileInput[property] === 'undefined',
   );
+};
 
 /** @param {WebComponentFieldProps} props */
 const vaFileInputFieldMapping = props => {
