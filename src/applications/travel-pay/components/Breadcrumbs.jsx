@@ -7,7 +7,7 @@ export default function BreadCrumbs() {
   const history = useHistory();
   const uuidPathRegex = /^\/claims\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
   const isDetailsPage = pathname.match(uuidPathRegex);
-  const isStatusExplainer = pathname.includes('what-does-my-claim-status-mean');
+  const isStatusExplainer = pathname.includes('/help');
 
   const breadcrumbList = [
     {
@@ -29,7 +29,7 @@ export default function BreadCrumbs() {
 
   if (isStatusExplainer) {
     breadcrumbList.push({
-      href: '/help/what-does-my-claim-status-mean',
+      href: '/help',
       label: 'Help: Claim Status Meanings',
       isRouterLink: true,
     });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
@@ -16,9 +16,6 @@ const routes = (
       <TravelClaimDetails />
     </Route>
     <Route exact path="/help">
-      <Redirect to="/help/what-does-my-claim-status-mean" />
-    </Route>
-    <Route exact path="/help/what-does-my-claim-status-mean">
       <MhvSecondaryNav />
       <ClaimStatusExplainerPage />
     </Route>

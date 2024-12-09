@@ -25,7 +25,7 @@ export function HelpTextContent() {
         <Link
           data-testid="status-explainer-link"
           to={{
-            pathname: '/help/what-does-my-claim-status-mean',
+            pathname: '/help',
           }}
           className="vads-u-display--flex vads-u-align-items--center"
         >

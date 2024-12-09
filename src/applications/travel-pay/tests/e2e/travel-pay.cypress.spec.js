@@ -60,7 +60,7 @@ describe(`${appName} -- Status Page`, () => {
     );
 
     // TODO: update mock data to reflect proper claim number formatting
-    cy.get('.claim-details-claim-number').should(
+    cy.get('span[data-testid="claim-details-claim-number"]').should(
       'include.text',
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
@@ -78,14 +78,11 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
-    cy.location('pathname').should(
-      'eq',
-      '/my-health/travel-claim-status/help/what-does-my-claim-status-mean',
-    );
+    cy.location('pathname').should('eq', '/my-health/travel-claim-status/help');
 
     cy.get('h1').should('include.text', 'What does my claim status mean?');
 
-    // get the 4th Breadcrumb, test that it is correct for the page
+    // // get the 4th Breadcrumb, test that it is correct for the page
     cy.get('a')
       .eq(3)
       .should('include.text', 'Help: Claim Status Meanings');
@@ -223,14 +220,5 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h3[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', 'August 16, 2023');
-  });
-
-  it('redirects help to help/what-does-my-claim-status-mean', () => {
-    cy.visit(`${rootUrl}/help`);
-
-    cy.location('pathname').should(
-      'eq',
-      '/my-health/travel-claim-status/help/what-does-my-claim-status-mean',
-    );
   });
 });
