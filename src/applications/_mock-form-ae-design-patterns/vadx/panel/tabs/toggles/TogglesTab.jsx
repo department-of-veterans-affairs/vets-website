@@ -3,8 +3,8 @@ import {
   VaCheckbox,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { snakeCase } from 'lodash';
 import React, { useContext } from 'react';
-import environment from '~/platform/utilities/environment';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { VADXContext } from '../../../context/vadx';
 
@@ -52,11 +52,13 @@ export const TogglesTab = () => {
     }
   };
 
-  const filteredToggles = Object.keys(togglesState).filter(toggle => {
-    const toggleName = toggle?.toLowerCase?.() || '';
-    const searchQueryLower = searchQuery?.toLowerCase?.() || '';
-    return toggleName.includes(searchQueryLower) && toggle !== 'loading';
-  });
+  const filteredToggles = Object.keys(togglesState)
+    .filter(toggle => !toggle.includes('_'))
+    .filter(toggle => {
+      const toggleName = toggle?.toLowerCase?.() || '';
+      const searchQueryLower = searchQuery?.toLowerCase?.() || '';
+      return toggleName.includes(searchQueryLower) && toggle !== 'loading';
+    });
 
   return (
     <>
@@ -98,13 +100,11 @@ export const TogglesTab = () => {
             <va-icon icon="error_outline" size={4} />
             No toggles found.
           </p>
-          <p className="vads-u-margin--0">
-            Is your api running at {environment.API_URL}?
-          </p>
         </div>
       )}
 
       {filteredToggles.map(toggle => {
+        const snakeCaseToggle = snakeCase(toggle);
         return (
           <span key={toggle}>
             <VaCheckbox
@@ -115,6 +115,7 @@ export const TogglesTab = () => {
                 const updatedToggles = {
                   ...togglesState,
                   [toggle]: e.target.checked,
+                  [snakeCaseToggle]: e.target.checked,
                 };
                 updateLocalToggles(updatedToggles);
               }}
