@@ -37,7 +37,7 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
 
   it('should render with default data', async () => {
-    const referral = createReferral(new Date(), '111');
+    const referral = createReferral(referralDate, '111');
 
     const store = createTestStore();
 
