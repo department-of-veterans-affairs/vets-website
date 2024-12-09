@@ -3,19 +3,14 @@
 
 .header {
   min-height: auto;
-}
 
-.nav {
-  padding: 1.5px 8px;
-  flex-wrap: wrap;
-
-  &__container {
+  &__govt-website {
     width: 100%;
-    flex-wrap: wrap;
     margin: 8px 16px;
     max-width: 1000px;
-    margin: 0 auto;
-    align-items: center;
+    @media (min-width: $medium-screen) {
+      margin: 0 auto;
+    }
   }
 
   &__flag {
@@ -42,6 +37,76 @@
       text-decoration: underline;
     }
   }
+}
+.user-nav {
+  margin-left: auto;
+
+  &__chevron {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}
+.nav {
+  padding: 1.5px 8px;
+  flex-wrap: wrap;
+
+  &__sign-in {
+    margin-left: auto;
+  }
+
+  &__user-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      border-bottom: 1px solid $vads-color-base-light;
+      padding: 12px 0;
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    a {
+      width: max-content;
+      text-decoration: none;
+
+    }
+  }
+
+  &__user-btn {
+    width: max-content;
+
+    &--user {
+      background-color: transparent;
+      display: flex;
+    }
+    &--menu {
+      background: var(--vads-color-white) !important;
+    }
+    &-icon {
+      margin-left: 8px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1000px;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    @media (min-width: $medium-screen) {
+      flex-wrap: wrap;
+    }
+  }
+
+
 
   &__decorator {
     display: none;
