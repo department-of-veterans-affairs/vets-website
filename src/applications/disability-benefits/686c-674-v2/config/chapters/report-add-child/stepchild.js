@@ -10,6 +10,14 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+function required(formData, rawIndex) {
+  const index = parseInt(rawIndex, 10);
+  if (Number.isFinite(index)) {
+    return formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
+  }
+  return formData?.relationshipToChild?.stepchild;
+}
+
 export const stepchild = {
   uiSchema: {
     ...titleUI({
@@ -17,14 +25,14 @@ export const stepchild = {
     }),
     isBiologicalChild: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',
-      required: () => true,
+      required,
       errorMessages: {
         required: 'Select Yes or No.',
       },
     }),
     dateEnteredHousehold: currentOrPastDateUI({
       title: 'Date this child entered your household',
-      required: () => true,
+      required,
       'ui:errorMessages': {
         required: 'Enter the date.',
       },
@@ -38,7 +46,7 @@ export const stepchild = {
     },
     biologicalParentDob: currentOrPastDateUI({
       title: 'Child’s biological parent’s date of birth',
-      required: () => true,
+      required,
       'ui:errorMessages': {
         required: 'Enter the date.',
       },

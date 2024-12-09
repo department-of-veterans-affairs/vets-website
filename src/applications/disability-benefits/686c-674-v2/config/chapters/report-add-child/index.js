@@ -57,22 +57,20 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/relationship',
       uiSchema: relationship.uiSchema,
       schema: relationship.schema,
-      // onNavForward: ({ formData, pathname, urlParams, goPath, goNextPath }) => {
-      //   const index = getArrayIndexFromPathName(pathname);
-      //   const urlParamsString = stringifyUrlParams(urlParams) || '';
-      //
-      //   if (formData?.relationshipToChild.stepchild) {
-      //     goNextPath(urlParams);
-      //     return;
-      //   }
-      //   goPath(
-      //     `/686-report-add-child/${index}/additional-information-part-one${urlParamsString}`,
-      //   );
-      // },
     }),
-    // conditional page
     addChildStepchild: pages.itemPage({
-      depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
+      depends: (formData, rawIndex) => {
+        const index = parseInt(rawIndex, 10);
+        if (Number.isFinite(index)) {
+          const stepChildSelected =
+            formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
+          return (
+            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+            stepChildSelected
+          );
+        }
+        return isChapterFieldRequired(formData, TASK_KEYS.addChild);
+      },
       title: "Child's biological parents",
       path: '686-report-add-child/:index/stepchild',
       uiSchema: stepchild.uiSchema,
@@ -84,14 +82,6 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/additional-information-part-one',
       uiSchema: additionalInformationPartOne.uiSchema,
       schema: additionalInformationPartOne.schema,
-      // onNavBack: ({ _formData, pathname, urlParams, goPath, _goNextPath }) => {
-      //   const index = getArrayIndexFromPathName(pathname);
-      //   const urlParamsString = stringifyUrlParams(urlParams) || '';
-      //
-      //   return goPath(
-      //     `/686-report-add-child/${index}/relationship${urlParamsString}`,
-      //   );
-      // },
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
       depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
@@ -101,14 +91,36 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: additionalInformationPartTwo.schema,
     }),
     addChildChildAddressPartOne: pages.itemPage({
-      depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
+      depends: (formData, rawIndex) => {
+        const index = parseInt(rawIndex, 10);
+        if (Number.isFinite(index)) {
+          const shouldSeeAddressPage =
+            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === 'N';
+          return (
+            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+            shouldSeeAddressPage
+          );
+        }
+        return isChapterFieldRequired(formData, TASK_KEYS.addChild);
+      },
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-one',
       uiSchema: childAddressPartOne.uiSchema,
       schema: childAddressPartOne.schema,
     }),
     addChildChildAddressPartTwo: pages.itemPage({
-      depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
+      depends: (formData, rawIndex) => {
+        const index = parseInt(rawIndex, 10);
+        if (Number.isFinite(index)) {
+          const shouldSeeAddressPage =
+            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === 'N';
+          return (
+            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+            shouldSeeAddressPage
+          );
+        }
+        return isChapterFieldRequired(formData, TASK_KEYS.addChild);
+      },
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-two',
       uiSchema: childAddressPartTwo.uiSchema,
