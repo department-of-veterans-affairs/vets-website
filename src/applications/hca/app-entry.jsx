@@ -1,8 +1,6 @@
 import 'platform/polyfills';
 import './sass/hca.scss';
-
-import startApp from '@department-of-veterans-affairs/platform-startup/index';
-
+import startApp from 'platform/startup';
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';

@@ -23,6 +23,8 @@ import {
   checkboxGroupSchema,
   numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import {
   AccreditedSchool,
   AddStudentsIntro,
@@ -457,8 +459,10 @@ export const studentTermDatesPage = {
           'ui:required': () => true,
         },
         expectedGraduationDate: {
-          ...currentOrPastDateUI('When does the student expect to graduate?'),
+          'ui:title': 'When does the student expect to graduate?',
+          'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
+          'ui:validations': [validateCurrentOrFutureDate],
         },
       },
     },
