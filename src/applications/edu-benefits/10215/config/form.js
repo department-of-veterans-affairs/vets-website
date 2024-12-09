@@ -15,8 +15,8 @@ import { ProgramSummary } from '../pages/program-summary';
 
 const arrayBuilderOptions = {
   arrayPath: 'programs',
-  nounSingular: '85/15 calculation',
-  nounPlural: '85/15 calculations',
+  nounSingular: 'program',
+  nounPlural: 'programs',
   required: true,
   text: {
     getItemName: item => item.programName,
