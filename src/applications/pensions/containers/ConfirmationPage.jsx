@@ -308,28 +308,9 @@ const ConfirmationPage = ({ route }) => {
 };
 
 ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      veteranFullName: PropTypes.shape({
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      }).isRequired,
-      bankAccount: PropTypes.shape({
-        accountType: PropTypes.string,
-        bankName: PropTypes.string,
-        accountNumber: PropTypes.string,
-        routingNumber: PropTypes.string,
-      }),
-    }),
-    submission: PropTypes.shape({
-      response: PropTypes.shape({
-        confirmationNumber: PropTypes.string,
-      }),
-      timestamp: PropTypes.string,
-    }),
-  }),
+  route: PropTypes.shape({
+    formConfig: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
 export default ConfirmationPage;
