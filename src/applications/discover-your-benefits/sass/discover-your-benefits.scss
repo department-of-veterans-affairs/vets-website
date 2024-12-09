@@ -8,6 +8,7 @@
 
 .discover-your-benefits .confirmation-page p,
 .discover-your-benefits article p,
+.discover-your-benefits va-alert p,
 .discover-your-benefits form > div:first-of-type * {
   @media (min-width: $medium-screen) {
     width: 75ch !important;
