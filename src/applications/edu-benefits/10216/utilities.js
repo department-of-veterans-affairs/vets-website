@@ -55,6 +55,3 @@ export const calculatedPercentage = formData => {
     ? `${((beneficiaryStudent / numOfStudent) * 100).toFixed(1)}%`
     : '---';
 };
-
-export const isOnReviewPage = () =>
-  window.location.pathname.endsWith('/review-and-submit');

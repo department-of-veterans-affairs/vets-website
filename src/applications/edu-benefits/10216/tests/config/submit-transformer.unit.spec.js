@@ -1,4 +1,3 @@
-// src/applications/edu-benefits/10216/config/submit-transformer.test.js
 import { expect } from 'chai';
 import { transform } from '../../config/submit-transformer';
 
