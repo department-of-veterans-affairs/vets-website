@@ -1,15 +1,26 @@
 import { transformForSubmit as platformTransformForSubmit } from 'platform/forms-system/exportsFile';
 
+/**
+ * @param formConfig {FormConfig}
+ * @param form {Object}
+ * @returns {string} The form data as a JSON string
+ */
 const transformForSubmit = (formConfig, form) => {
-  const transformedData = platformTransformForSubmit(formConfig, form);
+  // We need the form number to send it to the right model
+  const formData = {
+    ...form.data,
+    formNumber: formConfig.formId,
+  };
+
+  const transformedData = platformTransformForSubmit(formConfig, {
+    ...form,
+    data: formData,
+  });
 
   // eslint-disable-next-line no-console
   console.log(transformedData);
 
-  return JSON.stringify({
-    ...transformedData,
-    formNumber: formConfig.formId,
-  });
+  return transformedData;
 };
 
 export default transformForSubmit;

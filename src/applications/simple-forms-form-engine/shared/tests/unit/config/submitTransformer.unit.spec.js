@@ -21,7 +21,7 @@ describe('transformForSubmit', () => {
   });
 
   it('calls the platform transformForSubmit', () => {
-    expect(spy.calledWith(formConfig, form)).to.eq(true);
+    expect(spy.calledOnce).to.eq(true);
   });
 
   it('includes the form number', () => {
