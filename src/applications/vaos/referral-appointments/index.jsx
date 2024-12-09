@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
 import ConfirmApprovedPage from './ConfirmApprovedPage';
+import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
@@ -87,6 +88,10 @@ export default function ReferralAppointments() {
           path={`${basePath.url}/date-time/`}
           component={ChooseDateAndTime}
         />
+        {/* TODO: remove this mock page when referral complete page is built */}
+        <Route path={`${basePath.url}/confirm`}>
+          <ConfirmReferral currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />
         </Route>
