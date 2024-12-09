@@ -513,6 +513,8 @@ class TrackClaimsPageV2 {
     );
   }
 
+  // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+  // Waiting to see if we still need this component and logic or not.
   verifyPrimaryAlertfor5103Notice(isStandard = false, is5103Update = false) {
     const testId = isStandard
       ? '[data-testid="standard-5103-notice-alert"]'
@@ -562,6 +564,8 @@ class TrackClaimsPageV2 {
     cy.get('va-additional-info').should('be.visible');
   }
 
+  // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+  // Waiting to see if we still need this component and logic or not.
   verifyDocRequestfor5103Notice(isStandard = false) {
     cy.get('#default-5103-notice-page').should('be.visible');
     if (!isStandard) {

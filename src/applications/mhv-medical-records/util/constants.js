@@ -217,6 +217,22 @@ export const pageTitles = {
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
 
+export const selfEnteredTypes = {
+  VITALS: 'vitals',
+  ALLERGIES: 'allergies',
+  FAMILY_HISTORY: 'family history',
+  VACCINES: 'vaccines',
+  TEST_ENTRIES: 'test entries',
+  MEDICAL_EVENTS: 'medical events',
+  MILITARY_HISTORY: 'military history',
+  HEALTH_PROVIDERS: 'health providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  FOOD_JOURNAL: 'food journal',
+  ACTIVITY_JOURNAL: 'activity journal',
+  MEDICATIONS: 'medications',
+};
+
 export const allergyTypes = {
   OBSERVED:
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',

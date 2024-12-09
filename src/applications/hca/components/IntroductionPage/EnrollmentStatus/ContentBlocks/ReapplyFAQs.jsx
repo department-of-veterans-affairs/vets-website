@@ -1,6 +1,6 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { APP_URLS } from '../../../../utils/constants';
+import { CONTACTS } from '../../../../utils/imports';
 
 // Declare reusable content blocks
 const callOurTeam = (
