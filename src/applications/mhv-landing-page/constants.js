@@ -77,9 +77,12 @@ const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(([key, name]) => ({
   links: HEALTH_TOOL_LINKS[key],
 }));
 
+const MHV_ACCOUNT_CARDS = ['Messages', 'Medications', 'Medical records'];
+
 module.exports = {
   HEALTH_TOOL_HEADINGS,
   HEALTH_TOOL_NAMES,
   HEALTH_TOOL_LINKS,
   HEALTH_TOOLS,
+  MHV_ACCOUNT_CARDS,
 };

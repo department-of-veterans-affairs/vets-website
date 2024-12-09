@@ -3,11 +3,17 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe, mrPhase1Enabled } from '../selectors';
+import {
+  isAuthenticatedWithSSOe,
+  mrPhase1Enabled,
+  mhvAccountStatusUserError,
+  mhvAccountStatusUsersuccess,
+} from '../selectors';
 
 import NavCard from './NavCard';
 import MedicalRecordsCard from './MedicalRecordsCard';
-import { HEALTH_TOOL_HEADINGS } from '../constants';
+import ErrorNavCard from './ErrorNavCard';
+import { HEALTH_TOOL_HEADINGS, MHV_ACCOUNT_CARDS } from '../constants';
 
 const layoutData = data => {
   const offset = 2;
@@ -19,6 +25,8 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
+  const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+  const mhvAccountSuccess = useSelector(mhvAccountStatusUsersuccess);
   const isMrPhase1Enabled = useSelector(mrPhase1Enabled);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
@@ -47,12 +55,20 @@ const CardLayout = ({ data }) => {
             data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
             key={`col-${y}`}
           >
-            {col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-            !isMrPhase1Enabled ? (
-              <MedicalRecordsCard href={blueButtonUrl} />
-            ) : (
-              <NavCard {...col} />
-            )}
+            {mhvAccountStatusUserErrors.length > 0 &&
+              MHV_ACCOUNT_CARDS.includes(col.title) && (
+                <ErrorNavCard
+                  title={col.title}
+                  code={mhvAccountStatusUserErrors[0].code}
+                />
+              )}
+            {(!MHV_ACCOUNT_CARDS.includes(col.title) || mhvAccountSuccess) &&
+              (col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
+              !isMrPhase1Enabled ? (
+                <MedicalRecordsCard href={blueButtonUrl} />
+              ) : (
+                <NavCard {...col} />
+              ))}
           </div>
         ))}
       </div>

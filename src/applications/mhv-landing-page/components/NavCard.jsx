@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -23,10 +22,6 @@ const NavCard = ({
   links,
   tag,
 }) => {
-  const accountStatus = useSelector(
-    state => state?.myHealth?.accountStatus?.data,
-  );
-
   const listItems = links?.map(({ ariaLabel, href, text, isExternal }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
@@ -129,7 +124,7 @@ const NavCard = ({
             },
           )}
         >
-          {accountStatus?.errors ? accountStatus?.errors[0].title : listItems}
+          {listItems}
         </ul>
       )}
     </div>
