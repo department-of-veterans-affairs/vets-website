@@ -36,10 +36,7 @@ const Benefits = ({
         {!queryString.allBenefits &&
           !results.isLoading &&
           benefits.length === 0 && (
-            <NoResultsBanner
-              data={results.data}
-              handleBackClick={handleBackClick}
-            />
+            <NoResultsBanner handleBackClick={handleBackClick} />
           )}
       </div>
       {queryString.allBenefits &&
