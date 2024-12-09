@@ -423,15 +423,18 @@ jobs:
           CYRESS_CODE_COVERAGE: true
 
       - name: List directories
+        if: ${{ always() }}
         run: |
           cd config
           cd .nyc_output
           ls -a
 
       - name: List .nyc_output contents
+        if: ${{ always() }}
         run: ls -l config/.nyc_output
 
       - name: Log full path to out.json
+        if: ${{ always() }}
         run: find . -name "out.json" -exec realpath {} \;
 
       - name: View code coverage summary
