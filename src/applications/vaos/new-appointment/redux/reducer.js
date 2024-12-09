@@ -51,7 +51,7 @@ import {
   FORM_REQUESTED_PROVIDERS_FAILED,
   FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
   FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
-  // FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED,
 } from './actions';
 
 import {
@@ -602,6 +602,11 @@ export default function formReducer(state = initialState, action) {
         ...state,
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
         patientProviderRelationships: action.patientProviderRelationships,
+      };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.failed,
       };
     case FORM_FETCH_FACILITY_DETAILS:
       return {

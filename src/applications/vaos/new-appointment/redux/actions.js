@@ -226,32 +226,20 @@ export function startRequestAppointmentFlow(isCommunityCare) {
   };
 }
 
-export function getPatientProviderRelationships() {
-  let patientProviderRelationships = [];
-
-  return async (dispatch, getState) => {
-    const state = getState();
-    const typeOfCare = getTypeOfCare(state.newAppointment.data);
-    // TODO: Need to determine where location object is coming from in flow
-    // const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
-
-    dispatch({
-      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
-    });
-
+export function fetchPatientProviderRelationships() {
+  return async dispatch => {
     try {
-      patientProviderRelationships = await fetchPatientRelationships({
-        typeOfCare,
-        location,
-      });
-    } catch (e) {
-      captureError(e);
-    }
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS });
 
-    dispatch({
-      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
-      patientProviderRelationships,
-    });
+      const patientProviderRelationships = await fetchPatientRelationships();
+
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED });
+
+      return patientProviderRelationships;
+    } catch (e) {
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
+      return captureError(e);
+    }
   };
 }
 
@@ -279,6 +267,7 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
+
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
