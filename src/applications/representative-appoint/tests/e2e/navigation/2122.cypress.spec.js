@@ -3,160 +3,178 @@ import { ROUTES } from '../../../constants/routes';
 import { makeMockUser } from '../../fixtures/data/user';
 import mockRepResults from '../../fixtures/data/representative-results.json';
 
-describe('Authenticated 21-22 flow where user is the veteran', () => {
-  beforeEach(() => {
-    const user = makeMockUser();
-    cy.login(user);
-    cy.intercept(
-      'GET',
-      '/representation_management/v0/original_entities?query=**',
-      mockRepResults,
-    ).as('fetchRepresentatives');
-  });
+describe('Authenticated', () => {
+  context('user is veteran', () => {
+    beforeEach(() => {
+      const user = makeMockUser();
+      cy.login(user);
+      cy.intercept(
+        'GET',
+        '/representation_management/v0/original_entities?query=**',
+        mockRepResults,
+      ).as('fetchRepresentatives');
+    });
 
-  it('navigates through the flow successfully', () => {
-    cy.visit(h.ROOT);
+    it('navigates through the flow successfully', () => {
+      cy.visit(h.ROOT);
 
-    // INTRO
-    h.verifyUrl(ROUTES.INTRO);
-    cy.injectAxeThenAxeCheck();
-    h.clickStartAuth();
+      // INTRO
+      h.verifyUrl(ROUTES.INTRO);
+      cy.injectAxeThenAxeCheck();
+      h.clickStartAuth();
 
-    // CLAIMANT_TYPE
-    h.verifyUrl(ROUTES.CLAIMANT_TYPE);
-    cy.get('va-radio-option[value="Yes"] label').click();
-    h.clickContinue();
+      // CLAIMANT_TYPE
+      h.verifyUrl(ROUTES.CLAIMANT_TYPE);
+      cy.get('va-radio-option[value="Yes"] label').click();
+      h.clickContinue();
 
-    // REPRESENTATIVE_SELECT
-    h.verifyUrl(ROUTES.REPRESENTATIVE_SELECT);
+      // REPRESENTATIVE_SELECT
+      h.verifyUrl(ROUTES.REPRESENTATIVE_SELECT);
 
-    cy.get('#inputField').type('Billy');
+      cy.get('#inputField').type('Billy');
 
-    cy.contains('Search').click();
+      cy.contains('Search').click();
 
-    cy.contains('Billy Ryan').should('be.visible');
+      cy.contains('Billy Ryan').should('be.visible');
 
-    cy.contains('button', 'Select this representative')
-      .first()
-      .click();
+      cy.contains('button', 'Select this representative')
+        .first()
+        .click();
 
-    // REPRESENTATIVE_CONTACT
-    h.verifyUrl(ROUTES.REPRESENTATIVE_CONTACT);
-    h.clickContinue();
+      // REPRESENTATIVE_CONTACT
+      h.verifyUrl(ROUTES.REPRESENTATIVE_CONTACT);
+      h.clickContinue();
 
-    // REPRESENTATIVE_ORGANIZATION
-    h.verifyUrl(ROUTES.REPRESENTATIVE_ORGANIZATION);
-    cy.contains('label', 'American Legion').click();
+      // REPRESENTATIVE_ORGANIZATION
+      h.verifyUrl(ROUTES.REPRESENTATIVE_ORGANIZATION);
+      cy.contains('label', 'American Legion').click();
 
-    h.clickContinue();
+      h.clickContinue();
 
-    // VETERAN_PERSONAL_INFORMATION;
-    h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
-    h.typeFirstName('John');
-    h.typeMiddleName('Edmund');
-    h.typeLastName('Doe');
+      // VETERAN_PERSONAL_INFORMATION;
+      h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
+      cy.get('input[name="root_veteranFullName_first"]').type('John');
+      cy.get('input[name="root_veteranFullName_middle"]').type('Edmund');
+      cy.get('input[name="root_veteranFullName_last"]').type('Doe');
 
-    h.selectMonth('January');
-    h.selectDay('01');
-    h.selectYear('1990');
+      cy.get('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select('January');
 
-    h.clickContinue();
+      cy.get('input[name="root_veteranDateOfBirthDay"]').type('01');
+      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
 
-    // VETERAN_CONTACT_MAILING
-    h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
+      h.clickContinue();
 
-    h.selectCountry('United States');
+      // VETERAN_CONTACT_MAILING
+      h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
 
-    h.inputStreetAddress('123 Anywhere St');
+      cy.get('va-select[name="root_veteranHomeAddress_country"]')
+        .shadow()
+        .find('select')
+        .select('United States');
 
-    h.inputCity('Anytown');
+      cy.get('input[name="root_veteranHomeAddress_street"]').type(
+        '123 Anywhere St',
+      );
 
-    h.selectState('Ohio');
+      cy.get('input[name="root_veteranHomeAddress_city"]').type('Anytown');
 
-    h.inputPostalCode('43545');
+      cy.get('input[name="root_veteranHomeAddress_postalCode"]').type('43545');
 
-    h.clickContinue();
+      cy.get('va-select[name="root_veteranHomeAddress_state"]')
+        .shadow()
+        .find('select')
+        .select('Ohio');
 
-    // VETERAN_CONTACT_PHONE_EMAIL
-    h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
+      h.clickContinue();
 
-    h.inputPhone('5467364732');
+      // VETERAN_CONTACT_PHONE_EMAIL
+      h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
 
-    h.clickContinue();
+      cy.get('input[name="root_Primary phone"]').type('5467364732');
 
-    // VETERAN_IDENTIFICATION
-    h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
-    h.inputSSN('658432765');
-    h.clickContinue();
+      h.clickContinue();
 
-    // AUTHORIZE_MEDICAL
-    h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
-    h.selectRadio('authorizationRadio', 1);
+      // VETERAN_IDENTIFICATION
+      h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
 
-    h.clickContinue();
+      cy.get('input[name="root_veteranSocialSecurityNumber"]').type(
+        '658432765',
+      );
 
-    // AUTHORIZE_MEDICAL_SELECT
-    h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL_SELECT);
-    h.selectCheckbox('authorizeMedicalSelectCheckbox', 0);
-    h.selectCheckbox('authorizeMedicalSelectCheckbox', 1);
+      h.clickContinue();
 
-    h.clickContinue();
+      // AUTHORIZE_MEDICAL
+      h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
+      h.selectRadio('authorizationRadio', 1);
 
-    // AUTHORIZE_ADDRESS
-    h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
-    h.selectRadio('authorizeAddressRadio', 0);
+      h.clickContinue();
 
-    h.clickContinue();
+      // AUTHORIZE_MEDICAL_SELECT
+      h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL_SELECT);
+      h.selectCheckbox('authorizeMedicalSelectCheckbox', 0);
+      h.selectCheckbox('authorizeMedicalSelectCheckbox', 1);
 
-    // REVIEW_AND_SUBMIT
-    h.verifyUrl(ROUTES.REVIEW_AND_SUBMIT);
-    h.clickBack();
+      h.clickContinue();
 
-    // AUTHORIZE_ADDRESS
-    h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
-    h.clickBack();
+      // AUTHORIZE_ADDRESS
+      h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
+      h.selectRadio('authorizeAddressRadio', 0);
 
-    // AUTHORIZE_MEDICAL_SELECT
-    h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL_SELECT);
-    h.clickBack();
+      h.clickContinue();
 
-    // AUTHORIZE_MEDICAL
-    h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
-    h.clickBack();
+      // REVIEW_AND_SUBMIT
+      h.verifyUrl(ROUTES.REVIEW_AND_SUBMIT);
+      h.clickBack();
 
-    // VETERAN_IDENTIFICATION
-    h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
-    h.clickBack();
+      // AUTHORIZE_ADDRESS
+      h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
+      h.clickBack();
 
-    // VETERAN_CONTACT_PHONE_EMAIL
-    h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
-    h.clickBack();
+      // AUTHORIZE_MEDICAL_SELECT
+      h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL_SELECT);
+      h.clickBack();
 
-    // VETERAN_CONTACT_MAILING
-    h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
-    h.clickBack();
+      // AUTHORIZE_MEDICAL
+      h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
+      h.clickBack();
 
-    // VETERAN_PERSONAL_INFORMATION;
-    h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
-    h.clickBack();
+      // VETERAN_IDENTIFICATION
+      h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
+      h.clickBack();
 
-    // REPRESENTATIVE_ORGANIZATION
-    h.verifyUrl(ROUTES.REPRESENTATIVE_ORGANIZATION);
-    h.clickBack();
+      // VETERAN_CONTACT_PHONE_EMAIL
+      h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
+      h.clickBack();
 
-    // REPRESENTATIVE_CONTACT
-    h.verifyUrl(ROUTES.REPRESENTATIVE_CONTACT);
-    h.clickBack();
+      // VETERAN_CONTACT_MAILING
+      h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
+      h.clickBack();
 
-    // REPRESENTATIVE_SELECT
-    h.verifyUrl(ROUTES.REPRESENTATIVE_SELECT);
-    h.clickBack();
+      // VETERAN_PERSONAL_INFORMATION;
+      h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
+      h.clickBack();
 
-    // CLAIMANT_TYPE
-    h.verifyUrl(ROUTES.CLAIMANT_TYPE);
-    h.clickBack();
+      // REPRESENTATIVE_ORGANIZATION
+      h.verifyUrl(ROUTES.REPRESENTATIVE_ORGANIZATION);
+      h.clickBack();
 
-    // INTRO
-    h.verifyUrl(ROUTES.INTRO);
+      // REPRESENTATIVE_CONTACT
+      h.verifyUrl(ROUTES.REPRESENTATIVE_CONTACT);
+      h.clickBack();
+
+      // REPRESENTATIVE_SELECT
+      h.verifyUrl(ROUTES.REPRESENTATIVE_SELECT);
+      h.clickBack();
+
+      // CLAIMANT_TYPE
+      h.verifyUrl(ROUTES.CLAIMANT_TYPE);
+      h.clickBack();
+
+      // INTRO
+      h.verifyUrl(ROUTES.INTRO);
+    });
   });
 });

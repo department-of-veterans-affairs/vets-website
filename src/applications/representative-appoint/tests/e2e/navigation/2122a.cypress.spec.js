@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants/routes';
 import attorney from '../../fixtures/data/attorney.json';
 
 describe('Unauthenticated', () => {
-  context('non-veteran', () => {
+  context('User is non-veteran', () => {
     beforeEach(() => {
       cy.intercept(
         'GET',
@@ -57,7 +57,10 @@ describe('Unauthenticated', () => {
       cy.get('input[name="root_applicantName_middle"]').type('James');
       cy.get('input[name="root_applicantName_last"]').type('Friedman');
 
-      h.selectMonth('April');
+      cy.get('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select('April');
       cy.get('input[name="root_applicantDOBDay"]').type('01');
       cy.get('input[name="root_applicantDOBYear"]').type('1970');
 
@@ -93,37 +96,56 @@ describe('Unauthenticated', () => {
 
       // VETERAN_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
-      h.typeFirstName('John');
-      h.typeMiddleName('Edmund');
-      h.typeLastName('Doe');
+      cy.get('input[name="root_veteranFullName_first"]').type('John');
+      cy.get('input[name="root_veteranFullName_middle"]').type('Edmund');
+      cy.get('input[name="root_veteranFullName_last"]').type('Doe');
 
-      h.selectMonth('January');
-      h.selectDay('01');
-      h.selectYear('1990');
+      cy.get('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select('January');
+
+      cy.get('input[name="root_veteranDateOfBirthDay"]').type('01');
+      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
 
       h.clickContinue();
 
       // VETERAN_CONTACT_MAILING
       h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
 
-      h.selectCountry('United States');
-      h.inputStreetAddress('123 Anywhere St');
-      h.inputCity('Anytown');
-      h.selectState('Ohio');
-      h.inputPostalCode('43545');
+      cy.get('va-select[name="root_veteranHomeAddress_country"]')
+        .shadow()
+        .find('select')
+        .select('United States');
+
+      cy.get('input[name="root_veteranHomeAddress_street"]').type(
+        '123 Anywhere St',
+      );
+
+      cy.get('input[name="root_veteranHomeAddress_city"]').type('Anytown');
+
+      cy.get('input[name="root_veteranHomeAddress_postalCode"]').type('43545');
+
+      cy.get('va-select[name="root_veteranHomeAddress_state"]')
+        .shadow()
+        .find('select')
+        .select('Ohio');
 
       h.clickContinue();
 
       // VETERAN_CONTACT_PHONE_EMAIL
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
 
-      h.inputPhone('5467364732');
+      cy.get('input[name="root_Primary phone"]').type('5467364732');
 
       h.clickContinue();
 
       // VETERAN_IDENTIFICATION
       h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
-      h.inputSSN('658432765');
+      cy.get('input[name="root_veteranSocialSecurityNumber"]').type(
+        '658432765',
+      );
+
       h.clickContinue();
 
       // VETERAN_SERVICE_INFORMATION
@@ -157,7 +179,9 @@ describe('Unauthenticated', () => {
       h.clickContinue();
       // AUTHORIZE_OUTSIDE_VA_NAMES
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA_NAMES);
-      h.inputTeamMembers('Bob Test, Tom Middleton');
+      cy.get('input[name="root_authorizeNamesTextArea"]').type(
+        'Bob Test, Tom Middleton',
+      );
 
       h.clickContinue();
 
