@@ -7,6 +7,7 @@ const fs = require('fs').promises;
 
 const cors = require('./cors');
 const { killProcessOnPort, stripAnsi } = require('./utils');
+const { getManifests } = require('./manifests');
 
 const app = express();
 const port = 1337;
@@ -287,6 +288,8 @@ app.get('/events/:name', (req, res) => {
     }
   });
 });
+
+app.get('/manifests', getManifests);
 
 app.listen(port, () => {
   console.log(`Process manager server listening at http://localhost:${port}`);
