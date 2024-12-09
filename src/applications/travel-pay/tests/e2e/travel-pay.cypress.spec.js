@@ -56,7 +56,7 @@ describe(`${appName} -- Status Page`, () => {
 
     cy.location('pathname').should(
       'eq',
-      '/my-health/travel-claim-status/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
+      '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
     );
 
     // TODO: update mock data to reflect proper claim number formatting
@@ -66,7 +66,7 @@ describe(`${appName} -- Status Page`, () => {
     );
 
     cy.get('.claim-details-breadcrumb-wrapper .go-back-link').click();
-    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
+    cy.location('pathname').should('eq', '/my-health/travel-pay/');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
