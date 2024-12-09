@@ -26,6 +26,8 @@ const root = path.resolve(
   __dirname,
   `../../../../config/.nyc_output/applications`,
 );
+// eslint-disable-next-line no-console
+console.log('root: ', root);
 
 const routes = manifestHelpers.getAppRoutes();
 
