@@ -29,6 +29,17 @@ import ExternalLink from '../components/shared/ExternalLink';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { sendDataDogAction } from '../util/helpers';
+
+const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
+const CARE_SUMMARIES_AND_NOTES_LABEL = 'Go to your care summaries and notes';
+const VACCINES_LABEL = 'Go to your vaccines';
+const ALLERGIES_AND_REACTIONS_LABEL = 'Go to your allergies and reactions';
+const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
+const VITALS_LABEL = 'Go to your vitals';
+const MEDICAL_RECORDS_SETTINGS_LABEL = 'Go to your medical records settings';
+const MEDICAL_RECORDS_DOWNLOAD_LABEL =
+  'Go to download your medical records reports';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -111,8 +122,11 @@ const LandingPage = () => {
               to="/labs-and-tests"
               className="vads-c-action-link--blue"
               data-testid="labs-and-tests-landing-page-link"
+              onClick={() => {
+                sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+              }}
             >
-              Go to your lab and test results
+              {LAB_TEST_RESULTS_LABEL}
             </Link>
           )}
         </section>
@@ -149,8 +163,12 @@ const LandingPage = () => {
                 to="/summaries-and-notes"
                 className="vads-c-action-link--blue"
                 data-testid="notes-landing-page-link"
+                // data-dd-action-name={CARE_SUMMARIES_AND_NOTES_LABEL}
+                onClick={() => {
+                  sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
+                }}
               >
-                Go to your care summaries and notes
+                {CARE_SUMMARIES_AND_NOTES_LABEL}
               </Link>
             </>
           )}
@@ -183,8 +201,11 @@ const LandingPage = () => {
               to="/vaccines"
               className="vads-c-action-link--blue"
               data-testid="vaccines-landing-page-link"
+              onClick={() => {
+                sendDataDogAction(VACCINES_LABEL);
+              }}
             >
-              Go to your vaccines
+              {VACCINES_LABEL}
             </Link>
           )}
         </section>
@@ -216,8 +237,11 @@ const LandingPage = () => {
             to="/allergies"
             className="vads-c-action-link--blue"
             data-testid="allergies-landing-page-link"
+            onClick={() => {
+              sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
+            }}
           >
-            Go to your allergies and reactions
+            {ALLERGIES_AND_REACTIONS_LABEL}
           </Link>
         )}
       </section>
@@ -245,8 +269,11 @@ const LandingPage = () => {
               to="/conditions"
               className="vads-c-action-link--blue"
               data-testid="conditions-landing-page-link"
+              onClick={() => {
+                sendDataDogAction(HEALTH_CONDITIONS_LABEL);
+              }}
             >
-              Go to your health conditions
+              {HEALTH_CONDITIONS_LABEL}
             </Link>
           )}
         </section>
@@ -281,8 +308,11 @@ const LandingPage = () => {
               to="/vitals"
               className="vads-c-action-link--blue"
               data-testid="vitals-landing-page-link"
+              onClick={() => {
+                sendDataDogAction(VITALS_LABEL);
+              }}
             >
-              Go to your vitals
+              {VITALS_LABEL}
             </Link>
           )}
         </section>
@@ -300,8 +330,11 @@ const LandingPage = () => {
             to="/settings"
             className="vads-c-action-link--blue"
             data-testid="settings-landing-page-link"
+            onClick={() => {
+              sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+            }}
           >
-            Go to your medical records settings
+            {MEDICAL_RECORDS_SETTINGS_LABEL}
           </Link>
         </section>
       )}
@@ -322,6 +355,9 @@ const LandingPage = () => {
               to="/download"
               className="vads-c-action-link--blue"
               data-testid="go-to-download-mr-reports"
+              onClick={() => {
+                sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+              }}
             >
               Go to download your medical records reports
             </Link>
@@ -350,6 +386,7 @@ const LandingPage = () => {
                 'download-my-data',
               )}
               text="Go back to the previous version of My HealtheVet to download your records"
+              ddTag="Go back to MHV to download"
             />
           </p>
         </section>
@@ -372,6 +409,7 @@ const LandingPage = () => {
           access to your medical records on the My HealtheVet website. You can
           go back to that site at any time.{' '}
           <ExternalLink
+            ddTag="Go back to MR on MHV"
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
@@ -383,7 +421,10 @@ const LandingPage = () => {
       <section className="vads-u-margin-bottom--4">
         <h2>Questions about this medical records tool</h2>
         <va-accordion bordered>
-          <va-accordion-item bordered="true">
+          <va-accordion-item
+            bordered="true"
+            data-dd-action-name="Where can I find health information"
+          >
             <h3 className="vads-u-font-size--h6" slot="headline">
               Where can I find health information I entered myself?
             </h3>
@@ -393,8 +434,13 @@ const LandingPage = () => {
                   Download your self-entered health information report.
                 </p>
                 <p className="vads-u-margin-bottom--2">
-                  <Link to="/download">
-                    Go to download your medical records reports
+                  <Link
+                    to="/download"
+                    onClick={() => {
+                      sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                    }}
+                  >
+                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
                   </Link>
                 </p>
               </div>
@@ -410,6 +456,7 @@ const LandingPage = () => {
                 </p>
                 <p className="vads-u-margin-bottom--2">
                   <ExternalLink
+                    ddTag="Go back to MR on MHV - in FAQ"
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
                       'download-my-data',
@@ -420,7 +467,10 @@ const LandingPage = () => {
               </div>
             )}
           </va-accordion-item>
-          <va-accordion-item bordered="true">
+          <va-accordion-item
+            bordered="true"
+            data-dd-action-name="How can I tell my care team"
+          >
             <h3 className="vads-u-font-size--h6" slot="headline">
               How can I tell my care team that my health information has
               changed?
@@ -439,9 +489,13 @@ const LandingPage = () => {
                 <va-link
                   href="/my-health/secure-messages/new-message/"
                   text="Start a new message"
+                  onClick={() => {
+                    sendDataDogAction('Start a new message - FAQ');
+                  }}
                 />
               ) : (
                 <ExternalLink
+                  ddTag="Start a new message - FAQ"
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
                     'compose-message',
@@ -451,7 +505,10 @@ const LandingPage = () => {
               )}
             </p>
           </va-accordion-item>
-          <va-accordion-item bordered="true">
+          <va-accordion-item
+            bordered="true"
+            data-dd-action-name="Will VA protect my PHI"
+          >
             <h3 className="vads-u-font-size--h6" slot="headline">
               Will VA protect my personal health information?
             </h3>
@@ -467,7 +524,10 @@ const LandingPage = () => {
               copy of your records to the computer you’re using.
             </p>
           </va-accordion-item>
-          <va-accordion-item bordered="true">
+          <va-accordion-item
+            bordered="true"
+            data-dd-action-name="What if I have more questions"
+          >
             <h3 className="vads-u-font-size--h6" slot="headline">
               What if I have more questions?
             </h3>
@@ -483,9 +543,13 @@ const LandingPage = () => {
                 <va-link
                   href="/my-health/secure-messages/new-message/"
                   text="Start a new message"
+                  onClick={() => {
+                    sendDataDogAction('Start a new message - FAQ');
+                  }}
                 />
               ) : (
                 <ExternalLink
+                  ddTag="Start a new message - FAQ"
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
                     'compose-message',
@@ -515,7 +579,10 @@ const LandingPage = () => {
                   <va-button
                     secondary="true"
                     text="Connect with the Veterans Crisis Line"
-                    onClick={killExternalLinks ? () => {} : openCrisisModal}
+                    onClick={() => {
+                      sendDataDogAction('VCL Button  - FAQ');
+                      if (!killExternalLinks) openCrisisModal();
+                    }}
                   />
                 </div>
               </li>
