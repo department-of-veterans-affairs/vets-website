@@ -116,7 +116,9 @@ export const ConfirmationPageV2 = () => {
               <div>P.O. Box 27063</div>
               <div>Washington, DC 20038</div>
             </div>
-            <p>Fax: 1-844-678-8979</p>
+            <p>
+              <strong>Fax:</strong> 1-844-678-8979
+            </p>
           </>
         )}
         {choseHearing && (
@@ -250,7 +252,7 @@ export const ConfirmationPageV2 = () => {
                 </div>
               ))
             ) : (
-              <span>I’ll submit it later.</span>
+              <span className="evidence-later">I’ll submit it later.</span>
             )}
           </li>
         )}
