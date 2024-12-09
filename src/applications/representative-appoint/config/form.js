@@ -37,8 +37,6 @@ import {
   contactAccreditedRepresentative,
 } from '../pages';
 
-import { prefillTransformer } from '../prefill-transformer';
-
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
@@ -87,7 +85,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
