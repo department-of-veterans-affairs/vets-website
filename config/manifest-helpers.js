@@ -6,7 +6,10 @@ const root = path.join(__dirname, '..');
 
 function getAppManifests() {
   return find
-    .fileSync(/manifest\.(json|js)$/, path.join(root, './src/applications'))
+    .fileSync(
+      /manifest\.(json|js)$/,
+      path.join(root, './src/applications/discover-your-benefits'),
+    )
     .filter(p => !p.includes('node_modules'))
     .map(file => {
       // eslint-disable-next-line import/no-dynamic-require
