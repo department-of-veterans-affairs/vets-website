@@ -16,10 +16,10 @@ export const MobileOfficialGovtWebsite = () => {
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column">
-      <div className="nav__container vads-u-display--flex">
+      <div className="header__govt-website vads-u-display--flex">
         <img
           alt="U.S. flag"
-          className="nav__flag"
+          className="header__flag"
           src="https://www.va.gov/img/tiny-usa-flag.png"
         />
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -27,12 +27,14 @@ export const MobileOfficialGovtWebsite = () => {
           data-testid="official-govt-website-toggle"
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
-          className="nav__govt-site-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex"
+          className="header__govt-site-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex"
           onClick={onToggle}
           type="button"
         >
-          An official website of the United States government.
-          <span className="nav__govt-site-explanation-sub-text">
+          <span className="vads-u-color--black">
+            An official website of the United States government.
+          </span>
+          <span className="header__govt-site-explanation-sub-text">
             Here’s how you know
             <svg
               aria-hidden="true"

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { isMobile } from 'react-device-detect';
 import UserNav from './UserNav';
 
 export const MobileLogoRow = () => {
@@ -28,7 +28,7 @@ export const MobileLogoRow = () => {
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
         </a>
-        <UserNav isMobile />
+        <UserNav isMobile={isMobile} />
         <span aria-hidden="true" className="nav__decorator" />
       </div>
     </nav>
