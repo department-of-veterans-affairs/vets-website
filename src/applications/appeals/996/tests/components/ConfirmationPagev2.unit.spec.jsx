@@ -96,7 +96,7 @@ describe('ConfirmationPageV2', () => {
       'Informal conference',
     ]);
     expect($$('h4', container).length).to.eq(0);
-    expect($$('ul', container).length).to.eq(4);
+    expect($$('ul', container).length).to.eq(3);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(17);

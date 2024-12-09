@@ -1,14 +1,10 @@
-import environment from '~/platform/utilities/environment';
-import { selectEnrollmentStatus } from '../selectors/enrollment-status';
+import environment from 'platform/utilities/environment';
+import { selectEnrollmentStatus } from '../selectors';
 import {
   HCA_ENROLLMENT_STATUSES,
   ENROLLMENT_STATUS_ACTIONS,
 } from '../constants';
-import {
-  callAPI,
-  callFake404,
-  callFakeSuccess,
-} from '../helpers/enrollment-status';
+import { callAPI, callFake404, callFakeSuccess } from '../helpers';
 
 /**
  * Action to fetch the current enrollment status based on the provided user data
