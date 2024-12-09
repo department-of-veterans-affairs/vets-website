@@ -5,7 +5,7 @@ import { calculatedPercentage } from '../utilities';
 
 const gaRatioCalculationText = () => {
   window.dataLayer.push({
-    event: 'edu-0994--form-help-text-clicked',
+    event: 'edu-10216--form-help-text-clicked',
     'help-text-label': 'How is this calculated?',
   });
 };
@@ -20,7 +20,7 @@ function PercentageCalc({ formData }) {
         trigger="How is this calculated?"
         onClick={gaRatioCalculationText}
       >
-        <span>
+        <>
           <p>
             (Number of VA beneficiary students divided by Total number of
             students) multiplied by 100 = Percentage of VA beneficiary students
@@ -29,7 +29,7 @@ function PercentageCalc({ formData }) {
             If this percentage seems incorrect, please check the numbers you
             entered above.
           </p>
-        </span>
+        </>
       </va-additional-info>
     </div>
   );
