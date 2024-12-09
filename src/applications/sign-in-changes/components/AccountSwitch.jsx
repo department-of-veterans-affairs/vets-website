@@ -8,7 +8,7 @@ const CspDisplay = ({ csp, email, name }) => {
     <>
       <p>
         We found an existing <strong>{name}</strong> account for your email
-        address: {maskEmail(email)}
+        address: <span data-testid="email-mask">{maskEmail(email)}</span>
       </p>
       {/* change line below */}
       <VerifyButton

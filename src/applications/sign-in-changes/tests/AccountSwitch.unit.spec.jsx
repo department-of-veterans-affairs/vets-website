@@ -24,7 +24,9 @@ describe('AccountSwitch', () => {
     expect(
       screen.getAllByRole('heading', { level: 2 })[0].textContent,
     ).to.include('Start using your Login.gov account now');
-    expect(screen.getByText('tes*@example.com')).to.exist;
+    expect(screen.getByTestId('email-mask').textContent).to.include(
+      'tes*@example.com',
+    );
   });
 
   it('renders ID.me when there is a idme user email', () => {
@@ -63,7 +65,9 @@ describe('AccountSwitch', () => {
       }),
     ).to.exist;
 
-    expect(screen.getByText('log*@example.com')).to.exist;
-    expect(screen.getByText('idm*@example.com')).to.exist;
+    const [logingov, idme] = screen.getAllByTestId('email-mask');
+
+    expect(logingov.textContent).to.include('log*@example.com');
+    expect(idme.textContent).to.include('idm*@example.com');
   });
 });
