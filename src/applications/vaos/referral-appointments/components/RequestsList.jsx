@@ -5,8 +5,20 @@ import RequestAppointmentLayout from '../../appointment-list/components/Appointm
 import { startNewAppointmentFlow } from '../../appointment-list/redux/actions';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import NoAppointments from '../../appointment-list/components/NoAppointments';
+import InfoAlert from '../../components/InfoAlert';
 
-const RequestList = ({ appointments, showScheduleButton }) => {
+const RequestList = ({ appointments, requestsError, showScheduleButton }) => {
+  if (requestsError) {
+    return (
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
+        We’re having trouble getting your appointment requests. Please try again
+        later.
+      </InfoAlert>
+    );
+  }
   // Group appointments by status
   let appointmentsByStatus = appointments.reduce(
     (previousValue, currentValue) => {
@@ -89,6 +101,7 @@ const RequestList = ({ appointments, showScheduleButton }) => {
 
 RequestList.propTypes = {
   appointments: PropTypes.array.isRequired,
+  requestsError: PropTypes.bool.isRequired,
   showScheduleButton: PropTypes.bool.isRequired,
 };
 

@@ -38,13 +38,15 @@ export default function ReferralsAndRequests() {
   }
   if (referralsError && requestsError) {
     return (
-      <InfoAlert
-        status="error"
-        headline="We’re sorry. We’ve run into a problem"
-      >
-        We’re having trouble getting your referrals and appointment requests.
-        Please try again later.
-      </InfoAlert>
+      <ReferralLayout>
+        <InfoAlert
+          status="error"
+          headline="We’re sorry. We’ve run into a problem"
+        >
+          We’re having trouble getting your referrals and appointment requests.
+          Please try again later.
+        </InfoAlert>
+      </ReferralLayout>
     );
   }
 
@@ -66,6 +68,7 @@ export default function ReferralsAndRequests() {
       <RequestsList
         appointments={pendingAppointments}
         showScheduleButton={showScheduleButton}
+        requestsError={requestsError}
       />
     </ReferralLayout>
   );
