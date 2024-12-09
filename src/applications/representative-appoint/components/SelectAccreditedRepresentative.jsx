@@ -75,7 +75,7 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep) {
+      if (selection === currentSelectedRep.current) {
         goToPath('/review-and-submit');
       } else {
         goToPath('/representative-contact?review=true');
@@ -109,7 +109,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep && isReviewPage) {
+    if (selectedRepResult === currentSelectedRep.current && isReviewPage) {
       goToPath('/review-and-submit');
     } else {
       const repStatus = await getRepStatus();
