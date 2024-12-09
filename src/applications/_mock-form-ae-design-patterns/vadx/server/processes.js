@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
-const path = require('path');
 const { stripAnsi } = require('./utils');
 const logger = require('./utils/logger');
+const paths = require('./utils/paths');
 
 const processes = {};
 const outputCache = {};
@@ -81,26 +81,22 @@ function startProcess(procName, command, args, env = {}) {
   return { success: true, message: `Process ${procName} started` };
 }
 
-function autoStartServers() {
-  const root = path.resolve(__dirname, '..', '..', '..', '..', '..');
+function autoStartServers(options = {}) {
+  const { entry, api, responses } = options;
 
   startProcess('fe-dev-server', 'yarn', [
     '--cwd',
-    root,
+    paths.root,
     'watch',
     '--env',
-    'entry=mock-form-ae-design-patterns',
-    'api=http://localhost:3000',
+    `entry=${entry}`,
+    `api=${api}`,
   ]);
 
   startProcess(
     'mock-server',
     'node',
-    [
-      `${root}/src/platform/testing/e2e/mockapi.js`,
-      '--responses',
-      `${root}/src/applications/_mock-form-ae-design-patterns/mocks/server.js`,
-    ],
+    [paths.mockApi, '--responses', responses],
     { AEDEBUG: 'true' },
   );
 }

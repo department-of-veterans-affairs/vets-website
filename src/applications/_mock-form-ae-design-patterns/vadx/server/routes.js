@@ -9,8 +9,9 @@ const {
   clients,
   sendSSE,
 } = require('./processes');
-const { getManifests } = require('./manifests');
+const { getManifests, findManifestFiles } = require('./manifests');
 const logger = require('./utils/logger');
+const paths = require('./utils/paths');
 
 const router = express.Router();
 
@@ -94,12 +95,11 @@ router.post('/stop', async (req, res) => {
 
 router.post('/start-fe-dev-server', (req, res) => {
   const { entry, api } = req.body;
-  const root = path.resolve(__dirname, '..', '..', '..', '..', '..');
   const name = 'fe-dev-server';
   const command = 'yarn';
   const args = [
     '--cwd',
-    root,
+    paths.root,
     'watch',
     '--env',
     `entry=${entry}`,
@@ -170,5 +170,61 @@ router.get('/events/:name', (req, res) => {
 });
 
 router.get('/manifests', getManifests);
+
+router.post('/start-fe', async (req, res) => {
+  const { entries = [] } = req.body;
+
+  logger.debug('Entries:', entries);
+
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'Request body must include an array of entry strings',
+    });
+  }
+
+  try {
+    const manifests = await findManifestFiles(paths.applications);
+    logger.debug('Found manifests count:', manifests.length);
+
+    // Get available entry names from manifests
+    const availableEntries = manifests
+      .map(manifest => manifest.entryName)
+      .filter(Boolean);
+    logger.debug('Available entries:', availableEntries);
+
+    // Validate all entries exist in manifests
+    const invalidEntries = entries.filter(
+      entry => !availableEntries.includes(entry),
+    );
+
+    if (invalidEntries.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid entry names provided',
+        invalidEntries,
+        availableEntries,
+      });
+    }
+
+    const result = startProcess('fe-dev-server', 'yarn', [
+      '--cwd',
+      paths.root,
+      'watch',
+      '--env',
+      `entry=${entries.join(',')}`,
+      'api=http://localhost:3000',
+    ]);
+
+    return res.json(result);
+  } catch (error) {
+    logger.error('Error in /start-fe:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to validate entries',
+      error: error.message,
+    });
+  }
+});
 
 module.exports = router;
