@@ -19,7 +19,11 @@ const optionDefinitions = [
 ];
 
 const options = commandLineArgs(optionDefinitions);
-const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+// const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+// eslint-disable-next-line no-console
+console.log('dirname:', __dirname);
+const root = path.resolve(__dirname, `../../../../config/.nyc_output`);
+
 const routes = manifestHelpers.getAppRoutes();
 
 const app = express();
