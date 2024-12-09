@@ -528,6 +528,24 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
+// TODO use this filter function on results page
+export const filterLcResults = (results, nameInput, filters) => {
+  const { type } = filters; // destructure state once it's added to the response
+
+  if (!nameInput) {
+    return [];
+  }
+
+  return results.filter(result => {
+    // TODO add logic to account for state
+    if (type !== result.type && type !== 'all') return false;
+
+    if (nameInput === 'all') return true;
+
+    return result.name.toLowerCase().includes(nameInput.toLowerCase());
+  });
+};
+
 export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
   const updatedFieldIndex = dropdowns.findIndex(dropdown => {
     return dropdown.label === target.id;
@@ -548,18 +566,42 @@ export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
+export const updateQueryParam = (history, location) => {
+  return (key, value) => {
+    // Get the current query parameters
+    const searchParams = new URLSearchParams(location.search);
+
+    // Set the new query parameter
+    searchParams.set(key, value);
+
+    // Update the URL with the new query string
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+  };
+};
+
 export const handleLcResultsSearch = (
   history,
-  type = 'all',
+  category = 'all',
   name = null,
   state = 'all',
 ) => {
   return name
     ? history.push(
-        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
       )
-    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+    : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
+
+export function capitalizeFirstLetter(string) {
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return null;
+}
 
 export const formatProgramType = programType => {
   if (!programType) return '';
