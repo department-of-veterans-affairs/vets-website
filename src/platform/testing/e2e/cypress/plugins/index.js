@@ -18,20 +18,20 @@ module.exports = async (on, config) => {
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
     registerCodeCoverageTasks(on, config);
 
-    on('before:run', async () => {
-      const coverage = global.__coverage__ || {};
+    // on('before:run', async () => {
+    //   const coverage = global.__coverage__ || {};
 
-      const nycOutputDir = path.resolve('.nyc_output');
-      const outJsonPath = path.join(nycOutputDir, 'out.json');
+    //   const nycOutputDir = path.resolve('.nyc_output');
+    //   const outJsonPath = path.join(nycOutputDir, 'out.json');
 
-      if (!fs.existsSync(nycOutputDir)) {
-        fs.mkdirSync(nycOutputDir, { recursive: true });
-      }
+    //   if (!fs.existsSync(nycOutputDir)) {
+    //     fs.mkdirSync(nycOutputDir, { recursive: true });
+    //   }
 
-      fs.writeFileSync(outJsonPath, JSON.stringify(coverage, null, 2));
-      // eslint-disable-next-line no-console
-      console.log(`Coverage saved to ${outJsonPath}`);
-    });
+    //   fs.writeFileSync(outJsonPath, JSON.stringify(coverage, null, 2));
+    //   // eslint-disable-next-line no-console
+    //   console.log(`Coverage saved to ${outJsonPath}`);
+    // });
   }
 
   let appRegistry;
