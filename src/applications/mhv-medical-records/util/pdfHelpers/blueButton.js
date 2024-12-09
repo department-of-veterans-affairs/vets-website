@@ -1,4 +1,9 @@
-import { labTypes, loincCodes, recordType } from '../constants';
+import {
+  blueButtonRecordTypes,
+  labTypes,
+  loincCodes,
+  recordType,
+} from '../constants';
 import {
   generateChemHemContent,
   generateEkgContent,
@@ -15,6 +20,11 @@ import { generateAllergiesContent } from './allergies';
 import { generateConditionContent } from './conditions';
 import { generateVitalsContentByType } from './vitals';
 import { isArrayAndHasItems } from '../helpers';
+import { generateMedicationsContent } from './medications';
+import { generateAppointmentsContent } from './appointments';
+import { generateDemographicsContent } from './demographics';
+import { generateMilitaryServiceContent } from './militaryService';
+import { generateAccountSummaryContent } from './accountSummary';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -23,6 +33,11 @@ export const generateBlueButtonData = ({
   allergies,
   conditions,
   vitals,
+  medications,
+  appointments,
+  demographics,
+  militaryService,
+  accountSummary,
 }) => {
   const data = [];
 
@@ -154,6 +169,87 @@ export const generateBlueButtonData = ({
           'Review a list of vitals and other basic health numbers your providers check at your appointments. This includes your blood pressure, breathing rate, heart rate, height, temperature, pain level, and weight.',
       },
       records: generateVitalsContentByType(vitals),
+    });
+  }
+
+  if (medications.length) {
+    data.push({
+      type: blueButtonRecordTypes.MEDICATIONS,
+      title: 'Medications',
+      subtitles: [
+        'This is a list of prescriptions and other medications in your VA medical records.',
+        'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. When you download medications records, we also include a list of allergies and reactions in your VA medical records.',
+        `Showing ${medications.length} medications, alphabetically by name`,
+      ],
+      records: medications.map(record => {
+        const title = record.prescriptionName;
+        const content = generateMedicationsContent(record);
+        return { title, ...content };
+      }),
+    });
+  }
+
+  if (appointments.length) {
+    const upcoming = appointments.filter(appt => appt.isUpcoming);
+    const past = appointments.filter(appt => !appt.isUpcoming);
+
+    data.push({
+      type: blueButtonRecordTypes.APPOINTMENTS,
+      title: 'Appointments',
+      subtitles: [
+        'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
+      ],
+      records: [
+        {
+          title: 'Upcoming appointments',
+          ...generateAppointmentsContent(upcoming),
+        },
+        {
+          title: 'Past appointments',
+          ...generateAppointmentsContent(past),
+        },
+      ],
+    });
+  }
+
+  if (demographics.length) {
+    data.push({
+      type: blueButtonRecordTypes.DEMOGRAPHICS,
+      title: 'Demographics',
+      subtitles: [
+        'Each of your VA facilities may have different demographic information for you. If you need update your information, contact your facility.',
+      ],
+      records: demographics.map(record => ({
+        title: `VA facility: ${record.facility}`,
+        titleMoveDownAmount: 0.5,
+        ...generateDemographicsContent(record),
+      })),
+    });
+  }
+
+  if (militaryService.length) {
+    data.push({
+      type: blueButtonRecordTypes.MILITARY_SERVICE,
+      title: 'DOD military service information',
+      titleParagraphGap: 0,
+      titleMoveDownAmount: 0.5,
+      records: [
+        {
+          ...generateMilitaryServiceContent(militaryService),
+        },
+      ],
+    });
+  }
+
+  if (accountSummary) {
+    data.push({
+      type: blueButtonRecordTypes.ACCOUNT_SUMMARY,
+      title: 'My HealtheVet account summary',
+      titleParagraphGap: 0,
+      titleMoveDownAmount: 0.5,
+      records: {
+        ...generateAccountSummaryContent(accountSummary),
+      },
     });
   }
 
