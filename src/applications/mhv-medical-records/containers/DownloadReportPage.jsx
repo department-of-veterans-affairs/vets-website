@@ -207,10 +207,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     ],
   );
 
-  useEffect(() => {
-    generatePdf();
-  }, []);
-
   return (
     <div>
       <h1>Download your medical records reports</h1>
