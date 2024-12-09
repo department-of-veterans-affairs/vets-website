@@ -115,13 +115,23 @@ export async function fetchPatientEligibility({
  * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
  */
 
-export async function fetchPatientRelationships({ typeOfCare, location }) {
-  try {
+export async function fetchPatientRelationships() {
+  /* TODO:
+    Once we are aware of the data that we need and where this needs to be called
+    in the flow, we need to add { typeOfCare, location } as a passed attribute.
+
+    export async function fetchPatientRelationships({ typeOfCare, location })
+
     const data = await getPatientRelationships(location.id, typeOfCare.idV2);
+
+    Currently this will fetch all patient provider relationships for the logged
+    in user.
+  */
+  try {
+    const data = await getPatientRelationships();
     return transformPatientRelationships(data || []);
   } catch (e) {
-    captureError(e);
-    throw e;
+    return null;
   }
 }
 
