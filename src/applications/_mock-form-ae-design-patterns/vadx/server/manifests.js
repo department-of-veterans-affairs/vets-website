@@ -1,6 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
 
+let cachedManifests = [];
+
 async function findManifestFiles(dir) {
   const manifests = [];
 
@@ -47,26 +49,29 @@ async function findManifestFiles(dir) {
   return manifests;
 }
 
-const getManifests = async (req, res) => {
+// Initialize manifests when server starts
+async function initializeManifests() {
   try {
     const applicationsPath = path.resolve(__dirname, '..', '..', '..');
-    const manifests = await findManifestFiles(applicationsPath);
-
-    res.json({
-      success: true,
-      count: manifests.length,
-      manifests,
-    });
+    cachedManifests = await findManifestFiles(applicationsPath);
+    // eslint-disable-next-line no-console
+    console.log(`Loaded ${cachedManifests.length} manifests at startup`);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error getting manifests:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    console.error('Error loading manifests at startup:', error);
+    cachedManifests = [];
   }
+}
+
+const getManifests = (req, res) => {
+  res.json({
+    success: true,
+    count: cachedManifests.length,
+    manifests: cachedManifests,
+  });
 };
 
 module.exports = {
   getManifests,
+  initializeManifests,
 };
