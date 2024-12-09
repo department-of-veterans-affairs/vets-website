@@ -118,6 +118,27 @@ describe('VAOS Component: Referrals and Requests', () => {
       ),
     ).to.exist;
   });
+  it('should display requests error message if requests fail', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: [],
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.failed,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(
+      screen.getByText(
+        'We’re having trouble getting your appointment requests. Please try again later.',
+      ),
+    ).to.exist;
+  });
   it('should display no referrals message if there are no referrals', async () => {
     const initialState = {
       ...initialStateVAOSService,
