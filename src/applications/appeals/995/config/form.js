@@ -69,9 +69,9 @@ import {
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  SUBMIT_URL,
   SC_NEW_FORM_DATA,
 } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
 
@@ -109,7 +109,7 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: SUBMIT_URL,
+  submitUrl: `/${SUBMIT_URL.join('')}`,
   submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
