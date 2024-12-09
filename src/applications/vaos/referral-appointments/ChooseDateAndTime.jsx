@@ -65,7 +65,7 @@ export const ChooseDateAndTime = props => {
 
   if (loading) {
     return (
-      <div className="vads-u-margin-y--8">
+      <div className="vads-u-margin-y--8" data-testid="loading">
         <va-loading-indicator message="Loading available appointments times..." />
       </div>
     );
@@ -73,8 +73,8 @@ export const ChooseDateAndTime = props => {
 
   if (failed) {
     return (
-      <va-alert status="error">
-        <h2>"We’re sorry. We’ve run into a problem"</h2>
+      <va-alert data-testid="error" status="error">
+        <h2>We’re sorry. We’ve run into a problem</h2>
         <p>
           We’re having trouble getting your upcoming appointments. Please try
           again later.
