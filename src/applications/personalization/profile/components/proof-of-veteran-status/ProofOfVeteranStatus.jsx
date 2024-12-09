@@ -175,29 +175,11 @@ const ProofOfVeteranStatus = ({
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
           Proof of Veteran status
         </h2>
-        <p>
-          You can use your Veteran status card to get discounts offered to
-          Veterans at many restaurants, hotels, stores, and other businesses.
+        <p className="va-introtext">
+          This card identifies a Veteran of the U.S. Uniformed Services.
         </p>
-        <p>
-          <strong>Note: </strong>
-          This card doesn’t entitle you to any VA benefits.
-        </p>
-
         {vetStatusEligibility.confirmed ? (
           <>
-            <div className="vads-u-font-size--md">
-              <va-link
-                download
-                filetype="PDF"
-                // exception to eslint: the url is a dynamically generated blob url
-                // eslint-disable-next-line no-script-url
-                href="javascript:void(0)"
-                text="Download and print your Veteran status card"
-                onClick={createPdf}
-              />
-            </div>
-
             {errors?.length > 0 ? (
               <div className="vet-status-pdf-download-error vads-u-padding-y--2">
                 <va-alert status="error" uswds>
@@ -205,7 +187,6 @@ const ProofOfVeteranStatus = ({
                 </va-alert>
               </div>
             ) : null}
-
             <div className="vads-l-grid-container--full vads-u-padding-y--2">
               <div className="vads-l-row">
                 <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
@@ -216,6 +197,17 @@ const ProofOfVeteranStatus = ({
                   />
                 </div>
               </div>
+            </div>
+            <div className="vads-u-font-size--md">
+              <va-link
+                download
+                filetype="PDF"
+                // exception to eslint: the url is a dynamically generated blob url
+                // eslint-disable-next-line no-script-url
+                href="javascript:void(0)"
+                text="Download and print your Veteran status card"
+                onClick={createPdf}
+              />
             </div>
             <div className="vads-u-margin-y--4">
               <MobileAppCallout
