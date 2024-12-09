@@ -25,7 +25,10 @@ const ReferralList = ({ referrals, referralsError }) => {
   }
   if (referrals.length === 0) {
     return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+      <div
+        data-testid="no-referral-content"
+        className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3"
+      >
         <h3>You don’t have any referrals</h3>
         <p>
           If you think you should have referrals here, call your
