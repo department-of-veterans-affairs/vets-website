@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -373,6 +374,23 @@ function mapStateToProps(state) {
     isLoggedIn: state.user?.login?.currentlyLoggedIn,
   };
 }
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    submission: PropTypes.shape({
+      response: PropTypes.shape({}),
+      timestamp: PropTypes.number,
+    }),
+    data: PropTypes.shape({
+      deathCertificate: PropTypes.shape({}),
+      transportationReceipts: PropTypes.arrayOf(PropTypes.shape({})),
+    }),
+  }),
+  isLoggedIn: PropTypes.bool,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({}),
+  }),
+};
 
 export default connect(mapStateToProps)(ConfirmationPage);
 export { ConfirmationPage };
