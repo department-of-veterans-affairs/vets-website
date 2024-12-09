@@ -1,4 +1,5 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import moment from 'moment';
 import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
@@ -377,6 +378,8 @@ describe('VAOS Component: Referrals and Requests', () => {
         name: /You don’t have any/,
       }),
     ).to.be.ok;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    userEvent.click(screen.queryByTestId('schedule-appointment-link'));
   });
 
   it('should display no appointments alert when there are no pending but cancelled appointments', async () => {

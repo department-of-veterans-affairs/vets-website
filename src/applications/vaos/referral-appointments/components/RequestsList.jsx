@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import RequestAppointmentLayout from '../../appointment-list/components/AppointmentsPage/RequestAppointmentLayout';
-import { startNewAppointmentFlow } from '../../appointment-list/redux/actions';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
-import NoAppointments from '../../appointment-list/components/NoAppointments';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import InfoAlert from '../../components/InfoAlert';
+import ScheduleAppointmentLink from '../../appointment-list/components/ScheduleAppointmentLink';
 
-const RequestList = ({ appointments, requestsError, showScheduleButton }) => {
+const RequestList = ({ appointments, requestsError }) => {
   if (requestsError) {
     return (
       <InfoAlert
@@ -19,6 +17,7 @@ const RequestList = ({ appointments, requestsError, showScheduleButton }) => {
       </InfoAlert>
     );
   }
+
   // Group appointments by status
   let appointmentsByStatus = appointments.reduce(
     (previousValue, currentValue) => {
@@ -47,18 +46,10 @@ const RequestList = ({ appointments, requestsError, showScheduleButton }) => {
     <>
       {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
-          <NoAppointments
-            showAdditionalRequestDescription
-            description="appointment requests"
-            showScheduleButton={showScheduleButton}
-            startNewAppointmentFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-              });
-              startNewAppointmentFlow();
-            }}
-            level={2}
-          />
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+            You don’t have any appointment requests
+          </h2>
+          <ScheduleAppointmentLink />
         </div>
       )}
       {appointmentsByStatus.map(statusBucket => {
