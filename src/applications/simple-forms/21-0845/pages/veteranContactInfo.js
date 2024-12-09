@@ -8,15 +8,15 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    authorizerPhone: phoneUI(),
-    authorizerEmail: emailToSendNotificationsUI(),
+    veteranPhone: phoneUI(),
+    veteranEmail: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
-    required: ['authorizerPhone', 'authorizerEmail'],
+    required: ['veteranEmail'],
     properties: {
-      authorizerPhone: phoneSchema,
-      authorizerEmail: emailToSendNotificationsSchema,
+      veteranPhone: phoneSchema,
+      veteranEmail: emailToSendNotificationsSchema,
     },
   },
 };
