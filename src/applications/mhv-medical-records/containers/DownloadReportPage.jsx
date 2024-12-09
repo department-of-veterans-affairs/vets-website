@@ -1,5 +1,6 @@
 import React from 'react';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import ExternalLink from '../components/shared/ExternalLink';
 
 const DownloadReportPage = () => {
   return (
@@ -61,6 +62,18 @@ const DownloadReportPage = () => {
           <button className="link-button">
             <va-icon icon="file_download" size={3} /> Download PDF
           </button>
+          <p>
+            <strong>Note:</strong> Self-entered My Goals are no longer available
+            on My HealtheVet and not included in this report. To download your
+            historical goals you can go to the previous version of My
+            HealtheVet.
+          </p>
+
+          <ExternalLink
+            href="https://eauth.va.gov/mhv-portal-web/va-blue-button"
+            text="Go to the previous version of MyHealtheVet to download historical
+            goals"
+          />
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">
