@@ -15,12 +15,12 @@ export const facilityTypeChoices = {
   ccp: 'A community care provider that VA paid for',
   vetCenter: {
     title: 'A VA Vet center',
-    description: 'Vets centers are community-based counseling centers.',
+    description: 'Vet Centers are community-based counseling centers.',
   },
   nonVa: {
     title: 'A non-VA healthcare provider',
     description:
-      'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility. ',
+      'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility.',
   },
 };
 
