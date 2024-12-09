@@ -10,7 +10,6 @@ const CspDisplay = ({ csp, email, name }) => {
         We found an existing <strong>{name}</strong> account for your email
         address: <strong>{maskEmail(email, `${csp}email`)}</strong>
       </p>
-      {/* change line below */}
       <VerifyButton
         csp={csp}
         data-testid={csp}
