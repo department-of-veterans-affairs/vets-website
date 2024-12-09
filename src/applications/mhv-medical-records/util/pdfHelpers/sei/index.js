@@ -4,6 +4,7 @@ import { generateAllergiesContent } from './allergies';
 import { generateDemographicsContent } from './demographics';
 import { generateFamilyHistoryContent } from './familyHistory';
 import { generateFoodJournalContent } from './foodJournal';
+import { generateHealthProvidersContent } from './healthProviders';
 
 export const generateSelfEnteredData = ({
   activityJournal,
@@ -12,7 +13,7 @@ export const generateSelfEnteredData = ({
   familyHistory,
   foodJournal,
   // goals,
-  // providers,
+  providers,
   // healthInsurance,
   // testEntries,
   // medicalEvents,
@@ -93,15 +94,16 @@ export const generateSelfEnteredData = ({
   //   });
   // }
 
-  // if (providers) {
-  //   console.log('providers: ', providers);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
+  if (providers) {
+    data.push({
+      type: selfEnteredTypes.HEALTH_PROVIDERS,
+      title: `Self-entered ${selfEnteredTypes.HEALTH_PROVIDERS}`,
+      subtitles: [
+        `Showing ${providers.length} records, alphabetically by last name`,
+      ],
+      records: providers.map(record => generateHealthProvidersContent(record)),
+    });
+  }
 
   // if (healthInsurance) {
   //   console.log('healthInsurance: ', healthInsurance);
