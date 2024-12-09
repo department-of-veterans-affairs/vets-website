@@ -9,14 +9,14 @@ import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  document.title =
-    'You’ll need to sign in with a different account after January 31, 2025 | Veterans Affairs.';
-
   const [userEmails, setUserEmails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    document.title =
+      'You’ll need to sign in with a different account after January 31, 2025 | Veterans Affairs';
+
     apiRequest('/user/credential_emails', {
       credentials: 'include',
       headers: {
@@ -39,6 +39,7 @@ export default function InterstitialChanges() {
   if (isLoading) {
     return <VaLoadingIndicator />;
   }
+
   if (error) {
     window.location = '/';
   }
