@@ -1,18 +1,52 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import {
+  CSP_IDS,
+  SERVICE_PROVIDERS,
+} from '~/platform/user/authentication/constants';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 import CallToActionAlert from '../../CallToActionAlert';
 
-function NotAuthorized() {
+/**
+ * Alert to show a user that is not verified.
+ * @property {string} cspId the ID of the sign in service
+ * @property {string} headerLevel optional heading level
+ * @property {string} serviceDescription optional description of the service that requires verification
+ */
+const NotAuthorized = ({ cspId, headerLevel, serviceDescription }) => {
+  const headingPrefix = 'Verify your identity';
+  const headline = serviceDescription
+    ? `${headingPrefix} to ${serviceDescription}`
+    : headingPrefix;
+  const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
+
+  const singleVerifyButton =
+    cspId === CSP_IDS.LOGIN_GOV ? (
+      <VerifyLogingovButton />
+    ) : (
+      <VerifyIdmeButton />
+    );
+
   const content = {
-    heading: 'Verify your identity to access more VA.gov tools and features',
+    heading: headline,
+    headerLevel,
     alertText: (
       <>
         <p>
-          When you verify your identity, you can use VA.gov to do things like
-          track your claims, refill your prescriptions, and download your VA
-          benefit letters.
+          We need you to verify your identity for your{' '}
+          <strong>{serviceProviderLabel}</strong> account. This step helps us
+          protect all Veterans’ information and prevent scammers from stealing
+          your benefits.
         </p>
-        <a href="/verify">Verify Your Identity</a>
+        <p>
+          This one-time process often takes about 10 minutes. You’ll need to
+          provide certain personal information and identification.
+        </p>
+        <div>{singleVerifyButton}</div>
         <p>
           <a href="/resources/verifying-your-identity-on-vagov/">
             Learn about how to verify your identity
@@ -20,10 +54,20 @@ function NotAuthorized() {
         </p>
       </>
     ),
-    status: 'info',
+    status: 'warning',
   };
 
   return <CallToActionAlert {...content} />;
-}
+};
+
+NotAuthorized.defaultProps = {
+  cspId: CSP_IDS.LOGIN_GOV,
+};
+
+NotAuthorized.propTypes = {
+  cspId: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
+  headerLevel: PropTypes.string,
+  serviceDescription: PropTypes.string,
+};
 
 export default NotAuthorized;

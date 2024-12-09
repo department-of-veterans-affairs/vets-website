@@ -8,8 +8,11 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { fetchMHVAccount } from '~/platform/user/profile/actions';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
-
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { CSP_IDS, AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceName,
+} from '~/platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import {
   logout as IAMLogout,
@@ -17,7 +20,6 @@ import {
 } from '~/platform/user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -27,6 +29,7 @@ import HealthToolsDown from './components/messages/HealthToolsDown';
 import MultipleIds from './components/messages/MultipleIds';
 import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
 import NoMHVAccount from './components/messages/NoMHVAccount';
+import SignInOtherAccount from './components/messages/mvi/SignInOtherAccount';
 import NotAuthorized from './components/messages/mvi/NotAuthorized';
 import NotFound from './components/messages/mvi/NotFound';
 import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
@@ -55,6 +58,7 @@ export class CallToActionWidget extends Component {
     mhvAccountIdState: PropTypes.string,
     mviStatus: PropTypes.string,
     profile: PropTypes.object,
+    cspId: PropTypes.string,
     // From mapDispatchToProps.
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
@@ -179,6 +183,14 @@ export class CallToActionWidget extends Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
+
+      if (this.isNonMHVSchedulingTool()) {
+        return this.getVerifyAlert({
+          headerLevel: this._headerLevel,
+          serviceDescription: this._serviceDescription,
+        });
+      }
+
       return (
         <Verify
           serviceDescription={this._serviceDescription}
@@ -225,6 +237,7 @@ export class CallToActionWidget extends Component {
     return null;
   };
 
+  // Function called for isHealthTool
   getHealthToolContent = () => {
     const { mhvAccount, authenticatedWithSSOe } = this.props;
 
@@ -262,14 +275,11 @@ export class CallToActionWidget extends Component {
     return this.getInaccessibleHealthToolContent();
   };
 
+  // Function called for isHealthTool and isNonMHVSchedulingTool
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return (
-          <NotAuthorized
-            authenticatedWithSSOe={this.props.authenticatedWithSSOe}
-          />
-        );
+        return this.getVerifyAlert();
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -277,6 +287,32 @@ export class CallToActionWidget extends Component {
     }
   };
 
+  // Function called for isHealthTool and isNonMHVSchedulingTool
+  getVerifyAlert = ({ headerLevel, serviceDescription }) => {
+    switch (this.props.cspId) {
+      case CSP_IDS.ID_ME:
+      case CSP_IDS.LOGIN_GOV:
+        return (
+          <NotAuthorized
+            cspId={this.props.cspId}
+            headerLevel={headerLevel}
+            serviceDescription={serviceDescription}
+          />
+        );
+
+      case CSP_IDS.MHV:
+      default:
+        return (
+          <SignInOtherAccount
+            cspId={this.props.cspId}
+            headerLevel={headerLevel}
+            serviceDescription={serviceDescription}
+          />
+        );
+    }
+  };
+
+  // Function called for isHealthTool
   getInaccessibleHealthToolContentSSOe = () => {
     const { profile, mhvAccountIdState } = this.props;
 
@@ -284,12 +320,9 @@ export class CallToActionWidget extends Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return (
-        <Verify
-          serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.verifyHandler}
-        />
-      );
+      return this.getVerifyAlert({
+        serviceDescription: this._serviceDescription,
+      });
     }
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
@@ -303,6 +336,7 @@ export class CallToActionWidget extends Component {
     window.location = mhvUrl(this.props.authenticatedWithSSOe, 'home');
   };
 
+  // Function called for isHealthTool
   getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
@@ -320,13 +354,10 @@ export class CallToActionWidget extends Component {
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        return (
-          <Verify
-            serviceDescription={this._serviceDescription}
-            primaryButtonHandler={this.verifyHandler}
-            headerLevel={this._headerLevel}
-          />
-        );
+        return this.getVerifyAlert({
+          headerLevel: this._headerLevel,
+          serviceDescription: this._serviceDescription,
+        });
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
         return <NeedsSSNResolution />;
@@ -545,6 +576,7 @@ const mapStateToProps = state => {
 
   return {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    cspId: signInServiceName(state),
     featureToggles: state.featureToggles,
     isLoggedIn: isLoggedIn(state),
     isVaPatient: vaPatient,
