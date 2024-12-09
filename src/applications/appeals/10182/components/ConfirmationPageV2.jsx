@@ -11,6 +11,7 @@ import { selectProfile } from '~/platform/user/selectors';
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 import {
+  wantsToUploadEvidence,
   canUploadEvidence,
   needsHearingType,
   isDirectReview,
@@ -233,13 +234,13 @@ export const ConfirmationPageV2 = () => {
             {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {choseEvidence &&
-          data.evidence.length && (
-            <li>
-              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                Uploaded evidence
-              </div>
-              {data.evidence?.map((file, index) => (
+        {choseEvidence && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Uploaded evidence
+            </div>
+            {wantsToUploadEvidence(data) && data.evidence.length ? (
+              data.evidence?.map((file, index) => (
                 <div
                   key={index}
                   className="vads-u-margin-bottom--2 dd-privacy-hidden"
@@ -247,9 +248,12 @@ export const ConfirmationPageV2 = () => {
                 >
                   {file.name}
                 </div>
-              ))}
-            </li>
-          )}
+              ))
+            ) : (
+              <span>I’ll submit it later.</span>
+            )}
+          </li>
+        )}
         {choseHearing && (
           <>
             <li>
