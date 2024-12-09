@@ -475,12 +475,24 @@ const generate = async data => {
   // is left intact for screen reader users.
   generateInitialHeaderContent(doc, wrapper, data, config);
   await generateCoverPage(doc, wrapper, data);
+  const firstPageGenerated = false;
 
   for (const recordSet of data.recordSets) {
-    doc.addPage({ margins: config.margins });
-    generateInitialHeaderContent(doc, wrapper, data, config, {
-      headerBannerOnly: true,
-    });
+    if (!firstPageGenerated) {
+      doc.addPage({
+        margins: {
+          top: 30,
+          bottom: 40,
+          left: 17,
+          right: 16,
+        },
+      });
+      generateInitialHeaderContent(doc, wrapper, data, config, {
+        headerBannerOnly: true,
+      });
+    } else {
+      doc.addPage({ margins: config.margins });
+    }
     generateRecordSetIntroduction(doc, wrapper, recordSet);
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
