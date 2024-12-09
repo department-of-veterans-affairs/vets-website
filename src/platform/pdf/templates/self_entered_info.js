@@ -24,7 +24,7 @@ import {
 
 const config = {
   margins: {
-    top: 30,
+    top: 40,
     bottom: 40,
     left: 17,
     right: 16,
@@ -70,7 +70,7 @@ const selfEnteredTypes = {
   DEMOGRAPHICS: 'demographics',
   FAMILY_HISTORY: 'family health history',
   FOOD_JOURNAL: 'food journal',
-  GOALS: 'goals', // dont have this
+  // GOALS: 'goals', // dont have this
   HEALTH_PROVIDERS: 'healthcare providers',
   HEALTH_INSURANCE: 'health insurance',
   TEST_ENTRIES: 'lab and test results',
@@ -461,8 +461,6 @@ export const generateResultsContent = async (doc, parent, data) => {
 };
 
 const generate = async data => {
-  // console.log('data: ', data);
-  // try {
   validate(data);
   const doc = createAccessibleDoc(data, config);
 
@@ -476,7 +474,6 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
   generateInitialHeaderContent(doc, wrapper, data, config);
-
   await generateCoverPage(doc, wrapper, data);
 
   for (const recordSet of data.recordSets) {
@@ -507,6 +504,7 @@ const generate = async data => {
         await generateResultsContent(doc, wrapper, record);
       }
     }
+    // addHorizontalRule(doc, 20, 1.5, 1.5);
   }
 
   doc.font(config.text.font).fontSize(config.text.size);
@@ -517,9 +515,6 @@ const generate = async data => {
 
   doc.flushPages();
   return doc;
-  // } catch (error) {
-  //   console.error(error);
-  // }
 };
 
 export { generate };
