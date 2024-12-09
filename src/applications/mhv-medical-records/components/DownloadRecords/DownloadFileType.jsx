@@ -118,11 +118,9 @@ const DownloadFileType = props => {
         allergies:
           recordFilter?.includes('allergies') ||
           recordFilter?.includes('medications')
-            ? allergies.filter(rec => filterByDate(rec.date))
+            ? allergies
             : null,
-        conditions: recordFilter?.includes('conditions')
-          ? conditions.filter(rec => filterByDate(rec.date))
-          : null,
+        conditions: recordFilter?.includes('conditions') ? conditions : null,
         vitals: recordFilter?.includes('vitals')
           ? vitals.filter(rec => filterByDate(rec.date))
           : null,
