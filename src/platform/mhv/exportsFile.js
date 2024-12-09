@@ -14,6 +14,7 @@ export {
   generatePdfScaffold,
   updatePageTitle,
   openCrisisModal,
+  pharmacyPhoneNumber,
 } from './util/helpers';
 export {
   txtLine,
