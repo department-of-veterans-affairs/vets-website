@@ -18,7 +18,7 @@ module.exports = async (on, config) => {
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
     registerCodeCoverageTasks(on, config);
 
-    on('after:run', async () => {
+    on('before:run', async () => {
       const coverage = global.__coverage__ || {};
 
       const nycOutputDir = path.resolve('.nyc_output');
