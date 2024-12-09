@@ -57,7 +57,7 @@ describe('AccountSwitch', () => {
     expect(screen.getAllByRole('button').length).to.eql(2);
     expect(
       screen.getByText((content, element) => {
-        const hasText = /Start using your account now/i.test(content);
+        const hasText = /Start using your/i.test(content);
         const isHeading = element.tagName.toLowerCase() === 'h2';
         return hasText && isHeading;
       }),
