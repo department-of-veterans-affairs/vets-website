@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  createStringifyFormReplacer,
   parseISODate,
   formatISOPartialDate,
   hasFieldsOtherThanArray,
@@ -15,7 +16,6 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
-  replaceEscapedCharacters,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1272,6 +1272,32 @@ describe('Schemaform helpers:', () => {
   });
 });
 
+describe('createStringifyFormReplacer', () => {
+  const str = 'Jane said, "This is a test," and I agreed.';
+
+  context('when replaceEscapedCharacters is true', () => {
+    it('replaces double-quotes with single', () => {
+      const replacerFn = createStringifyFormReplacer({
+        replaceEscapedCharacters: true,
+      });
+
+      expect(replacerFn('key', str)).to.eq(
+        "Jane said, 'This is a test,' and I agreed.",
+      );
+    });
+  });
+
+  context('when replaceEscapedCharacters is false', () => {
+    it('does not replace double-quotes', () => {
+      const replacerFn = createStringifyFormReplacer({
+        replaceEscapedCharacters: false,
+      });
+
+      expect(replacerFn('key', str)).to.eq(str);
+    });
+  });
+});
+
 describe('stringifyUrlParams ', () => {
   it('should convert an object to a url query string', () => {
     expect(stringifyUrlParams(null)).to.eql('');
@@ -1287,14 +1313,6 @@ describe('stringifyUrlParams ', () => {
         rate: 24,
       }),
     ).to.eql('?time=123&rate=24');
-  });
-});
-
-describe('replaceEscapedCharacters', () => {
-  it('replaces double-quotes with single', () => {
-    expect(
-      replaceEscapedCharacters('Jane said, "This is a test," and I agreed.'),
-    ).to.eq("Jane said, 'This is a test,' and I agreed.");
   });
 });
 

@@ -299,42 +299,82 @@ function isPartialAddress(data) {
 }
 
 /**
+ * Replaces double-quotes with single.
+ * Replaces non-escaping backslashes with forward-slashes.
+ *
+ * @param {string} string
+ * @returns {string}
+ */
+export const replaceEscapedCharacters = string => {
+  return string
+    .replaceAll('"', "'")
+    .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
+    .replace(/(?:\t|\f|\b)/g, '')
+    .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
+};
+
+/**
  * Create a replacer function for JSON.stringify
  * A replacer function is the second argument to JSON.stringify
  *
  * @param {ReplacerOptions} [options] - Options for the replacer
+ * @returns {(key, value) => any} The replacer function
  */
 export function createStringifyFormReplacer(options) {
+  /**
+   * The replacer function
+   *
+   * @param {*} key
+   * @param {*} value
+   * @returns {*} Replaced value
+   */
   const replacerFn = (key, value) => {
-    if (!options?.allowPartialAddress && isPartialAddress(value)) {
-      return undefined;
-    }
+    /**
+     * Replaces objects (including arrays) with other values
+     *
+     * @param {Object} object
+     * @returns {*} The replacement value
+     */
+    const replaceObject = object => {
+      // Clean up empty objects in arrays
+      if (Array.isArray(value)) {
+        const newValues = value.filter(v => !!replacerFn(key, v));
+        // If every item in the array is cleared, remove the whole array
+        return newValues.length > 0 ? newValues : undefined;
+      }
 
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
+      if (!options?.allowPartialAddress && isPartialAddress(value)) {
+        return undefined;
+      }
+
+      const fields = Object.keys(object);
       if (
         fields.length === 0 ||
-        fields.every(field => value[field] === undefined)
+        fields.every(field => object[field] === undefined)
       ) {
         return undefined;
       }
 
       // autosuggest widgets save value and label info, but we should just return the value
-      if (value.widget === 'autosuggest') {
-        return value.id;
+      if (object.widget === 'autosuggest') {
+        return object.id;
       }
 
       // Exclude file data
-      if (value.confirmationCode && value.file) {
-        return omit('file', value);
+      if (object.confirmationCode && object.file) {
+        return omit('file', object);
       }
-    }
 
-    // Clean up empty objects in arrays
-    if (Array.isArray(value)) {
-      const newValues = value.filter(v => !!replacerFn(key, v));
-      // If every item in the array is cleared, remove the whole array
-      return newValues.length > 0 ? newValues : undefined;
+      return object;
+    };
+
+    if (typeof value === 'object') {
+      return replaceObject(value);
+    }
+    if (typeof value === 'string') {
+      return options?.replaceEscapedCharacters
+        ? replaceEscapedCharacters(value)
+        : value;
     }
 
     return value;
@@ -736,21 +776,6 @@ export function omitRequired(schema) {
 
   return newSchema;
 }
-
-/**
- * Replaces double-quotes with single.
- * Replaces non-escaping backslashes with forward-slashes.
- *
- * @param {string} string
- * @returns {string}
- */
-export const replaceEscapedCharacters = string => {
-  return string
-    .replaceAll('"', "'")
-    .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
-    .replace(/(?:\t|\f|\b)/g, '')
-    .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
-};
 
 /**
  * @param formConfig
