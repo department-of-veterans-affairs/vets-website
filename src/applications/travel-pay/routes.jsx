@@ -11,13 +11,13 @@ const routes = (
       <MhvSecondaryNav />
       <TravelPayStatusApp />
     </Route>
-    <Route exact path="/claims/:id">
-      <MhvSecondaryNav />
-      <TravelClaimDetails />
-    </Route>
     <Route exact path="/help">
       <MhvSecondaryNav />
       <ClaimStatusExplainerPage />
+    </Route>
+    <Route path="/:id">
+      <MhvSecondaryNav />
+      <TravelClaimDetails />
     </Route>
   </Switch>
 );

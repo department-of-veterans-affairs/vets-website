@@ -5,7 +5,7 @@ import { useLocation, useHistory, Link } from 'react-router-dom';
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const uuidPathRegex = /^\/claims\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
+  const uuidPathRegex = /^\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
   const isDetailsPage = pathname.match(uuidPathRegex);
   const isStatusExplainer = pathname.includes('/help');
 
