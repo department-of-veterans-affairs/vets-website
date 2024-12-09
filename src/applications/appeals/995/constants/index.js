@@ -31,18 +31,6 @@ export const PROFILE_URL = '/profile';
 // addresses for other benefit types"
 export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-benef-8804`;
 
-// TODO: Update to common contestable issues endpoint, once it is set up
-// not shown are the `v0` prefix and `{benefit_type}` suffix
-export const CONTESTABLE_ISSUES_API =
-  '/supplemental_claims/contestable_issues/';
-
-export const ITF_API = '/intent_to_file';
-
-// Evidence upload API - same endpoint as NOD
-export const EVIDENCE_UPLOAD_API = '/v1/decision_review_evidence';
-
-export const SUBMIT_URL = '/v1/supplemental_claims';
-
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
