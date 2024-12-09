@@ -45,7 +45,7 @@ const IntroductionPage = ({ router }) => {
             text="visit this page"
             type="secondary"
             label="visit this page"
-          />
+          />{' '}
           to learn about potential benefits for you.
         </p>
       </div>
