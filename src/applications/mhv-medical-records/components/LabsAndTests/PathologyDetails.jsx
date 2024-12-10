@@ -122,10 +122,22 @@ ${record.results} \n`;
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Date and time collected
+        </h3>
+        <p data-testid="pathology-date" data-dd-privacy="mask">
+          {record.date}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
         <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
           {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Collection sample
+        </h3>
+        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+          {record.sampleFrom}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
