@@ -99,11 +99,15 @@ const EkgDetails = props => {
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateEkgDetailsPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generateEkgTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2 className="vads-u-font-size--md vads-u-font-family--sans">
