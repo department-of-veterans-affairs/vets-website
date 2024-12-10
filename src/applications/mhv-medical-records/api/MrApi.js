@@ -258,8 +258,9 @@ export const generateCCD = () => {
 
 export const downloadCCD = timestamp => {
   return apiRequest(
-    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`, {
-    'Content-Type': 'application/xml',
+    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
+    {
+      'Content-Type': 'application/xml',
     },
   );
 };
