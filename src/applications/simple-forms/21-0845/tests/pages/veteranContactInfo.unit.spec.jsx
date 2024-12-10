@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.authorizerContactInfoChapter.pages.authContactInfoPage;
+} = formConfig.chapters.veteranContactInfoChapter.pages.vetContactInfoPage;
 
 const pageTitle = 'Your contact information';
 
@@ -40,7 +40,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 2;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

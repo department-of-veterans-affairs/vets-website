@@ -21,6 +21,14 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/imaging', []).as(
       'CvixRadiologyRecordsMhv',
     );
+    cy.intercept('GET', '/my_health/v1/medical_records/imaging/status', []).as(
+      'CvixRadiologyRecordsMhv',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/bbmi_notification/status',
+      { flag: true },
+    ).as('BbmiNotificationStatus');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
     if (waitForLabsAndTests) {
