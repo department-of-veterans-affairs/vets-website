@@ -13,7 +13,7 @@ function LicenseCertificationSearchResults({
   hasFetchedOnce,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredResults, setFilteredResults] = useState(lcResults);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
 
@@ -85,23 +85,24 @@ function LicenseCertificationSearchResults({
               </p>
             </div>
             <div className="row">
-              {currentResults.map((result, index) => {
-                return (
-                  <div className="vads-u-padding-bottom--2" key={index}>
-                    <va-card class="vads-u-background-color--gray-lightest">
-                      <h3 className="vads-u-margin--0">{result.name}</h3>
-                      <h4 className="lc-card-subheader vads-u-margin-y--1p5">
-                        {result.type}
-                      </h4>
-                      <va-link-action
-                        href={`results/${result.link.split('lce/')[1]}`}
-                        text="View test amount details"
-                        type="secondary"
-                      />
-                    </va-card>
-                  </div>
-                );
-              })}
+              {filteredResults.length > 0 &&
+                currentResults.map((result, index) => {
+                  return (
+                    <div className="vads-u-padding-bottom--2" key={index}>
+                      <va-card class="vads-u-background-color--gray-lightest">
+                        <h3 className="vads-u-margin--0">{result.name}</h3>
+                        <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                          {result.type}
+                        </h4>
+                        <va-link-action
+                          href={`results/${result.link.split('lce/')[1]}`}
+                          text="View test amount details"
+                          type="secondary"
+                        />
+                      </va-card>
+                    </div>
+                  );
+                })}
             </div>
             <VaPagination
               page={currentPage}

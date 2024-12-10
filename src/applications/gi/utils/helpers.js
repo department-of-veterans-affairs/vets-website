@@ -538,6 +538,7 @@ export const filterLcResults = (results, nameInput, filters) => {
 
   return results.filter(result => {
     // TODO add logic to account for state
+    if (result.type === 'exam') return false;
     if (type !== result.type && type !== 'all') return false;
 
     if (nameInput === 'all') return true;

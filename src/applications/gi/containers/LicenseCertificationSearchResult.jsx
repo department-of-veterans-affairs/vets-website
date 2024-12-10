@@ -37,7 +37,11 @@ function LicenseCertificationSearchResult({
           </h2>
         </div>
         <div className="row">
-          <LicenseCertificationInfoTabs onChange={tabChange} tab={tab} />
+          <LicenseCertificationInfoTabs
+            onChange={tabChange}
+            tab={tab}
+            resultInfo={resultInfo}
+          />
         </div>
       </section>
     </div>

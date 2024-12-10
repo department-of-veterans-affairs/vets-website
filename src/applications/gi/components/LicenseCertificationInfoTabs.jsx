@@ -5,10 +5,16 @@ import { LC_TABS } from '../constants';
 import LicenseCertificationTestInfo from './LicenseCertificationTestInfo';
 import LicenseCertificationAdminInfo from './LicenseCertificationAdminInfo';
 
-export default function LicenseCertificationInfoTabs({ onChange, tab }) {
+export default function LicenseCertificationInfoTabs({
+  onChange,
+  tab,
+  resultInfo,
+}) {
   const tabs = {
-    [LC_TABS.test]: <LicenseCertificationTestInfo />,
-    [LC_TABS.admin]: <LicenseCertificationAdminInfo />,
+    [LC_TABS.test]: <LicenseCertificationTestInfo tests={resultInfo.tests} />,
+    [LC_TABS.admin]: (
+      <LicenseCertificationAdminInfo institution={resultInfo.institution} />
+    ),
   };
 
   // consider exporting original function from SearchTabs component
@@ -61,6 +67,6 @@ export default function LicenseCertificationInfoTabs({ onChange, tab }) {
   );
 }
 LicenseCertificationInfoTabs.propTypes = {
-  tab: PropTypes.object.isRequired,
+  tab: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
