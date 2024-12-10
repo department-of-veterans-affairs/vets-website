@@ -5,6 +5,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
+import { sendDataDogAction } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -70,9 +71,22 @@ const MrBreadcrumbs = () => {
     [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
   );
 
-  const handleRoutechange = ({ detail }) => {
+  const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
+
+    const isVitalsDetail =
+      Paths.VITALS.includes(locationBasePath) && locationChildPath;
+    const path = locationBasePath
+      ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+      : '/';
+    const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+    const ddTag = isVitalsDetail
+      ? `Back - Vitals - ${Breadcrumbs[feature].label}`
+      : `Back - ${Breadcrumbs[feature].label} - ${
+          locationChildPath ? 'Detail' : 'List'
+        }`;
+    sendDataDogAction(ddTag);
   };
 
   if (!phase0p5Flag) {
@@ -100,7 +114,7 @@ const MrBreadcrumbs = () => {
       breadcrumbList={crumbsList}
       label="Breadcrumb"
       home-veterans-affairs
-      onRouteChange={handleRoutechange}
+      onRouteChange={handleRouteChange}
       className="mobile-lg:vads-u-margin-y--2 no-print"
       dataTestid="breadcrumbs"
       uswds
