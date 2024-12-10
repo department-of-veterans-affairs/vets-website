@@ -1,16 +1,6 @@
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
 
-const allPropertiesAreUndefined = fileInput => {
-  if (!fileInput) {
-    return true;
-  }
-
-  return Object.keys(fileInput).every(
-    property => typeof fileInput[property] === 'undefined',
-  );
-};
-
 /** @param {WebComponentFieldProps} props */
 const vaFileInputFieldMapping = props => {
   const { name, textDescription, childrenProps, uiOptions } = props;
@@ -27,9 +17,11 @@ const vaFileInputFieldMapping = props => {
     messageAriaDescribedby:
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     name,
-    value: allPropertiesAreUndefined(childrenProps.formData)
-      ? ''
-      : childrenProps.formData,
+    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
+    value:
+      typeof childrenProps.formData === 'undefined'
+        ? ''
+        : childrenProps.formData,
   };
 };
 
