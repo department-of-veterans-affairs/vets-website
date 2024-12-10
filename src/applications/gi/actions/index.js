@@ -76,6 +76,30 @@ export const FETCH_INSTITUTION_PROGRAMS_STARTED =
   'FETCH_INSTITUTION_PROGRAMS_STARTED';
 export const FETCH_INSTITUTION_PROGRAMS_SUCCEEDED =
   'FETCH_INSTITUTION_PROGRAMS_SUCCEEDED';
+export const FETCH_NATIONAL_EXAMS_FAILED = 'FETCH_NATIONAL_EXAMS_FAILED ';
+export const FETCH_NATIONAL_EXAMS_STARTED = 'FETCH_NATIONAL_EXAMS_STARTED';
+export const FETCH_NATIONAL_EXAMS_SUCCEEDED = 'FETCH_NATIONAL_EXAMS_SUCCEEDED';
+
+export const fetchNationalExams = type => {
+  const url = `${api.url}/lce?type=${type}`;
+  return async dispatch => {
+    dispatch({ type: FETCH_NATIONAL_EXAMS_STARTED });
+
+    try {
+      const res = await fetch(url, api.settings);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const { data } = await res.json();
+      dispatch({ type: FETCH_NATIONAL_EXAMS_SUCCEEDED, payload: data });
+    } catch (err) {
+      dispatch({
+        type: FETCH_NATIONAL_EXAMS_FAILED,
+        payload: err.message,
+      });
+    }
+  };
+};
 
 export const fetchInstitutionPrograms = (facilityCode, programType) => {
   const url = `https://dev-api.va.gov/v0/gi/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
