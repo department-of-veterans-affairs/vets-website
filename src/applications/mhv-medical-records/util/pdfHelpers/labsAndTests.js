@@ -86,63 +86,74 @@ export const generateChemHemContent = record => ({
   },
 });
 
-export const generateMicrobioContent = record => ({
-  details: {
-    header: 'Details about this test',
-    sectionSeparators: false,
-    items: [
-      {
-        title: 'Date and time collected',
-        value: record.date,
-        inline: true,
-      },
-      {
-        title: 'Site or sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Collection sample',
-        value: record.sampleFrom,
-        inline: true,
-      },
-      {
-        title: 'Ordered by',
-        value: record.orderedBy,
-        inline: true,
-      },
-      {
-        title: 'Location',
-        value: record.collectingLocation,
-        inline: true,
-      },
-      {
-        title: 'Date completed',
-        value: record.dateCompleted,
-        inline: true,
-      },
-    ],
-  },
-  results: {
-    header: 'Results',
-    preface: {
-      prefaceOptions: { paragraphGap: 20 },
-      value:
-        'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.',
+export const generateMicrobioContent = record => {
+  const content = {
+    details: {
+      header: 'Details about this test',
+      sectionSeparators: false,
+      items: [
+        {
+          title: 'Date and time collected',
+          value: record.date,
+          inline: true,
+        },
+        {
+          title: 'Site or sample tested',
+          value: record.sampleTested,
+          inline: true,
+        },
+        {
+          title: 'Collection sample',
+          value: record.sampleFrom,
+          inline: true,
+        },
+        {
+          title: 'Ordered by',
+          value: record.orderedBy,
+          inline: true,
+        },
+        {
+          title: 'Location',
+          value: record.collectingLocation,
+          inline: true,
+        },
+        {
+          title: 'Date completed',
+          value: record.dateCompleted,
+          inline: true,
+        },
+      ],
     },
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            value: record.results,
-            monospace: true,
-          },
-        ],
+    results: {
+      header: 'Results',
+      preface: {
+        prefaceOptions: { paragraphGap: 20 },
+        value:
+          'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.',
       },
-    ],
-  },
-});
+      sectionSeparators: false,
+      items: [
+        {
+          items: [
+            {
+              value: record.results,
+              monospace: true,
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+  if (record.name !== 'Microbiology' && record.labType) {
+    content.details.items.unshift({
+      title: 'Lab type',
+      value: record.labType,
+      inline: true,
+    });
+  }
+  return content;
+};
 
 export const generatePathologyContent = record => ({
   details: {

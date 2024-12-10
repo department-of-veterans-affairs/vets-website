@@ -80,6 +80,11 @@ ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
+${
+      record.name !== 'Microbiology' && record.labType
+        ? `Lab type: ${record.labType}\n`
+        : ''
+    }
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
@@ -124,6 +129,17 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
+        {record.name !== 'Microbiology' &&
+          record.labType && (
+            <>
+              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+                Lab type
+              </h3>
+              <p data-testid="microbio-lab-type" data-dd-privacy="mask">
+                {record.labType}
+              </p>
+            </>
+          )}
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
