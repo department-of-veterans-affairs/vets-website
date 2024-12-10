@@ -2,7 +2,6 @@
 const express = require('express');
 
 const cors = require('./cors');
-const { killProcessOnPort } = require('./utils');
 const { initializeManifests } = require('./manifests');
 const { autoStartServers } = require('./processes');
 const routes = require('./routes');
@@ -20,8 +19,6 @@ app.use(routes);
 
 app.listen(port, async () => {
   await initializeManifests();
+  await autoStartServers(args);
   console.log(`Process manager server listening at http://localhost:${port}`);
-  killProcessOnPort('3000');
-  killProcessOnPort('3001');
-  autoStartServers(args);
 });

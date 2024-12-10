@@ -109,7 +109,7 @@ const mockServerPaths = [
   'src/platform/testing/local-dev-mock-api/common.js',
 ];
 
-router.post('/start-mock-server', (req, res) => {
+router.post('/start-mock-server', async (req, res) => {
   const { responsesPath } = req.body;
 
   if (!responsesPath) {
@@ -142,9 +142,9 @@ router.post('/start-mock-server', (req, res) => {
     mockServerPaths[matchingPathIndex],
   );
 
-  killProcessOnPort('3001');
+  await killProcessOnPort('3000');
 
-  const result = startProcess(
+  const result = await startProcess(
     'mock-server',
     'node',
     [paths.mockApi, '--responses', validatedPath],
@@ -244,7 +244,7 @@ router.post('/start-frontend-server', async (req, res) => {
 
     await killProcessOnPort('3001');
 
-    const result = startProcess(
+    const result = await startProcess(
       'fe-dev-server',
       'yarn',
       [

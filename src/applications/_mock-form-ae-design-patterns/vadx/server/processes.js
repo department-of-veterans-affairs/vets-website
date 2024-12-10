@@ -1,5 +1,5 @@
 const { spawn } = require('child_process');
-const { stripAnsi } = require('./utils');
+const { stripAnsi, killProcessOnPort } = require('./utils');
 const logger = require('./utils/logger');
 const paths = require('./utils/paths');
 
@@ -29,67 +29,92 @@ function addToCache(name, type, data) {
   });
 }
 
+// Setup process handlers for stdout, stderr, and close events
+// this way we can handle the process starting and stopping in a single function
+function setupProcessHandlers(childProcess, procName) {
+  childProcess.stdout.on('data', data => {
+    logger.process(procName, 'stdout', data);
+    addToCache(procName, 'stdout', data);
+  });
+
+  childProcess.stderr.on('data', data => {
+    logger.process(procName, 'stderr', data);
+    addToCache(procName, 'stderr', data);
+  });
+
+  childProcess.on('close', code => {
+    logger.process(procName, 'close', code);
+    const clientsForProcess = clients.get(procName) || [];
+    clientsForProcess.forEach(client => {
+      sendSSE(client, {
+        type: 'close',
+        data: `Process exited with code ${code}`,
+      });
+    });
+    delete processes[procName];
+  });
+}
+
 function startProcess(procName, command, args, options = {}) {
   const { forceRestart = false } = options;
 
-  if (processes[procName]) {
-    if (!forceRestart) {
-      return {
-        success: false,
-        message: `Process ${procName} is already running`,
-      };
+  return new Promise(resolve => {
+    if (processes[procName]) {
+      if (!forceRestart) {
+        return resolve({
+          success: false,
+          message: `Process ${procName} is already running`,
+        });
+      }
+
+      logger.debug(`Force stopping existing process: ${procName}`);
+      const oldProcess = processes[procName];
+
+      // Clean up the old process
+      oldProcess.on('close', () => {
+        delete processes[procName];
+        if (outputCache[procName]) {
+          outputCache[procName] = [];
+        }
+
+        // Start new process after old one is fully cleaned up
+        const childProcess = spawn(command, args, {
+          env: process.env,
+        });
+        processes[procName] = childProcess;
+
+        setupProcessHandlers(childProcess, procName);
+
+        resolve({
+          success: true,
+          message: `Process ${procName} restarted`,
+        });
+      });
+
+      return oldProcess.kill();
     }
-
-    logger.debug(`Force stopping existing process: ${procName}`);
-    processes[procName].kill();
-    // Wait for the process to be fully removed
-    delete processes[procName];
-
-    if (outputCache[procName]) {
-      outputCache[procName] = [];
-    }
-  }
-
-  // Small delay to ensure the previous process is fully cleaned up
-  setTimeout(() => {
+    // No existing process, just start a new one
     const childProcess = spawn(command, args, {
       env: process.env,
     });
     processes[procName] = childProcess;
 
-    childProcess.stdout.on('data', data => {
-      logger.process(procName, 'stdout', data);
-      addToCache(procName, 'stdout', data);
-    });
+    setupProcessHandlers(childProcess, procName);
 
-    childProcess.stderr.on('data', data => {
-      logger.process(procName, 'stderr', data);
-      addToCache(procName, 'stderr', data);
+    return resolve({
+      success: true,
+      message: `Process ${procName} started`,
     });
-
-    childProcess.on('close', code => {
-      logger.process(procName, 'close', code);
-      const clientsForProcess = clients.get(procName) || [];
-      clientsForProcess.forEach(client => {
-        sendSSE(client, {
-          type: 'close',
-          data: `Process exited with code ${code}`,
-        });
-      });
-      delete processes[procName];
-    });
-  }, 250);
-
-  return {
-    success: true,
-    message: `Process ${procName} ${forceRestart ? 're' : ''}started`,
-  };
+  });
 }
 
-function autoStartServers(options = {}) {
+async function autoStartServers(options = {}) {
   const { entry, api, responses } = options;
 
-  startProcess(
+  await killProcessOnPort('3000');
+  await killProcessOnPort('3001');
+
+  await startProcess(
     'fe-dev-server',
     'yarn',
     ['--cwd', paths.root, 'watch', '--env', `entry=${entry}`, `api=${api}`],
@@ -98,7 +123,7 @@ function autoStartServers(options = {}) {
     },
   );
 
-  startProcess(
+  await startProcess(
     'mock-server',
     'node',
     [paths.mockApi, '--responses', responses],
