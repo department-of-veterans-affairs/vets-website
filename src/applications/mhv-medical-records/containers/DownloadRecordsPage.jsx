@@ -36,6 +36,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const medications = useSelector(state => state.mr.blueButton.medicationsList);
+  const appointments = useSelector(
+    state => state.mr.blueButton.appointmentsList,
+  );
+  const demographics = useSelector(state => state.mr.blueButton.demographics);
+  const militaryService = useSelector(
+    state => state.mr.blueButton.militaryService,
+  );
+  const accountSummary = useSelector(
+    state => state.mr.blueButton.accountSummary,
+  );
+
   const [downloadStarted, setDownloadStarted] = useState(false);
   const activeAlert = useAlerts(dispatch);
 
@@ -48,7 +60,12 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   );
 
   const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(arr => !!arr?.length);
+    return arrayOfArrays.every(
+      data =>
+        (typeof data === 'object' && Object.keys(data)?.length) ||
+        (typeof data === 'string' && data?.length) ||
+        (Array.isArray(data) && !!data?.length),
+    );
   };
 
   const generatePdf = useCallback(
@@ -57,16 +74,20 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
       setDownloadType('pdf');
       setBlueButtonRequested(true);
       dispatch(clearAlerts());
-      if (
-        !allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        ])
-      ) {
+      const allDefd = allAreDefined([
+        labsAndTests,
+        notes,
+        vaccines,
+        allergies,
+        conditions,
+        vitals,
+        medications,
+        appointments,
+        demographics,
+        militaryService,
+        accountSummary,
+      ]);
+      if (!allDefd) {
         dispatch(getBlueButtonReportData());
       } else {
         setBlueButtonRequested(false);
@@ -77,6 +98,11 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         };
         const title = 'Blue Button report';
         const subject = 'VA Medical Record';
@@ -92,14 +118,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
       }
     },
     [
+      accountSummary,
       allergies,
+      appointments,
       conditions,
+      demographics,
       dispatch,
       dob,
       labsAndTests,
+      medications,
+      militaryService,
       name,
       notes,
-      runningUnitTest,
       user,
       vaccines,
       vitals,
