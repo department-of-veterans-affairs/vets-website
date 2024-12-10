@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {
   numberUI,
   textUI,
@@ -12,8 +13,8 @@ const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Program Information',
-      nounSingular: 'Program',
-      nounPlural: 'Programs',
+      nounSingular: 'program',
+      nounPlural: 'programs',
     }),
     'ui:description': (
       <va-link
@@ -34,15 +35,17 @@ const programInfo = {
           <strong>Note: </strong>
           If there are fewer than 10 supported students enrolled in this
           program, you do not have to fill out the information below, and the
-          Total enrolled FTE And supported student percentage FTE will not be
+          Total enrolled FTE and supported student percentage FTE will not be
           calculated or submitted.
         </p>
       ),
-      supported: numberUI({
-        title: 'Number of supported students FTE',
+      supported: _.merge(numberUI('Number of supported students FTE'), {
+        'ui:required': (formData, _index) =>
+          Number(formData?.supportedStudents >= 10),
       }),
-      nonSupported: numberUI({
-        title: 'Number of non-supported students FTE',
+      nonSupported: _.merge(numberUI('Number of non-supported students FTE'), {
+        'ui:required': (formData, _index) =>
+          Number(formData?.supportedStudents >= 10),
       }),
     },
     'view:calcs': {
