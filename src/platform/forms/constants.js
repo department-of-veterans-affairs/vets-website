@@ -135,7 +135,7 @@ export const getAllFormLinks = getAppUrlImpl => {
       '21P-0847-substitute-claimant',
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${tryGetAppUrl('pensions')}/`,
-    [VA_FORM_IDS.FORM_21P_530V2]: `${tryGetAppUrl('burials-ez')}/`,
+    [VA_FORM_IDS.FORM_21P_530EZ]: `${tryGetAppUrl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990]: `${tryGetAppUrl('1990-edu-benefits')}/`,
@@ -273,7 +273,7 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pensions-527EZ-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_530V2,
+    id: VA_FORM_IDS.FORM_21P_530EZ,
     benefit: 'burial benefits',
     title: 'burial benefits (21P-530EZ)',
     description: 'burial benefits application (21P-530EZ)',
