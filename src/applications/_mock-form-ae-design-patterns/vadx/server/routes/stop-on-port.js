@@ -1,5 +1,5 @@
 const express = require('express');
-const { killProcessOnPort } = require('../utils/utils');
+const { killProcessOnPort } = require('../utils/processes');
 const logger = require('../utils/logger');
 
 const router = express.Router();

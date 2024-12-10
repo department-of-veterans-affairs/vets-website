@@ -3,11 +3,31 @@ const path = require('path');
 const logger = require('./logger');
 const paths = require('./paths');
 
-let cachedManifests = [];
+/**
+ * @typedef {Object} ManifestFile
+ * @property {string} path - file path to the manifest.json
+ * @property {string} entryName - name of the entry file
+ * @property {string} rootUrl - root url of the app
+ * @property {string} appName - name of the app
+ * @property {string} [productId] - product id of the app
+ */
 
+/** @type {ManifestFile[]} */
+let _cachedManifests = [];
+
+/**
+ * Searches a directory for manifest.json files
+ * @param {string} dir - Dir path to search
+ * @returns {Promise<ManifestFile[]>} Array of manifest objects
+ */
 async function findManifestFiles(dir) {
   const manifests = [];
 
+  /**
+   * Recursively searches directories for manifest files
+   * @param {string} currentDir - Current directory being searched
+   * @returns {Promise<void>}
+   */
   async function searchDir(currentDir) {
     try {
       const files = await fs.readdir(currentDir);
@@ -33,17 +53,16 @@ async function findManifestFiles(dir) {
               })),
             );
           } catch (err) {
-            // eslint-disable-next-line no-console
-            console.error(`Error reading manifest at ${filePath}:`, err);
+            logger.error(`Error reading manifest at ${filePath}:`, err);
           }
         }
       }
 
+      // using Promise.all to run all promises in parallel and not wait for each one
       await Promise.all(dirPromises);
       manifests.push(...(await Promise.all(manifestPromises)));
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Error reading directory ${currentDir}:`, err);
+      logger.error(`Error reading directory ${currentDir}:`, err);
     }
   }
 
@@ -51,17 +70,28 @@ async function findManifestFiles(dir) {
   return manifests;
 }
 
-const getCachedManifests = () => cachedManifests;
+/**
+ * Returns the currently cached manifests.
+ * Used because just accessing the `_cachedManifests` variable directly
+ * will only return the initial value `[]`
+ * @returns {ManifestFile[]} Array of cached manifest objects
+ */
+const getCachedManifests = () => _cachedManifests;
 
-// Initialize manifests when server starts
+/**
+ * Creates the manifest cache.
+ * Used during vadx startup
+ * @returns {Promise<void>}
+ * @throws {Error} If there is an error reading the manifests
+ */
 async function initializeManifests() {
   try {
     logger.debug('Scanning for manifests in:', paths.applications);
-    cachedManifests = await findManifestFiles(paths.applications);
-    logger.info(`Loaded ${cachedManifests.length} manifests at startup`);
+    _cachedManifests = await findManifestFiles(paths.applications);
+    logger.info(`Loaded ${_cachedManifests.length} manifests at startup`);
   } catch (error) {
     logger.error('Error loading manifests at startup:', error);
-    cachedManifests = [];
+    _cachedManifests = [];
   }
 }
 

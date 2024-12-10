@@ -1,5 +1,5 @@
-const { spawn } = require('child_process');
-const { stripAnsi, killProcessOnPort } = require('./utils');
+const { spawn, exec } = require('child_process');
+const { stripAnsi } = require('./strings');
 const logger = require('./logger');
 const paths = require('./paths');
 
@@ -7,6 +7,31 @@ const processes = {};
 const outputCache = {};
 const MAX_CACHE_LINES = 100;
 const clients = new Map();
+
+function killProcessOnPort(portToKill) {
+  return new Promise((resolve, reject) => {
+    const isWin = process.platform === 'win32';
+
+    let command;
+    if (isWin) {
+      command = `FOR /F "tokens=5" %a in ('netstat -aon ^| find ":${portToKill}" ^| find "LISTENING"') do taskkill /F /PID %a`;
+    } else {
+      command = `lsof -ti :${portToKill} | xargs kill -9`;
+    }
+
+    exec(command, error => {
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.error(`Error killing process on port ${portToKill}: ${error}`);
+        reject(error);
+      } else {
+        // eslint-disable-next-line no-console
+        console.log(`Process on port ${portToKill} killed`);
+        resolve();
+      }
+    });
+  });
+}
 
 function sendSSE(res, data) {
   res.write(`data: ${JSON.stringify(data)}\n\n`);

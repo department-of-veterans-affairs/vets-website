@@ -1,5 +1,5 @@
 const express = require('express');
-const { killProcessOnPort } = require('../utils/utils');
+const { killProcessOnPort } = require('../utils/processes');
 const { startProcess } = require('../utils/processes');
 const paths = require('../utils/paths');
 const logger = require('../utils/logger');

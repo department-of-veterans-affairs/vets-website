@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { killProcessOnPort } = require('../utils/utils');
+const { killProcessOnPort } = require('../utils/processes');
 const { startProcess } = require('../utils/processes');
 const paths = require('../utils/paths');
 const { MOCK_SERVER_PATHS } = require('../constants/mockServerPaths');
