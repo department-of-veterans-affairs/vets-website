@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const { stripAnsi, killProcessOnPort } = require('./utils');
-const logger = require('./utils/logger');
-const paths = require('./utils/paths');
+const logger = require('./logger');
+const paths = require('./paths');
 
 const processes = {};
 const outputCache = {};

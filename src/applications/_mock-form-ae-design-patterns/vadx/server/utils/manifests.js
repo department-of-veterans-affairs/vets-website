@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
-const logger = require('./utils/logger');
-const paths = require('./utils/paths');
+const logger = require('./logger');
+const paths = require('./paths');
 
 let cachedManifests = [];
 
@@ -63,16 +63,7 @@ async function initializeManifests() {
   }
 }
 
-const getManifests = (req, res) => {
-  res.json({
-    success: true,
-    count: cachedManifests.length,
-    manifests: cachedManifests,
-  });
-};
-
 module.exports = {
-  getManifests,
   initializeManifests,
   cachedManifests,
   findManifestFiles,
