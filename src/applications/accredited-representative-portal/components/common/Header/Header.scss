@@ -4,12 +4,28 @@
 .header {
   min-height: auto;
 
-  &__govt-website {
+  &__govt-site {
     width: 100%;
     margin: 8px 16px;
     max-width: 1000px;
     @media (min-width: $medium-screen) {
       margin: 0 auto;
+    }
+
+    &-explanation {
+      flex-direction: column;
+      color: var(--vads-color-black);
+      width: 91%;
+      font-size: 12.8px;
+
+      @media (min-width: $medium-screen) {
+        flex-direction: row;
+        margin: 4px;
+      }
+
+      &-sub-text {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -19,22 +35,6 @@
     margin-right: 15px;
     @media (min-width: $medium-screen) {
       margin: 4px 12px 4px;
-    }
-  }
-
-  &__govt-site-explanation {
-    flex-direction: column;
-    color: var(--vads-color-black);
-    width: 91%;
-    font-size: 12.8px;
-
-    @media (min-width: $medium-screen) {
-      flex-direction: row;
-      margin: 4px;
-    }
-
-    &-sub-text {
-      text-decoration: underline;
     }
   }
 }
@@ -83,11 +83,14 @@
 
     &--user {
       background-color: transparent;
+      box-shadow: none !important;
       display: flex;
     }
+
     &--menu {
       background: var(--vads-color-white) !important;
     }
+
     &-icon {
       margin-left: 8px;
     }
