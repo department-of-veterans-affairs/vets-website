@@ -1187,33 +1187,33 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
 
     // Date of birth validation
     let dob;
-    // let errorMessage;
+    let errorMessage;
 
-    // if (isVeteran(formData)) {
-    //   if (!isAuthorizedAgent(formData)) {
-    //     // Self
-    //     // dob = formData.application.claimant.dateOfBirth;
-    //     errorMessage = 'Provide a valid date that is after your date of birth';
-    //   } else {
-    //     // Applicant
-    //     // dob = formData.application.claimant.dateOfBirth;
-    //     errorMessage =
-    //       "Provide a valid date that is after the applicant's date of birth";
-    //   }
-    // } else {
-    //   // Sponsor
-    //   // dob = formData.application.veteran.dateOfBirth;
-    //   errorMessage =
-    //     "Provide a valid date that is after the sponsor's date of birth";
-    // }
+    if (isVeteran(formData)) {
+      if (!isAuthorizedAgent(formData)) {
+        // Self
+        dob = formData?.application?.claimant?.dateOfBirth;
+        errorMessage = 'Provide a valid date that is after your date of birth';
+      } else {
+        // Applicant
+        dob = formData?.application?.claimant?.dateOfBirth;
+        errorMessage =
+          "Provide a valid date that is after the applicant's date of birth";
+      }
+    } else {
+      // Sponsor
+      dob = formData?.application?.veteran?.dateOfBirth;
+      errorMessage =
+        "Provide a valid date that is after the sponsor's date of birth";
+    }
 
     // Date of birth validation against service start date and service end date
     if (serviceRecord.dateRange.from <= dob) {
-      //   errors.dateRange.from.addError(errorMessage);
+      errors.dateRange.from.addError(errorMessage);
     }
 
     if (serviceRecord.dateRange.to <= dob) {
-      //   errors.dateRange.to.addError(errorMessage);
+      errors.dateRange.to.addError(errorMessage);
     }
   }
 };
