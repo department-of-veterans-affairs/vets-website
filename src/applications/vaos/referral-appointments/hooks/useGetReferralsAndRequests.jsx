@@ -8,8 +8,8 @@ import { FETCH_STATUS } from '../../utils/constants';
 
 const useGetReferralsAndRequests = () => {
   const [loading, setLoading] = useState(true);
-  const [referralsError, setReferralsError] = useState(null);
-  const [requestsError, setRequestsError] = useState(null);
+  const [referralsError, setReferralsError] = useState(false);
+  const [requestsError, setRequestsError] = useState(false);
   const dispatch = useDispatch();
 
   const { referrals, referralsFetchStatus } = useSelector(
