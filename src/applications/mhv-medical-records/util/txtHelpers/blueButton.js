@@ -47,11 +47,11 @@ ${txtLineDotted}
   4. Allergies
   5. Health Conditions
   6. Vitals
-  7. medications,
-  8. appointments,
-  9. demographics,
-  10. militaryService,
-  11. accountSummary,
+  7. Medications,
+  8. Appointments,
+  9. Demographics,
+  10. MilitaryService,
+  11. AccountSummary,
 
 ${parseLabsAndTests(data.labsAndTests)}
 ${parseCareSummariesAndNotes(data.notes)}
