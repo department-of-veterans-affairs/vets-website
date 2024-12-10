@@ -79,16 +79,6 @@ export const convertMedication = med => {
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
     prescriptionNumber: attributes.prescriptionNumber,
-<<<<<<< HEAD
-    prescribedOn: formatDateLong(attributes.orderedDate),
-    prescribedBy: `${attributes.providerFirstName ||
-      ''} ${attributes.providerLastName || ''}`.trim(),
-    facility: attributes.facilityName,
-    expirationDate: formatDateLong(attributes.expirationDate),
-    instructions: attributes.sig || 'No instructions available',
-    quantity: attributes.quantity,
-    pharmacyPhoneNumber: pharmacyPhoneNumber(med.attributes),
-=======
     prescribedOn: attributes.orderedDate
       ? formatDateLong(attributes.orderedDate)
       : UNKNOWN,
@@ -101,7 +91,6 @@ export const convertMedication = med => {
     instructions: attributes.sig || 'No instructions available',
     quantity: attributes.quantity,
     pharmacyPhoneNumber: phoneNum || UNKNOWN,
->>>>>>> origin/main
     indicationForUse: med.indicationForUse || NONE_RECORDED,
   };
 };
@@ -117,14 +106,9 @@ export const convertAppointment = appt => {
   const now = new Date();
   const { attributes } = appt;
   const appointmentTime = new Date(attributes.localStartTime);
-<<<<<<< HEAD
-  const location = attributes.location?.attributes || {};
-  const { line, city, state, postalCode } = location.physicalAddress;
-=======
   const location = attributes.location?.attributes || { physicalAddress: {} };
   const { line, city, state, postalCode } = location.physicalAddress;
   const addressLines = line || [];
->>>>>>> origin/main
   const clinic = attributes.extension?.clinic || {};
   const practitioners = attributes.practitioners || [];
   const practitionerNames =
@@ -143,15 +127,6 @@ export const convertAppointment = appt => {
     id: appt.id,
     date: dateFormat(appointmentTime),
     isUpcoming: isAfter(appointmentTime, now),
-<<<<<<< HEAD
-    appointmentType: capitalize(attributes.kind),
-    status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
-    what: attributes.serviceName || 'General',
-    who: practitionerNames,
-    address: [location.name, ...line, `${city}, ${state} ${postalCode}`],
-    location: attributes.physicalLocation || 'Unknown Location',
-    clinicName: attributes.clinic || 'Unknown Clinic',
-=======
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
@@ -161,7 +136,6 @@ export const convertAppointment = appt => {
       : UNKNOWN,
     location: attributes.physicalLocation || 'Unknown location',
     clinicName: attributes.clinic || 'Unknown clinic',
->>>>>>> origin/main
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
       reason: attributes.serviceCategory?.[0]?.text
