@@ -141,31 +141,14 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  // const continueError = () => {
-  //   return (
-  //     <span
-  //       className="usa-input-error-message vads-u-margin-bottom--0p5"
-  //       role="alert"
-  //     >
-  //       <span className="sr-only">Error</span>
-  //       {}
-  //     </span>
-  //   );
-  // };
-
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
   }
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--5 ">
-        Select the accredited representative or VSO you’d like to appoint
-      </h3>
-      <p className="vads-u-margin-bottom--0">
-        Enter the name of the accredited representative or Veterans Service
-        Organization (VSO) you’d like to appoint
-      </p>
+      <h3>Select the accredited representative or VSO you’d like to appoint</h3>
+
       <SearchInput
         error={error}
         formData={formData}
