@@ -33,12 +33,12 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 const autocompleteUiSchema = {
   'ui:reviewField': ({ children }) => children,
+  'ui:title': 'Enter your condition',
   'ui:field': data => (
     <Autocomplete
       availableResults={Object.values(disabilityLabelsRevised)}
       debounceDelay={200}
       id={data.idSchema.$id}
-      label="Enter your condition"
       formData={data.formData}
       onChange={data.onChange}
     />
