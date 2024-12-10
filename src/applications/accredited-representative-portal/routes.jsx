@@ -6,6 +6,9 @@ import LandingPage from './containers/LandingPage';
 import POARequestsPage from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import { poaRequestsLoader } from './loaders/poaRequestsLoader';
+import { poaRequestLoader } from './loaders/poaRequestLoader';
+import ErrorMessage from './components/common/ErrorMessage';
 
 const router = createBrowserRouter(
   [
@@ -22,10 +25,14 @@ const router = createBrowserRouter(
             {
               path: 'poa-requests',
               element: <POARequestsPage />,
+              loader: poaRequestsLoader,
+              errorElement: <ErrorMessage />,
             },
             {
               path: 'poa-requests/:id',
               element: <POARequestDetailsPage />,
+              loader: poaRequestLoader,
+              errorElement: <ErrorMessage />,
             },
           ],
         },

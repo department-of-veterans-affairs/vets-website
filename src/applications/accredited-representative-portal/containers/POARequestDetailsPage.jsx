@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
-import usePOARequests from '../hooks/usePOARequests';
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -21,10 +20,7 @@ const checkAuthorizations = (
 };
 
 const POARequestDetailsPage = () => {
-  const { poaRequests } = usePOARequests();
-  const { id } = useParams();
-
-  const poaRequest = poaRequests.find(r => r.id === Number(id))?.attributes;
+  const poaRequest = useLoaderData();
 
   return (
     <section className="poa-request-details">
