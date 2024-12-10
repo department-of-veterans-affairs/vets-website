@@ -8,7 +8,6 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 // pages
 import { institutionDetails } from '../pages';
 
@@ -22,6 +21,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
+  // introduction: CalculationInstructions,
   confirmation: ConfirmationPage,
   formId: '22-10215',
   saveInProgress: {
