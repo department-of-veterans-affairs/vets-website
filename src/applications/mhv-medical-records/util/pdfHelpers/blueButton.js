@@ -24,6 +24,7 @@ import { generateMedicationsContent } from './medications';
 import { generateAppointmentsContent } from './appointments';
 import { generateDemographicsContent } from './demographics';
 import { generateMilitaryServiceContent } from './militaryService';
+import { generateAccountSummaryContent } from './accountSummary';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -241,7 +242,15 @@ export const generateBlueButtonData = ({
   }
 
   if (accountSummary) {
-    // console.log('accountSummary: ', accountSummary);
+    data.push({
+      type: blueButtonRecordTypes.ACCOUNT_SUMMARY,
+      title: 'My HealtheVet account summary',
+      titleParagraphGap: 0,
+      titleMoveDownAmount: 0.5,
+      records: {
+        ...generateAccountSummaryContent(accountSummary),
+      },
+    });
   }
 
   return data;

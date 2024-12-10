@@ -1,3 +1,5 @@
+import { startReferralTimer } from './utils/timer';
+
 /**
  * Function to get referral page flow.
  *
@@ -50,6 +52,10 @@ export function routeToPageInFlow(history, current, action, referralId) {
   const pageFlow = getPageFlow(referralId);
   const nextPageString = pageFlow[current][action];
   const nextPage = pageFlow[nextPageString];
+
+  if (action === 'next' && nextPageString === 'scheduleReferral') {
+    startReferralTimer(referralId);
+  }
 
   if (nextPage?.url) {
     history.push(nextPage.url);

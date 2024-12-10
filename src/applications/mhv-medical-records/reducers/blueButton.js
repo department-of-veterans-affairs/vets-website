@@ -3,7 +3,7 @@ import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports
 import { format, isAfter } from 'date-fns';
 import { capitalize } from 'lodash';
 import { Actions } from '../util/actionTypes';
-import { medicationTypes, NA, NONE_RECORDED } from '../util/constants';
+import { medicationTypes, NA, NONE_RECORDED, UNKNOWN } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 
 const initialState = {
@@ -67,6 +67,8 @@ export const convertMedication = med => {
     return convertNonVaMedication(med);
 
   const { attributes } = med;
+  const phoneNum = pharmacyPhoneNumber(med.attributes);
+
   return {
     id: med.id,
     type: medicationTypes.VA,
@@ -75,8 +77,9 @@ export const convertMedication = med => {
       ? formatDateLong(attributes.lastFilledDate)
       : 'Not filled yet',
     status: attributes.refillStatus,
-    refillsLeft: attributes.refillRemaining,
+    refillsLeft: attributes.refillRemaining ?? UNKNOWN,
     prescriptionNumber: attributes.prescriptionNumber,
+<<<<<<< HEAD
     prescribedOn: formatDateLong(attributes.orderedDate),
     prescribedBy: `${attributes.providerFirstName ||
       ''} ${attributes.providerLastName || ''}`.trim(),
@@ -85,6 +88,20 @@ export const convertMedication = med => {
     instructions: attributes.sig || 'No instructions available',
     quantity: attributes.quantity,
     pharmacyPhoneNumber: pharmacyPhoneNumber(med.attributes),
+=======
+    prescribedOn: attributes.orderedDate
+      ? formatDateLong(attributes.orderedDate)
+      : UNKNOWN,
+    prescribedBy: `${attributes.providerFirstName ||
+      ''} ${attributes.providerLastName || ''}`.trim(),
+    facility: attributes.facilityName,
+    expirationDate: attributes.expirationDate
+      ? formatDateLong(attributes.expirationDate)
+      : NONE_RECORDED,
+    instructions: attributes.sig || 'No instructions available',
+    quantity: attributes.quantity,
+    pharmacyPhoneNumber: phoneNum || UNKNOWN,
+>>>>>>> origin/main
     indicationForUse: med.indicationForUse || NONE_RECORDED,
   };
 };
@@ -100,8 +117,14 @@ export const convertAppointment = appt => {
   const now = new Date();
   const { attributes } = appt;
   const appointmentTime = new Date(attributes.localStartTime);
+<<<<<<< HEAD
   const location = attributes.location?.attributes || {};
   const { line, city, state, postalCode } = location.physicalAddress;
+=======
+  const location = attributes.location?.attributes || { physicalAddress: {} };
+  const { line, city, state, postalCode } = location.physicalAddress;
+  const addressLines = line || [];
+>>>>>>> origin/main
   const clinic = attributes.extension?.clinic || {};
   const practitioners = attributes.practitioners || [];
   const practitionerNames =
@@ -120,6 +143,7 @@ export const convertAppointment = appt => {
     id: appt.id,
     date: dateFormat(appointmentTime),
     isUpcoming: isAfter(appointmentTime, now),
+<<<<<<< HEAD
     appointmentType: capitalize(attributes.kind),
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
@@ -127,6 +151,17 @@ export const convertAppointment = appt => {
     address: [location.name, ...line, `${city}, ${state} ${postalCode}`],
     location: attributes.physicalLocation || 'Unknown Location',
     clinicName: attributes.clinic || 'Unknown Clinic',
+=======
+    appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
+    status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
+    what: attributes.serviceName || 'General',
+    who: practitionerNames,
+    address: addressLines.length
+      ? [location.name, ...addressLines, `${city}, ${state} ${postalCode}`]
+      : UNKNOWN,
+    location: attributes.physicalLocation || 'Unknown location',
+    clinicName: attributes.clinic || 'Unknown clinic',
+>>>>>>> origin/main
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
       reason: attributes.serviceCategory?.[0]?.text
@@ -287,17 +322,12 @@ export const convertAccountSummary = data => {
   const authenticationInfo = ipa
     ? {
         source: 'VA',
-        authenticationStatus: ipa.status || 'Unknown',
-        authenticationDate: new Date(ipa.authenticationDate).toLocaleDateString(
-          'en-US',
-          {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          },
-        ),
+        authenticationStatus: ipa.status || UNKNOWN,
+        authenticationDate: ipa.authenticationDate
+          ? format(new Date(ipa.authenticationDate), 'MMMM d, yyyy')
+          : 'Unknown date',
         authenticationFacilityName:
-          authenticatingFacility?.facilityInfo?.name || 'Unknown Facility',
+          authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:
           authenticatingFacility?.facilityInfo?.stationNumber || 'Unknown ID',
       }

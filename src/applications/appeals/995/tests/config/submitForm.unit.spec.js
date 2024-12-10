@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import maximalTest from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
-import { SUBMIT_URL } from '../../constants';
+import { SUBMIT_URL } from '../../constants/apis';
 
 import submitForm from '../../config/submitForm';
 
@@ -24,7 +24,7 @@ describe('submitForm', () => {
 
   it('should use v1 endpoint with v2 data', done => {
     submitForm(maximalTest, formConfig);
-    expect(requests[0].url).to.contain(SUBMIT_URL);
+    expect(requests[0].url).to.contain(SUBMIT_URL.join(''));
     done();
   });
 });
