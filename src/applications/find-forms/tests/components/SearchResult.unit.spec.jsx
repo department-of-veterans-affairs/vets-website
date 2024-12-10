@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import { format, parseISO } from 'date-fns';
 import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
-import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../../constants';
+import {
+  FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+  FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
+} from '../../constants';
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <SearchResult />', () => {
@@ -157,7 +160,7 @@ describe('Find VA Forms <SearchResult />', () => {
 
     const latestDate1 = deriveLatestIssue(date1, date2);
     expect(latestDate1).to.equal(
-      format(parseISO(date1), FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+      format(parseISO(date1), FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT),
     );
 
     const latestDate2 = deriveLatestIssue(date1, nullDate);
