@@ -168,8 +168,9 @@ export const CalculationInstructions = () => {
             is non-term-based).
           </li>
           <li>
-            Any student participating in a compliant institutionally funded
-            payment plan that meets ALL the following criteria:
+            Any student participating in a <strong>compliant</strong>{' '}
+            institutionally funded payment plan that meets <strong>ALL</strong>{' '}
+            the following criteria:
             <ul className="inner-list-style">
               <li>
                 The payment plan policy is published in the school’s approved
