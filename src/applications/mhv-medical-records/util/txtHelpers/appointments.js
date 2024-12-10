@@ -1,32 +1,75 @@
 import { generateAppointmentsContent } from '../pdfHelpers/appointments';
 
-export const parseAppointments = records => {
+// Helper function to format appointment content into plain text
+const formatAppointmentsContentToText = content => {
+  const sections = content.results.items;
+
+  // Preface text
+  const { preface } = content.results;
+
+  // Format each appointment section into plain text
+  const formattedSections = sections
+    .map(section => {
+      const header = `Date: ${section.header || 'Unknown Date'}`;
+      const itemsText = section.items
+        .map(item => {
+          // Check if item.value is an array of objects
+          if (
+            Array.isArray(item.value) &&
+            item.value.every(val => typeof val === 'object')
+          ) {
+            // Format each object in the array
+            const formattedValues = item.value
+              .map(val => {
+                return Object.entries(val)
+                  .map(([key, value]) => `${key}: ${value}`)
+                  .join(', ');
+              })
+              .join('\n');
+            return `${item.title}:\n${formattedValues}`;
+          }
+          // For other types, display as usual
+          return `${item.title}: ${item.value || 'No information provided'}`;
+        })
+        .join('\n'); // Join each item with a newline
+
+      return `${header}\n${itemsText}`;
+    })
+    .join('\n\n'); // Separate sections with double newlines
+
+  return `${preface}\n\n${formattedSections}`;
+};
+
+// Main function
+export const parseAppointments = appointments => {
+  // Filter appointments into upcoming and past
+  const upcomingAppointments = appointments.filter(
+    appointment => appointment.isUpcoming,
+  );
+  const pastAppointments = appointments.filter(
+    appointment => !appointment.isUpcoming,
+  );
+
+  // Generate content for upcoming and past appointments
+  const upcomingContent = generateAppointmentsContent(upcomingAppointments);
+  const pastContent = generateAppointmentsContent(pastAppointments);
+
+  // Format content into plain text
+  const formattedUpcomingContent = formatAppointmentsContentToText(
+    upcomingContent,
+  );
+  const formattedPastContent = formatAppointmentsContentToText(pastContent);
+
   return `
 8) Appointments
 
-If you have allergies that are missing from this list, send a secure message to your care team.
-
-${records
-    .map(record => {
-      const upcoming = record.upcomingAppointments || [];
-      const past = record.pastAppointments || [];
-
-      // Format the upcoming and past appointments
-      const upcomingAppointments = generateAppointmentsContent(upcoming);
-      const pastAppointments = generateAppointmentsContent(past);
-
-      return `
-Subtitles:
-- Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.
+'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
 
 Records:
 - Upcoming Appointments:
-${upcomingAppointments}
+${formattedUpcomingContent}
 
 - Past Appointments:
-${pastAppointments}
-    `;
-    })
-    .join('\n')}
+${formattedPastContent}
 `;
 };

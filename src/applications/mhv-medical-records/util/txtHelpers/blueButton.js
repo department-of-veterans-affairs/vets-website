@@ -8,6 +8,11 @@ import { parseVaccines } from './vaccines';
 import { parseAllergies } from './allergies';
 import { parseHealthConditions } from './conditions';
 import { parseVitals } from './vitals';
+import { parseMedications } from './medications';
+import { parseAppointments } from './appointments';
+import { parseDemographics } from './demographics';
+import { parseMilitaryService } from './militaryService';
+import { parseAccountSummary } from './accountSummary';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**
@@ -42,6 +47,11 @@ ${txtLineDotted}
   4. Allergies
   5. Health Conditions
   6. Vitals
+  7. medications,
+  8. appointments,
+  9. demographics,
+  10. militaryService,
+  11. accountSummary,
 
 ${parseLabsAndTests(data.labsAndTests)}
 ${parseCareSummariesAndNotes(data.notes)}
@@ -49,5 +59,10 @@ ${parseVaccines(data.vaccines)}
 ${parseAllergies(data.allergies)}
 ${parseHealthConditions(data.conditions)}
 ${parseVitals(data.vitals)}
+${parseMedications(data.medications)}
+${parseAppointments(data.appointments)}
+${parseDemographics(data.demographics)}
+${parseMilitaryService(data.militaryService)}
+${parseAccountSummary(data.accountSummary)}
 `;
 };
