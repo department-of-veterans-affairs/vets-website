@@ -91,9 +91,9 @@ const RequestList = ({ appointments, requestsError }) => {
 };
 
 RequestList.propTypes = {
-  appointments: PropTypes.array.isRequired,
   requestsError: PropTypes.bool.isRequired,
   showScheduleButton: PropTypes.bool.isRequired,
+  appointments: PropTypes.array,
 };
 
 export default RequestList;
