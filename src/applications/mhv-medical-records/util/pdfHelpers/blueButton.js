@@ -79,7 +79,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (notes.length) {
+  if (notes?.length) {
     data.push({
       type: recordType.CARE_SUMMARIES_AND_NOTES,
       title: 'Care summaries and notes',
@@ -110,7 +110,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (vaccines.length) {
+  if (vaccines?.length) {
     data.push({
       type: recordType.VACCINES,
       title: 'Vaccines',
@@ -127,7 +127,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (allergies.length) {
+  if (allergies?.length) {
     data.push({
       type: recordType.ALLERGIES,
       title: 'Allergies and reactions',
@@ -144,7 +144,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (conditions.length) {
+  if (conditions?.length) {
     data.push({
       title: 'Health conditions',
       subtitles: [
@@ -163,7 +163,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (vitals.length) {
+  if (vitals?.length) {
     data.push({
       type: recordType.VITALS,
       title: 'Vitals',
@@ -179,7 +179,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (medications.length) {
+  if (medications?.length) {
     data.push({
       type: blueButtonRecordTypes.MEDICATIONS,
       title: 'Medications',
@@ -196,7 +196,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (appointments.length) {
+  if (appointments?.length) {
     const upcoming = appointments.filter(appt => appt.isUpcoming);
     const past = appointments.filter(appt => !appt.isUpcoming);
 
@@ -219,7 +219,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (demographics.length) {
+  if (demographics?.length) {
     data.push({
       type: blueButtonRecordTypes.DEMOGRAPHICS,
       title: 'Demographics',
@@ -234,7 +234,7 @@ export const generateBlueButtonData = ({
     });
   }
 
-  if (militaryService.length) {
+  if (militaryService?.length) {
     data.push({
       type: blueButtonRecordTypes.MILITARY_SERVICE,
       title: 'DOD military service information',

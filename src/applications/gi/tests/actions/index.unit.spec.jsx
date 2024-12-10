@@ -889,6 +889,29 @@ describe('actionCreators', () => {
           mockFetch.restore();
         });
     });
+    it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const errorMessage = 'Internal Server Error';
+      const mockResponse = new Response(null, {
+        status: 500,
+        statusText: errorMessage,
+      });
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchLcResult('sample-link')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: 'FETCH_LC_RESULT_FAILED',
+              payload: errorMessage,
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
   });
   describe('fetchInstitutionPrograms action creator', () => {
     it('dispatches FETCH_INSTITUTION_PROGRAMS_SUCCEEDED on successful fetch', () => {
@@ -960,6 +983,84 @@ describe('actionCreators', () => {
           expect(
             mockDispatch.calledWith({
               type: 'FETCH_INSTITUTION_PROGRAMS_FAILED',
+              payload: errorMessage,
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+  });
+  describe('fetchNationalExams action creator', () => {
+    it('dispatches FETCH_NATIONAL_EXAMS_SUCCEEDED on successful fetch', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const mockResponse = {
+        ok: true,
+        json: sinon.stub().returns(
+          Promise.resolve({
+            data: {
+              id: 1,
+              detail: 'Sample Exam Result',
+            },
+          }),
+        ),
+      };
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchNationalExams('examType')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAMS_SUCCEEDED,
+              payload: {
+                id: 1,
+                detail: 'Sample Exam Result',
+              },
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+
+    it('dispatches FETCH_NATIONAL_EXAMS_FAILED on fetch error', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const error = new Error('Fetch failed');
+
+      mockFetch.rejects(error);
+
+      return actions
+        .fetchNationalExams('examType')(mockDispatch)
+        .catch(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAMS_FAILED,
+              payload: 'Fetch failed',
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+
+    it('dispatches FETCH_NATIONAL_EXAMS_FAILED when response is not ok', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const errorMessage = 'Internal Server Error';
+      const mockResponse = new Response(null, {
+        status: 500,
+        statusText: errorMessage,
+      });
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchNationalExams('examType')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAMS_FAILED,
               payload: errorMessage,
             }),
           ).to.be.true;
