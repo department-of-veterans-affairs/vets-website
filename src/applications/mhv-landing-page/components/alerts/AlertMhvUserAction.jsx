@@ -42,6 +42,7 @@ const AlertMhvUserAction = ({ errorCode, testId }) => {
 };
 
 AlertMhvUserAction.defaultProps = {
+  title: 'Contact the My HealtheVet help desk: Error code',
   errorCode: 'unknown',
   recordEvent: recordEventFn,
   ssoe: false,
@@ -49,6 +50,7 @@ AlertMhvUserAction.defaultProps = {
 };
 
 AlertMhvUserAction.propTypes = {
+  title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   ssoe: PropTypes.bool,
