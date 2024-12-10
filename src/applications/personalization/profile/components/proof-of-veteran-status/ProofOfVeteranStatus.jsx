@@ -56,6 +56,10 @@ const ProofOfVeteranStatus = ({
     serviceHistory[0].branchOfService,
   )} • ${latestServiceDateRange}`;
 
+  const userHasRequiredCardData = !!(
+    serviceHistory.length && formattedFullName
+  );
+
   const pdfDataOld = {
     title: `Veteran status card for ${formattedFullName}`,
     details: {
@@ -181,74 +185,90 @@ const ProofOfVeteranStatus = ({
         <p className="va-introtext">
           This card identifies a Veteran of the U.S. Uniformed Services.
         </p>
-        {vetStatusEligibility.confirmed ? (
-          <>
-            {errors?.length > 0 ? (
-              <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                <va-alert status="error" uswds>
-                  {errors[0]}
-                </va-alert>
-              </div>
-            ) : null}
-            <div className="vads-l-grid-container--full">
-              <div className="vads-l-row">
-                <ProofOfVeteranStatusCard
-                  edipi={edipi}
-                  formattedFullName={formattedFullName}
-                  latestService={latestService}
-                  totalDisabilityRating={totalDisabilityRating}
-                />
-              </div>
-            </div>
-            <div className="vads-u-font-size--md">
-              <va-link
-                download
-                filetype="PDF"
-                // exception to eslint: the url is a dynamically generated blob url
-                // eslint-disable-next-line no-script-url
-                href="javascript:void(0)"
-                text="Download and print your Veteran status card"
-                onClick={createPdf}
-              />
-            </div>
-            <div className="vads-u-margin-y--4">
-              <MobileAppCallout
-                headingText="Get proof of Veteran status on your mobile device"
-                bodyText={
-                  <>
-                    You can use our mobile app to get proof of Veteran status.
-                    To get started, download the{' '}
-                    <strong> VA: Health and Benefits </strong> mobile app.
-                  </>
-                }
-              />
-            </div>
-          </>
-        ) : null}
 
-        {!vetStatusEligibility.confirmed &&
-        vetStatusEligibility.message.length > 0 ? (
+        {userHasRequiredCardData ? (
           <>
-            <div>
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="warning"
-                visible
-              >
-                {componentizedMessage.map((message, i) => {
-                  if (i === 0) {
-                    return (
-                      <p key={i} className="vads-u-margin-top--0">
-                        {message}
-                      </p>
-                    );
-                  }
-                  return <p key={i}>{message}</p>;
-                })}
-              </va-alert>
-            </div>
+            {vetStatusEligibility.confirmed ? (
+              <>
+                {errors?.length > 0 ? (
+                  <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                    <va-alert status="error" uswds>
+                      {errors[0]}
+                    </va-alert>
+                  </div>
+                ) : null}
+                <div className="vads-l-grid-container--full">
+                  <div className="vads-l-row">
+                    <ProofOfVeteranStatusCard
+                      edipi={edipi}
+                      formattedFullName={formattedFullName}
+                      latestService={latestService}
+                      totalDisabilityRating={totalDisabilityRating}
+                    />
+                  </div>
+                </div>
+                <div className="vads-u-font-size--md">
+                  <va-link
+                    download
+                    filetype="PDF"
+                    // exception to eslint: the url is a dynamically generated blob url
+                    // eslint-disable-next-line no-script-url
+                    href="javascript:void(0)"
+                    text="Download and print your Veteran status card"
+                    onClick={createPdf}
+                  />
+                </div>
+                <div className="vads-u-margin-y--4">
+                  <MobileAppCallout
+                    headingText="Get proof of Veteran status on your mobile device"
+                    bodyText={
+                      <>
+                        You can use our mobile app to get proof of Veteran
+                        status. To get started, download the{' '}
+                        <strong> VA: Health and Benefits </strong> mobile app.
+                      </>
+                    }
+                  />
+                </div>
+              </>
+            ) : null}
+
+            {!vetStatusEligibility.confirmed &&
+            vetStatusEligibility.message.length > 0 ? (
+              <>
+                <div>
+                  <va-alert
+                    close-btn-aria-label="Close notification"
+                    status="warning"
+                    visible
+                  >
+                    {componentizedMessage.map((message, i) => {
+                      if (i === 0) {
+                        return (
+                          <p key={i} className="vads-u-margin-top--0">
+                            {message}
+                          </p>
+                        );
+                      }
+                      return <p key={i}>{message}</p>;
+                    })}
+                  </va-alert>
+                </div>
+              </>
+            ) : null}
           </>
-        ) : null}
+        ) : (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <p className="vads-u-margin-top--0">
+              We’re sorry. There’s a problem with our system. We can’t show your
+              Veteran status card right now. Try again later.
+            </p>
+          </va-alert>
+        )}
       </div>
     </>
   );
