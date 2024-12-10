@@ -113,12 +113,22 @@ const RadiologyImagesList = () => {
 
   if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
     return (
-      <AccessTroubleAlertBox
-        alertType={accessAlertTypes.IMAGE_STATUS}
-        className="vads-u-margin-bottom--9"
-      />
+      <>
+        <h1
+          className="vads-u-margin-bottom--0"
+          aria-describedby="radiology-date"
+        >
+          Images
+          {radiologyDetails?.name && `: ${radiologyDetails.name}`}
+        </h1>
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.IMAGE_STATUS}
+          className="vads-u-margin-bottom--9"
+        />
+      </>
     );
   }
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {radiologyDetails ? (
