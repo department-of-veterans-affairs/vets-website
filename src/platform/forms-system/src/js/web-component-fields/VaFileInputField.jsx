@@ -38,6 +38,7 @@ const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
   const [localFile, setLocalFile] = useState(null);
+  const [uploadInProgress, setUploadInProgress] = useState(false);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
 
@@ -84,11 +85,19 @@ const VaFileInputField = props => {
             new File([blob], uploadedFile.name, { type: 'application/pdf' }),
         );
       setLocalFile(file);
+      setUploadInProgress(false);
     }
   };
 
   const handleVaChange = e => {
-    const fileFromEvent = e.detail.files[0] || { name: '', size: 0 };
+    const fileFromEvent = e.detail.files[0];
+    if (!fileFromEvent) {
+      props.childrenProps.onChange({ localFilePath: '' });
+      setLocalFile(null);
+      setUploadInProgress(false);
+      return;
+    }
+
     if (
       localFile?.lastModified === fileFromEvent.lastModified &&
       localFile?.size === fileFromEvent.size
@@ -103,6 +112,7 @@ const VaFileInputField = props => {
         formNumber,
         fileFromEvent,
         onFileUploaded,
+        () => setUploadInProgress(true),
       ),
     );
   };
@@ -110,6 +120,7 @@ const VaFileInputField = props => {
   return (
     <VaFileInput
       {...mappedProps}
+      error={uploadInProgress ? '' : mappedProps.error}
       value={localFile}
       onVaChange={handleVaChange}
     />

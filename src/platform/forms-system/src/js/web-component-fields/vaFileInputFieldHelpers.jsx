@@ -15,6 +15,7 @@ export const uploadScannedForm = (
   formNumber,
   fileToUpload,
   onFileUploaded,
+  onProgress,
 ) => {
   const uiOptions = {
     fileUploadUrl,
@@ -28,7 +29,7 @@ export const uploadScannedForm = (
     const uploadRequest = uploadFile(
       fileToUpload,
       uiOptions,
-      () => {}, // onProgress
+      onProgress,
       file => onFileUploaded(file),
       () => {}, // onError
     );
