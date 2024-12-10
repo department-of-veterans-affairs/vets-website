@@ -1,6 +1,6 @@
 /**
  * @summary
- * Patient Provider Relationshp
+ * Patient Provider Relationship
  *
  * @typedef {Object} PatientProviderRelationship
  * @global
