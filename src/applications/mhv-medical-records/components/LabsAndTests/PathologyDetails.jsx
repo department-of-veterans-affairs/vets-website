@@ -76,7 +76,7 @@ ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
-Date and time collected: ${record.date}\n
+Date and time collected: ${record.dateCollected}\n
 Site or sample tested: ${record.sampleTested} \n
 Collection sample: ${record.sampleFrom} \n
 Location: ${record.labLocation} \n
@@ -121,12 +121,6 @@ ${record.results} \n`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Date and time collected
-        </h3>
-        <p data-testid="pathology-date" data-dd-privacy="mask">
-          {record.date}
-        </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
