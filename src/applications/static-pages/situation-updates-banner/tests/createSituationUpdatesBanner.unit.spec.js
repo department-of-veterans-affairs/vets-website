@@ -3,9 +3,8 @@ import sinon from 'sinon';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import createSituationUpdatesBanner, {
-  BannerContainer,
-} from '../createSituationUpdatesBanner';
+import { BannerContainer } from '../bannerContainer';
+import createSituationUpdatesBanner from '../createSituationUpdatesBanner';
 import widgetTypes from '../../widgetTypes';
 
 describe('createSituationUpdatesBanner', () => {

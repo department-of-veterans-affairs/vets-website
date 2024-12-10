@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 
 const staticData = {
   typeOfCare: 'Primary Care',
@@ -30,7 +30,7 @@ export default function ConfirmApprovedPage() {
   }, []);
 
   return (
-    <FormLayout>
+    <ReferralLayout hasEyebrow>
       <div>
         <h1>Review your appointment details</h1>
         <h3>You're scheduling a {confirmedData.typeOfCare} appointment</h3>
@@ -112,6 +112,6 @@ export default function ConfirmApprovedPage() {
           />
         </div>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }

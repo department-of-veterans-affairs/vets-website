@@ -53,6 +53,7 @@ import PhoneReviewField from '../components/PhoneReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
+import DirectDepositCustomReview from '../components/DirectDepositCustomReview';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -1425,6 +1426,7 @@ const formConfig = {
         directDeposit: {
           path: 'direct-deposit',
           title: 'Enter your direct deposit information',
+          CustomPageReview: DirectDepositCustomReview,
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
         },

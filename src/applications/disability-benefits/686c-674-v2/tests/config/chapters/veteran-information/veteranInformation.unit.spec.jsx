@@ -8,19 +8,6 @@ import VeteranInformationComponent from '../../../../config/chapters/veteran-inf
 const defaultStore = createCommonStore();
 
 describe('Veteran Information Component', () => {
-  it('Should Render an h3 element with the correct text', () => {
-    const { getByText } = render(
-      <Provider store={defaultStore}>
-        <VeteranInformationComponent />
-      </Provider>,
-    );
-
-    const heading = getByText(
-      'Confirm the personal information we have on file for you.',
-    );
-    expect(heading.tagName).to.equal('H3');
-  });
-
   it('Should Render a div with the specific class name', () => {
     const { container } = render(
       <Provider store={defaultStore}>
@@ -33,7 +20,7 @@ describe('Veteran Information Component', () => {
   });
 
   it('should render ssn last four', () => {
-    const formData = { veteran: { ssnLastFour: '1234' } };
+    const formData = { veteranInformation: { ssnLastFour: '1234' } };
     const store = {
       getState: () => ({
         user: {
@@ -61,7 +48,7 @@ describe('Veteran Information Component', () => {
   });
 
   it('should render vaFile last 4', () => {
-    const formData = { veteran: { vaFileLastFour: '1234' } };
+    const formData = { veteranInformation: { vaFileLastFour: '1234' } };
     const store = {
       getState: () => ({
         user: {

@@ -31,13 +31,51 @@ describe('Supplemental Claims option for facility type page', () => {
     );
 
     const group = $('va-checkbox-group', container);
-    // Not required
-    expect(group.getAttribute('required')).to.eq('false');
+    expect(group.getAttribute('required')).to.eq('true');
     expect(group.getAttribute('label-header-level')).to.eq('3');
     expect($$('va-checkbox', container).length).to.eq(6);
 
     fireEvent.click($('button[type="submit"]', container));
 
+    expect($('va-checkbox-group[error]', container)).to.exist;
+    expect(onSubmitSpy.called).to.be.false;
+  });
+
+  it('should submit when a checkbox is checked', () => {
+    const onSubmitSpy = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ facilityTypes: { vamc: true } }}
+        formData={{}}
+        onSubmit={onSubmitSpy}
+      />,
+    );
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect($('va-checkbox-group[error]', container)).to.not.exist;
+    expect(onSubmitSpy.called).to.be.true;
+  });
+
+  it('should submit when the "other" input is filled', () => {
+    const onSubmitSpy = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ facilityTypes: { other: 'test' } }}
+        formData={{}}
+        onSubmit={onSubmitSpy}
+      />,
+    );
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect($('va-checkbox-group[error]', container)).to.not.exist;
     expect(onSubmitSpy.called).to.be.true;
   });
 });

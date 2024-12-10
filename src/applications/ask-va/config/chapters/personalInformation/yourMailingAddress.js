@@ -42,6 +42,9 @@ const yourMailingAddressPage = {
       'ui:title': 'Country',
       'ui:widget': CountrySelect,
       'ui:required': form => !form.onBaseOutsideUS,
+      'ui:errorMessages': {
+        required: 'Please select your country',
+      },
     },
     address: addressPageUISchema,
   },

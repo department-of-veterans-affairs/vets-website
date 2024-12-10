@@ -7,6 +7,7 @@ import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
 import VitalDetails from '../../containers/VitalDetails';
 import vital from '../fixtures/vital.json';
+import vitalWithVitalString from '../fixtures/vitalWithVitalString.json';
 import { convertVital } from '../../reducers/vitals';
 
 describe('Vital details container', () => {
@@ -131,6 +132,33 @@ describe('Vitals details container with errors', () => {
           exact: false,
         }),
       ).to.exist;
+    });
+  });
+});
+
+describe('Vitals details container with valueString', () => {
+  const initialState = {
+    mr: {
+      vitals: {
+        vitalDetails: [convertVital(vitalWithVitalString)],
+      },
+    },
+    user,
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<VitalDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals/breathing-rate-history',
+    });
+  });
+
+  it('displays the result string when the vital has valueString instead of valueQuantity', async () => {
+    await waitFor(() => {
+      const result = screen.getByTestId('vital-result');
+      expect(result.innerHTML).to.equal('Unavailable');
     });
   });
 });

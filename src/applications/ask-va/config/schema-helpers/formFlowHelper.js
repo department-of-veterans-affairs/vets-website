@@ -3,7 +3,6 @@ import {
   CategoryEducation,
   CHAPTER_2,
   CHAPTER_3,
-  healthcareCategoryLabels,
   schoolInYourProfileOptions,
   yourRoleOptionsEducation,
 } from '../../constants';
@@ -13,6 +12,7 @@ import {
   isPostalCodeRequired,
   isStateOfPropertyRequired,
   isVRERequired,
+  isHealthFacilityRequired,
 } from '../helpers';
 
 // Personal Information
@@ -302,7 +302,7 @@ const ch3Pages = {
     CustomPageReview: CustomPageReviewField,
   },
   yourVAHealthFacility: {
-    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
+    depends: form => isHealthFacilityRequired(form),
     path: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.PATH,
     title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
     CustomPage: YourVAHealthFacilityPage,

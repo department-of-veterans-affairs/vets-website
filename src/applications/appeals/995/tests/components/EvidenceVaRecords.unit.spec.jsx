@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 import {
@@ -107,7 +108,7 @@ describe('<EvidenceVaRecords>', () => {
 
   const getErrorElements = container =>
     $$(
-      'va-text-input[error], va-checkbox-group[error], va-memorable-date[error]',
+      'va-text-input[error], va-checkbox-group[error], va-date[error], va-memorable-date[error]',
       container,
     );
 
@@ -846,6 +847,40 @@ describe('<EvidenceVaRecords>', () => {
       expect($('va-checkbox-group', container).textContent).to.contain(
         NO_ISSUES_SELECTED,
       );
+    });
+
+    it('should not move focus after submitting & blurring first input', async () => {
+      const goSpy = sinon.spy();
+      const index = 1;
+      const data = {
+        ...mockData,
+        showScNewForm: true,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation, {}, mockLocation2],
+      };
+      const page = setup({
+        index,
+        goForward: goSpy,
+        goToPath: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // continue
+      clickContinue(container);
+
+      const input = $('va-text-input', container);
+      fireEvent.blur(input);
+      userEvent.tab(); // ensure focus is not trapped; see #98137
+
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+        expect(goSpy.called).to.be.false;
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
+        expect(document.activeElement).to.not.eq(input);
+        // focus called one additional time when focus shifts back to the error
+        expect(focusElementSpy.args.length).to.be.lessThan(3);
+      });
     });
   });
 });

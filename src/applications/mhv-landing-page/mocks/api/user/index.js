@@ -18,6 +18,7 @@ const defaultUser = {
         first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
+        preferred_Name: 'Ginny',
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,

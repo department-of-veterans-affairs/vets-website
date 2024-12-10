@@ -429,6 +429,7 @@ module.exports = async (env = {}) => {
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
+        querystring: require.resolve('querystring-es3'),
         fs: false,
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),

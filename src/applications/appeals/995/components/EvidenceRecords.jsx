@@ -118,7 +118,6 @@ export const IssueAndDates = ({
           monthYearOnly
           error={showError('treatmentDate')}
           label={content.treatmentDate}
-          hint={content.treatmentHint}
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
           value={currentData.treatmentDate}
@@ -177,7 +176,6 @@ IssueAndDates.propTypes = {
     issuesLabel: PropTypes.string,
     noDate: PropTypes.bool,
     treatmentDate: PropTypes.string,
-    treatmentHint: PropTypes.string,
   }),
   currentData: PropTypes.shape({
     issues: PropTypes.array,

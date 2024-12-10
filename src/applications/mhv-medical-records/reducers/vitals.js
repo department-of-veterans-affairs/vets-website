@@ -56,8 +56,13 @@ const getMeasurement = (record, type) => {
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  const unit = getUnit(type, record.valueQuantity?.code);
-  return `${record.valueQuantity?.value}${unit}`;
+
+  if (record.valueQuantity) {
+    const unit = getUnit(type, record.valueQuantity?.code);
+    return `${record.valueQuantity?.value}${unit}`;
+  }
+
+  return record.valueString || EMPTY_FIELD;
 };
 
 export const extractLocation = vital => {

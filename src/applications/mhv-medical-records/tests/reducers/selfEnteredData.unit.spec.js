@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { Actions } from '../../util/actionTypes';
 import {
   convertActivityJournal,
   convertAllergies,
@@ -28,8 +29,10 @@ import {
   formatTimestamp,
   mapValue,
   NONE_ENTERED,
+  selfEnteredReducer,
   sortDesc,
 } from '../../reducers/selfEnteredData';
+import { selfEnteredTypes } from '../../util/constants';
 import seiVitals from '../fixtures/sei/seiVitals.json';
 
 describe('mapValue', () => {
@@ -1556,5 +1559,37 @@ describe('convertMedications', () => {
   it('should return null for an empty or invalid input', () => {
     expect(convertMedications(null)).to.be.null;
     expect(convertMedications([])).to.deep.equal([]);
+  });
+});
+
+describe('selfEnteredReducer', () => {
+  it('adds errors', () => {
+    let newState = selfEnteredReducer(
+      { errors: [] },
+      {
+        type: Actions.SelfEntered.ADD_ERROR,
+        payload: { type: selfEnteredTypes.VITALS },
+      },
+    );
+
+    expect(newState.errors.length).to.equal(1);
+    expect(newState.errors[0]).to.equal(selfEnteredTypes.VITALS);
+
+    newState = selfEnteredReducer(newState, {
+      type: Actions.SelfEntered.ADD_ERROR,
+      payload: { type: selfEnteredTypes.ALLERGIES },
+    });
+
+    expect(newState.errors.length).to.equal(2);
+    expect(newState.errors[1]).to.equal(selfEnteredTypes.ALLERGIES);
+  });
+
+  it('clears errors', () => {
+    const newState = selfEnteredReducer(
+      { errors: [selfEnteredTypes.VITALS] },
+      { type: Actions.SelfEntered.CLEAR_ERRORS },
+    );
+
+    expect(newState.errors.length).to.equal(0);
   });
 });

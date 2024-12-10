@@ -3,7 +3,7 @@ describe('Unauthed User Flow Test', () => {
     const appPaths = [
       // While the page is in maintenance, it doesn't need authed
       // Add Below code after content build code is merged and this code is deployed
-      // '/education/gi-bill/post-9-11/ch-33-benefit/status',
+      '/education/check-remaining-post-9-11-gi-bill-benefits/status',
       '/records/download-va-letters/letters',
       '/track-claims',
     ];

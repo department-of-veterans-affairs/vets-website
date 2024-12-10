@@ -144,6 +144,11 @@
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
+    },
+    "view:userFullName": {
+      "view:first": "Mark",
+      "view:middle": "Tux",
+      "view:last": "Polarbear"
     }
   }
 }

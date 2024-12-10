@@ -1,4 +1,3 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
   Title,
   textUI,
@@ -10,6 +9,7 @@ import {
   PolicyOrGroupTitle,
   TricarePolicyDescription,
 } from '../components/FormDescriptions';
+import { FULL_SCHEMA } from '../utils/imports';
 import { validatePolicyNumber } from '../utils/validation';
 import content from '../locales/en/content.json';
 
@@ -17,7 +17,7 @@ const {
   providers: {
     items: { properties: policy },
   },
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 /**
  * Declare schema attributes for policy information page

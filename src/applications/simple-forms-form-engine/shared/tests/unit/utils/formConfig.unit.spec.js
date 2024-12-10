@@ -8,7 +8,11 @@ import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
 import { normalizedForm } from '../../../_config/formConfig';
-import { createFormConfig, formatPages } from '../../../utils/formConfig';
+import {
+  createFormConfig,
+  formatPages,
+  statementOfTruthBody,
+} from '../../../utils/formConfig';
 
 const [
   yourPersonalInfo,
@@ -85,6 +89,13 @@ describe('createFormConfig', () => {
     expect(screen.getByTestId('res-burden')).to.have.text(
       `resBurden: ${normalizedForm.ombInfo.resBurden}`,
     );
+  });
+
+  it('includes a statement of truth', () => {
+    const statementOfTruth = formConfig.preSubmitInfo.statementOfTruth;
+
+    expect(statementOfTruth.body).to.eq(statementOfTruthBody);
+    expect(statementOfTruth.fullNamePath).to.eq('fullName');
   });
 });
 

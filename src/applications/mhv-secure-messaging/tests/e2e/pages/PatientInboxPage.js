@@ -357,7 +357,7 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);

@@ -169,14 +169,6 @@ const profileContactInfo = ({
           contactInfoPageKey={contactInfoPageKey}
         />
       ),
-      // ContactInfo({
-      //   ...props,
-      //   content,
-      //   contactPath,
-      //   keys,
-      //   requiredKeys: contactInfoRequiredKeys,
-      //   contactInfoPageKey,
-      // }),
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,

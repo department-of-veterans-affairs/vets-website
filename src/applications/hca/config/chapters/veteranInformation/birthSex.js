@@ -1,8 +1,8 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { gender } = fullSchemaHca.properties;
+const { gender } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

@@ -11,7 +11,7 @@ export const schema = {
     spouseInformation: {
       type: 'object',
       properties: {
-        spouseLegalName: fullNameNoSuffixSchema,
+        fullName: fullNameNoSuffixSchema,
       },
     },
     'view:certificateNotice': {
@@ -24,7 +24,7 @@ export const schema = {
 export const uiSchema = {
   spouseInformation: {
     ...titleUI('Spouse’s current legal name'),
-    spouseLegalName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
+    fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
   },
   'view:certificateNotice': {
     'ui:description': certificateNotice,

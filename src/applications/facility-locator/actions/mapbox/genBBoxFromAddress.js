@@ -45,22 +45,21 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
     if (isPostcode) {
       types = ['postcode'];
     }
-
     mbxClient
       .forwardGeocode({
         countries: CountriesList,
         types,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
+        proximity: 'ip',
       })
       .send()
       .then(({ body: { features } }) => {
         const zip =
-          features[0].context.find(v => v.id.includes('postcode')) || {};
+          features[0].context?.find(v => v.id.includes('postcode')) || {};
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         const featureBox = features[0].box;
-
         dispatch({
           type: GEOCODE_COMPLETE,
           payload: query.usePredictiveGeolocation
@@ -123,7 +122,7 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
           },
         });
       })
-      .catch(_ => {
+      .catch(_e => {
         dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });

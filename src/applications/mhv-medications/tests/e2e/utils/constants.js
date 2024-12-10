@@ -1,5 +1,7 @@
 export const Data = {
   PAGINATION_TEXT: 'Showing 1 - 20 of 29 medications',
+  PAGINATION_ALL_MEDICATIONS:
+    'Showing 1 - 20 of 29 medications, alphabetically by status',
   PAGINATION_ACTIVE_TEXT:
     'Showing 1 - 20 of 29 active medications, alphabetically by status',
   PAGINATION_RENEW:

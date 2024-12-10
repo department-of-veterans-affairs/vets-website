@@ -4,20 +4,18 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import manifest from '../../../../manifest.json';
-import content from '../../../../shared/locales/en/content.json';
-
-import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
-
-import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import { taskCompletePagePattern1 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import IntroductionPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/IntroductionPage1010ezr';
+import content from 'applications/_mock-form-ae-design-patterns/shared/locales/en/content.json';
+import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/utils/constants';
+import { prefillTransformer } from 'applications/_mock-form-ae-design-patterns/utils/helpers/prefill-transformer';
 
 import { EditAddress } from '../EditContactInfoTaskGreen';
-import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 import VeteranProfileInformation from '../VeteranProfileInformation';
 import { MailingAddressInfoPageTaskGreen } from '../MailingAddressInfoPageTaskGreen';
-import { taskCompletePagePattern1 } from '../../../../shared/config/taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -58,16 +56,10 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-green',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
-    //   expired: 'Your saved mock form ae design patterns benefits application (00-1234) has expired. If you want to apply for mock form ae design patterns benefits, please start a new application.',
-    //   saved: 'Your mock form ae design patterns benefits application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillTransformer,
   prefillEnabled: true,

@@ -16,13 +16,15 @@ export const uiSchema = {
     },
   }),
 };
+
 export const schema = {
   type: 'object',
   required: ['state'],
   properties: {
     state: {
       ...state,
-      enum: constants.states.USA.map(st => st.label),
+      enum: constants.states.USA.map(st => st.value),
+      enumNames: constants.states.USA.map(st => st.label),
     },
   },
 };

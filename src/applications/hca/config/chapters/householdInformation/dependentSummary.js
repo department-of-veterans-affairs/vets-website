@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { DEPENDENT_VIEW_FIELDS } from '../../../utils/constants';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { dependents } = fullSchemaHca.properties;
+const { dependents } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {},

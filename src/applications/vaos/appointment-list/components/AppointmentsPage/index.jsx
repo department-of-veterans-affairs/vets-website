@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
@@ -31,6 +31,7 @@ import ReferralAppLink from '../../../referral-appointments/components/ReferralA
 import ReferralTaskCard from '../../../referral-appointments/components/ReferralTaskCard';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { routeToCCPage } from '../../../referral-appointments/flow';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -48,6 +49,7 @@ renderWarningNotification.propTypes = {
 };
 
 export default function AppointmentsPage() {
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -79,7 +81,7 @@ export default function AppointmentsPage() {
         return;
       }
       // TODO: Get referral data from redux
-      const referralFromId = createReferral(new Date().toISOString(), id);
+      const referralFromId = createReferral('2024-09-09', id);
       setReferral(referralFromId);
     },
     [location, featureCCDirectScheduling],
@@ -150,6 +152,11 @@ export default function AppointmentsPage() {
     [pendingAppointments],
   );
 
+  const handleCCLinkClick = e => {
+    e.preventDefault();
+    routeToCCPage(history, 'referralsAndRequests');
+  };
+
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
@@ -202,6 +209,7 @@ export default function AppointmentsPage() {
             href="/my-health/appointments/referrals-requests"
             text="Review requests and referrals"
             data-testid="review-requests-and-referrals"
+            onClick={handleCCLinkClick}
           />
         </div>
       )}

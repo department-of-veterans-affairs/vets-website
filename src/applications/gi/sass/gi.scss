@@ -352,3 +352,19 @@
     }
   }
 }
+
+.national-exams-container {
+  .national-exams-description {
+    font-size: 20px;
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+    font-weight: 400;
+    line-height: 34px;
+  }
+  .provider-info-container > span {
+    gap: 1rem;
+  }
+  va-accordion-item {
+    margin-bottom: 20px;
+  }
+}

@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -547,7 +546,7 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
   },
   {
-    name: 'Veterans Group Life Insurance (VGLI)',
+    name: "Veterans' Group Life Insurance (VGLI)",
     category: categories.LIFE_INSURANCE,
     id: 'VGL',
     description:
@@ -558,18 +557,14 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [yesNoType.YES],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
         separationTypes.UP_TO_2_YEARS,
       ],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
@@ -614,7 +609,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,

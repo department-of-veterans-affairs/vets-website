@@ -280,8 +280,11 @@ const employersPages = arrayBuilderPages(
     employerDateRangePage: pageBuilder.itemPage({
       title: 'Employment dates',
       path: 'employers/:index/date-range',
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
-        return !props.formData.currentlyEmployed
+        const item =
+          props.formData?.[arrayBuilderOptions.arrayPath]?.[props.index];
+        return !item?.currentlyEmployed
           ? helpers.navForwardKeepUrlParams(props)
           : helpers.navForwardFinishedItem(props);
       },

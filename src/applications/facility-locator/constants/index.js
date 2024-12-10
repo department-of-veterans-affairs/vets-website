@@ -158,13 +158,19 @@ export const MapboxInit = {
  * Mapbox api request countries
  */
 
-export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
+export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp', 'vi'];
 
 /**
  * Mapbox api request types
  */
 
-export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
+export const MAPBOX_QUERY_TYPES = [
+  'place',
+  'region',
+  'postcode',
+  'locality',
+  'country',
+];
 
 /**
  * Max search area in miles

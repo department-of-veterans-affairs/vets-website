@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { MedicarePartADescription } from '../../../components/FormDescriptions';
 
-const { isEnrolledMedicarePartA } = fullSchemaHca.properties;
+const { isEnrolledMedicarePartA } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

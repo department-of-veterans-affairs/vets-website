@@ -120,7 +120,7 @@ const generate = async data => {
         .font(config.paragraph.font)
         .fontSize(config.paragraph.size)
         .text(
-          'You can use your Veteran status card to get discounts for at many stores, businesses, and restaurants. Additionally, you’ll be able to use your Veteran status card to checkout at the commissaries and exchanges on base.',
+          'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
           doc.page.margins.left,
           doc.y,
           {
@@ -135,7 +135,7 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  doc.moveDown(0.5);
+  doc.moveDown(1);
   const cardSection = doc.struct('Sect');
   wrapper.add(cardSection);
 

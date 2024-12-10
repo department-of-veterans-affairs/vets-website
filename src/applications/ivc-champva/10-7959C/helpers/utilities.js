@@ -22,6 +22,14 @@ export function nameWording(
   return sharedNameWording(formData, isPosessive, cap, firstNameOnly);
 }
 
+export function nameWordingExt(formData) {
+  const posessive = nameWording(formData, true, false, true);
+  const nonPosessive = nameWording(formData, false, false, true);
+  const beingVerb =
+    nonPosessive === 'you' ? `${nonPosessive}’re` : `${nonPosessive} is`;
+  return { posessive, nonPosessive, beingVerb };
+}
+
 /**
  * Retrieves an array of objects containing the property 'attachmentId'
  * from the given object.

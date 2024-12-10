@@ -75,6 +75,32 @@ describe('VerifyButton', () => {
       expect(verifyHandlerSpy.called).to.be.true;
       verifyHandlerSpy.reset();
     });
+
+    it('should include `queryParams` if required', () => {
+      const verifyHandlerSpy = sinon.spy(verifyHandler);
+      const { container } = render(
+        <Provider store={store}>
+          <VerifyButton
+            csp={policy}
+            onClick={verifyHandlerSpy}
+            queryParams={{ operation: 'interstitial_signup' }}
+          />
+        </Provider>,
+      );
+
+      const button = $(`.${policy}-verify-buttons`, container);
+      fireEvent.click(button);
+      expect(verifyHandlerSpy.called).to.be.true;
+      expect(
+        verifyHandlerSpy.calledWith({
+          policy,
+          useOAuth: false,
+          queryParams: { operation: 'interstitial_signup' },
+        }),
+      ).to.be.true;
+
+      verifyHandlerSpy.reset();
+    });
   });
 });
 

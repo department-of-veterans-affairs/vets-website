@@ -11,7 +11,7 @@ import TestComponent from './TestComponent';
 
 describe('Community Care Referrals', () => {
   describe('useGetReferralById hook', () => {
-    const now = new Date();
+    const now = '2024-11-20';
     const sandbox = sinon.createSandbox();
     beforeEach(() => {
       global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();

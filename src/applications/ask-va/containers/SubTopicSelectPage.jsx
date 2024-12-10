@@ -117,11 +117,14 @@ const SubTopicSelectPage = props => {
 };
 
 SubTopicSelectPage.propTypes = {
-  loggedIn: PropTypes.bool,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   id: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  topicID: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  topicID: PropTypes.string,
 };
 
 function mapStateToProps(state) {

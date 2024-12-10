@@ -45,21 +45,33 @@ const formatChapters = chapters =>
     {},
   );
 
+export const statementOfTruthBody =
+  'I confirm that the identifying information in this form is accurate and ' +
+  'has been represented correctly.';
+
+/** @returns {FormConfig} */
 export const createFormConfig = (form, options) => {
   const { chapters, formId, ombInfo, title } = form;
   const { rootUrl, trackingPrefix } = options;
   const subTitle = `VA Form ${formId}`;
 
   return {
+    preSubmitInfo: {
+      statementOfTruth: {
+        body: statementOfTruthBody,
+        messageAriaDescribedby: statementOfTruthBody,
+        fullNamePath: 'fullName',
+      },
+    },
     rootUrl,
     urlPrefix: '/',
-    trackingPrefix,
     // eslint-disable-next-line no-console
     submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},
+    trackingPrefix,
     version: 0,
     prefillEnabled: true,
     savedFormMessages: {

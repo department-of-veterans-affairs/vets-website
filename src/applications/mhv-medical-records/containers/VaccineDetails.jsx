@@ -103,7 +103,7 @@ ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date}\n
+Date received: ${record.date}\n
 ${txtLine}\n\n
 Location: ${record.location}\n`;
 

@@ -6,32 +6,15 @@ import {
 
 export const formSignatureSchema = {
   uiSchema: {
-    ...titleUI('Signer information'),
+    ...titleUI('Your information'),
     certifierRole: {
       ...radioUI({
-        updateUiSchema: formData => {
-          const labels = {
-            applicant: `I'm ${
-              formData?.applicantName?.first
-            } and I'm signing for myself`,
-            other: `I'm a parent, spouse, or legal representative signing on behalf of ${
-              formData?.applicantName?.first
-            }`,
-          };
-
-          return {
-            'ui:title': `Who’s signing this form for ${
-              formData?.applicantName?.first
-            }?`,
-            'ui:options': {
-              labels,
-            },
-          };
-        },
+        title: 'Which of these best describes you?',
         required: () => true,
         labels: {
-          applicant: 'The beneficiary',
-          other: 'A representative on behalf of the beneficiary',
+          applicant: 'I’m filling out this form for myself',
+          other:
+            'I’m a parent, spouse, or legal representative signing on behalf of the beneficiary',
         },
       }),
     },

@@ -7,6 +7,19 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const blueButtonRecordTypes = {
+  MEDICATIONS: 'medications',
+  APPOINTMENTS: 'appointments',
+  DEMOGRAPHICS: 'demographics',
+  MILITARY_SERVICE: 'military service',
+  ACCOUNT_SUMMARY: 'account summary',
+};
+
+export const medicationTypes = {
+  VA: 'va',
+  NON_VA: 'non-va',
+};
+
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
@@ -118,6 +131,10 @@ export const interpretationMap = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+export const NONE_RECORDED = 'None recorded';
+export const NO_INFO_REPORTED = 'No information reported';
+export const NA = 'N/A';
+export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
@@ -199,6 +216,22 @@ export const pageTitles = {
     'Download All Medical Records - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
+};
+
+export const selfEnteredTypes = {
+  VITALS: 'vitals',
+  ALLERGIES: 'allergies',
+  FAMILY_HISTORY: 'family history',
+  VACCINES: 'vaccines',
+  TEST_ENTRIES: 'test entries',
+  MEDICAL_EVENTS: 'medical events',
+  MILITARY_HISTORY: 'military history',
+  HEALTH_PROVIDERS: 'health providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  FOOD_JOURNAL: 'food journal',
+  ACTIVITY_JOURNAL: 'activity journal',
+  MEDICATIONS: 'medications',
 };
 
 export const allergyTypes = {

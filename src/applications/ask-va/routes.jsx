@@ -19,11 +19,6 @@ const routes = [
     component: ResponseSentPage,
   },
   {
-    path: '/demo',
-    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
-  },
-  {
     path: '/',
     component: App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },

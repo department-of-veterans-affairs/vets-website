@@ -34,13 +34,12 @@ export const content = {
     'We’ll request your VA medical records from this facility or provider',
   locationAndName: 'Name of facility or provider that treated you',
   locationAndNameHint:
-    'You can enter the name of a VA medical center or clinic, Vet Center,  military treatment facility, or community care provider',
+    'You can enter the name of a VA medical center or clinic, military treatment facility, or community care provider (paid for by VA).',
 
   issuesLabel: 'What did they treat you for?',
   // dateStart: 'First treatment date (you can estimate)',
-  treatmentDate: 'When did they treat you?',
-  treatmentHint:
-    'If your treatment started in 2005 or later, you don’t need to provide dates',
+  treatmentDate:
+    'If you received treatment before 2005, when did they treat you?',
   noDate: 'I don’t have the date',
   // dateEnd: 'Last treatment date (you can estimate)',
   addAnotherLink: 'Add another VA or military treatment location',

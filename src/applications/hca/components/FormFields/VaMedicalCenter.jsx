@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import constants from 'vets-json-schema/dist/constants.json';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
+import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
+
+// expose React binding for web components
+const { VaSelect } = REACT_BINDINGS;
 
 const apiRequestWithUrl = `${
   environment.API_URL
@@ -155,7 +157,7 @@ const VaMedicalCenter = props => {
 
   // render the static facility name on review page
   if (reviewMode) {
-    const stateLabel = constants.states.USA.find(
+    const stateLabel = STATES_USA.find(
       state => state.value === localData['view:facilityState'],
     )?.label;
     return (
@@ -197,7 +199,7 @@ const VaMedicalCenter = props => {
         onBlur={handleBlur}
         required
       >
-        {constants.states.USA.map(s => {
+        {STATES_USA.map(s => {
           return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
             <option key={s.value} value={s.value}>
               {s.label}

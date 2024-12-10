@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -20,7 +19,11 @@ import {
   SHARED_PATHS,
   LAST_YEAR,
 } from '../../utils/constants';
+import { REACT_BINDINGS } from '../../utils/imports';
 import content from '../../locales/en/content.json';
+
+// expose React binding for web components
+const { VaModal } = REACT_BINDINGS;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;

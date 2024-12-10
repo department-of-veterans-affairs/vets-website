@@ -772,6 +772,12 @@ class MedicationsListPage {
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
     cy.contains('All medications').should('be.visible');
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"],[value="ALL Medications"],[aria-checked="true"]', {
+        force: true,
+      })
+      .should('exist');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
@@ -809,6 +815,13 @@ class MedicationsListPage {
     cy.get('[data-testid="zero-filter-results"]')
       .should('have.text', text)
       .and('be.focused');
+  };
+
+  clickResetFilterButtonOnFilterAccordionDropDown = () => {
+    cy.get('[data-testid="filter-reset-button"]').should('exist');
+    cy.get('[data-testid="filter-reset-button"]').click({
+      waitForAnimations: true,
+    });
   };
 }
 
