@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -64,6 +64,26 @@ const LandingPage = () => {
     () => isAcceleratingAllergies || isAcceleratingVitals,
     [isAcceleratingAllergies, isAcceleratingVitals],
   );
+  const accordionRef = useRef(null);
+
+  useEffect(() => {
+    const expandButton = accordionRef.current?.shadowRoot?.querySelector(
+      'button.va-accordion__button',
+    );
+    const handleClick = () => {
+      sendDataDogAction('Accordion Expand button');
+    };
+    if (expandButton) {
+      expandButton.addEventListener('click', handleClick);
+    }
+    // Cleanup function to remove the event listener
+    // prevents multiple event listeners from being added
+    return () => {
+      if (expandButton) {
+        expandButton.removeEventListener('click', handleClick);
+      }
+    };
+  });
 
   useEffect(
     () => {
@@ -420,7 +440,7 @@ const LandingPage = () => {
       </section>
       <section className="vads-u-margin-bottom--4">
         <h2>Questions about this medical records tool</h2>
-        <va-accordion bordered>
+        <va-accordion ref={accordionRef} bordered>
           <va-accordion-item
             bordered="true"
             data-dd-action-name="Where can I find health information"
