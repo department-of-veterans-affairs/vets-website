@@ -5,10 +5,7 @@ import { replaceWithStagingDomain } from 'platform/utilities/environment/staging
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
-import {
-  FORM_MOMENT_PRESENTATION_DATE_FORMAT,
-  FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
-} from '../constants';
+import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
 
 // helper for replacing the form title to keep same domain for testing in non production
@@ -34,9 +31,9 @@ export const deriveLatestIssue = (d1, d2) => {
   const date2Formatted = parseISO(d2);
 
   if (isAfter(date1Formatted, date2Formatted))
-    return format(date1Formatted, FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
+    return format(date1Formatted, FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 
-  return format(date2Formatted, FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
+  return format(date2Formatted, FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
 const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {

@@ -1,4 +1,4 @@
-import { parse, differenceInMilliseconds } from 'date-fns';
+import { parse, compareAsc } from 'date-fns';
 import { deriveLatestIssue } from '../components/SearchResult';
 import {
   FAF_SORT_OPTIONS,
@@ -54,9 +54,15 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
       new Date(),
     );
 
+    // return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
+    //   ? differenceInMilliseconds(dateA, dateB) // Oldest first (ascending)
+    //   : differenceInMilliseconds(dateB, dateA); // Newest first (descending)
+
+    const dateComparison = compareAsc(dateA, dateB);
+
     return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
-      ? differenceInMilliseconds(dateA, dateB) // Oldest first (ascending)
-      : differenceInMilliseconds(dateB, dateA); // Newest first (descending)
+      ? dateComparison // Oldest first (ascending)
+      : -dateComparison; // Newest first (descending)
   }
 
   // SORT BY ALPHABET
