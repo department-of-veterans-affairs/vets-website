@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -610,7 +609,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
