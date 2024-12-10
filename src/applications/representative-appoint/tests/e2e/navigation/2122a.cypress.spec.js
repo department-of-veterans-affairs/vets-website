@@ -21,15 +21,19 @@ describe('Unauthenticated', () => {
       // INTRO
       h.verifyUrl(ROUTES.INTRO);
       cy.injectAxeThenAxeCheck();
+
+      cy.injectAxeThenAxeCheck();
       h.clickStartUnauth();
 
       // CLAIMANT_TYPE
       h.verifyUrl(ROUTES.CLAIMANT_TYPE);
+      cy.injectAxeThenAxeCheck();
       cy.get('va-radio-option[value="No"] label').click();
       h.clickContinue();
 
       // REPRESENTATIVE_SELECT
       h.verifyUrl(ROUTES.REPRESENTATIVE_SELECT);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('#inputField').type('John');
 
@@ -43,15 +47,18 @@ describe('Unauthenticated', () => {
 
       // REPRESENTATIVE_CONTACT
       h.verifyUrl(ROUTES.REPRESENTATIVE_CONTACT);
+      cy.injectAxeThenAxeCheck();
       h.clickContinue();
 
       // CLAIMANT_RELATIONSHIP
       h.verifyUrl(ROUTES.CLAIMANT_RELATIONSHIP);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('claimantRelationship', 0);
       h.clickContinue();
 
       // CLAIMANT_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.CLAIMANT_PERSONAL_INFORMATION);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('input[name="root_applicantName_first"]').type('Adam');
       cy.get('input[name="root_applicantName_middle"]').type('James');
@@ -68,6 +75,7 @@ describe('Unauthenticated', () => {
 
       // CLAIMANT_CONTACT_MAILING
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_MAILING);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('va-select[name="root_homeAddress_country"]')
         .shadow()
@@ -89,6 +97,7 @@ describe('Unauthenticated', () => {
 
       // CLAIMANT_CONTACT_PHONE_EMAIL
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_PHONE_EMAIL);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('input[name="root_applicantPhone"]').type('5436578475');
 
@@ -112,6 +121,7 @@ describe('Unauthenticated', () => {
 
       // VETERAN_CONTACT_MAILING
       h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('va-select[name="root_veteranHomeAddress_country"]')
         .shadow()
@@ -135,6 +145,7 @@ describe('Unauthenticated', () => {
 
       // VETERAN_CONTACT_PHONE_EMAIL
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('input[name="root_Primary phone"]').type('5467364732');
 
@@ -142,6 +153,7 @@ describe('Unauthenticated', () => {
 
       // VETERAN_IDENTIFICATION
       h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
+      cy.injectAxeThenAxeCheck();
       cy.get('input[name="root_veteranSocialSecurityNumber"]').type(
         '658432765',
       );
@@ -150,35 +162,41 @@ describe('Unauthenticated', () => {
 
       // VETERAN_SERVICE_INFORMATION
       h.verifyUrl(ROUTES.VETERAN_SERVICE_INFORMATION);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('Branch of Service', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_MEDICAL
       h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('authorizationRadio', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_ADDRESS
       h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('authorizeAddressRadio', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_INSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_INSIDE_VA);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('authorizeInsideVARadio', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_OUTSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA);
+      cy.injectAxeThenAxeCheck();
       h.selectRadio('authorizeOutsideVARadio', 0);
 
       h.clickContinue();
       // AUTHORIZE_OUTSIDE_VA_NAMES
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA_NAMES);
+      cy.injectAxeThenAxeCheck();
       cy.get('input[name="root_authorizeNamesTextArea"]').type(
         'Bob Test, Tom Middleton',
       );
@@ -187,6 +205,7 @@ describe('Unauthenticated', () => {
 
       // REVIEW_AND_SUBMIT
       h.verifyUrl(ROUTES.REVIEW_AND_SUBMIT);
+      cy.injectAxeThenAxeCheck();
 
       cy.get(`va-checkbox[name="I agree to the terms and conditions"]`).click();
       cy.get(
@@ -197,6 +216,7 @@ describe('Unauthenticated', () => {
 
       // CONFIRMATION
       h.verifyUrl(ROUTES.CONFIRMATION);
+      cy.injectAxeThenAxeCheck();
 
       cy.get('va-checkbox[name="signedForm"]').click();
 
@@ -206,6 +226,7 @@ describe('Unauthenticated', () => {
         .click(); // Click the button
 
       // NEXT_STEPS
+      cy.injectAxeThenAxeCheck();
       h.verifyUrl(ROUTES.NEXT_STEPS);
     });
   });
