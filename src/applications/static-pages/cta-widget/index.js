@@ -187,7 +187,6 @@ export class CallToActionWidget extends Component {
       if (this.isNonMHVSchedulingTool()) {
         return this.getVerifyAlert({
           headerLevel: this._headerLevel,
-          serviceDescription: this._serviceDescription,
         });
       }
 
@@ -288,7 +287,10 @@ export class CallToActionWidget extends Component {
   };
 
   // Function called for isHealthTool and isNonMHVSchedulingTool
-  getVerifyAlert = ({ headerLevel, serviceDescription }) => {
+  getVerifyAlert = ({ headerLevel }) => {
+    const serviceDescription = this.isHealthTool
+      ? 'access more VA.gov tools and features'
+      : this._serviceDescription;
     switch (this.props.cspId) {
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
@@ -320,9 +322,7 @@ export class CallToActionWidget extends Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return this.getVerifyAlert({
-        serviceDescription: this._serviceDescription,
-      });
+      return this.getVerifyAlert();
     }
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
@@ -356,7 +356,6 @@ export class CallToActionWidget extends Component {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
         return this.getVerifyAlert({
           headerLevel: this._headerLevel,
-          serviceDescription: this._serviceDescription,
         });
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
