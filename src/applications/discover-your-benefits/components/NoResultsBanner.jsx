@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NoResultsBanner = ({ data, handleBackClick }) => (
+const NoResultsBanner = ({ handleBackClick }) => (
   <va-banner
     className="response-no-results"
     headline="No Results Found"
@@ -9,21 +9,18 @@ const NoResultsBanner = ({ data, handleBackClick }) => (
     visible
   >
     <p>
-      <>
-        {data && data.length > 0
-          ? "We're unable to recomend benefits based on your responses. You can "
-          : "We're unable to recomend benefits that match your filters. You can adjust your filters or "}
-      </>
-      <va-link
-        data-testid="back-link-banner"
-        href="#"
-        onClick={handleBackClick}
-        text="Go back review and update your entries"
-      />
+      We didn’t find any results that match your answers. If you added filters,
+      try removing the filters. Or you can review or change your answers.
     </p>
+    <va-link
+      data-testid="back-link-banner"
+      href="#"
+      onClick={handleBackClick}
+      text="Review or change your answers"
+    />
     <p>
-      We’re adding more benefits, so we encourage you to try again in the
-      future.
+      We’re also planning to add more benefits and resources to this tool. Check
+      back soon to find more benefits you may want to apply for.
     </p>
   </va-banner>
 );
