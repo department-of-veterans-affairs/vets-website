@@ -8869,8 +8869,8 @@ downgrade-root@^1.0.0:
 
 downloadjs@^1.4.7:
   version "1.4.7"
-  resolved "https://registry.npmjs.org/downloadjs/-/downloadjs-1.4.7.tgz"
-  integrity sha1-9p+W+UDg0FU9rCkROYZaPNAQHjw=
+  resolved "https://registry.yarnpkg.com/downloadjs/-/downloadjs-1.4.7.tgz#f69f96f940e0d0553dac291139865a3cd0101e3c"
+  integrity sha512-LN1gO7+u9xjU5oEScGFKvXhYf7Y/empUIIEAGBs1LzUq/rg5duiDrkuH5A2lQGd5jfMOb9X9usDa2oVXwJ0U/Q==
 
 downshift@^1.22.5:
   version "1.22.5"
