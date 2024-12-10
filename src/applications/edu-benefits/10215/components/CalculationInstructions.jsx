@@ -171,7 +171,7 @@ export const CalculationInstructions = () => {
             Any student participating in a <strong>compliant</strong>{' '}
             institutionally funded payment plan that meets <strong>ALL</strong>{' '}
             the following criteria:
-            <ul className="inner-list-style">
+            <ul className="list-style">
               <li>
                 The payment plan policy is published in the school’s approved
                 catalog.
