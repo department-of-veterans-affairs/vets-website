@@ -22,7 +22,6 @@ import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import {
   pageTitles,
   studyJobStatus,
-  accessAlertTypes,
   ALERT_TYPE_IMAGE_STATUS_ERROR,
 } from '../../util/constants';
 import {
@@ -39,7 +38,6 @@ import {
 } from '../../actions/images';
 import { requestImagingStudy } from '../../api/MrApi';
 import useAlerts from '../../hooks/use-alerts';
-import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -71,6 +69,11 @@ const RadiologyDetails = props => {
   );
 
   const activeAlert = useAlerts(dispatch);
+
+  const ERROR_REQUEST_AGAIN =
+    'We’re sorry. There was a problem with our system. Try requesting your images again.';
+  const ERROR_TRY_LATER =
+    'We’re sorry. There was a problem with our system. Try again later.';
 
   useEffect(
     () => {
@@ -252,30 +255,30 @@ ${record.results}`;
     );
   };
 
+  const imageAlert = message => (
+    <va-alert
+      status="error"
+      visible
+      aria-live="polite"
+      data-testid="image-request-error-alert"
+    >
+      <h3 id="track-your-status-on-mobile" slot="headline">
+        We couldn’t access your images
+      </h3>
+      <p>{message}</p>
+      <p>
+        If it still doesn’t work, call us at{' '}
+        <va-telephone contact="8773270022" /> (
+        <va-telephone tty contact="711" />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+
   const imageAlertError = imageRequest => (
     <>
       <p>To review and download your images, you’ll need to request them.</p>
-      <va-alert
-        status="error"
-        visible
-        aria-live="polite"
-        data-testid="image-request-error-alert"
-      >
-        <h3 id="track-your-status-on-mobile" slot="headline">
-          We couldn’t access your images
-        </h3>
-        <p className="vads-u-margin-y--0">
-          We’re sorry. There was a problem with our system. Try requesting your
-          images again.
-        </p>
-        <br />
-        <p className="vads-u-margin-y--0">
-          If it still doesn’t work, call us at{' '}
-          <va-telephone contact="8773270022" /> (
-          <va-telephone tty contact="711" />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      </va-alert>
+      {imageAlert(ERROR_REQUEST_AGAIN)}
       <va-button
         class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
@@ -290,12 +293,7 @@ ${record.results}`;
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
-        return (
-          <AccessTroubleAlertBox
-            alertType={accessAlertTypes.IMAGE_STATUS}
-            className="vads-u-margin-bottom--9"
-          />
-        );
+        return imageAlert(ERROR_TRY_LATER);
       }
 
       return (
