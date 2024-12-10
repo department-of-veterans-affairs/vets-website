@@ -104,7 +104,7 @@ const ConfirmationPage = ({ route }) => {
               the evidence thats available to us
             </p>
             <section>
-              <h2>If you need to submit your supporting documents</h2>
+              <h2>If you need to submit supporting documents</h2>
               <p>
                 If you didn’t already submit your supporting documents and
                 additional evidence, you can submit them in one of these 2 ways:

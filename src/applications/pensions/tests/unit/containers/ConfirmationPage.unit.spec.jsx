@@ -15,6 +15,7 @@ const getData = ({
   hasRegionalOffice = true,
   hasBankAccount = true,
   timestamp = new Date('09/07/2024'),
+  pensionConfirmationUpdate = false,
 } = {}) => ({
   mockStore: {
     getState: () => ({
@@ -56,6 +57,10 @@ const getData = ({
             },
           }),
         },
+      },
+      featureToggles: {
+        loading: false,
+        [`pension_confirmation_update`]: pensionConfirmationUpdate,
       },
     }),
     subscribe: () => {},
@@ -119,6 +124,10 @@ describe('Pension benefits confirmation page', () => {
     expect($$('.va-address-block', container).length).to.eq(2);
     expect($$('va-telephone', container).length).to.eq(2);
     expect($('#pension_527ez_submission_confirmation', container)).to.exist;
+    expect($('.confirmation-submission-alert-section', container)).to.not.exist;
+    expect($('.confirmation-print-this-page-section', container)).to.not.exist;
+    expect($('.confirmation-whats-next-process-list-section', container)).to.not
+      .exist;
   });
 
   it('should render if no submission response', () => {
@@ -140,5 +149,37 @@ describe('Pension benefits confirmation page', () => {
     );
     const sections = $$('section');
     expect(sections.length).to.eq(3);
+  });
+
+  it('should render updated content', () => {
+    const { mockStore } = getData({
+      pensionConfirmationUpdate: true,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+
+    expect($('h2', container)).to.exist;
+    expect($('h2', container).textContent).to.eql(
+      'Form submission started on September 7, 2024',
+    );
+    expect($('.confirmation-submission-alert-section', container)).to.exist;
+    expect($('.confirmation-print-this-page-section', container)).to.exist;
+    expect($('.confirmation-whats-next-process-list-section', container)).to
+      .exist;
+    const sections = $$('section');
+    expect(sections.length).to.eq(3);
+    expect($('h2', sections[0]).textContent).to.eql(
+      'If you need to submit supporting documents',
+    );
+    expect($('h2', sections[1]).textContent).to.eql(
+      'Direct deposit account information',
+    );
+    expect($('h2', sections[2]).textContent).to.eql(
+      'When to tell us if your information changes',
+    );
+    expect($('.confirmation-how-to-contact-section', container)).to.exist;
   });
 });
