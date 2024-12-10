@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
-import { render, waitFor, cleanup } from '@testing-library/react';
+import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
@@ -14,7 +14,6 @@ describe('CreateAccountLink', () => {
   csps.forEach(policy => {
     beforeEach(() => {
       global.window.crypto = mockCrypto;
-      window.location = new URL('https://dev.va.gov');
     });
 
     afterEach(() => {
@@ -61,7 +60,7 @@ describe('CreateAccountLink', () => {
     it(`should record event for ${policy} (SAML)`, async () => {
       const screen = render(<CreateAccountLink policy={policy} />);
       const anchor = await screen.findByTestId(policy);
-      anchor.click();
+      fireEvent.click(anchor);
 
       expect(global.window.dataLayer.length).to.eql(1);
       expect(global.window.dataLayer[0].event).to.eql(
@@ -74,7 +73,8 @@ describe('CreateAccountLink', () => {
     it(`should record event for ${policy} (OAuth)`, async () => {
       const screen = render(<CreateAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
-      anchor.click();
+
+      fireEvent.click(anchor);
 
       expect(global.window.dataLayer.length).to.eql(2);
       expect(global.window.dataLayer[1].event).to.eql(
