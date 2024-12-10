@@ -1209,7 +1209,7 @@ export function setPageFocus(lastPage, loading) {
 }
 // Used to get the oldest document date
 // Logic used in getTrackedItemDateFromStatus()
-const getOldestDocumentDate = item => {
+export const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
