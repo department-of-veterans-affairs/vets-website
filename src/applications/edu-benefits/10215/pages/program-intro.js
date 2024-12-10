@@ -1,7 +1,10 @@
 import React from 'react';
-import { descriptionUI, titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  descriptionUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-export const ProgramIntro = {
+const ProgramIntro = {
   uiSchema: {
     ...titleUI('Prepare to enter your 85/15 calculations'),
     ...descriptionUI(
@@ -19,7 +22,7 @@ export const ProgramIntro = {
           completing the form, making it easier to reference them as you enter
           your calculations.
         </p>
-      </>
+      </>,
     ),
   },
   schema: {
@@ -27,3 +30,5 @@ export const ProgramIntro = {
     properties: {},
   },
 };
+
+export { ProgramIntro };

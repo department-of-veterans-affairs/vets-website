@@ -13,7 +13,7 @@ const arrayBuilderOptions = {
   },
 };
 
-export const ProgramSummary = {
+const ProgramSummary = {
   uiSchema: {
     'view:programsSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
       title: 'Do you have another program to add?',
@@ -31,3 +31,5 @@ export const ProgramSummary = {
     required: ['view:programsSummary'],
   },
 };
+
+export { ProgramSummary };

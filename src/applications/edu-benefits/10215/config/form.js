@@ -1,20 +1,18 @@
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import React from 'react';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import manifest from '../manifest.json';
 import transform from './transform';
+
+// Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// pages
-import { institutionDetails } from '../pages';
-import { ProgramIntro } from '../pages/program-intro';
-import { programInfo } from '../pages/program-info';
-import { ProgramSummary } from '../pages/program-summary';
+import {
+  institutionDetails,
+  ProgramIntro,
+  programInfo,
+  ProgramSummary,
+} from '../pages';
 
 const arrayBuilderOptions = {
   arrayPath: 'programs',
@@ -55,8 +53,6 @@ const formConfig = {
   defaultDefinitions: {
     date,
   },
-  title: 'Report 85/15 Rule enrollment ratios',
-  defaultDefinitions: {},
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution details',

@@ -8,11 +8,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
 
-export const programInfo = {
+const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Program Information',
-      nounSingular: 'program',
+      nounSingular: 'Program',
+      nounPlural: 'Programs',
     }),
     'ui:description': (
       <va-link
@@ -66,3 +67,5 @@ export const programInfo = {
     required: ['programName', 'studentsEnrolled', 'supportedStudents'],
   },
 };
+
+export { programInfo };
