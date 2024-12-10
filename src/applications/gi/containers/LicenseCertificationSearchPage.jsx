@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
-import { handleLcResultsSearch } from '../utils/helpers';
+import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
+import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
 
-function LicenseCertificationSearch({
+function LicenseCertificationSearchPage({
   dispatchFetchLicenseCertificationResults,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
 }) {
   const history = useHistory();
+  const location = useLocation();
 
-  useEffect(() => {
-    dispatchFetchLicenseCertificationResults();
-  }, []);
+  useEffect(
+    () => {
+      if (!hasFetchedOnce) {
+        dispatchFetchLicenseCertificationResults();
+      }
+    },
+    [dispatchFetchLicenseCertificationResults],
+  );
 
   if (fetchingLc) {
     return <h2>Loading</h2>;
@@ -37,9 +43,11 @@ function LicenseCertificationSearch({
           <div className="form-wrapper row">
             <LicenseCertificationSearchForm
               suggestions={lcResults}
-              handleSearch={(type, name) =>
-                handleLcResultsSearch(history, type, name)
+              handleSearch={(category, name) =>
+                handleLcResultsSearch(history, category, name)
               }
+              handleUpdateQueryParam={() => updateQueryParam(history, location)}
+              location={location}
             />
           </div>
         </section>
@@ -48,7 +56,7 @@ function LicenseCertificationSearch({
   }
 }
 
-LicenseCertificationSearch.propTypes = {
+LicenseCertificationSearchPage.propTypes = {
   dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
@@ -68,4 +76,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LicenseCertificationSearch);
+)(LicenseCertificationSearchPage);
