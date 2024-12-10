@@ -359,9 +359,9 @@ export const formatDate = str => {
 };
 
 /**
- * Returns a date formatted into two parts -- a date portion and a time portion.
+ * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
- * @param {Date} date
+ * @param {Date | string} date
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
@@ -382,10 +382,16 @@ export const formatDateAndTime = rawDate => {
     day: 'numeric',
   };
   const datePart = date.toLocaleDateString('en-US', options);
+  const timeZonePart = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+  })
+    .formatToParts(date)
+    .find(part => part.type === 'timeZoneName')?.value;
 
   return {
     date: datePart,
     time: timePart,
+    timeZone: timeZonePart,
   };
 };
 
@@ -519,6 +525,23 @@ export const formatNameFirstToLast = name => {
   } catch {
     return null;
   }
+};
+
+// Imaging methods ------------
+
+/**
+ * @param {Array} list array of objects being parsed for the imaging endpoint.
+ */
+export const extractImageAndSeriesIds = list => {
+  const newList = [];
+  let num = 1;
+  list.forEach(item => {
+    const numbers = item.match(/\d+/g);
+    const result = numbers.join('/');
+    newList.push({ index: num, seriesAndImage: result });
+    num += 1;
+  });
+  return newList;
 };
 
 /**

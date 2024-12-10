@@ -27,9 +27,7 @@ const SelectAccreditedRepresentative = props => {
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const currentSelectedRep = useRef(
-    formData?.['view:representativeSearchResults'],
-  );
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
   const query = formData['view:representativeQuery'];
   const invalidQuery = query === undefined || !query.trim();
@@ -77,7 +75,7 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep) {
+      if (selection === currentSelectedRep.current) {
         goToPath('/review-and-submit');
       } else {
         goToPath('/representative-contact?review=true');
@@ -111,7 +109,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep) {
+    if (selectedRepResult === currentSelectedRep.current && isReviewPage) {
       goToPath('/review-and-submit');
     } else {
       const repStatus = await getRepStatus();
@@ -140,18 +138,6 @@ const SelectAccreditedRepresentative = props => {
       handleGoForward({ selectionMade: true });
     }
   };
-
-  // const continueError = () => {
-  //   return (
-  //     <span
-  //       className="usa-input-error-message vads-u-margin-bottom--0p5"
-  //       role="alert"
-  //     >
-  //       <span className="sr-only">Error</span>
-  //       {}
-  //     </span>
-  //   );
-  // };
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;

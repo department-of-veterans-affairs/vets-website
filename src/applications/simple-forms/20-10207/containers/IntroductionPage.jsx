@@ -279,6 +279,9 @@ const IntroductionPage = props => {
       childContent={childContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

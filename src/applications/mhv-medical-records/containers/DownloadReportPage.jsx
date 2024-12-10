@@ -1,7 +1,40 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { add, compareAsc } from 'date-fns';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import { genAndDownloadCCD } from '../actions/downloads';
 
 const DownloadReportPage = () => {
+  const dispatch = useDispatch();
+
+  const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
+  const ccdError = useSelector(state => state.mr.downloads.error);
+  const userName = useSelector(state => state.user.profile.userFullName);
+
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -26,10 +59,38 @@ const DownloadReportPage = () => {
         text="Select records and download"
       />
       <h2>Other reports you can download</h2>
+      {CCDRetryTimestamp ? (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+          setFocus
+        >
+          <h2 slot="headline">
+            We can’t download your Continuity of Care Document right now
+          </h2>
+          <p>
+            We’re sorry. There’s a problem with our system.{' '}
+            <strong>
+              Try again after 24 hours ({CCDRetryTimestamp}
+              ).
+            </strong>
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            If it still doesn’t work, call us at{' '}
+            <va-telephone contact="8773270022" /> (
+            <va-telephone tty contact="711" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </va-alert>
+      ) : (
+        <></>
+      )}
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"
           header="Continuity of care document (VA Health Summary)"
+          data-testid="ccdAccordionItem"
         >
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
@@ -41,9 +102,24 @@ const DownloadReportPage = () => {
             You can download this report in .xml format, a standard file format
             that works with other providers’ medical records systems.
           </p>
-          <button className="link-button">
-            <va-icon icon="file_download" size={3} /> Download .xml file
-          </button>
+          {generatingCCD ? (
+            <div id="generating-ccd-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+              />
+            </div>
+          ) : (
+            <button
+              className="link-button"
+              onClick={() =>
+                dispatch(genAndDownloadCCD(userName.first, userName.last))
+              }
+              data-testid="generateCcdButton"
+            >
+              <va-icon icon="file_download" size={3} /> Download .xml file
+            </button>
+          )}
         </va-accordion-item>
         <va-accordion-item
           bordered="true"

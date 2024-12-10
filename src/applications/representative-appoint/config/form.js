@@ -22,7 +22,6 @@ import {
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
-  // confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
   veteranPersonalInformation,
@@ -37,8 +36,6 @@ import {
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
 } from '../pages';
-
-import { prefillTransformer } from '../prefill-transformer';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
@@ -88,7 +85,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
@@ -197,13 +193,6 @@ const formConfig = {
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
-        // confirmClaimantPersonalInformation: {
-        //   path: 'confirm-claimant-personal-information',
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   title: 'Your Personal Information',
-        //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
-        //   schema: confirmClaimantPersonalInformation.schema,
-        // },
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
           depends: formData => !preparerIsVeteran({ formData }),

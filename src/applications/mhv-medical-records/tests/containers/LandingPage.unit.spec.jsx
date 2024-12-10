@@ -44,7 +44,20 @@ describe('Landing Page', () => {
   });
 
   it('displays a section linking to My HealtheVet classic to download all records', () => {
-    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+    const customState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      ...initialState,
+    };
+    const screen = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: customState,
+    });
     expect(
       screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
@@ -70,7 +83,14 @@ describe('Landing Page', () => {
 
   it('displays downtimeNotification when downtimeApproaching is true', () => {
     const customState = {
-      featureToggles: {},
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
       scheduledDowntime: {
         globalDowntime: null,
         isReady: true,
@@ -104,7 +124,13 @@ describe('Landing Page', () => {
 
   it('displays features as h2s with links below when feature flags are true', () => {
     const customState = {
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
       featureToggles: {
+        loading: false,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_conditions: true,
         // eslint-disable-next-line camelcase

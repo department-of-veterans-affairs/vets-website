@@ -52,6 +52,30 @@ export const getFormSubtitle = formData => {
   return 'VA Forms 21-22 and 21-22a';
 };
 
+export const parseRepType = repType => {
+  const parsedRep = {};
+
+  switch (repType) {
+    case 'Organization':
+      parsedRep.title = 'Veterans Service Organization (VSO)';
+      parsedRep.subTitle = 'Veteran Service Organization';
+      break;
+    case 'Attorney':
+      parsedRep.title = 'accredited attorney';
+      parsedRep.subTitle = 'Accredited attorney';
+      break;
+    case 'Claims Agent':
+      parsedRep.title = 'accredited claims agent';
+      parsedRep.subTitle = 'Accredited claims agent';
+      break;
+    default:
+      parsedRep.title = 'accredited representative';
+      parsedRep.subTitle = 'Accredited representative';
+  }
+
+  return parsedRep;
+};
+
 export const getEntityAddressAsObject = addressData => ({
   addressLine1: (addressData?.addressLine1 || '').trim(),
   addressLine2: (addressData?.addressLine2 || '').trim(),

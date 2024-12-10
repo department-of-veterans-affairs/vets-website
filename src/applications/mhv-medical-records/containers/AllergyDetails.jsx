@@ -13,7 +13,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -51,9 +50,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { vamcEhrData } = useSelector(selectDrupalStaticData);
-
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -74,19 +71,13 @@ const AllergyDetails = props => {
 
   useEffect(
     () => {
-      if (allergyId && !vamcEhrData?.loading) {
+      if (allergyId && !isLoading) {
         dispatch(
           getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
         );
       }
     },
-    [
-      allergyId,
-      allergyList,
-      dispatch,
-      isAcceleratingAllergies,
-      vamcEhrData?.loading,
-    ],
+    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
   );
 
   useEffect(

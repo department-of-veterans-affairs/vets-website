@@ -62,6 +62,7 @@ export const deceasedDependentOptions = {
 
       return `${birthDate} - ${dependentDeathDate}`;
     },
+    summaryTitle: 'Review your dependents who have died',
   },
 };
 
@@ -158,8 +159,13 @@ export const deceasedDependentChildTypePage = {
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
-        required: () => true,
         labels: childTypeLabels,
+        required: (formData, index) => {
+          const addMode = formData?.deaths?.[index]?.dependentType === 'child';
+          const editMode = formData?.dependentType;
+
+          return addMode || editMode;
+        },
       }),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
@@ -235,11 +241,6 @@ export const deceasedDependentLocationOfDeathPage = {
             return !isAddMode && !isEditMode;
           },
           'ui:options': {
-            // NOTE: formData while in Add mode of the array builder
-            // will be the entire formData object
-            // formData while in Edit mode will be the entire array item object
-            // Because of this, index will sometimes be null
-            // Check for both to cover both array builder modes
             hideIf: (formData, index) =>
               formData?.dependentDeathLocation?.outsideUsa ||
               formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,

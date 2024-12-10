@@ -67,6 +67,7 @@ describe('Radiology details component', () => {
     });
     expect(reason).to.exist;
   });
+
   it('should display the clinical history', () => {
     const reason = screen.getByText('this is 71 yr old pt', {
       exact: false,
@@ -74,6 +75,7 @@ describe('Radiology details component', () => {
     });
     expect(reason).to.exist;
   });
+
   it('should display who the test was ordered by', () => {
     const reason = screen.getByText('JOHN DOE', {
       exact: true,
@@ -81,6 +83,7 @@ describe('Radiology details component', () => {
     });
     expect(reason).to.exist;
   });
+
   it('should display the performing lab location', () => {
     const reason = screen.getByText('DAYT3', {
       exact: true,
@@ -88,16 +91,10 @@ describe('Radiology details component', () => {
     });
     expect(reason).to.exist;
   });
+
   it('should display the imaging provider', () => {
     const reason = screen.getByText('JANE DOE', {
       exact: true,
-      selector: 'p',
-    });
-    expect(reason).to.exist;
-  });
-  it('should display the images note', () => {
-    const reason = screen.getByText('Images are not yet available', {
-      exact: false,
       selector: 'p',
     });
     expect(reason).to.exist;

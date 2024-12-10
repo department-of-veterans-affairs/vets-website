@@ -56,6 +56,12 @@ export const getImageList = studyId => {
   );
 };
 
+export const getBbmiNotificationStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/bbmi_notification/status`, {
+    headers,
+  });
+};
+
 export const getMhvRadiologyTests = () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
@@ -192,6 +198,12 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+export const getImageRequestStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
+    headers,
+  });
+};
+
 /**
  * Get a patient's medications
  * @returns list of patient's medications
@@ -250,4 +262,17 @@ export const getPatient = () => {
   return apiRequest(`${apiBasePath}/medical_records/patient`, {
     headers,
   });
+};
+
+export const generateCCD = () => {
+  return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
+};
+
+export const downloadCCD = timestamp => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
+    {
+      'Content-Type': 'application/xml',
+    },
+  );
 };

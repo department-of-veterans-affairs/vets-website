@@ -77,7 +77,7 @@ describe('Get radiology tests from MHV api call', () => {
   });
 });
 
-describe('Get radiology detais from MHV api call', () => {
+describe('Get radiology details from MHV api call', () => {
   beforeEach(() => {
     // Create a simple hash function for the mock (non-cryptographic)
     const simpleHash = data => {
@@ -121,7 +121,7 @@ describe('Get radiology detais from MHV api call', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
 
-    return getMhvRadiologyDetails('r12345-f8f80533').then(res => {
+    return getMhvRadiologyDetails('r12345-2a591974').then(res => {
       expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
       expect(res.cvixDetails).to.be.null;
     });

@@ -1,69 +1,114 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import formConfig from '../config/form';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
-
-  render() {
-    const { form } = this.props;
-    const { formId, data, submission } = form;
-    const submitDate = new Date(submission?.timestamp);
-
-    const { fullName } = data;
-
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
+const childContent = (
+  <div>
+    <h1 data-testid="form-title">
+      Request exemption from the 85/15 Rule reporting requirements
+    </h1>
+    <p>
+      35% exemption request from 85/15 Rule reporting requirements (VA Form
+      22-10216)
+    </p>
+    <va-alert close-btn-aria-label="Close notification" status="into" visible>
+      <h2 slot="headline">Complete all submission steps</h2>
+      <p className="vads-u-margin-y--0">
+        This form requires additional steps for successful submission. Follow
+        the instructions below carefully to ensure your form is submitted
+        correctly.
+      </p>
+    </va-alert>
+    <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      To submit your form, follow the steps below
+    </h2>
+    <va-process-list uswds>
+      <va-process-list-item header="Download and save your form">
+        <div itemProp="name">
+          <h4 className="vads-u-font-size--h5">Download and save your form</h4>
         </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            22-10215 Statement of Assurance of Compliance with 95 Percent
-            Enrollment Ratios Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            onClick={window.print}
-            text="Print this for your records"
-            uswds
-          />
+        <div itemProp="itemListElement">
+          <p>
+            We usually process claims within 30 days. We’ll let you know by mail
+            if we need more information.
+          </p>
+          <p>
+            <va-link
+              href="https://iam.education.va.gov/"
+              text="Download VA Form 22-10216"
+              download
+            />
+          </p>
         </div>
-      </div>
-    );
-  }
-}
+      </va-process-list-item>
+      <va-process-list-item header="Upload the form to the VA education portal">
+        <div>
+          <h4 className="vads-u-font-size--h5">
+            Upload the form to the VA education portal
+          </h4>
+        </div>
+        <div itemProp="itemListElement">
+          <p>
+            Visit the&nbsp;
+            <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
+              VA Education File Upload Portal (opens in a new tab)
+            </a>
+            , and upload your saved VA Form 22-10216.
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Submit your form">
+        <div itemProp="name">
+          <h4 className="vads-u-font-size--h5">Submit your form</h4>
+        </div>
+        <div itemProp="itemListElement">
+          <p>Once uploaded, click submit to finalize your request.</p>
+        </div>
+      </va-process-list-item>
+    </va-process-list>
+    <p>
+      <va-button
+        secondary
+        text="Print this page"
+        onClick={() => window.print()}
+      />
+    </p>
+    <p>
+      <va-link href="https://iam.education.va.gov/" text="Back" />
+    </p>
+    <h1>What are my next steps?</h1>
+    <p>
+      After submitting your exemption request, we will review your submission
+      within 7-10 business days. Once we complete the review, we will email your
+      school a letter with the decision.If we accept your request, we will
+      include a copy of WEAMS form 1998 as confirmation in the letter. If we
+      deny your request, we will explain the reason for rejection in the letter
+      and provide further instructions for resubmission or additional steps.
+    </p>
+  </div>
+);
+
+export const ConfirmationPage = () => {
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+
+  return (
+    <ConfirmationView
+      formConfig={formConfig}
+      confirmationNumber={confirmationNumber}
+      submitDate={submitDate}
+      pdfUrl={submission?.response?.pdfUrl}
+    >
+      {childContent}
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
@@ -81,6 +126,7 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.object,
 };
 
 function mapStateToProps(state) {

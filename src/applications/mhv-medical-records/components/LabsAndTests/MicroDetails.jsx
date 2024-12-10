@@ -168,7 +168,7 @@ ${record.results}`;
       </div>
 
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
         <p
           className="vads-u-font-size--base monospace vads-u-line-height--3"

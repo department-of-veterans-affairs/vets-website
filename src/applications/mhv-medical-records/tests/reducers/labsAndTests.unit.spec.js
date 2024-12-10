@@ -464,9 +464,9 @@ describe('mergeRadiologyLists', () => {
       { id: 2, sortDate: '2020-01-02T11:00:00Z', data: 'phr2' },
     ];
     const cvixList = [
-      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'cvix1' },
-      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'cvix2' },
-      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'cvix3' },
+      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'c1', imageCount: 1 },
+      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'c2', imageCount: 2 },
+      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'c3', imageCount: 3 },
     ];
     const result = mergeRadiologyLists(phrList, cvixList);
     expect(result).to.deep.equal([
@@ -474,15 +474,22 @@ describe('mergeRadiologyLists', () => {
         id: 1,
         sortDate: '2020-01-01T10:00:00Z',
         data: 'phr1',
-        studyId: 'cvix1',
+        studyId: 'c1',
+        imageCount: 1,
       },
       {
         id: 2,
         sortDate: '2020-01-02T11:00:00Z',
         data: 'phr2',
-        studyId: 'cvix2',
+        studyId: 'c2',
+        imageCount: 2,
       },
-      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'cvix3' },
+      {
+        id: 5,
+        sortDate: '2020-01-03T12:00:00Z',
+        studyId: 'c3',
+        imageCount: 3,
+      },
     ]);
   });
 });
