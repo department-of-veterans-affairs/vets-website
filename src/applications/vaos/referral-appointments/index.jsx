@@ -51,6 +51,9 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
+  if (referralNotFound || !featureCCDirectScheduling) {
+    return <Redirect from={basePath.url} to="/" />;
+  }
   if (
     (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
     !referralNotFound
@@ -72,9 +75,6 @@ export default function ReferralAppointments() {
       </VaAlert>
     );
   }
-  if (referralNotFound || !featureCCDirectScheduling) {
-    return <Redirect from={basePath.url} to="/" />;
-  }
   return (
     <>
       <Switch>
@@ -83,11 +83,9 @@ export default function ReferralAppointments() {
           path={`${basePath.url}/review/`}
           component={ConfirmApprovedPage}
         />
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/date-time/`}
-          component={ChooseDateAndTime}
-        />
+        <Route path={`${basePath.url}/date-time/`} search={id}>
+          <ChooseDateAndTime currentReferral={referral} />
+        </Route>
         {/* TODO: remove this mock page when referral complete page is built */}
         <Route path={`${basePath.url}/confirm`}>
           <ConfirmReferral currentReferral={referral} />
