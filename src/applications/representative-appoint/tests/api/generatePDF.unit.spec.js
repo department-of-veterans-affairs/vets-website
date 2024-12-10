@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { generatePDF } from '../../api/generatePDF';
 import formData from '../fixtures/data/form-data.json';
-import formData2122a from '../fixtures/data/form-data-2122a.json';
+import formData2122a from '../fixtures/data/21-22a/form-data.json';
 
 describe('generatePDF', () => {
   context('when submitting Form 21-22', () => {
