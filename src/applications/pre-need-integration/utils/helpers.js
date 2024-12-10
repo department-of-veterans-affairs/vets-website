@@ -1125,8 +1125,12 @@ export const preparerVeteranUI = {
   },
 };
 
-export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
-  // dispatch(setData(updatedFormData));
+export const validateMilitaryHistory = (
+  errors,
+  serviceRecords,
+  useAllFormData,
+) => {
+  // // dispatch(setData(updatedFormData));
 
   // Map the highestRank to the corresponding Rank Description from jsonData
   const rankMap = jsonData.reduce((map, rank) => {
@@ -1152,8 +1156,8 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined
     ) {
-      if (isVeteran(formData)) {
-        if (!isAuthorizedAgent(formData)) {
+      if (isVeteran(useAllFormData)) {
+        if (!isAuthorizedAgent(useAllFormData)) {
           // Self
           errors.highestRank.addError(
             'Select a branch of service before selecting your highest rank attained.',
@@ -1189,20 +1193,20 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
     let dob;
     let errorMessage;
 
-    if (isVeteran(formData)) {
-      if (!isAuthorizedAgent(formData)) {
+    if (isVeteran(useAllFormData)) {
+      if (!isAuthorizedAgent(useAllFormData)) {
         // Self
-        dob = formData?.application?.claimant?.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage = 'Provide a valid date that is after your date of birth';
       } else {
         // Applicant
-        dob = formData?.application?.claimant?.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage =
           "Provide a valid date that is after the applicant's date of birth";
       }
     } else {
       // Sponsor
-      dob = formData?.application?.veteran?.dateOfBirth;
+      dob = useAllFormData?.application?.veteran?.dateOfBirth;
       errorMessage =
         "Provide a valid date that is after the sponsor's date of birth";
     }

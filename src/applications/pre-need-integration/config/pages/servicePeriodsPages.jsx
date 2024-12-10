@@ -187,6 +187,9 @@ function servicePeriodInformationPage(isVet, isPrep) {
         'nationalGuardState',
       ],
       'ui:validations': [validateMilitaryHistory],
+      'ui:options': {
+        useAllFormData: true,
+      },
       serviceBranch: autosuggest.uiSchema(
         // eslint-disable-next-line no-nested-ternary
         isVet
