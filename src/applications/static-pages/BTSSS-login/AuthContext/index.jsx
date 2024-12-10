@@ -16,8 +16,8 @@ const AuthContext = () => {
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
           label="Loading"
-          message="Please wait while we load the application for you."
-          data-testid="travel-pay-loading-indicator"
+          message="Please wait."
+          data-testid="btsss-login-loading-indicator"
         />
       </div>
     );
