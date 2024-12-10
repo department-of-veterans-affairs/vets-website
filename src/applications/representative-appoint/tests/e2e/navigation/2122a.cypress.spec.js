@@ -17,10 +17,10 @@ describe('Unauthenticated', () => {
 
     it('navigates through the flow successfully', () => {
       cy.visit(h.ROOT);
+      cy.injectAxeThenAxeCheck();
 
       // INTRO
       h.verifyUrl(ROUTES.INTRO);
-      cy.injectAxeThenAxeCheck();
 
       cy.injectAxeThenAxeCheck();
       h.clickStartUnauth();
