@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import HeadingHierarchyAnalyzer from '../utils/HeadingHierarchyAnalyzer';
+import HeadingHierarchyAnalyzer from '../../../utils/HeadingHierarchyAnalyzer';
 
 const PreXs = styled.pre`
   font-size: 0.75rem;
@@ -51,10 +51,11 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
       ) : (
         <div className="vads-l-grid-container--full-width vads-u-padding--0p5 vads-u-border--1px vads-u-border-color--gray-light">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-font-weight--bold vads-u-padding-left--1">
+            <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-font-weight--bold vads-u-padding-left--0p5">
+              Heading Hierarchy
               {analysis?.issues?.length > 0 ? (
-                <span className="vads-u-font-size--sm vads-u-color--secondary-dark vads-u-margin-y--0p5">
-                  Heading Issues Found ({analysis.issues.length})
+                <span className="vads-u-font-size--sm vads-u-color--secondary-dark vads-u-margin-y--0p5 vads-u-margin-left--0p5">
+                  Issues Found ({analysis.issues.length})
                 </span>
               ) : (
                 <span className="vads-u-font-size--sm vads-u-color--success vads-u-margin-y--0p5 vads-u-display--flex vads-u-align-items--center">
@@ -94,9 +95,6 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
             )}
 
             <div className="vads-u-margin-bottom--1 vads-u-background-color--gray-lightest">
-              <p className="vads-u-font-size--sm vads-u-margin-x--0p5 vads-u-margin-y--0 vads-u-font-weight--bold">
-                Heading Hierarchy
-              </p>
               <PreXs className="vads-u-padding--0p5 vads-u-margin--0">
                 {analysis &&
                   new HeadingHierarchyAnalyzer().generateTreeText(

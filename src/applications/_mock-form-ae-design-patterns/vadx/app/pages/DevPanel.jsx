@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { format, parseISO } from 'date-fns';
-import { ApplicationSelector } from '../ApplicationSelector';
+import { ApplicationSelector } from './ApplicationSelector';
 
 const API_BASE_URL = 'http://localhost:1337';
 
@@ -210,7 +210,7 @@ const DevPanel = () => {
 
   return (
     <div className="vads-l-grid-container--full vads-u-padding--2">
-      <h1 className="vads-u-font-size--h2">VADX - Tools</h1>
+      <h1 className="vads-u-font-size--h5">VADX - Servers</h1>
 
       <div className="vads-l-row">
         <div className="vads-l-col--2 vads-l-grid-container vads-u-padding--0">

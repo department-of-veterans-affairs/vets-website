@@ -48,7 +48,7 @@ const responses = {
           generateFeatureToggles({
             aedpVADX: true,
             coeAccess: true,
-            profileUseExperimental: true,
+            profileUseExperimental: false,
           }),
         ),
       secondsOfDelay,

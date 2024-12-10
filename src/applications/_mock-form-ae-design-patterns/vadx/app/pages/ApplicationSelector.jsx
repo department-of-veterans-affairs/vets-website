@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedApps as setApps } from '../../slice';
+import { setSelectedApps as setApps } from '../../../slice';
 
 export const ApplicationSelector = () => {
   const [searchTerm, setSearchTerm] = useState('');
