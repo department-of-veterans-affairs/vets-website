@@ -18,6 +18,7 @@ import {
   generateFinalHeaderContent,
   generateFooterContent,
   generateInitialHeaderContent,
+  createRichTextDetailItem,
 } from './utils';
 
 const config = {
@@ -202,70 +203,73 @@ const validate = data => {
   }
 };
 
-const generateTocItem = (doc, parent, data, pageData) => {
-  const leftMargin = 100;
-  const pages =
-    pageData.startPage === pageData.endPage
-      ? `page ${pageData.startPage}`
-      : `pages ${pageData.startPage} - ${pageData.endPage}`;
-  const tocItemTitle =
-    pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
+// const generateTocItem = (doc, parent, data, pageData) => {
+//   const leftMargin = 100;
+//   const pages =
+//     pageData.startPage === pageData.endPage
+//       ? `page ${pageData.startPage}`
+//       : `pages ${pageData.startPage} - ${pageData.endPage}`;
+//   const tocItemTitle =
+//     pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
 
-  parent.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.tocHeading.font)
-        .fontSize(config.tocHeading.size)
-        .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
-          lineGap: 6,
-        });
-    }),
-  );
-  parent.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(data.subtitle, leftMargin, doc.y, {
-          lineGap: 6,
-          width: 410,
-        });
-    }),
-  );
-  doc.moveDown();
-};
+//   parent.add(
+//     doc.struct('P', () => {
+//       doc
+//         .font(config.tocHeading.font)
+//         .fontSize(config.tocHeading.size)
+//         .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
+//           lineGap: 6,
+//         });
+//     }),
+//   );
+//   parent.add(
+//     doc.struct('P', () => {
+//       doc
+//         .font(config.text.font)
+//         .fontSize(config.text.size)
+//         .text(data.subtitle, leftMargin, doc.y, {
+//           lineGap: 6,
+//           width: 410,
+//         });
+//     }),
+//   );
+//   doc.moveDown();
+// };
 
-const generateTableOfContents = (doc, parent, data, tocPageData) => {
-  doc.switchToPage(1);
-  const tableOfContents = doc.struct('Sect', {
-    title: 'Table of contents',
-  });
-  tableOfContents.add(
-    createHeading(doc, 'H2', config, 'Table of contents', {
-      paragraphGap: 30,
-      align: 'center',
-      y: 100,
-    }),
-  );
-  parent.add(tableOfContents);
-  for (const recordSet of data.recordSets) {
-    // TODO: Enable ToC to span multiple pages, possibly by generating
-    // separate PDFs and then combining them since the ToC is generated
-    // within the doc after the rest of the doc is generated
-    generateTocItem(
-      doc,
-      tableOfContents,
-      recordSet.toc,
-      tocPageData[recordSet.type],
-    );
-  }
+// const generateTableOfContents = (doc, parent, data, tocPageData) => {
+//   doc.switchToPage(1);
+//   const tableOfContents = doc.struct('Sect', {
+//     title: 'Table of contents',
+//   });
+//   tableOfContents.add(
+//     createHeading(doc, 'H2', config, 'Table of contents', {
+//       paragraphGap: 30,
+//       align: 'center',
+//       y: 100,
+//     }),
+//   );
+//   parent.add(tableOfContents);
+//   for (const recordSet of data.recordSets) {
+//     // TODO: Enable ToC to span multiple pages, possibly by generating
+//     // separate PDFs and then combining them since the ToC is generated
+//     // within the doc after the rest of the doc is generated
+//     generateTocItem(
+//       doc,
+//       tableOfContents,
+//       recordSet.toc,
+//       tocPageData[recordSet.type],
+//     );
+//   }
 
-  doc.moveDown();
-  tableOfContents.end();
-};
+//   doc.moveDown();
+//   tableOfContents.end();
+// };
 
 const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
-  const headOptions = { x: 20, paragraphGap: 10 };
+  const headOptions = {
+    x: 20,
+    paragraphGap: recordSet.titleParagraphGap ?? 10,
+  };
   const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: `${recordSet.title} Introduction`,
@@ -275,12 +279,16 @@ const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
     createHeading(doc, 'H2', config, recordSet.title, headOptions),
   );
 
-  for (const subtitle of recordSet.subtitles) {
-    introduction.add(createSubHeading(doc, config, subtitle, subHeadOptions));
-    doc.moveDown();
+  if (recordSet.subtitles) {
+    for (const subtitle of recordSet.subtitles) {
+      introduction.add(createSubHeading(doc, config, subtitle, subHeadOptions));
+      doc.moveDown();
+    }
   }
 
-  doc.moveDown();
+  if (recordSet.titleMoveDownAmount) {
+    doc.moveDown(recordSet.titleMoveDownAmount);
+  } else doc.moveDown();
   introduction.end();
 };
 
@@ -293,8 +301,41 @@ const generateRecordTitle = (doc, parent, record) => {
   const headOptions = { x: 20, paragraphGap: 0 };
   title.add(createHeading(doc, 'H3', config, record.title, headOptions));
 
-  doc.moveDown();
+  if (record.titleMoveDownAmount) doc.moveDown(record.titleMoveDownAmount);
+  else doc.moveDown();
   title.end();
+};
+
+const generateDetailsContentSets = async (doc, parent, data) => {
+  const details = doc.struct('Sect', {
+    title: 'Details',
+  });
+  parent.add(details);
+
+  for (const detail of data.details) {
+    if (detail.header) {
+      const headOptions = { x: 30, paragraphGap: 12 };
+      details.add(createHeading(doc, 'H4', config, detail.header, headOptions));
+    }
+    const itemIndent = 30;
+    for (const item of detail.items) {
+      let structs;
+
+      if (item.isRich) {
+        structs = await createRichTextDetailItem(doc, config, itemIndent, item);
+      } else {
+        structs = await createDetailItem(doc, config, itemIndent, item);
+      }
+
+      for (const struct of structs) {
+        details.add(struct);
+      }
+    }
+    doc.moveDown();
+  }
+
+  doc.moveDown();
+  details.end();
 };
 
 const generateDetailsContent = async (doc, parent, data) => {
@@ -326,12 +367,15 @@ const generateResultItemContent = async (
   hasHorizontalRule,
   hasH2,
 ) => {
-  const headingOptions = { paragraphGap: 10, x: hasH2 ? 40 : 20 };
+  const headingOptions = {
+    paragraphGap: item.headerGap ?? 10,
+    x: item.headerIndent || (hasH2 ? 40 : 20),
+  };
   if (item.header) {
     results.add(
       await createHeading(
         doc,
-        hasH2 ? 'H5' : 'H3',
+        item.headerType || (hasH2 ? 'H5' : 'H3'),
         config,
         item.header,
         headingOptions,
@@ -342,7 +386,15 @@ const generateResultItemContent = async (
   for (const resultItem of item.items) {
     let indent = item.header ? 50 : 40;
     if (!hasH2) indent = 30;
-    const structs = await createDetailItem(doc, config, indent, resultItem);
+    if (item.itemsIndent) indent = item.itemsIndent;
+
+    let structs;
+    if (resultItem.isRich) {
+      structs = await createRichTextDetailItem(doc, config, indent, resultItem);
+    } else {
+      structs = await createDetailItem(doc, config, indent, resultItem);
+    }
+
     for (const struct of structs) {
       results.add(struct);
     }
@@ -351,6 +403,7 @@ const generateResultItemContent = async (
   if (hasHorizontalRule) {
     addHorizontalRule(doc, 30, 1.5, 1.5);
   }
+  if (item.spaceResults) doc.moveDown(item.spaceResults);
 };
 
 export const generateResultsContent = async (doc, parent, data) => {
@@ -359,16 +412,25 @@ export const generateResultsContent = async (doc, parent, data) => {
   });
   parent.add(results);
   if (data.results.header) {
-    const headingOptions = { paragraphGap: 12, x: 30 };
+    const headingOptions = {
+      paragraphGap: 12,
+      x: data.results.headerIndent || 30,
+    };
     results.add(
-      createHeading(doc, 'H4', config, data.results.header, headingOptions),
+      createHeading(
+        doc,
+        data.results.headerType || 'H4',
+        config,
+        data.results.header,
+        headingOptions,
+      ),
     );
   }
 
   if (data.results.preface) {
     const prefaceOptions = {
       paragraphGap: 12,
-      x: 30,
+      x: data.results.prefaceIndent || 30,
     };
     results.add(
       createSubHeading(doc, config, data.results.preface, prefaceOptions),
@@ -425,7 +487,7 @@ const generate = async data => {
   // is left intact for screen reader users.
 
   await generateCoverPage(doc, wrapper, data);
-  doc.addPage({ margins: config.margins });
+  // doc.addPage({ margins: config.margins });
   generateInitialHeaderContent(doc, wrapper, data, config, {
     nameDobOnly: true,
   });
@@ -440,9 +502,11 @@ const generate = async data => {
     generateRecordSetIntroduction(doc, wrapper, recordSet);
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
-        generateRecordTitle(doc, wrapper, record);
+        if (record.title) generateRecordTitle(doc, wrapper, record);
 
-        if (record.details) {
+        if (Array.isArray(record.details)) {
+          await generateDetailsContentSets(doc, wrapper, record);
+        } else if (record.details) {
           await generateDetailsContent(doc, wrapper, record);
         }
         if (record.results) {
@@ -462,10 +526,10 @@ const generate = async data => {
     tocPageData[recordSet.type].endPage = endPage;
   }
 
-  await generateTableOfContents(doc, wrapper, data, tocPageData);
+  // await generateTableOfContents(doc, wrapper, data, tocPageData);
 
   doc.font(config.text.font).fontSize(config.text.size);
-  await generateFinalHeaderContent(doc, data, config, 2);
+  await generateFinalHeaderContent(doc, data, config);
   await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();
