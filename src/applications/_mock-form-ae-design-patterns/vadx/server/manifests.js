@@ -75,4 +75,5 @@ module.exports = {
   getManifests,
   initializeManifests,
   cachedManifests,
+  findManifestFiles,
 };

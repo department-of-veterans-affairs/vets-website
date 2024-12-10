@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs').promises;
 const { killProcessOnPort } = require('./utils');
 const {
   processes,
@@ -14,12 +13,6 @@ const logger = require('./utils/logger');
 const paths = require('./utils/paths');
 
 const router = express.Router();
-
-router.post('/start', (req, res) => {
-  const { name, command, args, env } = req.body;
-  const result = startProcess(name, command, args, env);
-  res.json(result);
-});
 
 router.get('/status', (req, res) => {
   const status = Object.keys(processes).reduce((acc, name) => {
@@ -35,97 +28,127 @@ router.get('/status', (req, res) => {
   res.json(status);
 });
 
-router.post('/update-toggles-file', async (req, res) => {
-  const { updateToggle } = req.body;
-  const filePath = path.join(
-    __dirname,
-    '..',
-    '..',
-    'mocks',
-    'endpoints',
-    'feature-toggles',
-    'index.js',
-  );
-
-  try {
-    // Read the current file content
-    let content = await fs.readFile(filePath, 'utf8');
-
-    // Update the content
-    const newDate = new Date().toISOString();
-    content = content.replace(/updated: .*,/, `updated: '${newDate}',`);
-
-    if (updateToggle) {
-      content += '\n// File updated via API';
-    }
-
-    // Write the updated content back to the file
-    await fs.writeFile(filePath, content, 'utf8');
-
-    res.json({
-      success: true,
-      message: 'File updated successfully',
-      updatedAt: newDate,
-    });
-  } catch (error) {
-    logger.error('Error updating file:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error updating file',
-      error: error.message,
-    });
-  }
-});
-
 router.post('/stop', async (req, res) => {
   const { port: portToStop } = req.body;
+
+  // Validate port is a number and within allowed range
+  // adds a bit of protection from invalid port numbers
+  const port = parseInt(portToStop, 10);
+  if (isNaN(port) || port < 1024 || port > 65535) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid port number. Must be between 1024 and 65535',
+    });
+  }
+
+  // Only allow stopping known development ports
+  // if 1337 is in the list, we are stopping the whole server manager aka this server
+  const allowedPorts = [3000, 3001, 3002, 1337];
+  if (!allowedPorts.includes(port)) {
+    return res.status(403).json({
+      success: false,
+      message: 'Not allowed to stop processes on this port',
+    });
+  }
+
   try {
-    await killProcessOnPort(portToStop);
-    res.json({
+    await killProcessOnPort(port);
+    return res.json({
       success: true,
-      message: `Process on port ${portToStop} stopped`,
+      message: `Process on port ${port} stopped`,
     });
   } catch (error) {
-    res.status(500).json({
+    logger.error(`Error stopping process on port ${port}:`, error);
+    return res.status(500).json({
       success: false,
-      message: `Error stopping process on port ${portToStop}: ${error.message}`,
+      message: `Error stopping process on port ${port}: ${error.message}`,
     });
   }
 });
 
-router.post('/start-fe-dev-server', (req, res) => {
-  const { entry, api } = req.body;
-  const name = 'fe-dev-server';
-  const command = 'yarn';
-  const args = [
-    '--cwd',
-    paths.root,
-    'watch',
-    '--env',
-    `entry=${entry}`,
-    `api=${api}`,
-  ];
-
-  const result = startProcess(name, command, args);
-  res.json(result);
-});
+const mockServerPaths = [
+  'src/applications/_mock-form-ae-design-patterns/mocks/server.js',
+  'src/applications/appeals/shared/tests/mock-api.js',
+  'src/applications/avs/api/mocks/index.js',
+  'src/applications/check-in/api/local-mock-api/index.js',
+  'src/applications/combined-debt-portal/combined/utils/mocks/mockServer.js',
+  'src/applications/disability-benefits/2346/mocks/index.js',
+  'src/applications/disability-benefits/all-claims/local-dev-mock-api/index.js',
+  'src/applications/education-letters/testing/response.js',
+  'src/applications/financial-status-report/mocks/responses.js',
+  'src/applications/health-care-supply-reordering/mocks/index.js',
+  'src/applications/ivc-champva/10-10D/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/ivc-champva/10-7959f-1/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/mhv-landing-page/mocks/api/index.js',
+  'src/applications/mhv-medications/mocks/api/index.js',
+  'src/applications/mhv-secure-messaging/api/mocks/index.js',
+  'src/applications/mhv-supply-reordering/mocks/index.js',
+  'src/applications/my-education-benefits/testing/responses.js',
+  'src/applications/personalization/dashboard/mocks/server.js',
+  'src/applications/personalization/notification-center/mocks/server.js',
+  'src/applications/personalization/profile/mocks/server.js',
+  'src/applications/personalization/review-information/tests/fixtures/mocks/local-mock-responses.js',
+  'src/applications/post-911-gib-status/mocks/server.js',
+  'src/applications/representative-appoint/mocks/server.js',
+  'src/applications/simple-forms/20-10206/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/20-10207/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/21-0845/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/21-0966/tests/e2e/fixtures/mocks/local-mock-api-responses.js',
+  'src/applications/simple-forms/21-0972/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/21-10210/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/21-4138/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/21-4142/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/40-0247/tests/e2e/fixtures/mocks/local-mock-api-reponses.js',
+  'src/applications/simple-forms/form-upload/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/simple-forms/mock-simple-forms-patterns/tests/e2e/fixtures/mocks/local-mock-responses.js',
+  'src/applications/travel-pay/services/mocks/index.js',
+  'src/applications/vaos/services/mocks/index.js',
+  'src/platform/mhv/api/mocks/index.js',
+  'src/platform/mhv/downtime/mocks/api/index.js',
+  'src/platform/testing/local-dev-mock-api/common.js',
+];
 
 router.post('/start-mock-server', (req, res) => {
-  // get path to root of the repo
-  const root = path.resolve(__dirname, '..', '..', '..');
-  logger.debug({ root });
-  const { debug = true, responsesPath } = req.body;
-  const name = 'mock-server';
-  const command = 'node';
-  const args = [
-    'src/platform/testing/e2e/mockapi.js',
-    '--responses',
-    responsesPath,
-  ];
-  const env = { AEDEBUG: debug.toString() };
+  const { responsesPath } = req.body;
 
-  const result = startProcess(name, command, args, env);
-  res.json(result);
+  if (!responsesPath) {
+    return res.status(400).json({
+      success: false,
+      message: 'responsesPath is required',
+    });
+  }
+
+  // Normalize the path for comparison just in case there are any issues with the path string
+  const normalizedPath = path.normalize(responsesPath).replace(/\\/g, '/');
+
+  const matchingPathIndex = mockServerPaths.findIndex(
+    allowedPath =>
+      path.normalize(allowedPath).replace(/\\/g, '/') === normalizedPath,
+  );
+
+  if (matchingPathIndex === -1) {
+    return res.status(403).json({
+      success: false,
+      message: 'Invalid responses path',
+      allowedPaths: mockServerPaths, // I might remove this in the future
+    });
+  }
+
+  // Use the validated path from our array
+  // this way we are not using user input to start the server
+  const validatedPath = path.join(
+    paths.root,
+    mockServerPaths[matchingPathIndex],
+  );
+
+  const result = startProcess('mock-server', 'node', [
+    paths.mockApi,
+    '--responses',
+    validatedPath,
+  ]);
+
+  return res.json(result);
 });
 
 router.get('/output/:name', (req, res) => {
@@ -174,8 +197,6 @@ router.get('/manifests', getManifests);
 router.post('/start-fe', async (req, res) => {
   const { entries = [] } = req.body;
 
-  logger.debug('Entries:', entries);
-
   if (!Array.isArray(entries) || entries.length === 0) {
     return res.status(400).json({
       success: false,
@@ -187,32 +208,41 @@ router.post('/start-fe', async (req, res) => {
     const manifests = await findManifestFiles(paths.applications);
     logger.debug('Found manifests count:', manifests.length);
 
-    // Get available entry names from manifests
-    const availableEntries = manifests
-      .map(manifest => manifest.entryName)
+    // Find manifests that match the requested entries
+    const validManifests = entries
+      .map(entry => manifests.find(manifest => manifest.entryName === entry))
       .filter(Boolean);
-    logger.debug('Available entries:', availableEntries);
 
-    // Validate all entries exist in manifests
-    const invalidEntries = entries.filter(
-      entry => !availableEntries.includes(entry),
-    );
+    logger.debug('Valid manifests:', validManifests);
 
-    if (invalidEntries.length > 0) {
+    // check if we found all requested entries
+    if (validManifests.length !== entries.length) {
+      const foundEntries = validManifests.map(m => m.entryName);
+      const invalidEntries = entries.filter(
+        entry => !foundEntries.includes(entry),
+      );
+
+      // provides the invalid entries and the available entries
+      // might remove the available entries in the future just to be more consistent
+      // but this way we can provide the user with the available entries
       return res.status(400).json({
         success: false,
         message: 'Invalid entry names provided',
         invalidEntries,
-        availableEntries,
+        availableEntries: manifests.map(m => m.entryName).filter(Boolean),
       });
     }
+
+    // Use only the validated entry names from the manifests
+    // this way user input is not used to start the server
+    const validatedEntries = validManifests.map(m => m.entryName);
 
     const result = startProcess('fe-dev-server', 'yarn', [
       '--cwd',
       paths.root,
       'watch',
       '--env',
-      `entry=${entries.join(',')}`,
+      `entry=${validatedEntries.join(',')}`,
       'api=http://localhost:3000',
     ]);
 
