@@ -24,6 +24,7 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
+  sendDataDogAction,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -162,6 +163,9 @@ ${record.results}`;
           )}
           text="Request images on the My HealtheVet website"
           data-testid="radiology-images-link"
+          onClick={() => {
+            sendDataDogAction('Request images on MHV');
+          }}
         />
       </div>
 
