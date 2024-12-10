@@ -236,7 +236,6 @@ export const selfEnteredTypes = {
   DEMOGRAPHICS: 'demographics',
   FAMILY_HISTORY: 'family health history',
   FOOD_JOURNAL: 'food journal',
-  GOALS: 'goals', // dont have this
   HEALTH_PROVIDERS: 'healthcare providers',
   HEALTH_INSURANCE: 'health insurance',
   TEST_ENTRIES: 'lab and test results',

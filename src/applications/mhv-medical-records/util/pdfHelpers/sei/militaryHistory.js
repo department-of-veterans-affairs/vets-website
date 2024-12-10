@@ -29,6 +29,7 @@ export const generateMilitaryHistoryContent = record => {
             value: record.locationOfService,
             inline: true,
           },
+          // unknown field, check with UCD
           // {
           //   title: 'Onboard ship', // unknown
           //   value: record.?,

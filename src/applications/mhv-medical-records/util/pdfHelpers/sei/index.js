@@ -20,7 +20,6 @@ export const generateSelfEnteredData = ({
   demographics,
   familyHistory,
   foodJournal,
-  // goals,
   providers,
   healthInsurance,
   testEntries,
@@ -91,16 +90,6 @@ export const generateSelfEnteredData = ({
       records: foodJournal.map(record => generateFoodJournalContent(record)),
     });
   }
-
-  // if (goals) {
-  //   console.log('goals: ', goals);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
 
   if (providers) {
     data.push({

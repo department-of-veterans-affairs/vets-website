@@ -49,7 +49,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.mr.selfEntered.familyHistory,
   );
   const foodJournal = useSelector(state => state.mr.selfEntered.foodJournal);
-  // const goals = useSelector(state => state.mr.selfEntered.goals);
   const providers = useSelector(state => state.mr.selfEntered.providers);
   const healthInsurance = useSelector(
     state => state.mr.selfEntered.healthInsurance,
@@ -68,16 +67,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
   const vitals = useSelector(state => state.mr.selfEntered.vitals);
 
-  // const errors = useSelector(state => state.mr.selfEntered.errors);
-
-  // const [downloadStarted, setDownloadStarted] = useState(false);
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
   );
 
   const generatePdf = useCallback(
     async () => {
-      // setDownloadStarted(true);
       setSelfEnteredInfoRequested(true);
       dispatch(clearAlerts());
       const allDefd = allAreDefined([
@@ -86,7 +81,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         demographics,
         familyHistory,
         foodJournal,
-        // goals,
         providers,
         healthInsurance,
         testEntries,
@@ -120,7 +114,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           demographics,
           familyHistory,
           foodJournal,
-          // goals,
           providers,
           healthInsurance,
           testEntries,
@@ -153,7 +146,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       demographics,
       familyHistory,
       foodJournal,
-      // goals,
       providers,
       healthInsurance,
       testEntries,
@@ -176,7 +168,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           demographics,
           familyHistory,
           foodJournal,
-          // goals,
           providers,
           healthInsurance,
           testEntries,
@@ -198,7 +189,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       demographics,
       familyHistory,
       foodJournal,
-      // goals,
       providers,
       healthInsurance,
       testEntries,
