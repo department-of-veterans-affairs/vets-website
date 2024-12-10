@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { uniqueId } from 'lodash';
@@ -53,7 +52,6 @@ export default function RecentActivity({ claim }) {
 
   const generateTrackedItems = () => {
     const { trackedItems } = claim.attributes;
-
     const items = [];
     const addItems = (date, description, item) => {
       items.push({
@@ -65,23 +63,14 @@ export default function RecentActivity({ claim }) {
         type: 'tracked_item',
       });
     };
-    // loop through each item
-    // determine and add to items array
 
     trackedItems.forEach(item => {
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
           ? 'List of evidence we may need (5103 notice)'
           : item.displayName;
-      if (item.requestedDate !== null) {
-        addItems(
-          item.requestedDate,
-          `We opened a request: "${displayName}"`,
-          item,
-        );
-      }
 
-      if (item.closedDate !== null) {
+      if (item.closedDate) {
         addItems(
           item.closedDate,
           `We closed a request: "${displayName}"`,
@@ -89,7 +78,15 @@ export default function RecentActivity({ claim }) {
         );
       }
 
-      if (item.documents.length > 0) {
+      if (item.receivedDate) {
+        addItems(
+          item.receivedDate,
+          `We completed a review for the request: "${displayName}"`,
+          item,
+        );
+      }
+
+      if (item.documents?.length > 0) {
         addItems(
           getOldestDocumentDate(item),
           `We received your document(s) for the request: "${displayName}"`,
@@ -97,14 +94,15 @@ export default function RecentActivity({ claim }) {
         );
       }
 
-      if (item.receivedDate !== null) {
+      if (item.requestedDate) {
         addItems(
-          item.receivedDate,
-          `We completed a review for the request: "${displayName}"`,
+          item.requestedDate,
+          `We opened a request: "${displayName}"`,
           item,
         );
       }
     });
+
     return items;
   };
 
@@ -160,7 +158,7 @@ export default function RecentActivity({ claim }) {
     const items = [...trackedItems, ...phaseItems];
 
     return items.sort((item1, item2) => {
-      return moment(item2.date) - moment(item1.date);
+      return new Date(item2.date) - new Date(item1.date);
     });
   };
 
