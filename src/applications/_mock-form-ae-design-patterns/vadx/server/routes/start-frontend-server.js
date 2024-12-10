@@ -3,7 +3,7 @@ const { killProcessOnPort } = require('../utils/utils');
 const { startProcess } = require('../utils/processes');
 const paths = require('../utils/paths');
 const logger = require('../utils/logger');
-const { findManifestFiles } = require('../utils/manifests');
+const { getCachedManifests } = require('../utils/manifests');
 
 const router = express.Router();
 
@@ -18,15 +18,12 @@ router.post('/start-frontend-server', async (req, res) => {
   }
 
   try {
-    const manifests = await findManifestFiles(paths.applications);
-    logger.debug('Found manifests count:', manifests.length);
+    const manifests = getCachedManifests();
 
     // Find manifests that match the requested entries
     const validManifests = entries
       .map(entry => manifests.find(manifest => manifest.entryName === entry))
       .filter(Boolean);
-
-    logger.debug('Valid manifests:', validManifests);
 
     // check if we found all requested entries
     if (validManifests.length !== entries.length) {
@@ -70,7 +67,7 @@ router.post('/start-frontend-server', async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    logger.error('Error in /start-fe:', error);
+    logger.error('Error in /start-frontend-server:', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to validate entries',

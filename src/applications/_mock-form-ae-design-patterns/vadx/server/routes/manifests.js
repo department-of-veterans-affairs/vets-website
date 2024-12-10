@@ -1,13 +1,14 @@
 const express = require('express');
-const { cachedManifests } = require('../utils/manifests');
+const { getCachedManifests } = require('../utils/manifests');
 
 const router = express.Router();
 
 router.get('/manifests', (req, res) => {
+  const manifests = getCachedManifests();
   res.json({
     success: true,
-    count: cachedManifests.length,
-    manifests: cachedManifests,
+    count: manifests.length,
+    manifests,
   });
 });
 

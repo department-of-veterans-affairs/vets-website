@@ -125,8 +125,8 @@ async function autoStartServers(options = {}) {
 
   await startProcess(
     'mock-server',
-    'node',
-    [paths.mockApi, '--responses', responses],
+    'yarn',
+    ['--cwd', paths.root, 'mock-api', '--responses', responses],
     {
       forceRestart: true,
     },

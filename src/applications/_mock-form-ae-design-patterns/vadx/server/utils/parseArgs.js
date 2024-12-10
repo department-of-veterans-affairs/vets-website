@@ -13,7 +13,7 @@ function parseArgs() {
     api: options.api,
     responses:
       options.responses ||
-      `${process.cwd()}/src/applications/_mock-form-ae-design-patterns/mocks/server.js`,
+      `src/applications/_mock-form-ae-design-patterns/mocks/server.js`,
   };
 }
 

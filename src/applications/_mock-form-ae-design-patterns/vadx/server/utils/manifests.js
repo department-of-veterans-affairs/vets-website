@@ -51,6 +51,8 @@ async function findManifestFiles(dir) {
   return manifests;
 }
 
+const getCachedManifests = () => cachedManifests;
+
 // Initialize manifests when server starts
 async function initializeManifests() {
   try {
@@ -65,6 +67,5 @@ async function initializeManifests() {
 
 module.exports = {
   initializeManifests,
-  cachedManifests,
-  findManifestFiles,
+  getCachedManifests,
 };
