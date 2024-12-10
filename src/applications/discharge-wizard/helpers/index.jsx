@@ -561,7 +561,7 @@ export const stepHeaderLevel = formResponses => {
   return 2;
 };
 
-const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
+export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
       RESPONSES.PREV_APPLICATION_BCMR,
@@ -594,7 +594,7 @@ export const isPreviousApplicationYear = prevAppYear => {
   ].includes(prevAppYear);
 };
 
-const shouldReapplyToBoard = (prevAppType, formResponses) => {
+export const shouldReapplyToBoard = (prevAppType, formResponses) => {
   return (
     [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
       prevAppType,
@@ -606,14 +606,18 @@ const shouldReapplyToBoard = (prevAppType, formResponses) => {
   );
 };
 
-const isDocumentaryOrNotSure = prevAppType => {
+export const isDocumentaryOrNotSure = prevAppType => {
   return [
     RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
     RESPONSES.NOT_SURE,
   ].includes(prevAppType);
 };
 
-const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
+export const handleDRBExplanation = (
+  boardToSubmit,
+  serviceBranch,
+  prevAppType,
+) => {
   const boardName =
     boardToSubmit.abbr === DRB
       ? 'Discharge Review Board (DRB)'

@@ -73,3 +73,39 @@ export const openCrisisModal = () => {
   );
   focusElement(document.querySelector('a[href="tel:988"]'));
 };
+
+/**
+ * Retrieves the pharmacy phone number from a prescription object.
+ *
+ * The function checks for the pharmacy phone number in the following order:
+ * 1. `prescription.cmopDivisionPhone`
+ * 2. `prescription.dialCmopDivisionPhone`
+ * 3. `prescription.rxRfRecords[].cmopDivisionPhone`
+ * 4. `prescription.rxRfRecords[].dialCmopDivisionPhone`
+ *
+ * @param {Object} prescription - The prescription object containing pharmacy details.
+ * @returns {String|null} The pharmacy phone number if found, otherwise `null`.
+ */
+export const pharmacyPhoneNumber = prescription => {
+  if (prescription.cmopDivisionPhone) {
+    return prescription.cmopDivisionPhone;
+  }
+  if (prescription.dialCmopDivisionPhone) {
+    return prescription.dialCmopDivisionPhone;
+  }
+
+  if (prescription.rxRfRecords && prescription.rxRfRecords.length > 0) {
+    const cmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.cmopDivisionPhone) return item.cmopDivisionPhone;
+      return null;
+    })?.cmopDivisionPhone;
+    if (cmopDivisionPhone) return cmopDivisionPhone;
+
+    const dialCmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.dialCmopDivisionPhone) return item.dialCmopDivisionPhone;
+      return null;
+    })?.dialCmopDivisionPhone;
+    if (dialCmopDivisionPhone) return dialCmopDivisionPhone;
+  }
+  return null;
+};

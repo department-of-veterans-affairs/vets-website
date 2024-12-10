@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Outlet } from 'react-router-dom-v5-compat';
+import { Outlet } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
