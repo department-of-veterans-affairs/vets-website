@@ -1,5 +1,5 @@
-// import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-// import environment from '~/platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '~/platform/utilities/environment';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
@@ -12,23 +12,9 @@ export function fetchUser() {
     });
 
     try {
-      // const path = '/accredited_representative_portal/v0/user';
-      // const user = await apiRequest(`${environment.API_URL}${path}`);
-      const user = {
-        account: {
-          accountUuid: '88f572d491af46efa393cba6c351e252',
-        },
-        profile: {
-          firstName: 'William',
-          lastName: 'Phelps',
-          verified: true,
-          signIn: {
-            serviceName: 'idme',
-          },
-        },
-        prefillsAvailable: [],
-        inProgressForms: [],
-      };
+      const path = '/accredited_representative_portal/v0/user';
+      const user = await apiRequest(`${environment.API_URL}${path}`);
+
       /**
        * This is an even stricter success condition than having a user. We
        * additionally require what is needed for access token refreshing to

@@ -16,7 +16,7 @@ export const MobileOfficialGovtWebsite = () => {
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column">
-      <div className="header__govt-website vads-u-display--flex">
+      <div className="header__govt-site vads-u-display--flex">
         <img
           alt="U.S. flag"
           className="header__flag"
@@ -24,7 +24,7 @@ export const MobileOfficialGovtWebsite = () => {
         />
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
-          data-testid="official-govt-website-toggle"
+          data-testid="official-govt-site-toggle"
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
           className="header__govt-site-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex"
@@ -59,7 +59,7 @@ export const MobileOfficialGovtWebsite = () => {
       {/* Expanded section */}
       {expanded && (
         <div
-          data-testid="official-govt-website-content"
+          data-testid="official-govt-site-content"
           aria-hidden={expanded ? 'false' : 'true'}
           className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
           id="official-govt-site-explanation"
