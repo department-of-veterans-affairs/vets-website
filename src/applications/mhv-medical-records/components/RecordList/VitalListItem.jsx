@@ -3,12 +3,24 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { vitalTypeDisplayNames } from '../../util/constants';
-import { dateFormatWithoutTimezone } from '../../util/helpers';
+import {
+  dateFormatWithoutTimezone,
+  sendDataDogAction,
+} from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
   const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
+
+  const ddLabelName = useMemo(
+    () => {
+      return displayName.includes('Blood oxygen level')
+        ? 'Blood Oxygen over time Link'
+        : `${displayName} over time Link`;
+    },
+    [displayName],
+  );
 
   const updatedRecordType = useMemo(
     () => {
@@ -111,6 +123,9 @@ const VitalListItem = props => {
             to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
+            onClick={() => {
+              sendDataDogAction(ddLabelName);
+            }}
           >
             <strong>
               Review your{' '}
