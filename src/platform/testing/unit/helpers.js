@@ -130,26 +130,30 @@ export function setFetchJSONResponse(stub, data = null) {
     ok: true,
     url: environment.API_URL,
   };
+  let body = null;
   if (data) {
     options.headers = {
       'Content-Type': 'application/json',
     };
     options.json = () => Promise.resolve(data);
+    body = JSON.stringify(data);
   }
-  const response = new Response(null, options);
+
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
   const options = {
-    ok: false,
+    status: 400,
     url: environment.API_URL,
     json: () => Promise.resolve(data),
     headers: {
       'Content-Type': 'application/json',
     },
   };
-  const response = new Response(null, options);
+  const body = JSON.stringify(data);
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
@@ -159,13 +163,14 @@ export function setFetchBlobResponse(stub, data) {
     url: environment.API_URL,
     blob: () => Promise.resolve(data),
   };
-  const response = new Response(null, options);
+  const body = JSON.stringify(data);
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
   const options = {
-    ok: false,
+    status: 400,
     url: environment.API_URL,
     blob: () => Promise.reject(new Error(error)),
   };
