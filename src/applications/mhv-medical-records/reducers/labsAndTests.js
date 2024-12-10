@@ -315,7 +315,6 @@ const convertEkgRecord = record => {
 //     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
 //       'utf-8',
 //     ),
-//     images: [],
 //   };
 // };
 
@@ -345,7 +344,6 @@ export const convertMhvRadiologyRecord = record => {
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
     results: buildRadiologyResults(record),
-    images: [],
   };
 };
 
@@ -371,13 +369,17 @@ export const convertCvixRadiologyRecord = record => {
       impressionText: parsedReport.Impression,
     }),
     studyId: record.studyIdUrn,
-    images: [],
+    imageCount: record.imageCount,
   };
 };
 
 const mergeRadiologyRecords = (phrRecord, cvixRecord) => {
   if (phrRecord && cvixRecord) {
-    return { ...phrRecord, studyId: cvixRecord.studyId };
+    return {
+      ...phrRecord,
+      studyId: cvixRecord.studyId,
+      imageCount: cvixRecord.imageCount,
+    };
   }
   return phrRecord || cvixRecord || null;
 };

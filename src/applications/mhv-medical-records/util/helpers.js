@@ -359,9 +359,9 @@ export const formatDate = str => {
 };
 
 /**
- * Returns a date formatted into two parts -- a date portion and a time portion.
+ * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
- * @param {Date} date
+ * @param {Date | string} date
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
@@ -382,10 +382,16 @@ export const formatDateAndTime = rawDate => {
     day: 'numeric',
   };
   const datePart = date.toLocaleDateString('en-US', options);
+  const timeZonePart = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+  })
+    .formatToParts(date)
+    .find(part => part.type === 'timeZoneName')?.value;
 
   return {
     date: datePart,
     time: timePart,
+    timeZone: timeZonePart,
   };
 };
 
@@ -521,6 +527,23 @@ export const formatNameFirstToLast = name => {
   }
 };
 
+// Imaging methods ------------
+
+/**
+ * @param {Array} list array of objects being parsed for the imaging endpoint.
+ */
+export const extractImageAndSeriesIds = list => {
+  const newList = [];
+  let num = 1;
+  list.forEach(item => {
+    const numbers = item.match(/\d+/g);
+    const result = numbers.join('/');
+    newList.push({ index: num, seriesAndImage: result });
+    num += 1;
+  });
+  return newList;
+};
+
 /**
  * @param {Object} dateParams an object for the date
  * @param {string} dateParams.date the date to format, in YYYY-MM format
@@ -556,4 +579,19 @@ export const allAreDefined = arrayOfArrays => {
       (typeof data === 'string' && data?.length) ||
       (Array.isArray(data) && !!data?.length),
   );
+};
+
+/**
+ * Format a iso8601 date in the local browser timezone.
+ *
+ * @param {string} date the date to format, in ISO8601 format
+ * @returns {String} formatted timestamp
+ */
+export const formatDateInLocalTimezone = date => {
+  const dateObj = parseISO(date);
+  const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  const localTimeZoneName = dateObj
+    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
+    .substring(4);
+  return `${formattedDate} ${localTimeZoneName}`;
 };

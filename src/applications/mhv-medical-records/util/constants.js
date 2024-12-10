@@ -28,6 +28,7 @@ export const accessAlertTypes = {
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
   BLUE_BUTTON_REPORT: 'Blue Button report',
+  IMAGE_STATUS: 'image',
 };
 
 export const labTypes = {
@@ -210,6 +211,7 @@ export const vitalUnitDisplayText = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
@@ -252,6 +254,14 @@ export const allergyTypes = {
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const studyJobStatus = {
+  NONE: 'NONE',
+  NEW: 'NEW',
+  PROCESSING: 'PROCESSING',
+  COMPLETE: 'COMPLETE',
+  ERROR: 'ERROR',
 };
 
 export const refreshExtractTypes = {

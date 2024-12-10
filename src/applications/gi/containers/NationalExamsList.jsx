@@ -69,6 +69,7 @@ const NationalExamsList = () => {
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
   const NationalExamsInfo = () => (
