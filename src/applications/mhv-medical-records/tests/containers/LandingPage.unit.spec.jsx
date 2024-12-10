@@ -117,6 +117,8 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
       },
       ...initialState,
     };
@@ -207,5 +209,36 @@ describe('Landing Page', () => {
     //     exact: true,
     //   }).length,
     // ).to.eq(2);
+  });
+
+  it('displays Questions about this medical records tool section', () => {
+    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+
+    expect(
+      screen.getByText('Questions about this medical records tool', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText(
+        'Where can I find health information I entered myself?',
+        {
+          selector: 'h3',
+          exact: true,
+        },
+      ),
+    ).to.exist;
+
+    expect(
+      screen.getAllByText(
+        'Go to your medical records on the My HealtheVet website',
+        {
+          selector: 'a',
+          exact: true,
+        },
+      ),
+    ).to.exist;
   });
 });
