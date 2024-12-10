@@ -1,13 +1,19 @@
 import React from 'react';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { Link, withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
+  onSubmit = event => {
+    event.preventDefault();
+    this.props.router.push('/calculations-instructions');
+  };
 
   render() {
     const { route } = this.props;
@@ -48,6 +54,12 @@ class IntroductionPage extends React.Component {
             </p>
           </li>
           <li>
+            <Link
+              aria-label="Calculation instructions"
+              to="/calculations-instructions"
+            >
+              Calculation instructions
+            </Link>
             <h3>Apply</h3>
             <p>Complete this education benefits form.</p>
             <p>
@@ -90,4 +102,7 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+export default connect(
+  null,
+  {},
+)(withRouter(IntroductionPage));

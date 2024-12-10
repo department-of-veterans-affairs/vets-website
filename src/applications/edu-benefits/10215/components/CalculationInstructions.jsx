@@ -1,8 +1,9 @@
 import React from 'react';
+import NeedHelp from './NeedHelp';
 
 export const CalculationInstructions = () => {
   return (
-    <div>
+    <div className="vads-l-grid-container vads-u-margin-top--4">
       <h1 className="vads-u-margin-top--2">
         Calculation instructions for VA Form 22-10215: Statement of Assurance of
         Compliance with 85% Enrollment Ratios
@@ -107,6 +108,135 @@ export const CalculationInstructions = () => {
           Supported Student.
         </p>
       </div>
+      <div className="bottom-border">
+        <h2 className="vads-u-margin-top--2">
+          Number of supported students FTE
+        </h2>
+        <ul className="vads-u-margin-left--2 list-style">
+          <li>
+            Provide the number of Supported Students for identified approved
+            program.
+          </li>
+          <li>
+            You must compute the full-time equivalency for part-time students
+            based on the total number of hours in which the student is enrolled
+            for the term and add it to the number of full-time students. A
+            student is counted as a full-time or part-time student under each
+            approved program, concentration or track based on the student’s
+            overall rate of pursuit or overall training time.{' '}
+            <strong>Example:</strong> Take the total number of one-half time
+            students, divide by two, and add the quotient to the number of
+            full-time students.
+          </li>
+        </ul>
+        <p>
+          <strong>Note:</strong> If the student is receiving multiple types of
+          aid and any of it is Supported, the student must be counted as a
+          Supported Student.
+        </p>
+      </div>
+      <div className="bottom-border">
+        <h2 className="vads-u-margin-top--2">
+          Number of non-supported students FTE
+        </h2>
+        <ul className="vads-u-margin-left--2 list-style">
+          <li>
+            Provide the number of Non-Supported Students for identified approved
+            program.
+          </li>
+          <li>
+            You must compute the full-time equivalency for part-time students
+            based on the total number of hours in which the student is enrolled
+            for the term and add it to the number of full-time students. A
+            student is counted as a full-time or part-time student under each
+            approved program, concentration or track based on the student’s
+            overall rate of pursuit or overall training time. Example: Take the
+            total number of one-half time students, divide by two, and add the
+            quotient to the number of full-time students.
+          </li>
+        </ul>
+        <p>
+          A student must be considered a "Non-Supported Student" when any of the
+          following conditions are met:
+        </p>
+        <ul className="vads-u-margin-left--2 list-style">
+          <li>
+            Any student who pays the full amount of tuition, fees, and other
+            mandatory charges to the school prior to the reporting date (i.e.,
+            within 30 days of the beginning of the term if the school is
+            term-based or within 30 days of the end of the quarter if the school
+            is non-term-based).
+          </li>
+          <li>
+            Any student participating in a compliant institutionally funded
+            payment plan that meets ALL the following criteria:
+            <ul className="inner-list-style">
+              <li>
+                The payment plan policy is published in the school’s approved
+                catalog.
+              </li>
+              <li>
+                The payment plan is generally applicable to all students
+                interested in applying for such plans (although every student
+                may not be guaranteed acceptance into such an installment plan).
+              </li>
+              <li>
+                The payment plan explicitly requires the student to pay the
+                outstanding balance no later than 180 days from the end of the
+                term, quarter, semester, or enrollment period, whichever is
+                later.
+              </li>
+              <li>
+                The school’s policy prevents the student from continuing to
+                train for the next term beginning on or after the expiration of
+                the payment plan until the outstanding balance is paid in full.
+              </li>
+            </ul>
+          </li>
+          <li>Any student receiving Title IV Department of Education aid.</li>
+          <li>
+            Any student receiving Tuition Assistance through the Department of
+            Defense.
+          </li>
+          <li>
+            Any student receiving non-institutional aid (scholarships, grants,
+            or other types of aid offered by a third-party entity not affiliated
+            with the school).{' '}
+          </li>
+          <li>Graduate students in receipt of institutional aid.</li>
+          <li>
+            Any student receiving an institutionally funded loan, scholarship,
+            or grant, if the policy for determining the recipient of such aid is
+            equal with respect to veterans and non-veterans alike.
+          </li>
+          <li>
+            Any student who is granted any waiver or forgiveness of tuition,
+            fees, or other charges, where the institutional policy for
+            determining the recipient of such aid is equal with respect to
+            Veterans and nonveterans alike (i.e., restricted aid), excluding
+            graduate students.
+          </li>
+        </ul>
+      </div>
+      <div className="bottom-border">
+        <h2 className="vads-u-margin-top--2">
+          Total enrollment FTE - Calculated for you
+        </h2>
+        <p>
+          The result of students provided in the Number of Supported Students
+          FTE added to the Number of NonSupported Students FTE.
+        </p>
+      </div>
+      <div>
+        <h2 className="vads-u-margin-top--2">
+          Supported student percentage FTE - Calculated for you
+        </h2>
+        <p>
+          The result of students provided in the Number of Supported Students
+          FTE (Column 5D), divided by the Total Enrolled FTE.
+        </p>
+      </div>
+      <NeedHelp />
     </div>
   );
 };
