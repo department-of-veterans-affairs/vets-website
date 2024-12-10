@@ -21,20 +21,27 @@ export const sponsorMailingAddressStateTitleWrapper = (
 export const uiSchema = {
   application: {
     veteran: {
-      address: merge({}, address.uiSchema('Sponsor’s mailing address'), {
-        street: {
-          'ui:title': 'Street address',
-        },
-        street2: {
-          'ui:title': 'Street address line 2',
-        },
-        state: {
-          'ui:title': sponsorMailingAddressStateTitleWrapper,
-          'ui:options': {
-            hideIf: formData => !sponsorMailingAddressHasState(formData),
+      address: merge(
+        {},
+        address.uiSchema(
+          'Sponsor mailing address',
+          'You can choose to enter your sponsor’s mailing address. This is optional. We’ll confirm this address with the U.S. Postal Service.',
+        ),
+        {
+          street: {
+            'ui:title': 'Street address',
+          },
+          street2: {
+            'ui:title': 'Street address line 2',
+          },
+          state: {
+            'ui:title': sponsorMailingAddressStateTitleWrapper,
+            'ui:options': {
+              hideIf: formData => !sponsorMailingAddressHasState(formData),
+            },
           },
         },
-      }),
+      ),
       'view:contactInfoSubheader': {
         'ui:description': sponsorContactInfoSubheader,
         'ui:options': {

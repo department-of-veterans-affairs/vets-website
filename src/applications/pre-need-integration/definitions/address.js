@@ -151,6 +151,7 @@ export function schema(currentSchema, isRequired = false) {
  */
 export function uiSchema(
   label = 'Address',
+  description = null,
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
@@ -280,6 +281,7 @@ export function uiSchema(
 
   return {
     'ui:title': label,
+    'ui:description': description,
     'ui:validations': [validateAddress],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {

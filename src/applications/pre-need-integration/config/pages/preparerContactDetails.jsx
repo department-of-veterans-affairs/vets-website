@@ -27,23 +27,44 @@ export const uiSchema = {
     applicant: {
       'view:applicantInfo': {
         mailingAddress: merge({}, address.uiSchema('Your mailing address'), {
-          country: { 'ui:required': isAuthorizedAgent },
+          country: {
+            'ui:required': isAuthorizedAgent,
+            'ui:errorMessages': {
+              required: 'Select Country',
+            },
+          },
           street: {
             'ui:title': 'Street address',
             'ui:required': isAuthorizedAgent,
+            'ui:errorMessages': {
+              required: 'Enter a street address',
+            },
           },
           street2: {
             'ui:title': 'Street address line 2',
           },
-          city: { 'ui:required': isAuthorizedAgent },
+          city: {
+            'ui:required': isAuthorizedAgent,
+            'ui:errorMessages': {
+              required: 'Enter a city',
+            },
+          },
           state: {
             'ui:title': preparerMailingAddressStateTitleWrapper,
             'ui:required': isAuthorizedAgent,
             'ui:options': {
               hideIf: formData => !preparerAddressHasState(formData),
             },
+            'ui:errorMessages': {
+              enum: 'Select a state or territory',
+            },
           },
-          postalCode: { 'ui:required': isAuthorizedAgent },
+          postalCode: {
+            'ui:required': isAuthorizedAgent,
+            'ui:errorMessages': {
+              required: 'Enter a postal code',
+            },
+          },
         }),
       },
       'view:contactInfo': {
