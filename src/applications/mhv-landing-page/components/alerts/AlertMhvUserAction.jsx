@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import recordEventFn from '~/platform/monitoring/record-event';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
-const AlertMhvUserAction = ({ errorCode, testId }) => {
+const AlertMhvUserAction = ({ errorCode, testId, recordEvent }) => {
+  const headline = `Contact the My HealtheVet help desk: Error code ${errorCode}`;
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
+
   return (
     <div
       className="mhv-c-reg-alert mhv-u-reg-alert-error usa-alert usa-alert-error vads-u-display--flex
@@ -12,7 +26,7 @@ const AlertMhvUserAction = ({ errorCode, testId }) => {
     >
       <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          Contact the My HealtheVet help desk: Error code {errorCode}
+          {headline}
         </h2>
         <div className="mhv-u-reg-alert-body" role="presentation">
           <p className="vads-u-margin-y--0">
@@ -45,7 +59,6 @@ AlertMhvUserAction.defaultProps = {
   title: 'Contact the My HealtheVet help desk: Error code',
   errorCode: 'unknown',
   recordEvent: recordEventFn,
-  ssoe: false,
   testId: 'mhv-alert--mhv-registration',
 };
 
@@ -53,7 +66,6 @@ AlertMhvUserAction.propTypes = {
   title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
-  ssoe: PropTypes.bool,
   testId: PropTypes.string,
 };
 
