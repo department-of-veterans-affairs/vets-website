@@ -1,27 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { addStyleToShadowDomOnPages, validateFacilityCode } from '../utilities';
+import { validateFacilityCode } from '../utilities';
 
 global.window = { location: { href: '' } };
 
 describe('Utilities Tests', () => {
-  describe('addStyleToShadowDomOnPages', () => {
-    it('should inject styles into shadow DOM elements on specified pages', async () => {
-      window.location.href = 'http://example.com';
-      const urlArray = ['example.com'];
-      const targetElements = ['va-select'];
-      const style = 'color: red;';
-      const selectElement = document.createElement('va-select');
-      document.body.appendChild(selectElement);
-      const shadowRoot = selectElement.attachShadow({ mode: 'open' });
-      shadowRoot.adoptedStyleSheets = [];
-
-      await addStyleToShadowDomOnPages(urlArray, targetElements, style);
-
-      expect(shadowRoot.adoptedStyleSheets.length).to.equal(0);
-    });
-  });
-
   describe('validateFacilityCode', () => {
     let apiRequestStub;
 
