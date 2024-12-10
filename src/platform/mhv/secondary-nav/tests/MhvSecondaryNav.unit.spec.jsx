@@ -33,13 +33,13 @@ describe('<MhvSecondaryNav />', () => {
   });
 
   describe('Medical Records href', () => {
-    it('when no features set: /my-health/medical-records', () => {
+    it('when no features set:\n\t /my-health/medical-records', () => {
       const { getByRole } = setup();
       const mrLink = getByRole('link', { name: /^Records/ });
       expect(mrLink.href).to.match(/my-health\/medical-records$/);
     });
 
-    it('when mhvTransitionalMedicalRecordsLandingPage enabled: /my-health/records', () => {
+    it('when mhvTransitionalMedicalRecordsLandingPage enabled:\n\t /my-health/records', () => {
       const initialState = stateFn({
         mhvTransitionalMedicalRecordsLandingPage: true,
       });
@@ -48,7 +48,7 @@ describe('<MhvSecondaryNav />', () => {
       expect(mrLink.href).to.match(/my-health\/records$/);
     });
 
-    it('when both toggles enabled: /my-health/medical-records', () => {
+    it('when both toggles enabled:\n\t /my-health/medical-records', () => {
       const initialState = stateFn({
         mhvTransitionalMedicalRecordsLandingPage: true,
         mhvIntegrationMedicalRecordsToPhase1: true,
@@ -58,7 +58,7 @@ describe('<MhvSecondaryNav />', () => {
       expect(mrLink.href).to.match(/my-health\/medical-records$/);
     });
 
-    it('when mhvIntegrationMedicalRecordsToPhase1 enabled: /my-health/medical-records', () => {
+    it('when mhvIntegrationMedicalRecordsToPhase1 enabled:\n\t /my-health/medical-records', () => {
       const initialState = stateFn({
         mhvIntegrationMedicalRecordsToPhase1: true,
       });
