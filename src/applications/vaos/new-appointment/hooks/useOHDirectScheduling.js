@@ -3,7 +3,7 @@ import { getFacilityPageV2Info } from '../redux/selectors';
 import { selectFeatureOHDirectSchedule } from '../../redux/selectors';
 
 // Currently we are only allowing OH direct scheduling for Food and Nutrition
-// direct schedule appointments
+// appointments
 const OH_DIRECT_SCHEDULE_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
 
 export function useOHDirectScheduling() {
