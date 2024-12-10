@@ -3,7 +3,6 @@ import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-
 import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import SignIn from '../../cta-widget/components/messages/SignIn';
 
 const UnauthContext = () => {
   const dispatch = useDispatch();
@@ -18,12 +17,7 @@ const UnauthContext = () => {
         You can file a claim online through the Beneficiary Travel Self Service
         System (BTSSS).
       </p>
-      <SignIn
-        serviceDescription="file a travel pay claim"
-        primaryButtonHandler={handleSigninClick}
-        headerLevel="h3"
-      />
-      {/* <va-alert
+      <va-alert
         close-btn-aria-label="Close notification"
         status="continue"
         visible
@@ -47,7 +41,7 @@ const UnauthContext = () => {
             uswds
           />
         </div>
-      </va-alert> */}
+      </va-alert>
     </>
   );
 };
