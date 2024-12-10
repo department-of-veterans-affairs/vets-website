@@ -15,6 +15,7 @@ const generatePdf = async (templateId, fileName, data, openInTab = false) => {
   try {
     template = templates[templateId]();
   } catch (e) {
+    console.log('PDF ERROR: ', e);
     throw new UnknownTemplateException(templateId);
   }
 
