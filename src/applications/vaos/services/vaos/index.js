@@ -108,9 +108,12 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships({ locationId, typeOfCareId }) {
+export function getPatientRelationships() {
+  // TODO: need to add ability to query by locationId and typeOfCareId
+  // export function getPatientRelationships({ locationId, typeOfCareId }) {
   return apiRequestWithUrl(
-    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+    // `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+    `/vaos/v2/relationships`,
   );
 }
 
