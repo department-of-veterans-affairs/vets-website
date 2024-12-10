@@ -4,7 +4,6 @@ import { useLoaderData } from 'react-router-dom';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 import POARequestsCard from '../components/POARequestsCard/POARequestsCard';
-import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 
 const POARequestsPage = () => {
   const poaRequests = useLoaderData();

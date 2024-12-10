@@ -8,20 +8,10 @@ import POARequestsPage, {
   poaRequestsLoader,
 } from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
-import POARequestDetailsPage, {
-  poaRequestLoader,
-} from './containers/POARequestDetailsPage';
+import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import { poaRequestsLoader } from './loaders/poaRequestsLoader';
+import { poaRequestLoader } from './loaders/poaRequestLoader';
 import ErrorMessage from './components/common/ErrorMessage';
-
-const LoadingWrapper = () => {
-  const navigation = useNavigation();
-
-  if (navigation.state === 'loading') {
-    return <VaLoadingIndicator message="Loading..." />;
-  }
-
-  return <Outlet />;
-};
 
 const router = createBrowserRouter(
   [
@@ -36,21 +26,16 @@ const router = createBrowserRouter(
           element: <SignedInLayoutWrapper />,
           children: [
             {
-              element: <LoadingWrapper />,
-              children: [
-                {
-                  path: 'poa-requests',
-                  element: <POARequestsPage />,
-                  loader: poaRequestsLoader,
-                  errorElement: <ErrorMessage />,
-                },
-                {
-                  path: 'poa-requests/:id',
-                  element: <POARequestDetailsPage />,
-                  loader: poaRequestLoader,
-                  errorElement: <ErrorMessage />,
-                },
-              ],
+              path: 'poa-requests',
+              element: <POARequestsPage />,
+              loader: poaRequestsLoader,
+              errorElement: <ErrorMessage />,
+            },
+            {
+              path: 'poa-requests/:id',
+              element: <POARequestDetailsPage />,
+              loader: poaRequestLoader,
+              errorElement: <ErrorMessage />,
             },
           ],
         },
