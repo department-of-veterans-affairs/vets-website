@@ -56,6 +56,12 @@ export const getImageList = studyId => {
   );
 };
 
+export const getBbmiNotificationStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/bbmi_notification/status`, {
+    headers,
+  });
+};
+
 export const getMhvRadiologyTests = () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
@@ -188,6 +194,12 @@ export const postSharingUpdateStatus = (optIn = false) => {
   const endpoint = optIn ? 'optin' : 'optout';
   return apiRequest(`${apiBasePath}/health_records/sharing/${endpoint}`, {
     method: 'POST',
+    headers,
+  });
+};
+
+export const getImageRequestStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
     headers,
   });
 };
