@@ -57,7 +57,7 @@ describe(`${appName} - MHV Registration Alert - `, () => {
   });
 
   it(`alert not shown for user without cached MHV account, after account status API called`, () => {
-    ApiInitializer.initializeAccountStatus.withSuccess;
+    ApiInitializer.initializeAccountStatus.withSuccess();
     LandingPage.visit({ mhvAccountState: 'NOT OK' });
     cy.injectAxeThenAxeCheck();
     cy.findByText(AlertMhvUserAction.defaultProps.title, {
