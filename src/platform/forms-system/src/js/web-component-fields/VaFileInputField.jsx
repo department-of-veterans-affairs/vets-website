@@ -78,13 +78,7 @@ const VaFileInputField = props => {
         warnings,
         localFilePath,
       });
-      const file = await fetch(localFilePath)
-        .then(r => r.blob())
-        .then(
-          blob =>
-            new File([blob], uploadedFile.name, { type: 'application/pdf' }),
-        );
-      setLocalFile(file);
+      setLocalFile(uploadedFile.file);
       setUploadInProgress(false);
     }
   };
