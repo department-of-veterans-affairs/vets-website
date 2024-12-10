@@ -48,3 +48,13 @@
  * @property {boolean} request Can the patient use the request flow
  * @property {Array<EligibilityReason>} requestReason The reason the patient isn't eligible for request flow
  */
+
+/**
+ * @typedef FlowEligibilityReturnData
+ * @global
+ *
+ * @property {FlowEligibility} eligibility The eligibility info for the patient
+ * @property {Array<HealthCareService>} clinics An array of clinics pulled when checking eligibility
+ * @property {Array<MASAppointment>} pastAppointments An array of untransformed appointments pulled
+ *   when checking eligibility
+ */
