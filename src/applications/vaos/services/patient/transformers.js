@@ -7,21 +7,21 @@
  * VAOS PatientProviderRelationship format
  *
  * @export
- * @param {patientRelationshisp} patientRelationships A list of patient relationshiops from VPG
+ * @param {patientRelationship} patientRelationships A patient relationships object returned from VPG
  * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
  */
 
 export function transformPatientRelationships(patientRelationships) {
-  const relationships = patientRelationships.attributes.attributes;
+  const relationships = patientRelationships.data;
 
   return relationships.map(relationship => ({
     resourceType: 'PatientProviderRelationship',
-    providerName: relationship.provider.name,
-    providerId: relationship.provider.cernerId,
-    serviceType: relationship.serviceType.coding.code,
-    locationName: relationship.location.name,
-    clinicName: relationship.clinic.name,
-    vistaId: relationship.clinic.vistaSite,
-    lastSeen: relationship.lastSeen,
+    providerName: relationship.attributes.attributes.provider.name,
+    providerId: relationship.attributes.attributes.provider.cernerId,
+    serviceType: relationship.attributes.attributes.serviceType.coding[0].code,
+    locationName: relationship.attributes.attributes.location.name,
+    clinicName: relationship.attributes.attributes.clinic.name,
+    vistaId: relationship.attributes.attributes.clinic.vistaSite,
+    lastSeen: relationship.attributes.attributes.lastSeen,
   }));
 }
