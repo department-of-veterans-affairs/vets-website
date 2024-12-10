@@ -50,8 +50,8 @@ ${txtLineDotted}
   7. Medications,
   8. Appointments,
   9. Demographics,
-  10. MilitaryService,
-  11. AccountSummary,
+  10. Military Service,
+  11. Account Summary,
 
 ${parseLabsAndTests(data.labsAndTests)}
 ${parseCareSummariesAndNotes(data.notes)}
