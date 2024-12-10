@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import AccountSwitch from '../components/AccountSwitch';
 
 const mockStore = {
@@ -12,38 +13,41 @@ const mockStore = {
 
 describe('AccountSwitch', () => {
   it('renders Login.gov when there is a logingov user email', () => {
-    const screen = render(
+    const { getByText, container, getByTestId } = render(
       <Provider store={mockStore}>
         <AccountSwitch userEmails={{ logingov: 'test@example.com' }} />
       </Provider>,
     );
-    const loginGovButton = screen.getByRole('button', {
-      'data-csp': /'logingov'/i,
-    });
-    expect(loginGovButton).to.not.be.null;
-    expect(
-      screen.getAllByRole('heading', { level: 2 })[0].textContent,
-    ).to.include('Start using your Login.gov account now');
-    expect(screen.getByText('tes*@example.com')).to.exist;
+
+    const loginGovButton = $('.logingov-verify-buttons', container);
+    expect(loginGovButton).to.exist;
+
+    const heading = getByText(/Start using your/i);
+    expect(heading).to.exist;
+
+    const maskedEmail = getByTestId('logingovemail');
+    expect(maskedEmail).to.exist;
   });
 
-  it('renders ID.me when there is a idme user email', () => {
-    const screen = render(
+  it('renders ID.me when there is an idme user email', () => {
+    const { getByText, container, getByTestId } = render(
       <Provider store={mockStore}>
         <AccountSwitch userEmails={{ idme: 'test@example.com' }} />
       </Provider>,
     );
-    const idmeButton = screen.getByRole('button', {
-      'data-csp': /'idme'/i,
-    });
-    expect(idmeButton).to.not.be.null;
-    expect(
-      screen.getAllByRole('heading', { level: 2 })[0].textContent,
-    ).to.include('Start using your ID.me account now');
+
+    const idmeButton = $('.idme-verify-buttons', container);
+    expect(idmeButton).to.exist;
+
+    const heading = getByText(/Start using your/i);
+    expect(heading).to.exist;
+
+    const maskedEmail = getByTestId('idmeemail');
+    expect(maskedEmail).to.exist;
   });
 
   it('renders both Login.gov and ID.me when both emails are provided', () => {
-    const screen = render(
+    const { getAllByRole, getByText, container, getByTestId } = render(
       <Provider store={mockStore}>
         <AccountSwitch
           userEmails={{
@@ -54,16 +58,22 @@ describe('AccountSwitch', () => {
       </Provider>,
     );
 
-    expect(screen.getAllByRole('button').length).to.eql(2);
-    expect(
-      screen.getByText((content, element) => {
-        const hasText = /Start using your account now/i.test(content);
-        const isHeading = element.tagName.toLowerCase() === 'h2';
-        return hasText && isHeading;
-      }),
-    ).to.exist;
+    const buttons = getAllByRole('button');
+    expect(buttons.length).to.eql(2);
 
-    expect(screen.getByText('log*@example.com')).to.exist;
-    expect(screen.getByText('idm*@example.com')).to.exist;
+    const logingovButton = $('.logingov-verify-buttons', container);
+    expect(logingovButton).to.exist;
+
+    const idmeButton = $('.idme-verify-buttons', container);
+    expect(idmeButton).to.exist;
+
+    const heading = getByText(/Start using your/i);
+    expect(heading).to.exist;
+
+    const logingovMaskedEmail = getByTestId('logingovemail');
+    expect(logingovMaskedEmail).to.exist;
+
+    const idmeMaskedEmail = getByTestId('idmeemail');
+    expect(idmeMaskedEmail).to.exist;
   });
 });

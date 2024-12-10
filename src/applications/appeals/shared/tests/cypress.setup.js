@@ -14,7 +14,7 @@ import mockProfileAddressValidation from './fixtures/mocks/profile-address-valid
 export default function cypressSetup({ user = mockUser } = {}) {
   Cypress.config({ scrollBehavior: 'nearest' });
 
-  cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
+  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
     'features',
   );
   cy.intercept('GET', '/v0/maintenance_windows', []);
