@@ -140,7 +140,9 @@ const DashboardCards = () => {
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>
-                <Link to={`${URL.DASHBOARD_ID}${card.id}`}>
+                <Link
+                  to={`${URL.DASHBOARD_ID}${card.attributes.inquiryNumber}`}
+                >
                   <va-link
                     active
                     text="Check details"
