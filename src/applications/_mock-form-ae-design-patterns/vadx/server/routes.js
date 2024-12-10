@@ -142,11 +142,16 @@ router.post('/start-mock-server', (req, res) => {
     mockServerPaths[matchingPathIndex],
   );
 
-  const result = startProcess('mock-server', 'node', [
-    paths.mockApi,
-    '--responses',
-    validatedPath,
-  ]);
+  killProcessOnPort('3001');
+
+  const result = startProcess(
+    'mock-server',
+    'node',
+    [paths.mockApi, '--responses', validatedPath],
+    {
+      forceRestart: true,
+    },
+  );
 
   return res.json(result);
 });
@@ -194,7 +199,7 @@ router.get('/events/:name', (req, res) => {
 
 router.get('/manifests', getManifests);
 
-router.post('/start-fe', async (req, res) => {
+router.post('/start-frontend-server', async (req, res) => {
   const { entries = [] } = req.body;
 
   if (!Array.isArray(entries) || entries.length === 0) {
@@ -237,14 +242,23 @@ router.post('/start-fe', async (req, res) => {
     // this way user input is not used to start the server
     const validatedEntries = validManifests.map(m => m.entryName);
 
-    const result = startProcess('fe-dev-server', 'yarn', [
-      '--cwd',
-      paths.root,
-      'watch',
-      '--env',
-      `entry=${validatedEntries.join(',')}`,
-      'api=http://localhost:3000',
-    ]);
+    await killProcessOnPort('3001');
+
+    const result = startProcess(
+      'fe-dev-server',
+      'yarn',
+      [
+        '--cwd',
+        paths.root,
+        'watch',
+        '--env',
+        `entry=${validatedEntries.join(',')}`,
+        'api=http://localhost:3000',
+      ],
+      {
+        forceRestart: true,
+      },
+    );
 
     return res.json(result);
   } catch (error) {

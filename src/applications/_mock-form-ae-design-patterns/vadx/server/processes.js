@@ -29,75 +29,82 @@ function addToCache(name, type, data) {
   });
 }
 
-function startProcess(procName, command, args, env = {}) {
+function startProcess(procName, command, args, options = {}) {
+  const { forceRestart = false } = options;
+
   if (processes[procName]) {
-    return {
-      success: false,
-      message: `Process ${procName} is already running`,
-    };
+    if (!forceRestart) {
+      return {
+        success: false,
+        message: `Process ${procName} is already running`,
+      };
+    }
+
+    logger.debug(`Force stopping existing process: ${procName}`);
+    processes[procName].kill();
+    // Wait for the process to be fully removed
+    delete processes[procName];
+
+    if (outputCache[procName]) {
+      outputCache[procName] = [];
+    }
   }
 
-  const childProcess = spawn(command, args, {
-    env: { ...process.env, ...env },
-  });
-  processes[procName] = childProcess;
-
-  childProcess.stdout.on('data', data => {
-    logger.process(procName, 'stdout', data);
-    addToCache(procName, 'stdout', data);
-  });
-
-  childProcess.stderr.on('data', data => {
-    logger.process(procName, 'stderr', data);
-    addToCache(procName, 'stderr', data);
-  });
-
-  childProcess.on('close', code => {
-    logger.process(procName, 'close', code);
-    // Notify all clients that the process has ended
-    const clientsForProcess = clients.get(procName) || [];
-    clientsForProcess.forEach(client => {
-      sendSSE(client, {
-        type: 'close',
-        data: `Process exited with code ${code}`,
-      });
+  // Small delay to ensure the previous process is fully cleaned up
+  setTimeout(() => {
+    const childProcess = spawn(command, args, {
+      env: process.env,
     });
-    delete processes[procName];
-  });
+    processes[procName] = childProcess;
 
-  childProcess.on('exit', code => {
-    logger.process(procName, 'exit', code);
-    // Notify all clients that the process has ended
-    const clientsForProcess = clients.get(procName) || [];
-    clientsForProcess.forEach(client => {
-      sendSSE(client, {
-        type: 'close',
-        data: `Process exited with code ${code}`,
-      });
+    childProcess.stdout.on('data', data => {
+      logger.process(procName, 'stdout', data);
+      addToCache(procName, 'stdout', data);
     });
-    delete processes[procName];
-  });
 
-  return { success: true, message: `Process ${procName} started` };
+    childProcess.stderr.on('data', data => {
+      logger.process(procName, 'stderr', data);
+      addToCache(procName, 'stderr', data);
+    });
+
+    childProcess.on('close', code => {
+      logger.process(procName, 'close', code);
+      const clientsForProcess = clients.get(procName) || [];
+      clientsForProcess.forEach(client => {
+        sendSSE(client, {
+          type: 'close',
+          data: `Process exited with code ${code}`,
+        });
+      });
+      delete processes[procName];
+    });
+  }, 250);
+
+  return {
+    success: true,
+    message: `Process ${procName} ${forceRestart ? 're' : ''}started`,
+  };
 }
 
 function autoStartServers(options = {}) {
   const { entry, api, responses } = options;
 
-  startProcess('fe-dev-server', 'yarn', [
-    '--cwd',
-    paths.root,
-    'watch',
-    '--env',
-    `entry=${entry}`,
-    `api=${api}`,
-  ]);
+  startProcess(
+    'fe-dev-server',
+    'yarn',
+    ['--cwd', paths.root, 'watch', '--env', `entry=${entry}`, `api=${api}`],
+    {
+      forceRestart: true,
+    },
+  );
 
   startProcess(
     'mock-server',
     'node',
     [paths.mockApi, '--responses', responses],
-    { AEDEBUG: 'true' },
+    {
+      forceRestart: true,
+    },
   );
 }
 
