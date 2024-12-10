@@ -113,11 +113,12 @@ function mockFetch(returnVal, shouldResolve = true) {
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
-      response = new Response();
-      response.ok = false;
-      response.url = url;
-      response.status = 404;
-      response.statusText = 'Not Found';
+      response = new Response(null, {
+        ok: false,
+        url,
+        status: 404,
+        statusText: 'Not Found',
+      });
     }
 
     return shouldResolve ? Promise.resolve(response) : Promise.reject(response);
@@ -125,39 +126,55 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
+  const options = {
+    ok: true,
+    url: environment.API_URL,
+  };
+  let body = null;
   if (data) {
-    response.headers.set('Content-Type', 'application/json');
-    response.json = () => Promise.resolve(data);
+    options.headers = {
+      'Content-Type': 'application/json',
+    };
+    options.json = () => Promise.resolve(data);
+    body = JSON.stringify(data);
   }
+
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = false;
-  response.url = environment.API_URL;
-  response.json = () => Promise.resolve(data);
+  const options = {
+    status: 400,
+    url: environment.API_URL,
+    json: () => Promise.resolve(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const body = JSON.stringify(data);
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
 export function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
-  response.blob = () => Promise.resolve(data);
+  const options = {
+    ok: true,
+    url: environment.API_URL,
+    blob: () => Promise.resolve(data),
+  };
+  const body = JSON.stringify(data);
+  const response = new Response(body, options);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  const response = new Response();
-  response.ok = false;
-  response.url = environment.API_URL;
-  response.blob = () => Promise.reject(new Error(error));
+  const options = {
+    status: 400,
+    url: environment.API_URL,
+    blob: () => Promise.reject(new Error(error)),
+  };
+  const response = new Response(null, options);
   stub.resolves(response);
 }
 
