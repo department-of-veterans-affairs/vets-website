@@ -10,11 +10,13 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const HealthConditions = () => {
   const dispatch = useDispatch();
@@ -68,6 +70,9 @@ const HealthConditions = () => {
         <span className="vads-u-font-weight--bold">36 hours</span> after your
         providers enter them.
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}

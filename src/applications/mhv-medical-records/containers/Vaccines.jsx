@@ -22,6 +22,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -42,6 +43,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -158,6 +160,9 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </div>
+
+      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

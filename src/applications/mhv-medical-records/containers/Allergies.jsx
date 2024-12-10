@@ -19,6 +19,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -42,6 +43,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -185,6 +187,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

@@ -347,3 +347,34 @@ export const Breadcrumbs = {
     isRouterLink: true,
   },
 };
+
+export const CernerAlertContent = {
+  MR_LANDING_PAGE: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'medical records',
+  },
+  LABS_AND_TESTS: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'lab and test results',
+  },
+  CARE_SUMMARIES_AND_NOTES: {
+    linkPath: '/pages/health_record/app-views/cerner/reports/documents',
+    pageName: 'care summaries and notes',
+  },
+  VACCINES: {
+    linkPath: '/pages/health_record/health-record-immunizations',
+    pageName: 'vaccines',
+  },
+  ALLERGIES: {
+    linkPath: '/pages/health_record/health-record-allergies',
+    pageName: 'allergies and reactions',
+  },
+  HEALTH_CONDITIONS: {
+    linkPath: '/pages/health_record/conditions',
+    pageName: 'health conditions',
+  },
+  VITALS: {
+    linkPath: '/pages/health_record/results',
+    pageName: 'vitals',
+  },
+};
