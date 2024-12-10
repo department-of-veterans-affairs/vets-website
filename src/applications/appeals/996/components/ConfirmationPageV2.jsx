@@ -77,7 +77,7 @@ export const ConfirmationPageV2 = () => {
   const conferenceMessage = hasConference
     ? `Since you requested an informal conference, we’ll contact ${
         hasRepContact ? 'your accredited representative' : 'you'
-      } to schedule your conference. `
+      } to schedule your conference.`
     : '';
 
   return (
