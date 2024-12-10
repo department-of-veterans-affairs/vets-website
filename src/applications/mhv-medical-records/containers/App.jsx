@@ -23,6 +23,7 @@ import PhrRefresh from '../components/shared/PhrRefresh';
 import { flagsLoadedAndMhvEnabled } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
+// Two week test
 const App = ({ children }) => {
   const user = useSelector(selectUser);
   const userServices = user.profile.services;
