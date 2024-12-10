@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import MhvSecondaryNav from '../containers/MhvSecondaryNav';
 
@@ -20,18 +19,17 @@ const setup = ({ initialState = stateFn() } = {}) =>
   renderInReduxProvider(<MhvSecondaryNav />, { initialState });
 
 describe('<MhvSecondaryNav />', () => {
-  it('renders nothing when loading', async () => {
+  it('renders nothing when loading', () => {
     const initialState = stateFn({ loading: true });
     const { container } = setup({ initialState });
-    await waitFor(() => {
-      expect(container).to.be.empty;
-    });
+    expect(container).to.be.empty;
   });
 
   it('renders', () => {
     const { getByRole } = setup();
-    const mrLink = getByRole('link', { name: /^Records/ });
-    expect(mrLink.href).to.match(/my-health\/medical-records$/);
+    getByRole('navigation', { name: 'My HealtheVet' });
+    const mrLink = getByRole('link', { name: /^My HealtheVet/ });
+    expect(mrLink.href).to.match(/my-health$/);
   });
 
   describe('Medical Records href', () => {
