@@ -2,12 +2,13 @@ import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
 
+import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
 import {
-  SUPPORTED_BENEFIT_TYPES,
-  DEFAULT_BENEFIT_TYPE,
+  NEW_API,
   CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
   ITF_API,
-} from '../constants';
+} from '../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -17,6 +18,7 @@ import {
 
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
+  const newApi = props?.[NEW_API];
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
@@ -36,9 +38,11 @@ export const getContestableIssues = props => {
       );
     }
 
-    return apiRequest(`${CONTESTABLE_ISSUES_API}${benefitType}`, {
-      apiVersion: 'v1',
-    })
+    const [apiVersion, baseApi] = newApi
+      ? CONTESTABLE_ISSUES_API_NEW
+      : CONTESTABLE_ISSUES_API;
+
+    return apiRequest(`${baseApi}/${benefitType}`, { apiVersion })
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -66,9 +70,10 @@ export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
 export function fetchITF({ accountUuid, inProgressFormId }) {
+  const [apiVersion, baseApi] = ITF_API;
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
-    return apiRequest(ITF_API)
+    return apiRequest(baseApi, { apiVersion })
       .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
       .catch(() => {
         Sentry.withScope(scope => {
@@ -86,10 +91,14 @@ export function createITF({
   benefitType = DEFAULT_BENEFIT_TYPE,
   inProgressFormId,
 }) {
+  const [apiVersion, baseApi] = ITF_API;
   return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
 
-    return apiRequest(`${ITF_API}/${benefitType}`, { method: 'POST' })
+    return apiRequest(`${baseApi}/${benefitType}`, {
+      method: 'POST',
+      apiVersion,
+    })
       .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
       .catch(() => {
         Sentry.withScope(scope => {

@@ -47,6 +47,18 @@ export const downloadsReducer = (state = initialState, action) => {
         error: true,
       };
     }
+    case Actions.Downloads.SET_DATE_FILTER: {
+      return {
+        ...state,
+        dateFilter: action.response,
+      };
+    }
+    case Actions.Downloads.SET_RECORD_FILTER: {
+      return {
+        ...state,
+        recordFilter: action.response,
+      };
+    }
     default: {
       return { ...state };
     }
