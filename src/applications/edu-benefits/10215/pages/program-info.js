@@ -18,8 +18,9 @@ const programInfo = {
     }),
     'ui:description': (
       <va-link
-        href=""
-        text="Review the calculation instructions (opens in a new tab)"
+        external
+        href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+        text="Review the calculation instructions"
       />
     ),
     programName: textUI('Program name'),
@@ -41,11 +42,11 @@ const programInfo = {
       ),
       supported: _.merge(numberUI('Number of supported students FTE'), {
         'ui:required': (formData, _index) =>
-          Number(formData?.supportedStudents >= 10),
+          Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
       }),
       nonSupported: _.merge(numberUI('Number of non-supported students FTE'), {
         'ui:required': (formData, _index) =>
-          Number(formData?.supportedStudents >= 10),
+          Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
       }),
     },
     'view:calcs': {
