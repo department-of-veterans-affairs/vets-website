@@ -1,7 +1,5 @@
-import {
-  replaceEscapedCharacters,
-  transformForSubmit as formsSystemTransformForSubmit,
-} from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { replaceEscapedCharacters } from 'platform/forms-system/src/js/utilities/replaceEscapedCharacters';
 
 const escapedCharacterReplacer = (_key, value) => {
   if (typeof value === 'string') {

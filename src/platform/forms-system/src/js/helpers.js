@@ -7,6 +7,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import { createStringifyFormReplacer } from './utilities/createStringifyFormReplacer';
 
 export const minYear = 1900;
 export const currentYear = getYear(new Date());
@@ -288,99 +289,6 @@ export function filterInactivePageData(inactivePages, activePages, form) {
       }, formData),
     form.data,
   );
-}
-
-function isPartialAddress(data) {
-  return (
-    data &&
-    typeof data.country !== 'undefined' &&
-    (!data.street || !data.city || (!data.postalCode && !data.zipcode))
-  );
-}
-
-/**
- * Replaces double-quotes with single.
- * Replaces non-escaping backslashes with forward-slashes.
- *
- * @param {string} string
- * @returns {string}
- */
-export const replaceEscapedCharacters = string => {
-  return string
-    .replaceAll('"', "'")
-    .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
-    .replace(/(?:\t|\f|\b)/g, '')
-    .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
-};
-
-/**
- * Create a replacer function for JSON.stringify
- * A replacer function is the second argument to JSON.stringify
- *
- * @param {ReplacerOptions} [options] - Options for the replacer
- * @returns {(key, value) => any} The replacer function
- */
-export function createStringifyFormReplacer(options) {
-  /**
-   * The replacer function
-   *
-   * @param {*} key
-   * @param {*} value
-   * @returns {*} Replaced value
-   */
-  const replacerFn = (key, value) => {
-    /**
-     * Replaces objects (including arrays) with other values
-     *
-     * @param {Object} object
-     * @returns {*} The replacement value
-     */
-    const replaceObject = object => {
-      // Clean up empty objects in arrays
-      if (Array.isArray(object)) {
-        const newValues = object.filter(v => !!replacerFn(key, v));
-        // If every item in the array is cleared, remove the whole array
-        return newValues.length > 0 ? newValues : undefined;
-      }
-
-      if (!options?.allowPartialAddress && isPartialAddress(value)) {
-        return undefined;
-      }
-
-      const fields = Object.keys(object);
-      if (
-        fields.length === 0 ||
-        fields.every(field => object[field] === undefined)
-      ) {
-        return undefined;
-      }
-
-      // autosuggest widgets save value and label info, but we should just return the value
-      if (object.widget === 'autosuggest') {
-        return object.id;
-      }
-
-      // Exclude file data
-      if (object.confirmationCode && object.file) {
-        return omit('file', object);
-      }
-
-      return object;
-    };
-
-    if (typeof value === 'object') {
-      return replaceObject(value);
-    }
-    if (typeof value === 'string') {
-      return options?.replaceEscapedCharacters
-        ? replaceEscapedCharacters(value)
-        : value;
-    }
-
-    return value;
-  };
-
-  return replacerFn;
 }
 
 export const stringifyFormReplacer = createStringifyFormReplacer();

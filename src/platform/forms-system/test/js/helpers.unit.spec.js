@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  createStringifyFormReplacer,
   parseISODate,
   formatISOPartialDate,
   hasFieldsOtherThanArray,
@@ -1268,48 +1267,6 @@ describe('Schemaform helpers:', () => {
           {},
         ),
       ).to.eql(false);
-    });
-  });
-});
-
-describe('createStringifyFormReplacer', () => {
-  const str = 'Jane said, "This is a test," and I agreed.';
-
-  context('when replaceEscapedCharacters is true', () => {
-    it('replaces double-quotes with single', () => {
-      const replacerFn = createStringifyFormReplacer({
-        replaceEscapedCharacters: true,
-      });
-
-      expect(replacerFn('key', str)).to.eq(
-        "Jane said, 'This is a test,' and I agreed.",
-      );
-    });
-  });
-
-  context('when replaceEscapedCharacters is false', () => {
-    it('does not replace double-quotes', () => {
-      const replacerFn = createStringifyFormReplacer({
-        replaceEscapedCharacters: false,
-      });
-
-      expect(replacerFn('key', str)).to.eq(str);
-    });
-  });
-
-  context('when value is an array', () => {
-    it('removes empty objects in the array', () => {
-      const replacerFn = createStringifyFormReplacer();
-
-      const newValues = replacerFn('key', [
-        {},
-        { test: 'example value' },
-        {},
-        'this should stay',
-      ]);
-
-      expect(newValues.length).to.eq(2);
-      expect(newValues[0].test).to.eq('example value');
     });
   });
 });
