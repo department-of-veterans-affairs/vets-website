@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { toggleValuesSelector } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
@@ -57,10 +58,10 @@ export const mhvSecNavItems = [
 const MhvSecondaryNav = () => {
   const items = [...mhvSecNavItems];
   const {
-    loading,
+    loading = true,
     mhvTransitionalMedicalRecordsLandingPage = false,
     mhvIntegrationMedicalRecordsToPhase1 = false,
-  } = useSelector(state => state.featureToggles);
+  } = useSelector(toggleValuesSelector);
 
   if (loading) return <></>;
 
