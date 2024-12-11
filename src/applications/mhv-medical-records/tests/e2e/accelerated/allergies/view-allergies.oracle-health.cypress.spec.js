@@ -23,9 +23,12 @@ describe('Medical Records View Allergies', () => {
 
     Allergies.goToAllergiesPage();
 
-    Allergies.checkTitle();
-
     cy.injectAxeThenAxeCheck();
+
+    cy.title().should(
+      'contain',
+      'Allergies and Reactions - Medical Records | Veterans Affairs',
+    );
 
     // Select the one that says seafood
     cy.get('.no-print [data-testid="allergy-link-4-6Z8D6dAzABlkPZA"]')

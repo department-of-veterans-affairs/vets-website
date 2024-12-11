@@ -25,7 +25,10 @@ describe('Medical Records View Allergies', () => {
 
     Allergies.goToAllergiesPage();
 
-    Allergies.checkTitle();
+    cy.title().should(
+      'contain',
+      'Allergies and Reactions - Medical Records | Veterans Affairs',
+    );
 
     cy.injectAxeThenAxeCheck();
 

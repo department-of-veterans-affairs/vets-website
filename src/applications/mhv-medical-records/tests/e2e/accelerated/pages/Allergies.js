@@ -1,39 +1,12 @@
+import sessionStatus from '../fixtures/session/default.json';
+
 class Allergies {
   setIntercepts = ({ allergiesData, useOhData = true } = {}) => {
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
     cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
-      req.reply({
-        retrievedDate: 1732224967218,
-        lastRefreshDate: null,
-        facilityExtractStatusList: [
-          {
-            extract: 'Allergy',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'ImagingStudy',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'VPR',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'ChemistryHematology',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-        ],
-      });
+      req.reply(sessionStatus);
     });
 
     cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
@@ -68,12 +41,6 @@ class Allergies {
     cy.get('[data-testid="allergies-landing-page-link"]')
       .should('be.visible')
       .click();
-  };
-
-  checkTitle = ({
-    title = 'Allergies and Reactions - Medical Records | Veterans Affairs',
-  }) => {
-    cy.title().should('contain', title);
   };
 }
 
