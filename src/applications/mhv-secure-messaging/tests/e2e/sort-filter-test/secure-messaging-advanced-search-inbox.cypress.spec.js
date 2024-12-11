@@ -2,7 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import mockSearchMessages from '../fixtures/searchResponses/search-COVID-results.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
-import mockMessages from '../fixtures/messages-response.json';
+import PatientBasicSearchPage from '../pages/PatientBasicSearchPage';
 
 describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
   beforeEach(() => {
@@ -31,44 +31,60 @@ describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
 });
 
 describe('SM INBOX ADVANCED DATE SEARCH', () => {
-  function getRandomDateWithinLastThreeMonths() {
-    const now = new Date();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(now.getMonth() - 3);
+  let searchResultResponse;
 
-    const randomTime =
-      threeMonthsAgo.getTime() +
-      Math.random() * (now.getTime() - threeMonthsAgo.getTime());
-    return new Date(randomTime).toISOString();
-  }
-
-  // Create the new object
-  const newObject = {
-    data: mockMessages.data.slice(0, 2).map(item => {
-      const newItem = { ...item };
-      newItem.attributes = {
-        ...newItem.attributes,
-        sentDate: getRandomDateWithinLastThreeMonths(),
-      };
-      return newItem;
-    }),
-  };
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.openAdvancedSearch();
-
-    cy.log(JSON.stringify(newObject));
   });
 
   it('verify filter by last 3 month', () => {
+    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
+      2,
+      3,
+    );
+    cy.log(JSON.stringify(searchResultResponse.data[0]));
     PatientInboxPage.selectDateRange('Last 3 months');
-    PatientInboxPage.clickFilterMessagesButton(newObject);
-    // cy.intercept(
-    //   'POST',
-    //   Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
-    //   mockSearchMessages,
-    // );
+    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      searchResultResponse.data.length,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter by last 6 month', () => {
+    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
+      3,
+      6,
+    );
+    cy.log(JSON.stringify(searchResultResponse.data[1]));
+    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      searchResultResponse.data.length,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter by last 12 month', () => {
+    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
+      5,
+      12,
+    );
+    cy.log(JSON.stringify(searchResultResponse.data[4]));
+    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      searchResultResponse.data.length,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

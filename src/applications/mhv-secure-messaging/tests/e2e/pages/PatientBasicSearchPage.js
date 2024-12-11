@@ -1,6 +1,8 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
 import { Locators, Paths } from '../utils/constants';
+import mockMessages from '../fixtures/messages-response.json';
+import GeneralFunctionsPage from './GeneralFunctionsPage';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
@@ -71,6 +73,25 @@ class PatientBasicSearchPage {
       .shadow()
       .find('select')
       .select(`${name}`, { force: true });
+  };
+
+  createSearchMockResponse = (
+    numberOfMessages,
+    numberOfMonths,
+    originalResponse = mockMessages,
+  ) => {
+    return {
+      data: originalResponse.data.slice(0, numberOfMessages).map(item => {
+        const newItem = { ...item };
+        newItem.attributes = {
+          ...newItem.attributes,
+          sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
+            numberOfMonths,
+          ),
+        };
+        return newItem;
+      }),
+    };
   };
 
   // retrieveMessages = function (folderID) {
