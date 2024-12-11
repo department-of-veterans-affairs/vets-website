@@ -66,7 +66,7 @@ const NavigationDropdown = ({
         )}
       </button>
       {isOpen && (
-        <div className="va-dropdown-panel" id={icon}>
+        <div className="va-dropdown-panel  nav__dropdown" id={icon}>
           <ul className="nav__user-list">{children}</ul>
         </div>
       )}

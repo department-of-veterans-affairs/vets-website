@@ -1,22 +1,47 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom-v5-compat';
-import UserNavLinks from './UserNavLinks';
-import NavigationDropdown from './NavigationDropdown';
-import {
-  selectUserProfile,
-  selectIsUserLoading,
-} from '../../../selectors/user';
-import { SIGN_IN_URL } from '../../../constants';
+import UserContext from '../../../userContext';
+import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../constants';
+
+const generateUniqueId = () =>
+  `account-menu-${Math.random()
+    .toString(36)
+    .substring(2, 11)}`;
 
 const UserNav = ({ isMobile }) => {
   const user = useContext(UserContext);
   const profile = user?.profile;
   const isLoading = !profile;
+  const uniqueId = useRef(generateUniqueId());
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
+
+  useEffect(
+    () => {
+      const handleClickOutside = event => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+          setDropdownOpen(false);
+        }
+      };
+
+      if (isDropdownOpen) {
+        document.addEventListener('mousedown', handleClickOutside);
+      }
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    },
+    [isDropdownOpen],
+  );
 
   let content;
-
   if (isLoading) {
     content = (
       <div className="loading-icon-container">
@@ -26,76 +51,78 @@ const UserNav = ({ isMobile }) => {
         />
       </div>
     );
-  } else if (!profile) {
+  } else if (!profile && isMobile) {
     content = (
-      <Link
-        data-testid="user-nav-sign-in-link"
-        className="usa-button usa-button-primary nav__sign-in"
-        to={SIGN_IN_URL}
+      <a
+        href={SIGN_IN_URL}
+        data-testid="user-nav-mobile-sign-in-link"
+        className="sign-in-link"
       >
         Sign in
-      </Link>
+      </a>
     );
-  } else if (profile && isMobile) {
+  } else if (!profile && !isMobile) {
     content = (
-      <div className="vads-u-display--flex vads-u-justify-content--center user-nav">
-        <NavigationDropdown
-          icon="person"
-          srText="toggle menu"
-          className="usa-button usa-button-secondary nav__user-btn nav__user-btn--user vads-u-color--white"
-        >
-          <UserNavLinks />
-        </NavigationDropdown>
-
-        <NavigationDropdown
-          btnText="Menu"
-          icon="menu"
-          srText="toggle menu"
-          className="usa-button usa-button-secondary nav__user-btn nav__user-btn--menu"
-        >
-          <li>
-            <Link
-              data-testid="user-nav-poa-requests-link"
-              className="vads-u-color--black"
-              to="/poa-requests"
-            >
-              POA Requests
-            </Link>
-          </li>
-          <li>
-            <Link
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--black"
-              to="/get-help"
-            >
-              Get Help
-            </Link>
-          </li>
-        </NavigationDropdown>
-      </div>
+      <a
+        data-testid="user-nav-wider-than-mobile-sign-in-link"
+        className="usa-button usa-button-primary"
+        href={SIGN_IN_URL}
+      >
+        Sign in
+      </a>
     );
-  } else if (profile && !isMobile) {
+  } else if (profile) {
     content = (
-      <div className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center">
-        <Link to="/" className="usa-button nav__user-btn nav__user-btn--user ">
-          Get Help
-        </Link>
-        <NavigationDropdown
-          title="profile dropdown"
-          srText="toggle menu"
-          icon="person"
-          className="usa-button nav__user-btn nav__user-btn--user"
-          name={`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
-          secondaryIcon="chevron_left"
-          iconClassName="user-nav__chevron"
+      <div className="va-dropdown" ref={dropdownRef}>
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+        <button
+          data-testid="user-nav-dropdown-panel-button"
+          className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
+          aria-controls={uniqueId.current}
+          aria-expanded={isDropdownOpen}
+          onClick={toggleDropdown}
+          type="button"
         >
-          <UserNavLinks />
-        </NavigationDropdown>
+          <span>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              className="vads-u-display--block vads-u-margin-right--0 medium-screen:vads-u-margin-right--0p5 icon"
+              viewBox="0 2 21 21"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#fff"
+                d="M12 12c-1.1 0-2.04-.4-2.82-1.18A3.85 3.85 0 0 1 8 8c0-1.1.4-2.04 1.18-2.83A3.85 3.85 0 0 1 12 4c1.1 0 2.04.4 2.82 1.17A3.85 3.85 0 0 1 16 8c0 1.1-.4 2.04-1.18 2.82A3.85 3.85 0 0 1 12 12Zm-8 8v-2.8c0-.57.15-1.09.44-1.56a2.9 2.9 0 0 1 1.16-1.09 13.76 13.76 0 0 1 9.65-1.16c1.07.26 2.12.64 3.15 1.16.48.25.87.61 1.16 1.09.3.47.44 1 .44 1.56V20H4Z"
+              />
+            </svg>
+            <div
+              data-testid="user-nav-user-name"
+              className="user-dropdown-email"
+              data-dd-privacy="mask"
+              data-dd-action-name="First Name"
+            >
+              {`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
+            </div>
+          </span>
+        </button>
+        <div
+          className={`va-dropdown-panel ${isDropdownOpen ? '' : 'hidden'}`}
+          id={uniqueId.current}
+        >
+          <ul>
+            <li>
+              <a data-testid="user-nav-sign-out-link" href={SIGN_OUT_URL}>
+                Sign Out
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
 
-  return content;
+  return <div className="user-nav">{content}</div>;
 };
 
 UserNav.propTypes = {

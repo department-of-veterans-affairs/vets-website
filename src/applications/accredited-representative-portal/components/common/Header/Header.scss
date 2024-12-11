@@ -103,13 +103,7 @@
     max-width: 1000px;
     align-items: center;
     flex-wrap: nowrap;
-
-    @media (min-width: $medium-screen) {
-      flex-wrap: wrap;
-    }
   }
-
-
 
   &__decorator {
     display: none;
@@ -118,8 +112,18 @@
     background-color: var(--vads-color-white);
     margin-bottom: 48px;
 
+    &--login {
+      margin-bottom: 0;
+    }
+
     @media (min-width: $medium-screen) {
-      display: flex;
+      display: inline-flex;
+    }
+  }
+
+  > .usa-button {
+    ~ .nav__decorator {
+      margin-bottom: 0;
     }
   }
   &__sign-in {
@@ -138,10 +142,6 @@
       height: auto;
       width: 636px;
       margin: 24px 0 16px;
-      display: none;
-      @media (min-width: $medium-screen) {
-        display: block;
-      }
     }
 
     &-text {
@@ -155,8 +155,17 @@
     }
   }
 
+  &__dropdown {
+    width: 174px;
+  }
+
   .mobile {
     @media (min-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+  .desktop {
+    @media (max-width: $medium-screen) {
       display: none !important;
     }
   }
