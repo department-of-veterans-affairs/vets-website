@@ -1,8 +1,15 @@
 import React from 'react';
-import { isMobile } from 'react-device-detect';
+import { useSelector } from 'react-redux';
 import UserNav from './UserNav';
+import {
+  selectUserProfile,
+  selectIsUserLoading,
+} from '../../../selectors/user';
 
 export const MobileLogoRow = () => {
+  const profile = useSelector(selectUserProfile);
+  const isLoading = useSelector(selectIsUserLoading);
+
   return (
     <nav className="nav vads-u-background-color--primary-darker ">
       <div className="nav__container vads-u-display--flex">
@@ -28,9 +35,22 @@ export const MobileLogoRow = () => {
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
         </a>
-        <UserNav isMobile={isMobile} />
-        <span aria-hidden="true" className="nav__decorator" />
+        <UserNav profile={profile} isLoading={isLoading} />
       </div>
+      <span
+        aria-hidden="true"
+        className={
+          profile ? 'nav__decorator nav__decorator--login' : 'nav__decorator'
+        }
+      />
+      {profile && (
+        <a
+          className="usa-button nav__user-btn nav__user-btn--user desktop"
+          href="/representative/poa-requests"
+        >
+          POA requests
+        </a>
+      )}
     </nav>
   );
 };
