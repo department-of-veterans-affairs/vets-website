@@ -10,6 +10,7 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import './sass/accredited-representative-portal.scss';
 import './sass/POARequestCard.scss';
 import './sass/POARequestDetails.scss';
+import './sass/Header.scss';
 
 import manifest from './manifest.json';
 import router from './routes';

@@ -10,6 +10,7 @@ const NavigationDropdown = ({
   secondaryIcon,
   srText,
   children,
+  dataTestId,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,7 +43,7 @@ const NavigationDropdown = ({
     <div className="va-dropdown" ref={dropdownRef}>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
       <button
-        data-testid="user-nav-dropdown-panel-button"
+        data-testid={`${icon}-toggle-dropdown`}
         className={className}
         aria-controls={icon}
         aria-expanded={isOpen}
@@ -56,7 +57,7 @@ const NavigationDropdown = ({
           srtext={srText}
           class="nav__user-btn-icon"
         />
-        {name}
+        <span data-testid={dataTestId}>{name}</span>
         {secondaryIcon && (
           <va-icon
             icon={secondaryIcon}
@@ -77,8 +78,9 @@ const NavigationDropdown = ({
 
 NavigationDropdown.propTypes = {
   btnText: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.string,
   className: PropTypes.string,
+  dataTestId: PropTypes.string,
   icon: PropTypes.string,
   iconClassName: PropTypes.string,
   name: PropTypes.string,
