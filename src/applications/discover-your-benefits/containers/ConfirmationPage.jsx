@@ -21,7 +21,7 @@ export class ConfirmationPage extends React.Component {
     this.state = {
       hasResults: false,
       resultsCount: 0,
-      benefitIds: [],
+      benefitIds: {},
       sortValue: 'alphabetical',
       filterValue: 'All',
       filterText: '',
@@ -246,18 +246,34 @@ export class ConfirmationPage extends React.Component {
       <div>
         <article>
           <div role="heading" aria-level="2">
-            <p>
-              {this.props.location.query.allBenefits ? (
-                <>Below are some benefits for you to explore.</>
-              ) : (
-                <>
+            {this.props.location.query.allBenefits ? (
+              <>
+                <p>
                   Based on your answers, we’ve suggested some benefits for you
                   to explore.
-                </>
-              )}
-              <br />
-              Remember to check your eligibility before you apply.
-            </p>
+                  <br />
+                  Remember to check your eligibility before you apply.
+                </p>
+                <p>
+                  These aren't your personalized benefit recommendations, but
+                  you can go back to your recommendations if you'd like.
+                </p>
+                <p>
+                  We're also planning to add more benefits and resources to this
+                  tool.
+                  <br />
+                  Check back soon to find more benefits you want to apply for.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Below are some benefits that this tool can recommend.
+                  <br />
+                  Remember to check your eligibility before you apply.
+                </p>
+              </>
+            )}
           </div>
         </article>
 
@@ -332,7 +348,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers and Employment
+                  Careers and employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability
@@ -341,22 +357,19 @@ export class ConfirmationPage extends React.Component {
                   Education
                 </option>
                 <option key="Health Care" value="Health Care">
-                  Health Care
+                  Health care
                 </option>
                 <option key="Housing" value="Housing">
-                  Housing Assistance
+                  Housing assistance
                 </option>
                 <option key="Life Insurance" value="Life Insurance">
-                  Life Insurance
+                  Life insurance
                 </option>
-                <option key="Loan Guaranty" value="Loan Guaranty">
-                  Loan Guaranty
+                <option key="Support" value="Support">
+                  More support
                 </option>
                 <option key="Pension" value="Pension">
                   Pension
-                </option>
-                <option key="Support" value="Support">
-                  More Support
                 </option>
               </VaSelect>
               <br />
@@ -460,6 +473,7 @@ function mapStateToProps(state) {
 }
 
 ConfirmationPage.propTypes = {
+  benefitIds: PropTypes.object,
   displayResults: PropTypes.func,
   formConfig: PropTypes.object,
   location: PropTypes.shape({
