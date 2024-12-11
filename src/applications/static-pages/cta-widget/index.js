@@ -29,8 +29,7 @@ import HealthToolsDown from './components/messages/HealthToolsDown';
 import MultipleIds from './components/messages/MultipleIds';
 import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
 import NoMHVAccount from './components/messages/NoMHVAccount';
-import SignInOtherAccount from './components/messages/mvi/SignInOtherAccount';
-import NotAuthorized from './components/messages/mvi/NotAuthorized';
+import SignInOtherAccount from './components/messages/SignInOtherAccount';
 import NotFound from './components/messages/mvi/NotFound';
 import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
 import RegisterFailed from './components/messages/RegisterFailed';
@@ -184,17 +183,7 @@ export class CallToActionWidget extends Component {
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
 
-      if (this.isNonMHVSchedulingTool()) {
-        return this.getVerifyAlert();
-      }
-
-      return (
-        <Verify
-          serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.verifyHandler}
-          headerLevel={this._headerLevel}
-        />
-      );
+      return this.getVerifyAlert();
     }
 
     if (this.isNonMHVSchedulingTool()) {
@@ -293,7 +282,7 @@ export class CallToActionWidget extends Component {
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
         return (
-          <NotAuthorized
+          <Verify
             cspId={this.props.cspId}
             headerLevel={this._headerLevel}
             serviceDescription={serviceDescription}
@@ -304,7 +293,6 @@ export class CallToActionWidget extends Component {
       default:
         return (
           <SignInOtherAccount
-            cspId={this.props.cspId}
             headerLevel={this._headerLevel}
             serviceDescription={serviceDescription}
           />
@@ -490,10 +478,6 @@ export class CallToActionWidget extends Component {
   mfaHandler = () => {
     recordEvent({ event: AUTH_EVENTS.MFA });
     mfa();
-  };
-
-  verifyHandler = () => {
-    window.location.href = '/verify';
   };
 
   render() {

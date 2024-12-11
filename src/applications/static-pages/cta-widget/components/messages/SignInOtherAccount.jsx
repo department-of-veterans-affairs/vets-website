@@ -5,7 +5,7 @@ import {
   VerifyIdmeButton,
   VerifyLogingovButton,
 } from '~/platform/user/authentication/components/VerifyButton';
-import CallToActionAlert from '../../CallToActionAlert';
+import CallToActionAlert from '../CallToActionAlert';
 
 /**
  * Alert to show a user that has mhv basic account (is not verified).
