@@ -1,3 +1,5 @@
+// Node modules.
+import '@department-of-veterans-affairs/formation/dist/formation';
 // Relative imports.
 import '../monitoring/sentry';
 import '../monitoring/web-vitals';
@@ -6,9 +8,6 @@ import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
-import loadAccordionHandler from './legacy-component-js/accordion';
-import createAdditionalInfoWidget from './legacy-component-js/additional-info';
-import addSidenavListeners from './legacy-component-js/sidenav';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
@@ -45,30 +44,6 @@ export default function startSitewideComponents(commonStore) {
       document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
     }
   });
-
-  /**
-   * Below block is needed to load the sitewide footer, since it still relies on
-   * some legacy javascript. There are other instances where old usa-accordions, sidenavs, and
-   * buttons that may rely on these as well.
-   *
-   * Once https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3568 is complete
-   * this block can be removed
-   */
-  if (
-    document.readState === 'complete' ||
-    document.readState === 'loaded' ||
-    document.readState === 'interactive'
-  ) {
-    loadAccordionHandler();
-    createAdditionalInfoWidget();
-    addSidenavListeners();
-  } else {
-    document.addEventListener('DOMContentLoaded', () => {
-      loadAccordionHandler();
-      createAdditionalInfoWidget();
-      addSidenavListeners();
-    });
-  }
 
   // Start site-wide widgets.
   startUserNavWidget(commonStore);
