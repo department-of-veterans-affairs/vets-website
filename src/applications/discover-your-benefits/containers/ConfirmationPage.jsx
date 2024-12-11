@@ -249,9 +249,8 @@ export class ConfirmationPage extends React.Component {
             {this.props.location.query.allBenefits ? (
               <>
                 <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore. Remember to check your eligibility before you
-                  apply.
+                  Below are all of the benefits that this tool can recommend.
+                  Remember to check your eligibility before you apply.
                 </p>
                 <p>
                   These aren’t your personalized benefit recommendations, but
@@ -266,8 +265,9 @@ export class ConfirmationPage extends React.Component {
             ) : (
               <>
                 <p>
-                  Below are some benefits that this tool can recommend. Remember
-                  to check your eligibility before you apply.
+                  Based on your answers, we’ve suggested some benefits for you
+                  to explore. Remember to check your eligibility before you
+                  apply.
                 </p>
               </>
             )}
