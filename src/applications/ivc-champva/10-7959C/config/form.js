@@ -44,7 +44,10 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import { formSignatureSchema } from '../chapters/formSignature';
+import {
+  formSignatureSchema,
+  applicationEmailSchema,
+} from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
 import { UPLOADS_COMPLETE_PATH } from './constants';
 
@@ -126,15 +129,30 @@ const formConfig = {
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
-    applicantInformation: {
-      title: 'Beneficiary information',
+    formSignature: {
+      title: 'Signer information',
       pages: {
+        formSignature: {
+          path: UPLOADS_COMPLETE_PATH,
+          title: 'Form signature',
+          ...formSignatureSchema,
+        },
+        signerEmail: {
+          path: 'signer-email',
+          title: 'Your email Address',
+          ...applicationEmailSchema,
+        },
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
           title: 'Beneficiary’s name',
           ...applicantNameDobSchema,
         },
+      },
+    },
+    applicantInformation: {
+      title: 'Beneficiary information',
+      pages: {
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData => `${fnp(formData)} identification information`,
@@ -467,16 +485,6 @@ const formConfig = {
             },
           },
           schema: blankSchema,
-        },
-      },
-    },
-    formSignature: {
-      title: 'Form signature',
-      pages: {
-        formSignature: {
-          path: UPLOADS_COMPLETE_PATH,
-          title: 'Form signature',
-          ...formSignatureSchema,
         },
       },
     },

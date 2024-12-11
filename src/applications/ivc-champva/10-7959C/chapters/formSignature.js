@@ -1,4 +1,6 @@
 import {
+  emailUI,
+  emailSchema,
   titleUI,
   radioUI,
   radioSchema,
@@ -11,18 +13,14 @@ export const formSignatureSchema = {
       ...radioUI({
         updateUiSchema: formData => {
           const labels = {
-            applicant: `I'm ${
-              formData?.applicantName?.first
-            } and I'm signing for myself`,
+            applicant: `I'm filling out this form for myself`,
             other: `I'm a parent, spouse, or legal representative signing on behalf of ${
               formData?.applicantName?.first
             }`,
           };
 
           return {
-            'ui:title': `Who’s signing this form for ${
-              formData?.applicantName?.first
-            }?`,
+            'ui:title': `Which of these best describes you?`,
             'ui:options': {
               labels,
             },
@@ -41,6 +39,23 @@ export const formSignatureSchema = {
     required: ['certifierRole'],
     properties: {
       certifierRole: radioSchema(['applicant', 'other']),
+    },
+  },
+};
+
+export const applicationEmailSchema = {
+  uiSchema: {
+    ...titleUI(
+      'Your email address',
+      `We'll use this email address to send you information about the form.`,
+    ),
+    applicantEmail: emailUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['applicantEmail'],
+    properties: {
+      applicantEmail: emailSchema,
     },
   },
 };
