@@ -1,12 +1,7 @@
 import {
   arrayBuilderItemFirstPageTitleUI,
-  // arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  // currentOrPastDateSchema,
-  // currentOrPastDateUI,
-  // textUI,
-  // textSchema,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
@@ -15,16 +10,12 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { serviceLabels } from '../../utils/labels';
-// import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
-// import { serviceRecordsUI } from '../../utils/helpers';
 import {
   isVeteran,
   isAuthorizedAgent,
   hasServiceRecord,
-  // getServicePeriodsSummaryTitle,
   validateMilitaryHistory,
 } from '../../utils/helpers';
-// const { veteran } = fullSchemaPreNeed.properties.application.properties;
 import rankEnums from '../../utils/rankEnums';
 import { rankLabels } from '../../utils/rankLabels';
 
@@ -94,12 +85,10 @@ const options = {
       'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.',
     cancelEditYes: () => 'Yes, cancel',
     cancelEditNo: () => 'No, keep this',
-    // summaryTitle: formData => (isVeteran(formData) ? isAuthorizedAgent(formData) ? 'Applicant’s service period(s)' : 'Your service period(s)' : 'Sponsor’s service periods(s)'),
     summaryTitle: formData =>
       hasServiceRecord(formData)
         ? 'Veteran’s service period(s)'
         : 'Review service period records',
-    // summaryTitle: formData => getServicePeriodsSummaryTitle(formData),
   },
 };
 
@@ -136,38 +125,11 @@ const summaryPage = {
   },
 };
 
-// function summaryPage(isVet) {
-//   return {
-//     uiSchema: {
-//       'view:hasServicePeriods': arrayBuilderYesNoUI(options),
-//     },
-//     schema: {
-//       type: 'object',
-//       properties: {
-//         'view:hasServicePeriods': arrayBuilderYesNoSchema,
-//       },
-//       required: ['view:hasServicePeriods'],
-//     },
-//   };
-// }
-
-// const summaryPageVeteran = summaryPage(true);
-
-// const summaryPageNonVeteran = summaryPage(false);
-
 /** @returns {PageSchema} */
 function servicePeriodInformationPage(isVet, isPrep) {
   return {
-    // uiSchema: {
-    //   ...arrayBuilderItemFirstPageTitleUI({
-    //     title: 'Name',
-    //     nounSingular: options.nounSingular,
-    //   }),
-    //   name: textUI('Name'),
-    // },
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
-        // title: isPrep ? 'Applicant’s service period(s)' : isVet ? 'Your service period(s)' : 'Sponsor’s service periods(s)',
         // eslint-disable-next-line no-nested-ternary
         title: isVet
           ? isPrep
@@ -178,8 +140,6 @@ function servicePeriodInformationPage(isVet, isPrep) {
         servicePeriod: options.servicePeriod,
         hasMultipleItemPages: false,
       }),
-      // application: {
-      //   veteran: {
       'ui:order': [
         'serviceBranch',
         'dateRange',
@@ -259,26 +219,7 @@ function servicePeriodInformationPage(isVet, isPrep) {
           },
         },
       },
-      //   },
-      // },
     },
-    // uiSchema: {
-    //   application: {
-    //     veteran: {
-    //       serviceRecords: serviceRecordsUI,
-    //     },
-    //     'ui:options': {
-    //       customTitle: ' ',
-    //     },
-    //   },
-    // },
-    // schema: {
-    //   type: 'object',
-    //   properties: {
-    //     name: textSchema,
-    //   },
-    //   required: ['name'],
-    // },
     schema: {
       type: 'object',
       properties: {
@@ -483,22 +424,6 @@ function servicePeriodInformationPage(isVet, isPrep) {
       },
       required: ['serviceBranch'],
     },
-    // schema: {
-    //   type: 'object',
-    //   properties: {
-    //     application: {
-    //       type: 'object',
-    //       properties: {
-    //         veteran: {
-    //           type: 'object',
-    //           properties: {
-    //             serviceRecords: veteran.properties.serviceRecords,
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
   };
 }
 
@@ -521,23 +446,6 @@ const servicePeriodInformationPagePreparerNonVeteran = servicePeriodInformationP
   false,
   true,
 );
-
-// /** @returns {PageSchema} */
-// const datePage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(
-//       ({ formData }) => (formData?.name ? `Date at ${formData.name}` : 'Date'),
-//     ),
-//     date: currentOrPastDateUI(),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       date: currentOrPastDateSchema,
-//     },
-//     required: ['date'],
-//   },
-// };
 
 export const servicePeriodsPagesVeteran = arrayBuilderPages(
   options,
