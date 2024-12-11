@@ -203,68 +203,6 @@ const validate = data => {
   }
 };
 
-// const generateTocItem = (doc, parent, data, pageData) => {
-//   const leftMargin = 100;
-//   const pages =
-//     pageData.startPage === pageData.endPage
-//       ? `page ${pageData.startPage}`
-//       : `pages ${pageData.startPage} - ${pageData.endPage}`;
-//   const tocItemTitle =
-//     pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
-
-//   parent.add(
-//     doc.struct('P', () => {
-//       doc
-//         .font(config.tocHeading.font)
-//         .fontSize(config.tocHeading.size)
-//         .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
-//           lineGap: 6,
-//         });
-//     }),
-//   );
-//   parent.add(
-//     doc.struct('P', () => {
-//       doc
-//         .font(config.text.font)
-//         .fontSize(config.text.size)
-//         .text(data.subtitle, leftMargin, doc.y, {
-//           lineGap: 6,
-//           width: 410,
-//         });
-//     }),
-//   );
-//   doc.moveDown();
-// };
-
-// const generateTableOfContents = (doc, parent, data, tocPageData) => {
-//   doc.switchToPage(1);
-//   const tableOfContents = doc.struct('Sect', {
-//     title: 'Table of contents',
-//   });
-//   tableOfContents.add(
-//     createHeading(doc, 'H2', config, 'Table of contents', {
-//       paragraphGap: 30,
-//       align: 'center',
-//       y: 100,
-//     }),
-//   );
-//   parent.add(tableOfContents);
-//   for (const recordSet of data.recordSets) {
-//     // TODO: Enable ToC to span multiple pages, possibly by generating
-//     // separate PDFs and then combining them since the ToC is generated
-//     // within the doc after the rest of the doc is generated
-//     generateTocItem(
-//       doc,
-//       tableOfContents,
-//       recordSet.toc,
-//       tocPageData[recordSet.type],
-//     );
-//   }
-
-//   doc.moveDown();
-//   tableOfContents.end();
-// };
-
 const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
   const headOptions = {
     x: 20,
@@ -432,9 +370,27 @@ export const generateResultsContent = async (doc, parent, data) => {
       paragraphGap: 12,
       x: data.results.prefaceIndent || 30,
     };
-    results.add(
-      createSubHeading(doc, config, data.results.preface, prefaceOptions),
-    );
+    if (Array.isArray(data.results.preface)) {
+      data.results.preface.forEach(item => {
+        results.add(
+          createSubHeading(doc, config, item.value, {
+            ...prefaceOptions,
+            ...item.prefaceOptions,
+          }),
+        );
+      });
+    } else if (typeof data.results.preface === 'object') {
+      results.add(
+        createSubHeading(doc, config, data.results.preface.value, {
+          ...prefaceOptions,
+          ...data.results.preface.prefaceOptions,
+        }),
+      );
+    } else {
+      results.add(
+        createSubHeading(doc, config, data.results.preface, prefaceOptions),
+      );
+    }
   }
 
   const hasHorizontalRule = data.results.sectionSeparators !== false;
