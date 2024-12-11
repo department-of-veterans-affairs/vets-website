@@ -16,7 +16,7 @@ describe('Header on mobile', () => {
   it('allows navigating from the Landing Page to unified sign-in page', () => {
     cy.axeCheck();
 
-    cy.get('[data-testid=user-nav-mobile-sign-in-link]')
+    cy.get('[data-testid=user-nav-sign-in-link]')
       .contains('Sign in')
       .click();
     cy.location('pathname').should('eq', '/sign-in/');
@@ -39,7 +39,7 @@ describe('Header on mobile', () => {
       'Power of attorney requests',
     );
 
-    cy.get('[data-testid=mobile-logo-row-logo-link]').click();
+    cy.get('[data-testid=nav-home-link]').click();
     cy.get('[data-testid=landing-page-heading]').should(
       'have.text',
       'Welcome to the Accredited Representative Portal',
@@ -61,7 +61,7 @@ describe('Header on screens wider than mobile', () => {
   it('allows navigating from the Landing Page to unified sign-in page', () => {
     cy.axeCheck();
 
-    cy.get('[data-testid=user-nav-wider-than-mobile-sign-in-link]')
+    cy.get('[data-testid=user-nav-sign-in-link]')
       .contains('Sign in')
       .click();
     cy.location('pathname').should('eq', '/sign-in/');
@@ -84,7 +84,7 @@ describe('Header on screens wider than mobile', () => {
       'Power of attorney requests',
     );
 
-    cy.get('[data-testid=wider-than-mobile-logo-row-logo-link]').click();
+    cy.get('[data-testid=nav-home-link]').click();
     cy.get('[data-testid=landing-page-heading]').should(
       'have.text',
       'Welcome to the Accredited Representative Portal',

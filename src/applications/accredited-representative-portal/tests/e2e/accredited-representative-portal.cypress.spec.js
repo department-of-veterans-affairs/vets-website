@@ -95,7 +95,7 @@ describe('Accredited Representative Portal', () => {
       );
       cy.get('[data-testid=poa-requests-card]').should('exist');
 
-      cy.get('[data-testid=wider-than-mobile-logo-row-logo-link]').click();
+      cy.get('[data-testid=nav-home-link]').click();
       cy.get('[data-testid=landing-page-heading]').should(
         'have.text',
         'Welcome to the Accredited Representative Portal, William',
