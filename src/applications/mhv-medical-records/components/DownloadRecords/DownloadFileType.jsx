@@ -30,7 +30,7 @@ const DownloadFileType = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(new Date());
+  const dob = formatDateLong(user.dob);
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
