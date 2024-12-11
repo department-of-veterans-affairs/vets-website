@@ -144,6 +144,10 @@ va-loading-indicator {
   margin: initial;
 }
 
+#generating-ccd-indicator va-loading-indicator {
+  margin: 0px;
+}
+
 .initial-fhir-load {
   width: 300px;
 }

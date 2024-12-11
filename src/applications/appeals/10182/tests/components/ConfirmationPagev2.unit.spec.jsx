@@ -135,7 +135,23 @@ describe('ConfirmationPageV2', () => {
       'file-1.pdf',
       'file-2.pdf',
     ]);
+    expect($('.evidence-later', container)).to.not.exist;
     expect($$('.vads-c-action-link--green', container).length).to.eq(1);
+  });
+
+  it('should render the confirmation page with evidence submitted later', () => {
+    const data = getData({
+      'view:additionalEvidence': false,
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <ConfirmationPageV2 />
+      </Provider>,
+    );
+
+    expect($('.evidence-later', container).textContent).to.eq(
+      'I’ll submit it later.',
+    );
   });
 
   it('should render the confirmation page with a hearing request', () => {
