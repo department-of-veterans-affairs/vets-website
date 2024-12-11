@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
+import { MDOT_ERROR_CODES } from '../../constants';
 
 const props = {
   route: {
@@ -11,7 +12,7 @@ const props = {
     pageList: [],
     formConfig,
   },
-  userLoggedIn: false,
+  // userLoggedIn: false,
   userIdVerified: true,
 };
 
@@ -19,7 +20,7 @@ const mockStore = {
   getState: () => ({
     user: {
       login: {
-        currentlyLoggedIn: false,
+        currentlyLoggedIn: true,
       },
       profile: {
         savedForms: [],
@@ -57,12 +58,29 @@ const mockStore = {
 };
 
 describe('IntroductionPage', () => {
-  it('should render', () => {
-    const { container } = render(
+  it('renders', () => {
+    const { container, getByRole } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
     expect(container).to.exist;
+    getByRole('link', { name: 'Start a new order' });
+  });
+
+  xit('suppresses the "Start order" link when alerts are present', () => {
+    mockStore.getState = () => ({
+      mdotInProgressForm: {
+        error: {
+          code: MDOT_ERROR_CODES.DECEASED,
+        },
+      },
+    });
+    const { findByRole } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    findByRole('link', { name: 'Start a new order' });
   });
 });
