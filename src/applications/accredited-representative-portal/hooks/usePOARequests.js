@@ -5,7 +5,7 @@ import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 const usePOARequests = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [poaRequests, setPOARequests] = useState(null);
+  const [poaRequests, setPOARequests] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);

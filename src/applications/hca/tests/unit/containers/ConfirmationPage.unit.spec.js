@@ -1,6 +1,8 @@
-import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import React from 'react';
 import { Provider } from 'react-redux';
 
 import ConfirmationPage from '../../../containers/ConfirmationPage';
@@ -39,79 +41,66 @@ describe('hca ConfirmationPage', () => {
       dispatch: () => {},
     },
   });
-
-  context('when the page renders', () => {
-    it('should render success alert & application summary', () => {
-      const { mockStore } = getData({});
-      const { container } = render(
-        <Provider store={mockStore}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-      const selectors = {
-        page: container.querySelector('.hca-confirmation-page'),
-        alert: container.querySelector('.hca-success-message'),
-        summary: container.querySelector('va-summary-box'),
-      };
-      expect(selectors.page).to.not.be.empty;
-      expect(selectors.summary).to.exist;
-      expect(selectors.alert).to.exist;
+  const subject = ({ mockStore }) => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    const selectors = () => ({
+      page: container.querySelector('.hca-confirmation-page'),
+      alert: container.querySelector('.hca-success-message'),
+      summary: container.querySelector('va-summary-box'),
+      veteranName: container.querySelector('.hca-veteran-fullname'),
+      applicationDate: container.querySelector('.hca-application-date'),
     });
+    return { container, selectors };
+  };
+
+  it('should render success alert & application summary when the page renders', () => {
+    const { mockStore } = getData({});
+    const { selectors } = subject({ mockStore });
+    const { alert, page, summary } = selectors();
+    expect(page).to.not.be.empty;
+    expect(summary).to.exist;
+    expect(alert).to.exist;
   });
 
-  context('when the submission is parsed', () => {
-    it('should not render application date container when there is no response data', () => {
-      const { mockStore } = getData({});
-      const { container } = render(
-        <Provider store={mockStore}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-      const selector = container.querySelector('.hca-application-date');
-      expect(selector).to.not.exist;
-    });
+  it('should not render application date container when there is no response data', () => {
+    const { mockStore } = getData({});
+    const { selectors } = subject({ mockStore });
+    const { applicationDate } = selectors();
+    expect(applicationDate).to.not.exist;
+  });
 
-    it('should render application date container when there is response data', () => {
-      const { mockStore } = getData({
-        submission: {
-          response: {
-            timestamp: 1262322000000,
-            formSubmissionId: '3702390024',
-          },
+  it('should render application date container when there is response data', () => {
+    const timestamp = utcToZonedTime(1262322000000, 'UTC');
+    const { mockStore } = getData({
+      submission: {
+        response: {
+          timestamp,
+          formSubmissionId: '3702390024',
         },
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-      const selector = container.querySelector('.hca-application-date');
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('Jan. 1, 2010');
+      },
     });
+    const { selectors } = subject({ mockStore });
+    const { applicationDate } = selectors();
+    const expectedResult = format(timestamp, 'MMM. d, yyyy');
+    expect(applicationDate).to.exist;
+    expect(applicationDate).to.contain.text(expectedResult);
   });
 
-  context('when the form data is parsed', () => {
-    it('should render Veteran’s name from form data when not logged in', () => {
-      const { mockStore } = getData({});
-      const { container } = render(
-        <Provider store={mockStore}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-      const selector = container.querySelector('.hca-veteran-fullname');
-      expect(selector).to.contain.text('Jack William Smith');
-    });
+  it('should render Veteran’s name from form data when not logged in', () => {
+    const { mockStore } = getData({});
+    const { selectors } = subject({ mockStore });
+    const { veteranName } = selectors();
+    expect(veteranName).to.contain.text('Jack William Smith');
+  });
 
-    it('should render Veteran’s name from profile data when logged in', () => {
-      const { mockStore } = getData({ loggedIn: true });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-      const selector = container.querySelector('.hca-veteran-fullname');
-      expect(selector).to.contain.text('John William Smith Sr.');
-    });
+  it('should render Veteran’s name from profile data when logged in', () => {
+    const { mockStore } = getData({ loggedIn: true });
+    const { selectors } = subject({ mockStore });
+    const { veteranName } = selectors();
+    expect(veteranName).to.contain.text('John William Smith Sr.');
   });
 });

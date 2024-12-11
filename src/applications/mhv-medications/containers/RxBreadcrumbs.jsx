@@ -50,7 +50,7 @@ const RxBreadcrumbs = () => {
           href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${
             prescription?.prescriptionId
           }`}
-          text={`Back to ${prescription?.prescriptionName}`}
+          text="Back"
           data-testid="rx-breadcrumb-link"
         />
       </div>

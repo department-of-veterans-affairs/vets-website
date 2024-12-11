@@ -22,15 +22,18 @@ export default function ClaimDetailsContent(props) {
   return (
     <>
       <h1>Your travel reimbursement claim for {appointmentDate}</h1>
-      <span className="claim-details-claim-number">
+      <span
+        className="vads-u-font-size--h2 vads-u-font-weight--bold"
+        data-testid="claim-details-claim-number"
+      >
         Claim number: {claimNumber}
       </span>
-      <h2 className="claim-details-h3">Where</h2>
+      <h2 className="vads-u-font-size--h3">Where</h2>
       <p className="vads-u-margin-bottom--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
       <p className="vads-u-margin-y--0">{facilityName}</p>
-      <h2 className="claim-details-h3">Claim status: {claimStatus}</h2>
+      <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       <p className="vads-u-margin-bottom--0">
         Submitted on {createDate} at {createTime}
       </p>

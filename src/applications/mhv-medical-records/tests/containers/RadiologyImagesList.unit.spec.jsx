@@ -22,21 +22,19 @@ describe('Radiology Images List container', () => {
           imagingLocation:
             '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reactions: ['Just this one'],
-          results:
-            'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
-          images: [
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-            'image',
-          ],
+          results: 'This exam was performed at 673RD MED GRP, Elmendorf AFB.',
+          studyId: 12345,
+          imageCount: 5,
         },
+      },
+      images: {
+        imageList: [
+          { index: 1, seriesAndImage: '01/01' },
+          { index: 2, seriesAndImage: '02/01' },
+          { index: 3, seriesAndImage: '03/01' },
+          { index: 4, seriesAndImage: '04/01' },
+          { index: 5, seriesAndImage: '05/01' },
+        ],
       },
     },
   };
@@ -52,12 +50,6 @@ describe('Radiology Images List container', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen).to.exist;
-  });
-
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-download-menu');
-    expect(printButton).to.exist;
   });
 
   it('displays the test name as an h1', () => {

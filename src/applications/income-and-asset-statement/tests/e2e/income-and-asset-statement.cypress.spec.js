@@ -27,6 +27,7 @@ let addedTrustItem = false;
 let addedAnnuityItem = false;
 let addedUnreportedAssetItem = false;
 let addedDiscontinuedIncomeItem = false;
+let addedIncomeReceiptWaiverItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -406,6 +407,40 @@ const testConfig = createTestConfig(
             fillStandardTextInput('grossAnnualAmount', grossAnnualAmount);
 
             addedDiscontinuedIncomeItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'income-receipt-waivers-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingIncomeReceiptWaivers =
+              data['view:isAddingIncomeReceiptWaivers'];
+            if (addedIncomeReceiptWaiverItem) {
+              isAddingIncomeReceiptWaivers = false;
+              addedIncomeReceiptWaiverItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingIncomeReceiptWaivers',
+              isAddingIncomeReceiptWaivers,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'income-receipt-waivers/0/payments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            selectYesNoWebComponent('view:paymentsWillResume', false);
+
+            addedIncomeReceiptWaiverItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
