@@ -31,7 +31,10 @@ export const MobileOfficialGovtWebsite = () => {
           onClick={onToggle}
           type="button"
         >
-          <span className="vads-u-color--black">
+          <span
+            className="vads-u-color--black"
+            data-testid="official-govt-site-text"
+          >
             An official website of the United States government.
           </span>
           <span className="header__govt-site-explanation-sub-text">
