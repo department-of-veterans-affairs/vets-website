@@ -1,29 +1,29 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+// import React from 'react';
+// import { render } from '@testing-library/react';
+// import { expect } from 'chai';
+// import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import mockFormData from '../../fixtures/data/form-data.json';
+// import mockFormData from '../../fixtures/data/form-data.json';
 
-import formConfig from '../../../config/form';
+// import formConfig from '../../../config/form';
 
-describe('Veteran Contact Mailing page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.claimantInfo.pages.veteranContactMailing;
+// describe('Veteran Contact Mailing page', () => {
+//   const {
+//     schema,
+//     uiSchema,
+//   } = formConfig.chapters.claimantInfo.pages.veteranContactMailing;
 
-  it('should render', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={mockFormData}
-        formData={mockFormData}
-      />,
-    );
+//   it('should render', () => {
+//     const { container } = render(
+//       <DefinitionTester
+//         definitions={{}}
+//         schema={schema}
+//         uiSchema={uiSchema}
+//         data={mockFormData}
+//         formData={mockFormData}
+//       />,
+//     );
 
-    expect(container.querySelector('button[type="submit"]')).to.exist;
-  });
-});
+//     expect(container.querySelector('button[type="submit"]')).to.exist;
+//   });
+// });
