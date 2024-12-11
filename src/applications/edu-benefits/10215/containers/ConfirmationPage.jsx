@@ -11,7 +11,7 @@ const childContent = (
     </h1>
     <p>
       35% exemption request from 85/15 Rule reporting requirements (VA Form
-      22-10216)
+      22-10215)
     </p>
     <va-alert close-btn-aria-label="Close notification" status="into" visible>
       <h2 slot="headline">Complete all submission steps</h2>
@@ -26,43 +26,32 @@ const childContent = (
     </h2>
     <va-process-list uswds>
       <va-process-list-item header="Download and save your form">
-        <div itemProp="name">
-          <h4 className="vads-u-font-size--h5">Download and save your form</h4>
-        </div>
         <div itemProp="itemListElement">
           <p>
-            We usually process claims within 30 days. We’ll let you know by mail
-            if we need more information.
+            Make sure that your completed form is saved as a PDF on your device.
+            If you didn’t do that on the previous page, go back and do that now.
           </p>
           <p>
             <va-link
               href="https://iam.education.va.gov/"
-              text="Download VA Form 22-10216"
+              text="Download VA Form 22-10215"
               download
             />
           </p>
         </div>
       </va-process-list-item>
       <va-process-list-item header="Upload the form to the VA education portal">
-        <div>
-          <h4 className="vads-u-font-size--h5">
-            Upload the form to the VA education portal
-          </h4>
-        </div>
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
             <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
               VA Education File Upload Portal (opens in a new tab)
             </a>
-            , and upload your saved VA Form 22-10216.
+            , and upload your saved VA Form 22-10215.
           </p>
         </div>
       </va-process-list-item>
       <va-process-list-item header="Submit your form">
-        <div itemProp="name">
-          <h4 className="vads-u-font-size--h5">Submit your form</h4>
-        </div>
         <div itemProp="itemListElement">
           <p>Once uploaded, click submit to finalize your request.</p>
         </div>
@@ -80,12 +69,12 @@ const childContent = (
     </p>
     <h1>What are my next steps?</h1>
     <p>
-      After submitting your exemption request, we will review your submission
+      After you submit your 85/15 Rule enrollment ratios, we will review them
       within 7-10 business days. Once we complete the review, we will email your
-      school a letter with the decision.If we accept your request, we will
+      school a letter with the decision. If we accept your request, we will
       include a copy of WEAMS form 1998 as confirmation in the letter. If we
       deny your request, we will explain the reason for rejection in the letter
-      and provide further instructions for resubmission or additional steps.
+      and provide further instructions for re-submission or additional steps.
     </p>
   </div>
 );
