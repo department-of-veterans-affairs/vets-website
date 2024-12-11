@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
 
-export default function LoginHeader({ loggedOut }) {
+export default function LoginHeader() {
   // Used to get around Cypress E2E lookup of va-modal's sign-in modal h1
   // const HeadingTag =
   //   (window?.cypress ||
@@ -15,7 +14,7 @@ export default function LoginHeader({ loggedOut }) {
   return (
     <>
       <div className="row">
-        {loggedOut && <LogoutAlert />}
+        <LogoutAlert />
         <div className="columns small-12">
           <h1 id="signin-signup-modal-title">Sign in or create an account</h1>
         </div>
@@ -24,7 +23,3 @@ export default function LoginHeader({ loggedOut }) {
     </>
   );
 }
-
-LoginHeader.propTypes = {
-  loggedOut: PropTypes.bool,
-};

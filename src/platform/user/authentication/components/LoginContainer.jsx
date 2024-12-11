@@ -12,7 +12,7 @@ const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 const LoginContainer = props => {
-  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
+  const { externalApplication, isUnifiedSignIn } = props;
   useDatadogRum();
 
   return (
@@ -33,7 +33,7 @@ const LoginContainer = props => {
         </div>
       )}
       <div className="container">
-        <LoginHeader loggedOut={loggedOut} />
+        <LoginHeader />
         <LoginActions
           externalApplication={externalApplication}
           isUnifiedSignIn={isUnifiedSignIn}

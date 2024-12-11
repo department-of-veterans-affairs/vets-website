@@ -18,13 +18,4 @@ describe('LoginHeader', () => {
 
     expect(screen.queryByText(/Sign in or create an account/)).to.not.be.null;
   });
-
-  it('should display the LogoutAlert component when user is loggedIn', () => {
-    const screen = renderInReduxProvider(<LoginHeader loggedOut />, {
-      initialState: generateState({}),
-    });
-
-    expect(screen.queryByText(/You have successfully signed out/i)).to.not.be
-      .null;
-  });
 });

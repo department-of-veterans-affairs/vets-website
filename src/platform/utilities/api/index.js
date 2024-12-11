@@ -167,7 +167,6 @@ export function apiRequest(
 
         if (shouldRedirectToSessionExpired) {
           sessionStorage.removeItem('shouldRedirectExpiredSession');
-          sessionStorage.setItem('isSessionExpired', true);
           window.location.href = '/?next=loginModal&status=sessionExpired';
         }
       }
