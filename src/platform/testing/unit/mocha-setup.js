@@ -178,7 +178,7 @@ export const mochaHooks = {
     if (isStressTest == 'false') {
       checkAllowList(this);
     }
-    if (process.env.CI) {
+    if (process.env.CI || ['trace', 'debug'].includes(process.env.LOG_LEVEL)) {
       console.log(
         'running: ',
         this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
