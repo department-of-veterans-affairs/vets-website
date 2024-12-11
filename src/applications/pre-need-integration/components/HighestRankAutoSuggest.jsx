@@ -10,42 +10,57 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
   const [rank, setRank] = useState('');
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   const extractIndex = id => {
-    const match = id.match(/serviceRecords_(\d+)_highestRank/);
-    return match ? parseInt(match[1], 10) : 0;
+    // const match = id.match(/serviceRecords_(\d+)_highestRank/);
+    const match = id.match(/(\d+)\/service-period/);
+    // eslint-disable-next-line radix
+    return match ? parseInt(match[1], 0) : 0;
   };
 
   const handleSelectionChange = selection => {
     const highestRankTemp =
       typeof selection === 'string' ? selection : selection.key;
-    if (selection.key)
-      setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
-    else setRank(highestRankTemp);
 
-    if (formData.application.veteran.serviceRecords) {
+    if (selection.key) {
+      // console.log("Handle Selection Change");
+      setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
+    } else {
+      // console.log("Handle Selection Change ELSE ", highestRankTemp);
+      setRank(highestRankTemp);
+    }
+
+    // if (formData.application.veteran.serviceRecords) {
+    // console.log("form data: ", formData);
+
+    if (formData.serviceRecords) {
+      // } && selection.key) {
+      // console.log("We in here");
+
       const updatedFormData = {
         ...formData,
-        application: {
-          ...formData.application,
-          veteran: {
-            ...formData.application.veteran,
-            serviceRecords: formData.application.veteran.serviceRecords.map(
-              (record, idx) =>
-                idx === index
-                  ? {
-                      ...record,
-                      highestRank: highestRankTemp,
-                      highestRankDescription: selection.value || undefined,
-                    }
-                  : record,
-            ),
-          },
-        },
+        // application: {
+        //   ...formData.application,
+        //   veteran: {
+        //     ...formData.application.veteran,
+        // serviceRecords: formData.application.veteran.serviceRecords.map(
+        serviceRecords: formData.serviceRecords.map(
+          (record, idx) =>
+            idx === index
+              ? {
+                  ...record,
+                  highestRank: highestRankTemp,
+                  highestRankDescription: selection.value || undefined,
+                }
+              : record,
+        ),
+        //   },
+        // },
       };
+      // console.log("Dispatch data");
 
       dispatch(setData(updatedFormData));
     }
@@ -89,8 +104,11 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
 
   useEffect(
     () => {
-      const serviceRecords = formData?.application?.veteran?.serviceRecords;
-      const currentIndex = extractIndex(idSchema?.$id);
+      // const serviceRecords = formData?.application?.veteran?.serviceRecords;
+      const serviceRecords = formData?.serviceRecords;
+      // const currentIndex = extractIndex(idSchema?.$id);
+      const currentIndex = extractIndex(window.location.href);
+      // const currentIndex = 0;
       setIndex(currentIndex);
 
       if (serviceRecords) {
