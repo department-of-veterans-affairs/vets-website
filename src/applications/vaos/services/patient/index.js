@@ -116,17 +116,17 @@ export async function fetchPatientEligibility({
  */
 
 export async function fetchPatientRelationships() {
-  /* TODO:  https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
-    Once we are aware of the data that we need and where this needs to be called
-    in the flow, we need to add { typeOfCare, location } as a passed attribute.
+  // TODO:  https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
+  // Once we are aware of the data that we need and where this needs to be called
+  // in the flow, we need to add { typeOfCare, location } as a passed attribute.
+  //
+  // export async function fetchPatientRelationships({ typeOfCare, location })
+  //
+  // const data = await getPatientRelationships(location.id, typeOfCare.idV2);
+  //
+  // Currently this will fetch all patient provider relationships for the logged
+  // in user.
 
-    export async function fetchPatientRelationships({ typeOfCare, location })
-
-    const data = await getPatientRelationships(location.id, typeOfCare.idV2);
-
-    Currently this will fetch all patient provider relationships for the logged
-    in user.
-  */
   try {
     const data = await getPatientRelationships();
     return transformPatientRelationships(data || []);
