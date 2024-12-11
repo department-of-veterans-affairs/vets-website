@@ -1,6 +1,8 @@
 import React from 'react';
 import { Tabs } from '../../../components/Tabs';
 import DevPanel from '../DevPanel';
+import { FrontendServer } from './FrontendServer';
+import { MockServer } from './MockServer';
 
 export const Servers = () => {
   return (
@@ -9,8 +11,8 @@ export const Servers = () => {
         <Tabs
           tabs={[
             { label: 'Dev Panel', content: <DevPanel /> },
-            { label: 'Frontend Dev Server', content: 'FE server' },
-            { label: 'Mock API Server', content: 'Mock API server' },
+            { label: 'Frontend Dev Server', content: <FrontendServer /> },
+            { label: 'Mock API Server', content: <MockServer /> },
           ]}
           activeTab={0}
         />
