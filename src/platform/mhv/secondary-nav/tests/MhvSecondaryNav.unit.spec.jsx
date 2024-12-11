@@ -19,8 +19,20 @@ const setup = ({ initialState = stateFn() } = {}) =>
   renderInReduxProvider(<MhvSecondaryNav />, { initialState });
 
 describe('<MhvSecondaryNav />', () => {
-  it('renders nothing when loading', () => {
+  it('renders nothing when loading features', () => {
     const initialState = stateFn({ loading: true });
+    const { container } = setup({ initialState });
+    expect(container).to.be.empty;
+  });
+
+  it('renders nothing when loading is null', () => {
+    const initialState = stateFn({ loading: null });
+    const { container } = setup({ initialState });
+    expect(container).to.be.empty;
+  });
+
+  it('renders nothing when loading is undefined', () => {
+    const initialState = stateFn({ loading: undefined });
     const { container } = setup({ initialState });
     expect(container).to.be.empty;
   });
