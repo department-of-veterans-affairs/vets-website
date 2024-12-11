@@ -48,11 +48,8 @@ export const VerifyIdmeButton = ({ queryParams }) => {
             fill="#fff"
           />
         </svg>
-      </span>{' '}
-      <div>
-        Verify with <span className="sr-only">ID.me</span>
-        {altImage}
-      </div>
+      </span>
+      <div>Verify with {altImage}</div>
     </button>
   );
 };
@@ -71,10 +68,7 @@ export const VerifyLogingovButton = ({ queryParams }) => {
       className="usa-button logingov-verify-button"
       onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
     >
-      <div>
-        Verify with <span className="sr-only">Login.gov</span>
-        {image}
-      </div>
+      <div>Verify with {image}</div>
     </button>
   );
 };
@@ -87,7 +81,7 @@ export const VerifyLogingovButton = ({ queryParams }) => {
  * @returns A button with just the Login.gov or ID.me logo that is used to start the identity-verification process
  */
 export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
-  const { image, label } = SERVICE_PROVIDERS[csp];
+  const { image } = SERVICE_PROVIDERS[csp];
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
   const className = `usa-button ${csp}-verify-buttons`;
   return (
@@ -97,7 +91,7 @@ export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
       className={className}
       onClick={() => onClick({ policy: csp, useOAuth, queryParams })}
     >
-      <span className="sr-only">Verify with {label}</span>
+      <span className="sr-only">Verify with</span>
       {image}
     </button>
   );

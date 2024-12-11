@@ -7,6 +7,19 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const blueButtonRecordTypes = {
+  MEDICATIONS: 'medications',
+  APPOINTMENTS: 'appointments',
+  DEMOGRAPHICS: 'demographics',
+  MILITARY_SERVICE: 'military service',
+  ACCOUNT_SUMMARY: 'account summary',
+};
+
+export const medicationTypes = {
+  VA: 'va',
+  NON_VA: 'non-va',
+};
+
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
@@ -15,6 +28,7 @@ export const accessAlertTypes = {
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
   BLUE_BUTTON_REPORT: 'Blue Button report',
+  IMAGE_STATUS: 'image',
 };
 
 export const labTypes = {
@@ -118,6 +132,10 @@ export const interpretationMap = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+export const NONE_RECORDED = 'None recorded';
+export const NO_INFO_REPORTED = 'No information reported';
+export const NA = 'N/A';
+export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
@@ -130,6 +148,18 @@ export const vitalTypes = {
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
   PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
+};
+
+export const seiVitalTypes = {
+  BLOOD_PRESSURE: 'bloodPressure',
+  BLOOD_SUGAR: 'bloodSugar',
+  BODY_TEMPERATURE: 'bodyTemperature',
+  BODY_WEIGHT: 'bodyWeight',
+  CHOLESTEROL: 'cholesterol',
+  HEART_RATE: 'heartRate',
+  INR: 'inr',
+  PAIN: 'pain',
+  PULSE_OXIMETRY: 'pulseOximetry',
 };
 
 export const vitalTypeDisplayNames = {
@@ -181,6 +211,7 @@ export const vitalUnitDisplayText = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
@@ -202,19 +233,20 @@ export const pageTitles = {
 };
 
 export const selfEnteredTypes = {
-  VITALS: 'vitals',
-  ALLERGIES: 'allergies',
-  FAMILY_HISTORY: 'family history',
-  VACCINES: 'vaccines',
-  TEST_ENTRIES: 'test entries',
-  MEDICAL_EVENTS: 'medical events',
-  MILITARY_HISTORY: 'military history',
-  HEALTH_PROVIDERS: 'health providers',
-  HEALTH_INSURANCE: 'health insurance',
-  TREATMENT_FACILITIES: 'treatment facilities',
-  FOOD_JOURNAL: 'food journal',
   ACTIVITY_JOURNAL: 'activity journal',
-  MEDICATIONS: 'medications',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
 };
 
 export const allergyTypes = {
@@ -222,6 +254,14 @@ export const allergyTypes = {
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const studyJobStatus = {
+  NONE: 'NONE',
+  NEW: 'NEW',
+  PROCESSING: 'PROCESSING',
+  COMPLETE: 'COMPLETE',
+  ERROR: 'ERROR',
 };
 
 export const refreshExtractTypes = {

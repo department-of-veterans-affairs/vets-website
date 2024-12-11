@@ -49,7 +49,6 @@ import {
   applicationEmailSchema,
 } from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
-import { UPLOADS_COMPLETE_PATH } from './constants';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -132,8 +131,9 @@ const formConfig = {
     formSignature: {
       title: 'Signer information',
       pages: {
-        formSignature: {
+          formSignature: {
           path: UPLOADS_COMPLETE_PATH,
+          // initialData: mockdata.data,
           title: 'Form signature',
           ...formSignatureSchema,
         },
@@ -142,10 +142,17 @@ const formConfig = {
           title: 'Your email Address',
           ...applicationEmailSchema,
         },
+      },
+    },
+    applicantInformation: {
+      title: 'Beneficiary information',
+      pages: {
         applicantNameDob: {
-          // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name',
+          title: formData =>
+            `${
+              formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+            } name`,
           ...applicantNameDobSchema,
         },
       },

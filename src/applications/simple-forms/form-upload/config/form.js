@@ -18,6 +18,7 @@ import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
 import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
@@ -88,6 +89,18 @@ const formConfig = (pathname = null) => {
             uiSchema: veteranIdentificationInformationPage.uiSchema,
             schema: veteranIdentificationInformationPage.schema,
             CustomPage: VeteranIdentificationInformationPage,
+            scrollAndFocusTarget,
+          },
+        },
+      },
+      contactInformationChapter: {
+        title: 'Your contact information',
+        pages: {
+          phoneNumberAndEmailPage: {
+            path: 'phone-number-and-email',
+            title: 'Phone and email address',
+            uiSchema: phoneNumberAndEmailPage.uiSchema,
+            schema: phoneNumberAndEmailPage.schema,
             scrollAndFocusTarget,
           },
         },
