@@ -120,7 +120,7 @@ describe('<PreSubmitInfo>', () => {
       });
     });
 
-    it('form replacement shows an error message', async () => {
+    it('shows an error message for form replacement', async () => {
       const { props, mockStore } = getProps({ showError: true, status: null });
 
       const { container } = renderContainer(props, mockStore);
@@ -158,7 +158,7 @@ describe('<PreSubmitInfo>', () => {
       });
     });
 
-    it('terms and conditions shows an error message', async () => {
+    it('shows an error message for terms and conditions ', async () => {
       const { props, mockStore } = getProps({ showError: true, status: null });
 
       const { container } = renderContainer(props, mockStore);
