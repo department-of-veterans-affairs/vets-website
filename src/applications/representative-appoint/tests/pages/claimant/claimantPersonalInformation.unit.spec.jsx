@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 describe('Claimant Personal Information page', () => {
   const {

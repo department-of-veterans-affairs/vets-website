@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 describe('Claimant Contact Phone Email page', () => {
   const {
