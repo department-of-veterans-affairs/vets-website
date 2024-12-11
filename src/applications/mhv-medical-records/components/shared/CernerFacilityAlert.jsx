@@ -7,7 +7,7 @@ import { getCernerURL } from 'platform/utilities/cerner';
 
 const CernerFacilityAlert = ({ linkPath, pageName }) => {
   const ehrDataByVhaId = useSelector(
-    state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
+    state => state?.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
 
@@ -16,7 +16,7 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
   const cernerFacilities = useMemo(
     () => {
       return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(
+        drupalCernerFacilities?.some(
           f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
         ),
       );
