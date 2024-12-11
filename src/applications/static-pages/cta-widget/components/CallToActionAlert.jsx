@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function CallToActionAlert({
   heading,
@@ -9,8 +10,8 @@ export default function CallToActionAlert({
   secondaryButtonText,
   secondaryButtonHandler,
   status,
-  ariaLabel = null,
-  ariaDescribedby = null,
+  primaryButtonAriaLabel = null,
+  primaryButtonAriaDescribedby = null,
 }) {
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
@@ -22,20 +23,38 @@ export default function CallToActionAlert({
           <va-button
             onClick={primaryButtonHandler}
             text={primaryButtonText}
-            label={ariaLabel}
-            aria-describedby={ariaDescribedby}
+            label={primaryButtonAriaLabel}
+            aria-describedby={primaryButtonAriaDescribedby}
             uswds
           />
         )}
         {secondaryButtonText && (
-          <button
-            className="va-button-link vads-u-margin-left--2"
+          <va-button
+            text={secondaryButtonText}
             onClick={secondaryButtonHandler}
-          >
-            {secondaryButtonText}
-          </button>
+            secondary
+          />
         )}
       </div>
     </va-alert>
   );
 }
+
+CallToActionAlert.propTypes = {
+  alertText: PropTypes.node,
+  headerLevel: PropTypes.number,
+  heading: PropTypes.string,
+  primaryButtonAriaDescribedby: PropTypes.string,
+  primaryButtonAriaLabel: PropTypes.string,
+  primaryButtonHandler: PropTypes.func,
+  primaryButtonText: PropTypes.string,
+  secondaryButtonHandler: PropTypes.func,
+  secondaryButtonText: PropTypes.string,
+  status: PropTypes.string,
+};
+
+CallToActionAlert.defaultProps = {
+  headerLevel: 3,
+  primaryButtonAriaDescribedby: null,
+  primaryButtonAriaLabel: null,
+};
