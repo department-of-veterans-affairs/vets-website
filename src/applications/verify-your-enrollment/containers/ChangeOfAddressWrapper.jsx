@@ -257,7 +257,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {suggestedAddressPicked ||
             confidenceScore < (addressType === 'International' ? 96 : 100) ? (
               <SuggestedAddress
-                formData={editFormData}
+                formData={
+                  Object.keys(editFormData).length === 0
+                    ? JSON.parse(sessionStorage.getItem('address'))
+                    : editFormData
+                }
                 address={JSON.parse(sessionStorage.getItem('address'))}
                 handleAddNewClick={event => handleAddNewClick(event)}
                 setFormData={setFormData}
