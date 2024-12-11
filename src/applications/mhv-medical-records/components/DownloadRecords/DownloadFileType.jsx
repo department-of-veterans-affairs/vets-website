@@ -21,6 +21,7 @@ import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { clearAlerts } from '../../actions/alerts';
+import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -78,17 +79,13 @@ const DownloadFileType = props => {
     }
   });
 
-  const [filterFromDate, filterToDate] = useMemo(
-    () => {
-      return dateFilter ? dateFilter.split('<->') : [null, null];
-    },
-    [dateFilter],
-  );
-
   const filterByDate = recDate => {
+    if (dateFilter.option === 'any') {
+      return true;
+    }
     return (
-      isBefore(new Date(filterFromDate), new Date(recDate)) &&
-      isAfter(new Date(filterToDate), new Date(recDate))
+      isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
+      isAfter(new Date(dateFilter.toDate), new Date(recDate))
     );
   };
 
@@ -107,13 +104,13 @@ const DownloadFileType = props => {
     } else {
       return {
         labsAndTests: recordFilter?.includes('labTests')
-          ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
+          ? labsAndTests?.filter(rec => filterByDate(rec.sortDate))
           : null,
         notes: recordFilter?.includes('careSummaries')
-          ? notes.filter(rec => filterByDate(rec.sortByDate))
+          ? notes?.filter(rec => filterByDate(rec.sortByDate))
           : null,
         vaccines: recordFilter?.includes('vaccines')
-          ? vaccines.filter(rec => filterByDate(rec.date))
+          ? vaccines?.filter(rec => filterByDate(rec.date))
           : null,
         allergies:
           recordFilter?.includes('allergies') ||
@@ -122,15 +119,15 @@ const DownloadFileType = props => {
             : null,
         conditions: recordFilter?.includes('conditions') ? conditions : null,
         vitals: recordFilter?.includes('vitals')
-          ? vitals.filter(rec => filterByDate(rec.date))
+          ? vitals?.filter(rec => filterByDate(rec.date))
           : null,
         medications: recordFilter?.includes('medications')
-          ? medications.filter(rec => filterByDate(rec.lastFilledOn))
+          ? medications?.filter(rec => filterByDate(rec.lastFilledOn))
           : null,
         appointments:
           recordFilter?.includes('upcomingAppts') ||
           recordFilter?.includes('pastAppts')
-            ? appointments.filter(
+            ? appointments?.filter(
                 rec =>
                   filterByDate(rec.date) &&
                   ((recordFilter.includes('upcomingAppts') && rec.isUpcoming) ||
@@ -198,7 +195,13 @@ const DownloadFileType = props => {
           name,
           dob,
         };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
+        makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'blueButtonReport',
+        ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
       }
     },
     [
@@ -245,7 +248,9 @@ const DownloadFileType = props => {
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
         const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user);
+        generateTextFile(content, pdfName, user).then(() =>
+          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
+        );
       }
     },
     [

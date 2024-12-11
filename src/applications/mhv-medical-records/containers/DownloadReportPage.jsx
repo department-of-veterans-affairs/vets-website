@@ -29,6 +29,8 @@ import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import { UNKNOWN } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { Actions } from '../util/actionTypes';
 
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -39,6 +41,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
   const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
+  const successfulDownload = useSelector(
+    state => state.mr.downloads.downloadSuccess,
+  );
 
   const activityJournal = useSelector(
     state => state.mr.selfEntered.activityJournal,
@@ -70,6 +75,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+    };
+  }, []);
 
   const generatePdf = useCallback(
     async () => {
@@ -229,6 +240,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   return (
     <div>
+      {successfulDownload === true && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+      )}
       <h1>Download your medical records reports</h1>
       <p className="vads-u-margin--0">
         Download your VA medical records as a single report (called your VA Blue
@@ -281,7 +295,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"
-          header="Continuity of care document (VA Health Summary)"
+          header="Continuity of Care Document (VA Health Summary)"
           data-testid="ccdAccordionItem"
         >
           <p className="vads-u-margin--0">
