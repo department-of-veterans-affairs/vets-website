@@ -5,6 +5,11 @@ const path = require('path');
 const readline = require('readline');
 const createSpinner = require('./spinner');
 
+/**
+ * find all node_modules directories in a directory
+ * @param {string} dir - directory to search for node_modules
+ * @returns {string[]} array of paths to node_modules directories that were found
+ */
 const findNodeModules = dir => {
   try {
     const results = [];
@@ -31,6 +36,11 @@ const findNodeModules = dir => {
   }
 };
 
+/**
+ * confirm deletion of node_modules directories
+ * @param {string[]} folders - array of paths to node_modules directories
+ * @returns {Promise<boolean>} resolves to true if confirmed deletion, false otherwise
+ */
 const confirmDeletion = async folders => {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -51,6 +61,10 @@ const confirmDeletion = async folders => {
   });
 };
 
+/**
+ * delete all node_modules directories in a directory
+ * @param {string} startDir - directory to search for node_modules
+ */
 const deleteNodeModules = async (startDir = '.') => {
   try {
     const foundDirs = findNodeModules(startDir);
