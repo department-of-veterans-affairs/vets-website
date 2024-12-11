@@ -44,12 +44,14 @@ export const MobileLogoRow = () => {
         }
       />
       {profile && (
-        <a
-          className="usa-button nav__user-btn nav__user-btn--user desktop"
-          href="/representative/poa-requests"
-        >
-          POA requests
-        </a>
+        <div className="nav__container vads-u-display--flex">
+          <a
+            className="usa-button nav__user-btn nav__user-btn--user desktop"
+            href="/representative/poa-requests"
+          >
+            POA requests
+          </a>
+        </div>
       )}
     </nav>
   );
