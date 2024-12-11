@@ -43,7 +43,6 @@ import {
   sentenceCase,
   generateClaimTitle,
   isStandard5103Notice,
-  getTrackedItemHumanReadableName,
 } from '../../utils/helpers';
 
 import {
@@ -1541,16 +1540,6 @@ describe('Disability benefits helpers: ', () => {
           'Files for August 21, 2024 Request to Add or Remove a Dependent',
         );
       });
-    });
-  });
-  describe('getTrackedItemHumanReadableName', () => {
-    it('should return a replacment name if one is available', () => {
-      expect(getTrackedItemHumanReadableName('PMR Pending')).to.equal(
-        'Private Medical Record',
-      );
-    });
-    it("should return the provided name if a replacement doesn't exist", () => {
-      expect(getTrackedItemHumanReadableName('test')).to.equal('test');
     });
   });
 });

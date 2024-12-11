@@ -96,11 +96,9 @@ class MedicationsLandingPage {
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      emptyPrescriptionsList,
-    ).as('emptyPrescriptionsList');
+    cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList).as(
+      'emptyPrescriptionsList',
+    );
     cy.get('[data-testid="empty-medications-list"]').should(
       'contain',
       'You don’t have any VA prescriptions',
@@ -126,6 +124,11 @@ class MedicationsLandingPage {
       'contain',
       'Go to your allergies and reactions',
     );
+  };
+
+  visitLandingPageURLforEmptyMedicationsList = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
+    cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList);
   };
 }
 export default MedicationsLandingPage;

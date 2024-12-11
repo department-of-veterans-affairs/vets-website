@@ -170,8 +170,11 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     militaryServiceExperienceBranchDateRangePage: pageBuilder.itemPage({
       title: 'Military service experience branch and date range',
       path: 'military-service-experiences/:index/branch-date-range',
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
-        return !props.formData.currentlyServing
+        const item =
+          props.formData?.[arrayBuilderOptions.arrayPath]?.[props.index];
+        return !item?.currentlyServing
           ? helpers.navForwardKeepUrlParams(props)
           : helpers.navForwardFinishedItem(props);
       },
@@ -181,8 +184,12 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     militaryServiceExperienceCharacterOfDischargePage: pageBuilder.itemPage({
       title: 'Military service experience character of discharge',
       path: 'military-service-experiences/:index/discharge-character',
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
-        return requireExplanation(props.formData.characterOfDischarge)
+        return requireExplanation(
+          props.formData?.[arrayBuilderOptions.arrayPath]?.[props.index]
+            ?.characterOfDischarge,
+        )
           ? helpers.navForwardKeepUrlParams(props)
           : helpers.navForwardFinishedItem(props);
       },

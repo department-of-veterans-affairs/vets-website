@@ -49,6 +49,62 @@ describe('extractLocation function', () => {
 
     expect(extractLocation(vital)).to.eq(EMPTY_FIELD);
   });
+
+  it('should return the organization display name if performer references organizations', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+        {
+          reference: 'https://example.org/r4/Organization/1',
+          display: 'Organization One',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal('Organization One');
+  });
+
+  it('should return multiple organization display names joined by a comma', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Organization/1',
+          display: 'Organization One',
+        },
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+        {
+          reference: 'https://example.org/r4/Organization/2',
+          display: 'Organization Two',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal('Organization One, Organization Two');
+  });
+
+  it('should return EMPTY_FIELD if performer has no extension or organization references', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD if performer is not an array or is empty', () => {
+    const vital = {
+      performer: [],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal(EMPTY_FIELD);
+  });
 });
 
 describe('vitalReducer', () => {

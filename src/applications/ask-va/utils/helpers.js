@@ -62,7 +62,7 @@ export function formatAddress(address) {
       break;
 
     default:
-      cityStateZip = `${city || militaryPostOffice} ${stateName} ${zip}` || '';
+      cityStateZip = `${city || militaryPostOffice}, ${stateName} ${zip}` || '';
   }
 
   return { addressStreet, cityStateZip, addressCountry };

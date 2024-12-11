@@ -4,11 +4,15 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import manifest from '../../../../manifest.json';
-import content from '../../../../shared/locales/en/content.json';
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import IntroductionPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/IntroductionPage1010ezr';
+import content from 'applications/_mock-form-ae-design-patterns/shared/locales/en/content.json';
 
-import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
-
+import {
+  SHARED_PATHS,
+  VIEW_FIELD_SCHEMA,
+} from 'applications/_mock-form-ae-design-patterns/utils/constants';
 import {
   includeSpousalInformation,
   includeHouseholdInformation,
@@ -18,11 +22,9 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
-} from '../../../../utils/helpers/form-config';
-import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
+} from 'applications/_mock-form-ae-design-patterns/utils/helpers/form-config';
+import { prefillTransformer } from 'applications/_mock-form-ae-design-patterns/utils/helpers/prefill-transformer';
 
-import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContactInformation from './chapters/veteranInformation/contactInformation';
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -93,7 +95,7 @@ const formConfig = {
   trackingPrefix: 'ezr',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {

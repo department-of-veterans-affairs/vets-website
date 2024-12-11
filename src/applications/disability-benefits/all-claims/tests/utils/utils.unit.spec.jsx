@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -46,6 +47,8 @@ import {
   showPtsdNonCombat,
   skip781,
   formatMonthYearDate,
+  makeConditionsSchema,
+  validateConditions,
   formatFullName,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
@@ -1386,6 +1389,72 @@ describe('formatMonthYearDate', () => {
     expect(formatMonthYearDate('2009-10-01')).to.equal('October 2009');
     expect(formatMonthYearDate('2010-11-01')).to.equal('November 2010');
     expect(formatMonthYearDate('1970-12-01')).to.equal('December 1970');
+  });
+});
+
+describe('makeConditionsSchema', () => {
+  it('should generate the correct schema from formData', () => {
+    const formData = {
+      newDisabilities: [
+        { condition: 'condition1' },
+        { condition: 'condition2' },
+      ],
+    };
+
+    const result = makeConditionsSchema(formData);
+
+    expect(result).to.deep.equal(
+      checkboxGroupSchema(['condition1', 'condition2', 'none']),
+    );
+  });
+
+  it('should handle empty newDisabilities array', () => {
+    const formData = { newDisabilities: [] };
+    const result = makeConditionsSchema(formData);
+
+    expect(result).to.deep.equal(checkboxGroupSchema(['none']));
+  });
+});
+
+describe('validateConditions', () => {
+  const errorKey = 'mentalHealth';
+  const errorMessage = 'None may only be selected by itself';
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      mentalHealth: {
+        conditions: {
+          addError: msg => {
+            errors.mentalHealth.conditions.errorMessage = msg;
+          },
+        },
+      },
+    };
+  });
+
+  it('should add an error if the "none" checkbox is selected along with another condition', () => {
+    const conditions = { none: true, conditionA: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.equal(errorMessage);
+  });
+
+  it('should NOT add an error if only "none" is selected and no other condition', () => {
+    const conditions = { none: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+
+  it('should NOT add an error if no conditions are selected', () => {
+    const conditions = {};
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+
+  it('should NOT add an error if one or more condition is selected and "none" is not selected', () => {
+    const conditions = { conditionA: true, conditionB: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
   });
 });
 

@@ -39,7 +39,7 @@ describe('moreAboutYourRelationshipToVeteran', () => {
 
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'Tell us more about your relationship?',
+      'Tell us more about your relationship',
     );
 
     radioLabels.forEach(

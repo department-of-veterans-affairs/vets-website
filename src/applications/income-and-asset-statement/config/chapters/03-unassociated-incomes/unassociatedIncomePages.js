@@ -18,7 +18,6 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
@@ -136,26 +135,34 @@ const incomeRecipientPage = {
           'unassociatedIncomes',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'unassociatedIncomes'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Recurring income not associated with accounts or assets',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -219,6 +226,14 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'unassociated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
+    }),
+    unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
+      title: 'Unassociated income recipient name',
+      path: 'unassociated-incomes/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'unassociatedIncomes'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     unassociatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Unassociated income type',

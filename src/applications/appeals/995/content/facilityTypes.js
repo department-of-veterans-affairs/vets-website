@@ -8,23 +8,31 @@ export const facilityTypeTitle =
 export const facilityTypeTextLabel = 'Specify any other facility or provider';
 
 export const facilityTypeChoices = {
-  vetCenter: 'A VA Vet center',
-  ccp: 'A community care provider that VA paid for',
   vamc: 'A VA medical center (also called a VAMC)',
   cboc: 'A community-based outpatient clinic (also called a CBOC)',
   mtf:
     'A Department of Defense military treatment facility (also called an MTF)',
+  ccp: 'A community care provider that VA paid for',
+  vetCenter: {
+    title: 'A VA Vet center',
+    description: 'Vet Centers are community-based counseling centers.',
+  },
   nonVa: {
     title: 'A non-VA healthcare provider',
     description:
-      'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility. We’ll need to get your permission to get your medical records from this type of provider. Or you can upload these medical records yourself later in this application.',
+      'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility.',
   },
 };
 
-export const facilityTypeReviewField = ({ formData }) => {
-  const selected = Object.entries(formData).filter(([_key, value]) => value);
+export const facilityTypeError =
+  'You must select or specify at least one facility type';
 
-  const list = readableList(
+export const facilityTypeList = formData => {
+  const selected = Object.entries(formData || {}).filter(
+    ([_key, value]) => value,
+  );
+
+  return readableList(
     selected.map(([key, value]) => {
       if (key in facilityTypeChoices) {
         return facilityTypeChoices[key]?.title || facilityTypeChoices[key];
@@ -33,13 +41,13 @@ export const facilityTypeReviewField = ({ formData }) => {
       return key === 'other' ? value : 'Unknown facility type choice';
     }),
   );
-
-  return (
-    <div className="review-row">
-      <dt>{facilityTypeTitle}</dt>
-      <dd className="dd-privacy-hidden" data-dd-action-name="facility type">
-        {list}
-      </dd>
-    </div>
-  );
 };
+
+export const facilityTypeReviewField = ({ formData }) => (
+  <div className="review-row">
+    <dt>{facilityTypeTitle}</dt>
+    <dd className="dd-privacy-hidden" data-dd-action-name="facility type">
+      {facilityTypeList(formData)}
+    </dd>
+  </div>
+);

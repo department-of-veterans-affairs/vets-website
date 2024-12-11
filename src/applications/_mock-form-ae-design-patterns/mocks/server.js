@@ -46,8 +46,9 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            profileUseExperimental: true,
+            aedpVADX: true,
             coeAccess: true,
+            profileUseExperimental: true,
           }),
         ),
       secondsOfDelay,

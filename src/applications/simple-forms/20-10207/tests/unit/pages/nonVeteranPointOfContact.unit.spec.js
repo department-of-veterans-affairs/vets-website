@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -15,7 +16,13 @@ const pageTitle = "Claimant's point of contact";
 
 const data = {};
 
-const expectedNumberOfWebComponentFields = 2;
+let expectedNumberOfWebComponentFields = 2;
+
+// test on dev before making this change
+if (environment.isDev() || environment.isLocalhost()) {
+  expectedNumberOfWebComponentFields = 3;
+}
+
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -25,7 +32,13 @@ testNumberOfWebComponentFields(
   data,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+let expectedNumberOfWebComponentErrors = 0;
+
+// test on dev before making this change
+if (environment.isDev() || environment.isLocalhost()) {
+  expectedNumberOfWebComponentErrors = 1;
+}
+
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

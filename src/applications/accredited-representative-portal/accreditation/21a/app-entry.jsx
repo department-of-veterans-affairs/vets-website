@@ -12,7 +12,7 @@ import './sass/21a.scss';
 
 import manifest from './manifest.json';
 import routes from './routes';
-import createReduxStore from '../../store';
+import createReduxStore from './store';
 import rootReducer from './reducers';
 
 window.appName = manifest.entryName;

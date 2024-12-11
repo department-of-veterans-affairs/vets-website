@@ -146,6 +146,10 @@ const TopicSelectPage = props => {
 
 TopicSelectPage.propTypes = {
   categoryID: PropTypes.string,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
   loggedIn: PropTypes.bool,
   value: PropTypes.string,

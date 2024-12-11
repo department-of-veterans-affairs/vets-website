@@ -43,6 +43,9 @@ const LandingPage = () => {
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
+  );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -111,9 +114,18 @@ const LandingPage = () => {
   useEffect(
     () => {
       if (showFilterContent && !filteredList) {
+        setIsPrescriptionsLoading(true);
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         dispatch(
-          getPaginatedFilteredList(1, filterOptions.ALL_MEDICATIONS.url),
-        );
+          getPaginatedFilteredList(
+            1,
+            filterOptions.ALL_MEDICATIONS.url,
+            sortEndpoint,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
       }
     },
     // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch

@@ -1,5 +1,5 @@
 import {
-  emailSchema,
+  emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
   phoneUI,
   phoneSchema,
@@ -9,13 +9,13 @@ import {
 export default {
   uiSchema: {
     preparerPhone: phoneUI('Phone number'),
-    preparerEmail: emailToSendNotificationsUI,
+    preparerEmail: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
       preparerPhone: phoneSchema,
-      preparerEmail: emailSchema,
+      preparerEmail: emailToSendNotificationsSchema,
     },
     required: ['preparerPhone', 'preparerEmail'],
   },

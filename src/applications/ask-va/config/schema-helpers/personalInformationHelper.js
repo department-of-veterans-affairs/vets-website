@@ -12,9 +12,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { branchesOfService, CHAPTER_3, yesNoOptions } from '../../constants';
-
-const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
+import {
+  branchesOfService,
+  CHAPTER_3,
+  suffixes,
+  yesNoOptions,
+} from '../../constants';
 
 const ssnServiceInfo = (
   <>

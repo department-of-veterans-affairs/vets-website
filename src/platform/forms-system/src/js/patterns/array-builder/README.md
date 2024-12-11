@@ -18,7 +18,8 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
   - [URL Query Params](#url-query-params)
-  - [Advanced routing example with `helpers`](#advanced-routing-example-with-helpers)
+  - [Advanced routing](#advanced-routing)
+  - [Custom navigation with `helpers`](#custom-navigation-with-helpers)
   - [Future Enhancement Ideas](#future-enhancement-ideas)
 
 ## Flows
@@ -444,7 +445,27 @@ const options = {
 | `updated=nounSingular_0` | Used after completing an edit flow. |
 | `removedAllWarn=true` | Used after removing all items. Will show a warning message if the item is required. |
 
-## Advanced routing example with `helpers`
+## Advanced routing
+Use `depends` for conditional pages
+```js
+...arrayBuilderPages(employersOptions, pageBuilder => ({
+  multiPageBuilderSummary: pageBuilder.summaryPage({
+    title: 'Array with multiple page builder summary',
+    path: 'array-multiple-page-builder-summary',
+    uiSchema: employersSummaryPage.uiSchema,
+    schema: employersSummaryPage.schema,
+  }),
+  multiPageBuilderStepOne: pageBuilder.itemPage({
+    title: 'Employer name and address',
+    path: 'array-multiple-page-builder/:index/name-and-address',
+    uiSchema: employersPageNameAndAddressPage.uiSchema,
+    schema: employersPageNameAndAddressPage.schema,
+    depends: (formData, index) => formData.employers?.[index]?.type === 'Military',
+  }),
+}));
+```
+
+## Custom navigation with `helpers`
 `arrayBuilderPages` has a second parameter `helpers` to help with things like a custom `onNavForward` and `onNavBack`.
 e.g.
 ```js

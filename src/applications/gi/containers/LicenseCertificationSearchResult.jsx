@@ -1,41 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LicenseCertificationResultInfo from '../components/LicenseCertificationResultInfo';
+import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
+import { capitalizeFirstLetter } from '../utils/helpers';
+import LicenseCertificationInfoTabs from '../components/LicenseCertificationInfoTabs';
 
 function LicenseCertificationSearchResult({
-  result,
-  hasFetchedResult,
   dispatchFetchLcResult,
+  hasFetchedResult,
   resultInfo,
 }) {
-  const { link, type, name } = result;
+  const { type, id } = useParams();
 
-  const handleClick = () => {
-    dispatchFetchLcResult(link);
-  };
+  useEffect(
+    () => {
+      if (!hasFetchedResult) {
+        dispatchFetchLcResult(`lce/${type}/${id}`);
+      }
+    },
+    [dispatchFetchLcResult, hasFetchedResult, type, id],
+  );
+
+  const { desc, type: category } = resultInfo;
 
   return (
-    <va-accordion-item
-      id={name}
-      header={name}
-      subheader={type}
-      onClick={() => handleClick()}
-    >
-      {hasFetchedResult ? (
-        <LicenseCertificationResultInfo resultInfo={resultInfo} />
-      ) : (
-        <h3>Loading</h3>
-      )}
-    </va-accordion-item>
+    <div>
+      <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+        <div className="row">
+          <h1 className="mobile-lg:vads-u-text-align--left">{desc}</h1>
+          <h2 className="vads-u-margin-top--0">
+            {capitalizeFirstLetter(category)}
+          </h2>
+        </div>
+        <div className="row">
+          <LicenseCertificationInfoTabs />
+        </div>
+      </section>
+    </div>
   );
 }
 
 LicenseCertificationSearchResult.propTypes = {
   dispatchFetchLcResult: PropTypes.func.isRequired,
   hasFetchedResult: PropTypes.bool.isRequired,
-  result: PropTypes.object.isRequired,
   resultInfo: PropTypes.object,
 };
 

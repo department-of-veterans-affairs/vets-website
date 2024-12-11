@@ -55,19 +55,24 @@ import prefillTransformer from './prefill-transformer';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  // TODO: Clear local storage after submit - localStorage.removeItem('askVAFiles')
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
+  customText: {
+    appAction: 'asking your question',
+    appSavedSuccessfullyMessage: 'Your question has been saved.',
+    appType: 'question',
+    continueAppButtonText: 'Continue your question',
+    finishAppLaterMessage: 'Finish this question later',
+    startNewAppButtonText: 'Start a new question',
+  },
+
   saveInProgress: {
     messages: {
-      inProgress: 'test inProgress',
-      expired: 'test expired',
-      saved: 'test saved',
+      inProgress: 'Your question is in progress',
+      expired: 'Your question expired',
+      saved: 'Your question has been saved',
     },
     resumeOnly: false,
   },
@@ -142,9 +147,14 @@ const formConfig = {
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
           // Hidden - EDU Question are always 'General Question' unless topic is VR&E
-          depends: form =>
-            form.selectCategory !== CategoryEducation ||
-            form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31,
+          depends: form => {
+            if (form.selectCategory !== CategoryEducation) {
+              return form.selectTopic !== 'Education benefits and work study';
+            }
+            return (
+              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
+            );
+          },
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,

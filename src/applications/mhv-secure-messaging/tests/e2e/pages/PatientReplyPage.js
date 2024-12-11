@@ -4,44 +4,39 @@ import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
 
 class PatientReplyPage {
-  clickSendReplyMessageButton = messageId => {
+  clickReplyButton = mockResponse => {
     cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGES}/${messageId}/reply`,
-      mockMessage,
-    ).as('replyMessage');
-    cy.get(Locators.BUTTONS.SEND).click();
-    cy.wait('@replyMessage');
+      'GET',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[0].attributes.messageId
+      }/thread*`,
+      mockResponse,
+    ).as(`getMessageRequest`);
+    cy.get(Locators.BUTTONS.REPLY).click();
   };
 
-  clickSendReplyMessageDetailsButton = mockReplyMessage => {
+  clickSendReplyMessageButton = mockReplyMessage => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessage.data.attributes.messageId
+        mockReplyMessage.data.attributes.messageId
       }/reply`,
       mockReplyMessage,
     ).as('replyMessage');
     cy.get(Locators.BUTTONS.SEND).click();
   };
 
-  clickSaveReplyDraftButton = (repliedToMessage, replyMessageBody) => {
-    cy.log(
-      `messageSubjectParameter = ${repliedToMessage.data.attributes.subject}`,
-    );
-    cy.log(`messageBodyMockMessage = ${repliedToMessage.data.attributes.body}`);
-    const replyMessage = repliedToMessage;
-    replyMessage.data.attributes.body = replyMessageBody;
+  clickSaveReplyDraftButton = (mockSingleMessage, updatedBodyText) => {
+    const replyMessage = mockSingleMessage;
+    replyMessage.data.attributes.body = updatedBodyText;
     cy.intercept(
       'POST',
       `/my_health/v1/messaging/message_drafts/${
-        repliedToMessage.data.attributes.messageId
+        mockSingleMessage.data.attributes.messageId
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
-      waitForAnimations: true,
-    });
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
     cy.wait('@replyDraftMessage').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -55,7 +50,7 @@ class PatientReplyPage {
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
-        expect(message.body).to.contain(replyMessageBody);
+        expect(message.body).to.contain(updatedBodyText);
       });
   };
 
@@ -100,9 +95,9 @@ class PatientReplyPage {
 
   getMessageBodyField = () => {
     return cy
-      .get(Locators.MESSAGES_BODY)
+      .get(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find('[name="reply-message-body"]');
+      .find(`#input-type-textarea`);
   };
 
   verifySendMessageConfirmationMessageText = () => {

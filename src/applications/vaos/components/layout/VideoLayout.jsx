@@ -10,13 +10,13 @@ import {
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
-  Section,
   What,
   When,
   Who,
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import Section from '../Section';
 import VideoLink from '../VideoLink';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {

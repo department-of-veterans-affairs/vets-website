@@ -108,6 +108,9 @@ class AddFilesForm extends React.Component {
       }
 
       this.setState({ errorMessage: null });
+      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
+      // After submitting a file you will see this change in the Documents Filed section.
+      // EX: test.jpg ->> test.pdf
       onAddFile([file], extraData);
       setTimeout(() => {
         scrollToFile(this.props.files.length - 1);

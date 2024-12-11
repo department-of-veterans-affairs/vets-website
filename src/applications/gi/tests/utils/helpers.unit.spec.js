@@ -27,8 +27,7 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  updateLcFilterDropdowns,
-  handleLcResultsSearch,
+  handleUpdateLcFilterDropdowns,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -568,13 +567,13 @@ describe('GIBCT helpers:', () => {
     });
   });
 
-  describe('updateLcFilterDropdowns', () => {
+  describe('handleUpdateLcFilterDropdowns', () => {
     it('should update the correct dropdown with the selected option based on the target id and value', () => {
       const dropdowns = [
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
@@ -585,7 +584,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -604,7 +603,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
@@ -615,7 +614,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -624,39 +623,9 @@ describe('GIBCT helpers:', () => {
         },
       ];
 
-      const result = updateLcFilterDropdowns(dropdowns, target);
+      const result = handleUpdateLcFilterDropdowns(dropdowns, target);
 
       expect(result).to.deep.equal(expectedResult);
-    });
-  });
-
-  describe('handleLcResultsSearch function', () => {
-    let history;
-
-    beforeEach(() => {
-      history = { push: sinon.spy() };
-    });
-
-    it('should call history.push with the correct URL when handleSearch is called with a name', () => {
-      const name = 'testName';
-      const type = 'testType';
-
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}&name=${name}`,
-      );
-    });
-
-    it('should call history.push with the correct URL when handleSearch is called without a name', () => {
-      const name = '';
-      const type = 'testType';
-
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}`,
-      );
     });
   });
 });

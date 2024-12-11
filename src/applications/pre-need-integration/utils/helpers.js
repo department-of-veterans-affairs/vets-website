@@ -1,6 +1,5 @@
 import React from 'react';
 import { merge } from 'lodash';
-import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
@@ -11,7 +10,6 @@ import { focusElement } from 'platform/utilities/ui';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -779,39 +777,8 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
   'Applicant’s date of birth',
 );
 
-class SSNWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { val: props.value };
-  }
-
-  handleChange = val => {
-    // Insert dashes if they are missing.
-    // Keep if value is valid and formatted with dashes.
-    // Set empty value to undefined.
-    const formattedSSN =
-      (val && /^\d{9}$/.test(val)
-        ? `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}`
-        : val) || undefined;
-
-    this.setState({ val }, () => {
-      this.props.onChange(formattedSSN);
-    });
-  };
-
-  render() {
-    return (
-      <TextWidget
-        {...this.props}
-        value={this.state.val}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
-
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+export const ssnDashesUI = ssnUI;
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
@@ -1394,8 +1361,3 @@ export function MailingAddressStateTitle(props) {
   }
   return 'State or territory';
 }
-
-SSNWidget.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};

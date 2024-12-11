@@ -71,9 +71,9 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -113,9 +113,9 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -170,9 +170,9 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -215,9 +215,9 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();

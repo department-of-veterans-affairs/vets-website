@@ -9,7 +9,12 @@ import {
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { accessAlertTypes, pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  generateTextFile,
+  allAreDefined,
+} from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
@@ -36,6 +41,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const medications = useSelector(state => state.mr.blueButton.medicationsList);
+  const appointments = useSelector(
+    state => state.mr.blueButton.appointmentsList,
+  );
+  const demographics = useSelector(state => state.mr.blueButton.demographics);
+  const militaryService = useSelector(
+    state => state.mr.blueButton.militaryService,
+  );
+  const accountSummary = useSelector(
+    state => state.mr.blueButton.accountSummary,
+  );
+
   const [downloadStarted, setDownloadStarted] = useState(false);
   const activeAlert = useAlerts(dispatch);
 
@@ -47,26 +64,26 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
     [dispatch],
   );
 
-  const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(arr => !!arr?.length);
-  };
-
   const generatePdf = useCallback(
     async () => {
       setDownloadStarted(true);
       setDownloadType('pdf');
       setBlueButtonRequested(true);
       dispatch(clearAlerts());
-      if (
-        !allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        ])
-      ) {
+      const allDefd = allAreDefined([
+        labsAndTests,
+        notes,
+        vaccines,
+        allergies,
+        conditions,
+        vitals,
+        medications,
+        appointments,
+        demographics,
+        militaryService,
+        accountSummary,
+      ]);
+      if (!allDefd) {
         dispatch(getBlueButtonReportData());
       } else {
         setBlueButtonRequested(false);
@@ -77,6 +94,11 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         };
         const title = 'Blue Button report';
         const subject = 'VA Medical Record';
@@ -92,14 +114,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
       }
     },
     [
+      accountSummary,
       allergies,
+      appointments,
       conditions,
+      demographics,
       dispatch,
       dob,
       labsAndTests,
+      medications,
+      militaryService,
       name,
       notes,
-      runningUnitTest,
       user,
       vaccines,
       vitals,
@@ -123,6 +149,11 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         ])
       ) {
         dispatch(getBlueButtonReportData());
@@ -135,18 +166,36 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         };
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+          user,
+          title,
+          subject,
+        )}`;
         const content = getTxtContent(recordData, user);
 
         generateTextFile(content, pdfName, user);
       }
     },
     [
+      accountSummary,
       allergies,
+      appointments,
       conditions,
+      demographics,
       dispatch,
+      dob,
       labsAndTests,
+      medications,
+      militaryService,
+      name,
       notes,
       user,
       vaccines,

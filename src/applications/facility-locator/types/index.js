@@ -164,7 +164,6 @@ export const FacilitiesMapTypes = {
   searchWithBounds: PropTypes.func,
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
-  suppressCCP: PropTypes.bool,
   suppressPPMS: PropTypes.bool,
   suppressPharmacies: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
@@ -178,7 +177,6 @@ export const SearchControlsTypes = {
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
-  suppressCCP: PropTypes.bool,
   suppressPPMS: PropTypes.bool,
   suppressPharmacies: PropTypes.bool,
 };

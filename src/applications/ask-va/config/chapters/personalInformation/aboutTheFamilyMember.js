@@ -1,42 +1,47 @@
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
+  selectSchema,
   ssnSchema,
   ssnUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CHAPTER_3 } from '../../../constants';
-import {
-  personalInformationFormSchemas,
-  personalInformationUiSchemas,
-} from '../../schema-helpers/personalInformationHelper';
-
-const aboutVetUiSchema = {
-  ...personalInformationUiSchemas,
-  socialNum: {
-    ...ssnUI(),
-    'ui:required': () => true,
-    'ui:options': {
-      hideIf: () => false,
-    },
-  },
-};
-delete aboutVetUiSchema.genderIdentity;
-delete aboutVetUiSchema.socialOrServiceNum;
-delete aboutVetUiSchema.isVeteranDeceased;
-
-const aboutVetFormSchema = { ...personalInformationFormSchemas, ssnSchema };
-delete aboutVetFormSchema.genderIdentity;
-delete aboutVetFormSchema.socialOrServiceNum;
-delete aboutVetFormSchema.isVeteranDeceased;
+import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import { CHAPTER_3, suffixes } from '../../../constants';
 
 const aboutTheFamilyMemberPage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE),
     aboutTheFamilyMember: {
-      fullName: fullNameUI(),
+      first: {
+        'ui:title': 'First name',
+        'ui:webComponentField': VaTextInputField,
+        'ui:autocomplete': 'given-name',
+        'ui:required': () => true,
+        'ui:errorMessages': { required: 'Please enter a first name' },
+      },
+      middle: {
+        'ui:title': 'Middle name',
+        'ui:webComponentField': VaTextInputField,
+        'ui:autocomplete': 'additional-name',
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:webComponentField': VaTextInputField,
+        'ui:autocomplete': 'family-name',
+        'ui:required': () => true,
+        'ui:errorMessages': { required: 'Please enter a last name' },
+      },
+      suffix: {
+        'ui:title': 'Suffix',
+        'ui:webComponentField': VaSelectField,
+        'ui:autocomplete': 'honorific-suffix',
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
+        },
+      },
       socialOrServiceNum: { ssn: ssnUI() },
       dateOfBirth: dateOfBirthUI(),
     },
@@ -48,7 +53,25 @@ const aboutTheFamilyMemberPage = {
         type: 'object',
         required: ['dateOfBirth'],
         properties: {
-          fullName: fullNameSchema,
+          first: {
+            type: 'string',
+            pattern: '^[A-Za-z]+$',
+            minLength: 1,
+            maxLength: 25,
+          },
+          middle: {
+            type: 'string',
+            pattern: '^[A-Za-z]+$',
+            minLength: 1,
+            maxLength: 25,
+          },
+          last: {
+            type: 'string',
+            pattern: '^[A-Za-z]+$',
+            minLength: 1,
+            maxLength: 25,
+          },
+          suffix: selectSchema(suffixes),
           socialOrServiceNum: {
             type: 'object',
             required: ['ssn'],

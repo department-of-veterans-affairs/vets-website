@@ -11,12 +11,12 @@ import {
 import {
   ClinicOrFacilityPhone,
   Details,
-  Section,
   What,
   When,
   Where,
   Who,
 } from '../../../components/layout/DetailPageLayout';
+import Section from '../../../components/Section';
 import { AppointmentDate, AppointmentTime } from '../AppointmentDateTime';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import { getRealFacilityId } from '../../../utils/appointment';

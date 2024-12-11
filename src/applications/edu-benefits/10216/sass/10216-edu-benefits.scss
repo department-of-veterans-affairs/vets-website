@@ -5,3 +5,10 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+
+.schemaform-field-template {
+    &:has(label[id="root_studentRatioCalcChapter_studentPercentageCalc_calculatedPercentage-label"]) {
+        display: none;
+    }
+}

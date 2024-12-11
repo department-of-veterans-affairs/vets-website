@@ -127,6 +127,22 @@ export function getPhoneAndEmailPageTitle(formData) {
   return `${preparerString} phone and email address`;
 }
 
+export function getPhoneAndEmailPageEmailHint(formData) {
+  // PREPARER_TYPES.VETERAN or PREPARER_TYPES.NON_VETERAN
+  let hint = `We’ll use this email address to send you notifications about your form submission`;
+  if (formData) {
+    if (formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN) {
+      hint = `We’ll use this email address to send you or the Veteran notifications about the form submission`;
+    } else if (
+      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN
+    ) {
+      hint = `We’ll use this email address to send you or the claimant notifications about the form submission`;
+    }
+  }
+
+  return hint;
+}
+
 export function createPayload(file, formId, password) {
   const payload = new FormData();
   payload.set('form_id', formId);
@@ -204,18 +220,6 @@ export const statementOfTruthFullNamePath = ({ formData }) => {
       return 'nonVeteranFullName';
     default:
       return 'thirdPartyFullName';
-  }
-};
-
-export const getSubmitterName = formData => {
-  const { preparerType } = formData;
-  switch (preparerType) {
-    case PREPARER_TYPES.VETERAN:
-      return formData.veteranFullName;
-    case PREPARER_TYPES.NON_VETERAN:
-      return formData.nonVeteranFullName;
-    default:
-      return formData.thirdPartyFullName;
   }
 };
 

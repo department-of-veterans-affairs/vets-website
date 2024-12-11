@@ -19,7 +19,6 @@ import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import PendingReferralCard from '../../referral-appointments/components/PendingReferralCard';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
@@ -37,8 +36,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const featureCCDirectScheduling = useSelector(
     selectFeatureCCDirectScheduling,
   );
-  // TODO add referral fetch
-  const pendingReferrals = [];
 
   useEffect(
     () => {
@@ -135,18 +132,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
           <p className="vaos-hide-for-print mobile:vads-u-margin-bottom--1 mobile-lg:vads-u-margin-bottom--2">
             {paragraphText}
           </p>
-        )}
-        {featureCCDirectScheduling && (
-          <ul
-            className={classNames(
-              'vads-u-padding-left--0 vads-u-margin-top--0',
-            )}
-            data-cy="requested-appointment-list"
-          >
-            {pendingReferrals.map((referral, index) => {
-              return <PendingReferralCard key={index} referral={referral} />;
-            })}
-          </ul>
         )}
         {appointmentsByStatus.map(statusBucket => {
           return (

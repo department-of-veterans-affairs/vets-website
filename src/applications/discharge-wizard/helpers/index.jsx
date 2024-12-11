@@ -561,7 +561,7 @@ export const stepHeaderLevel = formResponses => {
   return 2;
 };
 
-const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
+export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
       RESPONSES.PREV_APPLICATION_BCMR,
@@ -594,7 +594,7 @@ export const isPreviousApplicationYear = prevAppYear => {
   ].includes(prevAppYear);
 };
 
-const shouldReapplyToBoard = (prevAppType, formResponses) => {
+export const shouldReapplyToBoard = (prevAppType, formResponses) => {
   return (
     [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
       prevAppType,
@@ -606,14 +606,18 @@ const shouldReapplyToBoard = (prevAppType, formResponses) => {
   );
 };
 
-const isDocumentaryOrNotSure = prevAppType => {
+export const isDocumentaryOrNotSure = prevAppType => {
   return [
     RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
     RESPONSES.NOT_SURE,
   ].includes(prevAppType);
 };
 
-const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
+export const handleDRBExplanation = (
+  boardToSubmit,
+  serviceBranch,
+  prevAppType,
+) => {
   const boardName =
     boardToSubmit.abbr === DRB
       ? 'Discharge Review Board (DRB)'
@@ -701,4 +705,108 @@ export const getBoardExplanation = formResponses => {
   }
 
   return '';
+};
+
+export const renderMedicalRecordInfo = formResponses => {
+  const reason = formResponses[SHORT_NAME_MAP.REASON];
+  if (
+    [
+      RESPONSES.REASON_PTSD,
+      RESPONSES.REASON_TBI,
+      RESPONSES.REASON_SEXUAL_ASSAULT,
+    ].indexOf(reason) > -1
+  ) {
+    let requestQuestion;
+    if (parseInt(formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR], 10) >= 1992) {
+      requestQuestion = (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
+        >
+          Find out how to request your military medical records (opens in a new
+          tab).
+        </a>
+      );
+    } else {
+      requestQuestion = (
+        <span>
+          Your <strong>military medical records</strong> will be included with
+          the VA medical records you request.
+        </span>
+      );
+    }
+
+    let providerStatement;
+    if (reason === RESPONSES.REASON_PTSD) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for diagnosis or
+            treatment of PTSD or another mental health condition,
+          </strong>{' '}
+          you should also submit private medical treatment records that can
+          provide information about your condition. You’ll need to contact your
+          provider to request copies of your records.
+        </li>
+      );
+    }
+    if (reason === RESPONSES.REASON_TBI) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for diagnosis or
+            treatment of TBI,
+          </strong>{' '}
+          you should also submit private medical treatment records that can
+          provide information about your condition. You’ll need to contact your
+          provider to request copies of your records.
+        </li>
+      );
+    }
+    if (reason === RESPONSES.REASON_SEXUAL_ASSAULT) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for for treatment after
+            your assault or harassment,
+          </strong>{' '}
+          you should also submit records from a non-VA health care provider.
+          You’ll need to contact your provider to request copies of your
+          records.
+        </li>
+      );
+    }
+
+    return (
+      <li>
+        <h3>Medical records</h3>
+        <ul>
+          <li>You’ll need to submit copies of your medical records.</li>
+          <li>
+            <strong>
+              If you need to request copies of your VA medical records,
+            </strong>{' '}
+            fill out and submit a Request for and Authorization to Release
+            Health Information (VA Form 10-5345) to your local VA medical
+            center.
+          </li>
+          <li>
+            {requestQuestion}
+            <br />
+            <a
+              href="https://www.va.gov/find-forms/about-form-10-5345/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get VA Form 10-5345 to download (opens in a new tab)
+            </a>
+          </li>
+
+          {providerStatement}
+        </ul>
+      </li>
+    );
+  }
+  return null;
 };

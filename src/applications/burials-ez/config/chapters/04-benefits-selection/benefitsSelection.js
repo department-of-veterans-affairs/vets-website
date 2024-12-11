@@ -12,52 +12,44 @@ export default {
     'ui:title': generateTitle('Costs you paid for'),
     'ui:description': (
       <>
-        <p className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-top--0">
+        <p>
           You should know that by selecting any of these costs, one of these
           things must be true:
         </p>
-        <ul className="vads-u-font-size--md vads-u-font-family--sans">
+        <ul>
           <li>
             You paid for them yourself, <strong>or</strong>
           </li>
           <li>You’re the executor of the deceased Veteran's estate</li>
         </ul>
-        <p className="vads-u-font-size--md vads-u-font-family--sans">
+        <p>
           If you paid for transportation costs for the Veteran’s remains, you’ll
           need to upload an itemized receipt. We’ll ask you to upload this later
           in this form.
         </p>
       </>
     ),
-    'view:claimedBenefits': {
-      ...checkboxGroupUI({
-        title: 'Which of these costs did you pay for?',
-        required: true,
-        labelHeaderLevel: '',
-        tile: false,
-        uswds: true,
-        labels: benefitsLabels,
-        errorMessages: {
-          required: 'Please select at least one option',
-        },
-        validations: [validateBooleanGroup],
-      }),
-      'ui:options': {
-        classNames: 'vads-u-margin-top--0',
+    'view:claimedBenefits': checkboxGroupUI({
+      title: 'Which of these costs did you pay for?',
+      required: true,
+      labelHeaderLevel: '',
+      tile: false,
+      labels: benefitsLabels,
+      errorMessages: {
+        required: 'Please select at least one option',
       },
-    },
+      validations: [validateBooleanGroup],
+    }),
   },
   schema: {
     type: 'object',
     required: ['view:claimedBenefits'],
     properties: {
-      'view:claimedBenefits': {
-        ...checkboxGroupSchemaWithReviewLabels([
-          'burialAllowance',
-          'plotAllowance',
-          'transportation',
-        ]),
-      },
+      'view:claimedBenefits': checkboxGroupSchemaWithReviewLabels([
+        'burialAllowance',
+        'plotAllowance',
+        'transportation',
+      ]),
     },
   },
 };

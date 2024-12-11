@@ -1,6 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
+import sessionStatus from './fixtures/session-status.json';
 // import labsAndTests from '../fixtures/labsAndTests.json';
 // import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
@@ -9,6 +10,14 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
 
   before(() => {
     site.login();
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
   });

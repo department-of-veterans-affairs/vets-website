@@ -22,7 +22,6 @@ import {
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
-  // confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
   veteranPersonalInformation,
@@ -38,8 +37,6 @@ import {
   contactAccreditedRepresentative,
 } from '../pages';
 
-import { prefillTransformer } from '../prefill-transformer';
-
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
@@ -48,9 +45,6 @@ import ContactAccreditedRepresentative from '../components/ContactAccreditedRepr
 import SelectOrganization from '../components/SelectOrganization';
 
 import SubmissionError from '../components/SubmissionError';
-
-// import { prefillTransformer } from '../prefill-transformer';
-// import ClaimantType from '../components/ClaimantType';
 
 const mockData = initialData;
 
@@ -91,7 +85,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
@@ -200,13 +193,6 @@ const formConfig = {
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
-        // confirmClaimantPersonalInformation: {
-        //   path: 'confirm-claimant-personal-information',
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   title: 'Your Personal Information',
-        //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
-        //   schema: confirmClaimantPersonalInformation.schema,
-        // },
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
           depends: formData => !preparerIsVeteran({ formData }),
@@ -381,7 +367,10 @@ const formConfig = {
         authorizeOutsideVANames: {
           path: 'authorize-outside-va/names',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return (
+              isAttorneyOrClaimsAgent(formData) &&
+              formData.authorizeOutsideVARadio === 'Yes'
+            );
           },
           title: 'Authorization for Access Outside of VA Systems',
           uiSchema: authorizeOutsideVANames.uiSchema,

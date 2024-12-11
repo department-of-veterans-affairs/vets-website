@@ -7,6 +7,7 @@ import { render, waitFor, cleanup } from '@testing-library/react';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
+const oldDataLayer = global.window.dataLayer;
 const oldCrypto = global.window.crypto;
 
 describe('CreateAccountLink', () => {
@@ -18,6 +19,7 @@ describe('CreateAccountLink', () => {
 
     afterEach(() => {
       global.window.crypto = oldCrypto;
+      global.window.dataLayer = oldDataLayer;
       cleanup();
     });
 
@@ -44,13 +46,15 @@ describe('CreateAccountLink', () => {
       const screen = render(<CreateAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
 
-      await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
-      await waitFor(() => expect(anchor.href).to.include(`acr=min`));
-      await waitFor(() => expect(anchor.href).to.include(`client_id=vaweb`));
-      await waitFor(() => expect(anchor.href).to.include('/authorize'));
-      await waitFor(() => expect(anchor.href).to.include('response_type=code'));
-      await waitFor(() => expect(anchor.href).to.include('code_challenge='));
-      await waitFor(() => expect(anchor.href).to.include('state='));
+      await waitFor(() => {
+        expect(anchor.href).to.include(`type=${policy}`);
+        expect(anchor.href).to.include(`acr=min`);
+        expect(anchor.href).to.include(`client_id=vaweb`);
+        expect(anchor.href).to.include('/authorize');
+        expect(anchor.href).to.include('response_type=code');
+        expect(anchor.href).to.include('code_challenge=');
+        expect(anchor.href).to.include('state=');
+      });
       screen.unmount();
     });
 

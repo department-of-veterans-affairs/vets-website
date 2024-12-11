@@ -19,7 +19,7 @@ const IntroductionPage = ({ route }) => {
         Follow these steps to apply for a burial allowance and transportation
         benefits
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p className="vads-u-margin-bottom--0">
             Make sure you meet our eligibility requirements before you apply.

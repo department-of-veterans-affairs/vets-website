@@ -23,6 +23,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../../shared/actions';
+import { NEW_API } from '../../constants/apis';
 
 const hasComp = { benefitType: 'compensation' };
 
@@ -71,6 +72,7 @@ const getData = ({
       featureToggles: {
         loading: false,
         [SC_NEW_FORM_TOGGLE]: toggle,
+        [NEW_API]: toggle,
       },
       contestableIssues: {
         status,
@@ -253,6 +255,7 @@ describe('App', () => {
       data: {
         ...hasComp,
         [SC_NEW_FORM_DATA]: false,
+        [NEW_API]: false,
         internalTesting: true,
         contestedIssues: [
           {
@@ -357,6 +360,7 @@ describe('App', () => {
       expect(action.data).to.deep.equal({
         ...hasComp,
         [SC_NEW_FORM_DATA]: true,
+        [NEW_API]: true,
       });
     });
   });

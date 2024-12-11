@@ -79,11 +79,11 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
 
-      expect($('h4', container).textContent).to.contain(content.vaTitle);
+      expect($('.va-title', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
-      expect($$('h5', container).length).to.eq(2);
+      expect($$('.va-location', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
       expect(
@@ -107,10 +107,9 @@ describe('evidenceSummaryList', () => {
         <VaContent list={vaEvidence} reviewMode testing />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.vaTitle);
+      expect($('.va-title', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
@@ -201,11 +200,13 @@ describe('evidenceSummaryList', () => {
         <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
       );
 
-      expect($('h4', container).textContent).to.contain(content.privateTitle);
+      expect($('.private-title', container).textContent).to.contain(
+        content.privateTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
-      // Includes limited consent
-      expect($$('h5', container).length).to.eq(3);
+      expect($$('.private-limitation', container).length).to.eq(1);
+      expect($$('.private-facility', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(3);
       // check Datadog classes
@@ -229,8 +230,8 @@ describe('evidenceSummaryList', () => {
       const { container } = render(
         <PrivateContent list={privateEvidence} limitedConsent="" testing />,
       );
-      // Includes limited consent
-      expect($$('h5', container).length).to.eq(3);
+      expect($$('.private-facility', container).length).to.eq(2);
+      expect($$('.private-limitation', container).length).to.eq(1);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -245,11 +246,13 @@ describe('evidenceSummaryList', () => {
         />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.privateTitle);
+      expect($('.private-title', container).textContent).to.contain(
+        content.privateTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
-      // Includes limited consent
-      expect($$('h6', container).length).to.eq(3);
+      expect($$('.private-limitation', container).length).to.eq(1);
+      expect($$('.private-facility', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
@@ -342,10 +345,11 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} testing />,
       );
 
-      expect($('h4', container).textContent).to.contain(content.otherTitle);
+      expect($('.upload-title', container).textContent).to.contain(
+        content.otherTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h5', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
@@ -370,10 +374,11 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} reviewMode testing />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.otherTitle);
+      expect($('.upload-title', container).textContent).to.contain(
+        content.otherTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });

@@ -86,7 +86,7 @@ describe('Coronavirus Screener Alternate', () => {
     // custom travel question /459
     cy.visit('/covid19screen/459');
     cy.get('body', { timeout: normal }).should('be.visible');
-    cy.get('div[id=question-isStaff]').should('be.visible');
+    cy.get('va-summary-box[id=question-isStaff]').should('be.visible');
     cy.get('div[class*=covid-screener-results-incomplete]').should(
       'be.visible',
     );
@@ -105,7 +105,7 @@ describe('Coronavirus Screener Alternate', () => {
 
     cy.visit('/covid19screen/459GH');
     cy.get('body', { timeout: normal }).should('be.visible');
-    cy.get('div[id=question-isStaff]').should('be.visible');
+    cy.get('va-summary-box[id=question-isStaff]').should('be.visible');
     cy.get('div[class*=covid-screener-results-incomplete]').should(
       'be.visible',
     );
@@ -119,7 +119,7 @@ describe('Coronavirus Screener Alternate', () => {
     // custom travel question case insensitive /459gh
     cy.visit('/covid19screen/459gh');
     cy.get('body', { timeout: normal }).should('be.visible');
-    cy.get('div[id=question-isStaff]').should('be.visible');
+    cy.get('va-summary-box[id=question-isStaff]').should('be.visible');
     cy.get('div[class*=covid-screener-results-incomplete]').should(
       'be.visible',
     );

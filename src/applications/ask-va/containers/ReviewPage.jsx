@@ -16,8 +16,10 @@ import {
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
@@ -89,17 +91,23 @@ const ReviewPage = props => {
     };
 
     return apiRequest(url, options)
-      .then(() => {
+      .then(response => {
         setIsDisabled(false);
-        // clear localStorage after post
+        const { inquiryNumber } = response;
         localStorage.removeItem('askVAFiles');
-        props.goForward('/confirmation');
+        props.router.push({
+          pathname: '/confirmation',
+          state: { inquiryNumber },
+        });
       })
       .catch(() => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // need an error page or message/alert
-        props.goForward('/confirmation');
+        // TODO - need error modal instead of forwarding to confirmation
+        props.router.push({
+          pathname: '/confirmation',
+          state: { inquiryNumber: 'error' },
+        });
       });
   };
 
@@ -479,6 +487,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+ReviewPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  loggedIn: PropTypes.bool,
+};
+
 const mapDispatchToProps = {
   setData,
   setEditMode,
@@ -489,4 +507,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewPage);
+)(withRouter(ReviewPage));

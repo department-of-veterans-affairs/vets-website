@@ -1,33 +1,20 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OperatingStatus } from '../../../constants';
+import { OperatingStatusDisplay } from '../../../constants';
 
 const LocationOperationStatus = ({ operatingStatus }) => {
   if (!operatingStatus || operatingStatus.code === 'NORMAL') {
     return <></>;
   }
 
-  const display = {
-    [OperatingStatus.CLOSED]: {
-      operationStatusTitle: 'Facility Closed',
-      alertClass: 'error',
-    },
-    [OperatingStatus.LIMITED]: {
-      operationStatusTitle: 'Limited services and hours',
-      alertClass: 'warning',
-    },
-    [OperatingStatus.NOTICE]: {
-      operationStatusTitle: 'Facility notice',
-      alertClass: 'info',
-    },
-  };
-
-  if (!display[operatingStatus.code]) {
+  if (!OperatingStatusDisplay[operatingStatus.code]) {
     return <></>;
   }
 
-  const { operationStatusTitle, alertClass } = display[operatingStatus.code];
+  const { operationStatusTitle, alertClass } = OperatingStatusDisplay[
+    operatingStatus.code
+  ];
 
   return (
     <va-alert

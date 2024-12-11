@@ -336,20 +336,21 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 mobile-lg:vads-u-width--auto vads-u-width--full"
+                    type="submit"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
-                    <va-button
+                    <button
                       data-testid="cancel-edit-button"
-                      secondary
-                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      type="button"
+                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                      text={cancelButtonText || 'Cancel'}
-                    />
+                    >
+                      {cancelButtonText || 'Cancel'}
+                    </button>
                   )}
                 </div>
               </ProfileInformationActionButtons>

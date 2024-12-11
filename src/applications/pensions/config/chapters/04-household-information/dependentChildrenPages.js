@@ -405,8 +405,10 @@ export const dependentChildrenPages = arrayBuilderPages(
       title: 'Dependent children',
       path: 'household/dependents/:index/in-household',
       depends: () => showMultiplePageResponse(),
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
-        return props.formData.childInHousehold
+        const item = props.formData?.[options.arrayPath]?.[props.index];
+        return item?.childInHousehold
           ? helpers.navForwardFinishedItem(props) // return to summary
           : helpers.navForwardKeepUrlParams(props); // go to next page
       },

@@ -212,7 +212,7 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
+    const { suppressPharmacies, suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = suppressPPMS
       ? nonPPMSfacilityTypeOptions
@@ -221,10 +221,6 @@ const SearchControls = props => {
 
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
-    }
-
-    if (suppressCCP) {
-      delete locationOptions.provider;
     }
 
     const options = Object.keys(locationOptions).map(facility => (

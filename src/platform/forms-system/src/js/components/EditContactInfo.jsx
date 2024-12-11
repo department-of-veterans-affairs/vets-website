@@ -21,7 +21,15 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { REVIEW_CONTACT, setReturnState } from '../utilities/data/profile';
 import { usePrevious } from '../../../../utilities/react-hooks';
 
-export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
+export const BuildPage = ({
+  title,
+  field,
+  id,
+  goToPath,
+  contactPath,
+  editContactInfoHeadingLevel,
+}) => {
+  const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
 
   const modalState = useSelector(state => state?.vapService.modal);
@@ -74,7 +82,9 @@ export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
   return (
     <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <InitializeVAPServiceID>
-        <h3 ref={headerRef}>{title}</h3>
+        <Heading ref={headerRef} className="vads-u-font-size--h3">
+          {title}
+        </Heading>
         <ProfileInformationFieldController
           forceEditView
           fieldName={FIELD_NAMES[field]}
@@ -90,6 +100,7 @@ export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
 
 BuildPage.propTypes = {
   contactPath: PropTypes.string,
+  editContactInfoHeadingLevel: PropTypes.string,
   field: PropTypes.string,
   goToPath: PropTypes.func,
   id: PropTypes.string,

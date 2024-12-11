@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
 import upperFirst from 'lodash/upperFirst';
 import lowerCase from 'lodash/lowerCase';
 

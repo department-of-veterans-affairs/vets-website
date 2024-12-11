@@ -54,6 +54,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
@@ -68,9 +69,9 @@ import {
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  SUBMIT_URL,
   SC_NEW_FORM_DATA,
 } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
 
@@ -108,7 +109,7 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: SUBMIT_URL,
+  submitUrl: `/${SUBMIT_URL.join('')}`,
   submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
@@ -145,6 +146,7 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  onFormLoaded,
   formOptions: {
     focusOnAlertRole: true,
   },

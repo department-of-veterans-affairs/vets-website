@@ -19,7 +19,7 @@ describe('handle multiple drafts older than 45 days', () => {
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
-      .and('have.text', Alerts.OLD_MSG);
+      .and('have.text', Alerts.OLD_MSG_HEAD);
 
     cy.get(Locators.BUTTONS.EDIT_DRAFTS).should('not.exist');
 

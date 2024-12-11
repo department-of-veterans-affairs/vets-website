@@ -27,7 +27,6 @@
     "maritalStatus": "Never Married",
     "veteranDateOfBirth": "1990-01-01",
     "veteranSocialSecurityNumber": "234243444",
-    "view:placeOfBirth": {},
     "veteranFullName": {
       "first": "Jane",
       "last": "Doe"
@@ -35,7 +34,6 @@
     "privacyAgreementAccepted": true,
     "view:demographicCategories": {
       "isSpanishHispanicLatino": false
-    },
-    "spouseFullName": {}
+    }
   }
 }

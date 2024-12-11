@@ -70,13 +70,36 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
-
 export const FETCH_INSTITUTION_PROGRAMS_FAILED =
   'FETCH_INSTITUTION_PROGRAMS_FAILED';
 export const FETCH_INSTITUTION_PROGRAMS_STARTED =
   'FETCH_INSTITUTION_PROGRAMS_STARTED';
 export const FETCH_INSTITUTION_PROGRAMS_SUCCEEDED =
   'FETCH_INSTITUTION_PROGRAMS_SUCCEEDED';
+export const FETCH_NATIONAL_EXAMS_FAILED = 'FETCH_NATIONAL_EXAMS_FAILED ';
+export const FETCH_NATIONAL_EXAMS_STARTED = 'FETCH_NATIONAL_EXAMS_STARTED';
+export const FETCH_NATIONAL_EXAMS_SUCCEEDED = 'FETCH_NATIONAL_EXAMS_SUCCEEDED';
+
+export const fetchNationalExams = type => {
+  const url = `${api.url}/lce?type=${type}`;
+  return async dispatch => {
+    dispatch({ type: FETCH_NATIONAL_EXAMS_STARTED });
+
+    try {
+      const res = await fetch(url, api.settings);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const { data } = await res.json();
+      dispatch({ type: FETCH_NATIONAL_EXAMS_SUCCEEDED, payload: data });
+    } catch (err) {
+      dispatch({
+        type: FETCH_NATIONAL_EXAMS_FAILED,
+        payload: err.message,
+      });
+    }
+  };
+};
 
 export const fetchInstitutionPrograms = (facilityCode, programType) => {
   const url = `https://dev-api.va.gov/v0/gi/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
@@ -103,9 +126,16 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchLicenseCertificationResults(name, type) {
+export function fetchLicenseCertificationResults(
+  name = null,
+  filterOptions = { type: 'all', state: 'all' },
+) {
+  const { type, state } = filterOptions;
+
+  const url = name
+    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
+    : `${api.url}/lce?type=${type}&state=${state}`;
   return dispatch => {
-    const url = `${api.url}/lce?type=${type}`;
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
     return fetch(url, api.settings)
@@ -131,6 +161,7 @@ export function fetchLicenseCertificationResults(name, type) {
       });
   };
 }
+
 export function fetchLcResult(link) {
   return dispatch => {
     const url = `${api.url}/${link}`;

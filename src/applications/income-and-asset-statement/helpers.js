@@ -11,6 +11,9 @@ export const formatCurrency = num => `$${num.toLocaleString()}`;
 export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
   get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 
+export const otherAssetOwnerRelationshipExplanationRequired = (form, index) =>
+  get(['unreportedAssets', index, 'assetOwnerRelationship'], form) === 'OTHER';
+
 export const otherRecipientRelationshipExplanationRequired = (
   form,
   index,
@@ -37,12 +40,6 @@ export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) === 'PARENT' ||
   get([arrayKey, index, 'recipientRelationship'], form) === 'CUSTODIAN' ||
   get([arrayKey, index, 'recipientRelationship'], form) === 'OTHER';
-
-export const showRecipientName = recipientRelationship =>
-  recipientRelationship === 'CHILD' ||
-  recipientRelationship === 'PARENT' ||
-  recipientRelationship === 'CUSTODIAN' ||
-  recipientRelationship === 'OTHER';
 
 export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);

@@ -83,7 +83,7 @@ describe('<Dashboard />', () => {
     };
 
     // User created 8 hours ago is recent
-    initialState.user.profile.createdAt = new Date(
+    initialState.user.profile.initialSignIn = new Date(
       new Date().getTime() - 8 * 60 * 60 * 1000,
     );
 
@@ -107,7 +107,7 @@ describe('<Dashboard />', () => {
     };
 
     // User created 36 hours ago is not recent
-    initialState.user.profile.createdAt = new Date(
+    initialState.user.profile.initialSignIn = new Date(
       new Date().getTime() - 36 * 60 * 60 * 1000,
     );
 

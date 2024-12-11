@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PostSept11ServiceDescription from '../../../components/FormDescriptions/PostSept11ServiceDescription';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { gulfWarService } = fullSchemaHca.properties;
+const { gulfWarService } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

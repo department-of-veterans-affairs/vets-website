@@ -168,8 +168,8 @@ const ProgramsList = ({ match }) => {
       ) : (
         <p id="no-results-message">
           {`We didn’t find any results for `}"
-          <strong>{`${submittedQuery}`}</strong>" . Please enter a valid program
-          name.
+          <strong>{`${submittedQuery}`}</strong>
+          ." Please enter a valid program name.
         </p>
       )}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

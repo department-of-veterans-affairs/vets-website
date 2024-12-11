@@ -1,18 +1,18 @@
 {
     "data": {
-        "techIndustryFocusArea": "Computer software",
-        "isWorkingInTechIndustry": "Yes",
-        "currentAnnualSalary": "Between $35,001 and $50,000",
-        "currentlyEmployed": "Yes",
+        "techIndustryFocusArea": "CS",
+        "isWorkingInTechIndustry": true,
+        "currentAnnualSalary": "thirtyFiveToFifty",
+        "currentlyEmployed": true,
         "highestLevelOfEducation": {
-            "level": "A bachelor's degree"
+            "level": "BD"
         },
-        "gender": "Prefer not to answer",
-        "ethnicity": "Prefer not to answer",
-        "orginRace": [
-            "Prefer not to answer"
-        ],
-        "raceAndGender": "Yes",
+        "raceAndGender": true,
+        "ethnicity": "NA",
+        "orginRace": {
+            "noAnswer": true
+        },
+        "gender": "NA",
         "state": "Texas",
         "country": "United States",
         "contactInfo": {
@@ -20,7 +20,7 @@
             "mobilePhone": "4442341242",
             "homePhone": "3434232434"
         },
-        "veteranDesc": "I'm a Veteran's child",
+        "veteranDesc": "veteransChild",
         "veteranFullName": {
             "first": "Jane",
             "middle": "Test",

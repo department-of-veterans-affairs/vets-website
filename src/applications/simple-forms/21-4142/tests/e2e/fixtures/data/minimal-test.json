@@ -2,6 +2,7 @@
   "data": {
     "veteran": {
       "homePhone": "9876543210",
+      "email": "email@address.com",
       "address": {
         "country": "USA",
         "street": "1 Street Ave",

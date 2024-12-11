@@ -6,6 +6,7 @@ import { ROUTES } from '../../constants';
 import { updateIntroPageViewed } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { QUESTION_MAP } from '../../constants/question-data-map';
+import { NeedHelp } from './NeedHelp';
 
 const HomePage = ({ router, setIntroPageViewed }) => {
   const H1 = QUESTION_MAP.HOME;
@@ -203,6 +204,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
             </p>
           </va-accordion-item>
         </va-accordion>
+        <NeedHelp />
       </div>
     </>
   );

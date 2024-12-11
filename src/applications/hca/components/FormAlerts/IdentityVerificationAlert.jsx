@@ -1,8 +1,8 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import recordEvent from '~/platform/monitoring/record-event';
-import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import { APP_URLS } from '../../utils/constants';
+import { CONTACTS } from '../../utils/imports';
 
 const IdentityVerificationAlert = () => {
   const onVerify = () => recordEvent({ event: AUTH_EVENTS.VERIFY });

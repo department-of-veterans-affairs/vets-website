@@ -51,7 +51,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   editItemPathUrl: string,
+ *   getEditItemPathUrl: (formData: any, index: number) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -65,7 +65,7 @@ const IncompleteLabel = () => (
 const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
-  editItemPathUrl,
+  getEditItemPathUrl,
   setFormData,
   formData,
   nounSingular,
@@ -192,7 +192,7 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: editItemPathUrl,
+                          path: getEditItemPathUrl(formData, index),
                           index,
                           isReview,
                         })}
@@ -264,9 +264,9 @@ const mapDispatchToProps = {
 
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  editItemPathUrl: PropTypes.string.isRequired,
   forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
+  getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   isReview: PropTypes.bool.isRequired,

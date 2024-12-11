@@ -176,7 +176,7 @@ ${record.summary}`;
       </div>
 
       <div className="test-results-container">
-        <h2>Summary</h2>
+        <h2 className="test-results-header">Summary</h2>
         <p
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"

@@ -344,7 +344,10 @@ const formConfigFnParams = {
   'form-upload': '/form-upload/21-0779/upload',
 };
 
-describe('form:', () => {
+describe('form:', function() {
+  // See: https://dsva.slack.com/archives/CBU0KDSB1/p1732118918873249?thread_ts=1731529298.639049&cid=CBU0KDSB1
+  this.timeout(20000);
+
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
     /config\/form\.js.?$/,

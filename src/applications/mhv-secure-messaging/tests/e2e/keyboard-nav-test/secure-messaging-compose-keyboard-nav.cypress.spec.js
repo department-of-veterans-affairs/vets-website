@@ -13,16 +13,16 @@ describe('Secure Messaging Compose Keyboard Nav', () => {
     PatientComposePage.backToInbox();
   });
 
-  it('Tab to Message Body', () => {
+  it('Tab to Message Subject Field', () => {
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.keyboardNavToMessageBodyField().should('exist');
+    PatientComposePage.keyboardNavToMessageSubjectField().should('exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Tab to Message Subject Field', () => {
+  it('Tab to Message Body', () => {
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.keyboardNavToMessageSubjectField().should('exist');
+    PatientComposePage.keyboardNavToMessageBodyField().should('exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

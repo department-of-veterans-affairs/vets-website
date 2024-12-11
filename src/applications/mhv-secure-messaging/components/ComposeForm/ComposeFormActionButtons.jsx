@@ -2,25 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DeleteDraft from '../Draft/DeleteDraft';
 
-const ComposeFormActionButtons = ({
-  onSend,
-  onSaveDraft,
-  formPopulated,
-  setDeleteButtonClicked,
-  cannotReply,
-  draftBody,
-  draftId,
-  draftsCount,
-  navigationError,
-  refreshThreadCallback,
-  setNavigationError,
-  setUnsavedNavigationError,
-  messageBody,
-  draftSequence,
-  setHideDraft,
-  setIsEditing,
-  savedComposeDraft,
-}) => {
+const ComposeFormActionButtons = props => {
+  const {
+    onSend,
+    onSaveDraft,
+    formPopulated,
+    setDeleteButtonClicked,
+    cannotReply,
+    draftBody,
+    draftId,
+    draftsCount,
+    navigationError,
+    refreshThreadCallback,
+    setNavigationError,
+    setUnsavedNavigationError,
+    messageBody,
+    draftSequence,
+    setHideDraft,
+    setIsEditing,
+    savedComposeDraft,
+  } = props;
+
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (

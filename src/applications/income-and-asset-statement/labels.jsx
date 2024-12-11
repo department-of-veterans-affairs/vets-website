@@ -25,6 +25,12 @@ export const claimantTypeLabels = {
   CUSTODIAN: 'Custodian of child beneficiary',
 };
 
+export const incomeFrequencyLabels = {
+  RECURRING: 'Recurring',
+  IRREGULAR: 'Irregular',
+  ONE_TIME: 'One time payment',
+};
+
 export const incomeTypeLabels = {
   SOCIAL_SECURITY: 'Social Security',
   PENSION_RETIREMENT: 'Pension or retirement income',

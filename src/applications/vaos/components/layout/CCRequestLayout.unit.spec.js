@@ -27,9 +27,6 @@ describe('VAOS Component: VARequestLayout', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingAfterVisitSummary: true,
-    },
   };
 
   describe('When viewing upcomming CC appointment details', () => {

@@ -13,6 +13,8 @@ import {
 import ConfirmationPageV2 from '../../components/ConfirmationPageV2';
 import maxData from '../fixtures/data/maximal-test-v2.5.json';
 
+import { getReadableDate } from '../../../shared/utils/dates';
+
 const getData = (customData = {}) => ({
   user: {
     profile: {
@@ -42,12 +44,17 @@ describe('ConfirmationPageV2', () => {
   const mockStore = configureStore(middleware);
 
   it('should render with no data', () => {
+    const data = getData();
     const { container } = render(
       <Provider store={mockStore({})}>
         <ConfirmationPageV2 />
       </Provider>,
     );
-    expect($('va-alert[status="success"]', container)).to.exist;
+    const date = getReadableDate(data.form.submission.response);
+
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(`You submitted the request on ${date}`);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(6);
@@ -57,17 +64,25 @@ describe('ConfirmationPageV2', () => {
   });
 
   it('should render the confirmation page with evidence', () => {
+    const contactRepMessage =
+      'Since you requested an informal conference, we’ll contact your accredited representative to schedule your conference.';
     const data = getData();
     const { container } = render(
       <Provider store={mockStore(data)}>
         <ConfirmationPageV2 />
       </Provider>,
     );
+    const date = getReadableDate(data.form.submission.response);
 
-    expect($('va-alert[status="success"]', container)).to.exist;
-    expect($('va-alert[status="success"]', container).innerHTML).to.contain(
-      `After we’ve completed our review`,
-    );
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(`You submitted the request on ${date}`);
+    expect(alert.innerHTML).to.contain(contactRepMessage);
+
+    const nextSteps = $('.next-steps', container).textContent;
+    expect(nextSteps).to.contain(contactRepMessage);
+    expect(nextSteps).to.contain('After we’ve completed our review');
+
     // expect($('va-loading-indicator', container)).to.exist;
     const h2s = $$('h2', container);
     expect(h2s.length).to.eq(5);
@@ -90,7 +105,7 @@ describe('ConfirmationPageV2', () => {
       'Informal conference',
     ]);
     expect($$('h4', container).length).to.eq(0);
-    expect($$('ul', container).length).to.eq(4);
+    expect($$('ul', container).length).to.eq(3);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(17);
@@ -122,6 +137,8 @@ describe('ConfirmationPageV2', () => {
   });
 
   it('should render the confirmation page with a hearing request', () => {
+    const contactMeMessage =
+      'Since you requested an informal conference, we’ll contact you to schedule your conference.';
     const data = getData({
       informalConference: 'me',
     });
@@ -130,6 +147,16 @@ describe('ConfirmationPageV2', () => {
         <ConfirmationPageV2 />
       </Provider>,
     );
+    const date = getReadableDate(data.form.submission.response);
+
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(`You submitted the request on ${date}`);
+    expect(alert.innerHTML).to.contain(contactMeMessage);
+
+    const nextSteps = $('.next-steps', container).textContent;
+    expect(nextSteps).to.contain(contactMeMessage);
+    expect(nextSteps).to.contain('After we’ve completed our review');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(13);
@@ -149,6 +176,16 @@ describe('ConfirmationPageV2', () => {
         <ConfirmationPageV2 />
       </Provider>,
     );
+    const date = getReadableDate(data.form.submission.response);
+
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(`You submitted the request on ${date}`);
+    expect(alert.innerHTML).to.not.contain('Since you requested');
+
+    const nextSteps = $('.next-steps', container).textContent;
+    expect(nextSteps).to.not.contain('Since you requested');
+    expect(nextSteps).to.contain('After we’ve completed our review');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(11);

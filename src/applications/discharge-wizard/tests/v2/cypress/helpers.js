@@ -24,6 +24,19 @@ export const verifyUrl = link => cy.url().should('contain', `${ROOT}/${link}`);
 
 export const get15YearsPast = () => (new Date().getFullYear() - 15).toString();
 
+export const verifyFormErrorNotShown = selector =>
+  cy
+    .findByTestId(selector)
+    .get('span[role="alert"]')
+    .should('have.text', '');
+
+export const checkFormAlertText = (selector, expectedValue) =>
+  cy
+    .findByTestId(selector)
+    .get('span[role="alert"]')
+    .should('be.visible')
+    .should('have.text', expectedValue);
+
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
 

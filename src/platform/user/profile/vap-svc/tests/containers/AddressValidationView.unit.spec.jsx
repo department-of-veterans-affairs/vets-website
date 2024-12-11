@@ -8,6 +8,25 @@ import AddressValidationView from '../../containers/AddressValidationView';
 
 const mockStore = configureMockStore([]);
 
+// Helper function to check multiple buttons
+function expectButtons(container, expectedButtons) {
+  const buttons = container.querySelectorAll('button');
+  expect(buttons.length).to.equal(expectedButtons.length);
+  expectedButtons.forEach((expectedButton, index) => {
+    const button = buttons[index];
+    expect(button).to.have.text(expectedButton.text);
+    if (expectedButton.type) {
+      expect(button).to.have.attribute('type', expectedButton.type);
+    }
+    if (expectedButton.dataTestId) {
+      expect(button).to.have.attribute(
+        'data-testid',
+        expectedButton.dataTestId,
+      );
+    }
+  });
+}
+
 describe('<AddressValidationView/>', () => {
   const store = mockStore({
     vapService: {
@@ -84,32 +103,26 @@ describe('<AddressValidationView/>', () => {
   });
 
   it('renders va-button and confirm address button with correct attributes and text', () => {
-    const { container, getByRole } = render(
+    const { container } = render(
       <Provider store={store}>
         <AddressValidationView store={store} />
       </Provider>,
     );
 
-    const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-    expect(vaButtons.length).to.equal(1);
-    expect(vaButtons[0]).to.have.attribute('text', 'Go back to edit');
-
-    const confirmButton = getByRole('button', { name: /Use this address/i });
-    expect(confirmButton).to.exist;
-    expect(confirmButton).to.have.attribute(
-      'data-testid',
-      'confirm-address-button',
-    );
+    expectButtons(container, [
+      {
+        type: 'submit',
+        text: 'Use this address',
+        dataTestId: 'confirm-address-button',
+      },
+      { text: 'Go back to edit', type: 'button' },
+    ]);
   });
 
   it('renders two primary va-button components with correct text when no validationKey and suggestedAddress are present', () => {
     const newStore = mockStore({
       vapService: {
-        fieldTransactionMap: {
-          mailingAddress: {
-            isPending: false,
-          },
-        },
+        fieldTransactionMap: { mailingAddress: { isPending: false } },
         modal: 'addressValidation',
         addressValidation: {
           addressFromUser: {
@@ -137,10 +150,10 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-    expect(vaButtons.length).to.equal(2);
-    expect(vaButtons[0]).to.have.attribute('text', 'Go back to edit');
-    expect(vaButtons[1]).to.have.attribute('text', 'Edit Address');
+    expectButtons(container, [
+      { text: 'Edit Address', type: 'submit' },
+      { text: 'Go back to edit', type: 'button' },
+    ]);
   });
 
   it('does not render Go back to edit button while pending transaction', () => {
@@ -178,10 +191,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-    expect(vaButtons.length).to.equal(1);
-    expect(vaButtons[0]).not.to.have.attribute('text', 'Go back to edit');
-    expect(vaButtons[0]).to.have.attribute('text', 'Edit Address');
+    expectButtons(container, [{ text: 'Edit Address', type: 'submit' }]);
   });
 
   describe('AddressValidationView with TWO suggestions', () => {
@@ -292,13 +302,7 @@ describe('<AddressValidationView/>', () => {
         },
       });
 
-      const {
-        container,
-        getByRole,
-        getAllByRole,
-        getByText,
-        getAllByText,
-      } = render(
+      const { container, getAllByRole, getByText, getAllByText } = render(
         <Provider store={newStore}>
           <AddressValidationView store={newStore} />
         </Provider>,
@@ -317,18 +321,14 @@ describe('<AddressValidationView/>', () => {
       expect(getByText('Washington, DC 20500')).to.exist;
       expect(getByText('Washington, DC 20502')).to.exist;
 
-      const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-      expect(vaButtons.length).to.equal(1);
-      expect(vaButtons[0]).to.have.attribute('primary', 'true');
-      expect(vaButtons[0]).to.have.attribute('text', 'Go back to edit');
-
-      const confirmButton = getByRole('button', { name: /Use this address/i });
-      expect(confirmButton).to.exist;
-      expect(confirmButton).to.have.attribute('class', 'usa-button-secondary');
-      expect(confirmButton).to.have.attribute(
-        'data-testid',
-        'confirm-address-button',
-      );
+      expectButtons(container, [
+        {
+          type: 'submit',
+          text: 'Use this address',
+          dataTestId: 'confirm-address-button',
+        },
+        { text: 'Go back to edit', type: 'button' },
+      ]);
     });
 
     it('renders 3 radio buttons when validationKey is present', () => {
@@ -392,10 +392,7 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-      expect(vaButtons.length).to.equal(1);
-      expect(vaButtons[0]).to.have.attribute('primary', 'true');
-      expect(vaButtons[0]).to.have.attribute('text', 'Go back to edit');
+      expectButtons(container, [{ text: 'Go back to edit', type: 'button' }]);
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
@@ -472,20 +469,10 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      const vaButtons = container.querySelectorAll('va-button[primary="true"]');
-      expect(vaButtons.length).to.equal(1);
-      expect(vaButtons[0]).to.have.attribute('primary', 'true');
-      expect(vaButtons[0]).to.have.attribute('text', 'Go back to edit');
-
-      const confirmButton = getByRole('button', {
-        name: /Use suggested address/i,
-      });
-      expect(confirmButton).to.exist;
-      expect(confirmButton).to.have.attribute('class', 'usa-button-secondary');
-      expect(confirmButton).to.have.attribute(
-        'data-testid',
-        'confirm-address-button',
-      );
+      expectButtons(container, [
+        { text: 'Use suggested address', type: 'submit' },
+        { text: 'Go back to edit', type: 'button' },
+      ]);
     });
   });
 });

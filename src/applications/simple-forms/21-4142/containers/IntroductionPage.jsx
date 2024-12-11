@@ -106,6 +106,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
-
-import { selectProfile } from '~/platform/user/selectors';
-import { VA_FORM_IDS } from '~/platform/forms/constants';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-
-import { selectAuthStatus } from '../../../utils/selectors/auth-status';
+import { selectProfile } from 'platform/user/selectors';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { selectAuthStatus } from '../../../utils/selectors';
 import SaveInProgressDescription from './SaveInProgressDescription';
 import CheckAppStatusAlert from '../../FormAlerts/CheckAppStatusAlert';
 import SaveTimeSipAlert from '../../FormAlerts/SaveTimeSipAlert';
