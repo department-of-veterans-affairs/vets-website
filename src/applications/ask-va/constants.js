@@ -4,19 +4,34 @@ export const envUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
+const isMockData = true;
+
+const optionallyApplyMockParam = url => {
+  if (isMockData) {
+    return `${baseURL}${url}${
+      url.includes('?') ? '&' : '?'
+    }user_mock_data=true`;
+  }
+  return baseURL + url;
+};
+
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
-  ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
-  GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `${baseURL}/education_facilities/`,
-  SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`, // ?user_mock_data=true
-  INQUIRIES: `${baseURL}/inquiries`,
-  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
-  DASHBOARD_ID: `/user/dashboard/`,
+  ADDRESS_VALIDATION: optionallyApplyMockParam(`/address_validation`),
+  UPLOAD_ATTACHMENT: optionallyApplyMockParam(`/upload_attachment`),
+  GET_HEALTH_FACILITY: optionallyApplyMockParam(`/health_facilities`),
+  GET_SCHOOL: optionallyApplyMockParam(`/education_facilities/`),
+  SEND_REPLY: optionallyApplyMockParam(`/reply/new`),
+  GET_INQUIRIES: optionallyApplyMockParam(`/inquiries`),
+  INQUIRIES: optionallyApplyMockParam(`/inquiries`),
+  AUTH_INQUIRIES: optionallyApplyMockParam(`/inquiries/auth`),
+  DASHBOARD_ID: optionallyApplyMockParam(`/user/dashboard/`),
+  GET_CATEGORIES: optionallyApplyMockParam(`/contents?type=category`),
+  GET_TOPICS: optionallyApplyMockParam(
+    `/contents?type=topic&parent_id=%PARENT_ID%`,
+  ),
+  GET_SUBTOPICS: optionallyApplyMockParam(
+    `/contents?type=subtopic&parent_id=%PARENT_ID%`,
+  ),
 };
 
 // centralized logic for string replacement, incl. multiple fields
