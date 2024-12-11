@@ -9,6 +9,7 @@ import { validateIfHasEvidence } from '../validations';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
+// [wipn8923] this is an example box i can use
 export const uiSchema = {
   'view:hasEvidence': yesNoUI({
     title:

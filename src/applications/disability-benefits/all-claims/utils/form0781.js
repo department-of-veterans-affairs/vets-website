@@ -13,6 +13,19 @@ import { isClaimingNew } from '.';
  *   else
  *     - returns false
  */
+
+export function showForm0781Tile(formData) {
+  const conditions = formData?.mentalHealth?.conditions || {};
+  return (
+    formData?.syncModern0781Flow === true &&
+    isClaimingNew(formData) &&
+    Object.entries(conditions).some(
+      ([key, value]) => key !== 'none' && value === true,
+    )
+  );
+}
+
+// [wipn8923] read activation state
 export function showForm0781Pages(formData) {
   const conditions = formData?.mentalHealth?.conditions || {};
   return (
@@ -22,4 +35,9 @@ export function showForm0781Pages(formData) {
       ([key, value]) => key !== 'none' && value === true,
     )
   );
+}
+
+
+export function activate0781Flow(formData) {
+  // [wipn8923] write activation state to React Store
 }
