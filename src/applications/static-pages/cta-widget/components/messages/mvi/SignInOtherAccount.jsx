@@ -46,9 +46,11 @@ const SignInOtherAccount = ({ headerLevel, serviceDescription }) => {
           <VerifyIdmeButton />
         </p>
         <p>
-          <a href="/resources/creating-an-account-for-vagov/">
-            Learn about creating an account
-          </a>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+            disableAnalytics
+          />
         </p>
       </>
     ),
@@ -59,7 +61,7 @@ const SignInOtherAccount = ({ headerLevel, serviceDescription }) => {
 };
 
 SignInOtherAccount.propTypes = {
-  headerLevel: PropTypes.string,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   serviceDescription: PropTypes.string,
 };
 

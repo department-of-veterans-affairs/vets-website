@@ -46,11 +46,13 @@ const NotAuthorized = ({ cspId, headerLevel, serviceDescription }) => {
           This one-time process often takes about 10 minutes. You’ll need to
           provide certain personal information and identification.
         </p>
-        <div>{singleVerifyButton}</div>
+        <p>{singleVerifyButton}</p>
         <p>
-          <a href="/resources/verifying-your-identity-on-vagov/">
-            Learn about how to verify your identity
-          </a>
+          <va-link
+            href="/resources/verifying-your-identity-on-vagov/"
+            text="Learn more about verifying your identity"
+            disableAnalytics
+          />
         </p>
       </>
     ),
@@ -66,7 +68,7 @@ NotAuthorized.defaultProps = {
 
 NotAuthorized.propTypes = {
   cspId: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
-  headerLevel: PropTypes.string,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   serviceDescription: PropTypes.string,
 };
 

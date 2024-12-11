@@ -185,9 +185,7 @@ export class CallToActionWidget extends Component {
       });
 
       if (this.isNonMHVSchedulingTool()) {
-        return this.getVerifyAlert({
-          headerLevel: this._headerLevel,
-        });
+        return this.getVerifyAlert();
       }
 
       return (
@@ -236,7 +234,7 @@ export class CallToActionWidget extends Component {
     return null;
   };
 
-  // Function called for isHealthTool
+  // Function called when isHealthTool()
   getHealthToolContent = () => {
     const { mhvAccount, authenticatedWithSSOe } = this.props;
 
@@ -274,7 +272,7 @@ export class CallToActionWidget extends Component {
     return this.getInaccessibleHealthToolContent();
   };
 
-  // Function called for isHealthTool and isNonMHVSchedulingTool
+  // Function called when isHealthTool() or isNonMHVSchedulingTool()
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
@@ -286,9 +284,9 @@ export class CallToActionWidget extends Component {
     }
   };
 
-  // Function called for isHealthTool and isNonMHVSchedulingTool
-  getVerifyAlert = ({ headerLevel }) => {
-    const serviceDescription = this.isHealthTool
+  // Function called when isHealthTool() or isNonMHVSchedulingTool()
+  getVerifyAlert = () => {
+    const serviceDescription = this.isHealthTool()
       ? 'access more VA.gov tools and features'
       : this._serviceDescription;
     switch (this.props.cspId) {
@@ -297,7 +295,7 @@ export class CallToActionWidget extends Component {
         return (
           <NotAuthorized
             cspId={this.props.cspId}
-            headerLevel={headerLevel}
+            headerLevel={this._headerLevel}
             serviceDescription={serviceDescription}
           />
         );
@@ -307,14 +305,14 @@ export class CallToActionWidget extends Component {
         return (
           <SignInOtherAccount
             cspId={this.props.cspId}
-            headerLevel={headerLevel}
+            headerLevel={this._headerLevel}
             serviceDescription={serviceDescription}
           />
         );
     }
   };
 
-  // Function called for isHealthTool
+  // Function called when isHealthTool()
   getInaccessibleHealthToolContentSSOe = () => {
     const { profile, mhvAccountIdState } = this.props;
 
@@ -336,7 +334,7 @@ export class CallToActionWidget extends Component {
     window.location = mhvUrl(this.props.authenticatedWithSSOe, 'home');
   };
 
-  // Function called for isHealthTool
+  // Function called when isHealthTool()
   getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
@@ -354,9 +352,7 @@ export class CallToActionWidget extends Component {
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        return this.getVerifyAlert({
-          headerLevel: this._headerLevel,
-        });
+        return this.getVerifyAlert();
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
         return <NeedsSSNResolution />;
