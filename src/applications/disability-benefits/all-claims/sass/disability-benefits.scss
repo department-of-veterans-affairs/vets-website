@@ -297,6 +297,11 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   }
 }
 
+// Hides the ArrayField label since using the VaTextInput label in the Autocomplete is more accessible
+[id^="root_newDisabilities_"][id$="_condition-label"] {
+  display: none !important;
+}
+
 // Hides the "New condition" h3 that appears on the last item of the platform ArrayField.
 // Cannot add a class to the ArrayField like we could with the allClaims arrayField
 [id^="root_newDisabilities_"] h3.vads-u-font-size--h5 {
