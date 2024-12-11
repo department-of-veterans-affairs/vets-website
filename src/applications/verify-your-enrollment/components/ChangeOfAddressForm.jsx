@@ -22,11 +22,10 @@ const ChangeOfAddressForm = ({
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
     const addressMapping = {
-      addressLine1: 'street', // Maps addressLine1 to street
-      city: 'city', // Maps city to city
-      stateCode: 'stateCode', // Maps stateCode to stateCode
-      zipCode: 'zipCode', // Maps zipCode to zipCode
-      // Add more mappings as needed
+      addressLine1: 'street',
+      city: 'city',
+      stateCode: 'stateCode',
+      zipCode: 'zipCode',
     };
     const address = JSON.parse(sessionStorage.getItem('address') || '{}');
     const transformedAddress = Object.keys(address)?.reduce((acc, key) => {
