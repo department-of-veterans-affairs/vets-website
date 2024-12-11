@@ -109,7 +109,7 @@ export function getPatientEligibility(
 }
 
 export function getPatientRelationships() {
-  // TODO: need to add ability to query by locationId and typeOfCareId
+  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
   // export function getPatientRelationships({ locationId, typeOfCareId }) {
   return apiRequestWithUrl(
     // `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,

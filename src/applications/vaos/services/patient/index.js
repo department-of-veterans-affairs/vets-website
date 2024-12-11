@@ -116,7 +116,7 @@ export async function fetchPatientEligibility({
  */
 
 export async function fetchPatientRelationships() {
-  /* TODO:
+  /* TODO:  https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
     Once we are aware of the data that we need and where this needs to be called
     in the flow, we need to add { typeOfCare, location } as a passed attribute.
 
