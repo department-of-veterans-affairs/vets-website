@@ -250,33 +250,29 @@ export class ConfirmationPage extends React.Component {
               <>
                 <p>
                   Based on your answers, we’ve suggested some benefits for you
-                  to explore.
-                  <br />
-                  Remember to check your eligibility before you apply.
+                  to explore. Remember to check your eligibility before you
+                  apply.
                 </p>
                 <p>
-                  These aren't your personalized benefit recommendations, but
-                  you can go back to your recommendations if you'd like.
+                  These aren’t your personalized benefit recommendations, but
+                  you can go back to your recommendations if you’d like.
                 </p>
                 <p>
                   We're also planning to add more benefits and resources to this
-                  tool.
-                  <br />
-                  Check back soon to find more benefits you want to apply for.
+                  tool. Check back soon to find more benefits you may want to
+                  apply for.
                 </p>
               </>
             ) : (
               <>
                 <p>
-                  Below are some benefits that this tool can recommend.
-                  <br />
-                  Remember to check your eligibility before you apply.
+                  Below are some benefits that this tool can recommend. Remember
+                  to check your eligibility before you apply.
                 </p>
               </>
             )}
           </div>
         </article>
-
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
@@ -298,7 +294,11 @@ export class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
+        <h2 className="vads-u-font-size--h3">
+          {this.props.location.query.allBenefits
+            ? 'All benefits'
+            : 'Benefits to explore'}
+        </h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
