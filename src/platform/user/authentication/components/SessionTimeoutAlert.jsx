@@ -10,9 +10,10 @@ export default function SessionTimeoutAlert() {
   const noDowntime =
     !renderDowntimeBanner(statuses) &&
     !renderMaintenanceWindow(maintenanceWindows);
-  const isSessionExpired = sessionStorage.getItem('isSessionExpired') === true;
+  const isSessionExpired = window.location.href.includes(
+    '/?next=loginModal&status=sessionExpired',
+  );
   const displaySessionTimeout = isSessionExpired && noDowntime;
-  sessionStorage.removeItem('iseSessionExpired');
   return displaySessionTimeout ? (
     <VaAlert closeable={false} showIcon uswds>
       <p slot="headline">Your session timed out. Sign in again to continue.</p>
