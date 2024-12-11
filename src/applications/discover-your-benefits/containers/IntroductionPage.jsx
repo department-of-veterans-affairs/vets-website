@@ -37,15 +37,15 @@ const IntroductionPage = ({ router }) => {
           learn more about eligibility and how to apply.
         </p>
         <p>
-          If you’re a family member, caregiver of a Veteran, you may also be
-          eligible for VA benefits.
+          If you’re a family member, caregiver, or survivor of a Veteran, you
+          may also be eligible for VA benefits.
           <br />
           <va-link
             href="https://www.va.gov/family-and-caregiver-benefits/"
             external
-            text="Learn more about family and caregiver benefits"
+            text="Learn about family and caregiver benefits"
             type="secondary"
-            label="Learn more about family and caregiver benefits"
+            label="Learn about family and caregiver benefits"
           />
         </p>
       </div>
