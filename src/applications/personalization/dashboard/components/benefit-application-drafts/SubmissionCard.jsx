@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import fetchFormPdfUrl from '../../actions/form-pdf-url';
 import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
 
 const QuestionsContent = () => (
@@ -23,6 +26,78 @@ const ReceivedContent = ({ lastSavedDate }) => (
 );
 ReceivedContent.propTypes = {
   lastSavedDate: PropTypes.string.isRequired,
+};
+
+/**
+ * todo:
+ *
+ * Date calculation
+ * - pass in received date
+ * - add logic for expiration (60 days)
+ */
+const SavePdfDownload = ({ getPdfDownloadUrl }) => {
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleDownloadButtonClick = async () => {
+    setError(null);
+    const result = await getPdfDownloadUrl(
+      '21-10210',
+      '123fake-submission-id-567',
+    );
+
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setShowSuccess(true);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        {showSuccess ? (
+          <va-alert
+            class="vads-u-margin-bottom--1"
+            close-btn-aria-label="Close notification"
+            disable-analytics="false"
+            full-width="false"
+            slim
+            status="success"
+            visible="true"
+          >
+            <p className="vads-u-margin-y--0">Your download has started.</p>
+          </va-alert>
+        ) : null}
+      </div>
+      <button
+        className="usa-button vads-u-padding-y--1p5 vads-u-padding-x--2p5"
+        type="button"
+        onClick={handleDownloadButtonClick}
+      >
+        <va-icon icon="file_download" size={2} class="vads-u-margin-right--1" />
+        Download your completed form (PDF)
+      </button>
+
+      {error ? (
+        <va-alert
+          class="vads-u-margin-bottom--1"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          slim
+          status="error"
+          visible="true"
+        >
+          <p className="vads-u-margin-y--0">{error}</p>
+        </va-alert>
+      ) : null}
+    </div>
+  );
+};
+
+SavePdfDownload.propTypes = {
+  getPdfDownloadUrl: PropTypes.func.isRequired,
 };
 
 const InProgressContent = () => (
@@ -65,6 +140,7 @@ ActionNeededContent.propTypes = {
 const SubmissionCard = ({
   formId,
   formTitle,
+  getPdfDownloadUrl,
   lastSavedDate,
   submittedDate,
   presentableFormId,
@@ -88,6 +164,12 @@ const SubmissionCard = ({
           {/* TODO: rethink our helpers for presentable form ID */}
           VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
         </p>
+
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormPdfLink}>
+          {status === 'received' && (
+            <SavePdfDownload getPdfDownloadUrl={getPdfDownloadUrl} />
+          )}
+        </Toggler>
         <p className="vads-u-margin-bottom--0">Submitted on: {submittedDate}</p>
         {status === 'inProgress' && <InProgressContent />}
         {status === 'received' && (
@@ -123,6 +205,14 @@ SubmissionCard.propTypes = {
   status: PropTypes.oneOf(['inProgress', 'actionNeeded', 'received'])
     .isRequired,
   submittedDate: PropTypes.string.isRequired,
+  getPdfDownloadUrl: PropTypes.func,
 };
 
-export default SubmissionCard;
+const mapDispatchToProps = {
+  getPdfDownloadUrl: fetchFormPdfUrl,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SubmissionCard);
