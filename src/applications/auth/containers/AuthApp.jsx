@@ -29,7 +29,7 @@ import {
 } from '../helpers';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
-  ['/auth/login/callback', '/session-expired'].join('|'),
+  ['/auth/login/callback', '/?next=loginModal'].join('|'),
 );
 
 export default function AuthApp({ location }) {
