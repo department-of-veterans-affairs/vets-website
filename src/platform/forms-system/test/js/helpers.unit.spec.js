@@ -1296,6 +1296,22 @@ describe('createStringifyFormReplacer', () => {
       expect(replacerFn('key', str)).to.eq(str);
     });
   });
+
+  context('when value is an array', () => {
+    it('removes empty objects in the array', () => {
+      const replacerFn = createStringifyFormReplacer();
+
+      const newValues = replacerFn('key', [
+        {},
+        { test: 'example value' },
+        {},
+        'this should stay',
+      ]);
+
+      expect(newValues.length).to.eq(2);
+      expect(newValues[0].test).to.eq('example value');
+    });
+  });
 });
 
 describe('stringifyUrlParams ', () => {

@@ -337,8 +337,8 @@ export function createStringifyFormReplacer(options) {
      */
     const replaceObject = object => {
       // Clean up empty objects in arrays
-      if (Array.isArray(value)) {
-        const newValues = value.filter(v => !!replacerFn(key, v));
+      if (Array.isArray(object)) {
+        const newValues = object.filter(v => !!replacerFn(key, v));
         // If every item in the array is cleared, remove the whole array
         return newValues.length > 0 ? newValues : undefined;
       }
