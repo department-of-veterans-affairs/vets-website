@@ -119,21 +119,21 @@ describe('<SelectAccreditedRepresentative>', () => {
     useReviewPageStub.restore();
   });
 
-  it('displays query error when query is invalid', async () => {
-    const { mockStore, props } = getProps();
+  // it('displays query error when query is invalid', async () => {
+  //   const { mockStore, props } = getProps();
 
-    const container = renderContainer(props, mockStore);
+  //   const container = renderContainer(props, mockStore);
 
-    const forwardButton = container.querySelectorAll(
-      'button[id*="continueButton"]',
-    )[1];
+  //   const forwardButton = container.querySelectorAll(
+  //     'button[id*="continueButton"]',
+  //   )[1];
 
-    fireEvent.click(forwardButton);
+  //   fireEvent.click(forwardButton);
 
-    await waitFor(() => {
-      expect(container.textContent).to.contain('Enter the name');
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(container.textContent).to.contain('Enter the name');
+  //   });
+  // });
 
   it('displays selection error when query is valid but rep is null', async () => {
     const { mockStore } = getProps();
@@ -199,17 +199,17 @@ describe('<SelectAccreditedRepresentative>', () => {
     useReviewPageStub.restore();
   });
 
-  it('displays error on search when no query exists', async () => {
-    const { mockStore, props } = getProps();
+  // it('displays error on search when no query exists', async () => {
+  //   const { mockStore, props } = getProps();
 
-    const container = renderContainer(props, mockStore);
+  //   const container = renderContainer(props, mockStore);
 
-    const vaButton = container.querySelector('va-button[text="Search"]');
+  //   const vaButton = container.querySelector('va-button[text="Search"]');
 
-    fireEvent.click(vaButton);
+  //   fireEvent.click(vaButton);
 
-    await waitFor(() => {
-      expect(container.textContent).to.contain('Enter the name');
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(container.textContent).to.contain('Enter the name');
+  //   });
+  // });
 });

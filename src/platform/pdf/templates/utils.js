@@ -189,7 +189,7 @@ const generateHeaderBanner = async (doc, header, data, config) => {
 
   doc.rect(config.margins.left, currentHeight - 4, 580, height).stroke();
 
-  doc.moveDown(3);
+  doc.moveDown(config.headerGap ?? 3);
 
   // This is an ugly hack that resets the document X position
   // so that the document header is shown correctly.
