@@ -176,7 +176,8 @@ export const convertChemHemRecord = record => {
       : EMPTY_FIELD,
     collectingLocation:
       extractLabLocation(record.performer, record) || EMPTY_FIELD,
-    comments: distillChemHemNotes(record.extension, 'valueString'),
+    comments:
+      distillChemHemNotes(record.extension, 'valueString') || EMPTY_FIELD,
     results: convertChemHemObservation(record),
     sampleTested: specimen?.type?.text || EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
@@ -253,7 +254,8 @@ const convertPathologyRecord = record => {
     dateCollected: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
       : EMPTY_FIELD,
-    sampleTested: specimen?.type?.text || EMPTY_FIELD,
+    sampleFrom: specimen?.type?.text || EMPTY_FIELD,
+    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
     results:

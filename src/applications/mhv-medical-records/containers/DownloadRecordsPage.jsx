@@ -9,7 +9,12 @@ import {
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { accessAlertTypes, pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  generateTextFile,
+  allAreDefined,
+} from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
@@ -58,15 +63,6 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
     },
     [dispatch],
   );
-
-  const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(
-      data =>
-        (typeof data === 'object' && Object.keys(data)?.length) ||
-        (typeof data === 'string' && data?.length) ||
-        (Array.isArray(data) && !!data?.length),
-    );
-  };
 
   const generatePdf = useCallback(
     async () => {
@@ -153,6 +149,11 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         ])
       ) {
         dispatch(getBlueButtonReportData());
@@ -165,18 +166,36 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         };
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+          user,
+          title,
+          subject,
+        )}`;
         const content = getTxtContent(recordData, user);
 
         generateTextFile(content, pdfName, user);
       }
     },
     [
+      accountSummary,
       allergies,
+      appointments,
       conditions,
+      demographics,
       dispatch,
+      dob,
       labsAndTests,
+      medications,
+      militaryService,
+      name,
       notes,
       user,
       vaccines,
