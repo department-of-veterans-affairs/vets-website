@@ -6,6 +6,7 @@
  */
 /* eslint-disable no-await-in-loop */
 
+import { capitalize } from 'lodash';
 import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
 import {
   createAccessibleDoc,
@@ -25,8 +26,8 @@ const config = {
   margins: {
     top: 40,
     bottom: 40,
-    left: 20,
-    right: 20,
+    left: 17,
+    right: 16,
   },
   headings: {
     H1: {
@@ -54,16 +55,31 @@ const config = {
     font: 'Bitter-Regular',
     size: 12,
   },
-  tocHeading: {
-    font: 'Bitter-Bold',
-    size: 14,
-  },
   text: {
     boldFont: 'SourceSansPro-Bold',
     monospaceFont: 'RobotoMono-Regular',
     font: 'SourceSansPro-Regular',
     size: 12,
   },
+  headerGap: 2.5,
+};
+
+const selfEnteredTypes = {
+  ACTIVITY_JOURNAL: 'activity journal',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  // GOALS: 'goals', // dont have this
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
 };
 
 const generateTitleSection = (doc, parent, data) => {
@@ -72,12 +88,12 @@ const generateTitleSection = (doc, parent, data) => {
   });
   parent.add(titleSection);
   titleSection.add(
-    createHeading(doc, 'H1', config, 'Blue Button report', {
+    createHeading(doc, 'H1', config, 'Self-entered health information report', {
       x: 20,
-      paragraphGap: 5,
+      paragraphGap: 16,
     }),
   );
-  const subTitleOptions = { lineGap: 6 };
+  const subTitleOptions = { lineGap: 3 };
 
   titleSection.add(
     doc.struct('P', () => {
@@ -85,10 +101,10 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          'This report includes key information from your VA medical records.',
+          "This report includes health information you entered yourself in My HealtheVet. Your VA health care team can't access this self-entered information. To share this information with your care team, print this report and bring it to your next appointment.",
           20,
           doc.y,
-          subTitleOptions,
+          { ...subTitleOptions, paragraphGap: 12 },
         );
     }),
   );
@@ -97,7 +113,12 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.name, 20, doc.y, subTitleOptions);
+        .text(
+          'If you want to add or edit self-entered health information, go to www.myhealth.va.gov',
+          20,
+          doc.y,
+          { ...subTitleOptions, paragraphGap: 12 },
+        );
     }),
   );
   titleSection.add(
@@ -105,93 +126,123 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(`Date of birth: ${data.dob}`, 20, doc.y, { lineGap: 20 });
+        .text(`Name: ${data.name}`, 20, doc.y, subTitleOptions);
+    }),
+  );
+  titleSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(`Date of birth: ${data.dob}`, 20, doc.y, subTitleOptions);
+    }),
+  );
+  titleSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(`Last updated: ${data.lastUpdated}`, 20, doc.y, subTitleOptions);
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
   titleSection.end();
 };
 
-const generateInfoSection = (doc, parent) => {
+const generateContentsSection = (doc, parent, data) => {
   const infoSection = doc.struct('Sect', {
     title: 'Information',
   });
-  infoSection.add(
-    createHeading(
-      doc,
-      'H2',
-      config,
-      'What to know about your Blue Button report',
-      { x: 20, paragraphGap: 12 },
-    ),
+  const missingRecordSets = Object.values(selfEnteredTypes).filter(
+    type => !data.recordSets.find(set => set.type === type),
   );
-  parent.add(infoSection);
-  infoSection.add(
-    doc.struct('List', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .list(
-          [
-            "If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.",
-            'Some records in this report are available 36 hours after providers enter them. This includes care summaries and notes, health condition records, and most lab and test results.',
-            "This report doesn't include information you entered yourself. To find information you entered yourself, go back to the previous version of Blue Button on the My HealtheVet website.",
-          ],
-          {
-            lineGap: 2,
-            paragraphGap: 10,
-            listType: 'bullet',
-            bulletRadius: 2,
-            bulletIndent: 20,
-            x: 6,
-          },
-        );
-    }),
-  );
+  const listOptions = {
+    lineGap: -2,
+    paragraphGap: 6,
+    listType: 'bullet',
+    bulletRadius: 2,
+    bulletIndent: 20,
+    x: 6,
+  };
 
-  doc.moveDown();
-  infoSection.end();
-};
+  if (data.recordSets.length === 0) {
+    infoSection.add(
+      createHeading(
+        doc,
+        'H2',
+        config,
+        "You don't have any self-entered health information",
+        { x: 20, paragraphGap: 12 },
+      ),
+    );
+    parent.add(infoSection);
+    infoSection.add(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(
+            'If you want to add or edit self-entered health information, go to www.myhealth.va.gov',
+            20,
+            doc.y,
+            { paragraphGap: 10 },
+          );
+      }),
+    );
+  } else {
+    infoSection.add(
+      createHeading(
+        doc,
+        'H2',
+        config,
+        'Types of self-entered information in this report',
+        { x: 20, paragraphGap: 12 },
+      ),
+    );
+    parent.add(infoSection);
+    infoSection.add(
+      doc.struct('List', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .list(
+            data.recordSets.map(item => capitalize(item.type)),
+            listOptions,
+          );
+      }),
+    );
+    doc.moveDown(0.75);
 
-const generateHelpSection = (doc, parent) => {
-  const infoSection = doc.struct('Sect', {
-    title: 'Information',
-  });
-  infoSection.add(
-    createHeading(doc, 'H2', config, 'Need help?', { x: 20, paragraphGap: 12 }),
-  );
-  parent.add(infoSection);
-  infoSection.add(
-    doc.struct('List', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .list(
-          [
-            'If you have questions about this report or you need to add information to your records, send a secure message to your care team.',
-            "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.",
-          ],
-          {
-            lineGap: 2,
-            paragraphGap: 10,
-            listType: 'bullet',
-            bulletRadius: 2,
-            bulletIndent: 20,
-            x: 6,
-          },
-        );
-    }),
-  );
+    if (missingRecordSets.length) {
+      infoSection.add(
+        createHeading(
+          doc,
+          'H2',
+          config,
+          "Types of information you haven't entered yet",
+          { x: 20, paragraphGap: 12 },
+        ),
+      );
+      infoSection.add(
+        doc.struct('List', () => {
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .list(missingRecordSets.map(type => capitalize(type)), listOptions);
+        }),
+      );
+      doc.moveDown(0.75);
+    }
+  }
 
-  doc.moveDown();
   infoSection.end();
 };
 
 const generateCoverPage = async (doc, parent, data) => {
   await generateTitleSection(doc, parent, data);
-  await generateInfoSection(doc, parent);
-  await generateHelpSection(doc, parent);
+  await generateContentsSection(doc, parent, data);
+  addHorizontalRule(doc, 20, 0.5, 0);
 };
 
 const validate = data => {
@@ -370,27 +421,9 @@ export const generateResultsContent = async (doc, parent, data) => {
       paragraphGap: 12,
       x: data.results.prefaceIndent || 30,
     };
-    if (Array.isArray(data.results.preface)) {
-      data.results.preface.forEach(item => {
-        results.add(
-          createSubHeading(doc, config, item.value, {
-            ...prefaceOptions,
-            ...item.prefaceOptions,
-          }),
-        );
-      });
-    } else if (typeof data.results.preface === 'object') {
-      results.add(
-        createSubHeading(doc, config, data.results.preface.value, {
-          ...prefaceOptions,
-          ...data.results.preface.prefaceOptions,
-        }),
-      );
-    } else {
-      results.add(
-        createSubHeading(doc, config, data.results.preface, prefaceOptions),
-      );
-    }
+    results.add(
+      createSubHeading(doc, config, data.results.preface, prefaceOptions),
+    );
   }
 
   const hasHorizontalRule = data.results.sectionSeparators !== false;
@@ -429,7 +462,6 @@ export const generateResultsContent = async (doc, parent, data) => {
 
 const generate = async data => {
   validate(data);
-  const tocPageData = {};
   const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);
@@ -441,20 +473,26 @@ const generate = async data => {
 
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
-
+  generateInitialHeaderContent(doc, wrapper, data, config);
   await generateCoverPage(doc, wrapper, data);
-  // doc.addPage({ margins: config.margins });
-  generateInitialHeaderContent(doc, wrapper, data, config, {
-    nameDobOnly: true,
-  });
+  const firstPageGenerated = false;
 
   for (const recordSet of data.recordSets) {
-    doc.addPage({ margins: config.margins });
-    const startPage = doc.bufferedPageRange().count;
-    tocPageData[recordSet.type] = { startPage };
-    generateInitialHeaderContent(doc, wrapper, data, config, {
-      headerBannerOnly: true,
-    });
+    if (!firstPageGenerated) {
+      doc.addPage({
+        margins: {
+          top: 30,
+          bottom: 40,
+          left: 17,
+          right: 16,
+        },
+      });
+      generateInitialHeaderContent(doc, wrapper, data, config, {
+        headerBannerOnly: true,
+      });
+    } else {
+      doc.addPage({ margins: config.margins });
+    }
     generateRecordSetIntroduction(doc, wrapper, recordSet);
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
@@ -478,11 +516,8 @@ const generate = async data => {
         await generateResultsContent(doc, wrapper, record);
       }
     }
-    const endPage = doc.bufferedPageRange().count;
-    tocPageData[recordSet.type].endPage = endPage;
+    // addHorizontalRule(doc, 20, 1.5, 1.5);
   }
-
-  // await generateTableOfContents(doc, wrapper, data, tocPageData);
 
   doc.font(config.text.font).fontSize(config.text.size);
   await generateFinalHeaderContent(doc, data, config);
