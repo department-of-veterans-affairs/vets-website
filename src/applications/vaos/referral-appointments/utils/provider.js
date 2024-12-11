@@ -62,4 +62,4 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
   return provider;
 };
 
-module.exports = { createProviderDetails };
+module.exports = { createProviderDetails, providers };

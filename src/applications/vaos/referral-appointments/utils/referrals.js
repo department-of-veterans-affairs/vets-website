@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 const { addDays, addMonths, format } = require('date-fns');
-
+const { providers } = require('./provider');
 /**
  * Creates a referral object relative to a start date.
  *
@@ -16,6 +16,7 @@ const createReferral = (startDate, uuid, providerId = '111') => {
 
   const mydFormat = 'yyyy-MM-dd';
   const mydWithTimeFormat = 'yyyy-MM-dd kk:mm:ss';
+  const provider = providers[providerId];
 
   return {
     ReferralCategory: 'Inpatient',
@@ -28,7 +29,7 @@ const createReferral = (startDate, uuid, providerId = '111') => {
     ReferringProvider: '534_520824810',
     SourceOfReferral: 'Interfaced from VA',
     Status: 'Approved',
-    CategoryOfCare: 'Cardiology',
+    CategoryOfCare: provider.typeOfCare,
     StationID: '528A4',
     Sta6: '534',
     ReferringProviderNPI: '534_520824810',
@@ -47,8 +48,8 @@ const createReferral = (startDate, uuid, providerId = '111') => {
     ReferralStatus: 'open',
     UUID: uuid,
     numberOfAppointments: 1,
-    providerName: 'Dr. Face',
-    providerLocation: 'New skin technologies bldg 2',
+    providerName: provider.providerName,
+    providerLocation: provider.providerLocation,
     providerId,
   };
 };
@@ -65,7 +66,7 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
   const baseDateObject = new Date(year, month - 1, day);
   const referrals = [];
   const baseUUID = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
-  const providers = ['111', '222'];
+  const providerIds = ['111', '222'];
   const isOdd = number => {
     return number % 2;
   };
@@ -78,7 +79,7 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
       createReferral(
         referralDate,
         `${baseUUID}${i.toString().padStart(2, '0')}`,
-        isOdd(i) ? providers[0] : providers[1],
+        isOdd(i) ? providerIds[0] : providerIds[1],
       ),
     );
   }
