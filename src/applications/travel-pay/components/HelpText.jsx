@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function HelpTextContent() {
+export default function HelpTextContent() {
   const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
 
   return (
     <div>
       <p>
-        To manage your travel claims, file a new claim, or learn what your claim
-        status means, go to our{' '}
+        To manage your travel claims or file a new claim, go to our{' '}
         <va-link
           external
           href={BTSSS_PORTAL_URL}
@@ -35,13 +34,3 @@ export function HelpTextContent() {
     </div>
   );
 }
-
-// export default function HelpText() {
-//   return (
-//     <div>
-//       <p>You can use this tool to check the status of your VA travel claims.</p>
-//       <h2>How to manage your claims or get more information</h2>
-//       <HelpTextContent />
-//     </div>
-//   );
-// }
