@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 const NavigationDropdown = ({
   btnText,
@@ -73,4 +74,16 @@ const NavigationDropdown = ({
     </div>
   );
 };
+
+NavigationDropdown.propTypes = {
+  btnText: PropTypes.string,
+  children: PropTypes.object,
+  className: PropTypes.string,
+  icon: PropTypes.string,
+  iconClassName: PropTypes.string,
+  name: PropTypes.string,
+  secondaryIcon: PropTypes.string,
+  srText: PropTypes.string,
+};
+
 export default NavigationDropdown;

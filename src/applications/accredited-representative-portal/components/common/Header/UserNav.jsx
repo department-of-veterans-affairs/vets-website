@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import UserNavLinks from './UserNavLinks';
 import UserHelpLinks from './UserHelpLinks';
 import NavigationDropdown from './NavigationDropdown';
@@ -71,4 +71,10 @@ const UserNav = ({ profile, isLoading }) => {
     </>
   );
 };
+
+UserNav.propTypes = {
+  isLoading: PropTypes.bool,
+  profile: PropTypes.string,
+};
+
 export default UserNav;
