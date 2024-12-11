@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
+import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
 /**
  * Usage uiSchema:
@@ -38,66 +37,88 @@ import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
-  const [file, setFile] = useState(null);
-  const formData = useSelector(state => state.form.data);
+  const [localFile, setLocalFile] = useState(null);
+  const [uploadInProgress, setUploadInProgress] = useState(false);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
 
-  const onFileUploaded = useCallback(
-    uploadedFile => {
-      if (uploadedFile.confirmationCode) {
-        props.childrenProps.onChange(uploadedFile);
-      }
-    },
-    [props.childrenProps],
-  );
-
-  const handleVaChangeBug = event => {
-    let newFile = event.detail.files[0];
-
-    // if the user is deleting the file, the files will be the same
-    if (areFilesEqual(file, newFile) || !newFile) {
-      newFile = null;
-      dispatch(
-        setData({
-          ...formData,
-          uploadedFile: {
-            confirmationCode: null,
-            isEncrypted: null,
-            name: null,
-            size: null,
-            warnings: null,
-          },
-        }),
-      );
+  useEffect(() => {
+    const { localFilePath } = props.childrenProps.formData;
+    if (localFilePath) {
+      const fetchFile = async () => {
+        await fetch(localFilePath)
+          .then(r => r.blob())
+          .then(blob =>
+            setLocalFile(
+              new File([blob], props.childrenProps.formData.name, {
+                type: 'application/pdf',
+              }),
+            ),
+          );
+      };
+      fetchFile();
     }
+  }, []);
 
-    setFile(newFile);
-
-    return newFile;
+  const onFileUploaded = async uploadedFile => {
+    if (uploadedFile.file) {
+      const {
+        confirmationCode,
+        isEncrypted,
+        name,
+        size,
+        warnings,
+      } = uploadedFile;
+      const localFilePath = URL.createObjectURL(uploadedFile.file);
+      props.childrenProps.onChange({
+        confirmationCode,
+        isEncrypted,
+        name,
+        size,
+        warnings,
+        localFilePath,
+      });
+      setLocalFile(uploadedFile.file);
+      setUploadInProgress(false);
+    }
   };
 
-  const handleVaChange = useCallback(
-    e => {
-      const newFile = handleVaChangeBug(e);
+  const handleVaChange = e => {
+    const fileFromEvent = e.detail.files[0];
+    if (!fileFromEvent) {
+      props.childrenProps.onChange({ localFilePath: '' });
+      setLocalFile(null);
+      setUploadInProgress(false);
+      return;
+    }
 
-      if (!newFile) {
-        return;
-      }
+    if (
+      localFile?.lastModified === fileFromEvent.lastModified &&
+      localFile?.size === fileFromEvent.size
+    ) {
+      // This guard clause protects against infinite looping/updating if the localFile and fileFromEvent are identical
+      return;
+    }
 
-      if (!props.onVaChange) {
-        dispatch(
-          uploadScannedForm(fileUploadUrl, formNumber, newFile, onFileUploaded),
-        );
-        return;
-      }
+    dispatch(
+      uploadScannedForm(
+        fileUploadUrl,
+        formNumber,
+        fileFromEvent,
+        onFileUploaded,
+        () => setUploadInProgress(true),
+      ),
+    );
+  };
 
-      props.onVaChange();
-    },
-    [file, dispatch, onFileUploaded, props.onVaChange],
+  return (
+    <VaFileInput
+      {...mappedProps}
+      error={uploadInProgress ? '' : mappedProps.error}
+      value={localFile}
+      onVaChange={handleVaChange}
+    />
   );
-
-  return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
 };
 
 VaFileInputField.propTypes = {
