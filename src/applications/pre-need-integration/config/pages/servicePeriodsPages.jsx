@@ -25,7 +25,8 @@ import {
   validateMilitaryHistory,
 } from '../../utils/helpers';
 // const { veteran } = fullSchemaPreNeed.properties.application.properties;
-import HighestRankAutoSuggest from '../../components/HighestRankAutoSuggest';
+import rankEnums from '../../utils/rankEnums';
+import { rankLabels } from '../../utils/rankLabels';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -238,19 +239,13 @@ function servicePeriodInformationPage(isVet, isPrep) {
           },
         },
       },
-      highestRank: {
-        // eslint-disable-next-line no-nested-ternary
-        'ui:title': isVet
-          ? isPrep
-            ? 'Applicant’s highest rank attained'
-            : 'Highest rank attained'
-          : 'Sponsor’s highest rank attained',
-        'ui:field': HighestRankAutoSuggest,
+      highestRank: autosuggest.uiSchema('Highest rank attained', null, {
         'ui:options': {
+          labels: rankLabels,
           hint:
             'This field may clear if the branch of service or service start and end dates are updated.',
         },
-      },
+      }),
       nationalGuardState: {
         'ui:title': 'State (for National Guard Service only)',
         'ui:options': {
@@ -367,7 +362,7 @@ function servicePeriodInformationPage(isVet, isPrep) {
         },
         highestRank: {
           type: 'string',
-          maxLength: 20,
+          enum: rankEnums,
         },
         nationalGuardState: {
           type: 'string',

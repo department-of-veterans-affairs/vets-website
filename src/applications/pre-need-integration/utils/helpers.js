@@ -32,7 +32,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
-import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import { rankLabels } from './rankLabels';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -1130,22 +1130,6 @@ export const validateMilitaryHistory = (
   serviceRecords,
   useAllFormData,
 ) => {
-  // // dispatch(setData(updatedFormData));
-
-  // Map the highestRank to the corresponding Rank Description from jsonData
-  const rankMap = jsonData.reduce((map, rank) => {
-    // eslint-disable-next-line no-param-reassign
-    map[rank['Rank Code'].toUpperCase()] = rank[
-      'Rank Description'
-    ].toUpperCase();
-    return map;
-  }, {});
-
-  // Create a list of valid rank descriptions
-  const validRanks = jsonData.map(rank =>
-    rank['Rank Description'].toUpperCase(),
-  );
-
   // for (let index = 0; index < serviceRecords.length; index++) {
   if (serviceRecords !== null && serviceRecords !== undefined) {
     // const serviceRecord = serviceRecords[index];
@@ -1176,17 +1160,22 @@ export const validateMilitaryHistory = (
       }
     }
 
-    // Validate if highestRank is valid using Rank Description
-    const highestRank = serviceRecord.highestRank?.toUpperCase();
-    const highestRankDescription = rankMap[highestRank] || highestRank;
-
-    if (
-      highestRankDescription &&
-      !validRanks.includes(highestRankDescription)
-    ) {
-      errors.highestRank.addError(
-        'Enter a valid rank, or leave this field blank.',
+    if (serviceRecord.serviceBranch) {
+      const branchFilteredRanks = jsonData.filter(
+        rank => rank['Branch Of Service Code'] === serviceRecord.serviceBranch,
       );
+      if (
+        serviceRecord.highestRank &&
+        !branchFilteredRanks.some(
+          rank => rank['Rank Code'] === serviceRecord.highestRank,
+        )
+      ) {
+        errors.highestRank.addError(
+          `This is not a valid rank for ${
+            serviceLabels[serviceRecord.serviceBranch]
+          }`,
+        );
+      }
     }
 
     // Date of birth validation
@@ -1267,14 +1256,13 @@ export const selfServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
+    highestRank: autosuggest.uiSchema('Highest rank attained', null, {
       'ui:options': {
+        labels: rankLabels,
         hint:
           'This field may clear if the branch of service or service start and end dates are updated.',
       },
-    },
+    }),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {
@@ -1332,14 +1320,17 @@ export const preparerServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Applicant’s highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
-      'ui:options': {
-        hint:
-          'This field may clear if the branch of service or service start and end dates are updated.',
+    highestRank: autosuggest.uiSchema(
+      'Applicant’s highest rank attained',
+      null,
+      {
+        'ui:options': {
+          labels: rankLabels,
+          hint:
+            'This field may clear if the branch of service or service start and end dates are updated.',
+        },
       },
-    },
+    ),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {

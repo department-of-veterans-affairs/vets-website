@@ -14,14 +14,6 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  /*
-  useEffect(() => {
-    console.log("Index in highest rank auto suggest: ", index);
-    console.log("Branch of service: ", branchOfService);    
-    console.log("Rank Options lenght: ", rankOptions.length);
-    console.log("Rank: ", rank);    
-  }, []);
-*/
   const extractIndex = id => {
     // const match = id.match(/serviceRecords_(\d+)_highestRank/);
     const match = id.match(/(\d+)\/service-period/);
