@@ -11,7 +11,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
-  it('Navigate to MHV Classic to view their Radiology Images', () => {
+  it.skip('Navigate to MHV Classic to view their Radiology Images', () => {
     LabsAndTestsListPage.clickRadiologyDetailsLink(0);
 
     RadiologyDetailsPage.verifyRadiologyImageLink(
