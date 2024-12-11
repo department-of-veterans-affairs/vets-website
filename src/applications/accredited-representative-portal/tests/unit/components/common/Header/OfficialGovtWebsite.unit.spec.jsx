@@ -9,18 +9,16 @@ describe('OfficialGovtWebsite', () => {
 
   it('renders toggle text on mobile', () => {
     const { getByTestId } = getOfficialGovtWebsiteMobile();
-    expect(getByTestId('official-govt-website-toggle').textContent).to.eq(
+    expect(getByTestId('official-govt-site-text').textContent).to.eq(
       'An official website of the United States government.',
     );
   });
 
   it('renders proper aria tag on click', () => {
     const { getByTestId } = getOfficialGovtWebsiteMobile();
-    fireEvent.click(getByTestId('official-govt-website-toggle'));
+    fireEvent.click(getByTestId('official-govt-site-toggle'));
     expect(
-      getByTestId('official-govt-website-content').getAttribute(
-        'aria-expanded',
-      ),
+      getByTestId('official-govt-site-content').getAttribute('aria-hidden'),
     ).to.eq('false');
   });
 });

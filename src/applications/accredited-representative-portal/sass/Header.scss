@@ -82,7 +82,7 @@
     width: max-content;
 
     &--user {
-      background-color: transparent;
+      background-color: transparent !important;
       box-shadow: none !important;
       display: flex;
     }
@@ -113,11 +113,13 @@
     margin-bottom: 48px;
 
     &--login {
-      margin-bottom: 0;
+      margin: 0 auto !important;
     }
 
     @media (min-width: $medium-screen) {
-      display: inline-flex;
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto 48px;
     }
   }
 
@@ -141,7 +143,7 @@
     &--desktop {
       height: auto;
       width: 636px;
-      margin: 24px 0 16px;
+      margin: 16px 5px 16px 0;
     }
 
     &-text {

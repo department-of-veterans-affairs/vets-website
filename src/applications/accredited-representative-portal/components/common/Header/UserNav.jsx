@@ -121,8 +121,6 @@ const UserNav = ({ isMobile }) => {
       </div>
     );
   }
-
-  return <div className="user-nav">{content}</div>;
 };
 
 UserNav.propTypes = {
