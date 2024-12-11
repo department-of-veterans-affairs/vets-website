@@ -69,14 +69,20 @@ const DevPanel = () => {
   const fetchStatus = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/status`);
-      const data = await response.json();
-      setProcesses(data);
+      const { processes: processStatus } = await response.json();
+      setProcesses(processStatus);
 
       // Setup or tear down event sources based on process status
-      Object.keys(data).forEach(processName => {
-        if (data[processName] && !eventSourcesRef.current[processName]) {
+      Object.keys(processStatus).forEach(processName => {
+        if (
+          processStatus[processName] &&
+          !eventSourcesRef.current[processName]
+        ) {
           eventSourcesRef.current[processName] = setupEventSource(processName);
-        } else if (!data[processName] && eventSourcesRef.current[processName]) {
+        } else if (
+          !processStatus[processName] &&
+          eventSourcesRef.current[processName]
+        ) {
           eventSourcesRef.current[processName].close();
           delete eventSourcesRef.current[processName];
         }

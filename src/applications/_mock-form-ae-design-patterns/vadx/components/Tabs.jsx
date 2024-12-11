@@ -57,10 +57,10 @@ export const Tabs = ({ tabs, activeTab: controlledActiveTab, onTabClick }) => {
   };
 
   return (
-    <div className="vads-l-grid-container">
+    <>
       <div
         role="tablist"
-        className="vads-u-border-bottom--2px vads-u-border-color--gray-light"
+        className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-right--1"
       >
         {tabs.map((tab, index) => (
           <button
@@ -71,19 +71,11 @@ export const Tabs = ({ tabs, activeTab: controlledActiveTab, onTabClick }) => {
               return el;
             }}
             className={`
-              vads-u-font-family--sans
-              vads-u-padding-y--1
-              vads-u-padding-x--2
-              vads-u-margin-bottom--neg2px
-              vads-u-border--2px
-              vads-u-border-bottom--0
-              vads-u-background-color--white
               ${
                 index === activeTab
-                  ? 'vads-u-color--primary vads-u-border-color--primary'
-                  : 'vads-u-color--gray vads-u-border-color--transparent'
+                  ? 'vads-u-color--white vads-u-background-color--primary vads-u-padding-y--0p5 vads-u-padding-x--2'
+                  : 'vads-u-color--primary vads-u-background-color--gray-lightest vads-u-padding-y--0p5 vads-u-padding-x--2'
               }
-              ${index === focusIndex ? 'vads-u-outline--none' : ''}
             `}
             id={`tab-${index}`}
             aria-selected={index === activeTab}
@@ -108,7 +100,7 @@ export const Tabs = ({ tabs, activeTab: controlledActiveTab, onTabClick }) => {
           {tab.content}
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
