@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import thunk from 'redux-thunk';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
@@ -37,5 +38,13 @@ describe('<ConfirmationPage>', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+  it('should show Alert if school is not accredited', () => {
+    const { container } = render(
+      <Provider store={mockStore(storeBase)}>
+        <ConfirmationPage isAccredited={false} />
+      </Provider>,
+    );
+    expect($('#additional-form-needed-alert', container)).to.exist;
   });
 });
