@@ -181,7 +181,6 @@ const SettingsPage = () => {
         }
         visible
       >
-        <p>Equal to VA Form 10-10163</p>
         {isSharing ? (
           <>
             <p>
@@ -191,9 +190,10 @@ const SettingsPage = () => {
             <p>
               By opting out, you certify that you’re taking this action freely,
               voluntarily, and without coercion. Your new sharing setting will
-              stay in effect, unless you opt back in. You can opt back in at any
+              stay in effect unless you opt back in. You can opt back in at any
               time.
             </p>
+            <p>Opting out is the same as submitting VA Form 10-10163.</p>
             <p>
               <strong>Note:</strong> We may still share your health information
               with your non-VA providers in other ways, including by mail or
@@ -209,8 +209,9 @@ const SettingsPage = () => {
             <p>
               By opting in, you certify that you’re taking this action freely,
               voluntarily, and without coercion. Your new sharing setting will
-              stay in effect, unless you opt out. You can opt out at any time.
+              stay in effect unless you opt out. You can opt out at any time.
             </p>
+            <p>Opting out is the same as submitting VA Form 10-10163.</p>
           </>
         )}
       </VaModal>
@@ -228,18 +229,26 @@ const SettingsPage = () => {
       </section>
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your electronic sharing settings
+          Manage your electronic sharing setting
         </h2>
         <p>
-          We securely share your electronic health information with
-          participating non-VA health care providers and federal partners when
-          they’re treating you.
+          If your sharing setting is “opted in,” we securely share your
+          electronic health information with participating non-VA health care
+          providers and federal partners when they’re treating you.
         </p>
         <p>
           We automatically include you in electronic sharing. You can change
-          your sharing settings at any time.
+          your sharing settings here at any time.
         </p>
 
+        {showSharingModal && sharingModalContent()}
+        {sharingCardContent()}
+      </section>
+      <section>
+        <p>
+          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
+          out or to opt back in, your request may be in process.
+        </p>
         <div className="vads-u-margin-bottom--3">
           <va-additional-info trigger="What your electronic health information includes">
             <ul>
@@ -261,14 +270,6 @@ const SettingsPage = () => {
             </ul>
           </va-additional-info>
         </div>
-        {showSharingModal && sharingModalContent()}
-        {sharingCardContent()}
-      </section>
-      <section>
-        <p>
-          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
-          out, or to opt back in, your request may be in process.
-        </p>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           Manage your notification settings
         </h2>
