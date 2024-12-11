@@ -74,8 +74,8 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       </h2>
       <p>
         Use this form if you disagree with VA’s decision on your initial or
-        supplemental claim, and want to request that a new review of your case
-        by a higher-level reviewer. You can’t submit any new evidence with a
+        supplemental claim, and want to request a new review of your case by a
+        higher-level reviewer. You can’t submit any new evidence with a
         Higher-Level Review.
       </p>
       <va-additional-info
