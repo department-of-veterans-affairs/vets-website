@@ -1,7 +1,6 @@
 import React from 'react';
 import OfficialGovtWebsite from './OfficialGovtWebsite';
 import Navigation from './Navigation';
-import './Header.scss';
 
 const Header = () => {
   return (

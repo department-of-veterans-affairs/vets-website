@@ -21,7 +21,10 @@ const UserNav = ({ profile, isLoading }) => {
     <>
       {profile ? (
         <>
-          <div className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center desktop">
+          <div
+            data-test-id="desktop-user-nav"
+            className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center desktop"
+          >
             <a
               href="/"
               className="usa-button nav__user-btn nav__user-btn--user "
@@ -32,6 +35,7 @@ const UserNav = ({ profile, isLoading }) => {
               title="profile dropdown"
               srText="toggle menu"
               icon="person"
+              dataTestId="user-nav-user-name"
               className="usa-button nav__user-btn nav__user-btn--user"
               name={`${profile.firstName} ${profile.lastName}`}
               secondaryIcon="chevron_left"
