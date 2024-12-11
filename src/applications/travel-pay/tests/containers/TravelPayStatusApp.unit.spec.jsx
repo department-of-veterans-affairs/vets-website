@@ -123,6 +123,17 @@ describe('App', () => {
     });
   });
 
+  it('should redirect the root path / to /claims/ and render the app.', async () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
+      initialState: getData(),
+      path: `/`,
+      reducers: reducer,
+    });
+    expect(
+      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
+    ).to.exist;
+  });
+
   it('should render loading state if feature flag is loading', async () => {
     const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
       initialState: getData(),
