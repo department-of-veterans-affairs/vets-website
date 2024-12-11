@@ -1,27 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
 import { SIGN_OUT_URL } from '../../../constants';
 
 const UserNavLinks = () => {
   return (
     <ul className="nav__user-list">
       <li>
-        <Link
+        <a
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
-          to="/insert-link"
+          href="/insert-link"
         >
           Profile
-        </Link>
+        </a>
       </li>
       <li>
-        <Link
+        <a
           data-testid="user-nav-sign-out-link"
           className="vads-u-color--black"
-          to={SIGN_OUT_URL}
+          href={SIGN_OUT_URL}
         >
           Sign Out
-        </Link>
+        </a>
       </li>
     </ul>
   );
