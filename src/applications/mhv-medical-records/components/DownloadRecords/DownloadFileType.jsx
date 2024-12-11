@@ -237,22 +237,40 @@ const DownloadFileType = props => {
           allergies,
           conditions,
           vitals,
+          medications,
+          appointments,
+          demographics,
+          militaryService,
+          accountSummary,
         ])
       ) {
         dispatch(getBlueButtonReportData());
       } else {
         setBlueButtonRequested(false);
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+          user,
+          title,
+          subject,
+        )}`;
         const content = getTxtContent(recordData, user);
 
         generateTextFile(content, pdfName, user);
       }
     },
     [
+      accountSummary,
       allergies,
+      appointments,
       conditions,
+      demographics,
       dispatch,
+      dob,
       labsAndTests,
+      medications,
+      militaryService,
+      name,
       notes,
       user,
       vaccines,
