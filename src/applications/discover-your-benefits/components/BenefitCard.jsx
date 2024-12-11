@@ -12,7 +12,7 @@ const BenefitCard = ({ benefit }) => {
   } = benefit;
   return (
     <div className="benefit-card vads-u-margin-bottom--2">
-      <va-card tabIndex="0">
+      <va-card>
         <>
           {isTimeSensitive && (
             <div className="blue-heading">
@@ -32,24 +32,30 @@ const BenefitCard = ({ benefit }) => {
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
             {learnMoreURL && (
-              <va-link
+              <a
                 href={learnMoreURL}
-                external
-                text="Learn more"
-                type="secondary"
-                label={`Learn more about ${name}`}
-              />
+                rel="noreferrer"
+                className="link--center"
+                aria-label={`Learn more about ${name}`}
+                target="_blank"
+              >
+                Learn more (opens in a new tab)
+                <span className="usa-sr-only">opens in a new tab</span>
+              </a>
             )}
           </div>
           <div className="vads-u-display--inline-block">
             {applyNowURL && (
-              <va-link
+              <a
                 href={applyNowURL}
-                external
-                text="Apply now"
-                type="secondary"
-                label={`Apply now for ${name}`}
-              />
+                rel="noreferrer"
+                className="link--center"
+                aria-label={`Apply now for ${name}`}
+                target="_blank"
+              >
+                Apply now (opens in a new tab)
+                <span className="usa-sr-only">opens in a new tab</span>
+              </a>
             )}
           </div>
         </div>
