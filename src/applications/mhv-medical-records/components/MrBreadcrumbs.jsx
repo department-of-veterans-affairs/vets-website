@@ -1,7 +1,7 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -12,9 +12,6 @@ const MrBreadcrumbs = () => {
   const history = useHistory();
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
-  const labsAndTestsDetails = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsDetails,
-  );
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
@@ -31,6 +28,7 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
+  const { labId } = useParams();
 
   useEffect(
     () => {
@@ -78,6 +76,10 @@ const MrBreadcrumbs = () => {
     history.push(href);
   };
 
+  const backToImagesBreadcrumb = location.pathname.includes('/images')
+    ? crumbsList[crumbsList.length - 1].href
+    : `/${locationBasePath}`;
+
   if (!phase0p5Flag) {
     if (location.pathname === '/' || !crumbsList) {
       return <div className="vads-u-padding-bottom--5" />;
@@ -99,7 +101,7 @@ const MrBreadcrumbs = () => {
   }
   if (
     phase0p5Flag &&
-    location.pathname === `/${locationBasePath}/${labsAndTestsDetails?.id}`
+    location.pathname.includes(`/${locationBasePath}/${labId}`)
   ) {
     return (
       <div
@@ -110,7 +112,7 @@ const MrBreadcrumbs = () => {
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={crumbsList[crumbsList.length - 1].href}>Back</Link>
+        <Link to={backToImagesBreadcrumb}>Back</Link>
       </div>
     );
   }
