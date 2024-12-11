@@ -7,9 +7,10 @@ const { addDays, addMonths, format } = require('date-fns');
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
+ * @param {String} providerId The ID for the provider
  * @returns {Object} Referral object
  */
-const createReferral = (startDate, uuid) => {
+const createReferral = (startDate, uuid, providerId = '111') => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
@@ -48,7 +49,7 @@ const createReferral = (startDate, uuid) => {
     numberOfAppointments: 1,
     providerName: 'Dr. Face',
     providerLocation: 'New skin technologies bldg 2',
-    providerId: '111',
+    providerId,
   };
 };
 
@@ -64,6 +65,11 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
   const baseDateObject = new Date(year, month - 1, day);
   const referrals = [];
   const baseUUID = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
+  const providers = ['111', '222'];
+  const isOdd = number => {
+    return number % 2;
+  };
+
   for (let i = 0; i < numberOfReferrals; i++) {
     const startDate = addDays(baseDateObject, i);
     const mydFormat = 'yyyy-MM-dd';
@@ -72,6 +78,7 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
       createReferral(
         referralDate,
         `${baseUUID}${i.toString().padStart(2, '0')}`,
+        isOdd(i) ? providers[0] : providers[1],
       ),
     );
   }
