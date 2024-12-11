@@ -1,13 +1,4 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { replaceEscapedCharacters } from 'platform/forms-system/src/js/utilities/replaceEscapedCharacters';
-
-const escapedCharacterReplacer = (_key, value) => {
-  if (typeof value === 'string') {
-    return replaceEscapedCharacters(value);
-  }
-
-  return value;
-};
 
 /**
  * Example:
@@ -24,11 +15,11 @@ const escapedCharacterReplacer = (_key, value) => {
  */
 export default function transformForSubmit(formConfig, form, options) {
   const transformedData = JSON.parse(
-    formsSystemTransformForSubmit(formConfig, form, options),
+    formsSystemTransformForSubmit(formConfig, form, {
+      ...options,
+      replaceEscapedCharacters: true,
+    }),
   );
 
-  return JSON.stringify(
-    { ...transformedData, formNumber: formConfig.formId },
-    escapedCharacterReplacer,
-  );
+  return JSON.stringify({ ...transformedData, formNumber: formConfig.formId });
 }
