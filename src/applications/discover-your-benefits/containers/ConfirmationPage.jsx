@@ -283,12 +283,11 @@ export class ConfirmationPage extends React.Component {
           visible
         >
           <h2>Benefits for transitioning service members</h2>
-          <div>
+          <p>
             We can help guide you as you transition from active-duty service or
-            from service in the Guard or Reserve. You'll need to act quickly to
-            take advantage of certaintime-senstitive benefits.
-          </div>
-          <span>
+            from service in the Guard or Reserve. You’ll need to act quickly to
+            take advantage of certain time-sensitive benefits.
+            <br />
             <va-link
               href="https://www.va.gov/service-member-benefits/"
               external
@@ -296,7 +295,7 @@ export class ConfirmationPage extends React.Component {
               type="secondary"
               label="Learn more about VA benefits for service members"
             />
-          </span>
+          </p>
         </va-alert>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
