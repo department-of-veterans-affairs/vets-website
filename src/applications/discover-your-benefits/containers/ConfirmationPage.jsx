@@ -27,7 +27,6 @@ export class ConfirmationPage extends React.Component {
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
-      showMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -35,7 +34,6 @@ export class ConfirmationPage extends React.Component {
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
     this.handleResultsData = this.handleResultsData.bind(this);
-    this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
   }
 
@@ -231,11 +229,6 @@ export class ConfirmationPage extends React.Component {
     );
   }
 
-  toggleMobileFiltersClass() {
-    const currentState = this.state.showMobileFilters;
-    this.setState({ showMobileFilters: !currentState });
-  }
-
   filterAndSort() {
     this.filterBenefits(this.sortBenefits);
     focusElement('#filter-text');
@@ -308,25 +301,11 @@ export class ConfirmationPage extends React.Component {
               </div>
             )}
             <div
-              className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-              id="filters-section-mobile-toggle"
-            >
-              <va-link-action
-                text="Filter and sort"
-                type="secondary"
-                onClick={() => this.toggleMobileFiltersClass()}
-                omKeyDown={() => this.toggleMobileFiltersClass()}
-                role="button"
-              />
-            </div>
-            <div
               id="filters-section-desktop"
               className={classNames({
                 'vads-l-col--12': true,
                 'medium-screen:vads-l-col--4': true,
                 'large-screen:vads-l-col--3': true,
-                'show-filters-section-mobile': this.state.showMobileFilters,
-                'hide-filters-section-mobile': !this.state.showMobileFilters,
               })}
             >
               <span>
