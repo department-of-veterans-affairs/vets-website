@@ -3,6 +3,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import transform from './transform';
+import { getFTECalcs } from '../helpers';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -21,6 +22,10 @@ const arrayBuilderOptions = {
   required: true,
   text: {
     getItemName: item => item.programName,
+    cardDescription: item => {
+      const percent = getFTECalcs(item).supportedFTEPercent;
+      return percent ? `${percent} supported student FTE` : null;
+    },
   },
 };
 
