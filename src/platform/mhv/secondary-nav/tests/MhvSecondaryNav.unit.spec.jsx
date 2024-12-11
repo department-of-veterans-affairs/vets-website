@@ -40,8 +40,8 @@ describe('<MhvSecondaryNav />', () => {
     const initialState = stateFn({ loading: false });
     const { getByRole } = setup({ initialState });
     getByRole('navigation', { name: 'My HealtheVet' });
-    const mrLink = getByRole('link', { name: /^My HealtheVet/ });
-    expect(mrLink.href).to.match(/my-health$/);
+    const mhvLink = getByRole('link', { name: /^My HealtheVet/ });
+    expect(mhvLink.href).to.match(/my-health$/);
   });
 
   describe('Medical Records href', () => {
