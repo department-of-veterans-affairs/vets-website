@@ -10,6 +10,25 @@ const BenefitCard = ({ benefit }) => {
     learnMoreURL,
     applyNowURL,
   } = benefit;
+
+  const renderLink = (url, text, label) => {
+    if (url) {
+      return (
+        <a
+          href={url}
+          rel="noreferrer"
+          className="link--center"
+          aria-label={label}
+          target="_blank"
+        >
+          {text} (opens in a new tab)
+          <span className="usa-sr-only">opens in a new tab</span>
+        </a>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="benefit-card vads-u-margin-bottom--2">
       <va-card>
@@ -31,32 +50,10 @@ const BenefitCard = ({ benefit }) => {
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
-            {learnMoreURL && (
-              <a
-                href={learnMoreURL}
-                rel="noreferrer"
-                className="link--center"
-                aria-label={`Learn more about ${name}`}
-                target="_blank"
-              >
-                Learn more (opens in a new tab)
-                <span className="usa-sr-only">opens in a new tab</span>
-              </a>
-            )}
+            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
           <div className="vads-u-display--inline-block">
-            {applyNowURL && (
-              <a
-                href={applyNowURL}
-                rel="noreferrer"
-                className="link--center"
-                aria-label={`Apply now for ${name}`}
-                target="_blank"
-              >
-                Apply now (opens in a new tab)
-                <span className="usa-sr-only">opens in a new tab</span>
-              </a>
-            )}
+            {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
           </div>
         </div>
       </va-card>
