@@ -21,13 +21,12 @@ export class ConfirmationPage extends React.Component {
     this.state = {
       hasResults: false,
       resultsCount: 0,
-      benefitIds: [],
+      benefitIds: {},
       sortValue: 'alphabetical',
       filterValue: 'All',
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
-      showMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -35,7 +34,6 @@ export class ConfirmationPage extends React.Component {
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
     this.handleResultsData = this.handleResultsData.bind(this);
-    this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
   }
 
@@ -231,11 +229,6 @@ export class ConfirmationPage extends React.Component {
     );
   }
 
-  toggleMobileFiltersClass() {
-    const currentState = this.state.showMobileFilters;
-    this.setState({ showMobileFilters: !currentState });
-  }
-
   filterAndSort() {
     this.filterBenefits(this.sortBenefits);
     focusElement('#filter-text');
@@ -246,18 +239,34 @@ export class ConfirmationPage extends React.Component {
       <div>
         <article>
           <div role="heading" aria-level="2">
-            <p>
-              {this.props.location.query.allBenefits ? (
-                <>Below are some benefits for you to explore.</>
-              ) : (
-                <>
+            {this.props.location.query.allBenefits ? (
+              <>
+                <p>
                   Based on your answers, we’ve suggested some benefits for you
                   to explore.
-                </>
-              )}
-              <br />
-              Remember to check your eligibility before you apply.
-            </p>
+                  <br />
+                  Remember to check your eligibility before you apply.
+                </p>
+                <p>
+                  These aren't your personalized benefit recommendations, but
+                  you can go back to your recommendations if you'd like.
+                </p>
+                <p>
+                  We're also planning to add more benefits and resources to this
+                  tool.
+                  <br />
+                  Check back soon to find more benefits you want to apply for.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Below are some benefits that this tool can recommend.
+                  <br />
+                  Remember to check your eligibility before you apply.
+                </p>
+              </>
+            )}
           </div>
         </article>
 
@@ -266,26 +275,20 @@ export class ConfirmationPage extends React.Component {
           status="info"
           visible
         >
-          <h2>Resources for transitioning service members</h2>
-          <span>
-            You may be eligible for some VA benefits if you're currently serving
-            on
-          </span>
-          <br />
-          <span>active duty, in the National Guard, or in the Reserves.</span>
-          <br />
-          <span>
+          <h2>Benefits for transitioning service members</h2>
+          <p>
+            We can help guide you as you transition from active-duty service or
+            from service in the Guard or Reserve. You’ll need to act quickly to
+            take advantage of certain time-sensitive benefits.
+            <br />
             <va-link
               href="https://www.va.gov/service-member-benefits/"
               external
-              text="Visit this page"
+              text="Learn more about VA benefits for service members"
               type="secondary"
-              label="visit this page"
-            />{' '}
-            to find out which benefits
-          </span>
-          <br />
-          <span>you may qualify for&mdash;and when to apply.</span>
+              label="Learn more about VA benefits for service members"
+            />
+          </p>
         </va-alert>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
@@ -298,25 +301,11 @@ export class ConfirmationPage extends React.Component {
               </div>
             )}
             <div
-              className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-              id="filters-section-mobile-toggle"
-            >
-              <va-link-action
-                text="Filter and sort"
-                type="secondary"
-                onClick={() => this.toggleMobileFiltersClass()}
-                omKeyDown={() => this.toggleMobileFiltersClass()}
-                role="button"
-              />
-            </div>
-            <div
               id="filters-section-desktop"
               className={classNames({
                 'vads-l-col--12': true,
                 'medium-screen:vads-l-col--4': true,
                 'large-screen:vads-l-col--3': true,
-                'show-filters-section-mobile': this.state.showMobileFilters,
-                'hide-filters-section-mobile': !this.state.showMobileFilters,
               })}
             >
               <span>
@@ -338,7 +327,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers and Employment
+                  Careers and employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability
@@ -347,22 +336,19 @@ export class ConfirmationPage extends React.Component {
                   Education
                 </option>
                 <option key="Health Care" value="Health Care">
-                  Health Care
+                  Health care
                 </option>
                 <option key="Housing" value="Housing">
-                  Housing Assistance
+                  Housing assistance
                 </option>
                 <option key="Life Insurance" value="Life Insurance">
-                  Life Insurance
+                  Life insurance
                 </option>
-                <option key="Loan Guaranty" value="Loan Guaranty">
-                  Loan Guaranty
+                <option key="Support" value="Support">
+                  More support
                 </option>
                 <option key="Pension" value="Pension">
                   Pension
-                </option>
-                <option key="Support" value="Support">
-                  More Support
                 </option>
               </VaSelect>
               <br />
@@ -466,6 +452,7 @@ function mapStateToProps(state) {
 }
 
 ConfirmationPage.propTypes = {
+  benefitIds: PropTypes.object,
   displayResults: PropTypes.func,
   formConfig: PropTypes.object,
   location: PropTypes.shape({
