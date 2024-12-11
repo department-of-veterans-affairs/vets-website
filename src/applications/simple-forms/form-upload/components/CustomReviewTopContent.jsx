@@ -10,7 +10,14 @@ import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
   const { form } = useSelector(state => state || {});
-  const { uploadedFile, idNumber, address, fullName } = form?.data;
+  const {
+    uploadedFile,
+    idNumber,
+    address,
+    fullName,
+    phoneNumber,
+    email,
+  } = form?.data;
 
   const renderFileInfo = file => (
     <VaCard style={{ maxWidth: '75%' }}>
@@ -53,6 +60,25 @@ const CustomReviewTopContent = () => {
     </div>
   );
 
+  const formattedPhoneNumber = () =>
+    `(${phoneNumber.substr(0, 3)}) ${phoneNumber.substr(
+      3,
+      3,
+    )}-${phoneNumber.substr(6, 4)}`;
+
+  const renderContactInfo = () => (
+    <div>
+      <div>
+        <p className="usa-hint">Phone number</p>
+        <p>{formattedPhoneNumber()}</p>
+      </div>
+      <div>
+        <p className="usa-hint">Email</p>
+        <p>{email}</p>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
@@ -67,6 +93,11 @@ const CustomReviewTopContent = () => {
         <VaTelephone contact="711" tty />
         ). We’re here Monday through Friday, 8:00am to 9:00pm ET.
       </p>
+      <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+        <h4>Contact information</h4>
+        <EditLink href={`/${getFormNumber()}/phone-number-and-email`} />
+      </div>
+      {renderContactInfo()}
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h4>Uploaded file</h4>
         <EditLink href={`/${getFormNumber()}/upload`} />
