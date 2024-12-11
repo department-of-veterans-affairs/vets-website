@@ -31,12 +31,10 @@ describe('ProgramsList component', () => {
   });
 
   // Helper function to mount the component with the provided loading state
-  const mountComponent = (loading = false) => {
+  const mountComponent = () => {
     store = mockStore({
       institutionPrograms: {
         ...initialState.institutionPrograms,
-        loading,
-        error: null,
       },
     });
 
@@ -189,8 +187,25 @@ describe('ProgramsList component', () => {
     wrapper.unmount();
   });
   it('displays the loading indicator when loading is true', () => {
-    // Mount the component with loading state set to true
-    const wrapper = mountComponent(true);
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: [],
+        loading: true,
+        error: null,
+      },
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router
+          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
+        >
+          <ProgramsList
+            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+          />
+        </Router>
+      </Provider>,
+    );
 
     // Check if the loading indicator is rendered
     const loadingIndicator = wrapper.find('va-loading-indicator');
