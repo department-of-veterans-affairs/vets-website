@@ -297,7 +297,7 @@ export class ConfirmationPage extends React.Component {
         <h2 className="vads-u-font-size--h3">
           {this.props.location.query.allBenefits
             ? 'All benefits'
-            : 'Benefits to explore'}
+            : 'Recommended benefits for you'}
         </h2>
 
         <div id="results-container" className="vads-l-grid-container">
