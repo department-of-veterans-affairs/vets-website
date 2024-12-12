@@ -13,7 +13,7 @@ describe('Medicaitons List component', () => {
     },
   };
   const pagination = {
-    currentPage: 2,
+    currentPage: 1,
     perPage: 20,
     totalPages: 12,
     totalEntries: 113,
