@@ -2,13 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { format, addMinutes, isWithinInterval } from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { format } from 'date-fns';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
+import {
+  getAddressString,
+  getSlotByDate,
+  getSlotById,
+  hasConflict,
+} from '../utils/provider';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -19,10 +24,10 @@ export const DateAndTimeContent = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const selectedDate = useSelector(state => getSelectedSlot(state));
+  const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-  const [date, setDate] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
@@ -35,88 +40,36 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
-  const getSlotByDate = useCallback(
-    dateTime => {
-      return provider.slots.find(slot => slot.start === dateTime);
-    },
-    [provider.slots],
-  );
-  const getSlotById = useCallback(
-    id => {
-      return provider.slots.find(slot => slot.id === id);
-    },
-    [provider.slots],
-  );
-  const fullAddress = addressObject => {
-    let addressString = addressObject.street1;
-    if (addressObject.street2) {
-      addressString = `${addressString}, ${addressObject.street2}`;
-    }
-    if (addressObject.street3) {
-      addressString = `${addressString}, ${addressObject.street3}`;
-    }
-    addressString = `${addressString}, ${addressObject.city}, ${
-      addressObject.state
-    }, ${addressObject.zip}`;
-    return addressString;
-  };
-
-  const hasConflict = useCallback(
+  useEffect(
     () => {
-      let conflict = false;
-      const selectedMonth = format(new Date(selectedDate), 'yyyy-MM');
-      if (!(selectedMonth in appointmentsByMonth)) {
-        return conflict;
+      if (selectedSlot) {
+        setSelectedDate(getSlotById(provider.slots, selectedSlot).start);
       }
-      const selectedDay = format(new Date(selectedDate), 'dd');
-      const monthOfApts = appointmentsByMonth[selectedMonth];
-      const daysWithApts = monthOfApts.map(apt => {
-        return format(new Date(apt.start), 'dd');
-      });
-      if (!daysWithApts.includes(selectedDay)) {
-        return conflict;
-      }
-      const unavailableTimes = monthOfApts.map(upcomingAppointment => {
-        return {
-          start: zonedTimeToUtc(
-            new Date(upcomingAppointment.start),
-            upcomingAppointment.timezone,
-          ),
-          end: zonedTimeToUtc(
-            addMinutes(
-              new Date(upcomingAppointment.start),
-              upcomingAppointment.minutesDuration,
-            ),
-            upcomingAppointment.timezone,
-          ),
-        };
-      });
-      unavailableTimes.forEach(range => {
-        if (
-          isWithinInterval(
-            zonedTimeToUtc(new Date(selectedDate), facilityTimeZone),
-            {
-              start: range.start,
-              end: range.end,
-            },
-          )
-        ) {
-          conflict = true;
-        }
-      });
-      return conflict;
     },
-    [facilityTimeZone, selectedDate, appointmentsByMonth],
+    [provider.slots, selectedSlot],
+  );
+  useEffect(
+    () => {
+      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
+      const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
+      if (!savedSlot) {
+        return;
+      }
+      dispatch(setSelectedSlot(savedSlot.id));
+    },
+    [dispatch, selectedSlotKey, provider.slots],
   );
   const onChange = useCallback(
     value => {
-      const selectedSlot = getSlotByDate(value[0]);
-      setError('');
-      dispatch(setSelectedSlot(selectedSlot.id));
-      setDate([selectedSlot.start]);
-      sessionStorage.setItem(selectedSlotKey, selectedSlot.id);
+      const newSlot = getSlotByDate(provider.slots, value[0]);
+      if (newSlot) {
+        setError('');
+        dispatch(setSelectedSlot(newSlot.id));
+        setSelectedDate(newSlot.start);
+        sessionStorage.setItem(selectedSlotKey, newSlot.id);
+      }
     },
-    [dispatch, getSlotByDate, selectedSlotKey],
+    [dispatch, provider.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
@@ -125,13 +78,16 @@ export const DateAndTimeContent = props => {
     if (error) {
       return;
     }
-    if (!selectedDate) {
+    if (!selectedSlot) {
       setError(
         'Please choose your preferred date and time for your appointment',
       );
       return;
     }
-    if (appointmentsByMonth && hasConflict()) {
+    if (
+      appointmentsByMonth &&
+      hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
+    ) {
       setError(
         'You already have an appointment at this time. Please select another day or time.',
       );
@@ -139,18 +95,7 @@ export const DateAndTimeContent = props => {
     }
     routeToNextReferralPage(history, currentPage, currentReferral.UUID);
   };
-  useEffect(
-    () => {
-      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(savedSelectedSlot);
-      if (!savedSlot) {
-        return;
-      }
-      dispatch(setSelectedSlot(savedSlot.id));
-      setDate([savedSlot.start]);
-    },
-    [dispatch, getSlotById, selectedSlotKey, provider.slots],
-  );
+
   return (
     <>
       <div>
@@ -197,7 +142,7 @@ export const DateAndTimeContent = props => {
             />
             <a
               data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
+              href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
                 provider.orgAddress,
               )}`}
               aria-label={`directions to ${provider.orgName}`}
@@ -232,7 +177,7 @@ export const DateAndTimeContent = props => {
         <CalendarWidget
           maxSelections={1}
           availableSlots={provider.slots}
-          value={date}
+          value={[selectedDate]}
           id="dateTime"
           timezone={facilityTimeZone}
           additionalOptions={{
