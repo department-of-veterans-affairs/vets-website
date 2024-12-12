@@ -16,6 +16,7 @@ const VaccinesListItem = props => {
       <Link
         to={`/vaccines/${record.id}`}
         data-dd-privacy="mask"
+        data-dd-action-name
         className="no-print"
         onClick={() => {
           sendDataDogAction('Vaccines Detail Link');
@@ -31,22 +32,25 @@ const VaccinesListItem = props => {
         className="print-only vads-u-margin-bottom--1 vads-u-margin-top--0"
         aria-hidden="true"
         data-dd-privacy="mask"
+        data-dd-action-name
       >
         {record.name}
       </h2>
 
       {/* fields */}
-      <div className="print-indent">
+      <div className="print-indent" data-dd-privacy="mask" data-dd-action-name>
         <span className="vads-u-display--inline print-bold">
           Date received:
         </span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.date}
-        </span>
+        <span className="vads-u-display--inline">{record.date}</span>
       </div>
       <div className="print-only print-indent">
         <span className="vads-u-display--inline print-bold">Location:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline"
+          data-dd-privacy="mask"
+          data-dd-action-name
+        >
           {record.location}
         </span>
       </div>

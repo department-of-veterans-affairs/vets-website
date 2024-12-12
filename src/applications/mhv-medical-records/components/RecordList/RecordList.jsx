@@ -78,6 +78,7 @@ const RecordList = props => {
         hidden={hidePagination}
         id="showingRecords"
         data-dd-privacy="mask"
+        data-dd-action-name
       >
         <span>
           {`Showing ${displayNums[0]} to ${
