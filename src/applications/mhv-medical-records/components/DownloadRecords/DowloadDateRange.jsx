@@ -7,8 +7,11 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { subMonths, format } from 'date-fns';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
+import { pageTitles } from '../../util/constants';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -40,6 +43,14 @@ const DownloadDateRange = () => {
       }
     },
     [setSelectedDate],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
   );
 
   useEffect(
