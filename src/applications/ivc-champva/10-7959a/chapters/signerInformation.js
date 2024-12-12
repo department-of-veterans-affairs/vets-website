@@ -24,6 +24,7 @@ export const certifierRoleSchema = {
       required: () => true,
       labels: {
         applicant: 'I’m the beneficiary submitting a claim for myself',
+        sponsor: 'I’m a Veteran submitting a claim for my spouse or dependent',
         other:
           'I’m a representative submitting a claim on behalf of the beneficiary',
       },
@@ -33,7 +34,7 @@ export const certifierRoleSchema = {
     type: 'object',
     properties: {
       titleSchema,
-      certifierRole: radioSchema(['applicant', 'other']),
+      certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
 };
