@@ -41,9 +41,6 @@ const EkgDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -99,11 +96,15 @@ const EkgDetails = props => {
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateEkgDetailsPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generateEkgTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2 className="vads-u-font-size--md vads-u-font-family--sans">
