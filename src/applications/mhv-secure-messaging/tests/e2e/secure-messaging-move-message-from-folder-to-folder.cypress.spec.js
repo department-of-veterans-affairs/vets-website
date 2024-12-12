@@ -27,7 +27,7 @@ describe('Secure Messaging Move Message tests', () => {
     PatientInboxPage.loadSingleThread(mockCustomMessagesResponse);
 
     FolderManagementPage.selectFolderFromModal();
-    FolderManagementPage.moveMessageToFolder();
+    FolderManagementPage.confirmMovingMessageToFolder();
 
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
@@ -41,7 +41,7 @@ describe('Secure Messaging Move Message tests', () => {
     PatientInboxPage.loadSingleThread(mockCustomMessagesResponse);
 
     FolderManagementPage.selectFolderFromModal();
-    FolderManagementPage.moveMessageToFolder();
+    FolderManagementPage.confirmMovingMessageToFolder();
 
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();

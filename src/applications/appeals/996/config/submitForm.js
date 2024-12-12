@@ -23,8 +23,9 @@ export const buildEventData = formData => {
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
+  const version = form.data.hlrUpdatedContent ? 'v2' : 'v1';
 
-  const url = `${environment.API_URL}/v1/${submitUrl}`;
+  const url = [environment.API_URL, version, submitUrl].join('/');
 
   // eventData for analytics
   const eventData = buildEventData(form.data);

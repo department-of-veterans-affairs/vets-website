@@ -35,13 +35,11 @@ export default {
   uiSchema: {
     'ui:title': generateTitle('Faster claim processing'),
     'ui:description': (
-      <>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          If you've uploaded all your supporting documents, you may be able to
-          get a faster decision on your claim. We call this the Fully Developed
-          Claims (FDC) program.
-        </p>
-      </>
+      <p>
+        If you've uploaded all your supporting documents, you may be able to get
+        a faster decision on your claim. We call this the Fully Developed Claims
+        (FDC) program.
+      </p>
     ),
     processOption: {
       ...yesNoUI({

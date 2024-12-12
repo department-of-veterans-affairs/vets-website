@@ -76,6 +76,18 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
   const className = nextClass;
   nextClass = '';
 
+  // for multiple lines of data under one label
+  if (Array.isArray(data)) {
+    return (
+      <li key={keyString} className={className}>
+        <div className="vads-u-color--gray">{label}</div>
+        {data.map((item, index) => {
+          return <div key={`${keyString}-${index}`}>{item}</div>;
+        })}
+      </li>
+    );
+  }
+
   return (
     <li key={keyString} className={className}>
       <div className="vads-u-color--gray">{label}</div>
@@ -87,7 +99,12 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
-  if (schema.properties[key] === undefined || !uiSchema) return null;
+
+  let schemaPropertiesKey = schema.properties?.[key];
+  if (schemaPropertiesKey?.$ref) {
+    schemaPropertiesKey = schemaFromState.properties?.[key];
+  }
+  if (schemaPropertiesKey === undefined || !uiSchema) return null;
 
   const {
     'ui:confirmationField': ConfirmationField,
@@ -111,7 +128,11 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
     refinedData = uiSchema['ui:options'].labels[refinedData];
   } else if (
-    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField' ||
+    (uiSchema?.['ui:field']?.WrappedComponent.name === 'FileField' &&
+      Array.isArray(data))
+    // may be able to remove Array.isArray check depending on
+    // non-array File Upload and how we render that
   ) {
     refinedData = data;
   } else if (
@@ -120,14 +141,17 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     refinedData = refinedData ? 'Selected' : '';
   }
 
-  const dataType = schema.properties[key].type;
+  const dataType = schemaPropertiesKey.type;
 
   if (ConfirmationField) {
     if (typeof ConfirmationField === 'function') {
-      const { data: confirmData = refinedData } = ConfirmationField({
+      const {
+        data: confirmData = refinedData,
+        label: confirmLabel = label,
+      } = ConfirmationField({
         formData: refinedData,
       });
-      return reviewEntry(description, key, uiSchema, label, confirmData);
+      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
     }
 
     if (isReactComponent(ConfirmationField)) {
@@ -172,7 +196,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         objKey,
         objVal,
         data[objKey],
-        schema.properties[key],
+        schemaPropertiesKey,
         schemaFromState?.properties?.[key],
       ),
     );
@@ -193,7 +217,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         arrKey,
         arrVal,
         data[index][arrKey],
-        schema.properties[key].items,
+        schemaPropertiesKey.items,
         schemaFromState?.properties?.[key].items?.[index],
       );
     });

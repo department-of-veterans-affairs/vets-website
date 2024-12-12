@@ -30,6 +30,7 @@ import {
   generateTextFile,
   getLastUpdatedText,
   formatNameFirstLast,
+  formatDateInLocalTimezone,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -49,6 +50,8 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -65,7 +68,7 @@ const VitalDetails = props => {
   const dispatch = useDispatch();
 
   const perPage = 10;
-  const [currentVitals, setCurrentVitals] = useState([]);
+  const [currentVitals, setCurrentVitals] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
@@ -80,6 +83,12 @@ const VitalDetails = props => {
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
+
+  const { isAcceleratingVitals } = useAcceleratedData();
+
+  if (records?.length === 0 && isAcceleratingVitals) {
+    window.location.replace('/my-health/medical-records/vitals');
+  }
 
   useListRefresh({
     listState,
@@ -250,18 +259,20 @@ Provider notes: ${vital.notes}\n\n`,
         </h1>
         <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vitalsList) &&
-            Array.isArray(updatedRecordList) &&
-            vitalsList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingVitals && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitalsList) &&
+              Array.isArray(updatedRecordList) &&
+              vitalsList.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
@@ -295,7 +306,9 @@ Provider notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {isAcceleratingVitals
+                    ? formatDateInLocalTimezone(vital.effectiveDateTime)
+                    : vital.date}
                 </h3>
                 <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
@@ -394,6 +407,7 @@ Provider notes: ${vital.notes}\n\n`,
       </>
     );
   }
+
   return (
     <div className="vads-u-margin-y--8">
       <va-loading-indicator

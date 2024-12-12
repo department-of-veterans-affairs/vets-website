@@ -14,6 +14,7 @@ import {
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption, filterCount } = props;
@@ -54,6 +55,12 @@ const MedicationsListFilter = props => {
 
   const handleFilterSubmit = () => {
     updateFilter(filterOption);
+    focusElement(document.getElementById('showingRx'));
+  };
+
+  const handleFilterReset = () => {
+    setFilterOption(ALL_MEDICATIONS_FILTER_KEY);
+    updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     focusElement(document.getElementById('showingRx'));
   };
 
@@ -111,14 +118,30 @@ const MedicationsListFilter = props => {
               value={option}
               description={filterOptions[option].description}
               checked={filterOption === option}
+              data-dd-action-name={
+                dataDogActionNames.medicationsListPage[option]
+              }
             />
           ))}
         </VaRadio>
         <VaButton
-          className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
           onClick={handleFilterSubmit}
           text="Apply filter"
           data-testid="filter-button"
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
+          }
+        />
+        <VaButton
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
+          secondary
+          onClick={handleFilterReset}
+          text="Reset filter"
+          data-testid="filter-reset-button"
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
+          }
         />
       </VaAccordionItem>
     </VaAccordion>

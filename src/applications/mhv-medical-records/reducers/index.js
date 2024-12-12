@@ -11,12 +11,16 @@ import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
 import { refreshReducer } from './refresh';
 import { pageTrackerReducer } from './pageTracker';
+import { imagesReducer } from './images';
+import { downloadsReducer } from './downloads';
+import { blueButtonReducer } from './blueButton';
 import { selfEnteredReducer } from './selfEnteredData';
 
 const rootReducer = {
   mr: combineReducers({
     allergies: allergyReducer,
     breadcrumbs: breadcrumbsReducer,
+    downloads: downloadsReducer,
     labsAndTests: labsAndTestsReducer,
     careSummariesAndNotes: careSummariesAndNotesReducer,
     vaccines: vaccineReducer,
@@ -26,6 +30,8 @@ const rootReducer = {
     alerts: alertsReducer,
     refresh: refreshReducer,
     pageTracker: pageTrackerReducer,
+    images: imagesReducer,
+    blueButton: blueButtonReducer,
     selfEntered: selfEnteredReducer,
   }),
 };
