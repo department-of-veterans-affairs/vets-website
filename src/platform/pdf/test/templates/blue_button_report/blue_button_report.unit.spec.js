@@ -40,13 +40,11 @@ describe('Blue Button report PDF template', () => {
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });
-      const { tag } = content.items[0];
+      const { tag } = content.items[20];
       expect(tag).to.equal('H1');
-      const text = content.items[5].str;
+      const text = content.items[22].str;
       expect(text.length).to.be.gt(0);
-      expect(text).to.equal(
-        'This report includes key information from your VA medical records.',
-      );
+      expect(text).to.equal('VA medical records');
     });
 
     it('All sections are contained by a root level Document element', async () => {
@@ -62,8 +60,9 @@ describe('Blue Button report PDF template', () => {
       // There should be one and only one root element.
       expect(structure.children.length).to.equal(1);
       expect(rootElement.role).to.equal('Document');
-      expect(rootElement.children.length).to.equal(4);
-      expect(rootElement.children[1].children[0].role).to.equal('H2');
+      expect(rootElement.children.length).to.equal(3);
+      expect(rootElement.children[1].children[0].role).to.equal('H1');
+      expect(rootElement.children[2].children[0].role).to.equal('H2');
     });
   });
 
@@ -72,7 +71,6 @@ describe('Blue Button report PDF template', () => {
       const data = require('./fixtures/all_sections.json');
       const { pdf } = await generateAndParsePdf(data);
 
-      // Fetch the first page
       const pageNumber = 3;
       const page = await pdf.getPage(pageNumber);
 
