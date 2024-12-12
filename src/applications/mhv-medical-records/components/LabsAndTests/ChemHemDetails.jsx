@@ -127,11 +127,15 @@ Lab comments: ${entry.labComments}\n`,
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateChemHemPdf}
         downloadTxt={generateChemHemTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">

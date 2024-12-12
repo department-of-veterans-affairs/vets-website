@@ -28,6 +28,7 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
+  sendDataDogAction,
   formatDateAndTime,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
@@ -332,11 +333,15 @@ ${record.results}`;
       />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={downloadPdf}
         downloadTxt={generateRadioloyTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
@@ -387,6 +392,9 @@ ${record.results}`;
               )}
               text="Request images on the My HealtheVet website"
               data-testid="radiology-images-link"
+              onClick={() => {
+                sendDataDogAction('Request images on MHV');
+              }}
             />
           </>
         )}

@@ -189,6 +189,7 @@ Provider notes: ${allergyData.notes} \n`;
 
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Allergies Detail"
             downloadPdf={generateAllergyPdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateAllergyTxt}

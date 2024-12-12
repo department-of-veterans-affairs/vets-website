@@ -248,6 +248,9 @@ Provider notes: ${vital.notes}\n\n`,
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
+    const ddDisplayName = vitalDisplayName.includes('Blood oxygen level')
+      ? 'Blood Oxygen'
+      : vitalDisplayName;
     return (
       <>
         <PrintHeader />
@@ -276,12 +279,16 @@ Provider notes: ${vital.notes}\n\n`,
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
+          description={ddDisplayName}
           downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
           list
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          description={ddDisplayName}
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 

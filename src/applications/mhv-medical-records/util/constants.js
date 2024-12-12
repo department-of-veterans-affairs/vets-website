@@ -318,6 +318,13 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
+  BLOOD_PRESSURE: '/vitals/blood-pressure-history',
+  BREATHING_RATE: '/vitals/breathing-rate-history',
+  HEART_RATE: '/vitals/heart-rate-history',
+  HEIGHT: '/vitals/height-history',
+  TEMPERATURE: '/vitals/temperature-history',
+  WEIGHT: '/vitals/weight-history',
 };
 
 export const Breadcrumbs = {
@@ -359,4 +366,31 @@ export const Breadcrumbs = {
     label: 'Download all medical records',
     isRouterLink: true,
   },
+  BLOOD_OXYGEN_LEVEL: {
+    href: Paths.BLOOD_OXYGEN_LEVEL,
+    label: 'Blood oxygen level',
+    isRouterLink: true,
+  },
+  BLOOD_PRESSURE: {
+    href: Paths.BLOOD_PRESSURE,
+    label: 'Blood pressure',
+    isRouterLink: true,
+  },
+  BREATHING_RATE: {
+    href: Paths.BREATHING_RATE,
+    label: 'Breathing rate',
+    isRouterLink: true,
+  },
+  HEART_RATE: {
+    href: Paths.HEART_RATE,
+    label: 'Heart rate',
+    isRouterLink: true,
+  },
+  HEIGHT: { href: Paths.HEIGHT, label: 'Height', isRouterLink: true },
+  TEMPERATURE: {
+    href: Paths.TEMPERATURE,
+    label: 'Temperature',
+    isRouterLink: true,
+  },
+  WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
