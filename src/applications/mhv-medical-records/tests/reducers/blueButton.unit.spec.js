@@ -432,7 +432,7 @@ describe('blueButtonReducer', () => {
       medicationsList: [],
       appointmentsList: [],
       demographics: [],
-      militaryService: '',
+      militaryService: undefined,
       accountSummary: {
         authenticationSummary: {},
         vaTreatmentFacilities: [],
@@ -441,5 +441,22 @@ describe('blueButtonReducer', () => {
 
     const newState = blueButtonReducer(initialState, action);
     expect(newState).to.deep.equal(expectedState);
+  });
+
+  it('should not overwrite data if keys are missing from the payload', () => {
+    const state = {
+      medicationsList: [],
+      appointmentsList: [],
+      demographics: [],
+      militaryService: 'Testing',
+      accountSummary: [],
+    };
+
+    const action = {
+      type: Actions.BlueButtonReport.GET,
+    };
+
+    const newState = blueButtonReducer(state, action);
+    expect(newState).to.deep.equal(state);
   });
 });
