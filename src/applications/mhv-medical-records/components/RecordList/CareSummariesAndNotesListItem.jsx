@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { loincCodes, dischargeSummarySortFields } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
@@ -48,6 +49,9 @@ const CareSummariesAndNotesListItem = props => {
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
           className="no-print"
+          onClick={() => {
+            sendDataDogAction('Care Summaries & Notes Detail Link');
+          }}
         >
           {record.name}
           <span className="sr-only" data-testid="sr-note-date">

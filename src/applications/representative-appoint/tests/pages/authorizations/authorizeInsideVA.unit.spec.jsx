@@ -5,15 +5,14 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
-describe('Claimant Relationship page', () => {
+describe('Authorize Inside VA page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInfo.pages.claimantRelationship;
+  } = formConfig.chapters.authorization.pages.authorizeInsideVA;
 
-  // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
     const { container } = render(
       <DefinitionTester

@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import { connect } from 'react-redux';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import CernerCallToAction from '../../../components/CernerCallToAction';
@@ -90,10 +89,6 @@ export const AuthContent = ({
         Find out how to apply for VA health care
       </a>
     </p>
-    <p>
-      <strong>And, you must have one of these free accounts:</strong>
-    </p>
-    <ServiceProvidersList />
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
       Online scheduling is available at all VA health facilities except in

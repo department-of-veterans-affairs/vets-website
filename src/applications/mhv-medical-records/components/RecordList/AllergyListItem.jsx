@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ItemList from '../shared/ItemList';
+import { sendDataDogAction } from '../../util/helpers';
 
 const AllergyListItem = props => {
   const { record } = props;
@@ -18,6 +19,9 @@ const AllergyListItem = props => {
           data-dd-privacy="mask"
           data-testid={`allergy-link-${record.id}`}
           className="no-print"
+          onClick={() => {
+            sendDataDogAction('Allergies Detail Link');
+          }}
         >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
         </Link>

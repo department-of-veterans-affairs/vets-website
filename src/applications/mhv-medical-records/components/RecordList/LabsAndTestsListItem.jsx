@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { labTypes } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
@@ -13,7 +14,13 @@ const LabsAndTestsListItem = props => {
       data-testid="record-list-item"
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-        <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
+        <Link
+          to={`/labs-and-tests/${record.id}`}
+          data-dd-privacy="mask"
+          onClick={() => {
+            sendDataDogAction('Lab and Test Results Detail Link');
+          }}
+        >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
         </Link>
       </div>
