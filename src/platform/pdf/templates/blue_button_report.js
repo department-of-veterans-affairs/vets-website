@@ -454,11 +454,11 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  await generateCoverPage(doc, wrapper, data);
-  // doc.addPage({ margins: config.margins });
   generateInitialHeaderContent(doc, wrapper, data, config, {
-    nameDobOnly: true,
+    nameDobOnly: false,
   });
+
+  await generateCoverPage(doc, wrapper, data);
 
   for (const recordSet of data.recordSets) {
     doc.addPage({ margins: config.margins });
