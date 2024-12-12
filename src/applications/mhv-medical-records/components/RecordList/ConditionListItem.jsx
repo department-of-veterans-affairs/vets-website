@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { sendDataDogAction } from '../../util/helpers';
 
 const ConditionListItem = props => {
   const { record } = props;
@@ -15,6 +16,9 @@ const ConditionListItem = props => {
         to={`/conditions/${record.id}`}
         data-dd-privacy="mask"
         className="no-print"
+        onClick={() => {
+          sendDataDogAction('Health Conditions Detail Link');
+        }}
       >
         <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>

@@ -9,7 +9,7 @@ import { Element } from 'platform/utilities/scroll';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { HelpTextContent } from './HelpText';
+import HelpTextContent from './HelpText';
 import BreadCrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 

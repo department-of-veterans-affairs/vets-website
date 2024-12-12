@@ -111,7 +111,7 @@ export const PreSubmitInfo = ({
               setTermsAndConditionsChecked(value.detail.checked)
             }
             error={termsAndConditionsError ? 'This field is mandatory' : null}
-            enable-analytics
+            data-testid="terms-and-conditions"
           />
           <VaCheckbox
             label="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"
@@ -123,7 +123,7 @@ export const PreSubmitInfo = ({
               setFormReplacementChecked(value.detail.checked)
             }
             error={formReplacementError ? 'This field is mandatory' : null}
-            enable-analytics
+            data-testid="form-replacement"
           />
         </VaCheckboxGroup>
       </div>

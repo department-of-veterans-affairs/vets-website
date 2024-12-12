@@ -44,9 +44,6 @@ const PathologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -76,10 +73,17 @@ ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
+Date and time collected: ${record.dateCollected}\n
 Site or sample tested: ${record.sampleTested} \n
+Collection sample: ${record.sampleFrom} \n
 Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
+'Your provider will review your results. If you need to do anything, 
+your provider will contact you. If you have questions, 
+send a message to the care team that ordered this test.\n
+'Note: If you have questions about more than 1 test ordered by the same care team, 
+send 1 message with all of your questions.\n
 ${record.results} \n`;
 
     const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
@@ -106,11 +110,15 @@ ${record.results} \n`;
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generatePathologyPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generatePathologyTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
@@ -119,6 +127,12 @@ ${record.results} \n`;
         </h3>
         <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
           {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Collection sample
+        </h3>
+        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+          {record.sampleFrom}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
@@ -134,7 +148,7 @@ ${record.results} \n`;
         </p>
       </div>
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
         <p
           data-testid="pathology-report"
