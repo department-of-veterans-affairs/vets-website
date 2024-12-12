@@ -858,8 +858,8 @@ export const formatFullName = (fullName = {}) => {
 
 /**
  * Uses an environment check to determine if changes should be visible. For now it
- * should display on staging or below environments
+ * should display on dev or below environments
  * @returns true if the updates should be used, false otherwise
  */
 export const show5103Updates = () =>
-  environment.isDev() || environment.isLocalhost() || environment.isStaging();
+  environment.isDev() || environment.isLocalhost();
