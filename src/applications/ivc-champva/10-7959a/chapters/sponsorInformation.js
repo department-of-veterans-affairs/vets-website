@@ -15,7 +15,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 const sponsorHint = (
   <>
     You selected that you’re the Veteran filling out this form for your spouse
-    or dependent. This means that you’re their sponsor (this is the Veteran or
+    or dependant. This means that you’re their sponsor (this is the Veteran or
     service member the beneficiary is connected to).
     <br />
     <br />
