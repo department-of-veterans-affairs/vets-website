@@ -32,7 +32,6 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 const autocompleteUiSchema = {
-  'ui:reviewField': ({ children }) => children,
   'ui:field': data => (
     <Autocomplete
       availableResults={Object.values(disabilityLabelsRevised)}
