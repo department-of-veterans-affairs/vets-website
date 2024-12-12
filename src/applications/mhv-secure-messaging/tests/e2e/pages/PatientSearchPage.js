@@ -75,7 +75,23 @@ class PatientSearchPage {
       .select(`${name}`, { force: true });
   };
 
-  createSearchMockResponse = (
+  createCategorySearchMockResponse = (
+    numberOfMessages,
+    category,
+    originalResponse,
+  ) => {
+    return {
+      data: originalResponse.data.slice(0, numberOfMessages).map(item => {
+        // deep copy of each item
+        const newItem = JSON.parse(JSON.stringify(item));
+        // update the category to provided data
+        newItem.attributes.category = category;
+        return newItem;
+      }),
+    };
+  };
+
+  createDateSearchMockResponse = (
     numberOfMessages,
     numberOfMonths,
     originalResponse = mockMessages,
@@ -98,20 +114,30 @@ class PatientSearchPage {
     cy.get(Locators.MESSAGES).should('have.length', mockResponse.data.length);
   };
 
+  verifySearchResponseCategory = name => {
+    cy.get(Locators.MESSAGES).should('contain', name);
+  };
+
+  verifySearchMessageLabel = (response, text) => {
+    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
+      .should('contain', response.data.length)
+      .and('contain', `Category: "${text}"`);
+  };
+
   verifyMessageDate = numberOfMonth => {
     cy.get(`.received-date`).each(message => {
       cy.wrap(message)
         .invoke('text')
         .then(dateString => {
-          // Extract and parse the date
+          // extract and parse the date
           const extractedDate = dateString.split(' at ')[0]; // "November 29, 2024"
           const parsedDate = new Date(extractedDate);
 
-          // Calculate three months back from the current date
+          // calculate three months back from the current date
           const threeMonthsBack = new Date();
           threeMonthsBack.setMonth(threeMonthsBack.getMonth() - numberOfMonth);
 
-          // Assert the date is within the last 3 months
+          // assert the date is within the last 3 months
           expect(parsedDate).to.be.gte(threeMonthsBack);
         });
     });

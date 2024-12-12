@@ -1,30 +1,32 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockSearchMessages from '../fixtures/searchResponses/search-COVID-results.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import mockMessages from '../fixtures/messages-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
 describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
+  const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
+    6,
+    'COVID',
+    mockMessages,
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.openAdvancedSearch();
     PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(mockSearchMessages);
+    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
   it('verify all inbox messages contain the searched category', () => {
-    cy.get(Locators.MESSAGES)
-      .should('contain', 'COVID')
-      .and('have.length', mockSearchMessages.data.length);
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+    PatientSearchPage.verifySearchResponseCategory('COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify the search message label', () => {
-    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
-      .should('contain', '4')
-      .and('contain', 'Category: "COVID"');
+    PatientSearchPage.verifySearchMessageLabel(searchResultResponse, 'COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -39,7 +41,7 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 3 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(2, 3);
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(2, 3);
 
     // TODO remove logging
     cy.log(JSON.stringify(searchResultResponse.data[0]));
@@ -55,7 +57,7 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 6 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(3, 6);
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(3, 6);
     // TODO remove logging
     // cy.log(JSON.stringify(searchResultResponse.data[1]));
 
@@ -71,7 +73,10 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 12 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(5, 12);
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+      5,
+      12,
+    );
     // TODO remove logging
     // cy.log(JSON.stringify(searchResultResponse.data[4]));
 

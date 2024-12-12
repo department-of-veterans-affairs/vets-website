@@ -1,12 +1,17 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockSearchMessages from '../fixtures/searchResponses/search-COVID-results.json';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
 describe('SM DRAFTS ADVANCED CATEGORY SEARCH', () => {
+  const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
+    4,
+    'COVID',
+    mockDraftMessages,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -14,21 +19,18 @@ describe('SM DRAFTS ADVANCED CATEGORY SEARCH', () => {
     FolderLoadPage.loadDraftMessages();
     PatientInboxPage.openAdvancedSearch();
     PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(mockSearchMessages);
+    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
   it('verify all draft messages contain the searched category', () => {
-    cy.get(Locators.MESSAGES)
-      .should('contain', 'COVID')
-      .and('have.length', mockSearchMessages.data.length);
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+    PatientSearchPage.verifySearchResponseCategory('COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify the search message label', () => {
-    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
-      .should('contain', mockSearchMessages.data.length)
-      .and('contain', 'Category: "COVID"');
+    PatientSearchPage.verifySearchMessageLabel(searchResultResponse, 'COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -45,7 +47,7 @@ describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 3 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       2,
       3,
       mockDraftMessages,
@@ -62,7 +64,7 @@ describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 6 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       3,
       6,
       mockDraftMessages,
@@ -79,7 +81,7 @@ describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 12 month', () => {
-    searchResultResponse = PatientSearchPage.createSearchMockResponse(
+    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       6,
       12,
       mockDraftMessages,
