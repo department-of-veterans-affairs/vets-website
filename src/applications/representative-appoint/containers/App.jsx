@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
+import { focusElement } from 'platform/utilities/ui/focus';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
@@ -12,9 +13,15 @@ import { getFormSubtitle } from '../utilities/helpers';
 
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
-
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
+
+  useEffect(
+    () => {
+      focusElement('.header');
+    },
+    [pathname],
+  );
 
   useEffect(
     () => {
@@ -34,17 +41,20 @@ function App({ loggedIn, location, children, formData, setFormData }) {
         ...defaultViewFields,
       });
     },
-    [loggedIn],
+    [formData, loggedIn, setFormData],
   );
 
-  // resetting user query between sessions
-  useEffect(() => {
-    setFormData({
-      ...formData,
-      'view:representativeQuery': '',
-      'view:representativeSearchResults': [],
-    });
-  }, []);
+  // Resetting user query between sessions
+  useEffect(
+    () => {
+      setFormData({
+        ...formData,
+        'view:representativeQuery': '',
+        'view:representativeSearchResults': [],
+      });
+    },
+    [formData, setFormData],
+  );
 
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
@@ -72,8 +82,8 @@ const mapDispatchToProps = {
 App.propTypes = {
   children: PropTypes.node,
   formData: PropTypes.object,
-  loggedIn: PropTypes.bool,
   location: PropTypes.object,
+  loggedIn: PropTypes.bool,
   setFormData: PropTypes.func,
 };
 
