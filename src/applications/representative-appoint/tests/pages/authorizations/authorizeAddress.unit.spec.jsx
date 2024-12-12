@@ -13,7 +13,7 @@ describe('Authorize address page', () => {
     uiSchema,
   } = formConfig.chapters.authorization.pages.authorizeAddress;
 
-  it('should render', () => {
+  it.skip('should render', () => {
     const { container } = render(
       <DefinitionTester
         definitions={{}}

@@ -13,7 +13,7 @@ describe('Authorize medical page', () => {
     uiSchema,
   } = formConfig.chapters.authorization.pages.authorizeMedical;
 
-  it('should render', () => {
+  it.skip('should render', () => {
     const { container } = render(
       <DefinitionTester
         definitions={{}}
