@@ -34,9 +34,7 @@ const ChangeOfAddressForm = ({
       return acc;
     }, {});
     const data =
-      Object.keys(transformedAddress).length === 0
-        ? formData
-        : transformedAddress;
+      Object.keys(formData).length === 0 ? transformedAddress : formData;
     const fSchema = getFormSchema(data);
 
     if (requiredArray.size === 0) {
