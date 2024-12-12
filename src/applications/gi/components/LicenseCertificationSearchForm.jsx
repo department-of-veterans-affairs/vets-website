@@ -13,7 +13,7 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const dropdownSchema = [
+export const dropdownInitial = [
   {
     label: 'category',
     options: [
@@ -57,8 +57,9 @@ export default function LicenseCertificationSearchForm({
   handleSearch,
   handleUpdateQueryParam,
   location,
+  history,
 }) {
-  const [dropdowns, setDropdowns] = useState(dropdownSchema);
+  const [dropdowns, setDropdowns] = useState(dropdownInitial);
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showStateAlert, setShowStateAlert] = useState(false);
 
@@ -71,6 +72,7 @@ export default function LicenseCertificationSearchForm({
     () => {
       const newSuggestions = filterLcResults(suggestions, name, {
         type: dropdowns[0].current.optionValue,
+        state: dropdowns[1].current.optionValue,
       });
 
       if (name.trim() !== '') {
@@ -87,7 +89,7 @@ export default function LicenseCertificationSearchForm({
   );
 
   const handleReset = () => {
-    setDropdowns(dropdownSchema);
+    history.replace('/lc-search');
   };
 
   const handleChange = e => {
