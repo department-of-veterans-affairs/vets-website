@@ -33,9 +33,11 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
+// TODO: On edit, allows previous index value to be the same as later index value
+// Note: Does not allow later index to be same as previous on edit
 const validateNotDuplicate = (err, fieldData, formData) => {
   const currentList =
-    formData?.conditionByCondition?.map(condition =>
+    formData?.[arrayBuilderOptions.arrayPath]?.map(condition =>
       condition.condition?.toLowerCase(),
     ) || [];
   const itemLowerCased = fieldData?.toLowerCase() || '';
