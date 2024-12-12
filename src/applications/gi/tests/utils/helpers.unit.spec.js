@@ -27,7 +27,7 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  updateLcFilterDropdowns,
+  handleUpdateLcFilterDropdowns,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -567,13 +567,13 @@ describe('GIBCT helpers:', () => {
     });
   });
 
-  describe('updateLcFilterDropdowns', () => {
+  describe('handleUpdateLcFilterDropdowns', () => {
     it('should update the correct dropdown with the selected option based on the target id and value', () => {
       const dropdowns = [
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
@@ -584,7 +584,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -603,7 +603,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
@@ -614,7 +614,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -623,7 +623,7 @@ describe('GIBCT helpers:', () => {
         },
       ];
 
-      const result = updateLcFilterDropdowns(dropdowns, target);
+      const result = handleUpdateLcFilterDropdowns(dropdowns, target);
 
       expect(result).to.deep.equal(expectedResult);
     });

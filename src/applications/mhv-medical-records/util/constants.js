@@ -7,6 +7,19 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const blueButtonRecordTypes = {
+  MEDICATIONS: 'medications',
+  APPOINTMENTS: 'appointments',
+  DEMOGRAPHICS: 'demographics',
+  MILITARY_SERVICE: 'military service',
+  ACCOUNT_SUMMARY: 'account summary',
+};
+
+export const medicationTypes = {
+  VA: 'va',
+  NON_VA: 'non-va',
+};
+
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
@@ -15,6 +28,7 @@ export const accessAlertTypes = {
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
   BLUE_BUTTON_REPORT: 'Blue Button report',
+  IMAGE_STATUS: 'image',
 };
 
 export const labTypes = {
@@ -118,63 +132,109 @@ export const interpretationMap = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+export const NONE_RECORDED = 'None recorded';
+export const NO_INFO_REPORTED = 'No information reported';
+export const NA = 'N/A';
+export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
 export const vitalTypes = {
-  BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  PULSE: 'PULSE',
-  RESPIRATION: 'RESPIRATION',
-  PULSE_OXIMETRY: 'PULSE_OXIMETRY',
-  TEMPERATURE: 'TEMPERATURE',
-  WEIGHT: 'WEIGHT',
-  HEIGHT: 'HEIGHT',
+  BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
+  PULSE: ['PULSE', 'HEART_RATE'],
+  RESPIRATION: ['RESPIRATION', 'RESPIRATORY_RATE'],
+  PULSE_OXIMETRY: ['PULSE_OXIMETRY', 'OXYGEN_SATURATION_IN_ARTERIAL_BLOOD'],
+  TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
+  WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
+  HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
+  PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
+};
+
+export const seiVitalTypes = {
+  BLOOD_PRESSURE: 'bloodPressure',
+  BLOOD_SUGAR: 'bloodSugar',
+  BODY_TEMPERATURE: 'bodyTemperature',
+  BODY_WEIGHT: 'bodyWeight',
+  CHOLESTEROL: 'cholesterol',
+  HEART_RATE: 'heartRate',
+  INR: 'inr',
+  PAIN: 'pain',
+  PULSE_OXIMETRY: 'pulseOximetry',
 };
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   PULSE: 'Heart rate',
+  HEART_RATE: 'Heart rate',
   RESPIRATION: 'Breathing rate',
+  RESPIRATORY_RATE: 'Breathing rate',
   PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
+  OXYGEN_SATURATION_IN_ARTERIAL_BLOOD: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
+  BODY_TEMPERATURE: 'Temperature',
+  BODY_WEIGHT: 'Weight',
   WEIGHT: 'Weight',
+  BODY_HEIGHT: 'Height',
   HEIGHT: 'Height',
+  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
+  PAIN_SEVERITY: 'Pain severity',
 };
 
 export const vitalUnitCodes = {
   BLOOD_PRESSURE: '',
   PULSE: '/min',
+  HEART_RATE: '/min',
   RESPIRATION: '/min',
+  RESPIRATORY_RATE: '/min',
   PULSE_OXIMETRY: '%',
   TEMPERATURE: '[degF]',
   WEIGHT: '[lb_av]',
+  BODY_WEIGHT: '[lb_av]',
   HEIGHT: '[in_i]',
+  BODY_HEIGHT: '[in_i]',
+  PAIN_SEVERITY: '',
 };
 
 export const vitalUnitDisplayText = {
   BLOOD_PRESSURE: '',
   PULSE: ' beats per minute',
+  HEART_RATE: ' beats per minute',
   RESPIRATION: ' breaths per minute',
+  RESPIRATORY_RATE: ' breaths per minute',
   PULSE_OXIMETRY: '%',
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
+  BODY_WEIGHT: ' pounds',
   HEIGHT: ' inches',
+  BODY_HEIGHT: ' inches',
+  PAIN_SEVERITY: '',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_PAGE_TITLE:
     'Lab And Test Results - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
+    'Lab And Test Results Details - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
+    'Care Summaries And Notes Details - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  VACCINE_DETAILS_PAGE_TITLE:
+    'Vaccine Details - Medical records | Veterans Affairs',
   ALLERGIES_PAGE_TITLE:
     'Allergies and Reactions - Medical Records | Veterans Affairs',
+  ALLERGY_DETAILS_PAGE_TITLE:
+    'Allergies And Reactions Details - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
+    'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download All Medical Records - Medical Records | Veterans Affairs',
@@ -182,11 +242,36 @@ export const pageTitles = {
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
 
+export const selfEnteredTypes = {
+  ACTIVITY_JOURNAL: 'activity journal',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
+};
+
 export const allergyTypes = {
   OBSERVED:
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const studyJobStatus = {
+  NONE: 'NONE',
+  NEW: 'NEW',
+  PROCESSING: 'PROCESSING',
+  COMPLETE: 'COMPLETE',
+  ERROR: 'ERROR',
 };
 
 export const refreshExtractTypes = {
@@ -213,6 +298,7 @@ export const refreshPhases = {
   IN_PROGRESS: 'in_progress',
   CURRENT: 'current',
   FAILED: 'failed',
+  CALL_FAILED: 'call_failed',
 };
 
 export const loadStates = {
@@ -242,6 +328,13 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
+  BLOOD_PRESSURE: '/vitals/blood-pressure-history',
+  BREATHING_RATE: '/vitals/breathing-rate-history',
+  HEART_RATE: '/vitals/heart-rate-history',
+  HEIGHT: '/vitals/height-history',
+  TEMPERATURE: '/vitals/temperature-history',
+  WEIGHT: '/vitals/weight-history',
 };
 
 export const Breadcrumbs = {
@@ -283,4 +376,31 @@ export const Breadcrumbs = {
     label: 'Download all medical records',
     isRouterLink: true,
   },
+  BLOOD_OXYGEN_LEVEL: {
+    href: Paths.BLOOD_OXYGEN_LEVEL,
+    label: 'Blood oxygen level',
+    isRouterLink: true,
+  },
+  BLOOD_PRESSURE: {
+    href: Paths.BLOOD_PRESSURE,
+    label: 'Blood pressure',
+    isRouterLink: true,
+  },
+  BREATHING_RATE: {
+    href: Paths.BREATHING_RATE,
+    label: 'Breathing rate',
+    isRouterLink: true,
+  },
+  HEART_RATE: {
+    href: Paths.HEART_RATE,
+    label: 'Heart rate',
+    isRouterLink: true,
+  },
+  HEIGHT: { href: Paths.HEIGHT, label: 'Height', isRouterLink: true },
+  TEMPERATURE: {
+    href: Paths.TEMPERATURE,
+    label: 'Temperature',
+    isRouterLink: true,
+  },
+  WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };

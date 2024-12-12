@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
@@ -28,7 +28,9 @@ import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
+import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import { routeToCCPage } from '../../../referral-appointments/flow';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -46,6 +48,7 @@ renderWarningNotification.propTypes = {
 };
 
 export default function AppointmentsPage() {
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -130,6 +133,11 @@ export default function AppointmentsPage() {
     [pendingAppointments],
   );
 
+  const handleCCLinkClick = e => {
+    e.preventDefault();
+    routeToCCPage(history, 'referralsAndRequests');
+  };
+
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
@@ -164,6 +172,7 @@ export default function AppointmentsPage() {
           <ReferralAppLink linkText="Review and manage your appointment notifications" />
         </div>
       )}
+      {featureCCDirectScheduling && <ReferralTaskCardWithReferral />}
       {featureCCDirectScheduling && (
         <div
           className={classNames(
@@ -181,6 +190,7 @@ export default function AppointmentsPage() {
             href="/my-health/appointments/referrals-requests"
             text="Review requests and referrals"
             data-testid="review-requests-and-referrals"
+            onClick={handleCCLinkClick}
           />
         </div>
       )}

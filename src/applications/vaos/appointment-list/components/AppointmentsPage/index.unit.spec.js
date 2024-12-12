@@ -17,6 +17,8 @@ import {
 import AppointmentsPage from '.';
 import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
+import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -537,6 +539,43 @@ describe('VAOS Page: AppointmentsPage', () => {
 
       expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
         .exist;
+
+      // Then it should not display the referral task card
+      expect(await screen.queryByTestId('referral-task-card')).not.to.exist;
+    });
+
+    describe('when a referral ID is passed', () => {
+      it('should display the referral task card', async () => {
+        // Given the veteran lands on the VAOS homepage with with a ID passed
+        // When the page displays
+        const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+          initialState: {
+            ...defaultState,
+            referral: {
+              facility: null,
+              referrals: [
+                createReferral(
+                  moment().format('YYYY-MM-DD'),
+                  'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+                ),
+              ],
+              referralFetchStatus: FETCH_STATUS.succeeded,
+            },
+          },
+          path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+        });
+
+        await screen.findByRole('heading', { name: 'Appointments' });
+
+        expect(await screen.findByTestId('review-requests-and-referrals')).to
+          .exist;
+
+        expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
+          .exist;
+
+        // Then it should display the referral task card
+        expect(await screen.findByTestId('referral-task-card')).to.exist;
+      });
     });
   });
 });

@@ -67,8 +67,8 @@
           "postalCode": "12345"
         },
         "fullName": {
-          "first": "Marvolo",
-          "last": "Doe"
+          "first": "Tom",
+          "last": "Riddle"
         },
         "ssn": "333445555",
         "birthDate": "1991-10-19"
@@ -79,14 +79,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -113,7 +112,7 @@
     "schoolInformation": { "address": {} },
     "currentTermDates": {},
     "programInformation": {},
-    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false},
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "spouseIncome": false},
     "veteranInformation": {
       "fullName": { "first": "Greg", "middle": "A", "last": "Anderson" },
       "ssn": "796121200",

@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
+    mhvMedicationsDisplayGrouping = true,
 
     // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
@@ -20,7 +21,11 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
+    mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
+    mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvIntegrationMedicalRecordsToPhase1 = true,
   } = toggles;
 
   return {
@@ -32,8 +37,16 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
+          name: 'mhv_accelerated_delivery_enabled',
+          value: mhvAcceleratedDeliveryEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_vital_signs_enabled',
+          value: mhvAcceleratedDeliveryVitalSignsEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
@@ -55,11 +68,15 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_display_filter',
           value: mhvMedicationsDisplayFilter,
         },
+        {
+          name: 'mhv_medications_display_grouping',
+          value: mhvMedicationsDisplayGrouping,
+        },
 
         // medical records
         {
           name: 'mhv_integration_medical_records_to_phase_1',
-          value: true,
+          value: mhvIntegrationMedicalRecordsToPhase1,
         },
         {
           name: 'mhv_medical_records_kill_external_links',
@@ -116,6 +133,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
+        },
+        {
+          name: 'mhv_secure_messaging_recipient_opt_groups',
+          value: mhvSecureMessagingRecipientOptGroups,
         },
       ],
     },

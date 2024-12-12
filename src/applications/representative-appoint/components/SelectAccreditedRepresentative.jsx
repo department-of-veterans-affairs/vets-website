@@ -27,9 +27,7 @@ const SelectAccreditedRepresentative = props => {
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const currentSelectedRep = useRef(
-    formData?.['view:representativeSearchResults'],
-  );
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
   const query = formData['view:representativeQuery'];
   const invalidQuery = query === undefined || !query.trim();
@@ -77,7 +75,7 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep) {
+      if (selection === currentSelectedRep.current) {
         goToPath('/review-and-submit');
       } else {
         goToPath('/representative-contact?review=true');
@@ -111,7 +109,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep) {
+    if (selectedRepResult === currentSelectedRep.current && isReviewPage) {
       goToPath('/review-and-submit');
     } else {
       const repStatus = await getRepStatus();
@@ -141,31 +139,14 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  // const continueError = () => {
-  //   return (
-  //     <span
-  //       className="usa-input-error-message vads-u-margin-bottom--0p5"
-  //       role="alert"
-  //     >
-  //       <span className="sr-only">Error</span>
-  //       {}
-  //     </span>
-  //   );
-  // };
-
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
   }
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--5 ">
-        Select the accredited representative or VSO you’d like to appoint
-      </h3>
-      <p className="vads-u-margin-bottom--0">
-        Enter the name of the accredited representative or Veterans Service
-        Organization (VSO) you’d like to appoint
-      </p>
+      <h3>Select the accredited representative or VSO you’d like to appoint</h3>
+
       <SearchInput
         error={error}
         formData={formData}
@@ -197,7 +178,7 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find a VA accredited representative or VSO (opens in new tab)"
+        text="Find a VA accredited representative or VSO"
         external
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />

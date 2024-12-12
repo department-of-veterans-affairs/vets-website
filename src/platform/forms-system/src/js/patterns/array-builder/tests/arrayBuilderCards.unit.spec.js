@@ -72,7 +72,7 @@ describe('ArrayBuilderCards', () => {
       <Provider store={mockStore}>
         <ArrayBuilderCards
           arrayPath="employers"
-          editItemPathUrl="edit"
+          getEditItemPathUrl={() => 'edit'}
           nounSingular="employer"
           onRemoveAll={onRemoveAll}
           onRemove={onRemove}

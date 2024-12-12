@@ -5,7 +5,7 @@ import {
   getDefaultState,
   getSearchAction,
   getSearchIndex,
-} from '../../../../utils/helpers/listloop-pattern';
+} from '../../../../utils/helpers';
 
 describe('hca `getDataToSet` method', () => {
   const listRef = [{ name: 'John' }, { name: 'Jane' }, { name: 'Mary' }];

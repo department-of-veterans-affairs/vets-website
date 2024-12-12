@@ -19,13 +19,21 @@ const NewRecordsIndicator = ({
 
   const refreshPhase = useMemo(
     () => {
+      if (refreshState.phase === refreshPhases.CALL_FAILED) {
+        return refreshPhases.CALL_FAILED;
+      }
       return getStatusExtractPhase(
         refreshState.statusDate,
         refreshState.status,
         extractType,
       );
     },
-    [extractType, refreshState.status, refreshState.statusDate],
+    [
+      extractType,
+      refreshState.status,
+      refreshState.statusDate,
+      refreshState.phase,
+    ],
   );
 
   useEffect(
@@ -99,6 +107,31 @@ const NewRecordsIndicator = ({
 
   const content = () => {
     if (refreshedOnThisPage) {
+      if (refreshPhase === refreshPhases.CALL_FAILED) {
+        return (
+          <va-alert
+            status="warning"
+            visible
+            aria-live="polite"
+            data-testid="new-records-refreshed-call_failed"
+          >
+            <h2>Your records may not be up to date.</h2>
+            <p>
+              There’s a problem with our system, and we can’t access the date
+              your records were last updated. We’re sorry.
+            </p>
+
+            <p> Please check back later for updates.</p>
+
+            <p>
+              If it still doesn’t work, call us at call us at{' '}
+              <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+              <va-telephone tty contact={CONTACTS['711']} />
+              ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
+            </p>
+          </va-alert>
+        );
+      }
       if (refreshPhase === refreshPhases.FAILED) {
         return failedMsg();
       }

@@ -67,7 +67,7 @@ export default function ConfirmationPage({ router }) {
             ? "Please confirm that you've downloaded, printed, and signed your form."
             : null
         }
-        label="I've downloaded, printed, and signed my form"
+        label="I’ve downloaded, printed, and signed my form"
         name="signedForm"
         required
         onVaChange={handlers.onChangeSignedFormCheckbox}
