@@ -140,6 +140,7 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
+        // TODO: pass last updated date in and use.
         .text(`Last updated at ????`, 20, doc.y, { lineGap: 20 });
     }),
   );
@@ -148,17 +149,55 @@ const generateTitleSection = (doc, parent, data) => {
   titleSection.end();
 };
 
-const generateInfoSection = (doc, parent) => {
-  const infoSection = doc.struct('Sect', {
-    title: 'Information',
+const generateDateRangeParagraph = (section, doc, data) => {
+  section.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text('Date range: ', 20, doc.y, {
+          continued: true,
+        });
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(`${data.fromDate} to ${data.toDate}`, 20, doc.y, {
+          paragraphOptions: { lineGap: 20 },
+          continued: false,
+        });
+    }),
+  );
+  doc.moveDown();
+};
+
+const getAvailableRecordSets = recordSets => {
+  return recordSets.filter(recordSet => {
+    if (Array.isArray(recordSet.records)) {
+      return recordSet.records.length;
+    }
+    return recordSet.records.results?.length;
   });
+};
+
+const getUnavailableRecordSets = recordSets => {
+  return recordSets.filter(recordSet => {
+    if (Array.isArray(recordSet.records)) {
+      return recordSet.records.length === 0;
+    }
+    return recordSet.records.results?.length === 0;
+  });
+};
+
+const generateInfoForAvailableRecords = (infoSection, doc, data) => {
   infoSection.add(
-    createHeading(doc, 'H1', config, 'VA medical records', {
+    createHeading(doc, 'H2', config, 'Records in this report', {
       x: 20,
       paragraphGap: 12,
     }),
   );
-  parent.add(infoSection);
+
+  generateDateRangeParagraph(infoSection, doc, data);
+
   infoSection.add(
     doc.struct('P', () => {
       doc
@@ -174,36 +213,113 @@ const generateInfoSection = (doc, parent) => {
 
   doc.moveDown();
 
+  const listOptions = {
+    lineGap: -2,
+    paragraphGap: 6,
+    listType: 'bullet',
+    bulletRadius: 2,
+    bulletIndent: 20,
+    x: 6,
+  };
+  infoSection.add(
+    doc.struct('List', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .list(
+          getAvailableRecordSets(data.recordSets).map(
+            recordSet => recordSet.title,
+          ),
+          listOptions,
+        );
+    }),
+  );
+};
+
+const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
+  doc.moveDown();
+
+  infoSection.add(
+    createHeading(doc, 'H2', config, 'Records not in this report', {
+      x: 20,
+      paragraphGap: 12,
+    }),
+  );
+
   infoSection.add(
     doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Note: ', 20, doc.y, {
-          continued: true,
-        });
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          "This report doesn't include information you entered yourself. To find information you entered yourself, download a self-entered health information report.",
+          "You don't have any VA medical records in these categories you selected for this report:",
           20,
           doc.y,
-          {
-            paragraphOptions: { lineGap: 20 },
-            continued: false,
-          },
         );
     }),
   );
 
   doc.moveDown();
+
+  const listOptions = {
+    lineGap: -2,
+    paragraphGap: 6,
+    listType: 'bullet',
+    bulletRadius: 2,
+    bulletIndent: 20,
+    x: 6,
+  };
+  infoSection.add(
+    doc.struct('List', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .list(
+          getUnavailableRecordSets(data.recordSets).map(
+            recordSet => recordSet.title,
+          ),
+          listOptions,
+        );
+    }),
+  );
+
+  doc.moveDown();
+
+  infoSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(
+          'If you think you should have records in these categories, contact your VA health facility.',
+          20,
+          doc.y,
+        );
+    }),
+  );
+};
+
+const generateInfoSection = (doc, parent, data) => {
+  const infoSection = doc.struct('Sect', {
+    title: 'Information',
+  });
+  parent.add(infoSection);
+
+  generateInfoForAvailableRecords(infoSection, doc, data);
+
+  if (getUnavailableRecordSets(data.recordSets).length) {
+    generateInfoForUnavailableRecords(infoSection, doc, data);
+  }
+
+  // Add horizontal rule
+  addHorizontalRule(doc, 30, 1.5, 1.5);
+
   infoSection.end();
 };
 
 const generateCoverPage = async (doc, parent, data) => {
   await generateTitleSection(doc, parent, data);
-  await generateInfoSection(doc, parent);
+  await generateInfoSection(doc, parent, data);
 };
 
 const validate = data => {

@@ -20,6 +20,7 @@ import {
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
+
 import { clearAlerts } from '../../actions/alerts';
 
 const DownloadFileType = props => {
@@ -246,6 +247,8 @@ const DownloadFileType = props => {
         const scaffold = generatePdfScaffold(user, title, subject);
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
         const pdfData = {
+          fromDate: formatDateLong(filterFromDate),
+          toDate: formatDateLong(filterToDate),
           recordSets: generateBlueButtonData(recordData),
           ...scaffold,
           name,
@@ -254,7 +257,17 @@ const DownloadFileType = props => {
         makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
       }
     },
-    [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
+    [
+      dispatch,
+      dob,
+      filterFromDate,
+      filterToDate,
+      isDataFetched,
+      name,
+      recordData,
+      runningUnitTest,
+      user,
+    ],
   );
 
   const generateTxt = useCallback(
