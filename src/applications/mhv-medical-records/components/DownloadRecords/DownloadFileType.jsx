@@ -249,7 +249,7 @@ const DownloadFileType = props => {
         const pdfData = {
           fromDate: formatDateLong(filterFromDate),
           toDate: formatDateLong(filterToDate),
-          recordSets: generateBlueButtonData(recordData),
+          recordSets: generateBlueButtonData(recordData, recordFilter),
           ...scaffold,
           name,
           dob,
@@ -265,6 +265,7 @@ const DownloadFileType = props => {
       isDataFetched,
       name,
       recordData,
+      recordFilter,
       runningUnitTest,
       user,
     ],

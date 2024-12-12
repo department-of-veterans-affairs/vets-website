@@ -172,6 +172,7 @@ const generateDateRangeParagraph = (section, doc, data) => {
 
 const getAvailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
+    if (!recordSet.selected) return false;
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
     }
@@ -181,6 +182,7 @@ const getAvailableRecordSets = recordSets => {
 
 const getUnavailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
+    if (!recordSet.selected) return false;
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
     }
@@ -576,7 +578,7 @@ const generate = async data => {
 
   await generateCoverPage(doc, wrapper, data);
 
-  for (const recordSet of data.recordSets) {
+  for (const recordSet of getAvailableRecordSets(data.recordSets)) {
     doc.addPage({ margins: config.margins });
     const startPage = doc.bufferedPageRange().count;
     tocPageData[recordSet.type] = { startPage };
