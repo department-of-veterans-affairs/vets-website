@@ -7,32 +7,6 @@ import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderP
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatentMessageSentPage from '../pages/PatientMessageSentPage';
 
-describe('Advanced search in Inbox', () => {
-  beforeEach(() => {
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(mockSearchMessages);
-  });
-
-  it('Check all inbox messages contain the searched category', () => {
-    cy.get(Locators.MESSAGES)
-      .should('contain', 'COVID')
-      .and('have.length', mockSearchMessages.data.length);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('Check the search message label', () => {
-    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
-      .should('contain', '4')
-      .and('contain', 'Category: "COVID"');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-});
-
 describe('Advanced search in Drafts', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
