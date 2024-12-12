@@ -47,7 +47,7 @@ const VaFileInputField = props => {
   const { fileUploadUrl } = mappedProps;
 
   useEffect(() => {
-    const localFileAsString = localStorage.getItem('uploadedFile');
+    const localFileAsString = sessionStorage.getItem('uploadedFile');
     if (localFileAsString) {
       const localConvertedFile = convertBase64ToFile(
         localFileAsString,
@@ -69,7 +69,7 @@ const VaFileInputField = props => {
       } = uploadedFile;
       setLocalFile(uploadedFile.file);
       const uploadedFileAsString = await convertFileToBase64(uploadedFile.file);
-      localStorage.setItem('uploadedFile', uploadedFileAsString);
+      sessionStorage.setItem('uploadedFile', uploadedFileAsString);
       setUploadInProgress(false);
       props.childrenProps.onChange({
         confirmationCode,
@@ -85,7 +85,7 @@ const VaFileInputField = props => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
       setLocalFile(null);
-      localStorage.removeItem('uploadedFile');
+      sessionStorage.removeItem('uploadedFile');
       setUploadInProgress(false);
       props.childrenProps.onChange({});
       return;
