@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
+import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -359,9 +360,9 @@ export const formatDate = str => {
 };
 
 /**
- * Returns a date formatted into two parts -- a date portion and a time portion.
+ * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
- * @param {Date} date
+ * @param {Date | string} date
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
@@ -382,10 +383,16 @@ export const formatDateAndTime = rawDate => {
     day: 'numeric',
   };
   const datePart = date.toLocaleDateString('en-US', options);
+  const timeZonePart = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+  })
+    .formatToParts(date)
+    .find(part => part.type === 'timeZoneName')?.value;
 
   return {
     date: datePart,
     time: timePart,
+    timeZone: timeZonePart,
   };
 };
 
@@ -521,6 +528,23 @@ export const formatNameFirstToLast = name => {
   }
 };
 
+// Imaging methods ------------
+
+/**
+ * @param {Array} list array of objects being parsed for the imaging endpoint.
+ */
+export const extractImageAndSeriesIds = list => {
+  const newList = [];
+  let num = 1;
+  list.forEach(item => {
+    const numbers = item.match(/\d+/g);
+    const result = numbers.join('/');
+    newList.push({ index: num, seriesAndImage: result });
+    num += 1;
+  });
+  return newList;
+};
+
 /**
  * @param {Object} dateParams an object for the date
  * @param {string} dateParams.date the date to format, in YYYY-MM format
@@ -535,4 +559,44 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const fromDate = new Date(year, month - 1, 1);
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
+};
+
+export const sendDataDogAction = actionName => {
+  datadogRum.addAction(actionName);
+};
+
+/**
+ * Checks if all elements in an array of arrays are defined or non-empty.
+ *
+ * @param {Array<any>} arrayOfArrays - An array containing elements of varying types to validate.
+ * @returns {boolean} - Returns `true` if all elements are "defined" (non-empty), otherwise `false`.
+ *
+ * Validation rules:
+ * - Objects: Must have at least one key.
+ * - Strings: Must be non-empty.
+ * - Arrays: Must have at least one element.
+ * - All other types are treated as invalid.
+ */
+export const allAreDefined = arrayOfArrays => {
+  return arrayOfArrays.every(
+    data =>
+      (typeof data === 'object' && Object.keys(data || {})?.length) ||
+      (typeof data === 'string' && data?.length) ||
+      (Array.isArray(data) && !!data?.length),
+  );
+};
+
+/**
+ * Format a iso8601 date in the local browser timezone.
+ *
+ * @param {string} date the date to format, in ISO8601 format
+ * @returns {String} formatted timestamp
+ */
+export const formatDateInLocalTimezone = date => {
+  const dateObj = parseISO(date);
+  const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  const localTimeZoneName = dateObj
+    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
+    .substring(4);
+  return `${formattedDate} ${localTimeZoneName}`;
 };

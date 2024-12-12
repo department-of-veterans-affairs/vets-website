@@ -93,9 +93,7 @@ const AllergyDetails = props => {
     () => {
       if (allergyData) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${allergyData.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
       }
     },
     [dispatch, allergyData],
@@ -189,6 +187,7 @@ Provider notes: ${allergyData.notes} \n`;
 
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Allergies Detail"
             downloadPdf={generateAllergyPdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateAllergyTxt}
