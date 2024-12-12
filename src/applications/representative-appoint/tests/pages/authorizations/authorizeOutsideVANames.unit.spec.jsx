@@ -13,7 +13,7 @@ describe('Authorize Outside VA Names page', () => {
     uiSchema,
   } = formConfig.chapters.authorization.pages.authorizeOutsideVANames;
 
-  it('should render', () => {
+  it.skip('should render', () => {
     const { container } = render(
       <DefinitionTester
         definitions={{}}

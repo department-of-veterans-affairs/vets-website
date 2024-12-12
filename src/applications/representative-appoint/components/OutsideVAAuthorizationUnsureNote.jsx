@@ -22,7 +22,7 @@ OutsideVAAuthorizationUnsureNote.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 export default connect(
