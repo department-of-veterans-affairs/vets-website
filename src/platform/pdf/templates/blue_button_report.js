@@ -67,37 +67,64 @@ const config = {
 };
 
 const generateTitleSection = (doc, parent, data) => {
-  const titleSection = doc.struct('Sect', {
-    title: 'Introduction',
-  });
-  parent.add(titleSection);
-  titleSection.add(
-    createHeading(doc, 'H1', config, 'Blue Button report', {
-      x: 20,
-      paragraphGap: 5,
-    }),
-  );
   const subTitleOptions = { lineGap: 6 };
 
+  const titleSection = doc.struct('Sect', {
+    title: 'Title',
+  });
+  titleSection.add(
+    createHeading(doc, 'H1', config, 'VA medical records', {
+      x: 20,
+      paragraphGap: 12,
+    }),
+  );
+  parent.add(titleSection);
   titleSection.add(
     doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          'This report includes key information from your VA medical records.',
+          'This report contains information from your VA medical records.',
           20,
           doc.y,
-          subTitleOptions,
         );
     }),
   );
+
+  doc.moveDown();
+
+  titleSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text('Note: ', 20, doc.y, {
+          continued: true,
+        });
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(
+          "This report doesn't include information you entered yourself. To find information you entered yourself, download a self-entered health information report.",
+          20,
+          doc.y,
+          {
+            paragraphOptions: { lineGap: 20 },
+            continued: false,
+          },
+        );
+    }),
+  );
+
+  doc.moveDown();
+
   titleSection.add(
     doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.name, 20, doc.y, subTitleOptions);
+        .text(`Name: ${data.name}`, 20, doc.y, subTitleOptions);
     }),
   );
   titleSection.add(
@@ -105,7 +132,15 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(`Date of birth: ${data.dob}`, 20, doc.y, { lineGap: 20 });
+        .text(`Date of birth: ${data.dob}`, 20, doc.y, subTitleOptions);
+    }),
+  );
+  titleSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(`Last updated at ????`, 20, doc.y, { lineGap: 20 });
     }),
   );
 
@@ -166,44 +201,9 @@ const generateInfoSection = (doc, parent) => {
   infoSection.end();
 };
 
-const generateHelpSection = (doc, parent) => {
-  const infoSection = doc.struct('Sect', {
-    title: 'Information',
-  });
-  infoSection.add(
-    createHeading(doc, 'H2', config, 'Need help?', { x: 20, paragraphGap: 12 }),
-  );
-  parent.add(infoSection);
-  infoSection.add(
-    doc.struct('List', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .list(
-          [
-            'If you have questions about this report or you need to add information to your records, send a secure message to your care team.',
-            "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.",
-          ],
-          {
-            lineGap: 2,
-            paragraphGap: 10,
-            listType: 'bullet',
-            bulletRadius: 2,
-            bulletIndent: 20,
-            x: 6,
-          },
-        );
-    }),
-  );
-
-  doc.moveDown();
-  infoSection.end();
-};
-
 const generateCoverPage = async (doc, parent, data) => {
   await generateTitleSection(doc, parent, data);
   await generateInfoSection(doc, parent);
-  await generateHelpSection(doc, parent);
 };
 
 const validate = data => {
