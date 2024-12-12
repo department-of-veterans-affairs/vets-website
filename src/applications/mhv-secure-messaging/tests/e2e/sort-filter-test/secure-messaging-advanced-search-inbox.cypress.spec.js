@@ -43,9 +43,6 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   it('verify filter by last 3 month', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(2, 3);
 
-    // TODO remove logging
-    cy.log(JSON.stringify(searchResultResponse.data[0]));
-
     PatientInboxPage.selectDateRange('Last 3 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
@@ -58,8 +55,6 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
 
   it('verify filter by last 6 month', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(3, 6);
-    // TODO remove logging
-    // cy.log(JSON.stringify(searchResultResponse.data[1]));
 
     PatientInboxPage.selectDateRange('Last 6 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
@@ -77,8 +72,6 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
       5,
       12,
     );
-    // TODO remove logging
-    // cy.log(JSON.stringify(searchResultResponse.data[4]));
 
     PatientInboxPage.selectDateRange('Last 12 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
