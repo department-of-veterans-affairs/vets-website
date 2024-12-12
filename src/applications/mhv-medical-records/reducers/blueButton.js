@@ -149,7 +149,7 @@ export const convertDemographics = info => {
 
   return {
     id: info.id,
-    facility: info.facilityInfo.name || NONE_RECORDED,
+    facility: info.facilityInfo?.name || NONE_RECORDED,
     firstName: info.firstName,
     middleName: info.middleName || NONE_RECORDED,
     lastName: info.lastName || NONE_RECORDED,
@@ -271,9 +271,9 @@ export const convertAccountSummary = data => {
 
   // Map facilities
   const mappedFacilities = facilities.map(facility => ({
-    facilityName: facility.facilityInfo.name,
-    stationNumber: facility.facilityInfo.stationNumber,
-    type: facility.facilityInfo.treatment ? 'Treatment' : 'VAMC',
+    facilityName: facility.facilityInfo?.name || 'Unknown facility',
+    stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
+    type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
   }));
 
   // Extract user profile details
@@ -282,7 +282,7 @@ export const convertAccountSummary = data => {
     ipa?.authenticatingFacilityId &&
     facilities.find(
       facility =>
-        facility.facilityInfo.stationNumber === ipa.authenticatingFacilityId,
+        facility.facilityInfo?.stationNumber === ipa.authenticatingFacilityId,
     );
 
   const authenticationInfo = ipa

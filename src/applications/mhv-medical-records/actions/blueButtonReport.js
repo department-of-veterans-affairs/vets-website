@@ -1,4 +1,3 @@
-import { actionTypes } from 'redux-localstorage';
 import {
   getLabsAndTests,
   getNotes,
@@ -14,8 +13,6 @@ import {
   getAppointments,
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
-import * as Constants from '../util/constants';
-import { addAlert } from './alerts';
 
 export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
@@ -55,7 +52,7 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
     if (status === 'fulfilled') {
       const { key, response } = value;
       switch (key) {
-        case 'labs':
+        case 'labsAndTests':
           dispatch({
             type: Actions.LabsAndTests.GET_LIST,
             labsAndTestsResponse: response,

@@ -143,7 +143,7 @@ const DownloadFileType = props => {
   useEffect(
     () => {
       const options = {
-        labs: recordFilter?.includes('labTests'),
+        labsAndTests: recordFilter?.includes('labTests'),
         notes: recordFilter?.includes('careSummaries'),
         vaccines: recordFilter?.includes('vaccines'),
         allergies:
@@ -157,6 +157,7 @@ const DownloadFileType = props => {
           recordFilter?.includes('pastAppts'),
         demographics: recordFilter?.includes('demographics'),
         militaryService: recordFilter?.includes('militaryService'),
+        patient: true,
       };
 
       if (!isDataFetched) {
