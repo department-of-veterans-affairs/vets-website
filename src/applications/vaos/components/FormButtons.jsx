@@ -35,7 +35,17 @@ export default function FormButtons({
             className="usa-button usa-button-primary"
             aria-label={nextButtonText || 'Continue'}
           >
-            {nextButtonText || 'Continue »'}
+            {nextButtonText && { nextButtonText }}
+
+            {!nextButtonText && (
+              <>
+                Continue{' '}
+                <va-icon
+                  icon="navigate_far_next"
+                  class="vads-u-padding-left--1"
+                />
+              </>
+            )}
           </LoadingButton>
         </div>
       )}
