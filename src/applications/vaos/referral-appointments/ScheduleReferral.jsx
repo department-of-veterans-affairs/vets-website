@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { setFormCurrentPage } from './redux/actions';
+import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 
 export default function ScheduleReferral(props) {
   const { currentReferral } = props;
@@ -14,10 +14,10 @@ export default function ScheduleReferral(props) {
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
+      dispatch(setInitReferralFlow());
     },
     [location, dispatch],
   );
-
   const appointmentCountString =
     currentReferral.numberOfAppointments === 1
       ? '1 appointment'
