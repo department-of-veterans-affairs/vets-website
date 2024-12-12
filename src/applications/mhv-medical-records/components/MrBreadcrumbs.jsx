@@ -1,7 +1,7 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -29,6 +29,7 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
+  const { labId } = useParams();
 
   useEffect(
     () => {
@@ -89,6 +90,10 @@ const MrBreadcrumbs = () => {
     sendDataDogAction(ddTag);
   };
 
+  const backToImagesBreadcrumb = location.pathname.includes('/images')
+    ? crumbsList[crumbsList.length - 1].href
+    : `/${locationBasePath}`;
+
   if (!phase0p5Flag) {
     if (location.pathname === '/' || !crumbsList) {
       return <div className="vads-u-padding-bottom--5" />;
@@ -105,6 +110,23 @@ const MrBreadcrumbs = () => {
         <Link to={crumbsList[crumbsList.length - 2].href}>
           {`Back to ${crumbsList[crumbsList.length - 2].label.toLowerCase()}`}
         </Link>
+      </div>
+    );
+  }
+  if (
+    phase0p5Flag &&
+    location.pathname.includes(`/${locationBasePath}/${labId}`)
+  ) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link to={backToImagesBreadcrumb}>Back</Link>
       </div>
     );
   }

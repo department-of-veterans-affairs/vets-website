@@ -81,14 +81,18 @@ Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
 ${
-      record.labType ? `Lab type: ${record.labType}\n\n` : ''
-    }Site or sample tested: ${record.sampleTested}\n
+      record.name !== 'Microbiology' && record.labType
+        ? `Lab type: ${record.labType}\n`
+        : ''
+    }
+Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
 Location: ${record.collectingLocation}\n
 Date completed: ${record.dateCompleted}\n
-${txtLine}\n\n
-Results\n
+${txtLine}\n\
+Results\n\
+Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.\n
 ${record.results}`;
 
     generateTextFile(
@@ -129,16 +133,17 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        {record.labType && (
-          <>
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-              Lab type
-            </h3>
-            <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
-              {record.labType}
-            </p>
-          </>
-        )}
+        {record.name !== 'Microbiology' &&
+          record.labType && (
+            <>
+              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+                Lab type
+              </h3>
+              <p data-testid="microbio-lab-type" data-dd-privacy="mask">
+                {record.labType}
+              </p>
+            </>
+          )}
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>

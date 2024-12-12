@@ -29,6 +29,7 @@ const childContent = (
         <div itemProp="itemListElement">
           <p>
             Make sure that your completed form is saved as a PDF on your device.
+            If you didn’t do that on the previous page, go back and do that now.
           </p>
           <p>
             <va-link
@@ -68,12 +69,12 @@ const childContent = (
     </p>
     <h1>What are my next steps?</h1>
     <p>
-      After submitting your exemption request, we will review your submission
+      After you submit your 85/15 Rule enrollment ratios, we will review them
       within 7-10 business days. Once we complete the review, we will email your
-      school a letter with the decision.If we accept your request, we will
+      school a letter with the decision. If we accept your request, we will
       include a copy of WEAMS form 1998 as confirmation in the letter. If we
       deny your request, we will explain the reason for rejection in the letter
-      and provide further instructions for resubmission or additional steps.
+      and provide further instructions for re-submission or additional steps.
     </p>
   </div>
 );

@@ -20,7 +20,8 @@ export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
       }${lastName}-${format(timestampDate, 'M-d-u_hhmmssaaa')}`;
 
       // get the xml data from the api
-      const xmlString = await downloadCCD(timestamp);
+      const response = await downloadCCD(timestamp);
+      const xmlString = await response.text();
 
       // download the xml to the user
       dispatch({ type: Actions.Downloads.DOWNLOAD_CCD, response: timestamp });
