@@ -2,7 +2,7 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../../constants';
 import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard: Transgender Flow', () => {
+describe('Discharge Upgrade Wizard: Transgender Flow', () => {
   describe('Base navigation', () => {
     it('Flow 1: Navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
