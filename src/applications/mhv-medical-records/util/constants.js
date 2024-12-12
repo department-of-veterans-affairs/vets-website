@@ -318,6 +318,7 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  DOWNLOAD: '/download/',
 };
 
 export const Breadcrumbs = {
@@ -357,6 +358,11 @@ export const Breadcrumbs = {
   DOWNLOAD_ALL: {
     href: Paths.DOWNLOAD_ALL,
     label: 'Download all medical records',
+    isRouterLink: true,
+  },
+  DOWNLOAD: {
+    href: Paths.DOWNLOAD,
+    label: 'Download medical records reports',
     isRouterLink: true,
   },
 };
