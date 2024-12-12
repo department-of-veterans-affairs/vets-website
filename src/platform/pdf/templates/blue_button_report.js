@@ -118,33 +118,45 @@ const generateInfoSection = (doc, parent) => {
     title: 'Information',
   });
   infoSection.add(
-    createHeading(
-      doc,
-      'H2',
-      config,
-      'What to know about your Blue Button report',
-      { x: 20, paragraphGap: 12 },
-    ),
+    createHeading(doc, 'H1', config, 'VA medical records', {
+      x: 20,
+      paragraphGap: 12,
+    }),
   );
   parent.add(infoSection);
   infoSection.add(
-    doc.struct('List', () => {
+    doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .list(
-          [
-            "If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.",
-            'Some records in this report are available 36 hours after providers enter them. This includes care summaries and notes, health condition records, and most lab and test results.',
-            "This report doesn't include information you entered yourself. To find information you entered yourself, go back to the previous version of Blue Button on the My HealtheVet website.",
-          ],
+        .text(
+          'This report contains information from your VA medical records.',
+          20,
+          doc.y,
+        );
+    }),
+  );
+
+  doc.moveDown();
+
+  infoSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text('Note: ', 20, doc.y, {
+          continued: true,
+        });
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(
+          "This report doesn't include information you entered yourself. To find information you entered yourself, download a self-entered health information report.",
+          20,
+          doc.y,
           {
-            lineGap: 2,
-            paragraphGap: 10,
-            listType: 'bullet',
-            bulletRadius: 2,
-            bulletIndent: 20,
-            x: 6,
+            paragraphOptions: { lineGap: 20 },
+            continued: false,
           },
         );
     }),
