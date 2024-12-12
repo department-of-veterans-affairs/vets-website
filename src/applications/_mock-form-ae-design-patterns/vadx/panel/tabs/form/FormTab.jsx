@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
+import { useSelector } from 'react-redux';
 import ChapterAnalyzer from './ChapterAnalyzer';
+import { FormDataViewer } from './FormDataViewer';
 
 const getFormInfo = router => {
   const childRoutes = router?.routes.map?.(route => {
@@ -38,6 +40,8 @@ const FormTabBase = props => {
       page.path?.includes('/review-and-submit'),
   );
 
+  const formData = useSelector(state => state?.form?.data);
+
   return (
     <div>
       <div className="vads-u-margin-top--0 vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
@@ -57,9 +61,10 @@ const FormTabBase = props => {
           : null}
       </div>
       <ChapterAnalyzer
-        formConfig={formInfo.formConfig}
+        formConfig={formInfo?.formConfig}
         urlPrefix={formInfo?.formConfig?.urlPrefix}
       />
+      <FormDataViewer data={formData || {}} />
     </div>
   );
 };

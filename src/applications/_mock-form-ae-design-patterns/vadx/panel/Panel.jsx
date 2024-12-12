@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { PluginContext } from '../context/plugin';
 import { VADXContext } from '../context/vadx';
@@ -12,9 +12,12 @@ const VADXContainer = () => {
 
   const showVADX = !!preferences?.showVADX;
 
-  const handleShowVADX = () => {
-    updateShowVADX(!showVADX);
-  };
+  const handleShowVADX = useCallback(
+    () => {
+      updateShowVADX(!showVADX);
+    },
+    [showVADX, updateShowVADX],
+  );
 
   return (
     <>
