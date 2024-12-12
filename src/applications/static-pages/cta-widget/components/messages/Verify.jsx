@@ -13,19 +13,19 @@ import CallToActionAlert from '../CallToActionAlert';
 
 /**
  * Alert to show a user that is not verified.
- * @property {string} cspId the ID of the sign in service
+ * @property {string} signInService user's signin service name
  * @property {string} headerLevel optional heading level
  * @property {string} serviceDescription optional description of the service that requires verification
  */
-const Verify = ({ cspId, headerLevel, serviceDescription }) => {
+const Verify = ({ signInService, headerLevel, serviceDescription }) => {
   const headingPrefix = 'Verify your identity';
   const headline = serviceDescription
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
-  const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
+  const serviceProviderLabel = SERVICE_PROVIDERS[signInService].label;
 
   const singleVerifyButton =
-    cspId === CSP_IDS.LOGIN_GOV ? (
+    signInService === CSP_IDS.LOGIN_GOV ? (
       <VerifyLogingovButton />
     ) : (
       <VerifyIdmeButton />
@@ -63,13 +63,13 @@ const Verify = ({ cspId, headerLevel, serviceDescription }) => {
 };
 
 Verify.defaultProps = {
-  cspId: CSP_IDS.LOGIN_GOV,
+  signInService: CSP_IDS.ID_ME,
 };
 
 Verify.propTypes = {
-  cspId: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
   headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   serviceDescription: PropTypes.string,
+  signInService: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
 };
 
 export default Verify;

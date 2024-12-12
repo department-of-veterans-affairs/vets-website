@@ -57,7 +57,7 @@ export class CallToActionWidget extends Component {
     mhvAccountIdState: PropTypes.string,
     mviStatus: PropTypes.string,
     profile: PropTypes.object,
-    cspId: PropTypes.string,
+    serviceName: PropTypes.string,
     // From mapDispatchToProps.
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
@@ -278,12 +278,12 @@ export class CallToActionWidget extends Component {
     const serviceDescription = this.isHealthTool()
       ? 'access more VA.gov tools and features'
       : this._serviceDescription;
-    switch (this.props.cspId) {
+    switch (this.props.serviceName) {
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
         return (
           <Verify
-            cspId={this.props.cspId}
+            signInService={this.props.serviceName}
             headerLevel={this._headerLevel}
             serviceDescription={serviceDescription}
           />
@@ -555,7 +555,7 @@ const mapStateToProps = state => {
 
   return {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    cspId: signInServiceName(state),
+    serviceName: signInServiceName(state),
     featureToggles: state.featureToggles,
     isLoggedIn: isLoggedIn(state),
     isVaPatient: vaPatient,
