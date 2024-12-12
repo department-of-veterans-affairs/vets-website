@@ -60,11 +60,16 @@ const CustomReviewTopContent = () => {
     </div>
   );
 
-  const formattedPhoneNumber = () =>
-    `(${phoneNumber.substr(0, 3)}) ${phoneNumber.substr(
+  const formattedPhoneNumber = () => {
+    const phoneNumberWithoutDashes = phoneNumber.replace('-', '');
+    return `(${phoneNumberWithoutDashes.substr(
+      0,
+      3,
+    )}) ${phoneNumberWithoutDashes.substr(
       3,
       3,
-    )}-${phoneNumber.substr(6, 4)}`;
+    )}-${phoneNumberWithoutDashes.substr(6, 4)}`;
+  };
 
   const renderContactInfo = () => (
     <div>
