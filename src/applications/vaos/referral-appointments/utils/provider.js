@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 const dateFns = require('date-fns');
+const dateFnsTz = require('date-fns-tz');
 
 const providers = {
   '111': {
@@ -54,7 +55,7 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
     const startTime = dateFns.addHours(tomorrow, hourFromNow);
     provider.slots.push({
       end: dateFns.addMinutes(startTime, 30).toISOString(),
-      id: i,
+      id: i.toString(),
       start: startTime.toISOString(),
     });
     hourFromNow++;
@@ -62,4 +63,106 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
   return provider;
 };
 
-module.exports = { createProviderDetails, providers };
+/**
+ * Creates an address string from object
+ *
+ * @param {Object} addressObject Address object
+ * @returns {String} Address string
+ */
+const getAddressString = addressObject => {
+  let addressString = addressObject.street1;
+  if (addressObject.street2) {
+    addressString = `${addressString}, ${addressObject.street2}`;
+  }
+  if (addressObject.street3) {
+    addressString = `${addressString}, ${addressObject.street3}`;
+  }
+  addressString = `${addressString}, ${addressObject.city}, ${
+    addressObject.state
+  }, ${addressObject.zip}`;
+  return addressString;
+};
+
+/**
+ * Returns Slot by given date
+ *
+ * @param {Array} slots Array of slots
+ * @param {String} dateTime Time stamp of date
+ * @returns {Object} Slot object
+ */
+const getSlotByDate = (slots, dateTime) => {
+  return slots.find(slot => slot.start === dateTime);
+};
+
+/**
+ * Returns Slot by given id
+ *
+ * @param {Array} slots Array of slots
+ * @param {String} id Id for slot
+ * @returns {Object} Slot object
+ */
+const getSlotById = (slots, id) => {
+  return slots.find(slot => slot.id === id);
+};
+
+/**
+ * Returns if a selected date is in conflict with an existing appointment
+ *
+ * @param {String} selectedDate Date of selected appointment
+ * @param {Object} appointmentsByMonth Existing appointments object
+ * @param {String} facilityTimeZone Timezone string of facility
+ * @returns {Boolean} Is there a conflict
+ */
+const hasConflict = (selectedDate, appointmentsByMonth, facilityTimeZone) => {
+  let conflict = false;
+  const selectedMonth = dateFns.format(new Date(selectedDate), 'yyyy-MM');
+  if (!(selectedMonth in appointmentsByMonth)) {
+    return conflict;
+  }
+  const selectedDay = dateFns.format(new Date(selectedDate), 'dd');
+  const monthOfApts = appointmentsByMonth[selectedMonth];
+  const daysWithApts = monthOfApts.map(apt => {
+    return dateFns.format(new Date(apt.start), 'dd');
+  });
+  if (!daysWithApts.includes(selectedDay)) {
+    return conflict;
+  }
+  const unavailableTimes = monthOfApts.map(upcomingAppointment => {
+    return {
+      start: dateFnsTz.zonedTimeToUtc(
+        new Date(upcomingAppointment.start),
+        upcomingAppointment.timezone,
+      ),
+      end: dateFnsTz.zonedTimeToUtc(
+        dateFns.addMinutes(
+          new Date(upcomingAppointment.start),
+          upcomingAppointment.minutesDuration,
+        ),
+        upcomingAppointment.timezone,
+      ),
+    };
+  });
+  unavailableTimes.forEach(range => {
+    if (
+      dateFns.isWithinInterval(
+        dateFnsTz.zonedTimeToUtc(new Date(selectedDate), facilityTimeZone),
+        {
+          start: range.start,
+          end: range.end,
+        },
+      )
+    ) {
+      conflict = true;
+    }
+  });
+  return conflict;
+};
+
+module.exports = {
+  createProviderDetails,
+  providers,
+  getAddressString,
+  getSlotByDate,
+  getSlotById,
+  hasConflict,
+};
