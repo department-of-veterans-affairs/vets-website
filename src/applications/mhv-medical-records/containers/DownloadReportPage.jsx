@@ -7,6 +7,8 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { add, compareAsc } from 'date-fns';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
 import {
@@ -37,6 +39,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
 
+  const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
   const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -343,7 +346,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
 
           <ExternalLink
-            href="https://eauth.va.gov/mhv-portal-web/va-blue-button"
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
             text="Go to the previous version of MyHealtheVet to download historical
             goals"
           />
