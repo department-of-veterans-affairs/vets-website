@@ -316,24 +316,44 @@ export const convertAccountSummary = data => {
 export const blueButtonReducer = (state = initialState, action) => {
   // eslint-disable-next-line sonarjs/no-small-switch
   switch (action.type) {
-    case Actions.BlueButtonReport.GET:
-      return {
-        ...state,
-        medicationsList:
+    case Actions.BlueButtonReport.GET: {
+      const updates = {};
+
+      if (action.medicationsResponse) {
+        updates.medicationsList =
           action.medicationsResponse.data?.map(med => {
             return convertMedication(med);
-          }) || [],
-        appointmentsList:
+          }) || [];
+      }
+
+      if (action.appointmentsResponse) {
+        updates.appointmentsList =
           action.appointmentsResponse.data?.map(appt => {
             return convertAppointment(appt);
-          }) || [],
-        demographics:
+          }) || [];
+      }
+
+      if (action.demographicsResponse) {
+        updates.demographics =
           action.demographicsResponse.content?.map(item => {
             return convertDemographics(item);
-          }) || [],
-        militaryService: action.militaryServiceResponse || '',
-        accountSummary: convertAccountSummary(action.patientResponse) || {},
+          }) || [];
+      }
+
+      if (action.militaryServiceResponse) {
+        updates.militaryService = action.militaryServiceResponse || undefined;
+      }
+
+      if (action.patientResponse) {
+        updates.accountSummary =
+          convertAccountSummary(action.patientResponse) || {};
+      }
+
+      return {
+        ...state,
+        ...updates,
       };
+    }
     default:
       return state;
   }
