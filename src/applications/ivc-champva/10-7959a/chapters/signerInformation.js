@@ -11,6 +11,8 @@ import {
   radioSchema,
   phoneUI,
   phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
@@ -71,20 +73,22 @@ export const certifierAddressSchema = {
   },
 };
 
-export const certifierPhoneSchema = {
+export const certifierContactSchema = {
   uiSchema: {
     ...titleUI(
       'Your contact information',
       'We’ll use this information to contact you if we have more questions.',
     ),
     certifierPhone: phoneUI(),
+    certifierEmail: emailUI(),
   },
   schema: {
     type: 'object',
-    required: ['certifierPhone'],
+    required: ['certifierPhone', 'certifierEmail'],
     properties: {
       titleSchema,
       certifierPhone: phoneSchema,
+      certifierEmail: emailSchema,
     },
   },
 };

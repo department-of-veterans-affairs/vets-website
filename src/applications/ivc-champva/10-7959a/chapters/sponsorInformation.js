@@ -5,6 +5,12 @@ import {
   fullNameSchema,
   titleUI,
   titleSchema,
+  addressUI,
+  addressSchema,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const blankSchema = { type: 'object', properties: {} };
@@ -55,6 +61,45 @@ export const sponsorNameSchema = {
     properties: {
       titleSchema,
       sponsorName: fullNameSchema,
+    },
+  },
+};
+
+export const sponsorAddressSchema = {
+  uiSchema: {
+    ...titleUI(
+      'Your mailing address',
+      'We’ll send any important information about this form to this address.',
+    ),
+    sponsorAddress: {
+      ...addressUI(),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      sponsorAddress: addressSchema({ omit: ['street3'] }),
+    },
+  },
+};
+
+export const sponsorContactSchema = {
+  uiSchema: {
+    ...titleUI(
+      'Your phone number',
+      'We’ll use this information to contact you if we have more questions.',
+    ),
+    sponsorPhone: phoneUI(),
+    sponsorEmail: emailUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['sponsorPhone', 'sponsorEmail'],
+    properties: {
+      titleSchema,
+      sponsorPhone: phoneSchema,
+      sponsorEmail: emailSchema,
     },
   },
 };
