@@ -163,7 +163,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
             text: /You can.t schedule this appointment online/i,
           })
           .assertText({
-            text: /Something went wrong on our end. Please try again later./i,
+            text: /We.re sorry. There.s a problem with our system. Try again later./i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 
