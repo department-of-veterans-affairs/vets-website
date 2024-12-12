@@ -47,7 +47,6 @@ const SignIn = ({
           <va-link
             href="https://www.va.gov/resources/creating-an-account-for-vagov"
             text="Learn about creating an account"
-            disableAnalytics
           />
         </p>
       </>
