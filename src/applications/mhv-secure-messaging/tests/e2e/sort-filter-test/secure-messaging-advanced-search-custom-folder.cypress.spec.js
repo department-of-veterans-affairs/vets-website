@@ -1,50 +1,51 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
+import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
+import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
-describe('SM TRASH ADVANCED CATEGORY SEARCH', () => {
+describe('SM CUSTOM FOLDER ADVANCED CATEGORY SEARCH', () => {
   const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
-    2,
-    'MEDICATIONS',
-    mockTrashMessages,
+    1,
+    'EDUCATION',
+    mockSingleThreadResponse,
   );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    FolderLoadPage.loadDeletedMessages();
+    PatientMessageCustomFolderPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Medication');
+    PatientInboxPage.selectAdvancedSearchCategory('Education');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
   it('verify all messages contain the searched category', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Medication');
+    PatientSearchPage.verifySearchResponseCategory('Education');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify the search message label', () => {
+  it('verify the search results label', () => {
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Medication',
+      'Education',
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
-describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
+describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
   let searchResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    FolderLoadPage.loadDeletedMessages();
+    PatientMessageCustomFolderPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
   });
 
@@ -52,7 +53,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       2,
       3,
-      mockTrashMessages,
+      mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
@@ -73,7 +74,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       3,
       6,
-      mockTrashMessages,
+      mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
@@ -90,7 +91,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       6,
       12,
-      mockTrashMessages,
+      mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
