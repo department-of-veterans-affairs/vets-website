@@ -1,104 +1,209 @@
-// import React from 'react';
-// import { expect } from 'chai';
-// import { mount } from 'enzyme';
-// import configureStore from 'redux-mock-store';
-// import { Provider } from 'react-redux';
-// import sinon from 'sinon';
-// import AutosuggestField from '../../components/AutosugggestField'; // Adjust the import path as needed
+/* eslint-disable @department-of-veterans-affairs/enzyme-unmount */
+import React from 'react';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import { shallow, mount } from 'enzyme';
+import AutosuggestField from '../../components/AutosugggestField';
 
-// describe('AutosuggestField', () => {
-//   const mockStore = configureStore([]);
-//   const store = mockStore({});
-//   const defaultProps = {
-//     schema: {
-//       enum: ['option1', 'option2'],
-//       enumNames: ['Option 1', 'Option 2'],
-//     },
-//     uiSchema: {
-//       'ui:options': {
-//         labels: {
-//           option1: 'Option 1',
-//           option2: 'Option 2',
-//         },
-//         debounceRate: 0,
-//         maxOptions: 10,
-//         queryForResults: false,
-//         freeInput: false,
-//       },
-//     },
-//     formData: '',
-//     idSchema: { $id: 'test-id' },
-//     onChange: sinon.spy(),
-//     onBlur: sinon.spy(),
-//     formContext: { reviewMode: false },
-//   };
+describe('AutosuggestField in Pre-need-integration', () => {
+  it('should render the component correctly', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1' },
+        getOptions: sinon.stub().resolves([]),
+        debounceRate: 300,
+        maxOptions: 5,
+        queryForResults: true,
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { 1: 'Label 1' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: false };
 
-//   let wrapper;
+    const wrapper = shallow(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
 
-//   afterEach(() => {
-//     if (wrapper) {
-//       wrapper.unmount();
-//     }
-//   });
+    expect(wrapper.exists()).to.be.true;
+  });
 
-//   it('renders without crashing', () => {
-//     wrapper = mount(
-//       <Provider store={store}>
-//         <AutosuggestField {...defaultProps} />
-//       </Provider>,
-//     );
-//     expect(wrapper.find('input')).to.have.lengthOf(1);
-//     wrapper.unmount();
-//   });
+  it('should render a read-only view in review mode', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1' },
+        getOptions: sinon.stub().resolves([]),
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { 1: 'Label 1' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: true };
 
-//   it('displays suggestions when typing', () => {
-//     wrapper = mount(
-//       <Provider store={store}>
-//         <AutosuggestField {...defaultProps} />
-//       </Provider>,
-//     );
-//     const input = wrapper.find('input');
-//     input.simulate('change', { target: { value: 'Option' } });
-//     expect(wrapper.find('.autosuggest-item')).to.have.lengthOf(2);
-//     wrapper.unmount();
-//   });
+    const wrapper = mount(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
 
-//   it('calls onChange when a suggestion is selected', () => {
-//     wrapper = mount(
-//       <Provider store={store}>
-//         <AutosuggestField {...defaultProps} />
-//       </Provider>,
-//     );
-//     const input = wrapper.find('input');
-//     input.simulate('change', { target: { value: 'Option' } });
-//     const option = wrapper.find('.autosuggest-item').at(0);
-//     option.simulate('click');
-//     expect(defaultProps.onChange.calledWith('option1')).to.be.true;
-//     wrapper.unmount();
-//   });
+    // Check for read-only display
+    expect(wrapper.find('.review-row').exists()).to.be.false;
+  });
 
-//   it('clears input when escape key is pressed', () => {
-//     wrapper = mount(
-//       <Provider store={store}>
-//         <AutosuggestField {...defaultProps} />
-//       </Provider>,
-//     );
-//     const input = wrapper.find('input');
-//     input.simulate('change', { target: { value: 'Option' } });
-//     input.simulate('keydown', { keyCode: 27 });
-//     expect(input.instance().value).to.equal('');
-//     wrapper.unmount();
-//   });
+  it('should use enum and generate suggestions when getOptions is not provided', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1', 2: 'Label 2', 3: 'Label 3' },
+        debounceRate: 300,
+        maxOptions: 5,
+        queryForResults: false,
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { widget: 'autosuggest', label: '' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: false };
 
-//   it('calls onBlur when input loses focus', () => {
-//     wrapper = mount(
-//       <Provider store={store}>
-//         <AutosuggestField {...defaultProps} />
-//       </Provider>,
-//     );
-//     const input = wrapper.find('input');
-//     input.simulate('blur');
-//     expect(defaultProps.onBlur.calledWith('test-id')).to.be.true;
-//     wrapper.unmount();
-//   });
-// });
+    const wrapper = shallow(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
+
+    // Check if useEnum is set to true
+    expect(wrapper.instance().useEnum).to.be.true;
+
+    // Check if suggestions are generated correctly
+    expect(wrapper.state('suggestions')).to.deep.equal([
+      { id: '1', label: 'Label 1' },
+      { id: '2', label: 'Label 2' },
+      { id: '3', label: 'Label 3' },
+    ]);
+  });
+
+  it('should return correct form data based on useEnum and freeInput', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1' },
+        freeInput: true,
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { widget: 'autosuggest', label: '' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: false };
+
+    const wrapper = shallow(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
+
+    // Check getFormData with useEnum
+    wrapper.instance().useEnum = true;
+    let formDataResult = wrapper
+      .instance()
+      .getFormData({ id: '1', label: 'Option 1' });
+    expect(formDataResult).to.equal('1');
+
+    // Check getFormData with freeInput
+    wrapper.instance().useEnum = false;
+    formDataResult = wrapper
+      .instance()
+      .getFormData({ id: '1', label: 'Option 1' });
+    expect(formDataResult).to.equal('Option 1');
+  });
+
+  // it.only('should return correct item from input value and suggestions', () => {
+  //   const mockOnChange = sinon.spy();
+  //   const mockOnBlur = sinon.spy();
+  //   const uiSchema = {
+  //     'ui:options': {
+  //       labels: { 1: 'Label 1' },
+  //       inputTransformers: [input => input.toUpperCase()],
+  //     },
+  //   };
+  //   const schema = {
+  //     enum: ['1', '2', '3'],
+  //     enumNames: ['Option 1', 'Option 2', 'Option 3'],
+  //   };
+  //   const formData = { widget: 'autosuggest', label: '' };
+  //   const idSchema = { $id: 'test-id' };
+  //   const formContext = { reviewMode: false };
+
+  //   const wrapper = shallow(
+  //     <AutosuggestField
+  //       uiSchema={uiSchema}
+  //       schema={schema}
+  //       formData={formData}
+  //       idSchema={idSchema}
+  //       formContext={formContext}
+  //       onChange={mockOnChange}
+  //       onBlur={mockOnBlur}
+  //     />,
+  //   );
+
+  //   const suggestions = [
+  //     { id: '1', label: 'Option 1' },
+  //     { id: '2', label: 'Option 2' },
+  //   ];
+
+  //   // Check getItemFromInput with exact match
+  //   let item = wrapper
+  //     .instance()
+  //     .getItemFromInput('Option 1', suggestions, uiSchema['ui:options']);
+  //   expect(item).to.deep.equal({ id: '1', label: 'Option 1' });
+
+  //   // Check getItemFromInput with input transformers
+  //   item = wrapper
+  //     .instance()
+  //     .getItemFromInput('option 1', suggestions, uiSchema['ui:options']);
+  //   expect(item).to.equal('OPTION 1');
+  // });
+});

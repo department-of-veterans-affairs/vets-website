@@ -4,9 +4,8 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
-import MilitaryAutoSuggest from '../../components/MilitaryAutoSuggestField'; // Update with the correct path
+import MilitaryAutoSuggest from '../../components/MilitaryAutoSuggestField';
 
-// Mock store
 const mockStore = configureStore([]);
 const store = mockStore({
   form: {
