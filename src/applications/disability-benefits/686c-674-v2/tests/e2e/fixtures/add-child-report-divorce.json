@@ -3,45 +3,45 @@
     "householdIncome": true,
     "childrenToAdd": [
       {
+        "incomeInLastYear": "Y",
         "livingWith": {
-          "first": "test",
-          "last": "test"
+          "first": "John",
+          "last": "Doe II"
         },
         "address": {
           "view:militaryBaseDescription": {},
-          "country": "AFG",
-          "street": "test",
-          "city": "test",
-          "postalCode": "34234"
+          "country": "DZA",
+          "street": "test address",
+          "city": "test city",
+          "postalCode": "43242"
         },
-        "incomeInLastYear": "N",
-        "isBiologicalChild": false,
-        "dateEnteredHousehold": "2000-01-01",
+        "doesChildLiveWithYou": "N",
+        "hasChildEverBeenMarried": "N",
+        "isBiologicalChild": true,
+        "dateEnteredHousehold": "2023-02-01",
         "biologicalParentName": {
-          "first": "test",
-          "last": "test"
+          "first": "Jane",
+          "last": "Doe"
         },
         "biologicalParentSsn": "432432432",
-        "biologicalParentDob": "2000-10-01",
+        "biologicalParentDob": "1990-02-01",
         "relationshipToChild": {
-          "biological": true
+          "stepchild": true
         },
         "birthLocation": {
           "location": {
-            "state": "AL",
-            "postalCode": "43243"
+            "state": "AK",
+            "postalCode": "43222"
           }
         },
-        "ssn": "423432432",
+        "ssn": "432432432",
         "fullName": {
-          "first": "test",
-          "last": "test"
+          "first": "John",
+          "last": "Doe"
         },
         "birthDate": "2000-02-01",
-        "doesChildLiveWithYou": "Y",
-        "hasChildEverBeenMarried": "N",
         "view:isUnmarriedAndInSchool": "Y",
-        "view:hasReceivedBenefits": "Y"
+        "view:hasReceivedBenefits": "N"
       }
     ],
     "veteranContactInformation": {
