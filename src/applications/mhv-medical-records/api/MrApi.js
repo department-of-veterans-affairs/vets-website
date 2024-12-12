@@ -83,7 +83,7 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getNotes = () => {
+export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
@@ -158,7 +158,7 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
+export const getVaccineList = async () => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });

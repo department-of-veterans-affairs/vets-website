@@ -7,31 +7,23 @@ import { medicationTypes, NA, NONE_RECORDED, UNKNOWN } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 
 const initialState = {
-  /**
-   * The list of medications returned from the api
-   * @type {Array}
-   */
+  /** The list of medications returned from the api @type {Array} */
   medicationsList: undefined,
-  /**
-   * The list of appointments returned from the api
-   * @type {Array}
-   */
+
+  /** The list of appointments returned from the api @type {Array} */
   appointmentsList: undefined,
-  /**
-   * The demographic info returned from the api
-   * @type {Array}
-   */
+
+  /** The demographic info returned from the api @type {Array} */
   demographics: undefined,
-  /**
-   * The military service info returned from the api
-   * @type {Array}
-   */
+
+  /** The military service info returned from the api @type {Array} */
   militaryService: undefined,
-  /**
-   * The account summary info returned from the api
-   * @type {Array}
-   */
+
+  /** The account summary info returned from the api @type {Array} */
   accountSummary: undefined,
+
+  /** A list of domains which failed during fetch @type {Array} */
+  failedDomains: [],
 };
 
 /**
@@ -314,7 +306,6 @@ export const convertAccountSummary = data => {
 };
 
 export const blueButtonReducer = (state = initialState, action) => {
-  // eslint-disable-next-line sonarjs/no-small-switch
   switch (action.type) {
     case Actions.BlueButtonReport.GET: {
       const updates = {};
@@ -352,6 +343,22 @@ export const blueButtonReducer = (state = initialState, action) => {
       return {
         ...state,
         ...updates,
+      };
+    }
+    case Actions.BlueButtonReport.ADD_FAILED: {
+      const failedDomain = action.payload;
+
+      return {
+        ...state,
+        failedDomains: state.failedDomains.includes(failedDomain)
+          ? state.failedDomains
+          : [...state.failedDomains, failedDomain],
+      };
+    }
+    case Actions.BlueButtonReport.CLEAR_FAILED: {
+      return {
+        ...state,
+        failedDomains: [],
       };
     }
     default:

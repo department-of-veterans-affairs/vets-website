@@ -82,6 +82,8 @@ export const Actions = {
   },
   BlueButtonReport: {
     GET: 'MR_BLUE_BUTTON_GET_DATA',
+    ADD_FAILED: 'MR_BLUE_BUTTON_ADD_FAILED',
+    CLEAR_FAILED: 'MR_BLUE_BUTTON_CLEAR_FAILED',
   },
   PageTracker: {
     SET_PAGE_TRACKER: 'MR_SET_PAGE_TRACKER',
