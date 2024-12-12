@@ -281,8 +281,7 @@ export const convertAccountSummary = data => {
   const authenticatingFacility =
     ipa?.authenticatingFacilityId &&
     facilities.find(
-      facility =>
-        facility.facilityInfo?.stationNumber === ipa.authenticatingFacilityId,
+      facility => facility.facilityInfo?.id === ipa.authenticatingFacilityId,
     );
 
   const authenticationInfo = ipa
