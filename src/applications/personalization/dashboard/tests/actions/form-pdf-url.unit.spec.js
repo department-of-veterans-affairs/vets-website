@@ -49,12 +49,8 @@ describe('fetchFormPdfUrl action creator', () => {
     const response = { error: 'bad request' };
     setFetchJSONFailure(global.fetch.onCall(0), response);
     const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
-    let actions = [];
-    try {
-      await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
-    } catch (e) {
-      actions = dispatchStub.getCalls().map(c => c.args[0]);
-    }
+    await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
+    const actions = dispatchStub.getCalls().map(c => c.args[0]);
     expect(actions).to.deep.equal([
       actionStart(MOCK_GUID),
       actionFail(MOCK_GUID, response),
@@ -65,12 +61,8 @@ describe('fetchFormPdfUrl action creator', () => {
     const response = { url: '' };
     setFetchJSONResponse(global.fetch.onCall(0), response);
     const fetchFormPdfUrl = makeFetchFormPdfUrl(downloadStub, recordEventStub);
-    let actions = [];
-    try {
-      await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
-    } catch (e) {
-      actions = dispatchStub.getCalls().map(c => c.args[0]);
-    }
+    await fetchFormPdfUrl(MOCK_ID, MOCK_GUID)(dispatchStub);
+    const actions = dispatchStub.getCalls().map(c => c.args[0]);
     expect(actions[1].type).to.equal(actionFail().type);
     expect(actions[1].error).to.be.ok;
   });
