@@ -66,16 +66,16 @@ const PrimaryAddressWithAutofill = props => {
     [addDirtyField, formData, onChange, veteranAddress],
   );
 
-  const ALL_FIELDS = [...REQUIRED_ADDRESS_FIELDS, 'street2'];
-
-  const updateAllFormDataForAutocomplete = () => {
-    ALL_FIELDS.forEach(field => {
-      const f = `root_${props.name}_${field}`;
-      const element = document.getRootNode().getElementById(f);
-      const { value } = element;
-      formData[field] = value;
-    });
-  };
+  const updateAllFormDataForAutocomplete = useCallback(
+    () => {
+      [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
+        const fieldName = `root_${props.name}_${field}`;
+        const { value } = document.getElementById(fieldName);
+        formData[field] = value;
+      });
+    },
+    [formData, props.name],
+  );
 
   // define our non-checkbox input change event
   const handleChange = useCallback(
@@ -95,14 +95,6 @@ const PrimaryAddressWithAutofill = props => {
   const handleBlur = useCallback(
     event => {
       const { name } = event.target;
-
-      if (!name) {
-        // blurring the County's AddressCountyDescription component causes
-        // an error below when attempting the split. this avoids cascading the
-        // remaining blur behavior to it.
-        return;
-      }
-
       const fieldName = name.split('_').pop();
       addDirtyField(fieldName);
       // make sure that formData has all field values
