@@ -294,7 +294,7 @@ export const convertAccountSummary = data => {
         authenticationFacilityName:
           authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:
-          authenticatingFacility?.facilityInfo?.stationNumber || 'Unknown ID',
+          authenticatingFacility?.facilityInfo?.id || 'Unknown ID',
       }
     : {};
 
