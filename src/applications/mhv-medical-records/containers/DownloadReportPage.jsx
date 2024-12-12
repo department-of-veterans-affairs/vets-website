@@ -7,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { add, compareAsc } from 'date-fns';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import ExternalLink from '../components/shared/ExternalLink';
 import {
   getSelfEnteredAllergies,
   getSelfEnteredVitals,
@@ -29,6 +32,8 @@ import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import { UNKNOWN } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { Actions } from '../util/actionTypes';
 
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -36,9 +41,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
 
+  const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
   const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
+  const successfulDownload = useSelector(
+    state => state.mr.downloads.downloadSuccess,
+  );
 
   const activityJournal = useSelector(
     state => state.mr.selfEntered.activityJournal,
@@ -69,6 +78,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+      };
+    },
+    [dispatch],
   );
 
   const generatePdf = useCallback(
@@ -240,6 +258,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           23, 2024
         </p>
       </div>
+      {successfulDownload === true && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+      )}
       <h2>Download your VA Blue Button report</h2>
       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
@@ -281,7 +302,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"
-          header="Continuity of care document (VA Health Summary)"
+          header="Continuity of Care Document (VA Health Summary)"
           data-testid="ccdAccordionItem"
         >
           <p className="vads-u-margin--0">
@@ -334,6 +355,18 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           >
             <va-icon icon="file_download" size={3} /> Download PDF
           </button>
+          <p>
+            <strong>Note:</strong> Self-entered My Goals are no longer available
+            on My HealtheVet and not included in this report. To download your
+            historical goals you can go to the previous version of My
+            HealtheVet.
+          </p>
+
+          <ExternalLink
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
+            text="Go to the previous version of MyHealtheVet to download historical
+            goals"
+          />
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">
