@@ -21,21 +21,7 @@ const ChangeOfAddressForm = ({
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const addressMapping = {
-      addressLine1: 'street',
-      city: 'city',
-      stateCode: 'stateCode',
-      zipCode: 'zipCode',
-    };
-    const address = JSON.parse(sessionStorage.getItem('address') || '{}');
-    const transformedAddress = Object.keys(address)?.reduce((acc, key) => {
-      const newKey = addressMapping[key] || key; // Use mapped key or original key
-      acc[newKey] = address[key];
-      return acc;
-    }, {});
-    const data =
-      Object.keys(formData).length === 0 ? transformedAddress : formData;
-    const fSchema = getFormSchema(data);
+    const fSchema = getFormSchema(formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
