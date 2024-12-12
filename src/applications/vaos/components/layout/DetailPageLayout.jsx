@@ -25,6 +25,7 @@ import FacilityPhone from '../FacilityPhone';
 import TravelReimbursementSection from '../TravelReimbursementSection';
 import AppointmentTasksSection from '../AppointmentTasksSection';
 import Section from '../Section';
+import ErrorAlert from '../ErrorAlert';
 
 export function When({ children, level = 2 }) {
   return (
@@ -214,6 +215,9 @@ export default function DetailPageLayout({
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
+        {featureTravelPayViewClaimDetails && (
+          <ErrorAlert appointment={appointment} />
+        )}
         <StatusAlert appointment={appointment} facility={facility} />
         {featureTravelPaySubmitMileageExpense &&
           featureTravelPayViewClaimDetails && (
