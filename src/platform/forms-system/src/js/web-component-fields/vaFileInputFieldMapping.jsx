@@ -18,6 +18,7 @@ const vaFileInputFieldMapping = props => {
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     name,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
+    fileName: childrenProps.formData.name,
   };
 };
 

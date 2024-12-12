@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { uploadScannedForm } from './vaFileInputFieldHelpers';
+import {
+  convertBase64ToFile,
+  convertFileToBase64,
+  uploadScannedForm,
+} from './vaFileInputFieldHelpers';
 
 /**
  * Usage uiSchema:
@@ -43,20 +47,14 @@ const VaFileInputField = props => {
   const { fileUploadUrl } = mappedProps;
 
   useEffect(() => {
-    const { localFilePath } = props.childrenProps.formData;
-    if (localFilePath) {
-      const fetchFile = async () => {
-        await fetch(localFilePath)
-          .then(r => r.blob())
-          .then(blob =>
-            setLocalFile(
-              new File([blob], props.childrenProps.formData.name, {
-                type: 'application/pdf',
-              }),
-            ),
-          );
-      };
-      fetchFile();
+    const localFileAsString = localStorage.getItem('uploadedFile');
+    if (localFileAsString) {
+      const localConvertedFile = convertBase64ToFile(
+        localFileAsString,
+        mappedProps.fileName,
+        'application/pdf',
+      );
+      setLocalFile(localConvertedFile);
     }
   }, []);
 
@@ -69,26 +67,27 @@ const VaFileInputField = props => {
         size,
         warnings,
       } = uploadedFile;
-      const localFilePath = URL.createObjectURL(uploadedFile.file);
+      setLocalFile(uploadedFile.file);
+      const uploadedFileAsString = await convertFileToBase64(uploadedFile.file);
+      localStorage.setItem('uploadedFile', uploadedFileAsString);
+      setUploadInProgress(false);
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
         name,
         size,
         warnings,
-        localFilePath,
       });
-      setLocalFile(uploadedFile.file);
-      setUploadInProgress(false);
     }
   };
 
   const handleVaChange = e => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
-      props.childrenProps.onChange({ localFilePath: '' });
       setLocalFile(null);
+      localStorage.removeItem('uploadedFile');
       setUploadInProgress(false);
+      props.childrenProps.onChange({});
       return;
     }
 
