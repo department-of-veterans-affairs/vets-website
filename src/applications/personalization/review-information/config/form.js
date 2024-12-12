@@ -63,7 +63,7 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'welcome-va-setup-review-information-',
-  introduction: <></>,
+  introduction: () => <></>,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,

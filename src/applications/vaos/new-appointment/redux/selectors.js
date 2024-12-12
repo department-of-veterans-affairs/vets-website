@@ -315,6 +315,14 @@ export function selectChosenFacilityInfo(state) {
   );
 }
 
+export function getPatientProviderRelationships(state) {
+  return {
+    patientProviderRelationships: state.patientProviderRelationships,
+    patientProviderRelationshipsStatus:
+      state.patientProviderRelationshipsStatus,
+  };
+}
+
 export function getChosenVACityState(state) {
   const schema =
     state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;

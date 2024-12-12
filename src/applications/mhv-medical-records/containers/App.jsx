@@ -129,7 +129,11 @@ const App = ({ children }) => {
     () => {
       if (!current) return () => {};
       const resizeObserver = new ResizeObserver(() => {
-        setHeight(current.offsetHeight);
+        requestAnimationFrame(() => {
+          if (height !== current.offsetHeight) {
+            setHeight(current.offsetHeight);
+          }
+        });
       });
       resizeObserver.observe(current);
       return () => {
@@ -139,7 +143,7 @@ const App = ({ children }) => {
         resizeObserver.disconnect();
       };
     },
-    [current],
+    [current, height],
   );
 
   useEffect(
