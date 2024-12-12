@@ -70,7 +70,7 @@ const DownloadFileType = props => {
     },
     [dateFilter, history, recordFilter],
   );
-  
+
   const filterByDate = recDate => {
     if (dateFilter.option === 'any') {
       return true;
@@ -196,8 +196,6 @@ const DownloadFileType = props => {
     },
     [
       isDataFetched,
-      filterFromDate,
-      filterToDate,
       recordFilter,
       labsAndTests,
       notes,
