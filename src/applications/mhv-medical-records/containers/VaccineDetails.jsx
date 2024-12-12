@@ -72,7 +72,7 @@ const VaccineDetails = props => {
     () => {
       if (record) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`);
+        updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
       }
     },
     [dispatch, record],
