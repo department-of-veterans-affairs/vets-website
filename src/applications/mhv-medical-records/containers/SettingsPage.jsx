@@ -141,7 +141,7 @@ const SettingsPage = () => {
           <va-button
             ref={buttonRef}
             data-testid="open-opt-in-out-modal-button"
-            text={isSharing ? 'Opt out' : 'Opt back in'}
+            text={isSharing ? 'Opt out' : 'Opt in'}
             onClick={() => {
               setShowSharingModal(true);
               // If you want to focus an element, you can call it here or handle it elsewhere
