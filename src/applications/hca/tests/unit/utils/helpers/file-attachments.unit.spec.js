@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { createPayload, parseResponse } from '../../../../utils/helpers';
 
-describe('file-attachments', () => {
+describe('hca file attachment methods', () => {
   const mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-  describe('hca `createPayload` method', () => {
+  context('when the `createPayload` method executes', () => {
     it('should create a FormData instance with file', () => {
       const payload = createPayload(mockFile);
 
@@ -12,7 +12,7 @@ describe('file-attachments', () => {
     });
   });
 
-  describe('hca `parseResponse` method', () => {
+  context('when the `parseResponse` method executes', () => {
     it('should return an object with the name, confirmation code and file size', () => {
       const response = {
         data: {
