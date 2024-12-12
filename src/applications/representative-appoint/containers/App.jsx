@@ -61,7 +61,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
 
 const mapStateToProps = state => ({
   profile: state.user.profile,
-  formData: state.form?.data || {},
+  formData: state.form?.data,
   loggedIn: isLoggedIn(state),
 });
 

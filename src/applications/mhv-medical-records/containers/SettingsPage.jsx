@@ -12,6 +12,7 @@ import {
 } from '../actions/sharing';
 import { pageTitles } from '../util/constants';
 import ExternalLink from '../components/shared/ExternalLink';
+import { sendDataDogAction } from '../util/helpers';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -157,6 +158,7 @@ const SettingsPage = () => {
             text={isSharing ? 'Opt out' : 'Opt back in'}
             onClick={() => {
               setShowSharingModal(true);
+              sendDataDogAction(isSharing ? 'Opt out' : 'Opt in');
               // If you want to focus an element, you can call it here or handle it elsewhere
             }}
           />
@@ -169,16 +171,27 @@ const SettingsPage = () => {
     const title = `Opt ${
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
+    const primaryButtonText = isSharing ? 'Yes, opt out' : 'Yes, opt in';
+    const secondaryButtonText = isSharing
+      ? "No, don't opt out"
+      : "No, don't opt in";
     return (
       <VaModal
         modalTitle={title}
-        onCloseEvent={() => setShowSharingModal(false)}
-        onPrimaryButtonClick={() => handleUpdateSharing(isSharing)}
-        onSecondaryButtonClick={() => setShowSharingModal(false)}
-        primaryButtonText={isSharing ? 'Yes, opt out' : 'Yes, opt in'}
-        secondaryButtonText={
-          isSharing ? "No, don't opt out" : "No, don't opt in"
-        }
+        onCloseEvent={() => {
+          setShowSharingModal(false);
+          sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
+        }}
+        onPrimaryButtonClick={() => {
+          handleUpdateSharing(isSharing);
+          sendDataDogAction(primaryButtonText);
+        }}
+        onSecondaryButtonClick={() => {
+          setShowSharingModal(false);
+          sendDataDogAction(secondaryButtonText);
+        }}
+        primaryButtonText={primaryButtonText}
+        secondaryButtonText={secondaryButtonText}
         visible
       >
         <p>Equal to VA Form 10-10163</p>
@@ -241,7 +254,10 @@ const SettingsPage = () => {
         </p>
 
         <div className="vads-u-margin-bottom--3">
-          <va-additional-info trigger="What your electronic health information includes">
+          <va-additional-info
+            data-dd-action-name="What your EHI includes"
+            trigger="What your electronic health information includes"
+          >
             <ul>
               <li>
                 All allergies and reactions, vaccines, medications, and health
@@ -283,6 +299,7 @@ const SettingsPage = () => {
         </p>
         <p>
           <ExternalLink
+            ddTag="Go to your profile on MHV"
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
