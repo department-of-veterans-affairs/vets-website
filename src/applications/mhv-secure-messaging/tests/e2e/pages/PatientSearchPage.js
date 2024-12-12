@@ -4,7 +4,7 @@ import { Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
-class PatientBasicSearchPage {
+class PatientSearchPage {
   // This method clicks the Search messages on the side navigation bar.
   clickSearchMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
@@ -94,6 +94,28 @@ class PatientBasicSearchPage {
     };
   };
 
+  verifySearchResponseLength = mockResponse => {
+    cy.get(Locators.MESSAGES).should('have.length', mockResponse.data.length);
+  };
+
+  veriyfyMessageDate = numberOfMonth => {
+    cy.get(`.received-date`).each(message => {
+      cy.wrap(message)
+        .invoke('text')
+        .then(dateString => {
+          // Extract and parse the date
+          const extractedDate = dateString.split(' at ')[0]; // "November 29, 2024"
+          const parsedDate = new Date(extractedDate);
+
+          // Calculate three months back from the current date
+          const threeMonthsBack = new Date();
+          threeMonthsBack.setMonth(threeMonthsBack.getMonth() - numberOfMonth);
+
+          // Assert the date is within the last 3 months
+          expect(parsedDate).to.be.gte(threeMonthsBack);
+        });
+    });
+  };
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(
@@ -104,4 +126,4 @@ class PatientBasicSearchPage {
   // }
 }
 
-export default new PatientBasicSearchPage();
+export default new PatientSearchPage();

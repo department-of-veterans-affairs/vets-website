@@ -2,7 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import mockSearchMessages from '../fixtures/searchResponses/search-COVID-results.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
-import PatientBasicSearchPage from '../pages/PatientBasicSearchPage';
+import PatientSearchPage from '../pages/PatientSearchPage';
 
 describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
   beforeEach(() => {
@@ -30,9 +30,8 @@ describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
   });
 });
 
-describe('SM INBOX ADVANCED DATE SEARCH', () => {
+describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   let searchResultResponse;
-
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -40,51 +39,48 @@ describe('SM INBOX ADVANCED DATE SEARCH', () => {
   });
 
   it('verify filter by last 3 month', () => {
-    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
-      2,
-      3,
-    );
+    searchResultResponse = PatientSearchPage.createSearchMockResponse(2, 3);
+
+    // TODO remove logging
     cy.log(JSON.stringify(searchResultResponse.data[0]));
+
     PatientInboxPage.selectDateRange('Last 3 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      searchResultResponse.data.length,
-    );
+
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+    PatientSearchPage.veriyfyMessageDate(3);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify filter by last 6 month', () => {
-    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
-      3,
-      6,
-    );
-    cy.log(JSON.stringify(searchResultResponse.data[1]));
-    PatientInboxPage.selectDateRange('Last 3 months');
+    searchResultResponse = PatientSearchPage.createSearchMockResponse(3, 6);
+    // TODO remove logging
+    // cy.log(JSON.stringify(searchResultResponse.data[1]));
+
+    PatientInboxPage.selectDateRange('Last 6 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      searchResultResponse.data.length,
-    );
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+    PatientSearchPage.veriyfyMessageDate(6);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify filter by last 12 month', () => {
-    searchResultResponse = PatientBasicSearchPage.createSearchMockResponse(
-      5,
-      12,
-    );
-    cy.log(JSON.stringify(searchResultResponse.data[4]));
-    PatientInboxPage.selectDateRange('Last 3 months');
+    searchResultResponse = PatientSearchPage.createSearchMockResponse(5, 12);
+    // TODO remove logging
+    // cy.log(JSON.stringify(searchResultResponse.data[4]));
+
+    PatientInboxPage.selectDateRange('Last 12 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      searchResultResponse.data.length,
-    );
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+
+    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
+    PatientSearchPage.veriyfyMessageDate(12);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
