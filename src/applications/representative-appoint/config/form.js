@@ -26,7 +26,6 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  // veteranContactPhoneEmailForNonVeteran,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -207,22 +206,6 @@ const formConfig = {
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
         },
-        // ...profileContactInfo({
-        //   contactInfoPageKey: 'confirmContactInfo',
-        //   contactPath: 'claimant-contact',
-        //   contactInfoRequiredKeys: [
-        //     'mailingAddress',
-        //     'email',
-        //     'homePhone',
-        //     'mobilePhone',
-        //   ],
-        //   included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
-        //   depends: formData => {
-        //     const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
-        //     const isNotVeteran = !preparerIsVeteran({ formData });
-        //     return isLoggedIn && isNotVeteran;
-        //   },
-        // }),
 
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
@@ -245,13 +228,6 @@ const formConfig = {
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
         },
-        // veteranContactPhoneEmailForNonVeteran: {
-        //   path: 'veteran-contact-phone-email-for-non-veteran',
-        //   title: `Veteran’s phone number and email address`,
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   uiSchema: veteranContactPhoneEmailForNonVeteran.uiSchema,
-        //   schema: veteranContactPhoneEmailForNonVeteran.schema,
-        // },
         veteranIdentification: {
           path: 'veteran-identification',
           title: `Your identification information`,

@@ -7,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { add, compareAsc } from 'date-fns';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import ExternalLink from '../components/shared/ExternalLink';
 import {
   getSelfEnteredAllergies,
   getSelfEnteredVitals,
@@ -36,6 +39,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
 
+  const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
   const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -316,6 +320,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         <va-accordion-item
           bordered="true"
           header="Self-entered health information"
+          data-testid="selfEnteredAccordionItem"
         >
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
@@ -326,9 +331,25 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <button className="link-button" onClick={generatePdf}>
+          <button
+            className="link-button"
+            onClick={generatePdf}
+            data-testid="downloadSelfEnteredButton"
+          >
             <va-icon icon="file_download" size={3} /> Download PDF
           </button>
+          <p>
+            <strong>Note:</strong> Self-entered My Goals are no longer available
+            on My HealtheVet and not included in this report. To download your
+            historical goals you can go to the previous version of My
+            HealtheVet.
+          </p>
+
+          <ExternalLink
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
+            text="Go to the previous version of MyHealtheVet to download historical
+            goals"
+          />
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">
