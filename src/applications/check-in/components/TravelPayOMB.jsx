@@ -14,7 +14,7 @@ const TravelPayOMB = () => {
       data-testid="travel-pay-omb"
       class="vads-u-margin-y--4"
     >
-      <p>
+      <p data-testid="travel-pay-omb-burdern-statement">
         <strong>VA Burden Statement:</strong> An agency may not conduct or
         sponsor, and a person is not required to respond to, a collection of
         information unless it displays a currently valid OMB control number. The
@@ -39,7 +39,7 @@ const TravelPayOMB = () => {
         address.
       </p>
 
-      <p>
+      <p data-testid="travel-pay-omb-privacy-act-info">
         <strong>Privacy Act information:</strong> VA is asking you to provide
         the information on this form under 38 U.S.C. Sections 111 to determine
         your eligibility for Beneficiary Travel benefits and will be used for
