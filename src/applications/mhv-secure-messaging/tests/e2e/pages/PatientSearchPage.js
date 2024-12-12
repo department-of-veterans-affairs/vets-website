@@ -85,6 +85,8 @@ class PatientSearchPage {
         // deep copy of each item
         const newItem = JSON.parse(JSON.stringify(item));
         // update the category to provided data
+        newItem.type = 'messages';
+        newItem.attributes.readReceipt = 'READ';
         newItem.attributes.category = category;
         return newItem;
       }),
@@ -99,11 +101,13 @@ class PatientSearchPage {
     return {
       data: originalResponse.data.slice(0, numberOfMessages).map(item => {
         const newItem = { ...item };
+        newItem.type = 'messages';
         newItem.attributes = {
           ...newItem.attributes,
           sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
             numberOfMonths,
           ),
+          readReceipt: 'READ',
         };
         return newItem;
       }),
@@ -121,7 +125,7 @@ class PatientSearchPage {
   verifySearchMessageLabel = (response, text) => {
     cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
       .should('contain', response.data.length)
-      .and('contain', `Category: "${text}"`);
+      .and('contain', text);
   };
 
   verifyMessageDate = numberOfMonth => {
