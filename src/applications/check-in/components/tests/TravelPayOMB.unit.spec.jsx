@@ -26,7 +26,7 @@ describe('check-in', () => {
       // Verify the Burder Statement Act section
       const burderStatement = getByTestId('travel-pay-omb-burdern-statement');
       expect(burderStatement).to.exist;
-      // Verify the statement included the OMB information
+      // Verify the statement includes the OMB information
       expect(burderStatement.textContent).to.include('2900-0798');
       expect(burderStatement.textContent).to.include('11/30/2027');
       expect(burderStatement.textContent).to.include('10 minutes');
