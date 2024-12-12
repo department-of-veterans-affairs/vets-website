@@ -70,7 +70,6 @@ describe('AutosuggestField in Pre-need-integration', () => {
       />,
     );
 
-    // Check for read-only display
     expect(wrapper.find('.review-row').exists()).to.be.false;
   });
 
@@ -105,10 +104,8 @@ describe('AutosuggestField in Pre-need-integration', () => {
       />,
     );
 
-    // Check if useEnum is set to true
     expect(wrapper.instance().useEnum).to.be.true;
 
-    // Check if suggestions are generated correctly
     expect(wrapper.state('suggestions')).to.deep.equal([
       { id: '1', label: 'Label 1' },
       { id: '2', label: 'Label 2' },
@@ -145,14 +142,12 @@ describe('AutosuggestField in Pre-need-integration', () => {
       />,
     );
 
-    // Check getFormData with useEnum
     wrapper.instance().useEnum = true;
     let formDataResult = wrapper
       .instance()
       .getFormData({ id: '1', label: 'Option 1' });
     expect(formDataResult).to.equal('1');
 
-    // Check getFormData with freeInput
     wrapper.instance().useEnum = false;
     formDataResult = wrapper
       .instance()
@@ -166,7 +161,6 @@ describe('AutosuggestField in Pre-need-integration', () => {
     const uiSchema = {
       'ui:options': {
         labels: { 1: 'Label 1' },
-        // inputTransformers: [input => input.toUpperCase()],
       },
     };
     const schema = {
@@ -194,14 +188,12 @@ describe('AutosuggestField in Pre-need-integration', () => {
       { id: '2', label: 'Option 2' },
     ];
 
-    // Ensure useEnum is set to true
     wrapper.instance().useEnum = true;
 
-    // Check getItemFromInput with exact match
     const item = wrapper
       .instance()
       .getItemFromInput('Option 1', suggestions, uiSchema['ui:options']);
-    expect(item).to.equal('Option 1'); // Since getFormData returns suggestion.id when useEnum is true
+    expect(item).to.equal('Option 1');
   });
 
   it('should handle input value change', () => {
@@ -239,13 +231,10 @@ describe('AutosuggestField in Pre-need-integration', () => {
     sinon.spy(instance, 'getItemFromInput');
     sinon.spy(instance, 'getSuggestions');
 
-    // Simulate input value change
     instance.handleInputValueChange('new value');
 
-    // Check if debouncedGetOptions is called
     expect(instance.debouncedGetOptions.calledWith('new value')).to.be.true;
 
-    // Check if getItemFromInput is called
     expect(
       instance.getItemFromInput.calledWith(
         'new value',
@@ -254,19 +243,15 @@ describe('AutosuggestField in Pre-need-integration', () => {
       ),
     ).to.be.true;
 
-    // Check if onChange is called
     expect(mockOnChange.called).to.be.true;
 
-    // Check if state is updated
     expect(instance.state.input).to.equal('new value');
     expect(
       instance.getSuggestions.calledWith(instance.state.options, 'new value'),
     ).to.be.true;
 
-    // Simulate input value change to empty string
     instance.handleInputValueChange('');
 
-    // Check if onChange is called with no arguments
     expect(mockOnChange.calledWith()).to.be.true;
     expect(instance.state.input).to.equal('');
   });
@@ -304,16 +289,12 @@ describe('AutosuggestField in Pre-need-integration', () => {
 
     const selectedItem = { id: '1', label: 'Option 1' };
 
-    // Simulate selection change
     instance.handleChange(selectedItem);
 
-    // Check if getFormData is called
     expect(instance.getFormData.calledWith(selectedItem)).to.be.true;
 
-    // Check if onChange is called with the correct value
     expect(mockOnChange.calledWith('1')).to.be.true;
 
-    // Check if state is updated
     expect(instance.state.input).to.equal('Option 1');
   });
 });

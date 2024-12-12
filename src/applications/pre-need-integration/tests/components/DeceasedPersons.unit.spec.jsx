@@ -5,9 +5,8 @@ import SkinDeep from 'skin-deep';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
-import DeceasedPersons from '../../components/DeceasedPersons'; // Update with the correct path
+import DeceasedPersons from '../../components/DeceasedPersons';
 
-// Mock store
 const mockStore = configureStore([]);
 const store = mockStore({
   form: {

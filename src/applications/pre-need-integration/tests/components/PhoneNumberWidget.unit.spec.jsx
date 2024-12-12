@@ -44,16 +44,12 @@ describe('Pre-need Schemaform <PhoneNumberWidget>', () => {
       <PhoneNumberWidget value="1234567890" onChange={onChange} />,
     );
 
-    // Initially, firstUpdate should be true
     expect(tree.getMountedInstance().state.firstUpdate).to.be.true;
 
-    // Update the props to trigger componentDidUpdate
     tree.getMountedInstance().componentDidUpdate({ value: '1234567890' });
 
-    // After update, firstUpdate should be false
     expect(tree.getMountedInstance().state.firstUpdate).to.be.true;
 
-    // onChange should be called with the stripped value
     expect(onChange.calledWith('1234567890')).to.be.false;
   });
 });

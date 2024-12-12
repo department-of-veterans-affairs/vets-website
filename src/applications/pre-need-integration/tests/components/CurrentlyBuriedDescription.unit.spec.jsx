@@ -24,7 +24,6 @@ describe('CurrentlyBuriedDescription Component', () => {
   };
 
   beforeEach(() => {
-    // Stub the helper functions
     isVeteranStub = sinon.stub(helpers, 'isVeteran');
     isAuthorizedAgentStub = sinon.stub(helpers, 'isAuthorizedAgent');
   });
@@ -40,7 +39,7 @@ describe('CurrentlyBuriedDescription Component', () => {
 
     const wrapper = renderComponent({
       form: {
-        data: {}, // State structure doesn't matter as helpers are mocked
+        data: {},
       },
     });
 
@@ -55,7 +54,7 @@ describe('CurrentlyBuriedDescription Component', () => {
 
     const wrapper = renderComponent({
       form: {
-        data: {}, // State structure doesn't matter as helpers are mocked
+        data: {},
       },
     });
 
@@ -70,7 +69,7 @@ describe('CurrentlyBuriedDescription Component', () => {
 
     const wrapper = renderComponent({
       form: {
-        data: {}, // State structure doesn't matter as helpers are mocked
+        data: {},
       },
     });
 
