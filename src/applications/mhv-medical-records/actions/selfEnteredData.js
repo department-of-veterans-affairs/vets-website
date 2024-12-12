@@ -15,6 +15,7 @@ import {
   getSeiMedications,
 } from '../api/seiApi';
 import { selfEnteredTypes } from '../util/constants';
+import { getPatient } from '../api/MrApi';
 
 export const clearErrors = () => async dispatch => {
   dispatch({ type: Actions.SelfEntered.CLEAR_ERRORS });
@@ -222,6 +223,22 @@ export const getSelfEnteredMedications = () => async dispatch => {
     dispatch({
       type: Actions.SelfEntered.ADD_ERROR,
       payload: { type: selfEnteredTypes.MEDICATIONS },
+    });
+    throw error;
+  }
+};
+
+export const getSelfEnteredDemographics = () => async dispatch => {
+  try {
+    const response = await getPatient();
+    dispatch({
+      type: Actions.SelfEntered.GET_DEMOGRAPHICS,
+      payload: response,
+    });
+  } catch (error) {
+    dispatch({
+      type: Actions.SelfEntered.ADD_ERROR,
+      payload: { type: selfEnteredTypes.DEMOGRAPHICS },
     });
     throw error;
   }

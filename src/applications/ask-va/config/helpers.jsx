@@ -342,7 +342,10 @@ export const isLocationOfResidenceRequired = data => {
 
   // Check general question
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
     return true;
   }
 
@@ -456,6 +459,13 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
+  if (
+    selectCategory === 'Health care' &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return true;
+  }
+
   // Default to false if none of the conditions are met
   return false;
 };
@@ -498,5 +508,29 @@ export const isVRERequired = data => {
     selectCategory === CategoryVeteranReadinessAndEmployment ||
     (selectCategory === CategoryEducation &&
       selectTopic === TopicVeteranReadinessAndEmploymentChapter31)
+  );
+};
+
+export const isHealthFacilityRequired = data => {
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
+
+  const healthTopics = [
+    'Prosthetics',
+    'Audiology and hearing aids',
+    'Getting care at a local VA medical center',
+  ];
+
+  if (
+    selectCategory === 'Health care' &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return false;
+  }
+
+  return (
+    (selectCategory === 'Health care' && healthTopics.includes(selectTopic)) ||
+    (selectCategory ===
+      'Debt for benefit overpayments and health care copay bills' &&
+      selectTopic === 'Health care copay debt')
   );
 };
