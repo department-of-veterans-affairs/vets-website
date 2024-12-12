@@ -12,15 +12,15 @@ const VaccinesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link
-        to={`/vaccines/${record.id}`}
-        data-dd-privacy="mask"
-        className="no-print"
-      >
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+      <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <Link
+          to={`/vaccines/${record.id}`}
+          data-dd-privacy="mask"
+          className="no-print"
+        >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* print view header */}
       <h2
