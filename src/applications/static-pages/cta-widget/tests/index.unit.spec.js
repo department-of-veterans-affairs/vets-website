@@ -129,7 +129,7 @@ describe('<CallToActionWidget>', () => {
     const signIn = tree.find('SignIn');
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
     expect(signIn.exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
+    expect(tree.find('h2').exists()).to.be.true;
     expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
     expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
     tree.unmount();
@@ -151,7 +151,7 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
     expect(tree.find('Unauthed').exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
+    expect(tree.find('h2').exists()).to.be.true;
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
     const derivedUrl = ctaWidgetsLookup[
@@ -184,7 +184,7 @@ describe('<CallToActionWidget>', () => {
     );
 
     expect(tree.find('Verify').exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
+    expect(tree.find('h2').exists()).to.be.true;
     tree.unmount();
   });
   it('should show link and description', () => {
@@ -424,7 +424,7 @@ describe('<CallToActionWidget>', () => {
       expect(
         tree.find('[data-testid="direct-deposit-id-me-sign-up-link"]').exists(),
       ).to.be.true;
-      expect(tree.find('h3').exists()).to.be.true;
+      expect(tree.find('h2').exists()).to.be.true;
       tree.unmount();
     });
 
@@ -836,13 +836,13 @@ describe('<CallToActionWidget>', () => {
     describe('enabled', () => {
       it('promps to sign in w/ h4 when enabled and user signed out', () => {
         const tree = setup({ haCpapSuppliesCta: true });
-        expect(tree.find('h3').exists()).to.be.true;
+        expect(tree.find('h2').exists()).to.be.true;
         expect(tree.find('SignIn').exists()).to.be.true;
       });
 
       it('promps to verify w/ h4 when enabled and user is unverified', () => {
         const tree = setup({ haCpapSuppliesCta: true, isLoggedIn: true });
-        expect(tree.find('h3').exists()).to.be.true;
+        expect(tree.find('h2').exists()).to.be.true;
         expect(tree.find('Verify').exists()).to.be.true;
       });
 
