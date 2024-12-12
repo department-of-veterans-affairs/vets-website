@@ -218,13 +218,23 @@ export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_PAGE_TITLE:
     'Lab And Test Results - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
+    'Lab And Test Results Details - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
+    'Care Summaries And Notes Details - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  VACCINE_DETAILS_PAGE_TITLE:
+    'Vaccine Details - Medical records | Veterans Affairs',
   ALLERGIES_PAGE_TITLE:
     'Allergies and Reactions - Medical Records | Veterans Affairs',
+  ALLERGY_DETAILS_PAGE_TITLE:
+    'Allergies And Reactions Details - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
+    'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download All Medical Records - Medical Records | Veterans Affairs',
@@ -319,6 +329,13 @@ export const Paths = {
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
+  BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
+  BLOOD_PRESSURE: '/vitals/blood-pressure-history',
+  BREATHING_RATE: '/vitals/breathing-rate-history',
+  HEART_RATE: '/vitals/heart-rate-history',
+  HEIGHT: '/vitals/height-history',
+  TEMPERATURE: '/vitals/temperature-history',
+  WEIGHT: '/vitals/weight-history',
 };
 
 export const Breadcrumbs = {
@@ -365,4 +382,31 @@ export const Breadcrumbs = {
     label: 'Download medical records reports',
     isRouterLink: true,
   },
+  BLOOD_OXYGEN_LEVEL: {
+    href: Paths.BLOOD_OXYGEN_LEVEL,
+    label: 'Blood oxygen level',
+    isRouterLink: true,
+  },
+  BLOOD_PRESSURE: {
+    href: Paths.BLOOD_PRESSURE,
+    label: 'Blood pressure',
+    isRouterLink: true,
+  },
+  BREATHING_RATE: {
+    href: Paths.BREATHING_RATE,
+    label: 'Breathing rate',
+    isRouterLink: true,
+  },
+  HEART_RATE: {
+    href: Paths.HEART_RATE,
+    label: 'Heart rate',
+    isRouterLink: true,
+  },
+  HEIGHT: { href: Paths.HEIGHT, label: 'Height', isRouterLink: true },
+  TEMPERATURE: {
+    href: Paths.TEMPERATURE,
+    label: 'Temperature',
+    isRouterLink: true,
+  },
+  WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
