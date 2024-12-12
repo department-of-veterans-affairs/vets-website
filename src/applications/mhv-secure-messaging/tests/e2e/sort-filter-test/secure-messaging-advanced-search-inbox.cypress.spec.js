@@ -48,7 +48,7 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.veriyfyMessageDate(3);
+    PatientSearchPage.verifyMessageDate(3);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -64,7 +64,7 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.veriyfyMessageDate(6);
+    PatientSearchPage.verifyMessageDate(6);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -80,7 +80,7 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.veriyfyMessageDate(12);
+    PatientSearchPage.verifyMessageDate(12);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

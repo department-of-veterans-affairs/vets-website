@@ -98,7 +98,7 @@ class PatientSearchPage {
     cy.get(Locators.MESSAGES).should('have.length', mockResponse.data.length);
   };
 
-  veriyfyMessageDate = numberOfMonth => {
+  verifyMessageDate = numberOfMonth => {
     cy.get(`.received-date`).each(message => {
       cy.wrap(message)
         .invoke('text')
