@@ -14,7 +14,11 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
+import {
+  apiAccountStatusEnabled,
+  personalizationEnabled,
+  mrPhase1Enabled,
+} from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
@@ -31,6 +35,7 @@ import {
 } from './mhvAccountStatus';
 
 export {
+  apiAccountStatusEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
