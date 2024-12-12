@@ -31,8 +31,6 @@ const DownloadFileType = props => {
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
-  const [blueButtonRequested, setBlueButtonRequested] = useState(false);
-  const [downloadType, setDownloadType] = useState('');
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
@@ -61,22 +59,16 @@ const DownloadFileType = props => {
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(
-      data =>
-        (typeof data === 'object' && Object.keys(data)?.length) ||
-        (typeof data === 'string' && data?.length) ||
-        (Array.isArray(data) && !!data?.length),
-    );
-  };
-
-  useEffect(() => {
-    if (!dateFilter) {
-      history.push('/download/date-range');
-    } else if (!recordFilter) {
-      history.push('/download/record-type');
-    }
-  });
+  useEffect(
+    () => {
+      if (!dateFilter) {
+        history.push('/download/date-range');
+      } else if (!recordFilter) {
+        history.push('/download/record-type');
+      }
+    },
+    [dateFilter, history, recordFilter],
+  );
 
   const [filterFromDate, filterToDate] = useMemo(
     () => {
@@ -85,109 +77,170 @@ const DownloadFileType = props => {
     [dateFilter],
   );
 
-  const filterByDate = recDate => {
-    return (
-      isBefore(new Date(filterFromDate), new Date(recDate)) &&
-      isAfter(new Date(filterToDate), new Date(recDate))
-    );
-  };
-
-  const recordData = useMemo(() => {
-    if (
-      !allAreDefined([
-        labsAndTests,
-        notes,
-        vaccines,
-        allergies,
-        conditions,
-        vitals,
-      ])
-    ) {
-      dispatch(getBlueButtonReportData());
-    } else {
-      return {
-        labsAndTests: recordFilter?.includes('labTests')
-          ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
-          : null,
-        notes: recordFilter?.includes('careSummaries')
-          ? notes.filter(rec => filterByDate(rec.sortByDate))
-          : null,
-        vaccines: recordFilter?.includes('vaccines')
-          ? vaccines.filter(rec => filterByDate(rec.date))
-          : null,
-        allergies:
-          recordFilter?.includes('allergies') ||
-          recordFilter?.includes('medications')
-            ? allergies
-            : null,
-        conditions: recordFilter?.includes('conditions') ? conditions : null,
-        vitals: recordFilter?.includes('vitals')
-          ? vitals.filter(rec => filterByDate(rec.date))
-          : null,
-        medications: recordFilter?.includes('medications')
-          ? medications.filter(rec => filterByDate(rec.lastFilledOn))
-          : null,
-        appointments:
-          recordFilter?.includes('upcomingAppts') ||
-          recordFilter?.includes('pastAppts')
-            ? appointments.filter(
-                rec =>
-                  filterByDate(rec.date) &&
-                  ((recordFilter.includes('upcomingAppts') && rec.isUpcoming) ||
-                    (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
-              )
-            : null,
-        demographics: recordFilter?.includes('demographics')
-          ? demographics
-          : null,
-        militaryService: recordFilter?.includes('militaryService')
-          ? militaryService
-          : null,
-        accountSummary,
-      };
-    }
-    return {};
-  });
-
-  const recordCount = useMemo(() => {
-    let count = 0;
-    count += recordData?.labsAndTests ? recordData?.labsAndTests?.length : 0;
-    count += recordData?.notes ? recordData?.notes?.length : 0;
-    count += recordData?.vaccines ? recordData?.vaccines?.length : 0;
-    count += recordData?.allergies ? recordData?.allergies?.length : 0;
-    count += recordData?.conditions ? recordData?.conditions?.length : 0;
-    count += recordData?.vitals ? recordData?.vitals?.length : 0;
-    count += recordData?.medications ? recordData?.medications?.length : 0;
-    count += recordData?.appointments ? recordData?.appointments?.length : 0;
-    count += recordData?.demographics ? 1 : 0;
-    count += recordData?.militaryService ? 1 : 0;
-
-    return count;
-  });
-
-  const generatePdf = useCallback(
-    async () => {
-      setDownloadStarted(true);
-      setDownloadType('pdf');
-      setBlueButtonRequested(true);
-      dispatch(clearAlerts());
-      const allDefd = allAreDefined([
-        labsAndTests,
-        notes,
+  /**
+   * True if all the records that were specified in the filters have been fetched, otherwise false.
+   */
+  const isDataFetched = useMemo(
+    () => {
+      // Map the recordFilter keys to the corresponding data domains
+      const dataMap = {
+        labTests: labsAndTests,
+        careSummaries: notes,
         vaccines,
         allergies,
         conditions,
         vitals,
         medications,
-        appointments,
+        upcomingAppts: appointments,
+        pastAppts: appointments,
         demographics,
         militaryService,
         accountSummary,
-      ]);
-      if (!allDefd) {
-        dispatch(getBlueButtonReportData());
-      } else {
-        setBlueButtonRequested(false);
+      };
+
+      // Check if all domains in the recordFilter are truthy
+      return recordFilter?.every(filter => !!dataMap[filter]);
+    },
+    [
+      labsAndTests,
+      notes,
+      vaccines,
+      allergies,
+      conditions,
+      vitals,
+      medications,
+      appointments,
+      demographics,
+      militaryService,
+      accountSummary,
+      recordFilter,
+    ],
+  );
+
+  useEffect(
+    () => {
+      const options = {
+        labs: recordFilter?.includes('labTests'),
+        notes: recordFilter?.includes('careSummaries'),
+        vaccines: recordFilter?.includes('vaccines'),
+        allergies:
+          recordFilter?.includes('allergies') ||
+          recordFilter?.includes('medications'),
+        conditions: recordFilter?.includes('conditions'),
+        vitals: recordFilter?.includes('vitals'),
+        medications: recordFilter?.includes('medications'),
+        appointments:
+          recordFilter?.includes('upcomingAppts') ||
+          recordFilter?.includes('pastAppts'),
+        demographics: recordFilter?.includes('demographics'),
+        militaryService: recordFilter?.includes('militaryService'),
+      };
+
+      if (!isDataFetched) {
+        dispatch(getBlueButtonReportData(options));
+      }
+    },
+    [isDataFetched, recordFilter, dispatch],
+  );
+
+  const recordData = useMemo(
+    () => {
+      const filterByDate = recDate => {
+        return (
+          isBefore(new Date(filterFromDate), new Date(recDate)) &&
+          isAfter(new Date(filterToDate), new Date(recDate))
+        );
+      };
+
+      if (isDataFetched) {
+        return {
+          labsAndTests: recordFilter?.includes('labTests')
+            ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
+            : null,
+          notes: recordFilter?.includes('careSummaries')
+            ? notes.filter(rec => filterByDate(rec.sortByDate))
+            : null,
+          vaccines: recordFilter?.includes('vaccines')
+            ? vaccines.filter(rec => filterByDate(rec.date))
+            : null,
+          allergies:
+            recordFilter?.includes('allergies') ||
+            recordFilter?.includes('medications')
+              ? allergies
+              : null,
+          conditions: recordFilter?.includes('conditions') ? conditions : null,
+          vitals: recordFilter?.includes('vitals')
+            ? vitals.filter(rec => filterByDate(rec.date))
+            : null,
+          medications: recordFilter?.includes('medications')
+            ? medications.filter(rec => filterByDate(rec.lastFilledOn))
+            : null,
+          appointments:
+            recordFilter?.includes('upcomingAppts') ||
+            recordFilter?.includes('pastAppts')
+              ? appointments.filter(
+                  rec =>
+                    filterByDate(rec.date) &&
+                    ((recordFilter.includes('upcomingAppts') &&
+                      rec.isUpcoming) ||
+                      (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
+                )
+              : null,
+          demographics: recordFilter?.includes('demographics')
+            ? demographics
+            : null,
+          militaryService: recordFilter?.includes('militaryService')
+            ? militaryService
+            : null,
+          accountSummary,
+        };
+      }
+      return null;
+    },
+    [
+      isDataFetched,
+      filterFromDate,
+      filterToDate,
+      recordFilter,
+      labsAndTests,
+      notes,
+      vaccines,
+      allergies,
+      conditions,
+      vitals,
+      medications,
+      appointments,
+      demographics,
+      militaryService,
+      accountSummary,
+    ],
+  );
+
+  const recordCount = useMemo(
+    () => {
+      let count = 0;
+      count += recordData?.labsAndTests ? recordData?.labsAndTests?.length : 0;
+      count += recordData?.notes ? recordData?.notes?.length : 0;
+      count += recordData?.vaccines ? recordData?.vaccines?.length : 0;
+      count += recordData?.allergies ? recordData?.allergies?.length : 0;
+      count += recordData?.conditions ? recordData?.conditions?.length : 0;
+      count += recordData?.vitals ? recordData?.vitals?.length : 0;
+      count += recordData?.medications ? recordData?.medications?.length : 0;
+      count += recordData?.appointments ? recordData?.appointments?.length : 0;
+      count += recordData?.demographics ? 1 : 0;
+      count += recordData?.militaryService ? 1 : 0;
+
+      return count;
+    },
+    [recordData],
+  );
+
+  const generatePdf = useCallback(
+    async () => {
+      setDownloadStarted(true);
+      dispatch(clearAlerts());
+
+      if (isDataFetched) {
         const title = 'Blue Button report';
         const subject = 'VA Medical Record';
         const scaffold = generatePdfScaffold(user, title, subject);
@@ -201,52 +254,14 @@ const DownloadFileType = props => {
         makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
       }
     },
-    [
-      accountSummary,
-      allergies,
-      appointments,
-      conditions,
-      demographics,
-      dispatch,
-      dob,
-      labsAndTests,
-      medications,
-      militaryService,
-      name,
-      notes,
-      user,
-      vaccines,
-      vitals,
-    ],
+    [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
   );
 
-  /**
-   *  Generate text function
-   */
   const generateTxt = useCallback(
     async () => {
       setDownloadStarted(true);
-      setDownloadType('txt');
-      setBlueButtonRequested(true);
       dispatch(clearAlerts());
-      if (
-        !allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-          medications,
-          appointments,
-          demographics,
-          militaryService,
-          accountSummary,
-        ])
-      ) {
-        dispatch(getBlueButtonReportData());
-      } else {
-        setBlueButtonRequested(false);
+      if (isDataFetched) {
         const title = 'Blue Button report';
         const subject = 'VA Medical Record';
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
@@ -259,57 +274,7 @@ const DownloadFileType = props => {
         generateTextFile(content, pdfName, user);
       }
     },
-    [
-      accountSummary,
-      allergies,
-      appointments,
-      conditions,
-      demographics,
-      dispatch,
-      dob,
-      labsAndTests,
-      medications,
-      militaryService,
-      name,
-      notes,
-      user,
-      vaccines,
-      vitals,
-    ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        ]) &&
-        blueButtonRequested
-      ) {
-        if (downloadType === 'pdf') {
-          generatePdf();
-        } else {
-          generateTxt();
-        }
-      }
-    },
-    [
-      labsAndTests,
-      notes,
-      vaccines,
-      allergies,
-      conditions,
-      vitals,
-      generatePdf,
-      generateTxt,
-      downloadType,
-      blueButtonRequested,
-    ],
+    [dispatch, isDataFetched, recordData, user],
   );
 
   return (
@@ -350,6 +315,7 @@ const DownloadFileType = props => {
           </div>
         </button>
         <button
+          disabled={!isDataFetched}
           className="vads-u-margin-y--0p5"
           onClick={() => {
             if (fileType === 'pdf') {
