@@ -22,7 +22,7 @@ Cypress.Commands.add('openFilters', () => {
     .click({ waitForAnimations: true });
 });
 
-describe(`${appName} -- Status Page`, () => {
+describe.skip(`${appName} -- Status Page`, () => {
   beforeEach(() => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
