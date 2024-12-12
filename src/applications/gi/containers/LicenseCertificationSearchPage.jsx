@@ -9,6 +9,7 @@ import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearchPage({
   dispatchFetchLicenseCertificationResults,
+  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
@@ -22,8 +23,12 @@ function LicenseCertificationSearchPage({
         dispatchFetchLicenseCertificationResults();
       }
     },
-    [dispatchFetchLicenseCertificationResults],
+    [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
+
+  // if (error) {
+  //   {/* ERROR STATE */}
+  // }
 
   return (
     <div>
@@ -33,8 +38,9 @@ function LicenseCertificationSearchPage({
           message="Loading..."
         />
       )}
-      {hasFetchedOnce &&
-        lcResults && (
+      {!fetchingLc &&
+        hasFetchedOnce &&
+        lcResults.length !== 0 && (
           <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className=" mobile-lg:vads-u-text-align--left">
@@ -58,7 +64,6 @@ function LicenseCertificationSearchPage({
             </div>
           </section>
         )}
-      {/* ERROR STATE */}
     </div>
   );
 }
@@ -68,12 +73,14 @@ LicenseCertificationSearchPage.propTypes = {
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
   lcResults: PropTypes.array,
+  // error: Proptypes // verify error Proptypes
 };
 
 const mapStateToProps = state => ({
   lcResults: state.licenseCertificationSearch.lcResults,
   fetchingLc: state.licenseCertificationSearch.fetchingLc,
   hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
+  // error: // create error state in redux store
 });
 
 const mapDispatchToProps = {

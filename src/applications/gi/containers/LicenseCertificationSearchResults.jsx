@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
 import { filterLcResults } from '../utils/helpers';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
+  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
@@ -53,14 +57,20 @@ function LicenseCertificationSearchResults({
     setCurrentPage(page);
   };
 
-  if (fetchingLc) {
-    return <h2>Loading</h2>;
-  }
+  // if (error) {
+  //   {/* ERROR STATE */}
+  // }
 
   return (
     <div>
+      {fetchingLc && (
+        <VaLoadingIndicator
+          // data-testid="loading-indicator"
+          message="Loading..."
+        />
+      )}
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {hasFetchedOnce && filteredResults.length !== 0 ? (
+        {!fetchingLc && hasFetchedOnce && filteredResults.length !== 0 ? (
           <>
             <div className="row">
               <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
@@ -130,12 +140,14 @@ LicenseCertificationSearchResults.propTypes = {
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
   lcResults: PropTypes.array,
+  // error: Proptypes // verify error Proptypes
 };
 
 const mapStateToProps = state => ({
   fetchingLc: state.licenseCertificationSearch.fetchingLc,
   hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
   lcResults: state.licenseCertificationSearch.lcResults,
+  // error: // create error state in redux store
 });
 
 const mapDispatchToProps = {
