@@ -5,11 +5,10 @@ import { useHistory } from 'react-router-dom';
 import { format, addMinutes, isWithinInterval } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { onCalendarChange } from '../../new-appointment/redux/actions';
+import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
-import { getSelectedDate } from '../../new-appointment/redux/selectors';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
-import { selectCurrentPage } from '../redux/selectors';
+import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -20,14 +19,14 @@ export const DateAndTimeContent = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const selectedDate = useSelector(state => getSelectedDate(state));
+  const selectedDate = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-
+  const [date, setDate] = useState([]);
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
-  const selectedDateKey = `selected-date-referral-${currentReferral.UUID}`;
+  const selectedSlotKey = `selected-slot-referral-${currentReferral.UUID}`;
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
@@ -35,6 +34,18 @@ export const DateAndTimeContent = props => {
         return new Date(slot.start);
       }),
     ),
+  );
+  const getSlotByDate = useCallback(
+    dateTime => {
+      return provider.slots.find(slot => slot.start === dateTime);
+    },
+    [provider.slots],
+  );
+  const getSlotById = useCallback(
+    id => {
+      return provider.slots.find(slot => slot.id === id);
+    },
+    [provider.slots],
   );
   const fullAddress = addressObject => {
     let addressString = addressObject.street1;
@@ -99,11 +110,13 @@ export const DateAndTimeContent = props => {
   );
   const onChange = useCallback(
     value => {
+      const selectedSlot = getSlotByDate(value[0]);
       setError('');
-      dispatch(onCalendarChange(value));
-      sessionStorage.setItem(selectedDateKey, value);
+      dispatch(setSelectedSlot(selectedSlot.id));
+      setDate([selectedSlot.start]);
+      sessionStorage.setItem(selectedSlotKey, selectedSlot.id);
     },
-    [dispatch, selectedDateKey],
+    [dispatch, getSlotByDate, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
@@ -128,15 +141,15 @@ export const DateAndTimeContent = props => {
   };
   useEffect(
     () => {
-      const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
-
-      if (!savedSelectedDate) {
+      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
+      const savedSlot = getSlotById(savedSelectedSlot);
+      if (!savedSlot) {
         return;
       }
-
-      dispatch(onCalendarChange([savedSelectedDate]));
+      dispatch(setSelectedSlot(savedSlot.id));
+      setDate([savedSlot.start]);
     },
-    [dispatch, selectedDateKey],
+    [dispatch, getSlotById, selectedSlotKey, provider.slots],
   );
   return (
     <>
@@ -219,7 +232,7 @@ export const DateAndTimeContent = props => {
         <CalendarWidget
           maxSelections={1}
           availableSlots={provider.slots}
-          value={[selectedDate]}
+          value={date}
           id="dateTime"
           timezone={facilityTimeZone}
           additionalOptions={{
