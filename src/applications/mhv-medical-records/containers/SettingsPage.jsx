@@ -131,26 +131,13 @@ const SettingsPage = () => {
           aria-live="polite"
         >
           <p className="vads-u-margin-y--0">
-            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+            Opted {isSharing ? 'in to' : 'out of'} sharing
           </p>
         </va-alert>
         <va-card background className="vads-u-padding--3">
           <h3 className="vads-u-margin-top--0">
             Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
           </h3>
-          {isSharing ? (
-            <p>
-              We’ll share your electronic health information with participating
-              non-VA providers when they’re treating you. You can opt out (ask
-              us not to share your records) at any time.
-            </p>
-          ) : (
-            <p>
-              We’re not currently sharing your records online with your
-              community care providers. If you want us to start sharing your
-              records, you can opt back in.
-            </p>
-          )}
           <va-button
             ref={buttonRef}
             data-testid="open-opt-in-out-modal-button"
