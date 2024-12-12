@@ -116,6 +116,7 @@ ${record.summary}`;
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
         data-dd-privacy="mask"
+        data-dd-action-name
       >
         {record.name}
       </h1>

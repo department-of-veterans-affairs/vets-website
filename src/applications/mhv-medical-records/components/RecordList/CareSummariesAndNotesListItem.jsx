@@ -47,6 +47,7 @@ const CareSummariesAndNotesListItem = props => {
       <Link
         to={`/summaries-and-notes/${record.id}`}
         data-dd-privacy="mask"
+        data-dd-action-name
         className="no-print"
         onClick={() => {
           sendDataDogAction('Care Summaries & Notes Detail Link');
@@ -61,7 +62,12 @@ const CareSummariesAndNotesListItem = props => {
       </Link>
 
       {/* print view header */}
-      <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">
+      <h2
+        className="print-only"
+        aria-hidden="true"
+        data-dd-privacy="mask"
+        data-dd-action-name
+      >
         {record.name}
       </h2>
 
@@ -69,19 +75,31 @@ const CareSummariesAndNotesListItem = props => {
       <div className="vads-u-margin-bottom--0p5" data-testid="note-item-date">
         {isDischargeSummary && dischargeSummaryDateField(record)}
         {!isDischargeSummary && (
-          <span className="vads-u-display--inline" data-dd-privacy="mask">
+          <span
+            className="vads-u-display--inline"
+            data-dd-privacy="mask"
+            data-dd-action-name
+          >
             Date entered: {record.date}
           </span>
         )}
       </div>
-      <div className="vads-u-margin-bottom--0p5" data-dd-privacy="mask">
+      <div
+        className="vads-u-margin-bottom--0p5"
+        data-dd-privacy="mask"
+        data-dd-action-name
+      >
         {record.location}
       </div>
       <div>
         <span className="vads-u-display--inline">
           {isDischargeSummary ? 'Discharged by ' : 'Written by '}
         </span>
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline"
+          data-dd-privacy="mask"
+          data-dd-action-name
+        >
           {isDischargeSummary ? record.dischargedBy : record.writtenBy}
         </span>
       </div>
