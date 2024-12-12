@@ -77,7 +77,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           ...stateAndZip,
         });
       }
-      sessionStorage.setItem('address', JSON.stringify(address));
+      sessionStorage.setItem('address', JSON.stringify(address) || '{}');
       setToggleAddressForm(false);
       scrollToTopOfForm();
     },
