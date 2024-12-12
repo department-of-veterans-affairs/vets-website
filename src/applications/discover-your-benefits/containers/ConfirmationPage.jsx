@@ -87,7 +87,7 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      category: 'type',
+      category: 'category',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
