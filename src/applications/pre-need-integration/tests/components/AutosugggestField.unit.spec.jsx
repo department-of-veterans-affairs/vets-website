@@ -202,11 +202,118 @@ describe('AutosuggestField in Pre-need-integration', () => {
       .instance()
       .getItemFromInput('Option 1', suggestions, uiSchema['ui:options']);
     expect(item).to.equal('Option 1'); // Since getFormData returns suggestion.id when useEnum is true
+  });
 
-    // Check getItemFromInput with input transformers
-    // item = wrapper
-    //   .instance()
-    //   .getItemFromInput('option 1', suggestions, uiSchema['ui:options']);
-    // expect(item).to.deep.equal({ widget: 'autosuggest', label: 'OPTION 1' });
+  it('should handle input value change', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1' },
+        queryForResults: true,
+        getOptions: sinon.stub().resolves([]),
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { widget: 'autosuggest', label: '' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: false };
+
+    const wrapper = shallow(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
+
+    const instance = wrapper.instance();
+    sinon.spy(instance, 'debouncedGetOptions');
+    sinon.spy(instance, 'getItemFromInput');
+    sinon.spy(instance, 'getSuggestions');
+
+    // Simulate input value change
+    instance.handleInputValueChange('new value');
+
+    // Check if debouncedGetOptions is called
+    expect(instance.debouncedGetOptions.calledWith('new value')).to.be.true;
+
+    // Check if getItemFromInput is called
+    expect(
+      instance.getItemFromInput.calledWith(
+        'new value',
+        instance.state.suggestions,
+        uiSchema['ui:options'],
+      ),
+    ).to.be.true;
+
+    // Check if onChange is called
+    expect(mockOnChange.called).to.be.true;
+
+    // Check if state is updated
+    expect(instance.state.input).to.equal('new value');
+    expect(
+      instance.getSuggestions.calledWith(instance.state.options, 'new value'),
+    ).to.be.true;
+
+    // Simulate input value change to empty string
+    instance.handleInputValueChange('');
+
+    // Check if onChange is called with no arguments
+    expect(mockOnChange.calledWith()).to.be.true;
+    expect(instance.state.input).to.equal('');
+  });
+
+  it('should handle selection change', () => {
+    const mockOnChange = sinon.spy();
+    const mockOnBlur = sinon.spy();
+    const uiSchema = {
+      'ui:options': {
+        labels: { 1: 'Label 1' },
+      },
+    };
+    const schema = {
+      enum: ['1', '2', '3'],
+      enumNames: ['Option 1', 'Option 2', 'Option 3'],
+    };
+    const formData = { widget: 'autosuggest', label: '' };
+    const idSchema = { $id: 'test-id' };
+    const formContext = { reviewMode: false };
+
+    const wrapper = shallow(
+      <AutosuggestField
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={mockOnChange}
+        onBlur={mockOnBlur}
+      />,
+    );
+
+    const instance = wrapper.instance();
+    sinon.spy(instance, 'getFormData');
+
+    const selectedItem = { id: '1', label: 'Option 1' };
+
+    // Simulate selection change
+    instance.handleChange(selectedItem);
+
+    // Check if getFormData is called
+    expect(instance.getFormData.calledWith(selectedItem)).to.be.true;
+
+    // Check if onChange is called with the correct value
+    expect(mockOnChange.calledWith('1')).to.be.true;
+
+    // Check if state is updated
+    expect(instance.state.input).to.equal('Option 1');
   });
 });
