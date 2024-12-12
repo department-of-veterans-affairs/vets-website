@@ -16,13 +16,7 @@ export default function LogoutAlert() {
   return (
     <>
       {displaySessionTimeout ? (
-        <VaAlert
-          closeable={false}
-          showIcon
-          slim
-          uswds
-          class="vads-u-margin-bottom--1"
-        >
+        <VaAlert closeable={false} showIcon slim uswds>
           <p className="vads-u-margin-y--0">
             Your session timed out. Sign in again to continue.
           </p>
