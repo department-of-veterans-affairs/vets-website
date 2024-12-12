@@ -13,15 +13,18 @@ import {
   FETCH_REFERRAL,
   FETCH_REFERRAL_SUCCEEDED,
   FETCH_REFERRAL_FAILED,
+  SET_INIT_REFERRAL_FLOW,
+  SET_SELECTED_SLOT,
 } from './actions';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {
   facility: null,
   sortProviderBy: '',
-  selectedProvider: '',
+  selectedProvider: {},
   currentPage: null,
   referrals: [],
+  selectedSlot: '',
   referralsFetchStatus: FETCH_STATUS.notStarted,
   referralFetchStatus: FETCH_STATUS.notStarted,
   providerFetchStatus: FETCH_STATUS.notStarted,
@@ -102,6 +105,18 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         referralFetchStatus: FETCH_STATUS.failed,
+      };
+    case SET_SELECTED_SLOT:
+      return {
+        ...state,
+        selectedSlot: action.payload,
+      };
+    case SET_INIT_REFERRAL_FLOW:
+      return {
+        ...state,
+        selectedProvider: {},
+        providerFetchStatus: FETCH_STATUS.notStarted,
+        selectedSlot: null,
       };
     default:
       return state;
