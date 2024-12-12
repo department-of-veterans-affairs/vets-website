@@ -195,6 +195,7 @@ const DownloadFileType = props => {
       return null;
     },
     [
+      filterByDate,
       isDataFetched,
       recordFilter,
       labsAndTests,

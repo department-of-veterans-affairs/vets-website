@@ -79,21 +79,27 @@ const DownloadRecordType = () => {
     setSelectedRecords(newArray);
   };
 
-  useEffect(() => {
-    if (!dateFilter) {
-      history.push('/download/date-range');
-    }
-  });
+  useEffect(
+    () => {
+      if (!dateFilter) {
+        history.push('/download/date-range');
+      }
+    },
+    [dateFilter],
+  );
 
-  const selectedDateRange = useMemo(() => {
-    if (dateFilter?.option === 'any') {
-      return 'Any';
-    }
-    if (dateFilter?.option === 'custom') {
-      return 'Custom';
-    }
-    return `Last ${dateFilter?.option} months`;
-  });
+  const selectedDateRange = useMemo(
+    () => {
+      if (dateFilter?.option === 'any') {
+        return 'Any';
+      }
+      if (dateFilter?.option === 'custom') {
+        return 'Custom';
+      }
+      return `Last ${dateFilter?.option} months`;
+    },
+    [dateFilter],
+  );
 
   return (
     <div>

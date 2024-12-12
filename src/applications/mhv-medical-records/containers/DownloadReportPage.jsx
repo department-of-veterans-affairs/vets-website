@@ -76,11 +76,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     false,
   );
 
-  useEffect(() => {
-    return () => {
-      dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
-    };
-  }, []);
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+      };
+    },
+    [dispatch],
+  );
 
   const generatePdf = useCallback(
     async () => {
@@ -240,9 +243,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   return (
     <div>
-      {successfulDownload === true && (
-        <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
-      )}
       <h1>Download your medical records reports</h1>
       <p className="vads-u-margin--0">
         Download your VA medical records as a single report (called your VA Blue
@@ -254,6 +254,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           23, 2024
         </p>
       </div>
+      {successfulDownload === true && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+      )}
       <h2>Download your VA Blue Button report</h2>
       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
