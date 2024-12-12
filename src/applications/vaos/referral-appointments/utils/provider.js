@@ -54,7 +54,7 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
     const startTime = dateFns.addHours(tomorrow, hourFromNow);
     provider.slots.push({
       end: dateFns.addMinutes(startTime, 30).toISOString(),
-      id: Math.floor(Math.random() * 90000) + 10000,
+      id: i,
       start: startTime.toISOString(),
     });
     hourFromNow++;
