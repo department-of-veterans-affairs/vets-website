@@ -289,11 +289,3 @@ export const facilityTypesOptions = {
   [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
 };
-
-export const nonPPMSfacilityTypeOptions = {
-  [LocationType.NONE]: 'Choose a facility type',
-  [LocationType.HEALTH]: 'VA health',
-  [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETERY]: 'VA cemeteries',
-  [LocationType.VET_CENTER]: 'Vet Centers',
-};

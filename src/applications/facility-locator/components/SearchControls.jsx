@@ -12,7 +12,6 @@ import {
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
-  nonPPMSfacilityTypeOptions,
 } from '../config';
 import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
@@ -212,20 +211,17 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressPharmacies, suppressPPMS } = props;
+    const { suppressPharmacies } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = suppressPPMS
-      ? nonPPMSfacilityTypeOptions
-      : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
     if (suppressPharmacies) {
-      delete locationOptions.pharmacy;
+      delete facilityTypesOptions.pharmacy;
     }
 
-    const options = Object.keys(locationOptions).map(facility => (
+    const options = Object.keys(facilityTypesOptions).map(facility => (
       <option key={facility} value={facility}>
-        {locationOptions[facility]}
+        {facilityTypesOptions[facility]}
       </option>
     ));
 
