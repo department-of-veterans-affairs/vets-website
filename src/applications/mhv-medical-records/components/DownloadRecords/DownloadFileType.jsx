@@ -24,6 +24,7 @@ import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { clearAlerts } from '../../actions/alerts';
 import { pageTitles } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -81,12 +82,15 @@ const DownloadFileType = props => {
     [dateFilter, history, recordFilter],
   );
 
-  const [filterFromDate, filterToDate] = useMemo(
-    () => {
-      return dateFilter ? dateFilter.split('<->') : [null, null];
-    },
-    [dateFilter],
-  );
+  const filterByDate = recDate => {
+    if (dateFilter.option === 'any') {
+      return true;
+    }
+    return (
+      isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
+      isAfter(new Date(dateFilter.toDate), new Date(recDate))
+    );
+  };
 
   /**
    * True if all the records that were specified in the filters have been fetched, otherwise false.
@@ -156,13 +160,6 @@ const DownloadFileType = props => {
 
   const recordData = useMemo(
     () => {
-      const filterByDate = recDate => {
-        return (
-          isBefore(new Date(filterFromDate), new Date(recDate)) &&
-          isAfter(new Date(filterToDate), new Date(recDate))
-        );
-      };
-
       if (isDataFetched) {
         return {
           labsAndTests: recordFilter?.includes('labTests')
@@ -209,9 +206,8 @@ const DownloadFileType = props => {
       return null;
     },
     [
+      filterByDate,
       isDataFetched,
-      filterFromDate,
-      filterToDate,
       recordFilter,
       labsAndTests,
       notes,
@@ -262,7 +258,13 @@ const DownloadFileType = props => {
           name,
           dob,
         };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
+        makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'blueButtonReport',
+        ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
       }
     },
     [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
@@ -282,7 +284,9 @@ const DownloadFileType = props => {
         )}`;
         const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user);
+        generateTextFile(content, pdfName, user).then(() =>
+          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
+        );
       }
     },
     [dispatch, isDataFetched, recordData, user],
