@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
-import { focusElement } from 'platform/utilities/ui/focus';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
@@ -40,10 +39,6 @@ const SelectAccreditedRepresentative = props => {
     'Select the accredited representative or VSO you’d like to appoint below.';
 
   const isReviewPage = useReviewPage();
-
-  useEffect(() => {
-    focusElement('.header');
-  }, []);
 
   const getRepStatus = async () => {
     if (loggedIn) {
