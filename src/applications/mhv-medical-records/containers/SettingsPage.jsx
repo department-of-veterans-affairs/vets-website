@@ -12,6 +12,7 @@ import {
 } from '../actions/sharing';
 import { pageTitles } from '../util/constants';
 import ExternalLink from '../components/shared/ExternalLink';
+import { sendDataDogAction } from '../util/helpers';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -45,11 +46,14 @@ const SettingsPage = () => {
       dispatch(updateSharingStatus(!currentOptInStatus)).then(() => {
         setShowSuccessAlert(true);
         // Focus the button after opt-in, when it turns to "Opt out"
-        if (!currentOptInStatus && buttonRef.current) {
-          setTimeout(() => focusElement('button', {}, buttonRef.current));
-        }
+        setTimeout(() => focusElement('#opt-in-out-alert'));
       });
     });
+  };
+
+  const handleCloseModal = () => {
+    setShowSharingModal(false);
+    setTimeout(() => focusElement('button', {}, buttonRef.current));
   };
 
   const sharingCardContent = () => {
@@ -119,49 +123,54 @@ const SettingsPage = () => {
       );
     }
     return (
-      <>
-        <va-alert
-          background-only
-          class="vads-u-margin-bottom--4"
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          status="success"
-          visible={showSuccessAlert}
-          aria-live="polite"
-        >
-          <p className="vads-u-margin-y--0">
-            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+      <va-card className="vads-u-padding--3">
+        <h3 className="vads-u-margin-top--0">
+          Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
+        </h3>
+
+        {showSuccessAlert && (
+          <va-alert
+            slim
+            background-only
+            class="vads-u-margin-bottom--2"
+            close-btn-aria-label="Close notification"
+            disable-analytics="false"
+            full-width="false"
+            status="success"
+            visible={showSuccessAlert}
+            aria-live="polite"
+            id="opt-in-out-alert"
+          >
+            <p className="vads-u-margin-y--0">
+              You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+            </p>
+          </va-alert>
+        )}
+
+        {isSharing ? (
+          <p>
+            We’ll share your electronic health information with participating
+            non-VA providers when they’re treating you. You can opt out (ask us
+            not to share your records) at any time.
           </p>
-        </va-alert>
-        <va-card background className="vads-u-padding--3">
-          <h3 className="vads-u-margin-top--0">
-            Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
-          </h3>
-          {isSharing ? (
-            <p>
-              We’ll share your electronic health information with participating
-              non-VA providers when they’re treating you. You can opt out (ask
-              us not to share your records) at any time.
-            </p>
-          ) : (
-            <p>
-              We’re not currently sharing your records online with your
-              community care providers. If you want us to start sharing your
-              records, you can opt back in.
-            </p>
-          )}
-          <va-button
-            ref={buttonRef}
-            data-testid="open-opt-in-out-modal-button"
-            text={isSharing ? 'Opt out' : 'Opt back in'}
-            onClick={() => {
-              setShowSharingModal(true);
-              // If you want to focus an element, you can call it here or handle it elsewhere
-            }}
-          />
-        </va-card>
-      </>
+        ) : (
+          <p>
+            We’re not currently sharing your records online with your community
+            care providers. If you want us to start sharing your records, you
+            can opt back in.
+          </p>
+        )}
+        <va-button
+          ref={buttonRef}
+          data-testid="open-opt-in-out-modal-button"
+          text={isSharing ? 'Opt out' : 'Opt back in'}
+          onClick={() => {
+            setShowSharingModal(true);
+            sendDataDogAction(isSharing ? 'Opt out' : 'Opt in');
+            // If you want to focus an element, you can call it here or handle it elsewhere
+          }}
+        />
+      </va-card>
     );
   };
 
@@ -169,16 +178,27 @@ const SettingsPage = () => {
     const title = `Opt ${
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
+    const primaryButtonText = isSharing ? 'Yes, opt out' : 'Yes, opt in';
+    const secondaryButtonText = isSharing
+      ? "No, don't opt out"
+      : "No, don't opt in";
     return (
       <VaModal
         modalTitle={title}
-        onCloseEvent={() => setShowSharingModal(false)}
-        onPrimaryButtonClick={() => handleUpdateSharing(isSharing)}
-        onSecondaryButtonClick={() => setShowSharingModal(false)}
-        primaryButtonText={isSharing ? 'Yes, opt out' : 'Yes, opt in'}
-        secondaryButtonText={
-          isSharing ? "No, don't opt out" : "No, don't opt in"
-        }
+        onCloseEvent={() => {
+          handleCloseModal();
+          sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
+        }}
+        onPrimaryButtonClick={() => {
+          handleUpdateSharing(isSharing);
+          sendDataDogAction(primaryButtonText);
+        }}
+        onSecondaryButtonClick={() => {
+          handleCloseModal();
+          sendDataDogAction(secondaryButtonText);
+        }}
+        primaryButtonText={primaryButtonText}
+        secondaryButtonText={secondaryButtonText}
         visible
       >
         <p>Equal to VA Form 10-10163</p>
@@ -241,7 +261,10 @@ const SettingsPage = () => {
         </p>
 
         <div className="vads-u-margin-bottom--3">
-          <va-additional-info trigger="What your electronic health information includes">
+          <va-additional-info
+            data-dd-action-name="What your EHI includes"
+            trigger="What your electronic health information includes"
+          >
             <ul>
               <li>
                 All allergies and reactions, vaccines, medications, and health
@@ -283,6 +306,7 @@ const SettingsPage = () => {
         </p>
         <p>
           <ExternalLink
+            ddTag="Go to your profile on MHV"
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',

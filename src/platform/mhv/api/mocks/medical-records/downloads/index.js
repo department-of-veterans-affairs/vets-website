@@ -33,7 +33,7 @@ const generateCCD = (req, res) => {
 };
 
 const downloadCCD = (req, res) => {
-  return res.json(
+  return res.type('application/xml').send(
     `<?xml version="1.0"  encoding="UTF-8" standalone="no"?>
     <?xml-stylesheet type="text/xsl" href="cda.xsl"?>
     <ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CDA.xsd"><!--

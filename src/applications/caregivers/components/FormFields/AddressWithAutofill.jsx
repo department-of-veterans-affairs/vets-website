@@ -66,6 +66,17 @@ const PrimaryAddressWithAutofill = props => {
     [addDirtyField, formData, onChange, veteranAddress],
   );
 
+  const updateAllFormDataForAutocomplete = useCallback(
+    () => {
+      [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
+        const fieldName = `root_${props.name}_${field}`;
+        const { value } = document.getElementById(fieldName);
+        formData[field] = value;
+      });
+    },
+    [formData, props.name],
+  );
+
   // define our non-checkbox input change event
   const handleChange = useCallback(
     event => {
@@ -74,18 +85,24 @@ const PrimaryAddressWithAutofill = props => {
       // uncheck autofill since we have modified the input value
       if (formData['view:autofill']) formData['view:autofill'] = false;
       // send updated date to the form
+      updateAllFormDataForAutocomplete();
       onChange(formData);
     },
-    [formData, onChange],
+    [formData, onChange, updateAllFormDataForAutocomplete],
   );
 
   // define our non-checkbox input blur event
   const handleBlur = useCallback(
     event => {
-      const fieldName = event.target.name.split('_').pop();
+      const { name } = event.target;
+      const fieldName = name.split('_').pop();
       addDirtyField(fieldName);
+      // make sure that formData has all field values
+      // browser autocomplete does not consistently trigger input/change events
+      updateAllFormDataForAutocomplete();
+      onChange(formData);
     },
-    [addDirtyField],
+    [addDirtyField, formData, onChange, updateAllFormDataForAutocomplete],
   );
 
   // check for validation errors if field is dirty or form has been submitted
@@ -106,7 +123,6 @@ const PrimaryAddressWithAutofill = props => {
     }
     return null;
   };
-
   return reviewMode ? (
     <AddressWithAutofillReviewField
       formData={formData}
@@ -144,6 +160,7 @@ const PrimaryAddressWithAutofill = props => {
         onInput={handleChange}
         onBlur={handleBlur}
         required
+        autocomplete="address-line1"
       />
 
       <VaTextInput
@@ -154,6 +171,7 @@ const PrimaryAddressWithAutofill = props => {
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
+        autocomplete="address-line2"
       />
 
       <VaTextInput
@@ -166,6 +184,7 @@ const PrimaryAddressWithAutofill = props => {
         onInput={handleChange}
         onBlur={handleBlur}
         required
+        autocomplete="address-level2"
       />
 
       <VaSelect
@@ -178,6 +197,7 @@ const PrimaryAddressWithAutofill = props => {
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
+        autocomplete="address-level1"
       >
         {states.USA.map(state => (
           <option key={state.value} value={state.value}>
@@ -197,6 +217,7 @@ const PrimaryAddressWithAutofill = props => {
         onInput={handleChange}
         onBlur={handleBlur}
         required
+        autocomplete="postal-code"
       />
 
       <VaTextInput

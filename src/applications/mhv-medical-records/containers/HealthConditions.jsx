@@ -19,6 +19,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const HealthConditions = () => {
+  const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
   const dispatch = useDispatch();
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
@@ -95,7 +96,8 @@ const HealthConditions = () => {
         />
 
         <va-additional-info
-          trigger="About the codes in some condition names"
+          data-dd-action-name={ABOUT_THE_CODES_LABEL}
+          trigger={ABOUT_THE_CODES_LABEL}
           class="no-print vads-u-margin-bottom--3"
         >
           <p>

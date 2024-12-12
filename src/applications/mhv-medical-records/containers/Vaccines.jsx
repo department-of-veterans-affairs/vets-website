@@ -33,6 +33,7 @@ import {
   processList,
   getLastUpdatedText,
   formatNameFirstLast,
+  sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -156,7 +157,13 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         vaccines), go to your allergy records.{' '}
       </p>
       <div className="vads-u-margin-bottom--4">
-        <Link to="/allergies" className="no-print">
+        <Link
+          to="/allergies"
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Go to your allergy records - Vaccines');
+          }}
+        >
           Go to your allergy records
         </Link>
       </div>
@@ -186,12 +193,16 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         />
 
         <PrintDownload
+          description="Vaccines - List"
           list
           downloadPdf={generateVaccinesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateVaccinesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Vaccines"
+        />
         <RecordList records={vaccines} type={recordType.VACCINES} />
       </RecordListSection>
     </div>
