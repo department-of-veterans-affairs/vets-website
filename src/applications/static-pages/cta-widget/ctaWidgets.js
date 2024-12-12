@@ -10,7 +10,6 @@ const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 const disabilityBenefitsUrls = {
   '686c': getAppUrl('686C-674'),
   '2346': getAppUrl('order-form-2346'),
-  '996': getAppUrl('0996-higher-level-review'),
   'view-payments': getAppUrl('view-payments'),
 };
 
@@ -28,7 +27,6 @@ export const CTA_WIDGET_TYPES = {
   HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
-  HIGHER_LEVEL_REVIEW: 'higher-level-review',
   HOME_LOAN_COE_STATUS: 'home-loan-coe-status',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
@@ -178,17 +176,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'order hearing aid supplies',
-  },
-  [CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW]: {
-    id: CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW,
-    deriveToolUrlDetails: () => ({
-      url: disabilityBenefitsUrls['996'],
-      redirect: false,
-    }),
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: null,
-    serviceDescription: 'request a Higher-Level Review',
   },
   [CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS]: {
     id: CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS,
