@@ -61,7 +61,7 @@ const CustomReviewTopContent = () => {
   );
 
   const formattedPhoneNumber = () => {
-    const phoneNumberWithoutDashes = phoneNumber.replace('-', '');
+    const phoneNumberWithoutDashes = phoneNumber.replaceAll('-', '');
     return `(${phoneNumberWithoutDashes.substr(
       0,
       3,
@@ -73,10 +73,12 @@ const CustomReviewTopContent = () => {
 
   const renderContactInfo = () => (
     <div>
-      <div>
-        <p className="usa-hint">Phone number</p>
-        <p>{formattedPhoneNumber()}</p>
-      </div>
+      {phoneNumber ? (
+        <div>
+          <p className="usa-hint">Phone number</p>
+          <p>{formattedPhoneNumber()}</p>
+        </div>
+      ) : null}
       <div>
         <p className="usa-hint">Email</p>
         <p>{email}</p>
