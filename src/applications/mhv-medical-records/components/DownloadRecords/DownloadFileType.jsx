@@ -262,7 +262,13 @@ const DownloadFileType = props => {
       setDownloadStarted(true);
       dispatch(clearAlerts());
       if (isDataFetched) {
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+          user,
+          title,
+          subject,
+        )}`;
         const content = getTxtContent(recordData, user);
 
         generateTextFile(content, pdfName, user);
