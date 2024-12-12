@@ -10,7 +10,7 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
       <VaRadio
         use-forms-pattern="single"
         form-heading="Did you travel from your home address?"
-        form-heading-level={2}
+        form-heading-level={1}
         id="address"
         onVaValueChange={e => {
           setYesNo(e.detail.value);
@@ -28,8 +28,8 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
             Answer “Yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
-          <hr />
-          <p className="vads-u-margin--3">
+          <hr className="vads-u-margin-y--0" />
+          <p className="vads-u-margin-y--2">
             {address.addressLine1}
             <br />
             {address.addressLine2 && (
@@ -47,7 +47,7 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
             {`${address.city}, ${address.stateCode} ${address.zipCode}`}
             <br />
           </p>
-          <hr />
+          <hr className="vads-u-margin-top--0" />
         </div>
         <va-radio-option
           label="Yes"
@@ -66,7 +66,7 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin--3"
+        className="vads-u-margin-top--3"
         trigger="If you didn't travel from your home address"
       >
         <p>

@@ -10,7 +10,7 @@ const VehiclePage = ({ yesNo, setYesNo, onNext, onBack }) => {
       <VaRadio
         use-forms-pattern="single"
         form-heading="Did you travel in your own vehicle?"
-        form-heading-level={2}
+        form-heading-level={1}
         id="mileage"
         onVaValueChange={e => setYesNo(e.detail.value)}
         data-testid="mileage-test-id"
@@ -38,7 +38,7 @@ const VehiclePage = ({ yesNo, setYesNo, onNext, onBack }) => {
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin--3"
+        className="vads-u-margin-top--3"
         trigger="If you didn't travel in your own vehicle"
       >
         <p>

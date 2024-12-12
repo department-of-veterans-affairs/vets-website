@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useLocation, useHistory, Link, useParams } from 'react-router-dom';
 
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
@@ -8,6 +8,11 @@ export default function BreadCrumbs() {
   const uuidPathRegex = /^\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
   const isDetailsPage = pathname.match(uuidPathRegex);
   const isStatusExplainer = pathname.includes('/help');
+
+  const { apptId } = useParams();
+
+  // TODO: this needs work
+  const isSubmitWrapper = pathname.includes(`/file-new-claim/${apptId}`);
 
   const breadcrumbList = [
     {
@@ -40,13 +45,26 @@ export default function BreadCrumbs() {
     history.push(href);
   };
 
-  return isDetailsPage ? (
-    <div className="travel-pay-breadcrumb-wrapper">
-      {isDetailsPage && <va-icon class="back-arrow" icon="arrow_back" />}
-      <Link className="go-back-link" to="/">
-        Back to your travel reimbursement claims
-      </Link>
-    </div>
+  return isDetailsPage || isSubmitWrapper ? (
+    <>
+      {isDetailsPage && (
+        <div className="travel-pay-breadcrumb-wrapper">
+          <va-icon class="back-arrow" icon="arrow_back" />
+          <Link className="go-back-link" to="/">
+            Back to your travel reimbursement claims
+          </Link>
+        </div>
+      )}
+      {isSubmitWrapper && (
+        <div className="travel-pay-breadcrumb-wrapper">
+          <va-link
+            back
+            href={`/my-health/appointments/past/${apptId}`}
+            text="Back to your appointment"
+          />
+        </div>
+      )}
+    </>
   ) : (
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}

@@ -27,16 +27,12 @@ const ReviewPage = props => {
 
   return (
     <div className="vads-u-margin--3">
-      <h1 className="vads-u-font-size--h2 vad-u-margin-top--0">
-        Review your travel claim
-      </h1>
+      <h1 className="vad-u-margin-top--0">Review your travel claim</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
-      <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">Claims</h2>
-      {/* <hr className="vad-u-margin-top--0" /> */}
-      <h3 className="vads-u-font-size--h5 vad-u-margin-top--0">
-        What you’re claiming
-      </h3>
+      <h2 className="vads-u-margin-top--2">Claims</h2>
+      <hr className="vads-u-margin-y--0" />
+      <h3 className=" vad-u-margin-top--0">What you’re claiming</h3>
       <p>
         Mileage-only reimbursement for your appointment at{' '}
         {appointment.vaos.apiData.location.attributes.name}{' '}
@@ -48,23 +44,15 @@ const ReviewPage = props => {
         on {formattedDate}, {formattedTime}.
       </p>
 
-      <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">
-        Travel method
-      </h2>
-      {/* <hr className="vad-u-margin-top--0" /> */}
-      <h3 className="vads-u-font-size--h5 vad-u-margin-top--0">
-        How you traveled
-      </h3>
+      <h2 className="vads-u-margin-top--3">Travel method</h2>
+      <hr className="vads-u-margin-y--0" />
+      <h3 className=" vad-u-margin-top--0">How you traveled</h3>
       <p>In your own vehicle</p>
 
-      <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">
-        Starting address
-      </h2>
-      {/* <hr className="vad-u-margin-top--0" /> */}
-      <h3 className="vads-u-font-size--h5 vad-u-margin-top--0">
-        Where you traveled from
-      </h3>
-      <p className="vads-u-margin--3">
+      <h2 className="vads-u-margin-top--3">Starting address</h2>
+      <hr className="vads-u-margin-y--0" />
+      <h3 className="vad-u-margin-top--0">Where you traveled from</h3>
+      <p className="vads-u-margin-top--3">
         {address.addressLine1}
         <br />
         {address.addressLine2 && (
@@ -83,7 +71,7 @@ const ReviewPage = props => {
         <br />
       </p>
 
-      <h3 className="vad-u-margin-top--2">Travel agreement block</h3>
+      <h3 className="vad-u-margin-y--3">Travel agreement block</h3>
 
       <va-button
         className="vads-u-margin-top--3"

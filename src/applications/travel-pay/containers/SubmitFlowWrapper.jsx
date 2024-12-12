@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
@@ -9,6 +12,7 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
+import BreadCrumbs from '../components/Breadcrumbs';
 // import { useSelector } from 'react-redux';
 // import {
 //   selectConfirmedAppointmentData,
@@ -18,6 +22,11 @@ import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 const SubmitFlowWrapper = ({ address }) => {
   const location = useLocation();
   const { appointment = null } = location.state ?? {};
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
 
   // From the appts app, helpful ideas on how to normalize appt data
   // const {
@@ -38,7 +47,7 @@ const SubmitFlowWrapper = ({ address }) => {
   //   shallowEqual,
   // );
 
-  const { apptId } = useParams();
+  // const { apptId } = useParams();
 
   // These are from the appts app, but would be helpful if we can implement them
 
@@ -142,17 +151,12 @@ const SubmitFlowWrapper = ({ address }) => {
   ];
 
   return (
-    <>
-      <div className="claim-details-breadcrumb-wrapper">
-        <va-icon class="back-arrow" icon="arrow_back" />
-        <va-link
-          href={`/my-health/appointments/past/${apptId}`}
-          className="go-back-link"
-          text="Back to your appointment"
-        />
-      </div>
-      {pageList[pageIndex].component}
-    </>
+    <Element name="topScrollElement">
+      <article className="usa-grid-full vads-u-padding-bottom--0">
+        <BreadCrumbs />
+        {pageList[pageIndex].component}
+      </article>
+    </Element>
   );
 };
 

@@ -16,12 +16,13 @@ const routes = (
       <MhvSecondaryNav />
       <ClaimStatusExplainerPage />
     </Route>
+    <Route path="/file-new-claim/:apptId">
+      <MhvSecondaryNav />
+      <SubmitFlowWrapper />
+    </Route>
     <Route path="/:id">
       <MhvSecondaryNav />
       <TravelClaimDetails />
-    </Route>
-    <Route exact path="/new/:apptId">
-      <SubmitFlowWrapper />
     </Route>
   </Switch>
 );

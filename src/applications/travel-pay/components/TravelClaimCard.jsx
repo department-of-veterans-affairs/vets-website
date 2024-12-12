@@ -56,7 +56,7 @@ export default function TravelClaimCard(props) {
       {canViewClaimDetails && (
         <Link
           to={{
-            pathname: `/claims/${id}`,
+            pathname: `/${id}`,
             state: { claimDetailsProps: props },
           }}
           className="vads-u-display--flex vads-u-align-items--center"
@@ -67,7 +67,7 @@ export default function TravelClaimCard(props) {
 
       <Link
         to={{
-          pathname: `/new/${appointment.id}`,
+          pathname: `/file-new-claim/${appointment.id}`,
           state: {
             appointment,
           },

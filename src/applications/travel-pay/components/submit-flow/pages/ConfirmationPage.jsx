@@ -19,9 +19,7 @@ const ConfirmationPage = () => {
         />
         <h2>Application for Beneficiary Travel Reimbursement</h2>
       </div>
-      <h2 className="vads-u-font-size--h3">
-        Your travel claim has been submitted
-      </h2>
+      <h1 tabIndex="-1">Your travel claim has been submitted</h1>
       <p>
         Claim ID: <strong>12345</strong>.
       </p>

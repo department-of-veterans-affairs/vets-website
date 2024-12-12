@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+// import { focusElement, scrollToTop } from 'platform/utilities/ui';
+// import { Element } from 'platform/utilities/scroll';
+
 // import { isLoggedIn } from 'platform/user/selectors';
-import { HelpTextContent } from '../../HelpText';
+import HelpTextContent from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
 
 // import { useSelector } from 'react-redux';
@@ -14,25 +16,27 @@ const IntroductionPage = ({ appointment, onNext }) => {
 
   const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
 
-  useEffect(() => {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }, []);
+  // useEffect(() => {
+  //   focusElement('h1');
+  //   scrollToTop('topScrollElement');
+  // }, []);
 
   return (
-    <article className="schemaform-intro">
+    <div>
       {/* <FormTitle
         title="File a travel reimbursement claim"
         subtitle="Equal to VA Form 10-3542 (Beneficiary Travel)"
       /> */}
-      <h1 className="vads-u-font-size--h2 vad-u-margin-top--0">
-        File a travel reimbursement claim
-      </h1>
+      <h1 tabIndex="-1">File a travel reimbursement claim</h1>
 
       <p>
-        You have {`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`} left to file
-        for your appointment on {formattedDate} at{' '}
-        {appointment.vaos.apiData.location.attributes.name}.
+        You have{' '}
+        <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
+        to file for your appointment on{' '}
+        <strong>
+          {formattedDate} at {appointment.vaos.apiData.location.attributes.name}
+        </strong>
+        .
       </p>
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
@@ -87,7 +91,7 @@ const IntroductionPage = ({ appointment, onNext }) => {
         />
       </va-alert>
       <div
-        className="omb-info--container vads-u-margin-bottom--3"
+        className="omb-info--container vads-u-margin-y--3"
         style={{ paddingLeft: '0px' }}
       >
         <va-omb-info
@@ -97,10 +101,10 @@ const IntroductionPage = ({ appointment, onNext }) => {
         />
       </div>
 
-      <h3>Need help?</h3>
-      <hr />
+      <h3 className="vads-u-margin-bottom--0">Need help?</h3>
+      <hr className="vads-u-margin-y--0" />
       <HelpTextContent />
-    </article>
+    </div>
   );
 };
 

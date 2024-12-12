@@ -16,7 +16,7 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
       <VaRadio
         use-forms-pattern="single"
         form-heading="Are you claiming only mileage?"
-        form-heading-level={2}
+        form-heading-level={1}
         id="mileage"
         onVaValueChange={e => {
           setYesNo(e.detail.value);
@@ -30,13 +30,16 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
         required
       >
         <div slot="form-description">
-          <hr />
+          <hr className="vads-u-margin-y--0" />
           <p>
-            {formattedDate} {formattedTime} at{' '}
-            {appointment.vaos.apiData.location.attributes.name}
+            {' '}
+            <strong>
+              {formattedDate} {formattedTime} at{' '}
+              {appointment.vaos.apiData.location.attributes.name}
+            </strong>
           </p>
           <p>{appointment.vaos.apiData.reasonForAppointment}</p>
-          <hr />
+          <hr className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
           label="Yes"
@@ -55,7 +58,7 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin--3"
+        className="vads-u-margin-top--3"
         trigger="How do we calculate mileage"
       >
         <ul>
