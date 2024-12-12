@@ -159,9 +159,9 @@ Allergies and reactions\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Review allergies, reactions, and side effects in your VA medical
-records. This includes medication side effects (also called adverse drug
-reactions).\n
+This list includes all allergies, reactions, and side effects in your VA medical records. 
+If you have allergies or reactions that are missing from this list, 
+tell your care team at your next appointment.\n
 If you have allergies that are missing from this list, tell your care
 team at your next appointment.\n
 Showing ${allergies.length} from newest to oldest
@@ -194,18 +194,20 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.ALLERGY}
-          newRecordsFound={
-            Array.isArray(allergies) &&
-            Array.isArray(updatedRecordList) &&
-            allergies.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingAllergies && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.ALLERGY}
+            newRecordsFound={
+              Array.isArray(allergies) &&
+              Array.isArray(updatedRecordList) &&
+              allergies.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         <PrintDownload
           list

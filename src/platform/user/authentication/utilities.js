@@ -272,6 +272,7 @@ export function sessionTypeUrl({
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
+        ...(queryParams.operation && { operation: queryParams.operation }),
       },
       passedOptions: {
         isSignup,

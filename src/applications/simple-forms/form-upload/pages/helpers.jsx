@@ -28,13 +28,18 @@ export const CustomTopContent = () => {
   );
 };
 
+/** @type {CustomPageType} */
 export const CustomAlertPage = props => (
   <div className="form-panel">
     {props.alert}
     <SchemaForm {...props}>
       <>
         {props.contentBeforeButtons}
-        <FormNavButtons {...props} submitToContinue />
+        <FormNavButtons
+          goBack={props.goBack}
+          goForward={props.onContinue}
+          submitToContinue
+        />
         {props.contentAfterButtons}
       </>
     </SchemaForm>
@@ -45,4 +50,6 @@ CustomAlertPage.propTypes = {
   alert: PropTypes.element,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
+  goBack: PropTypes.func,
+  onContinue: PropTypes.func,
 };

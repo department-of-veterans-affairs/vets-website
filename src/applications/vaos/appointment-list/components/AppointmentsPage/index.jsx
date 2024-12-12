@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
@@ -28,9 +28,9 @@ import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
-import ReferralTaskCard from '../../../referral-appointments/components/ReferralTaskCard';
+import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
-import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { routeToCCPage } from '../../../referral-appointments/flow';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -48,11 +48,11 @@ renderWarningNotification.propTypes = {
 };
 
 export default function AppointmentsPage() {
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
-  const [referral, setReferral] = useState();
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
@@ -67,23 +67,6 @@ export default function AppointmentsPage() {
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
-
-  useEffect(
-    () => {
-      if (!featureCCDirectScheduling || !location?.search) {
-        return;
-      }
-      const params = new URLSearchParams(location.search);
-      const id = params.get('id');
-      if (!id) {
-        return;
-      }
-      // TODO: Get referral data from redux
-      const referralFromId = createReferral(new Date().toISOString(), id);
-      setReferral(referralFromId);
-    },
-    [location, featureCCDirectScheduling],
-  );
 
   useEffect(
     () => {
@@ -150,6 +133,11 @@ export default function AppointmentsPage() {
     [pendingAppointments],
   );
 
+  const handleCCLinkClick = e => {
+    e.preventDefault();
+    routeToCCPage(history, 'referralsAndRequests');
+  };
+
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
@@ -184,7 +172,7 @@ export default function AppointmentsPage() {
           <ReferralAppLink linkText="Review and manage your appointment notifications" />
         </div>
       )}
-      {featureCCDirectScheduling && <ReferralTaskCard data={referral} />}
+      {featureCCDirectScheduling && <ReferralTaskCardWithReferral />}
       {featureCCDirectScheduling && (
         <div
           className={classNames(
@@ -202,6 +190,7 @@ export default function AppointmentsPage() {
             href="/my-health/appointments/referrals-requests"
             text="Review requests and referrals"
             data-testid="review-requests-and-referrals"
+            onClick={handleCCLinkClick}
           />
         </div>
       )}
