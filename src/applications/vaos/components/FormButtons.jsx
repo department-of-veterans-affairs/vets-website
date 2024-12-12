@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
-import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+// import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+import LoadingButton from './LoadingButton';
 
 export default function FormButtons({
   onBack,
