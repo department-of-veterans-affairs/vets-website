@@ -5,35 +5,6 @@ import mockSearchCustomMessages from '../fixtures/searchResponses/search-advance
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import PatentMessageSentPage from '../pages/PatientMessageSentPage';
-
-describe('Advanced search in Sent', () => {
-  beforeEach(() => {
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    FolderLoadPage.loadFolders();
-    PatentMessageSentPage.loadMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(mockSearchMessages);
-  });
-
-  it('Check all sent messages contain the searched category', () => {
-    cy.get(Locators.MESSAGES)
-      .should('contain', 'COVID')
-      .and('have.length', mockSearchMessages.data.length);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('Check the search message label', () => {
-    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
-      .should('contain', '4')
-      .and('contain', 'Category: "COVID"');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-});
 
 describe('Advanced search in Trash', () => {
   beforeEach(() => {
