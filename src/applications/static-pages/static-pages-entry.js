@@ -39,7 +39,7 @@ import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
-import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
+import createDisabilityRatingCalculator from './disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
 import createEZRSubmissionOptions from './ezr-submission-options';
