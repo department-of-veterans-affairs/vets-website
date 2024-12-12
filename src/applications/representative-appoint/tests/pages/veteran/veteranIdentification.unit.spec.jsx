@@ -5,13 +5,13 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
-describe('Claimant Contact Phone Email page', () => {
+describe('Veteran Identification page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInfo.pages.claimantContactPhoneEmail;
+  } = formConfig.chapters.veteranInfo.pages.veteranIdentification;
 
   const mockStore = configureStore();
   const store = mockStore({
