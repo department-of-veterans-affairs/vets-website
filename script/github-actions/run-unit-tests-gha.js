@@ -157,7 +157,7 @@ if (testsToVerify === null) {
           /,/g,
           ' ',
         )} `;
-
+        console.log(command);
         // Wait for the command to finish before proceeding to the next app
         try {
           await runCommand(command);
