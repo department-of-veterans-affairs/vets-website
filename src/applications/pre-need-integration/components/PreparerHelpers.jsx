@@ -15,7 +15,9 @@ export function ContactDetailsTitle() {
 export function ValidateAddressTitle() {
   return (
     <div className="validate-address-title">
-      <h3 className="vads-u-font-size--h5">Validate Address</h3>
+      <h3 className="vads-u-font-size--h5">
+        Confirm applicant mailing address
+      </h3>
     </div>
   );
 }

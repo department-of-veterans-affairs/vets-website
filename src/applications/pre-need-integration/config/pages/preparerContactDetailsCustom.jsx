@@ -3,8 +3,9 @@ import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { validateAddress } from 'platform/user/profile/vap-svc/actions';
-import { formatAddress } from 'platform/forms/address/helpers';
+// import { formatAddress } from 'platform/forms/address/helpers';
 import set from 'platform/utilities/data/set';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ValidateAddressTitle } from '../../components/PreparerHelpers';
 
 function PreparerContanctDetailsCustom({ formData, addressValidation }) {
@@ -27,6 +28,7 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
       stateCode: formDataUserAddress.state,
       zipCode: formDataUserAddress.postalCode,
     };
+
     async function getSuggestedAddresses() {
       try {
         setUserAddress(formDataUserAddress);
@@ -49,85 +51,29 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
     getSuggestedAddresses();
   }, []);
 
-  const onChangeSelectedAddress = (address, id) => {
-    setSelectedAddress(address);
+  const onChangeSelectedAddress = event => {
+    const selected = JSON.parse(event.detail.value);
+    setSelectedAddress(selected);
     let newAddress;
-    if (id !== 'userEntered') {
+    if ('addressLine1' in selected) {
       newAddress = {
-        street: address.addressLine1,
-        street2: address.addressLine2,
-        city: address.city,
-        country: address.countryCodeIso3,
-        state: address.stateCode,
-        postalCode: address.zipCode,
+        street: selected.addressLine1,
+        street2: selected.addressLine2,
+        city: selected.city,
+        country: selected.countryCodeIso3,
+        state: selected.stateCode,
+        postalCode: selected.zipCode,
       };
     } else {
-      newAddress = address;
+      newAddress = selected;
     }
-
     const updatedFormData = set(
       'application.applicant[view:applicantInfo].mailingAddress',
       newAddress,
-      { ...formData }, // make a copy of the original formData
+      formData,
     );
     dispatch(setData(updatedFormData));
   };
-
-  function formatUserAddress(address) {
-    const { street } = address;
-    const { country } = address;
-    const cityStateZip = String(
-      `${address.city}, ${address.state} ${address.postalCode}`,
-    );
-    return { street, cityStateZip, country };
-  }
-
-  function renderAddressOption(address, id = 'userEntered') {
-    if (address !== undefined) {
-      const { street, cityStateZip, country } =
-        id !== 'userEntered'
-          ? formatAddress(address)
-          : formatUserAddress(address);
-
-      return (
-        <div
-          key={id}
-          className="vads-u-margin-bottom--1p5 address-validation-container"
-        >
-          <input
-            type="radio"
-            id={id}
-            onChange={() => {
-              onChangeSelectedAddress(address, id);
-            }}
-            checked={selectedAddress === address}
-          />
-
-          <label
-            htmlFor={id}
-            className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
-          >
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-              <span
-                className="dd-privacy-hidden"
-                data-dd-action-name="street address"
-              >
-                {street}
-              </span>
-              <span
-                className="dd-privacy-hidden"
-                data-dd-action-name="city, state and zip code"
-              >
-                {cityStateZip}
-              </span>
-              <span>{country}</span>
-            </div>
-          </label>
-        </div>
-      );
-    }
-    return null;
-  }
 
   return isLoading ? (
     <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -137,13 +83,41 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
       id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
     >
       <ValidateAddressTitle />
-      <span className="vads-u-font-weight--bold">You entered:</span>
-      {renderAddressOption(userAddress)}
-      <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
-      {addressValidation?.confirmedSuggestions?.length !== 0 &&
-        addressValidation?.confirmedSuggestions?.map((address, index) =>
-          renderAddressOption(address, String(index)),
+      <VaRadio
+        label="Tell us which address you'd like to use."
+        onVaValueChange={onChangeSelectedAddress}
+        required
+      >
+        {userAddress && (
+          <va-radio-option
+            key="userAddress"
+            name="addressGroup"
+            label={`Address you entered: \n${userAddress.street}`}
+            value={JSON.stringify(userAddress)}
+            tile
+            checked={
+              selectedAddress &&
+              JSON.stringify(selectedAddress) === JSON.stringify(userAddress)
+            }
+          />
         )}
+        {addressValidation?.confirmedSuggestions[0] && (
+          <va-radio-option
+            key="suggestedAddress"
+            name="addressGroup"
+            label={`Suggested address: \n${
+              addressValidation?.confirmedSuggestions[0].addressLine1
+            }`}
+            value={JSON.stringify(addressValidation?.confirmedSuggestions[0])}
+            tile
+            checked={
+              selectedAddress &&
+              JSON.stringify(selectedAddress) ===
+                JSON.stringify(addressValidation?.confirmedSuggestions[0])
+            }
+          />
+        )}
+      </VaRadio>
     </div>
   );
 }

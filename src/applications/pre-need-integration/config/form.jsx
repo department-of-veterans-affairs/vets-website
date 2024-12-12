@@ -104,6 +104,7 @@ import {
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
 import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
+import preparerAddressConfirmation from './pages/preparerAddressConfirmation';
 
 const {
   preneedAttachments,
@@ -202,14 +203,14 @@ const formConfig = {
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
         },
-        validatePreparerContactDetails: {
+        preparerSuggestedAddress: {
           title: 'Validate Address',
-          path: 'validate-preparer-contact-details',
+          path: 'preparer-suggested-address',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
             application: {
               applicant: {
-                'view:validateAddress': {
+                'view:preparerSuggestedAddress': {
                   'ui:title': 'Validate Address',
                   'ui:field': preparerContactDetailsCustom,
                 },
@@ -225,7 +226,41 @@ const formConfig = {
                   applicant: {
                     type: 'object',
                     properties: {
-                      'view:validateAddress': {
+                      'view:preparerSuggestedAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparerAddressConfirmation: {
+          title: 'Validate Address',
+          path: 'preparer-address-confirmation',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:preparerAddressConfirmation': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': preparerAddressConfirmation,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:preparerAddressConfirmation': {
                         type: 'object',
                         properties: {},
                       },

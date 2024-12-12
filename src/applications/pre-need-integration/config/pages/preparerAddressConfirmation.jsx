@@ -1,0 +1,82 @@
+import React from 'react';
+import { connect } from 'react-redux';
+
+function PreparerAddressConfirmation({ formData }) {
+  const formDataUserAddress =
+    formData?.application?.applicant['view:applicantInfo']?.mailingAddress;
+
+  // Helper function to conditionally return a line with a break
+  const renderLine = content => {
+    return content ? (
+      <>
+        {content}
+        <br />
+      </>
+    ) : null;
+  };
+
+  // For city/state/postalCode line, we build it conditionally:
+  const cityStatePostal = [
+    formDataUserAddress?.city,
+    // If we have a city and at least one more element (state or postal), add comma after city
+    formDataUserAddress?.city &&
+    (formDataUserAddress?.state || formDataUserAddress?.postalCode)
+      ? ','
+      : '',
+    formDataUserAddress?.state,
+    // If state is present and postal code is also present, put a space
+    formDataUserAddress?.state && formDataUserAddress?.postalCode ? ' ' : '',
+    formDataUserAddress?.postalCode,
+  ]
+    .join('')
+    .trim();
+
+  return (
+    <>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="warning"
+        visible
+      >
+        <h2 slot="headline">Check the address you entered</h2>
+        <React.Fragment key=".1">
+          <p className="vads-u-margin-y--0">
+            We can’t confirm the address you entered with the U.S. Postal
+            Service. Check the address before continuing.
+          </p>
+        </React.Fragment>
+      </va-alert>
+      <h3 className="vads-u-font-size--h5" style={{ paddingTop: '2em' }}>
+        Check your mailing address
+      </h3>
+      <p style={{ marginTop: '1em' }}>You entered:</p>
+      <div className="blue-bar-block">
+        <p className="va-address-block">
+          {renderLine(formDataUserAddress?.street)}
+          {renderLine(formDataUserAddress?.street2)}
+          {cityStatePostal && renderLine(cityStatePostal)}
+          {renderLine(formDataUserAddress?.country)}
+        </p>
+      </div>
+      <p>
+        If the address is correct, you can continue. If you need to edit the
+        address, you can go back.
+      </p>
+      <va-additional-info trigger="Why we can't confirm the address you entered">
+        <p>
+          The address you entered may not be in the U.S. Postal Service’s
+          system. Or, you may have entered an error or other incorrect
+          information.
+        </p>
+      </va-additional-info>
+    </>
+  );
+}
+
+const mapStateToProps = state => {
+  return {
+    formData: state?.form?.data,
+  };
+};
+
+export default connect(mapStateToProps)(PreparerAddressConfirmation);
