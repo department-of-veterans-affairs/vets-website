@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
@@ -23,9 +23,6 @@ import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDro
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const ndcNumber = queryParams.get('ndc');
   const contentRef = useRef();
   const {
     prescription,
@@ -51,9 +48,9 @@ const PrescriptionDetailsDocumentation = () => {
   const [isLoadingRx, setIsLoadingRx] = useState(false);
   useEffect(
     () => {
-      if (prescriptionId && ndcNumber) {
+      if (prescriptionId) {
         setIsLoadingDoc(true);
-        getDocumentation(prescriptionId, ndcNumber)
+        getDocumentation(prescriptionId)
           .then(response => {
             setHasDocApiError(false);
             setHtmlContent(
@@ -68,19 +65,19 @@ const PrescriptionDetailsDocumentation = () => {
           });
       }
     },
-    [prescriptionId, ndcNumber],
+    [prescriptionId],
   );
 
   useEffect(
     () => {
-      if (!prescription && prescriptionId && ndcNumber) {
+      if (!prescription && prescriptionId) {
         setIsLoadingRx(true);
         dispatch(getPrescriptionDetails(prescriptionId));
-      } else if (prescription && prescriptionId && ndcNumber && isLoadingRx) {
+      } else if (prescription && prescriptionId && isLoadingRx) {
         setIsLoadingRx(false);
       }
     },
-    [prescriptionId, ndcNumber, prescription, dispatch, isLoadingRx],
+    [prescriptionId, prescription, dispatch, isLoadingRx],
   );
 
   const buildMedicationInformationTxt = useCallback(
