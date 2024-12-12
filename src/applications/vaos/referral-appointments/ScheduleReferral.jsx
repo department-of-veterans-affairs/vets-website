@@ -11,12 +11,14 @@ export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
+  const selectedSlotKey = `selected-slot-referral-${currentReferral.UUID}`;
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
       dispatch(setInitReferralFlow());
+      sessionStorage.removeItem(selectedSlotKey);
     },
-    [location, dispatch],
+    [location, dispatch, selectedSlotKey],
   );
   const appointmentCountString =
     currentReferral.numberOfAppointments === 1
