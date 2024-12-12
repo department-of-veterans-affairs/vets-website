@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from 'platform/utilities/ui/focus';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import { schema, uiSchema } from '../pages/claimant/claimantType';
 
 const ClaimantTypeForm = props => {
   const { data, onGoBack, onChange, onSubmit } = props;
+
+  useEffect(() => {
+    focusElement('.header');
+  }, []);
 
   return (
     <div className="vads-u-margin-top--2p5">
