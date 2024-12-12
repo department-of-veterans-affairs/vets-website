@@ -227,7 +227,7 @@ export const getAppointments = async () => {
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
   const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
 
-  return apiRequest(`${apiBasePath}/vaos/v2/appointments?${params}`, {
+  return apiRequest(`${environment.API_URL}/vaos/v2/appointments?${params}`, {
     headers,
   });
 };
