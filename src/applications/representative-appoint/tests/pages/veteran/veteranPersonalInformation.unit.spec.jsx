@@ -5,22 +5,19 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import formConfig from '../../../config/form';
 
-import formConfig from '../../config/form';
-
-describe('Claimant Personal Information page', () => {
+describe('Veteran Personal Information page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInfo.pages.claimantPersonalInformation;
+  } = formConfig.chapters.veteranInfo.pages.veteranPersonalInformation;
 
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
   });
 
-  // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
     const { container } = render(
       <Provider store={store}>
@@ -34,6 +31,6 @@ describe('Claimant Personal Information page', () => {
       </Provider>,
     );
 
-    expect($('button[type="submit"]', container)).to.exist;
+    expect(container.querySelector('button[type="submit"]')).to.exist;
   });
 });
