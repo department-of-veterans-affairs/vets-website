@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 const getStream = require('get-stream');
 
@@ -63,6 +64,106 @@ describe('Blue Button report PDF template', () => {
       expect(rootElement.children.length).to.equal(3);
       expect(rootElement.children[1].children[0].role).to.equal('H1');
       expect(rootElement.children[2].children[0].role).to.equal('H2');
+    });
+  });
+
+  describe('Cover page', () => {
+    it('Displays the Records in this report section', async () => {
+      const data = require('./fixtures/all_sections.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // Get Records in this Report section.
+      const recordsItemIndex = content.items.findIndex(
+        item => item.str === 'Records in this report',
+      );
+      expect(content.items[recordsItemIndex - 2].tag).to.equal('H2');
+
+      // Get the list of available records.
+      const listItemIndex = content.items.findIndex(
+        item => item.tag === 'List',
+      );
+      const endMarkedItemIndex = content.items.findIndex((item, index) => {
+        return index > listItemIndex && item.type === 'endMarkedContent';
+      });
+      // Slice from the list item to the next endMarkedContent item.
+      const listItems = content.items.slice(
+        listItemIndex + 1,
+        endMarkedItemIndex,
+      );
+      const listItemsText = listItems
+        .filter(item => item.str)
+        .map(item => item.str);
+      expect(listItemsText.length).to.equal(data.recordSets.length);
+    });
+
+    it('Displays the Records not in this report section when some sections have no records', async () => {
+      const data = cloneDeep(require('./fixtures/all_sections.json'));
+
+      // Mark some sections as having no records.
+      data.recordSets[0].records = [];
+      data.recordSets[3].records = [];
+
+      const { pdf } = await generateAndParsePdf(data);
+
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // Get Records in this Report section.
+      const recordsItemIndex = content.items.findIndex(
+        item => item.str === 'Records in this report',
+      );
+      expect(content.items[recordsItemIndex - 2].tag).to.equal('H2');
+
+      // Get the list of available records.
+      const listItemIndex = content.items.findIndex(
+        item => item.tag === 'List',
+      );
+      const endMarkedItemIndex = content.items.findIndex((item, index) => {
+        return index > listItemIndex && item.type === 'endMarkedContent';
+      });
+      // Slice from the list item to the next endMarkedContent item.
+      const listItems = content.items.slice(
+        listItemIndex + 1,
+        endMarkedItemIndex,
+      );
+      const listItemsText = listItems
+        .filter(item => item.str)
+        .map(item => item.str);
+      expect(listItemsText.length).to.equal(data.recordSets.length - 2);
+
+      // Get Records not in this Report section.
+      const noRecordsItemIndex = content.items.findIndex(
+        item => item.str === 'Records not in this report',
+      );
+      expect(content.items[noRecordsItemIndex - 2].tag).to.equal('H2');
+
+      // Get the list of unavailable records.
+      const unavailableListItemIndex = content.items.findIndex(
+        (item, index) => index > noRecordsItemIndex && item.tag === 'List',
+      );
+      const endUnavailableMarkedItemIndex = content.items.findIndex(
+        (item, index) => {
+          return (
+            index > unavailableListItemIndex && item.type === 'endMarkedContent'
+          );
+        },
+      );
+      // Slice from the list item to the next endMarkedContent item.
+      const unavailableListItems = content.items.slice(
+        unavailableListItemIndex + 1,
+        endUnavailableMarkedItemIndex,
+      );
+      const unavailableListItemsText = unavailableListItems
+        .filter(item => item.str)
+        .map(item => item.str);
+      expect(unavailableListItemsText.length).to.equal(2);
     });
   });
 

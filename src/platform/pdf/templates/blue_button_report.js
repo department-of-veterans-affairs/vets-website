@@ -176,7 +176,10 @@ const getAvailableRecordSets = recordSets => {
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
     }
-    return recordSet.records.results?.length;
+    return (
+      recordSet.records.results?.length ||
+      recordSet.records.results?.items?.length
+    );
   });
 };
 
@@ -186,7 +189,10 @@ const getUnavailableRecordSets = recordSets => {
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
     }
-    return recordSet.records.results?.length === 0;
+    return (
+      recordSet.records.results?.length === 0 &&
+      recordSet.records.results?.items?.length === 0
+    );
   });
 };
 
