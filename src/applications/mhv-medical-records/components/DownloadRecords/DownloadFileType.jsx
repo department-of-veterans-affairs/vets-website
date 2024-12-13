@@ -76,15 +76,18 @@ const DownloadFileType = props => {
     [dateFilter, history, recordFilter],
   );
 
-  const filterByDate = recDate => {
-    if (dateFilter.option === 'any') {
-      return true;
-    }
-    return (
-      isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
-      isAfter(new Date(dateFilter.toDate), new Date(recDate))
-    );
-  };
+  const filterByDate = useCallback(
+    recDate => {
+      if (dateFilter.option === 'any') {
+        return true;
+      }
+      return (
+        isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
+        isAfter(new Date(dateFilter.toDate), new Date(recDate))
+      );
+    },
+    [dateFilter],
+  );
 
   /**
    * True if all the records that were specified in the filters have been fetched, otherwise false.
@@ -282,8 +285,8 @@ const DownloadFileType = props => {
         const scaffold = generatePdfScaffold(user, title, subject);
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
         const pdfData = {
-          fromDate: formatDateLong(filterFromDate),
-          toDate: formatDateLong(filterToDate),
+          fromDate: formatDateLong(dateFilter.fromDate),
+          toDate: formatDateLong(dateFilter.toDate),
           recordSets: generateBlueButtonData(recordData, recordFilter),
           ...scaffold,
           name,
@@ -299,10 +302,9 @@ const DownloadFileType = props => {
       }
     },
     [
+      dateFilter,
       dispatch,
       dob,
-      filterFromDate,
-      filterToDate,
       isDataFetched,
       name,
       recordData,
