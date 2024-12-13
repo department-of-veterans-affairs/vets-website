@@ -8,6 +8,14 @@
         {
           "name": "burial_form_enabled",
           "value": true
+        },
+        {
+          "name": "burial_confirmation_page",
+          "value": true
+        },
+        {
+          "name": "burialConfirmationPage",
+          "value": true
         }
       ]
     }

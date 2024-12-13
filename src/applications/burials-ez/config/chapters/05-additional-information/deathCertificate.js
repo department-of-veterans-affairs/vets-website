@@ -9,9 +9,7 @@ const { files } = fullSchemaBurials.definitions;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Death certificate'),
-    'ui:description': ({ formData }) => (
-      <DeathCertificateUploadMessage form={formData} />
-    ),
+    'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
       'ui:required': form => {
@@ -27,6 +25,8 @@ export default {
           locationIsVaMedicalCenter
         );
       },
+      // Empty items object required for confirmation page
+      items: {},
     },
   },
   schema: {
