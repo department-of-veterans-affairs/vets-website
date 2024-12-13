@@ -36,9 +36,11 @@ const childContent = (
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
-            <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-              VA Education File Upload Portal (opens in a new tab)
-            </a>
+            <va-link
+              external
+              text="VA Education File Upload Portal"
+              href="https://www.my.va.gov/EducationFileUploads/s/"
+            />
             , and upload your saved VA Form 22-10215.
           </p>
         </div>
