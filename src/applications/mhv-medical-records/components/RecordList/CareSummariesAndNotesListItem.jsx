@@ -66,7 +66,7 @@ const CareSummariesAndNotesListItem = props => {
         className="print-only"
         aria-hidden="true"
         data-dd-privacy="mask"
-        data-dd-action-name
+        data-dd-action-name="[lab and tests - care summary name - Print]"
       >
         {record.name}
       </h2>
@@ -78,7 +78,7 @@ const CareSummariesAndNotesListItem = props => {
           <span
             className="vads-u-display--inline"
             data-dd-privacy="mask"
-            data-dd-action-name
+            data-dd-action-name="[lab and tests - care summary date]"
           >
             Date entered: {record.date}
           </span>
@@ -87,7 +87,7 @@ const CareSummariesAndNotesListItem = props => {
       <div
         className="vads-u-margin-bottom--0p5"
         data-dd-privacy="mask"
-        data-dd-action-name
+        data-dd-action-name="[lab and tests - care summary location]"
       >
         {record.location}
       </div>
@@ -98,7 +98,7 @@ const CareSummariesAndNotesListItem = props => {
         <span
           className="vads-u-display--inline"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary written/discharged by]"
         >
           {isDischargeSummary ? record.dischargedBy : record.writtenBy}
         </span>

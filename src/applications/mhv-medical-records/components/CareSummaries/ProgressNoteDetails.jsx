@@ -98,7 +98,7 @@ ${record.note}`;
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
         data-dd-privacy="mask"
-        data-dd-action-name="Progress note header"
+        data-dd-action-name="[lab and tests - care summary name]"
       >
         {record.name}
       </h1>
@@ -129,7 +129,7 @@ ${record.note}`;
         <p
           data-testid="progress-location"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary location]"
         >
           {record.location}
         </p>
@@ -139,7 +139,7 @@ ${record.note}`;
         <p
           data-testid="note-record-written-by"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary written by]"
         >
           {record.writtenBy}
         </p>
@@ -149,7 +149,7 @@ ${record.note}`;
         <p
           data-testid="note-record-signed-by"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary signed by]"
         >
           {record.signedBy}
         </p>
@@ -159,7 +159,7 @@ ${record.note}`;
         <p
           data-testid="progress-signed-date"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary date signed]"
         >
           {record.dateSigned}
         </p>
@@ -171,7 +171,7 @@ ${record.note}`;
           data-testid="note-record"
           className="monospace vads-u-line-height--6"
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="[lab and tests - care summary Note]"
         >
           {record.note}
         </p>

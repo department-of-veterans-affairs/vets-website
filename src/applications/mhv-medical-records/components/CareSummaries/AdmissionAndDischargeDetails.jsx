@@ -116,7 +116,7 @@ ${record.summary}`;
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
         data-dd-privacy="mask"
-        data-dd-action-name
+        data-dd-action-name="[lab and tests - care summary name]"
       >
         {record.name}
       </h1>
@@ -145,7 +145,11 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location" data-dd-privacy="mask">
+        <p
+          data-testid="note-record-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - care summary location]"
+        >
           {record.location}
         </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
@@ -154,7 +158,11 @@ ${record.summary}`;
               <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                 Date admitted
               </h3>
-              <p data-testid="note-admission-date" data-dd-privacy="mask">
+              <p
+                data-testid="note-admission-date"
+                data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - care summary admission date]"
+              >
                 {record.admissionDate}
               </p>
             </>
@@ -164,7 +172,11 @@ ${record.summary}`;
             <h3 className="vads-u-font-size--md vads-u-font-family--sans">
               Date discharged
             </h3>
-            <p data-testid="note-discharge-date" data-dd-privacy="mask">
+            <p
+              data-testid="note-discharge-date"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - care summary discharge date]"
+            >
               {record.dischargeDate}
             </p>
           </>
@@ -172,7 +184,11 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p data-testid="note-discharged-by" data-dd-privacy="mask">
+        <p
+          data-testid="note-discharged-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - care summary discharged by]"
+        >
           {record.dischargedBy}
         </p>
       </div>
@@ -183,6 +199,7 @@ ${record.summary}`;
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - care summary Summary]"
         >
           {record.summary}
         </p>
