@@ -210,12 +210,16 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         )}
 
         <PrintDownload
+          description="Allergies - List"
           list
           downloadPdf={generateAllergiesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateAllergiesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Allergies"
+        />
         <RecordList
           records={allergies?.map(allergy => ({
             ...allergy,
