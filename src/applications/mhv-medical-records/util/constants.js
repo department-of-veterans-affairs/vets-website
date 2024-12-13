@@ -328,6 +328,7 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
   BREATHING_RATE: '/vitals/breathing-rate-history',
@@ -374,6 +375,11 @@ export const Breadcrumbs = {
   DOWNLOAD_ALL: {
     href: Paths.DOWNLOAD_ALL,
     label: 'Download all medical records',
+    isRouterLink: true,
+  },
+  DOWNLOAD: {
+    href: Paths.DOWNLOAD,
+    label: 'Download medical records reports',
     isRouterLink: true,
   },
   BLOOD_OXYGEN_LEVEL: {
