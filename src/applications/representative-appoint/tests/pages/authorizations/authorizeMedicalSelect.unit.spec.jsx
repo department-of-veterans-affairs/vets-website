@@ -5,16 +5,15 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
-describe('Claimant Contact Mailing page', () => {
+describe('Authorize medical select page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInfo.pages.claimantContactMailing;
+  } = formConfig.chapters.authorization.pages.authorizeMedicalSelect;
 
-  // Custom page is rendered, so this only renders a submit button
-  it.skip('should render', () => {
+  it('should render', () => {
     const { container } = render(
       <DefinitionTester
         definitions={{}}
