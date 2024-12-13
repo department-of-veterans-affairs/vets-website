@@ -53,7 +53,7 @@ export const findFormByFormId = (forms, formId) => {
 export const fetchAndBuildFormConfig = (
   formId,
   options,
-  fetchMethod = fetchDrupalDigitalForms,
+  fetchMethod = mockFetchForms,
 ) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
