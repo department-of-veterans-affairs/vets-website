@@ -145,8 +145,6 @@ describe('The My VA Dashboard', () => {
   });
 
   describe('a submitted form is received and has a PDF download link', () => {
-    const filename = 'Form_21-10210_123fake-submission-id-567.pdf';
-
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -161,13 +159,20 @@ describe('The My VA Dashboard', () => {
       cy.intercept('/v0/my_va/submission_statuses', formStatusesNoError);
       cy.intercept('POST', '/v0/my_va/submission_pdf_urls', {
         statusCode: 200,
-        headers: {
-          'Content-disposition': `attachment; filename=${filename}`,
-          'Content-Type': 'application/pdf',
+        body: {
+          url:
+            'https://example.com/form_21-10210_vagov_123fake-submission-id-567.pdf',
         },
-        fixture:
-          'applications/personalization/dashboard/tests/fixtures/pdf-fixture.pdf',
-      }).as('downloadFile');
+      }).as('pdfEndpoint');
+      cy.intercept('GET', '**/*.pdf', req => {
+        req.reply({
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/pdf' },
+          fixture:
+            'applications/personalization/dashboard/tests/fixtures/pdf-fixture.pdf',
+          delay: 10, // milliseconds
+        });
+      }).as('pdfDownload');
       cy.login(mockUser);
       cy.visit(manifest.rootUrl);
     });
@@ -178,13 +183,20 @@ describe('The My VA Dashboard', () => {
         .contains('Download your completed form (PDF)')
         .click();
 
-      cy.wait('@downloadFile')
+      cy.wait('@pdfEndpoint')
         .its('response.statusCode')
         .should('eq', 200);
 
-      cy.readFile(`${Cypress.config('downloadsFolder')}/${filename}`).should(
-        'exist',
-      );
+      cy.wait('@pdfDownload')
+        .its('response.statusCode')
+        .should('eq', 200);
+
+      cy.readFile(
+        `${Cypress.config(
+          'downloadsFolder',
+        )}/Form_21-10210_123fake-submission-id-567.pdf`,
+      ).should('exist');
+
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
       cy.axeCheck();
@@ -195,7 +207,6 @@ describe('The My VA Dashboard', () => {
         statusCode: 400,
         body: { error: 'bad request' },
       }).as('getPdfUrlError');
-
       cy.findAllByTestId('submitted-application').should('have.length', 4);
       cy.get('button')
         .contains('Download your completed form (PDF)')
