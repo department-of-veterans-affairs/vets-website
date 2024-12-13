@@ -4,7 +4,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
 describe('Review edit flows', () => {
   it('Back and Continue with no answer change returns to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -331,7 +331,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Reason question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -394,7 +394,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Reason question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -477,7 +477,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Court Martial question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -562,7 +562,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Discharge Type question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -651,7 +651,7 @@ describe('Review edit flows', () => {
     h.verifyUrl(ROUTES.REVIEW);
   });
   it('Clicking continue on Previous Application question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -741,7 +741,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Previous Application Type question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -833,7 +833,7 @@ describe('Review edit flows', () => {
   });
 
   it('Clicking continue on Previous Application Year question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
