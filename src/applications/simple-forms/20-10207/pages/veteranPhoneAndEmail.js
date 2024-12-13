@@ -14,8 +14,7 @@ import {
 } from '../helpers';
 
 /** @type {PageSchema} */
-// eslint-disable-next-line import/no-mutable-exports
-let pageSchema = {
+const oldPageSchema = {
   uiSchema: {
     ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
     veteranPhone: phoneUI('Phone number'),
@@ -30,30 +29,31 @@ let pageSchema = {
   },
 };
 
-// test on dev before making this change
-if (environment.isDev() || environment.isLocalhost()) {
-  pageSchema = {
-    uiSchema: {
-      ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
-      veteranPhone: phoneUI('Phone number'),
-      veteranEmailAddress: emailToSendNotificationsUI({
-        // no living situation risk = has housing = has email
-        required: formData => formData.livingSituation?.NONE,
-        updateUiSchema: formData => ({
-          'ui:options': {
-            hint: getPhoneAndEmailPageEmailHint(formData),
-          },
-        }),
+/** @type {PageSchema} */
+const pageSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
+    veteranPhone: phoneUI('Phone number'),
+    veteranEmailAddress: emailToSendNotificationsUI({
+      // no living situation risk = has housing = has email
+      required: formData => formData.livingSituation?.NONE,
+      updateUiSchema: formData => ({
+        'ui:options': {
+          hint: getPhoneAndEmailPageEmailHint(formData),
+        },
       }),
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      veteranPhone: phoneSchema,
+      veteranEmailAddress: emailToSendNotificationsSchema,
     },
-    schema: {
-      type: 'object',
-      properties: {
-        veteranPhone: phoneSchema,
-        veteranEmailAddress: emailToSendNotificationsSchema,
-      },
-    },
-  };
-}
+  },
+};
 
-export default pageSchema;
+// test on dev before making this change
+const useNewPageSchema = environment.isDev() || environment.isLocalhost();
+
+export default (useNewPageSchema ? pageSchema : oldPageSchema);

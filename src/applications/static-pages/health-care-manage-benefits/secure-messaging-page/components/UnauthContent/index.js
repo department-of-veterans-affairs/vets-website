@@ -2,7 +2,6 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const UnauthContent = () => (
   <>
@@ -52,10 +51,6 @@ export const UnauthContent = () => (
         Find out how to apply for VA health care
       </a>
     </p>
-    <p>
-      <strong>And you must have one of these free accounts:</strong>
-    </p>
-    <ServiceProvidersList />
     <h2>How does secure messaging work?</h2>
     <p>
       With secure messaging, you can write messages, save drafts, review your

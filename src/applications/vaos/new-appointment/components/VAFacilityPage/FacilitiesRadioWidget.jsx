@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
-import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
-import { useOHDirectScheduling } from '../../hooks/useOHDirectScheduling';
-import { useOHRequestScheduling } from '../../hooks/useOHRequestScheduling';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
@@ -26,12 +22,10 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const {
-    cernerSiteIds,
-    requestLocationStatus,
-    sortMethod,
-    loadingEligibility,
-  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { requestLocationStatus, sortMethod, loadingEligibility } = useSelector(
+    state => selectFacilitiesRadioWidget(state),
+    shallowEqual,
+  );
 
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
@@ -66,9 +60,6 @@ export default function FacilitiesRadioWidget({
       </option>
     );
   });
-
-  const useOHDirectSchedule = useOHDirectScheduling();
-  const useOHRequestSchedule = useOHRequestScheduling();
 
   useEffect(
     () => {
@@ -128,7 +119,6 @@ export default function FacilitiesRadioWidget({
         displayedOptions.map((option, i) => {
           const { name, address, legacyVAR } = option?.label;
           const checked = option.value === value;
-          const isCerner = isCernerLocation(option.value, cernerSiteIds);
           let distance;
 
           if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
@@ -165,12 +155,6 @@ export default function FacilitiesRadioWidget({
                     {distance} miles
                   </span>
                 )}
-                {isCerner &&
-                  (!useOHDirectSchedule && !useOHRequestSchedule) && (
-                    <a href={getCernerURL('/pages/scheduling/upcoming')}>
-                      Schedule online at <strong>My VA Health</strong>
-                    </a>
-                  )}
               </label>
             </div>
           );
