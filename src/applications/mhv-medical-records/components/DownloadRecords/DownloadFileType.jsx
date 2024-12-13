@@ -63,6 +63,9 @@ const DownloadFileType = props => {
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
 
+  // FIXME: This should be generated dynamically. (see: MHV-60682)
+  const lastUpdated = 'Last updated at 10:47 a.m. EDT on September 13, 2024';
+
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
@@ -291,6 +294,7 @@ const DownloadFileType = props => {
           ...scaffold,
           name,
           dob,
+          lastUpdated,
         };
         makePdf(
           pdfName,

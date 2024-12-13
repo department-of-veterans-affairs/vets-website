@@ -68,6 +68,23 @@ describe('Blue Button report PDF template', () => {
   });
 
   describe('Cover page', () => {
+    it('Shows the last updated date', async () => {
+      const data = require('./fixtures/all_sections.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // Get Last Updated paragraph.
+      const recordsItemIndex = content.items.findIndex(
+        item => item.str === data.lastUpdated,
+      );
+      expect(content.items[recordsItemIndex]).to.exist;
+      expect(content.items[recordsItemIndex + 2].tag).to.equal('H2');
+    });
+
     it('Displays the Records in this report section', async () => {
       const data = require('./fixtures/all_sections.json');
       const { pdf } = await generateAndParsePdf(data);

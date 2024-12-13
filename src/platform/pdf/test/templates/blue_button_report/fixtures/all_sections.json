@@ -1509,5 +1509,6 @@
   "title": "Blue Button report",
   "subject": "VA Medical Record",
   "name": "null",
-  "dob": "Invalid date"
+  "dob": "Invalid date",
+  "lastUpdated": "Last updated at 10:34 a.m. EST on January 25, 2024"
 }
