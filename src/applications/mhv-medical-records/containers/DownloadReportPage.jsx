@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  updatePageTitle,
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -9,6 +10,7 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
 import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
@@ -31,7 +33,7 @@ import {
 import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
 import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
-import { UNKNOWN } from '../util/constants';
+import { pageTitles, UNKNOWN } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
@@ -109,6 +111,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
       return () => {
         dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
       };

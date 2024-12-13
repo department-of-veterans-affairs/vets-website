@@ -244,7 +244,7 @@ ${record.results}`;
           <Link
             to={`/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
-            data-testid="radiology-request-images"
+            data-testid="radiology-view-all-images"
           >
             View all {radiologyDetails.imageCount} images
           </Link>
