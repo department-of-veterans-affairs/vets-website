@@ -423,15 +423,6 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
-
-      - name: List test results
-        run: | 
-          ls -a
-          cd mocha
-          ls -a
-          cd results
-          ls -a
-      
     
       - name: Archive unit test results
         if: ${{ always() }}

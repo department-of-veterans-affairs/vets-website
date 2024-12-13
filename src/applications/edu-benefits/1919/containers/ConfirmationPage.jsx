@@ -29,7 +29,7 @@ export class ConfirmationPage extends React.Component {
           />
           <h2>Application for Mock Form</h2>
         </div>
-        <h2 className="vads-u-font-sizeee--h3">
+        <h2 className="vads-u-font-size--h3">
           Your application has been submitted
         </h2>
         <p>We may contact you for more information or documents.</p>

@@ -115,7 +115,6 @@ if (testsToVerify === null) {
         /,/g,
         ' ',
       )} `;
-      console.log('no tests to verify:', command);
       if (testsToRun !== '') {
         // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
         runCommand(command);
@@ -158,7 +157,7 @@ if (testsToVerify === null) {
           /,/g,
           ' ',
         )} `;
-        console.log('tests to verify: ', command);
+
         // Wait for the command to finish before proceeding to the next app
         try {
           await runCommand(command);
