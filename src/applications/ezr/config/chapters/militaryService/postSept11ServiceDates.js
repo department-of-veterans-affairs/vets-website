@@ -3,32 +3,28 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions/ServiceDateRangeDescription';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
-import { validateExposureDates } from '../../../utils/validation';
+import { validateGulfWarDates } from '../../../utils/validation';
 import { emptyObjectSchema } from '../../../definitions';
 import content from '../../../locales/en/content.json';
 
-const { toxicExposureStartDate, toxicExposureEndDate } = ezrSchema.properties;
+const { gulfWarStartDate, gulfWarEndDate } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      content['military-service-other-exposure-dates-title'],
-      content['military-service-other-exposure-dates-description'],
+      content['military-service-post-sept11-dates-title'],
+      content['military-service-post-sept11-dates-description'],
     ),
-    'view:toxicExposureDates': {
-      toxicExposureStartDate: {
-        ...currentOrPastMonthYearUI(
-          content['military-service-other-exposure-dates-start'],
-        ),
+    'view:gulfWarServiceDates': {
+      gulfWarStartDate: {
+        ...currentOrPastMonthYearUI('Service start date'),
         'ui:description': ServiceDateRangeDescription,
       },
-      toxicExposureEndDate: {
-        ...currentOrPastMonthYearUI(
-          content['military-service-other-exposure-dates-end'],
-        ),
+      gulfWarEndDate: {
+        ...currentOrPastMonthYearUI('Service end date'),
         'ui:description': ServiceDateRangeDescription,
       },
-      'ui:validations': [validateExposureDates],
+      'ui:validations': [validateGulfWarDates],
     },
     'view:dateRange': {
       'ui:description': DateRangeDescription,
@@ -37,11 +33,11 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:toxicExposureDates': {
+      'view:gulfWarServiceDates': {
         type: 'object',
         properties: {
-          toxicExposureStartDate,
-          toxicExposureEndDate,
+          gulfWarStartDate,
+          gulfWarEndDate,
         },
       },
       'view:dateRange': emptyObjectSchema,
