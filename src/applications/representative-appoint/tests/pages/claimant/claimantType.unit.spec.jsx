@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ClaimantType from '../../components/ClaimantType';
-import initialFormData from '../fixtures/data/initial-form-data.json';
+import ClaimantType from '../../../components/ClaimantType';
+import initialFormData from '../../fixtures/data/initial-form-data.json';
 
 describe('<ClaimantType /> handlers', async () => {
   const getProps = () => {
