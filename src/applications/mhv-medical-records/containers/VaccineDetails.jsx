@@ -131,8 +131,9 @@ Location: ${record.location}\n`;
           <h1
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
-            data-dd-privacy="mask"
             data-testid="vaccine-name"
+            data-dd-privacy="mask"
+            data-dd-action-name="[vaccine details - name]"
           >
             Vaccines: {record.name}
           </h1>
@@ -159,8 +160,9 @@ Location: ${record.location}\n`;
             </h2>
             <p
               className="vads-u-margin-top--0"
-              data-dd-privacy="mask"
               data-testid="vaccine-location"
+              data-dd-privacy="mask"
+              data-dd-action-name="[vaccine details - location]"
             >
               {record.location}
             </p>
