@@ -15,6 +15,7 @@ const ConditionListItem = props => {
       <Link
         to={`/conditions/${record.id}`}
         data-dd-privacy="mask"
+        data-dd-action-name="Health Conditions Detail Link"
         className="no-print"
         onClick={() => {
           sendDataDogAction('Health Conditions Detail Link');
@@ -24,12 +25,23 @@ const ConditionListItem = props => {
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
         </div>
       </Link>
-      <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">
+      <h2
+        className="print-only"
+        aria-hidden="true"
+        data-dd-privacy="mask"
+        data-dd-action-name="[condition list - name - Print]"
+      >
         {record.name}
       </h2>
 
       <p className="vads-u-margin--0">
-        Date entered: <span data-dd-privacy="mask">{record?.date}</span>
+        Date entered:{' '}
+        <span
+          data-dd-privacy="mask"
+          data-dd-action-name="[condition list - date]"
+        >
+          {record?.date}
+        </span>
       </p>
     </va-card>
   );
