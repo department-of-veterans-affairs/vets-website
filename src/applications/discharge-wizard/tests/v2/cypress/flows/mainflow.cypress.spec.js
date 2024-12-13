@@ -5,7 +5,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 describe('Discharge Upgrade Wizard Main Flow', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -123,6 +123,11 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
       h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
       h.clickContinue();
 
+      // FAILURE_TO_EXHAUST
+      h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+      h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
+      h.clickContinue();
+
       // PRIOR_SERVICE
       h.verifyUrl(ROUTES.PRIOR_SERVICE);
       h.selectRadio(h.PRIOR_SERVICE_INPUT, 1);
@@ -177,7 +182,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
     });
 
     it('navigates through the flow forward/backward successfully with changed answers for Reason question', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -236,10 +241,6 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.clickBack();
-
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
       h.clickBack();
 
       // DISCHARGE_YEAR
