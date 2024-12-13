@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
+import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -558,6 +559,31 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const fromDate = new Date(year, month - 1, 1);
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
+};
+
+export const sendDataDogAction = actionName => {
+  datadogRum.addAction(actionName);
+};
+
+/**
+ * Checks if all elements in an array of arrays are defined or non-empty.
+ *
+ * @param {Array<any>} arrayOfArrays - An array containing elements of varying types to validate.
+ * @returns {boolean} - Returns `true` if all elements are "defined" (non-empty), otherwise `false`.
+ *
+ * Validation rules:
+ * - Objects: Must have at least one key.
+ * - Strings: Must be non-empty.
+ * - Arrays: Must have at least one element.
+ * - All other types are treated as invalid.
+ */
+export const allAreDefined = arrayOfArrays => {
+  return arrayOfArrays.every(
+    data =>
+      (typeof data === 'object' && Object.keys(data || {})?.length) ||
+      (typeof data === 'string' && data?.length) ||
+      (Array.isArray(data) && !!data?.length),
+  );
 };
 
 /**

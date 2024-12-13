@@ -150,6 +150,18 @@ export const vitalTypes = {
   PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
 };
 
+export const seiVitalTypes = {
+  BLOOD_PRESSURE: 'bloodPressure',
+  BLOOD_SUGAR: 'bloodSugar',
+  BODY_TEMPERATURE: 'bodyTemperature',
+  BODY_WEIGHT: 'bodyWeight',
+  CHOLESTEROL: 'cholesterol',
+  HEART_RATE: 'heartRate',
+  INR: 'inr',
+  PAIN: 'pain',
+  PULSE_OXIMETRY: 'pulseOximetry',
+};
+
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   PULSE: 'Heart rate',
@@ -206,34 +218,45 @@ export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_PAGE_TITLE:
     'Lab And Test Results - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
+    'Lab And Test Results Details - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
+    'Care Summaries And Notes Details - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  VACCINE_DETAILS_PAGE_TITLE:
+    'Vaccine Details - Medical records | Veterans Affairs',
   ALLERGIES_PAGE_TITLE:
     'Allergies and Reactions - Medical Records | Veterans Affairs',
+  ALLERGY_DETAILS_PAGE_TITLE:
+    'Allergies And Reactions Details - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
+    'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
-    'Download All Medical Records - Medical Records | Veterans Affairs',
+    'Download Medical Records Reports - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
 
 export const selfEnteredTypes = {
-  VITALS: 'vitals',
-  ALLERGIES: 'allergies',
-  FAMILY_HISTORY: 'family history',
-  VACCINES: 'vaccines',
-  TEST_ENTRIES: 'test entries',
-  MEDICAL_EVENTS: 'medical events',
-  MILITARY_HISTORY: 'military history',
-  HEALTH_PROVIDERS: 'health providers',
-  HEALTH_INSURANCE: 'health insurance',
-  TREATMENT_FACILITIES: 'treatment facilities',
-  FOOD_JOURNAL: 'food journal',
   ACTIVITY_JOURNAL: 'activity journal',
-  MEDICATIONS: 'medications',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
 };
 
 export const allergyTypes = {
@@ -305,6 +328,14 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  DOWNLOAD: '/download/',
+  BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
+  BLOOD_PRESSURE: '/vitals/blood-pressure-history',
+  BREATHING_RATE: '/vitals/breathing-rate-history',
+  HEART_RATE: '/vitals/heart-rate-history',
+  HEIGHT: '/vitals/height-history',
+  TEMPERATURE: '/vitals/temperature-history',
+  WEIGHT: '/vitals/weight-history',
 };
 
 export const Breadcrumbs = {
@@ -346,4 +377,36 @@ export const Breadcrumbs = {
     label: 'Download all medical records',
     isRouterLink: true,
   },
+  DOWNLOAD: {
+    href: Paths.DOWNLOAD,
+    label: 'Download medical records reports',
+    isRouterLink: true,
+  },
+  BLOOD_OXYGEN_LEVEL: {
+    href: Paths.BLOOD_OXYGEN_LEVEL,
+    label: 'Blood oxygen level',
+    isRouterLink: true,
+  },
+  BLOOD_PRESSURE: {
+    href: Paths.BLOOD_PRESSURE,
+    label: 'Blood pressure',
+    isRouterLink: true,
+  },
+  BREATHING_RATE: {
+    href: Paths.BREATHING_RATE,
+    label: 'Breathing rate',
+    isRouterLink: true,
+  },
+  HEART_RATE: {
+    href: Paths.HEART_RATE,
+    label: 'Heart rate',
+    isRouterLink: true,
+  },
+  HEIGHT: { href: Paths.HEIGHT, label: 'Height', isRouterLink: true },
+  TEMPERATURE: {
+    href: Paths.TEMPERATURE,
+    label: 'Temperature',
+    isRouterLink: true,
+  },
+  WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
