@@ -5,9 +5,12 @@ import {
 import React, { useState, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
+import { pageTitles } from '../../util/constants';
 
 const DownloadRecordType = () => {
   const history = useHistory();
@@ -29,6 +32,14 @@ const DownloadRecordType = () => {
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const handleCheckAll = () => {
     setSelectionError(null);

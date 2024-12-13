@@ -112,7 +112,7 @@ describe('The My VA Dashboard', () => {
       lastUpdated: 1604951152,
     },
     {
-      form: '21P-530V2',
+      form: '21P-530EZ',
       metadata: {
         version: 0,
         returnUrl: '/#',
@@ -155,7 +155,7 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
 
-    it('should show in-progress 26-1880, 28-8832, and 21P-530V2 forms', () => {
+    it('should show in-progress 26-1880, 28-8832, and 21P-530EZ forms', () => {
       cy.findByText(/26-1880/i).should('exist');
       cy.findByText(/28-8832/i).should('exist');
       cy.findByText(/21P-530EZ/i).should('exist');
