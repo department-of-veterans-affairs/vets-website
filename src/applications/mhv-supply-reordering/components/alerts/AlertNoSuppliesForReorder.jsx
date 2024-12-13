@@ -35,7 +35,7 @@ const AlertNoSuppliesForReorder = ({ reorderDate }) => {
 };
 
 AlertNoSuppliesForReorder.propTypes = {
-  reorderDate: PropTypes.string.isRequired,
+  reorderDate: PropTypes.string,
 };
 
 export default AlertNoSuppliesForReorder;
