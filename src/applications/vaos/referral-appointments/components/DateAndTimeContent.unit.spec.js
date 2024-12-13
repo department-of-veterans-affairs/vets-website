@@ -101,11 +101,6 @@ describe('VAOS Component: DateAndTimeContent', () => {
         selectedSlot: '0',
         currentPage: 'scheduleAppointment',
       },
-      newAppointment: {
-        data: {
-          selectedDates: '2024-12-06T17:00:00.000Z',
-        },
-      },
     };
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
