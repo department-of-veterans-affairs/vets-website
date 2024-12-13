@@ -49,6 +49,7 @@
     "certifierRelationship": "other",
     "certifierOtherRelationship": "Uncle",
     "certifierPhone": "5554443333",
+    "certifierEmail": "cert@email.gov",
     "certifierAddress": {
       "country": "USA",
       "street": "123 Cert St",
