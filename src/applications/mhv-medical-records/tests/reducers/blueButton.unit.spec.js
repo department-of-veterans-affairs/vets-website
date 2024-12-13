@@ -277,8 +277,9 @@ describe('convertAccountSummary', () => {
       facilities: [
         {
           facilityInfo: {
+            id: '123',
             name: 'VA Medical Center',
-            stationNumber: '123',
+            stationNumber: 'TEST',
             treatment: true,
           },
         },
@@ -330,6 +331,7 @@ describe('blueButtonReducer', () => {
     demographics: undefined,
     militaryService: undefined,
     accountSummary: undefined,
+    failedDomains: [],
   };
 
   it('should return the initial state when passed an undefined state', () => {
@@ -409,6 +411,7 @@ describe('blueButtonReducer', () => {
       'demographics',
       'militaryService',
       'accountSummary',
+      'failedDomains',
     ]);
 
     expect(newState.medicationsList).to.be.an('array');
@@ -432,7 +435,7 @@ describe('blueButtonReducer', () => {
       medicationsList: [],
       appointmentsList: [],
       demographics: [],
-      militaryService: '',
+      militaryService: undefined,
       accountSummary: {
         authenticationSummary: {},
         vaTreatmentFacilities: [],
@@ -441,5 +444,22 @@ describe('blueButtonReducer', () => {
 
     const newState = blueButtonReducer(initialState, action);
     expect(newState).to.deep.equal(expectedState);
+  });
+
+  it('should not overwrite data if keys are missing from the payload', () => {
+    const state = {
+      medicationsList: [],
+      appointmentsList: [],
+      demographics: [],
+      militaryService: 'Testing',
+      accountSummary: [],
+    };
+
+    const action = {
+      type: Actions.BlueButtonReport.GET,
+    };
+
+    const newState = blueButtonReducer(state, action);
+    expect(newState).to.deep.equal(state);
   });
 });
