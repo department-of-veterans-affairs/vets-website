@@ -1,18 +1,22 @@
 import { expect } from 'chai';
-import { createPayload, parseResponse } from '../../../../utils/helpers';
+import {
+  createPayload,
+  parseResponse,
+} from '../../../../utils/helpers/file-attachments';
 
-describe('hca file attachment methods', () => {
+describe('file-attachments', () => {
   const mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-  context('when the `createPayload` method executes', () => {
+  describe('ezr `createPayload` method', () => {
     it('should create a FormData instance with file', () => {
       const payload = createPayload(mockFile);
-
-      expect(payload.get('hca_attachment[file_data]')).to.equal(mockFile);
+      expect(payload.get('form1010_ezr_attachment[file_data]')).to.equal(
+        mockFile,
+      );
     });
   });
 
-  context('when the `parseResponse` method executes', () => {
+  describe('ezr `parseResponse` method', () => {
     it('should return an object with the name, confirmation code and file size', () => {
       const response = {
         data: {
