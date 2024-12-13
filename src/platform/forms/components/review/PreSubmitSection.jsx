@@ -278,8 +278,8 @@ PreSubmitSection.propTypes = {
   formConfig: PropTypes.shape({
     preSubmitInfo: PropTypes.object,
   }).isRequired,
-  showPreSubmitError: PropTypes.bool,
   setPreSubmit: PropTypes.func.isRequired,
+  showPreSubmitError: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
