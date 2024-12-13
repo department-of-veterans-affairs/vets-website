@@ -4,8 +4,8 @@ import { datadogLogs } from '@datadog/browser-logs';
 if (!process.env.NODE_ENV === 'test') {
   // Initialize Datadog logging
   datadogLogs.init({
-    clientToken: 'YOUR_DATADOG_CLIENT_TOKEN', // Replace with your Datadog API key
-    site: 'datadoghq.com',
+    clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07', // Replace with your Datadog API key
+    site: 'ddog-gov.com',
     forwardErrorsToLogs: true, // Automatically capture unhandled errors
     sampleRate: 100, // Percentage of sessions to log (adjust as needed)
   });
