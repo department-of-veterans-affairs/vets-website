@@ -37,7 +37,14 @@ export function showForm0781Pages(formData) {
   );
 }
 
+export function optOut(formData) {
+  formData
+  console.log('------- opting out! ---------wipn')
+  return true
+}
 
-export function activate0781Flow(formData) {
-  // [wipn8923] write activation state to React Store
+export function optIn(formData) {
+  formData
+  console.log('------- opting in! ---------wipn')
+  return true
 }
