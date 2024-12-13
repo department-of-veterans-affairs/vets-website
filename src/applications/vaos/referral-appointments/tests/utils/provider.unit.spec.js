@@ -10,7 +10,7 @@ describe('VAOS provider utils', () => {
   });
   const tomorrow = addDays(startOfDay(new Date()), 1);
   describe('createProviderDetails', () => {
-    const providerObjectTwoSlots = providerUtil.createProviderDetails(2);
+    const providerObjectTwoSlots = providerUtil.createProviderDetails(2, '222');
     it('Creates a provider with specified number of slots', () => {
       expect(providerObjectTwoSlots.slots.length).to.equal(2);
     });

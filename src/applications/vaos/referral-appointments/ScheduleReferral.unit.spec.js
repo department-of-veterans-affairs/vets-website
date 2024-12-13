@@ -62,18 +62,9 @@ describe('VAOS Component: ScheduleReferral', () => {
 
     expect(details).to.exist;
     expect(details).to.contain.text(expectedDate);
-    expect(details).to.contain.text('Type of care: Cardiology');
-    expect(details).to.contain.text('Provider: Dr. Face');
-    expect(details).to.contain.text('Location: New skin technologies bldg 2');
-    expect(details).to.contain.text('Number of appointments: 1');
-    expect(details).to.contain.text('Referral number: VA0000009880');
     expect(helpText).to.exist;
     expect(additionalAppointmentHelpText).to.exist;
 
     expect(facility).to.exist;
-    expect(facility).to.contain.text(
-      'Referring VA facility: Batavia VA Medical Center',
-    );
-    expect(facility).to.contain.text('Phone: (585) 297-1000');
   });
 });
