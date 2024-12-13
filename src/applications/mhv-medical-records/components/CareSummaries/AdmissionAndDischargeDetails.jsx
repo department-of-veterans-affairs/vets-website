@@ -116,7 +116,7 @@ ${record.summary}`;
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
         data-dd-privacy="mask"
-        data-dd-action-name="[lab and tests - care summary name]"
+        data-dd-action-name="[admission discharge summary - name]"
       >
         {record.name}
       </h1>
@@ -148,7 +148,7 @@ ${record.summary}`;
         <p
           data-testid="note-record-location"
           data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - care summary location]"
+          data-dd-action-name="[admission discharge summary - location]"
         >
           {record.location}
         </p>
@@ -161,7 +161,7 @@ ${record.summary}`;
               <p
                 data-testid="note-admission-date"
                 data-dd-privacy="mask"
-                data-dd-action-name="[lab and tests - care summary admission date]"
+                data-dd-action-name="[admission discharge summary - admission date]"
               >
                 {record.admissionDate}
               </p>
@@ -175,7 +175,7 @@ ${record.summary}`;
             <p
               data-testid="note-discharge-date"
               data-dd-privacy="mask"
-              data-dd-action-name="[lab and tests - care summary discharge date]"
+              data-dd-action-name="[admission discharge summary - discharge date]"
             >
               {record.dischargeDate}
             </p>
@@ -187,7 +187,7 @@ ${record.summary}`;
         <p
           data-testid="note-discharged-by"
           data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - care summary discharged by]"
+          data-dd-action-name="[admission discharge summary - discharged by]"
         >
           {record.dischargedBy}
         </p>
@@ -199,7 +199,7 @@ ${record.summary}`;
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
           data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - care summary Summary]"
+          data-dd-action-name="[admission discharge summary - Summary]"
         >
           {record.summary}
         </p>
