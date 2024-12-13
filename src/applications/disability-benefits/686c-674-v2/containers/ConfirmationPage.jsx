@@ -36,7 +36,7 @@ export default function ConfirmationPage() {
           confirmation number is {formSubmissionId}.
         </p>
         <va-link-action
-          href="/claim-or-appeal-status/"
+          href="/my-va/"
           text="Check the status of your form on My VA"
           label="Check the status of your form on My VA"
           message-aria-describedby="Check the status of your form on My VA"
@@ -74,7 +74,7 @@ export default function ConfirmationPage() {
               update the status on My VA.
             </p>
             <va-link
-              href="/claim-or-appeal-status"
+              href="/my-va/"
               text="Check the status of your form on My VA"
               label="Check the status of your form on My VA"
             />
