@@ -19,7 +19,9 @@ function App({ loggedIn, location, children, formData, setFormData }) {
 
   useEffect(
     () => {
-      scrollTo('topScrollElement');
+      if (!pathname?.includes('introduction')) {
+        scrollTo('topScrollElement');
+      }
     },
     [pathname],
   );
