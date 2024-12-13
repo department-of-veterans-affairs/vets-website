@@ -1,101 +1,118 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render, cleanup } from '@testing-library/react';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import sinon from 'sinon';
+import recordEvent from 'platform/monitoring/record-event';
+import { hasSession } from 'platform/user/profile/utilities';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import VerifyApp from '../../containers/VerifyApp';
-
-const generateStore = ({
-  csp = 'logingov',
-  verified = false,
-  loading = false,
-} = {}) => ({
-  getState: () => ({
-    user: {
-      profile: {
-        loading,
-        signIn: { serviceName: csp },
-        verified,
-        session: { authBroker: 'iam' },
-      },
-    },
-  }),
-  dispatch: () => {},
-  subscribe: () => {},
-});
+// import AuthenticatedVerify from '../components/AuthenticatedVerify';
+// import UnauthenticatedVerify from '../components/UnauthenticatedVerify';
 
 describe('VerifyApp', () => {
+  let recordEventSpy;
+  let hasSessionStub;
+  let originalIsProduction;
+
+  beforeEach(() => {
+    recordEventSpy = sinon.spy(recordEvent);
+    hasSessionStub = sinon.stub(hasSession);
+    originalIsProduction = environment.isProduction;
+  });
+
   afterEach(() => {
-    cleanup();
-    window.localStorage.clear();
+    sinon.restore();
+    environment.isProduction = originalIsProduction;
   });
 
-  it('renders VerifyApp', () => {
-    const store = generateStore();
-    window.localStorage.setItem('hasSession', true);
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <VerifyApp />
-      </Provider>,
-    );
+  it('renders the unauthenticated component when user is unauthenticated and not in production', () => {
+    hasSessionStub.returns(false);
+    environment.isProduction = false;
 
-    expect(getByTestId('verify-app')).to.exist;
+    const { getByTestId } = renderInReduxProvider(<VerifyApp />);
+
+    expect(getByTestId('unauthenticatedVerify')).to.exist;
+    expect(recordEventSpy.calledWith({ event: 'verify-prompt-displayed' })).to
+      .be.true;
   });
 
-  it('renders loading indicator when app is loading', () => {
-    const store = generateStore({ loading: true });
-    window.localStorage.setItem('hasSession', true);
+  it('redirects to the home page if unauthenticated and in production', () => {
+    hasSessionStub.returns(false);
+    environment.isProduction = true;
 
-    const { container } = render(
-      <Provider store={store}>
-        <VerifyApp />
-      </Provider>,
-    );
+    const replaceSpy = sinon.spy();
+    window.location.replace = replaceSpy;
 
-    const loadingIndicator = $('va-loading-indicator', container);
-    expect(loadingIndicator).to.exist;
+    renderInReduxProvider(<VerifyApp />);
+
+    expect(replaceSpy.calledWith('/')).to.be.true;
+    expect(recordEventSpy.calledWith({ event: 'verify-prompt-displayed' })).to
+      .be.true;
   });
 
-  ['dslogon', 'mhv'].forEach(csp => {
-    it('displays both identity verification buttons for mhv & dslogon users', () => {
-      const store = generateStore({ csp });
-      window.localStorage.setItem('hasSession', true);
-      const { getByTestId, container } = render(
-        <Provider store={store}>
-          <VerifyApp />
-        </Provider>,
-      );
+  it('renders the authenticated component when user is authenticated', () => {
+    hasSessionStub.returns(true);
+    const initialState = {
+      user: {
+        profile: { verified: true },
+      },
+    };
 
-      expect(getByTestId('verify-button-group').children.length).to.equal(2);
-      expect($(`.logingov-verify-button`, container)).to.exist;
-      expect($(`.idme-verify-button`, container)).to.exist;
+    const { getByTestId } = renderInReduxProvider(<VerifyApp />, {
+      initialState,
     });
+
+    expect(getByTestId('authenticatedVerify')).to.exist;
+    expect(recordEventSpy.calledWith({ event: 'verify-prompt-displayed' })).to
+      .be.true;
   });
 
-  ['idme', 'logingov'].forEach(csp => {
-    it(`should display one ${csp} verification button for ${csp} users`, () => {
-      const store = generateStore({ csp });
-      window.localStorage.setItem('hasSession', true);
-      const { container } = render(
-        <Provider store={store}>
-          <VerifyApp />
-        </Provider>,
-      );
-      const cspVerifyButton = $(`.${csp}-verify-button`, container);
-      expect(cspVerifyButton).to.exist;
+  it('sets the document title to "Verify your identity"', () => {
+    hasSessionStub.returns(true);
+    renderInReduxProvider(<VerifyApp />);
+
+    expect(document.title).to.equal('Verify your identity');
+  });
+
+  it('renders the unauthenticated component if `hasSession` returns false and user is not verified', () => {
+    hasSessionStub.returns(false);
+    environment.isProduction = false;
+
+    const { getByTestId } = renderInReduxProvider(<VerifyApp />);
+
+    expect(getByTestId('unauthenticatedVerify')).to.exist;
+  });
+
+  it('renders the authenticated component if `hasSession` returns true and user is verified', () => {
+    hasSessionStub.returns(true);
+    const initialState = {
+      user: {
+        profile: { verified: true },
+      },
+    };
+
+    const { getByTestId } = renderInReduxProvider(<VerifyApp />, {
+      initialState,
     });
+
+    expect(getByTestId('authenticatedVerify')).to.exist;
   });
 
-  it('should redirect to home page when user is using a verified account', () => {
-    window.localStorage.setItem('hasSession', false);
-    const store = generateStore({ loading: false, verified: true });
-    const wrapper = render(
-      <Provider store={store}>
-        <VerifyApp />
-      </Provider>,
-    );
+  it('does not redirect if user is authenticated and in production', () => {
+    hasSessionStub.returns(true);
+    environment.isProduction = true;
 
-    expect(wrapper.findByTestId('loading-indicator'));
-    wrapper.unmount();
+    const replaceSpy = sinon.spy();
+    window.location.replace = replaceSpy;
+
+    const initialState = {
+      user: {
+        profile: { verified: true },
+      },
+    };
+
+    renderInReduxProvider(<VerifyApp />, { initialState });
+
+    expect(replaceSpy.notCalled).to.be.true;
   });
 });
