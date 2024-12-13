@@ -43,9 +43,6 @@ const AdmissionAndDischargeDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -132,11 +129,15 @@ ${record.summary}`;
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="CS&N Detail"
         downloadPdf={generateCareNotesPDF}
         downloadTxt={generateCareNotesTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="CS&N Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
