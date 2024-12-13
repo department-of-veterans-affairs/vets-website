@@ -51,7 +51,6 @@ const Verify = ({ signInService, headerLevel, serviceDescription }) => {
           <va-link
             href="/resources/verifying-your-identity-on-vagov/"
             text="Learn more about verifying your identity"
-            disableAnalytics
           />
         </p>
       </>

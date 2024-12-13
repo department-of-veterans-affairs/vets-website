@@ -49,7 +49,6 @@ const SignInOtherAccount = ({ headerLevel, serviceDescription }) => {
           <va-link
             href="/resources/creating-an-account-for-vagov/"
             text="Learn about creating an account"
-            disableAnalytics
           />
         </p>
       </>
