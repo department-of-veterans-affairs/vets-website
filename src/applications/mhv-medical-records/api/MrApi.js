@@ -26,7 +26,7 @@ export const getRefreshStatus = () => {
   });
 };
 
-export const getLabsAndTests = () => {
+export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
     headers,
   });
@@ -62,7 +62,7 @@ export const getBbmiNotificationStatus = () => {
   });
 };
 
-export const getMhvRadiologyTests = () => {
+export const getMhvRadiologyTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
   });
@@ -83,7 +83,7 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getNotes = () => {
+export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
@@ -95,7 +95,7 @@ export const getNote = id => {
   });
 };
 
-export const getVitalsList = () => {
+export const getVitalsList = async () => {
   return apiRequest(`${apiBasePath}/medical_records/vitals`, {
     headers,
   });
@@ -158,7 +158,7 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
+export const getVaccineList = async () => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });
@@ -208,7 +208,7 @@ export const getImageRequestStatus = () => {
  * Get a patient's medications
  * @returns list of patient's medications
  */
-export const getMedications = () => {
+export const getMedications = async () => {
   return apiRequest(`${apiBasePath}/prescriptions`, {
     headers,
   });
@@ -218,7 +218,7 @@ export const getMedications = () => {
  * Get a patient's appointments
  * @returns list of patient's appointments
  */
-export const getAppointments = () => {
+export const getAppointments = async () => {
   const now = new Date();
   const startDate = formatISO(now);
   const beginningOfTime = new Date(0);
@@ -227,7 +227,7 @@ export const getAppointments = () => {
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
   const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
 
-  return apiRequest(`${apiBasePath}/vaos/v2/appointments?${params}`, {
+  return apiRequest(`${environment.API_URL}/vaos/v2/appointments?${params}`, {
     headers,
   });
 };
@@ -236,7 +236,7 @@ export const getAppointments = () => {
  * Get a patient's demographic info
  * @returns patient's demographic info
  */
-export const getDemographicInfo = () => {
+export const getDemographicInfo = async () => {
   return apiRequest(`${apiBasePath}/medical_records/patient/demographic`, {
     headers,
   });
@@ -247,7 +247,7 @@ export const getDemographicInfo = () => {
  * Get a patient's military service info
  * @returns patient's military service info
  */
-export const getMilitaryService = () => {
+export const getMilitaryService = async () => {
   return apiRequest(`${apiBasePath}/medical_records/military_service`, {
     textHeaders,
   });
@@ -258,7 +258,7 @@ export const getMilitaryService = () => {
  * Get a patient's account summary (treatment facilities)
  * @returns patient profile including a list of patient's treatment facilities
  */
-export const getPatient = () => {
+export const getPatient = async () => {
   return apiRequest(`${apiBasePath}/medical_records/patient`, {
     headers,
   });

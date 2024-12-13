@@ -10,8 +10,7 @@ import {
 import environment from 'platform/utilities/environment';
 
 /** @type {PageSchema} */
-// eslint-disable-next-line import/no-mutable-exports
-let pageSchema = {
+const oldPageSchema = {
   uiSchema: {
     ...titleUI('Your phone and email address'),
     phone: phoneUI('Phone number'),
@@ -26,25 +25,26 @@ let pageSchema = {
   },
 };
 
-// test on dev before making this change
-if (environment.isDev() || environment.isLocalhost()) {
-  pageSchema = {
-    uiSchema: {
-      ...titleUI('Your phone and email address'),
-      phone: phoneUI('Phone number'),
-      emailAddress: emailToSendNotificationsUI({
-        // no living situation risk = has housing = has email
-        required: formData => formData.livingSituation?.NONE,
-      }),
+/** @type {PageSchema} */
+const pageSchema = {
+  uiSchema: {
+    ...titleUI('Your phone and email address'),
+    phone: phoneUI('Phone number'),
+    emailAddress: emailToSendNotificationsUI({
+      // no living situation risk = has housing = has email
+      required: formData => formData.livingSituation?.NONE,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      phone: phoneSchema,
+      emailAddress: emailToSendNotificationsSchema,
     },
-    schema: {
-      type: 'object',
-      properties: {
-        phone: phoneSchema,
-        emailAddress: emailToSendNotificationsSchema,
-      },
-    },
-  };
-}
+  },
+};
 
-export default pageSchema;
+// test on dev before making this change
+const useNewPageSchema = environment.isDev() || environment.isLocalhost();
+
+export default (useNewPageSchema ? pageSchema : oldPageSchema);

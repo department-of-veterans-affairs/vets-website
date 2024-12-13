@@ -28,4 +28,19 @@ describe('getBlueButtonReportData', () => {
       expect(dispatch.notCalled).to.be.true;
     });
   });
+
+  it('should dispatch an error for a failed API call', () => {
+    const mockData = allergies;
+    mockApiRequest(mockData, false); // Unresolved promise
+    const dispatch = sinon.spy();
+    return getBlueButtonReportData({ allergies: true })(dispatch).then(() => {
+      // Verify that dispatch was called only once
+      expect(dispatch.calledOnce).to.be.true;
+
+      // Check the first and only dispatch action type
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.BlueButtonReport.ADD_FAILED,
+      );
+    });
+  });
 });

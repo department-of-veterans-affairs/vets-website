@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
+import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -558,6 +559,10 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const fromDate = new Date(year, month - 1, 1);
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
+};
+
+export const sendDataDogAction = actionName => {
+  datadogRum.addAction(actionName);
 };
 
 /**
