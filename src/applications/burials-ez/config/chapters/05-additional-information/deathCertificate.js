@@ -1,4 +1,3 @@
-import React from 'react';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
 import { generateTitle } from '../../../utils/helpers';
