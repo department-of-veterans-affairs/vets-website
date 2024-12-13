@@ -48,7 +48,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ],
   };
   beforeEach(() => {
-    MockDate.set('2024-12-05T08:00:00Z');
+    MockDate.set('2024-12-05T15:00:00-05:00');
   });
   afterEach(() => {
     sessionStorage.clear();
