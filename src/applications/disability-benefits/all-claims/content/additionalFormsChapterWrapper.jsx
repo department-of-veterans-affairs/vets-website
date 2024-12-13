@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   showForm0781Tile,
-  optOutChoice,
-  optInChoice
+  optOut,
+  optIn,
 } from '../utils/form0781'
 
 // ******************************************
@@ -35,11 +35,11 @@ function form0781EnterFormLink(formData) {
 function optChoiceLink(formData) {
     const optedIn = true
     if (optedIn) {
-    <a href='' onClick={ optOutChoice }>
+    <a href='' onClick={ optOut }>
       X - OPT OUT
     </a>
   } else {
-    <a href='' onClick={ optInChoice }>
+    <a href='' onClick={ optIn }>
       OPT IN
     </a>
   }
