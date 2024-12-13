@@ -54,10 +54,6 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
       new Date(),
     );
 
-    // return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
-    //   ? differenceInMilliseconds(dateA, dateB) // Oldest first (ascending)
-    //   : differenceInMilliseconds(dateB, dateA); // Newest first (descending)
-
     const dateComparison = compareAsc(dateA, dateB);
 
     return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
