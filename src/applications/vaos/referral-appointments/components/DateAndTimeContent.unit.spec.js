@@ -12,11 +12,6 @@ describe('VAOS Component: DateAndTimeContent', () => {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    newAppointment: {
-      data: {
-        selectedDates: [],
-      },
-    },
     referral: {
       currentPage: 'scheduleAppointment',
       selectedSlot: null,

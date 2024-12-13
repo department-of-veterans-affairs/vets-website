@@ -9,6 +9,9 @@ import {
 import { createReferral } from './utils/referrals';
 
 describe('VAOS Component: ScheduleReferral', () => {
+  afterEach(() => {
+    sessionStorage.clear();
+  });
   const referralDate = '2024-09-09';
   it('should display the subtitle correctly given different numbers of appointments', async () => {
     const referralOne = createReferral(referralDate, '111');
@@ -66,5 +69,23 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(additionalAppointmentHelpText).to.exist;
 
     expect(facility).to.exist;
+  });
+  it('should reset slot selection', async () => {
+    const referral = createReferral(referralDate, '222');
+    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    sessionStorage.setItem(selectedSlotKey, '0');
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingCCDirectScheduling: true,
+      },
+      referral: {
+        currentPage: 'scheduleAppointment',
+        selectedSlot: '0',
+      },
+    };
+    renderWithStoreAndRouter(<ScheduleReferral currentReferral={referral} />, {
+      initialState,
+    });
+    expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
   });
 });
