@@ -131,9 +131,9 @@ const formConfig = {
     formSignature: {
       title: 'Signer information',
       pages: {
-          formSignature: {
-          path: UPLOADS_COMPLETE_PATH,
+        formSignature: {
           // initialData: mockdata.data,
+          path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,
         },
@@ -155,11 +155,6 @@ const formConfig = {
             } name`,
           ...applicantNameDobSchema,
         },
-      },
-    },
-    applicantInformation: {
-      title: 'Beneficiary information',
-      pages: {
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData => `${fnp(formData)} identification information`,
