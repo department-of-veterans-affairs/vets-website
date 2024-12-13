@@ -19,19 +19,19 @@ describe('VAOS Component: DateAndTimeContent', () => {
     },
     referral: {
       currentPage: 'scheduleAppointment',
+      selectedSlot: null,
     },
   };
   const referral = createReferral(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
-  const provider = createProviderDetails(1);
   const appointmentsByMonth = {
     '2024-12': [
       {
-        start: '2024-12-06T12:00:00-05:00',
+        start: '2024-12-06T15:00:00-05:00',
         timezone: 'America/New_York',
-        minutesDuration: 60,
+        minutesDuration: 30,
       },
       {
         start: '2024-12-19T08:40:00-05:00',
@@ -53,7 +53,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ],
   };
   beforeEach(() => {
-    MockDate.set('2024-12-05T00:00:00Z');
+    MockDate.set('2024-12-05T08:00:00Z');
   });
   afterEach(() => {
     sessionStorage.clear();
@@ -63,7 +63,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={provider}
+        provider={createProviderDetails(1)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -78,7 +78,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={provider}
+        provider={createProviderDetails(1)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -96,11 +96,15 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should show error if conflicting appointment', async () => {
-    const selectedDateKey = `selected-date-referral-${referral.UUID}`;
-    sessionStorage.setItem(selectedDateKey, '2024-12-06T17:00:00.000Z');
+    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    sessionStorage.setItem(selectedSlotKey, '0');
     const initialStateWithSelect = {
       featureToggles: {
         vaOnlineSchedulingCCDirectScheduling: true,
+      },
+      referral: {
+        selectedSlot: '0',
+        currentPage: 'scheduleAppointment',
       },
       newAppointment: {
         data: {
@@ -111,7 +115,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={provider}
+        provider={createProviderDetails(1)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -129,8 +133,8 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should select date if value in session storage', async () => {
-    const selectedDateKey = `selected-date-referral-${referral.UUID}`;
-    sessionStorage.setItem(selectedDateKey, '2024-12-06T19:00:00.000Z');
+    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    sessionStorage.setItem(selectedSlotKey, '1');
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
