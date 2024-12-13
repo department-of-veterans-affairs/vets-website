@@ -11,6 +11,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
+import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
 import {
   getSelfEnteredAllergies,
   getSelfEnteredVitals,
@@ -32,6 +33,8 @@ import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import { UNKNOWN } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { Actions } from '../util/actionTypes';
 
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -43,6 +46,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
   const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
+  const successfulDownload = useSelector(
+    state => state.mr.downloads.downloadSuccess,
+  );
 
   const activityJournal = useSelector(
     state => state.mr.selfEntered.activityJournal,
@@ -71,8 +77,43 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
   const vitals = useSelector(state => state.mr.selfEntered.vitals);
 
+  const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
+
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
+  );
+
+  /** Map from the list of failed domains to UI display names */
+  const domainDisplayMap = {
+    labsAndTests: 'Lab and test results',
+    notes: 'Care summaries and notes',
+    vaccines: 'Vaccines',
+    allergies: 'Allergies and reactions',
+    conditions: 'Health conditions',
+    vitals: 'Vitals',
+    radiology: 'Radiology results',
+    medications: 'Medications',
+    appointments: 'VA appointments',
+    demographics: 'VA demographics records',
+    militaryService: 'DOD military service',
+    patient: 'Account summary',
+  };
+
+  const getFailedDomainList = (failed, displayMap) => {
+    const modFailed = [...failed];
+    if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
+      modFailed.push('medications');
+    }
+    return modFailed.map(domain => displayMap[domain]);
+  };
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+      };
+    },
+    [dispatch],
   );
 
   const generatePdf = useCallback(
@@ -238,12 +279,23 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--4 vads-u-margin-top--1">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--4 vads-u-margin-top--1 vads-u-margin-bottom--3">
         <p className="vads-u-margin--0">
           Records in these reports last updated at 1:47 p.m. [time zone] on June
           23, 2024
         </p>
       </div>
+
+      {successfulDownload === true && (
+        <>
+          <MissingRecordsError
+            recordTypes={getFailedDomainList(failedDomains, domainDisplayMap)}
+          />
+
+          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+        </>
+      )}
+
       <h2>Download your VA Blue Button report</h2>
       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
@@ -285,7 +337,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"
-          header="Continuity of care document (VA Health Summary)"
+          header="Continuity of Care Document (VA Health Summary)"
           data-testid="ccdAccordionItem"
         >
           <p className="vads-u-margin--0">
