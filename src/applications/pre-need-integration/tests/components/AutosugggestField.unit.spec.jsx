@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/enzyme-unmount */
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -39,6 +38,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
     );
 
     expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render a read-only view in review mode', () => {
@@ -71,6 +71,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
     );
 
     expect(wrapper.find('.review-row').exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should use enum and generate suggestions when getOptions is not provided', () => {
@@ -111,6 +112,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
       { id: '2', label: 'Label 2' },
       { id: '3', label: 'Label 3' },
     ]);
+    wrapper.unmount();
   });
 
   it('should return correct form data based on useEnum and freeInput', () => {
@@ -153,6 +155,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
       .instance()
       .getFormData({ id: '1', label: 'Option 1' });
     expect(formDataResult).to.equal('Option 1');
+    wrapper.unmount();
   });
 
   it('should return correct item from input value and suggestions', () => {
@@ -194,6 +197,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
       .instance()
       .getItemFromInput('Option 1', suggestions, uiSchema['ui:options']);
     expect(item).to.equal('Option 1');
+    wrapper.unmount();
   });
 
   it('should handle input value change', () => {
@@ -254,6 +258,7 @@ describe('AutosuggestField in Pre-need-integration', () => {
 
     expect(mockOnChange.calledWith()).to.be.true;
     expect(instance.state.input).to.equal('');
+    wrapper.unmount();
   });
 
   it('should handle selection change', () => {
@@ -296,5 +301,6 @@ describe('AutosuggestField in Pre-need-integration', () => {
     expect(mockOnChange.calledWith('1')).to.be.true;
 
     expect(instance.state.input).to.equal('Option 1');
+    wrapper.unmount();
   });
 });
