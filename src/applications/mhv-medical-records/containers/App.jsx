@@ -128,15 +128,18 @@ const App = ({ children }) => {
   useEffect(
     () => {
       if (!current) return () => {};
+      let isMounted = true; // Flag to prevent React state update on an unmounted component
+
       const resizeObserver = new ResizeObserver(() => {
         requestAnimationFrame(() => {
-          if (height !== current.offsetHeight) {
+          if (isMounted && height !== current.offsetHeight) {
             setHeight(current.offsetHeight);
           }
         });
       });
       resizeObserver.observe(current);
       return () => {
+        isMounted = false;
         if (current) {
           resizeObserver.unobserve(current);
         }
