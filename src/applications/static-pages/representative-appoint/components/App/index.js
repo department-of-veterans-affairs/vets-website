@@ -8,7 +8,7 @@ const renderNewLandingContent = () => {
       <p>Use our online tool to fill out your form.</p>
 
       <va-link-action
-        href="https://va.gov/get-help-from-accredited-representative/appoint-rep"
+        href="/get-help-from-accredited-representative/appoint-rep"
         text="Fill out your form online"
         type="secondary"
       />
@@ -34,13 +34,7 @@ const renderOldLandingContent = () => {
 };
 
 export const App = ({ show }) => {
-  const {
-    // useToggleValue,
-    useToggleLoadingValue,
-    // TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  // const appEnabled = useToggleValue(TOGGLE_NAMES.appointARepresentativeEnableFrontend);
+  const { useToggleLoadingValue } = useFeatureToggle();
 
   const togglesLoading = useToggleLoadingValue();
 
