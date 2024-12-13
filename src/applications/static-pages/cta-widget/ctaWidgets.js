@@ -72,6 +72,7 @@ export const ctaWidgetsLookup = {
     deriveToolUrlDetails: () => ({ url: '/track-claims/', redirect: true }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
+    headerLevel: 2,
     mhvToolName: null,
     requiredServices: [
       backendServices.EVSS_CLAIMS,
@@ -123,6 +124,7 @@ export const ctaWidgetsLookup = {
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
+    headerLevel: 2,
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA disability rating',
@@ -332,6 +334,7 @@ export const ctaWidgetsLookup = {
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
+    headerLevel: 2,
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA payment history',
