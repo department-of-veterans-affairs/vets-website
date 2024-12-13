@@ -80,6 +80,7 @@ export class CallToActionWidget extends Component {
     this._gaPrefix = 'register-mhv';
     this._featureToggle = ctaWidget?.featureToggle;
     this._headerLevel = ctaWidget?.headerLevel || props.headerLevel;
+    this._requiresVerification = ctaWidget?.requiresVerification;
   }
 
   componentDidMount() {
@@ -165,7 +166,11 @@ export class CallToActionWidget extends Component {
       return (
         <SignIn
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.openLoginModal}
+          primaryButtonHandler={
+            this._requiresVerification
+              ? this.openForcedLoginModal
+              : this.openLoginModal
+          }
           headerLevel={this._headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
@@ -429,6 +434,8 @@ export class CallToActionWidget extends Component {
   };
 
   openLoginModal = () => this.props.toggleLoginModal(true);
+
+  openForcedLoginModal = () => this.props.toggleLoginModal(true, '', true);
 
   goToTool = gaEvent => {
     const url = this._toolUrl;
