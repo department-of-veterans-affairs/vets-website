@@ -19,27 +19,35 @@ const setup = ({ initialState = stateFn() } = {}) =>
   renderInReduxProvider(<MhvSecondaryNav />, { initialState });
 
 describe('<MhvSecondaryNav />', () => {
-  it('renders nothing when state.featureToggles is unset', () => {
-    const { container } = setup({ initialState: {} });
-    expect(container).to.be.empty;
+  it('is hidden when state.featureToggles is unset', () => {
+    const { getByRole } = setup({ initialState: {} });
+    const nav = getByRole('navigation', { name: 'My HealtheVet' });
+    const isHidden = nav.classList.contains('vads-u-visibility--hidden');
+    expect(isHidden).to.be.true;
   });
 
-  it('renders nothing when loading features', () => {
+  it('is hidden when state.featureToggles.loading', () => {
     const initialState = stateFn({ loading: true });
-    const { container } = setup({ initialState });
-    expect(container).to.be.empty;
+    const { getByRole } = setup({ initialState });
+    const nav = getByRole('navigation', { name: 'My HealtheVet' });
+    const isHidden = nav.classList.contains('vads-u-visibility--hidden');
+    expect(isHidden).to.be.true;
   });
 
-  it('renders nothing when loading is undefined', () => {
+  it('is hidden when state.featureToggles.loading is undefined', () => {
     const initialState = stateFn({ loading: undefined });
-    const { container } = setup({ initialState });
-    expect(container).to.be.empty;
+    const { getByRole } = setup({ initialState });
+    const nav = getByRole('navigation', { name: 'My HealtheVet' });
+    const isHidden = nav.classList.contains('vads-u-visibility--hidden');
+    expect(isHidden).to.be.true;
   });
 
   it('renders', () => {
     const initialState = stateFn({ loading: false });
     const { getByRole } = setup({ initialState });
-    getByRole('navigation', { name: 'My HealtheVet' });
+    const nav = getByRole('navigation', { name: 'My HealtheVet' });
+    const isHidden = nav.classList.contains('vads-u-visibility--hidden');
+    expect(isHidden).to.be.false;
     const mhvLink = getByRole('link', { name: /^My HealtheVet/ });
     expect(mhvLink.href).to.match(/my-health$/);
   });

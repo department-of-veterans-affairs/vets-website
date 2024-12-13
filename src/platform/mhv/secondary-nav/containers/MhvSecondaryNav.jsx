@@ -63,8 +63,6 @@ const MhvSecondaryNav = () => {
     mhvIntegrationMedicalRecordsToPhase1 = false,
   } = useSelector(toggleValuesSelector);
 
-  if (loading) return <></>;
-
   if (
     mhvTransitionalMedicalRecordsLandingPage &&
     !mhvIntegrationMedicalRecordsToPhase1
@@ -74,7 +72,7 @@ const MhvSecondaryNav = () => {
     items.push(medicalRecordsLink);
   }
 
-  return <MhvSecondaryNavMenu items={items} />;
+  return <MhvSecondaryNavMenu items={items} loading={loading} />;
 };
 
 export default MhvSecondaryNav;
