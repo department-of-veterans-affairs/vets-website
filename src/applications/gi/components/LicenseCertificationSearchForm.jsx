@@ -13,31 +13,53 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const dropdownInitial = [
-  {
-    label: 'category',
-    options: [
-      { optionValue: 'all', optionLabel: 'All' },
-      { optionValue: 'license', optionLabel: 'License' },
-      {
-        optionValue: 'certification',
-        optionLabel: 'Certification',
-      },
-      {
-        optionValue: 'prep',
-        optionLabel: 'Prep Course',
-      },
-    ],
-    alt: 'category type',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-  {
-    label: 'state',
-    options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
-    alt: 'state',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-];
+export const generateDropdowns = (category = 'all', state = 'all') => {
+  const initialDropdowns = [
+    {
+      label: 'category',
+      options: [
+        { optionValue: 'all', optionLabel: 'All' },
+        { optionValue: 'license', optionLabel: 'License' },
+        {
+          optionValue: 'certification',
+          optionLabel: 'Certification',
+        },
+        {
+          optionValue: 'prep',
+          optionLabel: 'Prep Course',
+        },
+      ],
+      alt: 'category type',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+    {
+      label: 'state',
+      options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
+      alt: 'state',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+  ];
+
+  return initialDropdowns.map(dropdown => {
+    if (dropdown.label === 'category') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === category,
+        ),
+      };
+    }
+
+    if (dropdown.label === 'state') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(option => option.optionValue === state),
+      };
+    }
+
+    return dropdown;
+  });
+};
 
 const resetStateDropdown = dropdowns => {
   return dropdowns.map(dropdown => {
@@ -59,7 +81,7 @@ export default function LicenseCertificationSearchForm({
   location,
   history,
 }) {
-  const [dropdowns, setDropdowns] = useState(dropdownInitial);
+  const [dropdowns, setDropdowns] = useState(generateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showStateAlert, setShowStateAlert] = useState(false);
 
@@ -67,6 +89,14 @@ export default function LicenseCertificationSearchForm({
   const name = searchParams.get('name') ?? '';
   const category = searchParams.get('category') ?? '';
   const stateParam = searchParams.get('state') ?? '';
+  // handle typeahead suggestions
+
+  // generate dropdown based on url params
+  useEffect(() => {
+    if (category && stateParam) {
+      generateDropdowns();
+    }
+  });
 
   useEffect(
     () => {
@@ -149,7 +179,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[0].label}
         options={dropdowns[0].options}
-        value={category ?? dropdowns[0].current.optionValue}
+        value={dropdowns[0].current.optionValue} // align here
         onChange={handleChange}
         alt={dropdowns[0].alt}
         selectClassName="lc-dropdown-filter"
@@ -162,7 +192,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[1].label}
         options={dropdowns[1].options}
-        value={stateParam ?? dropdowns[1].current.optionValue}
+        value={dropdowns[1].current.optionValue} // align here
         onChange={handleChange}
         alt={dropdowns[1].alt}
         selectClassName="lc-dropdown-filter"
