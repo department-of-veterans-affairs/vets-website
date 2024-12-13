@@ -141,7 +141,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         // TODO: pass last updated date in and use.
-        .text(`Last updated at ????`, 20, doc.y, { lineGap: 20 });
+        .text(`Last updated at N/A`, 20, doc.y, { lineGap: 20 });
     }),
   );
 
