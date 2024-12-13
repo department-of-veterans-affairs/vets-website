@@ -134,7 +134,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Sponsor name',
       pages: {
         page2: {
           path: 'sponsor-info',
@@ -217,12 +217,12 @@ const formConfig = {
         },
         page5: {
           path: 'claim-work',
-          title: 'Claim relation to work',
+          title: 'Claim relationship to work',
           ...claimWorkSchema,
         },
         page6: {
           path: 'claim-auto-accident',
-          title: 'Claim relation to an auto-related accident',
+          title: 'Claim relationship to a car accident',
           ...claimAutoSchema,
         },
         page7: {
@@ -258,7 +258,7 @@ const formConfig = {
         },
         page10: {
           path: 'pharmacy-claim-upload',
-          title: 'Upload supporting document for prescription claim',
+          title: 'Upload supporting document for prescription medication claim',
           depends: formData => get('claimType', formData) === 'pharmacy',
           ...pharmacyClaimUploadSchema,
         },
