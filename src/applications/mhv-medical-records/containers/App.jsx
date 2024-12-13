@@ -236,7 +236,11 @@ const App = ({ children }) => {
                 </div>
               </>
             )}
-            <va-back-to-top hidden={isHidden} />
+            <va-back-to-top
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
+            />
             <ScrollToTop />
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
