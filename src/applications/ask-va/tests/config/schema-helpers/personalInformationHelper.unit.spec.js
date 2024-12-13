@@ -90,7 +90,7 @@ describe('Personal Information UI Schemas', () => {
 
     it('should have ssn UI with validation for socialOrServiceNum', () => {
       const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:title'].props.children[0].type).to.equal('h4');
+      expect(uiSchema['ui:title'].props.children[0].type).to.equal('p');
       expect(uiSchema['ui:validations'][0]).to.be.a('function');
     });
   });

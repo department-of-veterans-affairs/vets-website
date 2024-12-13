@@ -45,7 +45,7 @@ export const IntroductionPage = ({ route }) => {
     <>
       <Breadcrumbs />
       <FormTitle title={TITLE} />
-      <p>{SUBTITLE}</p>
+      <p className="vads-u-font-family--serif">{SUBTITLE}</p>
       <Alerts />
       <SuppliesAvailable supplies={supplies} />
       <SaveInProgressIntro
