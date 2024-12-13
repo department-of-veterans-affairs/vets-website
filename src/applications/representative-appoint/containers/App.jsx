@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
-// import { focusElement } from 'platform/utilities/ui/focus';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-
 import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
@@ -22,7 +20,6 @@ function App({ loggedIn, location, children, formData, setFormData }) {
   useEffect(
     () => {
       scrollTo('topScrollElement');
-      // focusElement('.header');
     },
     [pathname],
   );
