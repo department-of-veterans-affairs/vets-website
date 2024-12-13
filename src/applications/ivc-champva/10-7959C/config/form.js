@@ -139,7 +139,7 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Your email Address',
+          title: 'Your email address',
           ...applicationEmailSchema,
         },
       },
