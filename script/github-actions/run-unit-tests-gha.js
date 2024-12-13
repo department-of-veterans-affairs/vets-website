@@ -115,6 +115,7 @@ if (testsToVerify === null) {
         /,/g,
         ' ',
       )} `;
+      console.log(command);
       if (testsToRun !== '') {
         // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
         runCommand(command);
