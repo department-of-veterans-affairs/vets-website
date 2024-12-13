@@ -27,7 +27,6 @@ export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',
   RETIREMENT: 'RETIREMENT',
-  FUTURE: 'FUTURE',
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
@@ -37,7 +36,6 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
@@ -175,7 +173,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'DOD SkillBridge program',
@@ -716,7 +714,7 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],

@@ -72,7 +72,7 @@ const VaccineDetails = props => {
     () => {
       if (record) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`);
+        updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
       }
     },
     [dispatch, record],
@@ -143,11 +143,15 @@ Location: ${record.location}\n`;
           />
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Vaccines Detail"
             downloadPdf={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateVaccineTxt}
           />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <DownloadingRecordsInfo
+            allowTxtDownloads={allowTxtDownloads}
+            description="Vaccines Detail"
+          />
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
             <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
