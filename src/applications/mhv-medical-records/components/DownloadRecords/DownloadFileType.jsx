@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  updatePageTitle,
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -21,6 +23,8 @@ import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { clearAlerts } from '../../actions/alerts';
+import { pageTitles } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -53,11 +57,20 @@ const DownloadFileType = props => {
   const accountSummary = useSelector(
     state => state.mr.blueButton.accountSummary,
   );
+  const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
 
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
 
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -70,12 +83,15 @@ const DownloadFileType = props => {
     [dateFilter, history, recordFilter],
   );
 
-  const [filterFromDate, filterToDate] = useMemo(
-    () => {
-      return dateFilter ? dateFilter.split('<->') : [null, null];
-    },
-    [dateFilter],
-  );
+  const filterByDate = recDate => {
+    if (dateFilter.option === 'any') {
+      return true;
+    }
+    return (
+      isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
+      isAfter(new Date(dateFilter.toDate), new Date(recDate))
+    );
+  };
 
   /**
    * True if all the records that were specified in the filters have been fetched, otherwise false.
@@ -98,8 +114,29 @@ const DownloadFileType = props => {
         accountSummary,
       };
 
-      // Check if all domains in the recordFilter are truthy
-      return recordFilter?.every(filter => !!dataMap[filter]);
+      // Map the recordFilter keys to the option list
+      const optionsMap = {
+        labTests: 'labsAndTests',
+        careSummaries: 'notes',
+        vaccines: 'vaccines',
+        allergies: 'allergies',
+        conditions: 'conditions',
+        vitals: 'vitals',
+        medications: 'medications',
+        upcomingAppts: 'appointments',
+        pastAppts: 'appointments',
+        demographics: 'demographics',
+        militaryService: 'militaryService',
+        accountSummary: 'patient',
+      };
+
+      // Check if all domains in the recordFilter were fetched or failed
+      return recordFilter?.every(filter => {
+        const optionDomain = optionsMap[filter];
+        const isFetched = !!dataMap[filter];
+        const hasFailed = failedDomains.includes(optionDomain);
+        return isFetched || hasFailed;
+      });
     },
     [
       labsAndTests,
@@ -113,6 +150,7 @@ const DownloadFileType = props => {
       demographics,
       militaryService,
       accountSummary,
+      failedDomains,
       recordFilter,
     ],
   );
@@ -120,7 +158,7 @@ const DownloadFileType = props => {
   useEffect(
     () => {
       const options = {
-        labs: recordFilter?.includes('labTests'),
+        labsAndTests: recordFilter?.includes('labTests'),
         notes: recordFilter?.includes('careSummaries'),
         vaccines: recordFilter?.includes('vaccines'),
         allergies:
@@ -134,6 +172,7 @@ const DownloadFileType = props => {
           recordFilter?.includes('pastAppts'),
         demographics: recordFilter?.includes('demographics'),
         militaryService: recordFilter?.includes('militaryService'),
+        patient: true,
       };
 
       if (!isDataFetched) {
@@ -145,39 +184,42 @@ const DownloadFileType = props => {
 
   const recordData = useMemo(
     () => {
-      const filterByDate = recDate => {
-        return (
-          isBefore(new Date(filterFromDate), new Date(recDate)) &&
-          isAfter(new Date(filterToDate), new Date(recDate))
-        );
-      };
-
       if (isDataFetched) {
         return {
-          labsAndTests: recordFilter?.includes('labTests')
-            ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
-            : null,
-          notes: recordFilter?.includes('careSummaries')
-            ? notes.filter(rec => filterByDate(rec.sortByDate))
-            : null,
-          vaccines: recordFilter?.includes('vaccines')
-            ? vaccines.filter(rec => filterByDate(rec.date))
-            : null,
+          labsAndTests:
+            labsAndTests && recordFilter?.includes('labTests')
+              ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
+              : null,
+          notes:
+            notes && recordFilter?.includes('careSummaries')
+              ? notes.filter(rec => filterByDate(rec.sortByDate))
+              : null,
+          vaccines:
+            vaccines && recordFilter?.includes('vaccines')
+              ? vaccines.filter(rec => filterByDate(rec.date))
+              : null,
           allergies:
-            recordFilter?.includes('allergies') ||
-            recordFilter?.includes('medications')
+            allergies &&
+            (recordFilter?.includes('allergies') ||
+              recordFilter?.includes('medications'))
               ? allergies
               : null,
-          conditions: recordFilter?.includes('conditions') ? conditions : null,
-          vitals: recordFilter?.includes('vitals')
-            ? vitals.filter(rec => filterByDate(rec.date))
-            : null,
-          medications: recordFilter?.includes('medications')
-            ? medications.filter(rec => filterByDate(rec.lastFilledOn))
-            : null,
+          conditions:
+            conditions && recordFilter?.includes('conditions')
+              ? conditions
+              : null,
+          vitals:
+            vitals && recordFilter?.includes('vitals')
+              ? vitals.filter(rec => filterByDate(rec.date))
+              : null,
+          medications:
+            medications && recordFilter?.includes('medications')
+              ? medications.filter(rec => filterByDate(rec.lastFilledOn))
+              : null,
           appointments:
-            recordFilter?.includes('upcomingAppts') ||
-            recordFilter?.includes('pastAppts')
+            appointments &&
+            (recordFilter?.includes('upcomingAppts') ||
+              recordFilter?.includes('pastAppts'))
               ? appointments.filter(
                   rec =>
                     filterByDate(rec.date) &&
@@ -186,21 +228,22 @@ const DownloadFileType = props => {
                       (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
                 )
               : null,
-          demographics: recordFilter?.includes('demographics')
-            ? demographics
-            : null,
-          militaryService: recordFilter?.includes('militaryService')
-            ? militaryService
-            : null,
+          demographics:
+            demographics && recordFilter?.includes('demographics')
+              ? demographics
+              : null,
+          militaryService:
+            militaryService && recordFilter?.includes('militaryService')
+              ? militaryService
+              : null,
           accountSummary,
         };
       }
       return null;
     },
     [
+      filterByDate,
       isDataFetched,
-      filterFromDate,
-      filterToDate,
       recordFilter,
       labsAndTests,
       notes,
@@ -251,7 +294,13 @@ const DownloadFileType = props => {
           name,
           dob,
         };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
+        makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'blueButtonReport',
+        ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
       }
     },
     [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
@@ -271,7 +320,9 @@ const DownloadFileType = props => {
         )}`;
         const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user);
+        generateTextFile(content, pdfName, user).then(() =>
+          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
+        );
       }
     },
     [dispatch, isDataFetched, recordData, user],

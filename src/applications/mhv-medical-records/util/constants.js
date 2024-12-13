@@ -237,7 +237,7 @@ export const pageTitles = {
     'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
-    'Download All Medical Records - Medical Records | Veterans Affairs',
+    'Download Medical Records Reports - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
@@ -328,6 +328,7 @@ export const Paths = {
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
   DOWNLOAD_ALL: '/download-all/',
+  DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
   BREATHING_RATE: '/vitals/breathing-rate-history',
@@ -374,6 +375,11 @@ export const Breadcrumbs = {
   DOWNLOAD_ALL: {
     href: Paths.DOWNLOAD_ALL,
     label: 'Download all medical records',
+    isRouterLink: true,
+  },
+  DOWNLOAD: {
+    href: Paths.DOWNLOAD,
+    label: 'Download medical records reports',
     isRouterLink: true,
   },
   BLOOD_OXYGEN_LEVEL: {
