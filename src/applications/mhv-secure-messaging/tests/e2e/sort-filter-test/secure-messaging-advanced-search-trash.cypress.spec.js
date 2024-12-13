@@ -76,7 +76,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockTrashMessages,
     );
 
-    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.selectDateRange('Last 6 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
@@ -93,7 +93,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockTrashMessages,
     );
 
-    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.selectDateRange('Last 12 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);

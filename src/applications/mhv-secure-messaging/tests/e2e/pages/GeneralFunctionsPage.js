@@ -84,12 +84,12 @@ class GeneralFunctionsPage {
 
   getRandomDateWithinLastNumberOfMonths = number => {
     const now = new Date();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(now.getMonth() - number);
+    const currentDate = new Date();
+    currentDate.setMonth(now.getMonth() - number);
 
     const randomTime =
-      threeMonthsAgo.getTime() +
-      Math.random() * (now.getTime() - threeMonthsAgo.getTime());
+      currentDate.getTime() +
+      Math.random() * (now.getTime() - currentDate.getTime());
     return new Date(randomTime).toISOString();
   };
 }

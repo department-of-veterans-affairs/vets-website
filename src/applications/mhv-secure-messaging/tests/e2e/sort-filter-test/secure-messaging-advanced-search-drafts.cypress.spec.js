@@ -70,7 +70,7 @@ describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockDraftMessages,
     );
 
-    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.selectDateRange('Last 6 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
@@ -87,7 +87,7 @@ describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
       mockDraftMessages,
     );
 
-    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.selectDateRange('Last 12 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
