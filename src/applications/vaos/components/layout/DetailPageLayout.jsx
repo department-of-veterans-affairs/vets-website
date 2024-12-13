@@ -225,9 +225,7 @@ export default function DetailPageLayout({
           )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (
-            <Section heading="After visit summary">
-              <AfterVisitSummary data={appointment} />
-            </Section>
+            <AfterVisitSummary data={appointment} />
           )}
         {children}
         {featureTravelPayViewClaimDetails && (

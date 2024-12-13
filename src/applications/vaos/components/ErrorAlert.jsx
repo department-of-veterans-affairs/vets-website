@@ -7,6 +7,23 @@ const ErrorAlert = ({ appointment }) => {
   const avsLink = appointment.avsPath;
   const avsError = avsLink?.includes('Error');
   const claimData = selectAppointmentTravelClaim(appointment);
+  if (!claimData) return null;
+
+  const btsssMessage = (
+    <>
+      <p>
+        You can also file for travel reimbursement through the Beneficiary
+        Travel Self Service System (BTSSS).
+      </p>
+      <p>
+        <va-link
+          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+          external
+          text="Learn how to file a travel claim through BTSSS"
+        />
+      </p>
+    </>
+  );
 
   if (!claimData.metadata.success && avsError) {
     return (
@@ -23,10 +40,7 @@ const ErrorAlert = ({ appointment }) => {
           <li>Get your after-visit summary</li>
         </ul>
         <p>Try refreshing this page. Or check back later.</p>
-        <p>
-          You can also file for travel reimbursement through the Beneficiary
-          Travel Self Service System (BTSSS).
-        </p>
+        {btsssMessage}
       </InfoAlert>
     );
   }
@@ -35,23 +49,14 @@ const ErrorAlert = ({ appointment }) => {
     return (
       <InfoAlert
         status="error"
-        headline="We can't access travel reimbursement information at this time."
+        headline="Some appointment features aren’t available right now"
       >
         <p data-testid="claim-error-content">
           We’re sorry. There’s a problem with our system. We can’t access travel
           reimbursement for this appointment right now. Try refreshing this
           page. Or check back later.
         </p>
-        <p>
-          You can also file for travel reimbursement through the Beneficiary
-          Travel Self Service System (BTSSS).
-        </p>
-        <va-link
-          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
-          external
-        >
-          Learn how to file a travel claim through BTSSS (opens in new tab)
-        </va-link>
+        {btsssMessage}
       </InfoAlert>
     );
   }

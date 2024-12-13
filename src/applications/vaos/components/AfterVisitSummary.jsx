@@ -5,6 +5,7 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import InfoAlert from './InfoAlert';
 import { GA_PREFIX } from '../utils/constants';
 import { selectFeatureTravelPayViewClaimDetails } from '../redux/selectors';
+import Section from './Section';
 
 function handleClick() {
   recordEvent({
@@ -13,15 +14,19 @@ function handleClick() {
 }
 
 export default function AfterVisitSummary({ data: appointment }) {
+  const heading = 'After visit summary';
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
-  if (!featureTravelPayViewClaimDetails) {
-    const avsLink = appointment.avsPath;
-    const hasError = avsLink?.includes('Error');
+  const avsLink = appointment.avsPath;
+  const hasError = avsLink?.includes('Error');
 
-    if (hasError) {
-      return (
+  if (hasError) {
+    if (featureTravelPayViewClaimDetails) {
+      return null;
+    }
+    return (
+      <Section heading={heading}>
         <InfoAlert
           status="error"
           level={1}
@@ -29,23 +34,27 @@ export default function AfterVisitSummary({ data: appointment }) {
         >
           We’re sorry. We’ve run into a problem.
         </InfoAlert>
-      );
-    }
+      </Section>
+    );
   }
   if (!appointment?.avsPath) {
     return (
-      <p className="vads-u-margin--0">
-        An after-visit summary is not available at this time.
-      </p>
+      <Section heading={heading}>
+        <p className="vads-u-margin--0">
+          An after-visit summary is not available at this time.
+        </p>
+      </Section>
     );
   }
   return (
-    <va-link
-      href={`${appointment?.avsPath}`}
-      text="Go to after visit summary"
-      data-testid="after-vist-summary-link"
-      onClick={handleClick}
-    />
+    <Section heading={heading}>
+      <va-link
+        href={`${appointment?.avsPath}`}
+        text="Go to after visit summary"
+        data-testid="after-vist-summary-link"
+        onClick={handleClick}
+      />
+    </Section>
   );
 }
 AfterVisitSummary.propTypes = {
