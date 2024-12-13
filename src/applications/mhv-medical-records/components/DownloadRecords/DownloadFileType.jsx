@@ -355,7 +355,7 @@ const DownloadFileType = props => {
       {isDataFetched &&
         recordCount === 0 && (
           <div className="vads-u-padding-bottom--2">
-            <va-alert status="error">
+            <va-alert data-testid="no-records-alert" status="error">
               <h2 slot="headline">No records found</h2>
               <p>
                 We couldn’t find any records that match your selection. Go back
@@ -370,7 +370,10 @@ const DownloadFileType = props => {
       {isDataFetched &&
         recordCount > 0 && (
           <div>
-            <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+            <div
+              className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+              data-testid="record-count"
+            >
               <p>
                 You’re downloading <strong>{recordCount} total records</strong>
               </p>
@@ -403,6 +406,7 @@ const DownloadFileType = props => {
             <button
               disabled={recordCount === 0 || !isDataFetched}
               className="vads-u-margin-y--0p5"
+              data-testid="download-report-button"
               onClick={() => {
                 if (fileType === 'pdf') {
                   generatePdf().then(() => history.push('/download'));
