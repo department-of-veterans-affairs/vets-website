@@ -46,7 +46,7 @@ const renderTestComponentWithProps = props => {
   return { dispatchActionMock, dispatchMock };
 };
 
-describe.skip('useListRefresh', () => {
+describe('useListRefresh', () => {
   it('should not fetch data if list is present and refresh is current', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps();
 
