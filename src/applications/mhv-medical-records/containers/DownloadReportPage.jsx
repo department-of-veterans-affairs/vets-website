@@ -305,6 +305,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         href="/my-health/medical-records/download/date-range"
         label="Select records and download"
         text="Select records and download"
+        data-testid="go-to-download-all"
       />
       <h2>Other reports you can download</h2>
       {CCDRetryTimestamp ? (

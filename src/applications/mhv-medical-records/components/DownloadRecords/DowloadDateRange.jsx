@@ -74,6 +74,7 @@ const DownloadDateRange = () => {
           label="Date range"
           onVaSelect={handleDateSelect}
           value=""
+          data-testid="va-select-date-range"
           error={selectionError}
         >
           <option value="any">Any</option>
@@ -89,6 +90,7 @@ const DownloadDateRange = () => {
             label="Start date"
             required="true"
             error={customFromError}
+            data-testid="va-date-start-date"
             onDateChange={e => {
               if (e.target.value) {
                 const [year, month, day] = e.target.value?.split('-');
@@ -103,6 +105,7 @@ const DownloadDateRange = () => {
             label="End date"
             required="true"
             error={customToError}
+            data-testid="va-date-end-date"
             onDateChange={e => {
               const [year, month, day] = e.target.value.split('-');
               if (parseInt(year, 10) >= 1900 && month && day) {
