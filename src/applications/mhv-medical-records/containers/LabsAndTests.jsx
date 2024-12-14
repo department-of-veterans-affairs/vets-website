@@ -35,7 +35,7 @@ const LabsAndTests = () => {
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.CHEM_HEM,
+    extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
