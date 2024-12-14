@@ -27,8 +27,14 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
-  BLUE_BUTTON_REPORT: 'Blue Button report',
+  DOCUMENT: 'document',
   IMAGE_STATUS: 'image',
+};
+
+export const documentTypes = {
+  BB: 'blue button',
+  CCD: 'continuity of care document',
+  SEI: 'self-entered information',
 };
 
 export const labTypes = {

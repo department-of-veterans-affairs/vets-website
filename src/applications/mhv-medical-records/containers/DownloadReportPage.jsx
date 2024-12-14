@@ -14,42 +14,39 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
 import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
-import {
-  getSelfEnteredAllergies,
-  getSelfEnteredVitals,
-  getSelfEnteredFamilyHistory,
-  getSelfEnteredVaccines,
-  getSelfEnteredTestEntries,
-  getSelfEnteredMedicalEvents,
-  getSelfEnteredMilitaryHistory,
-  getSelfEnteredProviders,
-  getSelfEnteredHealthInsurance,
-  getSelfEnteredTreatmentFacilities,
-  getSelfEnteredFoodJournal,
-  getSelfEnteredActivityJournal,
-  getSelfEnteredMedications,
-  getSelfEnteredDemographics,
-} from '../actions/selfEnteredData';
+import { getSelfEnteredData } from '../actions/selfEnteredData';
 import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
 import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
-import { pageTitles, UNKNOWN } from '../util/constants';
+import {
+  accessAlertTypes,
+  documentTypes,
+  pageTitles,
+  UNKNOWN,
+} from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatDateLong(
+    // user.dob
+    new Date('10/10/1990'),
+  );
 
   const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
-  const ccdError = useSelector(state => state.mr.downloads.error);
+  const ccdError = useSelector(state => state.mr.downloads.ccdError);
   const userName = useSelector(state => state.user.profile.userFullName);
-  const successfulDownload = useSelector(
-    state => state.mr.downloads.downloadSuccess,
+  const successfulBBDownload = useSelector(
+    state => state.mr.downloads.bbDownloadSuccess,
+  );
+  const successfulSeiDownload = useSelector(
+    state => state.mr.downloads.seiDownloadSuccess,
   );
 
   const activityJournal = useSelector(
@@ -79,14 +76,37 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
   const vitals = useSelector(state => state.mr.selfEntered.vitals);
 
-  const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
+  const failedBBDomains = useSelector(
+    state => state.mr.blueButton.failedDomains,
+  );
+  const failedSeiDomains = useSelector(
+    state => state.mr.selfEntered.failedDomains,
+  );
 
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
   );
 
   /** Map from the list of failed domains to UI display names */
-  const domainDisplayMap = {
+  const seiDomainDisplayMap = {
+    activityJournal: 'Activity journal',
+    allergies: 'Allergies',
+    demographics: 'Demographics',
+    familyHistory: 'Family health history',
+    foodJournal: 'Food journal',
+    healthProviders: 'Healthcare providers',
+    healthInsurance: 'Health insurance',
+    testEntries: 'Lab and test results',
+    medicalEvents: 'Medical events',
+    medications: 'Medications and supplements',
+    militaryHistory: 'Military health history',
+    treatmentFacilities: 'Treatment facilities',
+    vaccines: 'Vaccines',
+    vitals: 'Vitals and readings',
+  };
+
+  /** Map from the list of failed domains to UI display names */
+  const bbDomainDisplayMap = {
     labsAndTests: 'Lab and test results',
     notes: 'Care summaries and notes',
     vaccines: 'Vaccines',
@@ -141,20 +161,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         vitals,
       ]);
       if (!allDefd) {
-        dispatch(getSelfEnteredVitals());
-        dispatch(getSelfEnteredAllergies());
-        dispatch(getSelfEnteredFamilyHistory());
-        dispatch(getSelfEnteredVaccines());
-        dispatch(getSelfEnteredTestEntries());
-        dispatch(getSelfEnteredMedicalEvents());
-        dispatch(getSelfEnteredMilitaryHistory());
-        dispatch(getSelfEnteredProviders());
-        dispatch(getSelfEnteredHealthInsurance());
-        dispatch(getSelfEnteredTreatmentFacilities());
-        dispatch(getSelfEnteredFoodJournal());
-        dispatch(getSelfEnteredActivityJournal());
-        dispatch(getSelfEnteredMedications());
-        dispatch(getSelfEnteredDemographics());
+        dispatch(getSelfEnteredData());
       } else {
         setSelfEnteredInfoRequested(false);
         const recordData = {
@@ -186,7 +193,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           dob,
           lastUpdated: UNKNOWN,
         };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo');
+        makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'selfEnteredInfo',
+        ).then(() => dispatch({ type: Actions.Downloads.SEI_SUCCESS }));
       }
     },
     [
@@ -276,6 +289,29 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [ccdError],
   );
 
+  const accessErrors = () => {
+    if (CCDRetryTimestamp) {
+      return (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.CCD}
+          className="vads-u-margin-bottom--1"
+        />
+      );
+    }
+    if (failedSeiDomains.length === Object.keys(seiDomainDisplayMap).length) {
+      return (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      );
+    }
+
+    return <></>;
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -290,10 +326,26 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         </p>
       </div>
 
-      {successfulDownload === true && (
+      {successfulBBDownload === true && (
         <>
           <MissingRecordsError
-            recordTypes={getFailedDomainList(failedDomains, domainDisplayMap)}
+            recordTypes={getFailedDomainList(
+              failedBBDomains,
+              bbDomainDisplayMap,
+            )}
+          />
+
+          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+        </>
+      )}
+
+      {successfulSeiDownload === true && (
+        <>
+          <MissingRecordsError
+            recordTypes={getFailedDomainList(
+              failedSeiDomains,
+              seiDomainDisplayMap,
+            )}
           />
 
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
@@ -311,33 +363,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         text="Select records and download"
       />
       <h2>Other reports you can download</h2>
-      {CCDRetryTimestamp ? (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="error"
-          visible
-          setFocus
-        >
-          <h2 slot="headline">
-            We can’t download your Continuity of Care Document right now
-          </h2>
-          <p>
-            We’re sorry. There’s a problem with our system.{' '}
-            <strong>
-              Try again after 24 hours ({CCDRetryTimestamp}
-              ).
-            </strong>
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            If it still doesn’t work, call us at{' '}
-            <va-telephone contact="8773270022" /> (
-            <va-telephone tty contact="711" />
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </va-alert>
-      ) : (
-        <></>
-      )}
+      {accessErrors()}
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"
