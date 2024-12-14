@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  updatePageTitle,
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -21,6 +23,7 @@ import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { clearAlerts } from '../../actions/alerts';
+import { pageTitles } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
@@ -60,6 +63,14 @@ const DownloadFileType = props => {
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
 
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
