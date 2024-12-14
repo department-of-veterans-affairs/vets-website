@@ -83,7 +83,7 @@ const LabsAndTests = () => {
       >
         <NewRecordsIndicator
           refreshState={refresh}
-          extractType={refreshExtractTypes.CHEM_HEM}
+          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
           newRecordsFound={
             Array.isArray(labsAndTests) &&
             Array.isArray(updatedRecordList) &&

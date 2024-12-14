@@ -435,6 +435,42 @@ export const getStatusExtractPhase = (
   return refreshPhases.CURRENT;
 };
 
+/**
+ * Determine the overall phase for a PHR refresh, based on the phases of each component extract.
+ * The highest-priority extract phase takes precedence. For example, if one extract phase is
+ * IN_PROGRESS, then the overall status is IN_PROGRESS.
+ *
+ * @param {Object} refreshStatus the list of individual extract statuses
+ * @returns the current overall refresh phase, or null if needed data is missing
+ */
+export const getStatusExtractListPhase = (
+  retrievedDate,
+  phrStatus,
+  extractTypeList,
+) => {
+  if (!Array.isArray(extractTypeList) || extractTypeList.length === 0) {
+    return null;
+  }
+
+  const phaseList = extractTypeList.map(extractType =>
+    getStatusExtractPhase(retrievedDate, phrStatus, extractType),
+  );
+
+  const phasePriority = [
+    refreshPhases.IN_PROGRESS,
+    refreshPhases.STALE,
+    refreshPhases.CURRENT,
+    refreshPhases.FAILED,
+  ];
+
+  for (const phase of phasePriority) {
+    if (phaseList.includes(phase)) {
+      return phase;
+    }
+  }
+  return null;
+};
+
 export const decodeBase64Report = data => {
   if (data && typeof data === 'string') {
     return Buffer.from(data, 'base64')
