@@ -14,9 +14,11 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
 import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
-import { getSelfEnteredData } from '../actions/selfEnteredData';
-import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
-import { clearAlerts } from '../actions/alerts';
+import {
+  clearFailedList,
+  getSelfEnteredData,
+} from '../actions/selfEnteredData';
+import { getNameDateAndTime, makePdf } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
@@ -29,106 +31,128 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
+// --- Constants and helper functions moved outside the component ---
+const SEI_DOMAIN_DISPLAY_MAP = {
+  activityJournal: 'Activity journal',
+  allergies: 'Allergies',
+  demographics: 'Demographics',
+  familyHistory: 'Family health history',
+  foodJournal: 'Food journal',
+  providers: 'Healthcare providers',
+  healthInsurance: 'Health insurance',
+  testEntries: 'Lab and test results',
+  medicalEvents: 'Medical events',
+  medications: 'Medications and supplements',
+  militaryHistory: 'Military health history',
+  treatmentFacilities: 'Treatment facilities',
+  vaccines: 'Vaccines',
+  vitals: 'Vitals and readings',
+};
+
+const BB_DOMAIN_DISPLAY_MAP = {
+  labsAndTests: 'Lab and test results',
+  notes: 'Care summaries and notes',
+  vaccines: 'Vaccines',
+  allergies: 'Allergies and reactions',
+  conditions: 'Health conditions',
+  vitals: 'Vitals',
+  radiology: 'Radiology results',
+  medications: 'Medications',
+  appointments: 'VA appointments',
+  demographics: 'VA demographics records',
+  militaryService: 'DOD military service',
+  patient: 'Account summary',
+};
+
+// All SEI domains in one place for easy iteration
+const SEI_DOMAINS = [
+  'activityJournal',
+  'allergies',
+  'demographics',
+  'familyHistory',
+  'foodJournal',
+  'providers',
+  'healthInsurance',
+  'testEntries',
+  'medicalEvents',
+  'medications',
+  'militaryHistory',
+  'treatmentFacilities',
+  'vaccines',
+  'vitals',
+];
+
+/**
+ * Formats failed domain lists with display names.
+ * Special logic: If allergies fail but medications don't fail, push medications for completeness.
+ */
+const getFailedDomainList = (failed, displayMap) => {
+  const modFailed = [...failed];
+  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
+    modFailed.push('medications');
+  }
+  return modFailed.map(domain => displayMap[domain]);
+};
+
+/**
+ * Checks if CCD retry is needed and returns a formatted timestamp or null.
+ */
+const getCCDRetryTimestamp = () => {
+  const errorTimestamp = localStorage.getItem('lastCCDError');
+  if (!errorTimestamp) return null;
+
+  const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+  if (compareAsc(retryDate, new Date()) >= 0) {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZoneName: 'short',
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+  }
+  return null;
+};
+
+// --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
-  const dob = formatDateLong(
-    // user.dob
-    new Date('10/10/1990'),
-  );
+
+  const {
+    user: { profile: userProfile },
+    mr: {
+      downloads: {
+        generatingCCD,
+        ccdError,
+        bbDownloadSuccess: successfulBBDownload,
+      },
+      blueButton: { failedDomains: failedBBDomains },
+      selfEntered: { failedDomains: failedSeiDomains, ...selfEnteredData },
+    },
+  } = useSelector(state => state);
 
   const fullState = useSelector(state => state);
-  const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
-  const ccdError = useSelector(state => state.mr.downloads.ccdError);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const successfulBBDownload = useSelector(
-    state => state.mr.downloads.bbDownloadSuccess,
-  );
-  const successfulSeiDownload = useSelector(
-    state => state.mr.downloads.seiDownloadSuccess,
-  );
 
-  const activityJournal = useSelector(
-    state => state.mr.selfEntered.activityJournal,
-  );
-  const allergies = useSelector(state => state.mr.selfEntered.allergies);
-  const demographics = useSelector(state => state.mr.selfEntered.demographics);
-  const familyHistory = useSelector(
-    state => state.mr.selfEntered.familyHistory,
-  );
-  const foodJournal = useSelector(state => state.mr.selfEntered.foodJournal);
-  const providers = useSelector(state => state.mr.selfEntered.providers);
-  const healthInsurance = useSelector(
-    state => state.mr.selfEntered.healthInsurance,
-  );
-  const testEntries = useSelector(state => state.mr.selfEntered.testEntries);
-  const medicalEvents = useSelector(
-    state => state.mr.selfEntered.medicalEvents,
-  );
-  const medications = useSelector(state => state.mr.selfEntered.medications);
-  const militaryHistory = useSelector(
-    state => state.mr.selfEntered.militaryHistory,
-  );
-  const treatmentFacilities = useSelector(
-    state => state.mr.selfEntered.treatmentFacilities,
-  );
-  const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
-  const vitals = useSelector(state => state.mr.selfEntered.vitals);
+  // Extract user info
+  const name = formatName(userProfile.userFullName);
+  const dob = formatDateLong(new Date('10/10/1990')); // Example DOB
 
-  const failedBBDomains = useSelector(
-    state => state.mr.blueButton.failedDomains,
-  );
-  const failedSeiDomains = useSelector(
-    state => state.mr.selfEntered.failedDomains,
-  );
+  // Extract all SEI domain data
+  const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
+    acc[domain] = selfEnteredData[domain];
+    return acc;
+  }, {});
 
-  const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
-    false,
-  );
+  const [selfEnteredPdfRequested, setSelfEnteredPdfRequested] = useState(false);
+  const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
+  const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
 
-  /** Map from the list of failed domains to UI display names */
-  const seiDomainDisplayMap = {
-    activityJournal: 'Activity journal',
-    allergies: 'Allergies',
-    demographics: 'Demographics',
-    familyHistory: 'Family health history',
-    foodJournal: 'Food journal',
-    healthProviders: 'Healthcare providers',
-    healthInsurance: 'Health insurance',
-    testEntries: 'Lab and test results',
-    medicalEvents: 'Medical events',
-    medications: 'Medications and supplements',
-    militaryHistory: 'Military health history',
-    treatmentFacilities: 'Treatment facilities',
-    vaccines: 'Vaccines',
-    vitals: 'Vitals and readings',
-  };
+  const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
 
-  /** Map from the list of failed domains to UI display names */
-  const bbDomainDisplayMap = {
-    labsAndTests: 'Lab and test results',
-    notes: 'Care summaries and notes',
-    vaccines: 'Vaccines',
-    allergies: 'Allergies and reactions',
-    conditions: 'Health conditions',
-    vitals: 'Vitals',
-    radiology: 'Radiology results',
-    medications: 'Medications',
-    appointments: 'VA appointments',
-    demographics: 'VA demographics records',
-    militaryService: 'DOD military service',
-    patient: 'Account summary',
-  };
-
-  const getFailedDomainList = (failed, displayMap) => {
-    const modFailed = [...failed];
-    if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
-      modFailed.push('medications');
-    }
-    return modFailed.map(domain => displayMap[domain]);
-  };
-
+  // Initial page setup effect
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
@@ -140,156 +164,71 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [dispatch],
   );
 
-  const generatePdf = useCallback(
+  const isDataFetched = useMemo(
+    () => {
+      if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
+      return SEI_DOMAINS.every(item => {
+        const isFetched = !!seiRecords[item];
+        const hasFailed = failedSeiDomains.includes(item);
+        return isFetched || hasFailed;
+      });
+    },
+    [seiRecords, failedSeiDomains],
+  );
+
+  const generateSEIPdf = useCallback(
     async () => {
-      setSelfEnteredInfoRequested(true);
-      dispatch(clearAlerts());
-      const allDefd = allAreDefined([
-        activityJournal,
-        allergies,
-        demographics,
-        familyHistory,
-        foodJournal,
-        providers,
-        healthInsurance,
-        testEntries,
-        medicalEvents,
-        medications,
-        militaryHistory,
-        treatmentFacilities,
-        vaccines,
-        vitals,
-      ]);
-      if (!allDefd) {
+      setSelfEnteredPdfRequested(true);
+
+      if (!isDataFetched) {
+        // Fetch data if not all defined
+        dispatch(clearFailedList());
         dispatch(getSelfEnteredData());
       } else {
-        setSelfEnteredInfoRequested(false);
-        const recordData = {
-          activityJournal,
-          allergies,
-          demographics,
-          familyHistory,
-          foodJournal,
-          providers,
-          healthInsurance,
-          testEntries,
-          medicalEvents,
-          medications,
-          militaryHistory,
-          treatmentFacilities,
-          vaccines,
-          vitals,
-        };
+        // If already defined, generate the PDF directly
+        setSelfEnteredPdfRequested(false);
         const title = 'Self-entered information report';
         const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(user, title, subject);
+        const scaffold = generatePdfScaffold(userProfile, title, subject);
         const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-          user,
+          userProfile,
         )}`;
+
         const pdfData = {
-          recordSets: generateSelfEnteredData(recordData),
+          recordSets: generateSelfEnteredData(seiRecords),
           ...scaffold,
           name,
           dob,
           lastUpdated: UNKNOWN,
         };
-        makePdf(
-          pdfName,
-          pdfData,
-          title,
-          runningUnitTest,
-          'selfEnteredInfo',
-        ).then(() => dispatch({ type: Actions.Downloads.SEI_SUCCESS }));
+        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+          .then(() => setSuccessfulSeiDownload(true))
+          .catch(() => setSeiPdfGenerationError(true));
       }
     },
     [
-      activityJournal,
-      allergies,
-      demographics,
-      familyHistory,
-      foodJournal,
-      providers,
-      healthInsurance,
-      testEntries,
-      medicalEvents,
-      medications,
-      militaryHistory,
-      treatmentFacilities,
-      vaccines,
-      vitals,
       dispatch,
+      isDataFetched,
+      userProfile,
+      seiRecords,
+      name,
+      dob,
+      runningUnitTest,
     ],
   );
 
+  // Trigger PDF generation if data arrives after being requested
   useEffect(
     () => {
-      if (
-        allAreDefined([
-          activityJournal,
-          allergies,
-          demographics,
-          familyHistory,
-          foodJournal,
-          providers,
-          healthInsurance,
-          testEntries,
-          medicalEvents,
-          medications,
-          militaryHistory,
-          treatmentFacilities,
-          vaccines,
-          vitals,
-        ]) &&
-        selfEnteredInfoRequested
-      ) {
-        generatePdf();
+      if (selfEnteredPdfRequested && isDataFetched) {
+        generateSEIPdf();
       }
     },
-    [
-      activityJournal,
-      allergies,
-      demographics,
-      familyHistory,
-      foodJournal,
-      providers,
-      healthInsurance,
-      testEntries,
-      medicalEvents,
-      medications,
-      militaryHistory,
-      treatmentFacilities,
-      vaccines,
-      vitals,
-      selfEnteredInfoRequested,
-      generatePdf,
-    ],
-  );
-
-  const CCDRetryTimestamp = useMemo(
-    () => {
-      const errorTimestamp = localStorage.getItem('lastCCDError');
-
-      if (errorTimestamp !== null) {
-        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-        if (compareAsc(retryDate, new Date()) >= 0) {
-          const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-            timeZoneName: 'short', // Include the time zone abbreviation
-          };
-          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-        }
-      }
-      return null;
-    },
-    [ccdError],
+    [selfEnteredPdfRequested, seiRecords, generateSEIPdf, isDataFetched],
   );
 
   const accessErrors = () => {
+    // CCD Access Error
     if (CCDRetryTimestamp) {
       return (
         <AccessTroubleAlertBox
@@ -299,7 +238,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         />
       );
     }
-    if (failedSeiDomains.length === Object.keys(seiDomainDisplayMap).length) {
+    // SEI Access Error: If all SEI domains failed
+    if (
+      failedSeiDomains.length === SEI_DOMAINS.length ||
+      seiPdfGenerationError
+    ) {
       return (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -308,8 +251,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         />
       );
     }
-
-    return <></>;
+    return null;
   };
 
   return (
@@ -329,12 +271,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
+            documentType="VA Blue Button report"
             recordTypes={getFailedDomainList(
               failedBBDomains,
-              bbDomainDisplayMap,
+              BB_DOMAIN_DISPLAY_MAP,
             )}
           />
-
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
       )}
@@ -342,12 +284,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       {successfulSeiDownload === true && (
         <>
           <MissingRecordsError
+            documentType="Self-entered health information report"
             recordTypes={getFailedDomainList(
               failedSeiDomains,
-              seiDomainDisplayMap,
+              SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
-
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
       )}
@@ -366,7 +308,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       {accessErrors()}
       <va-accordion bordered>
         <va-accordion-item
-          bordered="true"
+          bordered
           header="Continuity of Care Document (VA Health Summary)"
           data-testid="ccdAccordionItem"
         >
@@ -391,7 +333,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <button
               className="link-button"
               onClick={() =>
-                dispatch(genAndDownloadCCD(userName.first, userName.last))
+                dispatch(
+                  genAndDownloadCCD(
+                    userProfile.userFullName.first,
+                    userProfile.userFullName.last,
+                  ),
+                )
               }
               data-testid="generateCcdButton"
             >
@@ -400,7 +347,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           )}
         </va-accordion-item>
         <va-accordion-item
-          bordered="true"
+          bordered
           header="Self-entered health information"
           data-testid="selfEnteredAccordionItem"
         >
@@ -415,7 +362,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <button
             className="link-button"
-            onClick={generatePdf}
+            onClick={generateSEIPdf}
             data-testid="downloadSelfEnteredButton"
           >
             <va-icon icon="file_download" size={3} /> Download PDF
@@ -444,8 +391,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 };
 
-export default DownloadReportPage;
-
 DownloadReportPage.propTypes = {
   runningUnitTest: PropTypes.bool,
 };
+
+export default DownloadReportPage;

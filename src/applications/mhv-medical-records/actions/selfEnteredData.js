@@ -16,8 +16,8 @@ import {
 } from '../api/seiApi';
 import { getPatient } from '../api/MrApi';
 
-export const clearFailedList = domain => dispatch => {
-  dispatch({ type: Actions.SelfEntered.CLEAR_FAILED, payload: domain });
+export const clearFailedList = () => dispatch => {
+  dispatch({ type: Actions.SelfEntered.CLEAR_FAILED });
 };
 
 export const getSelfEnteredData = () => async dispatch => {
@@ -27,7 +27,7 @@ export const getSelfEnteredData = () => async dispatch => {
     demographics: getPatient,
     familyHistory: getSeiFamilyHistory,
     foodJournal: getSeiFoodJournal,
-    healthProviders: getSeiProviders,
+    providers: getSeiProviders,
     healthInsurance: getSeiHealthInsurance,
     testEntries: getSeiTestEntries,
     medicalEvents: getSeiMedicalEvents,
@@ -84,7 +84,7 @@ export const getSelfEnteredData = () => async dispatch => {
             payload: response,
           });
           break;
-        case 'healthProviders':
+        case 'providers':
           dispatch({
             type: Actions.SelfEntered.GET_PROVIDERS,
             payload: response,
