@@ -636,3 +636,7 @@ export const formatDateInLocalTimezone = date => {
     .substring(4);
   return `${formattedDate} ${localTimeZoneName}`;
 };
+
+export const formatUserDob = userProfile => {
+  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
+};

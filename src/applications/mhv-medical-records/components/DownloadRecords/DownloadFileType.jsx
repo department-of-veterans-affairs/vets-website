@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -18,6 +17,7 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  formatUserDob,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -34,7 +34,7 @@ const DownloadFileType = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,

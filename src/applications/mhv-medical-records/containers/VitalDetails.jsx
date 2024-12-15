@@ -6,7 +6,6 @@ import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -31,6 +30,7 @@ import {
   getLastUpdatedText,
   formatNameFirstLast,
   formatDateInLocalTimezone,
+  formatUserDob,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -222,7 +222,7 @@ const VitalDetails = props => {
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(

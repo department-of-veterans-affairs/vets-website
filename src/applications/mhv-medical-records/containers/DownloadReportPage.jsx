@@ -6,7 +6,6 @@ import {
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -42,7 +41,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatUserDob(user);
 
   const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);

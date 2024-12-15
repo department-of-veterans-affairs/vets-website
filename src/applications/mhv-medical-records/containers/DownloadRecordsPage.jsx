@@ -27,7 +27,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatUserDob(user);
   const [blueButtonRequested, setBlueButtonRequested] = useState(false);
   const [downloadType, setDownloadType] = useState('');
 
