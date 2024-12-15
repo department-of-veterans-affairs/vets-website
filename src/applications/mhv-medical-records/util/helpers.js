@@ -481,34 +481,51 @@ export const decodeBase64Report = data => {
 };
 
 /**
+ * @param {Array} refreshStateStatus The array of refresh state objects containing extract types and their statuses
+ * @param {*} extractTypeList The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM)
+ * @returns {Object} an object containing the last time that all extracts were up to date
+ */
+export const getLastSuccessfulUpdate = (
+  refreshStateStatus,
+  extractTypeList,
+) => {
+  const matchingDates = refreshStateStatus
+    ?.filter(status => extractTypeList.includes(status.extract))
+    ?.map(status => status.lastSuccessfulCompleted)
+    ?.filter(Boolean);
+
+  if (matchingDates?.length) {
+    const minDate = new Date(
+      Math.min(...matchingDates.map(date => date.getTime())),
+    );
+    return formatDateAndTime(minDate);
+  }
+  return null;
+};
+
+/**
  * @function getLastUpdatedText
  * @description Generates a string that displays the last successful update for a given extract type.
  * It checks the refresh state status and formats the time and date of the last update.
  *
  * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
- * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ * @param {string|Array} extractType - The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM).
  *
  * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
  */
 export const getLastUpdatedText = (refreshStateStatus, extractType) => {
   if (refreshStateStatus) {
-    const extract = refreshStateStatus.find(
-      status => status.extract === extractType,
+    const lastSuccessfulUpdate = getLastSuccessfulUpdate(
+      refreshStateStatus,
+      Array.isArray(extractType) ? extractType : [extractType],
     );
 
-    if (extract?.lastSuccessfulCompleted) {
-      const lastSuccessfulUpdate = formatDateAndTime(
-        extract.lastSuccessfulCompleted,
-      );
-
-      if (lastSuccessfulUpdate) {
-        return `Last updated at ${lastSuccessfulUpdate.time} on ${
-          lastSuccessfulUpdate.date
-        }`;
-      }
+    if (lastSuccessfulUpdate) {
+      return `Last updated at ${lastSuccessfulUpdate.time} on ${
+        lastSuccessfulUpdate.date
+      }`;
     }
   }
-
   return null;
 };
 

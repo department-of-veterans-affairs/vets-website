@@ -29,10 +29,16 @@ import {
   getSelfEnteredMedications,
   getSelfEnteredDemographics,
 } from '../actions/selfEnteredData';
-import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  allAreDefined,
+  getNameDateAndTime,
+  makePdf,
+  getLastSuccessfulUpdate,
+  formatUserDob,
+} from '../util/helpers';
 import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
-import { pageTitles, UNKNOWN } from '../util/constants';
+import { pageTitles, UNKNOWN, refreshExtractTypes } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
@@ -77,8 +83,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
   const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
   const vitals = useSelector(state => state.mr.selfEntered.vitals);
-
   const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
+  const refreshStatus = useSelector(state => state.mr.refresh.status);
 
   const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
     false,
@@ -189,6 +195,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
     },
     [
+      dispatch,
       activityJournal,
       allergies,
       demographics,
@@ -203,7 +210,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       treatmentFacilities,
       vaccines,
       vitals,
-      dispatch,
+      user,
+      name,
+      dob,
+      runningUnitTest,
     ],
   );
 
@@ -275,6 +285,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [ccdError],
   );
 
+  const lastSuccessfulUpdate = useMemo(
+    () => {
+      return getLastSuccessfulUpdate(refreshStatus, [
+        refreshExtractTypes.ALLERGY,
+        refreshExtractTypes.CHEM_HEM,
+        refreshExtractTypes.VPR,
+      ]);
+    },
+    [refreshStatus],
+  );
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -282,12 +303,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--4 vads-u-margin-top--1 vads-u-margin-bottom--3">
-        <p className="vads-u-margin--0">
-          Records in these reports last updated at 1:47 p.m. [time zone] on June
-          23, 2024
-        </p>
-      </div>
+      {lastSuccessfulUpdate && (
+        <va-card
+          class="vads-u-margin-y--2"
+          background
+          aria-live="polite"
+          data-testid="new-records-last-updated"
+        >
+          Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
+          on {lastSuccessfulUpdate.date}
+        </va-card>
+      )}
 
       {successfulDownload === true && (
         <>
@@ -361,15 +387,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               />
             </div>
           ) : (
-            <button
-              className="link-button"
+            <va-link
+              download
               onClick={() =>
                 dispatch(genAndDownloadCCD(userName.first, userName.last))
               }
-              data-testid="generateCcdButton"
-            >
-              <va-icon icon="file_download" size={3} /> Download .xml file
-            </button>
+              text="Download .xml file"
+            />
           )}
         </va-accordion-item>
         <va-accordion-item
@@ -386,20 +410,18 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <button
-            className="link-button"
+          <va-link
+            download
             onClick={generatePdf}
+            text="Download PDF"
             data-testid="downloadSelfEnteredButton"
-          >
-            <va-icon icon="file_download" size={3} /> Download PDF
-          </button>
+          />
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your
             historical goals you can go to the previous version of My
             HealtheVet.
           </p>
-
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
             text="Go to the previous version of MyHealtheVet to download historical

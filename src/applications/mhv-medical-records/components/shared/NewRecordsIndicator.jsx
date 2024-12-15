@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useSelector } from 'react-redux';
 import {
-  formatDateAndTime,
   getStatusExtractListPhase,
+  getLastSuccessfulUpdate,
 } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
 import FeedbackEmail from './FeedbackEmail';
@@ -72,20 +72,10 @@ const NewRecordsIndicator = ({
 
   const lastSuccessfulUpdate = useMemo(
     () => {
-      const matchingDates = refreshState.status
-        ?.filter(status =>
-          normalizeExtractType(extractType).includes(status.extract),
-        )
-        ?.map(status => status.lastSuccessfulCompleted)
-        ?.filter(Boolean);
-
-      if (matchingDates?.length) {
-        const minDate = new Date(
-          Math.min(...matchingDates.map(date => date.getTime())),
-        );
-        return formatDateAndTime(minDate);
-      }
-      return null;
+      return getLastSuccessfulUpdate(
+        refreshState.status,
+        normalizeExtractType(extractType),
+      );
     },
     [refreshState.status, extractType],
   );
