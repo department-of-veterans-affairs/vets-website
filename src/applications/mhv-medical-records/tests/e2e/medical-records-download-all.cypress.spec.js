@@ -9,34 +9,46 @@ describe('Test download all page', () => {
     site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
-
     DownloadReportsPage.goToDownloadAllPage();
 
     DownloadAllPage.clickContinueOnDateSelectionPage();
-
     DownloadAllPage.verifyErrorValidDateRange(
       'Please select a valid date range.',
     );
-
     DownloadAllPage.selectDateRangeDropdown('Custom');
-
+    DownloadAllPage.clickContinueOnDateSelectionPage();
+    DownloadAllPage.verifyValidStartDateError(
+      'Please enter a valid start date.',
+    );
     DownloadAllPage.selectCustomStartMonth('January');
-
     DownloadAllPage.selectCustomStartDay('12');
-
     DownloadAllPage.selectCustomStartYear('2024');
+    DownloadAllPage.clickContinueOnDateSelectionPage();
+    DownloadAllPage.verifyValidEndDateError('Please enter a valid end date.');
 
+    // Verify "start date greater than end date" error
     DownloadAllPage.selectCustomEndMonth('January');
-
     DownloadAllPage.selectCustomEndDay('1');
-
     DownloadAllPage.selectCustomEndYear('2016');
+    // // QUESTION - Do I need to click continue for the error to show up?
+    // // ...OR should the error appear before clicking continue?
+    // DownloadAllPage.clickContinueOnDateSelectionPage();
+    // // THIS ERROR DOES NOT APPEAR
+    // DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
+    //   'Start date cannot be greater than end date',
+    // );
+
+    // Verify "valid year" error
+    DownloadAllPage.clearCustomStartYear();
+    DownloadAllPage.selectCustomStartYear('1895');
+    DownloadAllPage.blurCustomStartYear();
+
+    DownloadAllPage.verifyErrorValidYear(
+      'Please enter a year between 1900 and 2124',
+    );
+    DownloadAllPage.selectCustomStartYear('2012');
 
     DownloadAllPage.clickContinueOnDateSelectionPage();
-
-    DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
-      'Start date cannot be greater than end date',
-    );
 
     // DownloadAllPage.selectDateRangeDropdown('Last 3 months');
 

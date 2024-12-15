@@ -20,8 +20,35 @@ class DownloadAllPage {
       .click();
   };
 
+  verifyError = error => {
+    cy.get('va-select')
+      .contains(error)
+      .should('be.visible');
+  };
+
   verifyErrorValidDateRange = error => {
     cy.get('va-select')
+      .contains(error)
+      .should('be.visible');
+  };
+
+  verifyValidStartDateError = error => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('[id^=error-message]')
+      .contains(error)
+      .should('be.visible');
+  };
+
+  verifyValidEndDateError = error => {
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('[id^=error-message]')
+      .contains(error)
+      .should('be.visible');
+  };
+
+  verifyErrorValidYear = error => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('[id^=error-message]')
       .contains(error)
       .should('be.visible');
   };
@@ -56,6 +83,18 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-start-date"]')
       .find('input')
       .type(year);
+  };
+
+  clearCustomStartYear = () => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('input')
+      .clear();
+  };
+
+  blurCustomStartYear = () => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('input')
+      .blur();
   };
 
   selectCustomEndMonth = month => {
