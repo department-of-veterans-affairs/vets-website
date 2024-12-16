@@ -128,7 +128,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      '/my-health/travel-claim-status/1234',
+      '/my-health/travel-pay/claims/1234',
     );
   });
   it('should not display travel reimbursement section if appointment is not past', async () => {
