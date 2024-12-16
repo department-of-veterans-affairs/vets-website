@@ -264,7 +264,6 @@ Provider notes: ${allergyData.notes} \n`;
               data-testid="allergy-notes"
               style={{ whiteSpace: 'pre-line' }}
               data-dd-action-name="[allergy provider notes]"
-              data-testid="allergy-notes"
             >
               {allergyData.notes}
             </p>
