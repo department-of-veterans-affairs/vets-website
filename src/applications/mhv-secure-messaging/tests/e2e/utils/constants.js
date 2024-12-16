@@ -380,6 +380,21 @@ export const Data = {
   URL: {
     LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
   },
+  FAQ_LINK: {
+    URL: {
+      SEND: `/find-locations/`,
+      EMRG: `tel:911`,
+      SETTINGS: `https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences`,
+      PAY: `/health-care/pay-copay-bill/dispute-charges/`,
+    },
+    TEXT: {
+      SEND: `Find your nearest VA health facility`,
+      EMRG_BTN: `Connect with the Veterans Crisis Line`,
+      EMRG: `911`,
+      SETTINGS: `My HealtheVet (opens in new tab)`,
+      PAY: `Learn how to dispute your VA copay charges`,
+    },
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',

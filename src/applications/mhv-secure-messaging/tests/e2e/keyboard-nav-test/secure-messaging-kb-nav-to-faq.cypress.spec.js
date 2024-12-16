@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import LandingPage from '../pages/SecureMessagingLandingPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM LANDING PAGE FAQ', () => {
@@ -26,8 +26,8 @@ describe('SM LANDING PAGE FAQ', () => {
 
     cy.realPress(`Tab`);
     LandingPage.verifyFaqFocusedLink(
-      `/find-locations/`,
-      `Find your nearest VA health facility`,
+      Data.FAQ_LINK.URL.SEND,
+      Data.FAQ_LINK.TEXT.SEND,
     );
   });
 
@@ -38,9 +38,12 @@ describe('SM LANDING PAGE FAQ', () => {
     LandingPage.verifyFaqAccordionStatus('send', false);
 
     cy.realPress(`Tab`);
-    cy.focused().should(`have.text`, `Connect with the Veterans Crisis Line`);
+    cy.focused().should(`have.text`, Data.FAQ_LINK.TEXT.EMRG_BTN);
     cy.realPress(`Tab`);
-    LandingPage.verifyFaqFocusedLink(`tel:911`, `911`);
+    LandingPage.verifyFaqFocusedLink(
+      Data.FAQ_LINK.URL.EMRG,
+      Data.FAQ_LINK.TEXT.EMRG,
+    );
   });
 
   it('verify third FAQ accordion', () => {
@@ -58,8 +61,8 @@ describe('SM LANDING PAGE FAQ', () => {
 
     cy.realPress(`Tab`);
     LandingPage.verifyFaqFocusedLink(
-      `https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences`,
-      `My HealtheVet (opens in new tab)`,
+      Data.FAQ_LINK.URL.SETTINGS,
+      Data.FAQ_LINK.TEXT.SETTINGS,
     );
   });
 
@@ -71,8 +74,8 @@ describe('SM LANDING PAGE FAQ', () => {
 
     cy.realPress(`Tab`);
     LandingPage.verifyFaqFocusedLink(
-      `/health-care/pay-copay-bill/dispute-charges/`,
-      `Learn how to dispute your VA copay charges`,
+      Data.FAQ_LINK.URL.PAY,
+      Data.FAQ_LINK.TEXT.PAY,
     );
   });
 });
