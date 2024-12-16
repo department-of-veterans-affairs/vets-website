@@ -135,6 +135,7 @@
  * @property {string} [heading] defaults to 'Statement of truth'
  * @property {string} [messageAriaDescribedby] defaults to 'Statement of truth'
  * @property {string} [textInputLabel] defaults to 'Your full name'
+ * @property {boolean} [useProfileFullName] if you enable this it gets the name from profile data, default to false
  */
 
 /**
