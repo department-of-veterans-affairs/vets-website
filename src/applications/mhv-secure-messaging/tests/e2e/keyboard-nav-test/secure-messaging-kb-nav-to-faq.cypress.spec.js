@@ -29,6 +29,9 @@ describe('SM LANDING PAGE FAQ', () => {
       Data.FAQ_LINK.URL.SEND,
       Data.FAQ_LINK.TEXT.SEND,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify second FAQ accordion', () => {
@@ -44,6 +47,9 @@ describe('SM LANDING PAGE FAQ', () => {
       Data.FAQ_LINK.URL.EMRG,
       Data.FAQ_LINK.TEXT.EMRG,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify third FAQ accordion', () => {
@@ -51,6 +57,9 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('protect', true);
     LandingPage.verifyFaqAccordionStatus('emergency', false);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify fourth FAQ accordion', () => {
@@ -64,6 +73,9 @@ describe('SM LANDING PAGE FAQ', () => {
       Data.FAQ_LINK.URL.SETTINGS,
       Data.FAQ_LINK.TEXT.SETTINGS,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify fifth FAQ accordion', () => {
@@ -77,5 +89,8 @@ describe('SM LANDING PAGE FAQ', () => {
       Data.FAQ_LINK.URL.PAY,
       Data.FAQ_LINK.TEXT.PAY,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
