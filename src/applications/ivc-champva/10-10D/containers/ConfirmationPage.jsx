@@ -137,7 +137,7 @@ export function ConfirmationPage(props) {
 
       <h2>What to expect next</h2>
       <p>
-        It will take about 90 days to process your application.
+        It will take about 6 months to process your application.
         <br />
         <br />
         If we have any questions or need additional information, we’ll contact
