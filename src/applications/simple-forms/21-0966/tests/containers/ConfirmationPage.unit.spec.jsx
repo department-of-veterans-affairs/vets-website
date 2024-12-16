@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
@@ -51,6 +52,16 @@ const responseNew = {
   expirationDate: '2024-11-30T17:56:30.512Z',
 };
 
+const responseNewBenefitsClaims = {
+  ...responseNew,
+  submissionType: 'benefitsClaims',
+};
+
+const responseNewBenefitsIntake = {
+  ...responseNew,
+  submissionType: 'benefitsIntake',
+};
+
 const responseExisting = {
   confirmationNumber: '123456',
   expirationDate: '2024-11-30T17:56:30.512Z',
@@ -74,6 +85,16 @@ const responseExisting = {
   },
 };
 
+const responseExistingBenefitsClaims = {
+  ...responseExisting,
+  submissionType: 'benefitsClaims',
+};
+
+const responseExistingBenefitsIntake = {
+  ...responseExisting,
+  submissionType: 'benefitsIntake',
+};
+
 function makeStore(response, data) {
   return {
     form: {
@@ -91,66 +112,238 @@ const STORE_VETERAN_FIRST_TIME = makeStore(responseNew, veteranData);
 const STORE_SURVIVOR_FIRST_TIME = makeStore(responseNew, survivorData);
 const STORE_VETERAN_EXISTING = makeStore(responseExisting, veteranData);
 const STORE_SURVIVOR_EXISTING = makeStore(responseExisting, survivorData);
+const STORE_VETERAN_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
+  responseNewBenefitsClaims,
+  veteranData,
+);
+const STORE_VETERAN_FIRST_TIME_BENEFITS_INTAKE = makeStore(
+  responseNewBenefitsIntake,
+  veteranData,
+);
+const STORE_SURVIVOR_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
+  responseNewBenefitsClaims,
+  survivorData,
+);
+const STORE_SURVIVOR_FIRST_TIME_BENEFITS_INTAKE = makeStore(
+  responseNewBenefitsIntake,
+  survivorData,
+);
+const STORE_VETERAN_EXISTING_BENEFITS_CLAIMS = makeStore(
+  responseExistingBenefitsClaims,
+  veteranData,
+);
+const STORE_SURVIVOR_EXISTING_BENEFITS_INTAKE = makeStore(
+  responseExistingBenefitsIntake,
+  survivorData,
+);
 
-describe('Confirmation page', () => {
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
+if (environment.isLocalhost() || environment.isDev()) {
+  describe('Confirmation page V2', () => {
+    const middleware = [thunk];
+    const mockStore = configureStore(middleware);
 
-  it('it should show status success and the correct name of person for a veteran submitting for the first time', () => {
-    const { container, getByText } = render(
-      <Provider store={mockStore(STORE_VETERAN_FIRST_TIME)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(container.querySelector('va-alert')).to.have.attr(
-      'status',
-      'success',
-    );
-    getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim');
-    getByText('Complete your disability compensation claim');
+    it('it should show status success and the correct name of person for a veteran submitting for the first time (benefits claims)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_VETERAN_FIRST_TIME_BENEFITS_CLAIMS)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack/);
+      getByText(/Your form submission was successful on/);
+      getByText(/You have until/);
+      getByText(/After we process your request/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension claim"]',
+        ),
+      ).to.exist;
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your disability compensation claim"]',
+        ),
+      ).to.exist;
+    });
+
+    it('it should show status success and the correct name of person for a veteran submitting for the first time (benefits intake)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_VETERAN_FIRST_TIME_BENEFITS_INTAKE)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack/);
+      getByText(/Form submission started on/);
+      getByText(/It can take up to 30 days/);
+      getByText(/After we review your form/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension claim"]',
+        ),
+      ).to.exist;
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your disability compensation claim"]',
+        ),
+      ).to.exist;
+    });
+
+    it('it should show status success and the correct name of person for a survivor submitting for the first time (benefits claims)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME_BENEFITS_CLAIMS)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Alternate/);
+      getByText(/Your form submission was successful on/);
+      getByText(/You have until/);
+      getByText(/After we process your request/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension for survivors claim"]',
+        ),
+      ).to.exist;
+    });
+
+    it('it should show status success and the correct name of person for a survivor submitting for the first time (benefits intake)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME_BENEFITS_INTAKE)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Alternate/);
+      getByText(/Form submission started on/);
+      getByText(/It can take up to 30 days/);
+      getByText(/After we review your form/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension for survivors claim"]',
+        ),
+      ).to.exist;
+    });
+
+    it('it should show status success and the correct name of person for a veteran submitting for the second time (benefits claims)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_VETERAN_EXISTING_BENEFITS_CLAIMS)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack/);
+      getByText(/Your form submission was successful on/);
+      getByText(/You have until/);
+      getByText(/After we process your request/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension claim"]',
+        ),
+      ).to.exist;
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your disability compensation claim"]',
+        ),
+      ).to.exist;
+    });
+
+    it('it should show status success and the correct name of person for a survivor submitting for the second time (benefits intake)', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_SURVIVOR_EXISTING_BENEFITS_INTAKE)}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Alternate/);
+      getByText(/Form submission started on/);
+      getByText(/It can take up to 30 days/);
+      getByText(/After we review your form/);
+      expect(
+        container.querySelector(
+          'va-link-action[text="Complete your pension for survivors claim"]',
+        ),
+      ).to.exist;
+    });
   });
+} else {
+  describe('Confirmation page', () => {
+    const middleware = [thunk];
+    const mockStore = configureStore(middleware);
 
-  it('it should show status success and the correct name of person for a survivor submitting for the first time', () => {
-    const { container, getByText } = render(
-      <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(container.querySelector('va-alert')).to.have.attr(
-      'status',
-      'success',
-    );
-    getByText(/Jack W Veteran/);
-    getByText('Complete your pension for survivors claim');
-  });
+    it('it should show status success and the correct name of person for a veteran submitting for the first time', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_VETERAN_FIRST_TIME)}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack W Veteran/);
+      getByText('Complete your pension claim');
+      getByText('Complete your disability compensation claim');
+    });
 
-  it('it should show status success and the correct name of person for a veteran submitting for a second time', () => {
-    const { container, getByText } = render(
-      <Provider store={mockStore(STORE_VETERAN_EXISTING)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(container.querySelector('va-alert')).to.have.attr(
-      'status',
-      'success',
-    );
-    getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim');
-    getByText('Complete your disability compensation claim');
-  });
+    it('it should show status success and the correct name of person for a survivor submitting for the first time', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME)}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack W Veteran/);
+      getByText('Complete your pension for survivors claim');
+    });
 
-  it('it should show status success and the correct name of person for a survivor submitting for a second time', () => {
-    const { container, getByText } = render(
-      <Provider store={mockStore(STORE_SURVIVOR_EXISTING)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(container.querySelector('va-alert')).to.have.attr(
-      'status',
-      'success',
-    );
-    getByText(/Jack W Veteran/);
-    getByText('Complete your pension for survivors claim');
+    it('it should show status success and the correct name of person for a veteran submitting for a second time', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_VETERAN_EXISTING)}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack W Veteran/);
+      getByText('Complete your pension claim');
+      getByText('Complete your disability compensation claim');
+    });
+
+    it('it should show status success and the correct name of person for a survivor submitting for a second time', () => {
+      const { container, getByText } = render(
+        <Provider store={mockStore(STORE_SURVIVOR_EXISTING)}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+      getByText(/Jack W Veteran/);
+      getByText('Complete your pension for survivors claim');
+    });
   });
-});
+}
