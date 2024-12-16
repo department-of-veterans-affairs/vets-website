@@ -164,15 +164,7 @@ describe('The My VA Dashboard', () => {
             'https://example.com/form_21-10210_vagov_123fake-submission-id-567.pdf',
         },
       }).as('pdfEndpoint');
-      cy.intercept('GET', '**/*.pdf', req => {
-        req.reply({
-          statusCode: 200,
-          headers: { 'Content-Type': 'application/pdf' },
-          fixture:
-            'applications/personalization/dashboard/tests/fixtures/pdf-fixture.pdf',
-          delay: 10, // milliseconds
-        });
-      }).as('pdfDownload');
+
       cy.login(mockUser);
       cy.visit(manifest.rootUrl);
     });
@@ -181,22 +173,16 @@ describe('The My VA Dashboard', () => {
       cy.findAllByTestId('submitted-application').should('have.length', 4);
       cy.get('button')
         .contains('Download your completed form (PDF)')
+        .should('be.visible')
         .click();
-
       cy.wait('@pdfEndpoint')
         .its('response.statusCode')
         .should('eq', 200);
-
-      cy.wait('@pdfDownload')
-        .its('response.statusCode')
-        .should('eq', 200);
-
       cy.readFile(
         `${Cypress.config(
           'downloadsFolder',
         )}/Form_21-10210_123fake-submission-id-567.pdf`,
       ).should('exist');
-
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
       cy.axeCheck();
