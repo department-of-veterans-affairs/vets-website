@@ -500,8 +500,8 @@ export const isBranchOfServiceRequired = data => {
   ];
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) ||
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
 

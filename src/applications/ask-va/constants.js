@@ -572,6 +572,10 @@ export const CHAPTER_3 = {
     DESCRIPTION: 'Select your branch of service',
     ERROR: 'Please select your branch of service',
   },
+  VETERANS_BRANCH_OF_SERVICE: {
+    TITLE: 'Branch of service',
+    ERROR: "Please select the Veteran's branch of service",
+  },
 };
 
 export const noEditBtn = [
