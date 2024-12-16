@@ -15,13 +15,10 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
       status="continue"
       visible
     >
-      <p
-        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
-        slot="headline"
-      >
+      <h3 slot="headline">
         Sign in to download your VA education decision letter
-      </p>
-      <div>
+      </h3>
+      <p>
         Sign in with your existing{' '}
         <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
         <span className="vads-u-font-weight--bold">Login.gov</span> account. If
@@ -44,7 +41,7 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
           Login.gov
         </a>{' '}
         account now.
-      </div>
+      </p>
       <va-button
         onClick={toggleLogin}
         primary-alternate

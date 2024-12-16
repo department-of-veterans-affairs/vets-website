@@ -187,6 +187,7 @@ export const ctaWidgetsLookup = {
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
+    headerLevel: 2,
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'check the status of your COE',
