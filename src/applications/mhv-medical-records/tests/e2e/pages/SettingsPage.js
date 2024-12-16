@@ -30,14 +30,14 @@ class SettingsPage extends BaseListPage {
     cy.get('section')
       .eq(1)
       .find('va-alert')
-      .contains('You’ve opted out of sharing');
+      .contains('Opted out of sharing');
   };
 
   verifyOptedInAlert = () => {
     cy.get('section')
       .eq(1)
       .find('va-alert')
-      .contains('You’ve opted back in to sharing');
+      .contains('Opted back in to sharing');
   };
 
   selectOptOut = () => {
