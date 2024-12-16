@@ -27,8 +27,14 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
-  BLUE_BUTTON_REPORT: 'Blue Button report',
+  DOCUMENT: 'document',
   IMAGE_STATUS: 'image',
+};
+
+export const documentTypes = {
+  BB: 'blue button',
+  CCD: 'continuity of care document',
+  SEI: 'self-entered information',
 };
 
 export const labTypes = {
@@ -258,6 +264,57 @@ export const selfEnteredTypes = {
   VACCINES: 'vaccines',
   VITALS: 'vitals and readings',
 };
+
+// --- Constants and helper functions moved outside the component ---
+export const SEI_DOMAIN_DISPLAY_MAP = {
+  activityJournal: 'Activity journal',
+  allergies: 'Allergies',
+  demographics: 'Demographics',
+  familyHistory: 'Family health history',
+  foodJournal: 'Food journal',
+  providers: 'Healthcare providers',
+  healthInsurance: 'Health insurance',
+  testEntries: 'Lab and test results',
+  medicalEvents: 'Medical events',
+  medications: 'Medications and supplements',
+  militaryHistory: 'Military health history',
+  treatmentFacilities: 'Treatment facilities',
+  vaccines: 'Vaccines',
+  vitals: 'Vitals and readings',
+};
+
+export const BB_DOMAIN_DISPLAY_MAP = {
+  labsAndTests: 'Lab and test results',
+  notes: 'Care summaries and notes',
+  vaccines: 'Vaccines',
+  allergies: 'Allergies and reactions',
+  conditions: 'Health conditions',
+  vitals: 'Vitals',
+  radiology: 'Radiology results',
+  medications: 'Medications',
+  appointments: 'VA appointments',
+  demographics: 'VA demographics records',
+  militaryService: 'DOD military service',
+  patient: 'Account summary',
+};
+
+// All SEI domains in one place for easy iteration
+export const SEI_DOMAINS = [
+  'activityJournal',
+  'allergies',
+  'demographics',
+  'familyHistory',
+  'foodJournal',
+  'providers',
+  'healthInsurance',
+  'testEntries',
+  'medicalEvents',
+  'medications',
+  'militaryHistory',
+  'treatmentFacilities',
+  'vaccines',
+  'vitals',
+];
 
 export const allergyTypes = {
   OBSERVED:

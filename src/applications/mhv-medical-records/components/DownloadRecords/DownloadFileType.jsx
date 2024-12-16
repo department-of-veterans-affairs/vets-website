@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -8,7 +8,10 @@ import {
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaRadio,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
@@ -22,6 +25,7 @@ import {
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
+
 import { clearAlerts } from '../../actions/alerts';
 import { pageTitles } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
@@ -62,6 +66,9 @@ const DownloadFileType = props => {
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
 
+  // FIXME: This should be generated dynamically. (see: MHV-60682)
+  const lastUpdated = 'Last updated at 10:47 a.m. EDT on September 13, 2024';
+
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
@@ -83,15 +90,18 @@ const DownloadFileType = props => {
     [dateFilter, history, recordFilter],
   );
 
-  const filterByDate = recDate => {
-    if (dateFilter.option === 'any') {
-      return true;
-    }
-    return (
-      isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
-      isAfter(new Date(dateFilter.toDate), new Date(recDate))
-    );
-  };
+  const filterByDate = useCallback(
+    recDate => {
+      if (dateFilter.option === 'any') {
+        return true;
+      }
+      return (
+        isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
+        isAfter(new Date(dateFilter.toDate), new Date(recDate))
+      );
+    },
+    [dateFilter],
+  );
 
   /**
    * True if all the records that were specified in the filters have been fetched, otherwise false.
@@ -159,6 +169,7 @@ const DownloadFileType = props => {
     () => {
       const options = {
         labsAndTests: recordFilter?.includes('labTests'),
+        radiology: recordFilter?.includes('labTests'),
         notes: recordFilter?.includes('careSummaries'),
         vaccines: recordFilter?.includes('vaccines'),
         allergies:
@@ -289,10 +300,13 @@ const DownloadFileType = props => {
         const scaffold = generatePdfScaffold(user, title, subject);
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
         const pdfData = {
-          recordSets: generateBlueButtonData(recordData),
+          fromDate: formatDateLong(dateFilter.fromDate),
+          toDate: formatDateLong(dateFilter.toDate),
+          recordSets: generateBlueButtonData(recordData, recordFilter),
           ...scaffold,
           name,
           dob,
+          lastUpdated,
         };
         makePdf(
           pdfName,
@@ -303,7 +317,17 @@ const DownloadFileType = props => {
         ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
       }
     },
-    [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
+    [
+      dateFilter,
+      dispatch,
+      dob,
+      isDataFetched,
+      name,
+      recordData,
+      recordFilter,
+      runningUnitTest,
+      user,
+    ],
   );
 
   const generateTxt = useCallback(
@@ -339,46 +363,78 @@ const DownloadFileType = props => {
         />
       </div>
       <h2>Select file type</h2>
-      <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-        <p>
-          You’re downloading <strong>{recordCount} total records</strong>
-        </p>
-      </div>
-      <VaRadio
-        label="If you use assistive technology, a text file may work better for you."
-        onVaValueChange={e => setFileType(e.detail.value)}
-      >
-        <va-radio-option label="PDF" value="pdf" />
-        <va-radio-option label="Text file" value="txt" />
-      </VaRadio>
-      {downloadStarted && <DownloadSuccessAlert />}
-      <div className="vads-u-margin-top--1">
-        <DownloadingRecordsInfo />
-      </div>
-      <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
-        <button
-          className="usa-button-secondary vads-u-margin-y--0p5"
-          onClick={() => history.push('/download/record-type')}
-        >
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-            <va-icon icon="navigate_far_before" size={2} />
-            <span className="vads-u-margin-left--0p5">Back</span>
+      {!isDataFetched && (
+        <div className="vads-u-padding-bottom--2">
+          <VaLoadingIndicator message="Loading your records..." />
+        </div>
+      )}
+      {isDataFetched &&
+        recordCount === 0 && (
+          <div className="vads-u-padding-bottom--2">
+            <va-alert data-testid="no-records-alert" status="error">
+              <h2 slot="headline">No records found</h2>
+              <p>
+                We couldn’t find any records that match your selection. Go back
+                and update the date range or select more record types.
+              </p>
+              <p>
+                <Link to="/download/date-range">Go back to update report</Link>
+              </p>
+            </va-alert>
           </div>
-        </button>
-        <button
-          disabled={!isDataFetched}
-          className="vads-u-margin-y--0p5"
-          onClick={() => {
-            if (fileType === 'pdf') {
-              generatePdf().then(() => history.push('/download'));
-            } else if (fileType === 'txt') {
-              generateTxt().then(() => history.push('/download'));
-            }
-          }}
-        >
-          Download report
-        </button>
-      </div>
+        )}
+      {isDataFetched &&
+        recordCount > 0 && (
+          <div>
+            <div
+              className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+              data-testid="record-count"
+            >
+              <p>
+                You’re downloading <strong>{recordCount} total records</strong>
+              </p>
+            </div>
+            <VaRadio
+              label="If you use assistive technology, a text file may work better for you."
+              onVaValueChange={e => setFileType(e.detail.value)}
+            >
+              <va-radio-option label="PDF" value="pdf" />
+              <va-radio-option label="Text file" value="txt" />
+            </VaRadio>
+            {downloadStarted && <DownloadSuccessAlert />}
+            <div className="vads-u-margin-top--1">
+              <DownloadingRecordsInfo />
+            </div>
+          </div>
+        )}
+      {recordCount > 0 &&
+        isDataFetched && (
+          <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
+            <button
+              className="usa-button-secondary vads-u-margin-y--0p5"
+              onClick={() => history.push('/download/record-type')}
+            >
+              <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+                <va-icon icon="navigate_far_before" size={2} />
+                <span className="vads-u-margin-left--0p5">Back</span>
+              </div>
+            </button>
+            <button
+              disabled={recordCount === 0 || !isDataFetched}
+              className="vads-u-margin-y--0p5"
+              data-testid="download-report-button"
+              onClick={() => {
+                if (fileType === 'pdf') {
+                  generatePdf().then(() => history.push('/download'));
+                } else if (fileType === 'txt') {
+                  generateTxt().then(() => history.push('/download'));
+                }
+              }}
+            >
+              Download report
+            </button>
+          </div>
+        )}
       <NeedHelpSection />
     </div>
   );
