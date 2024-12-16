@@ -2,10 +2,10 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../../constants';
 import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard: Discharge Unjust Flow', () => {
+describe('Discharge Upgrade Wizard: Discharge Unjust Flow', () => {
   describe('Base navigation', () => {
     it('Flow 1: Navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -67,7 +67,7 @@ xdescribe('Discharge Upgrade Wizard: Discharge Unjust Flow', () => {
 
     // Skips failure to exhaust question
     it('Flow 2: Navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -124,7 +124,7 @@ xdescribe('Discharge Upgrade Wizard: Discharge Unjust Flow', () => {
 
     // Skips prev app type and failure to exhaust question
     it('Flow 3: Navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

@@ -21,13 +21,15 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  getLastUpdatedText,
+  formatUserDob,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 
 import { clearAlerts } from '../../actions/alerts';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, refreshExtractTypes } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
@@ -38,7 +40,7 @@ const DownloadFileType = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
@@ -62,12 +64,9 @@ const DownloadFileType = props => {
     state => state.mr.blueButton.accountSummary,
   );
   const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
-
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
-
-  // FIXME: This should be generated dynamically. (see: MHV-60682)
-  const lastUpdated = 'Last updated at 10:47 a.m. EDT on September 13, 2024';
+  const refreshStatus = useSelector(state => state.mr.refresh.status);
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -169,6 +168,7 @@ const DownloadFileType = props => {
     () => {
       const options = {
         labsAndTests: recordFilter?.includes('labTests'),
+        radiology: recordFilter?.includes('labTests'),
         notes: recordFilter?.includes('careSummaries'),
         vaccines: recordFilter?.includes('vaccines'),
         allergies:
@@ -299,13 +299,23 @@ const DownloadFileType = props => {
         const scaffold = generatePdfScaffold(user, title, subject);
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
         const pdfData = {
-          fromDate: formatDateLong(dateFilter.fromDate),
-          toDate: formatDateLong(dateFilter.toDate),
+          fromDate:
+            dateFilter?.fromDate && dateFilter.fromDate !== 'any'
+              ? formatDateLong(dateFilter.fromDate)
+              : 'Any',
+          toDate:
+            dateFilter?.fromDate && dateFilter.fromDate !== 'any'
+              ? formatDateLong(dateFilter.toDate)
+              : 'any',
           recordSets: generateBlueButtonData(recordData, recordFilter),
           ...scaffold,
           name,
           dob,
-          lastUpdated,
+          lastUpdated: getLastUpdatedText(refreshStatus, [
+            refreshExtractTypes.ALLERGY,
+            refreshExtractTypes.CHEM_HEM,
+            refreshExtractTypes.VPR,
+          ]),
         };
         makePdf(
           pdfName,

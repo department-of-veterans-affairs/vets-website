@@ -95,6 +95,7 @@ const VitalListItem = props => {
             <span
               className="vads-u-display--inline"
               data-dd-privacy="mask"
+              data-dd-action-name="[vitals list - measurement]"
               data-testid={dataTestIds.measurement}
             >
               {record.measurement}
@@ -103,6 +104,7 @@ const VitalListItem = props => {
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
+            data-dd-action-name="[vitals list - date]"
             data-testid={dataTestIds.date}
           >
             <span className="vads-u-font-weight--bold">Date: </span>
