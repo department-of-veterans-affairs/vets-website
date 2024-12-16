@@ -22,65 +22,17 @@ import { getNameDateAndTime, makePdf } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
+  SEI_DOMAIN_DISPLAY_MAP,
+  SEI_DOMAINS,
   UNKNOWN,
 } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-
-// --- Constants and helper functions moved outside the component ---
-const SEI_DOMAIN_DISPLAY_MAP = {
-  activityJournal: 'Activity journal',
-  allergies: 'Allergies',
-  demographics: 'Demographics',
-  familyHistory: 'Family health history',
-  foodJournal: 'Food journal',
-  providers: 'Healthcare providers',
-  healthInsurance: 'Health insurance',
-  testEntries: 'Lab and test results',
-  medicalEvents: 'Medical events',
-  medications: 'Medications and supplements',
-  militaryHistory: 'Military health history',
-  treatmentFacilities: 'Treatment facilities',
-  vaccines: 'Vaccines',
-  vitals: 'Vitals and readings',
-};
-
-const BB_DOMAIN_DISPLAY_MAP = {
-  labsAndTests: 'Lab and test results',
-  notes: 'Care summaries and notes',
-  vaccines: 'Vaccines',
-  allergies: 'Allergies and reactions',
-  conditions: 'Health conditions',
-  vitals: 'Vitals',
-  radiology: 'Radiology results',
-  medications: 'Medications',
-  appointments: 'VA appointments',
-  demographics: 'VA demographics records',
-  militaryService: 'DOD military service',
-  patient: 'Account summary',
-};
-
-// All SEI domains in one place for easy iteration
-const SEI_DOMAINS = [
-  'activityJournal',
-  'allergies',
-  'demographics',
-  'familyHistory',
-  'foodJournal',
-  'providers',
-  'healthInsurance',
-  'testEntries',
-  'medicalEvents',
-  'medications',
-  'militaryHistory',
-  'treatmentFacilities',
-  'vaccines',
-  'vitals',
-];
 
 /**
  * Formats failed domain lists with display names.
