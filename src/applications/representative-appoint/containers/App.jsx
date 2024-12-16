@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
@@ -15,6 +16,15 @@ function App({ loggedIn, location, children, formData, setFormData }) {
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
+
+  useEffect(
+    () => {
+      if (!pathname?.includes('introduction')) {
+        scrollTo('topScrollElement');
+      }
+    },
+    [pathname],
+  );
 
   useEffect(
     () => {
@@ -72,8 +82,8 @@ const mapDispatchToProps = {
 App.propTypes = {
   children: PropTypes.node,
   formData: PropTypes.object,
-  loggedIn: PropTypes.bool,
   location: PropTypes.object,
+  loggedIn: PropTypes.bool,
   setFormData: PropTypes.func,
 };
 
