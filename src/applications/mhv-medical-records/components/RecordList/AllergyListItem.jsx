@@ -13,17 +13,17 @@ const AllergyListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link
-        to={`/allergies/${record.id}`}
-        data-dd-privacy="mask"
-        data-dd-action-name="[allergy list - name Link]"
-        data-testid={`allergy-link-${record.id}`}
-        className="no-print"
-        onClick={() => {
-          sendDataDogAction('Allergies Detail Link');
-        }}
-      >
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+      <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <Link
+          to={`/allergies/${record.id}`}
+          data-dd-privacy="mask"
+          data-dd-action-name="[allergy list - name Link]"
+          data-testid={`allergy-link-${record.id}`}
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Allergies Detail Link');
+          }}
+        >
           {record.name}{' '}
           <span
             className="sr-only"
@@ -32,8 +32,8 @@ const AllergyListItem = props => {
           >
             {`on ${record.date}`}
           </span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* print view header */}
       <h2

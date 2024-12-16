@@ -70,7 +70,7 @@ const PrescriptionDetailsDocumentation = () => {
 
   useEffect(
     () => {
-      if (!prescription && prescriptionId) {
+      if (!prescription && prescriptionId && !isLoadingRx) {
         setIsLoadingRx(true);
         dispatch(getPrescriptionDetails(prescriptionId));
       } else if (prescription && prescriptionId && isLoadingRx) {

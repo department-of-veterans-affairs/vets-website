@@ -13,19 +13,19 @@ const VaccinesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link
-        to={`/vaccines/${record.id}`}
-        data-dd-privacy="mask"
-        data-dd-action-name
-        className="no-print"
-        onClick={() => {
-          sendDataDogAction('Vaccines Detail Link');
-        }}
-      >
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+      <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <Link
+          to={`/vaccines/${record.id}`}
+          data-dd-privacy="mask"
+          data-dd-action-name
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Vaccines Detail Link');
+          }}
+        >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* print view header */}
       <h2
