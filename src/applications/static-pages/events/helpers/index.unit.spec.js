@@ -183,6 +183,38 @@ describe('removeDuplicateEvents', () => {
 });
 
 describe('fleshOutRecurringEvents', () => {
+  it('should only create events for future occurrences of recurring events', () => {
+    const now = moment().unix();
+    const pastTime = moment()
+      .subtract(1, 'day')
+      .unix();
+    const futureTime1 = moment()
+      .add(1, 'day')
+      .unix();
+    const futureTime2 = moment()
+      .add(2, 'days')
+      .unix();
+    const recurringEvents = [
+      {
+        fieldDatetimeRangeTimezone: [
+          { value: pastTime, endValue: pastTime + 3600 },
+          { value: futureTime1, endValue: futureTime1 + 3600 },
+          { value: futureTime2, endValue: futureTime2 + 3600 },
+        ],
+      },
+    ];
+
+    const result = fleshOutRecurringEvents(recurringEvents);
+    // Should only contain events from future occurrences
+    expect(result.length).to.equal(2);
+    expect(result[0].fieldDatetimeRangeTimezone[0].value).to.be.greaterThan(
+      now,
+    );
+    expect(result[1].fieldDatetimeRangeTimezone[0].value).to.be.greaterThan(
+      now,
+    );
+  });
+
   it('should create recurring events correctly', () => {
     const recurringEvents = [
       {

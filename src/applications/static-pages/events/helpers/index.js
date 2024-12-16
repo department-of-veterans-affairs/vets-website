@@ -84,6 +84,8 @@ export const fleshOutRecurringEvents = events => {
     return [];
   }
 
+  const now = moment().unix();
+
   const allEvents = events.reduce((fullEvents, event) => {
     if (!event.fieldDatetimeRangeTimezone) {
       return fullEvents;
@@ -94,10 +96,12 @@ export const fleshOutRecurringEvents = events => {
       return fullEvents;
     }
 
-    const eventTimes = event?.fieldDatetimeRangeTimezone;
+    const eventTimes = event?.fieldDatetimeRangeTimezone.filter(
+      tz => tz.value > now,
+    );
     // This makes each copy of a recurring event start with a different time,
     // so each time is a separate event
-    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
+    eventTimes.forEach((_, index) => {
       const timeZonesCopy = [...eventTimes];
 
       // eslint-disable-next-line no-plusplus
