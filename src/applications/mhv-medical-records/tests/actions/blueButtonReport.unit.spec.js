@@ -27,7 +27,7 @@ describe('Blue Button Actions', () => {
     });
     describe('should get only that domain', () => {
       it('should get allergies', async () => {
-        const mockData = allergies;
+        const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
         const dispatch = sinon.spy();
 
