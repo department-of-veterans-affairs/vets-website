@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  VerifyIdmeButton,
-  VerifyLogingovButton,
-} from '~/platform/user/authentication/components/VerifyButton';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { VerifyButton } from '~/platform/user/authentication/components/VerifyButton';
 import CallToActionAlert from '../CallToActionAlert';
 
 /**
@@ -40,10 +37,10 @@ const SignInOtherAccount = ({ headerLevel, serviceDescription }) => {
           create one now. We’ll help you verify your identity.
         </p>
         <p>
-          <VerifyLogingovButton />
+          <VerifyButton csp={CSP_IDS.LOGIN_GOV} />
         </p>
         <p>
-          <VerifyIdmeButton />
+          <VerifyButton csp={CSP_IDS.ID_ME} />
         </p>
         <p>
           <va-link
