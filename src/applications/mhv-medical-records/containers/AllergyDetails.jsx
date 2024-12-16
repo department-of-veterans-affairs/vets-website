@@ -241,7 +241,11 @@ Provider notes: ${allergyData.notes} \n`;
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-notes">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-notes"
+              style={{ whiteSpace: 'pre-line' }}
+            >
               {allergyData.notes}
             </p>
           </div>

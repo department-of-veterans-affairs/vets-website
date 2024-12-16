@@ -92,7 +92,11 @@ const AllergyListItem = props => {
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Recorded by:
           </span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          <span
+            className="vads-u-display--inline-block"
+            data-dd-privacy="mask"
+            style={{ whiteSpace: 'pre-line' }}
+          >
             {record.notes}
           </span>
         </div>
@@ -101,7 +105,11 @@ const AllergyListItem = props => {
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Provider notes:
         </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline-block"
+          data-dd-privacy="mask"
+          style={{ whiteSpace: 'pre-line' }}
+        >
           {record.notes}
         </span>
       </div>

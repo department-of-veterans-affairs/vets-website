@@ -344,6 +344,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-provider-note"
                   className="vads-u-margin--0"
                   data-dd-privacy="mask"
+                  style={{ whiteSpace: 'pre-line' }}
                 >
                   {vital.notes}
                 </p>
@@ -392,7 +393,11 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Provider notes:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    style={{ whiteSpace: 'pre-line' }}
+                  >
                     {vital.notes}
                   </p>
                 </div>
