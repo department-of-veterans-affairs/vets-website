@@ -1,9 +1,6 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
-
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { useLoaderData, NavLink, Outlet } from 'react-router-dom';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
-import POARequestsCard from '../components/POARequestsCard/POARequestsCard';
 
 const POARequestsPage = () => {
   const poaRequests = useLoaderData();
@@ -13,13 +10,36 @@ const POARequestsPage = () => {
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
       <DigitalSubmissionAlert />
       <div className="poa-requests-page-table-container">
-        <h2 data-testid="poa-requests-table-heading">Requests</h2>
         {poaRequests.length === 0 ? (
           <p data-testid="poa-requests-table-fetcher-no-poa-requests">
             No POA requests found
           </p>
         ) : (
-          <POARequestsCard poaRequests={poaRequests} />
+          <>
+            <div role="tablist" className="poa-request__tabs">
+              <NavLink
+                to="/poa-requests/pending"
+                className="poa-request__tab-link"
+                role="tab"
+                aria-selected={({ isActive }) => (isActive ? 'true' : 'false')}
+                aria-controls="panel-pending"
+                id="pending"
+              >
+                Pending requests
+              </NavLink>
+              <NavLink
+                to="/poa-requests/completed"
+                className="poa-request__tab-link"
+                role="tab"
+                aria-selected={({ isActive }) => (isActive ? 'true' : 'false')}
+                aria-controls="panel-completed"
+                id="completed"
+              >
+                Completed requests
+              </NavLink>
+            </div>
+            <Outlet />
+          </>
         )}
       </div>
     </>

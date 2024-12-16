@@ -12,6 +12,7 @@ import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import { poaRequestsLoader } from './loaders/poaRequestsLoader';
 import { poaRequestLoader } from './loaders/poaRequestLoader';
 import ErrorMessage from './components/common/ErrorMessage';
+import POARequestsCard from './components/POARequestsCard/POARequestsCard';
 
 const router = createBrowserRouter(
   [
@@ -30,6 +31,24 @@ const router = createBrowserRouter(
               element: <POARequestsPage />,
               loader: poaRequestsLoader,
               errorElement: <ErrorMessage />,
+              children: [
+                {
+                  index: true,
+                  loader: poaRequestsLoader,
+                  element: <POARequestsCard cssClass="pending" />,
+                },
+                {
+                  index: true,
+                  path: 'pending',
+                  loader: poaRequestsLoader,
+                  element: <POARequestsCard cssClass="pending" />,
+                },
+                {
+                  path: 'completed',
+                  // loader: poaRequestsCompletedLoader,
+                  element: <POARequestsCard cssClass="completed" />,
+                },
+              ],
             },
             {
               path: 'poa-requests/:id',

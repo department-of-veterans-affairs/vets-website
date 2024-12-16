@@ -10,7 +10,9 @@ export async function poaRequestsLoader() {
   } catch (error) {
     // Return mock data if API fails (TODO: remove this before pilot and replace with commented throw below)
     // throwing the error will cause the app to show the error message configured in routes.jsx
-    return mockPOARequestsResponse.data;
+    // return mockPOARequestsResponse.data;
+    const requests = mockPOARequestsResponse?.data?.map(req => req);
+    return requests?.filter(request => request.attributes.status === 'Pending');
     // throw error;
   }
 }
