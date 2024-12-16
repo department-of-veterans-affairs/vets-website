@@ -47,7 +47,7 @@ SearchInput.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 const mapDispatchToProps = {

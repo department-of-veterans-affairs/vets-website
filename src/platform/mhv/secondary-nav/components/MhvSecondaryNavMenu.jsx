@@ -60,7 +60,7 @@ const MhvSecondaryNavMenu = ({ items, loading }) => {
   return (
     <nav
       className={classNames(
-        'vads-u-background-color--primary',
+        'mhv-u-sec-nav-background-color',
         'vads-u-color--white',
         { 'vads-u-visibility--hidden': loading },
       )}
