@@ -150,11 +150,13 @@ const ApplicationsInProgress = ({
                   fromUnixTime(createdAt),
                   'MMMM d, yyyy',
                 );
+
                 return (
                   <SubmissionCard
                     key={formId}
                     formId={formId}
                     formTitle={formTitle}
+                    guid={form.id}
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
                     presentableFormId={presentableFormId}
