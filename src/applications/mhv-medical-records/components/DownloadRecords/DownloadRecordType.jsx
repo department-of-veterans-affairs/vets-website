@@ -2,12 +2,19 @@ import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
+import { updateReportRecordType } from '../../actions/downloads';
+import { pageTitles } from '../../util/constants';
 
 const DownloadRecordType = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const [labTestCheck, setLabTestCheck] = useState(false);
   const [careSummariesCheck, setCareSummariesCheck] = useState(false);
@@ -21,7 +28,22 @@ const DownloadRecordType = () => {
   const [demoCheck, setDemoCheck] = useState(false);
   const [milServCheck, setMilServCheck] = useState(false);
 
+  const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+
+  const [selectedRecords, setSelectedRecords] = useState([]);
+  const [selectionError, setSelectionError] = useState(null);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
+
   const handleCheckAll = () => {
+    setSelectionError(null);
+
     const newCheckAll = !checkAll;
     setCheckAll(newCheckAll);
     setLabTestCheck(newCheckAll);
@@ -35,11 +57,60 @@ const DownloadRecordType = () => {
     setPastAppCheck(newCheckAll);
     setDemoCheck(newCheckAll);
     setMilServCheck(newCheckAll);
+
+    if (newCheckAll === true) {
+      setSelectedRecords([
+        'labTests',
+        'careSummaries',
+        'vaccines',
+        'allergies',
+        'medications',
+        'vitals',
+        'conditions',
+        'militaryService',
+        'demographics',
+        'pastAppts',
+        'upcomingAppts',
+      ]);
+    } else if (newCheckAll === false) {
+      setSelectedRecords([]);
+    }
   };
 
-  const handleSingleDeselect = () => {
+  const handleSingleCheck = (recordType, checked) => {
     setCheckAll(false);
+    setSelectionError(null);
+
+    const newArray = selectedRecords;
+    if (checked === true) {
+      newArray.push(recordType);
+    } else if (checked === false) {
+      newArray.splice(newArray.indexOf(recordType), 1);
+    }
+    setSelectedRecords(newArray);
   };
+
+  useEffect(
+    () => {
+      if (!dateFilter) {
+        history.push('/download/date-range');
+      }
+    },
+    [dateFilter],
+  );
+
+  const selectedDateRange = useMemo(
+    () => {
+      if (dateFilter?.option === 'any') {
+        return 'Any';
+      }
+      if (dateFilter?.option === 'custom') {
+        return 'Custom';
+      }
+      return `Last ${dateFilter?.option} months`;
+    },
+    [dateFilter],
+  );
 
   return (
     <div>
@@ -58,12 +129,17 @@ const DownloadRecordType = () => {
       <h2>Select types of records to include</h2>
       <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         <p>
-          Date range: <strong>Last 3 months</strong> (January 1, 2024 to March
-          31, 2024)
+          Date range: <strong>{selectedDateRange}</strong>{' '}
+          {dateFilter && dateFilter?.option !== 'any'
+            ? `(${format(new Date(dateFilter?.fromDate), 'PPP')} to ${format(
+                new Date(dateFilter?.toDate),
+                'PPP',
+              )})`
+            : ''}
         </p>
       </div>
       <div className="vads-u-margin-bottom--3">
-        <va-checkbox-group>
+        <va-checkbox-group error={selectionError}>
           <VaCheckbox
             label="Select all VA records"
             checkbox-description="Includes all available VA records for the date range you selected."
@@ -74,70 +150,103 @@ const DownloadRecordType = () => {
           <VaCheckbox
             label="Lab and test results"
             checked={labTestCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setLabTestCheck(e.detail.checked);
+              handleSingleCheck('labTests', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Care summaries and notes"
             checked={careSummariesCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setCareSummariesCheck(e.detail.checked);
+              handleSingleCheck('careSummaries', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Vaccines"
             checked={vaccineCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setVaccineCheck(e.detail.checked);
+              handleSingleCheck('vaccines', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Allergies and reactions"
             checked={allergiesCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setAllergiesCheck(e.detail.checked);
+              handleSingleCheck('allergies', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Health conditions"
             checked={conditionsCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setConditionsCheck(e.detail.checked);
+              handleSingleCheck('conditions', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Vitals"
             checked={vitalsCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setVitalsCheck(e.detail.checked);
+              handleSingleCheck('vitals', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Medications"
             checkbox-description="Includes VA medications and supplies. And medications prescribed by non-VA providers, if you filled them through a VA pharmacy or told your provider about them.  When you download medication records, we also include a list of allergies and reactions in your VA medical records."
             checked={medicationsCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setMedicationsCheck(e.detail.checked);
+              handleSingleCheck('medications', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Upcoming VA appointments"
             checked={upcomingAppCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setUpcomingAppCheck(e.detail.checked);
+              handleSingleCheck('upcomingAppts', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Past VA appointments"
             checkbox-description="From last 2 years only"
             checked={pastAppCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setPastAppCheck(e.detail.checked);
+              handleSingleCheck('pastAppts', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="VA demographics records"
             checked={demoCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setDemoCheck(e.detail.checked);
+              handleSingleCheck('demographics', e.detail.checked);
+            }}
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="DOD military service information records"
             checkbox-description="Includes your Defense Department (DOD) service records from 1980 and later."
             checked={milServCheck}
-            onVaChange={handleSingleDeselect}
+            onVaChange={e => {
+              setMilServCheck(e.detail.checked);
+              handleSingleCheck('militaryService', e.detail.checked);
+            }}
           />
         </va-checkbox-group>
       </div>
@@ -147,7 +256,15 @@ const DownloadRecordType = () => {
           history.push('/download/date-range');
         }}
         onPrimaryClick={() => {
-          history.push('/download/file-type');
+          if (selectedRecords.length === 0) {
+            setSelectionError(
+              'Please select at least one record type to download.',
+            );
+            return;
+          }
+          dispatch(updateReportRecordType(selectedRecords)).then(
+            history.push('/download/file-type'),
+          );
         }}
       />
       <NeedHelpSection />

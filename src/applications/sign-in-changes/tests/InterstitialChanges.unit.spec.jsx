@@ -19,10 +19,12 @@ const store = ({ signInChangesEnabled = true } = {}) => ({
 
 describe('InterstitialChanges', () => {
   const server = setupServer();
+  const oldLocation = global.window.location;
 
   before(() => server.listen());
   afterEach(() => {
     cleanup();
+    global.window.location = oldLocation;
     server.resetHandlers();
   });
   after(() => server.close());
@@ -81,6 +83,7 @@ describe('InterstitialChanges', () => {
       expect(screen.getByTestId('logingovemail')).to.exist;
     });
   });
+
   it('renders AccountSwitch when user has ID.me account', async () => {
     const mockStore = store();
     server.use(
@@ -134,6 +137,30 @@ describe('InterstitialChanges', () => {
         ),
       ).to.have.attribute('href', expectedReturnUrl);
       sessionStorage.clear();
+    });
+  });
+
+  it('redirects user to homepage on errors', async () => {
+    global.window.location = '/sign-in-changes-reminder';
+
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(400));
+        },
+      ),
+    );
+    const mockStore = store();
+    const expectedLocation = '/';
+    render(
+      <Provider store={mockStore}>
+        <InterstitialChanges />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.window.location).to.eql(expectedLocation);
     });
   });
 });

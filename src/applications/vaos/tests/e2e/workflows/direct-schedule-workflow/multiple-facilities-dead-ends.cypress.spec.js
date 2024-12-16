@@ -156,7 +156,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You.ve reached the limit for appointment requests/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
@@ -272,7 +272,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We can’t find a recent appointment for you/i,
+            text: /You haven’t had a recent appointment at this facility/i,
           });
 
         // Assert
