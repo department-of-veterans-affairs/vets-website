@@ -344,9 +344,8 @@ const DownloadFileType = props => {
         )}`;
         const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user).then(() =>
-          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
-        );
+        generateTextFile(content, pdfName, user);
+        dispatch({ type: Actions.Downloads.BB_SUCCESS });
       }
     },
     [dispatch, isDataFetched, recordData, user],
