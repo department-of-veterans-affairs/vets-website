@@ -257,6 +257,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1
           className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
+          data-dd-action-name="[vitals detail - name]"
         >
           {vitalDisplayName}
         </h1>
@@ -312,6 +313,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-date"
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - date]"
                 >
                   {isAcceleratingVitals
                     ? formatDateInLocalTimezone(vital.effectiveDateTime)
@@ -324,6 +326,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-result"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - measurement]"
                 >
                   {vital.measurement}
                 </p>
@@ -334,6 +337,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-location"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - location]"
                 >
                   {vital.location}
                 </p>
@@ -345,6 +349,7 @@ Provider notes: ${vital.notes}\n\n`,
                   className="vads-u-margin--0"
                   data-dd-privacy="mask"
                   style={{ whiteSpace: 'pre-line' }}
+                  data-dd-action-name="[vitals detail - note]"
                 >
                   {vital.notes}
                 </p>
@@ -356,6 +361,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1
           className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
           data-dd-privacy="mask"
+          data-dd-action-name="[vitals detail - name - Print]"
         >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
@@ -370,6 +376,7 @@ Provider notes: ${vital.notes}\n\n`,
                 <h3
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - date - Print]"
                 >
                   {vital.date}
                 </h3>
@@ -377,7 +384,11 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Measurement:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - measurement - Print]"
+                  >
                     {vital.measurement}
                   </p>
                 </div>
@@ -385,7 +396,11 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Location:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - location - Print]"
+                  >
                     {vital.location}
                   </p>
                 </div>
@@ -397,6 +412,7 @@ Provider notes: ${vital.notes}\n\n`,
                     className="vads-u-display--inline"
                     data-dd-privacy="mask"
                     style={{ whiteSpace: 'pre-line' }}
+                    data-dd-action-name="[vitals detail - notes - Print]"
                   >
                     {vital.notes}
                   </p>

@@ -112,6 +112,7 @@ Lab comments: ${entry.labComments}\n`,
         aria-describedby="chem-hem-date"
         data-testid="chem-hem-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - name]"
       >
         {record.name}
       </h1>
@@ -140,25 +141,41 @@ Lab comments: ${entry.labComments}\n`,
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Type of test
         </h3>
-        <p data-testid="chem-hem-category" data-dd-privacy="mask">
+        <p
+          data-testid="chem-hem-category"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - category]"
+        >
           {record.category}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="chem-hem-sample-tested" data-dd-privacy="mask">
+        <p
+          data-testid="chem-hem-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - site]"
+        >
           {record.sampleTested}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="chem-hem-ordered-by" data-dd-privacy="mask">
+        <p
+          data-testid="chem-hem-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - ordered by]"
+        >
           {record.orderedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="chem-hem-collecting-location" data-dd-privacy="mask">
+        <p
+          data-testid="chem-hem-collecting-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - location]"
+        >
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">

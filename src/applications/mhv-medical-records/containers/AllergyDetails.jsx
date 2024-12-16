@@ -177,7 +177,9 @@ Provider notes: ${allergyData.notes} \n`;
             aria-describedby="allergy-date"
           >
             Allergies and reactions:{' '}
-            <span data-dd-privacy="mask">{allergyData.name}</span>
+            <span data-dd-privacy="mask" data-dd-action-name="[allergy name]">
+              {allergyData.name}
+            </span>
           </h1>
           <DateSubheading
             date={allergyData.date}
@@ -205,7 +207,11 @@ Provider notes: ${allergyData.notes} \n`;
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-type">
+            <p
+              data-dd-privacy="mask"
+              data-dd-action-name="[allergy type]"
+              data-testid="allergy-type"
+            >
               {allergyData.type}
             </p>
             {!allergyData.isOracleHealthData && (
@@ -213,7 +219,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Location
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-location">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy location]"
+                  data-testid="allergy-location"
+                >
                   {allergyData.location}
                 </p>
               </>
@@ -223,7 +233,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Observed or historical
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy observed]"
+                  data-testid="allergy-observed"
+                >
                   {allergyData.observedOrReported}
                 </p>
               </>
@@ -233,7 +247,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Recorded by
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy recorded by]"
+                  data-testid="allergy-observed"
+                >
                   {allergyData.provider}
                 </p>
               </>
@@ -245,6 +263,8 @@ Provider notes: ${allergyData.notes} \n`;
               data-dd-privacy="mask"
               data-testid="allergy-notes"
               style={{ whiteSpace: 'pre-line' }}
+              data-dd-action-name="[allergy provider notes]"
+              data-testid="allergy-notes"
             >
               {allergyData.notes}
             </p>

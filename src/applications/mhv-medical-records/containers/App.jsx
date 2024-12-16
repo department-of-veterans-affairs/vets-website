@@ -88,6 +88,14 @@ const App = ({ children }) => {
     [dispatch],
   );
 
+  const handleDdRumBeforeSend = event => {
+    const customEvent = { ...event };
+    if (customEvent._dd.action?.target?.selector?.includes('VA-BREADCRUMBS')) {
+      customEvent.action.target.name = 'Breadcrumb';
+    }
+    return customEvent;
+  };
+
   const datadogRumConfig = {
     applicationId: '04496177-4c70-4caf-9d1e-de7087d1d296',
     clientToken: 'pubf11b8d8bfe126a01d84e01c177a90ad3',
@@ -100,6 +108,10 @@ const App = ({ children }) => {
     trackResources: true,
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask',
+    enablePrivacyForActionName: true,
+    beforeSend: event => {
+      handleDdRumBeforeSend(event);
+    },
   };
   useDatadogRum(datadogRumConfig);
 
@@ -227,7 +239,11 @@ const App = ({ children }) => {
                 </div>
               </>
             )}
-            <va-back-to-top hidden={isHidden} />
+            <va-back-to-top
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
+            />
             <ScrollToTop />
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
