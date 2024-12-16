@@ -5,6 +5,7 @@ import { Trans } from 'react-i18next';
 const EXP_DATE = '11/30/2027';
 const OMB_NUMBER = '2900-0798';
 const RES_BURDEN_MIN = '10';
+const VACO_PRA_EMAIL = 'VACOPaperworkReduAct@va.gov';
 
 const TravelPayOMB = () => {
   return (
@@ -22,17 +23,18 @@ const TravelPayOMB = () => {
             <strong key="bold" />,
             <a
               key="link"
-              href="mailto:VACOPaperworkReduAct@va.gov"
+              href={`mailto:${VACO_PRA_EMAIL}`}
               target="_blank"
               rel="noreferrer"
             >
-              VACOPaperworkReduAct@va.gov
+              {VACO_PRA_EMAIL}
             </a>,
           ]}
           values={{
             ombNumber: OMB_NUMBER,
             expDate: EXP_DATE,
             resBurden: RES_BURDEN_MIN,
+            vaEmail: VACO_PRA_EMAIL,
           }}
         />
       </p>
