@@ -491,7 +491,10 @@ export const getLastSuccessfulUpdate = (
 ) => {
   const matchingDates = refreshStateStatus
     ?.filter(status => extractTypeList.includes(status.extract))
-    ?.map(status => status.lastSuccessfulCompleted)
+    ?.map(status => {
+      const date = status.lastSuccessfulCompleted;
+      return typeof date === 'string' ? new Date(date) : date;
+    })
     ?.filter(Boolean);
 
   if (matchingDates?.length) {

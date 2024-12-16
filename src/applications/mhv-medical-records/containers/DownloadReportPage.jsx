@@ -315,6 +315,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 )
               }
               text="Download .xml file"
+              data-testid="generateCcdButton"
             />
           )}
         </va-accordion-item>
