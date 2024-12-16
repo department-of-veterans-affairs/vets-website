@@ -144,6 +144,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             className="vads-u-margin-bottom--0"
             aria-describedby="condition-date"
             data-dd-privacy="mask"
+            data-dd-action-name="[condition details - name]"
           >
             {`Health conditions: ${record.name}`}
           </h1>
@@ -170,13 +171,21 @@ Provider Notes: ${processList(record.comments)}\n`;
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Provider
             </h2>
-            <p data-dd-privacy="mask" data-testid="condition-provider">
+            <p
+              data-testid="condition-provider"
+              data-dd-privacy="mask"
+              data-dd-action-name="[condition details - provider]"
+            >
               {record.provider}
             </p>
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask" data-testid="condition-location">
+            <p
+              data-testid="condition-location"
+              data-dd-privacy="mask"
+              data-dd-action-name="[condition details - location]"
+            >
               {record.facility || 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
