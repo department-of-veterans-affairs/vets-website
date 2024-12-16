@@ -368,11 +368,6 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Create a file
       const file = {
         file: new File(['hello'], 'hello.jpg', {
@@ -420,11 +415,6 @@ describe('<DocumentRequestPage>', () => {
           ,
         </Provider>,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Create a file
       const file = {
