@@ -1,14 +1,14 @@
 const all = [
   {
-    '184b3a0a-b5bc-44eb-9131-4ad806045313': [
+    '184b3a0a-b5bc-44eb-9131-4ad806045313': ['Series 02 - Image 01.jpg'],
+  },
+  {
+    '2184acee-280a-493b-91a1-c7914f3eaf97': [
       'Series 01 - Image 01.jpg',
       'Series 02 - Image 01.jpg',
       'Series 03 - Image 01.jpg',
       'Series 1842 - Image 01.jpg',
     ],
-  },
-  {
-    '2184acee-280a-493b-91a1-c7914f3eaf97': ['Series 02 - Image 01.jpg'],
   },
   {
     '5df3a7b7-7ead-45ff-b466-8b29a01ba94d': [

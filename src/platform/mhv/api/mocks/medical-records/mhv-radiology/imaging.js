@@ -6,7 +6,7 @@ const all = [
     event: 'COMPUTED TOMOGRAPHY',
     patientId: 11382904,
     studyIdUrn: '184b3a0a-b5bc-44eb-9131-4ad806045313',
-    imageCount: 213,
+    imageCount: 0,
     performedDatePrecise: 1296052096492,
     performedDateImprecise: null,
     facilityInfo: {
@@ -80,7 +80,7 @@ const all = [
     event: 'COMPUTED TOMOGRAPHY',
     patientId: 11382904,
     studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
-    imageCount: 1,
+    imageCount: 2,
     performedDatePrecise: 1712264056493,
     performedDateImprecise: null,
     facilityInfo: {

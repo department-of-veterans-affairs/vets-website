@@ -1,13 +1,33 @@
 const all = [
   {
-    status: 'NEW',
+    status: 'ERROR',
     statusText: '100',
     studyIdUrn: '184b3a0a-b5bc-44eb-9131-4ad806045313',
     percentComplete: 100,
     fileSize: '',
     fileSizeNumber: null,
-    startDate: 1734108092351,
-    endDate: 1734108146504,
+    startDate: 1734365137023,
+    endDate: 1734365193147,
+  },
+  {
+    status: 'PROCESSING',
+    statusText: '50',
+    studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
+    percentComplete: 50,
+    fileSize: '253.91 KB',
+    fileSizeNumber: 260003,
+    startDate: 1734360572036,
+    endDate: 1734360578627,
+  },
+  {
+    status: 'PROCESSING',
+    statusText: '50',
+    studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
+    percentComplete: 50,
+    fileSize: '253.91 KB',
+    fileSizeNumber: 450003,
+    startDate: 1734360572036,
+    endDate: 1734360578627,
   },
   {
     status: 'COMPLETE',
@@ -49,44 +69,30 @@ const all = [
     startDate: 1734360571761,
     endDate: 1734360582548,
   },
-  {
-    status: 'NEW',
-    statusText: '50',
-    studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
-    percentComplete: 50,
-    fileSize: '253.91 KB',
-    fileSizeNumber: 260003,
-    startDate: 1734360572036,
-    endDate: 1734360578627,
-  },
-  {
-    status: 'NEW',
-    statusText: '50',
-    studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
-    percentComplete: 50,
-    fileSize: '253.91 KB',
-    fileSizeNumber: 450003,
-    startDate: 1734360572036,
-    endDate: 1734360578627,
-  },
 ];
 
-const imagingRequest = (req, res) => {
-  const { studyId } = req.params;
-  const response = all.find(r => r.studyIdUrn === studyId);
-  if (!response) {
-    return res.status(404).json({
-      errors: [
-        {
-          title: 'Record not found',
-          detail: `The record identified by ${studyId} could not be found`,
-          code: '404',
-          status: '404',
-        },
-      ],
-    });
+let percentComplete = 0;
+
+const imagingStatus = (req, res) => {
+  const STUDY_ID = '5df3a7b7-7ead-45ff-b466-8b29a01ba94d';
+  // Increment percentComplete with each request to simulate download progress bar
+  if (percentComplete < 100) {
+    percentComplete += 10;
   }
+  const list = Array.isArray(all) ? [...all] : [];
+  const response = list?.map(r => {
+    if (r.studyIdUrn === STUDY_ID) {
+      return {
+        ...r,
+        percentComplete,
+        statusText: percentComplete.toString(),
+        status: percentComplete === 100 ? 'COMPLETE' : 'PROCESSING',
+      };
+    }
+    return r;
+  });
+
   return res.json(response);
 };
 
-module.exports = imagingRequest;
+module.exports = imagingStatus;

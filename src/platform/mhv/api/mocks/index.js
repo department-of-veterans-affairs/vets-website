@@ -57,6 +57,7 @@ const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatm
 const seiVaccines = require('./medical-records/self-entered/seiVaccines');
 const seiVitals = require('./medical-records/self-entered/seiVitals');
 const imaging = require('./medical-records/mhv-radiology/imaging');
+const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
 const imagingDownload = require('./medical-records/mhv-radiology/imaging-download');
 
@@ -201,8 +202,20 @@ const responses = {
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
 
   'GET /my_health/v1/medical_records/imaging': imaging,
+  'GET /my_health/v1/medical_records/imaging/status': imagingStatus,
   'GET /my_health/v1/medical_records/imaging/:studyId/request': imagingRequest,
   'GET /my_health/v1/medical_records/imaging/:studyId/images': imagingDownload,
+
+  'GET /my_health/v1/medical_records/bbmi_notification/status': { flag: false },
+
+  'GET /my_health/v1/medical_records/imaging/:studyId/images/:month/:date': (
+    req,
+    res,
+  ) => {
+    const filePath =
+      'src/platform/mhv/api/mocks/medical-records/mhv-radiology/01.jpeg';
+    res.download(filePath);
+  },
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
