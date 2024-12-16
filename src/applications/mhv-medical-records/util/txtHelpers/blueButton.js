@@ -71,7 +71,10 @@ export const getTxtContent = (data, { userFullName, dob }) => {
 
   const contentSection = sections
     .filter(section => section.data)
-    .map((section, index) => section.parse(section.data, index + 1))
+    .map(
+      (section, index) =>
+        `${txtLine}\n${section.parse(section.data, index + 1)}`,
+    )
     .join('\n\n');
 
   return `

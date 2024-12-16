@@ -1,11 +1,7 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
 export const parseLabsAndTests = (records, index = 1) => {
   return `
-${txtLine}
 ${index}) Lab and test results
 
 If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health.

@@ -1,12 +1,8 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 import { loincCodes } from '../constants';
 
 export const parseCareSummariesAndNotes = (records, index = 2) => {
   return `
-${txtLine}
 ${index}) Care summaries and notes
 
 This report only includes care summaries and notes from 2013 and later.

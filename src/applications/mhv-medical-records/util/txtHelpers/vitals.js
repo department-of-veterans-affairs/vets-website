@@ -1,7 +1,4 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
 const formatVitals = vitals => {
   const typeArray = [];
@@ -28,7 +25,6 @@ const vitalNameParse = name => {
 export const parseVitals = (records, index = 6) => {
   const vitalTypes = formatVitals(records);
   return `
-${txtLine}
 ${index}) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.

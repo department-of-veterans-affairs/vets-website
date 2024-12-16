@@ -1,11 +1,7 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
 export const parseVaccines = (records, index = 3) => {
   return `
-${txtLine}
 ${index}) Vaccines
 
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.
