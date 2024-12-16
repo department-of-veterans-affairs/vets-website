@@ -1,4 +1,5 @@
 import React from 'react';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   withAlertOrDescription,
@@ -14,7 +15,7 @@ const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
 const regexNonWord = /[^\w]/g;
-const sippableId = str =>
+const generateSaveInProgressId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
 const validateLength = (err, fieldData) => {
@@ -33,20 +34,27 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
-// TODO: On edit, allows previous index value to be the same as later index value
-// Note: Does not allow later index to be same as previous on edit
 const validateNotDuplicate = (err, fieldData, formData) => {
-  const currentList =
+  const index = getUrlPathIndex(window.location.pathname);
+
+  const lowerCasedConditions =
     formData?.[arrayBuilderOptions.arrayPath]?.map(condition =>
       condition.condition?.toLowerCase(),
     ) || [];
-  const itemLowerCased = fieldData?.toLowerCase() || '';
-  const itemSippableId = sippableId(fieldData || '');
-  const itemCount = currentList.filter(
-    item => item === itemLowerCased || sippableId(item) === itemSippableId,
-  );
 
-  if (itemCount.length > 1) {
+  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
+  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
+
+  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
+    if (index === i) return false;
+
+    return (
+      condition === fieldDataLowerCased ||
+      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
+    );
+  });
+
+  if (hasDuplicate) {
     err.addError('You’ve already added this condition to your claim');
   }
 };
