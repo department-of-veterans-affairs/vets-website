@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FacilityAddress from '../../../components/FacilityAddress';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function getEligibilityMessage({
   eligibility,
   facilityDetails,
-  includeFacilityContactInfo = false,
 }) {
   let content = null;
   let title = null;
@@ -86,32 +84,25 @@ export default function getEligibilityMessage({
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
-    title = 'You’ve reached the limit for appointment requests';
+    title = 'You can’t schedule this appointment online';
+    const contact = facilityDetails?.telecom?.find(
+      tele => tele.system === 'phone',
+    )?.value;
+
     content = (
       <>
+        <p>You’ll need to call to schedule at this facility.</p>
         <p>
-          Our records show that you have an open appointment request at this
-          location. You can’t request another appointment until you schedule or
-          cancel your open requests.
+          <strong>{facilityDetails.name}</strong>
+          <br />
+          <strong>Main phone: </strong>
+          <VaTelephone contact={contact} />
+          <span>
+            &nbsp;(
+            <VaTelephone contact="711" tty data-testid="tty-telephone" />)
+          </span>
         </p>
-        <p>
-          Call this facility to schedule or cancel an open appointment request.
-          You can also cancel a request from{' '}
-          <va-link
-            href="/my-health/appointments/pending"
-            text="your appointment list"
-            data-testid="appointment-list-link"
-          />
-          .
-        </p>
-        {facilityDetails &&
-          includeFacilityContactInfo && (
-            <FacilityAddress
-              name={facilityDetails.name}
-              facility={facilityDetails}
-              level={2}
-            />
-          )}
+        <p>Or you can choose a different facility.</p>
       </>
     );
   }

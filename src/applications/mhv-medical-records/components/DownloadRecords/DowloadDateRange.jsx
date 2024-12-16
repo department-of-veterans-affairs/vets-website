@@ -7,8 +7,11 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { subMonths, format } from 'date-fns';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
+import { pageTitles } from '../../util/constants';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -29,10 +32,13 @@ const DownloadDateRange = () => {
 
       setSelectionError(null);
       setSelectedDate(e.detail.value);
-      if (e.detail.value !== 'custom') {
+      if (e.detail.value === 'any') {
+        dispatch(updateReportDateRange('any', 'any', 'any'));
+      } else if (e.detail.value !== 'custom') {
         const currentDate = new Date();
         dispatch(
           updateReportDateRange(
+            e.detail.value,
             format(subMonths(currentDate, e.detail.value), 'yyyy-MM-dd'),
             format(currentDate, 'yyyy-MM-dd'),
           ),
@@ -44,8 +50,16 @@ const DownloadDateRange = () => {
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (customFromDate !== '' && customToDate !== '') {
-        dispatch(updateReportDateRange(customFromDate, customToDate));
+        dispatch(updateReportDateRange('custom', customFromDate, customToDate));
       }
     },
     [customFromDate, customToDate],
@@ -73,6 +87,7 @@ const DownloadDateRange = () => {
           value=""
           error={selectionError}
         >
+          <option value="any">Any</option>
           <option value={3}>Last 3 months</option>
           <option value={6}>Last 6 months</option>
           <option value={12}>Last 12 months</option>
@@ -86,10 +101,12 @@ const DownloadDateRange = () => {
             required="true"
             error={customFromError}
             onDateChange={e => {
-              const [year, month, day] = e.target.value.split('-');
-              if (parseInt(year, 10) >= 1900 && month && day) {
-                setCustomFromError(null);
-                setCustomFromDate(e.target.value);
+              if (e.target.value) {
+                const [year, month, day] = e.target.value?.split('-');
+                if (parseInt(year, 10) >= 1900 && month && day) {
+                  setCustomFromError(null);
+                  setCustomFromDate(e.target.value);
+                }
               }
             }}
           />

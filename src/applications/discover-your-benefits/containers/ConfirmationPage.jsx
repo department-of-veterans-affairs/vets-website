@@ -27,7 +27,6 @@ export class ConfirmationPage extends React.Component {
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
-      showMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -35,7 +34,6 @@ export class ConfirmationPage extends React.Component {
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
     this.handleResultsData = this.handleResultsData.bind(this);
-    this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
   }
 
@@ -89,7 +87,7 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      category: 'type',
+      category: 'category',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
@@ -231,11 +229,6 @@ export class ConfirmationPage extends React.Component {
     );
   }
 
-  toggleMobileFiltersClass() {
-    const currentState = this.state.showMobileFilters;
-    this.setState({ showMobileFilters: !currentState });
-  }
-
   filterAndSort() {
     this.filterBenefits(this.sortBenefits);
     focusElement('#filter-text');
@@ -249,34 +242,30 @@ export class ConfirmationPage extends React.Component {
             {this.props.location.query.allBenefits ? (
               <>
                 <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore.
-                  <br />
+                  Below are all of the benefits that this tool can recommend.
                   Remember to check your eligibility before you apply.
                 </p>
                 <p>
-                  These aren't your personalized benefit recommendations, but
-                  you can go back to your recommendations if you'd like.
+                  These aren’t your personalized benefit recommendations, but
+                  you can go back to your recommendations if you’d like.
                 </p>
                 <p>
                   We're also planning to add more benefits and resources to this
-                  tool.
-                  <br />
-                  Check back soon to find more benefits you want to apply for.
+                  tool. Check back soon to find more benefits you may want to
+                  apply for.
                 </p>
               </>
             ) : (
               <>
                 <p>
-                  Below are some benefits that this tool can recommend.
-                  <br />
-                  Remember to check your eligibility before you apply.
+                  Based on your answers, we’ve suggested some benefits for you
+                  to explore. Remember to check your eligibility before you
+                  apply.
                 </p>
               </>
             )}
           </div>
         </article>
-
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
@@ -298,7 +287,11 @@ export class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
+        <h2 className="vads-u-font-size--h3">
+          {this.props.location.query.allBenefits
+            ? 'All benefits'
+            : 'Recommended benefits for you'}
+        </h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
@@ -308,25 +301,11 @@ export class ConfirmationPage extends React.Component {
               </div>
             )}
             <div
-              className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-              id="filters-section-mobile-toggle"
-            >
-              <va-link-action
-                text="Filter and sort"
-                type="secondary"
-                onClick={() => this.toggleMobileFiltersClass()}
-                omKeyDown={() => this.toggleMobileFiltersClass()}
-                role="button"
-              />
-            </div>
-            <div
               id="filters-section-desktop"
               className={classNames({
                 'vads-l-col--12': true,
                 'medium-screen:vads-l-col--4': true,
                 'large-screen:vads-l-col--3': true,
-                'show-filters-section-mobile': this.state.showMobileFilters,
-                'hide-filters-section-mobile': !this.state.showMobileFilters,
               })}
             >
               <span>

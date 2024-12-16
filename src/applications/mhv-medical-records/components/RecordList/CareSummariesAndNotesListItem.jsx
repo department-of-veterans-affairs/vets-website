@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { loincCodes, dischargeSummarySortFields } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
@@ -43,18 +44,21 @@ const CareSummariesAndNotesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link
-        to={`/summaries-and-notes/${record.id}`}
-        data-dd-privacy="mask"
-        className="no-print"
-      >
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+      <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <Link
+          to={`/summaries-and-notes/${record.id}`}
+          data-dd-privacy="mask"
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Care Summaries & Notes Detail Link');
+          }}
+        >
           {record.name}
           <span className="sr-only" data-testid="sr-note-date">
             {`on ${isDischargeSummary ? dsDisplayDate(record) : record.date}`}
           </span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* print view header */}
       <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">

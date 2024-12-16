@@ -78,9 +78,7 @@ const ConditionDetails = props => {
     () => {
       if (record?.name) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${record.name} - ${pageTitles.HEALTH_CONDITIONS_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
       }
     },
     [record],
@@ -157,11 +155,15 @@ Provider Notes: ${processList(record.comments)}\n`;
 
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Health Conditions Detail"
             downloadPdf={generateConditionDetailsPdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateConditionTxt}
           />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <DownloadingRecordsInfo
+            description="Health Conditions Detail"
+            allowTxtDownloads={allowTxtDownloads}
+          />
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
           <div className="max-80">
