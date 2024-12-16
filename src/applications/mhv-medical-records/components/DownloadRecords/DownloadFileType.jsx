@@ -169,6 +169,7 @@ const DownloadFileType = props => {
     () => {
       const options = {
         labsAndTests: recordFilter?.includes('labTests'),
+        radiology: recordFilter?.includes('labTests'),
         notes: recordFilter?.includes('careSummaries'),
         vaccines: recordFilter?.includes('vaccines'),
         allergies:

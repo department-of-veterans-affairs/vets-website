@@ -17,6 +17,7 @@ const LabsAndTestsListItem = props => {
         <Link
           to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
+          data-dd-action-name="Lab and Test Results Detail Link"
           onClick={() => {
             sendDataDogAction('Lab and Test Results Detail Link');
           }}
@@ -27,7 +28,11 @@ const LabsAndTestsListItem = props => {
 
       <div>
         {/* date */}
-        <div className="vads-u-margin-bottom--0p5" data-dd-privacy="mask">
+        <div
+          className="vads-u-margin-bottom--0p5"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - date - list]"
+        >
           {record.date}
         </div>
 
@@ -36,10 +41,14 @@ const LabsAndTestsListItem = props => {
           record.type === labTypes.MICROBIOLOGY ||
           record.type === labTypes.RADIOLOGY ||
           record.type === labTypes.PATHOLOGY) && (
-          <div data-dd-privacy="mask">{`Ordered by ${record.orderedBy}`}</div>
+          <div data-dd-privacy="mask" data-dd-action-name>
+            {`Ordered by ${record.orderedBy}`}
+          </div>
         )}
         {record.type === labTypes.EKG && (
-          <div data-dd-privacy="mask">{`Signed by ${record.signedBy}`}</div>
+          <div data-dd-privacy="mask" data-dd-action-name>
+            {`Signed by ${record.signedBy}`}
+          </div>
         )}
       </div>
     </va-card>

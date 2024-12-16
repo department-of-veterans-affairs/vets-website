@@ -98,6 +98,8 @@ ${record.results} \n`;
         className="vads-u-margin-bottom--0"
         aria-describedby="pathology-date"
         data-testid="pathology-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - pathology name]"
       >
         {record.name}
       </h1>
@@ -125,25 +127,41 @@ ${record.results} \n`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+        <p
+          data-testid="pathology-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology site]"
+        >
           {record.sampleTested}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Collection sample
         </h3>
-        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+        <p
+          data-testid="pathology-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology sample]"
+        >
           {record.sampleFrom}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="pathology-location" data-dd-privacy="mask">
+        <p
+          data-testid="pathology-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology location]"
+        >
           {record.labLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="date-completed" data-dd-privacy="mask">
+        <p
+          data-testid="date-completed"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology date]"
+        >
           {record.date}
         </p>
       </div>
@@ -154,6 +172,7 @@ ${record.results} \n`;
           data-testid="pathology-report"
           className="monospace"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology results]"
         >
           {record.results}
         </p>
