@@ -9,7 +9,7 @@ describe('SM LANDING PAGE FAQ', () => {
     LandingPage.loadMainPage();
   });
 
-  it('verify page content', () => {
+  it('verify accordions are closed', () => {
     GeneralFunctionsPage.verifyPageHeader('Messages');
     cy.get(Locators.FAQ_ACC_ITEM).each(el => {
       cy.wrap(el).should(`have.prop`, `open`, false);
@@ -19,7 +19,7 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify first FAQ accordion', () => {
+  it('verify "Who can I send messages to" accordion', () => {
     cy.tabToElement(`[data-dd-action-name*="send"]`);
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('send', true);
@@ -34,7 +34,7 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify second FAQ accordion', () => {
+  it('verify "What if I have an emergency" accordion', () => {
     cy.tabToElement(`[data-dd-action-name*="emergency"]`);
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('emergency', true);
@@ -52,7 +52,7 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify third FAQ accordion', () => {
+  it('verify "Will VA protect my personal health information" accordion', () => {
     cy.tabToElement(`[data-dd-action-name*="protect"]`);
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('protect', true);
@@ -62,7 +62,7 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify fourth FAQ accordion', () => {
+  it('verify "What happened to my settings" accordion', () => {
     cy.tabToElement(`[data-dd-action-name*="settings"]`);
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('settings', true);
@@ -78,7 +78,7 @@ describe('SM LANDING PAGE FAQ', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify fifth FAQ accordion', () => {
+  it('verify "Will I need to pay a copay" accordion', () => {
     cy.tabToElement(`[data-dd-action-name*="pay"]`);
     cy.realPress(`Enter`);
     LandingPage.verifyFaqAccordionStatus('pay', true);
