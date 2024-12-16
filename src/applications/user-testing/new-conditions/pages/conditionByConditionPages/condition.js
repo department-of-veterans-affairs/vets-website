@@ -11,20 +11,22 @@ import { conditionOptions } from '../../content/conditionOptions';
 import { conditionInstructions } from '../../content/newConditions';
 import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
 
-const missingConditionMessage =
+const { arrayPath } = arrayBuilderOptions;
+
+export const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
 const regexNonWord = /[^\w]/g;
 const generateSaveInProgressId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
-const validateLength = (err, fieldData) => {
+export const validateLength = (err, fieldData) => {
   if (fieldData.length > 255) {
     err.addError('This needs to be less than 256 characters');
   }
 };
 
-const validateNotMissing = (err, fieldData) => {
+export const validateNotMissing = (err, fieldData) => {
   const isMissingCondition =
     !fieldData?.trim() ||
     fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
@@ -34,13 +36,12 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
-const validateNotDuplicate = (err, fieldData, formData) => {
+export const validateNotDuplicate = (err, fieldData, formData, path) => {
   const index = getUrlPathIndex(window.location.pathname);
 
   const lowerCasedConditions =
-    formData?.[arrayBuilderOptions.arrayPath]?.map(condition =>
-      condition.condition?.toLowerCase(),
-    ) || [];
+    formData?.[path]?.map(condition => condition.condition?.toLowerCase()) ||
+    [];
 
   const fieldDataLowerCased = fieldData?.toLowerCase() || '';
   const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
@@ -59,10 +60,10 @@ const validateNotDuplicate = (err, fieldData, formData) => {
   }
 };
 
-export const validateCondition = (err, fieldData = '', formData = {}) => {
+const validateCondition = (err, fieldData = '', formData = {}) => {
   validateLength(err, fieldData);
   validateNotMissing(err, fieldData);
-  validateNotDuplicate(err, fieldData, formData);
+  validateNotDuplicate(err, fieldData, formData, arrayPath);
 };
 
 /** @returns {PageSchema} */
