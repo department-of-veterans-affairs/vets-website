@@ -1,4 +1,6 @@
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   titleUI,
   titleSchema,
@@ -6,18 +8,13 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
+  // fileInputUI,
+  fileInputMultipleUI,
+  fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurbCustom } from '../../shared/components/fileUploads/attachments';
 import { nameWording } from '../../shared/utilities';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
-
-// Wrap shared fileFieldCustom so we can pass the form-specific
-// list of required uploads (for use with MissingFileOverview)
-function FileFieldWrapped(props) {
-  return FileFieldCustom({ ...props, requiredFiles: [] });
-}
 
 const additionalNotesClaims = (
   <va-additional-info
@@ -116,8 +113,6 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
-  CustomPageReview: null,
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
       <>
@@ -160,10 +155,18 @@ export const medicalClaimUploadSchema = {
       </>
     )),
     ...fileUploadBlurbCustom(null, additionalNotesClaims),
-    medicalUpload: fileUploadUI({
-      label: 'Upload supporting document',
-      attachmentName: true,
-    }),
+    medicalUpload: {
+      ...fileInputMultipleUI({
+        errorMessages: { required: 'This document is required.' },
+        name: 'medical-claim-upload',
+        fileUploadUrl: `${
+          environment.API_URL
+        }/ivc_champva/v1/forms/submit_supporting_documents`,
+        title: 'Upload supporting documents',
+        formNumber: '10-7959A',
+        required: () => true,
+      }),
+    },
   },
   schema: {
     type: 'object',
@@ -171,18 +174,7 @@ export const medicalClaimUploadSchema = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      medicalUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      medicalUpload: fileInputSchema,
     },
   },
 };
@@ -190,8 +182,6 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: FileFieldWrapped,
-    CustomPageReview: null,
     uiSchema: {
       ...titleUI(
         ({ formData }) => {
@@ -237,10 +227,18 @@ export const eobUploadSchema = isPrimary => {
         },
       ),
       ...fileUploadBlurbCustom(undefined, additionalNotesClaims),
-      [keyName]: fileUploadUI({
-        label: 'Upload explanation of benefits',
-        attachmentName: true,
-      }),
+      [keyName]: {
+        ...fileInputMultipleUI({
+          errorMessages: { required: 'This document is required.' },
+          name: `${keyName}-eob-upload`,
+          fileUploadUrl: `${
+            environment.API_URL
+          }/ivc_champva/v1/forms/submit_supporting_documents`,
+          title: 'Upload explanation of benefits',
+          formNumber: '10-7959A',
+          required: () => true,
+        }),
+      },
     },
     schema: {
       type: 'object',
@@ -248,26 +246,15 @@ export const eobUploadSchema = isPrimary => {
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyName]: {
-          type: 'array',
-          minItems: 1,
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-            },
-          },
-        },
+        [keyName]: fileInputSchema,
       },
     },
   };
 };
 
 export const pharmacyClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
-  CustomPageReview: null,
+  // CustomPage: FileFieldWrapped,
+  // CustomPageReview: null,
   uiSchema: {
     ...titleUI(
       'Upload supporting document for prescription claim',
@@ -302,10 +289,18 @@ export const pharmacyClaimUploadSchema = {
       </>,
     ),
     ...fileUploadBlurbCustom(null, additionalNotesClaims),
-    pharmacyUpload: fileUploadUI({
-      label: 'Upload supporting document',
-      attachmentName: true,
-    }),
+    pharmacyUpload: {
+      ...fileInputMultipleUI({
+        errorMessages: { required: 'This document is required.' },
+        name: 'pharmacy-upload',
+        fileUploadUrl: `${
+          environment.API_URL
+        }/ivc_champva/v1/forms/submit_supporting_documents`,
+        title: 'Upload supporting document',
+        formNumber: '10-7959A',
+        required: () => true,
+      }),
+    },
   },
   schema: {
     type: 'object',
@@ -313,18 +308,7 @@ export const pharmacyClaimUploadSchema = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      pharmacyUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      pharmacyUpload: fileInputSchema,
     },
   },
 };
