@@ -1,18 +1,11 @@
 import { apiRequestWithUrl } from '../utils';
 
 export async function getPatientReferrals() {
-  try {
-    const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/referralDetails`,
-      {
-        method: 'GET',
-      },
-    );
+  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/referralDetails`, {
+    method: 'GET',
+  });
 
-    return response.patientDetails.data;
-  } catch (error) {
-    return null;
-  }
+  return response.data;
 }
 
 export async function getPatientReferralById(referralId) {

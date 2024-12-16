@@ -69,9 +69,9 @@ import {
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  SUBMIT_URL,
   SC_NEW_FORM_DATA,
 } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
 
@@ -109,7 +109,7 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: SUBMIT_URL,
+  submitUrl: `/${SUBMIT_URL.join('')}`,
   submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
@@ -260,21 +260,6 @@ const formConfig = {
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
         },
-        optionForMst: {
-          title: 'Option for claims related to MST',
-          path: 'option-claims',
-          uiSchema: optionForMst.uiSchema,
-          schema: optionForMst.schema,
-          depends: showScNewForm,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        optionIndicator: {
-          title: 'Option to add an indicator',
-          path: 'option-indicator',
-          uiSchema: optionIndicator.uiSchema,
-          schema: optionIndicator.schema,
-          depends: hasMstOption,
-        },
       },
     },
 
@@ -381,6 +366,27 @@ const formConfig = {
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
           scrollAndFocusTarget: focusAlertH3,
+        },
+      },
+    },
+
+    vhaIndicator: {
+      title: 'VHA Indicator',
+      pages: {
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },

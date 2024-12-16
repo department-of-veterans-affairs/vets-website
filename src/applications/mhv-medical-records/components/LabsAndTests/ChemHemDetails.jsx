@@ -48,9 +48,6 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -127,11 +124,15 @@ Lab comments: ${entry.labComments}\n`,
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateChemHemPdf}
         downloadTxt={generateChemHemTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">
@@ -167,7 +168,7 @@ Lab comments: ${entry.labComments}\n`,
       </div>
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>

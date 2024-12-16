@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -18,18 +19,33 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-
-import { pageTitles } from '../../util/constants';
+import {
+  pageTitles,
+  studyJobStatus,
+  ALERT_TYPE_IMAGE_STATUS_ERROR,
+} from '../../util/constants';
 import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
+  sendDataDogAction,
+  formatDateAndTime,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import {
+  fetchImageRequestStatus,
+  fetchBbmiNotificationStatus,
+} from '../../actions/images';
+import { requestImagingStudy } from '../../api/MrApi';
+import useAlerts from '../../hooks/use-alerts';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
+  const phase0p5Flag = useSelector(
+    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
+  );
+
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -37,14 +53,66 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+
+  const dispatch = useDispatch();
+  const elementRef = useRef(null);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  // State to manage the dynamic backoff polling interval
+  const [pollInterval, setPollInterval] = useState(2000);
+
+  const radiologyDetails = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsDetails,
+  );
+  const studyJobs = useSelector(state => state.mr.images.imageStatus);
+  const notificationStatus = useSelector(
+    state => state.mr.images.notificationStatus,
+  );
+
+  const activeAlert = useAlerts(dispatch);
+
+  const ERROR_REQUEST_AGAIN =
+    'We’re sorry. There was a problem with our system. Try requesting your images again.';
+  const ERROR_TRY_LATER =
+    'We’re sorry. There was a problem with our system. Try again later.';
+
+  useEffect(
+    () => {
+      dispatch(fetchImageRequestStatus());
+      dispatch(fetchBbmiNotificationStatus());
+    },
+    [dispatch],
+  );
+
+  const studyJob = useMemo(
+    () =>
+      studyJobs?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
+      null,
+    [studyJobs, radiologyDetails.studyId],
+  );
+
+  useEffect(
+    () => {
+      let timeoutId;
+      if (
+        studyJob?.status === studyJobStatus.NEW ||
+        studyJob?.status === studyJobStatus.PROCESSING
+      ) {
+        timeoutId = setTimeout(() => {
+          dispatch(fetchImageRequestStatus());
+          // Increase the polling interval by 5% on each iteration, capped at 30 seconds
+          setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
+        }, pollInterval);
+      }
+      // Cleanup interval on component unmount or dependencies change
+      return () => clearTimeout(timeoutId);
+    },
+    [studyJob?.status, pollInterval, dispatch],
+  );
 
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -86,6 +154,163 @@ ${record.results}`;
     );
   };
 
+  const makeImageRequest = async () => {
+    await requestImagingStudy(radiologyDetails.studyId);
+    // After requesting the study, update the status.
+    dispatch(fetchImageRequestStatus());
+  };
+
+  const notificationContent = () => (
+    <>
+      {notificationStatus ? (
+        <p>
+          <strong>Note: </strong> If you don’t want to get email notifications
+          for images anymore, you can change your notification settings on the
+          previous version of My HealtheVet.
+        </p>
+      ) : (
+        <>
+          <h3>Get email notifications for images</h3>
+          <p>
+            If you want us to email you when your images are ready, change your
+            notification settings on the previous version of My HealtheVet.
+          </p>
+        </>
+      )}
+      <va-link
+        className="vads-u-margin-top--1"
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+        text="Go back to the previous version of My HealtheVet"
+      />
+    </>
+  );
+
+  const requestNote = () => (
+    <p>
+      After you request images, it may take several hours for us to load them
+      here.
+      {notificationStatus &&
+        ' We’ll send you an email when your images are ready.'}
+    </p>
+  );
+
+  const imagesNotRequested = imageRequest => (
+    <>
+      {requestNote()}
+      <va-button
+        onClick={() => makeImageRequest()}
+        disabled={imageRequest?.percentComplete < 100}
+        ref={elementRef}
+        text="Request Images"
+        uswds
+      />
+    </>
+  );
+
+  const imageAlertProcessing = imageRequest => (
+    <>
+      {requestNote()}
+      <va-alert
+        status="info"
+        visible
+        aria-live="polite"
+        data-testid="image-request-progress-alert"
+      >
+        <h3>Image request</h3>
+        <p>{imageRequest.percentComplete}% complete</p>
+        <va-progress-bar
+          percent={
+            imageRequest.status === studyJobStatus.NEW
+              ? 0
+              : imageRequest.percentComplete
+          }
+        />
+      </va-alert>
+    </>
+  );
+
+  const imageAlertComplete = () => {
+    const endDateParts = formatDateAndTime(
+      new Date(studyJob.endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
+    );
+    return (
+      <>
+        <p>
+          You have until {endDateParts.date} at {endDateParts.time}{' '}
+          {endDateParts.timeZone} to view and download your images. After that,
+          you’ll need to request them again.
+        </p>
+        <p>
+          <Link
+            to={`/labs-and-tests/${record.id}/images`}
+            className="vads-c-action-link--blue"
+            data-testid="radiology-view-all-images"
+          >
+            View all {radiologyDetails.imageCount} images
+          </Link>
+        </p>
+      </>
+    );
+  };
+
+  const imageAlert = message => (
+    <va-alert
+      status="error"
+      visible
+      aria-live="polite"
+      data-testid="image-request-error-alert"
+    >
+      <h3 id="track-your-status-on-mobile" slot="headline">
+        We couldn’t access your images
+      </h3>
+      <p>{message}</p>
+      <p>
+        If it still doesn’t work, call us at{' '}
+        <va-telephone contact="8773270022" /> (
+        <va-telephone tty contact="711" />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+
+  const imageAlertError = imageRequest => (
+    <>
+      <p>To review and download your images, you’ll need to request them.</p>
+      {imageAlert(ERROR_REQUEST_AGAIN)}
+      <va-button
+        class="vads-u-margin-top--2"
+        onClick={() => makeImageRequest()}
+        disabled={imageRequest?.percentComplete < 100}
+        ref={elementRef}
+        text="Request Images"
+        uswds
+      />
+    </>
+  );
+
+  const imageStatusContent = () => {
+    if (radiologyDetails.studyId) {
+      if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
+        return imageAlert(ERROR_TRY_LATER);
+      }
+
+      return (
+        <>
+          {(!studyJob || studyJob.status === studyJobStatus.NONE) &&
+            imagesNotRequested(studyJob)}
+          {(studyJob?.status === studyJobStatus.NEW ||
+            studyJob?.status === studyJobStatus.PROCESSING) &&
+            imageAlertProcessing(studyJob)}
+          {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
+          {studyJob?.status === studyJobStatus.ERROR &&
+            imageAlertError(studyJob)}
+          {notificationContent()}
+        </>
+      );
+    }
+    return <p>There are no images attached to this report.</p>;
+  };
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -105,11 +330,15 @@ ${record.results}`;
       />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={downloadPdf}
         downloadTxt={generateRadioloyTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
@@ -143,26 +372,33 @@ ${record.results}`;
         <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
           {record.imagingProvider}
         </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-          Images
-        </h3>
-        <p data-testid="radiology-image" className="no-print">
-          Images are not yet available in this new medical records tool. To get
-          images, you’ll need to request them in the previous version of medical
-          records on the My HealtheVet website.
-        </p>
-        <va-link
-          href={mhvUrl(
-            isAuthenticatedWithSSOe(fullState),
-            'va-medical-images-and-reports',
-          )}
-          text="Request images on the My HealtheVet website"
-          data-testid="radiology-images-link"
-        />
+        {!phase0p5Flag && (
+          <>
+            <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
+              Images
+            </h3>
+            <p data-testid="radiology-image" className="no-print">
+              Images are not yet available in this new medical records tool. To
+              get images, you’ll need to request them in the previous version of
+              medical records on the My HealtheVet website.
+            </p>
+            <va-link
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'va-medical-images-and-reports',
+              )}
+              text="Request images on the My HealtheVet website"
+              data-testid="radiology-images-link"
+              onClick={() => {
+                sendDataDogAction('Request images on MHV');
+              }}
+            />
+          </>
+        )}
       </div>
 
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
         <p
           data-testid="radiology-record-results"
@@ -172,6 +408,13 @@ ${record.results}`;
           {record.results}
         </p>
       </div>
+
+      {phase0p5Flag && (
+        <div className="test-results-container">
+          <h2 className="test-results-header">Images</h2>
+          {imageStatusContent()}
+        </div>
+      )}
     </div>
   );
 };

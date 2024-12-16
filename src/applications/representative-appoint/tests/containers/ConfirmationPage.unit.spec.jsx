@@ -74,7 +74,7 @@ describe('ConfirmationPage', () => {
     const checkbox = container.querySelector('va-checkbox');
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      "I've downloaded, printed, and signed my form",
+      'I’ve downloaded, printed, and signed my form',
     );
 
     const button = container.querySelector('va-button');
