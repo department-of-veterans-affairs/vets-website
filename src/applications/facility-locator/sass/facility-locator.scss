@@ -29,20 +29,32 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .desktop-container {
     margin-bottom: 3em;
     border-bottom: solid thin var(--vads-color-base-lightest);
+
+    @media screen and (min-width: $small-desktop-screen) {
+      display: flex;
+      flex-direction: row;
+      column-gap: 24px;
+    }
   }
 
   .desktop-map-container {
     min-height: 78vh;
     padding-left: 0;
-    width: calc(100% - 305px);
-    display: flex;
-    flex-direction: row;
+    width: calc(100% - 305px - 4px);
+
+    @media screen and (min-width: $small-desktop-screen) {
+      width: 100%;
+      max-width: 655px;
+      max-height: 1178px;
+    }
   }
 
   .search-result-title {
+    padding: 1px 0px;
+
     :focus {
       @include focus-gold-light-outline(0);
-      outline-offset: 2px;
+      outline-offset: 1px;
       z-index: 3;
     }
   }
@@ -86,7 +98,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -142,7 +154,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -153,6 +165,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .search-results-container {
     width: 305px;
+
+    @media screen and (min-width: $small-desktop-screen) {
+      width: 333px;
+    }
+
     max-height: 78vh;
     overflow-y: auto;
   }
@@ -215,7 +232,15 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .search-controls-container {
-    padding: 24px 16px 0 12px;
+    padding: 24px 12px;
+
+
+
+    @media screen and (min-width: $small-desktop-screen) {
+      padding: 32px 16px;
+      width: 333px;
+    }
+
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
 
@@ -227,6 +252,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
 
+      @media (min-width: $small-desktop-screen) {
+        max-width: 333px;
+        width: 100%;
+        flex-direction: row;
+      }
+
       input,
       textarea,
       select,
@@ -235,22 +266,31 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         max-width: none;
         margin-bottom: 24px;
         padding: 0 0.7em;
+      }
 
-        @media (min-width: $small-desktop-screen) {
-          max-width: 418px;
-          width: 418px;
-          margin-right: 18px;
-        }
+      #facility-search {
+        margin-bottom: 0;
+        padding-bottom: 0;
       }
 
       .input-container {
         padding: 0;
       }
 
+      facility-type-dropdown-block {
+        display: block;
+        margin: 0;
+      }
+
+
+
+
       va-select {
         padding-right: 0;
         padding-left: 0;
+        margin-top: 2px
       }
+
 
       .service-type-dropdown-container {
         align-self: end;
@@ -260,29 +300,19 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         width: 100%;
         padding: 0 0.625rem;
         margin-top: 0;
-
-        @media (min-width: $small-desktop-screen) {
-          margin-top: auto;
-          min-width: 4.4rem;
-          width: auto;
-        }
       }
 
-      .typeahead + input[type="submit"] {
+      .typeahead+input[type="submit"] {
         margin-bottom: 30px;
       }
 
-      .typeahead:has(.usa-input-error) + input[type="submit"] {
+      .typeahead:has(.usa-input-error)+input[type="submit"] {
         margin-bottom: 38px;
       }
 
       #location-input-field {
         display: flex;
         flex-direction: column;
-
-        @media (min-width: $small-desktop-screen) {
-          flex-direction: row;
-        }
       }
 
       .use-my-location-link {
@@ -291,20 +321,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
-        margin: 0 0 0 20px;
-
-        @media (max-width: $small-desktop-screen) {
-          margin: 1em 0;
-          text-align: left;
-        }
-      }
-
-      #search-controls-bottom-row {
-        @media (min-width: $small-desktop-screen) {
-          display: flex;
-          margin-top: -24px;
-          flex-direction: row;
-        }
+        margin: 1em 0;
+        text-align: left;
       }
     }
   }
@@ -489,6 +507,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+#vertical-oriented-left-controls {
+  display: flex;
+  flex-direction: column;
+  width: 333px;
+}
+
 #mapbox-gl-container {
   max-height: 55vh;
   height: 55vh;
@@ -547,18 +571,20 @@ canvas.mapboxgl-canvas:focus {
 .clear-button {
   font-size: 16px;
   display: inline-block;
-  top: -66px;
+  top: -65px;
+  right: 1px;
   position: relative;
   float: right;
-  width: 44px;
-  height: 44px;
-  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  background-color: var(--vads-color-white);
   color: var(--vads-color-black);
   padding: 0;
   margin: 0;
 
   &:hover {
-    background-color: unset;
+    background-color: var(--vads-color-white);
     color: unset;
   }
 }
@@ -568,7 +594,12 @@ canvas.mapboxgl-canvas:focus {
 }
 
 #street-city-state-zip {
+  max-width: 100%;
   padding-right: 36px !important;
+
+  @media screen and (min-width: $small-desktop-screen) {
+    padding-right: 0px !important;
+  }
 }
 
 // Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey

@@ -49,6 +49,7 @@ import { otherToolsLink } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
+import ControlResultsHolder from '../components/ControlResultsHolder';
 
 let lastZoom = 3;
 
@@ -60,6 +61,9 @@ const FacilitiesMap = props => {
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
+  const [isSmallDesktop, setIsSmallDesktop] = useState(
+    window.innerWidth >= 1024,
+  );
   const [isSearching, setIsSearching] = useState(false);
 
   /**
@@ -435,47 +439,65 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          clearGeocodeError={props.clearGeocodeError}
-          currentQuery={currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          suppressPPMS={props.suppressPPMS}
-          suppressPharmacies={props.suppressPharmacies}
-          clearSearchText={props.clearSearchText}
-        />
-        {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-          <VaAlert
-            slim
-            uswds
-            fullWidth
-            status="info"
-            className="vads-u-margin-top--1"
-            data-testid="emergency-care-info-note"
-            id="emergency-care-info-note"
-          >
-            <strong>Note:</strong> If you think your life or health is in
-            danger, call <va-telephone contact="911" /> or go to the nearest
-            emergency department right away.
-          </VaAlert>
-        )}
-        <div id="search-results-title" ref={searchResultTitleRef}>
-          {!searchError && (
-            <SearchResultsHeader
-              results={results}
-              facilityType={facilityType}
-              serviceType={serviceType}
-              context={queryContext}
-              specialtyMap={props.specialties}
-              inProgress={currentQuery.inProgress}
-              pagination={pagination}
-            />
+        {/* a HOC that either returns a div or fragment */}
+        <ControlResultsHolder isSmallDesktop={isSmallDesktop}>
+          <SearchControls
+            geolocateUser={props.geolocateUser}
+            clearGeocodeError={props.clearGeocodeError}
+            currentQuery={currentQuery}
+            onChange={props.updateSearchQuery}
+            onSubmit={handleSearch}
+            suppressPPMS={props.suppressPPMS}
+            suppressPharmacies={props.suppressPharmacies}
+            clearSearchText={props.clearSearchText}
+          />
+          {(isEmergencyCareType || isCppEmergencyCareTypes) && (
+            <VaAlert
+              slim
+              uswds
+              fullWidth
+              status="info"
+              className="vads-u-margin-top--1"
+              data-testid="emergency-care-info-note"
+              id="emergency-care-info-note"
+            >
+              <strong>Note:</strong> If you think your life or health is in
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
+            </VaAlert>
           )}
-          {searchError && <p />}
-        </div>
-
-        {isMobile ? (
+          <div id="search-results-title" ref={searchResultTitleRef}>
+            {!searchError && (
+              <SearchResultsHeader
+                results={results}
+                facilityType={facilityType}
+                serviceType={serviceType}
+                context={queryContext}
+                specialtyMap={props.specialties}
+                inProgress={currentQuery.inProgress}
+                pagination={pagination}
+              />
+            )}
+            {searchError && <p />}
+          </div>
+          {!isMobile && (
+            <>
+              <div
+                className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-5 small-12"
+                id="searchResultsContainer"
+              >
+                <div className="facility-search-results">{resultsList()}</div>
+              </div>
+            </>
+          )}
+        </ControlResultsHolder>
+        {!isMobile && (
+          <>
+            {renderMap(false, results)}
+            {paginationWrapper()}
+          </>
+        )}
+        {isMobile && (
           <div className="columns small-12">
             <Tabs>
               <TabList>
@@ -513,17 +535,6 @@ const FacilitiesMap = props => {
               </TabPanel>
             </Tabs>
           </div>
-        ) : (
-          <>
-            <div
-              className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
-              id="searchResultsContainer"
-            >
-              <div className="facility-search-results">{resultsList()}</div>
-            </div>
-            {renderMap(false, results)}
-            {paginationWrapper()}
-          </>
         )}
       </div>
     );
@@ -552,13 +563,14 @@ const FacilitiesMap = props => {
   };
 
   const setUpResizeEventListener = () => {
-    const setMobile = () => {
+    const setScreenSize = () => {
       setIsMobile(window.innerWidth <= 481);
+      setIsSmallDesktop(window.innerWidth >= 1024);
     };
 
     searchWithUrl();
 
-    const debouncedResize = vaDebounce(250, setMobile);
+    const debouncedResize = vaDebounce(250, setScreenSize);
     window.addEventListener('resize', debouncedResize);
     return () => {
       window.removeEventListener('resize', debouncedResize);
@@ -617,7 +629,14 @@ const FacilitiesMap = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [map, props.currentQuery.searchCoords],
   );
-
+  useEffect(
+    () => {
+      if (map && isSmallDesktop) {
+        map?.resize();
+      }
+    },
+    [map, isSmallDesktop],
+  );
   useEffect(
     () => {
       searchCurrentArea();
@@ -628,6 +647,7 @@ const FacilitiesMap = props => {
   useEffect(() => {
     setMap(setupMap());
     setUpResizeEventListener();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // <-- empty array means 'run once'
 
   useEffect(
