@@ -30,7 +30,11 @@ const CareSummariesAndNotesListItem = props => {
     return (
       <>
         <span className="vads-u-display--inline">Date {dateLabel}: </span>
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline"
+          data-dd-privacy="mask"
+          data-dd-action-name="[care summary - discharge date]"
+        >
           {dateValue}
         </span>
       </>
@@ -48,7 +52,7 @@ const CareSummariesAndNotesListItem = props => {
         <Link
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
-          data-dd-action-name
+          data-dd-action-name="Care Summaries & Notes Detail Link"
           className="no-print"
           onClick={() => {
             sendDataDogAction('Care Summaries & Notes Detail Link');

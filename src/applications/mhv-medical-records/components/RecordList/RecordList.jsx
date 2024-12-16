@@ -110,6 +110,7 @@ const RecordList = props => {
         (paginatedRecords.current.length > 1 ? (
           <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
+              data-dd-action-name="record list pagination"
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
