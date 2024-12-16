@@ -80,26 +80,6 @@ export const personalInformationFormSchemas = {
   branchOfService: selectSchema(branchesOfService),
 };
 
-export const aboutYourselfRelationshipFamilyMemberSchema = {
-  first: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  middle: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
-  suffix: selectSchema(suffixes),
-  socialNum: ssnSchema,
-  dateOfBirth: dateOfBirthSchema,
-  branchOfService: selectSchema(branchesOfService),
-};
-
 export const aboutYourselfGeneralSchema = {
   first: {
     type: 'string',

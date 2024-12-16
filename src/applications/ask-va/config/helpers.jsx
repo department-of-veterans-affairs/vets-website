@@ -5,6 +5,7 @@ import {
   CategoryGuardianshipCustodianshipFiduciaryIssues,
   CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
+  CHAPTER_3,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
@@ -530,4 +531,55 @@ export const isHealthFacilityRequired = data => {
       'Debt for benefit overpayments and health care copay bills' &&
       selectTopic === 'Health care copay debt')
   );
+};
+
+// Based on Mural flow to make the YourVAHealthFacility component title dynamic (BE only expects yourHealthFacility for any option)
+export const getHealthFacilityTitle = data => {
+  const {
+    YOUR_VA_HEALTH_FACILITY,
+    VETERAN_VA_HEALTH_FACILITY,
+    FAMILY_MEMBER_VA_HEALTH_FACILITY,
+  } = CHAPTER_3;
+
+  const {
+    whoIsYourQuestionAbout,
+    relationshipToVeteran,
+    isQuestionAboutVeteranOrSomeoneElse,
+  } = data;
+
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF ||
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return YOUR_VA_HEALTH_FACILITY.TITLE;
+  }
+
+  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) {
+    if (relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) {
+      return FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE;
+    }
+
+    if (
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER
+    ) {
+      if (
+        isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+      ) {
+        return VETERAN_VA_HEALTH_FACILITY.TITLE;
+      }
+      if (
+        isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
+      ) {
+        return FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE;
+      }
+    }
+
+    if (relationshipToVeteran === relationshipOptionsSomeoneElse.WORK) {
+      return VETERAN_VA_HEALTH_FACILITY.TITLE;
+    }
+  }
+
+  return YOUR_VA_HEALTH_FACILITY.TITLE;
 };
