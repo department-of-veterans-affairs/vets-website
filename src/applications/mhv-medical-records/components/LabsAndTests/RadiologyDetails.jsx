@@ -244,7 +244,7 @@ ${record.results}`;
           <Link
             to={`/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
-            data-testid="radiology-request-images"
+            data-testid="radiology-view-all-images"
           >
             View all {radiologyDetails.imageCount} images
           </Link>
@@ -319,6 +319,7 @@ ${record.results}`;
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - radiology name]"
       >
         {record.name}
       </h1>
@@ -345,31 +346,51 @@ ${record.results}`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p data-testid="radiology-reason" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-reason"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology reason]"
+        >
           {record.reason}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p data-testid="radiology-clinical-history" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-clinical-history"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology clinical history]"
+        >
           {record.clinicalHistory}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="radiology-ordered-by" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology ordered by]"
+        >
           {record.orderedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="radiology-imaging-location" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology location]"
+        >
           {record.imagingLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-provider"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology provider]"
+        >
           {record.imagingProvider}
         </p>
         {!phase0p5Flag && (
@@ -404,6 +425,7 @@ ${record.results}`;
           data-testid="radiology-record-results"
           className="monospace"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology results]"
         >
           {record.results}
         </p>
