@@ -116,7 +116,7 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         selectedProvider: {},
         providerFetchStatus: FETCH_STATUS.notStarted,
-        selectedSlot: null,
+        selectedSlot: '',
       };
     default:
       return state;
