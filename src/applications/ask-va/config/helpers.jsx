@@ -261,6 +261,7 @@ export const isLocationOfResidenceRequired = data => {
     selectTopic,
     whoIsYourQuestionAbout,
     isQuestionAboutVeteranOrSomeoneElse,
+    yourHealthFacility,
   } = data;
 
   // Check if location is required based on contact preference
@@ -349,6 +350,11 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
+  // Medical Facility was required
+  if (yourHealthFacility) {
+    return true;
+  }
+
   // Default to false if none of the conditions are met
   return false;
 };
@@ -365,6 +371,7 @@ export const isPostalCodeRequired = data => {
     yourLocationOfResidence,
     familyMembersLocationOfResidence,
     veteransLocationOfResidence,
+    yourHealthFacility,
   } = data;
 
   // Check if location is required based on contact preference
@@ -459,10 +466,7 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
-  if (
-    selectCategory === 'Health care' &&
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-  ) {
+  if (selectCategory === 'Health care' && !yourHealthFacility) {
     return true;
   }
 
@@ -512,20 +516,13 @@ export const isVRERequired = data => {
 };
 
 export const isHealthFacilityRequired = data => {
-  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
+  const { selectCategory, selectTopic } = data;
 
   const healthTopics = [
     'Prosthetics',
     'Audiology and hearing aids',
     'Getting care at a local VA medical center',
   ];
-
-  if (
-    selectCategory === 'Health care' &&
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-  ) {
-    return false;
-  }
 
   return (
     (selectCategory === 'Health care' && healthTopics.includes(selectTopic)) ||
