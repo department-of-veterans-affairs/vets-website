@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MissingRecordsError = ({ recordTypes }) => {
+const MissingRecordsError = ({ documentType, recordTypes }) => {
   if (!Array.isArray(recordTypes) || recordTypes.length === 0) {
     return <></>;
   }
@@ -13,7 +13,7 @@ const MissingRecordsError = ({ recordTypes }) => {
       data-testid="missing-records-error-alert"
     >
       <h3 id="track-your-status-on-mobile" slot="headline">
-        We can’t include certain records in your VA Blue Button report right now
+        We can’t include certain records in your {documentType} right now
       </h3>
       <p>
         We’re sorry. There’s a problem with our system. The report you just
@@ -37,5 +37,6 @@ const MissingRecordsError = ({ recordTypes }) => {
 export default MissingRecordsError;
 
 MissingRecordsError.propTypes = {
+  documentType: PropTypes.string,
   recordTypes: PropTypes.array,
 };

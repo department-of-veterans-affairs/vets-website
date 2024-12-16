@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -242,18 +243,25 @@ export const getDemographicInfo = async () => {
   });
 };
 
-// military service
 /**
  * Get a patient's military service info
  * @returns patient's military service info
  */
 export const getMilitaryService = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/military_service`, {
-    textHeaders,
-  });
+  try {
+    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
+      textHeaders,
+    });
+  } catch (error) {
+    // Handle special case of missing EDIPI
+    if (error?.error === 'No EDIPI found for the current user') {
+      return edipiNotFound;
+    }
+    // Rethrow if it’s another error we don’t want to specially handle
+    throw error;
+  }
 };
 
-// account summary (treatment facilities)
 /**
  * Get a patient's account summary (treatment facilities)
  * @returns patient profile including a list of patient's treatment facilities
