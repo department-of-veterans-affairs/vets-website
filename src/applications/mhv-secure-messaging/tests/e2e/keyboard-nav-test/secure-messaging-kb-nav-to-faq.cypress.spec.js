@@ -1,7 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import LandingPage from '../pages/SecureMessagingLandingPage';
 import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
-import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM LANDING PAGE FAQ', () => {
   beforeEach(() => {
@@ -10,7 +9,6 @@ describe('SM LANDING PAGE FAQ', () => {
   });
 
   it('verify accordions are closed', () => {
-    GeneralFunctionsPage.verifyPageHeader('Messages');
     cy.get(Locators.FAQ_ACC_ITEM).each(el => {
       cy.wrap(el).should(`have.prop`, `open`, false);
     });
