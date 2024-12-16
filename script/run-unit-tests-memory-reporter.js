@@ -1,7 +1,17 @@
 /* eslint-disable no-console */
-const { Base, Spec } = require('mocha').reporters;
+const { reporters, Runner } = require('mocha');
 const fs = require('fs');
 const path = require('path');
+
+const { Base, Spec } = reporters;
+
+const {
+  EVENT_RUN_BEGIN,
+  EVENT_RUN_END,
+  EVENT_TEST_END,
+  EVENT_SUITE_BEGIN,
+  EVENT_TEST_BEGIN,
+} = Runner.constants;
 
 // gcFrequency can be 'test', 'suite', or 'never' to not run gc at all
 // if an empty string is passed, it will gc before and after the suite
@@ -17,7 +27,7 @@ const GC_SAMPLE_RATE = 1;
 
 // because its fun
 function getEmojiForRank(rank) {
-  const emojis = ['🥇 ', '🥈 ', '🥉 '];
+  const emojis = ['🥇 ', '🥈 ', '🥉 ', '🏅 ', '🏅 '];
   return emojis[rank - 1] || '';
 }
 
@@ -38,7 +48,6 @@ class MemoryReporter extends Base {
       suites: new Map(),
       testResults: new Map(),
       baseline: process.memoryUsage(),
-      startTime: Date.now(),
       testCount: 0,
     };
 
@@ -57,11 +66,11 @@ class MemoryReporter extends Base {
   }
 
   bindEvents(runner) {
-    runner.on('start', () => this.onStart());
-    runner.on('suite', suite => this.onSuite(suite));
-    runner.on('test', test => this.onTest(test));
-    runner.on('test end', test => this.onTestEnd(test));
-    runner.on('end', () => this.onEnd());
+    runner.on(EVENT_RUN_BEGIN, () => this.onStart());
+    runner.on(EVENT_SUITE_BEGIN, suite => this.onSuite(suite));
+    runner.on(EVENT_TEST_BEGIN, test => this.onTest(test));
+    runner.on(EVENT_TEST_END, test => this.onTestEnd(test));
+    runner.on(EVENT_RUN_END, () => this.onEnd());
   }
 
   takeSnapshot(
@@ -126,7 +135,6 @@ class MemoryReporter extends Base {
     this.memoryStats.suites.set(suite.title, {
       title: suite.title,
       file: suite.file,
-      startTime: Date.now(),
       memoryBefore: snapshot,
     });
   }
@@ -138,7 +146,6 @@ class MemoryReporter extends Base {
     this.memoryStats.testResults.set(test.title, {
       title: test.title,
       file: test.parent?.file,
-      startTime: Date.now(),
       memoryBefore: snapshot,
     });
   }
@@ -167,18 +174,21 @@ class MemoryReporter extends Base {
       ...testStats,
       memoryAfter: snapshot,
       memoryDiff,
-      duration: Date.now() - testStats.startTime,
+      duration: test?.duration || 0,
     });
 
     this.memoryStats.testCount += 1;
   }
 
   generateReport() {
-    const totalRuntime = Date.now() - this.memoryStats.startTime;
+    const testResults = Array.from(this.memoryStats.testResults.entries()).map(
+      ([title, data]) => ({ title, ...data }),
+    );
 
-    const testResults = Array.from(this.memoryStats.testResults.entries())
-      .map(([title, data]) => ({ title, ...data }))
-      .sort((a, b) => (b.memoryDiff || 0) - (a.memoryDiff || 0));
+    const totalRuntime = testResults.reduce(
+      (sum, test) => sum + test.duration,
+      0,
+    );
 
     const avgMemoryPerTest =
       testResults.reduce((sum, test) => sum + test.memoryDiff, 0) /
@@ -190,9 +200,9 @@ class MemoryReporter extends Base {
     return {
       timestamp: new Date().toISOString(),
       summary: {
-        totalDuration: `${totalRuntime}ms, ${(totalRuntime / 1000).toFixed(
-          2,
-        )}s`,
+        totalTestingDuration: `${totalRuntime}ms, ${(
+          totalRuntime / 1000
+        ).toFixed(2)}s`,
         totalTests: this.stats.tests,
         startMemoryUsage: MemoryReporter.formatBytes(
           this.startSnapshot.heapUsed,
@@ -207,28 +217,39 @@ class MemoryReporter extends Base {
         title: test.title,
         file: test.file ? path.relative(process.cwd(), test.file) : 'unknown',
         memoryUsed: MemoryReporter.formatBytes(test.memoryDiff),
-        duration: `${(test.duration / 1000).toFixed(3)}s`,
+        duration: `${test.duration}ms - ${(test.duration / 1000).toFixed(3)}s`,
+        memoryDiff: test.memoryDiff,
       })),
     };
   }
 
+  static sortTestsByMemoryUsed(tests) {
+    return tests.sort((a, b) => (b.memoryDiff || 0) - (a.memoryDiff || 0));
+  }
+
   onEnd() {
     const report = this.generateReport();
+    const sortedTests = MemoryReporter.sortTestsByMemoryUsed(report.tests);
 
     // Display report summary
     console.log('\n📊 Memory Usage Report');
     console.log('====================');
     console.log(JSON.stringify(report.summary, null, 2));
 
-    if (report.tests.length > 1) {
-      console.log('\n🏆 Usage Leaderboard (Top 3)');
+    if (sortedTests.length > 1) {
+      console.log('\n🏆 Usage Leaderboard (Top 5)');
       console.log('=========================');
-      report.tests.slice(0, 3).forEach((test, i) => {
+      sortedTests.slice(0, 5).forEach((test, i) => {
         const emoji = getEmojiForRank(i + 1);
         console.log(`\n${emoji} ${test.memoryUsed} - ${test.title}`);
         console.log(`    File: ${test.file}`);
         console.log(`    Duration: ${test.duration}`);
       });
+    }
+
+    if (sortedTests.length === 1) {
+      console.log('\n🚨 Only one test was run');
+      console.log(JSON.stringify(report, null, 2));
     }
 
     // write report to file
