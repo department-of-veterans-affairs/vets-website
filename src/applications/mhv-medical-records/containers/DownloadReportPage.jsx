@@ -6,7 +6,6 @@ import {
   generatePdfScaffold,
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -18,13 +17,20 @@ import {
   clearFailedList,
   getSelfEnteredData,
 } from '../actions/selfEnteredData';
-import { getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  getLastSuccessfulUpdate,
+  formatUserDob,
+} from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  ALERT_TYPE_BB_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
+  refreshExtractTypes,
   SEI_DOMAIN_DISPLAY_MAP,
   SEI_DOMAINS,
   UNKNOWN,
@@ -33,6 +39,7 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -83,6 +90,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       },
       blueButton: { failedDomains: failedBBDomains },
       selfEntered: { failedDomains: failedSeiDomains, ...selfEnteredData },
+      refresh: { status: refreshStatus },
     },
   } = useSelector(state => state);
 
@@ -90,7 +98,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   // Extract user info
   const name = formatName(userProfile.userFullName);
-  const dob = formatDateLong(new Date('10/10/1990')); // Example DOB
+  const dob = formatUserDob(userProfile); // Example DOB
 
   // Extract all SEI domain data
   const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
@@ -101,6 +109,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [selfEnteredPdfRequested, setSelfEnteredPdfRequested] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
+
+  const activeAlert = useAlerts(dispatch);
 
   const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
 
@@ -206,6 +216,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     return null;
   };
 
+  const lastSuccessfulUpdate = useMemo(
+    () => {
+      return getLastSuccessfulUpdate(refreshStatus, [
+        refreshExtractTypes.ALLERGY,
+        refreshExtractTypes.CHEM_HEM,
+        refreshExtractTypes.VPR,
+      ]);
+    },
+    [refreshStatus],
+  );
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -213,12 +234,25 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--4 vads-u-margin-top--1 vads-u-margin-bottom--3">
-        <p className="vads-u-margin--0">
-          Records in these reports last updated at 1:47 p.m. [time zone] on June
-          23, 2024
-        </p>
-      </div>
+      {lastSuccessfulUpdate && (
+        <va-card
+          class="vads-u-margin-y--2"
+          background
+          aria-live="polite"
+          data-testid="new-records-last-updated"
+        >
+          Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
+          on {lastSuccessfulUpdate.date}
+        </va-card>
+      )}
+
+      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.BB}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
 
       {successfulBBDownload === true && (
         <>
@@ -282,8 +316,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               />
             </div>
           ) : (
-            <button
-              className="link-button"
+            <va-link
+              download
               onClick={() =>
                 dispatch(
                   genAndDownloadCCD(
@@ -292,10 +326,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                   ),
                 )
               }
+              text="Download .xml file"
               data-testid="generateCcdButton"
-            >
-              <va-icon icon="file_download" size={3} /> Download .xml file
-            </button>
+            />
           )}
         </va-accordion-item>
         <va-accordion-item
@@ -312,20 +345,18 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <button
-            className="link-button"
+          <va-link
+            download
             onClick={generateSEIPdf}
+            text="Download PDF"
             data-testid="downloadSelfEnteredButton"
-          >
-            <va-icon icon="file_download" size={3} /> Download PDF
-          </button>
+          />
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your
             historical goals you can go to the previous version of My
             HealtheVet.
           </p>
-
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
             text="Go to the previous version of MyHealtheVet to download historical

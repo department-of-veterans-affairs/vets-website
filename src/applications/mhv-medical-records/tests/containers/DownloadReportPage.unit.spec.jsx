@@ -1,12 +1,13 @@
 import { expect } from 'chai';
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
 import user from '../fixtures/user.json';
-import { SEI_DOMAINS } from '../../util/constants';
+import { ALERT_TYPE_BB_ERROR, SEI_DOMAINS } from '../../util/constants';
 
 describe('DownloadRecordsPage', () => {
   const baseState = {
@@ -163,5 +164,30 @@ describe('DownloadRecordsPage triggering SEI PDF download', () => {
 
     fireEvent.click(downloadButton);
     expect(downloadButton).to.exist;
+  });
+});
+
+describe('DownloadRecordsPage with a general BB download error', () => {
+  const stateWithAllSeiFailed = {
+    user,
+    mr: {
+      alerts: { alertList: [{ type: ALERT_TYPE_BB_ERROR, isActive: true }] },
+    },
+  };
+
+  it('displays access trouble alert for SEI document', async () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithAllSeiFailed,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "We can't download your medical records reports right now",
+        ),
+      ).to.exist;
+    });
   });
 });
