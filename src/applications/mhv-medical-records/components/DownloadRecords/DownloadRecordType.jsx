@@ -2,11 +2,15 @@ import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
+import { pageTitles } from '../../util/constants';
 
 const DownloadRecordType = () => {
   const history = useHistory();
@@ -24,8 +28,18 @@ const DownloadRecordType = () => {
   const [demoCheck, setDemoCheck] = useState(false);
   const [milServCheck, setMilServCheck] = useState(false);
 
+  const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const handleCheckAll = () => {
     setSelectionError(null);
@@ -76,6 +90,28 @@ const DownloadRecordType = () => {
     setSelectedRecords(newArray);
   };
 
+  useEffect(
+    () => {
+      if (!dateFilter) {
+        history.push('/download/date-range');
+      }
+    },
+    [dateFilter],
+  );
+
+  const selectedDateRange = useMemo(
+    () => {
+      if (dateFilter?.option === 'any') {
+        return 'Any';
+      }
+      if (dateFilter?.option === 'custom') {
+        return 'Custom';
+      }
+      return `Last ${dateFilter?.option} months`;
+    },
+    [dateFilter],
+  );
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -93,8 +129,13 @@ const DownloadRecordType = () => {
       <h2>Select types of records to include</h2>
       <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         <p>
-          Date range: <strong>Last 3 months</strong> (January 1, 2024 to March
-          31, 2024)
+          Date range: <strong>{selectedDateRange}</strong>{' '}
+          {dateFilter && dateFilter?.option !== 'any'
+            ? `(${format(new Date(dateFilter?.fromDate), 'PPP')} to ${format(
+                new Date(dateFilter?.toDate),
+                'PPP',
+              )})`
+            : ''}
         </p>
       </div>
       <div className="vads-u-margin-bottom--3">

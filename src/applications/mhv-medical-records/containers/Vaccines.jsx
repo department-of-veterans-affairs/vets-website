@@ -32,6 +32,8 @@ import {
   processList,
   getLastUpdatedText,
   formatNameFirstLast,
+  sendDataDogAction,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -132,7 +134,7 @@ Reaction: ${processList(item.reactions)}\n`;
 ${crisisLineHeader}\n\n
 Vaccines\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
 For complete records of your allergies and reactions to vaccines, review your allergy records.\n
@@ -154,7 +156,13 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         vaccines), go to your allergy records.{' '}
       </p>
       <div className="vads-u-margin-bottom--4">
-        <Link to="/allergies" className="no-print">
+        <Link
+          to="/allergies"
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Go to your allergy records - Vaccines');
+          }}
+        >
           Go to your allergy records
         </Link>
       </div>
@@ -181,12 +189,16 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         />
 
         <PrintDownload
+          description="Vaccines - List"
           list
           downloadPdf={generateVaccinesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateVaccinesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Vaccines"
+        />
         <RecordList records={vaccines} type={recordType.VACCINES} />
       </RecordListSection>
     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DownloadingRecordsInfo = props => {
-  const { allowTxtDownloads } = props;
+  const { allowTxtDownloads, description } = props;
 
   const publicSharedContent = () => {
     return (
@@ -20,6 +20,7 @@ const DownloadingRecordsInfo = props => {
     <va-additional-info
       trigger="What to know before you download"
       class="no-print vads-u-margin-bottom--3"
+      data-dd-action-name={`What to know before you print or download - ${description}`}
     >
       {/* Use the "!== false" syntax because checking the inverse causes the component to be resized incorrectly
             when the value changes from undefined to true. */}
@@ -42,6 +43,7 @@ const DownloadingRecordsInfo = props => {
 
 DownloadingRecordsInfo.propTypes = {
   allowTxtDownloads: PropTypes.bool,
+  description: PropTypes.string,
 };
 
 export default DownloadingRecordsInfo;

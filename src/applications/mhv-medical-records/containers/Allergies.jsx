@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -30,6 +29,7 @@ import {
   makePdf,
   getLastUpdatedText,
   formatNameFirstLast,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -157,7 +157,7 @@ Provider notes: ${item.notes}\n`;
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 This list includes all allergies, reactions, and side effects in your VA medical records. 
 If you have allergies or reactions that are missing from this list, 
@@ -210,12 +210,16 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         )}
 
         <PrintDownload
+          description="Allergies - List"
           list
           downloadPdf={generateAllergiesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateAllergiesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Allergies"
+        />
         <RecordList
           records={allergies?.map(allergy => ({
             ...allergy,

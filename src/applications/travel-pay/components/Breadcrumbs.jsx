@@ -5,7 +5,7 @@ import { useLocation, useHistory, Link, useParams } from 'react-router-dom';
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const uuidPathRegex = /^\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
+  const uuidPathRegex = /^\/claims\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
   const isDetailsPage = pathname.match(uuidPathRegex);
   const isStatusExplainer = pathname.includes('/help');
 
@@ -26,7 +26,7 @@ export default function BreadCrumbs() {
       label: 'My HealtheVet',
     },
     {
-      href: '/',
+      href: '/claims/',
       label: 'Check your travel reimbursement claim status',
       isRouterLink: true,
     },
@@ -50,7 +50,7 @@ export default function BreadCrumbs() {
       {isDetailsPage && (
         <div className="travel-pay-breadcrumb-wrapper">
           <va-icon class="back-arrow" icon="arrow_back" />
-          <Link className="go-back-link" to="/">
+          <Link className="go-back-link" to="/claims/">
             Back to your travel reimbursement claims
           </Link>
         </div>
