@@ -2,10 +2,10 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../../constants';
 import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard: Sexual Orientation Flow', () => {
+describe('Discharge Upgrade Wizard: Sexual Orientation Flow', () => {
   describe('Base navigation', () => {
     it('Flow1: Navigates forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -77,7 +77,7 @@ xdescribe('Discharge Upgrade Wizard: Sexual Orientation Flow', () => {
 
     // Skips prev app type and failure to exhaust questions
     it('Flow2: Navigates forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -143,7 +143,7 @@ xdescribe('Discharge Upgrade Wizard: Sexual Orientation Flow', () => {
 
     // Skips failure to exhaust question
     it('Flow3: Navigates forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -219,7 +219,7 @@ xdescribe('Discharge Upgrade Wizard: Sexual Orientation Flow', () => {
 
     // Skips prev app year, prev app type, failure to exhaust, and prior service questions
     it('Flow4: Navigates forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
