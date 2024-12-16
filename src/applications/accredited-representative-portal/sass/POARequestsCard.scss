@@ -5,11 +5,20 @@
     margin-top: 44px;
     margin-bottom: 24px;
     display: flex;
+    border-bottom: 1px solid $vads-color-base-light;
+
+    @media (min-width: $small-desktop-screen) {
+      border-bottom: none;
+    }
   }
   &__tab-link {
     margin-right: 36px;
     padding-bottom: 5px;
     text-align: center;
+
+    &:last-child {
+      margin-right: 0;
+    }
 
     &.active {
       font-weight: 700;
