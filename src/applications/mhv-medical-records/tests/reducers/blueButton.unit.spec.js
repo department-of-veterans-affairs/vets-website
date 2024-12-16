@@ -277,8 +277,9 @@ describe('convertAccountSummary', () => {
       facilities: [
         {
           facilityInfo: {
+            id: '123',
             name: 'VA Medical Center',
-            stationNumber: '123',
+            stationNumber: 'TEST',
             treatment: true,
           },
         },
@@ -330,6 +331,7 @@ describe('blueButtonReducer', () => {
     demographics: undefined,
     militaryService: undefined,
     accountSummary: undefined,
+    failedDomains: [],
   };
 
   it('should return the initial state when passed an undefined state', () => {
@@ -409,6 +411,7 @@ describe('blueButtonReducer', () => {
       'demographics',
       'militaryService',
       'accountSummary',
+      'failedDomains',
     ]);
 
     expect(newState.medicationsList).to.be.an('array');
