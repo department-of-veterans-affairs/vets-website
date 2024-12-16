@@ -200,7 +200,10 @@ describe('generateBlueButtonData', () => {
         detailsShared: { reason: 'check-up', otherDetails: '' },
       },
     ];
-    const result = generateBlueButtonData({ appointments }, ['appointments']);
+    const result = generateBlueButtonData({ appointments }, [
+      'upcomingAppts',
+      'pastAppts',
+    ]);
     expect(result).to.be.an('array').that.is.not.empty;
     const appointmentsSection = result.find(
       section => section.type === blueButtonRecordTypes.APPOINTMENTS,
