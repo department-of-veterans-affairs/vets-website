@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -21,6 +20,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
@@ -72,7 +72,7 @@ const MicroDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n

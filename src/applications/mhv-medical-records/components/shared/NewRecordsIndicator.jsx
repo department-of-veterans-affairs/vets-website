@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useSelector } from 'react-redux';
-import { formatDateAndTime, getStatusExtractPhase } from '../../util/helpers';
+import {
+  getStatusExtractListPhase,
+  getLastSuccessfulUpdate,
+} from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
 import FeedbackEmail from './FeedbackEmail';
 
@@ -17,15 +20,18 @@ const NewRecordsIndicator = ({
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
 
+  /** Helper function to ensure `extractType` is treated as an array. */
+  const normalizeExtractType = type => (Array.isArray(type) ? type : [type]);
+
   const refreshPhase = useMemo(
     () => {
       if (refreshState.phase === refreshPhases.CALL_FAILED) {
         return refreshPhases.CALL_FAILED;
       }
-      return getStatusExtractPhase(
+      return getStatusExtractListPhase(
         refreshState.statusDate,
         refreshState.status,
-        extractType,
+        normalizeExtractType(extractType),
       );
     },
     [
@@ -42,10 +48,10 @@ const NewRecordsIndicator = ({
      * update refreshedOnThisPage to TRUE.
      */
     () => {
-      const phase = getStatusExtractPhase(
+      const phase = getStatusExtractListPhase(
         refreshState.statusDate,
         refreshState.status,
-        extractType,
+        normalizeExtractType(extractType),
       );
       if (
         (!phase ||
@@ -56,19 +62,20 @@ const NewRecordsIndicator = ({
         setRefreshedOnThisPage(true);
       }
     },
-    [extractType, refreshState.status, refreshState.statusDate],
+    [
+      extractType,
+      refreshState.isTimedOut,
+      refreshState.status,
+      refreshState.statusDate,
+    ],
   );
 
   const lastSuccessfulUpdate = useMemo(
     () => {
-      if (refreshState.status) {
-        const extract = refreshState.status.find(
-          status => status.extract === extractType,
-        );
-        if (extract?.lastSuccessfulCompleted)
-          return formatDateAndTime(extract.lastSuccessfulCompleted);
-      }
-      return null;
+      return getLastSuccessfulUpdate(
+        refreshState.status,
+        normalizeExtractType(extractType),
+      );
     },
     [refreshState.status, extractType],
   );
@@ -229,7 +236,7 @@ const NewRecordsIndicator = ({
 export default NewRecordsIndicator;
 
 NewRecordsIndicator.propTypes = {
-  extractType: PropTypes.string,
+  extractType: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   newRecordsFound: PropTypes.bool,
   refreshState: PropTypes.object,
   reloadFunction: PropTypes.func,
