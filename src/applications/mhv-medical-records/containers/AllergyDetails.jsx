@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -23,6 +22,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
@@ -122,7 +122,7 @@ const AllergyDetails = props => {
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n
       ${formatNameFirstLast(user.userFullName)}\n
-      Date of birth: ${formatDateLong(user.dob)}\n
+      Date of birth: ${formatUserDob(user)}\n
       ${reportGeneratedBy}\n
       Date entered: ${allergyData.date} \n
       ${txtLine} \n
@@ -135,7 +135,7 @@ const AllergyDetails = props => {
 ${crisisLineHeader}\n\n
 ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${allergyData.date} \n
 ${txtLine} \n
