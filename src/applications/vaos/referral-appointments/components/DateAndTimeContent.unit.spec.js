@@ -102,10 +102,12 @@ describe('VAOS Component: DateAndTimeContent', () => {
         currentPage: 'scheduleAppointment',
       },
     };
+    const provider = createProviderDetails(1);
+    provider.slots[0].start = '2024-12-06T15:00:00-05:00';
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={createProviderDetails(1)}
+        provider={provider}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
