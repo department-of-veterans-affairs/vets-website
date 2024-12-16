@@ -36,7 +36,7 @@ const AuthContext = () => {
           <va-link-action
             data-testid="vagov-travel-pay-link"
             type="secondary"
-            href="/my-health/travel-claim-status"
+            href="/my-health/travel-pay/claims"
             text="Check your travel claim status"
           />
         </>
