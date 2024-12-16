@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
@@ -181,10 +182,12 @@ describe('DownloadRecordsPage with a general BB download error', () => {
       path: '/download-all',
     });
 
-    expect(
-      screen.getByText(
-        "We can't download your medical records reports right now",
-      ),
-    ).to.exist;
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "We can't download your medical records reports right now",
+        ),
+      ).to.exist;
+    });
   });
 });
