@@ -10,12 +10,11 @@ import { onCLS, onINP, onLCP, onTTFB } from 'web-vitals';
 const recordWebVitalsEvent = event => {
   const webVitalsEvent = {
     event: 'web_vitals',
-    event_category: 'Performance',
-    event_action: event.name,
-    event_value: Math.round(
+    web_vital_type: event.name,
+    latency_ms: Math.round(
       event.name === 'CLS' ? event.delta * 1000 : event.delta,
     ),
-    event_label: event.id,
+    web_vital_id: event.id,
     app_name: window.appName || 'unknown',
   };
   recordEvent(webVitalsEvent);
