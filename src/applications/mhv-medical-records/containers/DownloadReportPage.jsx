@@ -26,6 +26,7 @@ import {
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  ALERT_TYPE_BB_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -38,6 +39,7 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -107,6 +109,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [selfEnteredPdfRequested, setSelfEnteredPdfRequested] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
+
+  const activeAlert = useAlerts(dispatch);
 
   const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
 
@@ -240,6 +244,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
           on {lastSuccessfulUpdate.date}
         </va-card>
+      )}
+
+      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.BB}
+          className="vads-u-margin-bottom--1"
+        />
       )}
 
       {successfulBBDownload === true && (
