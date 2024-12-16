@@ -1,8 +1,10 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
 import { Locators, Paths } from '../utils/constants';
+import mockMessages from '../fixtures/messages-response.json';
+import GeneralFunctionsPage from './GeneralFunctionsPage';
 
-class PatientBasicSearchPage {
+class PatientSearchPage {
   // This method clicks the Search messages on the side navigation bar.
   clickSearchMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
@@ -73,6 +75,77 @@ class PatientBasicSearchPage {
       .select(`${name}`, { force: true });
   };
 
+  createCategorySearchMockResponse = (
+    numberOfMessages,
+    category,
+    originalResponse,
+  ) => {
+    return {
+      data: originalResponse.data.slice(0, numberOfMessages).map(item => {
+        // deep copy of each item
+        const newItem = JSON.parse(JSON.stringify(item));
+        // update the category to provided data
+        newItem.type = 'messages';
+        newItem.attributes.readReceipt = 'READ';
+        newItem.attributes.category = category;
+        return newItem;
+      }),
+    };
+  };
+
+  createDateSearchMockResponse = (
+    numberOfMessages,
+    numberOfMonths,
+    originalResponse = mockMessages,
+  ) => {
+    return {
+      data: originalResponse.data.slice(0, numberOfMessages).map(item => {
+        const newItem = { ...item };
+        newItem.type = 'messages';
+        newItem.attributes = {
+          ...newItem.attributes,
+          sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
+            numberOfMonths,
+          ),
+          readReceipt: 'READ',
+        };
+        return newItem;
+      }),
+    };
+  };
+
+  verifySearchResponseLength = mockResponse => {
+    cy.get(Locators.MESSAGES).should('have.length', mockResponse.data.length);
+  };
+
+  verifySearchResponseCategory = name => {
+    cy.get(Locators.MESSAGES).should('contain', name);
+  };
+
+  verifySearchMessageLabel = (response, text) => {
+    cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
+      .should('contain', response.data.length)
+      .and('contain', text);
+  };
+
+  verifyMessageDate = numberOfMonth => {
+    cy.get(`.received-date`).each(message => {
+      cy.wrap(message)
+        .invoke('text')
+        .then(dateString => {
+          // extract and parse the date
+          const extractedDate = dateString.split(' at ')[0]; // "November 29, 2024"
+          const parsedDate = new Date(extractedDate);
+
+          // calculate three months back from the current date
+          const threeMonthsBack = new Date();
+          threeMonthsBack.setMonth(threeMonthsBack.getMonth() - numberOfMonth);
+
+          // assert the date is within the last 3 months
+          expect(parsedDate).to.be.gte(threeMonthsBack);
+        });
+    });
+  };
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(
@@ -83,4 +156,4 @@ class PatientBasicSearchPage {
   // }
 }
 
-export default new PatientBasicSearchPage();
+export default new PatientSearchPage();
