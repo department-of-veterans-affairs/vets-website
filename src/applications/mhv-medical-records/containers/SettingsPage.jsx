@@ -162,8 +162,10 @@ const SettingsPage = () => {
         onCloseEvent={() => setShowSharingModal(false)}
         onPrimaryButtonClick={() => handleUpdateSharing(isSharing)}
         onSecondaryButtonClick={() => setShowSharingModal(false)}
-        primaryButtonText={isSharing ? 'Opt out' : 'Opt in'}
-        secondaryButtonText={isSharing ? "Don't opt out" : "Don't opt in"}
+        primaryButtonText={isSharing ? 'Yes, opt out' : 'Yes, opt in'}
+        secondaryButtonText={
+          isSharing ? "No, don't opt out" : "No, don't opt in"
+        }
         visible
       >
         {isSharing ? (
