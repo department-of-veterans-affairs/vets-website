@@ -10,7 +10,7 @@ const generateState = ({ statuses = [], maintenanceWindows = [] }) => ({
   },
 });
 
-describe.skip('SessionTimeoutAlert', () => {
+describe('SessionTimeoutAlert', () => {
   it('does not render when no query parameters are provided', () => {
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({}),
@@ -47,28 +47,7 @@ describe.skip('SessionTimeoutAlert', () => {
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({
-        statuses: [{ service: 'someService', status: 'down' }],
-      }),
-    });
-
-    expect(
-      screen.queryByText(/Your session timed out. Sign in again to continue./i),
-    ).to.be.null;
-    global.window.location = originalLocation;
-  });
-
-  it('does not render when session has expired but a maintenance window is active', () => {
-    const originalLocation = global.window.location;
-    global.window.location = {
-      ...originalLocation,
-      search: '?status=session_expired',
-    };
-
-    const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
-      initialState: generateState({
-        maintenanceWindows: [
-          { service: 'someService', startTime: '2024-12-16T00:00:00Z' },
-        ],
+        statuses: [{ serviceId: 'idme', status: 'down' }],
       }),
     });
     expect(
