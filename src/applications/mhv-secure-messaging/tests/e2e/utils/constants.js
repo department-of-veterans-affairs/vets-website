@@ -82,6 +82,7 @@ export const Locators = {
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
+  FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -189,7 +190,6 @@ export const Locators = {
     EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
-    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
