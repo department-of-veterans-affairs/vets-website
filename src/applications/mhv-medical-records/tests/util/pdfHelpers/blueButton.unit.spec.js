@@ -1,6 +1,14 @@
 import { expect } from 'chai';
 import { generateBlueButtonData } from '../../../util/pdfHelpers/blueButton';
-import { recordType, blueButtonRecordTypes } from '../../../util/constants';
+import {
+  NONE_RECORDED,
+  recordType,
+  blueButtonRecordTypes,
+  labTypes,
+  loincCodes,
+  medicationTypes,
+  vitalTypes,
+} from '../../../util/constants';
 
 describe('generateBlueButtonData', () => {
   it('should return an empty array when no records are provided', () => {
@@ -11,8 +19,37 @@ describe('generateBlueButtonData', () => {
 
   it('should generate data for labs and tests', () => {
     const labsAndTests = [
-      { name: 'Test 1', type: 'CHEM_HEM' },
-      { name: 'Test 2', type: 'MICROBIOLOGY' },
+      {
+        name: 'Test 1',
+        type: labTypes.CHEM_HEM,
+        results: [{ name: 'Test result 1', result: 'Test result 1' }],
+      },
+      {
+        name: 'Test 2',
+        type: labTypes.MICROBIOLOGY,
+        results: [
+          {
+            name: 'Test result 2',
+            result: 'Test result 2',
+            labType: 'Test lab type',
+          },
+        ],
+      },
+      {
+        name: 'Test 3',
+        type: labTypes.PATHOLOGY,
+        results: [{ name: 'Test result 3', result: 'Test result 3' }],
+      },
+      {
+        name: 'Test 4',
+        type: labTypes.EKG,
+        results: [{ name: 'Test result 4', result: 'Test result 4' }],
+      },
+      {
+        name: 'Test 5',
+        type: labTypes.RADIOLOGY,
+        results: [{ name: 'Test result 5', result: 'Test result 5' }],
+      },
     ];
     const result = generateBlueButtonData({ labsAndTests }, ['labTests']);
     expect(result).to.be.an('array').that.is.not.empty;
@@ -20,13 +57,18 @@ describe('generateBlueButtonData', () => {
       section => section.type === recordType.LABS_AND_TESTS,
     );
     expect(labsAndTestsSection).to.exist;
-    expect(labsAndTestsSection.records).to.have.lengthOf(2);
+    expect(labsAndTestsSection.records).to.have.lengthOf(5);
+    expect(labsAndTestsSection.records[0].title).to.equal('Test 1');
+    expect(
+      labsAndTestsSection.records[0].results.items[0].items[0].value,
+    ).to.equal('Test result 1');
   });
 
   it('should generate data for care summaries and notes', () => {
     const notes = [
-      { name: 'Note 1', type: 'DISCHARGE_SUMMARY' },
-      { name: 'Note 2', type: 'PHYSICIAN_PROCEDURE_NOTE' },
+      { name: 'Note 1', type: loincCodes.DISCHARGE_SUMMARY },
+      { name: 'Note 2', type: loincCodes.PHYSICIAN_PROCEDURE_NOTE },
+      { name: 'Note 2', type: loincCodes.CONSULT_RESULT },
     ];
     const result = generateBlueButtonData({ notes }, ['careSummaries']);
     expect(result).to.be.an('array').that.is.not.empty;
@@ -34,11 +76,15 @@ describe('generateBlueButtonData', () => {
       section => section.type === recordType.CARE_SUMMARIES_AND_NOTES,
     );
     expect(notesSection).to.exist;
-    expect(notesSection.records).to.have.lengthOf(2);
+    expect(notesSection.records).to.have.lengthOf(3);
+    expect(notesSection.records[0].title).to.equal('Note 1');
   });
 
   it('should generate data for vaccines', () => {
-    const vaccines = [{ name: 'Vaccine 1' }, { name: 'Vaccine 2' }];
+    const vaccines = [
+      { name: 'Vaccine 1', date: '2021-01-01' },
+      { name: 'Vaccine 2', date: '2021-01-01' },
+    ];
     const result = generateBlueButtonData({ vaccines }, ['vaccines']);
     expect(result).to.be.an('array').that.is.not.empty;
     const vaccinesSection = result.find(
@@ -46,10 +92,16 @@ describe('generateBlueButtonData', () => {
     );
     expect(vaccinesSection).to.exist;
     expect(vaccinesSection.records.results.items).to.have.lengthOf(2);
+    expect(vaccinesSection.records.results.items[0].items[0].value).to.equal(
+      '2021-01-01',
+    );
   });
 
   it('should generate data for allergies', () => {
-    const allergies = [{ name: 'Allergy 1' }, { name: 'Allergy 2' }];
+    const allergies = [
+      { name: 'Allergy 1' },
+      { name: 'Allergy 2', isOracleHealthData: true },
+    ];
     const result = generateBlueButtonData({ allergies }, ['allergies']);
     expect(result).to.be.an('array').that.is.not.empty;
     const allergiesSection = result.find(
@@ -57,6 +109,9 @@ describe('generateBlueButtonData', () => {
     );
     expect(allergiesSection).to.exist;
     expect(allergiesSection.records.results.items).to.have.lengthOf(2);
+    expect(allergiesSection.records.results.items[0].header).to.equal(
+      'Allergy 1',
+    );
   });
 
   it('should generate data for health conditions', () => {
@@ -68,23 +123,54 @@ describe('generateBlueButtonData', () => {
     );
     expect(conditionsSection).to.exist;
     expect(conditionsSection.records).to.have.lengthOf(2);
+    expect(conditionsSection.records[0].title).to.equal('Condition 1');
   });
 
   it('should generate data for vitals', () => {
-    const vitals = [{ name: 'Vital 1' }, { name: 'Vital 2' }];
+    const vitals = [
+      {
+        name: 'Vital 1',
+        type: vitalTypes.HEIGHT,
+        date: '2021-01-01',
+        measurement: '72',
+        location: 'Test location',
+        notes: 'Test notes',
+      },
+      {
+        name: 'Vital 2',
+        type: vitalTypes.PAIN_SEVERITY,
+        date: '2021-01-01',
+        measurement: '5',
+        location: 'Pittsburgh VAMC',
+      },
+    ];
     const result = generateBlueButtonData({ vitals }, ['vitals']);
     expect(result).to.be.an('array').that.is.not.empty;
     const vitalsSection = result.find(
       section => section.type === recordType.VITALS,
     );
     expect(vitalsSection).to.exist;
-    expect(vitalsSection.records[0].results.items).to.have.lengthOf(2);
+    expect(vitalsSection.records).to.have.lengthOf(2);
+    expect(vitalsSection.records[0].results.items[0].header).to.equal(
+      '2021-01-01',
+    );
+    expect(vitalsSection.records[0].results.items[0].items[0].value).to.equal(
+      '72',
+    );
   });
 
   it('should generate data for medications', () => {
     const medications = [
-      { prescriptionName: 'Medication 1' },
-      { prescriptionName: 'Medication 2' },
+      {
+        prescriptionName: 'Medication 1',
+        status: 'Active',
+        type: medicationTypes.VA,
+      },
+      {
+        prescriptionName: 'Medication 2',
+        status: 'Inactive',
+        type: medicationTypes.VA,
+      },
     ];
     const result = generateBlueButtonData({ medications }, ['medications']);
     expect(result).to.be.an('array').that.is.not.empty;
@@ -93,6 +179,10 @@ describe('generateBlueButtonData', () => {
     );
     expect(medicationsSection).to.exist;
     expect(medicationsSection.records).to.have.lengthOf(2);
+    expect(medicationsSection.records[0].title).to.equal('Medication 1');
+    expect(medicationsSection.records[0].details[0].items[1].value).to.equal(
+      'Active',
+    );
   });
 
   it('should generate data for appointments', () => {
@@ -117,13 +207,23 @@ describe('generateBlueButtonData', () => {
     );
     expect(appointmentsSection).to.exist;
     expect(appointmentsSection.records).to.have.lengthOf(2);
+    expect(appointmentsSection.records[0].title).to.equal(
+      'Upcoming appointments',
+    );
+    expect(appointmentsSection.records[0].results.items[0].header).to.equal(
+      '2022-01-01',
+    );
   });
 
   it('should generate data for demographics', () => {
     const demographics = [
       {
         facility: 'Facility 1',
-        eligibility: { serviceConnectedPercentage: '50' },
+        eligibility: {
+          serviceConnectedPercentage: NONE_RECORDED,
+          meansTestStatus: NONE_RECORDED,
+          primaryEligibilityCode: NONE_RECORDED,
+        },
         employment: { occupation: 'Engineer' },
         contactInfo: { homePhone: '5555551212' },
         permanentAddress: { street: '123 main st' },
@@ -155,10 +255,16 @@ describe('generateBlueButtonData', () => {
     );
     expect(demographicsSection).to.exist;
     expect(demographicsSection.records).to.have.lengthOf(1);
+    expect(demographicsSection.records[0].title).to.equal(
+      'VA facility: Facility 1',
+    );
+    expect(
+      demographicsSection.records[0].results.items[1].items[0].value,
+    ).to.equal('123 main st');
   });
 
   it('should generate data for military service', () => {
-    const militaryService = [{ branch: 'Army' }];
+    const militaryService = 'Army';
     const result = generateBlueButtonData({ militaryService }, [
       'militaryService',
     ]);
@@ -168,6 +274,9 @@ describe('generateBlueButtonData', () => {
     );
     expect(militaryServiceSection).to.exist;
     expect(militaryServiceSection.records).to.have.lengthOf(1);
+    expect(militaryServiceSection.records[0].details.items[0].value).to.equal(
+      'Army',
+    );
   });
 
   it('should generate data for account summary', () => {
@@ -193,5 +302,11 @@ describe('generateBlueButtonData', () => {
     );
     expect(accountSummarySection).to.exist;
     expect(accountSummarySection.records).to.be.an('object');
+    expect(accountSummarySection.records.details.items[0].value).to.equal(
+      'Source 1',
+    );
+    expect(accountSummarySection.records.results.items[0].header).to.equal(
+      'Facility 1',
+    );
   });
 });
