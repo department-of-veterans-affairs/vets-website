@@ -82,6 +82,8 @@
 /* OCTO Identity */
 .login,
 .verify {
+  background: var(--vads-color-white);
+
   button {
     display: flex;
     justify-content: center;
@@ -106,18 +108,6 @@
 
       &:hover {
         background: var(--vads-color-primary-darker);
-      }
-    }
-
-    &.idme-create {
-      box-shadow: inset 0 0 0 2px var(--vads-color-success-dark);
-      color: var(--vads-color-success-dark);
-      margin-bottom: 0;
-
-      &:hover {
-        box-shadow: inset 0 0 0 2px
-          var(--vads-button-color-background-primary-alt-active-on-light);
-        color: var(--vads-button-color-background-primary-alt-active-on-light);
       }
     }
 
@@ -201,14 +191,6 @@
 }
 
 .verify {
-  button {
-    width: auto;
-
-    &.dslogon {
-      margin-bottom: 0.25em;
-    }
-  }
-
   h4 + p {
     margin-top: 0;
   }
@@ -263,17 +245,114 @@
       padding: unset;
     }
   }
+}
 
-  .fed-warning--v2 {
-    @include media($medium-screen) {
-      margin-left: 0.25rem;
-    }
+.fed-warning--v2 {
+  @include media($medium-screen) {
+    margin-left: 0.25rem;
   }
 }
 
 #ios-bug ul {
   list-style: square;
   padding-left: 1.5em;
+}
+
+// Verify buttons
+button.idme-verify-button {
+  padding: 0;
+  background: var(--vads-color-success-dark);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: auto;
+  max-width: 300px;
+  max-height: 42px;
+
+  span {
+    width: 50px;
+    border-right: 1px solid var(--vads-color-white);
+    display: block;
+    padding: 0.75rem;
+
+    & svg {
+      height: 20px;
+      padding: 0;
+    }
+  }
+
+  div {
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-self: center;
+
+    & svg {
+      height: 18px;
+      width: auto;
+      margin-left: 5px;
+    }
+  }
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+
+button.logingov-verify-button {
+  background: var(--vads-color-secondary);
+  width: auto;
+  max-width: 300px;
+  padding: 0.75rem 1.25rem;
+  max-height: 42px;
+
+  div {
+    display: flex;
+    align-self: center;
+  }
+
+  svg {
+    height: 18px;
+    width: auto;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
+}
+
+button.idme-verify-buttons,
+button.logingov-verify-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 0.75em;
+  font-size: 16px;
+  margin: 1em 0;
+  white-space: normal !important;
+
+  svg {
+    height: 1em;
+    padding: 0 0.25em;
+  }
+}
+
+button.idme-verify-buttons {
+  background: var(--vads-color-success-dark);
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+button.logingov-verify-buttons {
+  background: var(--vads-color-secondary);
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
 }
 
 // DO NOT REMOVE without OCTO Identity

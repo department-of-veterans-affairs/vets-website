@@ -20,10 +20,7 @@ import {
   mrPhase1Enabled,
 } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
-import {
-  selectGreetingName,
-  selectPersonalInformation,
-} from './personalInformation';
+import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
@@ -53,7 +50,6 @@ export {
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
-  selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
   signInServiceName,

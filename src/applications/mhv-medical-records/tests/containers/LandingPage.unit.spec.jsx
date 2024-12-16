@@ -44,7 +44,20 @@ describe('Landing Page', () => {
   });
 
   it('displays a section linking to My HealtheVet classic to download all records', () => {
-    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+    const customState = {
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      ...initialState,
+    };
+    const screen = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: customState,
+    });
     expect(
       screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
@@ -70,7 +83,14 @@ describe('Landing Page', () => {
 
   it('displays downtimeNotification when downtimeApproaching is true', () => {
     const customState = {
-      featureToggles: {},
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
       scheduledDowntime: {
         globalDowntime: null,
         isReady: true,
@@ -104,7 +124,13 @@ describe('Landing Page', () => {
 
   it('displays features as h2s with links below when feature flags are true', () => {
     const customState = {
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
       featureToggles: {
+        loading: false,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_conditions: true,
         // eslint-disable-next-line camelcase
@@ -117,6 +143,8 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
       },
       ...initialState,
     };
@@ -207,5 +235,36 @@ describe('Landing Page', () => {
     //     exact: true,
     //   }).length,
     // ).to.eq(2);
+  });
+
+  it('displays Questions about this medical records tool section', () => {
+    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+
+    expect(
+      screen.getByText('Questions about this medical records tool', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByText(
+        'Where can I find health information I entered myself?',
+        {
+          selector: 'h3',
+          exact: true,
+        },
+      ),
+    ).to.exist;
+
+    expect(
+      screen.getAllByText(
+        'Go to your medical records on the My HealtheVet website',
+        {
+          selector: 'a',
+          exact: true,
+        },
+      ),
+    ).to.exist;
   });
 });

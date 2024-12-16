@@ -10,7 +10,7 @@ const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
     },
   },
   result: {
-    veteran: {
+    veteranInformation: {
       ssnLastFour,
       vaFileLastFour,
     },

@@ -15,6 +15,7 @@ const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
       userFullName: {
         first,
       },
+      preferredName,
     },
   },
 });
@@ -25,12 +26,6 @@ let state;
 describe(`${appName} -- selectGreetingName`, () => {
   it('selects the preferred name, by default', () => {
     state = stateFn();
-    result = selectGreetingName(state);
-    expect(result).to.eq('Bob');
-  });
-
-  it('capitalizes the first letter when name is upper case', () => {
-    state = stateFn({ preferredName: 'BOB' });
     result = selectGreetingName(state);
     expect(result).to.eq('Bob');
   });

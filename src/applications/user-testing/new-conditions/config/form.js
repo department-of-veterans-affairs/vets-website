@@ -1,7 +1,6 @@
-import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 
+import FormFooter from '../components/FormFooter';
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -9,25 +8,10 @@ import manifest from '../manifest.json';
 import chooseDemo from '../pages/chooseDemo';
 import conditionByConditionPages from '../pages/conditionByConditionPages';
 import conditionsFirstPages from '../pages/conditionsFirstPages';
-import followUp from '../pages/followUp';
+import followUpCause from '../pages/followUpCause';
+import followUpCauseDescription from '../pages/followUpCauseDescription';
+import followUpDate from '../pages/followUpDate';
 import followUpIntro from '../pages/followUpIntro';
-
-const FormFooter = () => (
-  <div className="row vads-u-margin-bottom--2">
-    <div className="usa-width-two-thirds medium-8 columns">
-      <va-need-help>
-        <div slot="content">
-          <div>
-            <p className="help-talk">
-              For help filling out this form, or if the form isn’t working
-              right, <CallVBACenter />
-            </p>
-          </div>
-        </div>
-      </va-need-help>
-    </div>
-  </div>
-);
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -73,7 +57,9 @@ const formConfig = {
         ...conditionByConditionPages,
         ...conditionsFirstPages,
         followUpIntro,
-        followUp,
+        followUpDate,
+        followUpCause,
+        followUpCauseDescription,
       },
     },
   },

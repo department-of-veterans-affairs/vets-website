@@ -3,8 +3,7 @@ import { Provider } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 describe('hca VeteranPlaceOfBirth config', () => {

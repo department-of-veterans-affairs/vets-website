@@ -17,6 +17,8 @@ import {
   getStatusExtractPhase,
   nameFormat,
   processList,
+  getMonthFromSelectedDate,
+  formatDateInLocalTimezone,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -623,5 +625,58 @@ describe('formatNameFirstLast', () => {
     const updatedName = formatNameFirstLast(user2.userFullName);
 
     expect(updatedName).to.eq(firstMiddleLastSuffixName);
+  });
+});
+
+describe('getMonthFromSelectedDate', () => {
+  it('should return the formatted date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.equal('January 2024');
+  });
+  it('should accept a mask for the date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date, mask: 'MMMM' });
+    expect(result).to.equal('January');
+  });
+  it('should return null if the date is not provided', () => {
+    const result = getMonthFromSelectedDate({});
+    expect(result).to.be.null;
+  });
+  it('should return null is date string doesnt match the format', () => {
+    const date = '2024';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.be.null;
+  });
+});
+
+describe('formatDateInLocalTimezone', () => {
+  it('should format a valid ISO8601 date string to the local timezone', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should handle an invalid date string gracefully', () => {
+    const invalidDateString = 'invalid-date';
+    expect(() => formatDateInLocalTimezone(invalidDateString)).to.throw();
+  });
+
+  it('should handle a null value gracefully', () => {
+    const nullValue = null;
+    expect(() => formatDateInLocalTimezone(nullValue)).to.throw();
+  });
+
+  it('should handle an undefined value gracefully', () => {
+    const undefinedValue = undefined;
+    expect(() => formatDateInLocalTimezone(undefinedValue)).to.throw();
+  });
+
+  it('should format a date string without time correctly', () => {
+    const dateString = '2023-10-03';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    const expectedDate = 'October 3, 2023 12:00 a.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
   });
 });

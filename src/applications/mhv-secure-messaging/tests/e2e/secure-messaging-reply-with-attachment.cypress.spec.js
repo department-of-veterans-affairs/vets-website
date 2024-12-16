@@ -3,30 +3,31 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators, Alerts } from './utils/constants';
-import mockMessages from './fixtures/messages-response.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
-describe('Reply with attachments', () => {
-  const testMessage = PatientInboxPage.getNewMessageDetails();
+const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+  singleThreadResponse,
+);
+describe('SM REPLY WITH ATTACHMENT', () => {
+  const singleMessage = { data: updatedSingleThreadResponse.data[0] };
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+    PatientInterstitialPage.getContinueButton().click();
   });
 
-  it('verify use can send a reply with attachments', () => {
+  it('verify user can send a reply with attachments', () => {
     PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
     });
 
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
-    PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
+    PatientReplyPage.clickSendReplyMessageButton(singleMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
 
@@ -46,28 +47,27 @@ describe('Reply with attachments', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify use can delete attachment', () => {
+  it('verify user can delete attachment', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
+
+    PatientComposePage.verifyAttchedFilesList(1);
+
     PatientComposePage.removeAttachedFile();
 
-    cy.get(Locators.BLOCKS.ATTACHMENTS).should('not.be.visible');
+    PatientComposePage.verifyAttchedFilesList(0);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
-describe('verify attach file button behaviour', () => {
-  const testMessage = PatientInboxPage.getNewMessageDetails();
+describe('SM ATTACH FILE BUTTON BEHAVIOR', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+    PatientInterstitialPage.getContinueButton().click();
   });
 
   it('verify attach file button label change', () => {

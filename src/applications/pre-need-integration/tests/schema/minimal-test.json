@@ -19,7 +19,7 @@
           "first": "Joe",
           "last": "Test"
         },
-        "ssn": "234-24-4444",
+        "ssn": "234244444",
         "dateOfBirth": "1990-03-02",
         "relationshipToVet": "veteran",
         "email": "test@test.com",

@@ -24,7 +24,6 @@ import {
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
-  facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
@@ -443,7 +442,6 @@ const FacilitiesMap = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressPPMS={props.suppressPPMS}
-          suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           clearSearchText={props.clearSearchText}
         />
@@ -692,7 +690,6 @@ const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
-  suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,

@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
+import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -25,9 +26,13 @@ export const dateFormat = (timestamp, format = null) => {
 
 /**
  * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
-export const dateFormatWithoutTimezone = datetime => {
+export const dateFormatWithoutTimezone = (
+  datetime,
+  format = 'MMMM d, yyyy, h:mm a',
+) => {
   let withoutTimezone = datetime;
   if (typeof datetime === 'string' && datetime.includes('-')) {
     // Check if datetime has a timezone and strip it off if present
@@ -50,11 +55,7 @@ export const dateFormatWithoutTimezone = datetime => {
 
   const parsedDateTime = parseISO(withoutTimezone);
   if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(
-      parsedDateTime,
-      'MMMM d, yyyy, h:mm a',
-      { in: 'UTC' },
-    );
+    const formattedDate = dateFnsFormat(parsedDateTime, format, { in: 'UTC' });
     return formattedDate.replace(/AM|PM/, match =>
       match.toLowerCase().replace('m', '.m.'),
     );
@@ -359,9 +360,9 @@ export const formatDate = str => {
 };
 
 /**
- * Returns a date formatted into two parts -- a date portion and a time portion.
+ * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
- * @param {Date} date
+ * @param {Date | string} date
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
@@ -382,10 +383,16 @@ export const formatDateAndTime = rawDate => {
     day: 'numeric',
   };
   const datePart = date.toLocaleDateString('en-US', options);
+  const timeZonePart = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+  })
+    .formatToParts(date)
+    .find(part => part.type === 'timeZoneName')?.value;
 
   return {
     date: datePart,
     time: timePart,
+    timeZone: timeZonePart,
   };
 };
 
@@ -519,4 +526,56 @@ export const formatNameFirstToLast = name => {
   } catch {
     return null;
   }
+};
+
+// Imaging methods ------------
+
+/**
+ * @param {Array} list array of objects being parsed for the imaging endpoint.
+ */
+export const extractImageAndSeriesIds = list => {
+  const newList = [];
+  let num = 1;
+  list.forEach(item => {
+    const numbers = item.match(/\d+/g);
+    const result = numbers.join('/');
+    newList.push({ index: num, seriesAndImage: result });
+    num += 1;
+  });
+  return newList;
+};
+
+/**
+ * @param {Object} dateParams an object for the date
+ * @param {string} dateParams.date the date to format, in YYYY-MM format
+ * @param {string} dateParams.mask the format to return the date in, using date-fns masks, default is 'MMMM yyyy'
+ * @returns {String} formatted timestamp
+ */
+export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
+  if (!date) return null;
+  const format = /[0-9]{4}-[0-9]{2}/g;
+  if (!date.match(format)) return null;
+  const [year, month] = date.split('-');
+  const fromDate = new Date(year, month - 1, 1);
+  const formatted = dateFnsFormat(fromDate, mask);
+  return `${formatted}`;
+};
+
+export const sendDataDogAction = actionName => {
+  datadogRum.addAction(actionName);
+};
+
+/**
+ * Format a iso8601 date in the local browser timezone.
+ *
+ * @param {string} date the date to format, in ISO8601 format
+ * @returns {String} formatted timestamp
+ */
+export const formatDateInLocalTimezone = date => {
+  const dateObj = parseISO(date);
+  const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  const localTimeZoneName = dateObj
+    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
+    .substring(4);
+  return `${formattedDate} ${localTimeZoneName}`;
 };

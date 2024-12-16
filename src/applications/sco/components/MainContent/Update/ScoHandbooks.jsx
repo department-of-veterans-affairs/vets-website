@@ -13,12 +13,12 @@ const ScoHandbooks = () => {
       <LiSpanAndVaLinkAndPTag
         href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000208001/Employers-Certification-Handbook-On-The-Job-Training-Apprenticeship-Programs"
         hrefText="Employer’s Certification Handbook On-The-Job Training &amp; Apprenticeship Programs"
-        pText="Access the Employer’s Certification Handbook for OJT/APP Programs."
+        pText="Access the employer certification handbook for on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000260798/VRE-School-Certifying-Official-Handbook"
         hrefText="VR&amp;E School Certifying Official Handbook"
-        pText="Access the Veteran Readiness And Employment’s Certifying Official Handbook."
+        pText="Access the Veteran Readiness and Employment’s Certifying Official Handbook."
       />
     </MainContentSubDiv>
   );

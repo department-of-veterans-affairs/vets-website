@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -13,9 +14,15 @@ const {
 
 const pageTitle = 'Your point of contact';
 
-const data = {};
+let data = {};
 
-const expectedNumberOfWebComponentFields = 2;
+let expectedNumberOfWebComponentFields = 2;
+
+// test on dev before making this change
+if (environment.isDev() || environment.isLocalhost()) {
+  expectedNumberOfWebComponentFields = 3;
+}
+
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -25,7 +32,40 @@ testNumberOfWebComponentFields(
   data,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+// veteran with email - point of contact should not be required
+let expectedNumberOfWebComponentErrors = 0;
+
+// test on dev before making this change
+if (environment.isDev() || environment.isLocalhost()) {
+  expectedNumberOfWebComponentErrors = 0;
+}
+
+data = {
+  preparerType: 'veteran',
+  veteranEmailAddress: 'veteran@email.com',
+};
+
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  data,
+);
+
+// veteran without email - point of contact should be required
+expectedNumberOfWebComponentErrors = 0;
+
+// test on dev before making this change
+if (environment.isDev() || environment.isLocalhost()) {
+  expectedNumberOfWebComponentErrors = 1;
+}
+
+data = {
+  preparerType: 'veteran',
+};
+
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

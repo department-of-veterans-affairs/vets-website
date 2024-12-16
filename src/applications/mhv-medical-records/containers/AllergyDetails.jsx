@@ -13,7 +13,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -51,9 +50,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { vamcEhrData } = useSelector(selectDrupalStaticData);
-
-  const { isAccelerating } = useAcceleratedData();
+  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -66,19 +63,21 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAccelerating,
+        isOracleHealthData: isAcceleratingAllergies,
       };
     },
-    [allergy, isAccelerating],
+    [allergy, isAcceleratingAllergies],
   );
 
   useEffect(
     () => {
-      if (allergyId && !vamcEhrData?.loading) {
-        dispatch(getAllergyDetails(allergyId, allergyList, isAccelerating));
+      if (allergyId && !isLoading) {
+        dispatch(
+          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+        );
       }
     },
-    [allergyId, allergyList, dispatch, isAccelerating, vamcEhrData?.loading],
+    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
   );
 
   useEffect(
@@ -94,9 +93,7 @@ const AllergyDetails = props => {
     () => {
       if (allergyData) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${allergyData.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
       }
     },
     [dispatch, allergyData],
@@ -120,7 +117,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAccelerating) {
+    if (isAcceleratingAllergies) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n
@@ -190,6 +187,7 @@ Provider notes: ${allergyData.notes} \n`;
 
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Allergies Detail"
             downloadPdf={generateAllergyPdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateAllergyTxt}

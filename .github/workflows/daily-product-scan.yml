@@ -65,7 +65,7 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           author_name: va-vsp-bot
-          author_email: devops@va.gov
+          author_email: 70344339+va-vsp-bot@users.noreply.github.com
           cwd: product-directory
           add: 'product-directory.json'
           message: 'Update Product Directory'

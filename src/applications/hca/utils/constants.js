@@ -1,7 +1,4 @@
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { canHaveEducationExpenses } from './helpers/household';
-import { replaceStrValues } from './helpers/general';
-import content from '../locales/en/content.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 // declare previous year for form questions and content
 export const LAST_YEAR = new Date().getFullYear() - 1;
@@ -20,37 +17,6 @@ export const APP_URLS = {
   profile: getAppUrl('profile'),
   verify: getAppUrl('verify'),
 };
-
-// declare subpage configs for dependent information page
-export const DEPENDENT_SUBPAGES = [
-  {
-    id: 'basic',
-    title: content['household-dependent-info-basic-title'],
-  },
-  {
-    id: 'additional',
-    title: content['household-dependent-info-addtl-title'],
-  },
-  {
-    id: 'support',
-    title: content['household-dependent-info-support-title'],
-    depends: { cohabitedLastYear: false },
-  },
-  {
-    id: 'income',
-    title: replaceStrValues(
-      content['household-dependent-info-income-title'],
-      LAST_YEAR,
-      '%d',
-    ),
-    depends: { 'view:dependentIncome': true },
-  },
-  {
-    id: 'education',
-    title: content['household-dependent-info-education-title'],
-    depends: canHaveEducationExpenses,
-  },
-];
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {

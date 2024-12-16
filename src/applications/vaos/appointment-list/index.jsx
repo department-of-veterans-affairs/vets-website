@@ -6,13 +6,21 @@ import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureCCDirectScheduling,
+} from '../redux/selectors';
+import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
 
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
   );
 
   return (
@@ -41,6 +49,12 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
+          {featureCCDirectScheduling && (
+            <Route
+              path="/referrals-requests"
+              component={ReferralsAndRequests}
+            />
+          )}
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
