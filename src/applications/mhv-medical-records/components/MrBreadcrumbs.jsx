@@ -72,10 +72,7 @@ const MrBreadcrumbs = () => {
     [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
   );
 
-  const handleRouteChange = ({ detail }) => {
-    const { href } = detail;
-    history.push(href);
-
+  const handleDataDogAction = () => {
     const isVitalsDetail =
       Paths.VITALS.includes(locationBasePath) && locationChildPath;
     const path = locationBasePath
@@ -88,6 +85,12 @@ const MrBreadcrumbs = () => {
           locationChildPath ? 'Detail' : 'List'
         }`;
     sendDataDogAction(ddTag);
+  };
+
+  const handleRouteChange = ({ detail }) => {
+    const { href } = detail;
+    history.push(href);
+    handleDataDogAction();
   };
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
@@ -126,7 +129,9 @@ const MrBreadcrumbs = () => {
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={backToImagesBreadcrumb}>Back</Link>
+        <Link to={backToImagesBreadcrumb} onClick={handleDataDogAction}>
+          Back
+        </Link>
       </div>
     );
   }

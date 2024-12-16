@@ -43,4 +43,22 @@ describe('getBlueButtonReportData', () => {
       );
     });
   });
+
+  it('should dispatch combined labsAndTests and radiology responses in a single action', () => {
+    const mockData = { mockData: 'mockData' };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+
+    return getBlueButtonReportData({ labsAndTests: true, radiology: true })(
+      dispatch,
+    ).then(() => {
+      // Verify dispatch was called once for the combined action
+      expect(dispatch.calledOnce).to.be.true;
+
+      const action = dispatch.firstCall.args[0];
+      expect(action.type).to.equal(Actions.LabsAndTests.GET_LIST);
+      expect(action.labsAndTestsResponse).to.deep.equal(mockData);
+      expect(action.radiologyResponse).to.deep.equal(mockData);
+    });
+  });
 });
