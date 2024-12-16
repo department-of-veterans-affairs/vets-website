@@ -2,7 +2,6 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
-import { facilityLocatorRestoreCommunityCarePagination } from '../utils/featureFlagSelectors';
 
 export class PaginationWrapper extends Component {
   shouldComponentUpdate = nextProps =>
@@ -40,17 +39,6 @@ export class PaginationWrapper extends Component {
 
 const mapStateToProps = state => {
   let shouldHidePagination = false;
-
-  if (
-    [
-      LocationType.CC_PROVIDER,
-      LocationType.URGENT_CARE_PHARMACIES,
-      LocationType.EMERGENCY_CARE,
-    ].includes(state.searchQuery.facilityType) &&
-    !facilityLocatorRestoreCommunityCarePagination(state)
-  ) {
-    shouldHidePagination = true;
-  }
 
   // pagination not yet supported for PPMS urgent care
   if (
