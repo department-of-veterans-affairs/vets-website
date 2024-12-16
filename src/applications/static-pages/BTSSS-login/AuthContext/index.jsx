@@ -45,14 +45,4 @@ const AuthContext = () => {
   );
 };
 
-// AuthContext.propTypes = {
-//   appEnabled: PropTypes.bool,
-// };
-
-// const mapStateToProps = store => ({
-//   appEnabled: toggleValues(store)[FEATURE_FLAG_NAMES.travelPayPowerSwitch],
-// });
-
 export default AuthContext;
-
-// export default connect(mapStateToProps)(AuthContext);
