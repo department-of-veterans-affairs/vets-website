@@ -20,17 +20,17 @@ import {
 } from '../../constants';
 
 const ssnServiceInfo = (
-  <>
-    <h4 className="vads-u-font-weight--bold vads-u-font-family--serif">
-      Social Security or service number
-      <span className="form-required-span vads-u-font-weight--normal">
-        (*Required)
+  <div className="vads-u-margin-bottom--neg2p5">
+    <p className="vads-u-margin-bottom--1">
+      <span className="vads-u-font-weight--bold">
+        Social Security or service number
       </span>
-    </h4>
-    <span className="vads-u-margin-y--0">
+      <span className="form-required-span">(*Required)</span>
+    </p>
+    <span className="vads-u-margin-y--0 vads-u-font-size--sm medium-screen:vads-u-font-size--root">
       Please provide one of the following:
     </span>
-  </>
+  </div>
 );
 
 const validateSSandSNGroup = (errors, values, formData) => {

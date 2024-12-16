@@ -9,17 +9,27 @@ describe('VAOS Component: ReferralList', () => {
   const emptyReferrals = [];
 
   it('should render the referral list with referrals', () => {
-    const screen = render(<ReferralList referrals={referrals} />);
+    const screen = render(
+      <ReferralList referrals={referrals} referralsError={false} />,
+    );
 
-    expect(screen.getByTestId('referrals-heading')).to.exist;
-    expect(screen.getByTestId('referrals-text')).to.exist;
+    expect(screen.getByTestId('referral-list')).to.exist;
     expect(screen.getByRole('list')).to.exist;
     expect(screen.getAllByRole('listitem')).to.have.lengthOf(referrals.length);
   });
 
-  it('should not render the referral list when referrals are empty', () => {
-    const { container } = render(<ReferralList referrals={emptyReferrals} />);
+  it('should render the no referral content when referrals are empty', () => {
+    const screen = render(
+      <ReferralList referrals={emptyReferrals} referralsError={false} />,
+    );
 
-    expect(container).to.be.empty;
+    expect(screen.getByTestId('no-referral-content')).to.exist;
+  });
+  it('should render an error when there is a referral error', () => {
+    const screen = render(
+      <ReferralList referrals={emptyReferrals} referralsError />,
+    );
+
+    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
   });
 });
