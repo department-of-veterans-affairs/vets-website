@@ -19,10 +19,11 @@ import responseSignInAndTechnicalIssues from './fixtures/ask_va_api/v0/contents/
 import responseSurvivorBenefits from './fixtures/ask_va_api/v0/contents/topics/survivor-benefits.json';
 import responseVeteranIDCard from './fixtures/ask_va_api/v0/contents/topics/veteran-id-card.json';
 import responseVeteranReadinessAndEmployment from './fixtures/ask_va_api/v0/contents/topics/veteran-readiness-and-employment.json';
+import responseCategory from './fixtures/ask_va_api/v0/contents/categories.json';
 
 // Helper function to create cy.intercept for multiple endpoints
 const interceptResponses = () => {
-  const intercepts = [
+  const interceptTopics = [
     {
       parentId: '66524deb-d864-eb11-bb24-000d3a579c45',
       response: responseBenefitsIssuesOutsideUS,
@@ -97,7 +98,13 @@ const interceptResponses = () => {
     },
   ];
 
-  intercepts.forEach(({ parentId, response }) => {
+  cy.intercept(
+    'GET',
+    `/ask_va_api/v0/contents?type=category&user_mock_data=true`,
+    responseCategory,
+  );
+
+  interceptTopics.forEach(({ parentId, response }) => {
     cy.intercept(
       'GET',
       `/ask_va_api/v0/contents?type=topic&parent_id=${parentId}`,
