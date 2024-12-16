@@ -74,15 +74,6 @@ export default function getEligibilityMessage({
   } else if (requestReason === ELIGIBILITY_REASONS.error) {
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
-  } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
-    title = 'This facility doesn’t accept online scheduling for this care';
-    content = (
-      <>
-        You’ll need to call your VA health facility to schedule this
-        appointment. Not all VA facilities offer online scheduling for all types
-        of care.
-      </>
-    );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     title = 'You can’t schedule this appointment online';
     const contact = facilityDetails?.telecom?.find(
