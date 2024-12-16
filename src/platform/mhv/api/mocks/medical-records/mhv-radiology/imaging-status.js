@@ -10,20 +10,20 @@ const all = [
     endDate: 1734365193147,
   },
   {
-    status: 'PROCESSING',
-    statusText: '50',
+    status: 'COMPLETE',
+    statusText: '100',
     studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
-    percentComplete: 50,
+    percentComplete: 100,
     fileSize: '253.91 KB',
     fileSizeNumber: 260003,
     startDate: 1734360572036,
     endDate: 1734360578627,
   },
   {
-    status: 'PROCESSING',
-    statusText: '50',
+    status: 'COMPLETE',
+    statusText: '100',
     studyIdUrn: '5df3a7b7-7ead-45ff-b466-8b29a01ba94d',
-    percentComplete: 50,
+    percentComplete: 100,
     fileSize: '253.91 KB',
     fileSizeNumber: 450003,
     startDate: 1734360572036,
@@ -71,28 +71,4 @@ const all = [
   },
 ];
 
-let percentComplete = 0;
-
-const imagingStatus = (req, res) => {
-  const STUDY_ID = '5df3a7b7-7ead-45ff-b466-8b29a01ba94d';
-  // Increment percentComplete with each request to simulate download progress bar
-  if (percentComplete < 100) {
-    percentComplete += 10;
-  }
-  const list = Array.isArray(all) ? [...all] : [];
-  const response = list?.map(r => {
-    if (r.studyIdUrn === STUDY_ID) {
-      return {
-        ...r,
-        percentComplete,
-        statusText: percentComplete.toString(),
-        status: percentComplete === 100 ? 'COMPLETE' : 'PROCESSING',
-      };
-    }
-    return r;
-  });
-
-  return res.json(response);
-};
-
-module.exports = imagingStatus;
+module.exports = all;
