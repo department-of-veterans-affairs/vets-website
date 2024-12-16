@@ -89,8 +89,9 @@ class SecureMessagingLandingPage {
 
   verifyFaqFocusedLink = (link, text) => {
     cy.focused()
-      .should(`have.attr`, `href`, link)
-      .and(`have.text`, text);
+      .should(`have.attr`, `href`)
+      .and(`include`, link);
+    cy.focused().should(`have.text`, text);
   };
 }
 

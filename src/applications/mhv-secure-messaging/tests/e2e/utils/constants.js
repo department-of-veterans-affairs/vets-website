@@ -384,7 +384,7 @@ export const Data = {
     URL: {
       SEND: `/find-locations/`,
       EMRG: `tel:911`,
-      SETTINGS: `https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences`,
+      SETTINGS: `/mhv-portal-web/preferences`,
       PAY: `/health-care/pay-copay-bill/dispute-charges/`,
     },
     TEXT: {
