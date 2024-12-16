@@ -175,7 +175,7 @@ const responses = {
   },
 
   // medical records Blue Button
-  'GET /my_health/v1/vaos/v2/appointments': appointments.appointments,
+  'GET /vaos/v2/appointments': appointments.appointments,
   'GET /my_health/v1/medical_records/patient/demographic':
     demographics.demographics,
   'GET /my_health/v1/medical_records/military_service':

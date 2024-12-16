@@ -244,6 +244,8 @@ export const pageTitles = {
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
+  DOWNLOAD_FORMS_PAGES_TITLE:
+    'Select Records And Download Report - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
