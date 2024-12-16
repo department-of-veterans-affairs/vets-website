@@ -9,6 +9,9 @@ if (!process.env.NODE_ENV === 'test') {
     forwardErrorsToLogs: true, // Automatically capture unhandled errors
     sampleRate: 100, // Percentage of sessions to log (adjust as needed)
   });
+
+  // Add a global context attribute to identify the source of the logs as the chatbot
+  datadogLogs.addLoggerGlobalContext('source', 'chatbot');
 }
 
 /**
