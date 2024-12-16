@@ -1,10 +1,19 @@
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../constants';
+import {
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_LIMIT,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { showScNewForm } from './toggle';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasPrivateLimitation = formData =>
+  showScNewForm(formData) &&
+  hasPrivateEvidence(formData) &&
+  formData?.[EVIDENCE_LIMIT] !== false;
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
 export const getVAEvidence = formData =>
