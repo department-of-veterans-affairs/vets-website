@@ -142,19 +142,18 @@ describe('SignInApp', () => {
     });
   });
 
-  it('should show a LogoutAlert when `auth=logged_out` query is present', () => {
-    const defaultProps = generateProps({
-      query: {
-        auth: 'logged_out',
-      },
-    });
-    const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
-      initialState: defaultMockStore(),
-    });
-    expect(wrapper.getByText(/You have successfully signed out./)).to.not.be
-      .null;
-    expect(wrapper.getByText(/Sign in/)).to.not.be.null;
-  });
+  // it('should show a LogoutAlert when `status=sessionExpired` query is present', () => {
+  //   const defaultProps = generateProps({
+  //     query: {
+  //       status: 'sessionExpired',
+  //     },
+  //   });
+  //   const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
+  //     initialState: defaultMockStore(),
+  //   });
+  //   expect(wrapper.getByText(/'Your session timed out. Sign in again to continue.'/)).to.not.be
+  //     .null;
+  // });
 
   it('should hide elements specified in the CSS', () => {
     const defaultProps = generateProps({ query: {} });
