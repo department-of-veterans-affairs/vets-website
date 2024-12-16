@@ -3,10 +3,10 @@ import {
   txtLineDotted,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-export const parseAllergies = records => {
+export const parseAllergies = (records, index = 4) => {
   return `
 ${txtLine}
-4) Allergies
+${index}) Allergies
 
 If you have allergies that are missing from this list, send a secure message to your care team.
 ${records

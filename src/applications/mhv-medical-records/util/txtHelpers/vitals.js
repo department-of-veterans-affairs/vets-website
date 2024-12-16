@@ -25,11 +25,11 @@ const vitalNameParse = name => {
   return parsedName;
 };
 
-export const parseVitals = records => {
+export const parseVitals = (records, index = 6) => {
   const vitalTypes = formatVitals(records);
   return `
 ${txtLine}
-6) Vitals
+${index}) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.
 ${vitalTypes
