@@ -497,28 +497,34 @@ function getTodayDate() {
 }
 
 export function createComments(submissionForm) {
-  if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
-    if (submissionForm.incorrectServiceHistoryExplanation) {
-      return {
-        claimantComment: {
-          commentDate: getTodayDate(),
-          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
-            ? submissionForm.incorrectServiceHistoryExplanation
-            : submissionForm.incorrectServiceHistoryExplanation
-                .incorrectServiceHistoryText,
-        },
-        disagreeWithServicePeriod: true,
+  const serviceHistoryIncorrect =
+    submissionForm['view:serviceHistory']?.serviceHistoryIncorrect;
+
+  if (serviceHistoryIncorrect) {
+    const explanation = submissionForm.incorrectServiceHistoryExplanation;
+
+    const sanitizedText = explanation?.incorrectServiceHistoryText
+      ? explanation.incorrectServiceHistoryText.replace(/,/g, '').trim()
+      : '';
+
+    const response = { disagreeWithServicePeriod: true };
+
+    if (sanitizedText && sanitizedText.length > 0) {
+      // Exclude trailing period if not explicitly part of the input
+      const cleanedText = sanitizedText.endsWith('.')
+        ? sanitizedText.slice(0, -1).trim()
+        : sanitizedText;
+
+      response.claimantComment = {
+        commentDate: getTodayDate(),
+        comments: cleanedText,
       };
     }
-    return {
-      claimantComment: {},
-      disagreeWithServicePeriod: true,
-    };
+
+    return response;
   }
-  return {
-    claimantComment: {},
-    disagreeWithServicePeriod: false,
-  };
+
+  return { disagreeWithServicePeriod: false };
 }
 
 export function createDirectDeposit(submissionForm) {

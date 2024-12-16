@@ -97,7 +97,7 @@ describe('form submit transform', () => {
         todayDateInYYYYmmddFormat,
       );
       expect(createdSubmissionForm.comments.claimantComment.comments).to.eql(
-        'Service periods are missing.',
+        'Service periods are missing',
       );
     });
   });
@@ -319,39 +319,114 @@ describe('form submit transform', () => {
     });
   });
   describe('has a createComments method', () => {
-    it('should return full comments section if veteran disagrees with period data', () => {
+    beforeEach(() => {
+      mockSubmissionForm = {
+        'view:serviceHistory': { serviceHistoryIncorrect: false },
+        incorrectServiceHistoryExplanation: undefined,
+      };
+    });
+
+    it('should return full comments section with sanitized comments (commas removed) if veteran disagrees with period data', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText:
+          'Service periods, are missing, and incorrect.',
+      };
+
       const comments = createComments(mockSubmissionForm);
-      const todayDate = new Date();
-      const todayDateInYYYYmmddFormat = todayDate.toISOString().slice(0, 10);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
       expect(comments.disagreeWithServicePeriod).to.eql(true);
-      expect(comments.claimantComment.commentDate).to.eql(
-        todayDateInYYYYmmddFormat,
-      );
+      expect(comments.claimantComment.commentDate).to.eql(todayDate);
       expect(comments.claimantComment.comments).to.eql(
-        'Service periods are missing.',
+        'Service periods are missing and incorrect',
       );
     });
-    it('should return empty comments section if veteran disagrees with period data but no comments found', () => {
-      mockSubmissionForm.incorrectServiceHistoryExplanation = undefined;
+
+    it('should exclude claimantComment if veteran disagrees with period data but no comments found', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+
       const comments = createComments(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(comments.claimantComment).length === 0;
-      expect(objectIsEmpty).to.eql(true);
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: true });
     });
-    it(
-      'should return an empty comment section and disagreeWithServicePeriod set to false' +
-        ' if veteran agrees with period data',
-      () => {
-        mockSubmissionForm[
-          'view:serviceHistory'
-        ].serviceHistoryIncorrect = undefined;
-        const comments = createComments(mockSubmissionForm);
-        const objectIsEmpty =
-          Object.keys(comments.claimantComment).length === 0;
-        expect(objectIsEmpty).to.eql(true);
-        expect(comments.disagreeWithServicePeriod).to.eql(false);
-      },
-    );
+
+    it('should exclude claimantComment and set disagreeWithServicePeriod to false if veteran agrees with period data', () => {
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: false });
+    });
+
+    it('should handle empty or undefined incorrectServiceHistoryText gracefully', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: undefined,
+      };
+
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+    });
+
+    it('should handle missing incorrectServiceHistoryExplanation gracefully', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+    });
+
+    it('should remove commas from incorrectServiceHistoryText before returning comments', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: 'This, is a, test, string.',
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments.disagreeWithServicePeriod).to.eql(true);
+      expect(comments.claimantComment.commentDate).to.eql(todayDate);
+      expect(comments.claimantComment.comments).to.eql('This is a test string');
+    });
+
+    it('should handle multiple commas in incorrectServiceHistoryText gracefully', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: ',Leading, and, trailing, commas,',
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments.disagreeWithServicePeriod).to.eql(true);
+      expect(comments.claimantComment.commentDate).to.eql(todayDate);
+      expect(comments.claimantComment.comments).to.eql(
+        'Leading and trailing commas',
+      );
+    });
+
+    it('should exclude claimantComment if incorrectServiceHistoryText contains only commas', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: ',,,,,',
+      };
+
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+    });
+
+    it('should exclude claimantComment if sanitized text results in an empty string', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: '     ',
+      };
+
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+    });
   });
   describe('has a bank account capture method', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {
