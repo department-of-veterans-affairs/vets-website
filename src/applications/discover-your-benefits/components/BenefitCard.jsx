@@ -18,7 +18,7 @@ const BenefitCard = ({ benefit }) => {
           href={url}
           rel="noreferrer"
           className="link--center"
-          aria-label={label}
+          aria-label={`${label} (opens in a new tab)`}
           target="_blank"
         >
           {text} (opens in a new tab)
