@@ -118,14 +118,17 @@ const IntroductionPage = ({ router }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Information and instructions for completing the 35% exemption request
       </h2>
-      <va-accordion open-single>
+      <va-accordion>
         <va-accordion-item header="VA education service help" id="first">
           <p>
             If you need help calculating your facility’s potential eligibility
             for the 35% exemption, or have questions concerning the 85/15 Rule,
             contact the{' '}
-            <va-link text="Education Liaison Representative" href="#" /> of
-            jurisdiction.
+            <va-link
+              text="Education Liaison Representative"
+              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
+            />{' '}
+            of jurisdiction.
           </p>
           <p>
             <strong>Note:</strong> The numbers on the instructions match the
@@ -154,8 +157,8 @@ const IntroductionPage = ({ router }) => {
         >
           <p>
             The result of students provided in the "total number of VA
-            beneficiary students field divided by the "total number of students"
-            field.
+            beneficiary students" field divided by the "total number of
+            students" field.
           </p>
         </va-accordion-item>
         <va-accordion-item header="Date of calculation" id="third">
