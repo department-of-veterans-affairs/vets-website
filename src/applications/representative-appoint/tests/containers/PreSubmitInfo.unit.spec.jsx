@@ -75,6 +75,25 @@ describe('<PreSubmitInfo>', () => {
     expect(content.textContent).to.contain('American Legion');
   });
 
+  context('when terms and conditions and form replacement are accepted', () => {
+    it('calls onSectionComplete with false if Privacy Policy is not accepted', async () => {
+      const { props, mockStore } = getProps({ status: null });
+      const { container } = renderContainer(props, mockStore);
+
+      const tcBox = container.querySelector(
+        '[data-testid="terms-and-conditions"]',
+      );
+      tcBox.__events.vaChange({ detail: { checked: true } });
+
+      const frBox = container.querySelector('[data-testid="form-replacement"]');
+      frBox.__events.vaChange({ detail: { checked: true } });
+
+      await waitFor(() => {
+        expect(props.onSectionComplete.calledWith(false)).to.be.true;
+      });
+    });
+  });
+
   context('when all checkboxes are accepted', () => {
     it('calls onSectionComplete with true', async () => {
       const { props, mockStore } = getProps({ status: null });
@@ -97,34 +116,36 @@ describe('<PreSubmitInfo>', () => {
     });
   });
 
-  context('when only Privacy Policy is accepted', () => {
+  context('when only terms and conditions is accepted', () => {
     it('calls onSectionComplete with false', async () => {
       const { props, mockStore } = getProps({ status: null });
       const { container } = renderContainer(props, mockStore);
 
-      const ppBox = container.querySelector('va-privacy-agreement');
-      ppBox.__events.vaChange({ detail: { checked: true } });
+      const tcBox = container.querySelector(
+        '[data-testid="terms-and-conditions"]',
+      );
+      tcBox.__events.vaChange({ detail: { checked: true } });
 
       await waitFor(() => {
         expect(props.onSectionComplete.calledWith(false)).to.be.true;
       });
     });
 
-    it('shows an error message for terms and conditions and form replacement', async () => {
+    it('shows an error message for form replacement and Privacy Policy', async () => {
       const { props, mockStore } = getProps({ showError: true, status: null });
       const { container } = renderContainer(props, mockStore);
-
-      const ppBox = container.querySelector('va-privacy-agreement');
-      ppBox.__events.vaChange({ detail: { checked: true } });
 
       const tcBox = container.querySelector(
         '[data-testid="terms-and-conditions"]',
       );
+      tcBox.__events.vaChange({ detail: { checked: true } });
+
       const frBox = container.querySelector('[data-testid="form-replacement"]');
+      const ppBox = container.querySelector('va-privacy-agreement');
 
       await waitFor(() => {
-        expect(tcBox).to.have.attr('error', 'This field is mandatory');
         expect(frBox).to.have.attr('error', 'This field is mandatory');
+        expect(ppBox).to.have.attr('show-error');
       });
     });
   });
