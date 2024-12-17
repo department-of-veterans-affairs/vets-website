@@ -59,6 +59,18 @@ export const downloadsReducer = (state = initialState, action) => {
         recordFilter: action.response,
       };
     }
+    case Actions.Downloads.BB_SUCCESS: {
+      return {
+        ...state,
+        bbDownloadSuccess: true,
+      };
+    }
+    case Actions.Downloads.BB_CLEAR_ALERT: {
+      return {
+        ...state,
+        bbDownloadSuccess: false,
+      };
+    }
     default: {
       return { ...state };
     }
