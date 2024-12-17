@@ -178,6 +178,12 @@ describe('Radiology details component - image with error', () => {
       },
     );
     expect(error).to.exist;
+
+    const requestImagesButton = screen.getByTestId(
+      'radiology-request-images-button',
+    );
+    expect(requestImagesButton).to.exist;
+    fireEvent.click(requestImagesButton);
   });
 });
 
