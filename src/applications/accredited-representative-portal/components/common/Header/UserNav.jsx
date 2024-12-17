@@ -25,12 +25,6 @@ const UserNav = ({ profile, isLoading }) => {
             data-test-id="desktop-user-nav"
             className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center desktop"
           >
-            <a
-              href="/"
-              className="usa-button nav__user-btn nav__user-btn--user "
-            >
-              Get Help
-            </a>
             <NavigationDropdown
               title="profile dropdown"
               srText="toggle menu"
