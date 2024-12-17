@@ -18,7 +18,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 
   const dispatch = useDispatch();
   const handleSignIn = () => {
-    dispatch(toggleLoginModal(true, 'mhv-signin-cta'));
+    dispatch(toggleLoginModal(true, 'mhv-signin-cta', true));
   };
 
   return (
@@ -52,12 +52,10 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
               text="Sign in or create an account"
             />
           </p>
-          <p>
-            <va-link
-              href="/resources/creating-an-account-for-vagov/"
-              text="Learn about creating an account"
-            />
-          </p>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+          />
         </div>
       </CustomAlert>
     </div>
