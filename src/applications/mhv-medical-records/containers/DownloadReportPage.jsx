@@ -340,14 +340,16 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() =>
+              href="#"
+              onClick={e => {
+                e.preventDefault();
                 dispatch(
                   genAndDownloadCCD(
                     userProfile.userFullName.first,
                     userProfile.userFullName.last,
                   ),
-                )
-              }
+                );
+              }}
               text="Download .xml file"
               data-testid="generateCcdButton"
             />
@@ -380,7 +382,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={generateSEIPdf}
+              href="#"
+              onClick={e => {
+                e.preventDefault();
+                generateSEIPdf();
+              }}
               text="Download PDF"
               data-testid="downloadSelfEnteredButton"
             />
