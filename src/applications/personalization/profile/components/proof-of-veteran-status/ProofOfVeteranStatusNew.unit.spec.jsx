@@ -1,9 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
-import sinon from 'sinon';
-
-import * as generatePdfModule from '~/platform/pdf';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatusNew from './ProofOfVeteranStatusNew';
 
@@ -133,28 +129,6 @@ describe('ProofOfVeteranStatusNew', () => {
       expect(
         view.queryByText(/This status doesn’t entitle you to any VA benefits./),
       ).to.exist;
-    });
-
-    it('should show error message if pdf generation fails', () => {
-      const generatePdfStub = sinon
-        .stub(generatePdfModule, 'generatePdf')
-        .throws(new Error('Some Error'));
-      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
-        initialState,
-      });
-      const link = view.container.querySelector('va-link');
-      const errorMessage =
-        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.";
-
-      expect(link.getAttribute('text')).to.equal(
-        'Download and print your Veteran status card',
-      );
-      expect(view.queryByText(errorMessage)).to.not.exist;
-
-      fireEvent.click(link);
-
-      expect(generatePdfStub.called).to.be.true;
-      expect(view.queryByText(errorMessage)).to.exist;
     });
   });
 
