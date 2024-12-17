@@ -24,15 +24,19 @@ export const uiSchema = {
       <ProfileNotUpdatedNote formData={formData} includePhone />
     ),
   },
-  'Primary phone': phoneUI({
-    required: formData => preparerIsVeteran({ formData }),
-  }),
+  ...({ formData }) =>
+    preparerIsVeteran({ formData })
+      ? phoneUI({
+          required: true,
+        })
+      : {},
   veteranEmail: emailUI(),
 };
 
 export const schema = {
   type: 'object',
-  required: [], // Remove 'Primary phone' from here since we're handling it conditionally
+  required: ({ formData }) =>
+    preparerIsVeteran({ formData }) ? ['Primary phone'] : [],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
