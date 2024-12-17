@@ -40,6 +40,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import { addAlert } from '../actions/alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -130,7 +131,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     () => {
       if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
       return SEI_DOMAINS.every(item => {
-        const isFetched = !!seiRecords[item];
+        const isFetched = !!seiRecords[item] || seiRecords[item] === null;
         const hasFailed = failedSeiDomains.includes(item);
         return isFetched || hasFailed;
       });
@@ -140,33 +141,44 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const generateSEIPdf = useCallback(
     async () => {
-      setSelfEnteredPdfRequested(true);
-      setSeiPdfGenerationError(false);
+      try {
+        setSelfEnteredPdfRequested(true);
+        setSeiPdfGenerationError(false);
 
-      if (!isDataFetched) {
-        // Fetch data if not all defined
-        dispatch(clearFailedList());
-        dispatch(getSelfEnteredData());
-      } else {
-        // If already defined, generate the PDF directly
-        setSelfEnteredPdfRequested(false);
-        const title = 'Self-entered information report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(userProfile, title, subject);
-        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-          userProfile,
-        )}`;
+        if (!isDataFetched) {
+          // Fetch data if not all defined
+          dispatch(clearFailedList());
+          dispatch(getSelfEnteredData());
+        } else {
+          // If already defined, generate the PDF directly
+          setSelfEnteredPdfRequested(false);
+          const title = 'Self-entered information report';
+          const subject = 'VA Medical Record';
+          const scaffold = generatePdfScaffold(userProfile, title, subject);
+          const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+            userProfile,
+          )}`;
 
-        const pdfData = {
-          recordSets: generateSelfEnteredData(seiRecords),
-          ...scaffold,
-          name,
-          dob,
-          lastUpdated: UNKNOWN,
-        };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
-          .then(() => setSuccessfulSeiDownload(true))
-          .catch(() => setSeiPdfGenerationError(true));
+          Object.keys(seiRecords).forEach(key => {
+            const item = seiRecords[key];
+            if (item && Array.isArray(item) && !item.length) {
+              seiRecords[key] = null;
+            }
+          });
+
+          const pdfData = {
+            recordSets: generateSelfEnteredData(seiRecords),
+            ...scaffold,
+            name,
+            dob,
+            lastUpdated: UNKNOWN,
+          };
+          makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+            .then(() => setSuccessfulSeiDownload(true))
+            .catch(() => setSeiPdfGenerationError(true));
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
