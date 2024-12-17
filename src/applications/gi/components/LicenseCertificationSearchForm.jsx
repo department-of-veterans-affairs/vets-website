@@ -85,9 +85,24 @@ export default function LicenseCertificationSearchForm({
   const stateParam = searchParams.get('state') ?? 'all';
 
   useEffect(() => {
-    // console.log('effect -- generateDropdowns 🔴');
     setDropdowns(updateDropdowns(category, stateParam));
   }, []);
+
+  useEffect(
+    () => {
+      if (dropdowns[0].current.optionValue === 'certification') {
+        handleUpdateQueryParam()('state', 'all');
+      }
+    },
+    [dropdowns],
+  );
+
+  useEffect(
+    () => {
+      setDropdowns(updateDropdowns(category, stateParam));
+    },
+    [stateParam],
+  );
 
   useEffect(
     () => {
@@ -126,7 +141,6 @@ export default function LicenseCertificationSearchForm({
       dropdowns[updatedField].options[selectedOption].optionValue ===
       'certification'
     ) {
-      handleUpdateQueryParam()('state', 'all');
       setDropdowns(updateDropdowns('certification', 'all'));
     }
 
