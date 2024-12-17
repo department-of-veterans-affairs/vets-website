@@ -1,9 +1,9 @@
-import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
-// import VitalsListPage from './pages/VitalsListPage';
+import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
 import allergies from '../fixtures/allergies/sample-lighthouse.json';
+import Allergies from '../pages/Allergies';
 
-describe('Medical Records View Vitals', () => {
+describe('Medical Records View Allergies', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -14,16 +14,11 @@ describe('Medical Records View Vitals', () => {
     });
 
     // set up intercepts
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
-      // check the correct param was used
-      expect(req.url).to.contain('use_oh_data_path=1');
-      req.reply(allergies);
-    }).as('allergiesList');
+    Allergies.setIntercepts({ allergiesData: allergies, useOhData: false });
   });
 
-  it('Visits View Vitals List', () => {
-    cy.visit('my-health/medical-records');
+  it('Allergies is disabled', () => {
+    site.loadPage();
 
     // check for MY Va Health links
     cy.get('[data-testid="labs-and-tests-landing-page-link"]').should(
@@ -35,12 +30,9 @@ describe('Medical Records View Vitals', () => {
 
     cy.get('[data-testid="allergies-landing-page-link"]').should('be.visible');
 
-    cy.get('[data-testid="vitals-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    cy.get('[data-testid="vitals-landing-page-link"]').should('be.visible');
 
     // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
+    cy.injectAxeThenAxeCheck();
   });
 });
