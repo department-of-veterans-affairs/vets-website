@@ -26,21 +26,20 @@ const UnverifiedAlert = ({
   serviceDescription,
   signInService = CSP_IDS.ID_ME,
 }) => {
-  const signinServiceLabel = SERVICE_PROVIDERS[signInService]?.label;
-  const headline = serviceDescription
-    ? `${headingPrefix} to ${serviceDescription}`
-    : headingPrefix;
-  const verifyServiceButton =
-    signInService === CSP_IDS.LOGIN_GOV ? (
-      <VerifyLogingovButton />
-    ) : (
-      <VerifyIdmeButton />
-    );
-
   /**
    * The default alert to show a user.
    */
   const DefaultAlert = () => {
+    const signinServiceLabel = SERVICE_PROVIDERS[signInService]?.label;
+    const headline = serviceDescription
+      ? `${headingPrefix} to ${serviceDescription}`
+      : headingPrefix;
+    const verifyServiceButton =
+      signInService === CSP_IDS.LOGIN_GOV ? (
+        <VerifyLogingovButton />
+      ) : (
+        <VerifyIdmeButton />
+      );
     return (
       <div data-testid="mhv-unverified-alert">
         <CustomAlert
@@ -77,6 +76,10 @@ const UnverifiedAlert = ({
    * The alert to show a user that is logged in with an MHV account.
    */
   const MhvAlert = () => {
+    const mhvHeadingPrefix = 'You need to sign in with a different account';
+    const headline = serviceDescription
+      ? `${mhvHeadingPrefix} to ${serviceDescription}`
+      : mhvHeadingPrefix;
     return (
       <CustomAlert headline={headline} icon="lock" status="warning">
         <div>
