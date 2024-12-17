@@ -11,6 +11,7 @@ import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { SearchResultsHeader } from './SearchResultsHeader';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -21,22 +22,26 @@ const SelectAccreditedRepresentative = props => {
     goForward,
     goToPath,
   } = props;
-  const [loadingReps, setLoadingReps] = useState(false);
-  const [loadingPOA, setLoadingPOA] = useState(false);
-  const [error, setError] = useState(null);
+
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
-
-  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
-
   const query = formData['view:representativeQuery'];
   const invalidQuery = query === undefined || !query.trim();
-
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
 
   const noSelectionError =
     'Select the accredited representative or VSO you’d like to appoint below.';
+
+  const [loadingReps, setLoadingReps] = useState(false);
+  const [loadingPOA, setLoadingPOA] = useState(false);
+  const [searchWasPerformed, setSearchWasPerformed] = useState(
+    !!representativeResults?.length,
+  );
+  const [error, setError] = useState(null);
+  const [searchHeaderQuery, setSearchHeaderQuery] = useState('');
+
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
   const isReviewPage = useReviewPage();
 
@@ -101,6 +106,8 @@ const SelectAccreditedRepresentative = props => {
         ...formData,
         'view:representativeSearchResults': res,
       });
+      setSearchHeaderQuery(query);
+      setSearchWasPerformed(true);
     } catch (err) {
       setError(err.errorMessage);
     } finally {
@@ -159,6 +166,12 @@ const SelectAccreditedRepresentative = props => {
           set-focus
         />
       ) : null}
+      <SearchResultsHeader
+        inProgress={loadingReps}
+        searchWasPerformed={searchWasPerformed}
+        query={searchHeaderQuery}
+        resultCount={representativeResults?.length}
+      />
       {representativeResults &&
         representativeResults.map((rep, index) => (
           <SearchResult
