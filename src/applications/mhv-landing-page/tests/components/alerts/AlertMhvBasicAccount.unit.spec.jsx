@@ -1,4 +1,5 @@
 import React from 'react';
+import createMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
@@ -8,38 +9,22 @@ import AlertMhvBasicAccount from '../../../components/alerts/AlertMhvBasicAccoun
 
 const { defaultProps } = AlertMhvBasicAccount;
 
-const generateStore = ({
-  csp = 'logingov',
-  verified = false,
-  loading = false,
-} = {}) => ({
-  getState: () => ({
-    user: {
-      profile: {
-        loading,
-        signIn: { serviceName: csp },
-        verified,
-        session: { authBroker: 'iam' },
-      },
-    },
-  }),
-  dispatch: () => {},
-  subscribe: () => {},
-});
+const mockStore = createMockStore([]);
 
 describe('<AlertMhvBasicAccount />', () => {
   it('renders', async () => {
-    const store = generateStore();
     const recordEvent = sinon.spy();
     const props = { ...defaultProps, recordEvent };
     const { getByRole, getByTestId } = render(
-      <Provider store={store}>
+      <Provider store={mockStore()}>
         <AlertMhvBasicAccount {...props} />,
       </Provider>,
     );
     getByTestId(defaultProps.testId);
 
     getByRole('heading', { name: defaultProps.headline });
+    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
+    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledTwice).to.be.false;

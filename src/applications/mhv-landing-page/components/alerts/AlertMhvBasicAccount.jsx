@@ -25,7 +25,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
       <div>
         <p className="vads-u-margin-y--0">
           We need you to sign in with an identity-verified account. This helps
-          us protect all Veterans' information and prevent scammers from
+          us protect all Veterans’ information and prevent scammers from
           stealing your benefits. You have 2 options: a verified{' '}
           <strong>Login.gov</strong> or a verified <strong>ID.me</strong>{' '}
           account.
