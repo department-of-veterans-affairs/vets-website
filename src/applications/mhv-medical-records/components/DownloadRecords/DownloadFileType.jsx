@@ -368,6 +368,7 @@ const DownloadFileType = props => {
         <button
           disabled={!isDataFetched}
           className="vads-u-margin-y--0p5"
+          data-testid="blue-button-download-report"
           onClick={() => {
             if (fileType === 'pdf') {
               generatePdf().then(() => history.push('/download'));

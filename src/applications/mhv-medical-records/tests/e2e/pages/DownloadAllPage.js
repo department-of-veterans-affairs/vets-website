@@ -1,3 +1,6 @@
+import DownloadAllLabsAndTests from '../fixtures/labs-and-tests/downloadAllLabsAndTests.json';
+import DownloadAllPatient from '../fixtures/labs-and-tests/downloadAllPatient.json';
+
 class DownloadAllPage {
   verifyBreadcrumbs = breadcrumbs => {
     cy.get('[data-testid="breadcrumbs"]').contains(breadcrumbs, {
@@ -13,7 +16,7 @@ class DownloadAllPage {
       .click();
   };
 
-  clickContinueOnDateSelectionPage = () => {
+  clickContinueOnDownloadAllPage = () => {
     // cy.get('va-button:contains("continue")').click();
     cy.get('va-button')
       .contains('Continue')
@@ -115,6 +118,49 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-end-date"]')
       .find('input')
       .type(year);
+  };
+
+  selectAllRecordsCheckbox = () => {
+    cy.get('[data-testid="select-all-records-checkbox"]')
+      .find('input')
+      .check({ force: true });
+  };
+
+  selectLabsAndTestsCheckbox = () => {
+    cy.get('[data-testid="labs-and-test-results-checkbox"]')
+      .find('input')
+      .check({ force: true });
+  };
+
+  interceptLabsAndTestsOnDownloadAllPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/medical_records/labs_and_tests',
+      DownloadAllLabsAndTests,
+    );
+  };
+
+  interceptPatientOnDownloadAllPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/medical_records/patient',
+      DownloadAllPatient,
+    );
+  };
+
+  clickPDFRadioButton = () => {
+    cy.get('va-radio-option') // eq(0) because first radio option is PDF option
+      .eq(0)
+      .find('input')
+      .check({ force: true });
+  };
+
+  clickDownloadReport = () => {
+    cy.get('[data-testid="blue-button-download-report"]').click();
+  };
+
+  verifyDownloadStartedAlert = () => {
+    cy.get('[data-testid="alert-download-started"]').should('be.visible');
   };
 }
 export default new DownloadAllPage();
