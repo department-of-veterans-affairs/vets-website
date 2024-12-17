@@ -41,7 +41,7 @@ describe('Unauthenticated', () => {
 
       cy.contains('John Adams').should('be.visible');
 
-      cy.contains('button', 'Select this representative')
+      cy.contains('button', 'Select John Adams')
         .first()
         .click();
 
