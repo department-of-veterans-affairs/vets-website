@@ -176,7 +176,7 @@ export async function poaRequestLoader({ params }) {
   const { id } = params;
 
   try {
-    const response = await apiRequest(`/power_of_attorney_request/${id}`, {
+    const response = await apiRequest(`/power_of_attorney_requests/${id}`, {
       apiVersion: 'accredited_representative_portal/v0',
     });
     return response.data;
