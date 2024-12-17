@@ -7,6 +7,7 @@ import reducer from '../../reducers';
 import RadiologyDetails from '../../components/LabsAndTests/RadiologyDetails';
 import radiologyMhv from '../fixtures/radiologyMhv.json';
 import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
+import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
 import {
@@ -121,6 +122,60 @@ describe('Radiology details component - images', () => {
   it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
+  });
+});
+
+describe('Radiology details component - image with error', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(
+    radiologyMhvWithImageError,
+  );
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...images,
+        notificationStatus: true,
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+      // eslint-disable-next-line camelcase
+      mhv_integration_medical_records_to_phase_1: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('renders without errors', () => {
+    expect(screen).to.exist;
+  });
+
+  it('displays an error message', () => {
+    const error = screen.getByText(
+      'We’re sorry. There was a problem with our system. Try requesting your images again.',
+      {
+        exact: true,
+        selector: 'p',
+      },
+    );
+    expect(error).to.exist;
   });
 });
 
