@@ -97,7 +97,7 @@ describe('form submit transform', () => {
         todayDateInYYYYmmddFormat,
       );
       expect(createdSubmissionForm.comments.claimantComment.comments).to.eql(
-        'Service periods are missing',
+        'Service periods are missing.',
       );
     });
   });
@@ -339,7 +339,7 @@ describe('form submit transform', () => {
       expect(comments.disagreeWithServicePeriod).to.eql(true);
       expect(comments.claimantComment.commentDate).to.eql(todayDate);
       expect(comments.claimantComment.comments).to.eql(
-        'Service periods are missing and incorrect',
+        'Service periods are missing and incorrect.',
       );
     });
 
@@ -387,7 +387,9 @@ describe('form submit transform', () => {
 
       expect(comments.disagreeWithServicePeriod).to.eql(true);
       expect(comments.claimantComment.commentDate).to.eql(todayDate);
-      expect(comments.claimantComment.comments).to.eql('This is a test string');
+      expect(comments.claimantComment.comments).to.eql(
+        'This is a test string.',
+      );
     });
 
     it('should handle multiple commas in incorrectServiceHistoryText gracefully', () => {

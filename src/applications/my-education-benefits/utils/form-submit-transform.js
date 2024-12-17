@@ -503,21 +503,17 @@ export function createComments(submissionForm) {
   if (serviceHistoryIncorrect) {
     const explanation = submissionForm.incorrectServiceHistoryExplanation;
 
+    // Remove commas and trim the result
     const sanitizedText = explanation?.incorrectServiceHistoryText
       ? explanation.incorrectServiceHistoryText.replace(/,/g, '').trim()
       : '';
 
     const response = { disagreeWithServicePeriod: true };
 
-    if (sanitizedText && sanitizedText.length > 0) {
-      // Exclude trailing period if not explicitly part of the input
-      const cleanedText = sanitizedText.endsWith('.')
-        ? sanitizedText.slice(0, -1).trim()
-        : sanitizedText;
-
+    if (sanitizedText) {
       response.claimantComment = {
         commentDate: getTodayDate(),
-        comments: cleanedText,
+        comments: sanitizedText, // Leave the trailing period untouched
       };
     }
 
