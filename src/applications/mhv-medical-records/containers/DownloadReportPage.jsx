@@ -268,6 +268,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         />
       )}
 
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
