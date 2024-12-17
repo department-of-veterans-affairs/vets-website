@@ -26,10 +26,9 @@ describe('recordWebVitalsEvent', () => {
     const recordedEvent = recordEventStub.getCall(0).args[0];
     expect(recordedEvent).to.deep.equal({
       event: 'web_vitals',
-      event_category: 'Performance',
-      event_action: 'CLS',
-      event_value: 123,
-      event_label: 'v1',
+      web_vital_type: 'CLS',
+      latency_ms: 123,
+      web_vital_id: 'v1',
       app_name: 'unknown',
     });
   });
@@ -45,10 +44,9 @@ describe('recordWebVitalsEvent', () => {
     const recordedEvent = recordEventStub.getCall(0).args[0];
     expect(recordedEvent).to.deep.equal({
       event: 'web_vitals',
-      event_category: 'Performance',
-      event_action: 'LCP',
-      event_value: 2500,
-      event_label: 'v2',
+      web_vital_type: 'LCP',
+      latency_ms: 2500,
+      web_vital_id: 'v2',
       app_name: 'unknown',
     });
   });
@@ -65,10 +63,9 @@ describe('recordWebVitalsEvent', () => {
     const recordedEvent = recordEventStub.getCall(0).args[0];
     expect(recordedEvent).to.deep.equal({
       event: 'web_vitals',
-      event_category: 'Performance',
-      event_action: 'TTFB',
-      event_value: 100,
-      event_label: 'v3',
+      web_vital_type: 'TTFB',
+      latency_ms: 100,
+      web_vital_id: 'v3',
       app_name: 'testApp',
     });
     delete window.appName;

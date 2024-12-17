@@ -4,12 +4,24 @@ import { Link } from 'react-router-dom';
 import { kebabCase } from 'lodash';
 
 import { vitalTypeDisplayNames } from '../../util/constants';
-import { formatDateInLocalTimezone } from '../../util/helpers';
+import {
+  formatDateInLocalTimezone,
+  sendDataDogAction,
+} from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
   const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
+
+  const ddLabelName = useMemo(
+    () => {
+      return displayName.includes('Blood oxygen level')
+        ? 'Blood Oxygen over time Link'
+        : `${displayName} over time Link`;
+    },
+    [displayName],
+  );
 
   const updatedRecordType = useMemo(
     () => {
@@ -83,6 +95,7 @@ const VitalListItem = props => {
             <span
               className="vads-u-display--inline"
               data-dd-privacy="mask"
+              data-dd-action-name="[vitals list - measurement]"
               data-testid={dataTestIds.measurement}
             >
               {record.measurement}
@@ -91,6 +104,7 @@ const VitalListItem = props => {
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
+            data-dd-action-name="[vitals list - date]"
             data-testid={dataTestIds.date}
           >
             <span className="vads-u-font-weight--bold">Date: </span>
@@ -105,6 +119,9 @@ const VitalListItem = props => {
             to={`/vitals/${kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
+            onClick={() => {
+              sendDataDogAction(ddLabelName);
+            }}
           >
             <strong>
               Review your{' '}

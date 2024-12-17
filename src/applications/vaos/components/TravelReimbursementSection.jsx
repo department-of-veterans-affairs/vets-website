@@ -87,7 +87,7 @@ export default function TravelReimbursementSection({ appointment }) {
         <p className="vads-u-margin-y--0p5">
           <va-link
             data-testid="view-claim-link"
-            href={`/my-health/travel-claim-status/${claimData.claim.id}`}
+            href={`/my-health/travel-pay/claims/${claimData.claim.id}`}
             text="Check your claim status"
           />
         </p>
