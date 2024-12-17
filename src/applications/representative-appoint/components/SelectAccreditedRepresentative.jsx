@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
@@ -145,6 +145,13 @@ const SelectAccreditedRepresentative = props => {
       handleGoForward({ selectionMade: true });
     }
   };
+
+  useEffect(() => {
+    // when revisting rep select page, prevent search header from displaying empty string
+    if (!searchHeaderQuery && formData['view:representativeQuery']) {
+      setSearchHeaderQuery(formData['view:representativeQuery']);
+    }
+  }, []);
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
