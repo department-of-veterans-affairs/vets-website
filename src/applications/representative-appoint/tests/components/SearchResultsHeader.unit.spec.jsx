@@ -6,12 +6,7 @@ import { SearchResultsHeader } from '../../components/SearchResultsHeader';
 describe('SearchResultsHeader Component', () => {
   it('displays no results message', () => {
     const { container } = render(
-      <SearchResultsHeader
-        query="Bob"
-        resultCount={0}
-        searchWasPerformed
-        inProgress={false}
-      />,
+      <SearchResultsHeader query="Bob" resultCount={0} inProgress={false} />,
     );
 
     const searchHeader = container.querySelector('.search-header');
@@ -21,12 +16,7 @@ describe('SearchResultsHeader Component', () => {
 
   it('displays one result', () => {
     const { container } = render(
-      <SearchResultsHeader
-        query="Bob"
-        resultCount={1}
-        searchWasPerformed
-        inProgress={false}
-      />,
+      <SearchResultsHeader query="Bob" resultCount={1} inProgress={false} />,
     );
 
     const searchHeader = container.querySelector('.search-header');
@@ -35,12 +25,7 @@ describe('SearchResultsHeader Component', () => {
   });
   it('displays multiple results', () => {
     const { container } = render(
-      <SearchResultsHeader
-        query="Bob"
-        resultCount={5}
-        searchWasPerformed
-        inProgress={false}
-      />,
+      <SearchResultsHeader query="Bob" resultCount={5} inProgress={false} />,
     );
 
     const searchHeader = container.querySelector('.search-header');
@@ -50,26 +35,7 @@ describe('SearchResultsHeader Component', () => {
 
   it('does not display when loading in progress', () => {
     const { container } = render(
-      <SearchResultsHeader
-        query="Bob"
-        resultCount={5}
-        searchWasPerformed
-        inProgress
-      />,
-    );
-
-    const searchHeader = container.querySelector('.search-header');
-    expect(searchHeader).not.to.exist;
-  });
-
-  it('does not display before search is performed', () => {
-    const { container } = render(
-      <SearchResultsHeader
-        query="Bob"
-        resultCount={5}
-        searchWasPerformed={false}
-        inProgress={false}
-      />,
+      <SearchResultsHeader query="Bob" resultCount={5} inProgress />,
     );
 
     const searchHeader = container.querySelector('.search-header');

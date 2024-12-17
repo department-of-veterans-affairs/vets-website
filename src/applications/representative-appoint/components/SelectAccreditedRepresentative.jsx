@@ -4,7 +4,7 @@ import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
@@ -35,9 +35,6 @@ const SelectAccreditedRepresentative = props => {
 
   const [loadingReps, setLoadingReps] = useState(false);
   const [loadingPOA, setLoadingPOA] = useState(false);
-  const [searchWasPerformed, setSearchWasPerformed] = useState(
-    !!representativeResults?.length,
-  );
   const [error, setError] = useState(null);
   const [searchHeaderQuery, setSearchHeaderQuery] = useState('');
 
@@ -107,7 +104,7 @@ const SelectAccreditedRepresentative = props => {
         'view:representativeSearchResults': res,
       });
       setSearchHeaderQuery(query);
-      setSearchWasPerformed(true);
+      // setSearchWasPerformed(true);
     } catch (err) {
       setError(err.errorMessage);
     } finally {
@@ -146,12 +143,18 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  useEffect(() => {
-    // when revisting rep select page, prevent search header from displaying empty string
-    if (!searchHeaderQuery && formData['view:representativeQuery']) {
-      setSearchHeaderQuery(formData['view:representativeQuery']);
-    }
-  }, []);
+  useEffect(
+    () => {
+      const searchHeader = document.querySelector('.search-header');
+
+      if (searchHeader) {
+        focusElement('.search-header');
+      } else if (formData['view:representativeQuery']) {
+        setSearchHeaderQuery(formData['view:representativeQuery']);
+      }
+    },
+    [searchHeaderQuery, loadingReps, representativeResults?.length],
+  );
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
@@ -175,7 +178,6 @@ const SelectAccreditedRepresentative = props => {
       ) : null}
       <SearchResultsHeader
         inProgress={loadingReps}
-        searchWasPerformed={searchWasPerformed}
         query={searchHeaderQuery}
         resultCount={representativeResults?.length}
       />

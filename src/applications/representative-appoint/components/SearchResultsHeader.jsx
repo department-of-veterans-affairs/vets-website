@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import React from 'react';
 
 export const SearchResultsHeader = props => {
-  const { query, resultCount, searchWasPerformed, inProgress } = props;
+  const { query, resultCount, inProgress } = props;
+
+  const searchWasPerformed = query.length > 0;
 
   const handleNumberOfResults = () => {
     const headerClasses =
@@ -31,14 +32,14 @@ export const SearchResultsHeader = props => {
     );
   };
 
-  useEffect(
-    () => {
-      if (searchWasPerformed && !inProgress) {
-        focusElement('.search-header');
-      }
-    },
-    [query, resultCount, searchWasPerformed, inProgress],
-  );
+  // useEffect(
+  //   () => {
+  //     if (searchWasPerformed && !inProgress) {
+  //       focusElement('.search-header');
+  //     }
+  //   },
+  //   [query, resultCount, inProgress],
+  // );
 
   if (!searchWasPerformed || inProgress) {
     return <></>;
