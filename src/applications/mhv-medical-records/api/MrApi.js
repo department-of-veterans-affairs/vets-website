@@ -220,10 +220,10 @@ export const getMedications = async () => {
  * @returns list of patient's appointments
  */
 export const getAppointments = async () => {
-  const now = new Date();
-  const startDate = formatISO(now);
   const beginningOfTime = new Date(0);
-  const endDate = formatISO(beginningOfTime);
+  const now = new Date();
+  const startDate = formatISO(beginningOfTime);
+  const endDate = formatISO(now);
   const statusParams =
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
   const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
