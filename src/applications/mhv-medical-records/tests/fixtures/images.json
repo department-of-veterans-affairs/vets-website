@@ -11,6 +11,16 @@
       "endDate": 1734365193147
     },
     {
+      "status": "NEW",
+      "statusText": "0",
+      "studyIdUrn": "4b21dc26-33cc-4840-9ada-babb1e9e4ae6",
+      "percentComplete": 100,
+      "fileSize": "",
+      "fileSizeNumber": null,
+      "startDate": 1734365137023,
+      "endDate": 1734365193147
+    },
+    {
       "status": "COMPLETE",
       "statusText": "100",
       "studyIdUrn": "5df3a7b7-7ead-45ff-b466-8b29a01ba94d",

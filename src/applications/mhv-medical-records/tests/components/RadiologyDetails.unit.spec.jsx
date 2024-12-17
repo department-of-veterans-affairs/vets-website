@@ -8,6 +8,7 @@ import reducer from '../../reducers';
 import RadiologyDetails from '../../components/LabsAndTests/RadiologyDetails';
 import radiologyMhv from '../fixtures/radiologyMhv.json';
 import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
+import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.json';
 import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
@@ -184,6 +185,47 @@ describe('Radiology details component - image with error', () => {
     );
     expect(requestImagesButton).to.exist;
     fireEvent.click(requestImagesButton);
+  });
+});
+
+describe('Radiology details component - new image', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(radiologyMhvWithImagesNew);
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...images,
+        notificationStatus: true,
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+      // eslint-disable-next-line camelcase
+      mhv_integration_medical_records_to_phase_1: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('renders without errors', () => {
+    expect(screen).to.exist;
   });
 });
 
