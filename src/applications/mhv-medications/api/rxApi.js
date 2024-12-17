@@ -76,7 +76,7 @@ export const getDocumentation = id => {
 // **Remove once filter feature is developed and live.**
 export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=10${sortEndpoint}`,
     { headers },
   );
 };
@@ -87,7 +87,7 @@ export const getFilteredList = (
   sortEndpoint = '',
 ) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${filterOption}${sortEndpoint}`,
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=10${filterOption}${sortEndpoint}`,
     { headers },
   );
 };
