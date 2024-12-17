@@ -6,12 +6,13 @@ import { format } from 'date-fns';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
+import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
-  const selectedSlotKey = `selected-slot-referral-${currentReferral.UUID}`;
+  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));

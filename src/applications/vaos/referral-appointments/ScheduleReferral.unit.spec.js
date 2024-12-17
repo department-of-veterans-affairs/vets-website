@@ -6,7 +6,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral } from './utils/referrals';
+import { createReferral, getReferralSlotKey } from './utils/referrals';
 
 describe('VAOS Component: ScheduleReferral', () => {
   afterEach(() => {
@@ -72,7 +72,7 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
   it('should reset slot selection', async () => {
     const referral = createReferral(referralDate, '222');
-    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    const selectedSlotKey = getReferralSlotKey(referral.UUID);
     sessionStorage.setItem(selectedSlotKey, '0');
     const initialState = {
       featureToggles: {

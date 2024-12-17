@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import DateAndTimeContent from './DateAndTimeContent';
-import { createReferral } from '../utils/referrals';
+import { createReferral, getReferralSlotKey } from '../utils/referrals';
 import { createProviderDetails } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
@@ -91,7 +91,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should show error if conflicting appointment', async () => {
-    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    const selectedSlotKey = getReferralSlotKey(referral.UUID);
     sessionStorage.setItem(selectedSlotKey, '0');
     const initialStateWithSelect = {
       featureToggles: {
@@ -125,7 +125,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should select date if value in session storage', async () => {
-    const selectedSlotKey = `selected-slot-referral-${referral.UUID}`;
+    const selectedSlotKey = getReferralSlotKey(referral.UUID);
     sessionStorage.setItem(selectedSlotKey, '1');
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent

@@ -18,6 +18,7 @@ import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
+import { getReferralSlotKey } from '../utils/referrals';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, provider, appointmentsByMonth } = props;
@@ -31,7 +32,7 @@ export const DateAndTimeContent = props => {
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
-  const selectedSlotKey = `selected-slot-referral-${currentReferral.UUID}`;
+  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,

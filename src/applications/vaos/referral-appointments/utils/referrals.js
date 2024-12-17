@@ -86,4 +86,14 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
   return referrals;
 };
 
-module.exports = { createReferral, createReferrals };
+/**
+ * Returns the session key for a stored slot by referral id.
+ *
+ * @param {String} id The id of the referral.
+ * @returns {String} The storage key.
+ */
+const getReferralSlotKey = id => {
+  return `selected-slot-referral-${id}`;
+};
+
+module.exports = { createReferral, createReferrals, getReferralSlotKey };
