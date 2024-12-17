@@ -27,6 +27,7 @@ import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
+  ALERT_TYPE_SEI_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -178,7 +179,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             .catch(() => setSeiPdfGenerationError(true));
         }
       } catch (error) {
-        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+        dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
       }
     },
     [
