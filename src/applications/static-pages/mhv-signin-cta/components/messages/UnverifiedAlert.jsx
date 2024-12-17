@@ -6,8 +6,11 @@ import {
   SERVICE_PROVIDERS,
   CSP_IDS,
 } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
-import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
+import {
+  VerifyButton,
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 import CustomAlert from './CustomAlert';
 
 export const headingPrefix = 'Verify your identity';
@@ -19,7 +22,6 @@ export const headingPrefix = 'Verify your identity';
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
-  hasSsoe = false,
   recordEvent = recordEventFn,
   serviceDescription,
   signInService = CSP_IDS.ID_ME,
@@ -28,13 +30,12 @@ const UnverifiedAlert = ({
   const headline = serviceDescription
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
-
-  /**
-   * Directs the user to the sign out page.
-   */
-  const signOut = () => {
-    window.location = hasSsoe ? logoutUrl() : logoutUrlSiS();
-  };
+  const verifyServiceButton =
+    signInService === CSP_IDS.LOGIN_GOV ? (
+      <VerifyLogingovButton />
+    ) : (
+      <VerifyIdmeButton />
+    );
 
   /**
    * The default alert to show a user.
@@ -52,20 +53,19 @@ const UnverifiedAlert = ({
             <p>
               We need you to verify your identity for your{' '}
               <strong>{signinServiceLabel}</strong> account. This step helps us
-              keep your information safe and prevent fraud and identity theft.
+              protect all Veterans’ information and prevent scammers from
+              stealing your benefits.
             </p>
             <p>
               This one-time process often takes about 10 minutes. You’ll need to
               provide certain personal information and identification.
             </p>
+            <p>{verifyServiceButton}</p>
             <p>
-              <a
-                className="vads-c-action-link--green"
+              <va-link
                 href="/resources/verifying-your-identity-on-vagov/"
-                hrefLang="en"
-              >
-                Verify your identity with {signinServiceLabel}
-              </a>
+                text="Learn more about verifying your identity"
+              />
             </p>
           </div>
         </CustomAlert>
@@ -81,60 +81,31 @@ const UnverifiedAlert = ({
       <CustomAlert headline={headline} icon="lock" status="warning">
         <div>
           <p>
-            To protect your information and prevent fraud and identity theft, we
-            need you to sign in with a verified account. You have 2 options: a
-            verified <strong>Login.gov</strong> or a verified{' '}
-            <strong>ID.me</strong> account.
+            We need you to sign in with an identity-verified account. This helps
+            us protect all Veterans’ information and prevent scammers from
+            stealing your benefits. You have 2 options: a verified{' '}
+            <strong>Login.gov</strong> or a verified <strong>ID.me</strong>{' '}
+            account.
           </p>
           <p>
             <strong>If you already have a Login.gov or ID.me account,</strong>{' '}
-            sign out of VA.gov. Then sign back in using that account. We’ll tell
-            you if you need to verify your identity.
+            sign in with that account. If you still need to verify your identity
+            for your account, we’ll help you do that now.
           </p>
           <p>
-            <strong>If you want to create a Login.gov or ID.me account,</strong>{' '}
-            follow these steps:
+            <strong>If you don’t have a Login.gov or ID.me account,</strong>{' '}
+            create one now. We’ll help you verify your identity.
           </p>
           <p>
-            <strong>
-              Not sure if you already have a Login.gov or ID.me account?
-            </strong>
-          </p>
-          <ul>
-            <li>Sign out of VA.gov</li>
-            <li>On the VA.gov homepage, select Create an account</li>
-            <li>
-              Create a Login.gov or ID.me account. Come back to VA.gov and sign
-              in with your Login.gov or ID.me account. We’ll help you verify
-              your identity.
-            </li>
-          </ul>
-          <p>
-            You may have one if you’ve ever signed in to a federal website to
-            manage your benefits—like Social Security or disability benefits. Or
-            we may have started creating an <strong>ID.me</strong> account for
-            you when you signed in to VA.gov.
+            <VerifyButton csp={CSP_IDS.LOGIN_GOV} />
           </p>
           <p>
-            To check, sign out of VA.gov. Then try to create a new account with
-            the email address you think the account is attached to. If you
-            already have one, the sign-in service provider will tell you. You
-            can then try to reset your password.
+            <VerifyButton csp={CSP_IDS.ID_ME} />
           </p>
-          <p>
-            <va-button
-              data-testid="sign-out-button"
-              text="Sign out"
-              onClick={signOut}
-              label="Sign out"
-            />
-          </p>
-          <p>
-            <va-link
-              href="/resources/creating-an-account-for-vagov/"
-              text="Learn about creating an account"
-            />
-          </p>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+          />
         </div>
       </CustomAlert>
     );
@@ -147,7 +118,6 @@ const UnverifiedAlert = ({
 
 UnverifiedAlert.propTypes = {
   signInService: PropTypes.string.isRequired,
-  hasSsoe: PropTypes.bool,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };
