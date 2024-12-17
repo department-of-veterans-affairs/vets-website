@@ -10,9 +10,28 @@ const BenefitCard = ({ benefit }) => {
     learnMoreURL,
     applyNowURL,
   } = benefit;
+
+  const renderLink = (url, text, label) => {
+    if (url) {
+      return (
+        <a
+          href={url}
+          rel="noreferrer"
+          className="link--center"
+          aria-label={`${label} (opens in a new tab)`}
+          target="_blank"
+        >
+          {text} (opens in a new tab)
+          <span className="usa-sr-only">opens in a new tab</span>
+        </a>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="benefit-card vads-u-margin-bottom--2">
-      <va-card tabIndex="0">
+      <va-card>
         <>
           {isTimeSensitive && (
             <div className="blue-heading">
@@ -31,26 +50,10 @@ const BenefitCard = ({ benefit }) => {
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
-            {learnMoreURL && (
-              <va-link
-                href={learnMoreURL}
-                external
-                text="Learn more"
-                type="secondary"
-                label={`Learn more about ${name}`}
-              />
-            )}
+            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
           <div className="vads-u-display--inline-block">
-            {applyNowURL && (
-              <va-link
-                href={applyNowURL}
-                external
-                text="Apply now"
-                type="secondary"
-                label={`Apply now for ${name}`}
-              />
-            )}
+            {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
           </div>
         </div>
       </va-card>

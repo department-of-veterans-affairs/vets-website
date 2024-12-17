@@ -183,13 +183,14 @@ SearchResult.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
 };
 
+export { SearchResult };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

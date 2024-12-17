@@ -22,12 +22,10 @@ import {
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
-  // confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  // veteranContactPhoneEmailForNonVeteran,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -37,8 +35,6 @@ import {
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
 } from '../pages';
-
-import { prefillTransformer } from '../prefill-transformer';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
@@ -88,7 +84,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
@@ -197,13 +192,6 @@ const formConfig = {
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
-        // confirmClaimantPersonalInformation: {
-        //   path: 'confirm-claimant-personal-information',
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   title: 'Your Personal Information',
-        //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
-        //   schema: confirmClaimantPersonalInformation.schema,
-        // },
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
           depends: formData => !preparerIsVeteran({ formData }),
@@ -218,22 +206,6 @@ const formConfig = {
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
         },
-        // ...profileContactInfo({
-        //   contactInfoPageKey: 'confirmContactInfo',
-        //   contactPath: 'claimant-contact',
-        //   contactInfoRequiredKeys: [
-        //     'mailingAddress',
-        //     'email',
-        //     'homePhone',
-        //     'mobilePhone',
-        //   ],
-        //   included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
-        //   depends: formData => {
-        //     const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
-        //     const isNotVeteran = !preparerIsVeteran({ formData });
-        //     return isLoggedIn && isNotVeteran;
-        //   },
-        // }),
 
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
@@ -256,13 +228,6 @@ const formConfig = {
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
         },
-        // veteranContactPhoneEmailForNonVeteran: {
-        //   path: 'veteran-contact-phone-email-for-non-veteran',
-        //   title: `Veteran’s phone number and email address`,
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   uiSchema: veteranContactPhoneEmailForNonVeteran.uiSchema,
-        //   schema: veteranContactPhoneEmailForNonVeteran.schema,
-        // },
         veteranIdentification: {
           path: 'veteran-identification',
           title: `Your identification information`,

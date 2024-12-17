@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { date } = fullSchemaHca.definitions;
+const { date } = FULL_SCHEMA.definitions;
 
 export default {
   uiSchema: {
