@@ -27,6 +27,7 @@ describe('CG <AddressWithAutofill>', () => {
         state: 'DC',
         postalCode: '20005',
         'view:autofill': autofill,
+        county: undefined,
       },
       errorSchema: {
         city: errorSchemas.required,
@@ -49,6 +50,7 @@ describe('CG <AddressWithAutofill>', () => {
       },
       schema: addressWithAutofillSchema(address),
       onChange: sinon.spy(),
+      name: 'caregiverAddress',
     },
     mockStore: {
       getState: () => ({
@@ -81,6 +83,7 @@ describe('CG <AddressWithAutofill>', () => {
       reviewRow: container.querySelectorAll('.review-row'),
       vaCheckbox: container.querySelector('#root_caregiverAddress_autofill'),
       vaTextInput: container.querySelector('#root_caregiverAddress_postalCode'),
+      streetInput: container.querySelector('#root_caregiverAddress_street'),
     });
     return { container, selectors };
   };
@@ -160,6 +163,31 @@ describe('CG <AddressWithAutofill>', () => {
       });
 
       await waitFor(() => {
+        fireEvent.blur(selectors().vaTextInput);
+        expect(selectors().vaTextInput).to.not.have.attr('error');
+      });
+    });
+
+    it('should call all `onChange` methods to update the form data in case of autocomplete', async () => {
+      const { mockStore, props } = getData({});
+      const { container, selectors } = subject({ mockStore, props });
+      const formData = {
+        ...props.formData,
+        postalCode: postalCode.valid,
+        street: '123 Fake st.',
+      };
+
+      await waitFor(() => {
+        selectors().streetInput.value = formData.street;
+        inputVaTextInput(
+          container,
+          formData.postalCode,
+          selectors().vaTextInput,
+        );
+        const blurEvent = new CustomEvent('blur');
+        selectors().vaTextInput.dispatchEvent(blurEvent);
+        expect(props.onChange.calledWith(formData)).to.be.true;
+
         fireEvent.blur(selectors().vaTextInput);
         expect(selectors().vaTextInput).to.not.have.attr('error');
       });

@@ -7,9 +7,17 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
+import {
+  optionIndicatorLabel,
+  optionIndicatorChoices,
+  OptionIndicatorReviewField,
+} from '../../content/optionIndicator';
 
 describe('Supplemental Claims option for MST page', () => {
-  const { schema, uiSchema } = formConfig.chapters.issues.pages.optionIndicator;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.vhaIndicator.pages.optionIndicator;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
@@ -45,5 +53,31 @@ describe('Supplemental Claims option for MST page', () => {
     expect(result).to.deep.equal({
       'ui:options': { labelHeaderLevel: 4 },
     });
+  });
+});
+
+describe('OptionIndicatorReviewField', () => {
+  it('should render the value', () => {
+    const { container } = render(
+      <OptionIndicatorReviewField>
+        {React.createElement('div', { formData: 'notEnrolled' }, 'notEnrolled')}
+      </OptionIndicatorReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(optionIndicatorLabel);
+    expect($('dd', container).textContent).to.equal(
+      optionIndicatorChoices.notEnrolled,
+    );
+  });
+
+  it('should render the missing value error', () => {
+    const { container } = render(
+      <OptionIndicatorReviewField>
+        {React.createElement('div', { formData: null })}
+      </OptionIndicatorReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(optionIndicatorLabel);
+    expect($('dd', container).textContent).to.equal('Not answered');
   });
 });

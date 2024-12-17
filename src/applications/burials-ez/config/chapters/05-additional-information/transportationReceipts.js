@@ -1,5 +1,5 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { generateTitle } from '../../../utils/helpers';
 import { burialUploadUI } from '../../../utils/upload';
 

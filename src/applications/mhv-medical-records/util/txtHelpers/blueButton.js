@@ -8,6 +8,11 @@ import { parseVaccines } from './vaccines';
 import { parseAllergies } from './allergies';
 import { parseHealthConditions } from './conditions';
 import { parseVitals } from './vitals';
+import { parseMedications } from './medications';
+import { parseAppointments } from './appointments';
+import { parseDemographics } from './demographics';
+import { parseMilitaryService } from './militaryService';
+import { parseAccountSummary } from './accountSummary';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**
@@ -17,6 +22,61 @@ import { parseVitals } from './vitals';
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
 export const getTxtContent = (data, { userFullName, dob }) => {
+  const sections = [
+    {
+      label: 'Labs and Tests',
+      data: data?.labsAndTests,
+      parse: parseLabsAndTests,
+    },
+    {
+      label: 'Care Summaries and Notes',
+      data: data?.notes,
+      parse: parseCareSummariesAndNotes,
+    },
+    { label: 'Vaccines', data: data?.vaccines, parse: parseVaccines },
+    { label: 'Allergies', data: data?.allergies, parse: parseAllergies },
+    {
+      label: 'Health Conditions',
+      data: data?.conditions,
+      parse: parseHealthConditions,
+    },
+    { label: 'Vitals', data: data?.vitals, parse: parseVitals },
+    { label: 'Medications', data: data?.medications, parse: parseMedications },
+    {
+      label: 'Appointments',
+      data: data?.appointments,
+      parse: parseAppointments,
+    },
+    {
+      label: 'Demographics',
+      data: data?.demographics,
+      parse: parseDemographics,
+    },
+    {
+      label: 'Military Service',
+      data: data?.militaryService,
+      parse: parseMilitaryService,
+    },
+    {
+      label: 'Account Summary',
+      data: data?.accountSummary,
+      parse: parseAccountSummary,
+    },
+  ];
+
+  const recordsSection = sections
+    .filter(section => section.data)
+    .map((section, index) => `  ${index + 1}. ${section.label}`)
+    .join('\n');
+
+  const contentSection = sections
+    .filter(section => section.data)
+    .map(
+      (section, index) =>
+        `${txtLine}\n${section.parse(section.data, index + 1)}`,
+    )
+    .join('\n\n');
+
   return `
 Blue Button report
 
@@ -36,18 +96,8 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
-  1. Labs and Tests
-  2. Care Summaries and Notes
-  3. Vaccines
-  4. Allergies
-  5. Health Conditions
-  6. Vitals
+${recordsSection}
 
-${parseLabsAndTests(data.labsAndTests)}
-${parseCareSummariesAndNotes(data.notes)}
-${parseVaccines(data.vaccines)}
-${parseAllergies(data.allergies)}
-${parseHealthConditions(data.conditions)}
-${parseVitals(data.vitals)}
+${contentSection}
 `;
 };
