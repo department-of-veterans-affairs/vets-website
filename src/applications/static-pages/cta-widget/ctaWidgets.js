@@ -164,6 +164,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Blue Button',
     requiredServices: backendServices.HEALTH_RECORDS,
     serviceDescription: 'manage your VA medical records',
+    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
@@ -201,6 +202,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'Lab and Test Results',
     requiredServices: null,
     serviceDescription: 'view your lab and test results',
+    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.LETTERS]: {
     id: CTA_WIDGET_TYPES.LETTERS,
@@ -237,6 +239,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'Secure Messaging',
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
+    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.RX]: {
     id: CTA_WIDGET_TYPES.RX,
@@ -253,6 +256,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'Prescription Refill and Tracking',
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
+    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS]: {
     id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
@@ -314,6 +318,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
+    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,

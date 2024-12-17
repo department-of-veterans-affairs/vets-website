@@ -141,6 +141,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const generateSEIPdf = useCallback(
     async () => {
       setSelfEnteredPdfRequested(true);
+      setSeiPdfGenerationError(false);
 
       if (!isDataFetched) {
         // Fetch data if not all defined
@@ -345,12 +346,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <va-link
-            download
-            onClick={generateSEIPdf}
-            text="Download PDF"
-            data-testid="downloadSelfEnteredButton"
-          />
+          {selfEnteredPdfRequested &&
+          !successfulSeiDownload &&
+          !seiPdfGenerationError ? (
+            <div id="generating-sei-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+                data-testid="sei-loading-indicator"
+              />
+            </div>
+          ) : (
+            <va-link
+              download
+              onClick={generateSEIPdf}
+              text="Download PDF"
+              data-testid="downloadSelfEnteredButton"
+            />
+          )}
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your
