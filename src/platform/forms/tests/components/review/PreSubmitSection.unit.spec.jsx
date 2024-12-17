@@ -9,8 +9,12 @@ import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
 
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import ReactTestUtils from 'react-dom/test-utils';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { inputVaTextInput } from 'platform/testing/unit/helpers';
 
 const createForm = options => ({
+  formId: 'test',
   submission: {
     hasAttemptedSubmit: false,
     status: false,
@@ -27,6 +31,9 @@ const createForm = options => ({
     },
   },
   data: {},
+  savedStatus: 'not-attempted',
+  trackingPrefix: '',
+  version: 1,
   ...options,
 });
 
@@ -86,7 +93,10 @@ describe('Review PreSubmitSection component', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -110,7 +120,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -118,6 +131,7 @@ describe('Review PreSubmitSection component', () => {
 
     tree.unmount();
   });
+
   it('should render a custom save link', () => {
     const form = createForm();
     const formConfig = {
@@ -139,7 +153,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -174,7 +191,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -203,7 +223,11 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} showPreSubmitError />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+          showPreSubmitError
+        />
       </Provider>,
     );
 
@@ -242,7 +266,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -250,6 +277,62 @@ describe('Review PreSubmitSection component', () => {
       'Statement of truth',
     );
 
+    tree.unmount();
+  });
+
+  it('should render statement of truth using user profile option when name mismatch error', () => {
+    const formConfig = getFormConfig({
+      preSubmitInfo: {
+        statementOfTruth: {
+          body: 'Test body',
+          heading: 'Test heading',
+          useProfileFullName: true,
+        },
+      },
+    });
+    const form = createForm({});
+    const store = {
+      getState: () => ({
+        form,
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            userFullName: {
+              first: 'Elphaba',
+              middle: '',
+              last: 'Thropp',
+            },
+          },
+        },
+        location: { pathname: '/review-and-submit' },
+        navigation: { showLoginModal: false },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection
+          form={form}
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+          setPreSubmit={() => {}}
+        />
+      </Provider>,
+    );
+
+    const nameInput = $('va-text-input', tree.container);
+    inputVaTextInput(tree.container, 'Elphie Thropp');
+    ReactTestUtils.Simulate.blur(nameInput);
+
+    expect(tree.container.querySelector('h3').innerHTML).to.equal(
+      'Test heading',
+    );
+    tree.getByText('Test body');
+    expect($('va-text-input').error).to.equal(
+      'Please enter your name exactly as it appears on your application: Elphaba Thropp',
+    );
     tree.unmount();
   });
 });

@@ -13,24 +13,26 @@ const VaccinesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link
-        to={`/vaccines/${record.id}`}
-        data-dd-privacy="mask"
-        className="no-print"
-        onClick={() => {
-          sendDataDogAction('Vaccines Detail Link');
-        }}
-      >
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+      <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <Link
+          to={`/vaccines/${record.id}`}
+          data-dd-privacy="mask"
+          data-dd-action-name
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Vaccines Detail Link');
+          }}
+        >
           {record.name} <span className="sr-only">{`on ${record.date}`}</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* print view header */}
       <h2
         className="print-only vads-u-margin-bottom--1 vads-u-margin-top--0"
         aria-hidden="true"
         data-dd-privacy="mask"
+        data-dd-action-name="[vaccines list - name]"
       >
         {record.name}
       </h2>
@@ -40,13 +42,21 @@ const VaccinesListItem = props => {
         <span className="vads-u-display--inline print-bold">
           Date received:
         </span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline"
+          data-dd-privacy="mask"
+          data-dd-action-name="[vaccines list - date]"
+        >
           {record.date}
         </span>
       </div>
       <div className="print-only print-indent">
         <span className="vads-u-display--inline print-bold">Location:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline"
+          data-dd-privacy="mask"
+          data-dd-action-name="[vaccines list - location]"
+        >
           {record.location}
         </span>
       </div>

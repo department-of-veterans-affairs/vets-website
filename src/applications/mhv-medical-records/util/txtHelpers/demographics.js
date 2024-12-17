@@ -24,9 +24,9 @@ const formatDemographicsContentToText = content => {
 };
 
 // Function to parse demographics
-export const parseDemographics = records => {
+export const parseDemographics = (records, index = 9) => {
   return `
-9) Demographics
+${index}) Demographics
 
 Each of your VA facilities may have different demographic information for you. 
 If you need to update your information, contact your facility.
