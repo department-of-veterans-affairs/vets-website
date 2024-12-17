@@ -172,19 +172,23 @@ export const generateBlueButtonData = (
       : [],
   });
 
-  const upcoming = appointments?.length
-    ? appointments.filter(appt => appt.isUpcoming)
-    : [];
-  const past = appointments?.length
-    ? appointments.filter(appt => !appt.isUpcoming)
-    : [];
+  const upcoming =
+    appointments?.length && recordFilter.includes('upcomingAppts')
+      ? appointments.filter(appt => appt.isUpcoming)
+      : [];
+  const past =
+    appointments?.length && recordFilter.includes('pastAppts')
+      ? appointments.filter(appt => !appt.isUpcoming)
+      : [];
   data.push({
     type: blueButtonRecordTypes.APPOINTMENTS,
     title: 'Appointments',
     subtitles: [
       'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
     ],
-    selected: recordFilter.includes('appointments'),
+    selected:
+      recordFilter.includes('upcomingAppts') ||
+      recordFilter.includes('pastAppts'),
     records: [
       {
         title: 'Upcoming appointments',

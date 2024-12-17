@@ -295,10 +295,7 @@ const SettingsPage = () => {
         <p>
           <ExternalLink
             ddTag="Go to your profile on MHV"
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
             text="Go to your profile on the My Healthevet website"
           />
         </p>
