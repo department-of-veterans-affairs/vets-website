@@ -16,7 +16,7 @@ import { fromToNumbs } from '../../util/helpers';
 import { selectFilterFlag } from '../../util/selectors';
 
 const MAX_PAGE_LIST_LENGTH = 6;
-const perPage = 20;
+const perPage = 10;
 const MedicationsList = props => {
   const history = useHistory();
   const {
