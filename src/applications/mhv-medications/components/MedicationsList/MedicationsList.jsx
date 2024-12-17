@@ -13,10 +13,9 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectFilterFlag } from '../../util/selectors';
+import { selectFilterFlag, selectGroupingFlag } from '../../util/selectors';
 
 const MAX_PAGE_LIST_LENGTH = 6;
-const perPage = 10;
 const MedicationsList = props => {
   const history = useHistory();
   const {
@@ -35,6 +34,9 @@ const MedicationsList = props => {
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
+
+  const perPage = showGroupingFlag ? 10 : 20;
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
