@@ -19,10 +19,14 @@ ReviewRowView.propTypes = {
 };
 
 export const AltReviewRowView = ({ children }) => {
+  // children are usually a React element, but are an object on the confirmation page
+  const data = React.isValidElement(children)
+    ? children
+    : children?.props?.formData?.toString();
   return (
     <div className="review-row">
       <dt>{children?.props?.uiSchema?.['ui:title']}</dt>
-      <dd>{children}</dd>
+      <dd>{data}</dd>
     </div>
   );
 };
