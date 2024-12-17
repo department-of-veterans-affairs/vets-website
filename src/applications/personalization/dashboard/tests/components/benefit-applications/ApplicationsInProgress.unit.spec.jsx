@@ -148,6 +148,9 @@ describe('ApplicationsInProgress component', () => {
       submittedForms: {
         forms: formsWithStatus,
       },
+      myVaFormPdfs: {
+        loading: false,
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
