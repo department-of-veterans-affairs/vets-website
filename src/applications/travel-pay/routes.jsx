@@ -1,16 +1,24 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
+import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 
 const routes = (
   <Switch>
     <Route exact path="/" title="TravelPayHome">
+      <Redirect to="/claims/" />
+    </Route>
+    <Route exact path="/claims/" title="TravelPayHome">
       <MhvSecondaryNav />
       <TravelPayStatusApp />
     </Route>
-    <Route exact path="/:id">
+    <Route exact path="/help">
+      <MhvSecondaryNav />
+      <ClaimStatusExplainerPage />
+    </Route>
+    <Route path="/claims/:id">
       <MhvSecondaryNav />
       <TravelClaimDetails />
     </Route>

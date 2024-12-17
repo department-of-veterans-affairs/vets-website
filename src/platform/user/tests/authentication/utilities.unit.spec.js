@@ -594,12 +594,29 @@ describe('Authentication Utilities', () => {
       expect(global.window.location).to.include('acr=ial2');
     });
     it('should pass along query parameters', async () => {
-      const link = await authUtilities.verify({
+      const samlLink = await authUtilities.verify({
         policy: 'idme',
         isLink: true,
-        queryParams: { queryPassed: true },
+        queryParams: {
+          operation: 'test_operation',
+          gaClientId: 'id',
+          scope: 'email',
+        },
       });
-      expect(link).to.include('queryPassed=true');
+      expect(samlLink).to.include(
+        '?operation=test_operation&gaClientId=id&scope=email',
+      );
+      const oauthLink = await authUtilities.verify({
+        policy: 'idme',
+        isLink: true,
+        useOAuth: true,
+        acr: 'loa3',
+        queryParams: {
+          operation: 'test_operation',
+        },
+      });
+      expect(oauthLink).to.include('acr=loa3');
+      expect(oauthLink).to.include('&operation=test_operation');
     });
   });
 

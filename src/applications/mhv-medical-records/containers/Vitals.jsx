@@ -27,6 +27,7 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Vitals = () => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isAcceleratingVitals } = useAcceleratedData();
+  const { isLoading, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
     isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
@@ -261,19 +262,35 @@ const Vitals = () => {
         {`Vitals are basic health numbers your providers check at your
         appointments.`}
       </p>
-      {isAcceleratingVitals && datePicker()}
-      {isLoadingAcceleratedData && (
+
+      <CernerFacilityAlert {...Constants.CernerAlertContent.VITALS} />
+
+      {isLoading && (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="We’re loading your vitals."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        </div>
+      )}
+      {!isLoading && (
         <>
-          <div className="vads-u-margin-y--8">
-            <va-loading-indicator
-              message="We’re loading your records."
-              setFocus
-              data-testid="loading-indicator"
-            />
-          </div>
+          {isAcceleratingVitals && datePicker()}
+          {isLoadingAcceleratedData && (
+            <>
+              <div className="vads-u-margin-y--8">
+                <va-loading-indicator
+                  message="We’re loading your records."
+                  setFocus
+                  data-testid="loading-indicator"
+                />
+              </div>
+            </>
+          )}
+          {!isLoadingAcceleratedData && content()}
         </>
       )}
-      {!isLoadingAcceleratedData && content()}
     </div>
   );
 };
