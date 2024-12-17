@@ -26,6 +26,7 @@ import {
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  ALERT_TYPE_BB_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -38,6 +39,7 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -108,6 +110,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
 
+  const activeAlert = useAlerts(dispatch);
+
   const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
 
   // Initial page setup effect
@@ -137,6 +141,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const generateSEIPdf = useCallback(
     async () => {
       setSelfEnteredPdfRequested(true);
+      setSeiPdfGenerationError(false);
 
       if (!isDataFetched) {
         // Fetch data if not all defined
@@ -242,6 +247,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         </va-card>
       )}
 
+      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.BB}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
@@ -333,12 +346,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <va-link
-            download
-            onClick={generateSEIPdf}
-            text="Download PDF"
-            data-testid="downloadSelfEnteredButton"
-          />
+          {selfEnteredPdfRequested &&
+          !successfulSeiDownload &&
+          !seiPdfGenerationError ? (
+            <div id="generating-sei-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+                data-testid="sei-loading-indicator"
+              />
+            </div>
+          ) : (
+            <va-link
+              download
+              onClick={generateSEIPdf}
+              text="Download PDF"
+              data-testid="downloadSelfEnteredButton"
+            />
+          )}
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your
