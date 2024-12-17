@@ -26,6 +26,8 @@ import {
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  ALERT_TYPE_BB_ERROR,
+  ALERT_TYPE_SEI_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -38,6 +40,8 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
+import { addAlert } from '../actions/alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -108,6 +112,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
 
+  const activeAlert = useAlerts(dispatch);
+
   const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
 
   // Initial page setup effect
@@ -126,7 +132,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     () => {
       if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
       return SEI_DOMAINS.every(item => {
-        const isFetched = !!seiRecords[item];
+        const isFetched = !!seiRecords[item] || seiRecords[item] === null;
         const hasFailed = failedSeiDomains.includes(item);
         return isFetched || hasFailed;
       });
@@ -136,32 +142,44 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const generateSEIPdf = useCallback(
     async () => {
-      setSelfEnteredPdfRequested(true);
+      try {
+        setSelfEnteredPdfRequested(true);
+        setSeiPdfGenerationError(false);
 
-      if (!isDataFetched) {
-        // Fetch data if not all defined
-        dispatch(clearFailedList());
-        dispatch(getSelfEnteredData());
-      } else {
-        // If already defined, generate the PDF directly
-        setSelfEnteredPdfRequested(false);
-        const title = 'Self-entered information report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(userProfile, title, subject);
-        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-          userProfile,
-        )}`;
+        if (!isDataFetched) {
+          // Fetch data if not all defined
+          dispatch(clearFailedList());
+          dispatch(getSelfEnteredData());
+        } else {
+          // If already defined, generate the PDF directly
+          setSelfEnteredPdfRequested(false);
+          const title = 'Self-entered information report';
+          const subject = 'VA Medical Record';
+          const scaffold = generatePdfScaffold(userProfile, title, subject);
+          const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+            userProfile,
+          )}`;
 
-        const pdfData = {
-          recordSets: generateSelfEnteredData(seiRecords),
-          ...scaffold,
-          name,
-          dob,
-          lastUpdated: UNKNOWN,
-        };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
-          .then(() => setSuccessfulSeiDownload(true))
-          .catch(() => setSeiPdfGenerationError(true));
+          Object.keys(seiRecords).forEach(key => {
+            const item = seiRecords[key];
+            if (item && Array.isArray(item) && !item.length) {
+              seiRecords[key] = null;
+            }
+          });
+
+          const pdfData = {
+            recordSets: generateSelfEnteredData(seiRecords),
+            ...scaffold,
+            name,
+            dob,
+            lastUpdated: UNKNOWN,
+          };
+          makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+            .then(() => setSuccessfulSeiDownload(true))
+            .catch(() => setSeiPdfGenerationError(true));
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
       }
     },
     [
@@ -240,6 +258,22 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
           on {lastSuccessfulUpdate.date}
         </va-card>
+      )}
+
+      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.BB}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
       )}
 
       {successfulBBDownload === true && (
@@ -333,12 +367,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <va-link
-            download
-            onClick={generateSEIPdf}
-            text="Download PDF"
-            data-testid="downloadSelfEnteredButton"
-          />
+          {selfEnteredPdfRequested &&
+          !successfulSeiDownload &&
+          !seiPdfGenerationError ? (
+            <div id="generating-sei-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+                data-testid="sei-loading-indicator"
+              />
+            </div>
+          ) : (
+            <va-link
+              download
+              onClick={generateSEIPdf}
+              text="Download PDF"
+              data-testid="downloadSelfEnteredButton"
+            />
+          )}
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your

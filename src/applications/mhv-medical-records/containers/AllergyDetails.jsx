@@ -261,8 +261,9 @@ Provider notes: ${allergyData.notes} \n`;
             </h2>
             <p
               data-dd-privacy="mask"
-              data-dd-action-name="[allergy provider notes]"
               data-testid="allergy-notes"
+              style={{ whiteSpace: 'pre-line' }}
+              data-dd-action-name="[allergy provider notes]"
             >
               {allergyData.notes}
             </p>

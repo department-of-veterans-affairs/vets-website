@@ -18,6 +18,7 @@ import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest'
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
+import EvidencePrivateLimitation2 from '../components/EvidencePrivateLimitation2';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
@@ -53,6 +54,7 @@ import evidenceSummary from '../pages/evidenceSummary';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
+  hasPrivateLimitation,
   hasOtherEvidence,
   onFormLoaded,
 } from '../utils/evidence';
@@ -67,6 +69,7 @@ import {
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SC_NEW_FORM_DATA,
@@ -340,6 +343,16 @@ const formConfig = {
           path: EVIDENCE_LIMITATION_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
+        },
+        // Duplicate of limitation page, but renders different content based on
+        evidencePrivateLimitation2: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH2,
+          depends: hasPrivateLimitation,
+          CustomPage: EvidencePrivateLimitation2,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
