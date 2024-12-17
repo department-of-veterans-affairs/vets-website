@@ -475,7 +475,7 @@ class PatientComposePage {
   };
 
   backToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    cy.get(Locators.LINKS.CRUMBS_BACK).click();
   };
 
   verifyCantSaveAlert = (

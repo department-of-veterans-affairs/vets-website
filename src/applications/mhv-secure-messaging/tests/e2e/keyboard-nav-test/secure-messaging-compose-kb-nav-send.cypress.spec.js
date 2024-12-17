@@ -2,13 +2,14 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
-
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     PatientComposePage.selectCategory();
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);

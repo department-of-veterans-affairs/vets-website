@@ -3,6 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('Secure Messaging Delete Draft', () => {
   it('delete Drafts on key press', () => {
@@ -10,6 +11,8 @@ describe('Secure Messaging Delete Draft', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
+    GeneralFunctionsPage.verifyPageHeader(`Edit draft`);
+    GeneralFunctionsPage.verifyHeaderFocused();
 
     PatientMessageDraftsPage.clickDeleteButton();
 

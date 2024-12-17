@@ -16,6 +16,7 @@ describe('Navigate to Message Details ', () => {
   });
 
   it('keyboard navigation to expand messages', () => {
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientMessageDetailsPage.verifyMessageExpandAndFocusByKeyboard();
 
     cy.injectAxe();

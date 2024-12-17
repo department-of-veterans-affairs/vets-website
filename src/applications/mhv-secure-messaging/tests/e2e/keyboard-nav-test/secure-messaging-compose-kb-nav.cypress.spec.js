@@ -2,6 +2,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('Secure Messaging Compose Keyboard Nav', () => {
   beforeEach(() => {
@@ -14,6 +15,7 @@ describe('Secure Messaging Compose Keyboard Nav', () => {
   });
 
   it('Tab to Message Subject Field', () => {
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.keyboardNavToMessageSubjectField().should('exist');
     cy.injectAxe();
