@@ -124,6 +124,7 @@ const AllergyListItem = props => {
           <span
             className="vads-u-display--inline-block"
             data-dd-privacy="mask"
+            style={{ whiteSpace: 'pre-line' }}
             data-dd-action-name="[allergy list - notes - Print]"
           >
             {record.notes}
@@ -137,6 +138,7 @@ const AllergyListItem = props => {
         <span
           className="vads-u-display--inline-block"
           data-dd-privacy="mask"
+          style={{ whiteSpace: 'pre-line' }}
           data-dd-action-name="[allergy list - notes - Print]"
         >
           {record.notes}
