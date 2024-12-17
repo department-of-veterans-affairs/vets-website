@@ -23,8 +23,12 @@ export default function Authentication() {
                 to provide certain personal information and identification.
               </p>
               <div data-testid="verify-button-group">
-                <VerifyLogingovButton />
-                <VerifyIdmeButton />
+                <VerifyLogingovButton
+                  queryParam={{ operation: 'unauthenticated_verify_page' }}
+                />
+                <VerifyIdmeButton
+                  queryParam={{ operation: 'unauthenticated_verify_page' }}
+                />
               </div>
               <a href="/resources/verifying-your-identity-on-vagov/">
                 Learn more about verifying your identity

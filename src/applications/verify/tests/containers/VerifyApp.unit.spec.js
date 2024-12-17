@@ -50,7 +50,8 @@ describe('VerifyApp Component', () => {
 
   it('redirects to "/" when unauthenticated and in production', () => {
     expect(localStorage.getItem('hasSession')).to.eql(null);
-    isProductionStub.returns(true);
+    // isProductionStub.returns(true);
+    localStorage.setItem('isProduction', true);
 
     renderInReduxProvider(<VerifyApp />);
     // console.log(windowLocation);
