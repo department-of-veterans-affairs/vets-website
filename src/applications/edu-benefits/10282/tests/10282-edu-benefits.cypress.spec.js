@@ -12,13 +12,11 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['minimal.json', 'maximal.json'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          //   cy.findByText('Start your Application').click();
           cy.get('a.va-link--primary')
             .first()
             .click();
@@ -26,7 +24,6 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          //   cy.findByText('Start your Application').click();
           cy.get('va-text-input')
             .shadow()
             .find('input')
@@ -46,16 +43,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
       // cy.login();
-      //   cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      // cy.route({
-      //     method: 'POST',
-      //     url: '/v0/contact_us/inquiries',
-      //     status: 200,
-      //     response: {
-      //       confirmationNumber: '000123456000A',
-      //       dateSubmitted: '10-30-2020',
-      //     },
-      //   });
+      // cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
 
     // Skip tests in CI until the form is released.
