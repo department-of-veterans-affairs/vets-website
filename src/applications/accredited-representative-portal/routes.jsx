@@ -36,7 +36,7 @@ const router = createBrowserRouter(
           element: <SignedInLayoutWrapper />,
           children: [
             {
-              element: <LoadingWrapper />, // Wrap routes with LoadingWrapper
+              element: <LoadingWrapper />,
               children: [
                 {
                   path: 'poa-requests',
