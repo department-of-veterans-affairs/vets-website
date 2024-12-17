@@ -60,6 +60,7 @@ function LicenseCertificationSearchPage({
                   updateQueryParam(history, location)
                 }
                 location={location}
+                history={history}
               />
             </div>
           </section>
