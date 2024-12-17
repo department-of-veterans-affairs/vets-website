@@ -10,6 +10,7 @@ import {
   interpretationMap,
   refreshPhases,
   VALID_REFRESH_DURATION,
+  Paths,
 } from './constants';
 
 /**
@@ -619,6 +620,27 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
 
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
+};
+
+export const handleDataDogActionForVitals = ({
+  locationBasePath,
+  locationChildPath,
+  Breadcrumbs = [],
+  label,
+}) => {
+  const isDetails =
+    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+  const path = locationBasePath
+    ? `/${locationBasePath}/${isDetails ? locationChildPath : ''}`
+    : '/';
+  const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+  const tag = isDetails
+    ? `Back - ${label} - ${Breadcrumbs[feature].label}`
+    : `Back - ${Breadcrumbs[feature].label} - ${
+        locationChildPath ? 'Detail' : 'List'
+      }`;
+  sendDataDogAction(tag);
+  return tag;
 };
 
 /**

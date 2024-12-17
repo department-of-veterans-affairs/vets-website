@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
-import { sendDataDogAction } from '../util/helpers';
+import { handleDataDogActionForVitals } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,8 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
-  const { labId } = useParams();
+  const thing = useParams();
+  const { labId } = thing;
 
   useEffect(
     () => {
@@ -72,25 +73,15 @@ const MrBreadcrumbs = () => {
     [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
   );
 
-  const handleDataDogAction = () => {
-    const isVitalsDetail =
-      Paths.VITALS.includes(locationBasePath) && locationChildPath;
-    const path = locationBasePath
-      ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
-      : '/';
-    const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
-    const ddTag = isVitalsDetail
-      ? `Back - Vitals - ${Breadcrumbs[feature].label}`
-      : `Back - ${Breadcrumbs[feature].label} - ${
-          locationChildPath ? 'Detail' : 'List'
-        }`;
-    sendDataDogAction(ddTag);
-  };
-
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
-    handleDataDogAction();
+    handleDataDogActionForVitals({
+      locationBasePath,
+      locationChildPath,
+      Breadcrumbs,
+      label: 'Vitals',
+    });
   };
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
@@ -98,14 +89,21 @@ const MrBreadcrumbs = () => {
     : `/${locationBasePath}`;
 
   if (!phase0p5Flag) {
+    // TODO: !crumbsList will always be truthy due to the useEffect above
+    // This should logic should be looked at and refactored when we deprecate the feature toggle
     if (location.pathname === '/' || !crumbsList) {
-      return <div className="vads-u-padding-bottom--5" />;
+      return (
+        <div
+          className="vads-u-padding-bottom--5"
+          data-testid="no-crumbs-list-display"
+        />
+      );
     }
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
         label="Breadcrumb"
-        data-testid="breadcrumbs"
+        data-testid="disabled-no-crumbs-list-not-root-path"
       >
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
@@ -116,6 +114,7 @@ const MrBreadcrumbs = () => {
       </div>
     );
   }
+
   if (
     phase0p5Flag &&
     location.pathname.includes(`/${locationBasePath}/${labId}`)
@@ -124,12 +123,15 @@ const MrBreadcrumbs = () => {
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
         label="Breadcrumb"
-        data-testid="breadcrumbs"
+        data-testid="lab-id-breadcrumbs"
       >
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={backToImagesBreadcrumb} onClick={handleDataDogAction}>
+        <Link
+          to={backToImagesBreadcrumb}
+          onClick={handleDataDogActionForVitals}
+        >
           Back
         </Link>
       </div>

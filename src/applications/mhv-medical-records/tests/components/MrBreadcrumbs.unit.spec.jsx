@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { MemoryRouter, Route } from 'react-router-dom';
+
+import {
+  renderWithStoreAndRouter,
+  renderInReduxProvider,
+} from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
 import MrBreadcrumbs from '../../components/MrBreadcrumbs';
 
@@ -37,8 +42,69 @@ describe('MrBreadcrumbs component', () => {
       reducers: reducer,
       path: '/',
     });
-    screen.debug();
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
+  });
+
+  it('phase 1 disabled && no crumbs list && on the home page, should display the no-crumbs div', () => {
+    const initialState = {
+      mr: {
+        breadcrumbs: {
+          crumbsList: null,
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: false,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
+      initialState,
+      reducers: reducer,
+    });
+    const { getByTestId } = screen;
+    expect(getByTestId('no-crumbs-list-display')).to.exist;
+  });
+
+  it('checks the lab test bread crumbs', () => {
+    const initialState = {
+      mr: {
+        breadcrumbs: {
+          crumbsList: [
+            {
+              href: '/',
+              label: 'VA.gov home',
+            },
+            {
+              href: '/my-health',
+              label: 'My HealtheVet',
+            },
+            {
+              href: '/',
+              label: 'Medical records',
+              isRouterLink: true,
+            },
+          ],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
+      },
+    };
+    const screen = renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/labs-and-tests/123`]}>
+        <Route path="/labs-and-tests/:labId">
+          <MrBreadcrumbs />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    const { getByTestId } = screen;
+    expect(getByTestId('lab-id-breadcrumbs')).to.exist;
   });
 });

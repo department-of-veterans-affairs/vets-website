@@ -19,9 +19,10 @@ import {
   processList,
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
+  handleDataDogActionForVitals,
 } from '../../util/helpers';
 
-import { refreshPhases } from '../../util/constants';
+import { refreshPhases, Paths } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -647,6 +648,41 @@ describe('getMonthFromSelectedDate', () => {
     const date = '2024';
     const result = getMonthFromSelectedDate({ date });
     expect(result).to.be.null;
+  });
+});
+
+describe('handleDataDogActionForVitals', () => {
+  it('should return a tag for the details page', () => {
+    const tag = handleDataDogActionForVitals({
+      locationBasePath: 'vitals',
+      locationChildPath: 'heart-rate-history',
+      Breadcrumbs: {
+        HEART_RATE: {
+          href: Paths.HEART_RATE,
+          label: 'Heart rate',
+          isRouterLink: true,
+        },
+      },
+      label: 'some label',
+    });
+    expect(tag).to.equal('Back - some label - Heart rate');
+  });
+  it('should return a tag for the list page', () => {
+    const tag = handleDataDogActionForVitals({
+      locationBasePath: 'vitals',
+      locationChildPath: '',
+      Breadcrumbs: {
+        VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
+
+        HEART_RATE: {
+          href: Paths.HEART_RATE,
+          label: 'Heart rate',
+          isRouterLink: true,
+        },
+      },
+      label: 'some label',
+    });
+    expect(tag).to.equal('Back - Vitals - List');
   });
 });
 
