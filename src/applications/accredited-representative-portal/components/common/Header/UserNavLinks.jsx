@@ -1,17 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SIGN_OUT_URL } from '../../../constants';
 
 const UserNavLinks = () => {
   return (
     <ul className="nav__user-list">
       <li>
-        <a
+        <Link
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
-          href="/insert-link"
+          href="/profile"
         >
           Profile
-        </a>
+        </Link>
       </li>
       <li>
         <a

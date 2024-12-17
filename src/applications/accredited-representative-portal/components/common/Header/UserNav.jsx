@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import UserContext from '../../../userContext';
-import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../constants';
+import UserContext from '../../../../userContext';
+import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 
 const generateUniqueId = () =>
   `account-menu-${Math.random()
@@ -121,6 +121,8 @@ const UserNav = ({ isMobile }) => {
       </div>
     );
   }
+
+  return <div className="user-nav">{content}</div>;
 };
 
 UserNav.propTypes = {

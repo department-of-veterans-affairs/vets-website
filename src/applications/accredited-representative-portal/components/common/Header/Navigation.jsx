@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UserNav from './UserNav';
 import {
@@ -6,14 +7,14 @@ import {
   selectIsUserLoading,
 } from '../../../selectors/user';
 
-export const MobileLogoRow = () => {
+export const Navigation = () => {
   const profile = useSelector(selectUserProfile);
   const isLoading = useSelector(selectIsUserLoading);
 
   return (
     <nav className="nav vads-u-background-color--primary-darker ">
       <div className="nav__container vads-u-display--flex">
-        <a
+        <Link
           data-testid="nav-home-link"
           aria-label="VA logo"
           className="nav__link vads-u-display--flex"
@@ -34,7 +35,7 @@ export const MobileLogoRow = () => {
             src="/img/arp-header-logo.png"
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
-        </a>
+        </Link>
         <UserNav profile={profile} isLoading={isLoading} />
       </div>
       <span
@@ -45,16 +46,22 @@ export const MobileLogoRow = () => {
       />
       {profile && (
         <div className="nav__container vads-u-display--flex">
-          <a
+          <Link
             className="usa-button nav__user-btn nav__user-btn--user desktop"
             href="/representative/poa-requests"
           >
             POA requests
-          </a>
+          </Link>
+          <Link
+            href="/get-help"
+            className="usa-button nav__user-btn nav__user-btn--user desktop"
+          >
+            Get Help
+          </Link>
         </div>
       )}
     </nav>
   );
 };
 
-export default MobileLogoRow;
+export default Navigation;

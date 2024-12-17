@@ -1,25 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const UserNavLinks = () => {
   return (
     <>
       <li>
-        <a
+        <Link
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--black"
           href="/poa-requests"
         >
           POA Requests
-        </a>
+        </Link>
       </li>
       <li>
-        <a
+        <Link
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
           href="/get-help"
         >
           Get Help
-        </a>
+        </Link>
       </li>
     </>
   );
