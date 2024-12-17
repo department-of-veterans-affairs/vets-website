@@ -3,11 +3,13 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
-import POARequestsPage from './containers/POARequestsPage';
+import POARequestsPage, {
+  poaRequestsLoader,
+} from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
-import POARequestDetailsPage from './containers/POARequestDetailsPage';
-import { poaRequestsLoader } from './loaders/poaRequestsLoader';
-import { poaRequestLoader } from './loaders/poaRequestLoader';
+import POARequestDetailsPage, {
+  poaRequestLoader,
+} from './containers/POARequestDetailsPage';
 import ErrorMessage from './components/common/ErrorMessage';
 
 const router = createBrowserRouter(
