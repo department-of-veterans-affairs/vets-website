@@ -53,9 +53,9 @@ const ErrorAlert = ({ appointment }) => {
       >
         <p data-testid="claim-error-content">
           We’re sorry. There’s a problem with our system. We can’t access travel
-          reimbursement for this appointment right now. Try refreshing this
-          page. Or check back later.
+          reimbursement for this appointment right now.
         </p>
+        <p>Try refreshing this page. Or check back later.</p>
         {btsssMessage}
       </InfoAlert>
     );
@@ -69,9 +69,9 @@ const ErrorAlert = ({ appointment }) => {
       >
         <p data-testid="avs-error-content">
           We’re sorry. There’s a problem with our system. We can’t access
-          after-visit summary for this appointment right now. Try refreshing
-          this page. Or check back later.
+          after-visit summary for this appointment right now.
         </p>
+        <p>Try refreshing this page. Or check back later.</p>
       </InfoAlert>
     );
   }
