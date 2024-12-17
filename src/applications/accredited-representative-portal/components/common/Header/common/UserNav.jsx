@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import 'platform/site-wide/user-nav/sass/user-nav.scss';
+import LoginButton from 'platform/user/authentication/components/LoginButton';
+import { login } from 'platform/user/authentication/utilities';
+
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 import {
   selectUserProfile,
@@ -67,13 +71,23 @@ const UserNav = ({ isMobile }) => {
     );
   } else if (!profile && !isMobile) {
     content = (
-      <a
-        data-testid="user-nav-wider-than-mobile-sign-in-link"
-        className="usa-button usa-button-primary"
-        href={SIGN_IN_URL}
-      >
-        Sign in
-      </a>
+      <div className="login">
+        <LoginButton
+          csp="logingov"
+          actionLocation="arp-header"
+          onClick={() => {
+            // Login utility derives the kind of login from window location
+            // query params. We set corresponding parameters to get oauth for
+            // then ARP app.
+            const url = new URL(window.location);
+            url.searchParams.set('application', 'arp');
+            url.searchParams.set('oauth', 'true');
+            history.replaceState(null, '', url);
+
+            return login({ policy: 'logingov' });
+          }}
+        />
+      </div>
     );
   } else if (profile) {
     content = (
