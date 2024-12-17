@@ -49,7 +49,7 @@ export const spouseMarriageHistoryOptions = {
       !item?.startLocation?.location?.state) ||
     (item?.endLocation?.outsideUsa === false &&
       !item?.endLocation?.location?.state),
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your spouse’s former marriages',
     getItemName: item =>

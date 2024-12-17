@@ -150,7 +150,7 @@ FormApp.propTypes = {
 const mapStateToProps = state => ({
   formData: state.form.data,
   isLoggedIn: isLoggedIn(state),
-  inProgressFormId: state.form.loadedData?.metadata?.inProgressFormId,
+  inProgressFormId: state?.form?.inProgressFormId,
 });
 
 export default connect(mapStateToProps)(FormApp);

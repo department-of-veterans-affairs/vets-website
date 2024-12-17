@@ -3,10 +3,11 @@ import React from 'react';
 const PrefillAlerts = () => {
   return (
     <>
-      <h2 className="vads-u-margin-bottom--4">Alerts</h2>
+      <h1 className="vads-u-margin-bottom--8">Alerts</h1>
 
       {/* 1st Option */}
-      <div className="vads-u-margin-bottom--8">
+      <h2 className="vads-u-margin-bottom--4">Task Orange</h2>
+      <div className="vads-u-padding-bottom--8 vads-u-padding-left--5">
         <va-alert tabIndex="0">
           <strong>Note:</strong> We’ve prefilled some of your information. If
           you need to make changes, you can edit on this screen. Your changes
@@ -15,7 +16,10 @@ const PrefillAlerts = () => {
       </div>
 
       {/* 2nd Option */}
-      <div className="vads-u-margin-bottom--8">
+      <h2 className="vads-u-margin-bottom--4 vads-u-margin-top--4">
+        Task Gray
+      </h2>
+      <div className="vads-u-padding-bottom--8 vads-u-padding-left--5">
         <va-alert tabIndex="0">
           We’ve prefilled some of your information. If you need to make changes,
           you can edit on this screen.{' '}
@@ -26,13 +30,18 @@ const PrefillAlerts = () => {
       </div>
 
       {/* 3rd Option */}
-      <va-alert tabIndex="0" class="vads-u-padding-bottom--5">
-        <h3 className="vads-u-margin-top--0">
-          We’ve prefilled some of your information
-        </h3>
-        If you need to make changes, you can edit on this screen. Your changes
-        will affect this form and your VA.gov profile.
-      </va-alert>
+      <h2 className="vads-u-margin-bottom--4 vads-u-margin-top--4">
+        Task Blue
+      </h2>
+      <div className="vads-u-padding-left--5 vads-u-padding-bottom--9">
+        <va-alert tabIndex="0">
+          <h3 className="vads-u-margin-top--0">
+            We’ve prefilled some of your information
+          </h3>
+          If you need to make changes, you can edit on this screen. Your changes
+          will affect this form and your VA.gov profile.
+        </va-alert>
+      </div>
     </>
   );
 };

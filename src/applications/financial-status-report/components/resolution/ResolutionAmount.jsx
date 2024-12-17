@@ -91,20 +91,16 @@ const ResolutionAmount = ({ formContext }) => {
   };
 
   return (
-    <div>
-      <div className="vads-u-margin-y--0">
-        <p className="vads-u-display--block">
-          You selected:{' '}
-          <span className="vads-u-font-weight--bold">
-            {resolutionOption === 'monthly'
-              ? content.debtMonthly.type
-              : content.debtCompromise.type}
-          </span>
-        </p>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          {getResolutionText()}
+    <>
+      <p className="vads-u-margin-top--3">
+        You selected:{' '}
+        <span className="vads-u-font-weight--bold">
+          {resolutionOption === 'monthly'
+            ? content.debtMonthly.type
+            : content.debtCompromise.type}
         </span>
-      </div>
+      </p>
+      <p className="vads-u-margin-bottom--0">{getResolutionText()}</p>
       <VaTextInput
         width="md"
         data-testid="resolution-amount"
@@ -129,7 +125,7 @@ const ResolutionAmount = ({ formContext }) => {
         type="decimal"
         value={resolutionAmount || ''}
       />
-    </div>
+    </>
   );
 };
 

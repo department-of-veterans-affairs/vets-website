@@ -87,7 +87,6 @@ function addFonts() {
     'sourcesanspro-bold-webfont.woff2',
     'sourcesanspro-regular-webfont.woff2',
     'bitter-bold.woff2',
-    'fa-solid-900.woff2',
   ];
 
   fonts.forEach(font => {

@@ -238,7 +238,6 @@ const ContactInfo = ({
   const contactSection = [
     keys.mobilePhone ? (
       <va-card
-        show-shadow
         data-testid="mini-summary-card"
         class="vads-u-margin-y--3 contact-info-card"
         key="mobile"
@@ -270,7 +269,6 @@ const ContactInfo = ({
 
     keys.email ? (
       <va-card
-        show-shadow
         data-testid="mini-summary-card"
         class="vads-u-margin-y--3 contact-info-card"
         key="email"
@@ -302,7 +300,6 @@ const ContactInfo = ({
 
     keys.address ? (
       <va-card
-        show-shadow
         data-testid="mini-summary-card"
         class="vads-u-margin-y--3 contact-info-card"
         key="mailing"

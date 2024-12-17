@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const moment = require('moment');
-
 // var
 const confirmedVA = require('./var/confirmed_va.json');
 const confirmedCC = require('./var/confirmed_cc.json');
@@ -31,6 +30,7 @@ const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.js
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
+const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -49,7 +49,6 @@ const requestsV2 = require('./v2/requests.json');
 
 // CC Direct Scheduling mocks
 const epsAppointments = require('./epsApi/appointments.json');
-const basicReferralDetails = require('./epsApi/basicReferralDetails.json');
 const epsCancelReasons = require('./epsApi/cancelReasons.json');
 const driveTimes = require('./epsApi/driveTime.json');
 const patients = require('./epsApi/patients.json');
@@ -59,7 +58,8 @@ const specialtyGroups = require('./epsApi/specialtyGroups.json');
 const providerOrgs = require('./epsApi/providerOrganizations.json');
 const providerServices = require('./epsApi/providerServices.json');
 const providerSlots = require('./epsApi/providerServicesSlots.json');
-const referrals = require('./epsApi/referrals.json');
+const referralUtils = require('../../referral-appointments/utils/referrals');
+const providerUtils = require('../../referral-appointments/utils/provider');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -497,18 +497,23 @@ const responses = {
       data: [],
     });
   },
+  'GET /vaos/v2/relationships': (req, res) => {
+    return res.json(patientProviderRelationships);
+  },
 
   // EPS api
   'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
     return res.json({
-      data: basicReferralDetails.data,
+      data: referralUtils.createReferrals(3, '2024-12-02'),
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    const referrals = referralUtils.createReferrals(3, '2024-12-02');
+    const singleReferral = referrals.find(
+      referral => referral?.UUID === req.params.referralId,
+    );
     return res.json({
-      data: basicReferralDetails.data.referrals.find(
-        referral => referral?.id === req.params.referralId,
-      ),
+      data: singleReferral ?? {},
     });
   },
   'GET /vaos/v2/epsApi/appointments': (req, res) => {
@@ -665,15 +670,12 @@ const responses = {
       data: getSlot.find(slot => slot?.id === req.params.slotId),
     });
   },
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
-    return res.json({ data: referrals });
-  },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
-    return res.json({
-      data: referrals.referrals.find(
-        referral => referral?.id === req.params.referralId,
-      ),
-    });
+  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.providerId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    return res.json({ data: providerUtils.createProviderDetails(5) });
   },
   'GET /v0/user': {
     data: {

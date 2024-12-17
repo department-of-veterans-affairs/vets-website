@@ -79,6 +79,9 @@ export default function ClaimDetailLayout(props) {
             contentions={contentions}
             onClick={focusHeader}
           />
+          {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
+            <AddingDetails />
+          )}
         </div>
       </>
     );
@@ -90,9 +93,6 @@ export default function ClaimDetailLayout(props) {
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
               <div className="tab-content claim-tab-content">
-                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
-                  <AddingDetails />
-                )}
                 {props.children}
               </div>
             )}

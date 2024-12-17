@@ -1,7 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
-import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -140,9 +138,6 @@ const migrations = [emptyMigration];
 export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
-  // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
-  // dependents_appilcations to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   submit: customSubmit686,
   trackingPrefix: 'disability-21-686c-',
@@ -195,6 +190,8 @@ export const formConfig = {
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
+          depends: () =>
+            !window.location.pathname.includes('review-and-submit'),
         },
         addDependentOptions: {
           hideHeaderRow: true,
@@ -202,7 +199,9 @@ export const formConfig = {
           path: 'options-selection/add-dependents',
           uiSchema: addDependentOptions.uiSchema,
           schema: addDependentOptions.schema,
-          depends: form => form?.['view:addOrRemoveDependents']?.add,
+          depends: form =>
+            form?.['view:addOrRemoveDependents']?.add &&
+            !window.location.pathname.includes('review-and-submit'),
         },
         removeDependentOptions: {
           hideHeaderRow: true,
@@ -210,7 +209,9 @@ export const formConfig = {
           path: 'options-selection/remove-dependents',
           uiSchema: removeDependentOptions.uiSchema,
           schema: removeDependentOptions.schema,
-          depends: form => form?.['view:addOrRemoveDependents']?.remove,
+          depends: form =>
+            form?.['view:addOrRemoveDependents']?.remove &&
+            !window.location.pathname.includes('review-and-submit'),
         },
       },
     },
@@ -245,7 +246,7 @@ export const formConfig = {
         spouseNameInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse’s name',
           path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
@@ -253,7 +254,7 @@ export const formConfig = {
         spouseNameInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse information',
           path: 'add-spouse/personal-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
@@ -262,7 +263,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.spouseInformation?.isVeteran,
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse information: VA file number',
           path: 'add-spouse/military-service-information',
           uiSchema: spouseInformationPartThree.uiSchema,
           schema: spouseInformationPartThree.schema,
@@ -473,7 +474,7 @@ export const formConfig = {
     },
 
     addChild: {
-      title: 'Information needed to add children',
+      title: 'Add one or more children',
       pages: {
         addChildInformation: {
           depends: formData =>
@@ -587,36 +588,18 @@ export const formConfig = {
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              if (
-                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
-              ) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartSeven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/student-education-benefits/start-date',
             uiSchema: studentEducationBenefitsStartDatePage.uiSchema,
             schema: studentEducationBenefitsStartDatePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              Object.values(
+                formData?.studentInformation?.[index]?.typeOfProgramOrBenefit,
+              ).includes(true),
           }),
           addStudentsPartEight: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -625,20 +608,6 @@ export const formConfig = {
             schema: studentProgramInfoPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
-              );
-            },
           }),
           addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -648,34 +617,17 @@ export const formConfig = {
             schema: studentAttendancePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartTen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/date-student-stopped-attending',
             uiSchema: studentStoppedAttendingDatePage.uiSchema,
             schema: studentStoppedAttendingDatePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              !formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentIsEnrolledFullTime,
           }),
           addStudentsPartEleven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -685,20 +637,6 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
-              );
-            },
           }),
           addStudentsPartTwelve: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -715,33 +653,16 @@ export const formConfig = {
             schema: previousTermQuestionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartFourteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/previous-term-dates',
             uiSchema: previousTermDatesPage.uiSchema,
             schema: previousTermDatesPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentDidAttendSchoolLastTerm,
           }),
           addStudentsPartFifteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -750,65 +671,33 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              if (formData?.claimsOrReceivesPension) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
-                );
-              }
-            },
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
-              );
-            },
           }),
-          // conditional page
           addStudentsPartSixteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
             schema: studentEarningsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          // conditional page
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
             schema: studentFutureEarningsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          // conditional page
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
             schema: studentAssetsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -817,27 +706,13 @@ export const formConfig = {
             schema: remarksPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-              );
-            },
           }),
         })),
       },
     },
 
     reportDivorce: {
-      title: 'Information needed to remove a divorced spouse',
+      title: 'Remove a divorced spouse',
       pages: {
         formerSpouseInformation: {
           depends: formData =>
@@ -867,8 +742,7 @@ export const formConfig = {
     },
 
     reportStepchildNotInHousehold: {
-      title:
-        'Information needed to remove a stepchild who has left your household',
+      title: 'Remove one or more stepchildren who have left your household',
       pages: {
         ...arrayBuilderPages(removeChildHouseholdOptions, pageBuilder => ({
           removeChildHouseholdIntro: pageBuilder.introPage({
@@ -920,26 +794,7 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              if (formData?.supportingStepchild) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           removeChildHouseholdPartThree: pageBuilder.itemPage({
             title:
               'Information needed to report a stepchild is no longer part of your household',
@@ -947,11 +802,11 @@ export const formConfig = {
               '686-stepchild-no-longer-part-of-household/:index/child-support-amount',
             uiSchema: supportAmountPage.uiSchema,
             schema: supportAmountPage.schema,
-            depends: formData =>
+            depends: (formData, index) =>
               isChapterFieldRequired(
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
-              ),
+              ) && formData?.stepChildren?.[index]?.supportingStepchild,
           }),
           removeChildHouseholdPartFour: pageBuilder.itemPage({
             title:
@@ -965,20 +820,6 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
-              );
-            },
           }),
           removeChildHouseholdPartFive: pageBuilder.itemPage({
             title:
@@ -998,7 +839,7 @@ export const formConfig = {
     },
 
     deceasedDependents: {
-      title: 'Information needed to remove a dependent who has died',
+      title: 'Remove one or more dependents who have died',
       pages: {
         ...arrayBuilderPages(deceasedDependentOptions, pageBuilder => ({
           dependentAdditionalInformationIntro: pageBuilder.introPage({
@@ -1032,32 +873,15 @@ export const formConfig = {
             schema: deceasedDependentTypePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              if (formData.dependentType !== 'child') {
-                const index = getArrayIndexFromPathName(pathname);
-                const urlParamsString = stringifyUrlParams(urlParams) || '';
-                goPath(
-                  `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
-                );
-              } else {
-                goNextPath(urlParams);
-              }
-            },
           }),
-          // conditional page
           dependentAdditionalInformationPartThree: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
             path: '686-report-dependent-death/:index/child-type',
             uiSchema: deceasedDependentChildTypePage.uiSchema,
             schema: deceasedDependentChildTypePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
+              formData?.deaths?.[index]?.dependentType === 'child',
           }),
           dependentAdditionalInformationPartFour: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
@@ -1066,20 +890,6 @@ export const formConfig = {
             schema: deceasedDependentDateOfDeathPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `686-report-dependent-death/${index}/dependent-type${urlParamsString}`,
-              );
-            },
           }),
           dependentAdditionalInformationPartFive: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 import { clientServerErrorContent } from '../helpers';
 
@@ -19,23 +20,35 @@ const getFromToNums = (page, total) => {
   return [from, to];
 };
 
-const Payments = ({ data, fields, tableVersion, textContent }) => {
+const Payments = ({
+  data,
+  fields,
+  tableVersion,
+  textContent,
+  alertMessage,
+}) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentData, setCurrentData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  // Using `useRef` here to avoid triggering a rerender whenever these are
-  // updated
+  const currentPage = new URLSearchParams(location.search).get('page') || 1;
   const totalPages = useRef(0);
-  const paginatedData = useRef([]);
+  const tableHeadingRef = useRef(null);
 
-  useEffect(() => {
-    paginatedData.current = paginateData(data);
-    setCurrentData(paginatedData.current[currentPage - 1]);
-    totalPages.current = paginatedData.current.length;
-  }, []);
+  useEffect(
+    () => {
+      const paginatedData = paginateData(data);
+      setCurrentData(paginatedData[currentPage - 1]);
+      totalPages.current = paginatedData.length;
+    },
+    [currentPage, data],
+  );
 
   const onPageChange = page => {
-    setCurrentData(paginatedData.current[page - 1]);
-    setCurrentPage(page);
+    const newURL = `${location.pathname}?page=${page}`;
+    if (tableHeadingRef) {
+      tableHeadingRef.current.focus();
+    }
+    navigate(newURL);
   };
 
   const [from, to] = getFromToNums(currentPage, data.length);
@@ -44,9 +57,15 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
     return (
       <>
         {textContent}
-        <p className="vads-u-font-size--lg vads-u-font-family--serif">
-          Displaying {from} - {to} of {data.length}
-        </p>
+        {alertMessage}
+        <h3
+          className="vads-u-font-size--lg vads-u-font-family--serif"
+          ref={tableHeadingRef}
+          tabIndex={-1}
+        >
+          Displaying {from} - {to} of {data.length} payments
+        </h3>
+
         <va-table>
           <va-table-row slot="headers">
             {fields.map(field => (
@@ -83,6 +102,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
+  alertMessage: PropTypes.element,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

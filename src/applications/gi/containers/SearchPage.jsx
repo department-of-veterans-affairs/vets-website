@@ -80,7 +80,7 @@ export function SearchPage({
   const handleBrowserButtonClick = () => {
     const tabName = deriveTabName();
     window.addEventListener('popstate', e => {
-      e.preventDefault();
+      e?.preventDefault();
       recordEvent({
         event: 'back-button-click',
         'tab-text': `Search by ${tabName}`,

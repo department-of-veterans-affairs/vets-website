@@ -31,6 +31,7 @@ import FormFooter from '../components/FormFooter';
 import EmailReviewField from '../components/EmailReviewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
+import TextNotificationsDisclaimer from '../components/TextNotificationDisclaimer';
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -39,7 +40,11 @@ import directDeposit from '../pages/directDeposit';
 
 import { prefillTransformer } from '../helpers';
 import { transform5490Form } from '../utils/form-submit-transform';
-import { validateHomePhone, validateMobilePhone } from '../utils/validations';
+import {
+  validateHomePhone,
+  validateMobilePhone,
+  isValidPhone,
+} from '../utils/validations';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import YesNoReviewField from '../components/YesNoReviewField';
@@ -48,6 +53,7 @@ import PhoneReviewField from '../components/PhoneReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
+import DirectDepositCustomReview from '../components/DirectDepositCustomReview';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -162,7 +168,7 @@ const formConfig = {
   footerContent: FormFooter,
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
@@ -192,9 +198,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
                     } else if (!isValidName(field)) {
@@ -226,9 +230,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (field.length < 2) {
+                      if (field.length < 2) {
                         errors.addError('Must be 2 characters or more');
                       } else if (field.length > 26) {
                         errors.addError('Must be 26 characters or less');
@@ -971,6 +973,16 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -979,6 +991,10 @@ const formConfig = {
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
                         errors.addError('Please enter a valid city');
+                      } else if (field?.length < 2) {
+                        errors.addError('minimum of 2 characters');
+                      } else if (field?.length > 20) {
+                        errors.addError('maximum of 20 characters');
                       }
                     },
                   ],
@@ -1000,24 +1016,53 @@ const formConfig = {
                   },
                 },
                 state: {
-                  'ui:title': 'State/County/Province',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
+                        formData?.mailingAddressInput?.address?.country ===
+                          'USA'
+                      ) {
+                        return {
+                          title: 'State',
+                          type: 'string',
+                        };
+                      }
+                      return {
+                        title: 'State/County/Province',
+                        type: 'string',
+                      };
+                    },
+                  },
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
+                    required: 'This field is required.',
                   },
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
+                        !formData?.mailingAddressInput?.livesOnMilitaryBase &&
                         formData?.mailingAddressInput?.address?.country !==
-                        'USA'
+                          'USA'
                       ) {
                         return {
                           title: 'Postal Code',
                           type: 'string',
+                          maxLength: 10,
+                          minLength: 3,
                         };
                       }
 
@@ -1067,21 +1112,19 @@ const formConfig = {
           uiSchema: {
             contactMethod: {
               'ui:title':
-                'How should we contact you if we have questions on your application?',
+                'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
               'ui:options': {
-                labels: {
-                  email: 'Email',
-                  mobilePhone: 'Mobile phone',
-                  homePhone: 'Home phone',
-                  mail: 'Mail',
-                },
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
-                    form => form?.mobilePhone?.phone,
+                    form => form.mobilePhone?.phone,
                     form => form?.homePhone?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
+
                       if (!mobilePhoneNumber) {
                         invalidContactMethods.push('Mobile Phone');
                       }
@@ -1104,65 +1147,30 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <div>
+                  <div className="meb-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We recommend that you opt into text message notifications
+                      We recommend that you opt in to text message notifications
                       about your benefits. These include notifications that
                       prompt you to verify your enrollment so you’ll receive
                       your education payments. This is an easy way to verify
                       your monthly enrollment.
                     </p>
-                    <div className="meb-list-label">
-                      <strong>What to know about text notifications:</strong>
-                    </div>
-                    <ul>
-                      <li>We’ll send you 2 messages per month.</li>
-                      <li>Message and data rates may apply.</li>
-                      <li>If you want to opt out, text STOP.</li>
-                      <li>If you need help, text HELP.</li>
-                    </ul>
-                    <p>
-                      <a
-                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        Read our text notifications terms and conditions
-                      </a>
-                    </p>
-                    <p>
-                      <a
-                        href="https://www.va.gov/privacy-policy/"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        Read our privacy policy
-                      </a>
-                    </p>
-                    <p>
-                      <strong>Note</strong>: At this time, we can only send text
-                      messages to U.S. mobile phone numbers.
-                    </p>
+
+                    <TextNotificationsDisclaimer />
                   </div>
                 </>
               ),
             },
             notificationMethod: {
-              'ui:title': 'Choose how you want to get notifications?',
+              'ui:title':
+                'Would you like to receive text message notifications about your education benefits?',
               'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, send me text message notifications',
-                  no: 'No, just send me email notifications',
-                },
-              },
               'ui:validations': [
                 (errors, field, formData) => {
-                  const isYes = field === 'yes';
-                  const phoneExist = !!formData?.mobilePhone.phone;
-                  const isInternational =
-                    formData?.mobilePhone?.isInternational;
+                  const isYes = field?.startsWith('Yes');
+                  const phoneExist = !!formData?.mobilePhone?.phone;
+                  const { isInternational } = formData?.mobilePhone;
 
                   if (isYes) {
                     if (!phoneExist) {
@@ -1177,41 +1185,121 @@ const formConfig = {
                   }
                 },
               ],
+              'ui:options': {
+                widgetProps: {
+                  Email: { 'data-info': 'email' },
+                  Text: { 'data-info': 'text' },
+                  None: { 'data-info': 'none' },
+                },
+                selectedProps: {
+                  Email: { 'aria-describedby': 'email' },
+                  Text: { 'aria-describedby': 'text' },
+                  None: { 'aria-describedby': 'none' },
+                },
+              },
+            },
+            'view:noElectronicCommunicationText': {
+              'ui:description': (
+                <>
+                  <div>
+                    <p>
+                      <strong>Note:</strong> If you don’t want electronic
+                      notifications, we’ll only send you information about your
+                      claim through the mail.
+                    </p>
+                  </div>
+                </>
+              ),
+            },
+            'view:noElectronicCommunicationAlert': {
+              'ui:options': {
+                hideIf: formData => {
+                  return (
+                    formData?.notificationMethod !==
+                    "I don't want to receive electronic notifications"
+                  );
+                },
+              },
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    Opting out of receiving electronic notifications will affect
+                    your ability to verify enrollments using email and text
+                    messaging. To verify you will be required to access{' '}
+                    <a
+                      href="https://ask.va.gov/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Ask VA
+                    </a>{' '}
+                    or use our online system.
+                  </>
+                </va-alert>
+              ),
+            },
+            'view:textMessagesAlert': {
+              'ui:description': (
+                <va-alert status="info">
+                  <>
+                    If you choose to get text message notifications from VA’s GI
+                    Bill program, message and data rates may apply. Students
+                    will receive an average of two messages per month. At this
+                    time, we can only send text messages to U.S. mobile phone
+                    numbers. Text STOP to opt out or HELP for help.{' '}
+                    <a
+                      href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      View Terms and Conditions and Privacy Policy.
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const mobilePhone = formData?.mobilePhone?.phone;
+                  const isInternational =
+                    formData?.mobilePhone?.isInternational;
+                  return !isValidPhone(mobilePhone) || isInternational;
+                },
+              },
             },
             'view:noMobilePhoneAlert': {
               'ui:description': (
-                <va-alert
-                  background-only
-                  close-btn-aria-label="Close notification"
-                  show-icon
-                  status="warning"
-                  visible
-                >
-                  <div>
-                    <p className="vads-u-margin-y--0">
+                <va-alert status="warning">
+                  <>
+                    <p>
                       We can’t send you text message notifications because we
-                      don’t have a mobile phone number on file for you
+                      don’t have a mobile phone number on file for you or your
+                      number is an international number.
                     </p>
 
                     <Link
                       aria-label="Go back and add a mobile phone number"
                       to={{
-                        pathname: '/contact-information',
+                        pathname: 'contact-information',
                       }}
                     >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add a mobile phone number"
-                      />
+                      Go back and add or update your mobile phone number
                     </Link>
-                  </div>
+                  </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData => {
-                  return !!formData?.mobilePhone?.phone;
+                  const mobilePhoneInfo = formData?.mobilePhone;
+                  const mobilePhone = mobilePhoneInfo?.phone;
+                  const isInternational = mobilePhoneInfo?.isInternational;
+                  const wantsTexts = formData?.notificationMethod?.startsWith(
+                    'Yes',
+                  );
+
+                  return !(
+                    wantsTexts &&
+                    (!isValidPhone(mobilePhone) || isInternational)
+                  );
                 },
               },
             },
@@ -1239,8 +1327,7 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isNo = formData?.notificationMethod === 'no';
-
+                  const isNo = formData?.notificationMethod?.startsWith('No');
                   const noDuplicates = formData?.duplicateEmail?.some(
                     entry => entry?.dupe === false,
                   );
@@ -1273,7 +1360,7 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isYes = formData?.notificationMethod === 'yes';
+                  const isYes = formData?.notificationMethod?.startsWith('Yes');
                   const mobilePhone = formData?.mobilePhone.phone;
                   const noDuplicates = formData?.duplicatePhone?.some(
                     entry => entry?.dupe === false,
@@ -1298,9 +1385,25 @@ const formConfig = {
               },
               notificationMethod: {
                 type: 'string',
-                enum: ['yes', 'no'],
+                enum: [
+                  'Yes, send me text message notifications',
+                  'No, just send me email notifications',
+                  "I don't want to receive electronic notifications",
+                ],
+              },
+              'view:noElectronicCommunicationText': {
+                type: 'object',
+                properties: {},
               },
               'view:noMobilePhoneAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noElectronicCommunicationAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:textMessagesAlert': {
                 type: 'object',
                 properties: {},
               },
@@ -1323,6 +1426,7 @@ const formConfig = {
         directDeposit: {
           path: 'direct-deposit',
           title: 'Enter your direct deposit information',
+          CustomPageReview: DirectDepositCustomReview,
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
         },

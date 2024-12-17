@@ -1,10 +1,5 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import moment from 'moment';
-import { isEmpty } from 'lodash';
-import formConfig from '../config/form';
 import { DATE_FORMAT } from '../definitions/constants';
 
 export const representativeTypeMap = {
@@ -13,69 +8,8 @@ export const representativeTypeMap = {
   'Veterans Service Organization (VSO)': 'Veterans Service Organization (VSO)',
 };
 
-export const checkboxGroupSchemaWithReviewLabels = keys => {
-  const schema = checkboxGroupSchema(keys);
-  keys.forEach(key => {
-    schema.properties[key] = {
-      ...schema.properties[key],
-      enum: [true, false],
-      enumNames: ['Selected', 'Not selected'],
-    };
-  });
-  return schema;
-};
-
-export const deviewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
-    // Recurse if necessary
-    newFormData[nonViewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? deviewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
 export const preparerIsVeteran = ({ formData } = {}) =>
   formData?.['view:applicantIsVeteran'] === 'Yes';
-
-export const isLoggedIn = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:isLoggedIn'];
-  }
-  return false;
-};
-
-export const hasVeteranPrefill = ({ formData } = {}) => {
-  return (
-    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.veteranSsnLastFour) &&
-    !isEmpty(
-      formData?.['view:veteranPrefillStore']?.veteranVaFileNumberLastFour,
-    )
-  );
-};
-
-export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
-  if (environment.isLocalhost()) {
-    return true;
-  }
-  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
-};
-
-export const initializeFormDataWithClaimantInformationAndPrefill = (
-  applicantIsVeteran,
-  veteranPrefillStore,
-) => {
-  return {
-    ...createInitialState(formConfig).data,
-    'view:applicantIsVeteran': applicantIsVeteran,
-    'view:veteranPrefillStore': veteranPrefillStore,
-  };
-};
 
 /**
  * Show one thing, have a screen reader say another.
@@ -118,26 +52,28 @@ export const getFormSubtitle = formData => {
   return 'VA Forms 21-22 and 21-22a';
 };
 
-/**
- * Setting submit url suffix based on rep type
- */
-export const getFormSubmitUrlSuffix = formData => {
-  const entity = formData['view:selectedRepresentative'];
-  const entityType = entity?.type;
+export const parseRepType = repType => {
+  const parsedRep = {};
 
-  if (entityType === 'organization') {
-    return '2122';
+  switch (repType) {
+    case 'Organization':
+      parsedRep.title = 'Veterans Service Organization (VSO)';
+      parsedRep.subTitle = 'Veteran Service Organization';
+      break;
+    case 'Attorney':
+      parsedRep.title = 'accredited attorney';
+      parsedRep.subTitle = 'Accredited attorney';
+      break;
+    case 'Claims Agent':
+      parsedRep.title = 'accredited claims agent';
+      parsedRep.subTitle = 'Accredited claims agent';
+      break;
+    default:
+      parsedRep.title = 'accredited representative';
+      parsedRep.subTitle = 'Accredited representative';
   }
-  if (['representative', 'individual'].includes(entityType)) {
-    const { individualType } = entity.attributes;
-    if (
-      ['representative', 'veteran_service_officer'].includes(individualType)
-    ) {
-      return '2122';
-    }
-    return '2122a';
-  }
-  return '2122';
+
+  return parsedRep;
 };
 
 export const getEntityAddressAsObject = addressData => ({
@@ -166,7 +102,7 @@ export const getRepType = entity => {
     return 'Organization';
   }
 
-  const repType = entity.attributes?.individualType;
+  const repType = entity?.attributes?.individualType;
 
   if (repType === 'attorney') {
     return 'Attorney';
@@ -187,7 +123,7 @@ export const getFormNumber = formData => {
     entityType === 'organization' ||
     (['representative', 'individual'].includes(entityType) &&
       ['representative', 'veteran_service_officer'].includes(
-        entity.attributes.individualType,
+        entity?.attributes?.individualType,
       ))
   ) {
     return '21-22';

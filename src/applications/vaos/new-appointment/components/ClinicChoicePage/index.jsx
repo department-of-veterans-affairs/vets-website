@@ -81,6 +81,7 @@ export default function ClinicChoicePage() {
               level={2}
             />
           </div>
+          <br />
         </>
       )}
       <SchemaForm

@@ -18,7 +18,7 @@ describe('deceasedDependentOptions', () => {
     expect(deceasedDependentOptions.nounSingular).to.equal('dependent');
     expect(deceasedDependentOptions.nounPlural).to.equal('dependents');
     expect(deceasedDependentOptions.required).to.be.true;
-    expect(deceasedDependentOptions.maxItems).to.equal(7);
+    expect(deceasedDependentOptions.maxItems).to.equal(20);
   });
 
   describe('isItemIncomplete', () => {

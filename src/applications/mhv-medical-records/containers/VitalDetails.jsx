@@ -6,7 +6,6 @@ import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -30,6 +29,8 @@ import {
   generateTextFile,
   getLastUpdatedText,
   formatNameFirstLast,
+  formatDateInLocalTimezone,
+  formatUserDob,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -49,6 +50,8 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -65,7 +68,7 @@ const VitalDetails = props => {
   const dispatch = useDispatch();
 
   const perPage = 10;
-  const [currentVitals, setCurrentVitals] = useState([]);
+  const [currentVitals, setCurrentVitals] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
@@ -80,6 +83,12 @@ const VitalDetails = props => {
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
+
+  const { isAcceleratingVitals } = useAcceleratedData();
+
+  if (records?.length === 0 && isAcceleratingVitals) {
+    window.location.replace('/my-health/medical-records/vitals');
+  }
 
   useListRefresh({
     listState,
@@ -133,8 +142,8 @@ const VitalDetails = props => {
     () => {
       if (records?.length) {
         updatePageTitle(
-          `${vitalTypeDisplayNames[records[0].type]} - ${
-            pageTitles.VITALS_PAGE_TITLE
+          `${vitalTypeDisplayNames[records[0].type]} Details - ${
+            pageTitles.MEDICAL_RECORDS_PAGE_TITLE
           }`,
         );
 
@@ -213,7 +222,7 @@ const VitalDetails = props => {
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(
@@ -239,38 +248,48 @@ Provider notes: ${vital.notes}\n\n`,
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
+    const ddDisplayName = vitalDisplayName.includes('Blood oxygen level')
+      ? 'Blood Oxygen'
+      : vitalDisplayName;
     return (
       <>
         <PrintHeader />
         <h1
           className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
+          data-dd-action-name="[vitals detail - name]"
         >
           {vitalDisplayName}
         </h1>
-        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
+        <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vitalsList) &&
-            Array.isArray(updatedRecordList) &&
-            vitalsList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingVitals && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitalsList) &&
+              Array.isArray(updatedRecordList) &&
+              vitalsList.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
+          description={ddDisplayName}
           downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
           list
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          description={ddDisplayName}
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
@@ -294,8 +313,11 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-date"
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - date]"
                 >
-                  {vital.date}
+                  {isAcceleratingVitals
+                    ? formatDateInLocalTimezone(vital.effectiveDateTime)
+                    : vital.date}
                 </h3>
                 <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
@@ -304,6 +326,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-result"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - measurement]"
                 >
                   {vital.measurement}
                 </p>
@@ -314,6 +337,7 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-location"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - location]"
                 >
                   {vital.location}
                 </p>
@@ -324,6 +348,8 @@ Provider notes: ${vital.notes}\n\n`,
                   data-testid="vital-provider-note"
                   className="vads-u-margin--0"
                   data-dd-privacy="mask"
+                  style={{ whiteSpace: 'pre-line' }}
+                  data-dd-action-name="[vitals detail - note]"
                 >
                   {vital.notes}
                 </p>
@@ -335,6 +361,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1
           className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
           data-dd-privacy="mask"
+          data-dd-action-name="[vitals detail - name - Print]"
         >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
@@ -349,6 +376,7 @@ Provider notes: ${vital.notes}\n\n`,
                 <h3
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
+                  data-dd-action-name="[vitals detail - date - Print]"
                 >
                   {vital.date}
                 </h3>
@@ -356,7 +384,11 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Measurement:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - measurement - Print]"
+                  >
                     {vital.measurement}
                   </p>
                 </div>
@@ -364,7 +396,11 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Location:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - location - Print]"
+                  >
                     {vital.location}
                   </p>
                 </div>
@@ -372,7 +408,12 @@ Provider notes: ${vital.notes}\n\n`,
                   <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Provider notes:{' '}
                   </h4>
-                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                  <p
+                    className="vads-u-display--inline"
+                    data-dd-privacy="mask"
+                    style={{ whiteSpace: 'pre-line' }}
+                    data-dd-action-name="[vitals detail - notes - Print]"
+                  >
                     {vital.notes}
                   </p>
                 </div>
@@ -394,6 +435,7 @@ Provider notes: ${vital.notes}\n\n`,
       </>
     );
   }
+
   return (
     <div className="vads-u-margin-y--8">
       <va-loading-indicator

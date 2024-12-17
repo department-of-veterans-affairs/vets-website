@@ -21,7 +21,7 @@ const yourRoleEducationPage = {
     type: 'object',
     required: ['yourRoleEducation'],
     properties: {
-      yourRoleEducation: radioSchema(Object.keys(yourRoleOptionsEducation)),
+      yourRoleEducation: radioSchema(Object.values(yourRoleOptionsEducation)),
     },
   },
 };

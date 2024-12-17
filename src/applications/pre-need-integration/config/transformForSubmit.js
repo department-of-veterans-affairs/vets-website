@@ -17,8 +17,19 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  if (
+    form.data.application.applicant.applicantRelationshipToClaimant === 'Self'
+  ) {
+    delete transformedData.application.applicant.name;
+    delete transformedData.application.applicant.mailingAddress;
+  }
+
   return JSON.stringify(
-    { ...transformedData, formNumber: formConfig.formId, version: 'int' },
+    {
+      ...transformedData,
+      formNumber: formConfig.formId,
+      version: 'int',
+    },
     escapedCharacterReplacer,
   );
 }

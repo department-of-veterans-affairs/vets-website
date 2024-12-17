@@ -6,9 +6,9 @@ import { focusElement } from 'platform/utilities/ui';
 import UnderReviewConfirmationFry from '../components/confirmation/UnderReviewConfirmationFry';
 import UnderReviewConfirmationDEAChapter35 from '../components/confirmation/UnderReviewConfirmationDEAChapter35';
 
-const ConfirmationPage = ({ form }) => {
+const ConfirmationPage = ({ form, claimantFullName }) => {
   const { formId, data } = form;
-  const { fullName, chosenBenefit } = data;
+  const { chosenBenefit } = data;
 
   // Set a default received date to today's date if claimStatus is not available
   const newReceivedDate = new Date().toLocaleDateString('en-US', {
@@ -28,13 +28,16 @@ const ConfirmationPage = ({ form }) => {
     window.print();
   }, []);
 
+  // Create a safe user name string with fallback values for each name part
+  const userName = `${claimantFullName?.first ||
+    ''} ${claimantFullName?.middle || ''} ${claimantFullName?.last ||
+    ''} ${claimantFullName?.suffix || ''}`.trim();
+
   // Render the appropriate component based on the chosenBenefit value
   if (chosenBenefit === 'fry') {
     return (
       <UnderReviewConfirmationFry
-        user={`${fullName.first} ${fullName.middle || ''} ${
-          fullName.last
-        } ${fullName.suffix || ''}`}
+        user={userName}
         dateReceived={newReceivedDate}
         formId={formId}
         printPage={printPage}
@@ -45,9 +48,7 @@ const ConfirmationPage = ({ form }) => {
   if (chosenBenefit === 'dea') {
     return (
       <UnderReviewConfirmationDEAChapter35
-        user={`${fullName.first} ${fullName.middle || ''} ${
-          fullName.last
-        } ${fullName.suffix || ''}`}
+        user={userName}
         dateReceived={newReceivedDate}
         formId={formId}
         printPage={printPage}
@@ -61,21 +62,26 @@ const ConfirmationPage = ({ form }) => {
 
 const mapStateToProps = state => ({
   form: state.form,
+  claimantFullName: state.user?.profile?.userFullName || {}, // Provide a default empty object to avoid undefined errors
 });
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: PropTypes.shape({
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      }),
       chosenBenefit: PropTypes.string, // Prop for chosen benefit
     }),
     formId: PropTypes.string,
+  }).isRequired,
+  claimantFullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
   }),
+};
+
+ConfirmationPage.defaultProps = {
+  claimantFullName: { first: '', middle: '', last: '', suffix: '' }, // Default values for claimantFullName parts
 };
 
 export default connect(mapStateToProps)(ConfirmationPage);

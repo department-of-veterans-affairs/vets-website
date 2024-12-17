@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
@@ -123,18 +124,17 @@ export default function CompareHeader({
                     </div>
                     <div className="compare-action">
                       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                      <button
-                        type="button"
-                        className="usa-button-secondary"
+                      <VaButton
+                        secondary
+                        text="Remove"
+                        className="inst-remove-btn"
                         onClick={() => {
                           setPromptingFacilityCode(institution.facilityCode);
                         }}
                         aria-label={`Remove ${
                           institution.name
                         } from comparison`}
-                      >
-                        Remove
-                      </button>
+                      />
                     </div>
                   </div>
                 </div>

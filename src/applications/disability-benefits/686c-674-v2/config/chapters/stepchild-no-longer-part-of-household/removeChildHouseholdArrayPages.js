@@ -38,7 +38,7 @@ export const removeChildHouseholdOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode,
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
     getItemName: item =>
@@ -144,8 +144,13 @@ export const supportAmountPage = {
           Half: 'Half',
           'Less than half': 'Less than half',
         },
-        required: () => true,
       }),
+      'ui:required': (formData, index) => {
+        const addMode = formData?.stepChildren?.[index]?.supportingStepchild;
+        const editMode = formData?.supportingStepchild;
+
+        return addMode || editMode;
+      },
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.stepChildren?.[index];

@@ -14,11 +14,11 @@ const mockLetter = {
   documentId: '{27832B64-2D88-4DEE-9F6F-DF80E4CAAA87}',
   receivedAt: '2022-09-22',
   docType: '184',
-  typeDescription: 'Notification Letter (e.g. VA 20-8993, VA 21-0290, PCGL)',
+  typeDescription: 'Notification letter',
 };
 
-const mockLetterWithoutDocType = { ...mockLetter };
-delete mockLetterWithoutDocType.docType;
+const mockLetterWithouttypeDescription = { ...mockLetter };
+delete mockLetterWithouttypeDescription.typeDescription;
 
 describe('<ClaimLetterListItem>', () => {
   it('should render', () => {
@@ -35,9 +35,9 @@ describe('<ClaimLetterListItem>', () => {
     expect(title.textContent).to.eq('Notification letter September 22, 2022');
   });
 
-  it('should use the default description when no `docType` is provided', () => {
+  it('should use the default description when no `typeDescription` is provided', () => {
     const { getByText } = render(
-      <ClaimLetterListItem letter={mockLetterWithoutDocType} />,
+      <ClaimLetterListItem letter={mockLetterWithouttypeDescription} />,
     );
 
     getByText('Notification letter');

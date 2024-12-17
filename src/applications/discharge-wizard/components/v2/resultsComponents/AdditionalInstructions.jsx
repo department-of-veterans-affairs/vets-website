@@ -28,7 +28,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.dpris.dod.mil/veteranaccess.html"
+              href="https://www.archives.gov/veterans/military-service-records"
             >
               request a copy (opens in a new tab)
             </a>

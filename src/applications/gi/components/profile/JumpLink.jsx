@@ -14,7 +14,7 @@ export default function JumpLink({
   customClass,
 }) {
   const jumpLinkClicked = e => {
-    e.preventDefault();
+    e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
   };
 

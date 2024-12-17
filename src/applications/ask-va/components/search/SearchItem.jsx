@@ -12,6 +12,7 @@ const SearchItem = ({
   getData,
   onChange,
   searchInput,
+  validationError,
 }) => {
   const [selected, setSelected] = useState(null);
   const onPageChange = page => {
@@ -55,40 +56,44 @@ const SearchItem = ({
   return (
     facilityData?.data?.length > 0 && (
       <>
-        <p ref={alertRef} className="vads-u-margin-bottom--0">
-          {displayResults}
-          <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
-        </p>
-        <p className="vads-u-margin-top--1">
-          The results are listed from nearest to farthest from your location.
-        </p>
-        <VaRadio
-          class="vads-u-margin-y--2 vads-u-width--100"
-          label="Select VA health facility"
-          onVaValueChange={handleChange}
-          required
-          uswds
+        <h3
+          ref={alertRef}
+          className="vads-u-font-size--base vads-u-margin-bottom--0 vads-u-font-family--sans"
         >
-          {facilityData?.data.map(facility => (
-            <va-radio-option
-              key={facility.id}
-              id={facility.id}
-              label={facilityInfo(facility)}
-              value={facility.id}
-              name="primary"
-              checked={selected === facilityInfo(facility)}
-              uswds
-            />
-          ))}
-        </VaRadio>
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={facilityData.meta.pagination.totalPages}
-          maxPageListLength={5}
-          showLastPage
-          uswds
-        />
+          <span className="vads-u-font-weight--normal">{displayResults}</span>
+          <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
+        </h3>
+        <hr />
+        <div className="vads-u-margin-top--4">
+          <VaRadio
+            class="vads-u-width--100 vads-u-font-weight--normal"
+            label="Select VA health facility"
+            labelHeaderLevel="4"
+            onVaValueChange={handleChange}
+            required
+            error={validationError}
+          >
+            {facilityData?.data.map(facility => (
+              <va-radio-option
+                key={facility.id}
+                id={facility.id}
+                label={facilityInfo(facility)}
+                value={facility.id}
+                name="primary"
+                checked={selected === facilityInfo(facility)}
+                uswds
+              />
+            ))}
+          </VaRadio>
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={facilityData.meta.pagination.totalPages}
+            maxPageListLength={5}
+            showLastPage
+            uswds
+          />
+        </div>
       </>
     )
   );

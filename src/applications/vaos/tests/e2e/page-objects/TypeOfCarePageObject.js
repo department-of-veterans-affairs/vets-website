@@ -27,11 +27,10 @@ export class TypeOfCarePageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .contains(label)
-      .click();
+    cy.findByLabelText(label)
+      .as('radio')
+      .focus();
+    cy.get('@radio').check();
 
     return this;
   }

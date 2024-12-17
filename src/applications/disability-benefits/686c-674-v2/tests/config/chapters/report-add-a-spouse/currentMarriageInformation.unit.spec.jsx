@@ -23,6 +23,7 @@ const formData = (
       address: {
         isMilitary,
       },
+      spouseDoesLiveWithVeteran: false,
       currentSpouseReasonForSeparation,
     },
     currentMarriageInformation: {

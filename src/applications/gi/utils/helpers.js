@@ -528,15 +528,44 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const updateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+// TODO use this filter function on results page
+export const filterLcResults = (results, nameInput, filters) => {
+  const { type, state } = filters;
+  // console.log('filters', { type, state, nameInput });
+
+  if (!nameInput) {
+    return [];
+  }
+
+  return results.filter(result => {
+    if (result.type === 'exam') return false;
+
+    if (type !== 'all' && type !== result.type) return false;
+
+    if (state !== 'all' && state !== result.state && result.state !== 'all')
+      return false;
+
+    return result.name.toLowerCase().includes(nameInput.toLowerCase());
+  });
+};
+
+export const matchFilterIndex = (dropdowns, target) => {
+  const updatedField = dropdowns.findIndex(dropdown => {
     return dropdown.label === target.id;
   });
 
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+  const selectedOption = dropdowns[updatedField].options.findIndex(
     option => option.optionValue === target.value,
   );
 
+  return { updatedField, selectedOption };
+};
+
+export const handleUpdateLcFilterDropdowns = (
+  dropdowns,
+  updatedFieldIndex,
+  selectedOptionIndex,
+) => {
   return dropdowns.map(
     (dropdown, index) =>
       index === updatedFieldIndex
@@ -548,6 +577,40 @@ export const updateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
+export const updateQueryParam = (history, location) => {
+  return (key, value) => {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set(key, value);
+
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+  };
+};
+
+export const handleLcResultsSearch = (
+  history,
+  category = 'all',
+  name = null,
+  state = 'all',
+) => {
+  return name
+    ? history.push(
+        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+      )
+    : history.push(`/lc-search/results?category=${category}&state=${state}`);
+};
+
+export function capitalizeFirstLetter(string) {
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return null;
+}
+
 export const formatProgramType = programType => {
   if (!programType) return '';
 
@@ -556,4 +619,42 @@ export const formatProgramType = programType => {
     .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
+};
+
+export const generateMockPrograms = numPrograms => {
+  const programNames = [
+    'CERTIFIED ETHICAL HACKER',
+    'CISCO SYSTEMS - CCDA',
+    'CERTIFIED INFORMATION SYSTEMS SECURITY',
+    'VMWARE CERTIFIED ASSOCIATE',
+    'MICROSOFT CERTIFIED PROFESSIONAL',
+    'CISCO SYSTEMS - CCDP',
+    'CISCO SYSTEMS - CCNA',
+    'CISCO SYSTEMS - CCNA SECURITY',
+    'CISCO SYSTEMS - CCNA VOICE',
+    'CISCO SYSTEMS - CCNA WIRELESS',
+    'DATABASE AND SOFTWARE DEVELOPER',
+    'CISCO SYSTEMS - CCNP',
+    'CISCO SYSTEMS - CCNP SECURITY',
+    'CISCO SYSTEMS - CCNP VOICE',
+    'CISCO SYSTEMS - CCNP WIRELESS',
+    'COMPTIA A PLUS',
+    'COMPTIA LINUX PLUS',
+    'COMPTIA NETWORK PLUS',
+    'COMPTIA SECURITY PLUS',
+    'NETWORK SECURITY ENGINEER',
+    'IT SYSTEMS ENGINEER',
+    'MICROSOFT CERTIFIED SOLUTIONS ASSOCIATE',
+  ];
+
+  return Array.from({ length: numPrograms }, (_, index) => ({
+    id: (index + 1).toString(),
+    type: 'institution_programs',
+    attributes: {
+      programType: 'NCD',
+      description: programNames[index % programNames.length],
+      facilityCode: '3V000242',
+      institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
+    },
+  }));
 };

@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.9.1",
-    "@axe-core/react": "^4.10.0",
+    "@axe-core/react": "^4.10.1",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/parser": "^7.26.2",
@@ -143,7 +143,7 @@
     "@webpack-cli/serve": "^1.6.0",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
-    "axe-core": "^4.4.3",
+    "axe-core": "^4.10.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
@@ -245,7 +245,7 @@
     "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
+    "webpack-dev-server": "^4.15.2",
     "webpack-manifest-plugin": "^4.0.2",
     "webpackbar": "^5.0.2",
     "yeoman-generator": "^5.6.1",
@@ -261,13 +261,11 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^47.3.0",
-    "@department-of-veterans-affairs/css-library": "^0.13.1",
-    "@department-of-veterans-affairs/formation": "11.0.26",
+    "@department-of-veterans-affairs/component-library": "^48.2.0",
+    "@department-of-veterans-affairs/css-library": "^0.16.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
     "blob-polyfill": "^5.0.20210201",
@@ -280,6 +278,7 @@
     "date-fns-tz": "^2.0.0",
     "dompurify": "^3.1.6",
     "dotenv": "^10.0.0",
+    "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
@@ -306,6 +305,7 @@
     "octokit": "^2.1.0",
     "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
+    "querystring": "^0.2.1",
     "react": "^17.0.2",
     "react-device-detect": "^2.2.3",
     "react-dom": "^17.0.2",
@@ -334,7 +334,8 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#71c4501d45b75000818c88707c9c0ecd3dc86dc7"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6732ef3d0c5804484f7e3aa580333ecad29eb085",
+    "web-vitals": "^4.2.4"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -378,7 +379,8 @@
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
-    "**/fbjs": "^3.0.4"
+    "**/fbjs": "^3.0.4",
+    "ws": "7.5.10"
   },
   "workspaces": {
     "packages": [
@@ -396,11 +398,19 @@
       "src/platform/monitoring",
       "src/platform/mhv",
       "src/applications/check-in",
-      "src/applications/vaos"
+      "src/applications/vaos",
+      "src/applications/claims-status",
+      "src/applications/accredited-representative-portal/accreditation/21a",
+      "src/applications/accredited-representative-portal",
+      "src/applications/_mock-form-ae-design-patterns"
     ],
     "nohoist": [
+      "**/applications-accredited-representative-portal/accreditation/21a/react-router",
+      "**/applications-accredited-representative-portal/accreditation/21a/history",
+      "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
+      "**/applications-claims-status/@department-of-veterans-affairs/component-library",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
       "**/platform-pdf/blob-stream",

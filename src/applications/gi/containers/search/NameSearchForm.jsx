@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
@@ -121,7 +122,7 @@ export function NameSearchForm({
   };
 
   const handleSubmit = event => {
-    event.preventDefault();
+    event?.preventDefault();
     if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
@@ -176,21 +177,14 @@ export function NameSearchForm({
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-            <button
-              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
-              type="submit"
+            <VaButton
+              text="Search"
               onKeyPress={onKeyEnter}
+              onClick={handleSubmit}
               data-testid="search-btn"
-            >
-              <va-icon
-                size={3}
-                icon="search"
-                aria-hidden="true"
-                className="vads-u-margin-right--0p5"
-              />
-              Search
-            </button>
+              className={`search-by-name-btn hydrated ${error &&
+                'vads-u-margin-left--neg2p5'}`}
+            />
           </div>
         </div>
       </form>

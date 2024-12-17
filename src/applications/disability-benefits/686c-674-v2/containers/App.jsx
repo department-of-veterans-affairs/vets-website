@@ -32,7 +32,7 @@ function App({ location, children, isLoading, featureToggles, savedForms }) {
   const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
   if (!shouldUseV2) {
     window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
-    return null;
+    return <></>;
   }
 
   return (

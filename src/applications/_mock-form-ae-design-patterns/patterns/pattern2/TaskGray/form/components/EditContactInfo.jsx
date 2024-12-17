@@ -85,6 +85,7 @@ export const BuildPage = props => {
             isDeleteDisabled
             cancelCallback={handlers.cancel}
             successCallback={handlers.success}
+            saveButtonText="Save to profile"
           />
         </InitializeVAPServiceID>
       </div>

@@ -34,7 +34,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.certifierInformation.pages.page5.schema,
   formConfig.chapters.certifierInformation.pages.page5.uiSchema,
-  7,
+  6,
   'Signer relationship',
   {
     certifierRelationship: {

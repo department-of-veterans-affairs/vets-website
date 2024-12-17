@@ -1355,8 +1355,21 @@
           "atlas": null,
           "vvsKind": "CLINIC_BASED"
         },
-        "claim": {
-          "id": "987654323"
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          },
+          "claim": {
+            "id": "987654323",
+            "claimNumber": "internalclaimnumber",
+            "claimStatus": "InProgress",
+            "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+            "facilityName": "Cheyenne VA Medical Center",
+            "createdOn": "2024-03-22T21:22:34.465Z",
+            "modifiedOn": "2024-01-01T16:44:34.465"
+          }
         }
       }
     },
@@ -1439,7 +1452,7 @@
         ],
         "patientIcn": "1013120826V646496",
         "locationId": "983GC",
-        "localStartTime": "2024-10-20T10:30:00.000+08:00",
+        "localStartTime": "2024-10-20T09:30:00.000+08:00",
         "clinic": "945",
         "start": "2024-10-20T09:30:00Z",
         "end": "2024-10-20T10:00:00Z",
@@ -1492,8 +1505,121 @@
             ]
           }
         },
-        "claim": {
-          "message": "No claim for this appointment"
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "No claims found.",
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "id": "167323",
+      "type": "appointments",
+      "attributes": {
+        "id": "167323",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383339353233"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013120826V646496",
+        "locationId": "983GC",
+        "localStartTime": "2024-10-20T10:30:00.000+08:00",
+        "clinic": "945",
+        "start": "2024-10-20T10:30:00Z",
+        "end": "2024-10-20T11:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "NO ACTION TAKEN"
+          ]
+        },
+        "serviceName": "FTC C&P AUDIO BEV",
+        "physicalLocation": "FORT COLLINS AUDIO",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "Asia/Manila"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
+            "physicalAddress": {
+              "line": [
+                "2509 Research Boulevard"
+              ],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ]
+          }
+        },
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          },
+          "claim": {
+            "id": "987654324",
+            "claimNumber": "internalclaimnumber",
+            "claimStatus": "InProgress",
+            "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+            "facilityName": "Cheyenne VA Medical Center",
+            "createdOn": "2024-03-22T21:22:34.465Z",
+            "modifiedOn": "2024-01-01T16:44:34.465"
+          }
         }
       }
     },
@@ -1588,8 +1714,12 @@
             ]
           }
         },
-        "claim": {
-          "message": "No claim for this appointment"
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          }
         }
       }
     },
@@ -2646,13 +2776,13 @@
             }
           }
         ],
-        "start": "2024-12-05T18:00:00Z",
-        "end": "2024-12-05T18:15:00Z",
+        "start": "2025-12-05T18:00:00Z",
+        "end": "2025-12-05T18:15:00Z",
         "minutesDuration": 15,
         "slot": {
           "id": "3230323331323035313830303A323032333132303531383135",
-          "start": "2024-12-05T18:00:00Z",
-          "end": "2024-12-05T18:15:00Z"
+          "start": "2025-12-05T18:00:00Z",
+          "end": "2025-12-05T18:15:00Z"
         },
         "created": "2024-11-28T00:00:00Z",
         "cancellable": true,
@@ -2671,7 +2801,7 @@
             "phoneNumberExtension": "6001"
           }
         },
-        "localStartTime": "2024-12-05T13:00:00.000-05:00",
+        "localStartTime": "2025-12-05T13:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",
@@ -2773,13 +2903,13 @@
             }
           }
         ],
-        "start": "2024-12-05T19:00:00Z",
-        "end": "2024-12-05T19:15:00Z",
+        "start": "2025-12-05T19:00:00Z",
+        "end": "2025-12-05T19:15:00Z",
         "minutesDuration": 15,
         "slot": {
           "id": "3230323331323035313830303A323032333132303531383135",
-          "start": "2024-12-05T19:00:00Z",
-          "end": "2024-12-05T19:15:00Z"
+          "start": "2025-12-05T19:00:00Z",
+          "end": "2025-12-05T19:15:00Z"
         },
         "created": "2024-11-28T00:00:00Z",
         "cancellable": false,
@@ -2798,7 +2928,7 @@
             "phoneNumberExtension": "6001"
           }
         },
-        "localStartTime": "2024-12-05T14:00:00.000-05:00",
+        "localStartTime": "2025-12-05T14:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",

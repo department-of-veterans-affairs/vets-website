@@ -27,7 +27,7 @@ export const removeMarriedChildOptions = {
     !item?.birthDate ||
     !item?.ssn ||
     !item?.dateMarried,
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
     getItemName: item =>
@@ -104,10 +104,10 @@ export const marriedChildInformationPage = {
 export const dateChildMarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'When did this child stop attending school?',
+      () => 'When did this child get married?',
     ),
     dateMarried: {
-      ...currentOrPastDateUI('When did this child stop attending school?'),
+      ...currentOrPastDateUI('When did this child get married?'),
       'ui:required': () => true,
     },
   },

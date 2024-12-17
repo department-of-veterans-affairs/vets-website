@@ -47,8 +47,10 @@ ReplaceAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
+
+export { ReplaceAccreditedRepresentative }; // Named export for testing
 
 export default connect(
   mapStateToProps,

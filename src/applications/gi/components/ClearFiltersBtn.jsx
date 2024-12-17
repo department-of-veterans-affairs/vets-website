@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
   filters,
   dispatchFilterChange,
-  children,
-  testId,
   onKeyDown,
   onClick,
+  className,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -44,20 +44,20 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
   return (
     <>
-      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-      <button
-        className="clear-filters-btn"
+      <VaButton
+        secondary
+        text="Reset search"
+        className={className}
         onClick={clearAllFilters}
-        data-testid={testId}
         onKeyDown={onKeyDown}
-      >
-        {' '}
-        {children}
-      </button>
+        data-testid="clear-button"
+      />
     </>
   );
 }
@@ -70,11 +70,11 @@ const mapDispatchToProps = {
 };
 ClearFiltersBtn.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   closeAndUpdate: PropTypes.func,
   dispatchFilterChange: PropTypes.func,
   filters: PropTypes.object,
   smallScreen: PropTypes.bool,
-  testId: PropTypes.string,
   title: PropTypes.string,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,

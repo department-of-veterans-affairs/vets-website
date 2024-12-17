@@ -1,20 +1,18 @@
+const { USER, FULL_NAME } = require('../../constants/user');
+
 const response = {
   formData: {
-    fullName: {
-      first: 'Mark',
-      last: 'Webb',
-      suffix: 'Jr.',
-    },
-    dateOfBirth: '1950-10-04',
+    fullName: FULL_NAME,
+    dateOfBirth: USER.BIRTH_DATE,
     applicantAddress: {
-      street: '123 Faker Street',
-      city: 'Bogusville',
-      state: 'GA',
-      country: 'USA',
-      postalCode: '30058',
+      street: USER.MAILING_ADDRESS.ADDRESS_LINE1,
+      city: USER.MAILING_ADDRESS.CITY,
+      state: USER.MAILING_ADDRESS.STATE_CODE,
+      country: USER.MAILING_ADDRESS.COUNTRY_CODE_ISO3,
+      postalCode: USER.MAILING_ADDRESS.ZIP_CODE,
     },
-    contactPhone: '4445551212',
-    contactEmail: 'test2@test1.net',
+    contactPhone: `${USER.HOME_PHONE.AREA_CODE}${USER.HOME_PHONE.PHONE_NUMBER}`,
+    contactEmail: USER.EMAIL,
     periodsOfService: [
       {
         serviceBranch: 'Air Force',
@@ -39,4 +37,4 @@ const response = {
   },
 };
 
-module.exports = { response };
+module.exports = response;

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -13,7 +12,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -24,6 +22,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
@@ -51,9 +50,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { vamcEhrData } = useSelector(selectDrupalStaticData);
-
-  const { isAccelerating } = useAcceleratedData();
+  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -66,19 +63,21 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAccelerating,
+        isOracleHealthData: isAcceleratingAllergies,
       };
     },
-    [allergy, isAccelerating],
+    [allergy, isAcceleratingAllergies],
   );
 
   useEffect(
     () => {
-      if (allergyId && !vamcEhrData?.loading) {
-        dispatch(getAllergyDetails(allergyId, allergyList, isAccelerating));
+      if (allergyId && !isLoading) {
+        dispatch(
+          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+        );
       }
     },
-    [allergyId, allergyList, dispatch, isAccelerating, vamcEhrData?.loading],
+    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
   );
 
   useEffect(
@@ -94,9 +93,7 @@ const AllergyDetails = props => {
     () => {
       if (allergyData) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${allergyData.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
       }
     },
     [dispatch, allergyData],
@@ -120,12 +117,12 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAccelerating) {
+    if (isAcceleratingAllergies) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n
       ${formatNameFirstLast(user.userFullName)}\n
-      Date of birth: ${formatDateLong(user.dob)}\n
+      Date of birth: ${formatUserDob(user)}\n
       ${reportGeneratedBy}\n
       Date entered: ${allergyData.date} \n
       ${txtLine} \n
@@ -138,7 +135,7 @@ const AllergyDetails = props => {
 ${crisisLineHeader}\n\n
 ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${allergyData.date} \n
 ${txtLine} \n
@@ -180,7 +177,9 @@ Provider notes: ${allergyData.notes} \n`;
             aria-describedby="allergy-date"
           >
             Allergies and reactions:{' '}
-            <span data-dd-privacy="mask">{allergyData.name}</span>
+            <span data-dd-privacy="mask" data-dd-action-name="[allergy name]">
+              {allergyData.name}
+            </span>
           </h1>
           <DateSubheading
             date={allergyData.date}
@@ -190,6 +189,7 @@ Provider notes: ${allergyData.notes} \n`;
 
           {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
+            description="Allergies Detail"
             downloadPdf={generateAllergyPdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateAllergyTxt}
@@ -207,7 +207,11 @@ Provider notes: ${allergyData.notes} \n`;
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-type">
+            <p
+              data-dd-privacy="mask"
+              data-dd-action-name="[allergy type]"
+              data-testid="allergy-type"
+            >
               {allergyData.type}
             </p>
             {!allergyData.isOracleHealthData && (
@@ -215,7 +219,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Location
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-location">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy location]"
+                  data-testid="allergy-location"
+                >
                   {allergyData.location}
                 </p>
               </>
@@ -225,7 +233,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Observed or historical
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy observed]"
+                  data-testid="allergy-observed"
+                >
                   {allergyData.observedOrReported}
                 </p>
               </>
@@ -235,7 +247,11 @@ Provider notes: ${allergyData.notes} \n`;
                 <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Recorded by
                 </h2>
-                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                <p
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[allergy recorded by]"
+                  data-testid="allergy-observed"
+                >
                   {allergyData.provider}
                 </p>
               </>
@@ -243,7 +259,12 @@ Provider notes: ${allergyData.notes} \n`;
             <h2 className="vads-u-font-size--md vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-notes">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-notes"
+              style={{ whiteSpace: 'pre-line' }}
+              data-dd-action-name="[allergy provider notes]"
+            >
               {allergyData.notes}
             </p>
           </div>

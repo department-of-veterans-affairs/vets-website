@@ -9,24 +9,45 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
-          certifierRelationship: 'Spouse',
+          applicants: [{ applicantRelationshipToSponsor: 'Spouse' }],
         },
       }),
     );
-    expect(transformed.certification.relationship).to.equal('Spouse');
+    expect(transformed.applicants[0].vetRelationship).to.equal('Spouse');
   });
   it('should flatten relationship details', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
+          applicants: [
+            {
+              applicantRelationshipToSponsor: {
+                relationshipToVeteran: 'other',
+                otherRelationshipToVeteran: 'Sibling',
+              },
+            },
+          ],
+        },
+      }),
+    );
+    expect(transformed.applicants[0].vetRelationship).to.equal('Sibling');
+  });
+  it('should produce a semicolon separated list of relationships for third party certifiers', () => {
+    const transformed = JSON.parse(
+      transformForSubmit(formConfig, {
+        data: {
+          certifierRole: 'other',
           certifierRelationship: {
-            relationshipToVeteran: 'other',
-            otherRelationshipToVeteran: 'Sibling',
+            relationshipToVeteran: {
+              spouse: true,
+              parent: true,
+              thirdParty: false,
+            },
           },
         },
       }),
     );
-    expect(transformed.certification.relationship).to.equal('Sibling');
+    expect(transformed.certification.relationship).to.equal('spouse; parent');
   });
   it('should insert blank values as needed', () => {
     const transformed = JSON.parse(

@@ -1,3 +1,5 @@
+import { startReferralTimer } from './utils/timer';
+
 /**
  * Function to get referral page flow.
  *
@@ -8,31 +10,31 @@
 export default function getPageFlow(referralId) {
   return {
     appointments: {
-      url: '/appointments',
+      url: '/',
       label: 'Appointments',
       next: 'scheduleReferral',
       previous: '',
     },
-    activeReferrals: {
-      url: '/appointments/pending',
+    referralsAndRequests: {
+      url: '/referrals-requests',
       label: 'Active referrals',
       next: 'scheduleReferral',
       previous: 'appointments',
     },
     scheduleReferral: {
-      url: `/schedule-referral/${referralId}`,
+      url: `/schedule-referral?id=${referralId}`,
       label: 'Referral for',
       next: 'scheduleAppointment',
-      previous: 'activeReferrals',
+      previous: 'referralsAndRequests',
     },
     scheduleAppointment: {
-      url: '/schedule-referral/date-time',
+      url: `/schedule-referral/date-time?id=${referralId}`,
       label: 'Schedule an appointment with your provider',
       next: 'confirmAppointment',
       previous: 'scheduleReferral',
     },
     confirmAppointment: {
-      url: '/schedule-referral/review',
+      url: `/schedule-referral/review?id=${referralId}`,
       label: 'Review your appointment details',
       next: 'appointments',
       previous: 'scheduleAppointment',
@@ -51,6 +53,10 @@ export function routeToPageInFlow(history, current, action, referralId) {
   const nextPageString = pageFlow[current][action];
   const nextPage = pageFlow[nextPageString];
 
+  if (action === 'next' && nextPageString === 'scheduleReferral') {
+    startReferralTimer(referralId);
+  }
+
   if (nextPage?.url) {
     history.push(nextPage.url);
   } else if (nextPage) {
@@ -65,11 +71,24 @@ export function routeToPreviousReferralPage(
   current,
   referralId = null,
 ) {
-  return routeToPageInFlow(history, current, 'previous', referralId);
+  let resolvedReferralId = referralId;
+  // Give the router some context to keep the user in the same referral when navigating back if not
+  // explicitly passed
+  if (!referralId && history.location?.search) {
+    const params = new URLSearchParams(history.location.search);
+    resolvedReferralId = params.get('id');
+  }
+  return routeToPageInFlow(history, current, 'previous', resolvedReferralId);
 }
 
 export function routeToNextReferralPage(history, current, referralId = null) {
   return routeToPageInFlow(history, current, 'next', referralId);
+}
+
+export function routeToCCPage(history, page) {
+  const pageFlow = getPageFlow();
+  const nextPage = pageFlow[page];
+  return history.push(nextPage.url);
 }
 
 /* Function to get label from the flow

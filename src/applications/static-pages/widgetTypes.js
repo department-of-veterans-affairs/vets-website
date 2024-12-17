@@ -1,5 +1,6 @@
 export default {
   DOWNLOAD_1095B_CTA: 'download-1095b',
+  APPOINT_A_REP_LANDING_CONTENT: 'appoint-a-rep-landing-content',
   ASK_VA: 'ask-va',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
@@ -53,7 +54,7 @@ export default {
   HCA_PERFORMANCE_WARNING: 'hca-performance-warning',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
-  HOMEPAGE_BANNER: 'homepage-banner',
+  HOMEPAGE_EMAIL_SIGNUP: 'homepage-email-signup',
   HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   HOMEPAGE_SEARCH: 'homepage-search',
   I_18_SELECT: 'i18-select',
@@ -74,6 +75,7 @@ export default {
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   SIDE_NAV: 'side-nav',
+  SITUATION_UPDATES_BANNER: 'situation-updates-banner',
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VET_CENTER_HOURS: 'vet-center-hours',

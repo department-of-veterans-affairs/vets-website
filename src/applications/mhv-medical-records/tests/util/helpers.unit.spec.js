@@ -3,20 +3,22 @@ import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
-  getStatusExtractPhase,
+  dateFormatWithoutTimezone,
+  dispatchDetails,
+  extractContainedByRecourceType,
+  extractContainedResource,
+  formatDate,
+  formatNameFirstLast,
+  formatNameFirstToLast,
+  getActiveLinksStyle,
+  getLastUpdatedText,
   getObservationValueWithUnits,
   getReactions,
+  getStatusExtractPhase,
   nameFormat,
   processList,
-  extractContainedResource,
-  dispatchDetails,
-  getActiveLinksStyle,
-  dateFormatWithoutTimezone,
-  formatDate,
-  extractContainedByRecourceType,
-  getLastUpdatedText,
-  formatNameFirstToLast,
-  formatNameFirstLast,
+  getMonthFromSelectedDate,
+  formatDateInLocalTimezone,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -499,27 +501,98 @@ describe('getLastUpdatedText', () => {
 });
 
 describe('formatNameFirstToLast', () => {
-  it('returns a name formatted with the first name before to the last name and no comma.', () => {
-    const lastFirstName = 'Schmo,Joe';
-    const firstLastName = 'Joe Schmo';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('formats a name string from "Last,First" to "First Last"', () => {
+    const input = 'Schmo,Joe';
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(firstLastName);
+    expect(result).to.eq(expectedOutput);
   });
 
-  it('returns a name formatted with the first name and middle initial before to the last name.', () => {
-    const lastFirstName = 'Schmo,Joe R';
-    const firstLastName = 'Joe R Schmo';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('formats a name with middle initial from "Last,First Middle" to "First Middle Last"', () => {
+    const input = 'Schmo,Joe R';
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(firstLastName);
+    expect(result).to.eq(expectedOutput);
   });
 
-  it('returns original name if not formatted correctly.', () => {
-    const lastFirstName = 'Schmo Joe';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('returns original name if not in "Last,First" format', () => {
+    const input = 'Schmo Joe';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(lastFirstName);
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with given and family names correctly', () => {
+    const input = { given: ['Joe', 'R'], family: 'Schmo' };
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles object input with text property in "Last,First" format', () => {
+    const input = { text: 'Schmo,Joe' };
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('returns text property if not in "Last,First" format', () => {
+    const input = { text: 'Schmo Joe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
+  });
+
+  it('returns null on unexpected object without necessary properties', () => {
+    const input = { other: 'value' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is null', () => {
+    const result = formatNameFirstToLast(null);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is undefined', () => {
+    const result = formatNameFirstToLast(undefined);
+
+    expect(result).to.be.null;
+  });
+
+  it('handles a name string without a comma as original input', () => {
+    const input = 'SingleName';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with empty given array and family name', () => {
+    const input = { given: [], family: 'Schmo' };
+    const expectedOutput = ' Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles empty string input as empty string', () => {
+    const input = '';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq('');
+  });
+
+  it('handles improperly formatted text field in object as original input', () => {
+    const input = { text: 'SchmoJoe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
   });
 });
 
@@ -552,5 +625,58 @@ describe('formatNameFirstLast', () => {
     const updatedName = formatNameFirstLast(user2.userFullName);
 
     expect(updatedName).to.eq(firstMiddleLastSuffixName);
+  });
+});
+
+describe('getMonthFromSelectedDate', () => {
+  it('should return the formatted date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.equal('January 2024');
+  });
+  it('should accept a mask for the date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date, mask: 'MMMM' });
+    expect(result).to.equal('January');
+  });
+  it('should return null if the date is not provided', () => {
+    const result = getMonthFromSelectedDate({});
+    expect(result).to.be.null;
+  });
+  it('should return null is date string doesnt match the format', () => {
+    const date = '2024';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.be.null;
+  });
+});
+
+describe('formatDateInLocalTimezone', () => {
+  it('should format a valid ISO8601 date string to the local timezone', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should handle an invalid date string gracefully', () => {
+    const invalidDateString = 'invalid-date';
+    expect(() => formatDateInLocalTimezone(invalidDateString)).to.throw();
+  });
+
+  it('should handle a null value gracefully', () => {
+    const nullValue = null;
+    expect(() => formatDateInLocalTimezone(nullValue)).to.throw();
+  });
+
+  it('should handle an undefined value gracefully', () => {
+    const undefinedValue = undefined;
+    expect(() => formatDateInLocalTimezone(undefinedValue)).to.throw();
+  });
+
+  it('should format a date string without time correctly', () => {
+    const dateString = '2023-10-03';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    const expectedDate = 'October 3, 2023 12:00 a.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
   });
 });

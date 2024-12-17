@@ -1,5 +1,20 @@
 import React from 'react';
 
+import {
+  CategoryEducation,
+  CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHousingAssistanceAndHomeLoans,
+  CategoryVeteranReadinessAndEmployment,
+  contactOptions,
+  isQuestionAboutVeteranOrSomeoneElseLabels,
+  relationshipOptionsSomeoneElse,
+  statesRequiringPostalCode,
+  TopicAppraisals,
+  TopicSpeciallyAdapatedHousing,
+  TopicVeteranReadinessAndEmploymentChapter31,
+  whoIsYourQuestionAboutLabels,
+} from '../constants';
+
 export const ServerErrorAlert = () => (
   <>
     <h2
@@ -236,3 +251,283 @@ export const MilitaryBaseInfo = () => (
     </va-additional-info>
   </div>
 );
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Location%20and%20postal%20code.md#guardianship-and-vre
+export const isLocationOfResidenceRequired = data => {
+  const {
+    contactPreference,
+    relationshipToVeteran,
+    selectCategory,
+    selectTopic,
+    whoIsYourQuestionAbout,
+    isQuestionAboutVeteranOrSomeoneElse,
+    yourHealthFacility,
+  } = data;
+
+  // Check if location is required based on contact preference
+  if (contactPreference === contactOptions.US_MAIL) {
+    return false;
+  }
+
+  // Guardianship and VR&E rules
+  const GuardianshipAndVRE =
+    (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
+      selectCategory === CategoryVeteranReadinessAndEmployment) &&
+    selectTopic !== 'Other';
+
+  const EducationAndVRE =
+    selectCategory === CategoryEducation &&
+    selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
+
+  // About myself
+  // Flow 1.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 1.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER)
+  ) {
+    return true;
+  }
+
+  // About someone else
+  // Flow 2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE)
+  ) {
+    return true;
+  }
+
+  // Flow 2.3
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Check general question
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return true;
+  }
+
+  // Medical Facility was required
+  if (yourHealthFacility) {
+    return true;
+  }
+
+  // Default to false if none of the conditions are met
+  return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Location%20and%20postal%20code.md#guardianship-and-vre
+export const isPostalCodeRequired = data => {
+  const {
+    contactPreference,
+    relationshipToVeteran,
+    selectCategory,
+    selectTopic,
+    whoIsYourQuestionAbout,
+    isQuestionAboutVeteranOrSomeoneElse,
+    yourLocationOfResidence,
+    familyMembersLocationOfResidence,
+    veteransLocationOfResidence,
+    yourHealthFacility,
+  } = data;
+
+  // Check if location is required based on contact preference
+  if (contactPreference === contactOptions.US_MAIL) {
+    return false;
+  }
+
+  // Guardianship and VR&E rules
+  const GuardianshipAndVRE =
+    (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
+      selectCategory === CategoryVeteranReadinessAndEmployment) &&
+    selectTopic !== 'Other';
+
+  const EducationAndVRE =
+    selectCategory === CategoryEducation &&
+    selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
+
+  // About myself
+  // Flow 1.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 1.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // About someone else
+  // Flow 2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.3
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 3.1
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  if (selectCategory === 'Health care' && !yourHealthFacility) {
+    return true;
+  }
+
+  // Default to false if none of the conditions are met
+  return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#state-of-property
+export const isStateOfPropertyRequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryHousingAssistanceAndHomeLoans &&
+    (selectTopic === TopicSpeciallyAdapatedHousing ||
+      selectTopic === TopicAppraisals)
+  );
+};
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const isBranchOfServiceRequired = data => {
+  const { selectCategory, whoIsYourQuestionAbout } = data;
+
+  const branchOfServiceRuleforCategories = [
+    'Veteran ID Card (VIC)',
+    'Disability compensation',
+    'Survivor benefits',
+    'Burials and memorials',
+    'Center for Women Veterans',
+    'Benefits issues outside the U.S.',
+  ];
+
+  return (
+    branchOfServiceRuleforCategories.includes(selectCategory) ||
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
+};
+
+// Veteran Readiness and Employment (VR&E) rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#veteran-readiness-and-employment-vre-information
+export const isVRERequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryVeteranReadinessAndEmployment ||
+    (selectCategory === CategoryEducation &&
+      selectTopic === TopicVeteranReadinessAndEmploymentChapter31)
+  );
+};
+
+export const isHealthFacilityRequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  const healthTopics = [
+    'Prosthetics',
+    'Audiology and hearing aids',
+    'Getting care at a local VA medical center',
+  ];
+
+  return (
+    (selectCategory === 'Health care' && healthTopics.includes(selectTopic)) ||
+    (selectCategory ===
+      'Debt for benefit overpayments and health care copay bills' &&
+      selectTopic === 'Health care copay debt')
+  );
+};

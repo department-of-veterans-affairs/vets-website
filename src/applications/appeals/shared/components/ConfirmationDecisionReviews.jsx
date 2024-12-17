@@ -14,13 +14,10 @@ import { renderFullName } from '../utils/data';
 import { parseDate } from '../utils/dates';
 import { FORMAT_READABLE_DATE_FNS } from '../constants';
 
-const defaultAlertContent =
-  'When we’ve completed our review, we’ll mail you a decision packet with the details of our decision.';
-
 export const ConfirmationDecisionReviews = ({
   pageTitle,
   alertTitle,
-  alertContent = defaultAlertContent,
+  alertContent,
   appType = 'claim',
   children,
 }) => {

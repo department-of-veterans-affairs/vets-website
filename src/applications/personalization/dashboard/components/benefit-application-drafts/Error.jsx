@@ -3,9 +3,9 @@ import React from 'react';
 const Error = () => {
   const content = (
     <>
-      <h2 slot="headline" className="vads-u-margin-top--0">
+      <h3 slot="headline" className="vads-u-margin-top--0">
         We can’t access your benefit applications and forms right now
-      </h2>
+      </h3>
       <p className="vads-u-margin-bottom--0">
         We’re sorry. We’re working to fix this problem. Check back later.
       </p>

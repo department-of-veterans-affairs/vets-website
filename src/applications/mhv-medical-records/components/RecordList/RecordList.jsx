@@ -13,7 +13,7 @@ import { getParamValue } from '../../util/helpers';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 10, hidePagination } = props;
+  const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
 
   const history = useHistory();
@@ -53,7 +53,7 @@ const RecordList = props => {
         setCurrentRecords(paginatedRecords.current[currentPage - 1]);
       }
     },
-    [records, perPage],
+    [records, perPage, currentPage],
   );
 
   useEffect(
@@ -70,11 +70,15 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <h2 className="sr-only">List of {type}</h2>
+      <h2 className="sr-only" data-dd-privacy="mask" data-dd-action-name>
+        {`List of ${type}`}
+      </h2>
       <p
         className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
+        data-dd-privacy="mask"
+        data-dd-action-name
       >
         <span>
           {`Showing ${displayNums[0]} to ${
@@ -83,12 +87,17 @@ const RecordList = props => {
         </span>
       </p>
       <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
-        Showing {totalEntries} from newest to oldest
+        Showing {totalEntries} records from newest to oldest
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
-            <RecordListItem key={idx} record={record} type={type} />
+            <RecordListItem
+              key={idx}
+              record={record}
+              type={type}
+              domainOptions={domainOptions}
+            />
           ))}
       </div>
       <div className="print-only">
@@ -101,6 +110,7 @@ const RecordList = props => {
         (paginatedRecords.current.length > 1 ? (
           <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
+              data-dd-action-name="record list pagination"
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
@@ -119,6 +129,7 @@ const RecordList = props => {
 export default RecordList;
 
 RecordList.propTypes = {
+  domainOptions: PropTypes.object,
   hidePagination: PropTypes.bool,
   perPage: PropTypes.number,
   records: PropTypes.array,

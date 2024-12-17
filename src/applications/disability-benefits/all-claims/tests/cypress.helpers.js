@@ -8,6 +8,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import {
   MOCK_SIPS_API,
@@ -226,6 +227,24 @@ function makeUnreleasedPageHooks(testOptions) {
   );
 }
 
+export const reviewAndSubmitPageFlow = (
+  submitButtonText = 'Submit application',
+) => {
+  const first = mockUser.data.attributes.profile.firstName;
+  const middle = mockUser.data.attributes.profile.middleName;
+  const last = mockUser.data.attributes.profile.lastName;
+
+  const veteranSignature = middle
+    ? `${first} ${middle} ${last}`
+    : `${first} ${last}`;
+
+  cy.fillVaTextInput('veteran-signature', veteranSignature);
+  cy.selectVaCheckbox('veteran-certify', true);
+  cy.findByText(submitButtonText, {
+    selector: 'button',
+  }).click();
+};
+
 export const pageHooks = (cy, testOptions = {}) => ({
   start: () => {
     // skip wizard
@@ -370,5 +389,16 @@ export const pageHooks = (cy, testOptions = {}) => ({
       }
     });
   },
+  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
+  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
+  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
+  // locally. this will be uncommented for launch.
+  // 'review-and-submit': ({ afterHook }) => {
+  //   afterHook(() => {
+  //     cy.get('@testData').then(() => {
+  //       reviewAndSubmitPageFlow();
+  //     });
+  //   });
+  // },
   ...makeUnreleasedPageHooks(testOptions),
 });

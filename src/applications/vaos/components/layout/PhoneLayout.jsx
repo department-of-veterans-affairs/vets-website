@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   Details,
-  Section,
   What,
   When,
   Who,
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
@@ -50,8 +50,9 @@ export default function PhoneLayout({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            We'll call you at the appointment time. But contact the facility you
-            scheduled through if you have questions or need to reschedule.
+            We’ll call you at the appointment time. If you have questions or
+            need to reschedule, contact the facility you originally scheduled
+            through.
           </Section>
         )}
       <When>

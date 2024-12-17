@@ -18,6 +18,7 @@ const defaultUser = {
         first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
+        preferred_Name: 'Ginny',
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
@@ -109,6 +110,10 @@ const CSP_IDS = {
 const USER_MOCKS = Object.freeze({
   UNREGISTERED: generateUser({ vaPatient: false }),
   UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
+  LOGIN_GOV_UNVERIFIED: generateUser({
+    loa: 1,
+    serviceName: CSP_IDS.LOGIN_GOV,
+  }),
   DS_LOGON_UNVERIFIED: generateUser({ loa: 1, serviceName: CSP_IDS.DS_LOGON }),
   NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
   MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),

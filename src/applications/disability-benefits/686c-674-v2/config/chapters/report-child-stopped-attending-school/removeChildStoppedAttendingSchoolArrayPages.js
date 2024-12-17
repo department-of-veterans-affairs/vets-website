@@ -27,7 +27,7 @@ export const removeChildStoppedAttendingSchoolOptions = {
     !item?.birthDate ||
     !item?.ssn ||
     !item?.dateChildLeftSchool,
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your children between ages 18 and 23 who left school',
     getItemName: item =>

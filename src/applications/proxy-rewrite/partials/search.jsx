@@ -56,13 +56,13 @@ const Search = ({ isDesktop, searchIsOpen }) => {
     return (
       <>
         <label
-          className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5"
+          className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-left--2"
           htmlFor="search-header-dropdown-input-field"
         >
           Search
         </label>
         <div className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5">
-          <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column full-width-suggestions vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0 vads-u-padding-bottom--2 vads-u-margin--0 search-input-container">
+          <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column full-width-suggestions vads-u-padding-top--1p5 vads-u-padding-left--1p5 vads-u-padding-right--0 vads-u-padding-bottom--3 vads-u-margin--0 search-input-container">
             <input
               aria-autocomplete="none"
               autoComplete="off"
@@ -76,7 +76,7 @@ const Search = ({ isDesktop, searchIsOpen }) => {
           </div>
           <button
             type="submit"
-            className="search-button search-dropdown-submit-button vads-u-margin-right--1 vads-u-font-size--base vads-u-padding-left--1p5"
+            className="search-button search-dropdown-submit-button vads-u-margin-right--1p5 vads-u-font-size--base vads-u-padding-left--2p5"
             id="search-header-dropdown-submit-button"
             onClick={onInputSubmit}
             onKeyDown={handleButtonShift}

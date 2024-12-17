@@ -33,7 +33,7 @@ const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.CSP_METHOD]: '',
 };
 
-export function generateMockKeepAliveResponse(
+function generateMockKeepAliveResponse(
   { headers = {}, status = 200 } = {
     headers: {
       ...defaultKeepAliveOpts,

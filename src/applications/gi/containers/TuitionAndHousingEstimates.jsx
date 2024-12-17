@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';
 import VARadioButton from '../components/VARadioButton';
@@ -125,7 +126,13 @@ export function TuitionAndHousingEstimates({
     </div>
   );
   const title = 'Update tuition, housing, and monthly benefit estimates';
-
+  const updateEstimatestButton = classNames(
+    'vads-u-width--full',
+    'vads-u-margin-top--0',
+    'vads-u-margin-y--2',
+    'vads-u-margin-right--1p5',
+    'vads-u-padding--0',
+  );
   return (
     <div className="vads-u-margin-bottom--2">
       {!smallScreen && (
@@ -149,7 +156,7 @@ export function TuitionAndHousingEstimates({
           <div className="modal-button-wrapper">
             <va-button
               id={`update-${createId(title)}-button`}
-              className="update-results-button"
+              class={updateEstimatestButton}
               text="Update estimates"
               onClick={closeAndUpdate}
             />

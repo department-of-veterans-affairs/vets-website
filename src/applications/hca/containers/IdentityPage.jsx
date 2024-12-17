@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
-
 import {
   fetchEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions/enrollment-status';
+} from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors';
 import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';

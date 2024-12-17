@@ -7,7 +7,7 @@ const familyMembersPostalCodePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE),
     'ui:objectViewField': PageFieldSummary,
-    postalCode: {
+    familyMemberPostalCode: {
       'ui:title': CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.QUESTION_4,
       'ui:required': () => true,
       'ui:description': PostalCodeHint,
@@ -22,7 +22,7 @@ const familyMembersPostalCodePage = {
     type: 'object',
     required: [],
     properties: {
-      postalCode: {
+      familyMemberPostalCode: {
         type: 'string',
         maxLength: 10,
         pattern: '^[0-9]{5}(?:-[0-9]{4})?$',

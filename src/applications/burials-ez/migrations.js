@@ -13,4 +13,14 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
+  // 1 > 2, move user without an email back to the contact information page
+  ({ formData = {}, metadata = {} }) => {
+    const newMetadata = { ...metadata };
+
+    if (!formData.claimantEmail) {
+      newMetadata.returnUrl = '/claimant-information/contact-information';
+    }
+
+    return { formData, metadata: newMetadata };
+  },
 ];

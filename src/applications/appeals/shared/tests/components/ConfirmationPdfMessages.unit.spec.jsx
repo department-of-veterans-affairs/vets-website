@@ -9,11 +9,12 @@ import { mockApiRequest } from 'platform/testing/unit/helpers';
 import ConfirmationPdfMessages from '../../components/ConfirmationPdfMessages';
 
 describe('ConfirmationPdfMessages', () => {
+  const linkText = 'Download PDF';
   it('should show loading indicator while fetching', () => {
     mockApiRequest({});
     const { container } = render(
       <div>
-        <ConfirmationPdfMessages pdfApi="/" />
+        <ConfirmationPdfMessages pdfApi="/" successLinkText={linkText} />
       </div>,
     );
 
@@ -26,7 +27,11 @@ describe('ConfirmationPdfMessages', () => {
     mockApiRequest({});
     const { container } = render(
       <div>
-        <ConfirmationPdfMessages pdfApi="/" delayTimer={0} />
+        <ConfirmationPdfMessages
+          pdfApi="/"
+          delayTimer={0}
+          successLinkText={linkText}
+        />
       </div>,
     );
 
@@ -45,7 +50,11 @@ describe('ConfirmationPdfMessages', () => {
     mockApiRequest({}, false);
     const { container } = render(
       <div>
-        <ConfirmationPdfMessages pdfApi="/" delayTimer={0} />
+        <ConfirmationPdfMessages
+          pdfApi="/"
+          delayTimer={0}
+          successLinkText={linkText}
+        />
       </div>,
     );
 
@@ -59,10 +68,10 @@ describe('ConfirmationPdfMessages', () => {
   });
 
   it('should show download link on success', async () => {
-    mockApiRequest({ ok: true, data: '' });
+    mockApiRequest({ ok: true, data: '/test' });
     const { container } = render(
       <div>
-        <ConfirmationPdfMessages pdfApi="/" />
+        <ConfirmationPdfMessages pdfApi="/" successLinkText={linkText} />
       </div>,
     );
 
@@ -70,10 +79,8 @@ describe('ConfirmationPdfMessages', () => {
       const link = $('va-link', container);
       expect(link).to.exist;
       expect(link.getAttribute('download')).to.eq('true');
-      expect(link.getAttribute('href')).to.contain('/VA10182.pdf');
-      expect(link.getAttribute('text')).to.contain(
-        'Download a copy of your Board Appeal',
-      );
+      expect(link.getAttribute('href')).to.contain('/test');
+      expect(link.getAttribute('text')).to.contain(linkText);
     });
   });
 });

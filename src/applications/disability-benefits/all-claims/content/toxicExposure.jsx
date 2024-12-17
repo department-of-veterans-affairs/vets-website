@@ -1,12 +1,13 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
   formatMonthYearDate,
   isClaimingNew,
+  makeConditionsSchema,
   sippableId,
+  validateConditions,
 } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -179,13 +180,7 @@ export function isClaimingTECondition(formData) {
  * @returns {object} Object with id's for each condition
  */
 export function makeTEConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
-
-  options.push('none');
-
-  return checkboxGroupSchema(options);
+  return makeConditionsSchema(formData);
 }
 
 /**
@@ -231,21 +226,19 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
- * adds an error.
- *
+ * Validates 'none' checkbox is not selected along with a new condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 export function validateTEConditions(errors, formData) {
   const { conditions = {} } = formData?.toxicExposure;
 
-  if (
-    conditions?.none === true &&
-    Object.values(conditions).filter(value => value === true).length > 1
-  ) {
-    errors.toxicExposure.conditions.addError(noneAndConditionError);
-  }
+  validateConditions(
+    conditions,
+    errors,
+    'toxicExposure',
+    noneAndConditionError,
+  );
 }
 
 /**

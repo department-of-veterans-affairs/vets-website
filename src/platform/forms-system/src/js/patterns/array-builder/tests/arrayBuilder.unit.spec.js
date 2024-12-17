@@ -13,11 +13,16 @@ import {
 } from '../../../web-component-patterns/arrayBuilderPatterns';
 import * as helpers from '../helpers';
 
-const validOptions = {
+const validOptionsRequiredFlow = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: true,
+};
+
+const validOptionsOptionalFlow = {
+  ...validOptionsRequiredFlow,
+  required: false,
 };
 
 const validYesNoPattern = arrayBuilderYesNoUI({
@@ -42,31 +47,31 @@ const validSummaryPage = {
   schema: {},
 };
 
-const validFirstPage = {
+const validPageA = {
   title: 'Name of employer',
-  path: 'employers/name/:index',
+  path: 'employers/pageA/:index',
   uiSchema: {},
   schema: {},
 };
 
-const validLastPage = {
+const validPageB = {
   title: 'Address of employer',
-  path: 'employers/address/:index',
+  path: 'employers/pageB/:index',
   uiSchema: {},
   schema: {},
 };
 
 const validPages = pageBuilder => ({
   summaryPage: pageBuilder.summaryPage(validSummaryPage),
-  firstPage: pageBuilder.itemPage(validFirstPage),
-  lastPage: pageBuilder.itemPage(validLastPage),
+  pageA: pageBuilder.itemPage(validPageA),
+  pageB: pageBuilder.itemPage(validPageB),
 });
 
 const validPagesWithIntro = pageBuilder => ({
   introPage: pageBuilder.introPage(validIntroPage),
   summaryPage: pageBuilder.summaryPage(validSummaryPage),
-  firstPage: pageBuilder.itemPage(validFirstPage),
-  lastPage: pageBuilder.itemPage(validLastPage),
+  pageA: pageBuilder.itemPage(validPageA),
+  pageB: pageBuilder.itemPage(validPageB),
 });
 
 const mockPageList = [
@@ -107,12 +112,12 @@ const mockPageList = [
     arrayPath: 'employers',
     customPageUsesPagePerItemData: true,
     title: 'Multiple Page Item Title',
-    path: '/employers/name/:index',
+    path: '/employers/pageA/:index',
     uiSchema: {},
     schema: {},
     chapterTitle: 'Array Multi-Page Builder (WIP)',
     chapterKey: 'arrayMultiPageBuilder',
-    pageKey: 'firstPage',
+    pageKey: 'pageA',
   },
   {
     showPagePerItem: true,
@@ -120,12 +125,12 @@ const mockPageList = [
     arrayPath: 'employers',
     customPageUsesPagePerItemData: true,
     title: 'Multiple Page Item Title',
-    path: '/employers/address/:index',
+    path: '/employers/pageB/:index',
     uiSchema: {},
     schema: {},
     chapterTitle: 'Array Multi-Page Builder (WIP)',
     chapterKey: 'arrayMultiPageBuilder',
-    pageKey: 'lastPage',
+    pageKey: 'pageB',
   },
   {
     pageKey: 'review-and-submit',
@@ -160,13 +165,13 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if incorrect path', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
           ...validSummaryPage,
           path: '/summary',
         }),
-        firstPage: pageBuilder.itemPage(validFirstPage),
-        lastPage: pageBuilder.itemPage(validLastPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
       }));
       expect('Expected path to fail validation and be caught').to.be.false;
     } catch (e) {
@@ -177,7 +182,10 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if incorrect review path', () => {
     try {
-      arrayBuilderPages({ ...validOptions, reviewPath: '/review' }, validPages);
+      arrayBuilderPages(
+        { ...validOptionsRequiredFlow, reviewPath: '/review' },
+        validPages,
+      );
       expect('Expected path to fail validation and be caught').to.be.false;
     } catch (e) {
       expect(e.message).to.include('reviewPath');
@@ -187,7 +195,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if required is not passed', () => {
     try {
-      arrayBuilderPages({ ...validOptions, required: undefined }, validPages);
+      arrayBuilderPages(validOptionsOptionalFlow, validPages);
     } catch (e) {
       expect(e.message).to.include('arrayBuilderPages options must include');
       expect(e.message).to.include('required');
@@ -196,7 +204,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if uiSchema is not defined with arrayBuilderYesNoUI', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {},
@@ -205,6 +213,73 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include('arrayBuilderYesNoUI');
+    }
+  });
+
+  it('should not throw an error if uiSchema is not defined as long as we have a link or button', () => {
+    const options = {
+      ...validOptionsRequiredFlow,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/pageA/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(true).to.be.true;
+    } catch (e) {
+      expect(
+        'Error should not be thrown for missing uiSchema when using link',
+      ).to.eq(e.message);
+    }
+  });
+
+  it("it should throw an error if a user tries to use uiSchema properties but we aren't using it", () => {
+    const options = {
+      ...validOptionsRequiredFlow,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+          uiSchema: {
+            test: {
+              'ui:title': 'Hello',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              test: {
+                type: 'string',
+              },
+            },
+          },
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/pageA/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(
+        'Expected error to be thrown when using useLinkInsteadOfYesNo with uiSchema',
+      ).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'does not currently support using `uiSchema` or `schema` properties when using option `useLinkInsteadOfYesNo`',
+      );
     }
   });
 
@@ -252,7 +327,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if itemPage not provided', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
@@ -268,7 +343,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if summaryPage is not defined before itemPage', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         itemPage: pageBuilder.itemPage({
           path: 'test/:index',
           title: 'title',
@@ -292,7 +367,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw an error if specific pageOptions are not provided', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
@@ -317,11 +392,11 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw error if intro page is not defined first', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage(validSummaryPage),
         introPage: pageBuilder.introPage(validIntroPage),
-        firstPage: pageBuilder.itemPage(validFirstPage),
-        lastPage: pageBuilder.itemPage(validLastPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
       }));
     } catch (e) {
       expect(e.message).to.include('must be first and defined only once');
@@ -330,10 +405,10 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should include a summary page', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         introPage: pageBuilder.introPage(validIntroPage),
-        firstPage: pageBuilder.itemPage(validFirstPage),
-        lastPage: pageBuilder.itemPage(validLastPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
       }));
     } catch (e) {
       expect(e.message).to.include('must include a summary page');
@@ -342,7 +417,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should throw error if required is not passed', () => {
     try {
-      arrayBuilderPages({ ...validOptions, required: undefined }, validPages);
+      arrayBuilderPages(validOptionsOptionalFlow, validPages);
     } catch (e) {
       expect(e.message).to.include('arrayBuilderPages options must include');
       expect(e.message).to.include('required');
@@ -351,7 +426,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should pass if everything is provided correctly', () => {
     try {
-      arrayBuilderPages(validOptions, validPages);
+      arrayBuilderPages(validOptionsRequiredFlow, validPages);
     } catch (e) {
       expect(e.message).to.eq('Did not expect error');
     }
@@ -360,7 +435,10 @@ describe('arrayBuilderPages required parameters and props tests', () => {
   it('should navigate forward correctly on the intro page', () => {
     const goPath = sinon.spy();
     const goNextPath = sinon.spy();
-    const pages = arrayBuilderPages(validOptions, validPagesWithIntro);
+    const pages = arrayBuilderPages(
+      validOptionsRequiredFlow,
+      validPagesWithIntro,
+    );
 
     let mockFormData = {
       hasEmployment: true,
@@ -391,12 +469,12 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       goNextPath,
       formData: mockFormData,
     });
-    expect(goPath.args[1][0]).to.eql('employers/name/0?add=true');
+    expect(goPath.args[1][0]).to.eql('employers/pageA/0?add=true');
   });
 
   it('should navigate forward correctly on the summary page', () => {
     const goPath = sinon.spy();
-    const pages = arrayBuilderPages(validOptions, validPages);
+    const pages = arrayBuilderPages(validOptionsRequiredFlow, validPages);
 
     let mockFormData = {
       hasEmployment: true,
@@ -414,7 +492,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       formData: mockFormData,
       pageList: mockPageList,
     });
-    expect(goPath.args[0][0]).to.eql('employers/name/1?add=true');
+    expect(goPath.args[0][0]).to.eql('employers/pageA/1?add=true');
 
     mockFormData = {
       hasEmployment: false,
@@ -436,27 +514,27 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should navigate forward correctly on the last item page', () => {
     const goPath = sinon.spy();
-    const pages = arrayBuilderPages(validOptions, validPages);
+    const pages = arrayBuilderPages(validOptionsRequiredFlow, validPages);
 
-    const { lastPage } = pages;
-    lastPage.onNavForward({
+    const { pageB } = pages;
+    pageB.onNavForward({
       goPath,
       urlParams: { add: true },
-      pathname: '/employers/address/0',
+      pathname: '/employers/pageB/0',
     });
     expect(goPath.args[0][0]).to.eql('employers-summary');
 
-    lastPage.onNavForward({
+    pageB.onNavForward({
       goPath,
       urlParams: { edit: true },
-      pathname: '/employers/address/0',
+      pathname: '/employers/pageB/0',
     });
     expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
 
-    lastPage.onNavForward({
+    pageB.onNavForward({
       goPath,
       urlParams: { edit: true, review: true },
-      pathname: '/employers/address/0',
+      pathname: '/employers/pageB/0',
     });
     expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employer-0');
   });
@@ -464,8 +542,8 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
 describe('getPageAfterPageKey', () => {
   it('should get the next page provided a pageKey', () => {
-    let page = getPageAfterPageKey(mockPageList, 'firstPage');
-    expect(page.pageKey).to.eq('lastPage');
+    let page = getPageAfterPageKey(mockPageList, 'pageA');
+    expect(page.pageKey).to.eq('pageB');
 
     page = getPageAfterPageKey(mockPageList, 'introduction');
     expect(page.pageKey).to.eq('mockCustomPage');
@@ -591,5 +669,309 @@ describe('assignGetItemName', () => {
 
     const getItemName = assignGetItemName(options);
     expect(getItemName({})).to.eq(null);
+  });
+});
+
+describe('depends navigations', () => {
+  const setupPages = ({ pageADepends, pageBDepends }) => {
+    return arrayBuilderPages(validOptionsOptionalFlow, pageBuilder => ({
+      summaryPage: pageBuilder.summaryPage(validSummaryPage),
+      pageA: pageBuilder.itemPage({
+        ...validPageA,
+        depends: pageADepends,
+      }),
+      pageB: pageBuilder.itemPage({
+        ...validPageB,
+        depends: pageBDepends,
+      }),
+    }));
+  };
+
+  function testDepends({
+    description,
+    startPage,
+    pageADepends,
+    pageBDepends,
+    startPageNav,
+    navProps = {},
+    expectFn,
+    expectValue,
+    arrayData = [],
+    globalData = {},
+  }) {
+    it(description, () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+
+      const pages = setupPages({
+        pageADepends,
+        pageBDepends,
+      });
+
+      const page = pages[startPage];
+      page[startPageNav]({
+        goPath,
+        goNextPath,
+        ...navProps,
+        setFormData: sinon.spy(),
+        formData: {
+          ...globalData,
+          hasEmployment: true,
+          employers: arrayData,
+        },
+      });
+      let fn = goPath;
+      if (expectFn === 'goNextPath') {
+        fn = goNextPath;
+      }
+      if (typeof expectValue === 'object') {
+        expect(fn.args[0][0]).to.deep.eql(expectValue);
+      } else {
+        expect(fn.args[0][0]).to.eql(expectValue);
+      }
+    });
+  }
+
+  describe('summary navigations', () => {
+    testDepends({
+      description:
+        'summary -> goForward -> pageA if global showA data pageA is true',
+      startPage: 'summaryPage',
+      startPageNav: 'onNavForward',
+      pageADepends: formData => formData.showA,
+      expectFn: 'goPath',
+      expectValue: 'employers/pageA/0?add=true',
+      arrayData: [],
+      globalData: {
+        showA: true,
+      },
+    });
+
+    testDepends({
+      description:
+        'summary -> goForward -> pageB if global showA data pageA is false',
+      startPage: 'summaryPage',
+      startPageNav: 'onNavForward',
+      pageADepends: formData => formData.showA,
+      expectFn: 'goPath',
+      expectValue: 'employers/pageB/0?add=true',
+      arrayData: [],
+      globalData: {
+        showA: false,
+      },
+    });
+  });
+
+  describe('pageA navigations', () => {
+    testDepends({
+      description:
+        'pageA -> goForward -> summary if showB is false on item 0 (add)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      navProps: {
+        index: 0,
+        urlParams: { add: true },
+      },
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      expectFn: 'goPath',
+      expectValue: 'employers-summary',
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> summary if showB is false on item 0 (edit)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      navProps: {
+        index: 0,
+        urlParams: { edit: true },
+      },
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      expectFn: 'goPath',
+      expectValue: 'employers-summary?updated=employer-0',
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> review if showB is false on item 0 (add/review)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      navProps: {
+        index: 0,
+        urlParams: { add: true, review: true },
+      },
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      expectFn: 'goPath',
+      expectValue: 'review-and-submit?updated=employer-0',
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> review if showB is false on item 0 (edit/review)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      navProps: {
+        index: 0,
+        urlParams: { edit: true, review: true },
+      },
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      expectFn: 'goPath',
+      expectValue: 'review-and-submit?updated=employer-0',
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> pageB if showB is true on item 1 (add)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      navProps: {
+        index: 1,
+        urlParams: { add: true },
+      },
+      expectFn: 'goNextPath',
+      expectValue: { add: true },
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> pageB if showB is true on item 1 (edit)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      navProps: {
+        index: 1,
+        urlParams: { edit: true },
+      },
+      expectFn: 'goNextPath',
+      expectValue: { edit: true },
+      arrayData: [
+        {
+          showB: false,
+        },
+        {
+          showB: true,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageA -> goForward -> pageB if showB is true on item (review/edit)',
+      startPage: 'pageA',
+      startPageNav: 'onNavForward',
+      pageBDepends: (formData, index) => formData?.employers?.[index].showB,
+      navProps: {
+        index: 1,
+        urlParams: { edit: true, review: true },
+      },
+      expectFn: 'goNextPath',
+      expectValue: { edit: true, review: true },
+      arrayData: [
+        {
+          name: 'employer1',
+          showB: false,
+        },
+        {
+          name: 'employer2',
+          showB: true,
+        },
+      ],
+    });
+  });
+
+  describe('pageB navigations', () => {
+    testDepends({
+      description:
+        'pageB -> goBack -> summary if showA is false on global form data',
+      startPage: 'pageB',
+      startPageNav: 'onNavBack',
+      navProps: {
+        index: 0,
+        urlParams: { add: true },
+      },
+      pageADepends: formData => formData.showA,
+      expectFn: 'goPath',
+      expectValue: 'employers-summary',
+      globalData: {
+        showA: false,
+      },
+    });
+
+    testDepends({
+      description: 'pageB -> goBack -> summary if showA is false on item (add)',
+      startPage: 'pageB',
+      startPageNav: 'onNavBack',
+      navProps: {
+        index: 0,
+        urlParams: { add: true },
+      },
+      pageADepends: (formData, index) => formData?.employers?.[index].showA,
+      expectFn: 'goPath',
+      expectValue: 'employers-summary',
+      arrayData: [
+        {
+          showA: false,
+        },
+      ],
+    });
+
+    testDepends({
+      description:
+        'pageB -> goBack -> summary if showA is false on item (edit)',
+      startPage: 'pageB',
+      startPageNav: 'onNavBack',
+      navProps: {
+        urlParams: { edit: true },
+      },
+      pageADepends: (formData, index) => formData?.employers?.[index].showA,
+      expectFn: 'goPath',
+      expectValue: 'employers-summary',
+      arrayData: [
+        {
+          showA: false,
+        },
+      ],
+    });
   });
 });

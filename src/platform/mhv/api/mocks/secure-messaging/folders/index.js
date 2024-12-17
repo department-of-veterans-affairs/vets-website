@@ -6,7 +6,7 @@ const allFolders = {
       attributes: {
         folderId: 0,
         name: 'Inbox',
-        count: 21,
+        count: 54,
         unreadCount: 0,
         systemFolder: true,
       },

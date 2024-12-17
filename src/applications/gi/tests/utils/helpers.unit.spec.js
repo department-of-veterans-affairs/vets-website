@@ -27,7 +27,7 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  updateLcFilterDropdowns,
+  handleUpdateLcFilterDropdowns,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -538,6 +538,7 @@ describe('GIBCT helpers:', () => {
       expect(scrollByStub.called).to.be.false;
     });
   });
+
   describe('formatProgramType', () => {
     it('should return an empty string when programType is null or undefined', () => {
       expect(formatProgramType(null)).to.equal('');
@@ -566,24 +567,24 @@ describe('GIBCT helpers:', () => {
     });
   });
 
-  describe('updateLcFilterDropdowns', () => {
+  describe('handleUpdateLcFilterDropdowns', () => {
     it('should update the correct dropdown with the selected option based on the target id and value', () => {
       const dropdowns = [
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
           ],
           alt: 'category type',
-          current: { optionValue: '', optionLabel: '-Select-' },
+          current: { optionValue: 'all', optionLabel: 'All' },
         },
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -592,17 +593,11 @@ describe('GIBCT helpers:', () => {
         },
       ];
 
-      // Sample target (representing an event.target object)
-      const target = {
-        id: 'category',
-        value: 'licenses',
-      };
-
       const expectedResult = [
         {
           label: 'category',
           options: [
-            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'licenses', optionLabel: 'License' },
             { optionValue: 'certifications', optionLabel: 'Certification' },
             { optionValue: 'preps', optionLabel: 'Prep Course' },
@@ -613,7 +608,7 @@ describe('GIBCT helpers:', () => {
         {
           label: 'state',
           options: [
-            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'all', optionLabel: 'All' },
             { optionValue: 'CA', optionLabel: 'California' },
             { optionValue: 'TX', optionLabel: 'Texas' },
           ],
@@ -622,7 +617,7 @@ describe('GIBCT helpers:', () => {
         },
       ];
 
-      const result = updateLcFilterDropdowns(dropdowns, target);
+      const result = handleUpdateLcFilterDropdowns(dropdowns, 0, 1);
 
       expect(result).to.deep.equal(expectedResult);
     });

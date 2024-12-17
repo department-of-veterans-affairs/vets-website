@@ -35,6 +35,7 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
             >
               Application for VA Education Benefits (VA Form 22-5490)
             </h3>
+            <h3>DEA, Chapter 35</h3>
             For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>

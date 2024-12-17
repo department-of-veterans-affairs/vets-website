@@ -10,14 +10,17 @@ const initDDRum = () => {
     sessionReplaySampleRate = 1,
     trackInteractions = false,
     trackUserInteractions = false,
+    sessionSampleRate = 100,
   } =
     {
       vagovstaging: {
+        sessionSampleRate: 100,
         sessionReplaySampleRate: 1,
         trackInteractions: false,
         trackUserInteractions: false,
       },
       vagovprod: {
+        sessionSampleRate: 20,
         sessionReplaySampleRate: 10,
         trackInteractions: true,
         trackUserInteractions: true,
@@ -30,7 +33,7 @@ const initDDRum = () => {
     site: 'ddog-gov.com',
     service: 'identity',
     env,
-    sessionSampleRate: 20,
+    sessionSampleRate,
     sessionReplaySampleRate,
     trackInteractions,
     trackUserInteractions,

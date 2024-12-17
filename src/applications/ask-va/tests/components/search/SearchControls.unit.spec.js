@@ -79,9 +79,7 @@ describe('SearchControls Component', () => {
       </Provider>,
     );
 
-    wrapper
-      .find('input#facility-search')
-      .simulate('click', { preventDefault() {} });
+    wrapper.find('#facility-search').simulate('click', { preventDefault() {} });
 
     expect(mockOnSubmit.calledOnce).to.be.true;
     wrapper.unmount();

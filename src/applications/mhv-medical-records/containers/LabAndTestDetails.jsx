@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearLabsAndTestDetails,
   getlabsAndTestsDetails,
@@ -14,6 +15,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   labTypes,
+  pageTitles,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -44,6 +46,7 @@ const LabAndTestDetails = () => {
       if (labId) {
         dispatch(getlabsAndTestsDetails(labId, labAndTestList));
       }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
     [labId, labAndTestList, dispatch],
   );
@@ -72,7 +75,10 @@ const LabAndTestDetails = () => {
   if (labAndTestDetails?.type === labTypes.EKG) {
     return <EkgDetails record={labAndTestDetails} />;
   }
-  if (labAndTestDetails?.type === labTypes.RADIOLOGY) {
+  if (
+    labAndTestDetails?.type === labTypes.RADIOLOGY ||
+    labAndTestDetails?.type === labTypes.CVIX_RADIOLOGY
+  ) {
     return (
       <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
     );

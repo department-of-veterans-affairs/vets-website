@@ -10,8 +10,8 @@ import ListBestTimeToCall from '../ListBestTimeToCall';
 import {
   CCDetails,
   Details,
-  Section,
 } from '../../../components/layout/DetailPageLayout';
+import Section from '../../../components/Section';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';

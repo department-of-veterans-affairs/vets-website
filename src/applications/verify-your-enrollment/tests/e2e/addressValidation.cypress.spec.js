@@ -82,11 +82,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -107,11 +110,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -135,11 +141,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('Oakland');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('New York');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('43576');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -165,11 +174,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -195,11 +207,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 45');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -222,11 +237,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',
@@ -255,11 +273,14 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[name="root_addressLine1"]').clear();
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[name="root_city"]').clear();
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
       .last()
       .select('California');
+    cy.get('input[name="root_zipCode"]').clear();
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
       '[aria-label="save your mailing address for GI Bill benefits"]',

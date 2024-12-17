@@ -75,7 +75,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   };
 
   updateBenefitsOnClick = event => {
-    event.preventDefault();
+    event?.preventDefault();
     this.setState({ inputUpdated: false });
     this.setProgramFields(this.state.programName);
     // the undefined is intentional see https://github.com/department-of-veterans-affairs/va.gov-team/issues/10353

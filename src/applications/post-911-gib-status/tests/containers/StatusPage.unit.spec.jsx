@@ -40,7 +40,7 @@ describe('<StatusPage>', () => {
       </Provider>,
     );
     expect(tree.find('h1').text()).to.equal(
-      'Your Post-9/11 GI Bill Statement of Benefits',
+      'Check your remaining Post-9/11 GI Bill benefits',
     );
 
     expect(tree.find({ text: 'Get printable statement of benefits' }).exists());

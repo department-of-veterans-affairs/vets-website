@@ -372,7 +372,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      modal = screen.queryByTestId('quit-compose-double-dare');
+      modal = screen.queryByTestId('navigation-warning-modal');
       expect(modal).to.exist;
     });
     expect(modal).to.have.attribute(
@@ -380,7 +380,7 @@ describe('Compose form component', () => {
       "We can't save attachments in a draft message",
     );
 
-    fireEvent.click(document.querySelector('va-button[text="Keep editing"]'));
+    fireEvent.click(document.querySelector('va-button[text="Edit draft"]'));
   });
 
   it('renders without errors to category selection', async () => {

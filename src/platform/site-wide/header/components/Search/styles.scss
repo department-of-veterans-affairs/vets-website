@@ -1,12 +1,6 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
-.header-search {
-  input {
-    max-width: unset;
-  }
-}
-
 .search-input-container {
   max-width: unset !important;
 }
@@ -20,6 +14,7 @@
   border-bottom-left-radius: 0;
   height: 42px;
   width: 45px;
+  padding: 0;
 }
 
 .search-dropdown-component {

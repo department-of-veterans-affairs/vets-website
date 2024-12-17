@@ -15,7 +15,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { formatDateShort } from 'platform/utilities/date';
 import {
   formatCurrency,
-  annualReceivedIncomeRequired,
+  annualReceivedIncomeFromAnnuityRequired,
   surrenderValueRequired,
 } from '../../../helpers';
 
@@ -171,7 +171,7 @@ const incomePage = {
           expandUnder: 'receivingIncomeFromAnnuity',
           expandUnderCondition: true,
         },
-        'ui:required': annualReceivedIncomeRequired,
+        'ui:required': annualReceivedIncomeFromAnnuityRequired,
       },
     ),
   },
@@ -231,7 +231,7 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFunds: merge({}, currencyUI('How much did you add?'), {
+    addedFundsAmount: merge({}, currencyUI('How much did you add?'), {
       'ui:options': {
         classNames: 'schemaform-currency-input-v3',
       },
@@ -241,61 +241,55 @@ const addedFundsPage = {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFunds: { type: 'number' },
+      addedFundsAmount: { type: 'number' },
     },
-    required: ['addedFundsDate', 'addedFunds'],
+    required: ['addedFundsDate', 'addedFundsAmount'],
   },
 };
 
-export const annuityPages = arrayBuilderPages(
-  options,
-  (pageBuilder, helpers) => ({
-    annuityPagesSummary: pageBuilder.summaryPage({
-      title: 'Annuities summary',
-      path: 'annuities-summary',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    annuityInformationPage: pageBuilder.itemPage({
-      title: 'Annuity information',
-      path: 'annuities/:index/information',
-      uiSchema: informationPage.uiSchema,
-      schema: informationPage.schema,
-    }),
-    annuityRevocablePage: pageBuilder.itemPage({
-      title: 'Annuity revocable',
-      path: 'annuities/:index/revocable',
-      uiSchema: revocablePage.uiSchema,
-      schema: revocablePage.schema,
-    }),
-    annuityIncomePage: pageBuilder.itemPage({
-      title: 'Annuity income',
-      path: 'annuities/:index/income',
-      uiSchema: incomePage.uiSchema,
-      schema: incomePage.schema,
-    }),
-    annuityLiquidationPage: pageBuilder.itemPage({
-      title: 'Annuity liquidation',
-      path: 'annuities/:index/liquidation',
-      uiSchema: liquidationPage.uiSchema,
-      schema: liquidationPage.schema,
-    }),
-    annuityHasAddedFundsPage: pageBuilder.itemPage({
-      title: 'Annuity has added funds',
-      path: 'annuities/:index/has-added-funds',
-      onNavForward: props => {
-        return props.formData.addedFundsAfterEstablishment
-          ? helpers.navForwardKeepUrlParams(props) // go to next page
-          : helpers.navForwardFinishedItem(props); // return to summary
-      },
-      uiSchema: hasAddedFundsPage.uiSchema,
-      schema: hasAddedFundsPage.schema,
-    }),
-    annuityAddedFundsPage: pageBuilder.itemPage({
-      title: 'Annuity added funds',
-      path: 'annuities/:index/added-funds',
-      uiSchema: addedFundsPage.uiSchema,
-      schema: addedFundsPage.schema,
-    }),
+export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
+  annuityPagesSummary: pageBuilder.summaryPage({
+    title: 'Annuities summary',
+    path: 'annuities-summary',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
   }),
-);
+  annuityInformationPage: pageBuilder.itemPage({
+    title: 'Annuity information',
+    path: 'annuities/:index/information',
+    uiSchema: informationPage.uiSchema,
+    schema: informationPage.schema,
+  }),
+  annuityRevocablePage: pageBuilder.itemPage({
+    title: 'Annuity revocable',
+    path: 'annuities/:index/revocable',
+    uiSchema: revocablePage.uiSchema,
+    schema: revocablePage.schema,
+  }),
+  annuityIncomePage: pageBuilder.itemPage({
+    title: 'Annuity income',
+    path: 'annuities/:index/income',
+    uiSchema: incomePage.uiSchema,
+    schema: incomePage.schema,
+  }),
+  annuityLiquidationPage: pageBuilder.itemPage({
+    title: 'Annuity liquidation',
+    path: 'annuities/:index/liquidation',
+    uiSchema: liquidationPage.uiSchema,
+    schema: liquidationPage.schema,
+  }),
+  annuityHasAddedFundsPage: pageBuilder.itemPage({
+    title: 'Annuity has added funds',
+    path: 'annuities/:index/has-added-funds',
+    uiSchema: hasAddedFundsPage.uiSchema,
+    schema: hasAddedFundsPage.schema,
+  }),
+  annuityAddedFundsPage: pageBuilder.itemPage({
+    title: 'Annuity added funds',
+    path: 'annuities/:index/added-funds',
+    depends: (formData, index) =>
+      formData?.[options.arrayPath]?.[index]?.addedFundsAfterEstablishment,
+    uiSchema: addedFundsPage.uiSchema,
+    schema: addedFundsPage.schema,
+  }),
+}));

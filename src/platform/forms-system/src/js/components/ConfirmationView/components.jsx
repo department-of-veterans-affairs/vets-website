@@ -137,8 +137,9 @@ export const WhatsNextProcessList = ({
 
   const item1 = (
     <VaProcessListItem
-      header={item1Header || 'Now, we’ll confirm that we’ve received your form'}
-      active
+      header={
+        item1Header || 'We’ll confirm when we receive your form in our system'
+      }
     >
       {item1Content || (
         <p>
@@ -160,8 +161,7 @@ export const WhatsNextProcessList = ({
 
   const item2 = (
     <VaProcessListItem
-      pending
-      header={item2Header || 'Next, we’ll review your form'}
+      header={item2Header || 'We’ll review your form'}
       className="vads-u-margin-bottom--neg2"
     >
       {item2Content || (
@@ -232,7 +232,12 @@ WhatsNextProcessListWithContext.propTypes = {
   item2Header: PropTypes.string,
 };
 
-export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
+export const SavePdfDownload = ({
+  pdfUrl,
+  trackingPrefix,
+  className,
+  formId,
+}) => {
   const onClick = () => {
     recordEvent({
       event: `${trackingPrefix}confirmation-pdf-download`,
@@ -254,7 +259,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
         filetype="PDF"
         href={pdfUrl}
         onClick={onClick}
-        text="Download a copy of your VA Form"
+        text={`Download a copy of your VA Form ${formId}`}
       />
     </div>
   ) : null;
@@ -262,6 +267,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
 
 SavePdfDownload.propTypes = {
   className: PropTypes.string,
+  formId: PropTypes.string,
   pdfUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };
@@ -274,6 +280,7 @@ export const SavePdfDownloadWithContext = ({ className }) => {
       pdfUrl={pdfUrl}
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
+      formId={formConfig.formId}
     />
   );
 };
