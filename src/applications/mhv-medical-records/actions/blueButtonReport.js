@@ -14,6 +14,8 @@ import {
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 
+import {} from '../util/constants';
+
 export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
 };
@@ -48,22 +50,19 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
 
   const results = await Promise.allSettled(promises);
 
+  // Temporary variables to hold labsAndTests and radiology results
+  let labsAndTestsResponse = null;
+  let radiologyResponse = null;
+
   results.forEach(({ status, value, reason }) => {
     if (status === 'fulfilled') {
       const { key, response } = value;
       switch (key) {
         case 'labsAndTests':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            labsAndTestsResponse: response,
-          });
+          labsAndTestsResponse = response;
           break;
-        // TODO: Handle this with labs
         case 'radiology':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            radiologyResponse: response,
-          });
+          radiologyResponse = response;
           break;
         case 'notes':
           dispatch({
@@ -114,4 +113,13 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
       dispatch({ type: Actions.BlueButtonReport.ADD_FAILED, payload: key });
     }
   });
+
+  // Dispatch combined labsAndTests and radiology response
+  if (labsAndTestsResponse || radiologyResponse) {
+    dispatch({
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse,
+      radiologyResponse,
+    });
+  }
 };
