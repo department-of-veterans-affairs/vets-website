@@ -20,14 +20,13 @@ const DebtSelection = ({ formContext }) => {
 
   useEffect(
     () => {
-      if (formContext.submitted && !data.selectedDebts?.length) {
+      if (formContext.submitted && !selectedDebts?.length) {
         setSelectionError('Choose at least one debt');
         setFocus('va-checkbox-group');
         return;
       }
       setSelectionError(null);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, formContext.submitted, selectedDebts?.length],
   );
 
