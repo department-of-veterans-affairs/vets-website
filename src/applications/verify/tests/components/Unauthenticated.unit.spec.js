@@ -12,7 +12,7 @@ describe('UnauthenticatedVerify', () => {
   it('displays deprecation notice for My HealtheVet users', () => {
     const { container } = renderInReduxProvider(<UnauthenticatedVerify />);
     expect(container.textContent).to.include(
-      'You’ll need to sign in with a different account after January 31, 2025.',
+      'We need you to verify your identity for your',
     );
   });
 

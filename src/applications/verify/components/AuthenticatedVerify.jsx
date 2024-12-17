@@ -51,7 +51,7 @@ export default function Authentication() {
 
   return (
     <section data-testid="authenticated-verify-app" className="verify">
-      <div className="container">
+      <div className="container" data-testid="authenticatedVerify">
         <div className="row">
           <div className="columns small-12 fed-warning--v2 vads-u-margin-y--2">
             <h1 className="vads-u-margin-top--2">Verify your identity</h1>
