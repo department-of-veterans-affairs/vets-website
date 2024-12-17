@@ -41,9 +41,9 @@ describe('createStringifyFormReplacer', () => {
   });
 
   context('when value is an array', () => {
-    it('removes empty objects in the array', () => {
-      const replacerFn = createStringifyFormReplacer();
+    const replacerFn = createStringifyFormReplacer();
 
+    it('removes empty objects in the array', () => {
       const newValues = replacerFn('key', [
         {},
         { test: 'example value' },
@@ -53,6 +53,15 @@ describe('createStringifyFormReplacer', () => {
 
       expect(newValues.length).to.eq(2);
       expect(newValues[0].test).to.eq('example value');
+    });
+
+    it('removes empty objects in nested arrays', () => {
+      const [newArr] = replacerFn('key', [
+        [{}, { test: 'example nested value' }, {}, 'nested string'],
+      ]);
+
+      expect(newArr.length).to.eq(2);
+      expect(newArr[0].test).to.eq('example nested value');
     });
   });
 });

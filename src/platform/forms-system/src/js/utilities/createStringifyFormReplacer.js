@@ -30,13 +30,6 @@ function isPartialAddress(data) {
  * @returns {*} The replacement value
  */
 const replaceObject = (object, options) => {
-  // Clean up empty objects in arrays
-  if (Array.isArray(object)) {
-    const newValues = object.filter(v => !isObjectEmpty(v));
-    // If every item in the array is cleared, remove the whole array
-    return newValues.length > 0 ? newValues : undefined;
-  }
-
   if (!options?.allowPartialAddress && isPartialAddress(object)) {
     return undefined;
   }
@@ -66,16 +59,42 @@ const replaceObject = (object, options) => {
  * @returns {(key, value) => any} The replacer function
  */
 export function createStringifyFormReplacer(options) {
-  return (key, value) => {
-    if (typeof value === 'object') {
-      return replaceObject(value, options);
-    }
+  /**
+   * Replaces values based on a set of rules.
+   *
+   * @param {*} key
+   * @param {*} value
+   * @returns {*} The replaced value
+   */
+  const replacerFn = (key, value) => {
     if (typeof value === 'string') {
       return options?.replaceEscapedCharacters
         ? replaceEscapedCharacters(value)
         : value;
     }
 
+    if (typeof value === 'object') {
+      if (Array.isArray(value)) {
+        // Clean up empty objects in arrays
+        const newArr = value.reduce((accumulator, arrVal) => {
+          const newValue = replacerFn(undefined, arrVal);
+
+          if (newValue) {
+            accumulator.push(newValue);
+          }
+
+          return accumulator;
+        }, []);
+
+        // If every item in the array is cleared, remove the whole array
+        return newArr.length > 0 ? newArr : undefined;
+      }
+
+      return replaceObject(value, options);
+    }
+
     return value;
   };
+
+  return replacerFn;
 }
