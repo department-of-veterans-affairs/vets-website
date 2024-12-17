@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 
 import {
+  EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   PRIMARY_PHONE,
+  SC_NEW_FORM_DATA,
 } from '../../constants';
 import {
   getAddress,
@@ -277,16 +279,15 @@ describe('getEmail', () => {
       'test@test.com',
     );
   });
+  it('should return the defined email truncated to 255 characters', () => {
+    const email = `${'abcde12345'.repeat(25)}@test.com`;
+    const result = getEmail({ veteran: { email } });
+    expect(result.length).to.eq(255);
+    // results in an invalid email, but we use profile, and they won't accept
+    // emails > 255 characters in length
+    expect(result.slice(-10)).to.eq('12345@test');
+  });
 });
-it('should return the defined email truncated to 255 characters', () => {
-  const email = `${'abcde12345'.repeat(25)}@test.com`;
-  const result = getEmail({ veteran: { email } });
-  expect(result.length).to.eq(255);
-  // results in an invalid email, but we use profile, and they won't accept
-  // emails > 255 characters in length
-  expect(result.slice(-10)).to.eq('12345@test');
-});
-
 describe('getEvidence', () => {
   const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
     data: {
@@ -501,5 +502,31 @@ describe('getForm4142', () => {
     data.providerFacility.push(data.providerFacility[0]); // add duplicate
     expect(data.providerFacility.length).to.eq(3);
     expect(getForm4142(data)).to.deep.equal(getData(true));
+  });
+
+  it('should return 4142 form data with limited consent when y/n is set to yes', () => {
+    const data = {
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      [EVIDENCE_LIMIT]: true,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    expect(getForm4142(data)).to.deep.equal(getData(true));
+  });
+
+  it('should return 4142 form data with no limited consent when y/n is set to no', () => {
+    const data = {
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      [EVIDENCE_LIMIT]: false,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    const result = {
+      ...getData(true),
+      limitedConsent: '',
+    };
+    expect(getForm4142(data)).to.deep.equal(result);
   });
 });

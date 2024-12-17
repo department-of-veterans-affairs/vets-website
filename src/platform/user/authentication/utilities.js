@@ -152,6 +152,7 @@ export const createExternalApplicationUrl = () => {
       URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
+    case EXTERNAL_APPS.SMHD:
       URL = sanitizeUrl(`${externalRedirectUrl}`);
       break;
     default:
@@ -272,6 +273,7 @@ export function sessionTypeUrl({
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
+        ...(queryParams.operation && { operation: queryParams.operation }),
       },
       passedOptions: {
         isSignup,

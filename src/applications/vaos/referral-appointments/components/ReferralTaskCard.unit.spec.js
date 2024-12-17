@@ -29,7 +29,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
   });
 
   const uuid = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
-  const referralData = createReferral('2024-09-06T00:00:00Z', uuid);
+  const referralData = createReferral('2024-09-06', uuid);
   referralData.ReferralExpirationDate = '2025-03-04';
   const expectedDateFormated = format(
     new Date(referralData.ReferralExpirationDate),

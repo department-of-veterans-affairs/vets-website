@@ -4,7 +4,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { compareAsc, compareDesc, parse } from 'date-fns';
+import { compareDesc, parse } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -15,7 +15,6 @@ import { formatDate } from '../utils/helpers';
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const [lastUpdatedFilter, setLastUpdatedFilter] = useState('newestToOldest');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
@@ -23,6 +22,8 @@ const DashboardCards = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const showingStart = (currentPage - 1) * itemsPerPage + 1;
+  const showingEnd = Math.min(currentPage * itemsPerPage, inquiries.length);
 
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
@@ -69,10 +70,7 @@ const DashboardCards = () => {
       .sort((a, b) => {
         const dateA = parse(a.attributes.lastUpdate, 'MM/dd/yy', new Date());
         const dateB = parse(b.attributes.lastUpdate, 'MM/dd/yy', new Date());
-        if (lastUpdatedFilter === 'newestToOldest') {
-          return compareDesc(dateA, dateB);
-        }
-        return compareAsc(dateA, dateB);
+        return compareDesc(dateA, dateB);
       });
   };
 
@@ -120,7 +118,7 @@ const DashboardCards = () => {
             <div key={card.id}>
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                  <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--0p5 vads-u-padding-x-1">
                     {card.attributes.status}
                   </span>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
@@ -140,11 +138,13 @@ const DashboardCards = () => {
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>
-                <Link to={`${URL.DASHBOARD_ID}${card.id}`}>
+                <Link
+                  to={`${URL.DASHBOARD_ID}${card.attributes.inquiryNumber}`}
+                >
                   <va-link
                     active
-                    text="Check details"
-                    label={`Check details for question submitted on ${formatDate(
+                    text="Review conversation"
+                    label={`Review conversation for question submitted on ${formatDate(
                       card.attributes.createdOn,
                       'long',
                     )}`}
@@ -197,22 +197,34 @@ const DashboardCards = () => {
             <div className="vads-u-flex--1 vads-u-width--full">
               <VaSelect
                 hint={null}
-                label="Last updated"
-                name="lastUpdated"
-                value={lastUpdatedFilter}
-                onVaSelect={event => setLastUpdatedFilter(event.target.value)}
+                label="Filter by status"
+                name="status"
+                value={statusFilter}
+                onVaSelect={event => {
+                  setStatusFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                  setCurrentPage(1);
+                }}
               >
-                <option value="newestToOldest">Newest to oldest</option>
-                <option value="oldestToNewest">Oldest to newest</option>
+                <option value="All">All</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Replied">Replied</option>
+                <option value="Reopened">Reopened</option>
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
+            <div className="vads-u-flex--2 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by category"
                 name="category"
                 value={categoryFilter}
-                onVaSelect={event => setCategoryFilter(event.target.value)}
+                onVaSelect={event => {
+                  setCategoryFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                  setCurrentPage(1);
+                }}
               >
                 <option value="All">All</option>
                 {categories.map(category => (
@@ -222,21 +234,23 @@ const DashboardCards = () => {
                 ))}
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
-              <VaSelect
-                hint={null}
-                label="Filter by status"
-                name="status"
-                value={statusFilter}
-                onVaSelect={event => setStatusFilter(event.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Replied">Replied</option>
-                <option value="Reopened">Reopened</option>
-              </VaSelect>
-            </div>
           </div>
+
+          <p className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+            Showing of{' '}
+            {inquiries.length
+              ? `${showingStart}-${showingEnd} of ${inquiries.length}`
+              : `no`}{' '}
+            results for
+            <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
+            statuses and{' '}
+            <span className="vads-u-font-weight--bold">
+              {' '}
+              "{categoryFilter}"{' '}
+            </span>
+            categories
+          </p>
+
           {hasBusinessLevelAuth ? (
             <div className="columns small-12 tabs">
               <Tabs onSelect={handleTabChange}>

@@ -447,8 +447,8 @@ class PatientComposePage {
     cy.get(Locators.HEADER).should(`have.text`, text);
   };
 
-  verifyRecipientsDropdownStatus = value => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+  verifyAdditionalInfoDropdownStatus = value => {
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .shadow()
       .find(`a`)
       .should(`have.attr`, `aria-expanded`, value);
@@ -456,19 +456,19 @@ class PatientComposePage {
 
   verifyRecipientsDropdownLinks = () => {
     // verify `find-locations` link
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="preferences"]`)
       .should(`be.visible`);
 
     // verify `preferences` link
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="locations"]`)
       .should(`be.visible`)
       .and('not.have.attr', `target`, `_blank`);
   };
 
   openRecipientsDropdown = () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .shadow()
       .find(`a`)
       .click({ force: true });
@@ -508,6 +508,28 @@ class PatientComposePage {
       .find(`.attachments-list`)
       .children()
       .should(`have.length`, listLength);
+  };
+
+  verifyRecipientsQuantityInGroup = (index, quantity) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .find('option')
+      .should(`have.length`, quantity);
+  };
+
+  verifyRecipientsGroupName = (index, text) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .invoke('attr', 'label')
+      .should(`eq`, text);
+  };
+
+  verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
+    cy.contains(recipientName)
+      .parent()
+      .should('have.attr', 'label', facilityName);
   };
 }
 

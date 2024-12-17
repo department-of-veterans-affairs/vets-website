@@ -101,7 +101,9 @@ describe('<EvidenceSummaryReview>', () => {
 
     expect($('va-button', container)).to.exist;
     // now includes limited consent
-    expect($$('h5', container).length).to.eq(3);
+    expect(
+      $$('.va-title, .private-title, .upload-title', container).length,
+    ).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
 
     const items = $$('li', container);

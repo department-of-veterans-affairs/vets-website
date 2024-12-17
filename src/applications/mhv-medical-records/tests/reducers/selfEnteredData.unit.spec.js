@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { Actions } from '../../util/actionTypes';
 import {
   convertActivityJournal,
   convertAllergies,
@@ -28,8 +29,10 @@ import {
   formatTimestamp,
   mapValue,
   NONE_ENTERED,
+  selfEnteredReducer,
   sortDesc,
 } from '../../reducers/selfEnteredData';
+import { selfEnteredTypes } from '../../util/constants';
 import seiVitals from '../fixtures/sei/seiVitals.json';
 
 describe('mapValue', () => {
@@ -1556,5 +1559,52 @@ describe('convertMedications', () => {
   it('should return null for an empty or invalid input', () => {
     expect(convertMedications(null)).to.be.null;
     expect(convertMedications([])).to.deep.equal([]);
+  });
+});
+
+describe('selfEnteredReducer', () => {
+  it('adds failed domains', () => {
+    let newState = selfEnteredReducer(
+      { failedDomains: [] },
+      {
+        type: Actions.SelfEntered.ADD_FAILED,
+        payload: selfEnteredTypes.VITALS,
+      },
+    );
+
+    expect(newState.failedDomains.length).to.equal(1);
+    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
+
+    // Adding a different failed domain
+    newState = selfEnteredReducer(newState, {
+      type: Actions.SelfEntered.ADD_FAILED,
+      payload: selfEnteredTypes.ALLERGIES,
+    });
+
+    expect(newState.failedDomains.length).to.equal(2);
+    expect(newState.failedDomains[1]).to.equal(selfEnteredTypes.ALLERGIES);
+  });
+
+  it('does not add a duplicate failed domain', () => {
+    const initialState = { failedDomains: [selfEnteredTypes.VITALS] };
+    const newState = selfEnteredReducer(initialState, {
+      type: Actions.SelfEntered.ADD_FAILED,
+      payload: selfEnteredTypes.VITALS,
+    });
+
+    // The failedDomains array should remain unchanged
+    expect(newState.failedDomains.length).to.equal(1);
+    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
+  });
+
+  it('clears failed domains', () => {
+    const initialState = {
+      failedDomains: [selfEnteredTypes.VITALS, selfEnteredTypes.ALLERGIES],
+    };
+    const newState = selfEnteredReducer(initialState, {
+      type: Actions.SelfEntered.CLEAR_FAILED,
+    });
+
+    expect(newState.failedDomains.length).to.equal(0);
   });
 });

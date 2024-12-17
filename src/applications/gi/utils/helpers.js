@@ -528,15 +528,44 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const updateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+// TODO use this filter function on results page
+export const filterLcResults = (results, nameInput, filters) => {
+  const { type, state } = filters;
+  // console.log('filters', { type, state, nameInput });
+
+  if (!nameInput) {
+    return [];
+  }
+
+  return results.filter(result => {
+    if (result.type === 'exam') return false;
+
+    if (type !== 'all' && type !== result.type) return false;
+
+    if (state !== 'all' && state !== result.state && result.state !== 'all')
+      return false;
+
+    return result.name.toLowerCase().includes(nameInput.toLowerCase());
+  });
+};
+
+export const matchFilterIndex = (dropdowns, target) => {
+  const updatedField = dropdowns.findIndex(dropdown => {
     return dropdown.label === target.id;
   });
 
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+  const selectedOption = dropdowns[updatedField].options.findIndex(
     option => option.optionValue === target.value,
   );
 
+  return { updatedField, selectedOption };
+};
+
+export const handleUpdateLcFilterDropdowns = (
+  dropdowns,
+  updatedFieldIndex,
+  selectedOptionIndex,
+) => {
   return dropdowns.map(
     (dropdown, index) =>
       index === updatedFieldIndex
@@ -548,18 +577,39 @@ export const updateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
+export const updateQueryParam = (history, location) => {
+  return (key, value) => {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set(key, value);
+
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+  };
+};
+
 export const handleLcResultsSearch = (
   history,
-  type = 'all',
+  category = 'all',
   name = null,
   state = 'all',
 ) => {
   return name
     ? history.push(
-        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
       )
-    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+    : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
+
+export function capitalizeFirstLetter(string) {
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return null;
+}
 
 export const formatProgramType = programType => {
   if (!programType) return '';

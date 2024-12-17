@@ -12,7 +12,7 @@ import { CHAPTER_2, whoIsYourQuestionAboutLabels } from '../constants';
 const WhoIsYourQuestionAboutCustomPage = props => {
   const { onChange, loggedIn, goBack, formData, goForward } = props;
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, message: '' });
+  const [showModal, setShowModal] = useState(false);
 
   const radioOptions = () => {
     const labels = Object.values(whoIsYourQuestionAboutLabels);
@@ -24,7 +24,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 
   const onModalNo = () => {
     onChange({ ...formData, whoIsYourQuestionAbout: undefined });
-    setShowModal({ show: false, message: '' });
+    setShowModal(false);
   };
 
   const showError = data => {
@@ -42,17 +42,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
         selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE)
     ) {
-      setShowModal({
-        show: true,
-        message: (
-          <div>
-            Because your question is about yourself or someone else, you need to
-            sign in. When you sign in, we can{' '}
-            <strong>communicate with you securely</strong> about the specific
-            details of your benefits.{' '}
-          </div>
-        ),
-      });
+      setShowModal(true);
     } else {
       onChange({ ...formData, whoIsYourQuestionAbout: selectedValue });
     }
@@ -91,23 +81,23 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 
       <RequireSignInModal
         onClose={onModalNo}
-        show={showModal.show}
-        message={showModal.message}
+        show={showModal}
+        restrictedItem="question"
       />
     </>
   );
 };
 
 WhoIsYourQuestionAboutCustomPage.propTypes = {
+  formData: PropTypes.shape({
+    whoIsYourQuestionAbout: PropTypes.string,
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   id: PropTypes.string,
   loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  formData: PropTypes.shape({
-    whoIsYourQuestionAbout: PropTypes.string,
-  }),
 };
 
 function mapStateToProps(state) {
