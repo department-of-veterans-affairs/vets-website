@@ -47,6 +47,7 @@ import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindARepLandingContent from './representative-search';
+import createAppointARepLandingContent from './representative-appoint';
 import createRepresentativeStatus from './representative-status';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
@@ -174,6 +175,10 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
+createAppointARepLandingContent(
+  store,
+  widgetTypes.APPOINT_A_REP_LANDING_CONTENT,
+);
 createRepresentativeStatus(store, widgetTypes.REPRESENTATIVE_STATUS);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(

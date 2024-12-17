@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -26,7 +27,7 @@ export const getRefreshStatus = () => {
   });
 };
 
-export const getLabsAndTests = () => {
+export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
     headers,
   });
@@ -56,7 +57,13 @@ export const getImageList = studyId => {
   );
 };
 
-export const getMhvRadiologyTests = () => {
+export const getBbmiNotificationStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/bbmi_notification/status`, {
+    headers,
+  });
+};
+
+export const getMhvRadiologyTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
   });
@@ -77,7 +84,7 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getNotes = () => {
+export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
@@ -89,7 +96,7 @@ export const getNote = id => {
   });
 };
 
-export const getVitalsList = () => {
+export const getVitalsList = async () => {
   return apiRequest(`${apiBasePath}/medical_records/vitals`, {
     headers,
   });
@@ -152,7 +159,7 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
+export const getVaccineList = async () => {
   return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });
@@ -192,11 +199,17 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+export const getImageRequestStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
+    headers,
+  });
+};
+
 /**
  * Get a patient's medications
  * @returns list of patient's medications
  */
-export const getMedications = () => {
+export const getMedications = async () => {
   return apiRequest(`${apiBasePath}/prescriptions`, {
     headers,
   });
@@ -206,7 +219,7 @@ export const getMedications = () => {
  * Get a patient's appointments
  * @returns list of patient's appointments
  */
-export const getAppointments = () => {
+export const getAppointments = async () => {
   const now = new Date();
   const startDate = formatISO(now);
   const beginningOfTime = new Date(0);
@@ -215,7 +228,7 @@ export const getAppointments = () => {
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
   const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
 
-  return apiRequest(`${apiBasePath}/vaos/v2/appointments?${params}`, {
+  return apiRequest(`${environment.API_URL}/vaos/v2/appointments?${params}`, {
     headers,
   });
 };
@@ -224,30 +237,50 @@ export const getAppointments = () => {
  * Get a patient's demographic info
  * @returns patient's demographic info
  */
-export const getDemographicInfo = () => {
+export const getDemographicInfo = async () => {
   return apiRequest(`${apiBasePath}/medical_records/patient/demographic`, {
     headers,
   });
 };
 
-// military service
 /**
  * Get a patient's military service info
  * @returns patient's military service info
  */
-export const getMilitaryService = () => {
-  return apiRequest(`${apiBasePath}/medical_records/military_service`, {
-    textHeaders,
-  });
+export const getMilitaryService = async () => {
+  try {
+    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
+      textHeaders,
+    });
+  } catch (error) {
+    // Handle special case of missing EDIPI
+    if (error?.error === 'No EDIPI found for the current user') {
+      return edipiNotFound;
+    }
+    // Rethrow if it’s another error we don’t want to specially handle
+    throw error;
+  }
 };
 
-// account summary (treatment facilities)
 /**
  * Get a patient's account summary (treatment facilities)
  * @returns patient profile including a list of patient's treatment facilities
  */
-export const getPatient = () => {
+export const getPatient = async () => {
   return apiRequest(`${apiBasePath}/medical_records/patient`, {
     headers,
   });
+};
+
+export const generateCCD = () => {
+  return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
+};
+
+export const downloadCCD = timestamp => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
+    {
+      'Content-Type': 'application/xml',
+    },
+  );
 };
