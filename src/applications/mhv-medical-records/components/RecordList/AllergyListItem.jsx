@@ -17,13 +17,21 @@ const AllergyListItem = props => {
         <Link
           to={`/allergies/${record.id}`}
           data-dd-privacy="mask"
+          data-dd-action-name="[allergy list - name Link]"
           data-testid={`allergy-link-${record.id}`}
           className="no-print"
           onClick={() => {
             sendDataDogAction('Allergies Detail Link');
           }}
         >
-          {record.name} <span className="sr-only">{`on ${record.date}`}</span>
+          {record.name}{' '}
+          <span
+            className="sr-only"
+            data-dd-privacy="mask"
+            data-dd-action-name="[allergy list - date]"
+          >
+            {`on ${record.date}`}
+          </span>
         </Link>
       </div>
 
@@ -32,6 +40,7 @@ const AllergyListItem = props => {
         className="print-only vads-u-margin-bottom--1 vads-u-margin-top--0"
         aria-hidden="true"
         data-dd-privacy="mask"
+        data-dd-action-name="[allergy list - name - Print]"
       >
         {record.name}
       </h2>
@@ -39,17 +48,25 @@ const AllergyListItem = props => {
       {/* web view fields */}
       <div className="no-print">
         <span className="vads-u-display--inline-block">Date entered:</span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline-block"
+          data-dd-privacy="mask"
+          data-dd-action-name="[allergy list - date]"
+        >
           {record.date}
         </span>
       </div>
 
       {/* print view fields */}
-      <div className="print-only print-indent">
+      <div className="print-only print-indent" data-dd-action-name>
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Date entered:
         </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline-block"
+          data-dd-privacy="mask"
+          data-dd-action-name="[allergy list - date - Print]"
+        >
           {record.date}
         </span>
       </div>
@@ -63,7 +80,11 @@ const AllergyListItem = props => {
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Type of allergy:
         </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline-block"
+          data-dd-privacy="mask"
+          data-dd-action-name="[allergy list - type - Print]"
+        >
           {record.type}
         </span>
       </div>
@@ -72,7 +93,11 @@ const AllergyListItem = props => {
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Location:
           </span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          <span
+            className="vads-u-display--inline-block"
+            data-dd-privacy="mask"
+            data-dd-action-name="[allergy list - location - Print]"
+          >
             {record.location}
           </span>
         </div>
@@ -82,7 +107,11 @@ const AllergyListItem = props => {
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Observed or historical:
           </span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          <span
+            className="vads-u-display--inline-block"
+            data-dd-privacy="mask"
+            data-dd-action-name="[allergy list - observed - Print]"
+          >
             {record.observedOrReported}
           </span>
         </div>
@@ -92,7 +121,12 @@ const AllergyListItem = props => {
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Recorded by:
           </span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          <span
+            className="vads-u-display--inline-block"
+            data-dd-privacy="mask"
+            style={{ whiteSpace: 'pre-line' }}
+            data-dd-action-name="[allergy list - notes - Print]"
+          >
             {record.notes}
           </span>
         </div>
@@ -101,7 +135,12 @@ const AllergyListItem = props => {
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Provider notes:
         </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+        <span
+          className="vads-u-display--inline-block"
+          data-dd-privacy="mask"
+          style={{ whiteSpace: 'pre-line' }}
+          data-dd-action-name="[allergy list - notes - Print]"
+        >
           {record.notes}
         </span>
       </div>

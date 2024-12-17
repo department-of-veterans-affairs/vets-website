@@ -51,7 +51,7 @@ const DownloadDateRange = () => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
     [dispatch],
   );
