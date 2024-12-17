@@ -19,7 +19,7 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title="35% exemption of the routine reporting" />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+      <p className="vads-u-margin-y--2">
         35% exemption request from 85/15 Rule reporting requirement (VA Form
         22-10216)
       </p>
@@ -31,7 +31,7 @@ const IntroductionPage = ({ router }) => {
         </p>
       </va-alert>
 
-      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-y--4">
         What to know before you fill out this form
       </h2>
       <ul>
@@ -62,7 +62,7 @@ const IntroductionPage = ({ router }) => {
         </li>
       </ul>
 
-      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
         How do I submit my exemption request?
       </h2>
       <va-process-list>
@@ -102,7 +102,7 @@ const IntroductionPage = ({ router }) => {
         </va-process-list-item>
       </va-process-list>
 
-      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
         What happens after I submit my exemption request?
       </h2>
       <p>
@@ -115,7 +115,7 @@ const IntroductionPage = ({ router }) => {
         for re-submission or additional steps.
       </p>
 
-      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--2">
         Information and instructions for completing the 35% exemption request
       </h2>
       <va-accordion>
@@ -166,7 +166,7 @@ const IntroductionPage = ({ router }) => {
             Provide the date that 85/15 calculation was completed. This must be
             within 30 days of the term state date.
           </p>
-          <h4>35% calculation example</h4>
+          <h4 className="vads-u-margin-y--3">35% calculation example</h4>
           <ul>
             <li>Total number of students enrolled at your school: 1,000</li>
             <li>
@@ -193,8 +193,8 @@ const IntroductionPage = ({ router }) => {
         onClick={startForm}
         text="Start your 35% exemption request"
       />
+      <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <p />
       <va-omb-info
         res-burden={30}
         omb-number="2900-0896"
