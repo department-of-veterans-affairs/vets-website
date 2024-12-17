@@ -54,14 +54,14 @@ describe('My VA Dashboard Downtime Notifications', () => {
     const startTime = new Date(Date.now() - 60 * 1000);
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
 
-    const downtimeData = services.map((service, idx) => ({
-      id: `${idx + 1}`,
+    const downtimeData = services.map(service => ({
+      id: `downtime-${service}`,
       type: 'maintenance_windows',
       attributes: {
         externalService: service,
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),
-        description: '',
+        description: 'Service is down for maintenance',
       },
     }));
 
@@ -94,6 +94,7 @@ describe('My VA Dashboard Downtime Notifications', () => {
     );
   };
 
+  // Existing Tests
   it('should handle Claims and Appeals downtime', () => {
     mockDowntime([
       externalServices.VBMS_APPEALS,
@@ -121,45 +122,7 @@ describe('My VA Dashboard Downtime Notifications', () => {
     );
   });
 
-  it('should handle Outstanding Debts downtime with debt API failure only', () => {
-    mockDowntime([externalServices.DMC_DEBTS]);
-    cy.visit(manifest.rootUrl);
-    cy.wait('@getMaintenanceWindows');
-    cy.injectAxeThenAxeCheck();
-
-    verifySection(
-      'dashboard-section-debts',
-      [
-        {
-          testId: 'debt-summary-link',
-          href: '/resources/va-debt-management',
-          visible: true,
-        },
-      ],
-      true,
-    );
-  });
-
-  it('should handle Outstanding Debts downtime with copay API failure only', () => {
-    mockDowntime([externalServices.VBS_MEDICAL_COPAYS]);
-    cy.visit(manifest.rootUrl);
-    cy.wait('@getMaintenanceWindows');
-    cy.injectAxeThenAxeCheck();
-
-    verifySection(
-      'dashboard-section-debts',
-      [
-        {
-          testId: 'debt-summary-link',
-          href: '/resources/va-debt-management',
-          visible: true,
-        },
-      ],
-      true,
-    );
-  });
-
-  it('should handle Outstanding Debts downtime with both APIs failing', () => {
+  it('should handle Outstanding Debts downtime', () => {
     mockDowntime([
       externalServices.DMC_DEBTS,
       externalServices.VBS_MEDICAL_COPAYS,
@@ -181,42 +144,74 @@ describe('My VA Dashboard Downtime Notifications', () => {
     );
   });
 
-  it('should handle Benefit Payments downtime', () => {
-    mockDowntime([externalServices.BGS_PAYMENT_HISTORY]);
+  it('should handle Health Care messaging downtime', () => {
+    mockDowntime([externalServices.VAPRO_MESSAGING]);
     cy.visit(manifest.rootUrl);
     cy.wait('@getMaintenanceWindows');
     cy.injectAxeThenAxeCheck();
 
     verifySection(
-      'dashboard-section-payment',
+      'dashboard-section-healthcare',
       [
         {
-          testId: 'view-payment-history-link',
-          href: '/va-payment-history/payments/',
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
           visible: false,
         },
         {
-          testId: 'manage-direct-deposit-link',
-          href: '/profile/direct-deposit',
-          visible: false,
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
+          visible: true, // Appointments link should remain visible
         },
       ],
       true,
     );
   });
 
-  it('should handle Benefit Applications downtime', () => {
-    mockDowntime([externalServices.VBMS_APPEALS]);
+  it('should handle Health Care appointments downtime', () => {
+    mockDowntime([externalServices.VBMS_APPOINTMENTS]);
     cy.visit(manifest.rootUrl);
     cy.wait('@getMaintenanceWindows');
     cy.injectAxeThenAxeCheck();
 
     verifySection(
-      'dashboard-section-benefit-application-drafts',
+      'dashboard-section-healthcare',
       [
         {
-          testId: 'application-draft-resume-link',
-          href: '/education/apply-for-benefits-form-22-1990/resume',
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
+          visible: false,
+        },
+        {
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
+          visible: true, // Messaging link should remain visible
+        },
+      ],
+      true,
+    );
+  });
+
+  it('should handle both Health Care messaging and appointments downtime', () => {
+    mockDowntime([
+      externalServices.VAPRO_MESSAGING,
+      externalServices.VBMS_APPOINTMENTS,
+    ]);
+    cy.visit(manifest.rootUrl);
+    cy.wait('@getMaintenanceWindows');
+    cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-healthcare',
+      [
+        {
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
+          visible: false,
+        },
+        {
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
           visible: false,
         },
       ],

@@ -39,13 +39,14 @@ const responses = {
     // Services for dashboard downtime
     return res.json(
       maintenanceWindows.createDowntimeActiveNotification([
-        maintenanceWindows.SERVICES.LIGHTHOUSE_SUBMISSION_STATUSES,
+        maintenanceWindows.SERVICES.BGS_PAYMENT_HISTORY,
+        maintenanceWindows.SERVICES.DMC_DEBTS,
         maintenanceWindows.SERVICES.LIGHTHOUSE_BENEFITS_CLAIMS,
+        maintenanceWindows.SERVICES.LIGHTHOUSE_SUBMISSION_STATUSES,
+        maintenanceWindows.SERVICES.VAPRO_MESSAGING,
         maintenanceWindows.SERVICES.VBMS_APPEALS,
         maintenanceWindows.SERVICES.VBMS_APPOINTMENTS,
-        maintenanceWindows.SERVICES.DMC_DEBTS,
         maintenanceWindows.SERVICES.VBS_MEDICAL_COPAYS,
-        maintenanceWindows.SERVICES.BGS_PAYMENT_HISTORY,
       ]),
     );
   },

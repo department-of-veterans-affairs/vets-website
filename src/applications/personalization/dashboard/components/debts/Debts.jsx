@@ -124,12 +124,16 @@ const BenefitPaymentsAndDebt = ({
                 externalServices.VBS_MEDICAL_COPAYS,
               ]}
             >
-              <DashboardWidgetWrapper>
-                <OutstandingDebtsError />
-              </DashboardWidgetWrapper>
+              {/* Show VA debt link during maintenance */}
+              {({ isDowntimeActive }) => (
+                <DashboardWidgetWrapper>
+                  {isDowntimeActive && <PopularActionsForDebts />}
+                  <OutstandingDebtsError />
+                </DashboardWidgetWrapper>
+              )}
             </DowntimeNotification>
             <DashboardWidgetWrapper>
-              {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
+              {!hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>
           </>
         )}
@@ -138,6 +142,9 @@ const BenefitPaymentsAndDebt = ({
             <DashboardWidgetWrapper>
               <NoOutstandingDebtsText />
             </DashboardWidgetWrapper>
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
           </>
         )}
         {debtsCount > 0 && (
@@ -145,9 +152,13 @@ const BenefitPaymentsAndDebt = ({
             appTitle="benefit application drafts"
             dependencies={[externalServices.DMC_DEBTS]}
           >
-            <DashboardWidgetWrapper>
-              <DebtsCard debts={debts} />
-            </DashboardWidgetWrapper>
+            {/* Show VA debt link during maintenance */}
+            {({ isDowntimeActive }) => (
+              <DashboardWidgetWrapper>
+                {isDowntimeActive && <PopularActionsForDebts />}
+                <DebtsCard debts={debts} />
+              </DashboardWidgetWrapper>
+            )}
           </DowntimeNotification>
         )}
         {copaysCount > 0 && (
@@ -156,9 +167,13 @@ const BenefitPaymentsAndDebt = ({
               appTitle="benefit application drafts"
               dependencies={[externalServices.VBS_MEDICAL_COPAYS]}
             >
-              <DashboardWidgetWrapper>
-                <CopaysCard copays={copays} />
-              </DashboardWidgetWrapper>
+              {/* Show VA debt link during maintenance */}
+              {({ isDowntimeActive }) => (
+                <DashboardWidgetWrapper>
+                  {isDowntimeActive && <PopularActionsForDebts />}
+                  <CopaysCard copays={copays} />
+                </DashboardWidgetWrapper>
+              )}
             </DowntimeNotification>
             <DashboardWidgetWrapper>
               {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
@@ -166,13 +181,22 @@ const BenefitPaymentsAndDebt = ({
           </>
         )}
       </div>
-      {((debtsCount === 0 && copaysCount === 0) ||
-        (hasCopayError && debtsCount === 0) ||
-        (hasDebtError && copaysCount === 0)) && (
-        <DashboardWidgetWrapper>
-          <PopularActionsForDebts />
-        </DashboardWidgetWrapper>
-      )}
+      {/* Ensure PopularActionsForDebts is always visible during maintenance */}
+      <DowntimeNotification
+        appTitle="benefit application drafts"
+        dependencies={[
+          externalServices.DMC_DEBTS,
+          externalServices.VBS_MEDICAL_COPAYS,
+        ]}
+      >
+        {({ isDowntimeActive }) =>
+          isDowntimeActive && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
+          )
+        }
+      </DowntimeNotification>
     </div>
   );
 };

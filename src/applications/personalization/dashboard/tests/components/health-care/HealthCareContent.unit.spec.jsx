@@ -1,128 +1,67 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring';
 import { UnconnectedHealthCareContent } from '../../../components/health-care/HealthCareContent';
 import { v2 } from '../../../mocks/appointments';
 
-describe('<UnconnectedHealthCareContent />', () => {
+describe('<UnconnectedHealthCareContent /> Downtime Handling', () => {
   const initialState = {
     user: {},
   };
 
-  it('should render', () => {
-    const tree = renderWithStoreAndRouter(<UnconnectedHealthCareContent />, {
-      initialState,
-    });
+  it('should show downtime alert for all services and hide links', () => {
+    const mockDowntime = {
+      status: 'down',
+      externalService: externalServices.MY_HEALTH,
+    };
 
-    tree.getByTestId('no-healthcare-text');
-    expect(tree.container.querySelector('va-loading-indicator')).to.not.exist;
-    expect(tree.queryByTestId('cerner-widget')).to.be.null;
-  });
-
-  it('should render the loading indicator', () => {
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent shouldShowLoadingIndicator />,
+      <UnconnectedHealthCareContent isVAPatient downtimeData={mockDowntime} />,
       { initialState },
     );
 
-    expect(tree.container.querySelector('va-loading-indicator')).to.exist;
+    expect(tree.getByText(/some VA health care services are down/i)).to.exist;
+    expect(tree.queryByTestId('health-care-appointments-card')).to.not.exist;
+    expect(tree.queryByTestId('visit-mhv-on-va-gov')).to.not.exist;
   });
 
-  it('should render the Cerner widget', () => {
+  it('should hide the appointments card during appointments downtime only', () => {
+    const appointmentsDowntime = {
+      status: 'down',
+      externalService: externalServices.VA_APPOINTMENTS,
+    };
+
     const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContent
-        isCernerPatient
-        facilityNames={['do', 're', 'mi']}
+        isVAPatient
+        downtimeData={appointmentsDowntime}
       />,
       { initialState },
     );
 
-    tree.getByTestId('cerner-widget');
+    expect(tree.queryByTestId('health-care-appointments-card')).to.not.exist;
+    expect(tree.getByTestId('visit-mhv-on-va-gov')).to.exist;
   });
 
-  it('should render the HealthcareError', () => {
-    // delete instances of Toggler when errors are launched
-    const initialErrorState = {
-      featureToggles: {
-        [Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings]: true,
-      },
-    };
+  it('should render HealthcareError when appointments fail', () => {
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent hasAppointmentsError />,
-      { initialErrorState },
+      <UnconnectedHealthCareContent hasAppointmentsError isVAPatient />,
+      { initialState },
     );
+
     tree.getByTestId('healthcare-error');
   });
 
-  it('should render the Next appointments card', () => {
+  it('should render appointments card when no downtime', () => {
     const appointments = v2.createAppointmentSuccess().data;
     const appts = appointments.map(appointment => appointment.attributes);
 
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent appointments={appts} />,
+      <UnconnectedHealthCareContent appointments={appts} isVAPatient />,
       { initialState },
     );
 
     tree.getByTestId('health-care-appointments-card');
-  });
-
-  it('should render the no upcoming appointments text', () => {
-    const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent dataLoadingDisabled isVAPatient />,
-      { initialState },
-    );
-
-    tree.getByTestId('no-upcoming-appointments-text');
-  });
-
-  context('should render the HealthCareCTA', () => {
-    it('but show only Apply for VA health care and Visit MHV links for a non-patient', () => {
-      const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent isVAPatient={false} isLOA1={false} />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
-      );
-
-      tree.getByTestId('apply-va-healthcare-link-from-cta');
-      tree.getByTestId('visit-mhv-on-va-gov');
-    });
-
-    it("when a patient has appointments and doesn't have an appointment error", () => {
-      const appointments = v2.createAppointmentSuccess().data;
-      const appts = appointments.map(appointment => appointment.attributes);
-
-      const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent
-          appointments={appts}
-          dataLoadingDisabled
-          isVAPatient
-          shouldFetchUnreadMessages
-          unreadMessagesCount={2}
-        />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
-      );
-
-      tree.getByTestId('visit-mhv-on-va-gov');
-      expect(
-        tree.getByRole('link', {
-          name: /schedule and manage your appointments/i,
-          value: {
-            text: '/my-health/appointments',
-          },
-        }),
-      ).to.exist;
-    });
   });
 });

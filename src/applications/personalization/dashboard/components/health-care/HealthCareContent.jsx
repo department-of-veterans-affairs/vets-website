@@ -17,6 +17,10 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
@@ -148,42 +152,50 @@ const HealthCareContent = ({
 
   return (
     <div className="vads-l-row">
-      <DashboardWidgetWrapper>
-        {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment &&
-          !isLOA1 && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
-        {isVAPatient &&
-          !hasUpcomingAppointment &&
-          !hasAppointmentsError &&
-          !isLOA1 &&
-          !isCernerPatient && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn && (
-          <HealthCareCTA
-            viewMhvLink={viewMhvLink}
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            isLOA1={isLOA1}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        )}
-      </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && (
+      <DowntimeNotification dependencies={[externalServices.VAPRO_MESSAGING]}>
         <DashboardWidgetWrapper>
-          <HealthCareCTA
-            viewMhvLink={viewMhvLink}
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            hasAppointmentsError={hasAppointmentsError}
-          />
+          {hasAppointmentsError && <HealthcareError />}
+          {hasUpcomingAppointment &&
+            !isLOA1 && (
+              <DowntimeNotification
+                dependencies={[externalServices.VBMS_APPOINTMENTS]}
+              >
+                <AppointmentsCard appointments={appointments} />
+              </DowntimeNotification>
+            )}
+          {!isVAPatient && !isLOA1 && <NoHealthcareText />}
+          {isVAPatient &&
+            !hasUpcomingAppointment &&
+            !hasAppointmentsError &&
+            !isLOA1 &&
+            !isCernerPatient && <NoUpcomingAppointmentsText />}
+          {shouldShowOnOneColumn && (
+            <HealthCareCTA
+              viewMhvLink={viewMhvLink}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              unreadMessagesCount={unreadMessagesCount}
+              isVAPatient={isVAPatient}
+              isLOA1={isLOA1}
+              hasAppointmentsError={hasAppointmentsError}
+            />
+          )}
         </DashboardWidgetWrapper>
-      )}
+        {!shouldShowOnOneColumn && (
+          <DashboardWidgetWrapper>
+            <HealthCareCTA
+              viewMhvLink={viewMhvLink}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              unreadMessagesCount={unreadMessagesCount}
+              isVAPatient={isVAPatient}
+              hasAppointmentsError={hasAppointmentsError}
+            />
+          </DashboardWidgetWrapper>
+        )}
+      </DowntimeNotification>
     </div>
   );
 };

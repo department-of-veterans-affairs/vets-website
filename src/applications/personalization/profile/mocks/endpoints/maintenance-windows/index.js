@@ -13,6 +13,7 @@ const SERVICES = {
   LIGHTHOUSE_SUBMISSION_STATUSES: 'lighthouse_submission_statuses',
   VAPRO_CONTACT_INFO: 'vapro_contact_info',
   VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
+  VAPRO_MESSAGING: 'vapro_messaging',
   VAPRO_MILITARY_INFO: 'vapro_military_info',
   VAPRO_NOTIFICATION_SETTINGS: 'vapro_notification_settings',
   VAPRO_PERSONAL_INFO: 'vapro_personal_info',
