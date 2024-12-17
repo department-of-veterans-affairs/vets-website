@@ -71,7 +71,7 @@ class SecureMessagingLandingPage {
   };
 
   verifyFaqAccordions = () => {
-    cy.get(Locators.ALERTS.ACC_ITEM).each(el => {
+    cy.get(Locators.FAQ_ACC_ITEM).each(el => {
       cy.wrap(el)
         .should('be.visible')
         .click({ waitForAnimations: true });
