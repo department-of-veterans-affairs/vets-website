@@ -14,7 +14,7 @@ const mockUser = {
         middle_name: 'E',
         last_name: 'Hunter',
         gender: 'M',
-        birth_date: '1998-11-18',
+        birth_date: '1968-11-18',
         verified: true,
       },
       veteran_status: {
@@ -34,7 +34,7 @@ const mockUser = {
       ],
       va_profile: {
         status: 'OK',
-        birth_date: '19981118',
+        birth_date: '19681118',
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],
