@@ -181,7 +181,7 @@ describe('The My VA Dashboard', () => {
       cy.readFile(
         `${Cypress.config(
           'downloadsFolder',
-        )}/Form_21-10210_123fake-submission-id-567.pdf`,
+        )}/Form_22-1990_3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80.pdf`,
       ).should('exist');
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
