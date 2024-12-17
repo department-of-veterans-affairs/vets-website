@@ -31,13 +31,15 @@ export default function EligibilityModal({
     >
       <div aria-atomic="true" aria-live="assertive">
         <p>{content}</p>
-        <p>
-          If you need to schedule now, call your VA facility.
-          <br />
-          <NewTabAnchor href="/find-locations">
-            Find a VA health facility
-          </NewTabAnchor>
-        </p>
+        {status === 'error' && (
+          <p>
+            If you need to schedule now, call your VA facility.
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find a VA health facility
+            </NewTabAnchor>
+          </p>
+        )}
       </div>
     </VaModal>
   );
