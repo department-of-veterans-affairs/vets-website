@@ -1,183 +1,179 @@
-// import React from 'react';
-// import { Provider } from 'react-redux';
-// import { expect } from 'chai';
-// import { render, fireEvent } from '@testing-library/react';
-// import sinon from 'sinon';
-// import { SelectOrganization } from '../../../components/SelectOrganization';
-// import repResults from '../../fixtures/data/representative-results.json';
-// import * as reviewPageHook from '../../../hooks/useReviewPage';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { expect } from 'chai';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import { SelectOrganization } from '../../../components/SelectOrganization';
+import repResults from '../../fixtures/data/representative-results.json';
+import * as reviewPageHook from '../../../hooks/useReviewPage';
 
-// describe('<SelectOrganization>', () => {
-//   const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
-//     return {
-//       props: {
-//         formContext: {
-//           submitted,
-//         },
-//         formData: { 'view:selectedRepresentative': repResults[0].data },
-//         setFormData,
-//       },
-//       mockStore: {
-//         getState: () => ({
-//           form: {
-//             data: { 'view:selectedRepresentative': repResults[0].data },
-//           },
-//         }),
-//         subscribe: () => {},
-//         dispatch: () => ({
-//           setFormData: () => {},
-//         }),
-//       },
-//     };
-//   };
+describe('<SelectOrganization>', () => {
+  const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
+    return {
+      props: {
+        formContext: {
+          submitted,
+        },
+        formData: { 'view:selectedRepresentative': repResults[0].data },
+        setFormData,
+        goBack: sinon.spy(),
+        goForward: sinon.spy(),
+        goToPath: sinon.spy(),
+      },
+      mockStore: {
+        getState: () => ({
+          form: {
+            data: { 'view:selectedRepresentative': repResults[0].data },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => ({
+          setFormData,
+        }),
+      },
+    };
+  };
 
-//   it('should render component', () => {
-//     const { props, mockStore } = getProps();
+  const renderContainer = (props, mockStore) => {
+    return render(
+      <Provider store={mockStore}>
+        <SelectOrganization {...props} />
+      </Provider>,
+    );
+  };
 
-//     const { container } = render(
-//       <Provider store={mockStore}>
-//         <SelectOrganization {...props} />
-//       </Provider>,
-//     );
-//     expect(container).to.exist;
-//   });
+  it('should render component', () => {
+    const { props, mockStore } = getProps();
 
-//   it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
-//     const goBackSpy = sinon.spy();
-//     const goToPathSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <SelectOrganization {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
 
-//     const { props, mockStore } = getProps({ setFormData: () => {} });
-//     props.goBack = goBackSpy;
-//     props.goToPath = goToPathSpy;
+  context('non-review mode', () => {
+    it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
+      const { props, mockStore } = getProps({ setFormData: () => {} });
 
-//     const useReviewPageStub = sinon.stub(reviewPageHook, 'call').returns(false);
+      const useReviewPageStub = sinon
+        .stub(reviewPageHook, 'call')
+        .returns(false);
 
-//     const { getByText } = render(
-//       <Provider store={mockStore}>
-//         <SelectOrganization {...props} />
-//       </Provider>,
-//     );
+      const { getByText } = renderContainer(props, mockStore);
 
-//     fireEvent.click(getByText('Back'));
+      fireEvent.click(getByText('Back'));
 
-//     expect(goBackSpy.calledOnce).to.be.true;
-//     expect(goBackSpy.calledWith(props.formData)).to.be.true;
+      expect(props.goBack.calledOnce).to.be.true;
+      expect(props.goBack.calledWith(props.formData)).to.be.true;
 
-//     useReviewPageStub.restore();
-//   });
+      useReviewPageStub.restore();
+    });
 
-//   it('should call goToPath with the correct path when handleGoBack is triggered and isReviewPage is true', () => {
-//     const goBackSpy = sinon.spy();
-//     const goToPathSpy = sinon.spy();
+    it('should call goForward with formData when handleGoForward is triggered and isReviewPage is false', () => {
+      const { props, mockStore } = getProps();
 
-//     const useReviewPageStub = sinon
-//       .stub(reviewPageHook, 'useReviewPage')
-//       .returns(true);
+      const useReviewPageStub = sinon
+        .stub(reviewPageHook, 'useReviewPage')
+        .returns(false);
 
-//     const { props, mockStore } = getProps({ setFormData: () => {} });
-//     props.goBack = goBackSpy;
-//     props.goToPath = goToPathSpy;
+      props.formData.selectedAccreditedOrganizationId = '123';
 
-//     const { getByText } = render(
-//       <Provider store={mockStore}>
-//         <SelectOrganization {...props} />
-//       </Provider>,
-//     );
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <SelectOrganization {...props} />
+        </Provider>,
+      );
 
-//     fireEvent.click(getByText('Back'));
+      fireEvent.click(getByText('Continue'));
 
-//     expect(goBackSpy.called).to.be.false;
-//     expect(goToPathSpy.calledOnce).to.be.true;
-//     expect(goToPathSpy.calledWith('representative-contact?review=true')).to.be
-//       .true;
+      expect(props.goForward.calledOnce).to.be.true;
+      expect(props.goForward.calledWith(props.formData)).to.be.true;
+      expect(props.goToPath.called).to.be.false;
 
-//     useReviewPageStub.restore();
-//   });
+      useReviewPageStub.restore();
+    });
+  });
 
-//   // it('should call goForward with formData when handleGoForward is triggered and isReviewPage is false', () => {
-//   //   const goForwardSpy = sinon.spy();
-//   //   const goToPathSpy = sinon.spy();
+  context('review mode', () => {
+    beforeEach(function() {
+      Object.defineProperty(window, 'location', {
+        value: { search: '?review=true' },
+        writable: true,
+      });
+    });
 
-//   //   const { props, mockStore } = getProps();
-//   //   props.goForward = goForwardSpy;
-//   //   props.goToPath = goToPathSpy;
+    it('should call goToPath with the correct path when handleGoBack is triggered and isReviewPage is true', () => {
+      const useReviewPageStub = sinon
+        .stub(reviewPageHook, 'useReviewPage')
+        .returns(true);
 
-//   //   const useReviewPageStub = sinon
-//   //     .stub(reviewPageHook, 'useReviewPage')
-//   //     .returns(false);
+      const { props, mockStore } = getProps({ setFormData: () => {} });
 
-//   //   const { getByText } = render(
-//   //     <Provider store={mockStore}>
-//   //       <SelectOrganization {...props} />
-//   //     </Provider>,
-//   //   );
+      const { getByText } = renderContainer(props, mockStore);
 
-//   //   fireEvent.click(getByText('Continue'));
+      fireEvent.click(getByText('Back'));
 
-//   //   expect(goForwardSpy.calledOnce).to.be.true;
-//   //   expect(goForwardSpy.calledWith(props.formData)).to.be.true;
-//   //   expect(goToPathSpy.called).to.be.false;
+      expect(props.goBack.called).to.be.false;
+      expect(props.goToPath.calledOnce).to.be.true;
+      expect(props.goToPath.calledWith('representative-contact?review=true')).to
+        .be.true;
 
-//   //   useReviewPageStub.restore();
-//   // });
+      useReviewPageStub.restore();
+    });
 
-//   // it('should call goToPath with /representative-replace?review=true when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is true', () => {
-//   //   const goForwardSpy = sinon.spy();
-//   //   const goToPathSpy = sinon.spy();
+    it('should call goToPath with /representative-replace?review=true when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is true', () => {
+      const { props, mockStore } = getProps();
 
-//   //   const { props, mockStore } = getProps();
-//   //   props.goForward = goForwardSpy;
-//   //   props.goToPath = goToPathSpy;
+      const useReviewPageStub = sinon
+        .stub(reviewPageHook, 'useReviewPage')
+        .returns(true);
 
-//   //   const useReviewPageStub = sinon
-//   //     .stub(reviewPageHook, 'useReviewPage')
-//   //     .returns(true);
+      props.formData['view:representativeStatus'] = { id: '123' };
+      props.formData['view:selectedRepresentative'] = repResults[0].data;
+      props.formData.selectedAccreditedOrganizationId = '123';
 
-//   //   props.formData['view:representativeStatus'] = { id: '123' };
-//   //   props.formData['view:selectedRepresentative'] = repResults[0].data;
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <SelectOrganization {...props} />
+        </Provider>,
+      );
 
-//   //   const { getByText } = render(
-//   //     <Provider store={mockStore}>
-//   //       <SelectOrganization {...props} />
-//   //     </Provider>,
-//   //   );
+      fireEvent.click(getByText('Continue'));
 
-//   //   fireEvent.click(getByText('Continue'));
+      expect(props.goForward.called).to.be.false;
+      expect(props.goToPath.calledOnce).to.be.true;
+      expect(props.goToPath.calledWith('/representative-replace?review=true'))
+        .to.be.true;
 
-//   //   expect(goForwardSpy.called).to.be.false;
-//   //   expect(goToPathSpy.calledOnce).to.be.true;
-//   //   expect(goToPathSpy.calledWith('/representative-replace?review=true')).to.be
-//   //     .true;
+      useReviewPageStub.restore();
+    });
 
-//   //   useReviewPageStub.restore();
-//   // });
+    it('should call goToPath with /review-and-submit when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is false', () => {
+      const { props, mockStore } = getProps();
 
-//   // it('should call goToPath with /review-and-submit when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is false', () => {
-//   //   const goForwardSpy = sinon.spy();
-//   //   const goToPathSpy = sinon.spy();
+      const useReviewPageStub = sinon
+        .stub(reviewPageHook, 'useReviewPage')
+        .returns(true);
+      props.formData['view:representativeStatus'] = null;
+      props.formData['view:selectedRepresentative'] = repResults[0].data;
 
-//   //   const { props, mockStore } = getProps();
-//   //   props.goForward = goForwardSpy;
-//   //   props.goToPath = goToPathSpy;
+      props.formData.selectedAccreditedOrganizationId = '123';
 
-//   //   const useReviewPageStub = sinon
-//   //     .stub(reviewPageHook, 'useReviewPage')
-//   //     .returns(true);
-//   //   props.formData['view:representativeStatus'] = null;
-//   //   props.formData['view:selectedRepresentative'] = repResults[0].data;
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <SelectOrganization {...props} />
+        </Provider>,
+      );
 
-//   //   const { getByText } = render(
-//   //     <Provider store={mockStore}>
-//   //       <SelectOrganization {...props} />
-//   //     </Provider>,
-//   //   );
+      fireEvent.click(getByText('Continue'));
 
-//   //   fireEvent.click(getByText('Continue'));
+      expect(props.goForward.called).to.be.false;
+      expect(props.goToPath.calledOnce).to.be.true;
+      expect(props.goToPath.calledWith('/review-and-submit')).to.be.true;
 
-//   //   expect(goForwardSpy.called).to.be.false;
-//   //   expect(goToPathSpy.calledOnce).to.be.true;
-//   //   expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
-
-//   //   useReviewPageStub.restore();
-//   // });
-// });
+      useReviewPageStub.restore();
+    });
+  });
+});

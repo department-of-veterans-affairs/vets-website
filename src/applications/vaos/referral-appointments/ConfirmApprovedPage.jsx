@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import FormLayout from '../new-appointment/components/FormLayout';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import ReferralLayout from './components/ReferralLayout';
+import { routeToPreviousReferralPage } from './flow';
+import { setFormCurrentPage } from './redux/actions';
 
 const staticData = {
   typeOfCare: 'Primary Care',
@@ -22,6 +27,9 @@ const getData = (typeOfData = 'static') => {
 };
 
 export default function ConfirmApprovedPage() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [confirmedData, setConfirmedData] = useState(0);
 
   // on react component mount, fetch data
@@ -29,8 +37,15 @@ export default function ConfirmApprovedPage() {
     setConfirmedData(getData());
   }, []);
 
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('confirmAppointment'));
+    },
+    [location, dispatch],
+  );
+
   return (
-    <FormLayout>
+    <ReferralLayout hasEyebrow>
       <div>
         <h1>Review your appointment details</h1>
         <h3>You're scheduling a {confirmedData.typeOfCare} appointment</h3>
@@ -103,7 +118,16 @@ export default function ConfirmApprovedPage() {
         <div>{confirmedData.details}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-margin-top--4">
-          <va-button label="Back" text="Back" secondary uswds />
+          <va-button
+            label="Back"
+            text="Back"
+            secondary
+            uswds
+            onClick={e => {
+              e.preventDefault();
+              routeToPreviousReferralPage(history, 'confirmAppointment');
+            }}
+          />
           <va-button
             class="vads-u-margin-left--2"
             label="Continue"
@@ -112,6 +136,6 @@ export default function ConfirmApprovedPage() {
           />
         </div>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }

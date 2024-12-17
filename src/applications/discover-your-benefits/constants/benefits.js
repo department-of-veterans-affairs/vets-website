@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -28,7 +27,6 @@ export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',
   RETIREMENT: 'RETIREMENT',
-  FUTURE: 'FUTURE',
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
@@ -38,7 +36,6 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
@@ -176,7 +173,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'DOD SkillBridge program',
@@ -272,22 +269,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
-    },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
     },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
@@ -547,7 +528,7 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
   },
   {
-    name: 'Veterans Group Life Insurance (VGLI)',
+    name: "Veterans' Group Life Insurance (VGLI)",
     category: categories.LIFE_INSURANCE,
     id: 'VGL',
     description:
@@ -558,18 +539,14 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [yesNoType.YES],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
         separationTypes.UP_TO_2_YEARS,
       ],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
@@ -614,7 +591,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -721,7 +698,7 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],

@@ -82,6 +82,7 @@ export const Locators = {
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
+  FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -189,7 +190,6 @@ export const Locators = {
     EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
-    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
@@ -251,7 +251,8 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    RECIPIENTS: `select#options`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
@@ -323,6 +324,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
@@ -377,6 +379,21 @@ export const Data = {
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
     LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+  },
+  FAQ_LINK: {
+    URL: {
+      SEND: `/find-locations/`,
+      EMRG: `tel:911`,
+      SETTINGS: `/mhv-portal-web/preferences`,
+      PAY: `/health-care/pay-copay-bill/dispute-charges/`,
+    },
+    TEXT: {
+      SEND: `Find your nearest VA health facility`,
+      EMRG_BTN: `Connect with the Veterans Crisis Line`,
+      EMRG: `911`,
+      SETTINGS: `My HealtheVet (opens in new tab)`,
+      PAY: `Learn how to dispute your VA copay charges`,
+    },
   },
 };
 export const Assertions = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { setFormCurrentPage } from './redux/actions';
 
@@ -23,7 +23,7 @@ export default function ScheduleReferral(props) {
       ? '1 appointment'
       : `${currentReferral.numberOfAppointments} appointments`;
   return (
-    <FormLayout pageTitle="Review Approved Referral">
+    <ReferralLayout hasEyebrow>
       <div>
         <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
@@ -45,7 +45,7 @@ export default function ScheduleReferral(props) {
           id={currentReferral.UUID}
         />
         <h2>Details about your referral</h2>
-        <p>
+        <p data-testid="referral-details">
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
           ${format(
@@ -69,7 +69,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.ReferralNumber}
         </p>
         <va-additional-info
-          data-testid="help-text"
+          data-testid="additional-appointment-help-text"
           uswds
           trigger="If you were approved for more than one appointment"
           class="vads-u-margin-bottom--2"
@@ -86,7 +86,7 @@ export default function ScheduleReferral(props) {
           Contact your referring VA facility if you have questions about your
           referral or how to schedule your appointment.
         </p>
-        <p>
+        <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
           {currentReferral.ReferringFacilityInfo.FacilityName}
           <br />
@@ -94,7 +94,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.ReferringFacilityInfo.Phone}
         </p>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }
 

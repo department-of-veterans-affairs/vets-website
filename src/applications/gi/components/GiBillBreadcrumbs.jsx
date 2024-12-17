@@ -11,6 +11,7 @@ const GiBillBreadcrumbs = () => {
   const compareMatch = useRouteMatch('/compare');
   const lcMatch = useRouteMatch('/lc-search');
   const lcResultsMatch = useRouteMatch('/lc-search/results');
+  const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id');
   const crumbLiEnding = giDocumentTitle();
   const formatedProgramType = formatProgramType(
     ProgramsTypeMatch?.params?.programType,
@@ -55,13 +56,21 @@ const GiBillBreadcrumbs = () => {
   if (lcMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/lc-search',
-      label: 'Licensces and Certifications',
+      label: 'Licensces & Certifications',
     });
   }
   if (lcResultsMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/lc-search/results',
       label: 'Search Results',
+    });
+  }
+  if (lcResultInfoMatch) {
+    crumbs.push({
+      href: `/education/gi-bill-comparison-tool/lc-search/results/${
+        lcResultInfoMatch.params.type
+      }/${lcResultInfoMatch.params.id}`,
+      label: 'Result Details',
     });
   }
 
