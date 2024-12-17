@@ -6,6 +6,7 @@ import {
   capitalizeFirstLetter,
   filterLcResults,
   handleUpdateLcFilterDropdowns,
+  matchFilterIndex,
 } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 
@@ -13,7 +14,8 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const generateDropdowns = (category = 'all', state = 'all') => {
+export const updateDropdowns = (category = 'all', state = 'all') => {
+  // console.log('updateDropdowns 🟢', { category, state });
   const initialDropdowns = [
     {
       label: 'category',
@@ -40,6 +42,7 @@ export const generateDropdowns = (category = 'all', state = 'all') => {
     },
   ];
 
+  // console.log('newDropdowns', newDropdowns);
   return initialDropdowns.map(dropdown => {
     if (dropdown.label === 'category') {
       return {
@@ -51,6 +54,10 @@ export const generateDropdowns = (category = 'all', state = 'all') => {
     }
 
     if (dropdown.label === 'state') {
+      // const stateMatch = dropdown.options.find(
+      //   option => option.optionValue === state,
+      // );
+      // console.log('stateMatch', { stateMatch, state });
       return {
         ...dropdown,
         current: dropdown.options.find(option => option.optionValue === state),
@@ -61,19 +68,6 @@ export const generateDropdowns = (category = 'all', state = 'all') => {
   });
 };
 
-const resetStateDropdown = dropdowns => {
-  return dropdowns.map(dropdown => {
-    return dropdown.label === 'state'
-      ? {
-          ...dropdown,
-          current: dropdown.options.find(
-            option => option.optionValue === 'all',
-          ),
-        }
-      : dropdown;
-  });
-};
-
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
@@ -81,22 +75,19 @@ export default function LicenseCertificationSearchForm({
   location,
   history,
 }) {
-  const [dropdowns, setDropdowns] = useState(generateDropdowns());
+  const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showStateAlert, setShowStateAlert] = useState(false);
 
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name') ?? '';
-  const category = searchParams.get('category') ?? '';
-  const stateParam = searchParams.get('state') ?? '';
-  // handle typeahead suggestions
+  const category = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
 
-  // generate dropdown based on url params
   useEffect(() => {
-    if (category && stateParam) {
-      generateDropdowns();
-    }
-  });
+    // console.log('effect -- generateDropdowns 🔴');
+    setDropdowns(updateDropdowns(category, stateParam));
+  }, []);
 
   useEffect(
     () => {
@@ -120,18 +111,32 @@ export default function LicenseCertificationSearchForm({
 
   const handleReset = () => {
     history.replace('/lc-search');
+    setDropdowns(updateDropdowns());
   };
 
   const handleChange = e => {
-    const newDropdowns = handleUpdateLcFilterDropdowns(dropdowns, e.target);
-
-    if (newDropdowns[0].current.optionValue === 'certification') {
-      setDropdowns(resetStateDropdown);
-    }
+    const { updatedField, selectedOption } = matchFilterIndex(
+      dropdowns,
+      e.target,
+    );
 
     handleUpdateQueryParam()(e.target.id, e.target.value);
 
-    setDropdowns(current => handleUpdateLcFilterDropdowns(current, e.target));
+    if (
+      dropdowns[updatedField].options[selectedOption].optionValue ===
+      'certification'
+    ) {
+      handleUpdateQueryParam()('state', 'all');
+      setDropdowns(updateDropdowns('certification', 'all'));
+    }
+
+    const newDropdowns = handleUpdateLcFilterDropdowns(
+      dropdowns,
+      updatedField,
+      selectedOption,
+    );
+
+    setDropdowns(newDropdowns);
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
@@ -141,7 +146,7 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { type, state } = selection;
 
-    const updateDropdowns = dropdowns.map(dropdown => {
+    const _updateDropdowns = dropdowns.map(dropdown => {
       if (dropdown.label === 'state') {
         return {
           ...dropdown,
@@ -163,7 +168,7 @@ export default function LicenseCertificationSearchForm({
       setShowStateAlert(true);
     }
 
-    setDropdowns(updateDropdowns);
+    setDropdowns(_updateDropdowns);
   };
 
   const handleClearInput = () => {

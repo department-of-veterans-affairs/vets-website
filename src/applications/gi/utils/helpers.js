@@ -530,7 +530,7 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 
 // TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
-  const { type, state } = filters; // destructure state once it's added to the response
+  const { type, state } = filters;
   // console.log('filters', { type, state, nameInput });
 
   if (!nameInput) {
@@ -549,15 +549,23 @@ export const filterLcResults = (results, nameInput, filters) => {
   });
 };
 
-export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+export const matchFilterIndex = (dropdowns, target) => {
+  const updatedField = dropdowns.findIndex(dropdown => {
     return dropdown.label === target.id;
   });
 
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+  const selectedOption = dropdowns[updatedField].options.findIndex(
     option => option.optionValue === target.value,
   );
 
+  return { updatedField, selectedOption };
+};
+
+export const handleUpdateLcFilterDropdowns = (
+  dropdowns,
+  updatedFieldIndex,
+  selectedOptionIndex,
+) => {
   return dropdowns.map(
     (dropdown, index) =>
       index === updatedFieldIndex
