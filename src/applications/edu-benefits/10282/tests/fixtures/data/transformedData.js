@@ -1,5 +1,5 @@
 const transformedMinimalDataActual = {
-  state: 'Virginia',
+  state: 'VA',
   country: 'United States',
   contactInfo: {
     email: 'janedoe@gmail.com',
@@ -31,8 +31,8 @@ const transformedMaximalDataActual = {
   raceAndGender: true,
   ethnicity: 'NA',
   gender: 'NA',
-  orginRace: { noAnswer: true },
-  state: 'Texas',
+  originRace: { noAnswer: true },
+  state: 'TX',
   country: 'United States',
   contactInfo: {
     email: 'janedoe@gmail.com',

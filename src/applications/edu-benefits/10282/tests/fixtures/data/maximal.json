@@ -9,10 +9,10 @@
         },
         "raceAndGender": true,
         "ethnicity": "NA",
+        "gender": "NA",
         "originRace": {
             "noAnswer": true
         },
-        "gender": "NA",
         "state": "TX",
         "country": "United States",
         "contactInfo": {
