@@ -25,14 +25,14 @@ export const uiSchema = {
     ),
   },
   'Primary phone': phoneUI({
-    required: true,
+    required: formData => preparerIsVeteran({ formData }),
   }),
   veteranEmail: emailUI(),
 };
 
 export const schema = {
   type: 'object',
-  required: ['Primary phone'],
+  required: [], // Remove 'Primary phone' from here since we're handling it conditionally
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
