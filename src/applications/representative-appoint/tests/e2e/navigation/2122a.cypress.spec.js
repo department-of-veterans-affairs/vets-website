@@ -211,6 +211,10 @@ describe('Unauthenticated', () => {
       cy.get(
         `va-checkbox[name="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"]`,
       ).click();
+      cy.get(`va-privacy-agreement`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
 
       h.clickContinue();
 
