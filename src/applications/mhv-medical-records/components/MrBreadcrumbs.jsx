@@ -5,6 +5,7 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
+import { sendDataDogAction } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -71,9 +72,25 @@ const MrBreadcrumbs = () => {
     [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
   );
 
-  const handleRoutechange = ({ detail }) => {
+  const handleDataDogAction = () => {
+    const isVitalsDetail =
+      Paths.VITALS.includes(locationBasePath) && locationChildPath;
+    const path = locationBasePath
+      ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+      : '/';
+    const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+    const ddTag = isVitalsDetail
+      ? `Back - Vitals - ${Breadcrumbs[feature].label}`
+      : `Back - ${Breadcrumbs[feature].label} - ${
+          locationChildPath ? 'Detail' : 'List'
+        }`;
+    sendDataDogAction(ddTag);
+  };
+
+  const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
+    handleDataDogAction();
   };
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
@@ -112,23 +129,23 @@ const MrBreadcrumbs = () => {
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={backToImagesBreadcrumb}>Back</Link>
+        <Link to={backToImagesBreadcrumb} onClick={handleDataDogAction}>
+          Back
+        </Link>
       </div>
     );
   }
 
   return (
-    <>
-      <VaBreadcrumbs
-        breadcrumbList={crumbsList}
-        label="Breadcrumb"
-        home-veterans-affairs
-        onRouteChange={handleRoutechange}
-        className="mobile-lg:vads-u-margin-y--2 no-print"
-        dataTestid="breadcrumbs"
-        uswds
-      />
-    </>
+    <VaBreadcrumbs
+      breadcrumbList={crumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2 no-print"
+      dataTestid="breadcrumbs"
+      uswds
+    />
   );
 };
 
