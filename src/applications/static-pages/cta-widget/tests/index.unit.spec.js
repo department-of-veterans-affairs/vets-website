@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
-
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
@@ -164,29 +164,23 @@ describe('<CallToActionWidget>', () => {
   });
 
   it('should show verify link', () => {
+    const { props, mockStore } = getData();
     const tree = mount(
-      <CallToActionWidget
-        appId="test"
-        isLoggedIn
-        profile={{
-          loading: false,
-          verified: false,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: false,
-        }}
-      />,
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          appId="test"
+          {...props}
+          isLoggedIn
+          featureToggles={{ loading: false }}
+          serviceName={CSP_IDS.ID_ME}
+        />
+      </Provider>,
     );
-
     expect(tree.find('Verify').exists()).to.be.true;
     expect(tree.find('h3').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should show link and description', () => {
     const tree = mount(
       <CallToActionWidget
@@ -206,7 +200,6 @@ describe('<CallToActionWidget>', () => {
         }}
       />,
     );
-
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
     expect(tree.find('SignIn').exists()).to.be.false;
     expect(tree.find('Verify').exists()).to.be.false;
@@ -310,30 +303,109 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show mvi not authorized error', () => {
+    it('should show mvi not authorized/verify error for ID.me service', () => {
+      const { props, mockStore } = getData();
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={d => d}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.RX}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: false,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'good',
-            accountLevel: 'Premium',
-          }}
-          mviStatus="NOT_AUTHORIZED"
-          featureToggles={{
-            loading: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            headingLevel={2}
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
       );
+      expect(tree.find('Verify').exists()).to.be.true;
+      expect(tree.text()).contains('access more VA.gov tools and features');
+      expect(tree.text()).contains('Verify with ID.me');
+      expect(tree.find('Verify with Login.gov').exists()).to.be.false;
+      tree.unmount();
+    });
 
-      expect(tree.find('NotAuthorized').exists()).to.be.true;
+    it('should show verify alert for Login.gov service', () => {
+      const { props, mockStore } = getData();
+      const tree = mount(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            headingLevel={2}
+            serviceName={CSP_IDS.LOGIN_GOV}
+          />
+        </Provider>,
+      );
+      expect(tree.find('Verify').exists()).to.be.true;
+      expect(tree.text()).contains('access more VA.gov tools and features');
+      expect(tree.text()).contains('Verify with Login.gov');
+      expect(tree.find('Verify with ID.me').exists()).to.be.false;
+      expect(tree.find('h3').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should show verify SignInOtherAccount alert for MHV Basic Account', () => {
+      const { props, mockStore } = getData();
+      const tree = mount(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            serviceName={CSP_IDS.MHV}
+          />
+        </Provider>,
+      );
+      expect(tree.find('SignInOtherAccount').exists()).to.be.true;
+      expect(tree.text()).contains('access more VA.gov tools and features');
+      expect(tree.text()).contains('Verify withID.me');
+      expect(tree.text()).contains('Verify withLogin.gov');
+      expect(tree.find('h3').exists()).to.be.true;
       tree.unmount();
     });
 
@@ -470,18 +542,22 @@ describe('<CallToActionWidget>', () => {
       };
 
       it('should show verify message', () => {
+        const { mockStore } = getData();
         const tree = mount(
-          <CallToActionWidget
-            {...defaultProps}
-            mhvAccount={{
-              loading: false,
-              accountState: 'needs_identity_verification',
-              accountLevel: 'Basic',
-            }}
-          />,
+          <Provider store={mockStore}>
+            <CallToActionWidget
+              {...defaultProps}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+              serviceName={CSP_IDS.ID_ME}
+            />
+          </Provider>,
         );
-
         expect(tree.find('Verify').exists()).to.be.true;
+        expect(tree.text()).contains('access more VA.gov tools and features');
         tree.unmount();
       });
 
@@ -585,20 +661,23 @@ describe('<CallToActionWidget>', () => {
         const ssoeProps = { ...defaultProps, authenticatedWithSSOe: true };
 
         it('should show verify message', () => {
+          const { mockStore } = getData();
           const tree = mount(
-            <CallToActionWidget
-              {...ssoeProps}
-              profile={{
-                verified: false,
-              }}
-              mhvAccount={{
-                loading: false,
-                accountState: 'needs_identity_verification',
-                accountLevel: 'Basic',
-              }}
-            />,
+            <Provider store={mockStore}>
+              <CallToActionWidget
+                {...ssoeProps}
+                profile={{
+                  verified: false,
+                }}
+                mhvAccount={{
+                  loading: false,
+                  accountState: 'needs_identity_verification',
+                  accountLevel: 'Basic',
+                }}
+                serviceName={CSP_IDS.ID_ME}
+              />
+            </Provider>,
           );
-
           expect(tree.find('Verify').exists()).to.be.true;
           tree.unmount();
         });
@@ -615,7 +694,6 @@ describe('<CallToActionWidget>', () => {
               }}
             />,
           );
-
           expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
           tree.unmount();
         });
@@ -815,24 +893,27 @@ describe('<CallToActionWidget>', () => {
       haCpapSuppliesCta = false,
       verified = false,
     } = {}) => {
+      const { mockStore } = getData();
       return mount(
-        <CallToActionWidget
-          isLoggedIn={isLoggedIn}
-          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
-          profile={{
-            loading: false,
-            verified,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            [featureFlagNames.haCpapSuppliesCta]: haCpapSuppliesCta,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn={isLoggedIn}
+            appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+            profile={{
+              loading: false,
+              verified,
+            }}
+            mhvAccount={{}}
+            mviStatus="OK"
+            featureToggles={{
+              loading: false,
+              [featureFlagNames.haCpapSuppliesCta]: haCpapSuppliesCta,
+            }}
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
       );
     };
-
     describe('enabled', () => {
       it('promps to sign in w/ h4 when enabled and user signed out', () => {
         const tree = setup({ haCpapSuppliesCta: true });
@@ -857,7 +938,6 @@ describe('<CallToActionWidget>', () => {
           isLoggedIn: true,
           verified: true,
         });
-
         const result = tree.find('a');
         expect(result.props().href).to.contain(url);
         expect(result.props().target).to.equal('_self');

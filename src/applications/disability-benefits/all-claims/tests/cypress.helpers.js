@@ -8,6 +8,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import {
   MOCK_SIPS_API,
@@ -227,20 +228,15 @@ function makeUnreleasedPageHooks(testOptions) {
 }
 
 export const reviewAndSubmitPageFlow = (
-  signerName,
   submitButtonText = 'Submit application',
 ) => {
-  let veteranSignature = signerName;
+  const first = mockUser.data.attributes.profile.firstName;
+  const middle = mockUser.data.attributes.profile.middleName;
+  const last = mockUser.data.attributes.profile.lastName;
 
-  if (typeof veteranSignature === 'object') {
-    const first = veteranSignature['view:first'];
-    const middle = veteranSignature['view:middle'];
-    const last = veteranSignature['view:last'];
-
-    veteranSignature = middle
-      ? `${first} ${middle} ${last}`
-      : `${first} ${last}`;
-  }
+  const veteranSignature = middle
+    ? `${first} ${middle} ${last}`
+    : `${first} ${last}`;
 
   cy.fillVaTextInput('veteran-signature', veteranSignature);
   cy.selectVaCheckbox('veteran-certify', true);
@@ -393,20 +389,14 @@ export const pageHooks = (cy, testOptions = {}) => ({
       }
     });
   },
-  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
+  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
   // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
   // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
-  // locally. this will be uncommented when we launch. note for the e2e test to run properly, the
-  // "view:userFullName" object must also be added to the json fixture. see
-  // tests/fixtures/data/minimal-test.json for an example
+  // locally. this will be uncommented for launch.
   // 'review-and-submit': ({ afterHook }) => {
   //   afterHook(() => {
-  //     cy.get('@testData').then(data => {
-  //       // if (environment.isLocalhost()) {
-  //       const fullName = data['view:userFullName'];
-
-  //       reviewAndSubmitPageFlow(fullName);
-  //       // }
+  //     cy.get('@testData').then(() => {
+  //       reviewAndSubmitPageFlow();
   //     });
   //   });
   // },
