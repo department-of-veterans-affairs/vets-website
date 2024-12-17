@@ -18,7 +18,7 @@ function TextNotificationsDisclaimer() {
           rel="noopener noreferrer"
           target="_blank"
         >
-          Read our text notification terms and conditions
+          Read our text notification terms and conditions (opens in a new tab)
         </a>
       </p>
       <p>
@@ -27,7 +27,7 @@ function TextNotificationsDisclaimer() {
           rel="noopener noreferrer"
           target="_blank"
         >
-          Read our privacy policy
+          Read our privacy policy (opens in a new tab)
         </a>
       </p>
       <p>

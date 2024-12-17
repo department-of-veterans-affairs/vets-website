@@ -346,6 +346,7 @@ const formConfig = {
                       rel="noreferrer"
                     >
                       Learn more about the Fry Scholarship education benefit
+                      (opens in a new tab)
                     </a>
                   </div>
                 </>
@@ -382,7 +383,8 @@ const formConfig = {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Learn more about DEA education benefit
+                      Learn more about DEA education benefit (opens in a new
+                      tab)
                     </a>
                   </div>
                 </>
@@ -485,7 +487,7 @@ const formConfig = {
                     information for other VA benefits, update your information
                     on your{' '}
                     <a target="_blank" href="/profile/personal-information">
-                      profile
+                      profile (opens in a new tab)g
                     </a>
                     .
                   </p>
@@ -497,7 +499,7 @@ const formConfig = {
                       target="_blank"
                       href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782"
                     >
-                      on file with VA.
+                      on file with VA (opens in a new tab).
                     </a>
                   </p>
                 </>
@@ -789,7 +791,7 @@ const formConfig = {
                       href="https://www.va.gov/resources/managing-your-vagov-profile/"
                       rel="noreferrer"
                     >
-                      Go to your profile
+                      Go to your profile (opens in a new tab)
                     </a>
                   </p>
                 </>
@@ -879,7 +881,7 @@ const formConfig = {
                   </p>
                   <p>
                     <a target="_blank" href="/profile/personal-information">
-                      Go to your profile
+                      Go to your profile (opens in a new tab)
                     </a>
                   </p>
                 </>
@@ -1252,7 +1254,8 @@ const formConfig = {
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      View Terms and Conditions and Privacy Policy.
+                      View Terms and Conditions and Privacy Policy (opens in a
+                      new tab).
                     </a>
                   </>
                 </va-alert>
@@ -1320,7 +1323,8 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about the Enrollment Verifications (opens in a
+                      new tab)
                     </a>
                   </>
                 </va-alert>
@@ -1353,7 +1357,8 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about the Enrollment Verifications (opens in a
+                      new tab)
                     </a>
                   </>
                 </va-alert>
