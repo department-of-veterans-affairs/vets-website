@@ -310,7 +310,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             that works with other providers’ medical records systems.
           </p>
           {generatingCCD ? (
-            <div id="generating-dl-indicator">
+            <div id="generating-ccd-indicator">
               <va-loading-indicator
                 label="Loading"
                 message="Preparing your download..."
@@ -349,10 +349,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           {selfEnteredPdfRequested &&
           !successfulSeiDownload &&
           !seiPdfGenerationError ? (
-            <div className="generating-dl-indicator">
+            <div id="generating-sei-indicator">
               <va-loading-indicator
                 label="Loading"
                 message="Preparing your download..."
+                data-testid="sei-loading-indicator"
               />
             </div>
           ) : (

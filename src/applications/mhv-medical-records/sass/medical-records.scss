@@ -144,7 +144,8 @@ va-loading-indicator {
   margin: initial;
 }
 
-.generating-dl-indicator va-loading-indicator {
+#generating-ccd-indicator va-loading-indicator,
+#generating-sei-indicator va-loading-indicator {
   margin: 0px;
 }
 
