@@ -21,13 +21,19 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  getLastUpdatedText,
+  formatUserDob,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 
-import { clearAlerts } from '../../actions/alerts';
-import { pageTitles } from '../../util/constants';
+import { addAlert, clearAlerts } from '../../actions/alerts';
+import {
+  ALERT_TYPE_BB_ERROR,
+  pageTitles,
+  refreshExtractTypes,
+} from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
@@ -38,7 +44,7 @@ const DownloadFileType = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
@@ -62,19 +68,16 @@ const DownloadFileType = props => {
     state => state.mr.blueButton.accountSummary,
   );
   const failedDomains = useSelector(state => state.mr.blueButton.failedDomains);
-
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
-
-  // FIXME: This should be generated dynamically. (see: MHV-60682)
-  const lastUpdated = 'Last updated at 10:47 a.m. EDT on September 13, 2024';
+  const refreshStatus = useSelector(state => state.mr.refresh.status);
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
     [dispatch],
   );
@@ -291,40 +294,57 @@ const DownloadFileType = props => {
 
   const generatePdf = useCallback(
     async () => {
-      setDownloadStarted(true);
-      dispatch(clearAlerts());
+      try {
+        setDownloadStarted(true);
+        dispatch(clearAlerts());
 
-      if (isDataFetched) {
-        const title = 'Blue Button report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(user, title, subject);
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const pdfData = {
-          fromDate: formatDateLong(dateFilter.fromDate),
-          toDate: formatDateLong(dateFilter.toDate),
-          recordSets: generateBlueButtonData(recordData, recordFilter),
-          ...scaffold,
-          name,
-          dob,
-          lastUpdated,
-        };
-        makePdf(
-          pdfName,
-          pdfData,
-          title,
-          runningUnitTest,
-          'blueButtonReport',
-        ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
+        if (isDataFetched) {
+          const title = 'Blue Button report';
+          const subject = 'VA Medical Record';
+          const scaffold = generatePdfScaffold(user, title, subject);
+          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+          const pdfData = {
+            fromDate:
+              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
+                ? formatDateLong(dateFilter.fromDate)
+                : 'Any',
+            toDate:
+              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
+                ? formatDateLong(dateFilter.toDate)
+                : 'any',
+            recordSets: generateBlueButtonData(recordData, recordFilter),
+            ...scaffold,
+            name,
+            dob,
+            lastUpdated: getLastUpdatedText(refreshStatus, [
+              refreshExtractTypes.ALLERGY,
+              refreshExtractTypes.CHEM_HEM,
+              refreshExtractTypes.VPR,
+            ]),
+          };
+          await makePdf(
+            pdfName,
+            pdfData,
+            title,
+            runningUnitTest,
+            'blueButtonReport',
+          );
+          dispatch({ type: Actions.Downloads.BB_SUCCESS });
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
-      dateFilter,
+      dateFilter.fromDate,
+      dateFilter.toDate,
       dispatch,
       dob,
       isDataFetched,
       name,
       recordData,
       recordFilter,
+      refreshStatus,
       runningUnitTest,
       user,
     ],
@@ -332,21 +352,24 @@ const DownloadFileType = props => {
 
   const generateTxt = useCallback(
     async () => {
-      setDownloadStarted(true);
-      dispatch(clearAlerts());
-      if (isDataFetched) {
-        const title = 'Blue Button report';
-        const subject = 'VA Medical Record';
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
-          user,
-          title,
-          subject,
-        )}`;
-        const content = getTxtContent(recordData, user);
+      try {
+        setDownloadStarted(true);
+        dispatch(clearAlerts());
+        if (isDataFetched) {
+          const title = 'Blue Button report';
+          const subject = 'VA Medical Record';
+          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+            user,
+            title,
+            subject,
+          )}`;
+          const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user).then(() =>
-          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
-        );
+          generateTextFile(content, pdfName, user);
+          dispatch({ type: Actions.Downloads.BB_SUCCESS });
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [dispatch, isDataFetched, recordData, user],

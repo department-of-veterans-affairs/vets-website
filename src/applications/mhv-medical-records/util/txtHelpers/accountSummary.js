@@ -1,7 +1,7 @@
 import { generateAccountSummaryContent } from '../pdfHelpers/accountSummary';
 
 // Function to parse account summaries
-export const parseAccountSummary = records => {
+export const parseAccountSummary = (records, index = 11) => {
   // Generate the structured content
   const accountSummaryContent = generateAccountSummaryContent(records || {});
 
@@ -41,7 +41,7 @@ export const parseAccountSummary = records => {
 
   // Join the formatted text array into a single string
   return `
-11) Account Summary
+${index}) Account Summary
 
 My HealtheVet account summary
 
