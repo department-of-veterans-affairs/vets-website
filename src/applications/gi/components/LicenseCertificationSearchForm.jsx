@@ -9,6 +9,7 @@ import {
   matchFilterIndex,
 } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
+import LicenseCertificationAlert from './LicenseCertificationAlert';
 
 const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
@@ -54,10 +55,6 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
     }
 
     if (dropdown.label === 'state') {
-      // const stateMatch = dropdown.options.find(
-      //   option => option.optionValue === state,
-      // );
-      // console.log('stateMatch', { stateMatch, state });
       return {
         ...dropdown,
         current: dropdown.options.find(option => option.optionValue === state),
@@ -77,17 +74,21 @@ export default function LicenseCertificationSearchForm({
 }) {
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
-  const [showStateAlert, setShowStateAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name') ?? '';
   const category = searchParams.get('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
-  useEffect(() => {
-    setDropdowns(updateDropdowns(category, stateParam));
-  }, []);
+  useEffect(
+    () => {
+      setDropdowns(updateDropdowns(category, stateParam));
+    },
+    [category, stateParam],
+  );
 
+  //
   useEffect(
     () => {
       if (dropdowns[0].current.optionValue === 'certification') {
@@ -95,13 +96,6 @@ export default function LicenseCertificationSearchForm({
       }
     },
     [dropdowns],
-  );
-
-  useEffect(
-    () => {
-      setDropdowns(updateDropdowns(category, stateParam));
-    },
-    [stateParam],
   );
 
   useEffect(
@@ -179,7 +173,7 @@ export default function LicenseCertificationSearchForm({
     });
 
     if (type === 'license' && dropdowns[1].current.optionValue !== state) {
-      setShowStateAlert(true);
+      setShowAlert(true);
     }
 
     setDropdowns(_updateDropdowns);
@@ -187,7 +181,7 @@ export default function LicenseCertificationSearchForm({
 
   const handleClearInput = () => {
     handleUpdateQueryParam()('name', '');
-    setShowStateAlert(false);
+    setShowAlert(false);
   };
 
   return (
@@ -217,20 +211,15 @@ export default function LicenseCertificationSearchForm({
         selectClassName="lc-dropdown-filter"
         required={dropdowns[1].label === 'category'}
       >
-        {showStateAlert && name.length > 0 ? (
-          <va-alert
-            className="license-alert"
-            // slim={true}
-            // disable-analytics={true}
-            visible={dropdowns[0].current.optionLabel === 'License'}
-            // close-btn-aria-label={closeBtnAriaLabel}
-            closeable={false}
-            fullWidth={false}
-            style={{ maxWidth: '30rem' }}
-          >
-            The state of {dropdowns[1].current.optionLabel} has been selected
-            becuase the {name} license is specific to it.
-          </va-alert>
+        {showAlert && name.length > 0 ? (
+          <LicenseCertificationAlert
+            changeStateAlert
+            changeDropdownsAlert={false}
+            changeStateToAllAlert={false}
+            visible={showAlert}
+            name={name}
+            state={dropdowns[0].current.optionLabel}
+          />
         ) : (
           <>
             (Note: Certifications are nationwide. Selecting a state from this
