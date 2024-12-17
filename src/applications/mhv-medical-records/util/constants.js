@@ -32,7 +32,7 @@ export const accessAlertTypes = {
 };
 
 export const documentTypes = {
-  BB: 'blue button',
+  BB: 'medical records reports',
   CCD: 'continuity of care document',
   SEI: 'self-entered information',
 };
@@ -219,6 +219,7 @@ export const vitalUnitDisplayText = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
+export const ALERT_TYPE_BB_ERROR = 'blue button download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -244,6 +245,8 @@ export const pageTitles = {
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
+  DOWNLOAD_FORMS_PAGES_TITLE:
+    'Select Records And Download Report - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
