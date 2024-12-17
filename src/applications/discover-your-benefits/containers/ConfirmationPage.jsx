@@ -10,7 +10,7 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import SaveResultsModal from '../components/SaveResultsModal';
+import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 import Benfits from './components/Benefits';
 
@@ -297,7 +297,7 @@ export class ConfirmationPage extends React.Component {
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
             {!this.props.location.query.allBenefits && (
               <div className="vads-l-col--12">
-                <SaveResultsModal />
+                <CopyResultsModal />
               </div>
             )}
             <div
