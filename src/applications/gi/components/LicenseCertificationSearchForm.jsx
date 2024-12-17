@@ -154,29 +154,13 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { type, state } = selection;
 
-    const _updateDropdowns = dropdowns.map(dropdown => {
-      if (dropdown.label === 'state') {
-        return {
-          ...dropdown,
-          current: dropdown.options.find(option => {
-            return option.optionValue === state;
-          }),
-        };
-      }
-
-      return {
-        ...dropdown,
-        current: dropdown.options.find(option => {
-          return option.optionValue === type;
-        }),
-      };
-    });
+    const newDropdowns = updateDropdowns(type, state);
 
     if (type === 'license' && dropdowns[1].current.optionValue !== state) {
       setShowAlert(true);
     }
 
-    setDropdowns(_updateDropdowns);
+    setDropdowns(newDropdowns);
   };
 
   const handleClearInput = () => {
