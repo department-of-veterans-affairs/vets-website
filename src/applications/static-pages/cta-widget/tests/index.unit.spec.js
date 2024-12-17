@@ -374,7 +374,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show verify SingInOtherAccount alert for MHV Basic Account', () => {
+    it('should show verify SignInOtherAccount alert for MHV Basic Account', () => {
       const { props, mockStore } = getData();
       const tree = mount(
         <Provider store={mockStore}>
@@ -403,8 +403,8 @@ describe('<CallToActionWidget>', () => {
       );
       expect(tree.find('SignInOtherAccount').exists()).to.be.true;
       expect(tree.text()).contains('access more VA.gov tools and features');
-      expect(tree.text()).contains('Verify with ID.me');
-      expect(tree.text()).contains('Verify with Login.gov');
+      expect(tree.text()).contains('Verify withID.me');
+      expect(tree.text()).contains('Verify withLogin.gov');
       expect(tree.find('h3').exists()).to.be.true;
       tree.unmount();
     });
