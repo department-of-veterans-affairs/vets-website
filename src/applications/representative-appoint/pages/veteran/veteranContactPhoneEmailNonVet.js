@@ -10,21 +10,21 @@ import {
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
-  ...titleUI(() => 'Your phone number and email address'),
+  ...titleUI(() => "Veteran's phone number and email address"),
   profileNotUpdatedNote: {
     'ui:description': formData => (
       <ProfileNotUpdatedNote formData={formData} includePhone />
     ),
   },
   'Primary phone': phoneUI({
-    required: true,
+    required: false,
   }),
   veteranEmail: emailUI(),
 };
 
 export const schema = {
   type: 'object',
-  required: ['Primary phone'],
+  required: [],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
