@@ -42,7 +42,7 @@ export const stepchild = {
     ),
     biologicalParentSsn: {
       ...ssnUI('this child’s biological parent’s Social Security number'),
-      'ui:required': () => true,
+      'ui:required': required,
     },
     biologicalParentDob: currentOrPastDateUI({
       title: 'Child’s biological parent’s date of birth',
@@ -61,12 +61,5 @@ export const stepchild = {
       biologicalParentSsn: ssnSchema,
       biologicalParentDob: currentOrPastDateSchema,
     },
-    required: [
-      'isBiologicalChild',
-      'dateEnteredHousehold',
-      'biologicalParentName',
-      'biologicalParentSsn',
-      'biologicalParentDob',
-    ],
   },
 };

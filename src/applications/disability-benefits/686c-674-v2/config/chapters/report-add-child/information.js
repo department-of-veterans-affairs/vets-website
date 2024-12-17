@@ -1,36 +1,32 @@
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
-  radioUI,
-  radioSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   arrayBuilderItemFirstPageTitleUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { deceasedDependentOptions } from '../report-dependent-death/deceasedDependentArrayPages';
+import { arrayBuilderOptions } from './config';
 
 export const information = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Add a child',
-      nounSingular: deceasedDependentOptions.nounSingular,
+      nounSingular: arrayBuilderOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
       required: () => true,
     }),
-    'view:isUnmarriedAndInSchool': radioUI({
+    'view:isUnmarriedAndInSchool': yesNoUI({
       title:
         'Is this an unmarried child between ages 18 and 23 who attends school?',
       required: (formData, _index) => {
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         return addChild && addStudent;
-      },
-      labels: {
-        Y: 'Yes',
-        N: 'No',
       },
       hideIf: (formData, _index) => {
         const { addChild, report674: addStudent } =
@@ -39,17 +35,13 @@ export const information = {
         return !shouldShow;
       },
     }),
-    'view:hasReceivedBenefits': radioUI({
+    'view:hasReceivedBenefits': yesNoUI({
       title:
         'Have you received disability, pension, or DIC (Dependency and Indemnity Compensation) benefits for this child before?',
       required: (formData, _index) => {
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         return addChild && addStudent;
-      },
-      labels: {
-        Y: 'Yes',
-        N: 'No',
       },
       hideIf: (formData, _index) => {
         const { addChild, report674: addStudent } =
@@ -64,9 +56,8 @@ export const information = {
     properties: {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
-      'view:isUnmarriedAndInSchool': radioSchema(['Y', 'N']),
-      'view:hasReceivedBenefits': radioSchema(['Y', 'N']),
+      'view:isUnmarriedAndInSchool': yesNoSchema,
+      'view:hasReceivedBenefits': yesNoSchema,
     },
-    required: ['fullName', 'birthDate'],
   },
 };

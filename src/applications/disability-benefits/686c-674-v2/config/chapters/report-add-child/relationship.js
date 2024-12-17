@@ -19,7 +19,7 @@ export const relationship = {
         adopted: 'They’re my adopted child',
         stepchild: 'They’re my stepchild',
       },
-      required: true,
+      required: () => true,
       errorMessages: {
         required: 'Select at least one relationship.',
       },
@@ -34,6 +34,5 @@ export const relationship = {
         'stepchild',
       ]),
     },
-    required: ['relationshipToChild'],
   },
 };

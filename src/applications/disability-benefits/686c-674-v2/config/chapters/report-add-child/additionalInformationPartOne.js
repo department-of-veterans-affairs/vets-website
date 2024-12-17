@@ -28,7 +28,11 @@ export const additionalInformationPartOne = {
     isChildPermanentlyUnableToSupport: yesNoUI({
       title:
         'Is this child permanently unable to support themselves because they developed a permanent mental or physical disability before they turned 18 years old?',
-      required: () => true,
+      required: formData => {
+        const { addDisabledChild } =
+          formData?.['view:selectable686Options'] ?? {};
+        return addDisabledChild;
+      },
       errorMessages: {
         required: 'You must answer this question.',
       },

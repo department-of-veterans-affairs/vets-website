@@ -19,6 +19,5 @@ export const identification = {
     properties: {
       ssn: ssnSchema,
     },
-    required: ['ssn'],
   },
 };

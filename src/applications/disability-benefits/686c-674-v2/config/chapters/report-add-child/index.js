@@ -95,7 +95,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
         const index = parseInt(rawIndex, 10);
         if (Number.isFinite(index)) {
           const shouldSeeAddressPage =
-            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === 'N';
+            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false;
           return (
             isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
             shouldSeeAddressPage
@@ -113,7 +113,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
         const index = parseInt(rawIndex, 10);
         if (Number.isFinite(index)) {
           const shouldSeeAddressPage =
-            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === 'N';
+            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false;
           return (
             isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
             shouldSeeAddressPage
