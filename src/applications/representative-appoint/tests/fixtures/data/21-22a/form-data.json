@@ -256,7 +256,7 @@
   "view:outsideVAAuthorizationPolicy": {},
   "view:authorizationNote5": {},
   "view:unsureNote": {},
-  "Input": "bob",
+  "view:representativeQueryInput": "bob",
   "view:representativeSearchResults": [
     {
       "data": {
