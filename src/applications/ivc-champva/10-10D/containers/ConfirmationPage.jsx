@@ -138,11 +138,9 @@ export function ConfirmationPage(props) {
       <h2>What to expect next</h2>
       <p>
         {/* It will take about 90 days to process your application. */}
-        <b>
-          Note: Right now there's a delay in processing CHAMPVA applications.
-        </b>{' '}
-        We expect this delay to be temporary. If you have questions about the
-        status of your application, call us at{' '}
+        <b>Note:</b> Right now there's a delay in processing CHAMPVA{' '}
+        applications. We expect this delay to be temporary. If you have
+        questions about the status of your application, call us at{' '}
         <VaTelephone contact="800-733-8387" />
         (TTY: 711). We’re here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
         <br />
