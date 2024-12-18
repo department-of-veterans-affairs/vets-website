@@ -51,8 +51,8 @@ export const getBlueButtonReportData = (
           fromDate = formatISO(dateTwoYearsAgo);
           toDate = formatISO(farFutureDate);
         } else {
-          fromDate = formatISO(dateFilter.fromDate);
-          toDate = formatISO(dateFilter.toDate);
+          fromDate = formatISO(new Date(dateFilter.fromDate));
+          toDate = formatISO(new Date(dateFilter.toDate));
         }
 
         return fetchFn(fromDate, toDate)
