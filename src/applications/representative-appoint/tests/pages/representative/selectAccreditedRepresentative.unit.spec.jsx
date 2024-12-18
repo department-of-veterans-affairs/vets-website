@@ -140,7 +140,7 @@ describe('<SelectAccreditedRepresentative>', () => {
 
     const props = {
       formData: {
-        'view:representativeQuery': 'Valid Query',
+        'view:representativeQueryInput': 'Valid Query',
         'view:selectedRepresentative': null,
       },
     };

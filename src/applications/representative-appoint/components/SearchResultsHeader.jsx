@@ -4,7 +4,7 @@ import React from 'react';
 export const SearchResultsHeader = props => {
   const { query, resultCount, inProgress } = props;
 
-  const searchWasPerformed = query.length > 0;
+  const searchWasPerformed = !!query;
 
   const handleNumberOfResults = () => {
     const headerClasses =
