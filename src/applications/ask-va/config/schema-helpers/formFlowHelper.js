@@ -231,7 +231,7 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      !(form.school || form.schoolInfo?.schoolName) &&
+      (form.school || form.schoolInfo?.schoolName) &&
       (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
         form.yourRoleEducation ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
