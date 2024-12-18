@@ -531,14 +531,11 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 // TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
   const { type, state } = filters;
-  // console.log('filters', { type, state, nameInput });
-
-  if (!nameInput) {
-    return [];
-  }
 
   return results.filter(result => {
     if (result.type === 'exam') return false;
+
+    if (type === 'all' && state === 'all' && nameInput === '') return true;
 
     if (type !== 'all' && type !== result.type) return false;
 
