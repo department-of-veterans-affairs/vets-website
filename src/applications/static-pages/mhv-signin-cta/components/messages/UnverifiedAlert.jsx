@@ -14,22 +14,25 @@ import {
 import CustomAlert from './CustomAlert';
 
 export const headingPrefix = 'Verify your identity';
+export const mhvHeadingPrefix = 'You need to sign in with a different account';
 
 /**
  * Alert to show a user that is not verified (LOA1).
+ * @property {number} headerLevel the heading level
  * @property {*} recordEvent the function to record the event
  * @property {string} serviceDescription optional description of the service that requires verification
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
+  headerLevel,
   recordEvent = recordEventFn,
   serviceDescription,
   signInService = CSP_IDS.ID_ME,
 }) => {
   /**
-   * The default alert to show a user.
+   * The verify service alert to show a user that is logged in with Login.gov or ID.me.
    */
-  const DefaultAlert = () => {
+  const VerifyServiceAlert = () => {
     const signinServiceLabel = SERVICE_PROVIDERS[signInService]?.label;
     const headline = serviceDescription
       ? `${headingPrefix} to ${serviceDescription}`
@@ -43,6 +46,7 @@ const UnverifiedAlert = ({
     return (
       <div data-testid="mhv-unverified-alert">
         <CustomAlert
+          headerLevel={headerLevel}
           headline={headline}
           icon="lock"
           status="warning"
@@ -76,12 +80,16 @@ const UnverifiedAlert = ({
    * The alert to show a user that is logged in with an MHV account.
    */
   const MhvAlert = () => {
-    const mhvHeadingPrefix = 'You need to sign in with a different account';
     const headline = serviceDescription
       ? `${mhvHeadingPrefix} to ${serviceDescription}`
       : mhvHeadingPrefix;
     return (
-      <CustomAlert headline={headline} icon="lock" status="warning">
+      <CustomAlert
+        headerLevel={headerLevel}
+        headline={headline}
+        icon="lock"
+        status="warning"
+      >
         <div>
           <p>
             We need you to sign in with an identity-verified account. This helps
@@ -114,13 +122,15 @@ const UnverifiedAlert = ({
     );
   };
 
-  if (signInService === CSP_IDS.MHV) return MhvAlert();
+  if ([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV].includes(signInService))
+    return VerifyServiceAlert();
 
-  return DefaultAlert();
+  return MhvAlert();
 };
 
 UnverifiedAlert.propTypes = {
   signInService: PropTypes.string.isRequired,
+  headerLevel: PropTypes.number,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };

@@ -8,10 +8,15 @@ export const headingPrefix = 'Sign in with a verified account';
 
 /**
  * Alert to show a user that is not logged in.
+ * @property {number} headerLevel the heading level
  * @property {*} recordEvent the function to record the event
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
+const UnauthenticatedAlert = ({
+  headerLevel,
+  recordEvent,
+  serviceDescription,
+}) => {
   const headline = serviceDescription
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
@@ -24,6 +29,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
   return (
     <div data-testid="mhv-unauthenticated-alert">
       <CustomAlert
+        headerLevel={headerLevel}
         headline={headline}
         icon="lock"
         status="info"
@@ -63,6 +69,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 };
 
 UnauthenticatedAlert.propTypes = {
+  headerLevel: PropTypes.number,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };

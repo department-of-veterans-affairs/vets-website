@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import UnverifiedAlert, {
   headingPrefix,
+  mhvHeadingPrefix,
 } from '../../../components/messages/UnverifiedAlert';
 
 const mockStore = createMockStore([]);
@@ -18,7 +19,7 @@ describe('Unverified Alert component', () => {
         <UnverifiedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 2, name: headingPrefix })).to.exist;
   });
 
   it('with service description', () => {
@@ -33,12 +34,22 @@ describe('Unverified Alert component', () => {
     expect(getByRole('heading', { name: expectedHeadline })).to.exist;
   });
 
+  it('with header level 3', () => {
+    const { getByRole } = render(
+      <Provider store={mockStore()}>
+        <UnverifiedAlert headerLevel={3} />
+      </Provider>,
+    );
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
+  });
+
   it('renders MHV account alert', () => {
-    const { getByText } = render(
+    const { getByRole, getByText } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert signInService={CSP_IDS.MHV} />
       </Provider>,
     );
+    expect(getByRole('heading', { level: 2, name: mhvHeadingPrefix })).to.exist;
     expect(getByText(/You have 2 options/)).to.exist;
   });
 
