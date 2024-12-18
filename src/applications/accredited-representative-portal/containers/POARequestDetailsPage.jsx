@@ -204,7 +204,6 @@ const POARequestDetailsPage = () => {
         <va-alert
           status="info"
           class="poa-request-details__form-alert"
-          aria-hidden="true"
           visible
           aria-live="polite"
           slim
