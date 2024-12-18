@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
@@ -15,6 +16,7 @@ describe('Test download all page', () => {
     DownloadAllPage.verifyErrorValidDateRange(
       'Please select a valid date range.',
     );
+
     DownloadAllPage.selectDateRangeDropdown('Custom');
     DownloadAllPage.clickContinueOnDownloadAllPage();
     DownloadAllPage.verifyValidStartDateError(
@@ -23,6 +25,7 @@ describe('Test download all page', () => {
     DownloadAllPage.selectCustomStartMonth('January');
     DownloadAllPage.selectCustomStartDay('12');
     DownloadAllPage.selectCustomStartYear('2024');
+
     DownloadAllPage.clickContinueOnDownloadAllPage();
     DownloadAllPage.verifyValidEndDateError('Please enter a valid end date.');
 
@@ -46,24 +49,24 @@ describe('Test download all page', () => {
     // DownloadAllPage.verifyErrorValidYear(
     //   'Please enter a year between 1900 and 2124',
     // );
-    DownloadAllPage.selectCustomStartYear('2012');
 
+    DownloadAllPage.selectDateRangeDropdown('Any');
     DownloadAllPage.clickContinueOnDownloadAllPage();
 
-    DownloadAllPage.selectLabsAndTestsCheckbox();
-
-    DownloadAllPage.interceptLabsAndTestsOnDownloadAllPage();
-
+    DownloadAllPage.selectVaccinesCheckbox();
+    DownloadAllPage.interceptVaccinesOnDownloadAllPage();
     DownloadAllPage.interceptPatientOnDownloadAllPage();
 
     DownloadAllPage.clickContinueOnDownloadAllPage();
 
     DownloadAllPage.clickPDFRadioButton();
-
     DownloadAllPage.clickDownloadReport();
-
     DownloadAllPage.verifyDownloadStartedAlert();
-
+    site.verifyDownloadedPdfFile(
+      'VA-Blue-Button-report-Safari-Mhvtp',
+      moment(),
+      '',
+    );
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

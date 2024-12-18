@@ -1,4 +1,5 @@
 import DownloadAllLabsAndTests from '../fixtures/labs-and-tests/downloadAllLabsAndTests.json';
+import DownloadAllVaccines from '../fixtures/labs-and-tests/downloadAllVaccines.json';
 import DownloadAllPatient from '../fixtures/labs-and-tests/downloadAllPatient.json';
 
 class DownloadAllPage {
@@ -132,11 +133,25 @@ class DownloadAllPage {
       .check({ force: true });
   };
 
+  selectVaccinesCheckbox = () => {
+    cy.get('[data-testid="vaccines-checkbox"]')
+      .find('input')
+      .check({ force: true });
+  };
+
   interceptLabsAndTestsOnDownloadAllPage = () => {
     cy.intercept(
       'GET',
       'my_health/v1/medical_records/labs_and_tests',
       DownloadAllLabsAndTests,
+    );
+  };
+
+  interceptVaccinesOnDownloadAllPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/vaccines',
+      DownloadAllVaccines,
     );
   };
 
@@ -156,7 +171,7 @@ class DownloadAllPage {
   };
 
   clickDownloadReport = () => {
-    cy.get('[data-testid="blue-button-download-report"]').click();
+    cy.get('[data-testid="download-report-button"]').click();
   };
 
   verifyDownloadStartedAlert = () => {

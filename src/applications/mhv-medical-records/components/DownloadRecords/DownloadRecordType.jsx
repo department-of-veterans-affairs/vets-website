@@ -178,6 +178,7 @@ const DownloadRecordType = () => {
               setVaccineCheck(e.detail.checked);
               handleSingleCheck('vaccines', e);
             }}
+            data-testid="vaccines-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
