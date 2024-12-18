@@ -37,7 +37,6 @@ describe('MrBreadcrumbs component', () => {
       reducers: reducer,
       path: '/',
     });
-    screen.debug();
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
   });
