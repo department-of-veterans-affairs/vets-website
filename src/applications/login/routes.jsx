@@ -15,6 +15,10 @@ const routes = {
             path: 'mocked-auth',
             component: MockAuth,
           },
+          {
+            path: 'access-myhealthevet-test-account',
+            component: MhvSignIn,
+          },
         ]
       : [
           {
