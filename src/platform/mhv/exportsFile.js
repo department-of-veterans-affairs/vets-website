@@ -23,3 +23,4 @@ export {
   reportGeneratedBy,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
+export { default as MhvAlerts } from './alerts/components/MhvAlerts';

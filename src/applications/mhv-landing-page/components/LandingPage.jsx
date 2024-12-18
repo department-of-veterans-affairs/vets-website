@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   renderMHVDowntime,
   MhvSecondaryNav,
+  MhvAlerts,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import DowntimeNotification, {
@@ -15,7 +16,6 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
-import Alerts from '../containers/Alerts';
 import {
   isLOA3,
   isVAPatient,
@@ -59,7 +59,7 @@ const LandingPage = ({ data = {} }) => {
             ssoe={ssoe}
             showMhvGoBack={userRegistered}
           />
-          <Alerts />
+          <MhvAlerts />
           {userRegistered && <CardLayout data={cards} />}
         </div>
         {userRegistered && (

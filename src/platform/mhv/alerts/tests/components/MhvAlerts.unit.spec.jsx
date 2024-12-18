@@ -1,19 +1,21 @@
 import React from 'react';
 import { expect } from 'chai';
-
+import { waitFor } from '@testing-library/react';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
-import Alerts from '../../containers/Alerts';
+import MhvAlerts from '../../components/MhvAlerts';
 
 const stateFn = ({
   loa = 3,
+  loading = false,
   mhvAccountState = 'OK',
   serviceName = CSP_IDS.LOGIN_GOV,
   vaPatient = true,
 } = {}) => ({
   user: {
     profile: {
+      loading,
       loa: { current: loa },
       mhvAccountState,
       signIn: { serviceName },
@@ -22,13 +24,29 @@ const stateFn = ({
   },
 });
 
-const setup = ({ initialState = stateFn() } = {}) =>
-  renderInReduxProvider(<Alerts />, { initialState });
+const setup = ({ initialState = stateFn(), jsx = <MhvAlerts /> } = {}) =>
+  renderInReduxProvider(jsx, { initialState });
 
-describe('<Alerts /> container', () => {
+describe('<MhvAlerts /> container', () => {
   it('renders nothing', () => {
     const { container } = setup();
     expect(container).to.be.empty;
+  });
+
+  it('renders <Loading />', async () => {
+    const initialState = stateFn({ loading: true });
+    const { getByTestId } = setup({ initialState });
+    await waitFor(() => {
+      getByTestId('mhv-alert--loading');
+    });
+  });
+
+  it('renders children', () => {
+    const content = <div data-testid="app--content" />;
+    const jsx = <MhvAlerts>{content}</MhvAlerts>;
+    const { findAllByTestId, getByTestId } = setup({ jsx });
+    getByTestId('app--content');
+    expect(findAllByTestId(/^mhv-alert--/)).to.be.empty;
   });
 
   it('renders <AlertMhvBasicAccount />', () => {

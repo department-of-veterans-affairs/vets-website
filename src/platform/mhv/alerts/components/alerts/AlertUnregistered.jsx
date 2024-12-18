@@ -18,7 +18,7 @@ const AlertUnregistered = ({ headline, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlert status="warning" data-testid={testId} disableAnalytics>
+    <VaAlert status="warning" data-testid={testId}>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">

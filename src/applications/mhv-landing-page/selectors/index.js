@@ -17,7 +17,6 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
-import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
@@ -37,5 +36,4 @@ export {
   selectProfile,
   signInServiceEnabled,
   signInServiceName,
-  showVerifyAndRegisterAlert,
 };

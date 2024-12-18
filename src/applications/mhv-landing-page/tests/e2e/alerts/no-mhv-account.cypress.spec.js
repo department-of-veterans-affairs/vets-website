@@ -1,7 +1,6 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import MhvRegistrationAlert from '../../../components/alerts/AlertMhvRegistration';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
   beforeEach(() => {
@@ -12,7 +11,7 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     LandingPage.visit({ mhvAccountState: 'NONE' });
     cy.injectAxeThenAxeCheck();
     cy.findByRole('heading', {
-      name: MhvRegistrationAlert.defaultProps.headline,
+      name: 'Register your account with My HealtheVet',
     }).should.exist;
 
     // Check the cards and hubs are visible
@@ -24,7 +23,7 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     LandingPage.visit({ mhvAccountState: 'OK' });
     cy.injectAxeThenAxeCheck();
     cy.findByRole('heading', {
-      name: MhvRegistrationAlert.defaultProps.headline,
+      name: 'Register your account with My HealtheVet',
     }).should('not.exist');
 
     // Check the cards and hubs are visible

@@ -35,7 +35,7 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlert data-testid={testId} status="warning" visible>
+    <VaAlert data-testid={testId} status="warning">
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--2">
