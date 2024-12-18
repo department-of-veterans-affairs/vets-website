@@ -63,6 +63,7 @@ AlertMhvUserAction.defaultProps = {
 };
 
 AlertMhvUserAction.propTypes = {
+  errorCode: PropTypes.string,
   title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
