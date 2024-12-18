@@ -23,7 +23,7 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
-import YellowRibbonTable from './YellowRibbonTable';
+import YellowRibbonSelector from './YellowRibbonSelector';
 import Programs from './Programs';
 
 export default function InstitutionProfile({
@@ -202,7 +202,7 @@ export default function InstitutionProfile({
       {institution.yr === true &&
         toggleValue && (
           <ProfileSection
-            label="Yellow ribbon program information"
+            label="Yellow Ribbon Program information"
             id="yellow-ribbon-program-information"
           >
             <p>
@@ -220,13 +220,17 @@ export default function InstitutionProfile({
             <va-link
               href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               text="Find out if you qualify for the Yellow Ribbon Program"
+              className="vads-u-margin-bottom--2"
             />
 
-            <div className="additional-info-wrapper vads-u-padding-top--4">
-              <p className="vads-u-font-weight--bold ">
-                What to know about the content displayed in this table
-              </p>
-              <ul>
+            <div className="additional-info-wrapper vads-u-margin-top--2p5">
+              <div className="subsection vads-u-margin-bottom--2">
+                <h3 className="small-screen-header">
+                  What to know about the content displayed below
+                </h3>
+              </div>
+
+              <ul className="getting-started-with-benefits-li">
                 <li>
                   Degree level: Type of degree such as Undergraduate, Graduate,
                   Masters, or Doctorate.
@@ -248,9 +252,8 @@ export default function InstitutionProfile({
               </ul>
             </div>
             {institution.yellowRibbonPrograms.length > 0 ? (
-              <YellowRibbonTable
+              <YellowRibbonSelector
                 programs={institution.yellowRibbonPrograms}
-                smallScreen={smallScreen}
               />
             ) : (
               <p className="vads-u-font-weight--bold vads-u-padding-top--3">
