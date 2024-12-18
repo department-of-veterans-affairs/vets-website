@@ -3,12 +3,12 @@ import {
   CategoryEducation,
   CHAPTER_2,
   CHAPTER_3,
-  healthcareCategoryLabels,
   schoolInYourProfileOptions,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
   isBranchOfServiceRequired,
+  isHealthFacilityRequired,
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
   isStateOfPropertyRequired,
@@ -302,7 +302,7 @@ const ch3Pages = {
     CustomPageReview: CustomPageReviewField,
   },
   yourVAHealthFacility: {
-    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
+    depends: form => isHealthFacilityRequired(form),
     path: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.PATH,
     title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
     CustomPage: YourVAHealthFacilityPage,
@@ -472,18 +472,6 @@ export const flowPages = (obj, list, path) => {
       } else {
         flowGroup[key].depends = newCondition;
       }
-    }
-
-    // If last in the list, on nav forward go to the You question page
-    if (list.length === index + 1) {
-      flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath(CHAPTER_2.PAGE_3.PATH); // your-question
-    }
-
-    // If first in the list, on nav backward go to the Who is your question about page
-    if (index === 0) {
-      flowGroup[key].onNavBack = ({ goPath }) =>
-        goPath('/who-is-your-question-about');
     }
   });
   return flowGroup;

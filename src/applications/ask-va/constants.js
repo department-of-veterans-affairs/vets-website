@@ -13,7 +13,7 @@ export const URL = {
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  GET_INQUIRIES: `${baseURL}/inquiries`, // ?user_mock_data=true
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
@@ -365,7 +365,7 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
-    TITLE: 'Tell us more about your relationship?',
+    TITLE: 'Tell us more about your relationship',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
@@ -538,6 +538,15 @@ export const CHAPTER_3 = {
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
   },
+  VETERAN_VA_HEALTH_FACILITY: {
+    TITLE: "Veteran's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  FAMILY_MEMBER_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: "Family member's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
   YOUR_VRE_INFORMATION: {
     TITLE:
       'Have you ever applied for Veteran Readiness and Employment benefits and services?',
@@ -562,6 +571,10 @@ export const CHAPTER_3 = {
     TITLE: 'Your branch of service',
     DESCRIPTION: 'Select your branch of service',
     ERROR: 'Please select your branch of service',
+  },
+  VETERANS_BRANCH_OF_SERVICE: {
+    TITLE: 'Branch of service',
+    ERROR: "Please select the Veteran's branch of service",
   },
 };
 
