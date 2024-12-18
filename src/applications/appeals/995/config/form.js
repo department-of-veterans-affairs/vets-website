@@ -18,7 +18,6 @@ import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest'
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
-import EvidencePrivateLimitation2 from '../components/EvidencePrivateLimitation2';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
@@ -46,6 +45,8 @@ import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecords
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateLimitationRequest from '../pages/evidencePrivateLimitationRequest';
+import evidencePrivateLimitation from '../pages/evidencePrivateLimitation';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -54,6 +55,8 @@ import evidenceSummary from '../pages/evidenceSummary';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
+  hasOriginalPrivateLimitation,
+  hasNewPrivateLimitation,
   hasPrivateLimitation,
   hasOtherEvidence,
   onFormLoaded,
@@ -69,6 +72,7 @@ import {
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
   EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
@@ -328,6 +332,23 @@ const formConfig = {
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
         },
+        evidencePrivateLimitationRequest: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH1,
+          depends: hasNewPrivateLimitation,
+          uiSchema: evidencePrivateLimitationRequest.uiSchema,
+          schema: evidencePrivateLimitationRequest.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        // Duplicate of evidencePrivateLimitation page, but doesn't need to
+        // CustomPage to handle navigation
+        evidencePrivateLimitation2: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH2,
+          depends: hasPrivateLimitation,
+          uiSchema: evidencePrivateLimitation.uiSchema,
+          schema: evidencePrivateLimitation.schema,
+        },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
@@ -338,21 +359,12 @@ const formConfig = {
           schema: evidencePrivateRecords.schema,
           scrollAndFocusTarget: focusEvidence,
         },
+        // Original limitation page
         evidencePrivateLimitation: {
           title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
-          depends: hasPrivateEvidence,
+          depends: hasOriginalPrivateLimitation,
           CustomPage: EvidencePrivateLimitation,
-          CustomPageReview: null,
-          uiSchema: blankUiSchema,
-          schema: blankSchema,
-        },
-        // Duplicate of limitation page, but renders different content based on
-        evidencePrivateLimitation2: {
-          title: 'Non-VA medical record limitations',
-          path: EVIDENCE_LIMITATION_PATH2,
-          depends: hasPrivateLimitation,
-          CustomPage: EvidencePrivateLimitation2,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
