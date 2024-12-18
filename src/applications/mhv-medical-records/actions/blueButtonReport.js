@@ -14,8 +14,6 @@ import {
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 
-import {} from '../util/constants';
-
 export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
 };

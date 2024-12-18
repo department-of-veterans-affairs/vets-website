@@ -280,6 +280,7 @@ ${record.results}`;
       <va-button
         class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
+        data-testid="radiology-request-images-button"
         disabled={imageRequest?.percentComplete < 100}
         ref={elementRef}
         text="Request Images"
