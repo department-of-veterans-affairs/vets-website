@@ -7,7 +7,7 @@ export default function MhvSignIn() {
   const [isValidEmail, setIsValidEmail] = useState(true);
 
   const isAllowedEmail = user => {
-    const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|myhealth\.com)$/;
+    const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
     return pattern.test(user);
   };
 
@@ -22,7 +22,7 @@ export default function MhvSignIn() {
   };
 
   return (
-    <section className="container login">
+    <section className="container row login">
       <div className="columns small-12">
         <h1 id="signin-signup-modal-title">My HealtheVet test account</h1>
         <p>
@@ -30,7 +30,9 @@ export default function MhvSignIn() {
           staff only.
         </p>
       </div>
-      <h2>Enter your VA or Oracle Health email</h2>
+      <h2 className="vads-u-padding-top--4">
+        Enter your VA or Oracle Health email
+      </h2>
       <va-text-input
         hint={null}
         label="Your VA email"
@@ -46,19 +48,19 @@ export default function MhvSignIn() {
       />
       <va-checkbox
         label="I’m using My HealtheVet for official VA testing, training, or development purposes."
-        message-aria-describedby="I’m using My HealtheVet for official VA testing, training, or development purposes."
-        enable-analytics
+        aria-label="I’m using My HealtheVet for official VA testing, training, or development purposes."
         checked={checkboxChecked}
         onChange={handleCheckboxChange}
+        required
+        clasName="vads-u-padding-y--2"
       />
-      <LoginButton
-        csp="mhv"
-        key="mhv"
-        useOAuth={false}
-        disabled={isValidEmail && checkboxChecked}
-      />
-      <h2>Having trouble signing in?</h2>
-      <p>Contact the administrator who gave you access to your test account.</p>
+      <LoginButton csp="mhv" key="mhv" useOAuth={false} />
+      <div className="vads-u-margin-y--6">
+        <h2>Having trouble signing in?</h2>
+        <p>
+          Contact the administrator who gave you access to your test account.
+        </p>
+      </div>
     </section>
   );
 }
