@@ -4,7 +4,10 @@ import LinkWithDescription from './LinkWithDescription';
 const HomePage = () => {
   return (
     <div className="vads-u-margin-bottom--8">
-      <p className="vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4">
+      <p
+        className="vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
+        data-testid="comparison-tool-description"
+      >
         Discover how your GI Bill benefits can support your education. Search
         and compare approved schools, employers, exams, licenses, and
         certifications to see how much your VA benefits can help cover.
