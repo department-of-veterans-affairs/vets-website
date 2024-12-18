@@ -23,10 +23,13 @@ const SelectAccreditedRepresentative = props => {
     goToPath,
   } = props;
 
+  const queryInput = formData['view:representativeQueryInput'];
+  const querySubmission = formData['view:representativeQuerySubmission'];
+  const invalidQuery = queryInput === undefined || !queryInput.trim();
+
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
-  const query = formData['view:representativeQueryInput'];
-  const invalidQuery = query === undefined || !query.trim();
+
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
 
@@ -36,7 +39,6 @@ const SelectAccreditedRepresentative = props => {
   const [loadingReps, setLoadingReps] = useState(false);
   const [loadingPOA, setLoadingPOA] = useState(false);
   const [error, setError] = useState(null);
-  const [searchHeaderQuery, setSearchHeaderQuery] = useState('');
 
   const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
@@ -98,14 +100,12 @@ const SelectAccreditedRepresentative = props => {
     setError(null);
 
     try {
-      const res = await fetchRepresentatives({ query });
+      const res = await fetchRepresentatives({ queryInput });
       setFormData({
         ...formData,
-        'view:representativeQuerySubmission': query,
+        'view:representativeQuerySubmission': queryInput,
         'view:representativeSearchResults': res,
       });
-      setSearchHeaderQuery(query);
-      // setSearchWasPerformed(true);
     } catch (err) {
       setError(err.errorMessage);
     } finally {
@@ -150,11 +150,9 @@ const SelectAccreditedRepresentative = props => {
 
       if (searchHeader) {
         focusElement('.search-header');
-      } else if (formData['view:representativeQueryInput']) {
-        setSearchHeaderQuery(formData['view:representativeQueryInput']);
       }
     },
-    [searchHeaderQuery, loadingReps, representativeResults?.length],
+    [loadingReps, representativeResults?.length],
   );
 
   if (loadingPOA) {
@@ -179,7 +177,7 @@ const SelectAccreditedRepresentative = props => {
       ) : null}
       <SearchResultsHeader
         inProgress={loadingReps}
-        query={formData['view:representativeQuerySubmission']}
+        query={querySubmission}
         resultCount={representativeResults?.length}
       />
       {representativeResults &&
