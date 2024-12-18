@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
 import { filterLcResults } from '../utils/helpers';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
+  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredResults, setFilteredResults] = useState(lcResults);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
 
@@ -53,14 +57,20 @@ function LicenseCertificationSearchResults({
     setCurrentPage(page);
   };
 
-  if (fetchingLc) {
-    return <h2>Loading</h2>;
-  }
+  // if (error) {
+  //   {/* ERROR STATE */}
+  // }
 
   return (
     <div>
+      {fetchingLc && (
+        <VaLoadingIndicator
+          // data-testid="loading-indicator"
+          message="Loading..."
+        />
+      )}
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {hasFetchedOnce && filteredResults.length !== 0 ? (
+        {!fetchingLc && hasFetchedOnce && filteredResults.length !== 0 ? (
           <>
             <div className="row">
               <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
@@ -85,23 +95,24 @@ function LicenseCertificationSearchResults({
               </p>
             </div>
             <div className="row">
-              {currentResults.map((result, index) => {
-                return (
-                  <div className="vads-u-padding-bottom--2" key={index}>
-                    <va-card class="vads-u-background-color--gray-lightest">
-                      <h3 className="vads-u-margin--0">{result.name}</h3>
-                      <h4 className="lc-card-subheader vads-u-margin-y--1p5">
-                        {result.type}
-                      </h4>
-                      <va-link-action
-                        href={`results/${result.link.split('lce/')[1]}`}
-                        text="View test amount details"
-                        type="secondary"
-                      />
-                    </va-card>
-                  </div>
-                );
-              })}
+              {filteredResults.length > 0 &&
+                currentResults.map((result, index) => {
+                  return (
+                    <div className="vads-u-padding-bottom--2" key={index}>
+                      <va-card class="vads-u-background-color--gray-lightest">
+                        <h3 className="vads-u-margin--0">{result.name}</h3>
+                        <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                          {result.type}
+                        </h4>
+                        <va-link-action
+                          href={`results/${result.link.split('lce/')[1]}`}
+                          text="View test amount details"
+                          type="secondary"
+                        />
+                      </va-card>
+                    </div>
+                  );
+                })}
             </div>
             <VaPagination
               page={currentPage}
@@ -129,12 +140,14 @@ LicenseCertificationSearchResults.propTypes = {
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
   lcResults: PropTypes.array,
+  // error: Proptypes // verify error Proptypes
 };
 
 const mapStateToProps = state => ({
   fetchingLc: state.licenseCertificationSearch.fetchingLc,
   hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
   lcResults: state.licenseCertificationSearch.lcResults,
+  // error: // create error state in redux store
 });
 
 const mapDispatchToProps = {
