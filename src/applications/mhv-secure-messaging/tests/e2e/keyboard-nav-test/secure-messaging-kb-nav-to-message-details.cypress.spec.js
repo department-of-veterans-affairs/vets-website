@@ -13,6 +13,7 @@ describe('Navigate to Message Details ', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+    GeneralFunctionsPage.verifyHeaderFocused();
   });
 
   it('keyboard navigation to expand messages', () => {
