@@ -3,7 +3,10 @@ import React from 'react';
 const InfoDisclaimer = () => {
   return (
     <div className="border-bottom vads-u-margin-top--3 vads-u-margin-bottom--2 ">
-      <p className="vads-u-font-family--sans vads-u-color--gray-dark">
+      <p
+        className="vads-u-font-family--sans vads-u-color--gray-dark"
+        data-testid="info-disclaimer"
+      >
         Please note: Content on this Web page is for informational purposes
         only. It is not intended to provide legal advice or to be a
         comprehensive statement or analysis of applicable statutes, regulations,
