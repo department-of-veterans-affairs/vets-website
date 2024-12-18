@@ -73,7 +73,7 @@ export default function LicenseCertificationSearchForm({
 
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name') ?? '';
-  const category = searchParams.get('category') ?? 'all';
+  const categoryParam = searchParams.get('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
   const [categoryDropdown, locationDropdown] = dropdowns;
@@ -81,9 +81,9 @@ export default function LicenseCertificationSearchForm({
   // Update dropdown values when param values change
   useEffect(
     () => {
-      setDropdowns(updateDropdowns(category, stateParam));
+      setDropdowns(updateDropdowns(categoryParam, stateParam));
     },
-    [category, stateParam],
+    [categoryParam, stateParam],
   );
 
   // Update query params in special cases
@@ -134,6 +134,9 @@ export default function LicenseCertificationSearchForm({
     const { type, state } = selection;
 
     const newDropdowns = updateDropdowns(type, state);
+
+    // Match conditions here with correct alert type in comnponent below
+    // use conditions here to show alert, use same condition for the corresponding alert in the component
 
     if (type === 'license' && locationDropdown.current.optionValue !== state) {
       setShowAlert(true);
