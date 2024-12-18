@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
 
-const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
+const buildData = ({
+  ssnLastFour = '',
+  vaFileLastFour = '',
+  useV2 = true,
+}) => ({
   prefill: {
     data: {},
     nonPrefill: {
@@ -10,6 +14,7 @@ const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
     },
   },
   result: {
+    useV2,
     veteranInformation: {
       ssnLastFour,
       vaFileLastFour,

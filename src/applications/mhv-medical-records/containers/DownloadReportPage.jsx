@@ -22,6 +22,7 @@ import {
   makePdf,
   getLastSuccessfulUpdate,
   formatUserDob,
+  sendDataDogAction,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
@@ -311,6 +312,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         href="/my-health/medical-records/download/date-range"
         label="Select records and download"
         text="Select records and download"
+        data-dd-action-name="Select records and download"
+        onClick={() => sendDataDogAction('Select records and download')}
       />
       <h2>Other reports you can download</h2>
       {accessErrors()}
@@ -340,14 +343,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() =>
+              onClick={() => {
                 dispatch(
                   genAndDownloadCCD(
                     userProfile.userFullName.first,
                     userProfile.userFullName.last,
                   ),
-                )
-              }
+                );
+                sendDataDogAction(
+                  'Download Continuity of Care Document xml Link',
+                );
+              }}
               text="Download .xml file"
               data-testid="generateCcdButton"
             />
@@ -380,7 +386,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={generateSEIPdf}
+              onClick={() => {
+                generateSEIPdf();
+                sendDataDogAction('Self entered health information PDF link ');
+              }}
               text="Download PDF"
               data-testid="downloadSelfEnteredButton"
             />

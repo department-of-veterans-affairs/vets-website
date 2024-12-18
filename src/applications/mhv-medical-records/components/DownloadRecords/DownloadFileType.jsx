@@ -23,6 +23,7 @@ import {
   generateTextFile,
   getLastUpdatedText,
   formatUserDob,
+  sendDataDogAction,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -375,6 +376,14 @@ const DownloadFileType = props => {
     [dispatch, isDataFetched, recordData, user],
   );
 
+  const handleDdRum = useCallback(e => {
+    const selectedNode = Array.from(e.target.childNodes).find(
+      node => node.value === e.detail.value,
+    );
+    const selectedText = selectedNode ? selectedNode.innerText : '';
+    sendDataDogAction(`${selectedText} - File type`);
+  }, []);
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -419,7 +428,10 @@ const DownloadFileType = props => {
             </div>
             <VaRadio
               label="If you use assistive technology, a text file may work better for you."
-              onVaValueChange={e => setFileType(e.detail.value)}
+              onVaValueChange={e => {
+                setFileType(e.detail.value);
+                handleDdRum(e);
+              }}
             >
               <va-radio-option label="PDF" value="pdf" />
               <va-radio-option label="Text file" value="txt" />
@@ -435,7 +447,10 @@ const DownloadFileType = props => {
           <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
             <button
               className="usa-button-secondary vads-u-margin-y--0p5"
-              onClick={() => history.push('/download/record-type')}
+              onClick={() => {
+                history.push('/download/record-type');
+                sendDataDogAction('File type - Back - Record type');
+              }}
             >
               <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
                 <va-icon icon="navigate_far_before" size={2} />
@@ -452,6 +467,7 @@ const DownloadFileType = props => {
                 } else if (fileType === 'txt') {
                   generateTxt().then(() => history.push('/download'));
                 }
+                sendDataDogAction('File type - Continue - Record type');
               }}
             >
               Download report
