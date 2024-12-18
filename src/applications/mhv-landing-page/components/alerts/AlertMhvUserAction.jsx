@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 const AlertMhvUserAction = ({ errorCode, testId, recordEvent }) => {
-  const headline = `Contact the My HealtheVet help desk: Error code ${errorCode}`;
+  const headline = `Error code ${errorCode}: Contact the My HealtheVet help desk`;
   useEffect(
     () => {
       recordEvent({
