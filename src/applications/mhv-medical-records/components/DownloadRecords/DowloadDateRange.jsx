@@ -12,6 +12,7 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -44,6 +45,12 @@ const DownloadDateRange = () => {
           ),
         );
       }
+      // handle DD RUM
+      const selectedNode = Array.from(e.target.childNodes).find(
+        node => node.value === e.detail.value,
+      );
+      const selectedText = selectedNode ? selectedNode.innerText : '';
+      sendDataDogAction(`Date range option - ${selectedText}`);
     },
     [setSelectedDate],
   );
@@ -131,6 +138,7 @@ const DownloadDateRange = () => {
         continue
         onSecondaryClick={() => {
           history.push('/download');
+          sendDataDogAction('Date range  - Back');
         }}
         onPrimaryClick={() => {
           if (selectedDate === '') {
@@ -148,6 +156,7 @@ const DownloadDateRange = () => {
             }
           }
           history.push('/download/record-type');
+          sendDataDogAction('Date range  - Continue');
         }}
       />
       <NeedHelpSection />

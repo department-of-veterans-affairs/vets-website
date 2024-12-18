@@ -32,14 +32,13 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 const autocompleteUiSchema = {
-  'ui:reviewField': ({ children }) => children,
   'ui:field': data => (
     <Autocomplete
       availableResults={Object.values(disabilityLabelsRevised)}
       debounceDelay={200}
       id={data.idSchema.$id}
-      label="Enter your condition"
       formData={data.formData}
+      label="Enter your condition"
       onChange={data.onChange}
     />
   ),
@@ -81,36 +80,58 @@ const comboboxUiSchema = combobox.uiSchema('Enter your condition', {
   },
 });
 
-export const uiSchema = {
-  newDisabilities: {
-    'ui:description': addDisabilitiesInstructions,
-    'ui:field': ArrayField,
+const allClaimsArrayFieldWithCombobox = {
+  'ui:description': addDisabilitiesInstructions,
+  'ui:field': ArrayField,
+  'ui:options': {
+    viewField: NewDisability,
+    reviewTitle: 'Conditions',
+    duplicateKey: 'condition',
+    itemName: 'Condition',
+    itemAriaLabel: data => data.condition,
+    includeRequiredLabelInTitle: true,
+    classNames: 'cc-autocomplete-container',
+  },
+  useNewFocus: true,
+  // Ideally, this would show the validation on the array itself (or the name
+  // field in an array item), but that's not working.
+  'ui:validations': [requireDisability],
+  items: {
+    condition: comboboxUiSchema,
+    // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
+    // disabled until design changes have been approved
+    'ui:objectViewField': ConditionReviewField,
     'ui:options': {
-      viewField: NewDisability,
-      reviewTitle: 'Conditions',
-      duplicateKey: 'condition',
-      itemName: 'Condition',
       itemAriaLabel: data => data.condition,
-      includeRequiredLabelInTitle: true,
-      classNames: 'cc-autocomplete-container',
-    },
-    useNewFocus: true,
-    // Ideally, this would show the validation on the array itself (or the name
-    // field in an array item), but that's not working.
-    'ui:validations': [requireDisability],
-    items: {
-      condition: getShowAddDisabilitiesEnhancement()
-        ? autocompleteUiSchema
-        : comboboxUiSchema,
-      // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
-      // disabled until design changes have been approved
-      'ui:objectViewField': ConditionReviewField,
-      'ui:options': {
-        itemAriaLabel: data => data.condition,
-        itemName: 'New condition',
-      },
+      itemName: 'New condition',
     },
   },
+};
+
+const platformArrayFieldWithAutocomplete = {
+  'ui:description': addDisabilitiesInstructions,
+  'ui:options': {
+    itemName: 'Condition',
+    itemAriaLabel: data => data.condition,
+    viewField: NewDisability,
+    customTitle: ' ',
+    confirmRemove: true,
+    useDlWrap: true,
+    useVaCards: true,
+    showSave: true,
+    reviewMode: true,
+    keepInPageOnReview: false,
+  },
+  'ui:validations': [requireDisability],
+  items: {
+    condition: autocompleteUiSchema,
+  },
+};
+
+export const uiSchema = {
+  newDisabilities: getShowAddDisabilitiesEnhancement()
+    ? platformArrayFieldWithAutocomplete
+    : allClaimsArrayFieldWithCombobox,
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
     'view:newOnlyAlert': {
