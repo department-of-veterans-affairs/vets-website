@@ -59,6 +59,10 @@ export default class PageObject {
   }
 
   assertModal({ text, exist, status }) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
+
     cy.get(`va-modal[status=${status}]`)
       .as('modal')
       .shadow();
