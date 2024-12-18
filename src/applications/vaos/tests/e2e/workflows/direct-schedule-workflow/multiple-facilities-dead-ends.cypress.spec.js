@@ -61,13 +61,13 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
       });
     });
 
-    describe('And "404 error" at direct eligibility API, request disabled', () => {
+    describe('And "502 error" at direct eligibility API, request disabled', () => {
       it('should display warning message', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityCCApi({ cceType, isEligible: false });
-        mockEligibilityDirectApi({ responseCode: 404 });
+        mockEligibilityDirectApi({ responseCode: 502 });
         mockEligibilityRequestApi({ response: {} });
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
@@ -95,7 +95,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You.ll need to call the facility to schedule an appointment/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
