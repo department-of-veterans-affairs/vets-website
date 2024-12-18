@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { formatDateShort } from 'platform/utilities/date/index';
-import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -24,7 +25,15 @@ const checkAuthorizations = (
 
 const POARequestDetailsPage = () => {
   const poaRequest = useLoaderData();
-
+  const [isVisible, setIsVisible] = useState(false);
+  const handleChange = e => {
+    const radioValue = e.detail.value;
+    if (radioValue === '6') {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
   return (
     <section className="poa-request-details">
       <h1>
@@ -162,6 +171,73 @@ const POARequestDetailsPage = () => {
         </li>
       </ul>
       <Link to="/poa-requests/">Back to power of attorney list</Link>
+
+      <form action="" className="poa-request-details__form">
+        <VaRadio
+          header-aria-describedby={null}
+          hint=""
+          label="Do you accept or decline this POA request?"
+          label-header-level="4"
+          class="poa-request-details__form-label"
+          onVaValueChange={handleChange}
+        >
+          <VaRadioOption label="I accept the request" name="group" value="1" />
+          <VaRadioOption
+            label="I decline the request, because the claimant didn't provide access to health records"
+            name="group"
+            value="2"
+          />
+          <VaRadioOption
+            label="I decline the request, because the claimant didn't allow me to change their address"
+            name="group"
+            value="3"
+          />
+          <VaRadioOption
+            label="I decline the request, because the claimant did not provide access to change address and to health records"
+            name="group"
+            value="4"
+          />
+          <VaRadioOption
+            label="I decline the request, because the VSO is not currently accepting new clients"
+            name="group"
+            value="5"
+          />
+          <VaRadioOption
+            label="I decline for another reason"
+            name="group"
+            value="6"
+            onVaValueChange={handleChange}
+          />
+        </VaRadio>
+        {isVisible && (
+          <div className="form-expanding-group-open">
+            <va-textarea
+              label=" Please indicate why you are declining this request"
+              name="decline-reason"
+              required
+            />
+          </div>
+        )}
+
+        <va-alert
+          status="info"
+          class="poa-request-details__form-alert"
+          aria-hidden="true"
+          visible
+          aria-live="polite"
+          slim
+        >
+          <p className="vads-u-margin-y--0">
+            We will send the claimant an email letting them know your decision.
+          </p>
+        </va-alert>
+
+        <va-button
+          text="Submit Decision"
+          type="submit"
+          class="poa-request-details__form-submit"
+        />
+      </form>
     </section>
   );
 };
