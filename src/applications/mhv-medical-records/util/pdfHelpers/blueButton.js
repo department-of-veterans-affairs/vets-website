@@ -127,7 +127,7 @@ export const generateBlueButtonData = (
     ],
     selected:
       recordFilter.includes('allergies') ||
-      (recordFilter.includes('medications') && medications.length),
+      (recordFilter.includes('medications') && medications?.length > 0),
     records: allergies?.length ? generateAllergiesContent(allergies) : [],
   });
 
