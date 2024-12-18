@@ -74,6 +74,28 @@ export default function getEligibilityMessage({
   } else if (requestReason === ELIGIBILITY_REASONS.error) {
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
+  } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
+    title = 'You can’t schedule this appointment online';
+    const contact = facilityDetails?.telecom?.find(
+      tele => tele.system === 'phone',
+    )?.value;
+
+    content = (
+      <>
+        <p>You’ll need to call the facility to schedule an appointment.</p>
+        <p>
+          <strong>{facilityDetails.name}</strong>
+          <br />
+          <strong>Main phone: </strong>
+          <VaTelephone contact={contact} />
+          <span>
+            &nbsp;(
+            <VaTelephone contact="711" tty data-testid="tty-telephone" />)
+          </span>
+        </p>
+        <p>Or you can go back and choose a different facility.</p>.
+      </>
+    );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     title = 'You can’t schedule this appointment online';
     const contact = facilityDetails?.telecom?.find(

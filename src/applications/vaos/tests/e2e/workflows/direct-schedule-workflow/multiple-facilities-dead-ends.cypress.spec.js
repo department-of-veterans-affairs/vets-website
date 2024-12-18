@@ -61,6 +61,48 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
       });
     });
 
+    describe('And "404 error" at direct eligibility API, request disabled', () => {
+      it('should display warning message', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+        mockEligibilityCCApi({ cceType, isEligible: false });
+        mockEligibilityDirectApi({ responseCode: 404 });
+        mockEligibilityRequestApi({ response: {} });
+        mockFacilitiesApi({
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983', '984'],
+          }),
+        });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983', '984'],
+          typeOfCareId: 'primaryCare',
+          isDirect: true,
+          isRequest: false,
+        });
+
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .selectLocation(/Facility 983/i)
+          .clickNextButton()
+          .assertWarningModal({
+            text: /You’ll need to call the facility to schedule an appointment/i,
+          });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+
     describe('And no clinics configured', () => {
       it('should display warning', () => {
         // Arrange

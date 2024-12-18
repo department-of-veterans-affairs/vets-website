@@ -543,7 +543,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       await screen.findByTestId('eligibilityModal');
     });
 
-    it('should show error message when eligibility calls fail', async () => {
+    it('should show error message when request eligibility call fails - direct schedule not supported', async () => {
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
           id: '983',
@@ -581,6 +581,49 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       expect(await screen.findByText(/something went wrong on our end/i)).to
         .exist;
+    });
+
+    it('should show alert message when direct eligibility call fails -  request is not supported', async () => {
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+          requestEnabled: false,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+          requestEnabled: false,
+        }),
+      ]);
+      // Fail eligibility call
+      setFetchJSONFailure(
+        global.fetch.withArgs(
+          `${
+            environment.API_URL
+          }/vaos/v2/eligibility?facility_id=983&clinical_service_id=primaryCare&type=direct`,
+          {
+            errors: [],
+          },
+        ),
+      );
+
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      expect(
+        await screen.findByText(
+          /You’ll need to call the facility to schedule an appointment/i,
+        ),
+      ).to.exist;
     });
 
     it('should show request limit message when current appt is over the request limit', async () => {
