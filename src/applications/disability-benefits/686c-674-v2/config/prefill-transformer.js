@@ -16,6 +16,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         ssnLastFour: veteranSsnLastFour,
         vaFileLastFour: veteranVaFileNumberLastFour,
       },
+      useV2: true,
     },
     metadata,
   };

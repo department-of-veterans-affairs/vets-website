@@ -74,9 +74,8 @@ describe('TravelClaimDetails', () => {
     });
 
     await waitFor(() => {
-      expect(
-        window.location.replace.calledWith('/my-health/travel-claim-status'),
-      ).to.be.true;
+      expect(window.location.replace.calledWith('/my-health/travel-pay')).to.be
+        .true;
     });
   });
   it('handles failed data fetching and displays an error', async () => {
