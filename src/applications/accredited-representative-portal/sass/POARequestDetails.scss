@@ -6,7 +6,7 @@
   }
 
   &__form {
-    padding: 14px 35px;
+    padding: 35px 14px;
     background-color: $vads-color-base-lightest;
     margin-top: 35px;
 
@@ -25,16 +25,18 @@
     }
 
     &-alert {
-      margin: 25px 0;
+      margin: 35px 0;
+      max-width: 521px;
 
       @media (min-width: $small-desktop-screen) {
-        margin: 35px 0;
+        margin: 30px 0 24px;
       }
     }
 
     &-submit {
       margin: 0;
       width: auto !important;
+      padding: 0 !important;
     }
   }
 

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { Link, useLoaderData } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -25,15 +27,7 @@ const checkAuthorizations = (
 
 const POARequestDetailsPage = () => {
   const poaRequest = useLoaderData();
-  const [isVisible, setIsVisible] = useState(false);
-  const handleChange = e => {
-    const radioValue = e.detail.value;
-    if (radioValue === '6') {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
+
   return (
     <section className="poa-request-details">
       <h1>
@@ -174,12 +168,10 @@ const POARequestDetailsPage = () => {
 
       <form action="" className="poa-request-details__form">
         <VaRadio
-          header-aria-describedby={null}
-          hint=""
           label="Do you accept or decline this POA request?"
           label-header-level="4"
           class="poa-request-details__form-label"
-          onVaValueChange={handleChange}
+          required
         >
           <VaRadioOption label="I accept the request" name="group" value="1" />
           <VaRadioOption
@@ -206,18 +198,8 @@ const POARequestDetailsPage = () => {
             label="I decline for another reason"
             name="group"
             value="6"
-            onVaValueChange={handleChange}
           />
         </VaRadio>
-        {isVisible && (
-          <div className="form-expanding-group-open">
-            <va-textarea
-              label=" Please indicate why you are declining this request"
-              name="decline-reason"
-              required
-            />
-          </div>
-        )}
 
         <va-alert
           status="info"
