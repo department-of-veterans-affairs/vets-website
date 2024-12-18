@@ -1,70 +1,65 @@
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import VerifyApp from '../../containers/VerifyApp';
 
-const generateStore = ({ csp = 'logingov', verified = false } = {}) => ({
+const generateStore = ({ serviceName = 'logingov' } = {}) => ({
   user: {
     profile: {
-      signIn: { serviceName: csp },
-      verified,
+      loading: false,
+      signIn: { serviceName },
+      verified: false,
       session: { authBroker: 'iam' },
     },
   },
 });
 
 describe('VerifyApp Component', () => {
-  let isProductionStub;
-  const windowLocation = sinon.spy();
-
-  beforeEach(() => {
-    isProductionStub = sinon.stub(environment, 'isProduction').returns(true);
-    global.window.location = { replace: windowLocation };
-  });
+  const oldLocation = global.window.location;
 
   afterEach(() => {
-    global.window.location = windowLocation;
+    global.window.location = oldLocation;
+    localStorage.clear();
   });
 
-  it('renders UnauthenticatedVerify when unauthenticated and not in production', () => {
-    expect(localStorage.getItem('hasSession')).to.eql(null);
-    isProductionStub.returns(false);
+  it('renders the correct title', async () => {
+    renderInReduxProvider(<VerifyApp />);
 
+    await waitFor(() => {
+      expect(document.title).to.eql('Verify your identity');
+    });
+  });
+
+  it('renders unauthenticated and not in production: UnauthenticatedVerify', async () => {
     const screen = renderInReduxProvider(<VerifyApp />);
-    expect(screen.getByTestId('unauthenticated-verify-app')).to.exist;
-    expect(screen.queryByTestId('authenticated-verify-app')).to.not.exist;
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('unauthenticated-verify-app')).to.exist;
+      expect(screen.queryByTestId('authenticated-verify-app')).to.not.exist;
+    });
   });
 
-  it('renders AuthenticatedVerify when authenticated', () => {
+  it('renders authenticated and not in production: AuthenticatedVerify', async () => {
     localStorage.setItem('hasSession', true);
-    isProductionStub.returns(false);
-
     const screen = renderInReduxProvider(<VerifyApp />, {
       initialState: generateStore(),
     });
-    expect(screen.getByTestId('authenticated-verify-app')).to.exist;
-    expect(screen.queryByTestId('unauthenticated-verify-app')).to.not.exist;
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('unauthenticated-verify-app')).to.not.exist;
+      expect(screen.queryByTestId('authenticated-verify-app')).to.exist;
+    });
   });
 
-  it('redirects to "/" when unauthenticated and in production', () => {
-    expect(localStorage.getItem('hasSession')).to.eql(null);
-    // isProductionStub.returns(true);
-    localStorage.setItem('isProduction', true);
+  it('redirects when unauthenticated and is production', async () => {
+    global.window.location.pathname = '/verify';
+    const isProduction = sinon.stub().returns(true);
+    renderInReduxProvider(<VerifyApp env={{ isProduction }} />);
 
-    renderInReduxProvider(<VerifyApp />);
-    // console.log(windowLocation);
-
-    sinon.assert.calledOnce(window.location.replace);
-    sinon.assert.calledWith(window.location.replace, '/');
-  });
-
-  it('sets document title to "Verify your identity"', () => {
-    localStorage.setItem('hasSession', true);
-    isProductionStub.returns(false);
-
-    renderInReduxProvider(<VerifyApp />, { initialState: generateStore() });
-    expect(document.title).to.equal('Verify your identity');
+    await waitFor(() => {
+      expect(global.window.location.pathname).to.eql('/');
+    });
   });
 });
