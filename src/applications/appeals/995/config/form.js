@@ -348,6 +348,7 @@ const formConfig = {
           depends: hasPrivateLimitation,
           uiSchema: evidencePrivateLimitation.uiSchema,
           schema: evidencePrivateLimitation.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
