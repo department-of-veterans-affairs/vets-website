@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import {
-  capitalizeFirstLetter,
-  filterLcResults,
-  handleUpdateLcFilterDropdowns,
-  matchFilterIndex,
-} from '../utils/helpers';
+import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 import LicenseCertificationAlert from './LicenseCertificationAlert';
 
@@ -128,27 +123,7 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
-    const { updatedField, selectedOption } = matchFilterIndex(
-      dropdowns,
-      e.target,
-    );
-
     handleUpdateQueryParam()(e.target.id, e.target.value);
-
-    if (
-      dropdowns[updatedField].options[selectedOption].optionValue ===
-      'certification'
-    ) {
-      setDropdowns(updateDropdowns('certification', 'all'));
-    }
-
-    const newDropdowns = handleUpdateLcFilterDropdowns(
-      dropdowns,
-      updatedField,
-      selectedOption,
-    );
-
-    setDropdowns(newDropdowns);
   };
 
   const onUpdateAutocompleteSearchTerm = value => {

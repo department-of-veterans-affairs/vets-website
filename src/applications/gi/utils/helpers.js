@@ -549,34 +549,6 @@ export const filterLcResults = (results, nameInput, filters) => {
   });
 };
 
-export const matchFilterIndex = (dropdowns, target) => {
-  const updatedField = dropdowns.findIndex(dropdown => {
-    return dropdown.label === target.id;
-  });
-
-  const selectedOption = dropdowns[updatedField].options.findIndex(
-    option => option.optionValue === target.value,
-  );
-
-  return { updatedField, selectedOption };
-};
-
-export const handleUpdateLcFilterDropdowns = (
-  dropdowns,
-  updatedFieldIndex,
-  selectedOptionIndex,
-) => {
-  return dropdowns.map(
-    (dropdown, index) =>
-      index === updatedFieldIndex
-        ? {
-            ...dropdown,
-            current: dropdown.options[selectedOptionIndex],
-          }
-        : dropdown,
-  );
-};
-
 export const updateQueryParam = (history, location) => {
   return (key, value) => {
     const searchParams = new URLSearchParams(location.search);
