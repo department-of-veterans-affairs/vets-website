@@ -579,8 +579,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /We.re sorry. There.s a problem with our system. Try again later./i,
+        ),
+      ).to.exist;
     });
 
     it('should show alert message when direct eligibility call fails -  request is not supported', async () => {

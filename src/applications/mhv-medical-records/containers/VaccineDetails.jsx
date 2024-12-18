@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -18,6 +17,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -101,7 +101,7 @@ const VaccineDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date received: ${record.date}\n
 ${txtLine}\n\n
@@ -131,8 +131,9 @@ Location: ${record.location}\n`;
           <h1
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
-            data-dd-privacy="mask"
             data-testid="vaccine-name"
+            data-dd-privacy="mask"
+            data-dd-action-name="[vaccine details - name]"
           >
             Vaccines: {record.name}
           </h1>
@@ -159,8 +160,9 @@ Location: ${record.location}\n`;
             </h2>
             <p
               className="vads-u-margin-top--0"
-              data-dd-privacy="mask"
               data-testid="vaccine-location"
+              data-dd-privacy="mask"
+              data-dd-action-name="[vaccine details - location]"
             >
               {record.location}
             </p>

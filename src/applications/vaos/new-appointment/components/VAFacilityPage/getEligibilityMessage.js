@@ -9,6 +9,7 @@ export default function getEligibilityMessage({
 }) {
   let content = null;
   let title = null;
+  let status;
 
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
@@ -72,8 +73,10 @@ export default function getEligibilityMessage({
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.error) {
-    title = 'We’re sorry. We’ve run into a problem';
-    content = 'Something went wrong on our end. Please try again later.';
+    title = 'You can’t schedule this appointment online right now';
+    content =
+      'We’re sorry. There’s a problem with our system. Try again later.';
+    status = 'error';
   } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     title = 'You can’t schedule this appointment online';
     const contact = facilityDetails?.telecom?.find(
@@ -124,7 +127,7 @@ export default function getEligibilityMessage({
     throw new Error('Missing eligibility display reason');
   }
 
-  return { title, content };
+  return { title, content, status };
 }
 getEligibilityMessage.propTypes = {
   eligibility: PropTypes.object,

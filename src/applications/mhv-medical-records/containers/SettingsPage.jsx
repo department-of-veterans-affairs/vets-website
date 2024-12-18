@@ -142,28 +142,15 @@ const SettingsPage = () => {
             id="opt-in-out-alert"
           >
             <p className="vads-u-margin-y--0">
-              You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+              Opted {isSharing ? 'in to' : 'out of'} sharing
             </p>
           </va-alert>
         )}
 
-        {isSharing ? (
-          <p>
-            We’ll share your electronic health information with participating
-            non-VA providers when they’re treating you. You can opt out (ask us
-            not to share your records) at any time.
-          </p>
-        ) : (
-          <p>
-            We’re not currently sharing your records online with your community
-            care providers. If you want us to start sharing your records, you
-            can opt back in.
-          </p>
-        )}
         <va-button
           ref={buttonRef}
           data-testid="open-opt-in-out-modal-button"
-          text={isSharing ? 'Opt out' : 'Opt back in'}
+          text={isSharing ? 'Opt out' : 'Opt in'}
           onClick={() => {
             setShowSharingModal(true);
             sendDataDogAction(isSharing ? 'Opt out' : 'Opt in');
@@ -201,7 +188,6 @@ const SettingsPage = () => {
         secondaryButtonText={secondaryButtonText}
         visible
       >
-        <p>Equal to VA Form 10-10163</p>
         {isSharing ? (
           <>
             <p>
@@ -211,9 +197,10 @@ const SettingsPage = () => {
             <p>
               By opting out, you certify that you’re taking this action freely,
               voluntarily, and without coercion. Your new sharing setting will
-              stay in effect, unless you opt back in. You can opt back in at any
+              stay in effect unless you opt back in. You can opt back in at any
               time.
             </p>
+            <p>Opting out is the same as submitting VA Form 10-10163.</p>
             <p>
               <strong>Note:</strong> We may still share your health information
               with your non-VA providers in other ways, including by mail or
@@ -229,8 +216,9 @@ const SettingsPage = () => {
             <p>
               By opting in, you certify that you’re taking this action freely,
               voluntarily, and without coercion. Your new sharing setting will
-              stay in effect, unless you opt out. You can opt out at any time.
+              stay in effect unless you opt out. You can opt out at any time.
             </p>
+            <p>Opting out is the same as submitting VA Form 10-10163.</p>
           </>
         )}
       </VaModal>
@@ -248,18 +236,26 @@ const SettingsPage = () => {
       </section>
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your electronic sharing settings
+          Manage your electronic sharing setting
         </h2>
         <p>
-          We securely share your electronic health information with
-          participating non-VA health care providers and federal partners when
-          they’re treating you.
+          If your sharing setting is “opted in,” we securely share your
+          electronic health information with participating non-VA health care
+          providers and federal partners when they’re treating you.
         </p>
         <p>
           We automatically include you in electronic sharing. You can change
-          your sharing settings at any time.
+          your sharing settings here at any time.
         </p>
 
+        {showSharingModal && sharingModalContent()}
+        {sharingCardContent()}
+      </section>
+      <section>
+        <p>
+          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
+          out or to opt back in, your request may be in process.
+        </p>
         <div className="vads-u-margin-bottom--3">
           <va-additional-info
             data-dd-action-name="What your EHI includes"
@@ -284,14 +280,6 @@ const SettingsPage = () => {
             </ul>
           </va-additional-info>
         </div>
-        {showSharingModal && sharingModalContent()}
-        {sharingCardContent()}
-      </section>
-      <section>
-        <p>
-          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
-          out, or to opt back in, your request may be in process.
-        </p>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           Manage your notification settings
         </h2>
@@ -307,10 +295,7 @@ const SettingsPage = () => {
         <p>
           <ExternalLink
             ddTag="Go to your profile on MHV"
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
             text="Go to your profile on the My Healthevet website"
           />
         </p>
