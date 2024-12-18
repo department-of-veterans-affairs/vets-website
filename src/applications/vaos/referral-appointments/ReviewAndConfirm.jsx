@@ -1,52 +1,113 @@
 import React, { useState, useEffect } from 'react';
+import { formatInTimeZone } from 'date-fns-tz';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { getProviderInfo, getSelectedSlot } from './redux/selectors';
+import { FETCH_STATUS } from '../utils/constants';
+import {
+  fetchProviderDetails,
+  setFormCurrentPage,
+  setSelectedSlot,
+} from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
-import { routeToPreviousReferralPage } from './flow';
-import { setFormCurrentPage } from './redux/actions';
+import { routeToPreviousReferralPage, routeToCCPage } from './flow';
+import { getReferralSlotKey } from './utils/referrals';
+import { getSlotById } from './utils/provider';
+import {
+  getTimezoneDescByFacilityId,
+  getTimezoneByFacilityId,
+} from '../utils/timezone';
 
-const staticData = {
-  typeOfCare: 'Primary Care',
-  provider: 'Kristina Jones, NP',
-  clinic: 'Tender Care Clinic',
-  address: '1234 Cool st.',
-  city: 'Aewsometown, AZ',
-  phone: '555-123-4567',
-  date: 'Thursday, June 20, 2024',
-  time: '4:15 p.m. PST',
-  details: 'Back pain',
-};
-
-const dynamicData = {
-  // Fill in real data here, network call, etc.
-};
-
-const getData = (typeOfData = 'static') => {
-  return typeOfData === 'static' ? staticData : dynamicData;
-};
-
-export default function ConfirmApprovedPage() {
-  const history = useHistory();
+const ReviewAndConfirm = props => {
+  const { currentReferral } = props;
   const dispatch = useDispatch();
-
-  const [confirmedData, setConfirmedData] = useState(0);
-  // on react component mount, fetch data
-  useEffect(() => {
-    setConfirmedData(getData());
-  }, []);
+  const history = useHistory();
+  const selectedSlot = useSelector(state => getSelectedSlot(state));
+  const { provider, providerFetchStatus } = useSelector(
+    state => getProviderInfo(state),
+    shallowEqual,
+  );
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const slotDetails = getSlotById(provider.slots, selectedSlot);
+  const facilityTimeZone = getTimezoneByFacilityId(
+    currentReferral.ReferringFacilityInfo.FacilityCode,
+  );
+  const savedSelectedSlot = sessionStorage.getItem(
+    getReferralSlotKey(currentReferral.UUID),
+  );
   useEffect(
     () => {
       dispatch(setFormCurrentPage('confirmAppointment'));
     },
     [dispatch],
   );
+  useEffect(
+    () => {
+      if (!selectedSlot && !savedSelectedSlot) {
+        routeToCCPage(history, 'scheduleReferral', currentReferral.UUID);
+      }
+    },
+    [currentReferral.UUID, history, savedSelectedSlot, selectedSlot],
+  );
 
+  useEffect(
+    () => {
+      if (providerFetchStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchProviderDetails(currentReferral.providerId));
+      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
+        setLoading(false);
+        scrollAndFocus('h1');
+      } else if (providerFetchStatus === FETCH_STATUS.failed) {
+        setLoading(false);
+        setFailed(true);
+        scrollAndFocus('h2');
+      }
+    },
+    [currentReferral.providerId, dispatch, providerFetchStatus],
+  );
+
+  useEffect(
+    () => {
+      if (savedSelectedSlot && providerFetchStatus === FETCH_STATUS.succeeded) {
+        const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
+        if (!savedSlot) {
+          routeToCCPage(history, 'scheduleReferral');
+        }
+        dispatch(setSelectedSlot(savedSlot.id));
+      }
+    },
+    [dispatch, savedSelectedSlot, provider.slots, history, providerFetchStatus],
+  );
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin-y--8" data-testid="loading">
+        <va-loading-indicator message="Loading schedule referral review..." />
+      </div>
+    );
+  }
+
+  if (failed) {
+    return (
+      <va-alert data-testid="error" status="error">
+        <h2>We’re sorry. We’ve run into a problem</h2>
+        <p>
+          We’re having trouble getting your upcoming appointments. Please try
+          again later.
+        </p>
+      </va-alert>
+    );
+  }
   return (
     <ReferralLayout hasEyebrow>
       <div>
         <h1>Review your appointment details</h1>
-        <h3>You're scheduling a {confirmedData.typeOfCare} appointment</h3>
+        <h3>
+          You’re scheduling a {currentReferral.CategoryOfCare} appointment
+        </h3>
         <p data-testid="subtitle">
           Confirm your appointment information is correct. If you need to update
           any information, select edit to make any changes.
@@ -55,34 +116,32 @@ export default function ConfirmApprovedPage() {
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">What</div>
-            <div className="vads-l-col vads-u-text-align--right">
-              <va-link
-                aria-label="Edit what information"
-                text="Edit"
-                data-testid="edit-what-information-link"
-              />
-            </div>
           </div>
         </div>
-        <div>{confirmedData.typeOfCare}</div>
+        <div>{currentReferral.CategoryOfCare}</div>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">Provider</div>
-            <div className="vads-l-col vads-u-text-align--right">
-              <va-link
-                aria-label="Edit provider information"
-                text="Edit"
-                data-testid="edit-provider-information-link"
-              />
-            </div>
           </div>
         </div>
-        <div>{confirmedData.provider}</div>
-        <div>{confirmedData.clinic}</div>
-        <div>{confirmedData.address}</div>
-        <div>{confirmedData.city}</div>
-        <div>Phone: {confirmedData.phone}</div>
+        <div>{provider.providerName}</div>
+        <div>{provider.orgName}</div>
+        <div>{provider.orgAddress.street1}</div>
+        {provider.orgAddress.street2 && (
+          <div>{provider.orgAddress.street2}</div>
+        )}
+        {provider.orgAddress.street3 && (
+          <div>{provider.orgAddress.street3}</div>
+        )}
+        <div>{provider.orgAddress.city}</div>
+        <div>
+          Phone:{' '}
+          <va-telephone
+            contact={provider.orgPhone}
+            data-testid="provider-telephone"
+          />
+        </div>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
@@ -92,28 +151,44 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit when information"
                 text="Edit"
                 data-testid="edit-when-information-link"
+                onClick={e => {
+                  e.preventDefault();
+                  routeToPreviousReferralPage(
+                    history,
+                    'confirmAppointment',
+                    currentReferral.UUID,
+                  );
+                }}
               />
             </div>
           </div>
         </div>
-        <div>{confirmedData.date}</div>
-        <div>{confirmedData.time}</div>
+        <div>
+          {formatInTimeZone(
+            new Date(slotDetails.start),
+            facilityTimeZone,
+            'EEEE, LLLL I, yyyy',
+          )}
+        </div>
+        <div>
+          {formatInTimeZone(
+            new Date(slotDetails.start),
+            facilityTimeZone,
+            'h:mm aaaa',
+          )}
+          {`${getTimezoneDescByFacilityId(
+            currentReferral.ReferringFacilityInfo.FacilityCode,
+          )}`}
+        </div>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">
               Details you shared with your provider
             </div>
-            <div className="vads-l-col vads-u-text-align--right">
-              <va-link
-                aria-label="Edit details share"
-                text="Edit"
-                data-testid="edit-details-shared-link"
-              />
-            </div>
           </div>
         </div>
-        <div>{confirmedData.details}</div>
+        <div>{currentReferral.details}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-margin-top--4">
           <va-button
@@ -123,7 +198,11 @@ export default function ConfirmApprovedPage() {
             uswds
             onClick={e => {
               e.preventDefault();
-              routeToPreviousReferralPage(history, 'confirmAppointment');
+              routeToPreviousReferralPage(
+                history,
+                'confirmAppointment',
+                currentReferral.UUID,
+              );
             }}
           />
           <va-button
@@ -136,4 +215,10 @@ export default function ConfirmApprovedPage() {
       </div>
     </ReferralLayout>
   );
-}
+};
+
+ReviewAndConfirm.propTypes = {
+  currentReferral: PropTypes.object.isRequired,
+};
+
+export default ReviewAndConfirm;

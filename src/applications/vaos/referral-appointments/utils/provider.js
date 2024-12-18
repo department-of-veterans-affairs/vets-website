@@ -91,6 +91,9 @@ const getAddressString = addressObject => {
  * @returns {Object} Slot object
  */
 const getSlotByDate = (slots, dateTime) => {
+  if (!slots) {
+    return {};
+  }
   return slots.find(slot => slot.start === dateTime);
 };
 
@@ -102,6 +105,9 @@ const getSlotByDate = (slots, dateTime) => {
  * @returns {Object} Slot object
  */
 const getSlotById = (slots, id) => {
+  if (!slots) {
+    return {};
+  }
   return slots.find(slot => slot.id === id);
 };
 

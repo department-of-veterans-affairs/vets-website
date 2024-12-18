@@ -85,8 +85,8 @@ export function routeToNextReferralPage(history, current, referralId = null) {
   return routeToPageInFlow(history, current, 'next', referralId);
 }
 
-export function routeToCCPage(history, page) {
-  const pageFlow = getPageFlow();
+export function routeToCCPage(history, page, referralId = null) {
+  const pageFlow = getPageFlow(referralId);
   const nextPage = pageFlow[page];
   return history.push(nextPage.url);
 }
