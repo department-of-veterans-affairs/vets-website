@@ -6,6 +6,7 @@ import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import {
   ALERT_TYPE_ERROR,
+  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -15,6 +16,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const LabsAndTests = () => {
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.CHEM_HEM,
+    extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
@@ -73,6 +75,9 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.LABS_AND_TESTS}
@@ -83,7 +88,7 @@ const LabsAndTests = () => {
       >
         <NewRecordsIndicator
           refreshState={refresh}
-          extractType={refreshExtractTypes.CHEM_HEM}
+          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
           newRecordsFound={
             Array.isArray(labsAndTests) &&
             Array.isArray(updatedRecordList) &&

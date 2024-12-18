@@ -13,39 +13,56 @@ import {
   getAppointments,
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
-import * as Constants from '../util/constants';
-import { addAlert } from './alerts';
+
+import {} from '../util/constants';
+
+export const clearFailedList = domain => dispatch => {
+  dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
+};
 
 export const getBlueButtonReportData = (options = {}) => async dispatch => {
-  try {
-    const fetchMap = {
-      labs: getLabsAndTests,
-      notes: getNotes,
-      vaccines: getVaccineList,
-      allergies: getAllergies,
-      conditions: getConditions,
-      vitals: getVitalsList,
-      radiology: getMhvRadiologyTests,
-      medications: getMedications,
-      appointments: getAppointments,
-      demographics: getDemographicInfo,
-      militaryService: getMilitaryService,
-      patient: getPatient,
-    };
+  const fetchMap = {
+    labsAndTests: getLabsAndTests,
+    notes: getNotes,
+    vaccines: getVaccineList,
+    allergies: getAllergies,
+    conditions: getConditions,
+    vitals: getVitalsList,
+    radiology: getMhvRadiologyTests,
+    medications: getMedications,
+    appointments: getAppointments,
+    demographics: getDemographicInfo,
+    militaryService: getMilitaryService,
+    patient: getPatient,
+  };
 
-    const promises = Object.entries(fetchMap)
-      .filter(([key]) => options[key]) // Only include enabled fetches
-      .map(([key, fetchFn]) => fetchFn().then(response => ({ key, response })));
+  const promises = Object.entries(fetchMap)
+    .filter(([key]) => options[key]) // Only include enabled fetches
+    .map(([key, fetchFn]) =>
+      fetchFn()
+        .then(response => ({ key, response }))
+        .catch(error => {
+          const newError = new Error(error);
+          newError.key = key;
+          throw newError;
+        }),
+    );
 
-    const results = await Promise.all(promises);
+  const results = await Promise.allSettled(promises);
 
-    results.forEach(({ key, response }) => {
+  // Temporary variables to hold labsAndTests and radiology results
+  let labsAndTestsResponse = null;
+  let radiologyResponse = null;
+
+  results.forEach(({ status, value, reason }) => {
+    if (status === 'fulfilled') {
+      const { key, response } = value;
       switch (key) {
-        case 'labs':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            labsAndTestsResponse: response,
-          });
+        case 'labsAndTests':
+          labsAndTestsResponse = response;
+          break;
+        case 'radiology':
+          radiologyResponse = response;
           break;
         case 'notes':
           dispatch({
@@ -77,12 +94,6 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
             response,
           });
           break;
-        case 'radiology':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            radiologyResponse: response,
-          });
-          break;
         case 'medications':
         case 'appointments':
         case 'demographics':
@@ -96,9 +107,19 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
         default:
           break;
       }
+    } else {
+      // Handle rejected promises
+      const { key } = reason;
+      dispatch({ type: Actions.BlueButtonReport.ADD_FAILED, payload: key });
+    }
+  });
+
+  // Dispatch combined labsAndTests and radiology response
+  if (labsAndTestsResponse || radiologyResponse) {
+    dispatch({
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse,
+      radiologyResponse,
     });
-  } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
   }
 };

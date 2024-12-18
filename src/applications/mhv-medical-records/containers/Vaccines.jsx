@@ -22,6 +22,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -33,6 +34,7 @@ import {
   getLastUpdatedText,
   formatNameFirstLast,
   sendDataDogAction,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -43,6 +45,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -133,7 +136,7 @@ Reaction: ${processList(item.reactions)}\n`;
 ${crisisLineHeader}\n\n
 Vaccines\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
 For complete records of your allergies and reactions to vaccines, review your allergy records.\n
@@ -165,6 +168,9 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </div>
+
+      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

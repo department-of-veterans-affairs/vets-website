@@ -81,6 +81,17 @@ class GeneralFunctionsPage {
       .parent(`p`)
       .should(`include.text`, `End: ${this.getDateFormat(endDate)}`);
   };
+
+  getRandomDateWithinLastNumberOfMonths = number => {
+    const now = new Date();
+    const currentDate = new Date();
+    currentDate.setMonth(now.getMonth() - number);
+
+    const randomTime =
+      currentDate.getTime() +
+      Math.random() * (now.getTime() - currentDate.getTime());
+    return new Date(randomTime).toISOString();
+  };
 }
 
 export default new GeneralFunctionsPage();
