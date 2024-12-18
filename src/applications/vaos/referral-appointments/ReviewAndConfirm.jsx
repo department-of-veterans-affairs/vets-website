@@ -105,24 +105,12 @@ const ReviewAndConfirm = props => {
     <ReferralLayout hasEyebrow>
       <div>
         <h1>Review your appointment details</h1>
-        <h3>
-          You’re scheduling a {currentReferral.CategoryOfCare} appointment
-        </h3>
-        <p data-testid="subtitle">
-          Confirm your appointment information is correct. If you need to update
-          any information, select edit to make any changes.
-        </p>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">What</div>
-          </div>
-        </div>
-        <div>{currentReferral.CategoryOfCare}</div>
-        <hr className="vads-u-margin-y--2" />
-        <div className=" vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">Provider</div>
+            <div className="vads-l-col vads-u-font-weight--bold">
+              {`${currentReferral.CategoryOfCare} Provider`}
+            </div>
           </div>
         </div>
         <div>{provider.providerName}</div>
@@ -145,10 +133,12 @@ const ReviewAndConfirm = props => {
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">When</div>
+            <div className="vads-l-col vads-u-font-weight--bold">
+              Date and time
+            </div>
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
-                aria-label="Edit when information"
+                aria-label="Edit date and time"
                 text="Edit"
                 data-testid="edit-when-information-link"
                 onClick={e => {
@@ -167,7 +157,7 @@ const ReviewAndConfirm = props => {
           {formatInTimeZone(
             new Date(slotDetails.start),
             facilityTimeZone,
-            'EEEE, LLLL I, yyyy',
+            'EEEE, LLLL d, yyyy',
           )}
         </div>
         <div>
@@ -175,7 +165,7 @@ const ReviewAndConfirm = props => {
             new Date(slotDetails.start),
             facilityTimeZone,
             'h:mm aaaa',
-          )}
+          )}{' '}
           {`${getTimezoneDescByFacilityId(
             currentReferral.ReferringFacilityInfo.FacilityCode,
           )}`}
@@ -184,7 +174,7 @@ const ReviewAndConfirm = props => {
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">
-              Details you shared with your provider
+              Details you shared with your referring VA provider
             </div>
           </div>
         </div>
