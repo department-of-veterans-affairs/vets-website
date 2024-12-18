@@ -81,6 +81,9 @@ export default function LicenseCertificationSearchForm({
   const category = searchParams.get('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
+  const [categoryDropdown, locationDropdown] = dropdowns;
+
+  // Update dropdown values when param values change
   useEffect(
     () => {
       setDropdowns(updateDropdowns(category, stateParam));
@@ -88,21 +91,22 @@ export default function LicenseCertificationSearchForm({
     [category, stateParam],
   );
 
-  //
+  // Update query params in special cases
   useEffect(
     () => {
-      if (dropdowns[0].current.optionValue === 'certification') {
+      if (categoryDropdown.current.optionValue === 'certification') {
         handleUpdateQueryParam()('state', 'all');
       }
     },
     [dropdowns],
   );
 
+  // Filter suggestions based on query string
   useEffect(
     () => {
       const newSuggestions = filterLcResults(suggestions, name, {
-        type: dropdowns[0].current.optionValue,
-        state: dropdowns[1].current.optionValue,
+        type: categoryDropdown.current.optionValue,
+        state: locationDropdown.current.optionValue,
       });
 
       if (name.trim() !== '') {
@@ -156,7 +160,7 @@ export default function LicenseCertificationSearchForm({
 
     const newDropdowns = updateDropdowns(type, state);
 
-    if (type === 'license' && dropdowns[1].current.optionValue !== state) {
+    if (type === 'license' && locationDropdown.current.optionValue !== state) {
       setShowAlert(true);
     }
 
@@ -172,28 +176,28 @@ export default function LicenseCertificationSearchForm({
     <form>
       <Dropdown
         disabled={false}
-        label={capitalizeFirstLetter(dropdowns[0].label)}
+        label={capitalizeFirstLetter(categoryDropdown.label)}
         visible
-        name={dropdowns[0].label}
-        options={dropdowns[0].options}
-        value={dropdowns[0].current.optionValue} // align here
+        name={categoryDropdown.label}
+        options={categoryDropdown.options}
+        value={categoryDropdown.current.optionValue} // align here
         onChange={handleChange}
-        alt={dropdowns[0].alt}
+        alt={categoryDropdown.alt}
         selectClassName="lc-dropdown-filter"
-        required={dropdowns[0].label === 'category'}
+        required={categoryDropdown.label === 'category'}
       />
 
       <Dropdown
-        disabled={dropdowns[0].current.optionLabel === 'Certification'}
-        label={`${capitalizeFirstLetter(dropdowns[1].label)}`}
+        disabled={categoryDropdown.current.optionValue === 'certification'}
+        label={`${capitalizeFirstLetter(locationDropdown.label)}`}
         visible
-        name={dropdowns[1].label}
-        options={dropdowns[1].options}
-        value={dropdowns[1].current.optionValue} // align here
+        name={locationDropdown.label}
+        options={locationDropdown.options}
+        value={locationDropdown.current.optionValue} // align here
         onChange={handleChange}
-        alt={dropdowns[1].alt}
+        alt={locationDropdown.alt}
         selectClassName="lc-dropdown-filter"
-        required={dropdowns[1].label === 'category'}
+        required={locationDropdown.label === 'category'}
       >
         {showAlert && name.length > 0 ? (
           <LicenseCertificationAlert
@@ -202,7 +206,7 @@ export default function LicenseCertificationSearchForm({
             changeStateToAllAlert={false}
             visible={showAlert}
             name={name}
-            state={dropdowns[0].current.optionLabel}
+            state={categoryDropdown.current.optionLabel}
           />
         ) : (
           <>
@@ -224,7 +228,13 @@ export default function LicenseCertificationSearchForm({
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() => handleSearch(dropdowns[0].current.optionValue, name)}
+          onClick={() =>
+            handleSearch(
+              categoryDropdown.current.optionValue,
+              name,
+              locationDropdown.current.optionValue,
+            )
+          }
         />
         <va-button
           text="Reset Search"
