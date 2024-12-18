@@ -3,8 +3,8 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
   testNumberOfWebComponentFields,
-} from '../../../shared/tests/pages/pageTests.spec';
-import formConfig from '../../config/form';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import formConfig from '../../../config/form';
 
 const {
   schema,

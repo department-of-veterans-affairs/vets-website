@@ -1,17 +1,17 @@
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
-} from '../../../shared/tests/pages/pageTests.spec';
-import formConfig from '../../config/form';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import formConfig from '../../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation2Chapter.pages.personalInformation2;
+} = formConfig.chapters.preparerIdentification.pages.preparerIdentification;
 
-const pageTitle = 'personal information 2';
+const pageTitle = 'preparer identification';
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 8;
 testNumberOfFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
