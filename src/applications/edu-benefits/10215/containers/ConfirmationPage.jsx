@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import formConfig from '../config/form';
 
 const childContent = (
   <div>
@@ -79,7 +78,7 @@ const childContent = (
   </div>
 );
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
 
@@ -88,7 +87,7 @@ export const ConfirmationPage = () => {
 
   return (
     <ConfirmationView
-      formConfig={formConfig}
+      formConfig={props.route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
