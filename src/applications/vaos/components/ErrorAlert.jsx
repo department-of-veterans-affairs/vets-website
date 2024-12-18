@@ -29,7 +29,7 @@ const ErrorAlert = ({ appointment }) => {
     return (
       <InfoAlert
         status="error"
-        headline="Some appointment features aren’t available right now"
+        headline="Some appointment tasks aren’t available right now"
       >
         <p data-testid="avs-claim-error-content">
           We’re sorry. There’s a problem with our system. You can’t complete
