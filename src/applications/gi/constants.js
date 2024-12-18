@@ -52,10 +52,10 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
-export const LC_TABS = Object.freeze({
+export const LC_TABS = {
   test: 'test',
   admin: 'admin',
-});
+};
 
 export const INSTITUTION_TYPES = [
   'Public',

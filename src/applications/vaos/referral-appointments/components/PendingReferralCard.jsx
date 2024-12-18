@@ -39,6 +39,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                     padding="0"
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
+                    data-testid="typeOfCare"
                   >
                     {`${typeOfCareName} referral`}
                   </AppointmentColumn>
