@@ -46,7 +46,7 @@ const ErrorNavCard = ({
           'vads-u-padding-left--0',
           'vads-u-margin-top--2',
           'vads-u-margin-bottom--0',
-          'vads-u-font-size--sm',
+          'vada-u-font-size--md',
         )}
       >
         Error {code}: We can’t give you access to {title.toLowerCase()}
@@ -57,7 +57,7 @@ const ErrorNavCard = ({
           'vads-u-padding-left--0',
           'vads-u-margin-top--2',
           'vads-u-margin-bottom--0',
-          'vads-u-font-size--sm',
+          'vada-u-font-size--md',
         )}
       >
         Call us at <va-telephone contact="8773270022" />({' '}
