@@ -24,14 +24,30 @@ import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-
-export function statementOfTruthFullName(formData, fullNamePath) {
-  const fullName = get(
-    formData,
-    typeof fullNamePath === 'function'
-      ? fullNamePath(formData)
-      : fullNamePath || 'veteran.fullName',
-  );
+/**
+ *
+ * @param {*} formData
+ * @param {StatementOfTruth} statementOfTruth
+ * @param {*} profileFullName
+ * @returns
+ */
+export function statementOfTruthFullName(
+  formData,
+  statementOfTruth,
+  profileFullName,
+) {
+  const { fullNamePath, useProfileFullName } = statementOfTruth;
+  let fullName;
+  if (useProfileFullName && profileFullName) {
+    fullName = profileFullName;
+  } else {
+    fullName = get(
+      formData,
+      typeof fullNamePath === 'function'
+        ? fullNamePath(formData)
+        : fullNamePath || 'veteran.fullName',
+    );
+  }
 
   let fullNameString = fullName?.first || '';
 
@@ -168,12 +184,14 @@ export function PreSubmitSection(props) {
                   fullNameReducer(
                     statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth?.fullNamePath,
+                      statementOfTruth,
+                      user?.profile?.userFullName,
                     ),
                   )
                   ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth?.fullNamePath,
+                      statementOfTruth,
+                      user?.profile?.userFullName,
                     )}`
                   : undefined
               }
@@ -260,11 +278,14 @@ PreSubmitSection.propTypes = {
   formConfig: PropTypes.shape({
     preSubmitInfo: PropTypes.object,
   }).isRequired,
-  showPreSubmitError: PropTypes.bool,
   setPreSubmit: PropTypes.func.isRequired,
+  showPreSubmitError: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
+    }),
+    profile: PropTypes.shape({
+      userFullName: PropTypes.object,
     }),
   }),
   showLoginModal: PropTypes.bool,

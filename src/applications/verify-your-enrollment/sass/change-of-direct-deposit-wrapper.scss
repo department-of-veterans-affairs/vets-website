@@ -34,6 +34,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: center;
 @media (max-width: $small-screen) {
       flex-direction: column;
     }

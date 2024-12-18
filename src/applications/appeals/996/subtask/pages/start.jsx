@@ -73,9 +73,9 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         Is this the form I need?
       </h2>
       <p>
-        Use this form if you disagree with VA’s decision on your claim and want
-        to request that a senior reviewer take a new look at your case and the
-        evidence you provided. You can’t submit any new evidence with a
+        Use this form if you disagree with VA’s decision on your initial or
+        supplemental claim, and want to request a new review of your case by a
+        higher-level reviewer. You can’t submit any new evidence with a
         Higher-Level Review.
       </p>
       <va-additional-info

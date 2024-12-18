@@ -147,9 +147,7 @@ const VaPrescription = prescription => {
                 <Link
                   to={`/prescription/${
                     prescription.prescriptionId
-                  }/documentation?ndc=${
-                    refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
-                  }`}
+                  }/documentation`}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name={

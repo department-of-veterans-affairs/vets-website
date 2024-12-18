@@ -29,8 +29,7 @@ describe('SettingsPage container opted in with opt in status error', () => {
   });
 
   it('displays sharing status', () => {
-    expect(screen.getByText('Manage your electronic sharing settings')).to
-      .exist;
+    expect(screen.getByText('Manage your electronic sharing setting')).to.exist;
   });
 
   it('displays no action available header', () => {
@@ -172,17 +171,6 @@ describe('SettingsPage container not sharing', () => {
       reducers: reducer,
       path: '/settings',
     });
-  });
-
-  it('displays a loading indicator', () => {
-    const autoIncludeMessage = screen.getByText(
-      'We’re not currently sharing your records online with your community',
-      {
-        exact: false,
-        selector: 'p',
-      },
-    );
-    expect(autoIncludeMessage).to.exist;
   });
 
   it('should open the opt in confirmation modal when the open opt in modal button is clicked', () => {

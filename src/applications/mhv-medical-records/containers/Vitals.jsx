@@ -27,6 +27,7 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -261,6 +262,9 @@ const Vitals = () => {
         {`Vitals are basic health numbers your providers check at your
         appointments.`}
       </p>
+
+      <CernerFacilityAlert {...Constants.CernerAlertContent.VITALS} />
+
       {isLoading && (
         <div className="vads-u-margin-y--8">
           <va-loading-indicator

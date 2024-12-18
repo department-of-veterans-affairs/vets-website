@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { SERVICE_PROVIDERS, AUTH_EVENTS } from '../constants';
+import { SERVICE_PROVIDERS } from '../constants';
 
-function signupHandler(loginType, isOAuth = false) {
-  recordEvent({
-    event: `${AUTH_EVENTS.REGISTER}-${loginType}${isOAuth ? '-oauth' : ''}`,
-  });
-
+function signupHandler(loginType, isOAuth) {
   if (isOAuth) {
     updateStateAndVerifier(loginType);
   }

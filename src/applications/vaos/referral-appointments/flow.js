@@ -71,7 +71,14 @@ export function routeToPreviousReferralPage(
   current,
   referralId = null,
 ) {
-  return routeToPageInFlow(history, current, 'previous', referralId);
+  let resolvedReferralId = referralId;
+  // Give the router some context to keep the user in the same referral when navigating back if not
+  // explicitly passed
+  if (!referralId && history.location?.search) {
+    const params = new URLSearchParams(history.location.search);
+    resolvedReferralId = params.get('id');
+  }
+  return routeToPageInFlow(history, current, 'previous', resolvedReferralId);
 }
 
 export function routeToNextReferralPage(history, current, referralId = null) {

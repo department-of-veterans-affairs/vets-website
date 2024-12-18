@@ -19,7 +19,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       .find('a')
       .should('have.focus');
 
-    cy.get(Locators.ALERTS.ACC_ITEM).each(el => {
+    cy.get(Locators.FAQ_ACC_ITEM).each(el => {
       cy.realPress('Tab');
       cy.get(el).should('have.focus');
     });

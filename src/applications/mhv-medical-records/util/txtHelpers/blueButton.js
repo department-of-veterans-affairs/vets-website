@@ -22,6 +22,61 @@ import { parseAccountSummary } from './accountSummary';
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
 export const getTxtContent = (data, { userFullName, dob }) => {
+  const sections = [
+    {
+      label: 'Labs and Tests',
+      data: data?.labsAndTests,
+      parse: parseLabsAndTests,
+    },
+    {
+      label: 'Care Summaries and Notes',
+      data: data?.notes,
+      parse: parseCareSummariesAndNotes,
+    },
+    { label: 'Vaccines', data: data?.vaccines, parse: parseVaccines },
+    { label: 'Allergies', data: data?.allergies, parse: parseAllergies },
+    {
+      label: 'Health Conditions',
+      data: data?.conditions,
+      parse: parseHealthConditions,
+    },
+    { label: 'Vitals', data: data?.vitals, parse: parseVitals },
+    { label: 'Medications', data: data?.medications, parse: parseMedications },
+    {
+      label: 'Appointments',
+      data: data?.appointments,
+      parse: parseAppointments,
+    },
+    {
+      label: 'Demographics',
+      data: data?.demographics,
+      parse: parseDemographics,
+    },
+    {
+      label: 'Military Service',
+      data: data?.militaryService,
+      parse: parseMilitaryService,
+    },
+    {
+      label: 'Account Summary',
+      data: data?.accountSummary,
+      parse: parseAccountSummary,
+    },
+  ];
+
+  const recordsSection = sections
+    .filter(section => section.data)
+    .map((section, index) => `  ${index + 1}. ${section.label}`)
+    .join('\n');
+
+  const contentSection = sections
+    .filter(section => section.data)
+    .map(
+      (section, index) =>
+        `${txtLine}\n${section.parse(section.data, index + 1)}`,
+    )
+    .join('\n\n');
+
   return `
 Blue Button report
 
@@ -41,28 +96,8 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
-  1. Labs and Tests
-  2. Care Summaries and Notes
-  3. Vaccines
-  4. Allergies
-  5. Health Conditions
-  6. Vitals
-  7. Medications,
-  8. Appointments,
-  9. Demographics,
-  10. Military Service,
-  11. Account Summary,
+${recordsSection}
 
-${parseLabsAndTests(data.labsAndTests)}
-${parseCareSummariesAndNotes(data.notes)}
-${parseVaccines(data.vaccines)}
-${parseAllergies(data.allergies)}
-${parseHealthConditions(data.conditions)}
-${parseVitals(data.vitals)}
-${parseMedications(data.medications)}
-${parseAppointments(data.appointments)}
-${parseDemographics(data.demographics)}
-${parseMilitaryService(data.militaryService)}
-${parseAccountSummary(data.accountSummary)}
+${contentSection}
 `;
 };

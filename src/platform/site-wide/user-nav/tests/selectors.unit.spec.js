@@ -10,6 +10,7 @@ describe('User navigation selectors', () => {
       user: {
         profile: {
           userFullName: { first: null },
+          preferredName: null,
           email: 'test@test.gov',
         },
       },
@@ -35,6 +36,14 @@ describe('User navigation selectors', () => {
         set('user.profile.userFullName.first', 'Jane', state),
       );
       expect(result.props.children).to.equal('Jane');
+    });
+
+    it('should return preferred name', () => {
+      localStorage.setItem('userFirstName', 'Joe');
+      let stateObj = set('user.profile.userFullName.first', 'Jain');
+      stateObj = set('user.profile.preferredName', 'JJ', stateObj);
+      const result = selectUserGreeting(stateObj);
+      expect(result.props.children).to.equal('JJ');
     });
 
     afterEach(() => {

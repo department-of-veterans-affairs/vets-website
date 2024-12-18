@@ -15,6 +15,7 @@
     "claimType": "pharmacy",
     "hasOhi": false,
     "applicantPhone": "4106541234",
+    "applicantEmail": "app@email.gov",
     "applicantAddress": {
       "isMilitary": true,
       "country": "USA",

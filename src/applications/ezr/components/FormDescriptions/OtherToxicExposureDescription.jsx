@@ -1,18 +1,36 @@
 import React from 'react';
 
-const OtherToxicExposureDescription = (
-  <>
-    <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.publichealth.va.gov/exposures/index.asp"
-      >
-        Find more military exposure categories on our Public Health website
-        (opens in a new tab)
-      </a>
-    </div>
-  </>
+export const ExposureCategoriesLink = (
+  <p>
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href="https://www.publichealth.va.gov/exposures/index.asp"
+    >
+      Find more military exposure categories on our Public Health website (opens
+      in new tab)
+    </a>
+  </p>
 );
 
-export default OtherToxicExposureDescription;
+export const OtherExposureDescription = (
+  <>
+    <p>
+      We want to know about any other toxins or other hazards you think you may
+      have been exposed to while deployed or during training or active duty
+      service.
+    </p>
+    {ExposureCategoriesLink}
+    <p>
+      <strong>Note:</strong> If you’re not sure, you can still select any of the
+      toxins or hazards listed here. This may help us find information about
+      your service history and confirm whether you may have been exposed to any
+      toxins or other hazards.
+    </p>
+    <p>
+      Do you think you may have been exposed to any of these toxins or hazards
+      while deployed or during training or active duty service? Select any you
+      think you may have been exposed to.
+    </p>
+  </>
+);

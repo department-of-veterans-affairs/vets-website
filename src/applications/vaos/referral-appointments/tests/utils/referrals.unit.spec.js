@@ -22,4 +22,9 @@ describe('VAOS referral generator', () => {
       expect(referrals[1].ReferralDate).to.equal('2024-10-31');
     });
   });
+  describe('getReferralSlotKey', () => {
+    expect(referralUtil.getReferralSlotKey('111')).to.equal(
+      'selected-slot-referral-111',
+    );
+  });
 });

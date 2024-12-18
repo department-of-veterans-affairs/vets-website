@@ -5,6 +5,7 @@ import {
   CategoryGuardianshipCustodianshipFiduciaryIssues,
   CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
+  CHAPTER_3,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
@@ -261,6 +262,7 @@ export const isLocationOfResidenceRequired = data => {
     selectTopic,
     whoIsYourQuestionAbout,
     isQuestionAboutVeteranOrSomeoneElse,
+    yourHealthFacility,
   } = data;
 
   // Check if location is required based on contact preference
@@ -349,6 +351,11 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
+  // Medical Facility was required
+  if (yourHealthFacility) {
+    return true;
+  }
+
   // Default to false if none of the conditions are met
   return false;
 };
@@ -365,6 +372,7 @@ export const isPostalCodeRequired = data => {
     yourLocationOfResidence,
     familyMembersLocationOfResidence,
     veteransLocationOfResidence,
+    yourHealthFacility,
   } = data;
 
   // Check if location is required based on contact preference
@@ -459,10 +467,7 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
-  if (
-    selectCategory === 'Health care' &&
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-  ) {
+  if (selectCategory === 'Health care' && !yourHealthFacility) {
     return true;
   }
 
@@ -495,8 +500,8 @@ export const isBranchOfServiceRequired = data => {
   ];
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) ||
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
 
@@ -512,7 +517,7 @@ export const isVRERequired = data => {
 };
 
 export const isHealthFacilityRequired = data => {
-  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
+  const { selectCategory, selectTopic } = data;
 
   const healthTopics = [
     'Prosthetics',
@@ -520,17 +525,61 @@ export const isHealthFacilityRequired = data => {
     'Getting care at a local VA medical center',
   ];
 
-  if (
-    selectCategory === 'Health care' &&
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-  ) {
-    return false;
-  }
-
   return (
     (selectCategory === 'Health care' && healthTopics.includes(selectTopic)) ||
     (selectCategory ===
       'Debt for benefit overpayments and health care copay bills' &&
       selectTopic === 'Health care copay debt')
   );
+};
+
+// Based on Mural flow to make the YourVAHealthFacility component title dynamic (BE only expects yourHealthFacility for any option)
+export const getHealthFacilityTitle = data => {
+  const {
+    YOUR_VA_HEALTH_FACILITY,
+    VETERAN_VA_HEALTH_FACILITY,
+    FAMILY_MEMBER_VA_HEALTH_FACILITY,
+  } = CHAPTER_3;
+
+  const {
+    whoIsYourQuestionAbout,
+    relationshipToVeteran,
+    isQuestionAboutVeteranOrSomeoneElse,
+  } = data;
+
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF ||
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
+    return YOUR_VA_HEALTH_FACILITY.TITLE;
+  }
+
+  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) {
+    if (relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) {
+      return FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE;
+    }
+
+    if (
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER
+    ) {
+      if (
+        isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+      ) {
+        return VETERAN_VA_HEALTH_FACILITY.TITLE;
+      }
+      if (
+        isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
+      ) {
+        return FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE;
+      }
+    }
+
+    if (relationshipToVeteran === relationshipOptionsSomeoneElse.WORK) {
+      return VETERAN_VA_HEALTH_FACILITY.TITLE;
+    }
+  }
+
+  return YOUR_VA_HEALTH_FACILITY.TITLE;
 };

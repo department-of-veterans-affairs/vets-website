@@ -7,6 +7,7 @@ import {
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -17,29 +18,20 @@ import { ServerErrorAlert } from '../config/helpers';
 import { envUrl, RESPONSE_PAGE, URL } from '../constants';
 import { formatDate } from '../utils/helpers';
 
-const attachmentBox = fileName => (
-  <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
-    <p>
-      <strong>{fileName}</strong>
-    </p>
-    <p>
-      {' '}
-      <VaButton onClick={() => {}} secondary text={RESPONSE_PAGE.DELETE_FILE} />
-    </p>
-  </div>
-);
 const emptyMessage = message => (
   <p className="vads-u-background-color--gray-light-alt empty-message">
     {message}
   </p>
 );
-const getReplySubHeader = messageType => messageType.split(':')[1].trim();
+const getReplySubHeader = messageType =>
+  messageType ? messageType.split(':')[1].trim() : 'No messageType';
 
 const ResponseInboxPage = ({ router }) => {
   const [error, setError] = useState(false);
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, setLoading] = useState(true);
-  const [inquiryData, setInquiryData] = useState([]);
+  const [inquiryData, setInquiryData] = useState({});
+
   const getLastSegment = () => {
     const pathArray = window.location.pathname.split('/');
     return pathArray[pathArray.length - 1];
@@ -74,7 +66,9 @@ const ResponseInboxPage = ({ router }) => {
 
   const handleSubmit = () => {
     if (sendReply.reply) {
-      postApiData(`${envUrl}${URL.GET_INQUIRIES}${inquiryId}${URL.SEND_REPLY}`);
+      postApiData(
+        `${envUrl}${URL.GET_INQUIRIES}/${inquiryId}${URL.SEND_REPLY}`,
+      );
     }
   };
 
@@ -122,9 +116,11 @@ const ResponseInboxPage = ({ router }) => {
 
   return !error ? (
     <div className="row vads-u-padding-x--1">
-      <BreadCrumbs currentLocation={location.pathname} />
+      <BreadCrumbs currentLocation={window.location.pathname} />
       <div className="usa-width-two-thirds medium-8 columns vads-u-padding--0">
-        <h1>{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
+        <h1 className="vads-u-margin-bottom--2p5">
+          {RESPONSE_PAGE.QUESTION_DETAILS}
+        </h1>
         <dl className="dashboard-dl">
           <div className="vads-u-margin-bottom--1p5">
             <dt className="sr-only">Status</dt>
@@ -158,7 +154,7 @@ const ResponseInboxPage = ({ router }) => {
             </dt>
             <dd className="vads-u-display--inline">
               {' '}
-              {inquiryData.attributes.category}
+              {inquiryData.attributes.categoryName}
             </dd>
           </div>
           <div>
@@ -196,46 +192,88 @@ const ResponseInboxPage = ({ router }) => {
 
         <hr
           role="presentation"
-          className="vads-u-border-color--gray-lightest"
+          className="vads-u-border-color--gray-lightest vads-u-margin-top--3 vads-u-margin-bottom--6"
         />
-        {inquiryData.attributes.reply.data.length === 0 ? (
+        {inquiryData.attributes.correspondences.data.length === 0 ? (
           <div className="no-messages">
             {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
           </div>
         ) : (
-          <div className="inbox-replies">
-            <va-accordion
-              bordered
-              open-single={inquiryData.attributes.reply.data.length === 1}
-            >
-              {inquiryData.attributes.reply.data.map((message, ix) => (
+          <va-accordion
+            bordered
+            open-single={
+              inquiryData.attributes.correspondences.data.length === 1
+            }
+            uswds
+          >
+            {inquiryData.attributes.correspondences.data.map(
+              (correspondence, ix) => (
                 <va-accordion-item
-                  key={message.id}
-                  header={message.modifiedOn}
-                  subHeader={getReplySubHeader(message.messageType)}
-                  open={inquiryData.attributes.reply.data.length - 1 === ix}
+                  bordered
+                  key={correspondence.id}
+                  header={getReplySubHeader(
+                    correspondence.attributes.messageType,
+                  )}
+                  subHeader={correspondence.attributes.modifiedOn}
+                  open={
+                    inquiryData.attributes.correspondences.data.length - 1 ===
+                    ix
+                  }
                   level={3}
                 >
-                  <p className="vads-u-margin--0">{message.attributes.reply}</p>
-                  {message.attributes.attachmentNames.length > 0 && (
-                    <p className="vads-u-font-size--h3">
+                  <p className="vads-u-margin--0 vads-u-margin-bottom--3">
+                    {correspondence.attributes.description}
+                  </p>
+
+                  {/* Testing what MHV is doing to sanitize html and keep formatting */}
+                  <div
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        correspondence.attributes.description || '',
+                      ),
+                    }}
+                    className="vads-u-margin--0 vads-u-margin-bottom--3"
+                  />
+
+                  {correspondence.attributes.attachments.length > 0 && (
+                    <p className="vads-u-font-size--h4 vads-u-font-weight--bold">
                       {RESPONSE_PAGE.ATTACHMENTS}
                     </p>
                   )}
-                  {message.attributes.attachmentNames.length > 0 &&
-                    message.attributes.attachmentNames.map(attachment => (
-                      <div key={attachment.id}>
-                        {attachmentBox(attachment.name)}
-                      </div>
+                  {correspondence.attributes.attachments.length > 0 &&
+                    correspondence.attributes.attachments.map(attachment => (
+                      <p
+                        key={attachment.id}
+                        className="vads-u-color--link-default"
+                      >
+                        <va-icon
+                          icon="attach_file"
+                          size={3}
+                          alt="Attachment icon"
+                          aria-hidden="true"
+                        />
+                        <span className="vads-u-margin-left--1 va-button-link">
+                          {attachment.name}
+                        </span>
+                      </p>
                     ))}
                 </va-accordion-item>
-              ))}
-            </va-accordion>
-          </div>
+              ),
+            )}
+          </va-accordion>
         )}
 
+        <hr
+          role="presentation"
+          className="vads-u-border-color--gray-lightest vads-u-margin-top--6 vads-u-margin-bottom--4"
+        />
+
         <h2 className="vads-u-margin-bottom--0">{RESPONSE_PAGE.SEND_REPLY}</h2>
-        <form className="vads-u-margin-bottom--5" onSubmit={handleSubmit}>
+        <form
+          className="vads-u-margin-bottom--5 vads-u-margin-top--0"
+          onSubmit={handleSubmit}
+        >
           <fieldset>
             <va-textarea
               class="resize-y"
@@ -267,7 +305,7 @@ const ResponseInboxPage = ({ router }) => {
             <VaButton
               onClick={handleSubmit}
               primary
-              className="vads-u-margin-top--2"
+              className="vads-u-margin-top--3"
               text={RESPONSE_PAGE.SUBMIT_MESSAGE}
             />
           </fieldset>
@@ -290,9 +328,9 @@ const ResponseInboxPage = ({ router }) => {
 };
 
 ResponseInboxPage.propTypes = {
-  router: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool,
   params: PropTypes.object,
+  router: PropTypes.object,
 };
 
 function mapStateToProps(state) {

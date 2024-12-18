@@ -46,7 +46,7 @@ const renderTestComponentWithProps = props => {
   return { dispatchActionMock, dispatchMock };
 };
 
-describe('useListRefresh hook', () => {
+describe('useListRefresh', () => {
   it('should not fetch data if list is present and refresh is current', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps();
 
@@ -101,6 +101,44 @@ describe('useListRefresh hook', () => {
 
     await waitFor(() => {
       sinon.assert.notCalled(dispatchActionMock);
+    });
+  });
+
+  describe('with multiple extract types', () => {
+    it('should fetch data if data is stale and all extract types are current', async () => {
+      const { dispatchActionMock } = renderTestComponentWithProps({
+        listCurrentAsOf: new Date() - VALID_REFRESH_DURATION - 1,
+        refreshStatus: [
+          {
+            extract: refreshExtractTypes.ALLERGY,
+            phase: refreshPhases.CURRENT,
+          },
+          { extract: refreshExtractTypes.VPR, phase: refreshPhases.CURRENT },
+        ],
+        extractType: [refreshExtractTypes.ALLERGY, refreshExtractTypes.VPR],
+      });
+
+      await waitFor(() => {
+        sinon.assert.called(dispatchActionMock);
+      });
+    });
+
+    it('should not fetch data if at least one extract type is not current', async () => {
+      const { dispatchActionMock } = renderTestComponentWithProps({
+        listCurrentAsOf: new Date() - VALID_REFRESH_DURATION - 1,
+        refreshStatus: [
+          {
+            extract: refreshExtractTypes.ALLERGY,
+            phase: refreshPhases.CURRENT,
+          },
+          { extract: refreshExtractTypes.VPR, phase: refreshPhases.STALE },
+        ],
+        extractType: [refreshExtractTypes.ALLERGY, refreshExtractTypes.VPR],
+      });
+
+      await waitFor(() => {
+        sinon.assert.notCalled(dispatchActionMock);
+      });
     });
   });
 });

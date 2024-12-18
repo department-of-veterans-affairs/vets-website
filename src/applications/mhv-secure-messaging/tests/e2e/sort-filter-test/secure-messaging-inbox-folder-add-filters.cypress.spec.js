@@ -19,7 +19,7 @@ describe('Secure Messaging Inbox Folder add filter checks', () => {
 
     PatientInboxPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
-    PatientInboxPage.verifyFilterdateRangeDropdown(Arrays.FilterDateRange);
+    PatientInboxPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

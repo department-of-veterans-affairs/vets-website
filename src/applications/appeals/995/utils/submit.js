@@ -1,4 +1,4 @@
-import { CLAIMANT_TYPES, PRIMARY_PHONE } from '../constants';
+import { CLAIMANT_TYPES, PRIMARY_PHONE, EVIDENCE_LIMIT } from '../constants';
 import {
   hasHomeAndMobilePhone,
   hasHomePhone,
@@ -319,7 +319,9 @@ export const getForm4142 = formData => {
     return null;
   }
 
-  const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
+  const { privacyAgreementAccepted = true } = formData;
+  let { limitedConsent } = formData;
+
   const providerFacility = facilities.reduce((list, facility) => {
     if (!hasDuplicateFacility(list, facility)) {
       list.push({
@@ -335,6 +337,11 @@ export const getForm4142 = formData => {
     }
     return list;
   }, []);
+
+  if (showScNewForm(formData)) {
+    // submit limitation based on yes/no question
+    limitedConsent = formData[EVIDENCE_LIMIT] ? limitedConsent : '';
+  }
 
   return {
     privacyAgreementAccepted,

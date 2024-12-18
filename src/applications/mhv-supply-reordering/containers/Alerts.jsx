@@ -22,15 +22,9 @@ const Alerts = () => {
   const reorderDate = useSelector(canReorderOn);
   const renderAlertDeceased = useSelector(showAlertDeceased);
   const renderAlertNoRecordForUser = useSelector(showAlertNoRecordForUser);
-  const renderAlertNoSuppliesForReorder = useSelector(
-    showAlertNoSuppliesForReorder,
-  );
-  const renderAlertReorderAccessExpired = useSelector(
-    showAlertReorderAccessExpired,
-  );
-  const renderAlertSomethingWentWrong = useSelector(
-    showAlertSomethingWentWrong,
-  );
+  const renderAlertNoSuppliesForReorder = useSelector(showAlertNoSuppliesForReorder); // prettier-ignore
+  const renderAlertReorderAccessExpired = useSelector(showAlertReorderAccessExpired); // prettier-ignore
+  const renderAlertSomethingWentWrong = useSelector(showAlertSomethingWentWrong); // prettier-ignore
 
   if (renderAlertDeceased) {
     return <AlertDeceased />;

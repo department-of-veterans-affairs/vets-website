@@ -20,6 +20,8 @@ export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
 export const FETCH_REFERRAL_SUCCEEDED = 'FETCH_REFERRAL_SUCCEEDED';
 export const FETCH_REFERRAL_FAILED = 'FETCH_REFERRAL_FAILED';
+export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
+export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
 export function setFacility(facility) {
   return {
@@ -121,5 +123,18 @@ export function fetchReferralById(id) {
       });
       return captureError(error);
     }
+  };
+}
+
+export function setSelectedSlot(slot) {
+  return {
+    type: SET_SELECTED_SLOT,
+    payload: slot,
+  };
+}
+
+export function setInitReferralFlow() {
+  return {
+    type: SET_INIT_REFERRAL_FLOW,
   };
 }

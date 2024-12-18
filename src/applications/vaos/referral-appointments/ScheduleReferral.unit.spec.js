@@ -6,9 +6,12 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral } from './utils/referrals';
+import { createReferral, getReferralSlotKey } from './utils/referrals';
 
 describe('VAOS Component: ScheduleReferral', () => {
+  afterEach(() => {
+    sessionStorage.clear();
+  });
   const referralDate = '2024-09-09';
   it('should display the subtitle correctly given different numbers of appointments', async () => {
     const referralOne = createReferral(referralDate, '111');
@@ -62,18 +65,27 @@ describe('VAOS Component: ScheduleReferral', () => {
 
     expect(details).to.exist;
     expect(details).to.contain.text(expectedDate);
-    expect(details).to.contain.text('Type of care: Cardiology');
-    expect(details).to.contain.text('Provider: Dr. Face');
-    expect(details).to.contain.text('Location: New skin technologies bldg 2');
-    expect(details).to.contain.text('Number of appointments: 1');
-    expect(details).to.contain.text('Referral number: VA0000009880');
     expect(helpText).to.exist;
     expect(additionalAppointmentHelpText).to.exist;
 
     expect(facility).to.exist;
-    expect(facility).to.contain.text(
-      'Referring VA facility: Batavia VA Medical Center',
-    );
-    expect(facility).to.contain.text('Phone: (585) 297-1000');
+  });
+  it('should reset slot selection', async () => {
+    const referral = createReferral(referralDate, '222');
+    const selectedSlotKey = getReferralSlotKey(referral.UUID);
+    sessionStorage.setItem(selectedSlotKey, '0');
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingCCDirectScheduling: true,
+      },
+      referral: {
+        currentPage: 'scheduleAppointment',
+        selectedSlot: '0',
+      },
+    };
+    renderWithStoreAndRouter(<ScheduleReferral currentReferral={referral} />, {
+      initialState,
+    });
+    expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
   });
 });

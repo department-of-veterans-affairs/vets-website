@@ -24,6 +24,7 @@ import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
 import InstitutionDetails from '../pages/institutionDetails';
 import { transform } from './submit-transformer';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 // import submitForm from './submitForm';
 
 const { date, dateRange } = commonDefinitions;
@@ -113,6 +114,25 @@ const formConfig = {
             } else {
               goPath('/institution-details');
             }
+          },
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {},
           },
         },
       },

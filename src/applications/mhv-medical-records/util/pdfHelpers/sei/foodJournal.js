@@ -33,17 +33,17 @@ export const generateFoodJournalContent = record => {
       },
       {
         title: 'Quantity',
-        value: item.methodOfPreparation,
-        inline: true,
-      },
-      {
-        title: 'Serving size',
         value: item.quantity,
         inline: true,
       },
       {
-        title: 'Method of preparation',
+        title: 'Serving size',
         value: item.servingSize,
+        inline: true,
+      },
+      {
+        title: 'Method of preparation',
+        value: item.methodOfPreparation,
         inline: true,
       },
     ];

@@ -14,7 +14,6 @@ import { getCalculatedBenefits } from '../selectors/calculator';
 import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
-import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export function CalculateYourBenefits({
   calculated,
@@ -184,23 +183,6 @@ export function CalculateYourBenefits({
                 )
               </span>
             )}
-          </div>
-
-          <div className="vads-u-padding-bottom--1 small-screen-font">
-            <LearnMoreLabel
-              text="Protection against late VA payments"
-              onClick={() => {
-                dispatchShowModal('section103');
-              }}
-              buttonClassName="small-screen-font"
-              bold
-              buttonId="protection-against-late-payments-learn-more"
-            />
-            <strong>:</strong>
-            &nbsp;
-            {profile.attributes.section103Message
-              ? profile.attributes.section103Message
-              : 'No'}
           </div>
         </>
       )}

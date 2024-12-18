@@ -321,19 +321,11 @@ class TrackClaimsPageV2 {
       });
 
     if (isOldVersion) {
-      cy.get('va-checkbox')
-        .shadow()
-        .find('input[type="checkbox"]')
-        .check({ force: true });
       cy.get('va-button.submit-files-button')
         .shadow()
         .find('button')
         .click();
     } else {
-      cy.get('va-checkbox')
-        .shadow()
-        .find('input[type="checkbox"]')
-        .check({ force: true });
       cy.get('va-button#submit')
         .shadow()
         .find('button')

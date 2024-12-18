@@ -1,5 +1,6 @@
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+// import { REVIEW_CONTACT } from 'platform/forms-system/src/js/utilities/data/profile';
 
 /*
 * @param {Array} urlArray Array of page URLs where these styles should be applied - to target all URLs, use value: ['']

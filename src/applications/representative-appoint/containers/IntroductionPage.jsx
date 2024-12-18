@@ -169,4 +169,7 @@ function mapStateToProps(state) {
   };
 }
 
+// named export for testing
+export { IntroductionPage };
+
 export default connect(mapStateToProps)(IntroductionPage);

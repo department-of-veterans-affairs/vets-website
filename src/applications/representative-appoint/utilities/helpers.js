@@ -102,7 +102,7 @@ export const getRepType = entity => {
     return 'Organization';
   }
 
-  const repType = entity.attributes?.individualType;
+  const repType = entity?.attributes?.individualType;
 
   if (repType === 'attorney') {
     return 'Attorney';
@@ -123,7 +123,7 @@ export const getFormNumber = formData => {
     entityType === 'organization' ||
     (['representative', 'individual'].includes(entityType) &&
       ['representative', 'veteran_service_officer'].includes(
-        entity.attributes.individualType,
+        entity?.attributes?.individualType,
       ))
   ) {
     return '21-22';

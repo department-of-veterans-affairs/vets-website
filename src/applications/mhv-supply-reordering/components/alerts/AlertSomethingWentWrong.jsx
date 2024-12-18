@@ -3,7 +3,11 @@ import DlcEmailLink from '../DlcEmailLink';
 import DlcTelephoneLink from '../DlcTelephoneLink';
 
 const AlertSomethingWentWrong = () => (
-  <va-alert status="error" data-testid="reorder-alert--something-went-wrong">
+  <va-alert
+    status="error"
+    data-testid="reorder-alert--something-went-wrong"
+    class="vads-u-margin-bottom--5"
+  >
     <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
     <div className="mdot-server-error-alert">
       <p>

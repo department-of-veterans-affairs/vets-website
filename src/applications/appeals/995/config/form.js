@@ -18,6 +18,7 @@ import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest'
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
+import EvidencePrivateLimitation2 from '../components/EvidencePrivateLimitation2';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
@@ -53,6 +54,7 @@ import evidenceSummary from '../pages/evidenceSummary';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
+  hasPrivateLimitation,
   hasOtherEvidence,
   onFormLoaded,
 } from '../utils/evidence';
@@ -67,6 +69,7 @@ import {
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SC_NEW_FORM_DATA,
@@ -260,21 +263,6 @@ const formConfig = {
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
         },
-        optionForMst: {
-          title: 'Option for claims related to MST',
-          path: 'option-claims',
-          uiSchema: optionForMst.uiSchema,
-          schema: optionForMst.schema,
-          depends: showScNewForm,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        optionIndicator: {
-          title: 'Option to add an indicator',
-          path: 'option-indicator',
-          uiSchema: optionIndicator.uiSchema,
-          schema: optionIndicator.schema,
-          depends: hasMstOption,
-        },
       },
     },
 
@@ -359,6 +347,16 @@ const formConfig = {
           uiSchema: blankUiSchema,
           schema: blankSchema,
         },
+        // Duplicate of limitation page, but renders different content based on
+        evidencePrivateLimitation2: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH2,
+          depends: hasPrivateLimitation,
+          CustomPage: EvidencePrivateLimitation2,
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
+        },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
           path: EVIDENCE_ADDITIONAL_PATH,
@@ -381,6 +379,27 @@ const formConfig = {
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
           scrollAndFocusTarget: focusAlertH3,
+        },
+      },
+    },
+
+    vhaIndicator: {
+      title: 'VHA Indicator',
+      pages: {
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },

@@ -7,24 +7,6 @@ const App = () => {
   return (
     <div>
       <div className="row">
-        {/* Delete lines 11 - 25 to rremove alert */}
-        <div className="vads-u-margin-top--2p5">
-          <va-alert
-            closeBtnAriaLabel="Close notification"
-            slim
-            full-width="false"
-            status="warning"
-            visible
-          >
-            <p className="vads-u-margin-y--0">
-              VA is aware of the Chapter 33, 6-credit hour exclusion (6x)
-              technical issue and is actively working on a solution. We will
-              keep you informed as we have updates.
-            </p>
-          </va-alert>
-        </div>
-        {/* Delete lines 11 - 25 to remove alert  */}
-
         <VaBreadcrumbs
           breadcrumbList={[
             {

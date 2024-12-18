@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import LicenseCertificationInfoTabs from '../components/LicenseCertificationInfoTabs';
+import { LC_TABS } from '../constants';
 
 function LicenseCertificationSearchResult({
   dispatchFetchLcResult,
@@ -12,17 +13,19 @@ function LicenseCertificationSearchResult({
   resultInfo,
 }) {
   const { type, id } = useParams();
+  const [tab, setTab] = useState(LC_TABS.test);
 
-  useEffect(
-    () => {
-      if (!hasFetchedResult) {
-        dispatchFetchLcResult(`lce/${type}/${id}`);
-      }
-    },
-    [dispatchFetchLcResult, hasFetchedResult, type, id],
-  );
+  useEffect(() => {
+    if (!hasFetchedResult) {
+      dispatchFetchLcResult(`lce/${type}/${id}`);
+    }
+  }, []);
 
   const { desc, type: category } = resultInfo;
+
+  const tabChange = selectedTab => {
+    setTab(selectedTab);
+  };
 
   return (
     <div>
@@ -34,7 +37,11 @@ function LicenseCertificationSearchResult({
           </h2>
         </div>
         <div className="row">
-          <LicenseCertificationInfoTabs />
+          <LicenseCertificationInfoTabs
+            onChange={tabChange}
+            tab={tab}
+            resultInfo={resultInfo}
+          />
         </div>
       </section>
     </div>

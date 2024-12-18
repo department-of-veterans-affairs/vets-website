@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   crisisLineHeader,
@@ -28,7 +27,9 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
+  sendDataDogAction,
   formatDateAndTime,
+  formatUserDob,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -112,9 +113,6 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -137,7 +135,7 @@ const RadiologyDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
@@ -246,7 +244,7 @@ ${record.results}`;
           <Link
             to={`/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
-            data-testid="radiology-request-images"
+            data-testid="radiology-view-all-images"
           >
             View all {radiologyDetails.imageCount} images
           </Link>
@@ -321,6 +319,7 @@ ${record.results}`;
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - radiology name]"
       >
         {record.name}
       </h1>
@@ -332,42 +331,66 @@ ${record.results}`;
       />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={downloadPdf}
         downloadTxt={generateRadioloyTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p data-testid="radiology-reason" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-reason"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology reason]"
+        >
           {record.reason}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p data-testid="radiology-clinical-history" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-clinical-history"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology clinical history]"
+        >
           {record.clinicalHistory}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="radiology-ordered-by" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology ordered by]"
+        >
           {record.orderedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="radiology-imaging-location" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology location]"
+        >
           {record.imagingLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-provider"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology provider]"
+        >
           {record.imagingProvider}
         </p>
         {!phase0p5Flag && (
@@ -387,6 +410,9 @@ ${record.results}`;
               )}
               text="Request images on the My HealtheVet website"
               data-testid="radiology-images-link"
+              onClick={() => {
+                sendDataDogAction('Request images on MHV');
+              }}
             />
           </>
         )}
@@ -399,6 +425,7 @@ ${record.results}`;
           data-testid="radiology-record-results"
           className="monospace"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology results]"
         >
           {record.results}
         </p>

@@ -15,7 +15,7 @@ import { ALERT_TYPE_ERROR, accessAlertTypes } from '../../util/constants';
 import FeedbackEmail from './FeedbackEmail';
 
 const AccessTroubleAlertBox = props => {
-  const { className, alertType } = props;
+  const { className, alertType, documentType } = props;
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
@@ -27,11 +27,11 @@ const AccessTroubleAlertBox = props => {
       aria-live="polite"
     >
       <h2 slot="headline" data-testid="expired-alert-message">
-        {alertType === accessAlertTypes.BLUE_BUTTON_REPORT
-          ? "We can't download your records right now"
+        {alertType === accessAlertTypes.DOCUMENT
+          ? `We can't download your ${documentType} right now`
           : `We can’t access your ${alertType} records right now`}
       </h2>
-      <p>We’re sorry. There’s a problem with our system. Check back later.</p>
+      <p>We’re sorry. There’s a problem with our system. Check again later.</p>
       {phase0p5Flag ? (
         <p>
           If it still doesn’t work, call us at call us at{' '}
@@ -53,4 +53,5 @@ export default AccessTroubleAlertBox;
 AccessTroubleAlertBox.propTypes = {
   alertType: PropTypes.string.isRequired,
   className: PropTypes.any,
+  documentType: PropTypes.string,
 };

@@ -19,7 +19,6 @@ const burialsLocation = {
 
 const store = ({
   burialFormEnabled = true,
-  burialFormV2 = false,
   featuresLoading = true,
   profileLoading = false,
   savedForms = [],
@@ -37,7 +36,6 @@ const store = ({
     featureToggles: {
       loading: featuresLoading,
       burialFormEnabled,
-      burialFormV2,
     },
   }),
   subscribe: () => {},

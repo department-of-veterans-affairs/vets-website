@@ -3,7 +3,6 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const UnauthContent = () => (
   <>
@@ -56,10 +55,6 @@ export const UnauthContent = () => (
       Find out how to apply for VA health care
     </a>
     <br />
-    <p>
-      <strong>And you must have one of these free accounts:</strong>
-    </p>
-    <ServiceProvidersList />
 
     <h2>Once I’m signed in, how do I get started?</h2>
     <p>

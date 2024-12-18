@@ -47,8 +47,8 @@ const responses = {
         res.json(
           generateFeatureToggles({
             aedpVADX: true,
-            coeAccess: true,
-            profileUseExperimental: true,
+            coeAccess: false,
+            profileUseExperimental: false,
           }),
         ),
       secondsOfDelay,

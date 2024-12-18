@@ -5,14 +5,13 @@ import { CalculationInstructions } from './components/CalculationInstructions';
 
 const route = [
   {
-    path: '/calculations-instructions',
+    path: '/calculation-instructions',
     component: CalculationInstructions,
   },
   {
     path: '/',
     component: App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-
     childRoutes: createRoutesWithSaveInProgress(formConfig),
   },
 ];

@@ -10,6 +10,7 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
 import formConfig from '../config/form';
 import { WIP } from '../../shared/components/WIP';
 import { workInProgressContent } from '../config/constants';
@@ -49,7 +50,9 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state?.featureToggles?.loading,
-  showForm: toggleValues(state)[FEATURE_FLAG_NAMES.form2010207] || false,
+  showForm:
+    toggleValues(state)[FEATURE_FLAG_NAMES.form2010207] ||
+    environment.isLocalhost(),
 });
 
 export default connect(mapStateToProps)(App);

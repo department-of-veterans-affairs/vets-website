@@ -118,8 +118,9 @@ export default class DeceasedPersons extends React.Component {
     } else {
       // Set all the fields for this item as touched, so we show errors
       const touched = setArrayRecordTouched(this.props.idSchema.$id, index);
-      this.props.formContext.setTouched(touched, () => {
-        scrollToFirstError();
+      // Modified the reference to ensure it correctly accesses formContext from registry in order for the unit test to pass
+      this.props.registry.formContext.setTouched(touched, () => {
+        this.scrollToFirstError();
       });
     }
   }

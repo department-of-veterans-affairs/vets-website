@@ -14,7 +14,7 @@ import {
  * @param {*} listState one of PRE_FETCH, FETCHING, FETCHED
  * @param {Date} listCurrentAsOf last date the list was confirmed to be up-to-date
  * @param {*} refreshStatus the list of statuses from the PHR refresh status call response
- * @param {*} extractType the relevant extract type from the PHR refresh status call (e.g. ALLERGY)
+ * @param {string|array} extractType the relevant extract type(s) from the PHR refresh status call (e.g. ALLERGY)
  * @param {function} dispatchAction the action creator function that will fetch the list
  * @param {function} dispatch the React dispatch function
  */
@@ -28,12 +28,17 @@ function useListRefresh({
 }) {
   const refreshIsCurrent = useMemo(
     () => {
+      const extractTypeList = Array.isArray(extractType)
+        ? extractType
+        : [extractType];
       return (
         refreshStatus &&
-        refreshStatus.some(
-          extStatus =>
-            extStatus.extract === extractType &&
-            extStatus.phase === refreshPhases.CURRENT,
+        extractTypeList.every(type =>
+          refreshStatus.some(
+            extStatus =>
+              extStatus.extract === type &&
+              extStatus.phase === refreshPhases.CURRENT,
+          ),
         )
       );
     },

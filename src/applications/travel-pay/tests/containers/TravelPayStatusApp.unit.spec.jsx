@@ -115,7 +115,7 @@ describe('App', () => {
         areFeatureTogglesLoading: false,
         hasFeatureFlag: false,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
     await waitFor(() => {
@@ -123,10 +123,21 @@ describe('App', () => {
     });
   });
 
-  it('should render loading state if feature flag is loading', async () => {
+  it('should redirect the root path / to /claims/ and render the app.', async () => {
     const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
       initialState: getData(),
       path: `/`,
+      reducers: reducer,
+    });
+    expect(
+      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
+    ).to.exist;
+  });
+
+  it('should render loading state if feature flag is loading', async () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
+      initialState: getData(),
+      path: `/claims/`,
       reducers: reducer,
     });
     expect(
@@ -141,7 +152,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: false,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
     expect(await screen.findByText('Log in to view your travel claims')).to
@@ -155,7 +166,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -172,7 +183,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -191,7 +202,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -225,7 +236,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -261,7 +272,7 @@ describe('App', () => {
         hasClaimDetailsFeatureFlag: false,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -279,7 +290,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: false,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -295,7 +306,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -352,7 +363,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -408,7 +419,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -440,7 +451,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -482,7 +493,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -513,7 +524,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -564,7 +575,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 
@@ -626,7 +637,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/`,
+      path: `/claims/`,
       reducers: reducer,
     });
 

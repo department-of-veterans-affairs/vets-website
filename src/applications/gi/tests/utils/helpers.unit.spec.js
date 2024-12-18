@@ -579,7 +579,7 @@ describe('GIBCT helpers:', () => {
             { optionValue: 'preps', optionLabel: 'Prep Course' },
           ],
           alt: 'category type',
-          current: { optionValue: '', optionLabel: '-Select-' },
+          current: { optionValue: 'all', optionLabel: 'All' },
         },
         {
           label: 'state',
@@ -592,12 +592,6 @@ describe('GIBCT helpers:', () => {
           current: { optionValue: 'All', optionLabel: 'All' },
         },
       ];
-
-      // Sample target (representing an event.target object)
-      const target = {
-        id: 'category',
-        value: 'licenses',
-      };
 
       const expectedResult = [
         {
@@ -623,7 +617,7 @@ describe('GIBCT helpers:', () => {
         },
       ];
 
-      const result = handleUpdateLcFilterDropdowns(dropdowns, target);
+      const result = handleUpdateLcFilterDropdowns(dropdowns, 0, 1);
 
       expect(result).to.deep.equal(expectedResult);
     });

@@ -14,11 +14,13 @@ import {
   includeInsuranceInformation,
   collectMedicareInformation,
   canVeteranProvideRadiationCleanupResponse,
-  canVeteranProvideGulfWarResponse,
+  canVeteranProvideGulfWarServiceResponse,
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
+  canVeteranProvidePostSept11ServiceResponse,
   includeGulfWarServiceDates,
   includeAgentOrangeExposureDates,
+  includePostSept11ServiceDates,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
@@ -290,37 +292,27 @@ describe('ezr form config helpers', () => {
   context('when `includeGulfWarServiceDates` executes', () => {
     context(
       'when the `gulfWarService` value is true, `includeTeraInformation` evaluates to true, ' +
-        "and the user's DOB is exactly 15 years ago from the present day or prior",
+        "and the user's DOB is prior to 1976",
       () => {
         const formData = {
           gulfWarService: true,
           hasTeraResponse: true,
-          veteranDateOfBirth: '2009-07-16',
+          veteranDateOfBirth: '1975-12-31',
         };
         it('returns `true`', () => {
           expect(includeGulfWarServiceDates(formData)).to.be.true;
-        });
-
-        const formDataWithLatestPossibleDate = {
-          gulfWarService: true,
-          hasTeraResponse: true,
-          veteranDateOfBirth: subYears(new Date(), 15),
-        };
-        it('returns `true`', () => {
-          expect(includeGulfWarServiceDates(formDataWithLatestPossibleDate)).to
-            .be.true;
         });
       },
     );
 
     context(
       'when the `gulfWarService` value is false, and/or `includeTeraInformation` evaluates ' +
-        "to false, and/or the user's DOB is NOT exactly 15 years ago from the present day or prior",
+        "to false, and/or the user's DOB is NOT prior to 1976",
       () => {
         const formData = {
           gulfWarService: true,
           hasTeraResponse: false,
-          veteranDateOfBirth: subYears(new Date(), 10),
+          veteranDateOfBirth: '2004-10-25',
         };
         it('returns `false`', () => {
           expect(includeGulfWarServiceDates(formData)).to.be.false;
@@ -356,6 +348,48 @@ describe('ezr form config helpers', () => {
         };
         it('returns `false`', () => {
           expect(includeAgentOrangeExposureDates(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `includePostSept11ServiceDates` executes', () => {
+    context(
+      'when the `gulfWarService` value is true, `includeTeraInformation` evaluates to true, ' +
+        "and the user's DOB is between 1976 and the present day - 15 years",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1976-01-01',
+        };
+        it('returns `true`', () => {
+          expect(includePostSept11ServiceDates(formData)).to.be.true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: subYears(new Date(), 15),
+        };
+        it('returns `true`', () => {
+          expect(includePostSept11ServiceDates(formDataWithLatestPossibleDate))
+            .to.be.true;
+        });
+      },
+    );
+
+    context(
+      'when the `gulfWarService` value is false, and/or `includeTeraInformation` evaluates ' +
+        "to false, and/or the user's DOB is not between 1976 and the present day - 15 years",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1966-02-12',
+        };
+        it('returns `false`', () => {
+          expect(includePostSept11ServiceDates(formData)).to.be.false;
         });
       },
     );
@@ -426,38 +460,28 @@ describe('ezr form config helpers', () => {
   context('when `canVeteranProvideGulfWarResponse` executes', () => {
     context(
       "when `includeTeraInformation` evaluates to true and the user's DOB " +
-        'DOB is exactly 15 years ago from the present day or prior',
+        'is prior to 1976',
       () => {
         const formData = {
           hasTeraResponse: true,
-          veteranDateOfBirth: '2004-04-23',
+          veteranDateOfBirth: '1975-12-31',
         };
         it('returns `true`', () => {
-          expect(canVeteranProvideGulfWarResponse(formData)).to.be.true;
-        });
-
-        const formDataWithLatestPossibleDate = {
-          hasTeraResponse: true,
-          veteranDateOfBirth: subYears(new Date(), 15),
-        };
-        it('returns `true`', () => {
-          expect(
-            canVeteranProvideGulfWarResponse(formDataWithLatestPossibleDate),
-          ).to.be.true;
+          expect(canVeteranProvideGulfWarServiceResponse(formData)).to.be.true;
         });
       },
     );
 
     context(
       "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
-        'is NOT exactly 15 years ago from the present day or prior',
+        'is NOT prior to 1976',
       () => {
         const formData = {
           hasTeraResponse: false,
-          veteranDateOfBirth: subYears(new Date(), 7),
+          veteranDateOfBirth: '2001-10-18',
         };
         it('returns `false`', () => {
-          expect(canVeteranProvideGulfWarResponse(formData)).to.be.false;
+          expect(canVeteranProvideGulfWarServiceResponse(formData)).to.be.false;
         });
       },
     );
@@ -501,6 +525,50 @@ describe('ezr form config helpers', () => {
         };
         it('returns `false`', () => {
           expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
+            .false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvidePostSept11Response` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is between 1976 and the present day - 15 years',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1976-01-01',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvidePostSept11ServiceResponse(formData)).to.be
+            .true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: subYears(new Date(), 15),
+        };
+        it('returns `true`', () => {
+          expect(
+            canVeteranProvidePostSept11ServiceResponse(
+              formDataWithLatestPossibleDate,
+            ),
+          ).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is NOT between 1976 and the present day - 15 years',
+      () => {
+        const formData = {
+          hasTeraResponse: false,
+          veteranDateOfBirth: subYears(new Date(), 8),
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvidePostSept11ServiceResponse(formData)).to.be
             .false;
         });
       },

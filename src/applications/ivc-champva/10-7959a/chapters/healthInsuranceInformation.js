@@ -28,7 +28,7 @@ const radioLabels = {
 };
 
 const hintText =
-  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance.';
+  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance. You can add up to 2 health insurance policies';
 
 const yesNoContent = {
   title:
@@ -128,6 +128,8 @@ const insuranceProviderPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${get('name', formData)} insurance type`,
+      '',
+      false,
     ),
     type: {
       ...radioUI({

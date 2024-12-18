@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function DeathCertificateUploadMessage({ form }) {
+export default function DeathCertificateUploadMessage({ formData }) {
   const isAvailable =
-    form?.burialAllowanceRequested?.service === true ||
-    form?.locationOfDeath?.location !== 'vaMedicalCenter';
+    formData?.burialAllowanceRequested?.service === true ||
+    formData?.locationOfDeath?.location !== 'vaMedicalCenter';
 
   const isConnectedToMedicalCenter = Boolean(
-    form?.burialAllowanceRequested?.service === true &&
-    form?.locationOfDeath?.location === 'vaMedicalCenter'
+    formData?.burialAllowanceRequested?.service === true &&
+    formData?.locationOfDeath?.location === 'vaMedicalCenter'
       ? 0
       : 1,
   );
@@ -48,7 +48,7 @@ export default function DeathCertificateUploadMessage({ form }) {
 }
 
 DeathCertificateUploadMessage.propTypes = {
-  form: PropTypes.shape({
+  formData: PropTypes.shape({
     burialAllowanceRequested: PropTypes.shape({
       service: PropTypes.bool,
     }),

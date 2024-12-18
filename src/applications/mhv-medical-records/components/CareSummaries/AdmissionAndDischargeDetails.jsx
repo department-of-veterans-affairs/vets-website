@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -20,6 +19,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -43,9 +43,6 @@ const AdmissionAndDischargeDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -72,7 +69,7 @@ const AdmissionAndDischargeDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
@@ -119,6 +116,7 @@ ${record.summary}`;
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[admission discharge summary - name]"
       >
         {record.name}
       </h1>
@@ -132,18 +130,26 @@ ${record.summary}`;
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="CS&N Detail"
         downloadPdf={generateCareNotesPDF}
         downloadTxt={generateCareNotesTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="CS&N Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location" data-dd-privacy="mask">
+        <p
+          data-testid="note-record-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[admission discharge summary - location]"
+        >
           {record.location}
         </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
@@ -152,7 +158,11 @@ ${record.summary}`;
               <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                 Date admitted
               </h3>
-              <p data-testid="note-admission-date" data-dd-privacy="mask">
+              <p
+                data-testid="note-admission-date"
+                data-dd-privacy="mask"
+                data-dd-action-name="[admission discharge summary - admission date]"
+              >
                 {record.admissionDate}
               </p>
             </>
@@ -162,7 +172,11 @@ ${record.summary}`;
             <h3 className="vads-u-font-size--md vads-u-font-family--sans">
               Date discharged
             </h3>
-            <p data-testid="note-discharge-date" data-dd-privacy="mask">
+            <p
+              data-testid="note-discharge-date"
+              data-dd-privacy="mask"
+              data-dd-action-name="[admission discharge summary - discharge date]"
+            >
               {record.dischargeDate}
             </p>
           </>
@@ -170,7 +184,11 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p data-testid="note-discharged-by" data-dd-privacy="mask">
+        <p
+          data-testid="note-discharged-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[admission discharge summary - discharged by]"
+        >
           {record.dischargedBy}
         </p>
       </div>
@@ -181,6 +199,7 @@ ${record.summary}`;
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
           data-dd-privacy="mask"
+          data-dd-action-name="[admission discharge summary - Summary]"
         >
           {record.summary}
         </p>

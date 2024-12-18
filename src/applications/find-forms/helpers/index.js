@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { parse, compareAsc } from 'date-fns';
 import { deriveLatestIssue } from '../components/SearchResult';
 import {
   FAF_SORT_OPTIONS,
@@ -43,23 +43,22 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
     sortByPropertyName === LAST_UPDATED_OLDEST_OPTION ||
     sortByPropertyName === LAST_UPDATED_NEWEST_OPTION
   ) {
+    const dateA = parse(
+      latestTimeStampIndexA,
+      FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+      new Date(),
+    );
+    const dateB = parse(
+      latestTimeStampIndexB,
+      FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+      new Date(),
+    );
+
+    const dateComparison = compareAsc(dateA, dateB);
+
     return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
-      ? moment(
-          latestTimeStampIndexA,
-          FORM_MOMENT_PRESENTATION_DATE_FORMAT,
-        ).toDate() - // DESCENDING
-          moment(
-            latestTimeStampIndexB,
-            FORM_MOMENT_PRESENTATION_DATE_FORMAT,
-          ).toDate()
-      : moment(
-          latestTimeStampIndexB,
-          FORM_MOMENT_PRESENTATION_DATE_FORMAT,
-        ).toDate() - // ASCENDING
-          moment(
-            latestTimeStampIndexA,
-            FORM_MOMENT_PRESENTATION_DATE_FORMAT,
-          ).toDate();
+      ? dateComparison // Oldest first (ascending)
+      : -dateComparison; // Newest first (descending)
   }
 
   // SORT BY ALPHABET

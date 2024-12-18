@@ -7,8 +7,6 @@ describe('Medical Records download page', () => {
     site.login();
     site.loadPage();
 
-    DownloadReportsPage.handleSession();
-
     DownloadReportsPage.goToReportsPage();
 
     DownloadReportsPage.clickCcdAccordionItem();

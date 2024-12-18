@@ -64,7 +64,7 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const handleGoForward = ({ selectionMade = false }) => {
+  const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
     const selection = formData['view:selectedRepresentative'];
     const noSelectionExists = !selection && !selectionMade;
 
@@ -75,7 +75,7 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep.current) {
+      if (!newSelection || newSelection === currentSelectedRep.current) {
         goToPath('/review-and-submit');
       } else {
         goToPath('/representative-contact?review=true');
@@ -133,9 +133,14 @@ const SelectAccreditedRepresentative = props => {
       // similar to the tempData trick above with async state variables,
       //  we need to trick our routing logic to know that a selection has
       //  been made before that selection is reflected in formData.
-      //  Otherwise, one would have to double click the select
+      //
+      // selectionMade: prevents users from needing to double click the select
       //  representative button to register that a selection was made.
-      handleGoForward({ selectionMade: true });
+      //
+      // newSelection: prevents issue with routing from the review page
+      //   where selecting a new representative is treated as the original
+      //   representative due to formData not updating synchronously.
+      handleGoForward({ selectionMade: true, newSelection: selectedRepResult });
     }
   };
 
@@ -197,7 +202,7 @@ SelectAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
   loggedIn: isLoggedIn(state),
 });
 

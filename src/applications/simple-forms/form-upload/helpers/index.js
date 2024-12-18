@@ -1,10 +1,15 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
-import { SUBTITLE_0779, DOWNLOAD_URL_0779 } from '../config/constants';
+import {
+  SUBTITLE_509,
+  DOWNLOAD_URL_509,
+  SUBTITLE_0779,
+  DOWNLOAD_URL_0779,
+} from '../config/constants';
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
-  const regex = /\/(\d{2}-\d{4})/;
+  const regex = /\/(\d{2}-\d{3,4})/;
   return path.match(regex)?.[1] || '';
 };
 
@@ -12,6 +17,10 @@ const formMappings = {
   '21-0779': {
     subTitle: SUBTITLE_0779,
     pdfDownloadUrl: DOWNLOAD_URL_0779,
+  },
+  '21-509': {
+    subTitle: SUBTITLE_509,
+    pdfDownloadUrl: DOWNLOAD_URL_509,
   },
 };
 

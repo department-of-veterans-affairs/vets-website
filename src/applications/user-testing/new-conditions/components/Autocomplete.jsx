@@ -161,6 +161,7 @@ const Autocomplete = ({
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
+        autocomplete="off"
         data-testid="autocomplete-input"
         id={id}
         label={label}

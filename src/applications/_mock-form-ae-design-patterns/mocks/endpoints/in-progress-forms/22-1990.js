@@ -18,7 +18,7 @@ const response = {
       street: USER.MAILING_ADDRESS.ADDRESS_LINE1,
       city: USER.MAILING_ADDRESS.CITY,
       state: USER.MAILING_ADDRESS.STATE_CODE,
-      country: USER.MAILING_ADDRESS.COUNTRY_CODE_ISO2,
+      country: USER.MAILING_ADDRESS.COUNTRY_CODE_ISO3,
       postalCode: USER.MAILING_ADDRESS.ZIP_CODE,
       isMilitary: false,
     },

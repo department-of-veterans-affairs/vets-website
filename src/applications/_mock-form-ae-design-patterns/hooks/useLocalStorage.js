@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 /**
  * useLocalStorage is a hook that provides a way to store and retrieve values from localStorage
  * @param {string} key - The key to store the value under
@@ -11,10 +10,17 @@ export const useLocalStorage = (key, defaultValue) => {
     let currentValue;
 
     try {
-      currentValue = JSON.parse(
-        localStorage.getItem(key) || String(defaultValue),
-      );
+      const item = localStorage.getItem(key);
+      if (item === null) {
+        currentValue = defaultValue;
+      } else if (item.startsWith('{') || item.startsWith('[')) {
+        currentValue = JSON.parse(item);
+      } else {
+        currentValue = item;
+      }
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error getting value from localStorage', error);
       currentValue = defaultValue;
     }
 
@@ -30,6 +36,7 @@ export const useLocalStorage = (key, defaultValue) => {
 
   const clearValue = () => {
     localStorage.removeItem(key);
+    setValue(defaultValue);
   };
 
   return [value, setValue, clearValue];

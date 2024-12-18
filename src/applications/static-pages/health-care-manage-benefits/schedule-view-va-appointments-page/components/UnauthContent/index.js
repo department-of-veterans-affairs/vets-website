@@ -2,7 +2,6 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
@@ -61,10 +60,6 @@ export const UnauthContent = () => (
         Find out how to apply for VA health care
       </a>
     </p>
-    <p>
-      <strong>And, you must have one of these free accounts:</strong>
-    </p>
-    <ServiceProvidersList />
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
       Online scheduling is available at all VA health facilities except in

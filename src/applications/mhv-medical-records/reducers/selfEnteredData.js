@@ -16,7 +16,7 @@ const initialState = {
   foodJournal: undefined,
   activityJournal: undefined,
   medications: undefined,
-  errors: [],
+  failedDomains: [],
 };
 
 export const NONE_ENTERED = 'None entered';
@@ -880,16 +880,20 @@ export const selfEnteredReducer = (state = initialState, action) => {
         demographics: convertDemographics(action.payload),
       };
     }
-    case Actions.SelfEntered.CLEAR_ERRORS: {
+    case Actions.SelfEntered.ADD_FAILED: {
+      const failedDomain = action.payload;
+
       return {
         ...state,
-        errors: [],
+        failedDomains: state.failedDomains.includes(failedDomain)
+          ? state.failedDomains
+          : [...state.failedDomains, failedDomain],
       };
     }
-    case Actions.SelfEntered.ADD_ERROR: {
+    case Actions.SelfEntered.CLEAR_FAILED: {
       return {
         ...state,
-        errors: [...state.errors, action.payload.type],
+        failedDomains: [],
       };
     }
     default:

@@ -66,14 +66,11 @@ export const getAllergies = async () => {
   );
 };
 
-export const getDocumentation = (id, ndcNumber) => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions/${id}/documentation?ndc=${ndcNumber}`,
-    {
-      method: 'GET',
-      headers,
-    },
-  );
+export const getDocumentation = id => {
+  return apiRequest(`${apiBasePath}/prescriptions/${id}/documentation`, {
+    method: 'GET',
+    headers,
+  });
 };
 
 // **Remove once filter feature is developed and live.**

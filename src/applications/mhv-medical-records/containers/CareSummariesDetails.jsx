@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getCareSummaryAndNotesDetails,
   clearCareSummariesDetails,
@@ -11,6 +12,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   loincCodes,
+  pageTitles,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -40,6 +42,7 @@ const CareSummariesDetails = () => {
       if (summaryId) {
         dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
       }
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
     [summaryId, careSummariesList, dispatch],
   );

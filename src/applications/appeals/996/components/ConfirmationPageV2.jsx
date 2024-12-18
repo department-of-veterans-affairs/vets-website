@@ -110,15 +110,14 @@ export const ConfirmationPageV2 = () => {
           Learn more about what happens after you request a decision review
         </a>
       </p>
-      <p>You can also check the status of your request online.</p>
+      <p>
+        You can check the status of your request in the claims and appeals
+        status tool. It may take <strong>7 to 10 days</strong> to appear there.
+      </p>
       <p>
         <a href="/claim-or-appeal-status/">
           Check the status of your request for a Higher-Level Review online
         </a>
-      </p>
-      <p>
-        <strong>Note:</strong> It may take 7 to 10 days after you submit your
-        request for it to appear online.
       </p>
 
       <h2>How to contact us if you have questions</h2>

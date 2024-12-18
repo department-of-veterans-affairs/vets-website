@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { getData } from '../mocks/mockFormData';
+import { getData, mockFormData } from '../mocks/mockFormData';
 import separationConfig from '../../../pages/separation';
 
 describe('separation page', () => {
@@ -22,5 +22,14 @@ describe('separation page', () => {
       </Provider>,
     );
     expect($('va-radio', container)).to.exist;
+  });
+
+  it('should updateUiSchema', () => {
+    const data = { ...mockFormData, militaryServiceCurrentlyServing: true };
+    const result = separationConfig.uiSchema.separation[
+      'ui:options'
+    ].updateUiSchema(data);
+
+    expect(result['ui:options'].hideOnReview).to.be.true;
   });
 });

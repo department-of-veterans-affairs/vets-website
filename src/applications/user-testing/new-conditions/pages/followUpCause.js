@@ -9,17 +9,6 @@ import { ServiceConnectedDisabilityDescription } from '../content/newConditions'
 import { causeOptions } from './conditionByConditionPages/cause';
 import { createItemName } from './conditionsFirstPages/utils';
 
-const getOtherConditions = (formData, currentIndex) => {
-  const otherNewConditions = formData?.conditionsFirst
-    ?.filter((_, index) => index !== currentIndex)
-    ?.map(item => createItemName(item));
-
-  return [...otherNewConditions];
-};
-
-const allCauses = ['NEW', 'SECONDARY', 'WORSENED', 'VA'];
-const causesWithoutSecondary = allCauses.filter(cause => cause !== 'SECONDARY');
-
 /** @type {PageSchema} */
 export default {
   title: formData => `Cause of ${createItemName(formData)}`,
@@ -35,13 +24,6 @@ export default {
         cause: radioUI({
           title: 'What caused your condition?',
           labels: causeOptions,
-          options: {
-            updateSchema: (formData, _causeSchema, _causeUISchema, index) => ({
-              enum: getOtherConditions(formData, index).length
-                ? allCauses
-                : causesWithoutSecondary,
-            }),
-          },
         }),
         'view:serviceConnectedDisabilityDescription': {
           'ui:description': ServiceConnectedDisabilityDescription,

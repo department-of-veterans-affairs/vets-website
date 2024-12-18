@@ -80,38 +80,31 @@ export const removeDuplicateEvents = events =>
 // each repeated instance. Repeating events can still be identified as such,
 // and let event listings show multiple recurring events.
 export const fleshOutRecurringEvents = events => {
-  if (!events) {
-    return [];
-  }
+  if (!events) return [];
+
+  const now = moment().unix();
 
   const allEvents = events.reduce((fullEvents, event) => {
-    if (!event.fieldDatetimeRangeTimezone) {
-      return fullEvents;
-    }
-
-    if (event?.fieldDatetimeRangeTimezone.length === 1) {
-      fullEvents.push(event);
-      return fullEvents;
-    }
-
     const eventTimes = event?.fieldDatetimeRangeTimezone;
-    // This makes each copy of a recurring event start with a different time,
-    // so each time is a separate event
-    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
-      const timeZonesCopy = [...eventTimes];
+    if (!eventTimes) return fullEvents;
 
-      // eslint-disable-next-line no-plusplus
+    // Filter to only future times before creating events
+    const futureTimes = eventTimes.filter(time => time.value > now);
+    if (futureTimes.length === 0) return fullEvents;
+
+    // Create events only for future occurrences
+    futureTimes.forEach((_, index) => {
+      const timeZonesCopy = [...futureTimes];
       for (let i = 0; i < index; i++) {
         timeZonesCopy.unshift(timeZonesCopy.pop());
       }
-
       fullEvents.push({ ...event, fieldDatetimeRangeTimezone: timeZonesCopy });
     });
 
     return fullEvents;
   }, []);
 
-  return [...allEvents]?.sort(
+  return [...allEvents].sort(
     (event1, event2) =>
       event1?.fieldDatetimeRangeTimezone[0]?.value -
       event2?.fieldDatetimeRangeTimezone[0]?.value,

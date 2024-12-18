@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -13,7 +13,6 @@ import { selectCurrentPage } from '../redux/selectors';
 import { routeToPreviousReferralPage } from '../flow';
 
 function BreadCrumbNav() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
 
@@ -21,7 +20,9 @@ function BreadCrumbNav() {
     currentPage === 'referralsAndRequests' || currentPage === 'scheduleReferral'
       ? 'Appointments'
       : 'Back';
-
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
   return (
     <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
       <nav aria-label="backlink" className="vads-u-padding-y--2 ">
@@ -32,7 +33,7 @@ function BreadCrumbNav() {
           text={text}
           onClick={e => {
             e.preventDefault();
-            dispatch(routeToPreviousReferralPage(history, currentPage));
+            routeToPreviousReferralPage(history, currentPage, id);
           }}
         />
       </nav>

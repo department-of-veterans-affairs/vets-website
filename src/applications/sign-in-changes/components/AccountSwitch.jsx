@@ -12,7 +12,7 @@ const CspDisplay = ({ csp, email, name }) => {
       </p>
       <VerifyButton
         csp={csp}
-        queryParam={{ operation: 'interstitial_verify' }}
+        queryParams={{ operation: 'interstitial_verify' }}
       />
     </>
   );

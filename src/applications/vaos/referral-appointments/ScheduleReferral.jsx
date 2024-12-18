@@ -5,19 +5,22 @@ import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { setFormCurrentPage } from './redux/actions';
+import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
+import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
+  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
+      dispatch(setInitReferralFlow());
+      sessionStorage.removeItem(selectedSlotKey);
     },
-    [location, dispatch],
+    [location, dispatch, selectedSlotKey],
   );
-
   const appointmentCountString =
     currentReferral.numberOfAppointments === 1
       ? '1 appointment'

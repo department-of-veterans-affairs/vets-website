@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
-import { Notice5103Description, content } from '../content/notice5103';
+import {
+  Notice5103Description,
+  Notice5103Details,
+  content,
+} from '../content/notice5103';
 
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
@@ -59,6 +64,12 @@ const Notice5103 = ({
       >
         <div slot="description">{content.descriptionInCheckbox}</div>
       </VaCheckbox>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
+        <Toggler.Enabled>
+          <Notice5103Details />
+        </Toggler.Enabled>
+      </Toggler>
+
       <div className="form-nav-buttons vads-u-margin-y--4">
         {onReviewPage && (
           <va-button

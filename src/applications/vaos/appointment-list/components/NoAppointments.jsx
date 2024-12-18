@@ -1,25 +1,14 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import { startNewAppointmentFlow } from '../redux/actions';
-// eslint-disable-next-line import/no-restricted-paths
-import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
+import ScheduleAppointmentLink from './ScheduleAppointmentLink';
 
-function handleClick(dispatch) {
-  return () => {
-    dispatch(startNewAppointmentFlow());
-  };
-}
 export default function NoAppointments({
   showScheduleButton,
   showAdditionalRequestDescription,
   description = 'appointments',
   level = 3,
 }) {
-  const dispatch = useDispatch();
-  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
-
   const Heading = `h${level}`;
 
   return (
@@ -48,14 +37,7 @@ export default function NoAppointments({
               to schedule an appointment.
             </p>
           )}
-          <div className="vaos-hide-for-print">
-            <va-link
-              onClick={handleClick(dispatch)}
-              text="Schedule an appointment"
-              data-testid="schedule-appointment-link"
-              href={`${root.url}${typeOfCare.url}`}
-            />
-          </div>
+          <ScheduleAppointmentLink />
         </>
       )}
       {!showScheduleButton && (

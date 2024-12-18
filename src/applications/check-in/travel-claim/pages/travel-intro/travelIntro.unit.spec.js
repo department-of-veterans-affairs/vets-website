@@ -35,5 +35,13 @@ describe('travel-claim', () => {
       fireEvent.click(link);
       expect(push.calledWith('travel-mileage')).to.be.true;
     });
+    it('renders OMB information', () => {
+      const { getByTestId } = render(
+        <CheckInProvider>
+          <TravelIntro />
+        </CheckInProvider>,
+      );
+      expect(getByTestId('travel-pay-omb')).to.exist;
+    });
   });
 });

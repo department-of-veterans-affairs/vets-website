@@ -81,12 +81,6 @@ describe('<AddFilesForm>', () => {
       );
 
       expect($('.add-files-form', container)).to.exist;
-      const checkbox = $('va-checkbox', container);
-      expect(checkbox).to.exist;
-      expect(checkbox.label).to.equal(
-        'The files I uploaded support this claim only.',
-      );
-      expect(checkbox.required).to.be.true;
       getAllByRole('link', {
         text: 'How to File a Claim page (opens in a new tab)',
       });
@@ -144,31 +138,6 @@ describe('<AddFilesForm>', () => {
       expect(onDirtyFields.called).to.be.true;
     });
 
-    it('should not submit if files are valid and checkbox is not checked', () => {
-      const files = [
-        {
-          file: {
-            size: 20,
-            name: 'something.jpeg',
-          },
-          docType: 'L501',
-        },
-      ];
-      const onSubmit = sinon.spy();
-      const onDirtyFields = sinon.spy();
-      const { container } = render(
-        <AddFilesForm
-          {...fileFormProps}
-          files={files}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-        />,
-      );
-      fireEvent.click($('#submit', container));
-      expect(onSubmit.called).to.be.false;
-      expect(onDirtyFields.called).to.be.true;
-    });
-
     it('should add a valid file and submit', async () => {
       const onSubmit = sinon.spy();
       const onDirtyFields = sinon.spy();
@@ -180,11 +149,6 @@ describe('<AddFilesForm>', () => {
           onDirtyFields={onDirtyFields}
         />,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Rerender component with new props and submit the file upload
       rerender(
@@ -219,13 +183,7 @@ describe('<AddFilesForm>', () => {
         />,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Rerender component with new props and submit the file upload
-
       rerender(
         <AddFilesForm
           {...fileFormProps}

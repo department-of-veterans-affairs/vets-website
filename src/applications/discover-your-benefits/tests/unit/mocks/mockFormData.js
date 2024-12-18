@@ -7,7 +7,8 @@ export const mockFormData = {
   characterOfDischarge: 'honorable',
   characterOfDischargeTWO: {},
   separation: 'OVER_3YRS',
-  militaryServiceCurrentlyServing: 'No',
+  militaryServiceCurrentlyServing: false,
+  militaryServiceCompleted: false,
   militaryServiceTotalTimeServed: 'More than 3 years',
   goals: {
     understandMyBenefits: true,
@@ -18,7 +19,7 @@ export const mockFormData = {
 export const getData = ({
   loggedIn = true,
   isVerified = true,
-  data = {},
+  data = mockFormData,
   contestableIssues = {},
 } = {}) => ({
   props: {

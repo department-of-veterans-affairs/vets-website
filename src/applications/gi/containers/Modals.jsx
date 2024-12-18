@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as actions from '../actions';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
@@ -354,59 +353,6 @@ export function Modals({ hideModal, modals, profile }) {
         large
       >
         <IndependentStudyModalContent />
-      </VaModal>
-
-      <VaModal
-        onCloseEvent={hideModal}
-        visible={shouldDisplayModal('section103')}
-        modalTitle="Protection against late VA payments"
-        large
-      >
-        <p>
-          If VA is late making a tuition payment to a GI Bill school, the school
-          can’t prevent a GI Bill student from attending classes or accessing
-          school facilities.
-        </p>
-        <p>
-          Schools may require students to provide proof of their GI Bill
-          eligibility in the form of:
-        </p>
-        <ul>
-          <li>
-            Certificate of Eligibility (COE) <strong>or</strong>
-          </li>
-          <li>
-            Certificate of Eligibility (COE) and additional criteria like an
-            award letter or other documents the school specifies
-          </li>
-        </ul>
-        <p>
-          <strong>
-            In addition, schools can’t charge late fees or otherwise penalize GI
-            Bill students if VA is late making a tuition and/or fees payment.
-          </strong>{' '}
-          This restriction on penalties doesn’t apply if the student owes
-          additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected from these penalties for up to 90 days
-          from the beginning of the term.
-        </p>
-        <p>
-          Contact the School Certifying Official (SCO) to learn more about the
-          school’s policy.{' '}
-          <a
-            href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
-            onClick={() => {
-              recordEvent({
-                event: 'gibct-modal-link-click',
-              });
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our policy on protecting students from late VA payments
-          </a>
-          .
-        </p>
       </VaModal>
     </>
   );

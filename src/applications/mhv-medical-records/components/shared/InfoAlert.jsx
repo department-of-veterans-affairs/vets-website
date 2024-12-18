@@ -4,6 +4,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { useSelector } from 'react-redux';
 import ExternalLink from './ExternalLink';
+import { sendDataDogAction } from '../../util/helpers';
 
 const InfoAlert = ({ highLowResults, fullState }) => {
   const phase0p5Flag = useSelector(
@@ -12,6 +13,7 @@ const InfoAlert = ({ highLowResults, fullState }) => {
   return (
     <>
       <va-alert-expandable
+        data-dd-action-name="Need help understanding your results"
         trigger="Need help understanding your results?"
         data-testid="understanding-result"
         class="no-print vads-u-margin-y--1p5"
@@ -41,9 +43,13 @@ const InfoAlert = ({ highLowResults, fullState }) => {
             <va-link
               href="/my-health/secure-messages/new-message/"
               text="Start a new message"
+              onClick={() => {
+                sendDataDogAction('Start a new message - L&TR Details info');
+              }}
             />
           ) : (
             <ExternalLink
+              ddTag="Start a new message - L&TR Details info"
               href={mhvUrl(
                 isAuthenticatedWithSSOe(fullState),
                 'compose-message',

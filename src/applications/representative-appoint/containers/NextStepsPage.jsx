@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import ContactCard from '../components/ContactCard';
 import AddressBlock from '../components/AddressBlock';
 import NeedHelp from '../components/NeedHelp';
@@ -20,6 +21,10 @@ export default function NextStepsPage() {
   const addressData = getEntityAddressAsObject(entityAttributes);
   const repName = entityAttributes?.fullName;
   const orgName = getOrgName(formData);
+
+  useEffect(() => {
+    scrollTo('topScrollElement');
+  }, []);
 
   return (
     <div>

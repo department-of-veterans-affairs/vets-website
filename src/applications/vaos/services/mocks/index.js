@@ -675,7 +675,9 @@ const responses = {
     if (req.params.providerId === '3') {
       return res.status(500).json({ error: true });
     }
-    return res.json({ data: providerUtils.createProviderDetails(5) });
+    return res.json({
+      data: providerUtils.createProviderDetails(5, req.params.providerId),
+    });
   },
   'GET /v0/user': {
     data: {

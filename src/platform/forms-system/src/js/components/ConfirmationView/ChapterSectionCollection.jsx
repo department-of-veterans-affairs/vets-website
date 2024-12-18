@@ -128,11 +128,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
     refinedData = uiSchema['ui:options'].labels[refinedData];
   } else if (
-    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField' ||
-    (uiSchema?.['ui:field']?.WrappedComponent.name === 'FileField' &&
-      Array.isArray(data))
-    // may be able to remove Array.isArray check depending on
-    // non-array File Upload and how we render that
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
   ) {
     refinedData = data;
   } else if (
@@ -149,7 +145,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         data: confirmData = refinedData,
         label: confirmLabel = label,
       } = ConfirmationField({
-        formData: refinedData,
+        formData: refinedData || data,
       });
       return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
     }

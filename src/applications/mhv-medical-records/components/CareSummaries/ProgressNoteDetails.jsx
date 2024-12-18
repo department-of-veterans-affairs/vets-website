@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -20,6 +19,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -43,9 +43,6 @@ const ProgressNoteDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -72,7 +69,7 @@ const ProgressNoteDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
@@ -91,13 +88,17 @@ ${record.note}`;
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
+    <div
+      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
+      data-dd-privacy="mask"
+    >
       <PrintHeader />
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[progress note - name]"
       >
         {record.name}
       </h1>
@@ -110,36 +111,56 @@ ${record.note}`;
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="CS&N Detail"
         downloadPdf={generateCareNotesPDF}
         downloadTxt={generateCareNotesTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="CS&N Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="progress-location" data-dd-privacy="mask">
+        <p
+          data-testid="progress-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[progress note - location]"
+        >
           {record.location}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Written by
         </h3>
-        <p data-testid="note-record-written-by" data-dd-privacy="mask">
+        <p
+          data-testid="note-record-written-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[progress note - written by]"
+        >
           {record.writtenBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Signed by
         </h3>
-        <p data-testid="note-record-signed-by" data-dd-privacy="mask">
+        <p
+          data-testid="note-record-signed-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[progress note - signed by]"
+        >
           {record.signedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date signed
         </h3>
-        <p data-testid="progress-signed-date" data-dd-privacy="mask">
+        <p
+          data-testid="progress-signed-date"
+          data-dd-privacy="mask"
+          data-dd-action-name="[progress note - date signed]"
+        >
           {record.dateSigned}
         </p>
       </div>
@@ -150,6 +171,7 @@ ${record.note}`;
           data-testid="note-record"
           className="monospace vads-u-line-height--6"
           data-dd-privacy="mask"
+          data-dd-action-name="[progress note - summary Note]"
         >
           {record.note}
         </p>

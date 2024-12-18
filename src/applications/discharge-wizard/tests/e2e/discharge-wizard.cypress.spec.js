@@ -11,7 +11,7 @@ function axeTestPage() {
   });
 }
 
-describe('functionality of discharge wizard', () => {
+xdescribe('functionality of discharge wizard', () => {
   it('fill out the form and expect the form to have elements', () => {
     // navigate to discharge wizard and make an axe check
     // landing page

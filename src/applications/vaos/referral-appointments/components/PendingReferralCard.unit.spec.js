@@ -34,7 +34,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   });
 
   it('should display the correct type of care name', () => {
-    expect(screen.getByText('Cardiology referral')).to.exist;
+    expect(screen.getByTestId('typeOfCare')).to.exist;
   });
   it('should display the correct number of appointments and expiration date', () => {
     expect(

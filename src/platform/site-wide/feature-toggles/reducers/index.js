@@ -2,6 +2,7 @@ import {
   TOGGLE_VALUES_SET,
   FETCH_TOGGLE_VALUES_STARTED,
   FETCH_TOGGLE_VALUES_SUCCEEDED,
+  TOGGLE_VALUES_RESET,
 } from '../actionTypes';
 
 const INITIAL_STATE = {};
@@ -24,6 +25,8 @@ export const FeatureToggleReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ...action.newToggleValues,
       };
+    case TOGGLE_VALUES_RESET:
+      return INITIAL_STATE;
     default:
       return state;
   }

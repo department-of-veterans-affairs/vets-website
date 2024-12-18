@@ -1,8 +1,8 @@
 import { generateMedicationsContent } from '../pdfHelpers/medications';
 
-export const parseMedications = records => {
+export const parseMedications = (records, index = 7) => {
   return `
-7) Medications
+${index}) Medications
 
 This is a list of prescriptions and other medications in your VA medical records.
 When you share your medications list with providers, make sure you also tell them 
