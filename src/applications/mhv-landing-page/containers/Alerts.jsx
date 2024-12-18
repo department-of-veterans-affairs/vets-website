@@ -29,7 +29,7 @@ const Alerts = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
 
   if (userHasMhvBasicAccount) {
-    return <AlertMhvBasicAccount ssoe={ssoe} />;
+    return <AlertMhvBasicAccount />;
   }
 
   if (renderVerifyAndRegisterAlert) {

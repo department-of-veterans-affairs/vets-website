@@ -97,7 +97,6 @@ const yourContactInformationPage = {
               pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
               pronounsNotListedText: {
                 type: 'string',
-                pattern: '^[A-Za-z]+$',
                 minLength: 1,
                 maxLength: 255,
               },
@@ -143,7 +142,6 @@ const yourContactInformationPage = {
             pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
             pronounsNotListedText: {
               type: 'string',
-              pattern: '^[A-Za-z]+$',
               minLength: 1,
               maxLength: 255,
             },
@@ -171,7 +169,6 @@ const yourContactInformationPage = {
       pronouns: checkboxGroupSchema(Object.values(pronounLabels)),
       pronounsNotListedText: {
         type: 'string',
-        pattern: '^[A-Za-z]+$',
         minLength: 1,
         maxLength: 255,
       },
