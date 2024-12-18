@@ -18,7 +18,7 @@ const routes = {
         ]
       : [
           {
-            path: 'mhv-sign-in',
+            path: 'access-myhealthevet-test-account',
             component: MhvSignIn,
           },
         ],
