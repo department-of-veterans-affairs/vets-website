@@ -25,8 +25,11 @@ const SelectAccreditedRepresentative = props => {
 
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
-  const query = formData['view:representativeQueryInput'];
-  const invalidQuery = query === undefined || !query.trim();
+
+  const queryInput = formData['view:representativeQueryInput'];
+  const querySubmission = formData['view:representativeQuerySubmission'];
+  const invalidQuery = queryInput === undefined || !queryInput.trim();
+
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
 
@@ -97,10 +100,10 @@ const SelectAccreditedRepresentative = props => {
     setError(null);
 
     try {
-      const res = await fetchRepresentatives({ query });
+      const res = await fetchRepresentatives({ query: queryInput });
       setFormData({
         ...formData,
-        'view:representativeQuerySubmission': query,
+        'view:representativeQuerySubmission': queryInput,
         'view:representativeSearchResults': res,
       });
     } catch (err) {
@@ -174,7 +177,7 @@ const SelectAccreditedRepresentative = props => {
       ) : null}
       <SearchResultsHeader
         inProgress={loadingReps}
-        query={formData['view:representativeQuerySubmission']}
+        query={querySubmission}
         resultCount={representativeResults?.length}
       />
       {representativeResults &&
