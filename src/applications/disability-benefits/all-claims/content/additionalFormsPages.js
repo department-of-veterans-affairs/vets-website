@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  enter0781Flow,
   showForm0781Tile,
   optOut,
   optIn,
@@ -13,11 +14,12 @@ export const description = 'Based on information you provided earlier, you can c
 // ******************************************
 // Form 0781 Tile Content
 function form0781StatusBadge(formData) {
+  // TODO: read the form status from formData, once it has been defined, and return the appropriate status
   if (true) {
     return (
-      <div>
-        'wipn status badge'
-      </div>
+      <h4>
+        STATUS BADGE
+      </h4>
     );
   }
 }
@@ -50,7 +52,7 @@ export const form0781FormTile = () => {
     return (
       <div>
         <div>
-          { form0781StatusBadge }
+          { form0781StatusBadge() }
         </div>
         <h4>
           Statement about mental health conditions
@@ -59,8 +61,8 @@ export const form0781FormTile = () => {
           VA Form 21-0781
         </p>
         <div>
-          { form0781EnterFormLink }
-          { optChoiceLink }
+          { 'form0781EnterFormLink()' }
+          { optChoiceLink() }
         </div>
       </div>
     );

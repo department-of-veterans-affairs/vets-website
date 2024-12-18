@@ -15,17 +15,35 @@ import { isClaimingNew } from '.';
  */
 
 export function showForm0781Tile(formData) {
-  const conditions = formData?.mentalHealth?.conditions || {};
-  return (
-    formData?.syncModern0781Flow === true &&
-    isClaimingNew(formData) &&
-    Object.entries(conditions).some(
-      ([key, value]) => key !== 'none' && value === true,
-    )
-  );
+  // const conditions = formData?.mentalHealth?.conditions || {};
+  // return (
+  //   formData?.syncModern0781Flow === true &&
+  //   isClaimingNew(formData) &&
+  //   Object.entries(conditions).some(
+  //     ([key, value]) => key !== 'none' && value === true,
+  //   )
+  // );
+  return true
 }
 
-// [wipn8923] read activation state
+export function optOut(formData) {
+  formData
+  console.log('------- opting out! ---------')
+  return true
+}
+
+export function optIn(formData) {
+  formData
+  console.log('------- opting in! ---------')
+  return true
+}
+
+export function enter0781Flow() {
+  console.log('------- entering form flow! ---------')
+  return true
+}
+
+// [wipn8923] might not need this
 export function showForm0781Pages(formData) {
   const conditions = formData?.mentalHealth?.conditions || {};
   return (
@@ -35,16 +53,4 @@ export function showForm0781Pages(formData) {
       ([key, value]) => key !== 'none' && value === true,
     )
   );
-}
-
-export function optOut(formData) {
-  formData
-  console.log('------- opting out! ---------wipn')
-  return true
-}
-
-export function optIn(formData) {
-  formData
-  console.log('------- opting in! ---------wipn')
-  return true
 }

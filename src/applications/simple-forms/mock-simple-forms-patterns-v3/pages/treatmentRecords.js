@@ -141,6 +141,7 @@ const summaryPage = {
   },
 };
 
+// [wipn8923] the treatmentRecordsSummary is an exapmle of what i want to build
 export const treatmentRecordsPages = arrayBuilderPages(
   options,
   pageBuilder => ({
