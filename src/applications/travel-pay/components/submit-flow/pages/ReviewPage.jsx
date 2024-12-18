@@ -1,8 +1,17 @@
 import React from 'react';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatDateTime } from '../../../util/dates';
 
 const ReviewPage = props => {
-  const { appointment, address, onSubmit, pageIndex, setPageIndex } = props;
+  const {
+    appointment,
+    address,
+    onSubmit,
+    pageIndex,
+    setPageIndex,
+    isAgreementChecked,
+    setIsAgreementChecked,
+  } = props;
 
   //   clinicName,
   //   clinicPhysicalLocation,
@@ -72,7 +81,39 @@ const ReviewPage = props => {
         <br />
       </p>
 
-      <h3 className="vad-u-margin-y--3">Travel agreement block</h3>
+      <va-card background>
+        <h3 className="vad-u-margin-y--3">Beneficiary travel agreement</h3>
+        <p>
+          <strong>Penalty statement:</strong> There are severe criminal and
+          civil penalties, including a fine, imprisonment, or both, for
+          knowingly submitting a false, fictitious, or fraudulent claim.
+        </p>
+        <p>
+          By submitting this claim, you agree to the beneficiary travel
+          agreement.
+        </p>
+        {/* <va-checkbox
+          description="By submitting this claim, you agree to the beneficiary travel agreement. "
+          error="You must accept the beneficiary travel agreement before continuting."
+          hint={null}
+          label="I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement."
+          message-aria-describedby="Optional description text for screen readers"
+          onBlur={function noRefCheck() {}}
+        /> */}
+        <VaCheckbox
+          checked={isAgreementChecked}
+          description={null}
+          error={
+            !isAgreementChecked
+              ? 'You must accept the beneficiary travel agreement before continuting.'
+              : null
+          }
+          hint={null}
+          label="I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement."
+          onVaChange={() => setIsAgreementChecked(!isAgreementChecked)}
+          required
+        />
+      </va-card>
 
       <va-button
         className="vads-u-margin-top--3"

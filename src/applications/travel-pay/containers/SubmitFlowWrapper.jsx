@@ -65,13 +65,23 @@ const SubmitFlowWrapper = ({ address }) => {
     address: '',
   });
   const [cantFile, setCantFile] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
 
   const onSubmit = e => {
     e.preventDefault();
-    // Placeholder until actual submit is hooked up
-    setPageIndex(pageIndex + 1);
+    if (
+      yesNo.mileage !== 'yes' &&
+      yesNo.vehicle !== 'yes' &&
+      yesNo.address !== 'yes' &&
+      !isAgreementChecked
+    ) {
+      // IDK, throw some kind of error or something
+    } else {
+      // Placeholder until actual submit is hooked up
+      setPageIndex(pageIndex + 1);
+    }
   };
 
   const pageList = [
@@ -134,6 +144,8 @@ const SubmitFlowWrapper = ({ address }) => {
           onSubmit={onSubmit}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
+          isAgreementChecked={isAgreementChecked}
+          setIsAgreementChecked={setIsAgreementChecked}
         />
       ),
     },
