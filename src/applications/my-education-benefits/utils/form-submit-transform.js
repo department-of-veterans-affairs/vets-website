@@ -256,18 +256,25 @@ const DEFAULT_SCHEMA_COUNTRY_CODE =
   })?.schemaValue || 'USA';
 
 export function getLTSCountryCode(schemaCountryValue) {
+  if (!schemaCountryValue || typeof schemaCountryValue !== 'string') {
+    // Return 'ZZ' if the input is invalid
+    return 'ZZ';
+  }
+
   // Start by assuming the input is a three-character code.
   let country = countries.find(
     countryInfo => countryInfo.schemaValue === schemaCountryValue,
   );
+
   // If no match was found, and the input is a two-character code, try to match against the ltsValue.
   if (!country && schemaCountryValue.length === 2) {
     country = countries.find(
       countryInfo => countryInfo.ltsValue === schemaCountryValue,
     );
   }
+
   // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
-  return country?.ltsValue ? country.ltsValue : 'ZZ'; // 'ZZ' is the LTS code for unknown.
+  return country?.ltsValue || 'ZZ'; // 'ZZ' is the LTS code for unknown.
 }
 
 export function getSchemaCountryCode(inputSchemaValue) {
@@ -501,25 +508,40 @@ export function createComments(submissionForm) {
     submissionForm['view:serviceHistory']?.serviceHistoryIncorrect;
 
   if (serviceHistoryIncorrect) {
-    const explanation = submissionForm.incorrectServiceHistoryExplanation;
+    const explanation = submissionForm.incorrectServiceHistoryExplanation || {};
 
-    const sanitizedText = explanation?.incorrectServiceHistoryText
+    const incorrectServiceHistoryText = explanation.incorrectServiceHistoryText
       ? explanation.incorrectServiceHistoryText.replace(/,/g, '').trim()
       : '';
 
-    if (sanitizedText) {
+    const incorrectServiceHistoryInputs =
+      explanation.incorrectServiceHistoryInputs || {};
+
+    if (
+      !incorrectServiceHistoryText &&
+      !Object.keys(incorrectServiceHistoryInputs).length
+    ) {
       return {
         disagreeWithServicePeriod: true,
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: sanitizedText,
+          comments: {
+            incorrectServiceHistoryInputs: {}, // Default empty inputs
+            incorrectServiceHistoryText: '', // Default empty text
+          },
         },
       };
     }
 
     return {
       disagreeWithServicePeriod: true,
-      claimantComment: {}, // Empty for missing or empty text
+      claimantComment: {
+        commentDate: getTodayDate(),
+        comments: {
+          incorrectServiceHistoryInputs,
+          incorrectServiceHistoryText,
+        },
+      },
     };
   }
 
