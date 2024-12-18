@@ -39,6 +39,7 @@
   "emergency-contact-delete-yes": "Yes, delete this emergency contact",
   "emergency-contact-delete-description": "This will delete %s and all the information from your list of emergency contacts.",
   "emergency-contact-delete-description-default": "This will delete this contact and all the information from your list of emergency contacts.",
+  "emergency-contact-military-checkbox": "They live on a United States military base outside of the U.S.",
   "form-title": "Update your VA health benefits information",
   "form-subtitle": "Health Benefits Update Form (VA Form 10-10EZR)",
   "form-footer-title": "Need help?",
