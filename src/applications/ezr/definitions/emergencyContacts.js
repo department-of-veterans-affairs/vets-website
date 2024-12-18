@@ -84,7 +84,11 @@ export const emergencyContactsPage = options => ({
 export const emergencyContactsAddressPage = () => ({
   uiSchema: {
     ...titleUI(content['emergency-contact-address-title'], ' '),
-    address: addressUI(),
+    address: addressUI({
+      labels: {
+        militaryCheckbox: content['emergency-contact-military-checkbox'],
+      },
+    }),
   },
   schema: {
     type: 'object',
