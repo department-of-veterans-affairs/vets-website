@@ -4,8 +4,9 @@ import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('Sent page keyboard navigation for filter & sort features', () => {
+describe('SM SENT FILTER & SORT KB NAVIGATION', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -19,28 +20,26 @@ describe('Sent page keyboard navigation for filter & sort features', () => {
   });
 
   it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientMessageSentPage.inputFilterDataByKeyboard('test');
     PatientMessageSentPage.submitFilterByKeyboard(filteredData, -1);
     PatientMessageSentPage.verifyFilterResults('test', filteredData);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     PatientMessageSentPage.inputFilterDataByKeyboard('test');
     PatientMessageSentPage.submitFilterByKeyboard(filteredData, -1);
     PatientMessageSentPage.clearFilterByKeyboard();
     PatientMessageSentPage.verifyFilterFieldCleared();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     const testData = {
       data: Array.from(mockSentMessages.data).sort(
         (a, b) =>
@@ -53,5 +52,8 @@ describe('Sent page keyboard navigation for filter & sort features', () => {
       testData,
       -1,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
