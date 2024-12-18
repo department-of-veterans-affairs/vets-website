@@ -315,7 +315,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // Then it should display the tertiary print button
-    expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
+    expect(screen.getByTestId('print-list')).to.be.ok;
   });
 
   describe('when scheduling breadcrumb url update flag is on', () => {
