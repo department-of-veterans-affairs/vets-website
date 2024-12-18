@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import styled from 'styled-components';
-import { TogglesTab } from './tabs/TogglesTab';
-import { FormTab } from './tabs/FormTab';
-import { OtherTab } from './tabs/OtherTab';
-import { VADXContext } from '../context/vadx';
+import { TogglesTab } from './toggles/TogglesTab';
+import { FormTab } from './form/FormTab';
+import { OtherTab } from './other/OtherTab';
+import { VADXContext } from '../../context/vadx';
 
 const VADXPanelDiv = styled.div`
   background-color: var(--vads-color-white);
