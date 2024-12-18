@@ -23,7 +23,7 @@ export default function MhvSignIn() {
 
   return (
     <section className="container row login">
-      <div className="columns small-12">
+      <div className="columns small-12 vads-u-padding--0">
         <h1 id="signin-signup-modal-title">My HealtheVet test account</h1>
         <p>
           My HealtheVet test accounts are available for VA and Oracle Health
@@ -52,7 +52,7 @@ export default function MhvSignIn() {
         checked={checkboxChecked}
         onChange={handleCheckboxChange}
         required
-        clasName="vads-u-padding-y--2"
+        className="vads-u-padding-y--2"
       />
       <LoginButton csp="mhv" key="mhv" useOAuth={false} />
       <div className="vads-u-margin-y--6">
