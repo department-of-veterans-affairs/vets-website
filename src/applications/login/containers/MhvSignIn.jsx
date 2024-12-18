@@ -51,7 +51,12 @@ export default function MhvSignIn() {
         checked={checkboxChecked}
         onChange={handleCheckboxChange}
       />
-      <LoginButton csp="mhv" key="mhv" useOAuth={false} disabled />
+      <LoginButton
+        csp="mhv"
+        key="mhv"
+        useOAuth={false}
+        disabled={isValidEmail && checkboxChecked}
+      />
       <h2>Having trouble signing in?</h2>
       <p>Contact the administrator who gave you access to your test account.</p>
     </section>
