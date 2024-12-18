@@ -17,6 +17,7 @@ import {
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
+import TravelPayOMB from '../../TravelPayOMB';
 
 const TravelPage = ({
   header,
@@ -139,6 +140,7 @@ const TravelPage = ({
             value="no"
           />
         </div>
+        <TravelPayOMB />
       </Wrapper>
     </>
   );

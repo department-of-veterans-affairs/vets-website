@@ -7,6 +7,7 @@ import {
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -87,10 +88,7 @@ const ResponseInboxPage = ({ router }) => {
 
   useEffect(
     () => {
-      if (inquiryId)
-        getApiData(
-          `${envUrl}${URL.GET_INQUIRIES}/${inquiryId}?user_mock_data=true`,
-        );
+      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
     },
     [inquiryId],
   );
@@ -226,6 +224,18 @@ const ResponseInboxPage = ({ router }) => {
                   <p className="vads-u-margin--0 vads-u-margin-bottom--3">
                     {correspondence.attributes.description}
                   </p>
+
+                  {/* Testing what MHV is doing to sanitize html and keep formatting */}
+                  <div
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        correspondence.attributes.description || '',
+                      ),
+                    }}
+                    className="vads-u-margin--0 vads-u-margin-bottom--3"
+                  />
+
                   {correspondence.attributes.attachments.length > 0 && (
                     <p className="vads-u-font-size--h4 vads-u-font-weight--bold">
                       {RESPONSE_PAGE.ATTACHMENTS}
