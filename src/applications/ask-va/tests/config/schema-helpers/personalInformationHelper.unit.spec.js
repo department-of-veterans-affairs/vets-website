@@ -5,7 +5,6 @@ import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/V
 import {
   aboutYourselfGeneralSchema,
   aboutYourselfGeneralUISchema,
-  aboutYourselfRelationshipFamilyMemberSchema,
   personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
   personalInformationUiSchemas,
@@ -38,27 +37,6 @@ describe('Personal Information Form Schemas', () => {
         const schema = personalInformationFormSchemas.dateOfBirth;
         expect(schema).to.have.property('type', 'string');
       });
-    });
-  });
-
-  describe('aboutYourselfRelationshipFamilyMemberSchema', () => {
-    it('should have correct schema for social number', () => {
-      const schema = aboutYourselfRelationshipFamilyMemberSchema.socialNum;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[0-9]{9}$');
-    });
-
-    it('should have correct schema for branch of service', () => {
-      const schema =
-        aboutYourselfRelationshipFamilyMemberSchema.branchOfService;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema.enum).to.include.members([
-        'Army',
-        'Navy',
-        'Coast Guard',
-        'Air Force',
-        'Marine Corps',
-      ]);
     });
   });
 

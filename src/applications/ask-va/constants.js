@@ -538,6 +538,15 @@ export const CHAPTER_3 = {
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
   },
+  VETERAN_VA_HEALTH_FACILITY: {
+    TITLE: "Veteran's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  FAMILY_MEMBER_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: "Family member's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
   YOUR_VRE_INFORMATION: {
     TITLE:
       'Have you ever applied for Veteran Readiness and Employment benefits and services?',
@@ -562,6 +571,10 @@ export const CHAPTER_3 = {
     TITLE: 'Your branch of service',
     DESCRIPTION: 'Select your branch of service',
     ERROR: 'Please select your branch of service',
+  },
+  VETERANS_BRANCH_OF_SERVICE: {
+    TITLE: 'Branch of service',
+    ERROR: "Please select the Veteran's branch of service",
   },
 };
 
