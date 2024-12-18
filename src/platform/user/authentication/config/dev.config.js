@@ -15,7 +15,10 @@ import {
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: true,
@@ -28,7 +31,10 @@ export default {
   },
   [EXTERNAL_APPS.MHV]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -41,7 +47,10 @@ export default {
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -55,7 +64,10 @@ export default {
   },
   [EXTERNAL_APPS.EBENEFITS]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -68,7 +80,10 @@ export default {
   },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
@@ -81,7 +96,10 @@ export default {
       logingov: true,
       idme: true,
     },
-    legacySignInProviders,
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: false,
