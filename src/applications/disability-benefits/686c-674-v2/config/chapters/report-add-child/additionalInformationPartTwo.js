@@ -25,6 +25,5 @@ export const additionalInformationPartTwo = {
     properties: {
       incomeInLastYear: yesNoSchema,
     },
-    required: ['incomeInLastYear'],
   },
 };
