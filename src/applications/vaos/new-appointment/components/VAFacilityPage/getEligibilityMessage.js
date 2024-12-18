@@ -93,7 +93,7 @@ export default function getEligibilityMessage({
             <VaTelephone contact="711" tty data-testid="tty-telephone" />)
           </span>
         </p>
-        <p>Or you can go back and choose a different facility.</p>.
+        <p>Or you can go back and choose a different facility.</p>
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
