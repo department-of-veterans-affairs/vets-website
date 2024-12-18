@@ -137,7 +137,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
           items: [
             {
               title: 'Last filled on',
-              value: dateFormat(rx.dispensedDate, 'MMMM D, YYYY'),
+              value: dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {

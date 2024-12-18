@@ -77,7 +77,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     result += `
 ${rx.prescriptionName}
 
-Last filled on: ${dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+Last filled on: ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
 
 Status: ${validateField(rx.dispStatus)}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
