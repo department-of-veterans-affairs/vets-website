@@ -12,12 +12,14 @@ describe('<ClaimantType /> handlers', async () => {
       props: {
         setFormData: sinon.spy(),
         formData: initialFormData,
+        loggedIn: false,
       },
       mockStore: {
         getState: () => ({
           form: {
             data: initialFormData,
           },
+          user: { login: { currentlyLoggedIn: false } },
         }),
         subscribe: () => {},
         dispatch: () => ({
