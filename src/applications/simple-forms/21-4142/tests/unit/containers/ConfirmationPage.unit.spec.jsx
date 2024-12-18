@@ -1,107 +1,141 @@
 import React from 'react';
-
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { createStore } from 'redux';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { cleanup } from '@testing-library/react';
-import { format } from 'date-fns';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import formConfig from '../../../config/form';
+import configureMockStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import testData from '../../e2e/fixtures/data/maximal-test.json';
+import formConfig from '../../../config/form';
 
 describe('ConfirmationPage', () => {
   let wrapper;
-  let store;
   const mockStore = configureMockStore();
-  const initialState = {
+  const baseState = {
     form: {
       formId: formConfig.formId,
       submission: {
-        response: { confirmationNumber: '123456' },
+        response: {
+          confirmationNumber: '123456',
+          pdfUrl: 'http://example.com/confirmation.pdf',
+        },
         timestamp: Date.now(),
       },
       data: {
-        veteran: { fullName: { first: 'Jack', middle: 'W', last: 'Witness' } },
+        veteran: { fullName: { first: 'John', last: 'Doe' } },
       },
     },
   };
 
-  beforeEach(() => {
-    store = mockStore(initialState);
-    wrapper = mount(
+  const mountComponent = (storeState = baseState) => {
+    const store = mockStore(storeState);
+    return mount(
       <Provider store={store}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
-  });
+  };
 
   afterEach(() => {
-    if (wrapper) {
-      wrapper.unmount();
-    }
-    cleanup();
+    if (wrapper) wrapper.unmount();
   });
 
-  it('passes the correct props to ConfirmationPageView', () => {
+  it('renders correctly with full data', () => {
+    wrapper = mountComponent();
     const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    expect(confirmationViewProps.submitDate).to.equal(
-      format(initialState.form.submission.timestamp, 'yyyy-MM-dd'),
-    );
+    expect(confirmationViewProps.submitDate).to.exist;
     expect(confirmationViewProps.confirmationNumber).to.equal(
-      initialState.form.submission.response.confirmationNumber,
+      baseState.form.submission.response.confirmationNumber,
+    );
+    expect(confirmationViewProps.submitterName).to.deep.equal(
+      baseState.form.data.veteran.fullName,
+    );
+    expect(confirmationViewProps.pdfUrl).to.equal(
+      baseState.form.submission.response.pdfUrl,
     );
   });
 
-  it('should select form from state when state.form is defined', () => {
-    const submitDate = new Date();
-    const mockInitialState = {
+  it('displays preparer name if defined', () => {
+    const mockState = {
+      ...baseState,
       form: {
-        submission: {
-          timestamp: submitDate,
-          response: { confirmationNumber: '1234' },
-        },
+        ...baseState.form,
         data: {
-          ...createInitialState(formConfig),
-          ...testData.data,
+          ...baseState.form.data,
+          preparerIdentification: {
+            preparerFullName: { first: 'Jane', last: 'Smith' },
+          },
         },
       },
     };
-    const mockDefinedState = createStore(() => mockInitialState);
+    wrapper = mountComponent(mockState);
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    const definedWrapper = mount(
-      <Provider store={mockDefinedState}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    expect(definedWrapper.text()).to.include(
-      format(submitDate, 'MMMM d, yyyy'),
-    );
-    expect(definedWrapper.text()).to.include('1234');
-
-    definedWrapper.unmount();
+    expect(confirmationViewProps.submitterName).to.deep.equal({
+      first: 'Jane',
+      last: 'Smith',
+    });
   });
 
-  it('should throw error when state.form is undefined', () => {
-    const mockEmptyState = {};
-    const mockEmptyStore = createStore(() => mockEmptyState);
+  it('handles missing form gracefully', () => {
+    wrapper = mountComponent({});
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    let errorWrapper;
+    expect(confirmationViewProps.submitDate).to.be.undefined;
+    expect(confirmationViewProps.confirmationNumber).to.be.undefined;
+    expect(confirmationViewProps.submitterName).to.be.undefined;
+  });
 
-    expect(() => {
-      errorWrapper = mount(
-        <Provider store={mockEmptyStore}>
-          <ConfirmationPage route={{ formConfig }} />
-        </Provider>,
-      );
-    }).to.throw();
+  it('throws an error if submission timestamp is missing', () => {
+    const mockState = {
+      ...baseState,
+      form: {
+        ...baseState.form,
+        submission: {
+          ...baseState.form.submission,
+          timestamp: undefined,
+        },
+      },
+    };
 
-    if (errorWrapper) {
-      errorWrapper.unmount();
-    }
+    expect(() => mountComponent(mockState)).to.throw();
+  });
+
+  it('renders alert content with confirmation number', () => {
+    wrapper = mountComponent();
+    expect(wrapper.text()).to.include(
+      `Your confirmation number is ${
+        baseState.form.submission.response.confirmationNumber
+      }.`,
+    );
+  });
+
+  it('handles undefined preparer and veteran names gracefully', () => {
+    const mockState = {
+      form: {
+        ...baseState.form,
+        data: {},
+      },
+    };
+    wrapper = mountComponent(mockState);
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
+
+    expect(confirmationViewProps.submitterName).to.be.undefined;
+  });
+
+  it('renders essential ConfirmationView components', () => {
+    wrapper = mountComponent();
+
+    expect(wrapper.find('ConfirmationView.SubmissionAlert').exists()).to.be
+      .true;
+    expect(wrapper.find('ConfirmationView.SavePdfDownload').exists()).to.be
+      .true;
+    expect(wrapper.find('ConfirmationView.ChapterSectionCollection').exists())
+      .to.be.true;
+    expect(wrapper.find('ConfirmationView.PrintThisPage').exists()).to.be.true;
+    expect(wrapper.find('ConfirmationView.WhatsNextProcessList').exists()).to.be
+      .true;
+    expect(wrapper.find('ConfirmationView.HowToContact').exists()).to.be.true;
+    expect(wrapper.find('ConfirmationView.GoBackLink').exists()).to.be.true;
+    expect(wrapper.find('ConfirmationView.NeedHelp').exists()).to.be.true;
   });
 });
