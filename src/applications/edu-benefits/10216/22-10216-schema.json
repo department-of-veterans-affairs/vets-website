@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "22-10216 35% EXEMPTION OF THE ROUTINE REPORTING",
+  "title": "35% exemption of the routine reporting",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
