@@ -5,8 +5,9 @@ import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages
 import { AXE_CONTEXT } from '../utils/constants';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('Trash page keyboard navigation for filter & sort features', () => {
+describe('SM TRASH FILTER & SORT KB NAVIGATION', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -19,29 +20,27 @@ describe('Trash page keyboard navigation for filter & sort features', () => {
     FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });
 
-  it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
+  it('verify filter works correctly', () => {
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientMessageTrashPage.inputFilterDataByKeyboard('test');
     PatientMessageTrashPage.submitFilterByKeyboard(filteredData, -3);
     PatientMessageTrashPage.verifyFilterResults('test', filteredData);
-  });
 
-  it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
 
+  it('verify clear filter btn works correctly', () => {
     PatientMessageTrashPage.inputFilterDataByKeyboard('test');
     PatientMessageTrashPage.submitFilterByKeyboard(filteredData, -3);
     PatientMessageTrashPage.clearFilterByKeyboard();
     PatientMessageTrashPage.verifyFilterFieldCleared();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     const testData = {
       data: Array.from(mockTrashMessages.data).sort(
         (a, b) =>
@@ -54,5 +53,8 @@ describe('Trash page keyboard navigation for filter & sort features', () => {
       testData,
       -3,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
