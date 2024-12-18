@@ -78,7 +78,7 @@ export default function LicenseCertificationKeywordSearch({
                 )}
             </div>
             {isOpen &&
-              suggestions.length > 0 && (
+              inputValue && (
                 <div
                   className="suggestions-list"
                   role="listbox"
