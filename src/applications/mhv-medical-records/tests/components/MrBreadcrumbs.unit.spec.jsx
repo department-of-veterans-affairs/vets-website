@@ -6,10 +6,21 @@ import {
   renderWithStoreAndRouter,
   renderInReduxProvider,
 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import Sinon from 'sinon';
 import reducer from '../../reducers';
 import MrBreadcrumbs from '../../components/MrBreadcrumbs';
 
 describe('MrBreadcrumbs component', () => {
+  let querySelector;
+
+  beforeEach(() => {
+    querySelector = window.document.querySelector;
+  });
+
+  afterEach(() => {
+    window.document.querySelector = querySelector;
+  });
+
   it('should display breadcrumbs on the landing page', () => {
     const initialState = {
       mr: {
@@ -42,6 +53,53 @@ describe('MrBreadcrumbs component', () => {
       reducers: reducer,
       path: '/',
     });
+    const header = screen.getByTestId('breadcrumbs');
+    expect(header).to.exist;
+  });
+
+  it('tests the page number logic', () => {
+    const initialState = {
+      mr: {
+        pageTracker: {
+          pageNumber: 10,
+        },
+        breadcrumbs: {
+          crumbsList: [
+            {
+              href: '/',
+              label: 'VA.gov home',
+            },
+            {
+              href: '/my-health',
+              label: 'My HealtheVet',
+            },
+            {
+              href: '/',
+              label: 'Medical records',
+              isRouterLink: true,
+            },
+          ],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
+      },
+    };
+    window.document.querySelector = Sinon.stub().returns({
+      textContent: 'test',
+    });
+    const screen = renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/vitals/blood-pressure-history`]}>
+        <Route path="/vitals/blood-pressure-history">
+          <MrBreadcrumbs />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
   });
