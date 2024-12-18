@@ -40,7 +40,7 @@ export default function transformForSubmit(formConfig, form) {
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn
         ? transformedData?.veteranSocialSecurityNumber?.ssn
         : '',
-      vaFileNumber: transformedData?.veteranSocialSecurityNumber?.ssn
+      vaClaimNumber: transformedData?.veteranSocialSecurityNumber?.ssn
         ? ''
         : transformedData?.veteranSocialSecurityNumber?.vaFileNumber,
       phone_number: transformedData.veteranPhoneNumber || '',

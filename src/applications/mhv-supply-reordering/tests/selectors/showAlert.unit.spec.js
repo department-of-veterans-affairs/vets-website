@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { MDOT_ERROR_CODES } from '../../constants';
 import {
+  isAlerting,
   showAlertDeceased,
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,
@@ -103,5 +104,29 @@ describe('showAlertSomethingWentWrong', () => {
   it('returns false, otherwise', () => {
     expect(showAlertSomethingWentWrong(stateFn())).to.eq(false);
     expect(showAlertSomethingWentWrong({})).to.eq(false);
+  });
+});
+
+describe('isAlerting', () => {
+  it('returns true when any alerting condition is present', () => {
+    state = stateFn({ error: { code: MDOT_ERROR_CODES.DECEASED } });
+    expect(isAlerting(state)).to.eq(true);
+
+    state = stateFn({ error: { code: MDOT_ERROR_CODES.INVALID } });
+    expect(isAlerting(state)).to.eq(true);
+
+    state = stateFn({ formData: { supplies: [] } });
+    expect(isAlerting(state)).to.eq(true);
+
+    state = stateFn({ error: { code: MDOT_ERROR_CODES.SUPPLIES_NOT_FOUND } });
+    expect(isAlerting(state)).to.eq(true);
+
+    state = stateFn({ error: { status: 500 } });
+    expect(isAlerting(state)).to.eq(true);
+  });
+
+  it('returns false when no alerting conditions are present', () => {
+    state = stateFn();
+    expect(isAlerting(state)).to.eq(false);
   });
 });
