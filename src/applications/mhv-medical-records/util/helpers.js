@@ -622,14 +622,15 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
-export const handleDataDogActionForVitals = ({
+export const handleDataDogAction = ({
   locationBasePath,
   locationChildPath,
   Breadcrumbs = [],
   label,
+  domainPath,
+  sendAnalytics = true,
 }) => {
-  const isDetails =
-    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+  const isDetails = domainPath.includes(locationBasePath) && locationChildPath;
   const path = locationBasePath
     ? `/${locationBasePath}/${isDetails ? locationChildPath : ''}`
     : '/';
@@ -639,7 +640,9 @@ export const handleDataDogActionForVitals = ({
     : `Back - ${Breadcrumbs[feature].label} - ${
         locationChildPath ? 'Detail' : 'List'
       }`;
-  sendDataDogAction(tag);
+  if (sendAnalytics) {
+    sendDataDogAction(tag);
+  }
   return tag;
 };
 

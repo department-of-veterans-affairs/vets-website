@@ -19,7 +19,7 @@ import {
   processList,
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
-  handleDataDogActionForVitals,
+  handleDataDogAction,
 } from '../../util/helpers';
 
 import { refreshPhases, Paths } from '../../util/constants';
@@ -651,9 +651,9 @@ describe('getMonthFromSelectedDate', () => {
   });
 });
 
-describe('handleDataDogActionForVitals', () => {
+describe('handleDataDogAction', () => {
   it('should return a tag for the details page', () => {
-    const tag = handleDataDogActionForVitals({
+    const tag = handleDataDogAction({
       locationBasePath: 'vitals',
       locationChildPath: 'heart-rate-history',
       Breadcrumbs: {
@@ -664,11 +664,13 @@ describe('handleDataDogActionForVitals', () => {
         },
       },
       label: 'some label',
+      domainPath: Paths.HEART_RATE,
+      sendAnalytics: false,
     });
     expect(tag).to.equal('Back - some label - Heart rate');
   });
   it('should return a tag for the list page', () => {
-    const tag = handleDataDogActionForVitals({
+    const tag = handleDataDogAction({
       locationBasePath: 'vitals',
       locationChildPath: '',
       Breadcrumbs: {
@@ -681,6 +683,8 @@ describe('handleDataDogActionForVitals', () => {
         },
       },
       label: 'some label',
+      domainPath: Paths.HEART_RATE,
+      sendAnalytics: false,
     });
     expect(tag).to.equal('Back - Vitals - List');
   });

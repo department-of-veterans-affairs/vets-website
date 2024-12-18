@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
-import { handleDataDogActionForVitals } from '../util/helpers';
+import { handleDataDogAction } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -76,11 +76,12 @@ const MrBreadcrumbs = () => {
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
-    handleDataDogActionForVitals({
+    handleDataDogAction({
       locationBasePath,
       locationChildPath,
       Breadcrumbs,
       label: 'Vitals',
+      domainPath: Paths.VITALS,
     });
   };
 
@@ -128,10 +129,7 @@ const MrBreadcrumbs = () => {
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link
-          to={backToImagesBreadcrumb}
-          onClick={handleDataDogActionForVitals}
-        >
+        <Link to={backToImagesBreadcrumb} onClick={handleDataDogAction}>
           Back
         </Link>
       </div>
