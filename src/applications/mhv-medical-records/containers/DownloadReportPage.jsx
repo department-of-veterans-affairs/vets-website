@@ -343,7 +343,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() => {
+              href="#"
+              onClick={e => {
+                e.preventDefault();
                 dispatch(
                   genAndDownloadCCD(
                     userProfile.userFullName.first,
@@ -386,7 +388,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() => {
+              href="#"
+              onClick={e => {
+                e.preventDefault();
                 generateSEIPdf();
                 sendDataDogAction('Self entered health information PDF link ');
               }}
