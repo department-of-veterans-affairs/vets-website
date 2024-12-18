@@ -1,12 +1,8 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import { formatDateTime } from '../../../util/dates';
 
 const ReviewPage = props => {
-  const { appointment, address, onBack, onSubmit } = props;
+  const { appointment, address, onSubmit, pageIndex, setPageIndex } = props;
 
   //   clinicName,
   //   clinicPhysicalLocation,
@@ -24,6 +20,11 @@ const ReviewPage = props => {
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
   );
+
+  const onBack = e => {
+    e.preventDefault();
+    setPageIndex(pageIndex - 1);
+  };
 
   return (
     <div className="vads-u-margin--3">
@@ -86,20 +87,5 @@ const ReviewPage = props => {
     </div>
   );
 };
-
-// ReviewPage.propTypes = {
-//   appointment: PropTypes.object,
-//   address: PropTypes.object,
-//   onNext: PropTypes.func,
-//   onBack: PropTypes.func,
-// };
-
-// function mapStateToProps(state) {
-//   return {
-//     appointment: state.travelPay.travelClaimAppointment,
-//   };
-// }
-
-// export default connect(mapStateToProps)(ReviewPage);
 
 export default ReviewPage;

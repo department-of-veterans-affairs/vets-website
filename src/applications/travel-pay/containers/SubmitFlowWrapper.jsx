@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
@@ -13,15 +13,15 @@ import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
-// import { useSelector } from 'react-redux';
-// import {
-//   selectConfirmedAppointmentData,
-//   selectAppointmentById,
-// } from '../../vaos/appointment-list/redux/selectors';
+
+import { appointment1 } from '../services/mocks/appointments';
+import CantFilePage from '../components/submit-flow/pages/CantFilePage';
 
 const SubmitFlowWrapper = ({ address }) => {
-  const location = useLocation();
-  const { appointment = null } = location.state ?? {};
+  // const location = useLocation();
+  // const { appointment = null } = location.state ?? {};
+
+  const appointment = appointment1;
 
   useEffect(() => {
     focusElement('h1');
@@ -59,25 +59,14 @@ const SubmitFlowWrapper = ({ address }) => {
   //   selectConfirmedAppointmentData(state, appointment),
   // );
 
-  const [yesNo, setYesNo] = useState(undefined);
+  const [yesNo, setYesNo] = useState({
+    mileage: '',
+    vehicle: '',
+    address: '',
+  });
+  const [cantFile, setCantFile] = useState(false);
+
   const [pageIndex, setPageIndex] = useState(0);
-
-  const onNextPage = e => {
-    e.preventDefault();
-    if (!yesNo) {
-      // TODO: send to error page
-      // console.info("You can't do that!");
-    } else {
-      setYesNo(undefined);
-      setPageIndex(pageIndex + 1);
-    }
-  };
-
-  const onPreviouspage = e => {
-    e.preventDefault();
-    setYesNo(undefined);
-    setPageIndex(pageIndex - 1);
-  };
 
   const onSubmit = e => {
     e.preventDefault();
@@ -103,10 +92,11 @@ const SubmitFlowWrapper = ({ address }) => {
       component: (
         <MileagePage
           appointment={appointment}
-          onNext={onNextPage}
-          onBack={onPreviouspage}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
           setYesNo={setYesNo}
           yesNo={yesNo}
+          setCantFile={setCantFile}
         />
       ),
     },
@@ -116,8 +106,9 @@ const SubmitFlowWrapper = ({ address }) => {
         <VehiclePage
           setYesNo={setYesNo}
           yesNo={yesNo}
-          onNext={onNextPage}
-          onBack={onPreviouspage}
+          setCantFile={setCantFile}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
         />
       ),
     },
@@ -128,8 +119,9 @@ const SubmitFlowWrapper = ({ address }) => {
           address={address}
           yesNo={yesNo}
           setYesNo={setYesNo}
-          onNext={onNextPage}
-          onBack={onPreviouspage}
+          setCantFile={setCantFile}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
         />
       ),
     },
@@ -140,7 +132,8 @@ const SubmitFlowWrapper = ({ address }) => {
           appointment={appointment}
           address={address}
           onSubmit={onSubmit}
-          onBack={onPreviouspage}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
         />
       ),
     },
@@ -154,7 +147,15 @@ const SubmitFlowWrapper = ({ address }) => {
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        {pageList[pageIndex].component}
+        {cantFile ? (
+          <CantFilePage
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            setCantFile={setCantFile}
+          />
+        ) : (
+          pageList[pageIndex].component
+        )}
       </article>
     </Element>
   );

@@ -4,7 +4,30 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
+const AddressPage = ({
+  address,
+  pageIndex,
+  setPageIndex,
+  yesNo,
+  setYesNo,
+  setCantFile,
+}) => {
+  const handlers = {
+    onNext: e => {
+      e.preventDefault();
+      if (yesNo.address !== 'yes') {
+        setCantFile(true);
+      } else {
+        setCantFile(false);
+        setPageIndex(pageIndex + 1);
+      }
+    },
+    onBack: e => {
+      e.preventDefault();
+      setPageIndex(pageIndex - 1);
+    },
+  };
+
   return (
     <div className="vads-u-margin--3">
       <VaRadio
@@ -13,15 +36,16 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
         form-heading-level={1}
         id="address"
         onVaValueChange={e => {
-          setYesNo(e.detail.value);
+          setYesNo({ ...yesNo, address: e.detail.value });
         }}
+        value={yesNo.address}
         data-testid="address-test-id"
         error={null}
         header-aria-describedby={null}
         hint=""
         label=""
         label-header-level=""
-        required
+        // required
       >
         <div slot="form-description">
           <p>
@@ -51,17 +75,17 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
         </div>
         <va-radio-option
           label="Yes"
-          value
+          value="yes"
           key="address-yes"
           name="address"
-          checked={yesNo === true}
+          checked={yesNo.address === 'yes'}
         />
         <va-radio-option
           key="address-no"
           name="address"
-          checked={yesNo === false}
+          checked={yesNo.address === 'no'}
           label="No"
-          value={false}
+          value="no"
         />
       </VaRadio>
 
@@ -88,8 +112,8 @@ const AddressPage = ({ address, yesNo, setYesNo, onNext, onBack }) => {
       <VaButtonPair
         class="vads-u-margin-top--2"
         continue
-        onPrimaryClick={e => onNext(e)}
-        onSecondaryClick={e => onBack(e)}
+        onPrimaryClick={e => handlers.onNext(e)}
+        onSecondaryClick={e => handlers.onBack(e)}
       />
     </div>
   );

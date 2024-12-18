@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function HelpTextContent() {
-  const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
+import { BTSSS_PORTAL_URL } from '../constants';
 
+export default function HelpTextContent() {
   return (
     <div>
       <p>

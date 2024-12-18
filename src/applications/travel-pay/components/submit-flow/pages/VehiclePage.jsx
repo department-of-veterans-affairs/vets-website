@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const VehiclePage = ({ yesNo, setYesNo, onNext, onBack }) => {
+const VehiclePage = ({
+  pageIndex,
+  setPageIndex,
+  yesNo,
+  setYesNo,
+  setCantFile,
+}) => {
+  const [requiredAlert, setRequiredAlert] = useState(false);
+
+  const handlers = {
+    onNext: e => {
+      e.preventDefault();
+      if (!yesNo.vehicle) {
+        setRequiredAlert(true);
+      } else if (yesNo.vehicle !== 'yes') {
+        setCantFile(true);
+      } else {
+        setCantFile(false);
+        setPageIndex(pageIndex + 1);
+      }
+    },
+    onBack: e => {
+      e.preventDefault();
+      setPageIndex(pageIndex - 1);
+    },
+  };
+
   return (
     <div className="vads-u-margin--3">
       <VaRadio
@@ -12,28 +38,28 @@ const VehiclePage = ({ yesNo, setYesNo, onNext, onBack }) => {
         form-heading="Did you travel in your own vehicle?"
         form-heading-level={1}
         id="mileage"
-        onVaValueChange={e => setYesNo(e.detail.value)}
+        onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+        value={yesNo.vehicle}
         data-testid="mileage-test-id"
         error={null}
         header-aria-describedby={null}
         hint=""
         label=""
         label-header-level=""
-        required
       >
         <va-radio-option
           label="Yes"
-          value
+          value="yes"
           key="vehicle-yes"
           name="vehicle"
-          checked={yesNo === true}
+          checked={yesNo.vehicle === 'yes'}
         />
         <va-radio-option
           key="vehicle-no"
           name="vehicle"
-          checked={yesNo === false}
+          checked={yesNo.vehicle === 'no'}
           label="No"
-          value={false}
+          value="no"
         />
       </VaRadio>
 
@@ -57,11 +83,28 @@ const VehiclePage = ({ yesNo, setYesNo, onNext, onBack }) => {
         </p>
       </va-additional-info>
 
+      {requiredAlert && (
+        <va-alert
+          class="vads-u-margin-bottom--1"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          slim
+          status="error"
+          visible="true"
+        >
+          <>
+            <p className="vads-u-margin-y--0">
+              You must make a selection to continue.
+            </p>
+          </>
+        </va-alert>
+      )}
       <VaButtonPair
         class="vads-u-margin-top--2"
         continue
-        onPrimaryClick={e => onNext(e)}
-        onSecondaryClick={e => onBack(e)}
+        onPrimaryClick={e => handlers.onNext(e)}
+        onSecondaryClick={e => handlers.onBack(e)}
       />
     </div>
   );

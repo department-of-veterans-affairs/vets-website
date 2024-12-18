@@ -6,10 +6,33 @@ import {
 
 import { formatDateTime } from '../../../util/dates';
 
-const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
+const MileagePage = ({
+  appointment,
+  pageIndex,
+  setPageIndex,
+  yesNo,
+  setYesNo,
+  setCantFile,
+}) => {
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
   );
+
+  const handlers = {
+    onNext: e => {
+      e.preventDefault();
+      if (yesNo.mileage !== 'yes') {
+        setCantFile(true);
+      } else {
+        setCantFile(false);
+        setPageIndex(pageIndex + 1);
+      }
+    },
+    onBack: e => {
+      e.preventDefault();
+      setPageIndex(pageIndex - 1);
+    },
+  };
 
   return (
     <article className="vads-u-margin--3">
@@ -19,15 +42,15 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
         form-heading-level={1}
         id="mileage"
         onVaValueChange={e => {
-          setYesNo(e.detail.value);
+          setYesNo({ ...yesNo, mileage: e.detail.value });
         }}
+        value={yesNo.mileage}
         data-testid="mileage-test-id"
         error={null}
         header-aria-describedby={null}
         hint=""
         label=""
         label-header-level=""
-        required
       >
         <div slot="form-description">
           <hr className="vads-u-margin-y--0" />
@@ -43,17 +66,17 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
         </div>
         <va-radio-option
           label="Yes"
-          value
+          value="yes"
           key="mileage-yes"
           name="mileage"
-          checked={yesNo === true}
+          checked={yesNo.mileage === 'yes'}
         />
         <va-radio-option
           key="mileage-no"
           name="mileage"
-          checked={yesNo === false}
+          checked={yesNo.mileage === 'no'}
           label="No"
-          value={false}
+          value="no"
         />
       </VaRadio>
 
@@ -98,8 +121,8 @@ const MileagePage = ({ appointment, onNext, onBack, yesNo, setYesNo }) => {
       <VaButtonPair
         class="vads-u-margin-top--2"
         continue
-        onPrimaryClick={e => onNext(e)}
-        onSecondaryClick={e => onBack(e)}
+        onPrimaryClick={e => handlers.onNext(e)}
+        onSecondaryClick={e => handlers.onBack(e)}
       />
     </article>
   );
