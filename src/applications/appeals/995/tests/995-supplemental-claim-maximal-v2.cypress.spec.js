@@ -20,21 +20,16 @@ const testConfig = createTestConfig(
     },
     pageHooks,
     setupPerTest: () => {
-      const toggles = {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: SC_NEW_FORM_TOGGLE,
-              value: true,
-            },
-            {
-              name: 'scNewForm',
-              value: true,
-            },
-          ],
+      const toggles = [
+        {
+          name: SC_NEW_FORM_TOGGLE,
+          value: true,
         },
-      };
+        {
+          name: 'scNewForm',
+          value: true,
+        },
+      ];
       setupPerTest(toggles);
     },
   },

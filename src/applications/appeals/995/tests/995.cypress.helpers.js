@@ -135,7 +135,7 @@ export const getPastItf = cy => {
     });
 };
 
-export const setupPerTest = (toggles = {}) => {
+export const setupPerTest = (toggles = []) => {
   cypressSetup();
 
   setStoredSubTask({ benefitType: 'compensation' });
@@ -143,7 +143,7 @@ export const setupPerTest = (toggles = {}) => {
   cy.intercept('POST', `/${EVIDENCE_UPLOAD_API.join('')}`, mockUpload);
   cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
   cy.intercept('GET', '/v0/feature_toggles*', {
-    data: { type: 'feature_toggles', features: [toggles] },
+    data: { type: 'feature_toggles', features: toggles },
   });
 
   // Include legacy appeals to mock data for maximal test
@@ -253,7 +253,7 @@ export const pageHooks = {
             });
             if (showScNewForm) {
               cy.fillVaDate('txdate', location.treatmentDate, true);
-              cy.selectVaCheckbox('noDate', location.noDate);
+              cy.selectVaCheckbox('nodate', location.noDate);
             } else {
               cy.fillVaMemorableDate(
                 'from',
