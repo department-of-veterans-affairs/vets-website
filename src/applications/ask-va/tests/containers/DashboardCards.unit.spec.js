@@ -73,9 +73,7 @@ describe('<DashboardCards>', () => {
         expect(view.container.querySelector('h2')).to.contain.text(
           'Your questions',
         );
-        expect(view.container.querySelector('option')).to.contain.text(
-          'Newest to oldest',
-        );
+        expect(view.container.querySelector('option')).to.contain.text('All');
       });
     });
   });
