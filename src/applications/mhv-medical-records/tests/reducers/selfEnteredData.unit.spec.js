@@ -1563,33 +1563,48 @@ describe('convertMedications', () => {
 });
 
 describe('selfEnteredReducer', () => {
-  it('adds errors', () => {
+  it('adds failed domains', () => {
     let newState = selfEnteredReducer(
-      { errors: [] },
+      { failedDomains: [] },
       {
-        type: Actions.SelfEntered.ADD_ERROR,
-        payload: { type: selfEnteredTypes.VITALS },
+        type: Actions.SelfEntered.ADD_FAILED,
+        payload: selfEnteredTypes.VITALS,
       },
     );
 
-    expect(newState.errors.length).to.equal(1);
-    expect(newState.errors[0]).to.equal(selfEnteredTypes.VITALS);
+    expect(newState.failedDomains.length).to.equal(1);
+    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
 
+    // Adding a different failed domain
     newState = selfEnteredReducer(newState, {
-      type: Actions.SelfEntered.ADD_ERROR,
-      payload: { type: selfEnteredTypes.ALLERGIES },
+      type: Actions.SelfEntered.ADD_FAILED,
+      payload: selfEnteredTypes.ALLERGIES,
     });
 
-    expect(newState.errors.length).to.equal(2);
-    expect(newState.errors[1]).to.equal(selfEnteredTypes.ALLERGIES);
+    expect(newState.failedDomains.length).to.equal(2);
+    expect(newState.failedDomains[1]).to.equal(selfEnteredTypes.ALLERGIES);
   });
 
-  it('clears errors', () => {
-    const newState = selfEnteredReducer(
-      { errors: [selfEnteredTypes.VITALS] },
-      { type: Actions.SelfEntered.CLEAR_ERRORS },
-    );
+  it('does not add a duplicate failed domain', () => {
+    const initialState = { failedDomains: [selfEnteredTypes.VITALS] };
+    const newState = selfEnteredReducer(initialState, {
+      type: Actions.SelfEntered.ADD_FAILED,
+      payload: selfEnteredTypes.VITALS,
+    });
 
-    expect(newState.errors.length).to.equal(0);
+    // The failedDomains array should remain unchanged
+    expect(newState.failedDomains.length).to.equal(1);
+    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
+  });
+
+  it('clears failed domains', () => {
+    const initialState = {
+      failedDomains: [selfEnteredTypes.VITALS, selfEnteredTypes.ALLERGIES],
+    };
+    const newState = selfEnteredReducer(initialState, {
+      type: Actions.SelfEntered.CLEAR_FAILED,
+    });
+
+    expect(newState.failedDomains.length).to.equal(0);
   });
 });

@@ -28,7 +28,7 @@ export const authorizationAlertContent = onAnchorClick => (
 );
 
 export const authorizationHeader = (
-  <h3>We need your authorization to request your medical records</h3>
+  <h3>Authorize the release of non-VA medical records to the VA</h3>
 );
 
 export const authorizationInfo = (
@@ -53,8 +53,8 @@ export const authorizationInfo = (
           <li>Drug abuse, alcoholism, or other substance abuse,</li>
           <li>Sickle cell anemia,</li>
           <li>
-            Records which may indicate the presence of a communicable or
-            non-communicable disease; and tests for or records of HIV/AIDS,
+            Records which may indicate the presence of a communicable or non-
+            communicable disease; and tests for or records of HIV/AIDS,
           </li>
           <li>Gene-related impairments (including genetic test results)</li>
         </ul>

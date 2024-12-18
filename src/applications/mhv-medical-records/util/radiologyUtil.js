@@ -2,6 +2,8 @@
  * This function was based on RadiologyTransformer.parseRadiologyReport from MHV Classic. It pulls
  * fields out of a text report and puts them into an object.
  *
+ * @TODO: This logic should be moved to the API so that the mobile client can use it.
+ *
  * @param {String} radiologyReportText the raw text of a radiology report
  * @returns an object containing information from the report
  */
