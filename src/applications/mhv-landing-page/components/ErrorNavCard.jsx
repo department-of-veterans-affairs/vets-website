@@ -7,8 +7,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 /**
  * A navigation card only displayed when an error occurs.
- * @param {string} links optional links display in the card
  * @param {string} title the title for the navigation card
+ * @param {string} iconClasses the icon the card diplays
+ * @param {string} code the status code of the related error
  */
 const ErrorNavCard = ({
   iconClasses = 'vads-u-margin-right--1p5',
@@ -69,5 +70,7 @@ const ErrorNavCard = ({
 
 ErrorNavCard.propTypes = {
   title: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  iconClasses: PropTypes.string,
 };
 export default ErrorNavCard;

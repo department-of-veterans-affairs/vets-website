@@ -72,7 +72,7 @@ const LandingPageContainer = () => {
 
   useEffect(
     () => {
-      if (true) {
+      if (!profile.loading) {
         if (userHasMhvAccount) {
           dispatch({
             type: 'fetchAccountStatusSuccess',
@@ -90,7 +90,7 @@ const LandingPageContainer = () => {
         }
       }
     },
-    [userHasMhvAccount],
+    [userHasMhvAccount, profile],
   );
 
   if (loading)
