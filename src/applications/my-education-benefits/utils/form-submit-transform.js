@@ -503,24 +503,30 @@ export function createComments(submissionForm) {
   if (serviceHistoryIncorrect) {
     const explanation = submissionForm.incorrectServiceHistoryExplanation;
 
-    // Remove commas and trim the result
     const sanitizedText = explanation?.incorrectServiceHistoryText
       ? explanation.incorrectServiceHistoryText.replace(/,/g, '').trim()
       : '';
 
-    const response = { disagreeWithServicePeriod: true };
-
     if (sanitizedText) {
-      response.claimantComment = {
-        commentDate: getTodayDate(),
-        comments: sanitizedText, // Leave the trailing period untouched
+      return {
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: getTodayDate(),
+          comments: sanitizedText,
+        },
       };
     }
 
-    return response;
+    return {
+      disagreeWithServicePeriod: true,
+      claimantComment: {}, // Empty for missing or empty text
+    };
   }
 
-  return { disagreeWithServicePeriod: false };
+  return {
+    disagreeWithServicePeriod: false,
+    claimantComment: {}, // Default empty object for no disagreement
+  };
 }
 
 export function createDirectDeposit(submissionForm) {

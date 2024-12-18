@@ -336,11 +336,13 @@ describe('form submit transform', () => {
       const comments = createComments(mockSubmissionForm);
       const todayDate = new Date().toISOString().slice(0, 10);
 
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
-      expect(comments.claimantComment.commentDate).to.eql(todayDate);
-      expect(comments.claimantComment.comments).to.eql(
-        'Service periods are missing and incorrect.',
-      );
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: 'Service periods are missing and incorrect.',
+        },
+      });
     });
 
     it('should exclude claimantComment if veteran disagrees with period data but no comments found', () => {
@@ -348,13 +350,19 @@ describe('form submit transform', () => {
 
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {}, // Empty for no comments
+      });
     });
 
     it('should exclude claimantComment and set disagreeWithServicePeriod to false if veteran agrees with period data', () => {
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: false });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: false,
+        claimantComment: {}, // Default empty object for no disagreement
+      });
     });
 
     it('should handle empty or undefined incorrectServiceHistoryText gracefully', () => {
@@ -365,7 +373,10 @@ describe('form submit transform', () => {
 
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {}, // Empty for missing text
+      });
     });
 
     it('should handle missing incorrectServiceHistoryExplanation gracefully', () => {
@@ -373,7 +384,10 @@ describe('form submit transform', () => {
 
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {}, // Empty for missing explanation
+      });
     });
 
     it('should remove commas from incorrectServiceHistoryText before returning comments', () => {
@@ -385,11 +399,13 @@ describe('form submit transform', () => {
       const comments = createComments(mockSubmissionForm);
       const todayDate = new Date().toISOString().slice(0, 10);
 
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
-      expect(comments.claimantComment.commentDate).to.eql(todayDate);
-      expect(comments.claimantComment.comments).to.eql(
-        'This is a test string.',
-      );
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: 'This is a test string.',
+        },
+      });
     });
 
     it('should handle multiple commas in incorrectServiceHistoryText gracefully', () => {
@@ -401,11 +417,13 @@ describe('form submit transform', () => {
       const comments = createComments(mockSubmissionForm);
       const todayDate = new Date().toISOString().slice(0, 10);
 
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
-      expect(comments.claimantComment.commentDate).to.eql(todayDate);
-      expect(comments.claimantComment.comments).to.eql(
-        'Leading and trailing commas',
-      );
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: 'Leading and trailing commas',
+        },
+      });
     });
 
     it('should exclude claimantComment if incorrectServiceHistoryText contains only commas', () => {
@@ -416,7 +434,10 @@ describe('form submit transform', () => {
 
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {}, // Exclude for empty sanitized text
+      });
     });
 
     it('should exclude claimantComment if sanitized text results in an empty string', () => {
@@ -427,7 +448,10 @@ describe('form submit transform', () => {
 
       const comments = createComments(mockSubmissionForm);
 
-      expect(comments).to.eql({ disagreeWithServicePeriod: true });
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {}, // Exclude for empty sanitized text
+      });
     });
   });
   describe('has a bank account capture method', () => {
