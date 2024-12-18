@@ -19,6 +19,11 @@ import {
   mhvAccountStatusLoading,
 } from '../selectors';
 
+import {
+  fetchAccountStatus,
+  fetchAccountStatusSuccess,
+} from '../reducers/account';
+
 const LandingPageContainer = () => {
   const dispatch = useDispatch();
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
@@ -75,15 +80,15 @@ const LandingPageContainer = () => {
       if (!profile.loading) {
         if (userHasMhvAccount) {
           dispatch({
-            type: 'fetchAccountStatusSuccess',
+            type: fetchAccountStatusSuccess,
             data: { error: false },
           });
         } else {
-          dispatch({ type: 'fetchAccountStatus' });
+          dispatch({ type: fetchAccountStatus });
 
           getMHVAccount().then(resp => {
             dispatch({
-              type: 'fetchAccountStatusSuccess',
+              type: fetchAccountStatusSuccess,
               data: resp,
             });
           });

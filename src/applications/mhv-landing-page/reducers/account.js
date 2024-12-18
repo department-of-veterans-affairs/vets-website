@@ -4,14 +4,18 @@ const initialState = {
   loading: false,
 };
 
+export const fetchAccountStatus = 'fetchAccountStatus';
+export const fetchAccountStatusSuccess = 'fetchAccountStatusSuccess';
+export const fetchAccountStatusFailed = 'fetchAccountStatusFailed';
+
 const reducer = (state = initialState, action) => {
   const { errors, data, type } = action;
   switch (type) {
-    case 'fetchAccountStatus':
+    case fetchAccountStatus:
       return { ...state, loading: true };
-    case 'fetchAccountStatusSuccess':
+    case fetchAccountStatusSuccess:
       return { ...state, data, loading: false };
-    case 'fetchAccountStatusFailed':
+    case fetchAccountStatusFailed:
       return { ...state, data: {}, error: errors, loading: false };
     default:
       return state;
