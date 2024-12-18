@@ -8,6 +8,7 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { APP_NAMES } from '../../../utils/appConstants';
 import ExternalLink from '../../../components/ExternalLink';
+import TravelPayOMB from '../../../components/TravelPayOMB';
 
 const TravelIntro = props => {
   const { router } = props;
@@ -102,6 +103,7 @@ const TravelIntro = props => {
             {t('set-up-direct-deposit')}
           </ExternalLink>
         </va-alert>
+        <TravelPayOMB />
       </Wrapper>
     </>
   );

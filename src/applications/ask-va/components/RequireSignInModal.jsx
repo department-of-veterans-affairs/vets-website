@@ -10,7 +10,7 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
 
   const openLoginModal = () => {
     onClose();
-    dispatch(toggleLoginModal(true, 'askVA'));
+    dispatch(toggleLoginModal(true));
   };
 
   useEffect(
