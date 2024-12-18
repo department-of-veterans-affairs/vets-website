@@ -1,38 +1,23 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import {
-  render,
-  waitFor,
-  fireEvent,
-  getByTestId,
-  cleanup,
-} from '@testing-library/react';
-import sinon from 'sinon';
-import { SelectAccreditedRepresentative } from '../../../components/SelectAccreditedRepresentative';
-import * as api from '../../../api/fetchRepStatus';
+import { render } from '@testing-library/react';
+import SelectedAccreditedRepresentativeReview from '../../../components/SelectAccreditedRepresentativeReview';
 import repResults from '../../fixtures/data/representative-results.json';
-import * as reviewPageHook from '../../../hooks/useReviewPage';
+import orgResult from '../../fixtures/data/organization-type.json';
 
-describe('<SelectAccreditedRepresentative>', () => {
-  const getProps = ({ submitted = false } = {}) => {
+describe('<SelectAccreditedRepresentativeReview>', () => {
+  const getProps = () => {
     return {
       props: {
-        formContext: {
-          submitted,
+        data: {
+          'view:selectedRepresentative': repResults[0].data,
         },
-
-        loggedIn: true,
-        formData: { 'view:representativeSearchResults': repResults },
-        setFormData: sinon.spy(),
-        goToPath: sinon.spy(),
-        goBack: sinon.spy(),
-        goForward: sinon.spy(),
       },
       mockStore: {
         getState: () => ({
-          form: {
-            data: { 'view:representativeSearchResults': repResults },
+          data: {
+            'view:selectedRepresentative': repResults[0].data,
           },
         }),
         subscribe: () => {},
@@ -40,14 +25,10 @@ describe('<SelectAccreditedRepresentative>', () => {
     };
   };
 
-  afterEach(() => {
-    cleanup();
-  });
-
   const renderContainer = (props, mockStore) => {
     const { container } = render(
       <Provider store={mockStore}>
-        <SelectAccreditedRepresentative {...props} />
+        <SelectedAccreditedRepresentativeReview {...props} />
       </Provider>,
     );
 
@@ -56,160 +37,37 @@ describe('<SelectAccreditedRepresentative>', () => {
 
   it('should render component', () => {
     const { props, mockStore } = getProps();
+
     const container = renderContainer(props, mockStore);
 
     expect(container).to.exist;
   });
 
-  it('calls getRepStatus and update state accordingly on search', async () => {
+  it('should display review-row when orgName is present', () => {
     const { props, mockStore } = getProps();
-
-    const fetchRepStatusStub = sinon.stub(api, 'fetchRepStatus').resolves({
-      data: { status: 'active' },
-    });
 
     const container = renderContainer(props, mockStore);
 
-    const selectRepButton = getByTestId(container, 'rep-select-19731');
-
-    expect(selectRepButton).to.exist;
-
-    fireEvent.click(selectRepButton);
-
-    await waitFor(() => {
-      expect(fetchRepStatusStub.calledOnce).to.be.true;
-      expect(props.setFormData.called).to.be.true;
-      expect(props.goToPath.called).to.be.false;
-      expect(props.setFormData.args[0][0]).to.include({
-        'view:selectedRepresentative': repResults[0].data,
-      });
-    });
-
-    fetchRepStatusStub.restore();
+    const reviewRow = container.querySelector('.review-row');
+    expect(reviewRow).to.not.be.null;
   });
 
-  it('calls getRepStatus and update state accordingly is review mode', async () => {
-    const { props, mockStore } = getProps();
-
-    const fetchRepStatusStub = sinon.stub(api, 'fetchRepStatus').resolves({
-      data: { status: 'active' },
-    });
-
-    const useReviewPageStub = sinon
-      .stub(reviewPageHook, 'useReviewPage')
-      .returns(true);
-
-    const container = renderContainer(props, mockStore);
-
-    const selectRepButton = getByTestId(container, 'rep-select-19731');
-
-    expect(selectRepButton).to.exist;
-
-    fireEvent.click(selectRepButton);
-
-    await waitFor(() => {
-      expect(fetchRepStatusStub.calledOnce).to.be.true;
-      expect(props.setFormData.called).to.be.true;
-      expect(props.goToPath.called).to.be.true;
-      expect(props.setFormData.args[0][0]).to.include({
-        'view:selectedRepresentative': repResults[0].data,
-      });
-    });
-
-    useReviewPageStub.restore();
-  });
-
-  // it('displays query error when query is invalid', async () => {
-  //   const { mockStore, props } = getProps();
-
-  //   const container = renderContainer(props, mockStore);
-
-  //   const forwardButton = container.querySelectorAll(
-  //     'button[id*="continueButton"]',
-  //   )[1];
-
-  //   fireEvent.click(forwardButton);
-
-  //   await waitFor(() => {
-  //     expect(container.textContent).to.contain('Enter the name');
-  //   });
-  // });
-
-  it('displays selection error when query is valid but rep is null', async () => {
+  it('should render org for org type', () => {
     const { mockStore } = getProps();
 
     const props = {
-      formData: {
-        'view:representativeQueryInput': 'Valid Query',
-        'view:selectedRepresentative': null,
+      data: {
+        'view:selectedRepresentative': orgResult,
       },
     };
 
     const container = renderContainer(props, mockStore);
 
-    const forwardButton = container.querySelectorAll(
-      'button[id*="continueButton"]',
-    )[1];
-    fireEvent.click(forwardButton);
+    const ddElement = Array.from(container.querySelectorAll('dd')).find(
+      dd => dd.textContent === 'Organization',
+    );
 
-    await waitFor(() => {
-      expect(container.textContent).to.contain('Select the accredited');
-    });
+    expect(ddElement).to.not.be.null;
+    expect(ddElement).to.have.text('Organization');
   });
-
-  it('goes back when not in review mode', async () => {
-    const { mockStore, props } = getProps();
-
-    const useReviewPageStub = sinon
-      .stub(reviewPageHook, 'useReviewPage')
-      .returns(false);
-
-    const container = renderContainer(props, mockStore);
-
-    const backButton = container.querySelectorAll(
-      'button[id*="continueButton"]',
-    )[0];
-    fireEvent.click(backButton);
-
-    await waitFor(() => {
-      expect(props.goBack.called).to.be.true;
-    });
-
-    useReviewPageStub.restore();
-  });
-
-  it('goes to path when in review mode', async () => {
-    const { mockStore, props } = getProps();
-
-    const useReviewPageStub = sinon
-      .stub(reviewPageHook, 'useReviewPage')
-      .returns(true);
-
-    const container = renderContainer(props, mockStore);
-
-    const backButton = container.querySelectorAll(
-      'button[id*="continueButton"]',
-    )[0];
-    fireEvent.click(backButton);
-
-    await waitFor(() => {
-      expect(props.goToPath.called).to.be.true;
-    });
-
-    useReviewPageStub.restore();
-  });
-
-  // it('displays error on search when no query exists', async () => {
-  //   const { mockStore, props } = getProps();
-
-  //   const container = renderContainer(props, mockStore);
-
-  //   const vaButton = container.querySelector('va-button[text="Search"]');
-
-  //   fireEvent.click(vaButton);
-
-  //   await waitFor(() => {
-  //     expect(container.textContent).to.contain('Enter the name');
-  //   });
-  // });
 });

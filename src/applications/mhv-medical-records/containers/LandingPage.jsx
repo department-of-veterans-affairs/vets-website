@@ -16,7 +16,11 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { getCernerURL } from 'platform/utilities/cerner';
-import { downtimeNotificationParams, pageTitles } from '../util/constants';
+import {
+  CernerAlertContent,
+  downtimeNotificationParams,
+  pageTitles,
+} from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
   selectConditionsFlag,
@@ -27,8 +31,8 @@ import {
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
-
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
@@ -98,7 +102,7 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <section>
+      <section className="vads-u-margin-bottom--2">
         <h1
           className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           data-testid="mr-landing-page-title"
@@ -118,6 +122,8 @@ const LandingPage = () => {
           Review, print, and download your VA medical records.
         </p>
       </section>
+
+      <CernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
 
       {isLoading && (
         <section>
