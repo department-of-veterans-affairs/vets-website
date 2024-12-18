@@ -170,7 +170,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     screen.history.push.reset();
 
     // 5. it should allow the user to go to the previous page
-    button = screen.getByText(/^Back/);
+    button = screen.getByText(/^« Back/);
     userEvent.click(button);
     await waitFor(() => {
       expect(screen.history.push.called).to.be.true;

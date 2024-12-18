@@ -9,7 +9,6 @@ export default function FormButtons({
   pageChangeInProgress,
   loadingText,
   disabled,
-  backBeforeText,
   backButtonText,
   nextButtonText,
   displayNextButton = true,
@@ -19,9 +18,8 @@ export default function FormButtons({
       <div className="vaos__form-button-back mobile:vads-u-padding-right--1p5 medium-screen:vads-u-padding-right--0p5">
         <ProgressButton
           onButtonClick={onBack}
-          buttonText={backButtonText || 'Back'}
-          buttonClass="usa-button-secondary"
-          beforeText={typeof backBeforeText === 'string' ? backBeforeText : '«'}
+          buttonText={backButtonText || '« Back'}
+          buttonClass="usa-button-secondary vads-u-margin-top--1p5 "
         />
       </div>
       {displayNextButton && (
@@ -45,7 +43,6 @@ export default function FormButtons({
 
 FormButtons.propTypes = {
   onBack: PropTypes.func.isRequired,
-  backBeforeText: PropTypes.string,
   backButtonText: PropTypes.string,
   disabled: PropTypes.bool,
   displayNextButton: PropTypes.bool,
