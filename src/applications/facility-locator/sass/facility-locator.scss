@@ -30,22 +30,19 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-bottom: 3em;
     border-bottom: solid thin var(--vads-color-base-lightest);
 
-    @media screen and (min-width: $small-desktop-screen) {
-      display: flex;
-      flex-direction: row;
-      column-gap: 24px;
-    }
   }
 
   .desktop-map-container {
     min-height: 78vh;
     padding-left: 0;
-    width: calc(100% - 305px - 4px);
+    width: 100%;
+    position: relative;
 
     @media screen and (min-width: $small-desktop-screen) {
       width: 100%;
       max-width: 655px;
       max-height: 1178px;
+      height: 100%;
     }
   }
 
@@ -163,14 +160,39 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-left: 4px;
   }
 
+  .map-and-message-container {
+    flex-grow: 1;
+  }
+
+  .tablet-results-map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .small-desktop-map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 24px;
+  }
+
+  #mapbox-gl-container {
+    @media screen and (max-width: $medium-screen) {
+      width: 100%;
+      height: 55vh;
+    }
+  }
+
   .search-results-container {
     width: 305px;
+    max-height: 78vh;
 
     @media screen and (min-width: $small-desktop-screen) {
       width: 333px;
+      max-height: 623px;
     }
 
-    max-height: 78vh;
     overflow-y: auto;
   }
 
@@ -266,11 +288,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         max-width: none;
         margin-bottom: 24px;
         padding: 0 0.7em;
-      }
-
-      #facility-search {
-        margin-bottom: 0;
-        padding-bottom: 0;
+        width: 100%;
       }
 
       .input-container {
@@ -296,11 +314,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         align-self: end;
       }
 
-      input[type="submit"] {
-        width: 100%;
-        padding: 0 0.625rem;
-        margin-top: 0;
+      #facility-search {
+        width: 100% !important;
+        min-width: 100% !important;
       }
+
 
       .typeahead+input[type="submit"] {
         margin-bottom: 30px;
@@ -367,6 +385,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .typeahead {
     margin-top: 25px;
+  }
+
+  .tablet-results-container {
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -507,18 +530,20 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+.desktop-vertical-and-map-holder {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  column-gap: 24px;
+  min-height: 75vh;
+}
+
 #vertical-oriented-left-controls {
   display: flex;
   flex-direction: column;
   width: 333px;
 }
 
-#mapbox-gl-container {
-  max-height: 55vh;
-  height: 55vh;
-  display: flex;
-  justify-content: center;
-}
 
 #search-area-control-container {
   z-index: 1;
@@ -540,9 +565,15 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .mapboxgl-ctrl-top-center {
-  position: absolute;
+  // position: absolute;
+  // pointer-events: none;
+  // margin: 15px 0 0 15px;
   pointer-events: none;
-  margin: 15px 0 0 15px;
+  top: 10px;
+  left: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
 }
 
 .mapboxgl-ctrl-bottom-center {
@@ -561,6 +592,10 @@ button.mapboxgl-ctrl-zoom-out {
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
+}
+
+canvas.mapboxgl-canvas {
+  height: 100%;
 }
 
 canvas.mapboxgl-canvas:focus {
@@ -611,4 +646,10 @@ canvas.mapboxgl-canvas:focus {
 
 .success-icon {
   color: var(--vads-color-success) !important;
+}
+
+@media (min-width: 30em) {
+  button.usa-button {
+    min-width: 100% !important;
+  }
 }

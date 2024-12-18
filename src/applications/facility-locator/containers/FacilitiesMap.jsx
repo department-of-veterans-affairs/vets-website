@@ -8,7 +8,6 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchText,
@@ -50,6 +49,7 @@ import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
 import ControlResultsHolder from '../components/ControlResultsHolder';
+import EmregencyCareAlert from '../components/EmergencyCareAlert';
 
 let lastZoom = 3;
 
@@ -58,12 +58,20 @@ const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
+
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
+  const mapboxContainerRef = useRef(null);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSmallDesktop, setIsSmallDesktop] = useState(
     window.innerWidth >= 1024,
   );
+  const [isTablet, setIsTablet] = useState(
+    window.innerWidth >= 481 && window.innerWidth < 1024,
+  );
+
+  const [verticalSize, setVerticalSize] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
 
   /**
@@ -323,7 +331,7 @@ const FacilitiesMap = props => {
    * Setup map on resize
    */
   const setMapResize = () => {
-    setTimeout(function() {
+    setTimeout(function resetMap() {
       setMap(setupMap());
     }, 10);
   };
@@ -364,6 +372,7 @@ const FacilitiesMap = props => {
         aria-describedby="map-instructions"
         onFocus={() => speakMapInstructions()}
         className={mobile ? '' : 'desktop-map-container'}
+        ref={mapboxContainerRef}
       >
         {shouldRenderSearchArea() && (
           <SearchAreaControl
@@ -419,7 +428,6 @@ const FacilitiesMap = props => {
         />
       );
     };
-
     if (
       map &&
       !isMobile &&
@@ -440,63 +448,79 @@ const FacilitiesMap = props => {
           />
         )}
         {/* a HOC that either returns a div or fragment */}
-        <ControlResultsHolder isSmallDesktop={isSmallDesktop}>
-          <SearchControls
-            geolocateUser={props.geolocateUser}
-            clearGeocodeError={props.clearGeocodeError}
-            currentQuery={currentQuery}
-            onChange={props.updateSearchQuery}
-            onSubmit={handleSearch}
-            suppressPPMS={props.suppressPPMS}
-            suppressPharmacies={props.suppressPharmacies}
-            clearSearchText={props.clearSearchText}
-          />
-          {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-            <VaAlert
-              slim
-              uswds
-              fullWidth
-              status="info"
-              className="vads-u-margin-top--1"
-              data-testid="emergency-care-info-note"
-              id="emergency-care-info-note"
-            >
-              <strong>Note:</strong> If you think your life or health is in
-              danger, call <va-telephone contact="911" /> or go to the nearest
-              emergency department right away.
-            </VaAlert>
-          )}
-          <div id="search-results-title" ref={searchResultTitleRef}>
-            {!searchError && (
-              <SearchResultsHeader
-                results={results}
-                facilityType={facilityType}
-                serviceType={serviceType}
-                context={queryContext}
-                specialtyMap={props.specialties}
-                inProgress={currentQuery.inProgress}
-                pagination={pagination}
-              />
-            )}
-            {searchError && <p />}
-          </div>
-          {!isMobile && (
-            <>
+        <div
+          className={
+            isSmallDesktop ? 'desktop-vertical-and-map-holder' : undefined
+          }
+        >
+          <ControlResultsHolder isSmallDesktop={isSmallDesktop}>
+            <SearchControls
+              geolocateUser={props.geolocateUser}
+              clearGeocodeError={props.clearGeocodeError}
+              currentQuery={currentQuery}
+              onChange={props.updateSearchQuery}
+              onSubmit={handleSearch}
+              suppressPPMS={props.suppressPPMS}
+              suppressPharmacies={props.suppressPharmacies}
+              clearSearchText={props.clearSearchText}
+            />
+            <EmregencyCareAlert
+              shouldShow={isEmergencyCareType || isCppEmergencyCareTypes}
+            />
+
+            <div id="search-results-title" ref={searchResultTitleRef}>
+              {!searchError && (
+                <SearchResultsHeader
+                  results={results}
+                  facilityType={facilityType}
+                  serviceType={serviceType}
+                  context={queryContext}
+                  specialtyMap={props.specialties}
+                  inProgress={currentQuery.inProgress}
+                  pagination={pagination}
+                />
+              )}
+              {searchError && <p />}
+            </div>
+
+            {isSmallDesktop && (
               <div
-                className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-5 small-12"
+                className="search-results-container columns"
                 id="searchResultsContainer"
               >
-                <div className="facility-search-results">{resultsList()}</div>
+                <div
+                  id="searchResultsInner"
+                  className="facility-search-results"
+                >
+                  {resultsList()}
+                </div>
               </div>
-            </>
+            )}
+          </ControlResultsHolder>
+          {!isMobile && (
+            <div
+              className={
+                isSmallDesktop
+                  ? 'small-desktop-map-container'
+                  : 'tablet-results-map-container'
+              }
+            >
+              {isTablet && (
+                <div
+                  className="search-results-container columns vads-u-padding-right--1p5 vads-u-padding-left--0"
+                  id="searchResultsContainer"
+                >
+                  <div className="facility-search-results">{resultsList()}</div>
+                </div>
+              )}
+              <div className="map-and-message-container">
+                {renderMap(false, results)}
+              </div>
+            </div>
           )}
-        </ControlResultsHolder>
-        {!isMobile && (
-          <>
-            {renderMap(false, results)}
-            {paginationWrapper()}
-          </>
-        )}
+        </div>
+        {!isMobile && <>{paginationWrapper()}</>}
+
         {isMobile && (
           <div className="columns small-12">
             <Tabs>
@@ -566,6 +590,7 @@ const FacilitiesMap = props => {
     const setScreenSize = () => {
       setIsMobile(window.innerWidth <= 481);
       setIsSmallDesktop(window.innerWidth >= 1024);
+      setIsTablet(window.innerWidth >= 481 && window.innerWidth < 1024);
     };
 
     searchWithUrl();
@@ -619,6 +644,32 @@ const FacilitiesMap = props => {
       map.fitBounds(locationBounds, { maxZoom: 12 });
     }
   };
+  useEffect(
+    () => {
+      const resizeObserver = new ResizeObserver(entries => {
+        const { height } = entries[0].contentRect;
+        setVerticalSize(height);
+      });
+
+      if (mapboxContainerRef.current) {
+        resizeObserver.observe(mapboxContainerRef.current);
+      }
+      return () => {
+        if (mapboxContainerRef.current) {
+          resizeObserver.unobserve(mapboxContainerRef.current);
+        }
+      };
+    },
+    [mapboxContainerRef],
+  );
+  useEffect(
+    () => {
+      if (verticalSize && map && !isMobile) {
+        map.resize();
+      }
+    },
+    [map, verticalSize, isMobile],
+  );
 
   useEffect(
     () => {
@@ -631,11 +682,11 @@ const FacilitiesMap = props => {
   );
   useEffect(
     () => {
-      if (map && isSmallDesktop) {
+      if (map && (isSmallDesktop || isTablet)) {
         map?.resize();
       }
     },
-    [map, isSmallDesktop],
+    [map, isSmallDesktop, isTablet],
   );
   useEffect(
     () => {

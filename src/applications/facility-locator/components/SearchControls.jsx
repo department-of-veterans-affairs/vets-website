@@ -69,6 +69,7 @@ const SearchControls = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    e.stopPropagation();
 
     const {
       facilityType,
@@ -392,7 +393,7 @@ const SearchControls = props => {
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
             {renderServiceTypeDropdown()}
-            <input id="facility-search" type="submit" value="Search" />
+            <va-button id="facility-search" submit="prevent" text="Search" />
           </div>
         </div>
       </form>
