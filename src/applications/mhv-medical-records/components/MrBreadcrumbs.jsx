@@ -29,8 +29,7 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
-  const thing = useParams();
-  const { labId } = thing;
+  const { labId } = useParams();
 
   useEffect(
     () => {
