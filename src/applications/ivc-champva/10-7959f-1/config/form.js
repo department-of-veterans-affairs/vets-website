@@ -25,7 +25,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
@@ -92,7 +92,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
-          // initialData: mockdata.data,
+          initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
