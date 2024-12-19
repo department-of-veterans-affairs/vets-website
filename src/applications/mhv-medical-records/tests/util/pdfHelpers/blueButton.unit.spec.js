@@ -312,4 +312,67 @@ describe('generateBlueButtonData', () => {
       'Facility 1',
     );
   });
+
+  it('should include allergies if medications is present', () => {
+    const input = {
+      allergies: [
+        { name: 'Allergy 1' },
+        { name: 'Allergy 2', isOracleHealthData: true },
+      ],
+      medications: [{ prescriptionName: 'Medication 1' }],
+    };
+
+    const recordFilter = ['medications'];
+    const result = generateBlueButtonData(input, recordFilter);
+    const allergiesSection = result.find(
+      section => section.type === recordType.ALLERGIES,
+    );
+
+    expect(allergiesSection).to.exist;
+    expect(allergiesSection.selected).to.be.true;
+    expect(allergiesSection.records.results.items).to.have.lengthOf(2);
+    expect(allergiesSection.records.results.items[0].header).to.equal(
+      'Allergy 1',
+    );
+  });
+
+  it('should not include allergies if neither allergies nor medications are present', () => {
+    const input = {
+      labsAndTests: [],
+      notes: [],
+      vaccines: [],
+      allergies: [],
+      conditions: [],
+      vitals: [],
+      medications: [],
+      appointments: [],
+      demographics: [],
+      militaryService: [],
+      accountSummary: null,
+    };
+
+    const recordFilter = [];
+    const result = generateBlueButtonData(input, recordFilter);
+    const allergiesSection = result.find(
+      section => section.type === recordType.ALLERGIES,
+    );
+
+    expect(allergiesSection).to.exist;
+    expect(allergiesSection.selected).to.be.false;
+    expect(allergiesSection.records.length).to.eq(0);
+  });
+
+  it('should not include allergies if medications is selected but empty', () => {
+    const input = { allergies: [{ name: 'Allergy 1' }] };
+
+    const recordFilter = ['medications'];
+    const result = generateBlueButtonData(input, recordFilter);
+    const allergiesSection = result.find(
+      section => section.type === recordType.ALLERGIES,
+    );
+
+    expect(allergiesSection).to.exist;
+    expect(allergiesSection.selected).to.be.false;
+    expect(allergiesSection.records.results.items).to.have.lengthOf(1);
+  });
 });
