@@ -61,7 +61,6 @@ const RadiologyDetails = props => {
     imageProcessingAlertRendered,
     setImageProcessingAlertRendered,
   ] = useState(false);
-  const IMAGE_REQUEST_PROGRESS_ALERT = 'image-request-progress-alert';
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   // State to manage the dynamic backoff polling interval
@@ -102,11 +101,7 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       if (imageProcessingAlertRendered) {
-        focusElement(
-          document.querySelector(
-            `va-alert[data-testid="${IMAGE_REQUEST_PROGRESS_ALERT}"] > h3`,
-          ),
-        );
+        focusElement(processingAlertHeadingRef.current);
       }
     },
     [imageProcessingAlertRendered],
@@ -242,7 +237,7 @@ ${record.results}`;
         status="info"
         visible
         aria-live="polite"
-        data-testid={IMAGE_REQUEST_PROGRESS_ALERT}
+        data-testid="image-request-progress-alert"
       >
         <h3
           aria-describedby="in-progress-description"
