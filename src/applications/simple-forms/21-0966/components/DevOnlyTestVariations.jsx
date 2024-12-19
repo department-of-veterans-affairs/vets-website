@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -6,6 +5,7 @@ import {
   VaCheckboxGroup,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useNewConfirmationPage } from '../config/features';
 import {
   preparerIdentifications,
   submissionApis,
@@ -64,7 +64,7 @@ export const DevOnlyTestVariations = ({
     });
   };
 
-  if (!(environment.isLocalhost() || environment.isDev())) {
+  if (!useNewConfirmationPage()) {
     return null;
   }
 

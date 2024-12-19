@@ -8,14 +8,8 @@ import { focusElement } from 'platform/utilities/ui';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import environment from 'platform/utilities/environment';
-import GetFormHelp from '../../shared/components/GetFormHelp';
-import {
-  veteranBenefits,
-  survivingDependentBenefits,
-  submissionApis,
-} from '../definitions/constants';
 import { DevOnlyTestVariations } from '../components/DevOnlyTestVariations';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
   hasActiveCompensationITF,
   hasActivePensionITF,
@@ -27,6 +21,12 @@ import {
   confirmationPageNextStepsParagraph,
   confirmationPageAlertParagraphV2,
 } from '../config/helpers';
+import {
+  veteranBenefits,
+  survivingDependentBenefits,
+  submissionApis,
+} from '../definitions/constants';
+import { useNewConfirmationPage } from '../config/features';
 
 const NextSteps = ({ formData }) => (
   <div>
@@ -161,10 +161,8 @@ export const ConfirmationPage = props => {
   const confirmationNumber = submissionResponse?.confirmationNumber;
   const [submitDate, setSubmitDate] = useState(submission.timestamp);
   const { statementOfTruthSignature } = formData;
-  const useNewConfirmationPage =
-    environment.isLocalhost() || environment.isDev();
 
-  if (useNewConfirmationPage) {
+  if (useNewConfirmationPage()) {
     return (
       <ConfirmationView
         submitDate={submitDate}

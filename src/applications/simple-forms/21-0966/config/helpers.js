@@ -3,14 +3,14 @@ import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import { format } from 'date-fns';
 import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import formConfig from './form';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   preparerIdentifications,
   veteranBenefits,
   survivingDependentBenefits,
   submissionApis,
 } from '../definitions/constants';
+import formConfig from './form';
 
 export const preparerIsVeteran = ({ formData } = {}) => {
   return formData?.preparerIdentification === preparerIdentifications.veteran;
