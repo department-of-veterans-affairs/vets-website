@@ -5,6 +5,7 @@ import { login } from 'platform/user/authentication/utilities';
 export default function MhvSignIn() {
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
 
   const isAllowedEmail = user => {
     const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
@@ -15,6 +16,10 @@ export default function MhvSignIn() {
     const emailValue = e.target.value;
     setEmail(emailValue);
     setIsValidEmail(isAllowedEmail(emailValue));
+  };
+
+  const handleBlur = () => {
+    setIsTouched(true);
   };
 
   const handleButtonClick = () => {
@@ -50,9 +55,12 @@ export default function MhvSignIn() {
         value={email}
         required
         onInput={handleEmailChange}
-        show-input-error={!notDisable}
+        onBlur={handleBlur}
+        show-input-error={isTouched && !notDisable}
         error={
-          !notDisable ? 'Please enter a valid VA or Oracle Health email' : null
+          isTouched && !notDisable
+            ? 'Please enter a valid VA or Oracle Health email'
+            : null
         }
       />
       <div className="vads-u-margin-y--2">
