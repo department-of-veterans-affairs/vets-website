@@ -339,8 +339,8 @@ const DownloadFileType = props => {
       }
     },
     [
-      dateFilter.fromDate,
-      dateFilter.toDate,
+      dateFilter?.fromDate,
+      dateFilter?.toDate,
       dispatch,
       dob,
       isDataFetched,
@@ -399,10 +399,7 @@ const DownloadFileType = props => {
   }, []);
 
   const selectFileTypeHandler = e => {
-    setFileType(e?.detail?.value);
-    handleDdRum(e);
     checkFileTypeValidity();
-
     if (e?.detail?.value) setFileTypeError(null);
   };
 
@@ -450,7 +447,10 @@ const DownloadFileType = props => {
             </div>
             <VaRadio
               label="If you use assistive technology, a text file may work better for you."
-              onVaValueChange={selectFileTypeHandler}
+              onVaValueChange={e => {
+                setFileType(e.detail.value);
+                handleDdRum(e);
+              }}
               error={fileTypeError}
             >
               <va-radio-option label="PDF" value="pdf" name="file-type" />
