@@ -320,7 +320,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               cancelEditClick={cancelEditClick}
               formType=" mailing address"
             />
-
             <ChangeOfAddressForm
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
