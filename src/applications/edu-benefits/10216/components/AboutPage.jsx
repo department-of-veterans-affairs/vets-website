@@ -16,11 +16,11 @@ const AboutPage = ({ props }) => {
       </p>
       <div>
         <p className="vads-u-margin-bottom--0">
-          <strong>Related to:</strong>
+          <strong>Related to: </strong>
           Resources for schools
         </p>
         <p className="vads-u-margin-top--1p5">
-          <strong>Form last updated:</strong>
+          <strong>Form last updated: </strong>
           November 2021
         </p>
       </div>
