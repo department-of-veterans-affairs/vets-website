@@ -32,7 +32,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     });
     listPage.clickGotoMedicationsLink();
 
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption(
       'Alphabetically by name',
@@ -41,7 +41,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     listPage.loadRxAfterSortAlphabeticallyByName();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
       1,
-      20,
+      10,
       listLength,
     );
   });

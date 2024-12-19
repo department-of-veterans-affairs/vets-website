@@ -22,7 +22,7 @@ import {
   handleDataDogAction,
 } from '../../util/helpers';
 
-import { refreshPhases, Paths } from '../../util/constants';
+import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -652,41 +652,41 @@ describe('getMonthFromSelectedDate', () => {
 });
 
 describe('handleDataDogAction', () => {
-  it('should return a tag for the details page', () => {
+  it('should return a tag for the Vitals details page', () => {
     const tag = handleDataDogAction({
       locationBasePath: 'vitals',
       locationChildPath: 'heart-rate-history',
-      Breadcrumbs: {
-        HEART_RATE: {
-          href: Paths.HEART_RATE,
-          label: 'Heart rate',
-          isRouterLink: true,
-        },
-      },
-      label: 'some label',
-      domainPath: Paths.HEART_RATE,
-      sendAnalytics: false,
     });
-    expect(tag).to.equal('Back - some label - Heart rate');
+    expect(tag).to.equal('Back - Vitals - Heart rate');
   });
+
   it('should return a tag for the list page', () => {
     const tag = handleDataDogAction({
-      locationBasePath: 'vitals',
-      locationChildPath: '',
-      Breadcrumbs: {
-        VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
-
-        HEART_RATE: {
-          href: Paths.HEART_RATE,
-          label: 'Heart rate',
-          isRouterLink: true,
-        },
-      },
-      label: 'some label',
-      domainPath: Paths.HEART_RATE,
-      sendAnalytics: false,
+      locationBasePath: 'labs-and-tests',
+      locationChildPath: '1234',
     });
-    expect(tag).to.equal('Back - Vitals - List');
+    expect(tag).to.equal('Back - Lab and test results - Detail');
+  });
+
+  it('should return a tag for the list page with no child path', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'summaries-and-notes',
+    });
+    expect(tag).to.equal('Back - Care summaries and notes - List');
+  });
+
+  it('should return a tag for the settings page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'settings',
+    });
+    expect(tag).to.equal('Breadcrumb - Medical records settings');
+  });
+
+  it('should return a tag for the downloads page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'download',
+    });
+    expect(tag).to.equal('Breadcrumb - Download medical records reports');
   });
 });
 

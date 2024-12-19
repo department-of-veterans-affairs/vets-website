@@ -125,7 +125,9 @@ export const generateBlueButtonData = (
       'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
       `Showing ${allergies?.length} records from newest to oldest`,
     ],
-    selected: recordFilter.includes('allergies'),
+    selected:
+      recordFilter.includes('allergies') ||
+      (recordFilter.includes('medications') && medications?.length > 0),
     records: allergies?.length ? generateAllergiesContent(allergies) : [],
   });
 

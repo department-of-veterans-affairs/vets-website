@@ -388,7 +388,6 @@ export const Paths = {
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
-  DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
@@ -431,11 +430,6 @@ export const Breadcrumbs = {
   SETTINGS: {
     href: Paths.SETTINGS,
     label: 'Medical records settings',
-    isRouterLink: true,
-  },
-  DOWNLOAD_ALL: {
-    href: Paths.DOWNLOAD_ALL,
-    label: 'Download all medical records',
     isRouterLink: true,
   },
   DOWNLOAD: {
