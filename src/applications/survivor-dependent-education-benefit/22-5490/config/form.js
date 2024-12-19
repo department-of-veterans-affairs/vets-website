@@ -487,7 +487,7 @@ const formConfig = {
                     information for other VA benefits, update your information
                     on your{' '}
                     <a target="_blank" href="/profile/personal-information">
-                      profile (opens in a new tab)g
+                      profile (opens in a new tab)
                     </a>
                     .
                   </p>
