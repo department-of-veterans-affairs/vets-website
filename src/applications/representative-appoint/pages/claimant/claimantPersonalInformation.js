@@ -1,11 +1,9 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
-  fullNameSchema,
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -33,7 +31,23 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    applicantName: fullNameSchema,
+    applicantName: {
+      type: 'object',
+      properties: {
+        first: {
+          type: 'string',
+          maxLength: 12,
+        },
+        middle: {
+          type: 'string',
+          maxLength: 1,
+        },
+        last: {
+          type: 'string',
+          maxLength: 18,
+        },
+      },
+    },
     applicantDOB: dateOfBirthSchema,
   },
 };
