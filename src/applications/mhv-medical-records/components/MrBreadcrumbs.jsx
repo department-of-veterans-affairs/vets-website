@@ -29,7 +29,7 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
-  const { labId } = useParams();
+  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
   useEffect(
     () => {
@@ -115,7 +115,13 @@ const MrBreadcrumbs = () => {
   }
   if (
     phase0p5Flag &&
-    location.pathname.includes(`/${locationBasePath}/${labId}`)
+    location.pathname.includes(
+      `/${locationBasePath}/${labId ||
+        vaccineId ||
+        summaryId ||
+        allergyId ||
+        conditionId}`,
+    )
   ) {
     return (
       <div
@@ -123,7 +129,7 @@ const MrBreadcrumbs = () => {
         label="Breadcrumb"
         data-testid="breadcrumbs"
       >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link to={backToImagesBreadcrumb}>Back</Link>
