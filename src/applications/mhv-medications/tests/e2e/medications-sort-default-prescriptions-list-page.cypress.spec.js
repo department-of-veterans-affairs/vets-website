@@ -35,7 +35,7 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     });
     listPage.clickGotoMedicationsLink();
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption(
       'Alphabetically by status',
@@ -44,7 +44,7 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     listPage.loadRxDefaultSortAlphabeticallyByStatus();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
       1,
-      20,
+      10,
       listLength,
     );
   });

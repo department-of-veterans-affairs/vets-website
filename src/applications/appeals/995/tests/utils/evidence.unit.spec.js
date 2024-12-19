@@ -7,6 +7,8 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasPrivateLimitation,
+  hasNewPrivateLimitation,
+  hasOriginalPrivateLimitation,
   hasOtherEvidence,
   getIndex,
   evidenceNeedsUpdating,
@@ -146,6 +148,53 @@ describe('hasPrivateLimitation', () => {
     expect(hasPrivateLimitation(getData(''))).to.be.true;
     expect(hasPrivateLimitation(getData('test'))).to.be.true;
     expect(hasPrivateLimitation(getData(true))).to.be.true;
+  });
+});
+
+describe('hasNewPrivateLimitation', () => {
+  it('should always return false when toggle is disabled', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: false,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasNewPrivateLimitation(getData())).to.be.false;
+    expect(hasNewPrivateLimitation(getData(true))).to.be.false;
+    expect(hasNewPrivateLimitation(getData(false))).to.be.false;
+  });
+  it('should return expected value', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasNewPrivateLimitation(getData())).to.be.undefined; // falsy
+    expect(hasNewPrivateLimitation(getData(''))).to.eq(''); // falsy
+    expect(hasNewPrivateLimitation(getData('test'))).to.eq('test'); // truthy
+    expect(hasNewPrivateLimitation(getData(true))).to.be.true;
+  });
+});
+
+// hasOriginalPrivateLimitation,
+describe('hasOriginalPrivateLimitation', () => {
+  it('should always return false when toggle is disabled', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasOriginalPrivateLimitation(getData())).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData(true))).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
+  });
+  it('should return expected value', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: false,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    // only returns false when explicitly set to false
+    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData())).to.be.undefined; // falsy
+    expect(hasOriginalPrivateLimitation(getData(''))).to.eq(''); // falsy
+    expect(hasOriginalPrivateLimitation(getData('test'))).to.eq('test'); // truthy
+    expect(hasOriginalPrivateLimitation(getData(true))).to.be.true;
   });
 });
 

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import Sinon from 'sinon';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
 import notes from '../fixtures/notes.json';
@@ -22,6 +23,9 @@ const militaryService = fs.readFileSync(
   'src/applications/mhv-medical-records/tests/fixtures/blueButton/military-service.txt',
   'utf8',
 );
+
+import edipiNotFound from '../../util/edipiNotFound';
+
 import {
   getAllergies,
   getAllergy,
@@ -42,6 +46,9 @@ import {
   getDemographicInfo,
   getMilitaryService,
   getPatient,
+  getAcceleratedAllergies,
+  getAcceleratedAllergy,
+  getAcceleratedVitals,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -280,6 +287,39 @@ describe('Get military service info api call', () => {
       expect(res).to.contain('Military Service');
     });
   });
+
+  it('should handle no EDIPI found response gracefully', async () => {
+    const fetchStub = Sinon.stub(global, 'fetch');
+    fetchStub.callsFake(url => {
+      const response = new Response();
+      response.ok = false;
+      response.url = url;
+      response.status = 500;
+      response.error = 'No EDIPI found for the current user';
+
+      return Promise.reject(response);
+    });
+
+    const thing = await getMilitaryService();
+    expect(thing).to.equal(edipiNotFound);
+  });
+
+  it('should throw and error on failure', () => {
+    const fetchStub = Sinon.stub(global, 'fetch');
+    fetchStub.callsFake(url => {
+      const response = new Response();
+      response.ok = false;
+      response.url = url;
+      response.status = 500;
+      response.statusText = 'Server Error';
+
+      return Promise.reject(response);
+    });
+
+    return getMilitaryService().catch(err => {
+      expect(err.statusText).to.equal('Server Error');
+    });
+  });
 });
 
 describe('Get patient profile api call', () => {
@@ -290,6 +330,40 @@ describe('Get patient profile api call', () => {
     return getPatient().then(res => {
       expect(res.ipas.length).to.equal(1);
       expect(res.facilities.length).to.equal(20);
+    });
+  });
+});
+
+describe('Accelerated OH API calls', () => {
+  // Creating tests that ensure that the getAPI methods return a promise as expected
+  describe('getAcceleratedAllergies', () => {
+    it('should make an api call to get all allergies', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedAllergies().then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedAllergy', () => {
+    it('should make an api call to get a single allergy', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedAllergy('123').then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedVitals', () => {
+    it('should make an api call to get all vitals', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedVitals().then(res => {
+        expect(res.mock).to.equal('data');
+      });
     });
   });
 });

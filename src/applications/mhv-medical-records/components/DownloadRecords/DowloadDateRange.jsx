@@ -12,6 +12,7 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -44,6 +45,12 @@ const DownloadDateRange = () => {
           ),
         );
       }
+      // handle DD RUM
+      const selectedNode = Array.from(e.target.childNodes).find(
+        node => node.value === e.detail.value,
+      );
+      const selectedText = selectedNode ? selectedNode.innerText : '';
+      sendDataDogAction(`Date range option - ${selectedText}`);
     },
     [setSelectedDate],
   );
@@ -85,6 +92,7 @@ const DownloadDateRange = () => {
           label="Date range"
           onVaSelect={handleDateSelect}
           value=""
+          data-testid="va-select-date-range"
           error={selectionError}
         >
           <option value="any">Any</option>
@@ -100,6 +108,7 @@ const DownloadDateRange = () => {
             label="Start date"
             required="true"
             error={customFromError}
+            data-testid="va-date-start-date"
             onDateChange={e => {
               if (e.target.value) {
                 const [year, month, day] = e.target.value?.split('-');
@@ -114,6 +123,7 @@ const DownloadDateRange = () => {
             label="End date"
             required="true"
             error={customToError}
+            data-testid="va-date-end-date"
             onDateChange={e => {
               const [year, month, day] = e.target.value.split('-');
               if (parseInt(year, 10) >= 1900 && month && day) {
@@ -128,6 +138,7 @@ const DownloadDateRange = () => {
         continue
         onSecondaryClick={() => {
           history.push('/download');
+          sendDataDogAction('Date range  - Back');
         }}
         onPrimaryClick={() => {
           if (selectedDate === '') {
@@ -145,6 +156,7 @@ const DownloadDateRange = () => {
             }
           }
           history.push('/download/record-type');
+          sendDataDogAction('Date range  - Continue');
         }}
       />
       <NeedHelpSection />

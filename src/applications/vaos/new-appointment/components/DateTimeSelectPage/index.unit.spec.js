@@ -589,9 +589,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       store,
     });
 
-    await screen.findByText(
-      /Please select an available date and time from the calendar below./i,
-    );
+    await screen.findByText(/Scheduling at Green team clinic/i);
+    await screen.findByText(/Times are displayed in Mountain time \(MT\)\./i);
 
     const continueButton = screen.getByText(/continue/i);
     await waitFor(() => expect(continueButton.disabled).to.not.be.ok);
