@@ -2,6 +2,8 @@ import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
+  emailUI,
+  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -70,7 +72,13 @@ export const applicantAddressInfoSchema = {
       'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
-      ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
+      ...addressUI({
+        labels: {
+          street3: 'Apartment or unit number',
+          militaryCheckbox:
+            'Address is on a U.S. military base outside of the United States.',
+        },
+      }),
     },
     applicantNewAddress: {
       ...radioUI({
@@ -114,6 +122,7 @@ export const applicantContactInfoSchema = {
       'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
+    applicantEmail: emailUI(),
   },
   schema: {
     type: 'object',
@@ -121,6 +130,7 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+      applicantEmail: emailSchema,
     },
   },
 };

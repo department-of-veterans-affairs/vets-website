@@ -8,6 +8,8 @@ const prefillTransformer = (pages, formData, metadata, state) => {
     userFullName: profileFullName,
     vaFileNumber: profileVaFileNumber,
     zip: profileZip,
+    phoneNumber,
+    email,
   } = profile;
 
   return {
@@ -26,6 +28,8 @@ const prefillTransformer = (pages, formData, metadata, state) => {
             first: profileFullName.first,
             last: profileFullName.last,
           },
+      phoneNumber,
+      email,
       idNumber: {
         ssn: ssn || profileSsn,
         vaFileNumber: vaFileNumber || profileVaFileNumber,

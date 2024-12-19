@@ -2,7 +2,11 @@ import React from 'react';
 import { HEALTH_FACILITIES_URL } from '../../constants';
 
 const AlertNoRecordForUser = () => (
-  <va-alert status="warning" data-testid="reorder-alert--no-record-for-user">
+  <va-alert
+    status="warning"
+    data-testid="reorder-alert--no-record-for-user"
+    class="vads-u-margin-bottom--5"
+  >
     <h3 slot="headline">We can’t find your records in our system</h3>
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <span>
