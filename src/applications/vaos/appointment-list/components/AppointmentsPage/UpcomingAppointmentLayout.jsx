@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getLink } from '../../../services/appointment';
 import AppointmentColumnLayout from './AppointmentColumnLayout';
-import AppointmentFlexGrid from './AppointmentFlexGrid';
+import AppointmentFlexGrid from '../../../components/AppointmentFlexGrid';
 import AppointmentListItem from './AppointmentListItem';
-import AppointmentRow from './AppointmentRow';
+import AppointmentRow from '../../../components/AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
   featureBreadcrumbUrlUpdate,
