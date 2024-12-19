@@ -510,11 +510,12 @@ export function createComments(submissionForm) {
   if (serviceHistoryIncorrect) {
     const explanation = submissionForm.incorrectServiceHistoryExplanation || {};
 
-    // Remove commas, newlines, and trim whitespace
+    // Remove commas, newlines, and normalize excessive whitespace
     const incorrectServiceHistoryText = explanation.incorrectServiceHistoryText
       ? explanation.incorrectServiceHistoryText
           .replace(/,/g, '') // Remove commas
           .replace(/\n/g, ' ') // Replace newlines with spaces
+          .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
           .trim() // Remove leading/trailing whitespace
       : '';
 
