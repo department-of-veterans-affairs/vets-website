@@ -201,10 +201,28 @@ class PatientSearchPage {
       .should(`have.length`, number);
   };
 
-  selectAdvancedFilterMonth = month => {
+  selectStartMonth = month => {
     cy.get(`[data-testid="date-start"]`)
       .find(`[name="discharge-dateMonth"]`)
       .select(month);
+  };
+
+  selectEndMonth = month => {
+    cy.get(`[data-testid="date-end"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(month);
+  };
+
+  selectStartDay = day => {
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .select(day);
+  };
+
+  selectEndDay = day => {
+    cy.get(`[data-testid="date-end"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .select(day);
   };
 
   // retrieveMessages = function (folderID) {
