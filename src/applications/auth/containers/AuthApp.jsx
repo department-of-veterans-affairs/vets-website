@@ -27,9 +27,7 @@ import {
   handleTokenRequest,
 } from '../helpers';
 
-const REDIRECT_IGNORE_PATTERN = new RegExp(
-  ['/auth/login/callback', '/session-expired'].join('|'),
-);
+const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
 
 export default function AuthApp({ location }) {
   useDatadogRum();

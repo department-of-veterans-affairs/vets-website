@@ -360,6 +360,12 @@ export const blueButtonReducer = (state = initialState, action) => {
         failedDomains: [],
       };
     }
+    case Actions.BlueButtonReport.CLEAR_APPOINTMENTS: {
+      return {
+        ...state,
+        appointmentsList: undefined,
+      };
+    }
     default:
       return state;
   }

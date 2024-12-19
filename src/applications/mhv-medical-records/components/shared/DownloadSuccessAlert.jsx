@@ -20,6 +20,7 @@ const DownloadSuccessAlert = props => {
       visible
       class={`vads-u-margin-top--4 no-print ${className}`}
       role="alert"
+      data-testid="alert-download-started"
     >
       <h2 slot="headline" data-testid="download-success-alert-message">
         Download started
