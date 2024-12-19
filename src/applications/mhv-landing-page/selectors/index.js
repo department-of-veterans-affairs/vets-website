@@ -29,6 +29,7 @@ import {
   mhvAccountStatusUsersuccess,
   mhvAccountStatusUserError,
   mhvAccountStatusNonUserError,
+  mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
 
 export {
@@ -45,6 +46,7 @@ export {
   mhvAccountStatusLoading,
   mhvAccountStatusUsersuccess,
   mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
   mhvAccountStatusNonUserError,
   mrPhase1Enabled,
   personalizationEnabled,

@@ -51,6 +51,18 @@ const eightZeroSix = (req, res) => {
   });
 };
 
+const fiveZeroZero = (req, res) => {
+  return res.status(500).json({
+    errors: [
+      {
+        title: 'The server responded with status 500',
+        detail: 'things fall apart',
+        code: '500',
+      },
+    ],
+  });
+};
+
 const accountStatusSuccessResponse = {
   data: {
     id: '12345678',
@@ -81,6 +93,7 @@ module.exports = {
   eightZeroOne,
   eightZeroFive,
   eightZeroSix,
+  fiveZeroZero,
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
 };
