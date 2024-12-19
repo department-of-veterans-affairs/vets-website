@@ -548,10 +548,12 @@ export const filterLcResults = (results, nameInput, filters) => {
 };
 
 export const updateQueryParam = (history, location) => {
-  return (key, value) => {
+  return keyValuePairs => {
     const searchParams = new URLSearchParams(location.search);
 
-    searchParams.set(key, value);
+    keyValuePairs.forEach(([key, value]) => {
+      searchParams.set(key, value);
+    });
 
     history.push({
       pathname: location.pathname,

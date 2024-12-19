@@ -102,7 +102,10 @@ export default function LicenseCertificationSearchForm({
   useEffect(
     () => {
       if (categoryDropdown.current.optionValue === 'certification') {
-        handleUpdateQueryParam()('state', 'all');
+        handleUpdateQueryParam()([
+          ['state', 'all'],
+          ['category', 'certification'],
+        ]);
       }
     },
     [dropdowns],
@@ -135,11 +138,11 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
-    handleUpdateQueryParam()(e.target.id, e.target.value);
+    handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    handleUpdateQueryParam()('name', value);
+    handleUpdateQueryParam()([['name', value]]);
   };
 
   const onSelection = selection => {
@@ -161,11 +164,11 @@ export default function LicenseCertificationSearchForm({
       setShowAlert(true);
     }
 
-    setDropdowns(newDropdowns);
+    if (type === 'certification') setDropdowns(newDropdowns);
   };
 
   const handleClearInput = () => {
-    handleUpdateQueryParam()('name', '');
+    handleUpdateQueryParam()([['name', '']]);
     setShowAlert(false);
   };
 
