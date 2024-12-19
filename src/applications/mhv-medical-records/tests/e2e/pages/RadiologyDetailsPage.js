@@ -109,6 +109,10 @@ class RadiologyDetailsPage extends BaseDetailsPage {
   verifyPaginationVisible = () => {
     cy.get('a:contains("Next")').should('be.visible');
   };
+
+  verifyFocus = () => {
+    cy.get('h1').should('have.focus');
+  };
 }
 
 export default new RadiologyDetailsPage();
