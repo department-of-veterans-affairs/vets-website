@@ -73,17 +73,17 @@ export default function BackendAppointmentServiceAlert() {
           <div className="vads-u-margin-bottom--4">
             <va-alert-expandable
               status="warning"
-              trigger={`We can't display all your ${display[0]}.`}
+              trigger={`We can’t show some of your ${display[0]} right now.`}
               data-testid="backend-appointment-service-alert"
             >
               <p>
-                {`We're working to resolve this issue.
+                {`We’re working to fix this problem.
                  To manage an ${display[1]}
-                that is not shown in this list, contact the facility at which it
+                that’s not in this list, contact the VA facility where it
                 was ${display[2]}. `}
               </p>
               <p>
-                <a href="/find-locations">Facility locator</a>
+                <a href="/find-locations">Find your VA health facility</a>
               </p>
             </va-alert-expandable>
           </div>
