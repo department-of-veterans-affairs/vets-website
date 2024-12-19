@@ -17,6 +17,15 @@ function createExpirationDate() {
   return new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString();
 }
 
+function createIntentObject(val) {
+  return val
+    ? {
+        expirationDate: createExpirationDate(),
+        status: 'active',
+      }
+    : undefined;
+}
+
 export const DevOnlyTestVariations = ({
   formData,
   setFormData,
@@ -41,13 +50,15 @@ export const DevOnlyTestVariations = ({
       confirmationNumber: newConfirmationNumber || '123456789',
       submissionApi: newSubmissionApi,
       expirationDate: createExpirationDate(),
-      compensationIntent: !!newFormData.benefitSelection?.[
-        veteranBenefits.COMPENSATION
-      ],
-      pensionIntent: !!newFormData.benefitSelection?.[veteranBenefits.PENSION],
-      survivorIntent: !!newFormData.benefitSelection?.[
-        survivingDependentBenefits.SURVIVOR
-      ],
+      compensationIntent: createIntentObject(
+        newFormData.benefitSelection?.[veteranBenefits.COMPENSATION],
+      ),
+      pensionIntent: createIntentObject(
+        newFormData.benefitSelection?.[veteranBenefits.PENSION],
+      ),
+      survivorIntent: createIntentObject(
+        newFormData.benefitSelection?.[survivingDependentBenefits.SURVIVOR],
+      ),
       pdfUrl:
         newSubmissionApi === submissionApis.BENEFITS_INTAKE ? '/' : undefined,
     });
@@ -186,12 +197,7 @@ export const DevOnlyTestVariations = ({
 
               setNewFormData({
                 ...newFormData,
-                [checkboxKey]: value
-                  ? {
-                      expirationDate: createExpirationDate(),
-                      status: 'active',
-                    }
-                  : undefined,
+                [checkboxKey]: createIntentObject(value),
               });
             }}
           >
