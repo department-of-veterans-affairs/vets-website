@@ -30,6 +30,9 @@ export const schema = {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     'Primary phone': phoneSchema,
-    veteranEmail: emailSchema,
+    veteranEmail: {
+      ...emailSchema,
+      maxLength: 61,
+    },
   },
 };
