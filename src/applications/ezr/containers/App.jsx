@@ -29,6 +29,7 @@ const App = props => {
     isProdEnabled,
     isSigiEnabled,
     isEmergencyContactsEnabled,
+    isNextOfKinEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -68,6 +69,7 @@ const App = props => {
           'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': isEmergencyContactsEnabled,
+          'view:isNextOfKinEnabled': isNextOfKinEnabled,
         };
 
         setFormData({
@@ -114,6 +116,7 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
