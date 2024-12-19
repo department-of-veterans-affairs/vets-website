@@ -396,7 +396,7 @@ export const SubmissionAlert = ({
       )}
     >
       <h2 slot="headline">{titleText}</h2>
-      {contentBody}
+      {typeof contentBody === 'string' ? <p>{contentBody}</p> : contentBody}
       {actionsBody}
     </VaAlert>
   );

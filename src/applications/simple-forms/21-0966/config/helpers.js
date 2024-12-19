@@ -3,14 +3,14 @@ import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import { format } from 'date-fns';
 import { apiRequest } from 'platform/utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from 'platform/utilities/environment';
+import formConfig from './form';
 import {
   preparerIdentifications,
   veteranBenefits,
   survivingDependentBenefits,
-  submissionTypes,
+  submissionApis,
 } from '../definitions/constants';
-import formConfig from './form';
 
 export const preparerIsVeteran = ({ formData } = {}) => {
   return formData?.preparerIdentification === preparerIdentifications.veteran;
@@ -299,7 +299,7 @@ const formatDate = date => {
 
 export const confirmationPageAlertHeadlineV2 = ({
   formData,
-  submissionType,
+  submissionApi,
   submitDate,
 }) => {
   if (confirmationPageFormBypassed(formData)) {
@@ -308,11 +308,11 @@ export const confirmationPageAlertHeadlineV2 = ({
 
   const submitDateStr = formatDate(submitDate);
 
-  if (submissionType === submissionTypes.BENEFITS_CLAIMS) {
+  if (submissionApi === submissionApis.INTENT_TO_FILE) {
     return `Your form submission was successful on ${submitDateStr}.`;
   }
 
-  if (submissionType === submissionTypes.BENEFITS_INTAKE) {
+  if (submissionApi === submissionApis.BENEFITS_INTAKE) {
     return `Form submission started on ${submitDateStr}.`;
   }
 
@@ -365,9 +365,11 @@ const benefitSelectionDisplay = formData => {
 
   if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
     benefitTypes.push('disability compensation');
-  } else if (formData.benefitSelection[veteranBenefits.PENSION]) {
+  }
+  if (formData.benefitSelection[veteranBenefits.PENSION]) {
     benefitTypes.push('pension claims');
-  } else if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+  }
+  if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
     benefitTypes.push('pension claims for survivors');
   }
 
@@ -376,7 +378,7 @@ const benefitSelectionDisplay = formData => {
 
 export const confirmationPageAlertParagraphV2 = ({
   formData,
-  submissionType,
+  submissionApi,
   expirationDate,
   confirmationNumber = '',
 }) => {
@@ -402,7 +404,7 @@ export const confirmationPageAlertParagraphV2 = ({
   const benefitSelectionStr = benefitSelectionDisplay(formData);
 
   if (benefitSelectionStr) {
-    if (submissionType === submissionTypes.BENEFITS_INTAKE) {
+    if (submissionApi === submissionApis.BENEFITS_INTAKE) {
       return (
         <>
           <p>Your intent to file for {benefitSelectionStr} is in progress.</p>
@@ -415,10 +417,10 @@ export const confirmationPageAlertParagraphV2 = ({
         </>
       );
     }
-    if (submissionType === submissionTypes.BENEFITS_CLAIMS) {
+    if (submissionApi === submissionApis.INTENT_TO_FILE) {
       return `You have until ${formatDate(
         expirationDate,
-      )} to file your ${benefitSelectionStr}} claim(s)`;
+      )} to file for ${benefitSelectionStr}`;
     }
   }
 

@@ -52,14 +52,14 @@ const responseNew = {
   expirationDate: '2024-11-30T17:56:30.512Z',
 };
 
-const responseNewBenefitsClaims = {
+const responseNewintentToFile = {
   ...responseNew,
-  submissionType: 'benefitsClaims',
+  submissionApi: 'intentToFile',
 };
 
 const responseNewBenefitsIntake = {
   ...responseNew,
-  submissionType: 'benefitsIntake',
+  submissionApi: 'benefitsIntake',
 };
 
 const responseExisting = {
@@ -85,14 +85,14 @@ const responseExisting = {
   },
 };
 
-const responseExistingBenefitsClaims = {
+const responseExistingintentToFile = {
   ...responseExisting,
-  submissionType: 'benefitsClaims',
+  submissionApi: 'intentToFile',
 };
 
 const responseExistingBenefitsIntake = {
   ...responseExisting,
-  submissionType: 'benefitsIntake',
+  submissionApi: 'benefitsIntake',
 };
 
 function makeStore(response, data) {
@@ -112,24 +112,24 @@ const STORE_VETERAN_FIRST_TIME = makeStore(responseNew, veteranData);
 const STORE_SURVIVOR_FIRST_TIME = makeStore(responseNew, survivorData);
 const STORE_VETERAN_EXISTING = makeStore(responseExisting, veteranData);
 const STORE_SURVIVOR_EXISTING = makeStore(responseExisting, survivorData);
-const STORE_VETERAN_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
-  responseNewBenefitsClaims,
+const STORE_VETERAN_FIRST_TIME_INTENT_TO_FILE = makeStore(
+  responseNewintentToFile,
   veteranData,
 );
 const STORE_VETERAN_FIRST_TIME_BENEFITS_INTAKE = makeStore(
   responseNewBenefitsIntake,
   veteranData,
 );
-const STORE_SURVIVOR_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
-  responseNewBenefitsClaims,
+const STORE_SURVIVOR_FIRST_TIME_INTENT_TO_FILE = makeStore(
+  responseNewintentToFile,
   survivorData,
 );
 const STORE_SURVIVOR_FIRST_TIME_BENEFITS_INTAKE = makeStore(
   responseNewBenefitsIntake,
   survivorData,
 );
-const STORE_VETERAN_EXISTING_BENEFITS_CLAIMS = makeStore(
-  responseExistingBenefitsClaims,
+const STORE_VETERAN_EXISTING_INTENT_TO_FILE = makeStore(
+  responseExistingintentToFile,
   veteranData,
 );
 const STORE_SURVIVOR_EXISTING_BENEFITS_INTAKE = makeStore(
@@ -144,7 +144,7 @@ if (environment.isLocalhost() || environment.isDev()) {
 
     it('it should show status success and the correct name of person for a veteran submitting for the first time (benefits claims)', () => {
       const { container, getByText } = render(
-        <Provider store={mockStore(STORE_VETERAN_FIRST_TIME_BENEFITS_CLAIMS)}>
+        <Provider store={mockStore(STORE_VETERAN_FIRST_TIME_INTENT_TO_FILE)}>
           <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );
@@ -196,7 +196,7 @@ if (environment.isLocalhost() || environment.isDev()) {
 
     it('it should show status success and the correct name of person for a survivor submitting for the first time (benefits claims)', () => {
       const { container, getByText } = render(
-        <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME_BENEFITS_CLAIMS)}>
+        <Provider store={mockStore(STORE_SURVIVOR_FIRST_TIME_INTENT_TO_FILE)}>
           <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );
@@ -238,7 +238,7 @@ if (environment.isLocalhost() || environment.isDev()) {
 
     it('it should show status success and the correct name of person for a veteran submitting for the second time (benefits claims)', () => {
       const { container, getByText } = render(
-        <Provider store={mockStore(STORE_VETERAN_EXISTING_BENEFITS_CLAIMS)}>
+        <Provider store={mockStore(STORE_VETERAN_EXISTING_INTENT_TO_FILE)}>
           <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );

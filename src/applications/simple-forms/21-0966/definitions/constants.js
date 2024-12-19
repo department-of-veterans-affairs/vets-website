@@ -14,7 +14,7 @@ export const survivingDependentBenefits = {
   SURVIVOR: 'survivor',
 };
 
-export const submissionTypes = {
-  BENEFITS_INTAKE: 'benefitsIntake',
-  BENEFITS_CLAIMS: 'benefitsClaims',
+export const submissionApis = {
+  BENEFITS_INTAKE: 'benefitsIntake', // benefits intake - async
+  INTENT_TO_FILE: 'intentToFile', // benefits claims - syncronous
 };
