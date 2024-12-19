@@ -9,10 +9,11 @@ export class AudiologyPageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    cy.findByLabelText(label)
-      .as('radio')
-      .focus();
-    cy.get('@radio').click();
+    cy.get('va-radio')
+      .shadow()
+      .get('va-radio-option')
+      .contains(label)
+      .click();
 
     return this;
   }
