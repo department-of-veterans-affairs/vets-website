@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     pageHooks,
-    setupPerTest: () => {
+    setupPerTest: data => {
       const toggles = [
         {
           name: SC_NEW_FORM_TOGGLE,
@@ -30,7 +30,7 @@ const testConfig = createTestConfig(
           value: true,
         },
       ];
-      setupPerTest(toggles);
+      setupPerTest(data, toggles);
     },
   },
   manifest,
