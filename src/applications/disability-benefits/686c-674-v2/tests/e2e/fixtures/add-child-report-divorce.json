@@ -3,54 +3,45 @@
     "householdIncome": true,
     "childrenToAdd": [
       {
-        "doesChildLiveWithYou": true,
-        "childAddressInfo": {
-          "personChildLivesWith": {
-            "first": "johnson",
-            "last": "doe"
-          },
-          "address": {
-            "view:livesOnMilitaryBase": true,
-            "view:livesOnMilitaryBaseInfo": {},
-            "countryName": "USA",
-            "addressLine1": "123 athome dr",
-            "city": "APO",
-            "stateCode": "AA",
-            "zipCode": "34012"
+        "incomeInLastYear": "Y",
+        "livingWith": {
+          "first": "John",
+          "last": "Doe II"
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "DZA",
+          "street": "test address",
+          "city": "test city",
+          "postalCode": "43242"
+        },
+        "doesChildLiveWithYou": "N",
+        "hasChildEverBeenMarried": "N",
+        "isBiologicalChild": true,
+        "dateEnteredHousehold": "2023-02-01",
+        "biologicalParentName": {
+          "first": "Jane",
+          "last": "Doe"
+        },
+        "biologicalParentSsn": "432432432",
+        "biologicalParentDob": "1990-02-01",
+        "relationshipToChild": {
+          "stepchild": true
+        },
+        "birthLocation": {
+          "location": {
+            "state": "AK",
+            "postalCode": "43222"
           }
         },
-        "placeOfBirth": {
-          "isOutsideUs": true,
-          "country": "GTM",
-          "city": "some city"
-        },
-        "childStatus": {
-          "biological": false,
-          "adopted": false,
-          "stepchild": true,
-          "biologicalStepchild": true,
-          "dateBecameDependent": "2009-06-09",
-          "stepchildParent": {
-            "first": "betty",
-            "last": "boop"
-          },
-          "ssn": "123211234",
-          "birthDate": "2015-06-08"
-        },
-        "view:childStatusInformation": {},
-        "notSelfSufficient": "N",
-        "previouslyMarried": "Yes",
-        "previousMarriageDetails": {
-          "dateMarriageEnded": "2019-07-10",
-          "reasonMarriageEnded": "Annulment"
-        },
-        "childIncome": true,
+        "ssn": "432432432",
         "fullName": {
-          "first": "jacob",
-          "last": "doe"
+          "first": "John",
+          "last": "Doe"
         },
-        "ssn": "321121234",
-        "birthDate": "2015-06-08"
+        "birthDate": "2000-02-01",
+        "view:isUnmarriedAndInSchool": "Y",
+        "view:hasReceivedBenefits": "N"
       }
     ],
     "veteranContactInformation": {
