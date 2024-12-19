@@ -4,6 +4,7 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
+  fullNameSchema,
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -32,11 +33,13 @@ export const schema = {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     applicantName: {
-      type: 'object',
+      ...fullNameSchema,
       properties: {
+        ...fullNameSchema.properties,
         first: {
           type: 'string',
           maxLength: 12,
+          minLength: 1,
         },
         middle: {
           type: 'string',
@@ -45,6 +48,7 @@ export const schema = {
         last: {
           type: 'string',
           maxLength: 18,
+          minLength: 1,
         },
       },
     },

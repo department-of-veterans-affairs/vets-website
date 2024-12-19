@@ -34,6 +34,7 @@ export const schema = {
     profileNotUpdatedNote: { type: 'object', properties: {} },
     veteranFullName: {
       type: 'object',
+      required: ['first', 'last'],
       properties: {
         first: {
           type: 'string',
@@ -51,5 +52,5 @@ export const schema = {
     },
     veteranDateOfBirth: dateOfBirthSchema,
   },
-  required: ['veteranDateOfBirth'],
+  required: ['veteranDateOfBirth', 'veteranFullName'],
 };
