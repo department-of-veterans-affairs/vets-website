@@ -1,10 +1,10 @@
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useMemo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { format } from 'date-fns';
@@ -33,6 +33,8 @@ const DownloadRecordType = () => {
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
+
+  const checkboxGroupRef = useRef(null);
 
   useEffect(
     () => {
@@ -100,7 +102,7 @@ const DownloadRecordType = () => {
         history.push('/download/date-range');
       }
     },
-    [dateFilter],
+    [dateFilter, history],
   );
 
   const selectedDateRange = useMemo(
@@ -143,7 +145,7 @@ const DownloadRecordType = () => {
         </p>
       </div>
       <div className="vads-u-margin-bottom--3">
-        <va-checkbox-group error={selectionError}>
+        <va-checkbox-group error={selectionError} ref={checkboxGroupRef}>
           <VaCheckbox
             label="Select all VA records"
             checkbox-description="Includes all available VA records for the date range you selected."
@@ -264,6 +266,11 @@ const DownloadRecordType = () => {
           if (selectedRecords.length === 0) {
             setSelectionError(
               'Please select at least one record type to download.',
+            );
+            focusElement(
+              '#checkbox-error-message',
+              {},
+              checkboxGroupRef.current.shadowRoot,
             );
             return;
           }
