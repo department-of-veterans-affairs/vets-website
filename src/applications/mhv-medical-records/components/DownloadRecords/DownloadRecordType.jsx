@@ -149,6 +149,7 @@ const DownloadRecordType = () => {
             checkbox-description="Includes all available VA records for the date range you selected."
             checked={checkAll}
             onVaChange={handleCheckAll}
+            data-testid="select-all-records-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
@@ -158,6 +159,7 @@ const DownloadRecordType = () => {
               setLabTestCheck(e.detail.checked);
               handleSingleCheck('labTests', e);
             }}
+            data-testid="labs-and-test-results-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
@@ -176,6 +178,7 @@ const DownloadRecordType = () => {
               setVaccineCheck(e.detail.checked);
               handleSingleCheck('vaccines', e);
             }}
+            data-testid="vaccines-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
