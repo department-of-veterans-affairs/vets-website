@@ -2,13 +2,23 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as api from 'platform/utilities/api';
+import * as auth from 'platform/user/authentication/utilities';
 import MhvSignIn from '../../containers/MhvSignIn';
 
 describe('MhvSignIn Component', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('renders the heading and description', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
-    expect(screen.getByRole('heading', { name: /My HealtheVet test account/i }))
-      .to.exist;
+    expect(
+      screen.getByRole('heading', {
+        name: /Access My HealtheVet test account/i,
+      }),
+    ).to.exist;
     expect(
       screen.getByText(
         /My HealtheVet test accounts are available for VA and Oracle Health staff only\./i,
@@ -16,50 +26,63 @@ describe('MhvSignIn Component', () => {
     ).to.exist;
   });
 
-  it('renders email input and checkbox', () => {
-    const screen = renderInReduxProvider(<MhvSignIn />);
-    const emailInput = screen.getByTestId('mvhemailinput');
-    // const checkbox = screen.getByLabelText(
-    //   /I’m using My HealtheVet for official VA testing, training, or development purposes\./i,
-    // );
-    expect(emailInput).to.exist;
-    // expect(checkbox).to.exist;
-  });
-
-  it('validates email input with allowed domains', () => {
+  it('renders email input and validates email with allowed domains', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
     const emailInput = screen.getByTestId('mvhemailinput');
 
-    fireEvent.input(emailInput, { target: { value: 'test@va.gov' } });
+    fireEvent.input(emailInput, { detail: { value: 'test@va.gov' } });
     expect(emailInput).to.have.value('test@va.gov');
     expect(
       screen.queryByText(/Please enter a valid VA or Oracle Health email/i),
     ).to.not.exist;
 
-    fireEvent.input(emailInput, { target: { value: 'test@gmail.com' } });
+    fireEvent.input(emailInput, { detail: { value: 'test@gmail.com' } });
     expect(emailInput).to.have.value('test@gmail.com');
     expect(screen.getByText(/Please enter a valid VA or Oracle Health email/i))
       .to.exist;
   });
 
-  // it('toggles checkbox state correctly', () => {
-  //   const screen = renderInReduxProvider(<MhvSignIn />);
+  it('renders the login button and calls handleButtonClick', () => {
+    const apiRequestStub = sinon.stub(api, 'apiRequest').resolves();
+    const loginStub = sinon.stub(auth, 'login');
 
-  //   const checkbox = screen.getByLabelText(
-  //     /I’m using My HealtheVet for official VA testing, training, or development purposes\./i
-  //   );
-
-  //   expect(checkbox.checked).to.be.false;
-  //   fireEvent.click(checkbox);
-  //   expect(checkbox.checked).to.be.true;
-  //   fireEvent.click(checkbox);
-  //   expect(checkbox.checked).to.be.false;
-  // });
-
-  it('renders the login button with correct props', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
-    expect(screen.getByRole('button', { text: /Access My HealtheVet/i })).to
-      .exist;
+    const emailInput = screen.getByTestId('mvhemailinput');
+    const loginButton = screen.getByRole('button', {
+      name: /Access My HealtheVet/i,
+    });
+
+    fireEvent.input(emailInput, { detail: { value: 'test@va.gov' } });
+    expect(loginButton).to.not.have.attribute('disabled');
+
+    fireEvent.click(loginButton);
+    expect(apiRequestStub.calledOnce).to.be.true;
+    expect(
+      loginStub.calledOnceWith({
+        policy: 'mhv',
+        queryParams: { operation: 'prod-test-acct' },
+      }),
+    ).to.be.true;
+  });
+
+  it('disables the login button for invalid email', () => {
+    const screen = renderInReduxProvider(<MhvSignIn />);
+    const emailInput = screen.getByTestId('mvhemailinput');
+    const loginButton = screen.getByRole('button', {
+      name: /Access My HealtheVet/i,
+    });
+
+    fireEvent.input(emailInput, { detail: { value: 'invalid-email' } });
+    expect(loginButton).to.have.attribute('disabled');
+  });
+
+  it('renders the disclaimer', () => {
+    const screen = renderInReduxProvider(<MhvSignIn />);
+    expect(
+      screen.getByText(
+        /By providing your email address you are agreeing to only use My HealtheVet for official VA testing, training, or development purposes\./i,
+      ),
+    ).to.exist;
   });
 
   it('renders the "Having trouble signing in?" section', () => {

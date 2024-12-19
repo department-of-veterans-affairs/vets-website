@@ -4,7 +4,6 @@ import { login } from 'platform/user/authentication/utilities';
 
 export default function MhvSignIn() {
   const [email, setEmail] = useState('');
-  const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   const isAllowedEmail = user => {
@@ -16,10 +15,6 @@ export default function MhvSignIn() {
     const emailValue = e.target.value;
     setEmail(emailValue);
     setIsValidEmail(isAllowedEmail(emailValue));
-  };
-
-  const handleCheckboxChange = e => {
-    setCheckboxChecked(e.target.checked);
   };
 
   const handleButtonClick = () => {
@@ -35,7 +30,9 @@ export default function MhvSignIn() {
   return (
     <section className="container row login">
       <div className="columns small-12 vads-u-padding--0">
-        <h1 id="signin-signup-modal-title">My HealtheVet test account</h1>
+        <h1 id="signin-signup-modal-title">
+          Access My HealtheVet test account
+        </h1>
         <p>
           My HealtheVet test accounts are available for VA and Oracle Health
           staff only.
@@ -46,9 +43,9 @@ export default function MhvSignIn() {
       </h2>
       <va-text-input
         hint={null}
-        label="Your email"
+        label="Your email address"
         data-testid="mvhemailinput"
-        message-aria-describedby="Your email"
+        message-aria-describedby="Your email adress"
         name="Your VA or Oracle Health email"
         value={email}
         required
@@ -59,22 +56,19 @@ export default function MhvSignIn() {
         }
       />
       <div className="vads-u-margin-y--2">
-        <va-checkbox
-          label="I’m using My HealtheVet for official VA testing, training, or development purposes."
-          aria-label="I’m using My HealtheVet for official VA testing, training, or development purposes."
-          checked={checkboxChecked}
-          onVaChange={handleCheckboxChange}
-          required
-          className="vads-u-padding-y--2"
-        />
-        {/* <p><strong>Disclaimer:</strong>By clicking the button below you are agreeing to only use <br></br>My HealtheVet for official VA testing, training, or development purposes.</p> */}
+        <p>
+          <strong>Disclaimer:</strong> By providing your email address you are
+          agreeing to only use <br />
+          My HealtheVet for official VA testing, training, or development
+          purposes.
+        </p>
       </div>
       <div className="vads-u-margin-y--2">
-        {/* <va-button onClick={handleButtonClick} text='Access My HealtheVet' role='button' disabled={!isValidEmail} /> */}
         <va-button
           onClick={handleButtonClick}
           text="Access My HealtheVet"
-          role="button"
+          data-testid="accessMhvBtn"
+          disabled={!isValidEmail}
         />
       </div>
       <div className="vads-u-margin-y--6">
