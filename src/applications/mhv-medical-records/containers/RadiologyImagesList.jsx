@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
@@ -56,6 +57,13 @@ const RadiologyImagesList = () => {
       dispatch(fetchImageRequestStatus());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [radiologyDetails],
   );
 
   const content = () => (

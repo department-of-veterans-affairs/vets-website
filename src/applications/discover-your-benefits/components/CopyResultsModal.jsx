@@ -3,7 +3,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const SaveResultsModal = () => {
+const CopyResultsModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const currentUrl = window.location.href;
@@ -20,21 +20,21 @@ const SaveResultsModal = () => {
   const handleClose = () => {
     setShowAlert(false);
     toggleModal(false);
-    focusElement('#save-your-results');
+    focusElement('#copy-your-results');
   };
 
   return (
     <div className="vads-u-margin-bottom--2">
       <va-button
-        id="save-your-results"
-        message-aria-describedby="Save your results"
-        text="Save your results"
+        id="copy-your-results"
+        message-aria-describedby="Copy link to results"
+        text="Copy link to results"
         onClick={() => toggleModal(true)}
       />
       <VaModal
-        id="save-results-modal"
+        id="copy-results-modal"
         onCloseEvent={handleClose}
-        modalTitle="Save your results"
+        modalTitle="Copy link to results"
         initialFocusSelector="#va-modal-title"
         visible={isOpen}
         large
@@ -70,4 +70,4 @@ const SaveResultsModal = () => {
   );
 };
 
-export default SaveResultsModal;
+export default CopyResultsModal;
