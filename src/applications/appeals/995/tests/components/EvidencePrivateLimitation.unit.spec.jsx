@@ -9,12 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidencePrivateLimitation from '../../components/EvidencePrivateLimitation';
-import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMIT,
-  SC_NEW_FORM_DATA,
-} from '../../constants';
+import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../../constants';
 
 describe('<EvidencePrivateLimitation>', () => {
   it('should render', () => {
@@ -25,7 +20,6 @@ describe('<EvidencePrivateLimitation>', () => {
     );
 
     expect($('va-textarea', container)).to.exist;
-    expect($('va-radio', container)).to.not.exist;
     expect($('va-additional-info', container)).to.exist;
     expect($$('button', container).length).to.eq(2);
   });
@@ -95,49 +89,6 @@ describe('<EvidencePrivateLimitation>', () => {
     );
 
     fireEvent.click($('button.usa-button-secondary', container));
-    expect(goSpy.called).to.be.true;
-  });
-
-  // *** New form content ***
-  // Render y/n radio instead of textarea
-  it('should render new form content', () => {
-    const data = { [SC_NEW_FORM_DATA]: true };
-    const { container } = render(
-      <div>
-        <EvidencePrivateLimitation data={data} />
-      </div>,
-    );
-
-    expect($('va-textarea', container)).to.not.exist;
-    expect($('va-radio', container)).to.exist;
-    expect($('va-additional-info', container)).to.exist;
-    expect($$('button', container).length).to.eq(2);
-  });
-
-  it('should update form data when a radio is selected', () => {
-    const setFormDataSpy = sinon.spy();
-    const data = { [SC_NEW_FORM_DATA]: true, limitedConsent: 'lorem ipsum' };
-    const { container } = render(
-      <div>
-        <EvidencePrivateLimitation data={data} setFormData={setFormDataSpy} />
-      </div>,
-    );
-
-    $('va-radio', container).__events.vaValueChange({ detail: { value: 'n' } });
-    expect(setFormDataSpy.called).to.be.true;
-    expect(setFormDataSpy.args.slice(-1)[0][0][EVIDENCE_LIMIT]).to.be.false;
-  });
-
-  it('should submit with no selection', () => {
-    const goSpy = sinon.spy();
-    const data = { [SC_NEW_FORM_DATA]: true };
-    const { container } = render(
-      <div>
-        <EvidencePrivateLimitation data={data} goForward={goSpy} />
-      </div>,
-    );
-
-    fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.true;
   });
 });
