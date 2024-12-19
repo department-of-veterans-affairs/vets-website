@@ -3,11 +3,6 @@ name: Continuous Deploy Production
 on:
   repository_dispatch:
     types: [cd-production-deploy]
-  workflow_dispatch:
-    inputs:
-      commit_sha:
-        description: Deploy specific commit
-        required: true
 
 jobs:
   deploy:
