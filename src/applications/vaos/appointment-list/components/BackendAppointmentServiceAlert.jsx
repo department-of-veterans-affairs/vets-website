@@ -21,7 +21,7 @@ function displayType(errorCodes, location) {
     ) &&
     isPending
   ) {
-    return ['requests', 'appointment request', 'requested'];
+    return ['requests', 'reschedule a request', 'requested'];
   }
   if (
     errorCodes.some(
@@ -35,7 +35,7 @@ function displayType(errorCodes, location) {
     ) &&
     (isPast || isUpcoming)
   ) {
-    return ['appointments', 'appointment', 'scheduled'];
+    return ['appointments', 'manage an appointment', 'scheduled'];
   }
   return null;
 }
@@ -73,15 +73,16 @@ export default function BackendAppointmentServiceAlert() {
           <div className="vads-u-margin-bottom--4">
             <va-alert-expandable
               status="warning"
-              trigger={`We can’t show some of your ${display[0]} right now.`}
+              trigger={`We can’t show some of your ${display[0]} right now`}
               data-testid="backend-appointment-service-alert"
             >
               <p>
                 {`We’re working to fix this problem.
-                 To manage an ${display[1]}
+                 To ${display[1]}
                 that’s not in this list, contact the VA facility where it
                 was ${display[2]}. `}
               </p>
+              <br />
               <p>
                 <a href="/find-locations">Find your VA health facility</a>
               </p>
