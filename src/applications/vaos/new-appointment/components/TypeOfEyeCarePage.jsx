@@ -18,7 +18,7 @@ import {
 } from '../redux/actions';
 
 const pageKey = 'typeOfEyeCare';
-const pageTitle = 'What type of eye care do you need?';
+const pageTitle = 'Which type of eye care do you need?';
 
 const initialSchema = {
   type: 'object',

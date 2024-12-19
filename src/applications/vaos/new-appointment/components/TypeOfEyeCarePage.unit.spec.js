@@ -64,7 +64,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     expect(radioSelector).to.exist;
     expect(radioSelector).to.have.attribute(
       'label',
-      'What type of eye care do you need?',
+      'Which type of eye care do you need?',
     );
 
     // And the user should see radio buttons for each clinic
