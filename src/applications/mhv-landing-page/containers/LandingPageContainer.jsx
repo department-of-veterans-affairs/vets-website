@@ -95,7 +95,7 @@ const LandingPageContainer = () => {
         }
       }
     },
-    [userHasMhvAccount, profile, dispatch],
+    [userHasMhvAccount, profile.loading, dispatch],
   );
 
   if (loading)

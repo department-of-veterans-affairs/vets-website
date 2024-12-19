@@ -16,8 +16,9 @@ describe(`${appName} - MHV Registration Alert - `, () => {
 
     it(`shows a 'user action needed' alert`, () => {
       cy.injectAxeThenAxeCheck();
-      cy.findByText(AlertMhvUserAction.defaultProps.title, { exact: false })
-        .should.exist;
+      cy.findByText('Error code 801: Contact the My HealtheVet help desk', {
+        exact: false,
+      }).should.exist;
 
       // Check the cards and hubs are visible
       cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
