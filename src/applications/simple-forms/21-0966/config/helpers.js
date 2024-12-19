@@ -290,7 +290,12 @@ export const confirmationPageAlertHeadline = formData => {
   return 'You’ve submitted your intent to file';
 };
 
-const formatDate = date => format(new Date(date), 'MMMM d, yyyy');
+const formatDate = date => {
+  if (date) {
+    return format(new Date(date), 'MMMM d, yyyy');
+  }
+  return '';
+};
 
 export const confirmationPageAlertHeadlineV2 = ({
   formData,

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
@@ -8,6 +8,11 @@ import { focusElement } from 'platform/utilities/ui';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import {
+  VaButton,
+  VaCheckboxGroup,
+  VaRadio,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
@@ -25,6 +30,7 @@ import {
   veteranBenefits,
   survivingDependentBenefits,
   submissionTypes,
+  preparerIdentifications,
 } from '../definitions/constants';
 
 const NextSteps = ({ formData }) => (
@@ -129,6 +135,134 @@ const AlreadySubmittedHeader = ({ formData }) => (
   </>
 );
 
+const DevOnlyTestVariations = ({
+  formData,
+  setFormData,
+  submissionType,
+  setSubmissionType,
+  confirmationNumber,
+  setConfirmationNumber,
+  submitDate,
+  setSubmitDate,
+}) => {
+  const [newFormData, setNewFormData] = useState(formData);
+  const [newSubmissionType, setNewSubmissionType] = useState(submissionType);
+  const [newConfirmationNumber, setNewConfirmationNumber] = useState(
+    confirmationNumber,
+  );
+
+  const onSimulateSubmission = () => {
+    setSubmitDate(submitDate || new Date().toISOString());
+    setConfirmationNumber(newConfirmationNumber || '123456789');
+    setFormData(newFormData);
+    setSubmissionType(newSubmissionType);
+  };
+
+  return (
+    <div className="vads-u-margin-bottom--4">
+      <va-additional-info
+        trigger="Simulate submission options (dev only)"
+        disable-border="true"
+        disable-analytics="true"
+      >
+        <h2>Development only</h2>
+        <VaRadio
+          label="Submission type"
+          onVaValueChange={event => {
+            const newVal = event.detail.value ?? undefined;
+            setNewSubmissionType(newVal);
+            setNewConfirmationNumber(
+              newVal === submissionTypes.BENEFITS_CLAIMS
+                ? '123456789'
+                : 'b71d3ef4-f5fe-4943-aa26-8b8e2b758ffd',
+            );
+          }}
+        >
+          <va-radio-option
+            label="Benefits claim"
+            value={submissionTypes.BENEFITS_CLAIMS}
+          />
+          <va-radio-option
+            label="Benefits intake"
+            value={submissionTypes.BENEFITS_INTAKE}
+          />
+        </VaRadio>
+        <VaRadio
+          label="Preparer type"
+          onVaValueChange={event => {
+            const newVal = event.detail.value ?? undefined;
+            setNewFormData({
+              ...formData,
+              preparerIdentification: newVal,
+            });
+          }}
+        >
+          <va-radio-option
+            label="Veteran"
+            value={preparerIdentifications.veteran}
+          />
+          <va-radio-option
+            label="Surviving dependent"
+            value={preparerIdentifications.survivingDependent}
+          />
+          <va-radio-option
+            label="Third party veteran"
+            value={preparerIdentifications.thirdPartyVeteran}
+          />
+          <va-radio-option
+            label="Third party surviving dependent"
+            value={preparerIdentifications.thirdPartySurvivingDependent}
+          />
+        </VaRadio>
+        <VaCheckboxGroup
+          label="Benefits selection"
+          onVaChange={event => {
+            const checkboxKey = event.target.dataset.key;
+            const value = event.detail.checked;
+
+            setNewFormData({
+              ...formData,
+              benefitSelection: {
+                ...formData.benefitSelection,
+                [checkboxKey]: value,
+              },
+            });
+          }}
+        >
+          <va-checkbox
+            label="Compensation"
+            value={veteranBenefits.COMPENSATION}
+          />
+          <va-checkbox label="Pension" value={veteranBenefits.PENSION} />
+          <va-checkbox
+            label="Survivor"
+            value={survivingDependentBenefits.SURVIVOR}
+          />
+        </VaCheckboxGroup>
+        <VaCheckboxGroup
+          label="Already active benefits"
+          onVaChange={event => {
+            const checkboxKey = event.target.dataset.key;
+            const value = event.detail.checked;
+
+            setNewFormData({
+              ...formData,
+              [checkboxKey]: value,
+            });
+          }}
+        >
+          <va-checkbox
+            label="Compensation"
+            value="view:activeCompensationITF"
+          />
+          <va-checkbox label="Pension" value="view:activePensionITF" />
+        </VaCheckboxGroup>
+        <VaButton onClick={onSimulateSubmission} text="Simulate submission" />
+      </va-additional-info>
+    </div>
+  );
+};
+
 export const ConfirmationPage = props => {
   useLayoutEffect(() => {
     focusElement('h2', null, 'va-alert');
@@ -138,7 +272,7 @@ export const ConfirmationPage = props => {
   const { form, route } = props;
   const { submission, data } = form;
 
-  const formData = {
+  const currentFormData = {
     ...data,
     benefitSelection: {
       [veteranBenefits.COMPENSATION]:
@@ -152,10 +286,15 @@ export const ConfirmationPage = props => {
     },
   };
 
+  const [formData, setFormData] = useState(currentFormData);
+  const [submissionType, setSubmissionType] = useState(
+    submission.response?.submissionType,
+  );
+  const [confirmationNumber, setConfirmationNumber] = useState(
+    submission.response?.confirmationNumber,
+  );
+  const [submitDate, setSubmitDate] = useState(submission.timestamp);
   const { statementOfTruthSignature } = formData;
-  const confirmationNumber = submission.response?.confirmationNumber;
-  const submitDate = submission.timestamp;
-  const submissionType = submission.response?.submissionType;
   const useNewConfirmationPage =
     environment.isLocalhost() || environment.isDev();
 
@@ -166,9 +305,6 @@ export const ConfirmationPage = props => {
         confirmationNumber={confirmationNumber}
         formConfig={route?.formConfig}
         pdfUrl={submission?.pdfUrl}
-        devOnly={{
-          showButtons: true,
-        }}
       >
         <ConfirmationView.SubmissionAlert
           title={confirmationPageAlertHeadlineV2({
@@ -220,6 +356,18 @@ export const ConfirmationPage = props => {
         <ConfirmationView.HowToContact />
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
+        {environment.isLocalhost() || environment.isDev() ? (
+          <DevOnlyTestVariations
+            formData={formData}
+            setFormData={setFormData}
+            submissionType={submissionType}
+            setSubmissionType={setSubmissionType}
+            confirmationNumber={confirmationNumber}
+            setConfirmationNumber={setConfirmationNumber}
+            submitDate={submitDate}
+            setSubmitDate={setSubmitDate}
+          />
+        ) : null}
       </ConfirmationView>
     );
   }
@@ -321,6 +469,17 @@ ConfirmationPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.object,
   }),
+};
+
+DevOnlyTestVariations.propTypes = {
+  confirmationNumber: PropTypes.string,
+  formData: PropTypes.object,
+  setConfirmationNumber: PropTypes.func,
+  setFormData: PropTypes.func,
+  setSubmissionType: PropTypes.func,
+  setSubmitDate: PropTypes.func,
+  submissionType: PropTypes.string,
+  submitDate: PropTypes.any,
 };
 
 function mapStateToProps(state) {
