@@ -13,7 +13,81 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     PatientInboxPage.selectDateRange('Custom');
   });
 
-  it('verify form elements', () => {
+  it('verify advanced filter form elements', () => {
+    cy.get(`[data-testid="date-start"]`, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(`[data-testid="date-end"]`, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify month and day range', () => {
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .find(`option`)
+      .should(`have.length`, 14);
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, 2);
+
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(`February`);
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, 31);
+
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(`June`);
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, 32);
+
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(`October`);
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, 33);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -30,6 +104,11 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     // PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     // PatientSearchPage.verifyMessageDate(3);
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify clear filters button', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
