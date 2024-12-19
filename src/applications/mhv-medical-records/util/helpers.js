@@ -4,6 +4,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
@@ -599,4 +600,24 @@ export const formatDateInLocalTimezone = date => {
     .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
     .substring(4);
   return `${formattedDate} ${localTimeZoneName}`;
+};
+
+/**
+ * Form Helper to focus on error field
+ */
+export const focusOnErrorField = () => {
+  setTimeout(() => {
+    const errors = document.querySelectorAll('[error]:not([error=""])');
+    const firstError =
+      errors.length > 0 &&
+      (errors[0]?.shadowRoot?.querySelector('select, input, textarea') ||
+        errors[0]
+          ?.querySelector('va-checkbox')
+          ?.shadowRoot?.querySelector('input') ||
+        errors[0].querySelector('input'));
+
+    if (firstError) {
+      focusElement(firstError);
+    }
+  }, 300);
 };
