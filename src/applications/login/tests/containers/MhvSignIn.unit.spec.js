@@ -8,9 +8,9 @@ import * as auth from 'platform/user/authentication/utilities';
 import MhvSignIn from '../../containers/MhvSignIn';
 
 describe('MhvSignIn Component', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
+  // afterEach(() => {
+  //   sinon.restore();
+  // });
 
   it('renders the heading and description', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
@@ -48,9 +48,7 @@ describe('MhvSignIn Component', () => {
 
     const screen = renderInReduxProvider(<MhvSignIn />);
     const emailInput = screen.getByTestId('mvhemailinput');
-    const loginButton = screen.getByRole('button', {
-      name: /Access My HealtheVet/i,
-    });
+    const loginButton = screen.getByTestId('accessMhvBtn');
 
     fireEvent.input(emailInput, { detail: { value: 'test@va.gov' } });
     expect(loginButton).to.not.have.attribute('disabled');
@@ -68,9 +66,7 @@ describe('MhvSignIn Component', () => {
   it('disables the login button for invalid email', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
     const emailInput = screen.getByTestId('mvhemailinput');
-    const loginButton = screen.getByRole('button', {
-      name: /Access My HealtheVet/i,
-    });
+    const loginButton = screen.getByTestId('accessMhvBtn');
 
     fireEvent.input(emailInput, { detail: { value: 'invalid-email' } });
     expect(loginButton).to.have.attribute('disabled');
