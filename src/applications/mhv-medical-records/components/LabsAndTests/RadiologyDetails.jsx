@@ -56,6 +56,7 @@ const RadiologyDetails = props => {
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const IMAGE_REQUEST_PROGRESS_ALERT = 'image-request-progress-alert';
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   // State to manage the dynamic backoff polling interval
@@ -158,6 +159,13 @@ ${record.results}`;
     await requestImagingStudy(radiologyDetails.studyId);
     // After requesting the study, update the status.
     dispatch(fetchImageRequestStatus());
+    setTimeout(() => {
+      focusElement(
+        document.querySelector(
+          `va-alert[data-testid="${IMAGE_REQUEST_PROGRESS_ALERT}"] > h3`,
+        ),
+      );
+    }, 1000);
   };
 
   const notificationContent = () => (
@@ -216,7 +224,10 @@ ${record.results}`;
         aria-live="polite"
         data-testid="image-request-progress-alert"
       >
-        <h3>Image request</h3>
+        <h3 aria-describedby="in-progress-description">Image request</h3>
+        <p id="in-progress-description" className="sr-only">
+          in progress{' '}
+        </p>
         <p>{imageRequest.percentComplete}% complete</p>
         <va-progress-bar
           percent={
@@ -258,7 +269,7 @@ ${record.results}`;
       status="error"
       visible
       aria-live="polite"
-      data-testid="image-request-error-alert"
+      data-testid={IMAGE_REQUEST_PROGRESS_ALERT}
     >
       <h3 id="track-your-status-on-mobile" slot="headline">
         We couldn’t access your images
