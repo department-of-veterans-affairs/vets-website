@@ -9,13 +9,7 @@ export class TypeOfEyeCarePageObject extends PageObject {
   }
 
   selectTypeOfEyeCare(label) {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .contains(label)
-      .click();
-
-    return this;
+    return super.selectRadioButtonShadow(label);
   }
 }
 
