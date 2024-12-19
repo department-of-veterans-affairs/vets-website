@@ -18,7 +18,10 @@ export default function MhvSignIn() {
   };
 
   const handleButtonClick = () => {
-    apiRequest('/v0/test_account_user_email', { method: 'POST' });
+    apiRequest('/v0/test_account_user_email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
     login({
       policy: 'mhv',
       queryParams: { operation: 'prod-test-acct' },
