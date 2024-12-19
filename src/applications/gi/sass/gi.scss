@@ -368,3 +368,47 @@
     margin-bottom: 20px;
   }
 }
+
+.yellow-ribbon-selector-container {
+  .selector-wrapper {
+    display: flex;
+    align-items: flex-end;
+    .degree-selector {
+      width: 100%;
+      max-width: 267px;
+    }
+    .degree-selector-btn {
+      white-space: nowrap;
+    }
+    @media screen and (max-width: $small-screen) {
+      flex-direction: column;
+      .degree-selector {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+      .degree-selector-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+  .degree-level-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    .degree-level-card {
+      flex: 1 1 calc(33.33% - 30px);
+      max-width: calc(33.33% - 10px);
+      box-sizing: border-box;
+      margin: 0;
+    }
+  }
+  @media screen and (max-width: $medium-screen) {
+    .degree-level-results {
+      .degree-level-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -128,6 +128,7 @@
           "Test 2"
         ],
         "treatmentDate": "2001-2",
+        "noDate": true,
         "evidenceDates": {
           "from": "2002-2-2",
           "to": "2012-2-2"

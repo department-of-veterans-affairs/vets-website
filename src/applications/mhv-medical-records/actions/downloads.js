@@ -55,11 +55,20 @@ export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
   }
 };
 
-export const updateReportDateRange = (fromDate, toDate) => async dispatch => {
+export const updateReportDateRange = (
+  option,
+  fromDate,
+  toDate,
+) => async dispatch => {
   dispatch({
     type: Actions.Downloads.SET_DATE_FILTER,
-    response: `${fromDate}<->${toDate}`,
+    response: {
+      option,
+      fromDate,
+      toDate,
+    },
   });
+  dispatch({ type: Actions.BlueButtonReport.CLEAR_APPOINTMENTS });
 };
 
 export const updateReportRecordType = selectedTypes => async dispatch => {

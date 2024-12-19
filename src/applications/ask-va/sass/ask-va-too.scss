@@ -435,7 +435,8 @@ ul.react-tabs__tab-list {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  margin-top: 0px;
 
   @include media($medium-screen) {
     flex-direction: row;
