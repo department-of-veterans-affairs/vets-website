@@ -11,7 +11,6 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
 });
 
 export const updateDropdowns = (category = 'all', state = 'all') => {
-  // console.log('updateDropdowns 🟢', { category, state });
   const initialDropdowns = [
     {
       label: 'category',
@@ -32,13 +31,20 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
     },
     {
       label: 'state',
-      options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
+      options:
+        typeof state === 'string'
+          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+          : [
+              { optionValue: 'all', optionLabel: 'All' },
+              ...mappedStates.filter(mappedState =>
+                state.find(_state => _state.state === mappedState.optionValue),
+              ),
+            ],
       alt: 'state',
       current: { optionValue: 'all', optionLabel: 'All' },
     },
   ];
 
-  // console.log('newDropdowns', newDropdowns);
   return initialDropdowns.map(dropdown => {
     if (dropdown.label === 'category') {
       return {
@@ -52,12 +58,18 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
     if (dropdown.label === 'state') {
       return {
         ...dropdown,
-        current: dropdown.options.find(option => option.optionValue === state),
+        current: dropdown.options.find(
+          option => option.optionValue === state,
+        ) ?? { ...dropdown.current },
       };
     }
 
     return dropdown;
   });
+};
+
+export const checkLicenseInDuplicateStates = (suggestions, name) => {
+  return suggestions.filter(suggestion => suggestion.name === name);
 };
 
 export default function LicenseCertificationSearchForm({
@@ -131,9 +143,16 @@ export default function LicenseCertificationSearchForm({
   };
 
   const onSelection = selection => {
-    const { type, state } = selection;
+    const { type, state, name: _name } = selection;
 
-    const newDropdowns = updateDropdowns(type, state);
+    let newDropdowns = updateDropdowns(type, state);
+
+    if (checkLicenseInDuplicateStates(filteredSuggestions, _name).length > 1) {
+      newDropdowns = updateDropdowns(
+        type,
+        checkLicenseInDuplicateStates(filteredSuggestions, _name),
+      );
+    }
 
     // Match conditions here with correct alert type in comnponent below
     // use conditions here to show alert, use same condition for the corresponding alert in the component
@@ -171,7 +190,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={locationDropdown.label}
         options={locationDropdown.options}
-        value={locationDropdown.current.optionValue} // align here
+        value={locationDropdown.current.optionValue ?? 'all'} // align here
         onChange={handleChange}
         alt={locationDropdown.alt}
         selectClassName="lc-dropdown-filter"
@@ -184,7 +203,7 @@ export default function LicenseCertificationSearchForm({
             changeStateToAllAlert={false}
             visible={showAlert}
             name={name}
-            state={categoryDropdown.current.optionLabel}
+            state={locationDropdown.current.optionLabel}
           />
         ) : (
           <>

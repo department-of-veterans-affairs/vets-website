@@ -539,6 +539,7 @@ export const filterLcResults = (results, nameInput, filters) => {
 
     if (type !== 'all' && type !== result.type) return false;
 
+    // if result.state === all, it is a certifciation
     if (state !== 'all' && state !== result.state && result.state !== 'all')
       return false;
 
