@@ -56,6 +56,11 @@ const RadiologyDetails = props => {
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const processingAlertHeadingRef = useRef(null);
+  const [
+    imageProcessingAlertRendered,
+    setImageProcessingAlertRendered,
+  ] = useState(false);
   const IMAGE_REQUEST_PROGRESS_ALERT = 'image-request-progress-alert';
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -83,6 +88,28 @@ const RadiologyDetails = props => {
       dispatch(fetchBbmiNotificationStatus());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (processingAlertHeadingRef.current) {
+        setImageProcessingAlertRendered(true);
+      }
+    },
+    [processingAlertHeadingRef.current],
+  );
+
+  useEffect(
+    () => {
+      if (imageProcessingAlertRendered) {
+        focusElement(
+          document.querySelector(
+            `va-alert[data-testid="${IMAGE_REQUEST_PROGRESS_ALERT}"] > h3`,
+          ),
+        );
+      }
+    },
+    [imageProcessingAlertRendered],
   );
 
   const studyJob = useMemo(
@@ -159,13 +186,6 @@ ${record.results}`;
     await requestImagingStudy(radiologyDetails.studyId);
     // After requesting the study, update the status.
     dispatch(fetchImageRequestStatus());
-    setTimeout(() => {
-      focusElement(
-        document.querySelector(
-          `va-alert[data-testid="${IMAGE_REQUEST_PROGRESS_ALERT}"] > h3`,
-        ),
-      );
-    }, 1000);
   };
 
   const notificationContent = () => (
@@ -222,9 +242,14 @@ ${record.results}`;
         status="info"
         visible
         aria-live="polite"
-        data-testid="image-request-progress-alert"
+        data-testid={IMAGE_REQUEST_PROGRESS_ALERT}
       >
-        <h3 aria-describedby="in-progress-description">Image request</h3>
+        <h3
+          aria-describedby="in-progress-description"
+          ref={processingAlertHeadingRef}
+        >
+          Image request
+        </h3>
         <p id="in-progress-description" className="sr-only">
           in progress{' '}
         </p>
@@ -269,7 +294,7 @@ ${record.results}`;
       status="error"
       visible
       aria-live="polite"
-      data-testid={IMAGE_REQUEST_PROGRESS_ALERT}
+      data-testid="image-request-error-alert"
     >
       <h3 id="track-your-status-on-mobile" slot="headline">
         We couldn’t access your images
