@@ -55,7 +55,7 @@ const AlertMhvNoAction = ({ errorCode, testId, recordEvent }) => {
 };
 
 AlertMhvNoAction.defaultProps = {
-  title: 'Contact the My HealtheVet help desk: Error code',
+  title: "You can't access messages, medications, or medical records right now",
   errorCode: 'unknown',
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',

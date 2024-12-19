@@ -88,6 +88,16 @@ const accountStatusEightZeroOne = {
   ],
 };
 
+const accountStatusFiveZeroZero = {
+  errors: [
+    {
+      title: 'The server responded with status 422',
+      detail: 'things fall apart',
+      code: '500',
+    },
+  ],
+};
+
 module.exports = {
   accountSuccess,
   eightZeroOne,
@@ -96,4 +106,5 @@ module.exports = {
   fiveZeroZero,
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
+  accountStatusFiveZeroZero,
 };
