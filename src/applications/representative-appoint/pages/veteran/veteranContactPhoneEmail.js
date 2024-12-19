@@ -29,7 +29,9 @@ export const uiSchema = {
       ? phoneUI({
           required: true,
         })
-      : {},
+      : phoneUI({
+          required: false,
+        }),
   veteranEmail: emailUI(),
 };
 
