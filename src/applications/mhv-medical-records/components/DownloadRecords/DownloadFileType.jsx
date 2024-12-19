@@ -18,6 +18,7 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  focusOnErrorField,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -30,6 +31,7 @@ const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
   const history = useHistory();
   const [fileType, setFileType] = useState('');
+  const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
@@ -303,7 +305,7 @@ const DownloadFileType = props => {
         ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
       }
     },
-    [dispatch, dob, isDataFetched, name, recordData, runningUnitTest, user],
+    [dispatch, isDataFetched, name, recordData, runningUnitTest, user],
   );
 
   const generateTxt = useCallback(
@@ -328,6 +330,25 @@ const DownloadFileType = props => {
     [dispatch, isDataFetched, recordData, user],
   );
 
+  const checkFileTypeValidity = useCallback(
+    () => {
+      let valid = true;
+      if (!fileType) {
+        setFileTypeError('Please select a file type');
+        valid = false;
+      }
+      return valid;
+    },
+    [fileType],
+  );
+
+  const selectFileTypeHandler = e => {
+    setFileType(e?.detail?.value);
+    checkFileTypeValidity();
+
+    if (e?.detail?.value) setFileTypeError(null);
+  };
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -346,10 +367,11 @@ const DownloadFileType = props => {
       </div>
       <VaRadio
         label="If you use assistive technology, a text file may work better for you."
-        onVaValueChange={e => setFileType(e.detail.value)}
+        onVaValueChange={selectFileTypeHandler}
+        error={fileTypeError}
       >
-        <va-radio-option label="PDF" value="pdf" />
-        <va-radio-option label="Text file" value="txt" />
+        <va-radio-option label="PDF" value="pdf" name="file-type" />
+        <va-radio-option label="Text file" value="txt" name="file-type" />
       </VaRadio>
       {downloadStarted && <DownloadSuccessAlert />}
       <div className="vads-u-margin-top--1">
@@ -369,6 +391,8 @@ const DownloadFileType = props => {
           disabled={!isDataFetched}
           className="vads-u-margin-y--0p5"
           onClick={() => {
+            selectFileTypeHandler();
+            focusOnErrorField();
             if (fileType === 'pdf') {
               generatePdf().then(() => history.push('/download'));
             } else if (fileType === 'txt') {
