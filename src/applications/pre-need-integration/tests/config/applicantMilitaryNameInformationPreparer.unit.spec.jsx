@@ -9,7 +9,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need Preparer military name information', () => {
+describe('Pre-need Integration Preparer military name information', () => {
   const {
     schema,
     uiSchema,
