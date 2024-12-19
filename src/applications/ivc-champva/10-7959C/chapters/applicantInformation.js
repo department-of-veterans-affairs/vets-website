@@ -122,7 +122,7 @@ export const applicantContactInfoSchema = {
       'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
-    contactEmail: emailUI(),
+    applicantEmail: emailUI(),
   },
   schema: {
     type: 'object',
@@ -130,7 +130,7 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
-      contactEmail: emailSchema,
+      applicantEmail: emailSchema,
     },
   },
 };
