@@ -25,9 +25,9 @@ export const verifyHandler = ({ policy, useOAuth, queryParams }) => {
  *
  * @returns The updated design of the ID.me identity-verification button
  */
-export const VerifyIdmeButton = ({ queryParams }) => {
+export const VerifyIdmeButton = ({ queryParams, forceOAuth }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
+  const useOAuth = useSelector(isAuthenticatedWithOAuth) || forceOAuth;
 
   return (
     <button
@@ -58,9 +58,9 @@ export const VerifyIdmeButton = ({ queryParams }) => {
  *
  * @returns The updated design of the Login.gov identity-verification buttion
  */
-export const VerifyLogingovButton = ({ queryParams }) => {
+export const VerifyLogingovButton = ({ queryParams, forceOAuth }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
+  const useOAuth = useSelector(isAuthenticatedWithOAuth) || forceOAuth;
 
   return (
     <button

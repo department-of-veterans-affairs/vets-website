@@ -4,7 +4,7 @@ import {
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
 
-export default function Authentication() {
+export default function Unauthenticated() {
   return (
     <section data-testid="unauthenticated-verify-app" className="verify">
       <div className="container">
@@ -24,9 +24,11 @@ export default function Authentication() {
               </p>
               <div data-testid="verify-button-group">
                 <VerifyLogingovButton
+                  forceOAuth
                   queryParam={{ operation: 'unauthenticated_verify_page' }}
                 />
                 <VerifyIdmeButton
+                  forceOAuth
                   queryParam={{ operation: 'unauthenticated_verify_page' }}
                 />
               </div>
