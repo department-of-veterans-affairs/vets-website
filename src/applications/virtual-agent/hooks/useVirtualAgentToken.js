@@ -84,7 +84,7 @@ export default function useVirtualAgentToken(props) {
         isDatadogLoggingEnabled,
       );
     },
-    [csrfTokenLoading, csrfTokenLoadingError],
+    [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled],
   );
 
   return { token, loadingStatus, apiSession };
