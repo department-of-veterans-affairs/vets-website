@@ -196,18 +196,19 @@ export async function setTypeOfCare(store, label) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: label },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
