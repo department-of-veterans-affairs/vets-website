@@ -28,8 +28,36 @@ export const schema = {
   type: 'object',
   properties: {
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    homeAddress: addressSchema({
-      omit: ['street3'],
-    }),
+    homeAddress: {
+      ...addressSchema({ omit: ['street3'] }),
+      properties: {
+        ...addressSchema({ omit: ['street3'] }).properties,
+        street: {
+          type: 'string',
+          maxLength: 30,
+          minLength: 1,
+          pattern: '^.*\\S.*',
+        },
+        street2: {
+          type: 'string',
+          maxLength: 5,
+        },
+        city: {
+          type: 'string',
+          maxLength: 18,
+          minLength: 1,
+          pattern: '^.*\\S.*',
+        },
+        state: {
+          type: 'string',
+          maxLength: 2,
+        },
+        postalCode: {
+          type: 'string',
+          maxLength: 9,
+          pattern: '^[0-9]{5}(?:-[0-9]{4})?$',
+        },
+      },
+    },
   },
 };

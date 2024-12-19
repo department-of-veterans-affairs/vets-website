@@ -32,7 +32,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranFullNameName: {
+    veteranFullName: {
       type: 'object',
       properties: {
         first: {
