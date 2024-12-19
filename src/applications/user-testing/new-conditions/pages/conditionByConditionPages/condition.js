@@ -1,4 +1,5 @@
 import React from 'react';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   withAlertOrDescription,
@@ -10,20 +11,22 @@ import { conditionOptions } from '../../content/conditionOptions';
 import { conditionInstructions } from '../../content/newConditions';
 import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
 
-const missingConditionMessage =
+const { arrayPath } = arrayBuilderOptions;
+
+export const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
 const regexNonWord = /[^\w]/g;
-const sippableId = str =>
+const generateSaveInProgressId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
-const validateLength = (err, fieldData) => {
+export const validateLength = (err, fieldData) => {
   if (fieldData.length > 255) {
     err.addError('This needs to be less than 256 characters');
   }
 };
 
-const validateNotMissing = (err, fieldData) => {
+export const validateNotMissing = (err, fieldData) => {
   const isMissingCondition =
     !fieldData?.trim() ||
     fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
@@ -33,28 +36,34 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
-// TODO: On edit, allows previous index value to be the same as later index value
-// Note: Does not allow later index to be same as previous on edit
-const validateNotDuplicate = (err, fieldData, formData) => {
-  const currentList =
-    formData?.[arrayBuilderOptions.arrayPath]?.map(condition =>
-      condition.condition?.toLowerCase(),
-    ) || [];
-  const itemLowerCased = fieldData?.toLowerCase() || '';
-  const itemSippableId = sippableId(fieldData || '');
-  const itemCount = currentList.filter(
-    item => item === itemLowerCased || sippableId(item) === itemSippableId,
-  );
+export const validateNotDuplicate = (err, fieldData, formData, path) => {
+  const index = getUrlPathIndex(window.location.pathname);
 
-  if (itemCount.length > 1) {
+  const lowerCasedConditions =
+    formData?.[path]?.map(condition => condition.condition?.toLowerCase()) ||
+    [];
+
+  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
+  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
+
+  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
+    if (index === i) return false;
+
+    return (
+      condition === fieldDataLowerCased ||
+      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
+    );
+  });
+
+  if (hasDuplicate) {
     err.addError('You’ve already added this condition to your claim');
   }
 };
 
-export const validateCondition = (err, fieldData = '', formData = {}) => {
+const validateCondition = (err, fieldData = '', formData = {}) => {
   validateLength(err, fieldData);
   validateNotMissing(err, fieldData);
-  validateNotDuplicate(err, fieldData, formData);
+  validateNotDuplicate(err, fieldData, formData, arrayPath);
 };
 
 /** @returns {PageSchema} */

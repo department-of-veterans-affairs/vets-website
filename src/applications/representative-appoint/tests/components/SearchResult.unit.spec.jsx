@@ -54,4 +54,34 @@ describe('SearchResult Component', () => {
     expect(addressAnchor).to.exist;
     expect(addressAnchor.textContent).to.contain('Anytown, CT');
   });
+
+  it('includes the representative name in the select button text', () => {
+    const representative = {
+      data: {
+        id: 1,
+        attributes: {
+          addressLine1: '123 Main St',
+          city: '',
+          stateCode: '',
+          zipCode: '',
+          fullName: 'Robert Smith',
+        },
+      },
+    };
+
+    const { container } = render(
+      <SearchResult
+        representative={representative}
+        query={{}}
+        handleSelectRepresentative={() => {}}
+        loadingPOA={false}
+      />,
+    );
+
+    const selectButton = container.querySelector(
+      '[data-testid="rep-select-1"]',
+    );
+    expect(selectButton).to.exist;
+    expect(selectButton.getAttribute('text')).to.contain('Robert Smith');
+  });
 });

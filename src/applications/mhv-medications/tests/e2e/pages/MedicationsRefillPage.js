@@ -141,10 +141,10 @@ class MedicationsRefillPage {
   };
 
   verifyTotalRefillablePrescriptionsCount = count => {
-    cy.get('[data-testid="refill-page-list-count"]').should(
-      'contain',
-      `You have ${count} prescriptions ready to refill.`,
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', `You have ${count} prescriptions ready to refill.`);
   };
 
   verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
@@ -369,10 +369,10 @@ class MedicationsRefillPage {
   };
 
   verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
-    cy.get('[data-testid="select-rx-error-message"]').should(
-      'contain',
-      'Select at least one prescription',
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[id="checkbox-error-message"]')
+      .should('contain', 'Select at least one prescription');
   };
 
   verifyRefillRequestSuccessConfirmationMessage = () => {
@@ -434,11 +434,7 @@ class MedicationsRefillPage {
   };
 
   clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',

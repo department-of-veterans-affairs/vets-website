@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -219,10 +220,10 @@ export const getMedications = async () => {
  * @returns list of patient's appointments
  */
 export const getAppointments = async () => {
-  const now = new Date();
-  const startDate = formatISO(now);
   const beginningOfTime = new Date(0);
-  const endDate = formatISO(beginningOfTime);
+  const farFutureDate = new Date(2100, 0, 1); // January 1, 2100
+  const startDate = formatISO(beginningOfTime);
+  const endDate = formatISO(farFutureDate);
   const statusParams =
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
   const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
@@ -242,18 +243,25 @@ export const getDemographicInfo = async () => {
   });
 };
 
-// military service
 /**
  * Get a patient's military service info
  * @returns patient's military service info
  */
 export const getMilitaryService = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/military_service`, {
-    textHeaders,
-  });
+  try {
+    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
+      textHeaders,
+    });
+  } catch (error) {
+    // Handle special case of missing EDIPI
+    if (error?.error === 'No EDIPI found for the current user') {
+      return edipiNotFound;
+    }
+    // Rethrow if it’s another error we don’t want to specially handle
+    throw error;
+  }
 };
 
-// account summary (treatment facilities)
 /**
  * Get a patient's account summary (treatment facilities)
  * @returns patient profile including a list of patient's treatment facilities
