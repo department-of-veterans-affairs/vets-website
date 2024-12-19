@@ -1,8 +1,6 @@
 name: Continuous Deploy Production Test Workflow
 
 on:
-  repository_dispatch:
-    types: [cd-production-deploy]
   workflow_dispatch:
     inputs:
       commit_sha:
