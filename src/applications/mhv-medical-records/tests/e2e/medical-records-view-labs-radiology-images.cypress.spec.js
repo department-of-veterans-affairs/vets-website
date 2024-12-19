@@ -24,6 +24,8 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
 
+    RadiologyDetailsPage.verifyFocus();
+
     RadiologyDetailsPage.verifyRadiologyImageCount(10);
 
     RadiologyDetailsPage.verifyPaginationVisible();

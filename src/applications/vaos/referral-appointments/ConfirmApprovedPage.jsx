@@ -31,17 +31,15 @@ export default function ConfirmApprovedPage() {
   const dispatch = useDispatch();
 
   const [confirmedData, setConfirmedData] = useState(0);
-
   // on react component mount, fetch data
   useEffect(() => {
     setConfirmedData(getData());
   }, []);
-
   useEffect(
     () => {
       dispatch(setFormCurrentPage('confirmAppointment'));
     },
-    [location, dispatch],
+    [dispatch],
   );
 
   return (

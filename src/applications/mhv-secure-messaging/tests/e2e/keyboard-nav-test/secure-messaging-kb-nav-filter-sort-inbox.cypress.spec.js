@@ -2,8 +2,9 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('Inbox page keyboard navigation for filter & sort features', () => {
+describe('SM INBOX FILTER & SORT KB NAVIGATION', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -15,16 +16,17 @@ describe('Inbox page keyboard navigation for filter & sort features', () => {
     PatientInboxPage.loadInboxMessages();
   });
 
-  it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
+  it('verify filter works correctly', () => {
+    GeneralFunctionsPage.verifyHeaderFocused();
     PatientInboxPage.inputFilterDataByKeyboard('test');
     PatientInboxPage.submitFilterByKeyboard(filteredData, 0);
     PatientInboxPage.verifyFilterResults('test', filteredData);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
+  it('verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
