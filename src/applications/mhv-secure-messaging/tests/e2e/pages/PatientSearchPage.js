@@ -137,15 +137,76 @@ class PatientSearchPage {
           const extractedDate = dateString.split(' at ')[0]; // "November 29, 2024"
           const parsedDate = new Date(extractedDate);
 
-          // calculate three months back from the current date
-          const threeMonthsBack = new Date();
-          threeMonthsBack.setMonth(threeMonthsBack.getMonth() - numberOfMonth);
+          // calculate a few months back from the current date
+          const currentDate = new Date();
+          currentDate.setMonth(currentDate.getMonth() - numberOfMonth);
 
           // assert the date is within the last 3 months
-          expect(parsedDate).to.be.gte(threeMonthsBack);
+          expect(parsedDate).to.be.gte(currentDate);
         });
     });
   };
+
+  verifyStartDateFormElements = () => {
+    cy.get(`[data-testid="date-start"]`, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-start"]`)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+  };
+
+  verifyEndDateFormElements = () => {
+    cy.get(`[data-testid="date-end"]`, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(`[data-testid="date-end"]`)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+  };
+
+  verifyMonthFilterRange = number => {
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .find(`option`)
+      .should(`have.length`, number);
+  };
+
+  verifyDayFilterRange = number => {
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, number);
+  };
+
+  selectAdvancedFilterMonth = month => {
+    cy.get(`[data-testid="date-start"]`)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(month);
+  };
+
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(
