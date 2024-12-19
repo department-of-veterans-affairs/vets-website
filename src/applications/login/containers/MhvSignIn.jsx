@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import { login } from 'platform/user/authentication/utilities';
 
+export const isAllowedEmail = user => {
+  const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
+  return pattern.test(user);
+};
+
 export default function MhvSignIn() {
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
-
-  const isAllowedEmail = user => {
-    const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
-    return pattern.test(user);
-  };
 
   const handleEmailChange = e => {
     const emailValue = e.target.value;
@@ -23,7 +23,10 @@ export default function MhvSignIn() {
   };
 
   const handleButtonClick = () => {
-    apiRequest('/something here', { method: 'POST' });
+    apiRequest('/v0/test_account_user_email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
     login({
       policy: 'mhv',
       queryParams: { operation: 'prod-test-acct' },
