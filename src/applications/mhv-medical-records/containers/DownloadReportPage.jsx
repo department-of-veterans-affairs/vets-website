@@ -41,8 +41,8 @@ import { Actions } from '../util/actionTypes';
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const name = formatName(user?.userFullName);
+  const dob = formatDateLong(user?.dob);
 
   const fullState = useSelector(state => state);
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
@@ -339,11 +339,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         <></>
       )}
       <va-accordion bordered>
-        <va-accordion-item
-          bordered="true"
-          header="Continuity of Care Document (VA Health Summary)"
-          data-testid="ccdAccordionItem"
-        >
+        <va-accordion-item bordered="true" data-testid="ccdAccordionItem">
+          <h3 slot="headline">
+            Continuity of Care Document (VA Health Summary)
+          </h3>
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -375,9 +374,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         </va-accordion-item>
         <va-accordion-item
           bordered="true"
-          header="Self-entered health information"
           data-testid="selfEnteredAccordionItem"
         >
+          <h3 slot="headline">Self-entered health information</h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
