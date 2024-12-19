@@ -17,7 +17,7 @@ export const uiSchema = {
     ({ formData }) =>
       `${
         preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-      } name and date of birth`,
+      } phone number and email address`,
   ),
   profileNotUpdatedNote: {
     'ui:description': formData => (
@@ -29,9 +29,7 @@ export const uiSchema = {
       ? phoneUI({
           required: true,
         })
-      : phoneUI({
-          required: false,
-        }),
+      : {},
   veteranEmail: emailUI(),
 };
 
