@@ -10,6 +10,8 @@ import {
   interpretationMap,
   refreshPhases,
   VALID_REFRESH_DURATION,
+  Paths,
+  Breadcrumbs,
 } from './constants';
 
 /**
@@ -619,6 +621,46 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
 
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
+};
+
+export const handleDataDogAction = ({
+  locationBasePath,
+  locationChildPath,
+  sendAnalytics = true,
+}) => {
+  const domainPaths = [
+    Paths.LABS_AND_TESTS,
+    Paths.CARE_SUMMARIES_AND_NOTES,
+    Paths.VACCINES,
+    Paths.ALLERGIES,
+    Paths.HEALTH_CONDITIONS,
+    Paths.VITALS,
+  ];
+
+  const isVitalsDetail =
+    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+
+  const isDomain = domainPaths.some(path => path.includes(locationBasePath));
+  const isDetailPage = isDomain && !!locationChildPath;
+  const path = locationBasePath
+    ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+    : '/';
+  const feature = Object.keys(Paths).find(_path => Paths[_path].includes(path));
+
+  let tag = '';
+  if (isVitalsDetail) {
+    tag = `Back - Vitals - ${Breadcrumbs[feature].label}`;
+  } else if (isDomain) {
+    tag = `Back - ${Breadcrumbs[feature].label} - ${
+      isDetailPage ? 'Detail' : 'List'
+    }`;
+  } else {
+    tag = `Breadcrumb - ${Breadcrumbs[feature].label}`;
+  }
+  if (sendAnalytics) {
+    sendDataDogAction(tag);
+  }
+  return tag;
 };
 
 /**

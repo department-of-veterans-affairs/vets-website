@@ -3,15 +3,15 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import SaveResultsModal from '../../../components/SaveResultsModal';
+import CopyResultsModal from '../../../components/CopyResultsModal';
 
-describe('<SaveResultsModal>', () => {
+describe('<CopyResultsModal>', () => {
   it('renders modal', () => {
-    const { container } = render(<SaveResultsModal />);
+    const { container } = render(<CopyResultsModal />);
 
     expect(container.querySelector('va-button')).to.have.attribute(
       'text',
-      'Save your results',
+      'Copy link to results',
     );
   });
 
@@ -19,8 +19,8 @@ describe('<SaveResultsModal>', () => {
     const writeText = sinon.mock();
     navigator.clipboard = { writeText };
     sinon.stub(window, 'location').returns({ href: 'test' });
-    const { container } = render(<SaveResultsModal />);
-    const button = container.querySelector('#save-your-results');
+    const { container } = render(<CopyResultsModal />);
+    const button = container.querySelector('#copy-your-results');
 
     fireEvent.click(button);
 
@@ -40,10 +40,10 @@ describe('<SaveResultsModal>', () => {
   });
 
   it('closes modal', async () => {
-    const view = render(<SaveResultsModal />);
+    const view = render(<CopyResultsModal />);
     const { container } = view;
 
-    const button = container.querySelector('#save-your-results');
+    const button = container.querySelector('#copy-your-results');
 
     fireEvent.click(button);
 
@@ -51,12 +51,12 @@ describe('<SaveResultsModal>', () => {
       expect(container.querySelector('#url-input')).to.exist;
     });
 
-    const modal = container.querySelector('#save-results-modal');
+    const modal = container.querySelector('#copy-results-modal');
 
     modal.__events.closeEvent();
 
     await waitFor(() => {
-      const buttonFocus = container.querySelector('#save-your-results:focus');
+      const buttonFocus = container.querySelector('#copy-your-results:focus');
       expect(buttonFocus).to.exist;
     });
   });
