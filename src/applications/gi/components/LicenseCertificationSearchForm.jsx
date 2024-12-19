@@ -93,12 +93,13 @@ export default function LicenseCertificationSearchForm({
   // Update dropdown values when param values change
   useEffect(
     () => {
+      // console.log('param updated 🟢', { categoryParam, stateParam });
       setDropdowns(updateDropdowns(categoryParam, stateParam));
     },
     [categoryParam, stateParam],
   );
 
-  // Update query params in special cases
+  // re update query params after handleChange, in special cases
   useEffect(
     () => {
       if (categoryDropdown.current.optionValue === 'certification') {
@@ -138,6 +139,7 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
+    // console.log('handleChange 🟣 update query param');
     handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
 
@@ -157,14 +159,22 @@ export default function LicenseCertificationSearchForm({
       );
     }
 
-    // Match conditions here with correct alert type in comnponent below
-    // use conditions here to show alert, use same condition for the corresponding alert in the component
-
     if (type === 'license' && locationDropdown.current.optionValue !== state) {
       setShowAlert(true);
     }
 
-    if (type === 'certification') setDropdowns(newDropdowns);
+    if (
+      type === 'certification' &&
+      locationDropdown.current.optionValue !== state
+    ) {
+      setShowAlert(true);
+    }
+
+    if (checkLicenseInDuplicateStates(filteredSuggestions, _name).length > 1) {
+      setShowAlert(true);
+    }
+
+    setDropdowns(newDropdowns);
   };
 
   const handleClearInput = () => {
@@ -201,9 +211,19 @@ export default function LicenseCertificationSearchForm({
       >
         {showAlert && name.length > 0 ? (
           <LicenseCertificationAlert
-            changeStateAlert
-            changeDropdownsAlert={false}
-            changeStateToAllAlert={false}
+            changeStateAlert={
+              categoryDropdown.current.optionValue === 'license' &&
+              checkLicenseInDuplicateStates(filteredSuggestions, name).length <
+                2
+            }
+            changeDropdownsAlert={
+              categoryDropdown.current.optionValue === 'license' &&
+              checkLicenseInDuplicateStates(filteredSuggestions, name).length >
+                1
+            }
+            changeStateToAllAlert={
+              categoryDropdown.current.optionValue === 'certification'
+            }
             visible={showAlert}
             name={name}
             state={locationDropdown.current.optionLabel}
