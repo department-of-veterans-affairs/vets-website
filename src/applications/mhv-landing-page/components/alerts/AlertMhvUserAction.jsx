@@ -19,7 +19,12 @@ const AlertMhvUserAction = ({ errorCode, testId, recordEvent }) => {
   );
 
   return (
-    <VaAlert data-testid={testId} status="error" visible>
+    <VaAlert
+      className="vads-u-margin-bottom--3"
+      data-testid={testId}
+      status="error"
+      visible
+    >
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
         {headline}
       </h2>
