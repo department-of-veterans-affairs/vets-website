@@ -89,6 +89,7 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     });
   });
 
+
   context('for multiple user and non-user api errors', () => {
     beforeEach(() => {
       ApiInitializer.initializeAccountStatus.withMultipleErrors();

@@ -62,12 +62,6 @@ import {
   vetFormerMarriageEndLocationPage,
 } from './chapters/report-add-a-spouse/veteranMarriageHistoryArrayPages';
 import {
-  children,
-  childPlaceOfBirth,
-  childAdditionalInformation,
-  childAdditionalEvidence,
-} from './chapters/add-a-child';
-import {
   addDependentOptions,
   removeDependentOptions,
   addOrRemoveDependents,
@@ -131,6 +125,7 @@ import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
+import { chapter as addChild } from './chapters/report-add-child';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -473,53 +468,7 @@ export const formConfig = {
       },
     },
 
-    addChild: {
-      title: 'Add one or more children',
-      pages: {
-        addChildInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-          title: 'Information needed to add your child: Basic information',
-          path: 'add-child',
-          uiSchema: children.uiSchema,
-          schema: children.schema,
-        },
-        addChildPlaceOfBirth: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-          title: 'Information needed to add your child: Place of birth',
-          path: 'add-child/:index',
-          showPagePerItem: true,
-          arrayPath: 'childrenToAdd',
-          uiSchema: childPlaceOfBirth.uiSchema,
-          schema: childPlaceOfBirth.schema,
-        },
-        addChildAdditionalInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-          title: 'Information needed to add your child: Additional information',
-          path: 'add-child/:index/additional-information',
-          showPagePerItem: true,
-          arrayPath: 'childrenToAdd',
-          uiSchema: childAdditionalInformation.uiSchema,
-          schema: childAdditionalInformation.schema,
-          updateFormData: childAdditionalInformation.updateFormData,
-        },
-        childAdditionalEvidence: {
-          depends: formData =>
-            formData?.childrenToAdd?.some(
-              child =>
-                child?.childStatus?.stepchild === true ||
-                child?.childStatus?.adopted === true ||
-                child?.childStatus?.notCapable === true,
-            ) && isChapterFieldRequired(formData, TASK_KEYS.addChild),
-          title: 'Additional evidence needed to add child',
-          path: 'add-child-evidence',
-          uiSchema: childAdditionalEvidence.uiSchema,
-          schema: childAdditionalEvidence.schema,
-        },
-      },
-    },
+    addChild,
 
     report674: {
       title: 'Add one or more students between ages 18 and 23',

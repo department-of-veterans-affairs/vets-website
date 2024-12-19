@@ -87,7 +87,7 @@ describe('Download Actions', () => {
       const fromDate = 'from';
       const toDate = 'to';
       updateReportDateRange(option, fromDate, toDate)(dispatch);
-      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.calledTwice).to.be.true;
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Downloads.SET_DATE_FILTER,
       );
