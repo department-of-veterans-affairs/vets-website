@@ -4,6 +4,10 @@ import {
   allFoldersWithUnreadMessages,
   oneFolderWithNoUnreadMessages,
 } from '../../../mocks/api/mhv-api/messaging/folders/index';
+import {
+  accountStatusSuccessResponse,
+  accountStatusEightZeroOne,
+} from '../../../mocks/api/user/mhvAccountStatus';
 
 class ApiInitializer {
   initializeFeatureToggle = {
@@ -56,6 +60,23 @@ class ApiInitializer {
         mhvAccountState,
       );
       cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState).as('user');
+    },
+  };
+
+  initializeAccountStatus = {
+    withSuccess: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusSuccessResponse,
+      );
+    },
+    with801: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusEightZeroOne,
+      );
     },
   };
 }
