@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import LoginButton from 'platform/user/authentication/components/LoginButton';
+import { apiRequest } from 'platform/utilities/api';
+import { login } from 'platform/user/authentication/utilities';
 
 export default function MhvSignIn() {
   const [email, setEmail] = useState('');
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
   const isAllowedEmail = user => {
     const pattern = /^[a-zA-Z0-9._%+-]+@(va\.gov|oracle\.com)$/;
@@ -21,6 +22,16 @@ export default function MhvSignIn() {
     setCheckboxChecked(e.target.checked);
   };
 
+  const handleButtonClick = () => {
+    apiRequest('/something here', { method: 'POST' });
+    login({
+      policy: 'mhv',
+      queryParams: { operation: 'prod-test-acct' },
+    });
+  };
+
+  const notDisable = isValidEmail || email.length === 0;
+
   return (
     <section className="container row login">
       <div className="columns small-12 vads-u-padding--0">
@@ -35,26 +46,37 @@ export default function MhvSignIn() {
       </h2>
       <va-text-input
         hint={null}
-        label="Your VA email"
-        message-aria-describedby="Your VA email"
+        label="Your email"
+        data-testid="mvhemailinput"
+        message-aria-describedby="Your email"
         name="Your VA or Oracle Health email"
         value={email}
         required
         onInput={handleEmailChange}
-        show-input-error={!isValidEmail}
+        show-input-error={!notDisable}
         error={
-          isValidEmail ? null : 'Please enter a valid VA or Oracle Health email'
+          !notDisable ? 'Please enter a valid VA or Oracle Health email' : null
         }
       />
-      <va-checkbox
-        label="I’m using My HealtheVet for official VA testing, training, or development purposes."
-        aria-label="I’m using My HealtheVet for official VA testing, training, or development purposes."
-        checked={checkboxChecked}
-        onChange={handleCheckboxChange}
-        required
-        className="vads-u-padding-y--2"
-      />
-      <LoginButton csp="mhv" key="mhv" useOAuth={false} />
+      <div className="vads-u-margin-y--2">
+        <va-checkbox
+          label="I’m using My HealtheVet for official VA testing, training, or development purposes."
+          aria-label="I’m using My HealtheVet for official VA testing, training, or development purposes."
+          checked={checkboxChecked}
+          onVaChange={handleCheckboxChange}
+          required
+          className="vads-u-padding-y--2"
+        />
+        {/* <p><strong>Disclaimer:</strong>By clicking the button below you are agreeing to only use <br></br>My HealtheVet for official VA testing, training, or development purposes.</p> */}
+      </div>
+      <div className="vads-u-margin-y--2">
+        {/* <va-button onClick={handleButtonClick} text='Access My HealtheVet' role='button' disabled={!isValidEmail} /> */}
+        <va-button
+          onClick={handleButtonClick}
+          text="Access My HealtheVet"
+          role="button"
+        />
+      </div>
       <div className="vads-u-margin-y--6">
         <h2>Having trouble signing in?</h2>
         <p>

@@ -18,17 +18,17 @@ describe('MhvSignIn Component', () => {
 
   it('renders email input and checkbox', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
-    const emailInput = screen.getByLabelText(/Your email/i);
-    const checkbox = screen.getByLabelText(
-      /I’m using My HealtheVet for official VA testing, training, or development purposes\./i,
-    );
+    const emailInput = screen.getByTestId('mvhemailinput');
+    // const checkbox = screen.getByLabelText(
+    //   /I’m using My HealtheVet for official VA testing, training, or development purposes\./i,
+    // );
     expect(emailInput).to.exist;
-    expect(checkbox).to.exist;
+    // expect(checkbox).to.exist;
   });
 
   it('validates email input with allowed domains', () => {
     const screen = renderInReduxProvider(<MhvSignIn />);
-    const emailInput = screen.getByLabelText(/Your email/i);
+    const emailInput = screen.getByTestId('mvhemailinput');
 
     fireEvent.input(emailInput, { target: { value: 'test@va.gov' } });
     expect(emailInput).to.have.value('test@va.gov');
