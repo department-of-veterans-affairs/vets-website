@@ -71,7 +71,11 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (savedSelectedSlot && providerFetchStatus === FETCH_STATUS.succeeded) {
+      if (
+        !selectedSlot &&
+        savedSelectedSlot &&
+        providerFetchStatus === FETCH_STATUS.succeeded
+      ) {
         const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
@@ -79,7 +83,14 @@ const ReviewAndConfirm = props => {
         dispatch(setSelectedSlot(savedSlot.id));
       }
     },
-    [dispatch, savedSelectedSlot, provider.slots, history, providerFetchStatus],
+    [
+      dispatch,
+      savedSelectedSlot,
+      provider.slots,
+      history,
+      providerFetchStatus,
+      selectedSlot,
+    ],
   );
 
   if (loading) {
@@ -104,7 +115,7 @@ const ReviewAndConfirm = props => {
   return (
     <ReferralLayout hasEyebrow>
       <div>
-        <h1>Review your appointment details</h1>
+        <h1 data-testid="review-heading">Review your appointment details</h1>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
@@ -153,23 +164,27 @@ const ReviewAndConfirm = props => {
             </div>
           </div>
         </div>
-        <div>
-          {formatInTimeZone(
-            new Date(slotDetails.start),
-            facilityTimeZone,
-            'EEEE, LLLL d, yyyy',
-          )}
-        </div>
-        <div>
-          {formatInTimeZone(
-            new Date(slotDetails.start),
-            facilityTimeZone,
-            'h:mm aaaa',
-          )}{' '}
-          {`${getTimezoneDescByFacilityId(
-            currentReferral.ReferringFacilityInfo.FacilityCode,
-          )}`}
-        </div>
+        {slotDetails && (
+          <>
+            <div data-testid="slot-day">
+              {formatInTimeZone(
+                new Date(slotDetails.start),
+                facilityTimeZone,
+                'EEEE, LLLL d, yyyy',
+              )}
+            </div>
+            <div>
+              {formatInTimeZone(
+                new Date(slotDetails.start),
+                facilityTimeZone,
+                'h:mm aaaa',
+              )}{' '}
+              {`${getTimezoneDescByFacilityId(
+                currentReferral.ReferringFacilityInfo.FacilityCode,
+              )}`}
+            </div>
+          </>
+        )}
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
