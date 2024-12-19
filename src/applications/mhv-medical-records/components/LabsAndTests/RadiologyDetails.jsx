@@ -61,6 +61,7 @@ const RadiologyDetails = props => {
     imageProcessingAlertRendered,
     setImageProcessingAlertRendered,
   ] = useState(false);
+  const [isImageRequested, setIsImageRequested] = useState(false);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   // State to manage the dynamic backoff polling interval
@@ -100,11 +101,11 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
-      if (imageProcessingAlertRendered) {
+      if (imageProcessingAlertRendered && isImageRequested) {
         focusElement(processingAlertHeadingRef.current);
       }
     },
-    [imageProcessingAlertRendered],
+    [imageProcessingAlertRendered, isImageRequested],
   );
 
   const studyJob = useMemo(
@@ -181,6 +182,7 @@ ${record.results}`;
     await requestImagingStudy(radiologyDetails.studyId);
     // After requesting the study, update the status.
     dispatch(fetchImageRequestStatus());
+    setIsImageRequested(true);
   };
 
   const notificationContent = () => (
