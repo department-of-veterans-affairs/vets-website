@@ -1,12 +1,12 @@
+import React, { useCallback, useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { subMonths, format } from 'date-fns';
 import {
   VaButtonPair,
   VaDate,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useCallback, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { subMonths, format } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
@@ -23,6 +23,10 @@ const DownloadDateRange = () => {
   const [customToError, setCustomToError] = useState(null);
   const [customFromError, setCustomFromError] = useState(null);
   const dispatch = useDispatch();
+
+  const ERROR_VALID_DATE_RANGE = 'Please select a valid date range.';
+  const ERROR_VALID_START_DATE = 'Please enter a valid start date.';
+  const ERROR_VALID_END_DATE = 'Please enter a valid end date.';
 
   const handleDateSelect = useCallback(
     e => {
@@ -52,8 +56,12 @@ const DownloadDateRange = () => {
       const selectedText = selectedNode ? selectedNode.innerText : '';
       sendDataDogAction(`Date range option - ${selectedText}`);
     },
-    [setSelectedDate],
+    [setSelectedDate, dispatch],
   );
+
+  const dateInputRef = useRef(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
 
   useEffect(
     () => {
@@ -69,7 +77,7 @@ const DownloadDateRange = () => {
         dispatch(updateReportDateRange('custom', customFromDate, customToDate));
       }
     },
-    [customFromDate, customToDate],
+    [customFromDate, customToDate, dispatch],
   );
 
   return (
@@ -94,6 +102,7 @@ const DownloadDateRange = () => {
           value=""
           data-testid="va-select-date-range"
           error={selectionError}
+          ref={dateInputRef}
         >
           <option value="any">Any</option>
           <option value={3}>Last 3 months</option>
@@ -118,6 +127,7 @@ const DownloadDateRange = () => {
                 }
               }
             }}
+            ref={startDateRef}
           />
           <VaDate
             label="End date"
@@ -131,6 +141,7 @@ const DownloadDateRange = () => {
                 setCustomToDate(e.target.value);
               }
             }}
+            ref={endDateRef}
           />
         </div>
       )}
@@ -140,18 +151,30 @@ const DownloadDateRange = () => {
           history.push('/download');
           sendDataDogAction('Date range  - Back');
         }}
-        onPrimaryClick={() => {
+        onPrimaryClick={e => {
+          e.preventDefault();
           if (selectedDate === '') {
-            setSelectionError('Please select a valid date range.');
+            setSelectionError(ERROR_VALID_DATE_RANGE);
+            focusElement(
+              '#input-error-message',
+              {},
+              dateInputRef.current.shadowRoot,
+            );
             return;
           }
           if (selectedDate === 'custom') {
             if (customFromDate === '') {
-              setCustomFromError('Please enter a valid start date.');
+              setCustomFromError(ERROR_VALID_START_DATE);
+              focusElement(
+                '#error-message',
+                {},
+                startDateRef.current.shadowRoot,
+              );
               return;
             }
             if (customToDate === '') {
-              setCustomToError('Please enter a valid end date.');
+              setCustomToError(ERROR_VALID_END_DATE);
+              focusElement('#error-message', {}, endDateRef.current.shadowRoot);
               return;
             }
           }
