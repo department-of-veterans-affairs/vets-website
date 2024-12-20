@@ -105,36 +105,40 @@ describe('Mobile', () => {
 
     // desktop - large
     cy.viewport(1024, 1000);
+    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(50, 5);
+      expect($element.width()).closeTo(99, 5);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
 
     // desktop - small
     cy.viewport(1007, 1000);
+    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(899, 9);
+      expect($element.width()).closeTo(99, 9);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
 
     // tablet
     cy.viewport(768, 1000);
+    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(660, 16);
+      expect($element.width()).closeTo(99, 16);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
 
     // mobile
     cy.viewport(481, 1000);
+    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(397, 16);
+      expect($element.width()).closeTo(99, 16);
     });
     cy.get('.desktop-map-container').should('not.exist');
     cy.get('.react-tabs').should('exist');

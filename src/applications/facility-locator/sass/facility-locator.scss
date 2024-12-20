@@ -314,11 +314,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         align-self: end;
       }
 
-      #facility-search {
-        width: 100% !important;
-        min-width: 100% !important;
-      }
-
 
       .typeahead+input[type="submit"] {
         margin-bottom: 30px;
@@ -646,10 +641,4 @@ canvas.mapboxgl-canvas:focus {
 
 .success-icon {
   color: var(--vads-color-success) !important;
-}
-
-@media (min-width: 30em) {
-  button.usa-button {
-    min-width: 100% !important;
-  }
 }

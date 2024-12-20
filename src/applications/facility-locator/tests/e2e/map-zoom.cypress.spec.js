@@ -4,7 +4,7 @@ Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
 
   // Zoom in
-  [...Array(5)].forEach(_ =>
+  [...Array(15)].forEach(_ =>
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy
       .get('.mapboxgl-ctrl-zoom-in')
@@ -28,7 +28,7 @@ Cypress.Commands.add('verifySearchArea', () => {
   cy.get('#search-area-control').contains('Zoom in to search');
 
   // Zoom in again
-  [...Array(12)].forEach(_ =>
+  [...Array(14)].forEach(_ =>
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy
       .get('.mapboxgl-ctrl-zoom-in')
