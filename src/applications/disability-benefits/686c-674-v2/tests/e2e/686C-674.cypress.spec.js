@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
             .get('va-button')
             .should('exist');
           cy.get('.help-talk va-telephone:first')
-            .contains('800-827-1000')
+            .contains('800-698-2411')
             .should('have.prop', 'href');
           cy.get('.help-talk va-telephone:last')
             .contains('711')
@@ -138,6 +138,18 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-add-child/introduction': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      '686-report-add-child/summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="N"]').click();
+
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();

@@ -22,6 +22,11 @@ const ProgramIntro = {
           completing the form, making it easier to reference them as you enter
           your calculations.
         </p>
+        <va-link
+          external
+          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          text="Review the calculation instructions"
+        />
       </>,
     ),
   },

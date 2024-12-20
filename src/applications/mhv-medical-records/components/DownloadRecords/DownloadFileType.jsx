@@ -23,13 +23,18 @@ import {
   generateTextFile,
   getLastUpdatedText,
   formatUserDob,
+  sendDataDogAction,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
 import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 
-import { clearAlerts } from '../../actions/alerts';
-import { pageTitles, refreshExtractTypes } from '../../util/constants';
+import { addAlert, clearAlerts } from '../../actions/alerts';
+import {
+  ALERT_TYPE_BB_ERROR,
+  pageTitles,
+  refreshExtractTypes,
+} from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
 const DownloadFileType = props => {
@@ -70,36 +75,38 @@ const DownloadFileType = props => {
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const { fromDate, toDate, option: dateFilterOption } = dateFilter;
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
     [dispatch],
   );
 
   useEffect(
     () => {
-      if (!dateFilter) {
+      if (!dateFilterOption) {
         history.push('/download/date-range');
       } else if (!recordFilter) {
         history.push('/download/record-type');
       }
     },
-    [dateFilter, history, recordFilter],
+    [dateFilterOption, history, recordFilter],
   );
 
   const filterByDate = useCallback(
     recDate => {
-      if (dateFilter.option === 'any') {
+      if (dateFilterOption === 'any') {
         return true;
       }
       return (
-        isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
-        isAfter(new Date(dateFilter.toDate), new Date(recDate))
+        isBefore(new Date(fromDate), new Date(recDate)) &&
+        isAfter(new Date(toDate), new Date(recDate))
       );
     },
-    [dateFilter],
+    [dateFilterOption, fromDate, toDate],
   );
 
   /**
@@ -186,10 +193,10 @@ const DownloadFileType = props => {
       };
 
       if (!isDataFetched) {
-        dispatch(getBlueButtonReportData(options));
+        dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch],
+    [isDataFetched, recordFilter, dispatch, dateFilter],
   );
 
   const recordData = useMemo(
@@ -226,18 +233,7 @@ const DownloadFileType = props => {
             medications && recordFilter?.includes('medications')
               ? medications.filter(rec => filterByDate(rec.lastFilledOn))
               : null,
-          appointments:
-            appointments &&
-            (recordFilter?.includes('upcomingAppts') ||
-              recordFilter?.includes('pastAppts'))
-              ? appointments.filter(
-                  rec =>
-                    filterByDate(rec.date) &&
-                    ((recordFilter.includes('upcomingAppts') &&
-                      rec.isUpcoming) ||
-                      (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
-                )
-              : null,
+          appointments: appointments || null,
           demographics:
             demographics && recordFilter?.includes('demographics')
               ? demographics
@@ -290,50 +286,53 @@ const DownloadFileType = props => {
 
   const generatePdf = useCallback(
     async () => {
-      setDownloadStarted(true);
-      dispatch(clearAlerts());
+      try {
+        setDownloadStarted(true);
+        dispatch(clearAlerts());
 
-      if (isDataFetched) {
-        const title = 'Blue Button report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(user, title, subject);
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const pdfData = {
-          fromDate:
-            dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-              ? formatDateLong(dateFilter.fromDate)
-              : 'Any',
-          toDate:
-            dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-              ? formatDateLong(dateFilter.toDate)
-              : 'any',
-          recordSets: generateBlueButtonData(recordData, recordFilter),
-          ...scaffold,
-          name,
-          dob,
-          lastUpdated: getLastUpdatedText(refreshStatus, [
-            refreshExtractTypes.ALLERGY,
-            refreshExtractTypes.CHEM_HEM,
-            refreshExtractTypes.VPR,
-          ]),
-        };
-        makePdf(
-          pdfName,
-          pdfData,
-          title,
-          runningUnitTest,
-          'blueButtonReport',
-        ).then(() => dispatch({ type: Actions.Downloads.BB_SUCCESS }));
+        if (isDataFetched) {
+          const title = 'Blue Button report';
+          const subject = 'VA Medical Record';
+          const scaffold = generatePdfScaffold(user, title, subject);
+          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+          const pdfData = {
+            fromDate:
+              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
+            toDate:
+              fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+            recordSets: generateBlueButtonData(recordData, recordFilter),
+            ...scaffold,
+            name,
+            dob,
+            lastUpdated: getLastUpdatedText(refreshStatus, [
+              refreshExtractTypes.ALLERGY,
+              refreshExtractTypes.CHEM_HEM,
+              refreshExtractTypes.VPR,
+            ]),
+          };
+          await makePdf(
+            pdfName,
+            pdfData,
+            title,
+            runningUnitTest,
+            'blueButtonReport',
+          );
+          dispatch({ type: Actions.Downloads.BB_SUCCESS });
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
-      dateFilter,
+      fromDate,
+      toDate,
       dispatch,
       dob,
       isDataFetched,
       name,
       recordData,
       recordFilter,
+      refreshStatus,
       runningUnitTest,
       user,
     ],
@@ -341,25 +340,36 @@ const DownloadFileType = props => {
 
   const generateTxt = useCallback(
     async () => {
-      setDownloadStarted(true);
-      dispatch(clearAlerts());
-      if (isDataFetched) {
-        const title = 'Blue Button report';
-        const subject = 'VA Medical Record';
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
-          user,
-          title,
-          subject,
-        )}`;
-        const content = getTxtContent(recordData, user);
+      try {
+        setDownloadStarted(true);
+        dispatch(clearAlerts());
+        if (isDataFetched) {
+          const title = 'Blue Button report';
+          const subject = 'VA Medical Record';
+          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+            user,
+            title,
+            subject,
+          )}`;
+          const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName, user).then(() =>
-          dispatch({ type: Actions.Downloads.BB_SUCCESS }),
-        );
+          generateTextFile(content, pdfName, user);
+          dispatch({ type: Actions.Downloads.BB_SUCCESS });
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [dispatch, isDataFetched, recordData, user],
   );
+
+  const handleDdRum = useCallback(e => {
+    const selectedNode = Array.from(e.target.childNodes).find(
+      node => node.value === e.detail.value,
+    );
+    const selectedText = selectedNode ? selectedNode.innerText : '';
+    sendDataDogAction(`${selectedText} - File type`);
+  }, []);
 
   return (
     <div>
@@ -405,7 +415,10 @@ const DownloadFileType = props => {
             </div>
             <VaRadio
               label="If you use assistive technology, a text file may work better for you."
-              onVaValueChange={e => setFileType(e.detail.value)}
+              onVaValueChange={e => {
+                setFileType(e.detail.value);
+                handleDdRum(e);
+              }}
             >
               <va-radio-option label="PDF" value="pdf" />
               <va-radio-option label="Text file" value="txt" />
@@ -421,7 +434,10 @@ const DownloadFileType = props => {
           <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
             <button
               className="usa-button-secondary vads-u-margin-y--0p5"
-              onClick={() => history.push('/download/record-type')}
+              onClick={() => {
+                history.push('/download/record-type');
+                sendDataDogAction('File type - Back - Record type');
+              }}
             >
               <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
                 <va-icon icon="navigate_far_before" size={2} />
@@ -438,6 +454,7 @@ const DownloadFileType = props => {
                 } else if (fileType === 'txt') {
                   generateTxt().then(() => history.push('/download'));
                 }
+                sendDataDogAction('File type - Continue - Record type');
               }}
             >
               Download report

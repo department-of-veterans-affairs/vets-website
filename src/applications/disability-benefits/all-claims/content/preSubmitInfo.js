@@ -57,9 +57,9 @@ export default function getPreSubmitInfo() {
   return {
     statementOfTruth: {
       body,
-      fullNamePath: 'view:userFullName',
       heading: 'Claim certification and signature',
       messageAriaDescribedby: plainBody,
+      useProfileFullName: true,
     },
   };
 }

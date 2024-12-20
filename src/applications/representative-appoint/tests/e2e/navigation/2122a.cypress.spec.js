@@ -41,7 +41,7 @@ describe('Unauthenticated', () => {
 
       cy.contains('John Adams').should('be.visible');
 
-      cy.contains('button', 'Select this representative')
+      cy.contains('button', 'Select John Adams')
         .first()
         .click();
 
@@ -211,6 +211,10 @@ describe('Unauthenticated', () => {
       cy.get(
         `va-checkbox[name="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"]`,
       ).click();
+      cy.get(`va-privacy-agreement`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
 
       h.clickContinue();
 
