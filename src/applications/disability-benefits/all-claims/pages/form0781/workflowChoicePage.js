@@ -10,7 +10,8 @@ import {
 export default {
   uiSchema: {
     'ui:title': workflowChoicePageTitle,
-    mentalHealthWorkflowChoice: radioUI({
+    'view:mentalHealthWorkflowChoice': radioUI({
+      title: 'CHOICE TITLE',
       description: workflowChoicePageDescription,
       errorMessages: {
         required: 'You must provide a response',
@@ -24,7 +25,7 @@ export default {
     type: 'object',
     required: ['mentalHealthWorkflowChoice'],
     properties: {
-      mentalHealthWorkflowChoice: {
+      'view:mentalHealthWorkflowChoice': {
         type: 'string',
         enum: Object.keys(form0781WorkflowChoices).map(
           key => form0781WorkflowChoices[key],

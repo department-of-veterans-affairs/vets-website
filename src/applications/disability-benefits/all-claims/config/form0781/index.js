@@ -1,4 +1,4 @@
-import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
+import workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
 import * as mentalHealthSupportInfoPage from '../../pages/form0781/mentalHealthSupportInfoPage';
 import {
