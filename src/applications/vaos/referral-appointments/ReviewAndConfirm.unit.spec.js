@@ -110,8 +110,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
     expect(await screen.getByTestId('review-heading')).to.exist;
-    expect(await screen.getByTestId('slot-day')).to.contain.text(
+    expect(await screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
+    );
+    expect(await screen.getByTestId('slot-day-time')).to.contain.text(
+      '12:00 p.m. Eastern time (ET)',
     );
     sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
   });

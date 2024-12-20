@@ -164,16 +164,16 @@ const ReviewAndConfirm = props => {
           </div>
         </div>
         {slotDetails && (
-          <p className="vads-u-margin--0">
-            <span data-testid="slot-day">
+          <p className="vads-u-margin--0" data-testid="slot-day-time">
+            <>
               {formatInTimeZone(
                 new Date(slotDetails.start),
                 facilityTimeZone,
                 'EEEE, LLLL d, yyyy',
               )}
-            </span>
+            </>
             <br />
-            <span>
+            <>
               {formatInTimeZone(
                 new Date(slotDetails.start),
                 facilityTimeZone,
@@ -182,7 +182,7 @@ const ReviewAndConfirm = props => {
               {`${getTimezoneDescByFacilityId(
                 currentReferral.ReferringFacilityInfo.FacilityCode,
               )}`}
-            </span>
+            </>
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
