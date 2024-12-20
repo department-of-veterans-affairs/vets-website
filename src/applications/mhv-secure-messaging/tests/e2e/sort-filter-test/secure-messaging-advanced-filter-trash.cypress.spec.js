@@ -1,30 +1,29 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import PatentMessageSentPage from '../pages/PatientMessageSentPage';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
-describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
+describe('SM TRASH ADVANCED CATEGORY SEARCH', () => {
   const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
-    3,
-    'APPOINTMENTS',
-    mockSentMessages,
+    2,
+    'MEDICATIONS',
+    mockTrashMessages,
   );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    PatentMessageSentPage.loadMessages();
+    FolderLoadPage.loadDeletedMessages();
     PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Appointment');
+    PatientInboxPage.selectAdvancedSearchCategory('Medication');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
-  it('verify all sent messages contain the searched category', () => {
+  it('verify all messages contain the searched category', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Appointment');
+    PatientSearchPage.verifySearchResponseCategory('Medication');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -32,20 +31,20 @@ describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
   it('verify the search message label', () => {
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Appointment',
+      'Medication',
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
-describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
+describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
   let searchResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    PatentMessageSentPage.loadMessages();
+    FolderLoadPage.loadDeletedMessages();
     PatientInboxPage.openAdvancedSearch();
   });
 
@@ -53,7 +52,7 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       2,
       3,
-      mockSentMessages,
+      mockTrashMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
@@ -74,7 +73,7 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       3,
       6,
-      mockSentMessages,
+      mockTrashMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 6 months');
@@ -82,6 +81,10 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(6);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 6 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -91,7 +94,7 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       6,
       12,
-      mockSentMessages,
+      mockTrashMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 12 months');
@@ -99,6 +102,10 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(12);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 12 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
