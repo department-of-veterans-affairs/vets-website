@@ -68,8 +68,29 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
   });
 };
 
-export const checkLicenseInDuplicateStates = (suggestions, name) => {
+export const showLicenseInDuplicateStates = (suggestions, name) => {
   return suggestions.filter(suggestion => suggestion.name === name);
+};
+
+export const checkAlert = (
+  type,
+  filteredStates,
+  currentLocation,
+  newLocation,
+) => {
+  if (filteredStates.length > 1) {
+    return true;
+  }
+
+  if (type === 'license' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  if (type === 'certification' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  return false;
 };
 
 export default function LicenseCertificationSearchForm({
@@ -99,7 +120,7 @@ export default function LicenseCertificationSearchForm({
     [categoryParam, stateParam],
   );
 
-  // re update query params after handleChange, in special cases
+  // Update query params after handleChange, in special cases
   useEffect(
     () => {
       if (categoryDropdown.current.optionValue === 'certification') {
@@ -139,7 +160,10 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
-    // console.log('handleChange 🟣 update query param');
+    // console.log('handleChange 🟣 update query param', {
+    //   id: e.target.id,
+    //   value: e.target.value,
+    // });
     handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
 
@@ -150,29 +174,24 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { type, state, name: _name } = selection;
 
-    let newDropdowns = updateDropdowns(type, state);
+    const filteredStates = showLicenseInDuplicateStates(
+      filteredSuggestions,
+      _name,
+    );
 
-    if (checkLicenseInDuplicateStates(filteredSuggestions, _name).length > 1) {
-      newDropdowns = updateDropdowns(
+    const newDropdowns =
+      filteredStates.length > 1
+        ? updateDropdowns(type, state)
+        : updateDropdowns(type, filteredStates);
+
+    setShowAlert(
+      checkAlert(
         type,
-        checkLicenseInDuplicateStates(filteredSuggestions, _name),
-      );
-    }
-
-    if (type === 'license' && locationDropdown.current.optionValue !== state) {
-      setShowAlert(true);
-    }
-
-    if (
-      type === 'certification' &&
-      locationDropdown.current.optionValue !== state
-    ) {
-      setShowAlert(true);
-    }
-
-    if (checkLicenseInDuplicateStates(filteredSuggestions, _name).length > 1) {
-      setShowAlert(true);
-    }
+        filteredStates,
+        locationDropdown.current.optionValue,
+        state,
+      ),
+    );
 
     setDropdowns(newDropdowns);
   };
@@ -213,13 +232,11 @@ export default function LicenseCertificationSearchForm({
           <LicenseCertificationAlert
             changeStateAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              checkLicenseInDuplicateStates(filteredSuggestions, name).length <
-                2
+              showLicenseInDuplicateStates(filteredSuggestions, name).length < 2
             }
             changeDropdownsAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              checkLicenseInDuplicateStates(filteredSuggestions, name).length >
-                1
+              showLicenseInDuplicateStates(filteredSuggestions, name).length > 1
             }
             changeStateToAllAlert={
               categoryDropdown.current.optionValue === 'certification'
