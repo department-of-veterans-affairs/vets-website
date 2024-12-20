@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
 describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
@@ -38,14 +38,18 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
 
   it(`verify errors`, () => {
     cy.get(Locators.BUTTONS.FILTER).click();
-    cy.get(`[data-testid="date-start"]`)
+
+    // TODO create a method to get an error
+
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`#error-message`)
       .should(`be.visible`)
-      .and(`have.text`, `Error Please enter a start date.`);
-    cy.get(`[data-testid="date-end"]`)
+      .and(`have.text`, Alerts.DATE_FILTER.EMPTY_START_DATE);
+
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`#error-message`)
       .should(`be.visible`)
-      .and(`have.text`, `Error Please enter an end date.`);
+      .and(`have.text`, Alerts.DATE_FILTER.EMPTY_END_DATE);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -57,13 +61,13 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     PatientSearchPage.selectEndMonth('April');
     PatientSearchPage.selectEndDay(`11`);
     cy.get(Locators.CLEAR_FILTERS).click();
-    cy.get(`[data-testid="date-range-dropdown"]`).should(
+    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).should(
       `have.attr`,
       `value`,
       `any`,
     );
-    cy.get(`[data-testid="date-start"]`).should(`not.exist`);
-    cy.get(`[data-testid="date-end"]`).should(`not.exist`);
+    cy.get(Locators.BLOCKS.FILTER_START_DATE).should(`not.exist`);
+    cy.get(Locators.BLOCKS.FILTER_END_DATE).should(`not.exist`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

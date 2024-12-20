@@ -148,79 +148,79 @@ class PatientSearchPage {
   };
 
   verifyStartDateFormElements = () => {
-    cy.get(`[data-testid="date-start"]`, { includeShadowDom: true })
+    cy.get(Locators.BLOCKS.FILTER_START_DATE, { includeShadowDom: true })
       .find(`.required`)
       .should(`be.visible`)
       .and(`have.text`, `(*Required)`);
 
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .shadow()
       .find(`.select-month`)
       .should(`be.visible`);
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .shadow()
       .find(`.select-day`)
       .should(`be.visible`);
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .shadow()
       .find(`.input-year`)
       .should(`be.visible`);
   };
 
   verifyEndDateFormElements = () => {
-    cy.get(`[data-testid="date-end"]`, { includeShadowDom: true })
+    cy.get(Locators.BLOCKS.FILTER_END_DATE, { includeShadowDom: true })
       .find(`.required`)
       .should(`be.visible`)
       .and(`have.text`, `(*Required)`);
 
-    cy.get(`[data-testid="date-end"]`)
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .shadow()
       .find(`.select-month`)
       .should(`be.visible`);
-    cy.get(`[data-testid="date-end"]`)
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .shadow()
       .find(`.select-day`)
       .should(`be.visible`);
-    cy.get(`[data-testid="date-end"]`)
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .shadow()
       .find(`.input-year`)
       .should(`be.visible`);
   };
 
   verifyMonthFilterRange = number => {
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateMonth"]`)
       .find(`option`)
       .should(`have.length`, number);
   };
 
   verifyDayFilterRange = number => {
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateDay"]`)
       .find(`option`)
       .should(`have.length`, number);
   };
 
   selectStartMonth = month => {
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateMonth"]`)
       .select(month);
   };
 
   selectEndMonth = month => {
-    cy.get(`[data-testid="date-end"]`)
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateMonth"]`)
       .select(month);
   };
 
   selectStartDay = day => {
-    cy.get(`[data-testid="date-start"]`)
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateDay"]`)
       .select(day);
   };
 
   selectEndDay = day => {
-    cy.get(`[data-testid="date-end"]`)
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateDay"]`)
       .select(day);
   };
