@@ -225,6 +225,25 @@ class PatientSearchPage {
       .select(day);
   };
 
+  getStartYear = year => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateYear"]`)
+      .type(year);
+  };
+
+  getEndYear = year => {
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .find(`[name="discharge-dateYear"]`)
+      .type(year);
+  };
+
+  getRequiredFieldError = selector => {
+    return cy
+      .get(selector)
+      .find(`#error-message`)
+      .should(`be.visible`);
+  };
+
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(

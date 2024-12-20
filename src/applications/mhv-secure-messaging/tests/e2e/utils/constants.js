@@ -299,6 +299,8 @@ export const Alerts = {
   DATE_FILTER: {
     EMPTY_START_DATE: `Error Please enter a start date.`,
     EMPTY_END_DATE: `Error Please enter an end date.`,
+    INVALID_START_DATE: `Start date must be on or before end date.`,
+    INVALID_END_DATE: `End date must be on or after start date.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
