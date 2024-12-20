@@ -453,6 +453,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  continueMsg: PropTypes.string,
   customLink: PropTypes.any,
   devOnly: PropTypes.shape({
     forceShowFormControls: PropTypes.bool,

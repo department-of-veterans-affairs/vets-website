@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
@@ -44,7 +44,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -98,7 +98,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -230,7 +230,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
@@ -267,7 +270,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -310,7 +316,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -431,7 +440,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -470,7 +482,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -505,7 +520,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000),
+            },
           },
         ],
         prefillsAvailable: [],
@@ -543,7 +561,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -583,7 +604,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -622,7 +646,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -660,7 +687,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -700,7 +730,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -811,7 +844,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
