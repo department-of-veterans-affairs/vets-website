@@ -64,7 +64,7 @@ export const DevOnlyTestVariations = ({
     });
   };
 
-  if (!(environment.isLocalhost() || environment.isDevelopment())) {
+  if (!(environment.isLocalhost() || environment.isDev())) {
     return null;
   }
 
