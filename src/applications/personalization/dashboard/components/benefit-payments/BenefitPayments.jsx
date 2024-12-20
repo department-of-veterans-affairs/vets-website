@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
@@ -114,28 +118,33 @@ const BenefitPayments = ({
       data-testid="dashboard-section-payment"
     >
       <h2>Benefit payments</h2>
-      <div className="vads-l-row">
-        {lastPayment && (
-          <>
+      <DowntimeNotification
+        appTitle="benefit application drafts"
+        dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
+      >
+        <div className="vads-l-row">
+          {lastPayment && (
+            <>
+              <DashboardWidgetWrapper>
+                <PaymentsCard lastPayment={lastPayment} />
+              </DashboardWidgetWrapper>
+              <DashboardWidgetWrapper>
+                <PopularActionsForPayments />
+              </DashboardWidgetWrapper>
+            </>
+          )}
+          {!lastPayment && (
             <DashboardWidgetWrapper>
-              <PaymentsCard lastPayment={lastPayment} />
+              {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
+              <PopularActionsForPayments
+                showPaymentHistoryLink={
+                  (payments && !!payments.length) || paymentsError
+                }
+              />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              <PopularActionsForPayments />
-            </DashboardWidgetWrapper>
-          </>
-        )}
-        {!lastPayment && (
-          <DashboardWidgetWrapper>
-            {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
-            <PopularActionsForPayments
-              showPaymentHistoryLink={
-                (payments && !!payments.length) || paymentsError
-              }
-            />
-          </DashboardWidgetWrapper>
-        )}
-      </div>
+          )}
+        </div>
+      </DowntimeNotification>
     </div>
   );
 };

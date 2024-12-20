@@ -7,7 +7,15 @@ import BenefitApplications from '../../../components/benefit-application-drafts/
 
 describe('BenefitApplications component', () => {
   it('renders correctly', () => {
-    const initialState = {};
+    const initialState = {
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
+    };
     const view = renderInReduxProvider(<BenefitApplications />, {
       initialState,
       reducers,

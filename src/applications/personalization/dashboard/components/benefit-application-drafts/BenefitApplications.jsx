@@ -8,6 +8,10 @@ import { filterOutExpiredForms } from '~/applications/personalization/dashboard/
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
 
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { fetchFormStatuses } from '../../actions/form-status';
 import ApplicationsInProgress from './ApplicationsInProgress';
 
@@ -59,7 +63,12 @@ const BenefitApplications = ({
       tabIndex={-1}
     >
       <h2>Benefit applications and forms</h2>
-      <ApplicationsInProgress hideH3 />
+      <DowntimeNotification
+        appTitle="benefit application drafts"
+        dependencies={[externalServices.VBMS_APPEALS]}
+      >
+        <ApplicationsInProgress hideH3 />
+      </DowntimeNotification>
     </div>
   );
 };

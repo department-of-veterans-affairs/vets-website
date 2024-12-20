@@ -4,198 +4,218 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import debtsSuccess from '@@profile/tests/fixtures/debts-success';
+import medicalCopaysSuccess from '@@profile/tests/fixtures/medical-copays-success';
+import onsiteNotificationsSuccess from '@@profile/tests/fixtures/onsite-notifications-success';
+import paymentHistorySuccess from '@@profile/tests/fixtures/payment-history-success';
+import submissionStatusesSuccess from '@@profile/tests/fixtures/submission-statuses-success';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
-import { findVaLinkByText } from '../../../common/e2eHelpers';
 
-/**
- *
- * @param {boolean} mobile - test on a mobile viewport or not
- *
- * This helper:
- * - loads the my VA Dashboard,
- *   checks that focus is managed correctly, and performs an aXe scan
- */
-describe('The My VA Dashboard', () => {
+describe('My VA Dashboard Downtime Notifications', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('/v0/profile/service_history', serviceHistory);
-    cy.intercept('/v0/profile/full_name', fullName);
+
+    // Mock API responses for feature toggles
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'checkInExperienceEnabled', value: false },
+          { name: 'preCheckInEnabled', value: false },
+          { name: 'myVaUpdateErrorsWarnings', value: true },
+        ],
+      },
+    });
+
+    // Mock necessary API endpoints
+    cy.intercept('GET', '/v0/profile/service_history', serviceHistory);
+    cy.intercept('GET', '/v0/profile/full_name', fullName);
     cy.intercept(
+      'GET',
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
+    cy.intercept('GET', '/v0/benefits_claims', claimsSuccess);
+    cy.intercept('GET', '/v0/appeals', appealsSuccess);
+    cy.intercept(
+      'GET',
+      '/v0/my_va/submission_statuses',
+      submissionStatusesSuccess,
+    );
+    cy.intercept('GET', '/v0/profile/payment_history', paymentHistorySuccess);
+    cy.intercept('GET', '/v0/debts', debtsSuccess);
+    cy.intercept('GET', '/v0/medical_copays', medicalCopaysSuccess);
+    cy.intercept('GET', '/v0/onsite_notifications', onsiteNotificationsSuccess);
   });
 
-  it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {
-    // start time is one minute from now
-    const startTime = new Date(Date.now() + 60 * 1000);
-    // end time is one hour from now
-    const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.intercept('GET', '/v0/maintenance_windows', {
-      data: [
-        {
-          id: '1',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'mvi',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
-        },
-      ],
-    });
-    cy.visit(manifest.rootUrl);
-    cy.get('va-button', { name: /continue/i }).click();
-    cy.get('va-modal')
-      .invoke('attr', 'visible')
-      .should('eq', 'false');
-
-    cy.visit(manifest.rootUrl);
-    cy.get('va-button', { name: /continue/i }).click();
-    cy.get('va-modal')
-      .invoke('attr', 'visible')
-      .should('eq', 'false');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should not show a modal if there is no upcoming downtime', () => {
-    const oneDayInMS = 60 * 60 * 24 * 1000;
-    // start time is one day from now
-    const startTime = new Date(Date.now() + oneDayInMS);
-    // end time is two days from now
-    const endTime = new Date(Date.now() + oneDayInMS * 2);
-    cy.intercept('GET', '/v0/maintenance_windows', {
-      data: [
-        {
-          id: '1',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'mvi',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
-        },
-      ],
-    });
-    cy.visit(manifest.rootUrl);
-    cy.findByRole('heading', { name: /My VA/i }).should('exist');
-    findVaLinkByText('Continue').should('not.exist');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should show an alert in place of Claims and Appeals data if there is active MHV service downtime', () => {
-    // start time is one minute ago
+  const mockDowntime = services => {
     const startTime = new Date(Date.now() - 60 * 1000);
-    // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.intercept('GET', '/v0/maintenance_windows', {
-      data: [
+
+    const downtimeData = services.map(service => ({
+      id: `downtime-${service}`,
+      type: 'maintenance_windows',
+      attributes: {
+        externalService: service,
+        startTime: startTime.toISOString(),
+        endTime: endTime.toISOString(),
+        description: 'Service is down for maintenance',
+      },
+    }));
+
+    cy.intercept('GET', '/v0/maintenance_windows', { data: downtimeData }).as(
+      'getMaintenanceWindows',
+    );
+  };
+
+  const verifySection = (sectionTestId, expectedLinks, alertVisible) => {
+    cy.get(`[data-testid="${sectionTestId}"]`, { timeout: 10000 }).within(
+      () => {
+        if (alertVisible) {
+          cy.get('va-alert')
+            .find('h2[slot="headline"]')
+            .should('contain.text', 'This application is down for maintenance');
+        } else {
+          cy.get('va-alert[status="warning"]').should('not.exist');
+        }
+
+        expectedLinks.forEach(link => {
+          if (link.visible) {
+            cy.get(`[data-testid="${link.testId}"]`)
+              .should('exist')
+              .and('have.attr', 'href', link.href);
+          } else {
+            cy.get(`[data-testid="${link.testId}"]`).should('not.exist');
+          }
+        });
+      },
+    );
+  };
+
+  // Existing Tests
+  it('should handle Claims and Appeals downtime', () => {
+    mockDowntime([
+      externalServices.VBMS_APPEALS,
+      externalServices.LIGHTHOUSE_BENEFITS_CLAIMS,
+    ]);
+    cy.visit(manifest.rootUrl);
+    cy.wait('@getMaintenanceWindows');
+    cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-claims-and-appeals',
+      [
         {
-          id: '1',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'mhv',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
+          testId: 'file-claims-and-appeals-link',
+          href: '/disability/how-to-file-claim/',
+          visible: false,
+        },
+        {
+          testId: 'manage-claims-and-appeals-link',
+          href: '/claim-or-appeal-status/',
+          visible: false,
         },
       ],
-    });
-    cy.visit(manifest.rootUrl);
-    cy.findByRole('heading', { name: /We can’t access.+claims/i }).should(
-      'exist',
+      true,
     );
-    cy.findByText(/problems with the claims or appeals tool/i).should('exist');
-    cy.findByRole('link', {
-      name: /manage all claims and appeals/i,
-    }).should('not.exist');
-    cy.injectAxeThenAxeCheck();
   });
 
-  it('should show an alert in place of Claims and Appeals data if there is active appeals service downtime', () => {
-    // start time is one minute ago
-    const startTime = new Date(Date.now() - 60 * 1000);
-    // end time is one hour from now
-    const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.intercept('GET', '/v0/maintenance_windows', {
-      data: [
+  it('should handle Outstanding Debts downtime', () => {
+    mockDowntime([
+      externalServices.DMC_DEBTS,
+      externalServices.VBS_MEDICAL_COPAYS,
+    ]);
+    cy.visit(manifest.rootUrl);
+    cy.wait('@getMaintenanceWindows');
+    cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-debts',
+      [
         {
-          id: '1',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'appeals',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
+          testId: 'debt-summary-link',
+          href: '/resources/va-debt-management',
+          visible: true,
         },
       ],
-    });
-    cy.visit(manifest.rootUrl);
-    cy.findByRole('heading', { name: /We can’t access.+claims/i }).should(
-      'exist',
+      true,
     );
-    cy.findByText(/problems with the claims or appeals tool/i).should('exist');
-    cy.findByRole('link', {
-      name: /manage all claims and appeals/i,
-    }).should('not.exist');
-    cy.injectAxeThenAxeCheck();
   });
 
-  it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
-    cy.intercept('/v0/benefits_claims', claimsSuccess());
-    cy.intercept('/v0/appeals', appealsSuccess());
-    // start time is 25 hours in the future
-    const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);
-    // end time is 30 days in the future
-    const endTime = new Date(Date.now() + 60 * 60 * 30 * 1000);
-    cy.intercept('GET', '/v0/maintenance_windows', {
-      data: [
+  it('should handle Health Care messaging downtime', () => {
+    mockDowntime([externalServices.VAPRO_MESSAGING]);
+    cy.visit(manifest.rootUrl);
+    cy.wait('@getMaintenanceWindows');
+    cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-healthcare',
+      [
         {
-          id: '1',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'appeals',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
+          visible: false,
         },
         {
-          id: '2',
-          type: 'maintenance_windows',
-          attributes: {
-            externalService: 'mhv',
-            // toISOString() matches the format used by the real API, '2021-02-14T02:00:00.000Z'
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            description: '',
-          },
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
+          visible: true, // Appointments link should remain visible
         },
       ],
-    });
+      true,
+    );
+  });
+
+  it('should handle Health Care appointments downtime', () => {
+    mockDowntime([externalServices.VBMS_APPOINTMENTS]);
     cy.visit(manifest.rootUrl);
-    cy.findByRole('heading', { name: /We can’t access.+claims/i }).should(
-      'not.exist',
-    );
-    cy.findByText(/problems with the claims or appeals tool/i).should(
-      'not.exist',
-    );
-    cy.findByRole('heading', {
-      name: 'Claims and appeals',
-    }).should('exist');
-    cy.findByRole('link', {
-      name: /manage all claims and appeals/i,
-    }).should('exist');
+    cy.wait('@getMaintenanceWindows');
     cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-healthcare',
+      [
+        {
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
+          visible: false,
+        },
+        {
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
+          visible: true, // Messaging link should remain visible
+        },
+      ],
+      true,
+    );
+  });
+
+  it('should handle both Health Care messaging and appointments downtime', () => {
+    mockDowntime([
+      externalServices.VAPRO_MESSAGING,
+      externalServices.VBMS_APPOINTMENTS,
+    ]);
+    cy.visit(manifest.rootUrl);
+    cy.wait('@getMaintenanceWindows');
+    cy.injectAxeThenAxeCheck();
+
+    verifySection(
+      'dashboard-section-healthcare',
+      [
+        {
+          testId: 'view-your-messages-link-from-cta',
+          href: '/my-health/secure-messaging',
+          visible: false,
+        },
+        {
+          testId: 'view-manage-appointments-link-from-cta',
+          href: '/my-health/appointments',
+          visible: false,
+        },
+      ],
+      true,
+    );
   });
 });

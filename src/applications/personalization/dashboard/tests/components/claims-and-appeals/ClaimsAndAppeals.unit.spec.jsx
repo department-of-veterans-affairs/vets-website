@@ -113,6 +113,13 @@ describe('ClaimsAndAppeals component', () => {
             claims: [],
             appealsAvailability: 'ERROR',
           },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: { get() {} },
+            dismissedDowntimeWarnings: [],
+          },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
           initialState,
@@ -146,6 +153,13 @@ describe('ClaimsAndAppeals component', () => {
             appeals: [],
             claims: [],
             claimsAvailability: claimsAvailability.UNAVAILABLE,
+          },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: { get() {} },
+            dismissedDowntimeWarnings: [],
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -182,6 +196,13 @@ describe('ClaimsAndAppeals component', () => {
             appeals: [],
             claims: [],
           },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: { get() {} },
+            dismissedDowntimeWarnings: [],
+          },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
           initialState,
@@ -217,6 +238,13 @@ describe('ClaimsAndAppeals component', () => {
                 }),
                 makeClaimObject({ updateDate: daysAgo(15) }),
               ],
+            },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
             },
           };
           view = renderInReduxProvider(
@@ -265,6 +293,13 @@ describe('ClaimsAndAppeals component', () => {
                   status: 'Preparation for notification',
                 }),
               ],
+            },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
             },
           };
           view = renderInReduxProvider(
@@ -315,6 +350,13 @@ describe('ClaimsAndAppeals component', () => {
                   status: 'Claim received',
                 }),
               ],
+            },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
             },
           };
           view = renderInReduxProvider(
@@ -370,6 +412,13 @@ describe('ClaimsAndAppeals component', () => {
                 }),
               ],
             },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
+            },
           };
           view = renderInReduxProvider(
             <ClaimsAndAppeals dataLoadingDisabled />,
@@ -405,6 +454,13 @@ describe('ClaimsAndAppeals component', () => {
               claimsLoading: false,
               appeals: [makeAppealObject({ updateDate: daysAgo(61) })],
               claims: [],
+            },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
             },
           };
           view = renderInReduxProvider(
@@ -500,6 +556,13 @@ describe('ClaimsAndAppeals component', () => {
                   status: 'Closed',
                 }),
               ],
+            },
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap: { get() {} },
+              dismissedDowntimeWarnings: [],
             },
           };
           view = renderInReduxProvider(

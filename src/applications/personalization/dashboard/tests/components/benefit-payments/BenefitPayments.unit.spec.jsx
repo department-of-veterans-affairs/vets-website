@@ -35,6 +35,13 @@ describe('<BenefitPayments />', () => {
             },
           ],
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       };
 
       const view = renderInReduxProvider(<BenefitPayments />, {
@@ -81,6 +88,13 @@ describe('<BenefitPayments />', () => {
             },
           ],
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       };
 
       const view = renderInReduxProvider(<BenefitPayments />, {
@@ -105,6 +119,13 @@ describe('<BenefitPayments />', () => {
           isLoading: false,
           error: true,
           payments: [],
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
       };
 

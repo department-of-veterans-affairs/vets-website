@@ -7,6 +7,10 @@ import {
   fetchDebts,
   fetchCopays,
 } from '~/applications/personalization/dashboard/actions/debts';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import DebtsCard from './DebtsCard';
@@ -113,11 +117,23 @@ const BenefitPaymentsAndDebt = ({
       <div className="vads-l-row">
         {(hasCopayError || hasDebtError) && (
           <>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[
+                externalServices.DMC_DEBTS,
+                externalServices.VBS_MEDICAL_COPAYS,
+              ]}
+            >
+              {/* Show VA debt link during maintenance */}
+              {({ isDowntimeActive }) => (
+                <DashboardWidgetWrapper>
+                  {isDowntimeActive && <PopularActionsForDebts />}
+                  <OutstandingDebtsError />
+                </DashboardWidgetWrapper>
+              )}
+            </DowntimeNotification>
             <DashboardWidgetWrapper>
-              <OutstandingDebtsError />
-            </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
+              {!hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>
           </>
         )}
@@ -126,31 +142,61 @@ const BenefitPaymentsAndDebt = ({
             <DashboardWidgetWrapper>
               <NoOutstandingDebtsText />
             </DashboardWidgetWrapper>
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
           </>
         )}
         {debtsCount > 0 && (
-          <DashboardWidgetWrapper>
-            <DebtsCard debts={debts} />
-          </DashboardWidgetWrapper>
+          <DowntimeNotification
+            appTitle="benefit application drafts"
+            dependencies={[externalServices.DMC_DEBTS]}
+          >
+            {/* Show VA debt link during maintenance */}
+            {({ isDowntimeActive }) => (
+              <DashboardWidgetWrapper>
+                {isDowntimeActive && <PopularActionsForDebts />}
+                <DebtsCard debts={debts} />
+              </DashboardWidgetWrapper>
+            )}
+          </DowntimeNotification>
         )}
         {copaysCount > 0 && (
           <>
-            <DashboardWidgetWrapper>
-              <CopaysCard copays={copays} />
-            </DashboardWidgetWrapper>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[externalServices.VBS_MEDICAL_COPAYS]}
+            >
+              {/* Show VA debt link during maintenance */}
+              {({ isDowntimeActive }) => (
+                <DashboardWidgetWrapper>
+                  {isDowntimeActive && <PopularActionsForDebts />}
+                  <CopaysCard copays={copays} />
+                </DashboardWidgetWrapper>
+              )}
+            </DowntimeNotification>
             <DashboardWidgetWrapper>
               {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>
           </>
         )}
       </div>
-      {((debtsCount === 0 && copaysCount === 0) ||
-        (hasCopayError && debtsCount === 0) ||
-        (hasDebtError && copaysCount === 0)) && (
-        <DashboardWidgetWrapper>
-          <PopularActionsForDebts />
-        </DashboardWidgetWrapper>
-      )}
+      {/* Ensure PopularActionsForDebts is always visible during maintenance */}
+      <DowntimeNotification
+        appTitle="benefit application drafts"
+        dependencies={[
+          externalServices.DMC_DEBTS,
+          externalServices.VBS_MEDICAL_COPAYS,
+        ]}
+      >
+        {({ isDowntimeActive }) =>
+          isDowntimeActive && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
+          )
+        }
+      </DowntimeNotification>
     </div>
   );
 };

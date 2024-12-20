@@ -15,6 +15,7 @@ const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
+const maintenanceWindows = require('../../profile/mocks/endpoints/maintenance-windows');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -32,7 +33,23 @@ const responses = {
   ),
   'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
+  'GET /v0/maintenance_windows': (_req, res) => {
+    // return res.json(maintenanceWindows.noDowntime);
+
+    // Services for dashboard downtime
+    return res.json(
+      maintenanceWindows.createDowntimeActiveNotification([
+        maintenanceWindows.SERVICES.BGS_PAYMENT_HISTORY,
+        maintenanceWindows.SERVICES.DMC_DEBTS,
+        maintenanceWindows.SERVICES.LIGHTHOUSE_BENEFITS_CLAIMS,
+        maintenanceWindows.SERVICES.LIGHTHOUSE_SUBMISSION_STATUSES,
+        maintenanceWindows.SERVICES.VAPRO_MESSAGING,
+        maintenanceWindows.SERVICES.VBMS_APPEALS,
+        maintenanceWindows.SERVICES.VBMS_APPOINTMENTS,
+        maintenanceWindows.SERVICES.VBS_MEDICAL_COPAYS,
+      ]),
+    );
+  },
   'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
   'GET /v0/profile/service_history': {
