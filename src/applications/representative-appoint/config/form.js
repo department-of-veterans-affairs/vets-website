@@ -12,7 +12,6 @@ import {
   preparerIsVeteran,
   isAttorneyOrClaimsAgent,
 } from '../utilities/helpers';
-// import prefillTransformer from './prefillTransformer';
 import {
   authorizeMedical,
   authorizeMedicalSelect,
@@ -84,7 +83,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  // prefillTransformer,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
