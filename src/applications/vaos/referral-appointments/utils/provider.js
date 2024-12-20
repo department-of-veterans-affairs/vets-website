@@ -60,7 +60,7 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
     });
     hourFromNow++;
   }
-  return provider;
+  return { ...provider };
 };
 
 /**

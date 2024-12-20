@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import MockDate from 'mockdate';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import {
   createTestStore,
@@ -13,7 +12,6 @@ import { createProviderDetails } from './utils/provider';
 import * as getProviderByIdModule from '../services/referral';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
-  MockDate.reset();
   const sandbox = sinon.createSandbox();
   const providerDetails = createProviderDetails(1);
   providerDetails.slots[0].start = '2024-09-09T16:00:00.000Z';
