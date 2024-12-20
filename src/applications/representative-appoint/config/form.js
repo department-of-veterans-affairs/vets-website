@@ -268,7 +268,7 @@ const formConfig = {
           schema: veteranContactMailingClaimant.schema,
         },
         veteranContactPhoneEmailClaimant: {
-          path: 'veteran-contact-phone-email-claiment',
+          path: 'veteran-contact-phone-email-claimant',
           title: "Veteran's phone number and email address",
           depends: formData => !preparerIsVeteran({ formData }),
           uiSchema: veteranContactPhoneEmailClaimant.uiSchema,
