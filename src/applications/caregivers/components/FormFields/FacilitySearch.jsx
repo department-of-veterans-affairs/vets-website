@@ -67,12 +67,16 @@ const FacilitySearch = props => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
-      if (hasFacilities()) {
+      if (!query.trim()) {
+        setSearchInputError(content['validation-facilities--search-required']);
+      } else if (hasFacilities()) {
         setFacilitiesListError(
           content['validation-facilities--default-required'],
         );
       } else {
-        setSearchInputError(content['validation-facilities--default-required']);
+        setSearchInputError(
+          content['validation-facilities--submit-search-required'],
+        );
       }
     } else if (isReviewPage()) {
       reviewPageGoToPath();
