@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import {
@@ -38,15 +36,12 @@ const EvidencePrivateLimitation = ({
         [EVIDENCE_LIMIT]: true,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlers = {
     onInput: event => {
       setFormData({ ...data, limitedConsent: event.target.value });
-    },
-
-    onSelected: event => {
-      setFormData({ ...data, [EVIDENCE_LIMIT]: event.detail.value === 'y' });
     },
 
     onGoBack: () => {
@@ -61,61 +56,31 @@ const EvidencePrivateLimitation = ({
     },
   };
 
-  const footer = (
-    <>
-      <p />
-      {content.info}
-      <p />
-      <div className="vads-u-margin-top--4">
-        {contentBeforeButtons}
-        <FormNavButtons goBack={handlers.onGoBack} goForward={goForward} />
-        {contentAfterButtons}
-      </div>
-    </>
-  );
-
   return (
     <form onSubmit={handlers.onGoForward}>
-      {showNewContent ? (
-        <>
-          <VaRadio
-            label={content.ynTitle}
-            label-header-level="3"
-            onVaValueChange={handlers.onSelected}
-          >
-            <va-radio-option
-              label="Yes"
-              name="willLimit"
-              value="y"
-              checked={data[EVIDENCE_LIMIT]}
-            />
-            <va-radio-option
-              label="No"
-              name="willLimit"
-              value="n"
-              checked={data[EVIDENCE_LIMIT] === false}
-            />
-          </VaRadio>
-          {footer}
-        </>
-      ) : (
-        <fieldset>
-          <legend className="vads-u-font-family--serif">
-            <h3 name="topPageElement" className="vads-u-margin--0">
-              {content.title}
-            </h3>
-          </legend>
-          <va-textarea
-            class="resize-y"
-            label={content.textAreaLabel}
-            name="limitation"
-            onInput={handlers.onInput}
-            value={data.limitedConsent}
-            uswds
-          />
-          {footer}
-        </fieldset>
-      )}
+      <fieldset>
+        <legend className="vads-u-font-family--serif">
+          <h3 name="topPageElement" className="vads-u-margin--0">
+            {content.title}
+          </h3>
+        </legend>
+        <va-textarea
+          class="resize-y"
+          label={content.textAreaLabel}
+          name="limitation"
+          onInput={handlers.onInput}
+          value={data.limitedConsent}
+          uswds
+        />
+        <p />
+        {content.info}
+        <p />
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          <FormNavButtons goBack={handlers.onGoBack} goForward={goForward} />
+          {contentAfterButtons}
+        </div>
+      </fieldset>
     </form>
   );
 };
