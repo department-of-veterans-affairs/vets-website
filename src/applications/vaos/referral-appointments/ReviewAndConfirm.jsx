@@ -143,6 +143,9 @@ const ReviewAndConfirm = props => {
             </div>
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
+                href={`/my-health/appointments/schedule-referral/date-time?id=${
+                  currentReferral.UUID
+                }`}
                 aria-label="Edit date and time"
                 text="Edit"
                 data-testid="edit-when-information-link"
@@ -150,7 +153,7 @@ const ReviewAndConfirm = props => {
                   e.preventDefault();
                   routeToPreviousReferralPage(
                     history,
-                    'confirmAppointment',
+                    'reviewAndConfirm',
                     currentReferral.UUID,
                   );
                 }}
