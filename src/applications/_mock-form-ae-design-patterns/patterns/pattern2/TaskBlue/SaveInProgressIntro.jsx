@@ -171,28 +171,19 @@ class SaveInProgressIntro extends React.Component {
       } else if (prefillAvailable && !verifiedPrefillAlert) {
         alert = (
           <div>
-            <va-alert status="info" visible>
-              <h3>We've prefilled some of your information</h3>
-              Since you’re signed in, we can prefill part of your application
-              based on your profile details. You can also save your application
-              progress and come back later to finish filling it out.
+            <va-alert status="info" uswds visible>
+              <div className="usa-alert-body">
+                <h3 className="vads-u-margin-top--0">
+                  We can prefill some of your information
+                </h3>
+                Since you’re signed in, we can prefill part of your application
+                based on your profile details. You can also save your
+                application in progress and come back later to finish filling it
+                out.
+              </div>
             </va-alert>
             <br />
           </div>
-          /* // <div>
-          //   <va-alert status="info" uswds visible>
-          //     <div className="usa-alert-body">
-          //       <h3 className="vads-u-margin-top--0">
-          //         We can prefill some of your information
-          //       </h3>
-          //       Since you’re signed in, we can prefill part of your application
-          //       based on your profile details. You can also save your
-          //       application in progress and come back later to finish filling it
-          //       out.
-          //     </div>
-          //   </va-alert>
-          //   <br />
-          // </div> */
         );
       } else if (prefillAvailable && verifiedPrefillAlert) {
         alert = verifiedPrefillAlert;
