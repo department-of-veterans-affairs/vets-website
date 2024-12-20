@@ -135,7 +135,8 @@ export const getPastItf = cy => {
     });
 };
 
-export const setupPerTest = (toggles = []) => {
+// _testData from createTestConfig
+export const setupPerTest = (_testData, toggles = []) => {
   cypressSetup();
 
   setStoredSubTask({ benefitType: 'compensation' });
@@ -143,7 +144,10 @@ export const setupPerTest = (toggles = []) => {
   cy.intercept('POST', `/${EVIDENCE_UPLOAD_API.join('')}`, mockUpload);
   cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
   cy.intercept('GET', '/v0/feature_toggles*', {
-    data: { type: 'feature_toggles', features: toggles },
+    data: {
+      type: 'feature_toggles',
+      features: Array.isArray(toggles) ? toggles : [],
+    },
   });
 
   // Include legacy appeals to mock data for maximal test

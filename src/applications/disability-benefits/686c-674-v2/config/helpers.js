@@ -229,6 +229,28 @@ export const customLocationSchema = {
   },
 };
 
+export const customLocationSchemaStatePostal = {
+  type: 'object',
+  properties: {
+    outsideUsa: {
+      type: 'boolean',
+    },
+    location: {
+      type: 'object',
+      properties: {
+        state: {
+          type: 'string',
+          enum: STATE_VALUES,
+          enumNames: STATE_NAMES,
+        },
+        postalCode: {
+          type: 'string',
+        },
+      },
+    },
+  },
+};
+
 export const PensionIncomeRemovalQuestionTitle = (
   <p>
     Did this dependent earn an income in the last 365 days? Answer this question{' '}

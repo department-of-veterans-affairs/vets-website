@@ -44,10 +44,6 @@ const EvidencePrivateLimitation = ({
       setFormData({ ...data, limitedConsent: event.target.value });
     },
 
-    onSelected: event => {
-      setFormData({ ...data, [EVIDENCE_LIMIT]: event.detail.value === 'y' });
-    },
-
     onGoBack: () => {
       if (data[EVIDENCE_PRIVATE]) {
         // go to last private facility entry, but only if they requested it
