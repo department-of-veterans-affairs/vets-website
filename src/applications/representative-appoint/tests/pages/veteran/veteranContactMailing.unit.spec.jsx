@@ -2,7 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+
 import mockFormData from '../../fixtures/data/form-data.json';
+
 import formConfig from '../../../config/form';
 
 describe('Veteran Contact Mailing page', () => {
@@ -21,6 +23,7 @@ describe('Veteran Contact Mailing page', () => {
         formData={mockFormData}
       />,
     );
+
     expect(container.querySelector('button[type="submit"]')).to.exist;
   });
 

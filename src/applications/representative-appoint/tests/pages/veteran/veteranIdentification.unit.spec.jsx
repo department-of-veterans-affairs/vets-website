@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
 
@@ -11,6 +12,7 @@ describe('Veteran Identification page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.veteranInfo.pages.veteranIdentification;
+
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
@@ -28,6 +30,7 @@ describe('Veteran Identification page', () => {
         />
       </Provider>,
     );
+
     expect(container.querySelector('button[type="submit"]')).to.exist;
   });
 

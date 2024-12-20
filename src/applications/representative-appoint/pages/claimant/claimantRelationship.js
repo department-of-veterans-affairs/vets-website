@@ -32,7 +32,6 @@ export const uiSchema = {
       expandUnder: 'claimantRelationship',
       expandUnderCondition: 'RELATIONSHIP_NOT_LISTED',
       expandedContentFocus: true,
-      maxLength: 42,
     },
     'ui:errorMessages': {
       required: `Please enter your relationship to the Veteran`,
