@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLoaderData, NavLink, Outlet } from 'react-router-dom';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
 const POARequestsPage = () => {
@@ -18,20 +20,18 @@ const POARequestsPage = () => {
           <>
             <div role="tablist" className="poa-request__tabs">
               <NavLink
-                to="/poa-requests/pending"
+                to="/poa-requests?status=pending"
                 className="poa-request__tab-link"
                 role="tab"
-                aria-selected={({ isActive }) => (isActive ? 'true' : 'false')}
                 aria-controls="panel-pending"
                 id="pending"
               >
                 Pending requests
               </NavLink>
               <NavLink
-                to="/poa-requests/completed"
+                to="/poa-requests?status=completed"
                 className="poa-request__tab-link"
                 role="tab"
-                aria-selected={({ isActive }) => (isActive ? 'true' : 'false')}
                 aria-controls="panel-completed"
                 id="completed"
               >
@@ -48,16 +48,24 @@ const POARequestsPage = () => {
 
 export default POARequestsPage;
 
-export async function poaRequestsLoader() {
+export async function poaRequestsLoader({ request }) {
   try {
     const response = await apiRequest('/power_of_attorney_requests', {
       apiVersion: 'accredited_representative_portal/v0',
     });
     return response.data;
   } catch (error) {
+    const url = new URL(request.url);
+    const status = url.searchParams.get('status');
     // Return mock data if API fails
     // TODO: Remove mock data before pilot and uncomment throw statement
-    return mockPOARequestsResponse.data;
+    const requests = mockPOARequestsResponse?.data?.map(req => req);
+    return requests?.filter(x => {
+      if (status === 'completed') {
+        return x.attributes.status !== 'Pending';
+      }
+      return x.attributes.status === 'Pending';
+    });
     // throw error;
   }
 }

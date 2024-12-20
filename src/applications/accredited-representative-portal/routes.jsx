@@ -12,6 +12,7 @@ import POARequestDetailsPage, {
   poaRequestLoader,
 } from './containers/POARequestDetailsPage';
 import ErrorMessage from './components/common/ErrorMessage';
+import POARequestCard from './components/POARequestsCard/POARequestsCard';
 
 const LoadingWrapper = () => {
   const navigation = useNavigation();
@@ -43,6 +44,15 @@ const router = createBrowserRouter(
                   element: <POARequestsPage />,
                   loader: poaRequestsLoader,
                   errorElement: <ErrorMessage />,
+                  children: [
+                    {
+                      index: true,
+                      param: 'poa-requests?status=:status',
+                      element: <POARequestCard />,
+                      loader: poaRequestsLoader,
+                      errorElement: <ErrorMessage />,
+                    },
+                  ],
                 },
                 {
                   path: 'poa-requests/:id',
