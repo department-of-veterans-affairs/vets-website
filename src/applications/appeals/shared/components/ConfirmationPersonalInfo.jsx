@@ -7,6 +7,8 @@ import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
 import { showValueOrNotSelected } from '../utils/confirmation';
 
+import { chapterHeaderClass } from './ConfirmationCommon';
+
 const ConfirmationPersonalInfo = ({
   dob = '',
   homeless,
@@ -27,7 +29,7 @@ const ConfirmationPersonalInfo = ({
 
   return (
     <>
-      <h3 className="vads-u-margin-top--2">Personal information</h3>
+      <h3 className={chapterHeaderClass}>Personal information</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

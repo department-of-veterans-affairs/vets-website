@@ -65,8 +65,8 @@ export const convertMedication = med => {
     id: med.id,
     type: medicationTypes.VA,
     prescriptionName: attributes.prescriptionName,
-    lastFilledOn: attributes.lastFilledDate
-      ? formatDateLong(attributes.lastFilledDate)
+    lastFilledOn: attributes.dispensedDate
+      ? formatDateLong(attributes.dispensedDate)
       : 'Not filled yet',
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
