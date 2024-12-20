@@ -32,6 +32,7 @@ export const schema = {
     applicantPhone: phoneSchema,
     applicantEmail: {
       ...emailSchema,
+      type: 'string',
       maxLength: 31,
     },
   },

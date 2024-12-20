@@ -39,7 +39,6 @@ export const schema = {
         first: {
           type: 'string',
           maxLength: 12,
-          minLength: 1,
         },
         middle: {
           type: 'string',
@@ -48,7 +47,6 @@ export const schema = {
         last: {
           type: 'string',
           maxLength: 18,
-          minLength: 1,
         },
       },
     },
