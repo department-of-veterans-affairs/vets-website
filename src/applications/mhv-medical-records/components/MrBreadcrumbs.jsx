@@ -123,7 +123,7 @@ const MrBreadcrumbs = () => {
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
         label="Breadcrumb"
-        data-testid="lab-id-breadcrumbs"
+        data-testid="mr-breadcrumbs"
       >
         <span className="breadcrumb-angle vads-u-padding-right--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
