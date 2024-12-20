@@ -231,9 +231,10 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-      form.yourRoleEducation ===
-        yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP,
+      (form.school || form.schoolInfo?.schoolName) &&
+      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
+        form.yourRoleEducation ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
