@@ -12,7 +12,7 @@ describe('VAOS Component: ProviderAddress', () => {
     city: 'testland',
     zip: '88888',
   };
-  it('render the address and phone with no street 1 or 2', () => {
+  it('renders the address and phone with no street 1 or 2', () => {
     const screen = render(
       <ProviderAddress address={address} phone="555-555-5555" />,
     );
@@ -21,7 +21,7 @@ describe('VAOS Component: ProviderAddress', () => {
     expect(screen.queryByTestId('street2')).to.not.exist;
     expect(screen.queryByTestId('street3')).to.not.exist;
   });
-  it('render the address with street 1 and 2', () => {
+  it('renders the address with street 1 and 2', () => {
     const addressWithStreets = {
       ...address,
       ...{ street2: 'test two', street3: 'test three' },

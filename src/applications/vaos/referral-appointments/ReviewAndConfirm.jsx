@@ -148,7 +148,7 @@ const ReviewAndConfirm = props => {
                 href={`/my-health/appointments/schedule-referral/date-time?id=${
                   currentReferral.UUID
                 }`}
-                aria-label="Edit date and time"
+                label="Edit date and time"
                 text="Edit"
                 data-testid="edit-when-information-link"
                 onClick={e => {
