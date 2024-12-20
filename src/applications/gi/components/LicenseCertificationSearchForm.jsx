@@ -68,7 +68,7 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
   });
 };
 
-export const showLicenseInDuplicateStates = (suggestions, name) => {
+export const showLicenseInMultipleStates = (suggestions, name) => {
   return suggestions.filter(suggestion => suggestion.name === name);
 };
 
@@ -97,6 +97,7 @@ export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleUpdateQueryParam,
+  handleShowModal,
   location,
   history,
 }) {
@@ -164,7 +165,13 @@ export default function LicenseCertificationSearchForm({
     //   id: e.target.id,
     //   value: e.target.value,
     // });
-    handleUpdateQueryParam()([[e.target.id, e.target.value]]);
+
+    // TODO map all flows in which modal appears, then write corresponding conditional statements
+    if (name && stateParam !== 'all' && categoryParam !== 'all') {
+      return handleShowModal(true);
+    }
+
+    return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
@@ -174,7 +181,7 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { type, state, name: _name } = selection;
 
-    const filteredStates = showLicenseInDuplicateStates(
+    const filteredStates = showLicenseInMultipleStates(
       filteredSuggestions,
       _name,
     );
@@ -232,11 +239,11 @@ export default function LicenseCertificationSearchForm({
           <LicenseCertificationAlert
             changeStateAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInDuplicateStates(filteredSuggestions, name).length < 2
+              showLicenseInMultipleStates(filteredSuggestions, name).length < 2
             }
             changeDropdownsAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInDuplicateStates(filteredSuggestions, name).length > 1
+              showLicenseInMultipleStates(filteredSuggestions, name).length > 1
             }
             changeStateToAllAlert={
               categoryDropdown.current.optionValue === 'certification'

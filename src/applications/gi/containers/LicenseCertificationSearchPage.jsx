@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
@@ -16,6 +19,7 @@ function LicenseCertificationSearchPage({
 }) {
   const history = useHistory();
   const location = useLocation();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(
     () => {
@@ -29,6 +33,10 @@ function LicenseCertificationSearchPage({
   // if (error) {
   //   {/* ERROR STATE */}
   // }
+
+  const handleShowModal = display => {
+    return setShowModal(display);
+  };
 
   return (
     <div>
@@ -59,10 +67,28 @@ function LicenseCertificationSearchPage({
                 handleUpdateQueryParam={() =>
                   updateQueryParam(history, location)
                 }
+                handleShowModal={handleShowModal}
                 location={location}
                 history={history}
               />
             </div>
+            <VaModal
+              forcedModal={false}
+              clickToClose
+              disableAnalytics
+              large
+              modalTitle="Are you sure you want to change this field"
+              // initialFocusSelector={initialFocusSelector}
+              onCloseEvent={handleShowModal(false)}
+              onPrimaryButtonClick={() => 'reset'}
+              primaryButtonText="Continue to change"
+              onSecondaryButtonClick={() => 'cancel'}
+              secondaryButtonText="Go Back"
+              // status={status}
+              visible={showModal}
+            >
+              <p>This is a succinct, helpful {status} message</p>
+            </VaModal>
           </section>
         )}
     </div>
