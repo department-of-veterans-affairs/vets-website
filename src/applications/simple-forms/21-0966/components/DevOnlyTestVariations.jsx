@@ -5,7 +5,7 @@ import {
   VaCheckboxGroup,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useNewConfirmationPage } from '../config/features';
+import environment from 'platform/utilities/environment';
 import {
   preparerIdentifications,
   submissionApis,
@@ -64,7 +64,7 @@ export const DevOnlyTestVariations = ({
     });
   };
 
-  if (!useNewConfirmationPage()) {
+  if (!(environment.isLocalhost() || environment.isDevelopment())) {
     return null;
   }
 
