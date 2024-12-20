@@ -15,12 +15,8 @@ jobs:
     steps:
       - name: Check environment
         id: check-environment
-        run: |
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo env_name='production' >> $GITHUB_OUTPUT
-          else
-            echo env_name='' >> $GITHUB_OUTPUT
-          fi
+        run: echo env_name='production' >> $GITHUB_OUTPUT
+          
   deploy:
     name: Deploy
     if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
