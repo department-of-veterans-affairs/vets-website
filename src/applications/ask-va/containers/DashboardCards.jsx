@@ -17,7 +17,7 @@ import { URL, envUrl } from '../constants';
 import { mockInquries } from './mockInquiryReplyData';
 
 // Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = true;
+const mockTestingFlag = false;
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);

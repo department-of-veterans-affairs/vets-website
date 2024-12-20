@@ -26,7 +26,7 @@ import { envUrl, RESPONSE_PAGE, URL } from '../constants';
 import { mockInquiryResponse } from './mockInquiryReplyData';
 
 // Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = true;
+const mockTestingFlag = false;
 
 const emptyMessage = message => (
   <p className="vads-u-background-color--gray-light-alt empty-message">
