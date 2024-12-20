@@ -1,5 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
@@ -12,7 +12,6 @@ import {
   preparerIsVeteran,
   isAttorneyOrClaimsAgent,
 } from '../utilities/helpers';
-
 import {
   authorizeMedical,
   authorizeMedicalSelect,
@@ -36,7 +35,7 @@ import {
   contactAccreditedRepresentative,
 } from '../pages';
 
-import initialData from '../tests/fixtures/data/test-data.json';
+// import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
@@ -45,7 +44,7 @@ import SelectOrganization from '../components/SelectOrganization';
 
 import SubmissionError from '../components/SubmissionError';
 
-const mockData = initialData;
+// const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -183,11 +182,11 @@ const formConfig = {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
           depends: formData => !preparerIsVeteran({ formData }),
-          initialData:
-            /* istanbul ignore next */
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          // initialData:
+          //   /* istanbul ignore next */
+          //   !!mockData && environment.isLocalhost() && !window.Cypress
+          //     ? mockData
+          //     : undefined,
           title: 'Your Personal Information',
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
