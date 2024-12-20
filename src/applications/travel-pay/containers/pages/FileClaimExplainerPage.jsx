@@ -1,0 +1,94 @@
+import React, { useEffect } from 'react';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
+
+import { HelpTextManage } from '../../components/HelpText';
+import BreadCrumbs from '../../components/Breadcrumbs';
+
+const FileClaimExplainerPage = () => {
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
+
+  return (
+    <Element name="topScrollElement">
+      <article className="usa-grid-full vads-u-padding-bottom--0">
+        <BreadCrumbs />
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          <h1 tabIndex="-1">How to file a travel reimbursement claim</h1>
+
+          <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+            Follow the steps below to apply for beneficiary travel claim.
+          </h2>
+          <va-process-list>
+            <va-process-list-item header="Check your travel reimbursement eligibility">
+              <p>
+                If you’re eligible for health care travel reimbursement and you
+                have your direct deposit set up, you can file a reimbursement
+                claim now.
+              </p>
+              <va-link
+                href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/#eligibility-for-general-health"
+                text="Travel reimbursement eligibility"
+              />
+            </va-process-list-item>
+            <va-process-list-item header="File your claim">
+              <p>
+                If you’re only claiming mileage, you can file online right now.
+                We’ll just ask you a few questions—you won’t need receipts.
+              </p>
+              <va-link-action
+                href="/my-health/appointments/past"
+                text="Select an appointment to file a claim"
+              />
+
+              <p>
+                If you’re claiming other expenses, like lodging, meals, or
+                tolls, you will need receipts for these expenses. You can file
+                online through the Beneficiary Travel Self Service System
+                (BTSSS), by mail, or in person.
+              </p>
+              <va-link
+                href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+                text="Learn how to file claims for other expenses"
+              />
+            </va-process-list-item>
+          </va-process-list>
+          <va-alert status="info" visible>
+            <h3 id="set-up-direct-deposit" slot="headline">
+              Set up direct deposit
+            </h3>
+            <p className="vads-u-margin-y--0">
+              You have to set up direct deposit to receive travel reimbursement.
+              If you’ve already done this, no additional steps are needed.
+            </p>
+            <va-link
+              external
+              href="https://www.cep.fsc.va.gov/"
+              text="Set up direct deposit"
+            />
+          </va-alert>
+          <div
+            className="omb-info--container vads-u-margin-y--3"
+            style={{ paddingLeft: '0px' }}
+          >
+            <va-omb-info
+              res-burden={10}
+              omb-number="2900-0798"
+              exp-date="11/30/2027"
+            />
+          </div>
+
+          <va-need-help>
+            <div slot="content">
+              <HelpTextManage />
+            </div>
+          </va-need-help>
+        </div>
+      </article>
+    </Element>
+  );
+};
+
+export default FileClaimExplainerPage;

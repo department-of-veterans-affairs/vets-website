@@ -6,6 +6,7 @@ import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import TravelAgreementPage from './containers/pages/TravelAgreementPage';
+import FileClaimExplainerPage from './containers/pages/FileClaimExplainerPage';
 
 const routes = (
   <Switch>
@@ -23,6 +24,10 @@ const routes = (
     <Route exact path="/beneficiary-travel-agreement">
       <MhvSecondaryNav />
       <TravelAgreementPage />
+    </Route>
+    <Route exact path="/file-new-claim">
+      <MhvSecondaryNav />
+      <FileClaimExplainerPage />
     </Route>
     <Route path="/file-new-claim/:apptId">
       <MhvSecondaryNav />
