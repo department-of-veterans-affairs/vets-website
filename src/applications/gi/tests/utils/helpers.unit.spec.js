@@ -27,6 +27,9 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
+  handleUpdateLcFilterDropdowns,
+  deriveMaxAmount,
+  deriveEligibleStudents,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -563,6 +566,105 @@ describe('GIBCT helpers:', () => {
       expect(formatProgramType('DOCTORATE-PROGRAM')).to.equal(
         'Doctorate Program',
       );
+    });
+  });
+
+  describe('handleUpdateLcFilterDropdowns', () => {
+    it('should update the correct dropdown with the selected option based on the target id and value', () => {
+      const dropdowns = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: 'all', optionLabel: 'All' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: 'all', optionLabel: 'All' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'all', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      const expectedResult = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: 'all', optionLabel: 'All' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: 'licenses', optionLabel: 'License' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'all', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      const result = handleUpdateLcFilterDropdowns(dropdowns, 0, 1);
+
+      expect(result).to.deep.equal(expectedResult);
+    });
+  });
+  describe('deriveMaxAmount', () => {
+    it('should return "Not provided" if no contributionAmount is given', () => {
+      expect(deriveMaxAmount()).to.equal('Not provided');
+      expect(deriveMaxAmount(null)).to.equal('Not provided');
+      expect(deriveMaxAmount('')).to.equal('Not provided');
+    });
+
+    it('should return a specific string when contributionAmount >= 99999', () => {
+      expect(deriveMaxAmount('99999')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
+      );
+      expect(deriveMaxAmount('100000')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
+      );
+    });
+
+    it('should format currency correctly for values less than 99999', () => {
+      expect(deriveMaxAmount('5000')).to.equal('$5,000');
+      expect(deriveMaxAmount('1234.56')).to.equal('$1,235');
+      expect(deriveMaxAmount(300)).to.equal('$300');
+    });
+  });
+  describe('deriveEligibleStudents', () => {
+    it('should return "Not provided" if no numberOfStudents is given', () => {
+      expect(deriveEligibleStudents()).to.equal('Not provided');
+      expect(deriveEligibleStudents(null)).to.equal('Not provided');
+      expect(deriveEligibleStudents('')).to.equal('Not provided');
+    });
+
+    it('should return "All eligible students" if numberOfStudents >= 99999', () => {
+      expect(deriveEligibleStudents(99999)).to.equal('All eligible students');
+      expect(deriveEligibleStudents(100000)).to.equal('All eligible students');
+    });
+
+    it('should return "1 student" if numberOfStudents is exactly 1', () => {
+      expect(deriveEligibleStudents(1)).to.equal('1 student');
+    });
+
+    it('should return "<X> students" for values other than 1 and less than 99999', () => {
+      expect(deriveEligibleStudents(2)).to.equal('2 students');
+      expect(deriveEligibleStudents(50)).to.equal('50 students');
     });
   });
 });

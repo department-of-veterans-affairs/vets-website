@@ -75,13 +75,7 @@ const MrBreadcrumbs = () => {
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
-    handleDataDogAction({
-      locationBasePath,
-      locationChildPath,
-      Breadcrumbs,
-      label: 'Vitals',
-      domainPath: Paths.VITALS,
-    });
+    handleDataDogAction({ locationBasePath, locationChildPath });
   };
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
@@ -128,7 +122,12 @@ const MrBreadcrumbs = () => {
         <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={backToImagesBreadcrumb} onClick={handleDataDogAction}>
+        <Link
+          to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+          }}
+        >
           Back
         </Link>
       </div>

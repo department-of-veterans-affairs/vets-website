@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
@@ -9,7 +11,11 @@ import DateSubheading from '../components/shared/DateSubheading';
 import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { accessAlertTypes, ALERT_TYPE_ERROR } from '../util/constants';
+import {
+  accessAlertTypes,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+} from '../util/constants';
 
 const RadiologyImagesList = () => {
   const apiImagingPath = `${
@@ -32,6 +38,7 @@ const RadiologyImagesList = () => {
       if (labId) {
         dispatch(getlabsAndTestsDetails(labId));
       }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
     },
     [labId, dispatch],
   );
@@ -50,6 +57,13 @@ const RadiologyImagesList = () => {
       dispatch(fetchImageRequestStatus());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [radiologyDetails],
   );
 
   const content = () => (

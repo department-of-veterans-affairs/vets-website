@@ -8,6 +8,7 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {

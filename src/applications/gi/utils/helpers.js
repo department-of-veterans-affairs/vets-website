@@ -630,3 +630,33 @@ export const generateMockPrograms = numPrograms => {
     },
   }));
 };
+
+export const deriveMaxAmount = contributionAmount => {
+  if (!contributionAmount) {
+    return 'Not provided';
+  }
+  const contributionAmountNum = parseFloat(contributionAmount);
+  if (contributionAmountNum >= 99999) {
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
+  }
+
+  return contributionAmountNum.toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+    style: 'currency',
+  });
+};
+
+export const deriveEligibleStudents = numberOfStudents => {
+  if (!numberOfStudents) {
+    return 'Not provided';
+  }
+  if (numberOfStudents >= 99999) {
+    return 'All eligible students';
+  }
+  if (numberOfStudents === 1) {
+    return '1 student';
+  }
+  return `${numberOfStudents} students`;
+};
