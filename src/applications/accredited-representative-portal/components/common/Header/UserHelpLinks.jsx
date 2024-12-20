@@ -8,7 +8,7 @@ const UserNavLinks = () => {
         <Link
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--black"
-          href="/poa-requests"
+          to="/poa-requests"
         >
           POA Requests
         </Link>
@@ -17,7 +17,7 @@ const UserNavLinks = () => {
         <Link
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
-          href="/get-help"
+          to="/get-help"
         >
           Get Help
         </Link>
