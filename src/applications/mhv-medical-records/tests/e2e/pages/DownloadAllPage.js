@@ -4,13 +4,13 @@ import DownloadAllPatient from '../fixtures/labs-and-tests/downloadAllPatient.js
 
 class DownloadAllPage {
   verifyBreadcrumbs = breadcrumbs => {
-    cy.get('[data-testid="breadcrumbs"]').contains(breadcrumbs, {
+    cy.get('[data-testid="mr-breadcrumbs"]').contains(breadcrumbs, {
       matchCase: false,
     });
   };
 
   clickBreadcrumbs = breadcrumb => {
-    cy.get('[data-testid="breadcrumbs"]')
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('span')
       .contains(breadcrumb)
       .parent()
