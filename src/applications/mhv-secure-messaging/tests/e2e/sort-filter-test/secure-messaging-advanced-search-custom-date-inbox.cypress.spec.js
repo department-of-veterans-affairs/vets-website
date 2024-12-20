@@ -48,6 +48,18 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       Locators.BLOCKS.FILTER_END_DATE,
     ).should(`have.text`, Alerts.DATE_FILTER.EMPTY_END_DATE);
 
+    PatientSearchPage.selectStartMonth('April');
+    PatientSearchPage.selectEndMonth('February');
+    cy.get(Locators.BUTTONS.FILTER).click();
+
+    PatientSearchPage.getRequiredFieldError(
+      Locators.BLOCKS.FILTER_START_DATE,
+    ).should(`include.text`, Alerts.DATE_FILTER.INVALID_START_DATE);
+
+    PatientSearchPage.getRequiredFieldError(
+      Locators.BLOCKS.FILTER_END_DATE,
+    ).should(`include.text`, Alerts.DATE_FILTER.INVALID_END_DATE);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
