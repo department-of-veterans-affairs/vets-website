@@ -1,5 +1,6 @@
 import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as consentPage from '../../pages/form0781/consentPage';
+import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import { showForm0781Pages } from '../../utils/form0781';
 
 /**
@@ -19,5 +20,11 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: consentPage.uiSchema,
     schema: consentPage.schema,
+  },
+  additionalInformationPage: {
+    path: 'additional-forms/mental-health-statement/additional-information',
+    depends: formData => showForm0781Pages(formData),
+    uiSchema: additionalInformationPage.uiSchema,
+    schema: additionalInformationPage.schema,
   },
 };
