@@ -18,7 +18,7 @@ export const Navigation = () => {
           data-testid="nav-home-link"
           aria-label="VA logo"
           className="nav__link vads-u-display--flex"
-          href="/representative"
+          to="/"
         >
           <img
             data-testid="mobile-logo"
@@ -48,12 +48,12 @@ export const Navigation = () => {
         <div className="nav__container vads-u-display--flex">
           <Link
             className="usa-button nav__user-btn nav__user-btn--user desktop"
-            href="/representative/poa-requests"
+            to="/poa-requests"
           >
             POA requests
           </Link>
           <Link
-            href="/get-help"
+            to="/get-help"
             className="usa-button nav__user-btn nav__user-btn--user desktop"
           >
             Get Help

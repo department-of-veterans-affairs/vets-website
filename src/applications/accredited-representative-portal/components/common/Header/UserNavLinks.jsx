@@ -9,7 +9,7 @@ const UserNavLinks = () => {
         <Link
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
-          href="/profile"
+          to="/profile"
         >
           Profile
         </Link>
