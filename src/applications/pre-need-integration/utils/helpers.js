@@ -1081,9 +1081,7 @@ export const validateMilitaryHistory = (
   serviceRecords,
   useAllFormData,
 ) => {
-  // for (let index = 0; index < serviceRecords.length; index++) {
   if (serviceRecords !== null && serviceRecords !== undefined) {
-    // const serviceRecord = serviceRecords[index];
     const serviceRecord = serviceRecords;
 
     // Check if serviceBranch is undefined and highestRank is defined
