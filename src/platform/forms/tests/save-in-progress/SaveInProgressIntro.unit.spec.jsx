@@ -410,9 +410,16 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       "We've prefilled some of your information",
     );
 
-    expect(tree.find('va-alert').text()).to.contain(
+    const alertText = tree
+      .find('va-alert')
+      .children()
+      .not('h3')
+      .text();
+
+    expect(alertText).to.contain(
       'Since you’re signed in, we can prefill part of your application based on your profile details. You can also save your application in progress and come back later to finish filling it out.',
     );
+
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
   });
