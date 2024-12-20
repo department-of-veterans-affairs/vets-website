@@ -408,7 +408,7 @@ SubmissionAlert.propTypes = {
   confirmationNumber: PropTypes.string,
   content: PropTypes.node,
   status: PropTypes.string,
-  submitDate: PropTypes.instanceOf(Date),
+  submitDate: PropTypes.any,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };

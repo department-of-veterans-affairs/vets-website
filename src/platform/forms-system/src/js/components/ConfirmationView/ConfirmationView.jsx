@@ -165,7 +165,7 @@ ConfirmationView.propTypes = {
     mockData: PropTypes.object,
   }),
   pdfUrl: PropTypes.string,
-  submitDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.instanceOf(Date)]),
+  submitDate: PropTypes.any,
 };
 
 ConfirmationView.SubmissionAlert = SubmissionAlertWithContext;
