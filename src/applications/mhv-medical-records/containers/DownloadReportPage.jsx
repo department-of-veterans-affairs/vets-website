@@ -56,29 +56,6 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-/**
- * Checks if CCD retry is needed and returns a formatted timestamp or null.
- */
-const getCCDRetryTimestamp = () => {
-  const errorTimestamp = localStorage.getItem('lastCCDError');
-  if (!errorTimestamp) return null;
-
-  const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-  if (compareAsc(retryDate, new Date()) >= 0) {
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZoneName: 'short',
-    };
-    return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-  }
-  return null;
-};
-
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -88,7 +65,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
-        ccdError,
+        error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
       blueButton: { failedDomains: failedBBDomains },
@@ -115,7 +92,29 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
 
-  const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
+  // Checks if CCD retry is needed and returns a formatted timestamp or null.
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
 
   // Initial page setup effect
   useEffect(
