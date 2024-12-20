@@ -35,8 +35,6 @@ export const schema = {
         street: {
           type: 'string',
           maxLength: 30,
-          minLength: 1,
-          pattern: '^.*\\S.*',
         },
         street2: {
           type: 'string',
@@ -45,8 +43,6 @@ export const schema = {
         city: {
           type: 'string',
           maxLength: 18,
-          minLength: 1,
-          pattern: '^.*\\S.*',
         },
         state: {
           type: 'string',
@@ -55,7 +51,6 @@ export const schema = {
         postalCode: {
           type: 'string',
           maxLength: 9,
-          pattern: '^[0-9]{5}(?:-[0-9]{4})?$',
         },
       },
     },
