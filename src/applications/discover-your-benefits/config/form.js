@@ -69,14 +69,7 @@ export const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Discover your benefits',
-  subTitle: ({ currentLocation }) => {
-    if (
-      isOnReviewPage(currentLocation) ||
-      isOnConfirmationPage(currentLocation)
-    )
-      return '';
-    return `Please answer the questions to help us recommend\nhelpful resources and benefits.`;
-  },
+  // subTitle: ,
   defaultDefinitions: {
     fullName,
     ssn,
