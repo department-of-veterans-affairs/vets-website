@@ -19,6 +19,7 @@ import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
 } from '../utils/timezone';
+import ProviderAddress from './components/ProviderAddress';
 
 const ReviewAndConfirm = props => {
   const { currentReferral } = props;
@@ -40,7 +41,7 @@ const ReviewAndConfirm = props => {
   );
   useEffect(
     () => {
-      dispatch(setFormCurrentPage('confirmAppointment'));
+      dispatch(setFormCurrentPage('reviewAndConfirm'));
     },
     [dispatch],
   );
@@ -112,6 +113,8 @@ const ReviewAndConfirm = props => {
       </va-alert>
     );
   }
+  const headingStyles =
+    'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
     <ReferralLayout hasEyebrow>
       <div>
@@ -119,33 +122,24 @@ const ReviewAndConfirm = props => {
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">
-              {`${currentReferral.CategoryOfCare} Provider`}
+            <div className="vads-l-col">
+              <h2 className={headingStyles}>
+                {`${currentReferral.CategoryOfCare} Provider`}
+              </h2>
             </div>
           </div>
         </div>
         <div>{provider.providerName}</div>
         <div>{provider.orgName}</div>
-        <div>{provider.orgAddress.street1}</div>
-        {provider.orgAddress.street2 && (
-          <div>{provider.orgAddress.street2}</div>
-        )}
-        {provider.orgAddress.street3 && (
-          <div>{provider.orgAddress.street3}</div>
-        )}
-        <div>{provider.orgAddress.city}</div>
-        <div>
-          Phone:{' '}
-          <va-telephone
-            contact={provider.orgPhone}
-            data-testid="provider-telephone"
-          />
-        </div>
+        <ProviderAddress
+          address={provider.orgAddress}
+          phone={provider.orgPhone}
+        />
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">
-              Date and time
+            <div className="vads-l-col">
+              <h2 className={headingStyles}>Date and time</h2>
             </div>
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
@@ -188,8 +182,10 @@ const ReviewAndConfirm = props => {
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
-            <div className="vads-l-col vads-u-font-weight--bold">
-              Details you shared with your referring VA provider
+            <div className="vads-l-col">
+              <h2 className={headingStyles}>
+                Details you shared with your referring VA provider
+              </h2>
             </div>
           </div>
         </div>

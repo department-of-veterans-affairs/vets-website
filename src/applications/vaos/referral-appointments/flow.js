@@ -36,7 +36,7 @@ export default function getPageFlow(referralId) {
     reviewAndConfirm: {
       url: `/schedule-referral/review?id=${referralId}`,
       label: 'Review your appointment details',
-      next: 'appointments',
+      next: 'complete',
       previous: 'scheduleAppointment',
     },
     complete: {
@@ -52,7 +52,6 @@ export function routeToPageInFlow(history, current, action, referralId) {
   const pageFlow = getPageFlow(referralId);
   const nextPageString = pageFlow[current][action];
   const nextPage = pageFlow[nextPageString];
-
   if (action === 'next' && nextPageString === 'scheduleReferral') {
     startReferralTimer(referralId);
   }
