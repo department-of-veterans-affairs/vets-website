@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 import edipiNotFound from '../util/edipiNotFound';
 
@@ -219,14 +218,10 @@ export const getMedications = async () => {
  * Get a patient's appointments
  * @returns list of patient's appointments
  */
-export const getAppointments = async () => {
-  const beginningOfTime = new Date(0);
-  const farFutureDate = new Date(2100, 0, 1); // January 1, 2100
-  const startDate = formatISO(beginningOfTime);
-  const endDate = formatISO(farFutureDate);
+export const getAppointments = async (fromDate, toDate) => {
   const statusParams =
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-  const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
+  const params = `_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
 
   return apiRequest(`${environment.API_URL}/vaos/v2/appointments?${params}`, {
     headers,

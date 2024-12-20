@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { EVIDENCE_PRIVATE_REQUEST } from '../constants';
+import { title4142 } from './title';
 
 export const authorizationLabel =
   'I acknowledge and authorize this release of information';
@@ -27,9 +28,13 @@ export const authorizationAlertContent = onAnchorClick => (
   </>
 );
 
-export const authorizationHeader = (
-  <h3>Authorize the release of non-VA medical records to the VA</h3>
-);
+export const authorizationHeader = <h3>{title4142}</h3>;
+
+export const authorizationError =
+  'You must give us authorization for us to get your non-VA medical records';
+
+// for edit link aria-label
+export const authorizationEdit = 'edit authorization choice';
 
 export const authorizationInfo = (
   <>
