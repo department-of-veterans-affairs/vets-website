@@ -129,8 +129,10 @@ const ReviewAndConfirm = props => {
             </div>
           </div>
         </div>
-        <div>{provider.providerName}</div>
-        <div>{provider.orgName}</div>
+        <p className="vads-u-margin--0">
+          {provider.providerName} <br />
+          {provider.orgName}
+        </p>
         <ProviderAddress
           address={provider.orgAddress}
           phone={provider.orgPhone}
@@ -162,15 +164,16 @@ const ReviewAndConfirm = props => {
           </div>
         </div>
         {slotDetails && (
-          <>
-            <div data-testid="slot-day">
+          <p className="vads-u-margin--0">
+            <span data-testid="slot-day">
               {formatInTimeZone(
                 new Date(slotDetails.start),
                 facilityTimeZone,
                 'EEEE, LLLL d, yyyy',
               )}
-            </div>
-            <div>
+            </span>
+            <br />
+            <span>
               {formatInTimeZone(
                 new Date(slotDetails.start),
                 facilityTimeZone,
@@ -179,8 +182,8 @@ const ReviewAndConfirm = props => {
               {`${getTimezoneDescByFacilityId(
                 currentReferral.ReferringFacilityInfo.FacilityCode,
               )}`}
-            </div>
-          </>
+            </span>
+          </p>
         )}
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
@@ -192,7 +195,7 @@ const ReviewAndConfirm = props => {
             </div>
           </div>
         </div>
-        <div>{currentReferral.details}</div>
+        <p className="vads-u-margin--0">{currentReferral.details}</p>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-margin-top--4">
           <va-button

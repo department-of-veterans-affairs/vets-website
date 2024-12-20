@@ -26,7 +26,7 @@ const ProviderAddress = props => {
         directionsName && (
           <div
             data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default"
+            className="vads-u-display--flex vads-u-color--link-default vads-u-margin-bottom--1"
           >
             <va-icon
               className="vads-u-margin-right--0p5 vads-u-color--link-default"
@@ -46,7 +46,7 @@ const ProviderAddress = props => {
             </a>
           </div>
         )}
-      <p data-testid="phone">
+      <p className="vads-u-margin--0" data-testid="phone">
         Phone: <va-telephone contact={phone} data-testid="provider-telephone" />
       </p>
     </address>
