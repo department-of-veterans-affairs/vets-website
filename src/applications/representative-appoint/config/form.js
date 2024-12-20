@@ -26,7 +26,7 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  veteranContactPhoneEmailClaiment,
+  veteranContactPhoneEmailClaimant,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -267,12 +267,12 @@ const formConfig = {
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,
         },
-        veteranContactPhoneEmailClaiment: {
+        veteranContactPhoneEmailClaimant: {
           path: 'veteran-contact-phone-email-claiment',
           title: "Veteran's phone number and email address",
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactPhoneEmailClaiment.uiSchema,
-          schema: veteranContactPhoneEmailClaiment.schema,
+          uiSchema: veteranContactPhoneEmailClaimant.uiSchema,
+          schema: veteranContactPhoneEmailClaimant.schema,
         },
         veteranIdentification: {
           path: 'veteran-identification',
