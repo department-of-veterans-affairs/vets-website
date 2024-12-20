@@ -34,9 +34,7 @@ const Alerts = () => {
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const mhvAccountStatusNonUserErrors = useSelector(
-    mhvAccountStatusNonUserError,
-  );
+
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSuccess = useSelector(mhvAccountStatusUsersuccess);
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
