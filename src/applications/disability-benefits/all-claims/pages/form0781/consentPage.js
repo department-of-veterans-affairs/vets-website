@@ -3,6 +3,9 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
+  consentPageDescription,
+  consentPageFormHint,
+  consentPageFormTitle,
   consentPageTitle,
   optionIndicatorChoices,
 } from '../../content/form0781/consentPage';
@@ -10,8 +13,10 @@ import { formTitle } from '../../utils';
 
 export const uiSchema = {
   'ui:title': formTitle(consentPageTitle),
+  'ui:description': consentPageDescription,
   optionIndicator: radioUI({
-    description: 'Do you give us permission.... (H4, plus a hint)',
+    title: consentPageFormTitle,
+    hint: consentPageFormHint,
     labels: optionIndicatorChoices,
   }),
 };
