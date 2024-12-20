@@ -7,6 +7,7 @@ import {
 import {
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
+  accountStatusFiveZeroZero,
 } from '../../../mocks/api/user/mhvAccountStatus';
 
 class ApiInitializer {
@@ -76,6 +77,13 @@ class ApiInitializer {
         'GET',
         '/v0/user/mhv_user_account',
         accountStatusEightZeroOne,
+      );
+    },
+    with500: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusFiveZeroZero,
       );
     },
   };

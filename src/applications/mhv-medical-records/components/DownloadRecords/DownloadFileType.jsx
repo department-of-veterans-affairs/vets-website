@@ -233,18 +233,7 @@ const DownloadFileType = props => {
             medications && recordFilter?.includes('medications')
               ? medications.filter(rec => filterByDate(rec.lastFilledOn))
               : null,
-          appointments:
-            appointments &&
-            (recordFilter?.includes('upcomingAppts') ||
-              recordFilter?.includes('pastAppts'))
-              ? appointments.filter(
-                  rec =>
-                    filterByDate(rec.date) &&
-                    ((recordFilter.includes('upcomingAppts') &&
-                      rec.isUpcoming) ||
-                      (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
-                )
-              : null,
+          appointments: appointments || null,
           demographics:
             demographics && recordFilter?.includes('demographics')
               ? demographics
