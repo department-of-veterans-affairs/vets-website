@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
@@ -9,9 +9,8 @@ import ClaimantTypeForm from './ClaimantTypeForm';
 import prefillTransformer from '../config/prefillTransformer';
 
 const ClaimantType = props => {
-  const { router, setFormData, loggedIn } = props;
+  const { formData, router, setFormData, loggedIn } = props;
 
-  const { data: formData } = useSelector(state => state.form);
   const [localData, setLocalData] = useState({});
 
   const handlers = {
@@ -58,6 +57,7 @@ const ClaimantType = props => {
 };
 
 ClaimantType.propTypes = {
+  formData: PropTypes.object,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -73,6 +73,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+  formData: state.form?.data,
   loggedIn: isLoggedIn(state),
 });
 

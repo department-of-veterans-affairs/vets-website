@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ClaimantType from '../../../components/ClaimantType';
 import prefill from '../../fixtures/data/prefill.json';
-import formConfig from '../../../config/form.js';
+import formConfig from '../../../config/form';
 
 describe('<ClaimantType /> handlers', async () => {
   const getProps = ({ loggedIn = false } = {}) => {
