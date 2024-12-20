@@ -1,10 +1,26 @@
-name: Continuous Deploy Production
+name: Continuous Deploy Production Test Workflow
 
 on:
-  repository_dispatch:
-    types: [cd-production-deploy]
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy specific commit
+        required: true
 
 jobs:
+  get-workflow-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.check-environment.outputs.env_name }}
+    steps:
+      - name: Check environment
+        id: check-environment
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo env_name='production' >> $GITHUB_OUTPUT
+          else
+            echo env_name='' >> $GITHUB_OUTPUT
+          fi
   deploy:
     name: Deploy
     if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
