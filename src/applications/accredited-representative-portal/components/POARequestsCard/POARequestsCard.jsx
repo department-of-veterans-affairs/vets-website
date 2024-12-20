@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useLoaderData, Link } from 'react-router-dom';
+import { useLoaderData, Link, useSearchParams } from 'react-router-dom';
 import {
   formatDateParsedZoneLong,
   timeFromNow,
@@ -34,19 +34,21 @@ const expiresSoon = expDate => {
   return null;
 };
 
-const POARequestCard = ({ cssClass }) => {
+const POARequestCard = () => {
   const data = useLoaderData();
+  const [searchParams] = useSearchParams();
+  const status = searchParams.get('status');
   return (
     <div
-      className={cssClass}
-      id={`panel-${cssClass}`}
+      className={status}
+      id={`panel-${status}`}
       role="tabpanel"
-      aria-labelledby={`${cssClass}`}
+      aria-labelledby={`${status}`}
     >
-      {cssClass === 'poa-request__pending' ? (
-        <h2 data-testid="poa-requests-table-heading">Pending requests</h2>
-      ) : (
+      {status === 'completed' ? (
         <h2 data-testid="poa-requests-table-heading">Completed requests</h2>
+      ) : (
+        <h2 data-testid="poa-requests-table-heading">Pending requests</h2>
       )}
 
       <ul
