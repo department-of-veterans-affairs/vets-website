@@ -150,6 +150,10 @@ export const isVSORepresentative = formData => {
 };
 
 export const isAttorneyOrClaimsAgent = formData => {
+  if (!formData) {
+    return null;
+  }
+
   const repType =
     formData['view:selectedRepresentative']?.attributes?.individualType;
 
