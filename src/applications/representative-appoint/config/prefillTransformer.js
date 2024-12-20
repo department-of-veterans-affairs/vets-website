@@ -21,6 +21,18 @@ export default function prefillTransformer(formData) {
     newFormData['Primary phone'] = formData?.contactInformation?.primaryPhone;
     newFormData['Branch of Service'] =
       formData?.militaryInformation?.serviceBranch;
+    // reset the applicant information in case of claimant type change
+    newFormData.applicantName = undefined;
+    newFormData.applicantDOB = undefined;
+    newFormData.applicantEmail = undefined;
+    newFormData.applicantPhone = undefined;
+    newFormData.homeAddress = {
+      city: undefined,
+      country: undefined,
+      postalCode: undefined,
+      state: undefined,
+      street: undefined,
+    };
   } else {
     newFormData.applicantName = formData?.personalInformation?.fullName;
     newFormData.applicantDOB = formData?.personalInformation?.dateOfBirth;
@@ -33,6 +45,21 @@ export default function prefillTransformer(formData) {
       state: formData?.contactInformation?.address?.state,
       street: formData?.contactInformation?.address?.street,
     };
+
+    // reset the applicant information in case of claimant type change
+    newFormData.veteranFullName = undefined;
+    newFormData.veteranDateOfBirth = undefined;
+    newFormData.veteranSocialSecurityNumber = undefined;
+    newFormData.veteranHomeAddress = {
+      city: undefined,
+      country: undefined,
+      postalCode: undefined,
+      state: undefined,
+      street: undefined,
+    };
+    newFormData.veteranEmail = undefined;
+    newFormData['Primary phone'] = undefined;
+    newFormData['Branch of Service'] = undefined;
   }
 
   return newFormData;
