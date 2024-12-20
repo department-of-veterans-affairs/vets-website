@@ -1,13 +1,7 @@
 import React from 'react';
 
-// import { focusElement, scrollToTop } from 'platform/utilities/ui';
-// import { Element } from 'platform/utilities/scroll';
-
-// import { isLoggedIn } from 'platform/user/selectors';
-import HelpTextContent from '../../HelpText';
+import { HelpTextManage } from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
-
-// import { useSelector } from 'react-redux';
 
 const IntroductionPage = ({ appointment, onNext }) => {
   // const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -16,19 +10,9 @@ const IntroductionPage = ({ appointment, onNext }) => {
 
   const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
 
-  // useEffect(() => {
-  //   focusElement('h1');
-  //   scrollToTop('topScrollElement');
-  // }, []);
-
   return (
     <div>
-      {/* <FormTitle
-        title="File a travel reimbursement claim"
-        subtitle="Equal to VA Form 10-3542 (Beneficiary Travel)"
-      /> */}
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
-
       <p>
         You have{' '}
         <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
@@ -101,9 +85,11 @@ const IntroductionPage = ({ appointment, onNext }) => {
         />
       </div>
 
-      <h3 className="vads-u-margin-bottom--0">Need help?</h3>
-      <hr className="vads-u-margin-y--0" />
-      <HelpTextContent />
+      <va-need-help>
+        <div slot="content">
+          <HelpTextManage />
+        </div>
+      </va-need-help>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+// import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import BreadCrumbs from '../components/Breadcrumbs';
 
 import { appointment1 } from '../services/mocks/appointments';
 import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
 const SubmitFlowWrapper = ({ address }) => {
   // const location = useLocation();
@@ -23,10 +24,10 @@ const SubmitFlowWrapper = ({ address }) => {
 
   const appointment = appointment1;
 
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-  }, []);
+  // useEffect(() => {
+  //   focusElement('h1');
+  //   scrollToTop('topScrollElement');
+  // }, []);
 
   // From the appts app, helpful ideas on how to normalize appt data
   // const {
@@ -67,20 +68,23 @@ const SubmitFlowWrapper = ({ address }) => {
   const [cantFile, setCantFile] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
+  // This will actually be handled by the redux action, but for now it lives here
+  const [isSubmissionError, setIsSubmissionError] = useState(false);
+
   const [pageIndex, setPageIndex] = useState(0);
 
   const onSubmit = e => {
     e.preventDefault();
-    if (
-      yesNo.mileage !== 'yes' &&
-      yesNo.vehicle !== 'yes' &&
-      yesNo.address !== 'yes' &&
-      !isAgreementChecked
-    ) {
+    if (!isAgreementChecked) {
       // IDK, throw some kind of error or something
     } else {
       // Placeholder until actual submit is hooked up
-      setPageIndex(pageIndex + 1);
+
+      // Uncomment to simulate successful submission
+      // setPageIndex(pageIndex + 1);
+
+      // Uncomment to simulate an error
+      setIsSubmissionError(true);
     }
   };
 
@@ -151,7 +155,7 @@ const SubmitFlowWrapper = ({ address }) => {
     },
     {
       page: 'confirm',
-      component: <ConfirmationPage />,
+      component: <ConfirmationPage appointment={appointment} />,
     },
   ];
 
@@ -159,15 +163,17 @@ const SubmitFlowWrapper = ({ address }) => {
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        {cantFile ? (
-          <CantFilePage
-            pageIndex={pageIndex}
-            setPageIndex={setPageIndex}
-            setCantFile={setCantFile}
-          />
-        ) : (
-          pageList[pageIndex].component
-        )}
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {cantFile && (
+            <CantFilePage
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              setCantFile={setCantFile}
+            />
+          )}
+          {isSubmissionError && <SubmissionErrorPage />}
+          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+        </div>
       </article>
     </Element>
   );

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
 import { formatDateTime } from '../../../util/dates';
 
@@ -14,14 +16,23 @@ const MileagePage = ({
   setYesNo,
   setCantFile,
 }) => {
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
+
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
   );
 
+  const [requiredAlert, setRequiredAlert] = useState(false);
+
   const handlers = {
     onNext: e => {
       e.preventDefault();
-      if (yesNo.mileage !== 'yes') {
+      if (!yesNo.mileage) {
+        setRequiredAlert(true);
+      } else if (yesNo.mileage !== 'yes') {
         setCantFile(true);
       } else {
         setCantFile(false);
@@ -35,7 +46,7 @@ const MileagePage = ({
   };
 
   return (
-    <article className="vads-u-margin--3">
+    <Element name="topScrollElement">
       <VaRadio
         use-forms-pattern="single"
         form-heading="Are you claiming only mileage?"
@@ -46,7 +57,7 @@ const MileagePage = ({
         }}
         value={yesNo.mileage}
         data-testid="mileage-test-id"
-        error={null}
+        error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
         hint=""
         label=""
@@ -81,7 +92,7 @@ const MileagePage = ({
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin-top--3"
+        class="vads-u-margin-y--3"
         trigger="How do we calculate mileage"
       >
         <ul>
@@ -99,7 +110,7 @@ const MileagePage = ({
       </va-additional-info>
 
       <va-additional-info
-        className="vads-u-margin--3"
+        class="vads-u-margin-bottom--3"
         trigger="If you have other expenses to claim"
       >
         <p>
@@ -119,12 +130,12 @@ const MileagePage = ({
       </va-additional-info>
 
       <VaButtonPair
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-y--2"
         continue
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />
-    </article>
+    </Element>
   );
 };
 

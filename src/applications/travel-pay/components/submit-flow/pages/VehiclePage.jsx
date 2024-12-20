@@ -32,7 +32,7 @@ const VehiclePage = ({
   };
 
   return (
-    <div className="vads-u-margin--3">
+    <div>
       <VaRadio
         use-forms-pattern="single"
         form-heading="Did you travel in your own vehicle?"
@@ -41,7 +41,7 @@ const VehiclePage = ({
         onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
         value={yesNo.vehicle}
         data-testid="mileage-test-id"
-        error={null}
+        error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
         hint=""
         label=""
@@ -64,7 +64,7 @@ const VehiclePage = ({
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin-top--3"
+        class="vads-u-margin-y--3"
         trigger="If you didn't travel in your own vehicle"
       >
         <p>
@@ -83,25 +83,8 @@ const VehiclePage = ({
         </p>
       </va-additional-info>
 
-      {requiredAlert && (
-        <va-alert
-          class="vads-u-margin-bottom--1"
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          slim
-          status="error"
-          visible="true"
-        >
-          <>
-            <p className="vads-u-margin-y--0">
-              You must make a selection to continue.
-            </p>
-          </>
-        </va-alert>
-      )}
       <VaButtonPair
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-y--2"
         continue
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}

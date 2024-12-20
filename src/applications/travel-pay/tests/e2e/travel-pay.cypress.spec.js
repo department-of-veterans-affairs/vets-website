@@ -65,7 +65,7 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
+    cy.get('#details-back-link').click();
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
   it('navigates to the status explainer page and back to status page', () => {

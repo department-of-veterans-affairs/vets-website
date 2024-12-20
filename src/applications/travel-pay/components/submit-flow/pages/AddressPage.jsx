@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   VaButtonPair,
   VaRadio,
@@ -12,10 +12,14 @@ const AddressPage = ({
   setYesNo,
   setCantFile,
 }) => {
+  const [requiredAlert, setRequiredAlert] = useState(false);
+
   const handlers = {
     onNext: e => {
       e.preventDefault();
-      if (yesNo.address !== 'yes') {
+      if (!yesNo.address) {
+        setRequiredAlert(true);
+      } else if (yesNo.address !== 'yes') {
         setCantFile(true);
       } else {
         setCantFile(false);
@@ -29,7 +33,7 @@ const AddressPage = ({
   };
 
   return (
-    <div className="vads-u-margin--3">
+    <div>
       <VaRadio
         use-forms-pattern="single"
         form-heading="Did you travel from your home address?"
@@ -40,12 +44,11 @@ const AddressPage = ({
         }}
         value={yesNo.address}
         data-testid="address-test-id"
-        error={null}
+        error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
         hint=""
         label=""
         label-header-level=""
-        // required
       >
         <div slot="form-description">
           <p>
@@ -53,7 +56,7 @@ const AddressPage = ({
             confirm that it’s not a Post Office box.
           </p>
           <hr className="vads-u-margin-y--0" />
-          <p className="vads-u-margin-y--2">
+          <p className="vads-u-margin-top--2">
             {address.addressLine1}
             <br />
             {address.addressLine2 && (
@@ -71,7 +74,7 @@ const AddressPage = ({
             {`${address.city}, ${address.stateCode} ${address.zipCode}`}
             <br />
           </p>
-          <hr className="vads-u-margin-top--0" />
+          <hr className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
           label="Yes"
@@ -90,7 +93,7 @@ const AddressPage = ({
       </VaRadio>
 
       <va-additional-info
-        className="vads-u-margin-top--3"
+        class="vads-u-margin-y--3"
         trigger="If you didn't travel from your home address"
       >
         <p>
@@ -108,9 +111,8 @@ const AddressPage = ({
           person.
         </p>
       </va-additional-info>
-
       <VaButtonPair
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-y--2"
         continue
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}

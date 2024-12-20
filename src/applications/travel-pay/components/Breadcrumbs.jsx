@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory, Link, useParams } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
@@ -48,16 +48,19 @@ export default function BreadCrumbs() {
   return isDetailsPage || isSubmitWrapper ? (
     <>
       {isDetailsPage && (
-        <div className="travel-pay-breadcrumb-wrapper">
-          <va-icon class="back-arrow" icon="arrow_back" />
-          <Link className="go-back-link" to="/claims/">
-            Back to your travel reimbursement claims
-          </Link>
+        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
+          <va-link
+            id="details-back-link"
+            back
+            href="/my-health/travel-pay/claims/"
+            text="Back to your travel reimbursement claims"
+          />
         </div>
       )}
       {isSubmitWrapper && (
-        <div className="travel-pay-breadcrumb-wrapper">
+        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
           <va-link
+            id="submit-back-link"
             back
             href={`/my-health/appointments/past/${apptId}`}
             text="Back to your appointment"

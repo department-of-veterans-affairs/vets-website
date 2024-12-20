@@ -2,30 +2,55 @@ import React, { useEffect } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
-const ConfirmationPage = () => {
+import { formatDateTime } from '../../../util/dates';
+
+const ConfirmationPage = ({ appointment }) => {
   useEffect(() => {
-    focusElement('h2');
+    focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
+  const [formattedDate, formattedTime] = formatDateTime(
+    appointment.vaos.apiData.start,
+  );
+
   return (
-    <div className="vads-u-margin--3">
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
+    <Element name="topScrollElement">
+      <div className="vads-u-margin-bottom--3">
+        <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h2 slot="headline">Claim submitted</h2>
+          <p className="vads-u-margin-y--0">
+            This claim is for your appointment at{' '}
+            {appointment.vaos.apiData.location.attributes.name} on{' '}
+            {formattedDate} {formattedTime}
+          </p>
+        </va-alert>
+        <h2>What happens next</h2>
+        <p className="vads-u-margin-y--2">
+          You can check the status of your claim by going to the travel
+          reimbursement status page.
+        </p>
+        <va-link
+          href="/my-health/travel-pay/claims/"
+          text="Check your travel reimbursement claim status"
         />
-        <h2>Application for Beneficiary Travel Reimbursement</h2>
+        <p className="vads-u-margin-y--2">
+          If you’re eligible for reimbursement, we’ll deposit your
+          reimburesement in your bank account.
+        </p>
+        <va-link
+          href="idk"
+          text="Learn how to set up direct deposit for travel pay reimbursement"
+        />
       </div>
-      <h1 tabIndex="-1">Your travel claim has been submitted</h1>
-      <p>
-        Claim ID: <strong>12345</strong>.
-      </p>
-      <p>We may contact you for more information or documents.</p>
-      <p className="screen-only">You may print this page for your records.</p>
-    </div>
+    </Element>
   );
 };
 

@@ -2,11 +2,7 @@ import React, { useEffect } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  BTSSS_PORTAL_URL,
-  FIND_FACILITY_TP_CONTACT_LINK,
-  FORM_103542_LINK,
-} from '../../../constants';
+import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 
 const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
   useEffect(() => {
@@ -21,49 +17,18 @@ const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
   };
 
   return (
-    <div className="vads-u-margin--3">
+    <div>
       <h1 tabIndex="-1">
         We can’t file this type of travel reimbursement claim
       </h1>
-      <p>
-        You can still file a claim within 30 days of this appointment these
-        other ways:
-        <ul>
-          <li>
-            <p>
-              Online 24/7 through the Beneficiary Travel Self Service System
-              (BTSSS)
-            </p>
-            <va-link
-              external
-              href={BTSSS_PORTAL_URL}
-              text="File a travel claim online"
-            />
-          </li>
-          <li>
-            <p>VA Form 10-3542 by mail, fax, email, or in person</p>
-            <va-link
-              href={FORM_103542_LINK}
-              text="Learn more about VA Form 10-3542"
-            />
-          </li>
-        </ul>
-      </p>
+      <HelpTextModalities />
       <h2 className="vads-u-font-size--h4">
         How can I get help with my claim?
       </h2>
-      <p>
-        Call the BTSSS call center at <va-telephone contact="8555747292" />.
-        We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
-      <p>Or call your VA health facility’s Beneficiary Travel contact.</p>
-      <va-link
-        href={FIND_FACILITY_TP_CONTACT_LINK}
-        text="Find the travel contact for your facility"
-      />
+      <HelpTextGeneral />
       <br />
       <va-button
-        className="vads-u-margin-top--3"
+        class="vads-u-margin-y--2"
         text="Back"
         onClick={e => onBack(e)}
       />
