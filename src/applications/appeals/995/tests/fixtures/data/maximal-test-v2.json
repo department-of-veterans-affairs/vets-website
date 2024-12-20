@@ -30,7 +30,7 @@
     "benefitType": "compensation",
     "view:primaryPhone": "home",
     "showScNewForm": true,
-    "housingRisk": false,
+    "housingRisk": true,
     "livingSituation": {
       "notRegular": true,
       "shelter": true,
@@ -172,6 +172,7 @@
         }
       }
     ],
+    "view:hasPrivateLimitation": true,
     "limitedConsent": "Pizza addiction",
     "view:patientAcknowledgement": {
       "view:acknowledgement": true

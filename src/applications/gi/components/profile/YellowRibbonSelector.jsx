@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   VaSelect,
   VaButton,
@@ -41,6 +42,15 @@ const ProgramCard = ({ program }) => {
       </div>
     </VaCard>
   );
+};
+
+ProgramCard.propTypes = {
+  program: PropTypes.shape({
+    divisionProfessionalSchool: PropTypes.string,
+    numberOfStudents: PropTypes.number,
+    contributionAmount: PropTypes.string,
+    degreeLevel: PropTypes.string,
+  }).isRequired,
 };
 
 const YellowRibbonSelector = ({ programs }) => {
@@ -127,6 +137,34 @@ const YellowRibbonSelector = ({ programs }) => {
     filteredPrograms.length,
   );
 
+  const resultText = filteredPrograms.length === 1 ? 'result' : 'results';
+  const resultDegreeLevel =
+    degreeLevelOptions.length === 1
+      ? `${activeOption} degree levels`
+      : `"${activeOption}" degree levels`;
+
+  const renderResultsSummary = () => {
+    let activeOptionLabel = '';
+    if (activeOption === 'All' || activeOption === 'Other') {
+      activeOptionLabel = resultDegreeLevel;
+    } else if (degreeLevelOptions.length === 1) {
+      activeOptionLabel = `${activeOption} degree level`;
+    } else {
+      activeOptionLabel = `"${activeOption}" degree level`;
+    }
+
+    return (
+      <p
+        id="results-summary"
+        className="vads-u-margin-top--3 vads-u-margin-bottom--3"
+      >
+        {`Showing ${startIndex}-${endIndex} of ${
+          filteredPrograms.length
+        } ${resultText} for ${activeOptionLabel}`}
+      </p>
+    );
+  };
+
   return (
     <div className="yellow-ribbon-selector-container">
       {degreeLevelOptions.length > 1 && (
@@ -162,37 +200,11 @@ const YellowRibbonSelector = ({ programs }) => {
       )}
 
       <div className="vads-u-margin-bottom--0">
-        {filteredPrograms.length > 0 && (
-          <p
-            id="results-summary"
-            className="vads-u-margin-top--3 vads-u-margin-bottom--3"
-          >
-            {activeOption &&
-              (() => {
-                let activeOptionLabel;
-                if (activeOption === 'All' || activeOption === 'Other') {
-                  activeOptionLabel = `${activeOption} degree levels`;
-                } else if (degreeLevelOptions.length === 1) {
-                  activeOptionLabel = `${activeOption} degree level`;
-                } else {
-                  activeOptionLabel = `"${activeOption}" degree level`;
-                }
-
-                return (
-                  <>
-                    {`Showing ${startIndex}-${endIndex} of ${
-                      filteredPrograms.length
-                    } results for `}
-                    {activeOptionLabel}
-                  </>
-                );
-              })()}
-          </p>
-        )}
+        {filteredPrograms.length > 0 && activeOption && renderResultsSummary()}
         <div className="degree-level-results vads-u-margin-bottom--1 vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--stretch mobile-lg:vads-u-flex-direction--row">
-          {currentPrograms.map(program => (
+          {currentPrograms.map((program, index) => (
             <ProgramCard
-              key={program.divisionProfessionalSchool}
+              key={`${program.divisionProfessionalSchool}-${index}`}
               program={program}
             />
           ))}
@@ -210,6 +222,17 @@ const YellowRibbonSelector = ({ programs }) => {
       </div>
     </div>
   );
+};
+
+YellowRibbonSelector.propTypes = {
+  programs: PropTypes.arrayOf(
+    PropTypes.shape({
+      divisionProfessionalSchool: PropTypes.string,
+      numberOfStudents: PropTypes.number,
+      contributionAmount: PropTypes.string,
+      degreeLevel: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default YellowRibbonSelector;

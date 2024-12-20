@@ -30,6 +30,7 @@ const DownloadRecordType = () => {
   const [milServCheck, setMilServCheck] = useState(false);
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+  const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
@@ -98,24 +99,24 @@ const DownloadRecordType = () => {
 
   useEffect(
     () => {
-      if (!dateFilter) {
+      if (!dateFilterOption) {
         history.push('/download/date-range');
       }
     },
-    [dateFilter, history],
+    [dateFilterOption, history],
   );
 
   const selectedDateRange = useMemo(
     () => {
-      if (dateFilter?.option === 'any') {
+      if (dateFilterOption === 'any') {
         return 'Any';
       }
-      if (dateFilter?.option === 'custom') {
+      if (dateFilterOption === 'custom') {
         return 'Custom';
       }
-      return `Last ${dateFilter?.option} months`;
+      return `Last ${dateFilterOption} months`;
     },
-    [dateFilter],
+    [dateFilterOption],
   );
 
   return (
@@ -136,9 +137,9 @@ const DownloadRecordType = () => {
       <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         <p>
           Date range: <strong>{selectedDateRange}</strong>{' '}
-          {dateFilter && dateFilter?.option !== 'any'
-            ? `(${format(new Date(dateFilter?.fromDate), 'PPP')} to ${format(
-                new Date(dateFilter?.toDate),
+          {dateFilterOption && dateFilterOption !== 'any'
+            ? `(${format(new Date(fromDate), 'PPP')} to ${format(
+                new Date(toDate),
                 'PPP',
               )})`
             : ''}

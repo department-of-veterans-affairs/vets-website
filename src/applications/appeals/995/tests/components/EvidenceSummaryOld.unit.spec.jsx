@@ -110,7 +110,7 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
@@ -137,7 +137,7 @@ describe('<EvidenceSummary>', () => {
     });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($$('.usa-input-error-message', container).length).to.eq(8);
     expect($('a.vads-c-action-link--green', container)).to.exist;

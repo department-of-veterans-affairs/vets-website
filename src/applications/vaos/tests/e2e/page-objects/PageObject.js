@@ -153,6 +153,16 @@ export default class PageObject {
     return this;
   }
 
+  selectRadioButtonShadow(label) {
+    cy.get('va-radio')
+      .shadow()
+      .get('va-radio-option')
+      .contains(label)
+      .click();
+
+    return this;
+  }
+
   visit(url = '', options = {}) {
     const normalizedUrl = `${this.rootUrl}/${url.replace(/^\//, '')}`;
 

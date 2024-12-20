@@ -2,6 +2,7 @@ import fs from 'fs';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import Sinon from 'sinon';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
 import notes from '../fixtures/notes.json';
@@ -261,9 +262,38 @@ describe('Get appointments api call', () => {
     const mockData = appointments;
     mockApiRequest(mockData);
 
-    return getAppointments().then(res => {
+    const fromDate = '2020-01-01T00:00:00Z';
+    const toDate = '2020-12-31T23:59:59Z';
+
+    return getAppointments(fromDate, toDate).then(res => {
       expect(res.data.length).to.equal(2);
     });
+  });
+
+  it('should call the correct endpoint with provided from and to dates', async () => {
+    const fetchStub = Sinon.stub(global, 'fetch');
+    const fromDate = '2021-01-01T00:00:00Z';
+    const toDate = '2021-12-31T23:59:59Z';
+
+    const mockResponse = new Response(JSON.stringify({ data: [{}, {}] }), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    fetchStub.resolves(mockResponse);
+
+    const result = await getAppointments(fromDate, toDate);
+    expect(fetchStub.calledOnce).to.be.true;
+
+    const statusParams =
+      '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
+    const expectedUrl = `${
+      environment.API_URL
+    }/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
+    expect(fetchStub.firstCall.args[0]).to.equal(expectedUrl);
+    expect(result.data.length).to.equal(2);
+
+    fetchStub.restore();
   });
 });
 
