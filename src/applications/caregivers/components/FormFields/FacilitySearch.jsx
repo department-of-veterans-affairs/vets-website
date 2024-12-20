@@ -276,6 +276,10 @@ const FacilitySearch = props => {
           Veteran’s home address.
         </p>
         <va-card role="search" background>
+          <p id="facility-search-description" className="vads-u-margin-top--0">
+            Enter a city, state, or postal code. Then select <b>Search</b> to
+            find a VA medical center or clinic.
+          </p>
           <div
             className={`${
               searchInputError ? 'caregiver-facilities-search-input-error' : ''
@@ -294,6 +298,7 @@ const FacilitySearch = props => {
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}
+              aria-describedby="facility-search-description"
               uswds
             />
           </div>
