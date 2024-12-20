@@ -201,14 +201,18 @@ export const getRepresentativeName = formData => {
 
 export const getApplicantName = formData => {
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
-
   const applicantFullName = applicantIsVeteran
     ? formData.veteranFullName
     : formData.applicantName;
 
-  return `${applicantFullName.first} ${applicantFullName.middle} ${
-    applicantFullName.last
-  } ${applicantFullName.suffix}`;
+  return [
+    applicantFullName.first,
+    applicantFullName.middle,
+    applicantFullName.last,
+    applicantFullName.suffix,
+  ]
+    .filter(nameSection => nameSection && nameSection.trim())
+    .join(' ');
 };
 
 export const convertRepType = input => {
