@@ -27,6 +27,7 @@ import { CONFERENCE_TIMES_V2_5 } from '../constants';
 import { formTitle } from '../content/title';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -149,7 +150,7 @@ export const ConfirmationPageV2 = () => {
 
       <ConfirmationIssues data={data} />
 
-      <h3 className="vads-u-margin-top--2">Informal conference</h3>
+      <h3 className={chapterHeaderClass}>Informal conference</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

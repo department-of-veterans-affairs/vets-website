@@ -36,13 +36,13 @@ export const applicationEmailSchema = {
       'Your email address',
       `We'll use this email address to send you information about the form.`,
     ),
-    applicantEmail: emailUI(),
+    certifierEmail: emailUI(),
   },
   schema: {
     type: 'object',
-    required: ['applicantEmail'],
+    required: ['certifierEmail'],
     properties: {
-      applicantEmail: emailSchema,
+      certifierEmail: emailSchema,
     },
   },
 };

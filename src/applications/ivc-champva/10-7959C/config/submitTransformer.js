@@ -8,7 +8,7 @@ function getPrimaryContact(data) {
   // treated as the primary contact.
   return {
     name: data?.applicantName ?? false,
-    email: data?.applicantEmail ?? false,
+    email: data?.certifierEmail ?? false,
     phone: data?.applicantPhone ?? false,
   };
 }

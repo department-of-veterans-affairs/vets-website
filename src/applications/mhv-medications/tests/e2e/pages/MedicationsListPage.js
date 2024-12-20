@@ -326,22 +326,19 @@ class MedicationsListPage {
       .and('be.visible');
   };
 
-  verifyInformationBasedOnStatusActiveRefillInProcess = () => {
+  verifyInformationBasedOnStatusActiveRefillInProcess = text => {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'We expect to fill it on');
+      .and('contain', text);
   };
 
-  verifyInformationBasedOnStatusNonVAPrescription = () => {
+  verifyInformationBasedOnStatusNonVAPrescription = text => {
     cy.get('[data-testid="rx-last-filled-info"]').should('be.visible');
 
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This isn’t a prescription that you filled through a VA pharmacy. You can’t manage this medication in this online tool.',
-      );
+      .and('contain', text);
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
