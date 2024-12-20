@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
 
@@ -12,7 +11,6 @@ describe('Veteran Personal Information page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.veteranInfo.pages.veteranPersonalInformation;
-
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
@@ -30,7 +28,14 @@ describe('Veteran Personal Information page', () => {
         />
       </Provider>,
     );
-
     expect(container.querySelector('button[type="submit"]')).to.exist;
+  });
+
+  it('should have proper max lengths for name fields', () => {
+    const nameProps = schema.properties.veteranFullName.properties;
+
+    expect(nameProps.first.maxLength).to.equal(12);
+    expect(nameProps.middle.maxLength).to.equal(1);
+    expect(nameProps.last.maxLength).to.equal(18);
   });
 });
