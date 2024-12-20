@@ -290,6 +290,7 @@ export default function App({ children }) {
             <>
               <HelpTextManage />
               <va-link
+                data-testid="status-explainer-link"
                 href="/my-health/travel-pay/help"
                 text="What does my claim status mean?"
               />

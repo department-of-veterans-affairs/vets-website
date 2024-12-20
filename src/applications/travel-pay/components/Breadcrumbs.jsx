@@ -67,7 +67,7 @@ export default function BreadCrumbs() {
       {isDetailsPage && (
         <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
           <va-link
-            id="details-back-link"
+            data-testid="details-back-link"
             back
             href="/my-health/travel-pay/claims/"
             text="Back to your travel reimbursement claims"
@@ -77,7 +77,7 @@ export default function BreadCrumbs() {
       {isSubmitWrapper && (
         <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
           <va-link
-            id="submit-back-link"
+            data-testid="submit-back-link"
             back
             href={`/my-health/appointments/past/${apptId}`}
             text="Back to your appointment"

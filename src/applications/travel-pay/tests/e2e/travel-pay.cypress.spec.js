@@ -65,15 +65,22 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('#details-back-link').click();
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Back to your travel reimbursement claims').click();
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
+
   it('navigates to the status explainer page and back to status page', () => {
     cy.get('va-additional-info')
       .first()
       .click();
 
-    cy.get('a[data-testid="status-explainer-link"]')
+    cy.get('va-link[data-testid="status-explainer-link"]')
       .first()
       .click();
 
