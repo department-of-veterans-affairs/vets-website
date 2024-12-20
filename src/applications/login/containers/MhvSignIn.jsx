@@ -22,10 +22,7 @@ export default function MhvSignIn() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
-    login({
-      policy: 'mhv',
-      queryParams: { operation: 'prod-test-acct' },
-    });
+    login({ policy: 'mhv' });
   };
 
   const notDisable = isValidEmail || email.length === 0;
