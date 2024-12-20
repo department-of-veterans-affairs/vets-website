@@ -11,6 +11,19 @@ export const mhvAccountStatusUsersuccess = state => {
   );
 };
 
+// Prioritize user actionable errors (userActionErrorCodes)
+// over other less actionable errors
+export const mhvAccountStatusErrorsSorted = state => {
+  if (state?.myHealth?.accountStatus?.data?.errors) {
+    return state?.myHealth?.accountStatus?.data?.errors.sort(
+      (a, b) =>
+        userActionErrorCodes.includes(b.code) -
+        userActionErrorCodes.includes(a.code),
+    );
+  }
+  return [];
+};
+
 export const mhvAccountStatusUserError = state => {
   if (state?.myHealth?.accountStatus?.data?.errors) {
     return state?.myHealth?.accountStatus?.data?.errors.filter(error =>

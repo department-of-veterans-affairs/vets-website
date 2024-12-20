@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useHandleClick from '../../hooks/useHandleClick';
-import useHandleKeyDown from '../../hooks/useHandleKeyDown';
+import useHandleClick from '../hooks/useHandleClick';
+import useHandleKeyDown from '../hooks/useHandleKeyDown';
 
 export default function AppointmentFlexGrid({ children, idClickable, link }) {
   const handleClick = useHandleClick({ link, idClickable });

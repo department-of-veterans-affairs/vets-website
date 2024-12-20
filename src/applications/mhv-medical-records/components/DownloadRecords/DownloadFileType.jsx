@@ -75,6 +75,8 @@ const DownloadFileType = props => {
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const { fromDate, toDate, option: dateFilterOption } = dateFilter;
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
@@ -85,26 +87,26 @@ const DownloadFileType = props => {
 
   useEffect(
     () => {
-      if (!dateFilter) {
+      if (!dateFilterOption) {
         history.push('/download/date-range');
       } else if (!recordFilter) {
         history.push('/download/record-type');
       }
     },
-    [dateFilter, history, recordFilter],
+    [dateFilterOption, history, recordFilter],
   );
 
   const filterByDate = useCallback(
     recDate => {
-      if (dateFilter.option === 'any') {
+      if (dateFilterOption === 'any') {
         return true;
       }
       return (
-        isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
-        isAfter(new Date(dateFilter.toDate), new Date(recDate))
+        isBefore(new Date(fromDate), new Date(recDate)) &&
+        isAfter(new Date(toDate), new Date(recDate))
       );
     },
-    [dateFilter],
+    [dateFilterOption, fromDate, toDate],
   );
 
   /**
@@ -191,10 +193,10 @@ const DownloadFileType = props => {
       };
 
       if (!isDataFetched) {
-        dispatch(getBlueButtonReportData(options));
+        dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch],
+    [isDataFetched, recordFilter, dispatch, dateFilter],
   );
 
   const recordData = useMemo(
@@ -306,13 +308,9 @@ const DownloadFileType = props => {
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
             fromDate:
-              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-                ? formatDateLong(dateFilter.fromDate)
-                : 'Any',
+              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
             toDate:
-              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-                ? formatDateLong(dateFilter.toDate)
-                : 'any',
+              fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
             recordSets: generateBlueButtonData(recordData, recordFilter),
             ...scaffold,
             name,
@@ -337,8 +335,8 @@ const DownloadFileType = props => {
       }
     },
     [
-      dateFilter.fromDate,
-      dateFilter.toDate,
+      fromDate,
+      toDate,
       dispatch,
       dob,
       isDataFetched,

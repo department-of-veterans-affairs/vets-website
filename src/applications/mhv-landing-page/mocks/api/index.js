@@ -17,7 +17,8 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
 
   // 'GET /v0/user/mhv_user_account': MHVAccountStatus.accountSuccess,
   // 'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroOne,
-  'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroFive,
+  // 'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroFive,
+  'GET /v0/user/mhv_user_account': MHVAccountStatus.fiveZeroZero,
 });
 
 module.exports = responses(USER_MOCKS.DEFAULT);

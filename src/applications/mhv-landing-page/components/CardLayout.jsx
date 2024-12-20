@@ -9,6 +9,7 @@ import {
   mrPhase1Enabled,
   apiAccountStatusEnabled,
   mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
 } from '../selectors';
 
 import NavCard from './NavCard';
@@ -28,6 +29,9 @@ const layoutData = data => {
 const CardLayout = ({ data }) => {
   const isAccountStatusApiEnabled = useSelector(apiAccountStatusEnabled);
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+  const mhvAccountStatusSortedErrors = useSelector(
+    mhvAccountStatusErrorsSorted,
+  );
   const isMrPhase1Enabled = useSelector(mrPhase1Enabled);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
@@ -57,11 +61,12 @@ const CardLayout = ({ data }) => {
             key={`col-${y}`}
           >
             {isAccountStatusApiEnabled ? (
-              mhvAccountStatusUserErrors.length > 0 &&
+              mhvAccountStatusSortedErrors.length > 0 &&
               MHV_ACCOUNT_CARDS.includes(col.title) ? (
                 <ErrorNavCard
                   title={col.title}
-                  code={mhvAccountStatusUserErrors[0].code}
+                  code={mhvAccountStatusSortedErrors[0].code}
+                  userActionable={mhvAccountStatusUserErrors.length > 0}
                 />
               ) : col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
               !isMrPhase1Enabled ? (

@@ -7,6 +7,7 @@ import {
   AlertUnregistered,
   AlertVerifyAndRegister,
   AlertMhvUserAction,
+  AlertMhvNoAction,
 } from '../components/alerts';
 
 import {
@@ -19,6 +20,7 @@ import {
   mhvAccountStatusLoading,
   mhvAccountStatusUserError,
   mhvAccountStatusUsersuccess,
+  mhvAccountStatusNonUserError,
   showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
@@ -33,6 +35,9 @@ const Alerts = () => {
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const mhvAccountStatusNonUserErrors = useSelector(
+    mhvAccountStatusNonUserError,
+  );
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSuccess = useSelector(mhvAccountStatusUsersuccess);
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
@@ -47,6 +52,12 @@ const Alerts = () => {
 
   if (!userRegistered) {
     return <AlertUnregistered />;
+  }
+
+  if (mhvAccountStatusNonUserErrors.length > 0 && isAccountStatusApiEnabled) {
+    return (
+      <AlertMhvNoAction errorCode={mhvAccountStatusNonUserErrors[0].code} />
+    );
   }
 
   if (mhvAccountStatusUserErrors.length > 0 && isAccountStatusApiEnabled) {

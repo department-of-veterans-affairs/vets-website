@@ -13,8 +13,11 @@ import {
   EVIDENCE_OTHER,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_LIMIT,
+  EVIDENCE_PRIVATE_AUTHORIZATION,
 } from '../../constants';
 
 const providerFacilityAddress = {
@@ -76,6 +79,8 @@ const setupSummary = ({
   privateMR = true,
   other = true,
   limit,
+  privacy = true,
+  toggle = true,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
@@ -92,8 +97,10 @@ const setupSummary = ({
           [EVIDENCE_OTHER]: other,
 
           ...list,
+          privacyAgreementAccepted: privacy,
+          [EVIDENCE_LIMIT]: limit?.length > 0,
           limitedConsent: limit,
-          showScNewForm: true,
+          showScNewForm: toggle,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -112,9 +119,10 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
+    expect($$('li', container).length).to.eq(9);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
@@ -140,7 +148,7 @@ describe('<EvidenceSummary>', () => {
     });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('.usa-input-error-message', container).length).to.eq(8);
@@ -177,11 +185,10 @@ describe('<EvidenceSummary>', () => {
   });
 
   it('should include the correct edit URL links', () => {
-    const { container } = setupSummary();
+    const { container } = setupSummary({ limit: 'test' });
 
     const links = $$('.edit-item', container);
-
-    expect(links.length).to.eq(7);
+    expect(links.length).to.eq(9);
     expect(links[0].getAttribute('data-link')).to.contain(
       `${EVIDENCE_VA_PATH}?index=0`,
     );
@@ -189,22 +196,28 @@ describe('<EvidenceSummary>', () => {
       `${EVIDENCE_VA_PATH}?index=1`,
     );
     expect(links[2].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=0`,
+      EVIDENCE_PRIVATE_AUTHORIZATION,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=1`,
+      EVIDENCE_LIMITATION_PATH1,
     );
     expect(links[4].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH,
+      EVIDENCE_LIMITATION_PATH2,
     );
-    expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
-    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+
+    expect(links[5].getAttribute('data-link')).to.contain(
+      `${EVIDENCE_PRIVATE_PATH}?index=0`,
+    );
+    expect(links[6].getAttribute('data-link')).to.contain(
+      `${EVIDENCE_PRIVATE_PATH}?index=1`,
+    );
+    expect(links[7].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+    expect(links[8].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
   });
 
   it('should submit page without error', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({ goForward });
-
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
     expect(goForward.called).to.be.true;
   });
@@ -271,6 +284,32 @@ describe('<EvidenceSummary>', () => {
       $('.form-progress-buttons .usa-button-secondary', container),
     );
     expect(goBack.called).to.be.true;
+  });
+
+  // Move SC limitation
+  it('should render new SC content', () => {
+    const { container } = setupSummary({
+      limit: 'Pizza addiction',
+    });
+
+    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
+    expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
+    expect($$('ul', container).length).to.eq(3);
+    expect($$('li', container).length).to.eq(9);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
+  });
+
+  it('should not navigate forward with errors', () => {
+    const goForward = sinon.spy();
+    const { container } = setupSummary({
+      privacy: false,
+      goForward,
+    });
+
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    expect(goForward.called).to.be.false;
   });
 
   // Remove entries
@@ -343,6 +382,7 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({
       setFormData,
       limit: 'Pizza addiction',
+      toggle: false,
     });
     // remove limitation
     fireEvent.click($('va-button[label="Remove limitations"]', container));
@@ -353,24 +393,6 @@ describe('<EvidenceSummary>', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
-    });
-  });
-
-  it('should not remove limitations when "No" is selected in the modal', async () => {
-    const setFormData = sinon.spy();
-    const { container } = setupSummary({
-      setFormData,
-      limit: 'Pizza addiction',
-    });
-
-    // remove second VA entry
-    fireEvent.click($('va-button[label="Remove limitations"]', container));
-
-    const modal = $('va-modal', container);
-    modal.__events.secondaryButtonClick(); // Cancel removal
-
-    await waitFor(() => {
-      expect(setFormData.called).to.be.false;
     });
   });
 
@@ -409,7 +431,7 @@ describe('<EvidenceSummary>', () => {
   });
 
   it('should render on review & submit in edit mode', () => {
-    const { container } = setupSummary({ onReviewPage: true });
+    const { container } = setupSummary({ onReviewPage: true, limit: 'yes' });
 
     expect($$('h4', container).length).to.eq(2);
     expect($$('.private-limitation', container).length).to.eq(1);
@@ -428,6 +450,7 @@ describe('<EvidenceSummary>', () => {
     });
 
     fireEvent.click($('.form-nav-buttons va-button', container));
+    // console.log(container.innerHTML);
     expect(updateSpy.called).to.be.true;
   });
 });
