@@ -22,6 +22,7 @@ jobs:
     # if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     needs: [get-workflow-environment]
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
     steps:
       - name: Checkout
