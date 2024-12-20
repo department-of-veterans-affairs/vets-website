@@ -10,7 +10,7 @@ import {
 export default {
   uiSchema: {
     'ui:title': workflowChoicePageTitle,
-    pTSDWorkflowChoice: radioUI({
+    mentalHealthWorkflowChoice: radioUI({
       description: workflowChoicePageDescription,
       errorMessages: {
         required: 'You must provide a response',
@@ -22,9 +22,9 @@ export default {
 
   schema: {
     type: 'object',
-    required: ['pTSDWorkflowChoice'],
+    required: ['mentalHealthWorkflowChoice'],
     properties: {
-      pTSDWorkflowChoice: {
+      mentalHealthWorkflowChoice: {
         type: 'string',
         enum: Object.keys(form0781WorkflowChoices).map(
           key => form0781WorkflowChoices[key],

@@ -4,7 +4,7 @@ import * as mentalHealthSupportInfoPage from '../../pages/form0781/mentalHealthS
 import {
   showForm0781Pages,
   showManualUpload0781Page,
-  showmentalHealthSupportInfoPage,
+  showMentalHealthSupportInfoPage,
 } from '../../utils/form0781';
 
 /**
@@ -30,7 +30,7 @@ export const form0781PagesConfig = {
     path:
       'disability/file-disability-claim-form-21-526ez/additional-forms/mental-health-statement/support',
     uiSchema: mentalHealthSupportInfoPage.uiSchema,
-    depends: formData => showmentalHealthSupportInfoPage(formData),
+    depends: formData => showMentalHealthSupportInfoPage(formData),
     schema: mentalHealthSupportInfoPage.schema,
   },
 };

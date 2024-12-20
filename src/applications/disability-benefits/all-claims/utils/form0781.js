@@ -1,6 +1,6 @@
 // All flippers for the 0781 Papersync should be added to this file
 import { isClaimingNew } from '.';
-import { form0781WorkflowChoices } from '../pages/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../content/form0781';
 
 /**
  * Checks if the modern 0781 flow should be shown if the flipper is active for this veteran
@@ -28,14 +28,15 @@ export function showForm0781Pages(formData) {
 export function showManualUpload0781Page(formData) {
   return (
     showForm0781Pages(formData) &&
-    // MDN: order of operations, need parens
-    formData.pTSDWorkflowChoice === form0781WorkflowChoices.SUBMIT_PAPER_FORM
+    formData.mentalHealthWorkflowChoice ===
+      form0781WorkflowChoices.SUBMIT_PAPER_FORM
   );
 }
 
-export function showmentalHealthSupportInfoPage(formData) {
+export function showMentalHealthSupportInfoPage(formData) {
   return (
     showForm0781Pages(formData) &&
-    formData.pTSDWorkflowChoice === form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+    formData.mentalHealthWorkflowChoice ===
+      form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
