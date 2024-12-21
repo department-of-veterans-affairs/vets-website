@@ -170,10 +170,13 @@ export const EVIDENCE_VA_REQUEST =
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
 export const EVIDENCE_PRIVATE_REQUEST =
   'supporting-evidence/request-private-medical-records';
+export const EVIDENCE_PRIVATE_AUTHORIZATION =
+  'supporting-evidence/private-medical-records-authorization';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_LIMITATION_PATH =
   'supporting-evidence/add-private-record-limitations';
+export const EVIDENCE_LIMITATION_PATH1 = 'supporting-evidence/add-limitation';
 export const EVIDENCE_LIMITATION_PATH2 = 'supporting-evidence/limitation';
 
 // TODO: Update this path

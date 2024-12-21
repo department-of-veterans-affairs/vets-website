@@ -20,3 +20,14 @@ export const mrPhase1Enabled = state => {
     FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1
   ];
 };
+
+/**
+ * Determines if AccountCreation api consumption is enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the MR phase 1 is enabled
+ */
+export const apiAccountStatusEnabled = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvAccountCreationApiConsumption
+  ];
+};

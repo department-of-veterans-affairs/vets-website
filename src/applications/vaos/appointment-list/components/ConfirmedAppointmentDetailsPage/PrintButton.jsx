@@ -16,7 +16,7 @@ export default function PrintButton() {
         className="tertiary-button vads-u-display--flex vads-u-align-items--center"
         onClick={handleClick()}
         type="button"
-        aria-label="print list"
+        data-testid="print-list"
         id="print-list"
       >
         <span className="vads-u-margin-right--0p5">

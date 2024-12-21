@@ -56,6 +56,12 @@ const RadiologyDetails = props => {
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const processingAlertHeadingRef = useRef(null);
+  const [
+    imageProcessingAlertRendered,
+    setImageProcessingAlertRendered,
+  ] = useState(false);
+  const [isImageRequested, setIsImageRequested] = useState(false);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   // State to manage the dynamic backoff polling interval
@@ -82,6 +88,24 @@ const RadiologyDetails = props => {
       dispatch(fetchBbmiNotificationStatus());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (processingAlertHeadingRef.current) {
+        setImageProcessingAlertRendered(true);
+      }
+    },
+    [processingAlertHeadingRef.current],
+  );
+
+  useEffect(
+    () => {
+      if (imageProcessingAlertRendered && isImageRequested) {
+        focusElement(processingAlertHeadingRef.current);
+      }
+    },
+    [imageProcessingAlertRendered, isImageRequested],
   );
 
   const studyJob = useMemo(
@@ -158,6 +182,7 @@ ${record.results}`;
     await requestImagingStudy(radiologyDetails.studyId);
     // After requesting the study, update the status.
     dispatch(fetchImageRequestStatus());
+    setIsImageRequested(true);
   };
 
   const notificationContent = () => (
@@ -216,7 +241,15 @@ ${record.results}`;
         aria-live="polite"
         data-testid="image-request-progress-alert"
       >
-        <h3>Image request</h3>
+        <h3
+          aria-describedby="in-progress-description"
+          ref={processingAlertHeadingRef}
+        >
+          Image request
+        </h3>
+        <p id="in-progress-description" className="sr-only">
+          in progress{' '}
+        </p>
         <p>{imageRequest.percentComplete}% complete</p>
         <va-progress-bar
           percent={
@@ -280,6 +313,7 @@ ${record.results}`;
       <va-button
         class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
+        data-testid="radiology-request-images-button"
         disabled={imageRequest?.percentComplete < 100}
         ref={elementRef}
         text="Request Images"

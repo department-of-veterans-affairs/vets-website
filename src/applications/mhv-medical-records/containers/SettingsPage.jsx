@@ -165,10 +165,8 @@ const SettingsPage = () => {
     const title = `Opt ${
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
-    const primaryButtonText = isSharing ? 'Yes, opt out' : 'Yes, opt in';
-    const secondaryButtonText = isSharing
-      ? "No, don't opt out"
-      : "No, don't opt in";
+    const primaryButtonText = isSharing ? 'Opt out' : 'Opt in';
+    const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
     return (
       <VaModal
         modalTitle={title}
@@ -295,10 +293,7 @@ const SettingsPage = () => {
         <p>
           <ExternalLink
             ddTag="Go to your profile on MHV"
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
+            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
             text="Go to your profile on the My Healthevet website"
           />
         </p>

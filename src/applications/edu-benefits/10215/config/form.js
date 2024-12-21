@@ -41,7 +41,6 @@ const formConfig = {
   transformForSubmit: transform,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  // introduction: CalculationInstructions,
   confirmation: ConfirmationPage,
   formId: '22-10215',
   saveInProgress: {},

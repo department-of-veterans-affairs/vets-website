@@ -8,11 +8,11 @@ import {
 } from '../../constants';
 import {
   isBranchOfServiceRequired,
+  isHealthFacilityRequired,
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
   isStateOfPropertyRequired,
   isVRERequired,
-  isHealthFacilityRequired,
 } from '../helpers';
 
 // Personal Information
@@ -231,9 +231,10 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-      form.yourRoleEducation ===
-        yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP,
+      (form.school || form.schoolInfo?.schoolName) &&
+      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
+        form.yourRoleEducation ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -472,18 +473,6 @@ export const flowPages = (obj, list, path) => {
       } else {
         flowGroup[key].depends = newCondition;
       }
-    }
-
-    // If last in the list, on nav forward go to the You question page
-    if (list.length === index + 1) {
-      flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath(CHAPTER_2.PAGE_3.PATH); // your-question
-    }
-
-    // If first in the list, on nav backward go to the Who is your question about page
-    if (index === 0) {
-      flowGroup[key].onNavBack = ({ goPath }) =>
-        goPath('/who-is-your-question-about');
     }
   });
   return flowGroup;

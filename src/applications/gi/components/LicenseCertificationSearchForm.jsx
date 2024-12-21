@@ -2,75 +2,144 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import {
-  capitalizeFirstLetter,
-  filterLcResults,
-  handleUpdateLcFilterDropdowns,
-} from '../utils/helpers';
+import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
+import LicenseCertificationAlert from './LicenseCertificationAlert';
 
 const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const dropdownSchema = [
-  {
-    label: 'category',
-    options: [
-      { optionValue: 'all', optionLabel: 'All' },
-      { optionValue: 'license', optionLabel: 'License' },
-      {
-        optionValue: 'certification',
-        optionLabel: 'Certification',
-      },
-      {
-        optionValue: 'prep',
-        optionLabel: 'Prep Course',
-      },
-    ],
-    alt: 'category type',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-  {
-    label: 'state',
-    options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
-    alt: 'state',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-];
+export const updateDropdowns = (category = 'all', state = 'all') => {
+  const initialDropdowns = [
+    {
+      label: 'category',
+      options: [
+        { optionValue: 'all', optionLabel: 'All' },
+        { optionValue: 'license', optionLabel: 'License' },
+        {
+          optionValue: 'certification',
+          optionLabel: 'Certification',
+        },
+        {
+          optionValue: 'prep',
+          optionLabel: 'Prep Course',
+        },
+      ],
+      alt: 'category type',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+    {
+      label: 'state',
+      options:
+        typeof state === 'string'
+          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+          : [
+              { optionValue: 'all', optionLabel: 'All' },
+              ...mappedStates.filter(mappedState =>
+                state.find(_state => _state.state === mappedState.optionValue),
+              ),
+            ],
+      alt: 'state',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+  ];
 
-const resetStateDropdown = dropdowns => {
-  return dropdowns.map(dropdown => {
-    return dropdown.label === 'state'
-      ? {
-          ...dropdown,
-          current: dropdown.options.find(
-            option => option.optionValue === 'all',
-          ),
-        }
-      : dropdown;
+  return initialDropdowns.map(dropdown => {
+    if (dropdown.label === 'category') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === category,
+        ),
+      };
+    }
+
+    if (dropdown.label === 'state') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === state,
+        ) ?? { ...dropdown.current },
+      };
+    }
+
+    return dropdown;
   });
+};
+
+export const showLicenseInMultipleStates = (suggestions, name) => {
+  return suggestions.filter(suggestion => suggestion.name === name);
+};
+
+export const checkAlert = (
+  type,
+  filteredStates,
+  currentLocation,
+  newLocation,
+) => {
+  if (filteredStates.length > 1) {
+    return true;
+  }
+
+  if (type === 'license' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  if (type === 'certification' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  return false;
 };
 
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleUpdateQueryParam,
+  handleShowModal,
   location,
+  history,
 }) {
-  const [dropdowns, setDropdowns] = useState(dropdownSchema);
+  const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
-  const [showStateAlert, setShowStateAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name') ?? '';
-  const category = searchParams.get('category') ?? '';
-  const stateParam = searchParams.get('state') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
 
+  const [categoryDropdown, locationDropdown] = dropdowns;
+
+  // Update dropdown values when param values change
+  useEffect(
+    () => {
+      // console.log('param updated 🟢', { categoryParam, stateParam });
+      setDropdowns(updateDropdowns(categoryParam, stateParam));
+    },
+    [categoryParam, stateParam],
+  );
+
+  // Update query params after handleChange, in special cases
+  useEffect(
+    () => {
+      if (categoryDropdown.current.optionValue === 'certification') {
+        handleUpdateQueryParam()([
+          ['state', 'all'],
+          ['category', 'certification'],
+        ]);
+      }
+    },
+    [dropdowns],
+  );
+
+  // Filter suggestions based on query string
   useEffect(
     () => {
       const newSuggestions = filterLcResults(suggestions, name, {
-        type: dropdowns[0].current.optionValue,
+        type: categoryDropdown.current.optionValue,
+        state: locationDropdown.current.optionValue,
       });
 
       if (name.trim() !== '') {
@@ -87,99 +156,102 @@ export default function LicenseCertificationSearchForm({
   );
 
   const handleReset = () => {
-    setDropdowns(dropdownSchema);
+    history.replace('/lc-search');
+    setDropdowns(updateDropdowns());
   };
 
   const handleChange = e => {
-    const newDropdowns = handleUpdateLcFilterDropdowns(dropdowns, e.target);
+    // console.log('handleChange 🟣 update query param', {
+    //   id: e.target.id,
+    //   value: e.target.value,
+    // });
 
-    if (newDropdowns[0].current.optionValue === 'certification') {
-      setDropdowns(resetStateDropdown);
+    // TODO map all flows in which modal appears, then write corresponding conditional statements
+    if (name && stateParam !== 'all' && categoryParam !== 'all') {
+      return handleShowModal(true);
     }
 
-    handleUpdateQueryParam()(e.target.id, e.target.value);
-
-    setDropdowns(current => handleUpdateLcFilterDropdowns(current, e.target));
+    return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    handleUpdateQueryParam()('name', value);
+    handleUpdateQueryParam()([['name', value]]);
   };
 
   const onSelection = selection => {
-    const { type, state } = selection;
+    const { type, state, name: _name } = selection;
 
-    const updateDropdowns = dropdowns.map(dropdown => {
-      if (dropdown.label === 'state') {
-        return {
-          ...dropdown,
-          current: dropdown.options.find(option => {
-            return option.optionValue === state;
-          }),
-        };
-      }
+    const filteredStates = showLicenseInMultipleStates(
+      filteredSuggestions,
+      _name,
+    );
 
-      return {
-        ...dropdown,
-        current: dropdown.options.find(option => {
-          return option.optionValue === type;
-        }),
-      };
-    });
+    const newDropdowns =
+      filteredStates.length > 1
+        ? updateDropdowns(type, state)
+        : updateDropdowns(type, filteredStates);
 
-    if (type === 'license' && dropdowns[1].current.optionValue !== state) {
-      setShowStateAlert(true);
-    }
+    setShowAlert(
+      checkAlert(
+        type,
+        filteredStates,
+        locationDropdown.current.optionValue,
+        state,
+      ),
+    );
 
-    setDropdowns(updateDropdowns);
+    setDropdowns(newDropdowns);
   };
 
   const handleClearInput = () => {
-    handleUpdateQueryParam()('name', '');
-    setShowStateAlert(false);
+    handleUpdateQueryParam()([['name', '']]);
+    setShowAlert(false);
   };
 
   return (
     <form>
       <Dropdown
         disabled={false}
-        label={capitalizeFirstLetter(dropdowns[0].label)}
+        label={capitalizeFirstLetter(categoryDropdown.label)}
         visible
-        name={dropdowns[0].label}
-        options={dropdowns[0].options}
-        value={category ?? dropdowns[0].current.optionValue}
+        name={categoryDropdown.label}
+        options={categoryDropdown.options}
+        value={categoryDropdown.current.optionValue} // align here
         onChange={handleChange}
-        alt={dropdowns[0].alt}
+        alt={categoryDropdown.alt}
         selectClassName="lc-dropdown-filter"
-        required={dropdowns[0].label === 'category'}
+        required={categoryDropdown.label === 'category'}
       />
 
       <Dropdown
-        disabled={dropdowns[0].current.optionLabel === 'Certification'}
-        label={`${capitalizeFirstLetter(dropdowns[1].label)}`}
+        disabled={categoryDropdown.current.optionValue === 'certification'}
+        label={`${capitalizeFirstLetter(locationDropdown.label)}`}
         visible
-        name={dropdowns[1].label}
-        options={dropdowns[1].options}
-        value={stateParam ?? dropdowns[1].current.optionValue}
+        name={locationDropdown.label}
+        options={locationDropdown.options}
+        value={locationDropdown.current.optionValue ?? 'all'} // align here
         onChange={handleChange}
-        alt={dropdowns[1].alt}
+        alt={locationDropdown.alt}
         selectClassName="lc-dropdown-filter"
-        required={dropdowns[1].label === 'category'}
+        required={locationDropdown.label === 'category'}
       >
-        {showStateAlert && name.length > 0 ? (
-          <va-alert
-            className="license-alert"
-            // slim={true}
-            // disable-analytics={true}
-            visible={dropdowns[0].current.optionLabel === 'License'}
-            // close-btn-aria-label={closeBtnAriaLabel}
-            closeable={false}
-            fullWidth={false}
-            style={{ maxWidth: '30rem' }}
-          >
-            The state of {dropdowns[1].current.optionLabel} has been selected
-            becuase the {name} license is specific to it.
-          </va-alert>
+        {showAlert && name.length > 0 ? (
+          <LicenseCertificationAlert
+            changeStateAlert={
+              categoryDropdown.current.optionValue === 'license' &&
+              showLicenseInMultipleStates(filteredSuggestions, name).length < 2
+            }
+            changeDropdownsAlert={
+              categoryDropdown.current.optionValue === 'license' &&
+              showLicenseInMultipleStates(filteredSuggestions, name).length > 1
+            }
+            changeStateToAllAlert={
+              categoryDropdown.current.optionValue === 'certification'
+            }
+            visible={showAlert}
+            name={name}
+            state={locationDropdown.current.optionLabel}
+          />
         ) : (
           <>
             (Note: Certifications are nationwide. Selecting a state from this
@@ -200,7 +272,13 @@ export default function LicenseCertificationSearchForm({
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() => handleSearch(dropdowns[0].current.optionValue, name)}
+          onClick={() =>
+            handleSearch(
+              categoryDropdown.current.optionValue,
+              name,
+              locationDropdown.current.optionValue,
+            )
+          }
         />
         <va-button
           text="Reset Search"
