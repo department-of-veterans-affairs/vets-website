@@ -69,7 +69,6 @@ export const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Discover your benefits',
-  // subTitle: ,
   defaultDefinitions: {
     fullName,
     ssn,
