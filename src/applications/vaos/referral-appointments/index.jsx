@@ -6,7 +6,6 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ConfirmReferral from './ConfirmReferral';
@@ -17,6 +16,7 @@ import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import ErrorAlert from './components/ErrorAlert';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
@@ -63,15 +63,9 @@ export default function ReferralAppointments() {
   }
 
   if (referralFetchStatus === FETCH_STATUS.failed) {
-    return (
-      <VaAlert status="error" visible>
-        <h2 slot="headline">
-          There was an error trying to get your referral data
-        </h2>
-        <p>Please try again later, or contact your VA facility for help.</p>
-      </VaAlert>
-    );
+    return <ErrorAlert />;
   }
+
   return (
     <>
       <Switch>
