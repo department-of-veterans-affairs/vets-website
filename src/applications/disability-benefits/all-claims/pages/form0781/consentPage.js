@@ -7,7 +7,7 @@ import {
   consentPageFormHint,
   consentPageFormTitle,
   consentPageTitle,
-  optionIndicatorChoices,
+  CONSENT_OPTION_INDICATOR_CHOICES,
 } from '../../content/form0781/consentPage';
 import { formTitle } from '../../utils';
 
@@ -17,28 +17,13 @@ export const uiSchema = {
   optionIndicator: radioUI({
     title: consentPageFormTitle,
     hint: consentPageFormHint,
-    labels: optionIndicatorChoices,
+    labels: CONSENT_OPTION_INDICATOR_CHOICES,
   }),
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    optionIndicator: radioSchema(Object.keys(optionIndicatorChoices)),
+    optionIndicator: radioSchema(Object.keys(CONSENT_OPTION_INDICATOR_CHOICES)),
   },
 };
-
-// BE NOTES
-// JSON schema
-// optionIndicator: {
-//   type: 'string',
-//   enum: ['yes', 'no', 'revoke', 'notEnrolled'],
-// },
-
-// Spec sample
-// "optionIndicator": {
-//   "yes": false,
-//   "no": false,
-//   "revoke": false,
-//   "notEnrolled": true
-// },

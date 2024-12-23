@@ -3,9 +3,15 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import Sinon from 'sinon';
-import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as consentPage from '../../../pages/form0781/consentPage';
-import { consentPageTitle } from '../../../content/form0781/consentPage';
+import {
+  consentPageTitle,
+  CONSENT_OPTION_INDICATOR_CHOICES,
+} from '../../../content/form0781/consentPage';
 
 describe('Form 0781 consent page', () => {
   const { schema, uiSchema } = consentPage;
@@ -33,25 +39,19 @@ describe('Form 0781 consent page', () => {
 
     getByText(consentPageTitle);
 
+    const radio = $('va-radio', container);
+    // Not required
+    expect(radio.getAttribute('required')).to.eq('false');
+
     // Expect one question with four radio inputs
     expect($$('va-radio').length).to.equal(1);
-    expect($$('va-radio-option').length).to.equal(4);
+    expect($$('va-radio-option').length).to.equal(
+      Object.keys(CONSENT_OPTION_INDICATOR_CHOICES).length,
+    );
 
-    expect(container.querySelector(`va-radio-option[label="Yes"]`, container))
-      .to.exist;
-    expect(container.querySelector(`va-radio-option[label="No"]`, container)).to
-      .exist;
-    expect(
-      container.querySelector(
-        `va-radio-option[label="I gave permission in the past, but I want to revoke (or cancel) my permission."]`,
-        container,
-      ),
-    ).to.exist;
-    expect(
-      container.querySelector(
-        `va-radio-option[label="I'm not enrolled or registered in VA health care."]`,
-        container,
-      ),
-    ).to.exist;
+    // verify each checkbox exists with user facing label
+    Object.values(CONSENT_OPTION_INDICATOR_CHOICES).forEach(option => {
+      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    });
   });
 });
