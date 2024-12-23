@@ -1,10 +1,12 @@
 import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
+import { showRudisill1995 } from '../helpers';
 
 const {
   benefitUpdate,
   changeAnotherBenefit,
+  rudisillReview,
   benefitAppliedFor,
 } = fullSchema.properties;
 
@@ -52,20 +54,29 @@ export const uiSchema = {
       labels: benefitsLabelsUpdate,
     },
   },
-  changeAnotherBenefit: {
-    'ui:title': 'Do you want to change to another benefit?',
-    'ui:description': changeAnotherBenefitDescription,
-    'ui:widget': 'radio',
-  },
-  benefitAppliedFor: {
-    'ui:widget': 'radio',
-    'ui:title': 'Which benefit do you want to change to?',
-    'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
-    'ui:options': {
-      labels: benefitsLabelsUpdate,
-      hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-    },
-  },
+  ...(showRudisill1995()
+    ? {
+        rudisillReview: {
+          'ui:title': 'Do you wish to request a Rudisill review?',
+          'ui:widget': 'radio',
+        },
+      }
+    : {
+        changeAnotherBenefit: {
+          'ui:title': 'Do you want to change to another benefit?',
+          'ui:description': changeAnotherBenefitDescription,
+          'ui:widget': 'radio',
+        },
+        benefitAppliedFor: {
+          'ui:widget': 'radio',
+          'ui:title': 'Which benefit do you want to change to?',
+          'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
+          'ui:options': {
+            labels: benefitsLabelsUpdate,
+            hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
+          },
+        },
+      }),
 };
 
 export const schema = {
@@ -73,7 +84,13 @@ export const schema = {
   required: ['benefitUpdate'],
   properties: {
     benefitUpdate: displayBenefit,
-    changeAnotherBenefit,
-    benefitAppliedFor: displayNewBenefit,
+    ...(!showRudisill1995()
+      ? {
+          changeAnotherBenefit,
+          benefitAppliedFor: displayNewBenefit,
+        }
+      : {
+          rudisillReview,
+        }),
   },
 };
