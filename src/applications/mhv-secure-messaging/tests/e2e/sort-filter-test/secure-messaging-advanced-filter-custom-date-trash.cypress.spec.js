@@ -109,5 +109,8 @@ describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       searchResultResponse,
       `${startMonth} 1st ${currentYear} to ${endMonth} 11th ${currentYear}`,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

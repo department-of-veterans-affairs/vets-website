@@ -138,11 +138,11 @@ class PatientSearchPage {
           const parsedDate = new Date(extractedDate);
 
           // calculate a few months back from the current date
-          const currentDate = new Date();
-          currentDate.setMonth(currentDate.getMonth() - numberOfMonth);
+          const backDate = new Date();
+          backDate.setMonth(backDate.getMonth() - numberOfMonth);
 
           // assert the date is within the last 3 months
-          expect(parsedDate).to.be.gte(currentDate);
+          expect(parsedDate).to.be.gte(backDate);
         });
     });
   };
