@@ -367,12 +367,9 @@ const DownloadFileType = props => {
 
   const checkFileTypeValidity = useCallback(
     () => {
-      let valid = true;
-      if (!fileType) {
-        setFileTypeError('Please select a file type');
-        valid = false;
-      }
-      return valid;
+      const isValid = !!fileType;
+      setFileTypeError(isValid ? '' : 'Please select a file type');
+      return isValid;
     },
     [fileType],
   );
@@ -437,6 +434,7 @@ const DownloadFileType = props => {
               onVaValueChange={e => {
                 setFileType(e.detail.value);
                 handleDdRum(e);
+                selectFileTypeHandler(e);
               }}
               error={fileTypeError}
             >
