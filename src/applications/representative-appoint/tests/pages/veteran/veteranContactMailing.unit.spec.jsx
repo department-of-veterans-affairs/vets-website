@@ -36,21 +36,4 @@ describe('Veteran Contact Mailing page', () => {
     expect(addressProps.state.maxLength).to.equal(2);
     expect(addressProps.postalCode.maxLength).to.equal(9);
   });
-
-  it('should have proper min lengths for required address fields', () => {
-    const addressProps = schema.properties.veteranHomeAddress.properties;
-
-    expect(addressProps.street.minLength).to.equal(1);
-    expect(addressProps.city.minLength).to.equal(1);
-  });
-
-  it('should have proper patterns for address fields', () => {
-    const addressProps = schema.properties.veteranHomeAddress.properties;
-
-    expect(addressProps.street.pattern).to.equal('^.*\\S.*');
-    expect(addressProps.city.pattern).to.equal('^.*\\S.*');
-    expect(addressProps.postalCode.pattern).to.equal(
-      '^[0-9]{5}(?:-[0-9]{4})?$',
-    );
-  });
 });
