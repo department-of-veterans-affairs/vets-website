@@ -78,3 +78,14 @@ export const onCloseAlert = e => {
 export const getMockData = (mockData, isLocalhost) => {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 };
+
+export const formattedPhoneNumber = phoneNumber => {
+  const phoneNumberWithoutDashes = phoneNumber.replaceAll('-', '');
+  return `(${phoneNumberWithoutDashes.substr(
+    0,
+    3,
+  )}) ${phoneNumberWithoutDashes.substr(
+    3,
+    3,
+  )}-${phoneNumberWithoutDashes.substr(6, 4)}`;
+};
