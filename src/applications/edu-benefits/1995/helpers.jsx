@@ -117,8 +117,5 @@ export const isEighteenOrOlder = (birthday, automatedTest = false) => {
     : eighteenOrOverUpdate(birthday);
 };
 export const showRudisill1995 = () => {
-  const url = window.location.href;
-  const params = new URLSearchParams(new URL(url).search);
-  const toggleValues = params.get('isRudisill1995');
-  return toggleValues?.toLowerCase() === 'true';
+  return sessionStorage.getItem('isRudisill1995') === 'true';
 };

@@ -69,14 +69,13 @@ export const uiSchema = {
           }),
         },
         benefitAppliedFor: {
-          ...radioUI({
-            title: 'Which benefit do you want to change to?',
-            required: formData => formData.changeAnotherBenefit === 'Yes',
-            options: {
-              labels: benefitsLabelsUpdate,
-              hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-            },
-          }),
+          'ui:title': 'Which benefit do you want to change to?',
+          'ui:widget': 'radio',
+          'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
+          'ui:options': {
+            labels: benefitsLabelsUpdate,
+            hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
+          },
         },
       }),
 };
@@ -89,7 +88,7 @@ export const schema = {
     ...(!showRudisill1995()
       ? {
           changeAnotherBenefit: radioSchema(['Yes', 'No']),
-          benefitAppliedFor: radioSchema(displayNewBenefit),
+          benefitAppliedFor: displayNewBenefit,
         }
       : {
           rudisillReview: radioSchema(['Yes', 'No']),
