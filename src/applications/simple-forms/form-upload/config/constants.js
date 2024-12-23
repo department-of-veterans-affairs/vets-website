@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
+export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
