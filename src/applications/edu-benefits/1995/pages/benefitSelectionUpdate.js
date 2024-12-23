@@ -1,18 +1,17 @@
 import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
 import { showRudisill1995 } from '../helpers';
 
-const {
-  benefitUpdate,
-  changeAnotherBenefit,
-  rudisillReview,
-  benefitAppliedFor,
-} = fullSchema.properties;
+const { benefitUpdate, benefitAppliedFor } = fullSchema.properties;
 
 const displayBenefit = {
   ...benefitUpdate,
-  enum: [...benefitUpdate.enum],
+  enum: [...(benefitUpdate?.enum || [])],
 };
 
 const displayNewBenefit = {
@@ -57,24 +56,27 @@ export const uiSchema = {
   ...(showRudisill1995()
     ? {
         rudisillReview: {
-          'ui:title': 'Do you wish to request a Rudisill review?',
-          'ui:widget': 'radio',
+          ...radioUI({
+            title: 'Do you wish to request a Rudisill review?',
+          }),
         },
       }
     : {
         changeAnotherBenefit: {
-          'ui:title': 'Do you want to change to another benefit?',
-          'ui:description': changeAnotherBenefitDescription,
-          'ui:widget': 'radio',
+          ...radioUI({
+            title: 'Do you want to change to another benefit?',
+            description: changeAnotherBenefitDescription,
+          }),
         },
         benefitAppliedFor: {
-          'ui:widget': 'radio',
-          'ui:title': 'Which benefit do you want to change to?',
-          'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
-          'ui:options': {
-            labels: benefitsLabelsUpdate,
-            hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-          },
+          ...radioUI({
+            title: 'Which benefit do you want to change to?',
+            required: formData => formData.changeAnotherBenefit === 'Yes',
+            options: {
+              labels: benefitsLabelsUpdate,
+              hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
+            },
+          }),
         },
       }),
 };
@@ -86,11 +88,11 @@ export const schema = {
     benefitUpdate: displayBenefit,
     ...(!showRudisill1995()
       ? {
-          changeAnotherBenefit,
-          benefitAppliedFor: displayNewBenefit,
+          changeAnotherBenefit: radioSchema(['Yes', 'No']),
+          benefitAppliedFor: radioSchema(displayNewBenefit),
         }
       : {
-          rudisillReview,
+          rudisillReview: radioSchema(['Yes', 'No']),
         }),
   },
 };
