@@ -48,6 +48,10 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(3);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 3 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -58,10 +62,13 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientInboxPage.selectDateRange('Last 6 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(6);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 6 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -75,10 +82,13 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientInboxPage.selectDateRange('Last 12 months');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(12);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 12 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -1,51 +1,48 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
-import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
-describe('SM CUSTOM FOLDER ADVANCED CATEGORY SEARCH', () => {
+describe('SM DRAFTS ADVANCED CATEGORY SEARCH', () => {
   const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
-    1,
-    'EDUCATION',
-    mockSingleThreadResponse,
+    4,
+    'COVID',
+    mockDraftMessages,
   );
+
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    PatientMessageCustomFolderPage.loadMessages();
+    FolderLoadPage.loadDraftMessages();
     PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Education');
+    PatientInboxPage.selectAdvancedSearchCategory('COVID');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
-  it('verify all messages contain the searched category', () => {
+  it('verify all draft messages contain the searched category', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Education');
+    PatientSearchPage.verifySearchResponseCategory('COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify the search results label', () => {
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
-      'Education',
-    );
+  it('verify the search message label', () => {
+    PatientSearchPage.verifySearchMessageLabel(searchResultResponse, 'COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
-describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
+describe('SM DRAFTS ADVANCED FIXED DATE RANGE SEARCH', () => {
   let searchResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    PatientMessageCustomFolderPage.loadMessages();
+    FolderLoadPage.loadDraftMessages();
     PatientInboxPage.openAdvancedSearch();
   });
 
@@ -53,7 +50,7 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       2,
       3,
-      mockSingleThreadResponse,
+      mockDraftMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
@@ -74,7 +71,7 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       3,
       6,
-      mockSingleThreadResponse,
+      mockDraftMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 6 months');
@@ -82,6 +79,10 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(6);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 6 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -91,7 +92,7 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       6,
       12,
-      mockSingleThreadResponse,
+      mockDraftMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 12 months');
@@ -99,6 +100,10 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(12);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 12 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
