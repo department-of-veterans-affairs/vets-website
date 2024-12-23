@@ -10,8 +10,6 @@
             "first": "Jane",
             "last": "Doe"
         },
-        "highestLevelOfEducation": {},
-        "signature": "Jane Doe",
-        "AGREED": true
+        "highestLevelOfEducation": {}
     }
 }

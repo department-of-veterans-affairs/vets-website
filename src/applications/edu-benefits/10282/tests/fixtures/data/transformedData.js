@@ -10,8 +10,6 @@ const transformedMinimalDataActual = {
     last: 'Doe',
   },
   highestLevelOfEducation: {},
-  // signature: 'Jane Doe',
-  // AGREED: true,
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -45,8 +43,6 @@ const transformedMaximalDataActual = {
     middle: 'Test',
     last: 'Doe',
   },
-  signature: 'Jane Doe',
-  AGREED: true,
 };
 
 export const transformedMaximalData = JSON.stringify({
