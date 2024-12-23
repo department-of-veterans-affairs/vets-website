@@ -27,7 +27,6 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  handleUpdateLcFilterDropdowns,
   deriveMaxAmount,
   deriveEligibleStudents,
 } from '../../utils/helpers';
@@ -569,61 +568,6 @@ describe('GIBCT helpers:', () => {
     });
   });
 
-  describe('handleUpdateLcFilterDropdowns', () => {
-    it('should update the correct dropdown with the selected option based on the target id and value', () => {
-      const dropdowns = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: 'all', optionLabel: 'All' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
-
-      const expectedResult = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: 'licenses', optionLabel: 'License' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
-
-      const result = handleUpdateLcFilterDropdowns(dropdowns, 0, 1);
-
-      expect(result).to.deep.equal(expectedResult);
-    });
-  });
   describe('deriveMaxAmount', () => {
     it('should return "Not provided" if no contributionAmount is given', () => {
       expect(deriveMaxAmount()).to.equal('Not provided');

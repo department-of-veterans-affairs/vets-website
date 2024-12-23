@@ -170,6 +170,8 @@ export const EVIDENCE_VA_REQUEST =
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
 export const EVIDENCE_PRIVATE_REQUEST =
   'supporting-evidence/request-private-medical-records';
+export const EVIDENCE_PRIVATE_AUTHORIZATION =
+  'supporting-evidence/private-medical-records-authorization';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_LIMITATION_PATH =

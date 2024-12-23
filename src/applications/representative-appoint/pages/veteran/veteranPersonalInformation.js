@@ -1,4 +1,5 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 
 import {
   dateOfBirthUI,
@@ -12,6 +13,9 @@ import {
 import { preparerIsVeteran } from '../../utilities/helpers';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
+const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
+fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+
 export const uiSchema = {
   ...titleUI(
     ({ formData }) =>
@@ -24,7 +28,7 @@ export const uiSchema = {
       <ProfileNotUpdatedNote formData={formData} includePhone />
     ),
   },
-  veteranFullName: fullNameUI(),
+  veteranFullName: fullNameMiddleInitialUI,
   veteranDateOfBirth: dateOfBirthUI(),
 };
 

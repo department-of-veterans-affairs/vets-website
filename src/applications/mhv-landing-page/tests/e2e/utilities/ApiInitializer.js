@@ -8,6 +8,7 @@ import {
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
   accountStatusFiveZeroZero,
+  accountStatusMultiError,
 } from '../../../mocks/api/user/mhvAccountStatus';
 
 class ApiInitializer {
@@ -85,6 +86,9 @@ class ApiInitializer {
         '/v0/user/mhv_user_account',
         accountStatusFiveZeroZero,
       );
+    },
+    withMultipleErrors: () => {
+      cy.intercept('GET', '/v0/user/mhv_user_account', accountStatusMultiError);
     },
   };
 }
