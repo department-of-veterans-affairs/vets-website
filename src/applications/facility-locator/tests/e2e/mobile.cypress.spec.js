@@ -105,7 +105,7 @@ describe('Mobile', () => {
 
     // desktop - large
     cy.viewport(1024, 1000);
-    cy.reload();
+    // cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
       expect($element.width()).closeTo(99, 5);
@@ -115,7 +115,6 @@ describe('Mobile', () => {
 
     // desktop - small
     cy.viewport(1007, 1000);
-    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
       expect($element.width()).closeTo(99, 9);
@@ -125,7 +124,6 @@ describe('Mobile', () => {
 
     // tablet
     cy.viewport(768, 1000);
-    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
       expect($element.width()).closeTo(99, 16);
@@ -135,7 +133,6 @@ describe('Mobile', () => {
 
     // mobile
     cy.viewport(481, 1000);
-    cy.reload();
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
       expect($element.width()).closeTo(99, 16);
