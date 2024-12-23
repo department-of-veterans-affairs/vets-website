@@ -34,9 +34,7 @@ const HTMLStatementPage = ({ match }) => {
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
-  const acctNum = selectedCopay?.pHAccountNumber
-    ? selectedCopay?.pHAccountNumber.toString()
-    : selectedCopay?.pHCernerAccountNumber.toString();
+  const acctNum = selectedCopay?.accountNumber;
 
   useHeaderPageTitle(title);
 
@@ -84,7 +82,7 @@ const HTMLStatementPage = ({ match }) => {
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
-          acctNum={selectedCopay.pHAccountNumber}
+          acctNum={acctNum}
         />
         <StatementCharges
           data-testid="statement-charges"
