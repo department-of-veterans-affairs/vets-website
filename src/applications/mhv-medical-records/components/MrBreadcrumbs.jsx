@@ -82,6 +82,11 @@ const MrBreadcrumbs = () => {
     ? crumbsList[crumbsList.length - 1].href
     : `/${locationBasePath}`;
 
+  const backToAllergiesBreadcrumb = () =>
+    location.pathname.includes(`/allergies/${allergyId}`)
+      ? history.goBack()
+      : `/${locationBasePath}`;
+
   if (!phase0p5Flag) {
     // TODO: !crumbsList will always be truthy due to the useEffect above
     // This should logic should be looked at and refactored when we deprecate the feature toggle
@@ -132,6 +137,7 @@ const MrBreadcrumbs = () => {
           to={backToImagesBreadcrumb}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
           }}
         >
           Back
