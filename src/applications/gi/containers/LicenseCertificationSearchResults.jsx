@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
-import { filterLcResults } from '../utils/helpers';
+import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
+  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredResults, setFilteredResults] = useState(lcResults);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name') ?? 'all';
-  const category = searchParams.get('category') ?? 'all';
-  const state = searchParams.get('state') ?? 'all';
+  const name = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
 
   const itemsPerPage = 5;
 
@@ -42,7 +46,10 @@ function LicenseCertificationSearchResults({
   useEffect(
     () => {
       if (lcResults.length !== 0) {
-        const results = filterLcResults(lcResults, name, { type: category });
+        const results = filterLcResults(lcResults, name, {
+          type: categoryParam,
+          state: stateParam,
+        });
         setFilteredResults(results);
       }
     },
@@ -53,14 +60,20 @@ function LicenseCertificationSearchResults({
     setCurrentPage(page);
   };
 
-  if (fetchingLc) {
-    return <h2>Loading</h2>;
-  }
+  // if (error) {
+  //   {/* ERROR STATE */}
+  // }
 
   return (
     <div>
+      {fetchingLc && (
+        <VaLoadingIndicator
+          // data-testid="loading-indicator"
+          message="Loading..."
+        />
+      )}
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {hasFetchedOnce && filteredResults.length !== 0 ? (
+        {!fetchingLc && hasFetchedOnce && filteredResults.length !== 0 ? (
           <>
             <div className="row">
               <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
@@ -72,36 +85,39 @@ function LicenseCertificationSearchResults({
                 {filteredResults.length > itemsPerPage
                   ? itemsPerPage
                   : filteredResults.length}{' '}
-                of {filteredResults.length} results for: {name || null}
+                of {filteredResults.length} results for:
               </p>
               <p className="lc-filter-option">
-                <strong>Category type: </strong> {`"${category}"`}
+                <strong>Category type: </strong>{' '}
+                {`"${capitalizeFirstLetter(categoryParam)}"`}
               </p>
               <p className="lc-filter-option">
-                <strong>State: </strong> {`"${state}"`}
+                <strong>State: </strong>{' '}
+                {`${stateParam === 'all' ? `"All"` : `"${stateParam}"`}`}
               </p>
               <p className="lc-filter-option">
                 <strong>License/Certification Name: </strong> {`"${name}"`}
               </p>
             </div>
             <div className="row">
-              {currentResults.map((result, index) => {
-                return (
-                  <div className="vads-u-padding-bottom--2" key={index}>
-                    <va-card class="vads-u-background-color--gray-lightest">
-                      <h3 className="vads-u-margin--0">{result.name}</h3>
-                      <h4 className="lc-card-subheader vads-u-margin-y--1p5">
-                        {result.type}
-                      </h4>
-                      <va-link-action
-                        href={`results/${result.link.split('lce/')[1]}`}
-                        text="View test amount details"
-                        type="secondary"
-                      />
-                    </va-card>
-                  </div>
-                );
-              })}
+              {filteredResults.length > 0 &&
+                currentResults.map((result, index) => {
+                  return (
+                    <div className="vads-u-padding-bottom--2" key={index}>
+                      <va-card class="vads-u-background-color--gray-lightest">
+                        <h3 className="vads-u-margin--0">{result.name}</h3>
+                        <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                          {result.type}
+                        </h4>
+                        <va-link-action
+                          href={`results/${result.link.split('lce/')[1]}`}
+                          text="View test amount details"
+                          type="secondary"
+                        />
+                      </va-card>
+                    </div>
+                  );
+                })}
             </div>
             <VaPagination
               page={currentPage}
@@ -129,12 +145,14 @@ LicenseCertificationSearchResults.propTypes = {
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
   lcResults: PropTypes.array,
+  // error: Proptypes // verify error Proptypes
 };
 
 const mapStateToProps = state => ({
   fetchingLc: state.licenseCertificationSearch.fetchingLc,
   hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
   lcResults: state.licenseCertificationSearch.lcResults,
+  // error: // create error state in redux store
 });
 
 const mapDispatchToProps = {

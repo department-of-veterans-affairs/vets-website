@@ -165,6 +165,21 @@ describe('DownloadRecordsPage triggering SEI PDF download', () => {
     fireEvent.click(downloadButton);
     expect(downloadButton).to.exist;
   });
+
+  it('generates sei pdf on button click', () => {
+    const seiAccordion = screen.getByTestId('selfEnteredAccordionItem');
+    expect(seiAccordion).to.exist;
+
+    fireEvent.click(seiAccordion);
+    const seiGenerateButton = screen.getByTestId('downloadSelfEnteredButton');
+    expect(seiGenerateButton).to.exist;
+
+    fireEvent.click(seiGenerateButton);
+    waitFor(() => {
+      expect(screen.container.querySelector('#generating-sei-indicator')).to
+        .exist;
+    });
+  });
 });
 
 describe('DownloadRecordsPage with a general BB download error', () => {
