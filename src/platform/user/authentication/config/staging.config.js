@@ -129,7 +129,7 @@ export default {
     },
     oAuthOptions: defaultMobileOAuthOptions,
     OAuthEnabled: false,
-    requiresVerification: true,
+    requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD],
   },
 };

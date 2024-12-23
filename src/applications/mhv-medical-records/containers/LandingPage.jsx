@@ -453,6 +453,7 @@ const LandingPage = () => {
                   'download-my-data',
                 )}
                 text="Go to your medical records on the My HealtheVet website"
+                ddTag="Go back to MHV to download"
               />
             </p>
           </section>

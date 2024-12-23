@@ -17,11 +17,12 @@ export default function LicenseCertificationKeywordSearch({
   };
 
   const handleSuggestionSelected = selected => {
-    const { name, type } = selected;
+    // console.log('selected', selected);
+    const { name, type, state } = selected;
 
     onUpdateAutocompleteSearchTerm(name);
 
-    onSelection({ type, state: type === 'license' ? 'FL' : 'all' }); // remove hardcoded state
+    onSelection({ type, state: type === 'license' ? state : 'all', name });
   };
 
   return (
@@ -78,7 +79,7 @@ export default function LicenseCertificationKeywordSearch({
                 )}
             </div>
             {isOpen &&
-              suggestions.length > 0 && (
+              inputValue && (
                 <div
                   className="suggestions-list"
                   role="listbox"

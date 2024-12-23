@@ -8,7 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
-import { getParamValue } from '../../util/helpers';
+import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -110,7 +110,9 @@ const RecordList = props => {
         (paginatedRecords.current.length > 1 ? (
           <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
-              data-dd-action-name="record list pagination"
+              onClick={() => {
+                sendDataDogAction(`Pagination - ${type}`);
+              }}
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
