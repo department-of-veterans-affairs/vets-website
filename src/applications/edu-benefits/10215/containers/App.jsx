@@ -26,9 +26,6 @@ export default function App({ location, children }) {
 }
 
 App.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.object,
   location: PropTypes.object,
 };
