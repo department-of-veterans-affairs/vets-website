@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
-import { title4142 } from '../content/title';
+import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
 import {
   authorizationLabel,
@@ -258,7 +258,7 @@ export const PrivateContent = ({
                 showListOnly,
               )}`}
             >
-              {`${title4142} (21-4142)`}
+              {title4142WithId}
             </strong>
             <div>
               {privacyAgreementAccepted ? (

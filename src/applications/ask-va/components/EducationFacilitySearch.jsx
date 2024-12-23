@@ -33,7 +33,7 @@ const EducationFacilitySearch = ({ onChange }) => {
           errorMessage:
             searchURL > 1
               ? "Check the spelling of the school's name or city you entered"
-              : 'Check the school code you entered',
+              : 'Check the school code you entered and try searching again',
         });
       });
   };

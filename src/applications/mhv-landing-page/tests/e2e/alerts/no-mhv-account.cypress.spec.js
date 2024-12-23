@@ -89,6 +89,22 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     });
   });
 
+  context('for multiple user and non-user api errors', () => {
+    beforeEach(() => {
+      ApiInitializer.initializeAccountStatus.withMultipleErrors();
+      LandingPage.visit({ mhvAccountState: 'NONE' });
+    });
+    it('refers to the same error in the alert and the card', () => {
+      cy.findByText('Error code 805: Contact the My HealtheVet help desk', {
+        exact: false,
+      }).should.exist;
+
+      cy.findByText('Error 805: We can’t give you access to messages', {
+        exact: false,
+      }).should.exist;
+    });
+  });
+
   it(`alert not shown for user with MHV account`, () => {
     LandingPage.visit({ mhvAccountState: 'OK' });
     cy.injectAxeThenAxeCheck();
