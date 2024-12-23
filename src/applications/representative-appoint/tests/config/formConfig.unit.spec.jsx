@@ -97,8 +97,8 @@ describe('FormConfig depends function', () => {
         .false;
       expect(veteranPages.veteranContactMailingClaimant.depends(mockData)).to.be
         .false;
-      expect(veteranPages.veteranContactPhoneEmail.depends(mockData)).to.be
-        .false;
+      expect(veteranPages.veteranContactPhoneEmailClaimant.depends(mockData)).to
+        .be.false;
       expect(veteranPages.veteranIdentification.depends(mockData)).to.be.false;
     });
   });
@@ -132,8 +132,8 @@ describe('FormConfig depends function', () => {
         .true;
       expect(veteranPages.veteranContactMailingClaimant.depends(mockData)).to.be
         .true;
-      expect(veteranPages.veteranContactPhoneEmail.depends(mockData)).to.be
-        .true;
+      expect(veteranPages.veteranContactPhoneEmailClaimant.depends(mockData)).to
+        .be.true;
       expect(veteranPages.veteranIdentification.depends(mockData)).to.be.true;
     });
   });
