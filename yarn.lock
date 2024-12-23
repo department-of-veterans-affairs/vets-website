@@ -6170,6 +6170,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:^1.49.1":
+  version: 1.49.1
+  resolution: "@playwright/test@npm:1.49.1"
+  dependencies:
+    playwright: "npm:1.49.1"
+  bin:
+    playwright: cli.js
+  checksum: 10c0/2fca0bb7b334f7a23c7c5dfa5dbe37b47794c56f39b747c8d74a2f95c339e7902a296f2f1dd32c47bdd723cfa92cee05219f1a5876725dc89a1871b9137a286d
+  languageName: node
+  linkType: hard
+
 "@polka/url@npm:^1.0.0-next.20":
   version: 1.0.0-next.21
   resolution: "@polka/url@npm:1.0.0-next.21"
@@ -6950,6 +6961,15 @@ __metadata:
   version: 15.14.9
   resolution: "@types/node@npm:15.14.9"
   checksum: 10c0/fe5b69cffd20f97c814d568c1d791b3c367f9efa6567a18d2c15cd73c5437f47bcff73a2e10bdfe59f90ce7df47e6cc3c6d431c76d2213bf6099e8ab5d16d355
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^22.10.2":
+  version: 22.10.2
+  resolution: "@types/node@npm:22.10.2"
+  dependencies:
+    undici-types: "npm:~6.20.0"
+  checksum: 10c0/2c7b71a040f1ef5320938eca8ebc946e6905caa9bbf3d5665d9b3774a8d15ea9fab1582b849a6d28c7fc80756a62c5666bc66b69f42f4d5dafd1ccb193cdb4ac
   languageName: node
   linkType: hard
 
@@ -15405,7 +15425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:~2.3.1":
+"fsevents@npm:2.3.2, fsevents@npm:~2.3.1":
   version: 2.3.2
   resolution: "fsevents@npm:2.3.2"
   dependencies:
@@ -15425,7 +15445,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A~2.3.1#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.1#optional!builtin<compat/fsevents>":
   version: 2.3.2
   resolution: "fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
@@ -23001,6 +23021,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"playwright-core@npm:1.49.1":
+  version: 1.49.1
+  resolution: "playwright-core@npm:1.49.1"
+  bin:
+    playwright-core: cli.js
+  checksum: 10c0/990b619c75715cd98b2c10c1180a126e3a454b247063b8352bc67792fe01183ec07f31d30c8714c3768cefed12886d1d64ac06da701f2baafc2cad9b439e3919
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.49.1":
+  version: 1.49.1
+  resolution: "playwright@npm:1.49.1"
+  dependencies:
+    fsevents: "npm:2.3.2"
+    playwright-core: "npm:1.49.1"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    playwright: cli.js
+  checksum: 10c0/2368762c898920d4a0a5788b153dead45f9c36c3f5cf4d2af5228d0b8ea65823e3bbe998877950a2b9bb23a211e4633996f854c6188769dc81a25543ac818ab5
+  languageName: node
+  linkType: hard
+
 "please-upgrade-node@npm:^3.2.0":
   version: 3.2.0
   resolution: "please-upgrade-node@npm:3.2.0"
@@ -28823,6 +28867,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~6.20.0":
+  version: 6.20.0
+  resolution: "undici-types@npm:6.20.0"
+  checksum: 10c0/68e659a98898d6a836a9a59e6adf14a5d799707f5ea629433e025ac90d239f75e408e2e5ff086afc3cace26f8b26ee52155293564593fbb4a2f666af57fc59bf
+  languageName: node
+  linkType: hard
+
 "unicode-canonical-property-names-ecmascript@npm:^1.0.4":
   version: 1.0.4
   resolution: "unicode-canonical-property-names-ecmascript@npm:1.0.4"
@@ -29519,6 +29570,7 @@ __metadata:
     "@fortawesome/fontawesome-free": "npm:^5.15.4"
     "@mapbox/mapbox-sdk": "npm:~0.13.2"
     "@octokit/rest": "npm:^18.11.0"
+    "@playwright/test": "npm:^1.49.1"
     "@reduxjs/toolkit": "npm:^2.2.5"
     "@sentry/browser": "npm:^6.13.2"
     "@testing-library/dom": "npm:^7.26.6"
@@ -29526,6 +29578,7 @@ __metadata:
     "@testing-library/react-hooks": "npm:^8.0.1"
     "@testing-library/user-event": "npm:^12.2.2"
     "@tlei123/vagov-cy-tr-reporter": "npm:^0.0.7"
+    "@types/node": "npm:^22.10.2"
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"
     "@types/react-router": "npm:^5.1.20"

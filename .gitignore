@@ -57,3 +57,7 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

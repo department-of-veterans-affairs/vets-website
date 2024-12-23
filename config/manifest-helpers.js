@@ -11,13 +11,17 @@ function getAppManifests() {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
 
-      return Object.assign({}, manifest, {
-        filePath: file,
-        entryFile: path.resolve(
-          root,
-          path.join(path.dirname(file), manifest.entryFile),
-        ),
-      });
+      if (manifest.appName) {
+        return {
+          ...manifest,
+          filePath: file,
+          entryFile: path.resolve(
+            root,
+            path.join(path.dirname(file), manifest.entryFile),
+          ),
+        };
+      }
+      return '';
     });
 }
 
