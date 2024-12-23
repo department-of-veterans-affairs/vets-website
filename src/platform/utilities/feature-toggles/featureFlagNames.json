@@ -12,7 +12,7 @@
   "bannerUseAlternativeBanners": "banner_use_alternative_banners",
   "bcasLettersUseLighthouse": "bcas_letters_use_lighthouse",
   "benefitsDocumentsUseLighthouse": "benefits_documents_use_lighthouse",
-  "benefitsNonDisabilityCh31V2":  "benefits_non_disability_ch31_v2",
+  "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
@@ -305,5 +305,6 @@
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
   "fsrWizard": "fsr_wizard",
-  "isDGIBEndpoint": "is_DGIB_endpoint"
+  "isDGIBEndpoint": "is_DGIB_endpoint",
+  "enableLightHouse": "enable_lighthouse"
 }
