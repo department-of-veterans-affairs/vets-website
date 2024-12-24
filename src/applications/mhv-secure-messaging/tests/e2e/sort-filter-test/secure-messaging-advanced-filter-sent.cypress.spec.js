@@ -1,29 +1,30 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
+import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import PatentMessageSentPage from '../pages/PatientMessageSentPage';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
-describe('SM TRASH ADVANCED CATEGORY SEARCH', () => {
+describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
   const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
-    2,
-    'MEDICATIONS',
-    mockTrashMessages,
+    3,
+    'APPOINTMENTS',
+    mockSentMessages,
   );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    FolderLoadPage.loadDeletedMessages();
+    PatentMessageSentPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Medication');
+    PatientInboxPage.selectAdvancedSearchCategory('Appointment');
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
   });
 
-  it('verify all messages contain the searched category', () => {
+  it('verify all sent messages contain the searched category', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Medication');
+    PatientSearchPage.verifySearchResponseCategory('Appointment');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -31,20 +32,20 @@ describe('SM TRASH ADVANCED CATEGORY SEARCH', () => {
   it('verify the search message label', () => {
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Medication',
+      'Appointment',
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
-describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
+describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
   let searchResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    FolderLoadPage.loadDeletedMessages();
+    PatentMessageSentPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
   });
 
@@ -52,7 +53,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       2,
       3,
-      mockTrashMessages,
+      mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 3 months');
@@ -73,7 +74,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       3,
       6,
-      mockTrashMessages,
+      mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 6 months');
@@ -81,6 +82,10 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(6);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 6 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -90,7 +95,7 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
       6,
       12,
-      mockTrashMessages,
+      mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange('Last 12 months');
@@ -98,6 +103,10 @@ describe('SM TRASH ADVANCED FIXED DATE RANGE SEARCH', () => {
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(12);
+    PatientSearchPage.verifySearchMessageLabel(
+      searchResultResponse,
+      'Last 12 months',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
