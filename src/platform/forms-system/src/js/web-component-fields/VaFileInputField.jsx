@@ -39,9 +39,9 @@ let file = null;
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
-  const [uploadInProgress, setUploadInProgress] = useState(false);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
+  const [error, setError] = useState(mappedProps.error);
 
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.file) {
@@ -53,7 +53,7 @@ const VaFileInputField = props => {
         warnings,
       } = uploadedFile;
       file = uploadedFile.file;
-      setUploadInProgress(false);
+      setError(null);
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
@@ -68,7 +68,7 @@ const VaFileInputField = props => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
       file = null;
-      setUploadInProgress(false);
+      setError(mappedProps.error);
       props.childrenProps.onChange({});
       return;
     }
@@ -81,13 +81,19 @@ const VaFileInputField = props => {
       return;
     }
 
+    // Disallow uploads greater than 25 MB
+    if (fileFromEvent.size > 25000000) {
+      setError('file - size must not be greater than 25.0 MB');
+      return;
+    }
+
     dispatch(
       uploadScannedForm(
         fileUploadUrl,
         formNumber,
         fileFromEvent,
         onFileUploaded,
-        () => setUploadInProgress(true),
+        () => setError(null),
       ),
     );
   };
@@ -95,7 +101,7 @@ const VaFileInputField = props => {
   return (
     <VaFileInput
       {...mappedProps}
-      error={uploadInProgress ? '' : mappedProps.error}
+      error={error}
       value={file}
       onVaChange={handleVaChange}
     />
