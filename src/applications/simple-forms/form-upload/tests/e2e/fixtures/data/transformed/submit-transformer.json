@@ -1,0 +1,9 @@
+{
+  "confirmationCode": "123456",
+  "formNumber": "21-0779",
+  "options": {
+    "ssn": "234232345",
+    "vaFileNumber": "456454567",
+    "zipCode": "12345"
+  }
+}
