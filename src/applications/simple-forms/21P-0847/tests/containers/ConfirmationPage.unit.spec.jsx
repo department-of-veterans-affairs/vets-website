@@ -18,10 +18,8 @@ describe('ConfirmationPage', () => {
   const mockStore = configureMockStore();
   const initialState = {
     form: {
-      data: {
-        ...createInitialState(formConfig),
-        ...testData.data,
-      },
+      ...createInitialState(formConfig),
+      data: testData,
       submission: {
         response: {
           confirmationNumber: '1234567890',
@@ -58,14 +56,12 @@ describe('ConfirmationPage', () => {
     const submitDate = new Date();
     const mockInitialState = {
       form: {
+        ...createInitialState(formConfig),
         submission: {
           timestamp: submitDate,
           response: { confirmationNumber: '1234' },
         },
-        data: {
-          ...createInitialState(formConfig),
-          ...testData.data,
-        },
+        data: testData,
       },
     };
     const mockDefinedState = createStore(() => mockInitialState);

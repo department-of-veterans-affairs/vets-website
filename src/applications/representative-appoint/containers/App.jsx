@@ -51,7 +51,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
   useEffect(() => {
     setFormData({
       ...formData,
-      'view:representativeQuery': '',
+      'view:representativeQueryInput': '',
       'view:representativeSearchResults': [],
     });
   }, []);
