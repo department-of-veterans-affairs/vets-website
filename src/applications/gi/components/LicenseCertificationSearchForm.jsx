@@ -176,28 +176,29 @@ export default function LicenseCertificationSearchForm({
   };
 
   const onSelection = selection => {
-    const { type, state, name: _name } = selection;
+    if (selection.selected !== filteredSuggestions[0]) {
+      const { type, state, name: _name } = selection;
+      const filteredByState = showLicenseInMultipleStates(
+        filteredSuggestions,
+        _name,
+      );
 
-    const filteredByState = showLicenseInMultipleStates(
-      filteredSuggestions,
-      _name,
-    );
+      const newDropdowns =
+        filteredByState.length > 1
+          ? updateDropdowns(type, filteredByState)
+          : updateDropdowns(type, state);
 
-    const newDropdowns =
-      filteredByState.length > 1
-        ? updateDropdowns(type, filteredByState)
-        : updateDropdowns(type, state);
+      setShowAlert(
+        checkAlert(
+          type,
+          filteredByState,
+          locationDropdown.current.optionValue,
+          state,
+        ),
+      );
 
-    setShowAlert(
-      checkAlert(
-        type,
-        filteredByState,
-        locationDropdown.current.optionValue,
-        state,
-      ),
-    );
-
-    setDropdowns(newDropdowns);
+      setDropdowns(newDropdowns);
+    }
   };
 
   const handleClearInput = () => {

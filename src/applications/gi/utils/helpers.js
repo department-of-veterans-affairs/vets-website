@@ -528,7 +528,6 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-// TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
   const { type, state } = filters;
 

@@ -22,7 +22,12 @@ export default function LicenseCertificationKeywordSearch({
 
     onUpdateAutocompleteSearchTerm(name);
 
-    onSelection({ type, state: type === 'license' ? state : 'all', name });
+    onSelection({
+      type,
+      state: type === 'license' ? state : 'all',
+      name,
+      selected,
+    });
   };
 
   return (
