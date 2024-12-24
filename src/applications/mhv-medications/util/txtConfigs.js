@@ -256,7 +256,7 @@ Filled by pharmacy on: ${
       entry?.dispensedDate ? dateFormat(entry.dispensedDate) : 'None noted'
     }
 
-Shipped on: ${dateFormat(prescription?.trackingList?.[0].completeDateTime)}
+Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
 
 Description: ${description}
 
