@@ -185,8 +185,6 @@ export const formConfig = {
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
-          depends: () =>
-            !window.location.pathname.includes('review-and-submit'),
         },
         addDependentOptions: {
           hideHeaderRow: true,
@@ -194,9 +192,7 @@ export const formConfig = {
           path: 'options-selection/add-dependents',
           uiSchema: addDependentOptions.uiSchema,
           schema: addDependentOptions.schema,
-          depends: form =>
-            form?.['view:addOrRemoveDependents']?.add &&
-            !window.location.pathname.includes('review-and-submit'),
+          depends: form => form?.['view:addOrRemoveDependents']?.add,
         },
         removeDependentOptions: {
           hideHeaderRow: true,
@@ -204,9 +200,7 @@ export const formConfig = {
           path: 'options-selection/remove-dependents',
           uiSchema: removeDependentOptions.uiSchema,
           schema: removeDependentOptions.schema,
-          depends: form =>
-            form?.['view:addOrRemoveDependents']?.remove &&
-            !window.location.pathname.includes('review-and-submit'),
+          depends: form => form?.['view:addOrRemoveDependents']?.remove,
         },
       },
     },
