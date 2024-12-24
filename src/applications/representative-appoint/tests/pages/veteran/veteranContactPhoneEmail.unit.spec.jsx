@@ -11,7 +11,7 @@ describe('Veteran Contact Phone Email page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranInfo.pages.veteranContactPhoneEmail;
+  } = formConfig.chapters.claimantInfo.pages.veteranContactPhoneEmail;
 
   const mockStore = configureStore();
   const store = mockStore({

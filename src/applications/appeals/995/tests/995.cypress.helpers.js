@@ -135,13 +135,20 @@ export const getPastItf = cy => {
     });
 };
 
-export const setupPerTest = () => {
+// _testData from createTestConfig
+export const setupPerTest = (_testData, toggles = []) => {
   cypressSetup();
 
   setStoredSubTask({ benefitType: 'compensation' });
 
   cy.intercept('POST', `/${EVIDENCE_UPLOAD_API.join('')}`, mockUpload);
   cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      type: 'feature_toggles',
+      features: Array.isArray(toggles) ? toggles : [],
+    },
+  });
 
   // Include legacy appeals to mock data for maximal test
   const dataSet = Cypress.currentTest.titlePath[1];
@@ -235,7 +242,7 @@ export const pageHooks = {
   [EVIDENCE_VA_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('@testData').then(({ locations = [] }) => {
+      cy.get('@testData').then(({ locations = [], showScNewForm }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
@@ -248,8 +255,17 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            cy.fillVaMemorableDate('from', location.evidenceDates?.from, false);
-            cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
+            if (showScNewForm) {
+              cy.fillVaDate('txdate', location.treatmentDate, true);
+              cy.selectVaCheckbox('nodate', location.noDate);
+            } else {
+              cy.fillVaMemorableDate(
+                'from',
+                location.evidenceDates?.from,
+                false,
+              );
+              cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
+            }
             cy.axeCheck();
 
             // Add another

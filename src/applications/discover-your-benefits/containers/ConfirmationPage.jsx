@@ -10,7 +10,7 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import SaveResultsModal from '../components/SaveResultsModal';
+import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 import Benfits from './components/Benefits';
 
@@ -41,6 +41,12 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
+    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.setState({ benefitsList: sortedBenefitsList });
   }
 
   componentDidUpdate(prevProps) {
@@ -183,9 +189,13 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const count =
+      this.props.location.query.allBenefits === 'true'
+        ? this.state.benefitsList.length
+        : this.state.resultsCount;
     return (
       <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
+        Showing {count} {resultsText}, filtered to show{' '}
         <b>{this.state.filterValue} results</b>, sorted{' '}
         {this.state.sortValue === 'alphabetical'
           ? 'alphabetically by benefit name'
@@ -297,7 +307,7 @@ export class ConfirmationPage extends React.Component {
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
             {!this.props.location.query.allBenefits && (
               <div className="vads-l-col--12">
-                <SaveResultsModal />
+                <CopyResultsModal />
               </div>
             )}
             <div
@@ -399,7 +409,7 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              {this.state.hasResults && (
+              {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
               {!this.props.location.query.allBenefits &&

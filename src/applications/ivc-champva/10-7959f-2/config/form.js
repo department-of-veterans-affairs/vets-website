@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import React from 'react';
 
 import {
   ssnOrVaFileNumberNoHintSchema,
@@ -254,7 +255,23 @@ const formConfig = {
           path: 'payment-selection',
           title: 'Where to send the payment',
           uiSchema: {
-            ...titleUI('Where to send the payment'),
+            ...titleUI(
+              'Where to send the payment',
+              <>
+                <ul>
+                  <li>
+                    Select <strong>Veteran</strong> if you’ve already paid this
+                    provider. We’ll send a check to your mailing address to pay
+                    you back (also called reimbursement).
+                  </li>
+                  <li>
+                    Select <strong>Provider</strong> if you haven’t paid the
+                    provider. We’ll send a check to the provider’s mailing
+                    address to pay them directly.
+                  </li>
+                </ul>
+              </>,
+            ),
             sendPayment: PaymentSelectionUI(),
           },
           schema: {

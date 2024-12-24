@@ -55,6 +55,7 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -89,6 +90,7 @@ const Prescriptions = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -141,7 +143,12 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
     dispatch(
-      getPaginatedFilteredList(1, filterOptions[filterBy]?.url, sortBy),
+      getPaginatedFilteredList(
+        1,
+        filterOptions[filterBy]?.url,
+        sortBy,
+        showGroupingContent ? 10 : 20,
+      ),
     ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
@@ -240,6 +247,7 @@ const Prescriptions = () => {
           getPrescriptionsPaginatedSortedList(
             page ?? 1,
             rxListSortingOptions[sortOption].API_ENDPOINT,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
         if (!selectedSortOption) updateSortOption(sortOption);
@@ -315,6 +323,7 @@ const Prescriptions = () => {
             storedPageNumber,
             filterOptions[storedFilterOption]?.url,
             sortEndpoint,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
       }
