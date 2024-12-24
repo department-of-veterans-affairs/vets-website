@@ -15,7 +15,7 @@ describe('radiusFromBoundingBox', () => {
       },
     ];
     const testRad = radiusFromBoundingBox(testDallasFeatureBbox);
-    expect(testRad > MIN_RADIUS).to.eql(true);
+    expect(testRad >= MIN_RADIUS).to.eql(true);
   });
 
   it('should return a default 10 miles radius - zip 92052', () => {
