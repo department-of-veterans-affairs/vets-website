@@ -29,24 +29,18 @@ export const buildRoutes = () => {
         <Route
           exact
           path="/lc-search"
-          render={({ match }) => (
-            <LicenseCertificationSearchPage match={match} />
-          )}
+          component={LicenseCertificationSearchPage}
         />
         <Route
           exact
           path="/lc-search/results"
-          render={({ match }) => (
-            <LicenseCertificationSearchResults match={match} />
-          )}
+          component={LicenseCertificationSearchResults}
         />
         <Route path="/national-exams" component={NationalExamsList} />
 
         <Route
           path="/lc-search/results/:type/:id"
-          render={({ match }) => (
-            <LicenseCertificationSearchResult match={match} />
-          )}
+          component={LicenseCertificationSearchResult}
         />
         <Route
           path="/compare"
