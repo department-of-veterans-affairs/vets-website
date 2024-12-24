@@ -483,3 +483,17 @@ ul.react-tabs__tab-list {
 va-radio-option#facility-not-listed .usa-radio__label[for="facility-not-listedinput"][role="radio"] {
   font-weight: 600;
 }
+
+.school-info-bar {
+  border-left: 4px solid var(--vads-color-primary);
+}
+
+.school-state-error {
+  border-left: 0.25rem solid var(--vads-color-secondary-dark);
+  padding-left: 1rem;
+  position: relative;
+
+  [error]:not([error=""]) {
+    border-left: none;
+  }
+}
