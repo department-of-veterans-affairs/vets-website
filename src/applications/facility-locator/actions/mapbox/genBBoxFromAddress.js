@@ -91,8 +91,11 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
             Math.max(featureBox[3], coordinates[1] + searchBoundingRadius),
           ];
         }
+
         const radius = radiusFromBoundingBox(
-          features,
+          features?.[0]?.bbox
+            ? features
+            : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
         );
         dispatch({

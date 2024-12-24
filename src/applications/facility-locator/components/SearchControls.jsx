@@ -79,7 +79,6 @@ const SearchControls = props => {
       searchString,
       specialties,
     } = currentQuery;
-
     let analyticsServiceType = serviceType;
 
     const updateReduxState = propName => {
@@ -122,7 +121,6 @@ const SearchControls = props => {
       'fl-search-svc-type': analyticsServiceType,
       'fl-current-zoom-depth': zoomLevel,
     });
-
     onSubmit();
   };
 
