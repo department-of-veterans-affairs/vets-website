@@ -125,17 +125,28 @@ const summaryPage = {
   },
 };
 
+function handleTitle(isVet, isPrep, vetTitle, sponsorTitle, prepTitle) {
+  if (isVet) {
+    if (isPrep) {
+      return prepTitle;
+    }
+    return vetTitle;
+  }
+  return sponsorTitle;
+}
+
 /** @returns {PageSchema} */
 function servicePeriodInformationPage(isVet, isPrep) {
   return {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
-        // eslint-disable-next-line no-nested-ternary
-        title: isVet
-          ? isPrep
-            ? 'Applicant’s service period(s)'
-            : 'Your service period(s)'
-          : 'Sponsor’s service periods(s)',
+        title: handleTitle(
+          isVet,
+          isPrep,
+          'Your service period(s)',
+          'Sponsor’s service periods(s)',
+          'Applicant’s service period(s)',
+        ),
         nounSingular: 'service period',
         servicePeriod: options.servicePeriod,
         hasMultipleItemPages: false,
@@ -152,12 +163,13 @@ function servicePeriodInformationPage(isVet, isPrep) {
         useAllFormData: true,
       },
       serviceBranch: autosuggest.uiSchema(
-        // eslint-disable-next-line no-nested-ternary
-        isVet
-          ? isPrep
-            ? 'Applicant’s branch of service'
-            : 'Branch of service'
-          : 'Sponsor’s branch of service',
+        handleTitle(
+          isVet,
+          isPrep,
+          'Branch of service',
+          'Sponsor’s branch of service',
+          'Applicant’s branch of service',
+        ),
         null,
         {
           'ui:options': {
@@ -166,27 +178,29 @@ function servicePeriodInformationPage(isVet, isPrep) {
         },
       ),
       dateRange: dateRangeUI(
-        // eslint-disable-next-line no-nested-ternary
-        isVet
-          ? isPrep
-            ? 'Applicant’s service start date'
-            : 'Service start date'
-          : 'Sponsor’s service start date',
-        // eslint-disable-next-line no-nested-ternary
-        isVet
-          ? isPrep
-            ? 'Applicant’s service end date'
-            : 'Service end date'
-          : 'Sponsor’s service end date',
-        'Service start date must be after end date',
+        handleTitle(
+          isVet,
+          isPrep,
+          'Service start date',
+          'Sponsor’s service start date',
+          'Applicant’s service start date',
+        ),
+        handleTitle(
+          isVet,
+          isPrep,
+          'Service end date',
+          'Sponsor’s service end date',
+          'Applicant’s service end date',
+        ),
       ),
       dischargeType: {
-        // eslint-disable-next-line no-nested-ternary
-        'ui:title': isVet
-          ? isPrep
-            ? 'Applicant’s discharge character of service'
-            : 'Discharge character of service'
-          : 'Sponsor’s discharge character of service',
+        'ui:title': handleTitle(
+          isVet,
+          isPrep,
+          'Discharge character of service',
+          'Sponsor’s discharge character of service',
+          'Applicant’s discharge character of service',
+        ),
         'ui:options': {
           labels: {
             1: 'Honorable',
