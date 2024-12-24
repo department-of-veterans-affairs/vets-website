@@ -562,6 +562,16 @@ export const updateQueryParam = (history, location) => {
   };
 };
 
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+
+  const name = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
+
+  return { name, categoryParam, stateParam };
+};
+
 export const handleLcResultsSearch = (
   history,
   category = 'all',

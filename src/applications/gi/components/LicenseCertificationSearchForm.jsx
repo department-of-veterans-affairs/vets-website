@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
+import {
+  capitalizeFirstLetter,
+  filterLcResults,
+  showLcParams,
+} from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 import LicenseCertificationAlert from './LicenseCertificationAlert';
 
@@ -105,10 +109,7 @@ export default function LicenseCertificationSearchForm({
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showAlert, setShowAlert] = useState(false);
 
-  const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
-  const stateParam = searchParams.get('state') ?? 'all';
+  const { name, categoryParam, stateParam } = showLcParams(location);
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 

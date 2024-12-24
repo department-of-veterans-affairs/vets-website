@@ -7,7 +7,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
-import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
+import {
+  capitalizeFirstLetter,
+  filterLcResults,
+  showLcParams,
+} from '../utils/helpers';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
@@ -20,11 +24,7 @@ function LicenseCertificationSearchResults({
   const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
-  const stateParam = searchParams.get('state') ?? 'all';
+  const { name, categoryParam, stateParam } = showLcParams(location);
 
   const itemsPerPage = 5;
 
@@ -33,6 +33,17 @@ function LicenseCertificationSearchResults({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  const formatResultCount = (_currentPage, _itemsPerPage) => {
+    if (_currentPage * _itemsPerPage > filteredResults.length) {
+      return `${_currentPage * _itemsPerPage - (_itemsPerPage - 1)} - ${
+        filteredResults.length
+      }  `;
+    }
+
+    return `${_currentPage * _itemsPerPage -
+      (_itemsPerPage - 1)} - ${_currentPage * _itemsPerPage}  `;
+  };
 
   useEffect(
     () => {
@@ -83,7 +94,7 @@ function LicenseCertificationSearchResults({
               <p className="vads-u-color--gray-dark lc-filter-options">
                 Showing{' '}
                 {filteredResults.length > itemsPerPage
-                  ? itemsPerPage
+                  ? formatResultCount(currentPage, itemsPerPage)
                   : filteredResults.length}{' '}
                 of {filteredResults.length} results for:
               </p>
