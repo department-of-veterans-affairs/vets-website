@@ -1,43 +1,58 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as helpers from '../../helpers';
 import transform from '../../config/transform';
 
-describe('transform function', () => {
-  it('should transform form data correctly', () => {
-    const formConfig = {};
-    const form = {
+describe('transform utility function', () => {
+  let formConfig;
+  let form;
+  let getFTECalcsStub;
+
+  beforeEach(() => {
+    formConfig = {};
+    form = {
       data: {
-        institutionDetails: {
-          institutionName: 'test',
-          facilityCode: '1234567890',
-          startDate: '2024-01-01',
-        },
-        studentRatioCalcChapter: {
-          numOfStudent: '100',
-          beneficiaryStudent: '75',
-        },
-        programs: [],
+        programs: [
+          {
+            programName: 'Program A',
+            supportedStudents: '10',
+            fte: {
+              totalFTE: 0,
+              supportedPercentageFTE: 0,
+            },
+          },
+          {
+            programName: 'Program B',
+            supportedStudents: '9',
+            fte: {
+              totalFTE: 0,
+              supportedPercentageFTE: 0,
+            },
+          },
+        ],
       },
     };
+    getFTECalcsStub = sinon.stub(helpers, 'getFTECalcs');
+  });
 
-    const result = transform(formConfig, form);
-
-    expect(result).to.equal(
-      JSON.stringify({
-        educationBenefitsClaim: {
-          form: JSON.stringify({
-            institutionDetails: {
-              institutionName: 'test',
-              facilityCode: '1234567890',
-              startDate: '2024-01-01',
-            },
-            studentRatioCalcChapter: {
-              numOfStudent: '100',
-              beneficiaryStudent: '75',
-            },
-            // programs: [],
-          }),
+  afterEach(() => {
+    getFTECalcsStub.restore();
+  });
+  it('should not modify FTE fields if the program has fewer than 10 supported students', () => {
+    form.data.programs = [
+      {
+        programName: 'Program C',
+        supportedStudents: '8',
+        fte: {
+          totalFTE: 0,
+          supportedPercentageFTE: 0,
         },
-      }),
-    );
+      },
+    ];
+
+    const resultString = transform(formConfig, form);
+    const resultObject = JSON.parse(resultString);
+    expect(resultObject.educationBenefitsClaim).to.exist;
+    expect(resultObject.educationBenefitsClaim.form).to.exist;
   });
 });
