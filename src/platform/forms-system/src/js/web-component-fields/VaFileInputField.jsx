@@ -51,9 +51,10 @@ const VaFileInputField = props => {
         name,
         size,
         warnings,
+        errorMessage,
       } = uploadedFile;
+      setError(errorMessage);
       file = uploadedFile.file;
-      setError(null);
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
