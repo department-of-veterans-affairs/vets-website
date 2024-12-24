@@ -13,26 +13,15 @@ const escapedCharacterReplacer = (_key, value) => {
 };
 
 export default function transformForSubmit(formConfig, form) {
-  const formCopy = {
-    ...form,
-    data: {
-      ...form.data,
-      application: {
-        ...form.data.application,
-        veteran: {
-          ...form.data.application.veteran,
-          serviceRecords: form.data.serviceRecords,
-        },
-      },
-    },
-  };
-  delete formCopy.data.serviceRecords;
+  // eslint-disable-next-line no-param-reassign
+  form.data.application.veteran.serviceRecords = form.data.serviceRecords;
+  // eslint-disable-next-line no-param-reassign
+  delete form.data.serviceRecords;
   const transformedData = JSON.parse(
-    formsSystemTransformForSubmit(formConfig, formCopy),
+    formsSystemTransformForSubmit(formConfig, form),
   );
   if (
-    formCopy.data.application.applicant.applicantRelationshipToClaimant ===
-    'Self'
+    form.data.application.applicant.applicantRelationshipToClaimant === 'Self'
   ) {
     delete transformedData.application.applicant.name;
     delete transformedData.application.applicant.mailingAddress;
