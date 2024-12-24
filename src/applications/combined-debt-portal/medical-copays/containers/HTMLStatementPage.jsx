@@ -34,7 +34,8 @@ const HTMLStatementPage = ({ match }) => {
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
-  const acctNum = selectedCopay?.accountNumber;
+  const acctNum =
+    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
