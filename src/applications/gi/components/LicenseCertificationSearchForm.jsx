@@ -99,7 +99,7 @@ export default function LicenseCertificationSearchForm({
   handleUpdateQueryParam,
   handleShowModal,
   location,
-  history,
+  handleReset,
 }) {
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
@@ -112,10 +112,17 @@ export default function LicenseCertificationSearchForm({
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 
+  // add default query params on mount
+  useEffect(() => {
+    handleUpdateQueryParam()([
+      ['category', categoryParam],
+      ['state', stateParam],
+    ]);
+  }, []);
+
   // Update dropdown values when param values change
   useEffect(
     () => {
-      // console.log('param updated 🟢', { categoryParam, stateParam });
       setDropdowns(updateDropdowns(categoryParam, stateParam));
     },
     [categoryParam, stateParam],
@@ -155,20 +162,9 @@ export default function LicenseCertificationSearchForm({
     [name, suggestions, dropdowns],
   );
 
-  const handleReset = () => {
-    history.replace('/lc-search');
-    setDropdowns(updateDropdowns());
-  };
-
   const handleChange = e => {
-    // console.log('handleChange 🟣 update query param', {
-    //   id: e.target.id,
-    //   value: e.target.value,
-    // });
-
-    // TODO map all flows in which modal appears, then write corresponding conditional statements
-    if (name && stateParam !== 'all' && categoryParam !== 'all') {
-      return handleShowModal(true);
+    if (name && categoryParam !== 'all') {
+      return handleShowModal();
     }
 
     return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
@@ -181,20 +177,20 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { type, state, name: _name } = selection;
 
-    const filteredStates = showLicenseInMultipleStates(
+    const filteredByState = showLicenseInMultipleStates(
       filteredSuggestions,
       _name,
     );
 
     const newDropdowns =
-      filteredStates.length > 1
-        ? updateDropdowns(type, state)
-        : updateDropdowns(type, filteredStates);
+      filteredByState.length > 1
+        ? updateDropdowns(type, filteredByState)
+        : updateDropdowns(type, state);
 
     setShowAlert(
       checkAlert(
         type,
-        filteredStates,
+        filteredByState,
         locationDropdown.current.optionValue,
         state,
       ),
@@ -239,11 +235,12 @@ export default function LicenseCertificationSearchForm({
           <LicenseCertificationAlert
             changeStateAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInMultipleStates(filteredSuggestions, name).length < 2
+              showLicenseInMultipleStates(filteredSuggestions, name).length ===
+                2
             }
             changeDropdownsAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInMultipleStates(filteredSuggestions, name).length > 1
+              showLicenseInMultipleStates(filteredSuggestions, name).length > 2
             }
             changeStateToAllAlert={
               categoryDropdown.current.optionValue === 'certification'
@@ -283,7 +280,12 @@ export default function LicenseCertificationSearchForm({
         <va-button
           text="Reset Search"
           className="usa-button-secondary reset-search"
-          onClick={handleReset}
+          onClick={() =>
+            handleReset(() => {
+              setDropdowns(updateDropdowns());
+              setShowAlert(false);
+            })
+          }
         />
       </div>
     </form>

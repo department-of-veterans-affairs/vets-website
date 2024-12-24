@@ -34,8 +34,13 @@ function LicenseCertificationSearchPage({
   //   {/* ERROR STATE */}
   // }
 
-  const handleShowModal = display => {
-    return setShowModal(display);
+  const handleReset = callback => {
+    history.replace('/lc-search');
+    callback();
+  };
+
+  const handleShowModal = () => {
+    return setShowModal(current => !current);
   };
 
   return (
@@ -69,7 +74,7 @@ function LicenseCertificationSearchPage({
                 }
                 handleShowModal={handleShowModal}
                 location={location}
-                history={history}
+                handleReset={handleReset}
               />
             </div>
             <VaModal
@@ -79,15 +84,17 @@ function LicenseCertificationSearchPage({
               large
               modalTitle="Are you sure you want to change this field"
               // initialFocusSelector={initialFocusSelector}
-              onCloseEvent={handleShowModal(false)}
-              onPrimaryButtonClick={() => 'reset'}
+              onCloseEvent={() => handleShowModal()}
+              onPrimaryButtonClick={() => {
+                handleReset(() => handleShowModal());
+              }}
               primaryButtonText="Continue to change"
-              onSecondaryButtonClick={() => 'cancel'}
+              onSecondaryButtonClick={() => handleShowModal()}
               secondaryButtonText="Go Back"
               // status={status}
               visible={showModal}
             >
-              <p>This is a succinct, helpful {status} message</p>
+              <p>Your current changes will be lost.</p>
             </VaModal>
           </section>
         )}
