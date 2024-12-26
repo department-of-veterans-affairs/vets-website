@@ -112,9 +112,13 @@ function LicenseCertificationSearchPage({
                   return { ...current, visible: false };
                 })
               }
-              onPrimaryButtonClick={() => {
-                handleReset(() => handleShowModal());
-              }}
+              onPrimaryButtonClick={() =>
+                handleReset(() =>
+                  setModal(current => {
+                    return { ...current, visible: false };
+                  }),
+                )
+              }
               primaryButtonText="Continue to change"
               onSecondaryButtonClick={() =>
                 setModal(current => {

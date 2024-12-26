@@ -101,7 +101,7 @@ export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleUpdateQueryParam,
-  // handleShowModal,
+  handleShowModal,
   location,
   handleReset,
 }) {
@@ -134,6 +134,12 @@ export default function LicenseCertificationSearchForm({
           ['category', 'certification'],
         ]);
       }
+      if (categoryDropdown.current.optionValue === 'license') {
+        handleUpdateQueryParam()([
+          ['state', locationDropdown.current.optionValue],
+          ['category', 'license'],
+        ]);
+      }
     },
     [dropdowns],
   );
@@ -160,27 +166,27 @@ export default function LicenseCertificationSearchForm({
   );
 
   const handleChange = e => {
-    // const multiples = showMultipleNames(filteredSuggestions, name);
+    const multiples = showMultipleNames(filteredSuggestions, name);
 
-    // if (name) {
-    //   if (
-    //     e.target.id === 'state' &&
-    //     categoryParam === 'license' &&
-    //     multiples.length === 2
-    //   ) {
-    //     return handleShowModal(
-    //       e.target.id,
-    //       `The ${name} is specific to the state of ${stateParam}, if you modify the state you will not ge results you are looking for.`,
-    //     );
-    //   }
+    if (name) {
+      if (
+        e.target.id === 'state' &&
+        categoryParam === 'license' &&
+        multiples.length === 2
+      ) {
+        return handleShowModal(
+          e.target.id,
+          `The ${name} is specific to the state of ${stateParam}, if you modify the state you will not get results you are looking for.`,
+        );
+      }
 
-    //   // if (categoryParam !== 'all') {
-    //   //   return handleShowModal(
-    //   //     e.target.id,
-    //   //     'Your current selection will be lost, if you choose continue to change, you will have to start over',
-    //   //   );
-    //   // }
-    // }
+      if (categoryParam !== 'all') {
+        return handleShowModal(
+          e.target.id,
+          'Your current selection will be lost, if you choose continue to change, you will have to start over',
+        );
+      }
+    }
 
     return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
