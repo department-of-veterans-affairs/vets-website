@@ -147,11 +147,11 @@ export default function FacilitiesRadioWidget({
                 <span className="vads-u-display--block vads-u-font-weight--bold">
                   {name}
                 </span>
-                <span className="vads-u-display--block vads-u-font-size--sm">
+                <span className="vads-u-display--block">
                   {address?.city}, <State state={address?.state} />
                 </span>
                 {!!distance && (
-                  <span className="vads-u-display--block vads-u-font-size--sm">
+                  <span className="vads-u-display--block">
                     {distance} miles
                   </span>
                 )}
