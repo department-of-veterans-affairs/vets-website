@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function EmregencyCareAlert({ shouldShow = false }) {
+function EmergencyCareAlert({ shouldShow = false }) {
   if (!shouldShow) {
     return null;
   }
@@ -23,6 +23,8 @@ export default function EmregencyCareAlert({ shouldShow = false }) {
   );
 }
 
-EmregencyCareAlert.propTypes = {
+EmergencyCareAlert.propTypes = {
   shouldShow: PropTypes.bool,
 };
+
+export default EmergencyCareAlert;

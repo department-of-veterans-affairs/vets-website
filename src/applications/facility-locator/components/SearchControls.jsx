@@ -158,7 +158,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            <span id="city-state-zip-text">City, state or postal code</span>{' '}
+            <span id="city-state-zip-text">Zip code or city, state</span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -181,7 +181,7 @@ const SearchControls = props => {
         {showError && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
+            Please fill in a zip code or city, state.
           </span>
         )}
         <div className="input-container">
@@ -193,11 +193,10 @@ const SearchControls = props => {
             onChange={handleQueryChange}
             onBlur={handleLocationBlur}
             value={searchString}
-            title="Your location: Street, City, State or Postal code"
           />
           {searchString?.length > 0 && (
             <button
-              aria-label="Clear your city, state or postal code"
+              aria-label="Clear your zip code or city, state"
               type="button"
               id="clear-input"
               className="clear-button"
@@ -285,7 +284,7 @@ const SearchControls = props => {
         break;
       case LocationType.CC_PROVIDER:
         return (
-          <div className="typeahead">
+          <div id="service-typeahead-container" className="typeahead">
             <ServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}

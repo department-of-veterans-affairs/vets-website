@@ -29,7 +29,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .desktop-container {
     margin-bottom: 3em;
     border-bottom: solid thin var(--vads-color-base-lightest);
-
   }
 
   .desktop-map-container {
@@ -95,7 +94,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result+.facility-result {
+    .facility-result + .facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -151,7 +150,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 0;
   }
 
-  .react-tabs__tab+.react-tabs__tab {
+  .react-tabs__tab + .react-tabs__tab {
     border-left: none;
   }
 
@@ -256,8 +255,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .search-controls-container {
     padding: 24px 12px;
 
-
-
     @media screen and (min-width: $small-desktop-screen) {
       padding: 32px 16px;
       width: 333px;
@@ -288,7 +285,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         max-width: none;
         margin-bottom: 24px;
         padding: 0 0.7em;
-        width: 100%;
+        // width: 100%;
       }
 
       .input-container {
@@ -300,27 +297,18 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin: 0;
       }
 
-
-
-
       va-select {
         padding-right: 0;
         padding-left: 0;
-        margin-top: 2px
+        margin-top: 2px;
       }
-
 
       .service-type-dropdown-container {
         align-self: end;
       }
 
-
-      .typeahead+input[type="submit"] {
-        margin-bottom: 30px;
-      }
-
-      .typeahead:has(.usa-input-error)+input[type="submit"] {
-        margin-bottom: 38px;
+      #service-typeahead-container {
+        height: auto;
       }
 
       #location-input-field {
@@ -336,6 +324,18 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         padding: 0;
         margin: 1em 0;
         text-align: left;
+      }
+
+      #facility-search {
+        @media screen and (min-width: $small-desktop-screen) {
+          width: 100%;
+          max-width: none;
+        }
+
+        @media screen and (max-width: $medium-screen) {
+          width: 100%;
+          max-width: none;
+        }
       }
     }
   }
@@ -385,13 +385,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .tablet-results-container {
     display: flex;
     flex-direction: row;
-  }
-}
-
-// Prevent error message div from colliding with facility-type
-#service-error {
-  @media (min-width: $small-desktop-screen) {
-    right: 0px;
   }
 }
 
@@ -539,7 +532,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   width: 333px;
 }
 
-
 #search-area-control-container {
   z-index: 1;
 }
@@ -560,9 +552,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .mapboxgl-ctrl-top-center {
-  // position: absolute;
-  // pointer-events: none;
-  // margin: 15px 0 0 15px;
   pointer-events: none;
   top: 10px;
   left: 25%;
