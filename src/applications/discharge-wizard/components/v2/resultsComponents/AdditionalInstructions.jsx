@@ -60,16 +60,15 @@ const AdditionalInstructions = ({ formResponses }) => {
             application to upgrade your discharge.
           </p>
           <p>
-            You may want to consider finding someone to advocate on your behalf,
-            depending on the complexity of your case. A lawyer or Veterans
-            Service Organization (VSO) can collect and submit supporting
-            documents for you.{' '}
+            An accredited attorney, claims agent, or Veterans Service
+            Organization (VSO) representative can help you gather your evidence
+            and submit your application.{' '}
             <a
               href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Find a VSO near you (opens in a new tab).
+              Get help from an accredited representative (opens in a new tab).
             </a>
           </p>
           <p>

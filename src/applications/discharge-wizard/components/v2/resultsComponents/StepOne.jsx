@@ -170,8 +170,8 @@ const StepOne = ({ formResponses }) => {
   const { num: formNumber, link: formLink } = determineFormData(formResponses);
   let formTitle = `Form ${formNumber}`;
 
-  if (formNumber === 293) {
-    formTitle = 'DOD Form 293';
+  if ([293, 149].includes(formNumber)) {
+    formTitle = `DOD Form ${formNumber}`;
   }
 
   const header = `Download and fill out DOD Form ${formNumber}`;
