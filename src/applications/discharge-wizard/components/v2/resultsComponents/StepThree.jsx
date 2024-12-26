@@ -88,7 +88,7 @@ const StepThree = ({ formResponses }) => {
             formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR],
           ) && [BCNR, BCMR].includes(boardToSubmit.abbr) ? (
             <p>
-              Your last application was made before the release of DoD guidance
+              Your last application was made before the release of DOD guidance
               related to discharges like yours. As a result, the Board may treat
               your application as a new case. If possible, review the new
               policies and state in your application how the change in policy is

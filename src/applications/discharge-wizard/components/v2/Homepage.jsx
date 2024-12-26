@@ -29,9 +29,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           <p itemProp="description">
             Answer a series of questions to get customized step-by-step
             instructions on how to apply for a discharge upgrade or correction.
-            If your application goes through and your discharge is upgraded,
-            you’ll be eligible for the VA benefits you earned during your period
-            of service.
+            If we accept your application and upgrade your discharge, you’ll be
+            eligible for the VA benefits you earned during your period of
+            service.
           </p>
         </div>
         <p>
@@ -77,19 +77,18 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               application to upgrade your discharge.
             </p>
             <p>
-              You may want to consider finding someone to advocate on your
-              behalf, depending on the complexity of your case. A lawyer or
-              Veterans Service Organization (VSO) can collect and submit
-              supporting documents for you.{' '}
+              An accredited attorney, claims agent, or Veterans Service
+              Organization (VSO) representative can help you gather your
+              evidence and submit your application.{' '}
               <va-link
                 href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
-                text="Find a VSO near you."
+                text="Get help from an accredited representative"
               />
             </p>
             <p>
               <strong>Note:</strong> You can ask for a VA Character of Discharge
               review while at the same time applying for a discharge upgrade
-              from the Department of Defense (DoD) or the Coast Guard.
+              from the Department of Defense (DOD) or the Coast Guard.
             </p>
             <p>
               If you need mental health services related to PTSD or other mental
@@ -133,8 +132,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               Applying again is most likely to be successful if your application
               is significantly different from when you last applied. For
               example, you may have additional evidence that wasn’t available to
-              you when you last applied, or the Department of Defense (DoD) may
-              have issued new rules regarding discharges. DoD rules changed for
+              you when you last applied, or the Department of Defense (DOD) may
+              have issued new rules regarding discharges. DOD rules changed for
               discharges related to PTSD, TBI, and mental health in 2014,
               military sexual harassment and assault in 2017, and sexual
               orientation in 2011.
@@ -142,7 +141,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </va-accordion-item>
           <va-accordion-item header="What if I have discharges for more than one period of service?">
             <p>
-              If the Department of Defense (DoD) or the Coast Guard determined
+              If the Department of Defense (DOD) or the Coast Guard determined
               you served honorably in one period of service, you may use that
               honorable characterization to establish eligibility for VA
               benefits, even if you later received a less than honorable
@@ -174,7 +173,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               to confirm your eligibility.
             </p>
             <p>
-              You can also apply to the Department of Defense (DoD) or the Coast
+              You can also apply to the Department of Defense (DOD) or the Coast
               Guard for a second DD214 only for that honorable period of
               service. Select the <strong>Get Started</strong> link above and
               answer the questions based on your most recent discharge. When
@@ -186,9 +185,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </va-accordion-item>
           <va-accordion-item header="What if I have a DD215 showing an upgraded discharge, but my DD214 still isn’t correct?">
             <p>
-              When the Department of Defense (DoD) or the Coast Guard upgrades a
+              When the Department of Defense (DOD) or the Coast Guard upgrades a
               Veteran’s discharge, it usually issues a DD215 showing corrections
-              to the DD214. The DoD or the Coast Guard attaches the DD215 to the
+              to the DD214. The DOD or the Coast Guard attaches the DD215 to the
               old DD214—which still shows the outdated discharge and related
               information. While the discharge on the DD215 is the correct
               discharge, a Veteran may still want a new DD214 that shows no

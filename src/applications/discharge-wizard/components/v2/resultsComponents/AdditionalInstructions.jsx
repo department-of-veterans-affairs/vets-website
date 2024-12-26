@@ -75,7 +75,7 @@ const AdditionalInstructions = ({ formResponses }) => {
           <p>
             <strong>Note:</strong> You can ask for a VA Character of Discharge
             review while at the same time applying for a discharge upgrade from
-            the Department of Defense (DoD) or the Coast Guard.
+            the Department of Defense (DOD) or the Coast Guard.
           </p>
           <p>
             If you experienced sexual assault or harassment while in the
@@ -246,9 +246,9 @@ const AdditionalInstructions = ({ formResponses }) => {
           )}
       </ul>
       <p>
-        <strong>Please note:</strong> This information was created based on how
-        you answered the questions on the previous page. This information will
-        not be specific to someone with different answers to the questions.
+        <strong>Note:</strong> This information was created based on how you
+        answered the questions on the previous page. This information will not
+        be specific to someone with different answers to the questions.
       </p>
     </section>
   );

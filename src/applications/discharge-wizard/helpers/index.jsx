@@ -529,15 +529,20 @@ export const determineVenueAddress = (formResponses, noDRB) => {
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
+
   if ([DRB, AFDRB].includes(boardData?.abbr)) {
     return {
       num: 293,
+      formDescription:
+        'the Review of Discharge From the Armed Forces of the United States (DOD Form 293)',
       link:
         'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
+
   return {
     num: 149,
+    formDescription: 'Correction of Military Record (DOD Form 149)',
     link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
