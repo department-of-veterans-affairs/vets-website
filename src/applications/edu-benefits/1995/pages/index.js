@@ -9,6 +9,7 @@ import * as servicePeriodsUpdate from './servicePeriodsUpdate';
 import * as tourOfDuty from './tourOfDuty';
 import * as applicantInformationUpdate from './applicantInformationUpdate';
 import { sponsorInfo } from './sponsorInfomartion';
+import * as changeAnotherBenefitPage from './changeAnotherBenefit';
 
 export {
   applicantInformationUpdate,
@@ -22,4 +23,5 @@ export {
   servicePeriodsUpdate,
   tourOfDuty,
   sponsorInfo,
+  changeAnotherBenefitPage,
 };
