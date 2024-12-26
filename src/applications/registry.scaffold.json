@@ -144,5 +144,10 @@
     "template": {
       "layout": "accredited-representative-portal.html"
     }
+  },
+  {
+    "appName": "Default Routing Demo",
+    "entryName": "default-routing",
+    "rootUrl": "/routing-demos/default"
   }
 ]

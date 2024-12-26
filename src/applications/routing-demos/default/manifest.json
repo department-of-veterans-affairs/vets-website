@@ -1,0 +1,7 @@
+{
+  "appName": "Default",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "default-routing",
+  "rootUrl": "/routing-demos/default",
+  "productId": "0d240dda-a1fa-4b94-ba6b-0895d8ad2768"
+}
