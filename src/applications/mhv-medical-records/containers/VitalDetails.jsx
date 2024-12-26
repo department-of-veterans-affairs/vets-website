@@ -87,10 +87,6 @@ const VitalDetails = props => {
 
   const { isAcceleratingVitals } = useAcceleratedData();
 
-  if (records?.length === 0 && isAcceleratingVitals) {
-    window.location.replace('/my-health/medical-records/vitals');
-  }
-
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
@@ -437,6 +433,16 @@ Provider notes: ${vital.notes}\n\n`,
           />
         </div>
       </>
+    );
+  }
+  if (!records?.length) {
+    return (
+      <div className="vads-u-margin-y--8">
+        <p>
+          We don’t have any {vitalTypeDisplayNames[vitalType]} records for you
+          right now.
+        </p>
+      </div>
     );
   }
 
