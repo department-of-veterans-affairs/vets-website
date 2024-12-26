@@ -57,6 +57,7 @@
   "decisionReviewHlrNewApi": "decision_review_hlr_new_api",
   "decisionReviewNodNewApi": "decision_review_nod_new_api",
   "decisionReviewScNewApi": "decision_review_sc_new_api",
+  "defaultRoutingUseNewVersion": "default_routing_use_new_version",
   "dependencyVerification": "dependency_verification",
   "dgiRudisillHideBenefitsSelectionStep": "dgi_rudisill_hide_benefits_selection_step",
   "dhpConnectedDevicesFitbit": "dhp_connected_devices_fitbit",
