@@ -84,6 +84,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                 href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
                 text="Get help from an accredited representative"
               />
+              .
             </p>
             <p>
               <strong>Note:</strong> You can ask for a VA Character of Discharge
