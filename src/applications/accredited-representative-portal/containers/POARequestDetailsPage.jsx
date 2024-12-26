@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useFormik } from 'formik';
+import React, { useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { Link, useLoaderData, Form } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 
 const checkAuthorizations = (
@@ -24,16 +27,16 @@ const checkAuthorizations = (
 
 const POARequestDetailsPage = () => {
   const poaRequest = useLoaderData();
-
-  const formik = useFormik({
-    initialValues: {
-      reason: '',
-    },
-    // onSubmit: values => {
-    //   console.log(values);
-    // },
-  });
-
+  const [error, setError] = useState(false);
+  const handleChange = e => {
+    e.preventDefault();
+    const radioValue = e.detail?.value;
+    if (radioValue) {
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
   return (
     <section className="poa-request-details">
       <h1>
@@ -169,103 +172,52 @@ const POARequestDetailsPage = () => {
       </ul>
       <Link to="/poa-requests/">Back to power of attorney list</Link>
 
-      <Form
+      <form
         method="post"
-        className="poa-request-details__form"
-        onSubmit={formik.handleSubmit}
+        className={
+          error
+            ? `poa-request-details__form poa-request-details__form--error`
+            : `poa-request-details__form`
+        }
+        onSubmit={handleChange}
       >
-        <fieldset
+        <VaRadio
+          header-aria-describedby={null}
+          hint=""
           label="Do you accept or decline this POA request?"
-          className="poa-request-details__form-label"
-          id="reason"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.reason}
-          error={formik.errors.reason}
+          label-header-level="4"
+          class="poa-request-details__form-label"
+          onVaValueChange={handleChange}
+          required
         >
-          <legend className="vads-u-font-size--h3 vads-u-font-family--serif">
-            Do you accept or decline this POA request?
-          </legend>
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt1"
-              id="reasonopt1input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt1input">
-              I accept the request
-            </label>
-          </div>
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt2"
-              id="reasonopt2input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt2input">
-              I decline the request, because the claimant didn’t provide access
-              to health records
-            </label>
-          </div>
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt3"
-              id="reasonopt3input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt3input">
-              I decline the request, because the claimant didn’t allow me to
-              change their address
-            </label>
-          </div>
-
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt4"
-              id="reasonopt4input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt4input">
-              I decline the request, because the claimant did not provide access
-              to change address and to health records
-            </label>
-          </div>
-
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt5"
-              id="reasonopt5input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt5input">
-              I decline the request, because the VSO is not currently accepting
-              new clients
-            </label>
-          </div>
-
-          <div className="usa-radio">
-            <input
-              className="usa-radio__input"
-              type="radio"
-              name="reason"
-              value="opt6"
-              id="reasonopt6input"
-            />
-            <label className="usa-radio__label" htmlFor="reasonopt6input">
-              I decline for another reason
-            </label>
-          </div>
-        </fieldset>
+          <VaRadioOption label="I accept the request" name="group" value="1" />
+          <VaRadioOption
+            label="I decline the request, because the claimant didn't provide access to health records"
+            name="group"
+            value="2"
+          />
+          <VaRadioOption
+            label="I decline the request, because the claimant didn't allow me to change their address"
+            name="group"
+            value="3"
+          />
+          <VaRadioOption
+            label="I decline the request, because the claimant did not provide access to change address and to health records"
+            name="group"
+            value="4"
+          />
+          <VaRadioOption
+            label="I decline the request, because the VSO is not currently accepting new clients"
+            name="group"
+            value="5"
+          />
+          <VaRadioOption
+            label="I decline for another reason"
+            name="group"
+            value="6"
+            onVaValueChange={handleChange}
+          />
+        </VaRadio>
 
         <va-alert
           status="info"
@@ -285,7 +237,7 @@ const POARequestDetailsPage = () => {
         >
           Submit Decision
         </button>
-      </Form>
+      </form>
     </section>
   );
 };
