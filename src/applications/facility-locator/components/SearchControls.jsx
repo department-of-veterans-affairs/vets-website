@@ -18,6 +18,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import LoadingIndicatorOrShow from './LoadingIndicatorOrShow';
 
 const SearchControls = props => {
   const {
@@ -285,13 +286,15 @@ const SearchControls = props => {
         break;
       case LocationType.CC_PROVIDER:
         return (
-          <div className="typeahead">
-            <ServiceTypeAhead
-              handleServiceTypeChange={handleServiceTypeChange}
-              initialSelectedServiceType={serviceType}
-              showError={showError}
-            />
-          </div>
+          <LoadingIndicatorOrShow serviceType="ppms_services">
+            <div className="typeahead">
+              <ServiceTypeAhead
+                handleServiceTypeChange={handleServiceTypeChange}
+                initialSelectedServiceType={serviceType}
+                showError={showError}
+              />
+            </div>
+          </LoadingIndicatorOrShow>
         );
       default:
         services = {};

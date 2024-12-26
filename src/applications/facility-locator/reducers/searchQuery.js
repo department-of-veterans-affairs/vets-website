@@ -95,13 +95,14 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES:
       return {
         ...state,
-        error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: true,
+        specialties: [],
       };
     case FETCH_SPECIALTIES_DONE:
       return {
         ...state,
-        error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: false,
         specialties: action.data
           ? action.data.reduce((acc, cur) => {
@@ -113,8 +114,8 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES_FAILED:
       return {
         ...state,
-        error: true,
         fetchSvcsInProgress: false,
+        fetchSvcsError: action.error,
       };
     case SEARCH_FAILED:
       return {
