@@ -12,7 +12,7 @@ import {
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
-export default function App() {
+export default function App({ children }) {
   const user = useSelector(selectUser);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -22,7 +22,6 @@ export default function App() {
 
   return (
     <>
-      <h1>Default Routing App</h1>
       <RequiredLoginView
         serviceRequired={[backendServices.USER_PROFILE]}
         user={user}
@@ -37,6 +36,7 @@ export default function App() {
           ) : (
             <div>If you can see this, the app is using the old version.</div>
           )}
+          {children}
         </DowntimeNotification>
       </RequiredLoginView>
     </>
