@@ -340,7 +340,7 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--4 vads-u-margin-bottom--3"
+                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--3 vads-u-margin-bottom--2"
                   data-testid="rx-last-filled-date"
                 >
                   {filledEnteredDate()}
@@ -361,7 +361,13 @@ const PrescriptionDetails = () => {
                     </p>
                   </ApiErrorNotification>
                 )}
-                <div className="no-print">
+                {nonVaPrescription ? (
+                  <NonVaPrescription {...prescription} />
+                ) : (
+                  <VaPrescription {...prescription} />
+                )}
+                <div className="no-print vads-u-margin-top--3 vads-u-margin-bottom--5">
+                  <BeforeYouDownloadDropdown page={pageType.DETAILS} />
                   <PrintDownload
                     onDownload={handleFileDownload}
                     isSuccess={
@@ -374,13 +380,7 @@ const PrescriptionDetails = () => {
                         PDF_TXT_GENERATE_STATUS.InProgress
                     }
                   />
-                  <BeforeYouDownloadDropdown page={pageType.DETAILS} />
                 </div>
-                {nonVaPrescription ? (
-                  <NonVaPrescription {...prescription} />
-                ) : (
-                  <VaPrescription {...prescription} />
-                )}
               </>
             )}
           </div>
