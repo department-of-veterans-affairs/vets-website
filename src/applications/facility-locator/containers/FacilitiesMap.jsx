@@ -49,7 +49,7 @@ import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
 import ControlResultsHolder from '../components/ControlResultsHolder';
-import EmregencyCareAlert from '../components/EmergencyCareAlert';
+import EmergencyCareAlert from '../components/EmergencyCareAlert';
 
 let lastZoom = 3;
 
@@ -402,7 +402,7 @@ const FacilitiesMap = props => {
     const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
-    const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
+    const isCcpEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
       serviceType,
     );
 
@@ -464,8 +464,8 @@ const FacilitiesMap = props => {
               suppressPharmacies={props.suppressPharmacies}
               clearSearchText={props.clearSearchText}
             />
-            <EmregencyCareAlert
-              shouldShow={isEmergencyCareType || isCppEmergencyCareTypes}
+            <EmergencyCareAlert
+              shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
             />
 
             <div id="search-results-title" ref={searchResultTitleRef}>

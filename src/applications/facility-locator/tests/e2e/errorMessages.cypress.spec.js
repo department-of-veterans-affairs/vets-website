@@ -24,7 +24,7 @@ describe('Facility search error messages', () => {
   it('shows error message in location field on invalid search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please fill in a city, state, or postal code.',
+      'Please fill in a zip code or city, state.',
     );
     cy.get('#street-city-state-zip').should('be.focused');
   });
@@ -36,7 +36,7 @@ describe('Facility search error messages', () => {
       .find('select')
       .focus();
     cy.get('.usa-input-error-message').contains(
-      'Please fill in a city, state, or postal code.',
+      'Please fill in a zip code or city, state.',
     );
     cy.get('#street-city-state-zip').type('A');
     cy.get('.usa-input-error-message').should('not.exist');
