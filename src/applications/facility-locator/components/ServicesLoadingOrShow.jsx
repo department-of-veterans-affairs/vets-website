@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getProviderSpecialties } from '../actions';
 
 function LoadingIndicatorOrShow({
+  children,
   serviceType = '',
-  // currentQuery,
+  currentQuery,
   ...dispatchProps
 }) {
   useEffect(
@@ -23,11 +25,15 @@ function LoadingIndicatorOrShow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [serviceType],
   );
-
-  return null;
+  if (currentQuery.fetchSvcsInProgress) {
+    return <VaLoadingIndicator message="Loading services" />;
+  }
+  return children;
 }
 
 LoadingIndicatorOrShow.propTypes = {
+  children: PropTypes.node,
+  currentQuery: PropTypes.object,
   serviceType: PropTypes.string,
 };
 
