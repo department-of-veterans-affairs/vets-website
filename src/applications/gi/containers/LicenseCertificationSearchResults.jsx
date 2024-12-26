@@ -10,6 +10,7 @@ import { fetchLicenseCertificationResults } from '../actions';
 import {
   capitalizeFirstLetter,
   filterLcResults,
+  formatResultCount,
   showLcParams,
 } from '../utils/helpers';
 
@@ -33,17 +34,6 @@ function LicenseCertificationSearchResults({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
-
-  const formatResultCount = (_currentPage, _itemsPerPage) => {
-    if (_currentPage * _itemsPerPage > filteredResults.length) {
-      return `${_currentPage * _itemsPerPage - (_itemsPerPage - 1)} - ${
-        filteredResults.length
-      }  `;
-    }
-
-    return `${_currentPage * _itemsPerPage -
-      (_itemsPerPage - 1)} - ${_currentPage * _itemsPerPage}  `;
-  };
 
   useEffect(
     () => {
@@ -95,9 +85,11 @@ function LicenseCertificationSearchResults({
                 <p className="vads-u-color--gray-dark lc-filter-options">
                   Showing {filteredResults.length === 0 && ' 0 results for:'}
                   {filteredResults.length > itemsPerPage
-                    ? `${formatResultCount(currentPage, itemsPerPage)} of ${
-                        filteredResults.length
-                      } results for: `
+                    ? `${formatResultCount(
+                        filteredResults,
+                        currentPage,
+                        itemsPerPage,
+                      )} of ${filteredResults.length} results for: `
                     : `${filteredResults.length}
                   of ${filteredResults.length} results for: `}
                 </p>

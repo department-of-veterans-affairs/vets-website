@@ -19,7 +19,13 @@ function LicenseCertificationSearchPage({
 }) {
   const history = useHistory();
   const location = useLocation();
-  const [showModal, setShowModal] = useState(false);
+  const [modal, setModal] = useState({
+    visible: false,
+    changedfield: '',
+    message: '',
+  });
+
+  const handleUpdateQueryParam = () => updateQueryParam(history, location);
 
   useEffect(
     () => {
@@ -30,6 +36,18 @@ function LicenseCertificationSearchPage({
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
 
+  useEffect(() => {
+    const handleRefresh = handleUpdateQueryParam()([
+      ['state', 'all'],
+      ['category', 'all'],
+      ['name', ''],
+    ]);
+
+    window.addEventListener('beforeunload', handleRefresh);
+
+    return () => window.removeEventListener('beforeunload', handleRefresh);
+  }, []);
+
   // if (error) {
   //   {/* ERROR STATE */}
   // }
@@ -39,8 +57,13 @@ function LicenseCertificationSearchPage({
     callback();
   };
 
-  const handleShowModal = () => {
-    return setShowModal(current => !current);
+  const handleShowModal = (changedField, message) => {
+    // console.log('changedField', changedField);
+    return setModal({
+      visible: true,
+      changedField,
+      message,
+    });
   };
 
   return (
@@ -69,9 +92,7 @@ function LicenseCertificationSearchPage({
                 handleSearch={(category, name, state) =>
                   handleLcResultsSearch(history, category, name, state)
                 }
-                handleUpdateQueryParam={() =>
-                  updateQueryParam(history, location)
-                }
+                handleUpdateQueryParam={handleUpdateQueryParam}
                 handleShowModal={handleShowModal}
                 location={location}
                 handleReset={handleReset}
@@ -82,19 +103,29 @@ function LicenseCertificationSearchPage({
               clickToClose
               disableAnalytics
               large
-              modalTitle="Are you sure you want to change this field"
+              modalTitle={`Are you sure you want to change the ${
+                modal.changedField
+              } field?`}
               // initialFocusSelector={initialFocusSelector}
-              onCloseEvent={() => handleShowModal()}
+              onCloseEvent={() =>
+                setModal(current => {
+                  return { ...current, visible: false };
+                })
+              }
               onPrimaryButtonClick={() => {
                 handleReset(() => handleShowModal());
               }}
               primaryButtonText="Continue to change"
-              onSecondaryButtonClick={() => handleShowModal()}
+              onSecondaryButtonClick={() =>
+                setModal(current => {
+                  return { ...current, visible: false };
+                })
+              }
               secondaryButtonText="Go Back"
               // status={status}
-              visible={showModal}
+              visible={modal.visible}
             >
-              <p>Your current changes will be lost.</p>
+              <p>{modal.message}</p>
             </VaModal>
           </section>
         )}

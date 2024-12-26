@@ -14,7 +14,7 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const updateDropdowns = (category = 'all', state = 'all') => {
+export const updateDropdowns = (category = 'all', location = 'all') => {
   const initialDropdowns = [
     {
       label: 'category',
@@ -36,12 +36,12 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
     {
       label: 'state',
       options:
-        typeof state === 'string'
+        typeof location === 'string'
           ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
           : [
               { optionValue: 'all', optionLabel: 'All' },
               ...mappedStates.filter(mappedState =>
-                state.find(_state => _state.state === mappedState.optionValue),
+                location.find(state => state.state === mappedState.optionValue),
               ),
             ],
       alt: 'state',
@@ -63,7 +63,7 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
       return {
         ...dropdown,
         current: dropdown.options.find(
-          option => option.optionValue === state,
+          option => option.optionValue === location,
         ) ?? { ...dropdown.current },
       };
     }
@@ -72,7 +72,7 @@ export const updateDropdowns = (category = 'all', state = 'all') => {
   });
 };
 
-export const showLicenseInMultipleStates = (suggestions, name) => {
+export const showMultipleNames = (suggestions, name) => {
   return suggestions.filter(suggestion => suggestion.name === name);
 };
 
@@ -101,7 +101,7 @@ export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleUpdateQueryParam,
-  handleShowModal,
+  // handleShowModal,
   location,
   handleReset,
 }) {
@@ -113,23 +113,19 @@ export default function LicenseCertificationSearchForm({
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 
-  // add default query params on mount
-  useEffect(() => {
-    handleUpdateQueryParam()([
-      ['category', categoryParam],
-      ['state', stateParam],
-    ]);
-  }, []);
-
   // Update dropdown values when param values change
   useEffect(
     () => {
+      // console.log('newParams, updating dropdown', {
+      //   categoryParam,
+      //   stateParam,
+      // });
       setDropdowns(updateDropdowns(categoryParam, stateParam));
     },
     [categoryParam, stateParam],
   );
 
-  // Update query params after handleChange, in special cases
+  // Update query params an extra time, after handleChange or onSelection, in special cases
   useEffect(
     () => {
       if (categoryDropdown.current.optionValue === 'certification') {
@@ -164,9 +160,27 @@ export default function LicenseCertificationSearchForm({
   );
 
   const handleChange = e => {
-    if (name && categoryParam !== 'all') {
-      return handleShowModal();
-    }
+    // const multiples = showMultipleNames(filteredSuggestions, name);
+
+    // if (name) {
+    //   if (
+    //     e.target.id === 'state' &&
+    //     categoryParam === 'license' &&
+    //     multiples.length === 2
+    //   ) {
+    //     return handleShowModal(
+    //       e.target.id,
+    //       `The ${name} is specific to the state of ${stateParam}, if you modify the state you will not ge results you are looking for.`,
+    //     );
+    //   }
+
+    //   // if (categoryParam !== 'all') {
+    //   //   return handleShowModal(
+    //   //     e.target.id,
+    //   //     'Your current selection will be lost, if you choose continue to change, you will have to start over',
+    //   //   );
+    //   // }
+    // }
 
     return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
   };
@@ -178,20 +192,17 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     if (selection.selected !== filteredSuggestions[0]) {
       const { type, state, name: _name } = selection;
-      const filteredByState = showLicenseInMultipleStates(
-        filteredSuggestions,
-        _name,
-      );
+      const multiples = showMultipleNames(filteredSuggestions, _name);
 
       const newDropdowns =
-        filteredByState.length > 1
-          ? updateDropdowns(type, filteredByState)
+        multiples.length > 1
+          ? updateDropdowns(type, multiples)
           : updateDropdowns(type, state);
 
       setShowAlert(
         checkAlert(
           type,
-          filteredByState,
+          multiples,
           locationDropdown.current.optionValue,
           state,
         ),
@@ -237,12 +248,11 @@ export default function LicenseCertificationSearchForm({
           <LicenseCertificationAlert
             changeStateAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInMultipleStates(filteredSuggestions, name).length ===
-                2
+              showMultipleNames(filteredSuggestions, name).length === 2
             }
             changeDropdownsAlert={
               categoryDropdown.current.optionValue === 'license' &&
-              showLicenseInMultipleStates(filteredSuggestions, name).length > 2
+              showMultipleNames(filteredSuggestions, name).length > 2
             }
             changeStateToAllAlert={
               categoryDropdown.current.optionValue === 'certification'

@@ -584,6 +584,17 @@ export const handleLcResultsSearch = (
     : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
 
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}  `;
+};
+
 export function capitalizeFirstLetter(string) {
   if (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
