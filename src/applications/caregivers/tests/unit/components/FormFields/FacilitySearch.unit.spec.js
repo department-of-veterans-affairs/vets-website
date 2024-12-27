@@ -21,6 +21,7 @@ describe('CG <FacilitySearch>', () => {
     container,
     value,
     selector = 'va-search-input',
+    submit = true,
   ) => {
     const vaTextInput = $(selector, container);
     vaTextInput.value = value;
@@ -31,8 +32,10 @@ describe('CG <FacilitySearch>', () => {
     });
     vaTextInput.dispatchEvent(event);
 
-    const submitEvent = new CustomEvent('submit', { bubbles: true });
-    fireEvent(vaTextInput, submitEvent);
+    if (submit) {
+      const submitEvent = new CustomEvent('submit', { bubbles: true });
+      fireEvent(vaTextInput, submitEvent);
+    }
   };
 
   const onChange = sinon.spy();
@@ -610,18 +613,38 @@ describe('CG <FacilitySearch>', () => {
         expect(goForward.calledOnce).to.be.true;
       });
 
-      it('renders error when trying to click goForward when no facilities are rendered', () => {
-        const { props, mockStore } = getData({});
-        const { selectors, getByText } = subject({ props, mockStore });
-        userEvent.click(selectors().formNavButtons.forward);
-        expect(goForward.calledOnce).to.be.false;
-        expect(selectors().searchInputError.textContent).to.eq(
-          `Error${content['validation-facilities--default-required']}`,
-        );
-        expect(selectors().searchInputError.parentElement).to.have.class(
-          'caregiver-facilities-search-input-error',
-        );
-        expect(getByText('(*Required)')).to.exist;
+      context('facility is not set', () => {
+        it('renders error when trying to click goForward without submitting search', () => {
+          const { props, mockStore } = getData({});
+          const { container, selectors, getByText } = subject({
+            props,
+            mockStore,
+          });
+          inputVaSearchInput(container, 'Tampa', selectors().input, false);
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(goForward.calledOnce).to.be.false;
+          expect(selectors().searchInputError.textContent).to.eq(
+            `Error${content['validation-facilities--submit-search-required']}`,
+          );
+          expect(selectors().searchInputError.parentElement).to.have.class(
+            'caregiver-facilities-search-input-error',
+          );
+          expect(getByText('(*Required)')).to.exist;
+        });
+
+        it('renders error when trying to click goForward when no search value is present', () => {
+          const { props, mockStore } = getData({});
+          const { selectors, getByText } = subject({ props, mockStore });
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(goForward.calledOnce).to.be.false;
+          expect(selectors().searchInputError.textContent).to.eq(
+            `Error${content['validation-facilities--search-required']}`,
+          );
+          expect(selectors().searchInputError.parentElement).to.have.class(
+            'caregiver-facilities-search-input-error',
+          );
+          expect(getByText('(*Required)')).to.exist;
+        });
       });
     });
 
