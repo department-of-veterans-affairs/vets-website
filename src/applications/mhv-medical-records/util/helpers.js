@@ -681,3 +681,13 @@ export const formatDateInLocalTimezone = date => {
 export const formatUserDob = userProfile => {
   return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
 };
+
+/**
+ * Removes the trailing slash from a path
+ *
+ * @param {string} path path to remove trailing slash from
+ * @returns {string} path without trailing slash
+ */
+export const removeTrialingSlash = path => {
+  return path.replace(/\/$/, '');
+};

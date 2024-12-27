@@ -5,12 +5,13 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
-import { handleDataDogAction } from '../util/helpers';
+import { handleDataDogAction, removeTrialingSlash } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
   const phase0p5Flag = useSelector(
@@ -58,18 +59,16 @@ const MrBreadcrumbs = () => {
         if (pageNumber) {
           backToPageNumCrumb = {
             ...Breadcrumbs[feature],
-            href: `${Breadcrumbs[feature].href.slice(
-              0,
-              -1,
+            href: `${removeTrialingSlash(
+              Breadcrumbs[feature].href,
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
         } else if (urlVitalsDate) {
           const backToVitalsDateCrumb = {
             ...Breadcrumbs[feature],
-            href: `${Breadcrumbs[feature].href.slice(
-              0,
-              -1,
+            href: `${removeTrialingSlash(
+              Breadcrumbs[feature].href,
             )}?timeFrame=${urlVitalsDate}`,
           };
           dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
@@ -80,7 +79,14 @@ const MrBreadcrumbs = () => {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
     },
-    [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
+    [
+      dispatch,
+      locationBasePath,
+      locationChildPath,
+      textContent,
+      pageNumber,
+      urlVitalsDate,
+    ],
   );
 
   const handleRouteChange = ({ detail }) => {
