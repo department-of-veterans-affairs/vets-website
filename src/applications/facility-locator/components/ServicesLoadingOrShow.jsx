@@ -37,6 +37,7 @@ function ServicesLoadingOrShow({
   if (currentQuery.fetchSvcsInProgress) {
     return (
       <VaLoadingIndicator
+        id="service-type-loading"
         message={loadingMessage}
         className="vads-u-margin-bottom--2"
       />

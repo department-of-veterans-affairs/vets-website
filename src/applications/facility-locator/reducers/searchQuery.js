@@ -117,7 +117,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         fetchSvcsInProgress: false,
-        fetchSvcsError: action.error,
+        fetchSvcsError: action.error || true,
       };
     case SEARCH_FAILED:
       return {
