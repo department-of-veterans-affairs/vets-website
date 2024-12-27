@@ -28,8 +28,6 @@ const POARequestsPage = () => {
                     : 'poa-request__tab-link'
                 }
                 role="tab"
-                aria-controls="panel-pending"
-                id="pending"
               >
                 Pending requests
               </NavLink>
@@ -41,8 +39,6 @@ const POARequestsPage = () => {
                     : 'poa-request__tab-link'
                 }
                 role="tab"
-                aria-controls="panel-completed"
-                id="completed"
               >
                 Completed requests
               </NavLink>
