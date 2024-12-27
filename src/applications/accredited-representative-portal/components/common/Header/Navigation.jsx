@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import UserNav from './UserNav';
-import {
-  selectUserProfile,
-  selectIsUserLoading,
-} from '../../../selectors/user';
+import UserContext from '../../../userContext';
 
 export const Navigation = () => {
-  const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectIsUserLoading);
+  const user = useContext(UserContext);
+  const profile = user?.profile;
+  const isLoading = !profile;
 
   return (
     <nav className="nav vads-u-background-color--primary-darker ">
