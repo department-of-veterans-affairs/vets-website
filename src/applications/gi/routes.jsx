@@ -7,8 +7,8 @@ import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
-import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
+import LcSearchPageTest from './containers/LcSearchPageTest';
 
 export const buildRoutes = () => {
   return (
@@ -26,13 +26,8 @@ export const buildRoutes = () => {
           path="/institution/:facilityCode"
           render={({ match }) => <ProfilePage match={match} />}
         />
-        <Route
-          exact
-          path="/lc-search"
-          render={({ match }) => (
-            <LicenseCertificationSearchPage match={match} />
-          )}
-        />
+
+        <Route exact path="/lc-search" component={LcSearchPageTest} />
         <Route
           exact
           path="/lc-search/results"

@@ -1,9 +1,11 @@
 import { snakeCase } from 'lodash';
+import { useCallback } from 'react';
 import URLSearchParams from 'url-search-params';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
@@ -562,17 +564,151 @@ export const updateQueryParam = (history, location) => {
   };
 };
 
-export const handleLcResultsSearch = (
-  history,
-  category = 'all',
-  name = null,
-  state = 'all',
-) => {
-  return name
-    ? history.push(
-        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-      )
-    : history.push(`/lc-search/results?category=${category}&state=${state}`);
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+
+  const name = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
+
+  // console.log('params', { name, stateParam, categoryParam });
+
+  return { name, categoryParam, stateParam };
+};
+
+export const useSearchState = () => {
+  const location = useLocation();
+  const history = useHistory();
+
+  // Get current search params
+  const searchState = showLcParams(location);
+
+  // Update search params
+  const updateSearch = useCallback(
+    updates => {
+      const searchParams = new URLSearchParams(location.search);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === '') {
+          searchParams.delete(key);
+        } else {
+          searchParams.set(key, value);
+        }
+      });
+
+      history.push({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
+    },
+    [history, location],
+  );
+
+  // Navigate to results page
+  const navigateToResults = useCallback(
+    () => {
+      const { name, categoryParam, stateParam } = searchState;
+      history.push(
+        `/lc-search/results?category=${categoryParam}&name=${name}&state=${stateParam}`,
+      );
+    },
+    [history, searchState],
+  );
+
+  const resetSearch = useCallback(
+    () => {
+      history.replace({
+        pathname: '/lc-search',
+        search: '',
+      });
+    },
+    [history],
+  );
+
+  return {
+    searchState,
+    updateSearch,
+    navigateToResults,
+    resetSearch,
+  };
+};
+
+const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
+  return { optionValue: state[0], optionLabel: state[1] };
+});
+
+export const updateDropdowns = (category = 'all', location = 'all') => {
+  const initialDropdowns = [
+    {
+      label: 'category',
+      options: [
+        { optionValue: 'all', optionLabel: 'All' },
+        { optionValue: 'license', optionLabel: 'License' },
+        {
+          optionValue: 'certification',
+          optionLabel: 'Certification',
+        },
+        {
+          optionValue: 'prep',
+          optionLabel: 'Prep Course',
+        },
+      ],
+      alt: 'category type',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+    {
+      label: 'state',
+      options:
+        typeof location === 'string'
+          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+          : [
+              { optionValue: 'all', optionLabel: 'All' },
+              ...mappedStates.filter(mappedState =>
+                location.find(state => state.state === mappedState.optionValue),
+              ),
+            ],
+      alt: 'state',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+  ];
+
+  return initialDropdowns.map(dropdown => {
+    if (dropdown.label === 'category') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === category,
+        ),
+      };
+    }
+
+    if (dropdown.label === 'state') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === location,
+        ) ?? { ...dropdown.current },
+      };
+    }
+
+    return dropdown;
+  });
+};
+
+export const handleLcResultsSearch = (history, category, name, state) => {
+  return history.push(
+    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+  );
+};
+
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}  `;
 };
 
 export function capitalizeFirstLetter(string) {
@@ -582,6 +718,31 @@ export function capitalizeFirstLetter(string) {
 
   return null;
 }
+
+export const showMultipleNames = (suggestions, name) => {
+  return suggestions.filter(suggestion => suggestion.name === name);
+};
+
+export const checkAlert = (
+  type,
+  filteredStates,
+  currentLocation,
+  newLocation,
+) => {
+  if (filteredStates.length > 1) {
+    return true;
+  }
+
+  if (type === 'license' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  if (type === 'certification' && currentLocation !== newLocation) {
+    return true;
+  }
+
+  return false;
+};
 
 export const formatProgramType = programType => {
   if (!programType) return '';
