@@ -43,7 +43,6 @@ const POARequestsPage = () => {
                 role="tab"
                 aria-controls="panel-completed"
                 id="completed"
-                ariaSelected={({ isActive }) => (isActive ? 'true' : 'false')}
               >
                 Completed requests
               </NavLink>
