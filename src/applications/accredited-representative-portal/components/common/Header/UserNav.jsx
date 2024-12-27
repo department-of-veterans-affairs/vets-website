@@ -5,18 +5,7 @@ import UserHelpLinks from './UserHelpLinks';
 import NavigationDropdown from './NavigationDropdown';
 import { SIGN_IN_URL } from '../../../constants';
 
-const UserNav = ({ profile, isLoading }) => {
-  if (isLoading) {
-    return (
-      <div className="loading-icon-container">
-        <va-loading-indicator
-          data-testid="user-nav-loading-icon"
-          label="Loading"
-        />
-      </div>
-    );
-  }
-
+const UserNav = ({ profile, _isLoading }) => {
   return (
     <>
       {profile ? (
@@ -72,7 +61,7 @@ const UserNav = ({ profile, isLoading }) => {
 
 UserNav.propTypes = {
   isLoading: PropTypes.bool,
-  profile: PropTypes.string,
+  profile: PropTypes.object,
 };
 
 export default UserNav;
