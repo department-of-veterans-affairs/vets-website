@@ -69,8 +69,13 @@ const Calcs = ({ data }) => {
   return (
     <>
       <div className="vads-u-margin-bottom--1">
-        <label className="vads-u-margin-bottom--1">Total Enrolled FTE</label>
-        <span className="vads-u-font-size--h3 vads-u-font-weight--bold">
+        <label className="vads-u-margin-bottom--1" data-testid="num-fte">
+          Total Enrolled FTE
+        </label>
+        <span
+          className="vads-u-font-size--h3 vads-u-font-weight--bold"
+          data-testid="nonSupported"
+        >
           {programData?.supported || programData?.nonSupported
             ? programData?.total
             : '--'}
@@ -88,10 +93,13 @@ const Calcs = ({ data }) => {
         </p>
       </va-additional-info>
       <div className="vads-u-margin-bottom--1">
-        <label className="vads-u-margin-bottom--1">
+        <label className="vads-u-margin-bottom--1" data-testid="percentage-FTE">
           Supported student percentage FTE
         </label>
-        <span className="vads-u-font-size--h3 vads-u-font-weight--bold">
+        <span
+          className="vads-u-font-size--h3 vads-u-font-weight--bold"
+          data-testid="supportedFTEPercent"
+        >
           {programData?.supportedFTEPercent || '--%'}
         </span>
       </div>
