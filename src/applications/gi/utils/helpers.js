@@ -1,7 +1,6 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
-import { useLocation, useHistory } from 'react-router-dom';
-import { useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -564,13 +563,11 @@ export const updateQueryParam = (history, location) => {
 export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
 
-  const name = searchParams.get('name') ?? '';
+  const nameParam = searchParams.get('name') ?? '';
   const categoryParam = searchParams.get('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
-  // console.log('params', { name, stateParam, categoryParam });
-
-  return { name, categoryParam, stateParam };
+  return { nameParam, categoryParam, stateParam };
 };
 
 export const handleLcResultsSearch = (history, category, name, state) => {
@@ -674,63 +671,4 @@ export const deriveEligibleStudents = numberOfStudents => {
     return '1 student';
   }
   return `${numberOfStudents} students`;
-};
-
-export const useSearchState = () => {
-  const location = useLocation();
-  const history = useHistory();
-
-  // Get current search params
-  const searchState = useMemo(
-    () => {
-      return showLcParams(location);
-    },
-    [location],
-  );
-
-  // Update search params
-  const updateSearch = useCallback(
-    updates => {
-      const searchParams = new URLSearchParams(location.search);
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value === '') {
-          searchParams.delete(key);
-        } else {
-          searchParams.set(key, value);
-        }
-      });
-
-      history.push({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      });
-    },
-    [history, location],
-  );
-
-  // Navigate to results page
-  const navigateToResults = useCallback(
-    () => {
-      const { name, categoryParam, stateParam } = searchState;
-      history.push(
-        `/lc-search/results?category=${categoryParam}&name=${name}&state=${stateParam}`,
-      );
-    },
-    [history, searchState],
-  );
-
-  // Reset search
-  const resetSearch = useCallback(
-    () => {
-      history.replace('/lc-search');
-    },
-    [history],
-  );
-
-  return {
-    searchState,
-    updateSearch,
-    navigateToResults,
-    resetSearch,
-  };
 };

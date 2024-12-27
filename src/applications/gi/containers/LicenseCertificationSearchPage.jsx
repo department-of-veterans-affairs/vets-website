@@ -27,6 +27,11 @@ function LicenseCertificationSearchPage({
 
   const handleUpdateQueryParam = () => updateQueryParam(history, location);
 
+  const handleReset = callback => {
+    history.replace('/lc-search');
+    callback?.();
+  };
+
   useEffect(
     () => {
       if (!hasFetchedOnce) {
@@ -36,26 +41,9 @@ function LicenseCertificationSearchPage({
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
 
-  useEffect(() => {
-    const handleRefresh = handleUpdateQueryParam()([
-      ['state', 'all'],
-      ['category', 'all'],
-      ['name', ''],
-    ]);
-
-    window.addEventListener('beforeunload', handleRefresh);
-
-    return () => window.removeEventListener('beforeunload', handleRefresh);
-  }, []);
-
   // if (error) {
   //   {/* ERROR STATE */}
   // }
-
-  const handleReset = callback => {
-    history.replace('/lc-search');
-    callback();
-  };
 
   const handleShowModal = (changedField, message) => {
     // console.log('changedField', changedField);
@@ -70,6 +58,15 @@ function LicenseCertificationSearchPage({
     setModal(current => {
       return { ...current, visible: false };
     });
+  };
+
+  const handleSearch = (category, name, state) => {
+    handleUpdateQueryParam()([
+      ['state', state],
+      ['category', category],
+      ['name', name],
+    ]);
+    handleLcResultsSearch(history, category, name, state);
   };
 
   return (
@@ -95,9 +92,7 @@ function LicenseCertificationSearchPage({
             <div className="form-wrapper row">
               <LicenseCertificationSearchForm
                 suggestions={lcResults}
-                handleSearch={(category, name, state) =>
-                  handleLcResultsSearch(history, category, name, state)
-                }
+                handleSearch={handleSearch}
                 handleUpdateQueryParam={handleUpdateQueryParam}
                 handleShowModal={handleShowModal}
                 location={location}

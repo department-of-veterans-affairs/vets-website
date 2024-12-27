@@ -100,7 +100,6 @@ export const checkAlert = (
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
-  handleUpdateQueryParam,
   handleShowModal,
   location,
   handleReset,
@@ -108,38 +107,19 @@ export default function LicenseCertificationSearchForm({
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showAlert, setShowAlert] = useState(false);
+  const [name, setName] = useState('');
 
-  const { name, categoryParam, stateParam } = showLcParams(location);
+  const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 
-  // Update dropdown values when param values change
+  // Use params if present to assign initial dropdown values
   useEffect(
     () => {
       setDropdowns(updateDropdowns(categoryParam, stateParam));
+      setName(nameParam);
     },
     [categoryParam, stateParam],
-  );
-
-  // Update query params an extra time, after handleChange or onSelection, in special cases
-  useEffect(
-    () => {
-      if (categoryDropdown.current.optionValue === 'certification') {
-        handleUpdateQueryParam()([
-          ['state', 'all'],
-          ['category', 'certification'],
-          ['name', name],
-        ]);
-      }
-      if (categoryDropdown.current.optionValue === 'license') {
-        handleUpdateQueryParam()([
-          ['state', locationDropdown.current.optionValue],
-          ['category', 'license'],
-          ['name', name],
-        ]);
-      }
-    },
-    [dropdowns],
   );
 
   // Filter suggestions based on query string
@@ -169,7 +149,7 @@ export default function LicenseCertificationSearchForm({
     if (name) {
       if (
         e.target.id === 'state' &&
-        categoryParam === 'license' &&
+        categoryDropdown.current.optionValue === 'license' &&
         multiples.length === 2
       ) {
         return handleShowModal(
@@ -178,7 +158,7 @@ export default function LicenseCertificationSearchForm({
         );
       }
 
-      if (categoryParam !== 'all') {
+      if (categoryDropdown.current.optionValue !== 'all') {
         return handleShowModal(
           e.target.id,
           'Your current selection will be lost, if you choose continue to change, you will have to start over',
@@ -186,11 +166,23 @@ export default function LicenseCertificationSearchForm({
       }
     }
 
-    return handleUpdateQueryParam()([[e.target.id, e.target.value]]);
-  };
+    let newDropdowns;
 
-  const onUpdateAutocompleteSearchTerm = value => {
-    handleUpdateQueryParam()([['name', value]]);
+    if (e.target.id === 'category') {
+      newDropdowns = updateDropdowns(
+        e.target.value,
+        locationDropdown.current.optionValue,
+      );
+    }
+
+    if (e.target.id === 'state') {
+      newDropdowns = updateDropdowns(
+        categoryDropdown.current.optionValue,
+        e.target.value,
+      );
+    }
+
+    return setDropdowns(newDropdowns);
   };
 
   const onSelection = selection => {
@@ -212,13 +204,18 @@ export default function LicenseCertificationSearchForm({
         ),
       );
 
+      setName(_name);
       setDropdowns(newDropdowns);
     }
   };
 
   const handleClearInput = () => {
-    handleUpdateQueryParam()([['name', '']]);
+    setName('');
     setShowAlert(false);
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setName(value);
   };
 
   return (
@@ -276,9 +273,9 @@ export default function LicenseCertificationSearchForm({
         <LicenseCertificationKeywordSearch
           inputValue={name}
           suggestions={filteredSuggestions}
-          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
           onSelection={onSelection}
           handleClearInput={handleClearInput}
+          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
         />
       </div>
 
@@ -299,6 +296,7 @@ export default function LicenseCertificationSearchForm({
           onClick={() =>
             handleReset(() => {
               setDropdowns(updateDropdowns());
+              setName('');
               setShowAlert(false);
             })
           }
