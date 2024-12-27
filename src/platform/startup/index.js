@@ -28,8 +28,8 @@ import setUpCommonFunctionality from './setup';
  * when the respective actions are fired.
  * @param {boolean} fetchScheduledDowntimes Whether to fetch scheduled downtimes - when set
  * to true, the maintenance_windows API request is made without having to wait for the
- * DownTimeNotification component to mount. This can improve startup time for applications
- * that use the DownTimeNotification component.
+ * DowntimeNotification component to mount. This can improve startup time for applications
+ * that use the DowntimeNotification component.
  */
 export default function startApp({
   routes,
