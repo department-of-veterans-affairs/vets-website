@@ -58,6 +58,7 @@
   "form-email-label": "%s email address",
   "form-facilities-search-label": "City, state or postal code",
   "form-facilities-search-hint": "Enter a city, state, or postal code",
+  "form-facilities-load-more-button": "Load more facilities",
   "form-name-hint": "Enter the %s legal name that\u2019s documented with the Social Security Administration (SSA) or Internal Revenue Service (IRS).",
   "form-phone-label": "%s phone number",
   "form-phone-hint": "Enter a 10-digit phone number",
