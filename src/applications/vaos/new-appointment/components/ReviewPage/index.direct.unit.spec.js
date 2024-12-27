@@ -116,11 +116,10 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
     expect(screen.getByText('Primary care')).to.have.tagName('span');
     const [
       pageHeading,
-      descHeading,
       typeOfCareHeading,
       dateHeading,
       clinicHeading,
@@ -130,10 +129,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
     expect(pageHeading).to.contain.text(
       'Review and confirm your appointment details',
     );
-    expect(descHeading).to.contain.text(
-      'scheduling a primary care appointment',
-    );
-    expect(typeOfCareHeading).to.contain.text('VA Appointment');
+    expect(typeOfCareHeading).to.contain.text('Type of care');
     expect(screen.baseElement).to.contain.text('Primary care');
 
     expect(dateHeading).to.contain.text(
@@ -174,7 +170,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
@@ -216,7 +212,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
@@ -261,7 +257,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
@@ -300,7 +296,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
@@ -339,7 +335,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       store,
     });
 
-    await screen.findByText(/scheduling a primary care appointment/i);
+    await screen.findByText('Primary care');
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
