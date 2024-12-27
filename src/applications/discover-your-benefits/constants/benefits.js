@@ -723,7 +723,7 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'TGI',
     description:
-      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
+      'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
@@ -739,7 +739,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
     applyNowURL: '',
   },
   {
