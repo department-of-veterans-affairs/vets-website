@@ -27,9 +27,11 @@ const MrBreadcrumbs = () => {
   );
 
   const textContent = document.querySelector('h1')?.textContent;
-  const searchIndex = new URLSearchParams(window.location.search);
+  const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
   const { labId } = useParams();
+
+  const urlVitalsDate = searchIndex.get('timeFrame');
 
   useEffect(
     () => {
@@ -62,6 +64,15 @@ const MrBreadcrumbs = () => {
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else if (urlVitalsDate) {
+          const backToVitalsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${Breadcrumbs[feature].href.slice(
+              0,
+              -1,
+            )}?timeFrame=${urlVitalsDate}`,
+          };
+          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
