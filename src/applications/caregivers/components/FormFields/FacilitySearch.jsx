@@ -271,7 +271,7 @@ const FacilitySearch = props => {
           Where the VA medical center is located may be different from the
           Veteran’s home address.
         </p>
-        <va-card role="search" background>
+        <va-card background>
           <div
             className={`${
               searchInputError ? 'caregiver-facilities-search-input-error' : ''
