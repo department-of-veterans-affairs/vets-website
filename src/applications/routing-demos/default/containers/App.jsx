@@ -31,12 +31,18 @@ export default function App({ children }) {
           appTitle="Default Routing App"
           dependencies={[externalServices.mhvPlatform]}
         >
-          {useNewVersion ? (
-            <div>If you can see this, the app is using the new version.</div>
-          ) : (
-            <div>If you can see this, the app is using the old version.</div>
-          )}
-          {children}
+          <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 main-content">
+            {useNewVersion ? (
+              <va-alert>
+                If you can see this, the app is using the new version.
+              </va-alert>
+            ) : (
+              <va-alert>
+                If you can see this, the app is using the old version.
+              </va-alert>
+            )}
+            {children}
+          </div>
         </DowntimeNotification>
       </RequiredLoginView>
     </>
