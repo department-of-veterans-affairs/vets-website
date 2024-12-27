@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -74,7 +75,9 @@ describe('CG <FacilitySearch>', () => {
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
       searchInputError: queryByRole('alert'),
-      moreFacilities: container.querySelector(`va-button`),
+      moreFacilities: container.vaButtonGetByText(
+        content['form-facilities-load-more-button'],
+      ),
       formNavButtons: {
         back: getByText('Back'),
         forward: getByText('Continue'),
