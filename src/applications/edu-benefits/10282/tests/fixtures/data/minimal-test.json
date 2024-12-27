@@ -1,6 +1,6 @@
 {
     "data": {
-        "state": "Virginia",
+        "state": "VA",
         "country": "United States",
         "contactInfo": {
             "email": "janedoe@gmail.com"
@@ -10,8 +10,6 @@
             "first": "Jane",
             "last": "Doe"
         },
-        "highestLevelOfEducation": {},
-        "signature": "Jane Doe",
-        "AGREED": true
+        "highestLevelOfEducation": {}
     }
 }
