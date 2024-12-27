@@ -199,10 +199,11 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (updatedRecordType && !isLoading) {
+        const formattedVitalType = macroCase(updatedRecordType);
+
         if (isAcceleratingVitals && vitalsList?.length) {
-          dispatch(setVitalsList(updatedRecordType));
+          dispatch(setVitalsList(formattedVitalType));
         } else {
-          const formattedVitalType = macroCase(updatedRecordType);
           dispatch(getVitalDetails(formattedVitalType, vitalsList));
         }
       }
@@ -474,6 +475,14 @@ Provider notes: ${vital.notes}\n\n`,
         <p>
           We don’t have any {vitalTypeDisplayNames[vitalType]} records for you
           right now. Go back to the vitals page to select a different vital.
+        </p>
+        <p>
+          <a
+            href={`/my-health/medical-records/vitals?timeFrame=${urlVitalsDate}`}
+            className="vads-u-margin-top--2"
+          >
+            Go back to the vitals page
+          </a>
         </p>
       </div>
     );
