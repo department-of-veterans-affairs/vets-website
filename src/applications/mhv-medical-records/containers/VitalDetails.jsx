@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -19,6 +19,7 @@ import {
   getVitalDetails,
   getVitals,
   reloadRecords,
+  setVitalsList,
 } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -39,6 +40,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  loadStates as LOAD_STATES,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -47,6 +49,7 @@ import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
+
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
@@ -56,6 +59,9 @@ import useAcceleratedData from '../hooks/useAcceleratedData';
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
+
+  const location = useLocation();
+
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const vitalsList = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
@@ -85,14 +91,19 @@ const VitalDetails = props => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isAcceleratingVitals } = useAcceleratedData();
+  const { isAcceleratingVitals, isLoading } = useAcceleratedData();
+
+  const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
+  const dispatchAction = isCurrent => {
+    return getVitals(isCurrent, isAcceleratingVitals, urlVitalsDate);
+  };
 
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVitals,
+    dispatchAction,
     dispatch,
   });
 
@@ -187,12 +198,23 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (updatedRecordType) {
-        const formattedVitalType = macroCase(updatedRecordType);
-        dispatch(getVitalDetails(formattedVitalType, vitalsList));
+      if (updatedRecordType && !isLoading) {
+        if (isAcceleratingVitals && vitalsList?.length) {
+          dispatch(setVitalsList(updatedRecordType));
+        } else {
+          const formattedVitalType = macroCase(updatedRecordType);
+          dispatch(getVitalDetails(formattedVitalType, vitalsList));
+        }
       }
     },
-    [vitalType, vitalsList, dispatch, updatedRecordType],
+    [
+      vitalType,
+      vitalsList,
+      dispatch,
+      updatedRecordType,
+      isAcceleratingVitals,
+      isLoading,
+    ],
   );
 
   const lastUpdatedText = getLastUpdatedText(
@@ -436,11 +458,22 @@ Provider notes: ${vital.notes}\n\n`,
     );
   }
   if (!records?.length) {
+    if (isLoading || listState === LOAD_STATES.FETCHING) {
+      return (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        </div>
+      );
+    }
     return (
       <div className="vads-u-margin-y--8">
         <p>
           We don’t have any {vitalTypeDisplayNames[vitalType]} records for you
-          right now.
+          right now. Go back to the vitals page to select a different vital.
         </p>
       </div>
     );
