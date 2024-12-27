@@ -1,12 +1,13 @@
 import React from 'react';
-import { useLoaderData, NavLink, Outlet } from 'react-router-dom';
+import { useLoaderData, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
 const POARequestsPage = () => {
   const poaRequests = useLoaderData();
-
+  const { search } = useLocation();
+  const status = new URLSearchParams(search).get('status');
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
@@ -21,7 +22,11 @@ const POARequestsPage = () => {
             <div role="tablist" className="poa-request__tabs">
               <NavLink
                 to="/poa-requests?status=pending"
-                className="poa-request__tab-link"
+                className={({ isActive }) =>
+                  isActive && status === 'pending'
+                    ? 'poa-request__tab-link active'
+                    : 'poa-request__tab-link'
+                }
                 role="tab"
                 aria-controls="panel-pending"
                 id="pending"
@@ -30,10 +35,15 @@ const POARequestsPage = () => {
               </NavLink>
               <NavLink
                 to="/poa-requests?status=completed"
-                className="poa-request__tab-link"
+                className={({ isActive }) =>
+                  isActive && status === 'completed'
+                    ? 'poa-request__tab-link active'
+                    : 'poa-request__tab-link'
+                }
                 role="tab"
                 aria-controls="panel-completed"
                 id="completed"
+                ariaSelected={({ isActive }) => (isActive ? 'true' : 'false')}
               >
                 Completed requests
               </NavLink>
