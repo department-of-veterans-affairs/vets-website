@@ -229,7 +229,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
