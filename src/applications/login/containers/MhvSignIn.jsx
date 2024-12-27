@@ -24,7 +24,7 @@ export default function MhvSignIn() {
     });
     login({
       policy: 'mhv',
-      queryParams: { operation: 'prod-test-acct' },
+      queryParams: { operation: 'myhealthevet_test_account' },
     });
   };
 

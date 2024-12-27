@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
-import { filterLcResults } from '../utils/helpers';
+import { capitalizeFirstLetter, filterLcResults } from '../utils/helpers';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
@@ -22,9 +22,9 @@ function LicenseCertificationSearchResults({
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name') ?? 'all';
-  const category = searchParams.get('category') ?? 'all';
-  const state = searchParams.get('state') ?? 'all';
+  const name = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
 
   const itemsPerPage = 5;
 
@@ -46,7 +46,10 @@ function LicenseCertificationSearchResults({
   useEffect(
     () => {
       if (lcResults.length !== 0) {
-        const results = filterLcResults(lcResults, name, { type: category });
+        const results = filterLcResults(lcResults, name, {
+          type: categoryParam,
+          state: stateParam,
+        });
         setFilteredResults(results);
       }
     },
@@ -82,13 +85,15 @@ function LicenseCertificationSearchResults({
                 {filteredResults.length > itemsPerPage
                   ? itemsPerPage
                   : filteredResults.length}{' '}
-                of {filteredResults.length} results for: {name || null}
+                of {filteredResults.length} results for:
               </p>
               <p className="lc-filter-option">
-                <strong>Category type: </strong> {`"${category}"`}
+                <strong>Category type: </strong>{' '}
+                {`"${capitalizeFirstLetter(categoryParam)}"`}
               </p>
               <p className="lc-filter-option">
-                <strong>State: </strong> {`"${state}"`}
+                <strong>State: </strong>{' '}
+                {`${stateParam === 'all' ? `"All"` : `"${stateParam}"`}`}
               </p>
               <p className="lc-filter-option">
                 <strong>License/Certification Name: </strong> {`"${name}"`}

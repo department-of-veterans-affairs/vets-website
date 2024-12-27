@@ -275,7 +275,7 @@ const FacilitySearch = props => {
           Where the VA medical center is located may be different from the
           Veteran’s home address.
         </p>
-        <va-card role="search" background>
+        <va-card background>
           <p className="vads-u-margin-top--0">
             Enter a city, state, or postal code. Then select{' '}
             <strong>Search</strong> to find a VA medical center or clinic.
