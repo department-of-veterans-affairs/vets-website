@@ -1,4 +1,5 @@
-// eslint-disable-next-line func-names
-HTMLElement.prototype.vaButtonGetByText = function(buttonText) {
+HTMLElement.prototype.vaButtonGetByText = function vaButtonGetByText(
+  buttonText,
+) {
   return this.querySelector(`va-button[text="${buttonText}"]`);
 };
