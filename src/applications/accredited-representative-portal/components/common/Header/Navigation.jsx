@@ -6,7 +6,6 @@ import UserContext from '../../../userContext';
 export const Navigation = () => {
   const user = useContext(UserContext);
   const profile = user?.profile;
-  const isLoading = !profile;
 
   return (
     <nav className="nav vads-u-background-color--primary-darker ">
@@ -33,7 +32,7 @@ export const Navigation = () => {
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
         </Link>
-        <UserNav profile={profile} isLoading={isLoading} />
+        <UserNav profile={profile} isLoading={false} />
       </div>
       <span
         aria-hidden="true"

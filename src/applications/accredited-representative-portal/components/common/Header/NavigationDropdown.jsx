@@ -78,7 +78,7 @@ const NavigationDropdown = ({
 
 NavigationDropdown.propTypes = {
   btnText: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.object,
   className: PropTypes.string,
   dataTestId: PropTypes.string,
   icon: PropTypes.string,
