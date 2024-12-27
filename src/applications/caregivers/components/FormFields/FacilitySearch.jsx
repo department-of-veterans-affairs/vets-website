@@ -234,13 +234,12 @@ const FacilitySearch = props => {
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
           {hasMoreFacilities() && (
-            <button
-              type="button"
-              className="va-button-link"
+            <va-button
+              text="Load more facilities"
               onClick={showMoreFacilities}
-            >
-              Load more facilities
-            </button>
+              secondary
+              uswds
+            />
           )}
         </>
       );

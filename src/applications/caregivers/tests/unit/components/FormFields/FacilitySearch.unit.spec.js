@@ -74,7 +74,9 @@ describe('CG <FacilitySearch>', () => {
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
       searchInputError: queryByRole('alert'),
-      moreFacilities: queryByText('Load more facilities'),
+      moreFacilities: container.querySelector(
+        'va-button[text="Load more facilities"]',
+      ),
       formNavButtons: {
         back: getByText('Back'),
         forward: getByText('Continue'),
