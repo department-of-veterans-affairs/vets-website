@@ -19,6 +19,7 @@ const FacilitySearch = props => {
   const [searchInputError, setSearchInputError] = useState(null);
   const [facilitiesListError, setFacilitiesListError] = useState(null);
   const [facilities, setFacilities] = useState([]);
+  const [newFacilitiesCount, setNewFacilitiesCount] = useState(0);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalEntries: 0,
@@ -33,6 +34,14 @@ const FacilitySearch = props => {
 
   const hasMoreFacilities = () => {
     return facilities?.length < pagination.totalEntries;
+  };
+
+  const ariaLiveMessage = () => {
+    if (newFacilitiesCount > 0) {
+      const facilitySuffix = newFacilitiesCount === 1 ? 'y' : 'ies';
+      return `${newFacilitiesCount} new facilit${facilitySuffix} loaded`;
+    }
+    return '';
   };
 
   const isReviewPage = () => {
@@ -198,6 +207,7 @@ const FacilitySearch = props => {
 
   const showMoreFacilities = async e => {
     e.preventDefault();
+    setNewFacilitiesCount(0);
     setLoadingMoreFacilities(true);
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
@@ -213,6 +223,7 @@ const FacilitySearch = props => {
     }
 
     setFacilities([...facilities, ...facilitiesResponse.facilities]);
+    setNewFacilitiesCount(facilitiesResponse.facilities.length);
     setPagination(facilitiesResponse.meta.pagination);
     setSubmittedQuery(query);
     setLoadingMoreFacilities(false);
@@ -236,6 +247,9 @@ const FacilitySearch = props => {
       return (
         <>
           <FacilityList {...facilityListProps} />
+          <div aria-live="polite" role="status">
+            {ariaLiveMessage()}
+          </div>
           {loadingMoreFacilities && loader()}
           {hasMoreFacilities() && (
             <button
