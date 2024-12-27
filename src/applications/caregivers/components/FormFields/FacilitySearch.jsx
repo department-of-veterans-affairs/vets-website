@@ -67,12 +67,16 @@ const FacilitySearch = props => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
-      if (hasFacilities()) {
+      if (!query.trim()) {
+        setSearchInputError(content['validation-facilities--search-required']);
+      } else if (hasFacilities()) {
         setFacilitiesListError(
           content['validation-facilities--default-required'],
         );
       } else {
-        setSearchInputError(content['validation-facilities--default-required']);
+        setSearchInputError(
+          content['validation-facilities--submit-search-required'],
+        );
       }
     } else if (isReviewPage()) {
       reviewPageGoToPath();
@@ -271,7 +275,11 @@ const FacilitySearch = props => {
           Where the VA medical center is located may be different from the
           Veteran’s home address.
         </p>
-        <va-card role="search" background>
+        <va-card background>
+          <p className="vads-u-margin-top--0">
+            Enter a city, state, or postal code. Then select{' '}
+            <strong>Search</strong> to find a VA medical center or clinic.
+          </p>
           <div
             className={`${
               searchInputError ? 'caregiver-facilities-search-input-error' : ''

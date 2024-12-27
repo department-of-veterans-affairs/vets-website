@@ -137,6 +137,7 @@
   "validation-address--county-pattern": "Enter a county in the U.S.",
   "validation-default-required": "Please provide a response",
   "validation-facilities--search-required": "Enter a city, state or postal code",
+  "validation-facilities--submit-search-required": "Select the search button",
   "validation-facilities--default-required": "Select a medical center or clinic",
   "validation-signature-required": "Must certify by checking box",
   "validation-sign-as-rep": "You must sign as representative.",
