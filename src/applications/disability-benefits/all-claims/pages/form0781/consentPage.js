@@ -16,6 +16,7 @@ export const uiSchema = {
   'ui:description': consentPageDescription,
   optionIndicator: radioUI({
     title: consentPageFormTitle,
+    labelHeaderLevel: '4',
     hint: consentPageFormHint,
     labels: CONSENT_OPTION_INDICATOR_CHOICES,
   }),
