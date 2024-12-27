@@ -66,6 +66,12 @@ function LicenseCertificationSearchPage({
     });
   };
 
+  const toggleModal = () => {
+    setModal(current => {
+      return { ...current, visible: false };
+    });
+  };
+
   return (
     <div>
       {fetchingLc && (
@@ -107,24 +113,10 @@ function LicenseCertificationSearchPage({
                 modal.changedField
               } field?`}
               // initialFocusSelector={initialFocusSelector}
-              onCloseEvent={() =>
-                setModal(current => {
-                  return { ...current, visible: false };
-                })
-              }
-              onPrimaryButtonClick={() =>
-                handleReset(() =>
-                  setModal(current => {
-                    return { ...current, visible: false };
-                  }),
-                )
-              }
+              onCloseEvent={toggleModal}
+              onPrimaryButtonClick={() => handleReset(toggleModal)}
               primaryButtonText="Continue to change"
-              onSecondaryButtonClick={() =>
-                setModal(current => {
-                  return { ...current, visible: false };
-                })
-              }
+              onSecondaryButtonClick={toggleModal}
               secondaryButtonText="Go Back"
               // status={status}
               visible={modal.visible}

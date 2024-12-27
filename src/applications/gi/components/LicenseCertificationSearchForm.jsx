@@ -116,10 +116,6 @@ export default function LicenseCertificationSearchForm({
   // Update dropdown values when param values change
   useEffect(
     () => {
-      // console.log('newParams, updating dropdown', {
-      //   categoryParam,
-      //   stateParam,
-      // });
       setDropdowns(updateDropdowns(categoryParam, stateParam));
     },
     [categoryParam, stateParam],
@@ -132,12 +128,14 @@ export default function LicenseCertificationSearchForm({
         handleUpdateQueryParam()([
           ['state', 'all'],
           ['category', 'certification'],
+          ['name', name],
         ]);
       }
       if (categoryDropdown.current.optionValue === 'license') {
         handleUpdateQueryParam()([
           ['state', locationDropdown.current.optionValue],
           ['category', 'license'],
+          ['name', name],
         ]);
       }
     },

@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -549,7 +550,6 @@ export const filterLcResults = (results, nameInput, filters) => {
 export const updateQueryParam = (history, location) => {
   return keyValuePairs => {
     const searchParams = new URLSearchParams(location.search);
-
     keyValuePairs.forEach(([key, value]) => {
       searchParams.set(key, value);
     });
@@ -568,20 +568,15 @@ export const showLcParams = location => {
   const categoryParam = searchParams.get('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
+  // console.log('params', { name, stateParam, categoryParam });
+
   return { name, categoryParam, stateParam };
 };
 
-export const handleLcResultsSearch = (
-  history,
-  category = 'all',
-  name = null,
-  state = 'all',
-) => {
-  return name
-    ? history.push(
-        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-      )
-    : history.push(`/lc-search/results?category=${category}&state=${state}`);
+export const handleLcResultsSearch = (history, category, name, state) => {
+  return history.push(
+    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+  );
 };
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
@@ -679,4 +674,63 @@ export const deriveEligibleStudents = numberOfStudents => {
     return '1 student';
   }
   return `${numberOfStudents} students`;
+};
+
+export const useSearchState = () => {
+  const location = useLocation();
+  const history = useHistory();
+
+  // Get current search params
+  const searchState = useMemo(
+    () => {
+      return showLcParams(location);
+    },
+    [location],
+  );
+
+  // Update search params
+  const updateSearch = useCallback(
+    updates => {
+      const searchParams = new URLSearchParams(location.search);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === '') {
+          searchParams.delete(key);
+        } else {
+          searchParams.set(key, value);
+        }
+      });
+
+      history.push({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
+    },
+    [history, location],
+  );
+
+  // Navigate to results page
+  const navigateToResults = useCallback(
+    () => {
+      const { name, categoryParam, stateParam } = searchState;
+      history.push(
+        `/lc-search/results?category=${categoryParam}&name=${name}&state=${stateParam}`,
+      );
+    },
+    [history, searchState],
+  );
+
+  // Reset search
+  const resetSearch = useCallback(
+    () => {
+      history.replace('/lc-search');
+    },
+    [history],
+  );
+
+  return {
+    searchState,
+    updateSearch,
+    navigateToResults,
+    resetSearch,
+  };
 };
