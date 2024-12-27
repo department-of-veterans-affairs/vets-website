@@ -127,7 +127,9 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
       reasonHeading,
       contactHeading,
     ] = screen.getAllByRole('heading');
-    expect(pageHeading).to.contain.text('Review your appointment details');
+    expect(pageHeading).to.contain.text(
+      'Review and confirm your appointment details',
+    );
     expect(descHeading).to.contain.text(
       'scheduling a primary care appointment',
     );

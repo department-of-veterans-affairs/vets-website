@@ -17,7 +17,7 @@ import { confirmAppointment } from '../redux/actions';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
-const pageTitle = 'Review your appointment details';
+const pageTitle = 'Review and confirm your appointment details';
 
 function handleClick(history, contactInfo) {
   return e => {

@@ -61,7 +61,7 @@ export default function getPageFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'review'
         : '/new-covid-19-vaccine-appointment/review',
-      label: 'Review your appointment details',
+      label: 'Review and confirm your appointment details',
       next: '',
     },
     root: {
@@ -147,11 +147,11 @@ export function routeToNextAppointmentPage(history, current, data) {
 }
 
 /* Function to get label from the flow
- * The URL displayed in the browser address bar is compared to the 
+ * The URL displayed in the browser address bar is compared to the
  * flow URL
  *
  * @export
- * @param {object} state 
+ * @param {object} state
  * @param {string} location - the pathname
  * @returns {string} the label string
  */

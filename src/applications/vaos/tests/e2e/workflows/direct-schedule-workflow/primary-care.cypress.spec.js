@@ -137,7 +137,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
             .assertHeading({
               level: 2,
@@ -209,7 +209,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
             .assertHeading({
               level: 2,
@@ -291,7 +291,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
             .assertHeading({
               level: 2,
@@ -481,7 +481,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
             .assertHeading({
               level: 2,
@@ -548,7 +548,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
             .assertHeading({
               level: 2,
@@ -711,7 +711,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl()
           .assertHeading({
-            name: /Review your appointment details/i,
+            name: /Review and confirm your appointment details/i,
           })
           .assertHeading({
             level: 2,
