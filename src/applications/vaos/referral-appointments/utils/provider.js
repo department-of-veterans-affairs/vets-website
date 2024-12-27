@@ -3,6 +3,23 @@ const dateFns = require('date-fns');
 const dateFnsTz = require('date-fns-tz');
 
 const providers = {
+  '0': {
+    providerName: 'Dr. Perpetually Unavailable',
+    typeOfCare: 'Physical Therapy',
+    orgName: 'Ethereal Adjunct of Deferred Care',
+    orgAddress: {
+      street1: '421 Promethean Circuit',
+      street2: 'Suite 300',
+      street3: '',
+      city: 'Portland',
+      state: 'Oregon',
+      zip: '97214',
+    },
+    orgPhone: '555-687-6736',
+    driveTime: '1 hour drive',
+    driveDistance: '100 miles',
+    location: 'Hypothetical Adjunct Node, Sublime Care Complex',
+  },
   '111': {
     providerName: 'Dr. Bones',
     typeOfCare: 'Physical Therapy',
