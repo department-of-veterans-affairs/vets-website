@@ -23,6 +23,7 @@ const AlertCard = ({ appType }) => {
           is unavailable because something went wrong on our end. Please check
           back soon.
         </p>
+        <h3 className="vads-u-font-size--h4">What you can do</h3>
         {appType === APP_TYPES.DEBT ? (
           <p>
             If you continue having trouble viewing information about your
