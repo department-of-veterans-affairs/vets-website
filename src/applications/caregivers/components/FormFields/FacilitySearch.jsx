@@ -247,7 +247,11 @@ const FacilitySearch = props => {
       return (
         <>
           <FacilityList {...facilityListProps} />
-          <div aria-live="polite" role="status">
+          <div
+            aria-live="polite"
+            role="status"
+            className="vads-u-visibility--screen-reader"
+          >
             {ariaLiveMessage()}
           </div>
           {loadingMoreFacilities && loader()}
