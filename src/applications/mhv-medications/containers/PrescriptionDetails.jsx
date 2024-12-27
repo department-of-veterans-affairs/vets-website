@@ -409,11 +409,12 @@ const PrescriptionDetails = () => {
         message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
+        className="vads-u-margin-top--3"
       />
     );
   };
 
-  return <div>{content()}</div>;
+  return <div className="vads-u-margin-bottom--3">{content()}</div>;
 };
 
 export default PrescriptionDetails;
