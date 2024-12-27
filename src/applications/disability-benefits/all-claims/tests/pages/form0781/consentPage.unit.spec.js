@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 import {
   $,
@@ -24,7 +25,7 @@ describe('Form 0781 consent page', () => {
     expect(schema).to.be.an('object');
   });
 
-  it('Displays a radio button selection of choices on filling out 0781', () => {
+  it('Displays a radio button selection of choices for consenting to add an indicator', () => {
     const onSubmit = Sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
@@ -53,5 +54,41 @@ describe('Form 0781 consent page', () => {
     Object.values(CONSENT_OPTION_INDICATOR_CHOICES).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
+  });
+
+  it('should submit without selecting an option', () => {
+    const onSubmit = Sinon.spy();
+
+    const { getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should submit if an option is selected', () => {
+    const onSubmit = Sinon.spy();
+
+    const { container } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    expect(
+      $('va-radio', container).__events.vaValueChange({
+        detail: { value: 'revoke' },
+      }),
+    );
+    fireEvent.submit($('form', container));
+    expect(onSubmit.called).to.be.true;
   });
 });
