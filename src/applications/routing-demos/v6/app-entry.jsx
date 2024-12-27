@@ -12,4 +12,5 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
+  fetchScheduledDowntimes: true,
 });
