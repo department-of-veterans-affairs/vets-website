@@ -84,14 +84,17 @@ function LicenseCertificationSearchResults({
 
                 <p className="vads-u-color--gray-dark lc-filter-options">
                   Showing {filteredResults.length === 0 && ' 0 results for:'}
-                  {filteredResults.length > itemsPerPage
-                    ? `${formatResultCount(
-                        filteredResults,
-                        currentPage,
-                        itemsPerPage,
-                      )} of ${filteredResults.length} results for: `
-                    : `${filteredResults.length}
-                  of ${filteredResults.length} results for: `}
+                  {filteredResults.length !== 0 &&
+                    `${
+                      filteredResults.length > itemsPerPage
+                        ? `${formatResultCount(
+                            filteredResults,
+                            currentPage,
+                            itemsPerPage,
+                          )} of ${filteredResults.length} results for: `
+                        : `${filteredResults.length}
+                  of ${filteredResults.length} results for: `
+                    }`}
                 </p>
                 <p className="lc-filter-option">
                   <strong>Category type: </strong>{' '}
