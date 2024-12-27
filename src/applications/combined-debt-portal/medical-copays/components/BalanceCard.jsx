@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -13,11 +13,8 @@ import {
 const CurrentContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
     Your balance was updated on {formatDate(date)}. Pay your balance now or
-    request help by
-    <strong className="vads-u-margin-left--0p5" data-testid={`due-date-${id}`}>
-      {calcDueDate(date, 30)}
-    </strong>
-    .
+    request help by{' '}
+    <strong data-testid={`due-date-${id}`}>{calcDueDate(date, 30)}</strong>.
   </p>
 );
 
@@ -28,12 +25,10 @@ CurrentContent.propTypes = {
 
 const PastDueContent = ({ id, date, amount }) => (
   <p className="vads-u-margin--0">
-    Your balance on
-    <strong data-testid={`due-date-${id}`} className="vads-u-margin-x--0p5">
-      {formatDate(date)}
-    </strong>
-    was {currency(amount)}. If you haven’t paid your balance in full or
-    requested financial help, contact the VA Health Resource Center at{' '}
+    Your balance on{' '}
+    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
+    {currency(amount)}. If you haven’t paid your balance in full or requested
+    financial help, contact the VA Health Resource Center at{' '}
     <va-telephone contact="8664001238" /> (
     <va-telephone tty contact={CONTACTS[711]} />
     ).
@@ -85,7 +80,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           <PastDueContent id={id} date={date} amount={amount} />
         )}
       </div>
-      {/* <Link
+      <Link
         className="vads-u-font-weight--bold"
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
@@ -95,18 +90,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         }}
       >
         {linkText}
-        <va-icon icon="navigate_next" size={3} />
-      </Link> */}
-      <VaLink
-        active
-        data-testid={`detail-link-${id}`}
-        onClick={() => {
-          recordEvent({ event: 'cta-link-click-copay-balance-card' });
-        }}
-        href={`/manage-va-debt/summary/copay-balances/${id}/detail`}
-        text={linkText}
-        aria-label={`Check details and resolve this debt for ${facility}`}
-      />
+        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
+      </Link>
     </va-card>
   );
 };
