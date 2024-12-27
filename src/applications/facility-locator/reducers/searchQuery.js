@@ -97,13 +97,15 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         fetchSvcsError: null,
         fetchSvcsInProgress: true,
-        specialties: [],
+        specialties: {},
+        fetchSvcsRawData: [],
       };
     case FETCH_SPECIALTIES_DONE:
       return {
         ...state,
         fetchSvcsError: null,
         fetchSvcsInProgress: false,
+        fetchSvcsRawData: action.data,
         specialties: action.data
           ? action.data.reduce((acc, cur) => {
               acc[cur.specialtyCode] = cur.name;

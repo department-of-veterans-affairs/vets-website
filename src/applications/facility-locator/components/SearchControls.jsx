@@ -8,7 +8,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
-  benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
@@ -280,9 +279,6 @@ const SearchControls = props => {
       case LocationType.EMERGENCY_CARE:
         services = emergencyCareServices;
         break;
-      case LocationType.BENEFITS:
-        services = benefitsServices;
-        break;
       case LocationType.CC_PROVIDER:
         return (
           <ServicesLoadingOrShow serviceType="ppms_services">
@@ -296,7 +292,7 @@ const SearchControls = props => {
           </ServicesLoadingOrShow>
         );
       default:
-        services = {};
+        return null;
     }
 
     // Create option elements for each VA service type.
