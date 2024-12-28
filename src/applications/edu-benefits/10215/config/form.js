@@ -16,7 +16,7 @@ import {
   ProgramSummary,
 } from '../pages';
 
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',
