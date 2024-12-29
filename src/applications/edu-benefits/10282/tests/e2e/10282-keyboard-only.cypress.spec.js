@@ -1,4 +1,3 @@
-import manifest from '../../manifest.json';
 import maximalData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
 
@@ -9,7 +8,7 @@ describe('22-10282 Edu form', () => {
 
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
-    cy.visit(`${manifest.rootUrl}`);
+    cy.visit('education/apply-for-education-benefits/10282/introduction');
     cy.injectAxeThenAxeCheck();
     // Tab to and press 'Start your application'
     cy.realPress(['Tab', 'Enter']);
