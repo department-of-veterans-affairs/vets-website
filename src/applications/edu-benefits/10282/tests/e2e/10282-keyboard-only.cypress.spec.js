@@ -2,10 +2,6 @@ import maximalData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
 
 describe('22-10282 Edu form', () => {
-  before(() => {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
     cy.visit('education/apply-for-education-benefits/10282/introduction');
@@ -258,11 +254,7 @@ describe('22-10282 Edu form', () => {
 
     // Review page - submit form
     cy.tabToElementAndPressSpace('va-text-input');
-    cy.typeInFocused(
-      `${maximalData.data.veteranFullName.first} ${
-        maximalData.data.veteranFullName.last
-      }`,
-    );
+    cy.typeInFocused('Jane Doe');
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
 
