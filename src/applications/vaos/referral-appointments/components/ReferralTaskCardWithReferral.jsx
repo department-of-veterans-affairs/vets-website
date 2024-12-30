@@ -47,19 +47,19 @@ export default function ReferralTaskCardWithReferral() {
         status="warning"
         trigger="Your community care referral has expired"
         disable-analytics="false"
-        class="vads-u-margin-y--2"
+        className="vads-u-margin-y--2"
         uswds
         data-testid="expired-alert"
       >
-        <p>
-          Call your facility to request a new referral.
-          <br />
+        <div>
+          <p className="vads-u-margin-bottom--1p5">
+            Call your facility to request a new referral.
+          </p>
           <va-link
             href="/find-locations/?facilityType=health"
-            target="_blank"
             text="Find your VA health facility"
           />
-        </p>
+        </div>
       </va-alert-expandable>
     );
   }
