@@ -509,6 +509,12 @@ const responses = {
     if (req.params.providerId === '3') {
       return res.status(500).json({ error: true });
     }
+    // Provider 0 has no available slots
+    if (req.params.providerId === '0') {
+      return res.json({
+        data: providerUtils.createProviderDetails(0, req.params.providerId),
+      });
+    }
     return res.json({
       data: providerUtils.createProviderDetails(5, req.params.providerId),
     });
