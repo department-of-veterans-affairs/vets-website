@@ -122,7 +122,7 @@ function Description() {
           services?
           <br />
           <NewTabAnchor href="/profile/contact-information">
-            Go to your VA profile
+            Go to your VA.gov profile (opens in new tab)
           </NewTabAnchor>
           .
         </p>
@@ -245,7 +245,7 @@ export default function ContactInfoPage() {
                 benefits and services in your VA.gov profile.
                 <br />
                 <NewTabAnchor href="/profile/contact-information">
-                  Go to your VA profile
+                  Go to your VA.gov profile (opens in new tab)
                 </NewTabAnchor>
               </div>
             </va-additional-info>
