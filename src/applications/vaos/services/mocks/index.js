@@ -48,16 +48,6 @@ const requestsV2 = require('./v2/requests.json');
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
-const epsAppointments = require('./epsApi/appointments.json');
-const epsCancelReasons = require('./epsApi/cancelReasons.json');
-const driveTimes = require('./epsApi/driveTime.json');
-const patients = require('./epsApi/patients.json');
-const epsNetworks = require('./epsApi/networks.json');
-const specialties = require('./epsApi/specialties.json');
-const specialtyGroups = require('./epsApi/specialtyGroups.json');
-const providerOrgs = require('./epsApi/providerOrganizations.json');
-const providerServices = require('./epsApi/providerServices.json');
-const providerSlots = require('./epsApi/providerServicesSlots.json');
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
 
@@ -69,8 +59,6 @@ const features = require('../../utils/featureFlags');
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
-const mockEpsAppts = [];
-let currentMockId_eps = 1;
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -514,160 +502,6 @@ const responses = {
     );
     return res.json({
       data: singleReferral ?? {},
-    });
-  },
-  'GET /vaos/v2/epsApi/appointments': (req, res) => {
-    return res.json({
-      data: epsAppointments.appointments.concat(mockEpsAppts),
-    });
-  },
-  'POST /vaos/v2/epsApi/appointments': (req, res) => {
-    const { patientId, referral } = req.body;
-    const createdAppt = {
-      createdBy: {
-        byPatient: true,
-      },
-      id: `mock${currentMockId_eps}`,
-      patientId,
-      referral: { id: referral.id },
-      state: 'draft',
-    };
-    currentMockId_eps += 1;
-    mockEpsAppts.push(createdAppt);
-    return res.json({ data: createdAppt });
-  },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
-    const epsAppts = epsAppointments.appointments.concat(mockEpsAppts.data);
-    return res.json({
-      data: epsAppts.find(
-        appointment => appointment?.id === req.params.appointmentId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId/cancel-reasons': (
-    req,
-    res,
-  ) => {
-    return res.json(epsCancelReasons);
-  },
-  'POST /vaos/v2/epsApi/appointments/:appointmentId/cancel': (req, res) => {
-    const { cancelReasonId } = req.body;
-    const findApptToCancel = epsAppointments.appointments.find(
-      appointment => appointment?.id === req.params.appointmentId,
-    );
-    const confirmCanceledAppts = {
-      ...findApptToCancel,
-      appointmentDetails: {
-        cancelReason: {
-          id: cancelReasonId,
-          name: 'Patient',
-        },
-      },
-    };
-    return res.json({
-      data: confirmCanceledAppts,
-    });
-  },
-  'POST /vaos/v2/epsApi/appointments/:appointmentId/submit': (req, res) => {
-    const appointments = epsAppointments.appointments.concat(mockEpsAppts.data);
-
-    const { additionalPatientAttributes } = req.body;
-    const appt = appointments.find(
-      item => item.id === req.params.appointmentId,
-    );
-    const submittedAppt = {
-      ...appt,
-      appointmentDetails: {
-        ...additionalPatientAttributes,
-      },
-      state: 'submitted',
-    };
-    currentMockId_eps += 1;
-    mockEpsAppts.push(submittedAppt);
-    return res.json({ data: submittedAppt });
-  },
-  'POST /vaos/v2/epsApi/drive-times': (req, res) => {
-    return res.json({ driveTimes });
-  },
-  'GET /vaos/v2/epsApi/patients/:patientId': (req, res) => {
-    const epsPatients = [patients];
-    return res.json({
-      data: epsPatients.find(patient => patient?.id === req.params.patientId),
-    });
-  },
-  'GET /vaos/v2/epsApi/patients/:patientId/identifier/:system': (req, res) => {
-    const epsPatients = [patients];
-    const patientSystem = epsPatients
-      .find(patient => patient?.id === req.params.patientId)
-      .identifier.find(identifier => identifier.system === req.params.system);
-    return res.json({
-      data: patientSystem,
-    });
-  },
-  'GET /vaos/v2/epsApi/networks': (req, res) => {
-    return res.json({ data: epsNetworks });
-  },
-  'GET /vaos/v2/epsApi/networks/:networkId': (req, res) => {
-    return res.json({
-      data: epsNetworks.networks.find(
-        network => network?.id === req.params.networkId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/specialties': (req, res) => {
-    return res.json({ data: specialties });
-  },
-  'GET /vaos/v2/epsApi/specialties/:specialtyId': (req, res) => {
-    return res.json({
-      data: specialties.specialties.find(
-        specialty => specialty?.id === req.params.specialtyId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/specialty-groups': (req, res) => {
-    return res.json({ data: specialtyGroups });
-  },
-  'GET /vaos/v2/epsApi/specialty-groups/:specialtyGroupId': (req, res) => {
-    return res.json({
-      data: specialtyGroups.specialtyGroups.find(
-        specialtyGroup => specialtyGroup?.id === req.params.specialtyGroupId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/provider-organization': (req, res) => {
-    return res.json({ data: providerOrgs });
-  },
-  'GET /vaos/v2/epsApi/provider-services': (req, res) => {
-    return res.json({ data: providerServices });
-  },
-  'GET /vaos/v2/epsApi/provider-services/:providerServiceId': (req, res) => {
-    return res.json({
-      data: providerServices.providerServices.find(
-        providerService => providerService?.id === req.params.providerServiceId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/provider-services/:providerServiceId/slots': (
-    req,
-    res,
-  ) => {
-    return res.json({
-      data: providerSlots.slots.find(
-        slots => slots?.providerServiceId === req.params.providerServiceId,
-      ),
-    });
-  },
-  'GET /vaos/v2/epsApi/provider-services/:providerServiceId/slots/:slotId': (
-    req,
-    res,
-  ) => {
-    const getSlot = [
-      providerSlots.slots.find(
-        slots => slots?.providerServiceId === req.params.providerServiceId,
-      ),
-    ];
-    return res.json({
-      data: getSlot.find(slot => slot?.id === req.params.slotId),
     });
   },
   'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {

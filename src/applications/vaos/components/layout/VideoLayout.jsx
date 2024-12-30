@@ -91,7 +91,7 @@ export default function VideoLayout({ data: appointment }) {
         <Section heading="Scheduling facility">
           {!!facility && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
               <span>
                 {address.city}, <State state={address.state} />
@@ -140,7 +140,7 @@ export default function VideoLayout({ data: appointment }) {
             <br />
             {facility ? (
               <>
-                {facility.name}
+                <a href={facility.website}>{facility.name}</a>
                 <br />
                 <span>
                   {address.city}, <State state={address.state} />
