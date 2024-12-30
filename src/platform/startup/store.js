@@ -54,10 +54,7 @@ export const commonReducer = {
  * @returns {Store} The Redux store with a combined reducer from the commonReducer and
  * appReducer.
  */
-export default function createCommonStore(
-  appReducer = {},
-  analyticsEvents = [],
-) {
+function createCommonStore(appReducer = {}, analyticsEvents = []) {
   const reducer = {
     ...appReducer,
     ...commonReducer,
@@ -83,3 +80,5 @@ export default function createCommonStore(
 
   return store;
 }
+
+export { createCommonStore };

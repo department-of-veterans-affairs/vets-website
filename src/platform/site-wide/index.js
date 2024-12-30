@@ -27,7 +27,7 @@ import { addOverlayTriggers } from './legacy/menu';
  *
  * @param {Store} commonStore The Redux store being used by this application
  */
-export default function startSitewideComponents(commonStore) {
+function startSitewideComponents(commonStore) {
   // New navigation menu
   if (document.querySelector('#vetnav')) {
     require('./legacy/mega-menu');
@@ -85,3 +85,5 @@ export default function startSitewideComponents(commonStore) {
   addFocusBehaviorToCrisisLineModal();
   addOverlayTriggers();
 }
+
+export { startSitewideComponents };
