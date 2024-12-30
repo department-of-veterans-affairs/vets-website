@@ -8,6 +8,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
+import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
@@ -37,11 +38,14 @@ const FacilitySearch = props => {
   };
 
   const ariaLiveMessage = () => {
-    if (newFacilitiesCount > 0) {
-      const facilitySuffix = newFacilitiesCount === 1 ? 'y' : 'ies';
-      return `${newFacilitiesCount} new facilit${facilitySuffix} loaded`;
-    }
-    return '';
+    if (newFacilitiesCount === 0) return '';
+    if (newFacilitiesCount === 1)
+      return content['facilities-aria-live-message'];
+
+    return replaceStrValues(
+      content['facilities-aria-live-message-multiple'],
+      newFacilitiesCount,
+    );
   };
 
   const isReviewPage = () => {
