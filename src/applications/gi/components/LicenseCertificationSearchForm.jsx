@@ -283,6 +283,7 @@ export default function LicenseCertificationSearchForm({
 
   const handleClearInput = () => {
     setName('');
+    setDropdowns(updateDropdowns(categoryDropdown.current.optionValue));
     setShowAlert(false);
   };
 
@@ -298,7 +299,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={categoryDropdown.label}
         options={categoryDropdown.options}
-        value={categoryDropdown.current.optionValue} // align here
+        value={categoryDropdown.current.optionValue}
         onChange={handleChange}
         alt={categoryDropdown.alt}
         selectClassName="lc-dropdown-filter"
@@ -311,13 +312,12 @@ export default function LicenseCertificationSearchForm({
         visible
         name={locationDropdown.label}
         options={locationDropdown.options}
-        value={locationDropdown.current.optionValue ?? 'all'} // align here
+        value={locationDropdown.current.optionValue ?? 'all'}
         onChange={handleChange}
         alt={locationDropdown.alt}
         selectClassName="lc-dropdown-filter"
         required={locationDropdown.label === 'category'}
       >
-        {/* {showAlert && name.length > 0 ? ( */}
         {showAlert ? (
           <LicenseCertificationAlert
             changeStateAlert={
