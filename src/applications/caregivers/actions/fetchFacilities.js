@@ -7,38 +7,13 @@ const joinAddressParts = (...parts) => {
   return parts.filter(part => part != null).join(', ');
 };
 
-const formatQueryParams = ({
-  lat,
-  long,
-  radius,
-  page,
-  perPage,
-  facilityIds,
-}) => {
-  const formatFacilityIdParams = () => {
-    let facilityIdParams = '';
-    if (facilityIds.length > 0) {
-      facilityIdParams = `facilityIds=${facilityIds.join(',')}`;
-    }
-
-    return facilityIdParams;
-  };
-
-  const params = [
-    lat ? `lat=${lat}` : null,
-    long ? `long=${long}` : null,
-    radius ? `radius=${radius}` : null,
-    page ? `page=${page}` : null,
-    perPage ? `per_page=${perPage}` : null,
-    formatFacilityIdParams() || null,
-  ];
-
-  let filteredParams = params.filter(Boolean);
-  if (filteredParams.length > 0) {
-    filteredParams = `&${filteredParams.join('&')}`;
+const formatFacilityIds = facilityIds => {
+  let facilityIdList = '';
+  if (facilityIds.length > 0) {
+    facilityIdList = `${facilityIds.join(',')}`;
   }
 
-  return filteredParams;
+  return facilityIdList;
 };
 
 export const fetchFacilities = async ({
@@ -48,22 +23,27 @@ export const fetchFacilities = async ({
   page = null,
   perPage = null,
   facilityIds = [],
+  type = 'health',
 }) => {
-  const baseUrl = `${
+  const url = `${
     environment.API_URL
-  }/v0/caregivers_assistance_claims/facilities?type=health`;
+  }/v0/caregivers_assistance_claims/facilities`;
 
-  const queryParams = formatQueryParams({
+  const body = {
+    type,
     lat,
     long,
     radius,
     page,
     perPage,
-    facilityIds,
-  });
+    facilityIds: formatFacilityIds(facilityIds),
+  };
 
-  const requestUrl = `${baseUrl}${queryParams}`;
-  const fetchRequest = apiRequest(requestUrl);
+  const fetchRequest = apiRequest(url, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   return fetchRequest
     .then(response => {
