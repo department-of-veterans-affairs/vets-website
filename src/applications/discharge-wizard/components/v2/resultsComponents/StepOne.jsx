@@ -171,11 +171,7 @@ const StepOne = ({ formResponses }) => {
   const header = `Download and fill out DoD Form ${form.num}`;
 
   return (
-    <va-process-list-item
-      className="vads-u-font-size--h3"
-      header={header}
-      level="2"
-    >
+    <va-process-list-item header={header} level="2">
       <p>Important tips for completing Form {form.num}:</p>
       {formResponses[SHORT_NAME_MAP.REASON] ===
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
