@@ -2,8 +2,8 @@ import * as Sentry from '@sentry/browser';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
-import createCommonStore from './store';
-import startSitewideComponents from '../site-wide';
+import { createCommonStore } from './store';
+import { startSitewideComponents } from '../site-wide';
 
 /**
  * Wrapper for creating a store and sitewide components, used across all apps
@@ -15,14 +15,14 @@ import startSitewideComponents from '../site-wide';
  * @param {string} appInfo.url The base url for the React application
  * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
  * when the respective actions are fired.
- * @param {boolean} fetchScheduledDowntimes Whether to fetch scheduled downtimes.
+ * @param {boolean} preloadScheduledDowntimes Whether to fetch scheduled downtimes.
  */
 export default function setUpCommonFunctionality({
   entryName,
   reducer,
   analyticsEvents,
   url,
-  fetchScheduledDowntimes,
+  preloadScheduledDowntimes,
 }) {
   // Set further errors to have the appropriate source tag
   Sentry.setTag('source', entryName);
@@ -33,7 +33,7 @@ export default function setUpCommonFunctionality({
   const store = createCommonStore(reducer, analyticsEvents);
   connectFeatureToggle(store.dispatch);
 
-  if (fetchScheduledDowntimes) {
+  if (preloadScheduledDowntimes) {
     const actionCreator = getScheduledDowntime();
     actionCreator(store.dispatch, store.getState());
   }
