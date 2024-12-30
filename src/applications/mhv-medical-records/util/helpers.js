@@ -689,5 +689,6 @@ export const formatUserDob = userProfile => {
  * @returns {string} path without trailing slash
  */
 export const removeTrialingSlash = path => {
+  if (!path) return path;
   return path.replace(/\/$/, '');
 };
