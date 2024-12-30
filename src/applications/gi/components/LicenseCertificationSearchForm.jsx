@@ -82,6 +82,15 @@ export const showMultipleNames = (suggestions, name) => {
   return suggestions.filter(suggestion => suggestion.name === name);
 };
 
+export const categoryCheck = type => {
+  if (type === 'license') {
+    return true;
+  }
+  if (type === 'prep') return true;
+
+  return false;
+};
+
 export const checkAlert = (
   type,
   filteredStates,
@@ -92,7 +101,7 @@ export const checkAlert = (
     return true;
   }
 
-  if (type === 'license' && currentLocation !== newLocation) {
+  if (categoryCheck(type) && currentLocation !== newLocation) {
     return true;
   }
 
@@ -106,22 +115,12 @@ export const checkAlert = (
   return false;
 };
 
-const categoryCheck = type => {
-  if (type === 'license') {
-    return true;
-  }
-  if (type === 'prep') return true;
-
-  return false;
-};
-
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleShowModal,
   location,
   handleReset,
-  hardReset,
 }) {
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
@@ -132,17 +131,6 @@ export default function LicenseCertificationSearchForm({
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const [categoryDropdown, locationDropdown] = dropdowns;
-
-  useEffect(
-    () => {
-      if (hardReset) {
-        setDropdowns(updateDropdowns());
-        setShowAlert(false);
-        setName('');
-      }
-    },
-    [hardReset],
-  );
 
   // Use params if present to assign initial dropdown values
   useEffect(
@@ -208,6 +196,13 @@ export default function LicenseCertificationSearchForm({
             } is specific to the state of ${
               locationDropdown.current.optionLabel
             }, if you modify the state you will not get results you are looking for.`,
+            () => {
+              setDropdowns(
+                updateDropdowns(categoryDropdown.current.optionValue, 'all'),
+              );
+              setShowAlert(false);
+              setName('');
+            },
           );
         }
         allowContinue = true;
@@ -217,6 +212,11 @@ export default function LicenseCertificationSearchForm({
         return handleShowModal(
           e.target.id,
           'Your current selection will be lost, if you choose continue to change, you will have to start over',
+          () => {
+            setDropdowns(updateDropdowns());
+            setShowAlert(false);
+            setName('');
+          },
         );
       }
     }
@@ -334,6 +334,7 @@ export default function LicenseCertificationSearchForm({
             visible={showAlert}
             name={name}
             state={locationDropdown.current.optionLabel}
+            type={categoryDropdown.current.optionValue}
           />
         ) : (
           <>

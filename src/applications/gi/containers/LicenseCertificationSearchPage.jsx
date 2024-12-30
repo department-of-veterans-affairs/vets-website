@@ -23,7 +23,6 @@ function LicenseCertificationSearchPage({
     changedfield: '',
     message: '',
   });
-  const [hardReset, setHardReset] = useState(false);
 
   const handleUpdateQueryParam = () => updateQueryParam(history, location);
 
@@ -41,11 +40,12 @@ function LicenseCertificationSearchPage({
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
 
-  const handleShowModal = (changedField, message) => {
+  const handleShowModal = (changedField, message, callback) => {
     return setModal({
       visible: true,
       changedField,
       message,
+      callback,
     });
   };
 
@@ -92,7 +92,6 @@ function LicenseCertificationSearchPage({
                 handleShowModal={handleShowModal}
                 location={location}
                 handleReset={handleReset}
-                hardReset={hardReset}
               />
             </div>
             <VaModal
@@ -105,12 +104,10 @@ function LicenseCertificationSearchPage({
               } field?`}
               // initialFocusSelector={initialFocusSelector}
               onCloseEvent={toggleModal}
-              onPrimaryButtonClick={() =>
-                handleReset(() => {
-                  toggleModal();
-                  setHardReset(true);
-                })
-              }
+              onPrimaryButtonClick={() => {
+                modal.callback();
+                toggleModal();
+              }}
               primaryButtonText="Continue to change"
               onSecondaryButtonClick={toggleModal}
               secondaryButtonText="Go Back"

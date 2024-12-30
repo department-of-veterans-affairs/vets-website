@@ -7,6 +7,7 @@ function LicenseCertificationAlert({
   state,
   name,
   visible,
+  type,
 }) {
   return (
     <va-alert
@@ -21,7 +22,9 @@ function LicenseCertificationAlert({
     >
       {changeStateAlert &&
         `The state field has been updated to ${state} becuase
-        the ${name} license is specific to that state.`}
+        the ${name} ${
+          type === 'prep' ? 'prep course' : type
+        } is specific to that state.`}
       {changeDropdownsAlert &&
         `State options have been changed to reflect only those states where ${name} is available`}
       {changeStateToAllAlert &&
