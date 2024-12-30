@@ -9,14 +9,14 @@ export const URL = {
   GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`, // ?user_mock_data=true
+  GET_INQUIRIES: `${baseURL}/inquiries`,
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
+  DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
 // centralized logic for string replacement, incl. multiple fields
@@ -453,7 +453,10 @@ export const CHAPTER_3 = {
       HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
-    QUESTION_2: 'How should we contact you?',
+    QUESTION_2: {
+      QUESTION: 'How should we contact you?',
+      ERROR: 'Please select your contact preference',
+    },
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
