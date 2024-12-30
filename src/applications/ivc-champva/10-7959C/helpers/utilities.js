@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { nameWording as sharedNameWording } from '../../shared/utilities';
 
 export function isRequiredFile(formContext, requiredFiles) {
@@ -28,26 +27,4 @@ export function nameWordingExt(formData) {
   const beingVerb =
     nonPosessive === 'you' ? `${nonPosessive}’re` : `${nonPosessive} is`;
   return { posessive, nonPosessive, beingVerb };
-}
-
-/**
- * Retrieves an array of objects containing the property 'attachmentId'
- * from the given object.
- *
- * @param {Object} obj - The input object to search for objects with 'attachmentId'.
- * @returns {Array} - An array containing objects with the 'attachmentId' property.
- */
-export function getObjectsWithAttachmentId(obj) {
-  const objectsWithAttachmentId = [];
-  _.forEach(obj, value => {
-    if (_.isArray(value)) {
-      _.forEach(value, item => {
-        if (_.isObject(item) && _.has(item, 'attachmentId')) {
-          objectsWithAttachmentId.push(item);
-        }
-      });
-    }
-  });
-
-  return objectsWithAttachmentId;
 }

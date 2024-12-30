@@ -311,7 +311,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       left: 64%;
     }
   }
-
 }
 
 .ava-progress-bar {
@@ -480,6 +479,15 @@ ul.react-tabs__tab-list {
   margin-bottom: 2rem;
 }
 
-va-radio-option#facility-not-listed .usa-radio__label[for="facility-not-listedinput"][role="radio"] {
+.va-file-input.no-file {
+  margin: 0;
+}
+
+.dashboard-card-list {
+  list-style-type: none;
+}
+
+va-radio-option#facility-not-listed
+  .usa-radio__label[for="facility-not-listedinput"][role="radio"] {
   font-weight: 600;
 }
