@@ -48,7 +48,6 @@ export function recordItemsRetrieved(type, count) {
 
 export const NULL_STATE_FIELD = {
   TYPE_OF_CARE: 'type-of-care',
-  PROVIDER: 'provider',
 };
 
 /**
@@ -68,8 +67,6 @@ export function recordAppointmentDetailsNullStates(nullStates) {
 
   // Always increment total expected count
   recordEvent({ event: `${nullStateEventPrefix}-expected-total` });
-  // eslint-disable-next-line no-console
-  console.log(`incrementing ${nullStateEventPrefix}-expected-total`);
 
   // Examine each field type and determine which events should be logged
   Object.values(NULL_STATE_FIELD).forEach(key => {
@@ -77,13 +74,9 @@ export function recordAppointmentDetailsNullStates(nullStates) {
     if (key in nullStates) {
       // Record the expected event
       recordEvent({ event: `${nullStateEventPrefix}-expected-${key}` });
-      // eslint-disable-next-line no-console
-      console.log(`incrementing ${nullStateEventPrefix}-expected-${key}`);
       // Record the missing event if needed and updated anyNullState
       if (nullStates[key]) {
         recordEvent({ event: `${nullStateEventPrefix}-missing-${key}` });
-        // eslint-disable-next-line no-console
-        console.log(`incrementing ${nullStateEventPrefix}-missing-${key}`);
         anyNullState = true;
       }
     }
@@ -92,7 +85,5 @@ export function recordAppointmentDetailsNullStates(nullStates) {
   //  Increment if any null states were present
   if (anyNullState) {
     recordEvent({ event: `${nullStateEventPrefix}-missing-any` });
-    // eslint-disable-next-line no-console
-    console.log(`incrementing ${nullStateEventPrefix}-missing-any`);
   }
 }
