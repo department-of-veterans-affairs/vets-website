@@ -59,6 +59,13 @@ describe('setUpCommonFunctionality', () => {
       .to.be.true;
   });
 
+  it('should not fetch scheduled downtimes by default', () => {
+    setUpCommonFunctionality({
+      entryName: 'testApp',
+    });
+    expect(downtimeNotificationActions.getScheduledDowntime.called).to.be.false;
+  });
+
   it('should fetch scheduled downtimes if preloadScheduledDowntimes is true', () => {
     setUpCommonFunctionality({
       entryName: 'testApp',
