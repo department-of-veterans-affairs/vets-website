@@ -40,3 +40,10 @@ export function isCompletingForm0781(formData) {
       form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
+
+export function isRelatedToMST(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData.mentalHealth.eventTypes.mst === true
+  );
+}
