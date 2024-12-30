@@ -251,7 +251,6 @@ describe('MrBreadcrumbs component', () => {
       subscribe: () => {},
       dispatch: action => {
         action(dispatchSpy);
-        expect(dispatchSpy.called).to.be.true;
       },
     };
 
@@ -269,6 +268,7 @@ describe('MrBreadcrumbs component', () => {
 
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
+    expect(dispatchSpy.called).to.be.true;
     Sinon.assert.calledWith(
       dispatchSpy,
       Sinon.match(params => {
