@@ -1,5 +1,5 @@
 // Dashboard cards based on Wed Dec 18 for User 119
-export const mockInquries = {
+export const mockInquiries = {
   data: [
     {
       id: '251a31bd-24b7-ef11-b8e9-001dd8053a71',
@@ -235,6 +235,33 @@ export const mockInquiryResponse = {
       correspondences: {
         data: [
           {
+            id: '5fe4b4d0-cdc6-ef11-b8e9-001dd804fa0e',
+            type: 'correspondence',
+            attributes: {
+              messageType: 'ReplyToVA',
+              createdOn: '12/30/2024 4:48:02 PM',
+              modifiedOn: '12/30/2024 4:48:06 PM',
+              statusReason: 'Draft',
+              description: 'Testing during CC',
+              enableReply: true,
+              attachments: null,
+            },
+          },
+          {
+            id: '08948c4f-c9c6-ef11-b8e9-001dd8053a71',
+            type: 'correspondence',
+            attributes: {
+              messageType: 'ReplyToVA',
+              createdOn: '12/30/2024 4:15:41 PM',
+              modifiedOn: '12/30/2024 4:16:02 PM',
+              statusReason: 'Draft',
+              description:
+                'Hi, testing a reply on 12/30 from staging to see if it shows up in the dashboard question details. TESTING!!! ',
+              enableReply: true,
+              attachments: null,
+            },
+          },
+          {
             id: '21f69e12-b2b8-ef11-b8e9-001dd804fa0e',
             type: 'correspondence',
             attributes: {
@@ -281,6 +308,31 @@ export const mockInquiryResponse = {
       queueName: 'VBA Pittsburgh RO-VR&E',
       status: 'InProgress',
       submitterQuestion: 'Demo test',
+      schoolFacilityCode: null,
+      veteranRelationship: null,
+    },
+  },
+};
+
+// Based on Wed Dec 30 for User 119 staging response when clicking 'Review Conversation' for inquiryNumber: 'A-20241230-308899',
+export const mockInquiryResponseNoCorrespondence = {
+  data: {
+    id: '81d43742-c8c6-ef11-b8e9-001dd804fa0e',
+    type: 'inquiry',
+    attributes: {
+      inquiryNumber: 'A-20241230-308899',
+      attachments: null,
+      categoryName: 'Veteran ID Card (VIC)',
+      createdOn: '12/30/2024 4:08:15 PM',
+      correspondences: [],
+      hasBeenSplit: false,
+      inquiryTopic: 'Veteran ID Card (VIC) for discounts',
+      levelOfAuthentication: 'Personal',
+      lastUpdate: '12/30/2024 12:00:00 AM',
+      queueId: '39552049-1717-ec11-b6e6-001dd804cf90',
+      queueName: 'Veteran Identification Card (VIC)',
+      status: 'New',
+      submitterQuestion: 'test',
       schoolFacilityCode: null,
       veteranRelationship: null,
     },

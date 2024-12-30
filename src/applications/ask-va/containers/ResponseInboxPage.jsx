@@ -7,6 +7,7 @@ import {
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { parse } from 'date-fns';
 import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -37,6 +38,7 @@ const emptyMessage = message => (
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
   if (messageType === 'ResponseFromVA') return 'Response from VA';
+  if (messageType === 'ReplyToVA') return 'Reply to VA';
   // Split the string at capital letters and join with spaces
   return messageType.split(/(?=[A-Z])/).join(' ');
 };
@@ -232,21 +234,39 @@ const ResponseInboxPage = ({ router }) => {
         ),
         messageType: 'Your question',
         description: inquiryData.attributes.submitterQuestion,
+        originalCreatedOn: inquiryData.attributes.createdOn,
       },
     },
-    ...inquiryData.attributes.correspondences.data
-      .filter(corr => corr.attributes.messageType !== 'Notification')
-      .map(corr => ({
-        ...corr,
-        attributes: {
-          ...corr.attributes,
-          createdOn: convertDateForInquirySubheader(corr.attributes.createdOn),
-          modifiedOn: convertDateForInquirySubheader(
-            corr.attributes.modifiedOn,
-          ),
-        },
-      })),
-  ];
+    ...(inquiryData.attributes.correspondences.data
+      ? inquiryData.attributes.correspondences.data
+          .filter(corr => corr.attributes.messageType !== 'Notification')
+          .map(corr => ({
+            ...corr,
+            attributes: {
+              ...corr.attributes,
+              createdOn: convertDateForInquirySubheader(
+                corr.attributes.createdOn,
+              ),
+              modifiedOn: convertDateForInquirySubheader(
+                corr.attributes.modifiedOn,
+              ),
+              originalCreatedOn: corr.attributes.createdOn,
+            },
+          }))
+      : []),
+  ].sort((a, b) => {
+    const dateA = parse(
+      a.attributes.originalCreatedOn,
+      'MM/dd/yyyy h:mm:ss a',
+      new Date(),
+    );
+    const dateB = parse(
+      b.attributes.originalCreatedOn,
+      'MM/dd/yyyy h:mm:ss a',
+      new Date(),
+    );
+    return dateA.getTime() - dateB.getTime();
+  });
 
   return (
     <div className="row vads-u-padding-x--1">
