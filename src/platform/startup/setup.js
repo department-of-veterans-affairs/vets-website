@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import createCommonStore from './store';
-import { startSitewideComponents } from '../site-wide';
+import startSitewideComponents from '../site-wide';
 
 /**
  * Wrapper for creating a store and sitewide components, used across all apps
