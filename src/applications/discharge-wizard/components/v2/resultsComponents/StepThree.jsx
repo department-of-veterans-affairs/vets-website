@@ -53,7 +53,11 @@ const StepThree = ({ formResponses }) => {
       : 'Mail your completed form and all supporting materials';
 
   return (
-    <va-process-list-item header={headerText} level="2">
+    <va-process-list-item
+      className="vads-u-font-size--h3"
+      header={headerText}
+      level="2"
+    >
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to

@@ -47,6 +47,7 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
         </div>
         <va-process-list>
           <va-process-list-item
+            className="vads-u-font-size--h3"
             header="Download and fill out DoD Form 149"
             level="2"
           >
@@ -88,7 +89,11 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
               Download Form 149 (opens in a new tab)
             </a>
           </va-process-list-item>
-          <va-process-list-item header="Mail your completed form" level="2">
+          <va-process-list-item
+            className="vads-u-font-size--h3"
+            header="Mail your completed form"
+            level="2"
+          >
             <p>
               There are a number of different boards that handle discharge
               upgrades and corrections. Because you want a new DD214, which is
