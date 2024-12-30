@@ -3,13 +3,14 @@ import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 import * as featureToggles from 'platform/utilities/feature-toggles';
 import * as downtimeNotificationActions from 'platform/monitoring/DowntimeNotification/actions';
-import * as commonStore from '../store';
+import * as storeModule from '../store';
 import * as sitewideComponents from '../../site-wide';
 import setUpCommonFunctionality from '../setup';
 
 describe('setUpCommonFunctionality', () => {
   let sandbox;
   let storeStub;
+  let storeModuleStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -21,8 +22,8 @@ describe('setUpCommonFunctionality', () => {
     sandbox
       .stub(downtimeNotificationActions, 'getScheduledDowntime')
       .returns(sinon.stub());
-    sandbox.stub(sitewideComponents, 'startSitewideComponents');
-    sandbox.stub(commonStore, 'createCommonStore').returns(storeStub);
+    sandbox.stub(sitewideComponents, 'default');
+    storeModuleStub = sandbox.stub(storeModule, 'default').returns(storeStub);
     sandbox.stub(Sentry, 'setTag');
     sandbox.stub(Sentry, 'withScope');
   });
@@ -49,8 +50,7 @@ describe('setUpCommonFunctionality', () => {
       reducer,
       analyticsEvents,
     });
-    expect(commonStore.createCommonStore.calledWith(reducer, analyticsEvents))
-      .to.be.true;
+    expect(storeModuleStub.calledWith(reducer, analyticsEvents)).to.be.true;
   });
 
   it('should connect feature toggle', () => {

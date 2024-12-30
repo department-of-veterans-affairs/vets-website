@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom';
  * @param {Element} [root] A DOM element to mount the react application into. By default,
  * this will be the element with an id of 'react-root'.
  */
-function startReactApp(
+export default function startReactApp(
   component,
   root = document.getElementById('react-root'),
 ) {
@@ -61,5 +61,3 @@ function startReactApp(
     });
   }
 }
-
-export { startReactApp };

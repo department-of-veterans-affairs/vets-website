@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-import { startSitewideComponents } from 'platform/site-wide';
+import startSitewideComponents from 'platform/site-wide';
 import createRtkCommonStore from './rtkStore';
 
 /**

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
 import { RequiredTermsAcceptanceView } from '../../../authorization/containers/RequiredTermsAcceptanceView';
-import { createCommonStore } from '../../../../startup/store';
+import createCommonStore from '../../../../startup/store';
 
 const defaultProps = {
   store: createCommonStore(),

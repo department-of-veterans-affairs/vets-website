@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { startReactApp } from '../react';
+import startReactApp from '../react';
 
 const FakeWidget = () => <div id="fake-widget">Widget</div>;
 

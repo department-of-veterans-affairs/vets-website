@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 // Relative imports.
 import './analytics';
 import 'platform/polyfills';
-import { startSitewideComponents } from 'platform/site-wide';
+import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
 import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';

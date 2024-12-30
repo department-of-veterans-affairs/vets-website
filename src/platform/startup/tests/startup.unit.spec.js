@@ -26,10 +26,10 @@ describe('startApp', () => {
       getState: sinon.stub(),
     };
     setUpCommonFunctionalityStub = sandbox
-      .stub(commonFunctionality, 'setUpCommonFunctionality')
+      .stub(commonFunctionality, 'default')
       .returns(storeStub);
-    runAxeCheckStub = sandbox.stub(axeCheck, 'runAxeCheck');
-    startReactAppStub = sandbox.stub(reactApp, 'startReactApp');
+    runAxeCheckStub = sandbox.stub(axeCheck, 'default');
+    startReactAppStub = sandbox.stub(reactApp, 'default');
     updateRouteStub = sandbox.stub(navActions, 'updateRoute');
     createHistoryStub = sandbox.stub(history, 'createHistory').returns({
       getCurrentLocation: sinon.stub().returns({ pathname: '/' }),
