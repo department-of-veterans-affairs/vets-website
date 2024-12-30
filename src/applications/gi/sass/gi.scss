@@ -335,20 +335,45 @@
   background-color: transparent;
 }
 
-.search-container {
-  va-text-input::part(input) {
-    width: 100%;
-    min-width: 576px;
+.programs-list-container {
+  .abbreviations {
+    font-family: var(--font-source-sans);
   }
-
-  @media (max-width: 1024px) {
-    va-text-input::part(input) {
-      min-width: 420px;
+  .list-style {
+    list-style: disc;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    .reset-search {
+      white-space: nowrap;
     }
-  }
-  @media (max-width: 480px) {
-    va-text-input::part(input) {
-      min-width: 100%;
+    @media (max-width: $small-screen) {
+      flex-direction: column;
+      .search-input {
+        width: 100%;
+      }
+      .search-btn {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .reset-search {
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    @media (min-width: $small-screen) {
+      va-text-input::part(input) {
+        min-width: 400px;
+      }
+    }
+    @media (min-width: $medium-screen) {
+      va-text-input::part(input) {
+        min-width: 576px;
+      }
     }
   }
 }

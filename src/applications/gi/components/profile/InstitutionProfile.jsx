@@ -47,7 +47,9 @@ export default function InstitutionProfile({
   const programTypes = [
     'Non College Degree',
     'Institution of Higher Learning',
-    'On The Job Training',
+    'On The Job Training/Apprenticeship',
+    'Flight',
+    'Correspondence',
   ];
 
   const shouldShowSchoolLocations = facilityMap =>
@@ -55,6 +57,7 @@ export default function InstitutionProfile({
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
   const { type, facilityCode, name } = institution;
+  localStorage.setItem('institutionName', name);
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -308,11 +311,7 @@ export default function InstitutionProfile({
       )}
       {toggleGiProgramsFlag && (
         <ProfileSection label="Programs" id="programs">
-          <Programs
-            programTypes={programTypes}
-            facilityCode={facilityCode}
-            institutionName={name}
-          />
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
         </ProfileSection>
       )}
       {!isOJT && (
