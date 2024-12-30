@@ -112,8 +112,8 @@ describe('<Main>', () => {
   });
 
   it('should ignore any storage changes if the user is already logged out', () => {
-    localStorage.setItem('hasSession', null);
     const wrapper = shallow(<Main {...props} />);
+    localStorage.setItem('hasSession', null);
     expect(props.updateLoggedInStatus.calledOnce).to.be.true;
     expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
     expect(props.toggleLoginModal.called).to.be.false;
