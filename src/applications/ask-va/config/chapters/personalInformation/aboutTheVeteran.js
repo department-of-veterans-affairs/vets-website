@@ -112,7 +112,7 @@ const aboutTheVeteranPage = {
           required: CHAPTER_3.VETERANS_BRANCH_OF_SERVICE.ERROR,
         },
         required: formData => {
-          return !isBranchOfServiceRequired(formData);
+          return isBranchOfServiceRequired(formData);
         },
         hideIf: formData => {
           return !isBranchOfServiceRequired(formData);
