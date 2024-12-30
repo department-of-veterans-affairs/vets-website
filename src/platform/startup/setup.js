@@ -17,7 +17,7 @@ import { startSitewideComponents } from '../site-wide';
  * when the respective actions are fired.
  * @param {boolean} preloadScheduledDowntimes Whether to fetch scheduled downtimes.
  */
-export default function setUpCommonFunctionality({
+function setUpCommonFunctionality({
   entryName,
   reducer,
   analyticsEvents,
@@ -51,3 +51,5 @@ export default function setUpCommonFunctionality({
 
   return store;
 }
+
+export { setUpCommonFunctionality };

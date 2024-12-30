@@ -8,5 +8,5 @@ export { createCommonStore } from './store'; // used outside platform
 
 // tentative
 export { default as createAnalyticsMiddleware } from './analytics-middleware';
-export { default as startReactApp } from './react';
-export { default as setUpCommonFunctionality } from './setup';
+export { startReactApp } from './react';
+export { setUpCommonFunctionality } from './setup';

@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
 import { updateRoute } from 'platform/site-wide/user-nav/actions';
-import startReactApp from './react';
-import runAxeCheck from './axe-check';
-import setUpCommonFunctionality from './setup';
+import { startReactApp } from './react';
+import { runAxeCheck } from './axe-check';
+import { setUpCommonFunctionality } from './setup';
 
 /**
  * Starts an application in the default element for standalone React
