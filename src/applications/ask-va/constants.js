@@ -453,7 +453,10 @@ export const CHAPTER_3 = {
       HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
-    QUESTION_2: 'How should we contact you?',
+    QUESTION_2: {
+      QUESTION: 'How should we contact you?',
+      ERROR: 'Please select your contact preference',
+    },
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
