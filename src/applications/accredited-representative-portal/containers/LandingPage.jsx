@@ -5,6 +5,8 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 
 import { selectUserProfile, selectIsUserLoading } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
+// uncomment when ready to enable
+// import SignInButton from '../components/common/SignInButton';
 import LandingPageWelcome from '../components/LandingPageWelcome/LandingPageWelcome';
 
 const LandingPage = () => {
@@ -44,6 +46,7 @@ const LandingPage = () => {
             >
               Sign in or create account
             </a>
+            {/* <SignInButton csp="logingov" /> */}
           </div>
         </div>
       </div>

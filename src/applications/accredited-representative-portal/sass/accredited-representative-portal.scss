@@ -25,7 +25,7 @@
   &__look-and-feel {
     background: linear-gradient(
       to left,
-      var(--vads-color-primary-alt)10%,
+      var(--vads-color-primary-alt) 10%,
       var(--vads-color-primary-alt-dark) 40%,
       var(--vads-color-primary-alt-darkest)
     );
@@ -67,5 +67,42 @@
 
   &__questions {
     font-weight: 700;
+  }
+}
+
+/* used for login button styling consitencies */
+button.arf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 0.75em;
+  font-size: 16px;
+  margin: 1em 0;
+  white-space: normal !important;
+
+  &.idme-button {
+    background: var(--vads-color-success-dark);
+
+    &:hover {
+      background: var(
+        --vads-button-color-background-primary-alt-active-on-light
+      );
+    }
+  }
+
+  &.logingov-button {
+    background: var(--vads-color-secondary);
+
+    &:hover {
+      background: var(--vads-color-secondary-darkest);
+    }
+  }
+
+  img,
+  svg {
+    height: 1em;
+    padding: 0 0.25em;
   }
 }

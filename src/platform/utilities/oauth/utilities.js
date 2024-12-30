@@ -134,6 +134,7 @@ export async function createOAuthRequest({
   const usedClientId = clientId || oAuthOptions.clientId;
   // Build the authorization URL query params from config
   const oAuthParams = {
+    [OAUTH_KEYS.APPLICATION]: application,
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
     [OAUTH_KEYS.ACR]: usedAcr,
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
