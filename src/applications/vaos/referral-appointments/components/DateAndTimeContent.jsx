@@ -8,17 +8,13 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import {
-  getAddressString,
-  getSlotByDate,
-  getSlotById,
-  hasConflict,
-} from '../utils/provider';
+import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
+import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, provider, appointmentsByMonth } = props;
@@ -114,53 +110,12 @@ export const DateAndTimeContent = props => {
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
           {provider.orgName}
         </p>
-        <address>
-          <p className="vads-u-margin--0">
-            {provider.orgAddress.street1} <br />
-            {provider.orgAddress.street2 && (
-              <>
-                {provider.orgAddress.street2}
-                <br />
-              </>
-            )}
-            {provider.orgAddress.street3 && (
-              <>
-                {provider.orgAddress.street3}
-                <br />
-              </>
-            )}
-            {provider.orgAddress.city}, {provider.orgAddress.state},{' '}
-            {provider.orgAddress.zip}
-          </p>
-          <div
-            data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default"
-          >
-            <va-icon
-              className="vads-u-margin-right--0p5 vads-u-color--link-default"
-              icon="directions"
-              size={3}
-            />
-            <a
-              data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
-                provider.orgAddress,
-              )}`}
-              aria-label={`directions to ${provider.orgName}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Directions
-            </a>
-          </div>
-        </address>
-        <p>
-          Phone:{' '}
-          <va-telephone
-            contact={provider.orgPhone}
-            data-testid="provider-telephone"
-          />
-        </p>
+        <ProviderAddress
+          address={provider.orgAddress}
+          showDirections
+          directionsName={provider.orgName}
+          phone={provider.orgPhone}
+        />
         <p>
           {provider.driveTime} ({provider.driveDistance})
         </p>
