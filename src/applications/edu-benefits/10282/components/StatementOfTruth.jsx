@@ -9,10 +9,10 @@ import FormSignature from 'platform/forms-system/src/js/components/FormSignature
  * @returns Either a string representing an error, or undefined (representing a match)
  */
 export function signatureValidator(signatureName, formData) {
-  const fullNmae = `${formData?.veteranFullName.first} ${
+  const fullName = `${formData?.veteranFullName.first} ${
     formData?.veteranFullName.last
   }`;
-  const name = Object.values(fullNmae || { empty: '' })
+  const name = Object.values(fullName)
     .filter(el => el)
     .join('')
     .toLowerCase();
@@ -21,7 +21,6 @@ export function signatureValidator(signatureName, formData) {
     .replaceAll(' ', '')
     .toLowerCase();
   const processedName = name.replaceAll(' ', '');
-
   if (processedSignatureName !== processedName) {
     return `Please enter your full name exactly as entered on the form:`;
   }
