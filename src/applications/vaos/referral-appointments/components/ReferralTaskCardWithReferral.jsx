@@ -47,7 +47,7 @@ export default function ReferralTaskCardWithReferral() {
         status="warning"
         trigger="Your community care referral has expired"
         disable-analytics="false"
-        className="vads-u-margin-y--2"
+        class="vads-u-margin-y--2"
         uswds
         data-testid="expired-alert"
       >
