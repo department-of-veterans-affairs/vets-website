@@ -25,7 +25,7 @@ function LicenseCertificationSearchResults({
   const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
-  const { name, categoryParam, stateParam } = showLcParams(location);
+  const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const itemsPerPage = 5;
 
@@ -47,7 +47,7 @@ function LicenseCertificationSearchResults({
   useEffect(
     () => {
       if (lcResults.length !== 0) {
-        const results = filterLcResults(lcResults, name, {
+        const results = filterLcResults(lcResults, nameParam, {
           type: categoryParam,
           state: stateParam,
         });
@@ -105,7 +105,8 @@ function LicenseCertificationSearchResults({
                   {`${stateParam === 'all' ? `"All"` : `"${stateParam}"`}`}
                 </p>
                 <p className="lc-filter-option">
-                  <strong>License/Certification Name: </strong> {`"${name}"`}
+                  <strong>License/Certification Name: </strong>{' '}
+                  {`"${nameParam}"`}
                 </p>
               </div>
               <div className="row">

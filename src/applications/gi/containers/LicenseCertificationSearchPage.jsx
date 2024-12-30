@@ -12,7 +12,6 @@ import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearchPage({
   dispatchFetchLicenseCertificationResults,
-  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
@@ -24,6 +23,7 @@ function LicenseCertificationSearchPage({
     changedfield: '',
     message: '',
   });
+  const [hardReset, setHardReset] = useState(false);
 
   const handleUpdateQueryParam = () => updateQueryParam(history, location);
 
@@ -41,12 +41,7 @@ function LicenseCertificationSearchPage({
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
 
-  // if (error) {
-  //   {/* ERROR STATE */}
-  // }
-
   const handleShowModal = (changedField, message) => {
-    // console.log('changedField', changedField);
     return setModal({
       visible: true,
       changedField,
@@ -97,6 +92,7 @@ function LicenseCertificationSearchPage({
                 handleShowModal={handleShowModal}
                 location={location}
                 handleReset={handleReset}
+                hardReset={hardReset}
               />
             </div>
             <VaModal
@@ -109,7 +105,12 @@ function LicenseCertificationSearchPage({
               } field?`}
               // initialFocusSelector={initialFocusSelector}
               onCloseEvent={toggleModal}
-              onPrimaryButtonClick={() => handleReset(toggleModal)}
+              onPrimaryButtonClick={() =>
+                handleReset(() => {
+                  toggleModal();
+                  setHardReset(true);
+                })
+              }
               primaryButtonText="Continue to change"
               onSecondaryButtonClick={toggleModal}
               secondaryButtonText="Go Back"

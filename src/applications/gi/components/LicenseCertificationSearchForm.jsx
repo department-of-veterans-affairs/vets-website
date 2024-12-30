@@ -90,7 +90,10 @@ export const checkAlert = (
     return true;
   }
 
-  if (type === 'certification' && currentLocation !== newLocation) {
+  if (type === 'certification' && currentLocation !== 'all') {
+    if (!currentLocation) {
+      return false;
+    }
     return true;
   }
 
@@ -103,6 +106,7 @@ export default function LicenseCertificationSearchForm({
   handleShowModal,
   location,
   handleReset,
+  hardReset,
 }) {
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
@@ -112,6 +116,17 @@ export default function LicenseCertificationSearchForm({
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const [categoryDropdown, locationDropdown] = dropdowns;
+
+  useEffect(
+    () => {
+      if (hardReset) {
+        setDropdowns(updateDropdowns());
+        setShowAlert(false);
+        setName('');
+      }
+    },
+    [hardReset],
+  );
 
   // Use params if present to assign initial dropdown values
   useEffect(
@@ -143,19 +158,38 @@ export default function LicenseCertificationSearchForm({
     [name, suggestions, dropdowns],
   );
 
+  // Set state value to all whenever cert is selected
+  useEffect(
+    () => {
+      if (
+        categoryDropdown.current.optionValue === 'certification' &&
+        locationDropdown.current.optionValue !== 'all'
+      ) {
+        setDropdowns(updateDropdowns('certification', 'all'));
+      }
+    },
+    [dropdowns],
+  );
+
   const handleChange = e => {
     const multiples = showMultipleNames(filteredSuggestions, name);
 
     if (name) {
       if (
         e.target.id === 'state' &&
-        categoryDropdown.current.optionValue === 'license' &&
-        multiples.length === 2
+        categoryDropdown.current.optionValue === 'license'
       ) {
-        return handleShowModal(
-          e.target.id,
-          `The ${name} is specific to the state of ${stateParam}, if you modify the state you will not get results you are looking for.`,
-        );
+        if (multiples.length === 2) {
+          return handleShowModal(
+            e.target.id,
+            `The ${name} ${
+              categoryDropdown.current.optionValue
+            } is specific to the state of ${
+              locationDropdown.current.optionLabel
+            }, if you modify the state you will not get results you are looking for.`,
+          );
+        }
+        return null;
       }
 
       if (categoryDropdown.current.optionValue !== 'all') {
@@ -173,9 +207,14 @@ export default function LicenseCertificationSearchForm({
         e.target.value,
         locationDropdown.current.optionValue,
       );
-    }
-
-    if (e.target.id === 'state') {
+      setShowAlert(
+        checkAlert(
+          e.target.value,
+          multiples,
+          locationDropdown.current.optionValue,
+        ),
+      );
+    } else {
       newDropdowns = updateDropdowns(
         categoryDropdown.current.optionValue,
         e.target.value,
@@ -245,7 +284,8 @@ export default function LicenseCertificationSearchForm({
         selectClassName="lc-dropdown-filter"
         required={locationDropdown.label === 'category'}
       >
-        {showAlert && name.length > 0 ? (
+        {/* {showAlert && name.length > 0 ? ( */}
+        {showAlert ? (
           <LicenseCertificationAlert
             changeStateAlert={
               categoryDropdown.current.optionValue === 'license' &&
