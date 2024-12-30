@@ -177,7 +177,7 @@ const PrescriptionDetailsDocumentation = () => {
   }
   if (hasDocApiError || hasPrescriptionApiError) {
     return (
-      <div className="vads-u-margin-bottom--3">
+      <div>
         <h1
           className="vads-u-margin-bottom--2p5"
           data-testid="medication-information-title"
@@ -245,7 +245,7 @@ const PrescriptionDetailsDocumentation = () => {
     );
 
   return (
-    <div className="vads-u-margin-bottom--3">
+    <>
       {isLoadingDoc || isLoadingRx ? (
         <va-loading-indicator
           message="Loading information..."
@@ -259,7 +259,7 @@ const PrescriptionDetailsDocumentation = () => {
       <article className={!htmlContent ? 'vads-u-padding--0' : ''}>
         <div ref={contentRef} />
       </article>
-    </div>
+    </>
   );
 };
 
