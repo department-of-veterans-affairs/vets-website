@@ -307,5 +307,6 @@
   "fsrWizard": "fsr_wizard",
   "isDGIBEndpoint": "is_DGIB_endpoint",
   "enableLightHouse": "enable_lighthouse",
+  "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995"
 }
