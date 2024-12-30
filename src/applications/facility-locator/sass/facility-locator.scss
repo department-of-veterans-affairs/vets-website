@@ -327,15 +327,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       }
 
       #facility-search {
-        @media screen and (min-width: $small-desktop-screen) {
-          width: 100%;
-          max-width: none;
-        }
-
-        @media screen and (max-width: $medium-screen) {
-          width: 100%;
-          max-width: none;
-        }
+        width: 100%;
+        max-width: none;
       }
     }
   }
