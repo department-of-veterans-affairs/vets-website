@@ -32,9 +32,10 @@ const FacilityConfirmation = props => {
   const addressText = facility => {
     return (
       <>
-        <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+        <strong className="vads-u-font-size--h4 vads-u-margin-top--0">
           {facility.name}
-        </h5>
+        </strong>
+        <br role="presentation" />
         {facility?.address?.physical?.address1 && (
           <>
             {facility.address.physical.address1}
