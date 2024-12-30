@@ -30,9 +30,9 @@ import SubmissionInstructions from '../components/SubmissionInstructions';
 const { date, dateRange } = commonDefinitions;
 
 const subTitle = () => (
-  <div className="schemaform-subtitle vads-u-color--gray">
+  <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
-  </div>
+  </p>
 );
 
 let isAccredited = false;
