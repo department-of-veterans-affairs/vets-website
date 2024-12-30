@@ -58,7 +58,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );

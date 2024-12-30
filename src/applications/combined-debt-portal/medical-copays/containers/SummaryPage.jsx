@@ -62,7 +62,7 @@ const renderOtherVA = (debtLength, debtError) => {
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h3>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
