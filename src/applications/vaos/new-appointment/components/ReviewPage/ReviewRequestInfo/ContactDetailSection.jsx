@@ -52,9 +52,7 @@ function getContent({ data, flowType, formData }) {
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
-        <h2 className="vads-u-font-size--base vaos-appts__block-label">
-          Your contact details
-        </h2>
+        <h2 className="vaos-appts__block-label">Your contact details</h2>
         <span data-dd-privacy="mask">
           {data.email}
           <br />

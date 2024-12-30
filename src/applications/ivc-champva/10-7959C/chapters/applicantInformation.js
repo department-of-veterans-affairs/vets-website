@@ -123,6 +123,23 @@ export const applicantContactInfoSchema = {
     ),
     applicantPhone: phoneUI(),
     applicantEmail: emailUI(),
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        const fs = JSON.parse(JSON.stringify(formSchema)); // Deep copy
+        // If user is the applicant, they have already given us an email
+        // previously in signer section, so remove the field on this page:
+        if (formData.certifierRole === 'applicant') {
+          delete fs.properties.applicantEmail;
+          // Just in case we require this email field in future, be sure to un-require it:
+          fs.required = fs.required.filter(f => f !== 'applicantEmail');
+        } else if (fs.properties.applicantEmail === undefined) {
+          // Replace email field if we previously dropped it and
+          // user is not the applicant:
+          fs.properties.applicantEmail = emailSchema;
+        }
+        return fs;
+      },
+    },
   },
   schema: {
     type: 'object',
