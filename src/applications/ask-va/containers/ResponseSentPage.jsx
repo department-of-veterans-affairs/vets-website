@@ -22,7 +22,7 @@ const ResponseSentPage = () => {
         <h1 className="vads-u-font-family--serif vads-u-margin-bottom--5">
           Response sent
         </h1>
-        <va-alert status="success" visible ref={alertRef}>
+        <va-alert status="success" visible ref={alertRef} slim>
           <p className="vads-u-margin-y--0">
             Your response was submitted successfully.
           </p>
@@ -38,7 +38,7 @@ const ResponseSentPage = () => {
         <div className="vads-u-margin-bottom--7 vads-u-margin-top--6">
           <va-link-action
             href="/contact-us/ask-va-too"
-            text="Return to Ask VA"
+            text="Return to Ask VA Inbox"
             type="secondary"
           />
         </div>
