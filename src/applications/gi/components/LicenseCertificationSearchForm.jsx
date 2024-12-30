@@ -14,7 +14,11 @@ const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
 });
 
-export const updateDropdowns = (category = 'all', location = 'all') => {
+export const updateDropdowns = (
+  category = 'all',
+  location = 'all',
+  multiples = [],
+) => {
   const initialDropdowns = [
     {
       label: 'category',
@@ -36,12 +40,14 @@ export const updateDropdowns = (category = 'all', location = 'all') => {
     {
       label: 'state',
       options:
-        typeof location === 'string'
+        multiples.length === 0
           ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
           : [
               { optionValue: 'all', optionLabel: 'All' },
               ...mappedStates.filter(mappedState =>
-                location.find(state => state.state === mappedState.optionValue),
+                multiples.find(
+                  multiple => multiple.state === mappedState.optionValue,
+                ),
               ),
             ],
       alt: 'state',
@@ -100,6 +106,15 @@ export const checkAlert = (
   return false;
 };
 
+const categoryCheck = type => {
+  if (type === 'license') {
+    return true;
+  }
+  if (type === 'prep') return true;
+
+  return false;
+};
+
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
@@ -112,6 +127,7 @@ export default function LicenseCertificationSearchForm({
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showAlert, setShowAlert] = useState(false);
   const [name, setName] = useState('');
+  const [multipleOptions, setMultipleOptions] = useState(null);
 
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
@@ -152,7 +168,6 @@ export default function LicenseCertificationSearchForm({
           type: 'all',
         });
       }
-
       setFilteredSuggestions(newSuggestions);
     },
     [name, suggestions, dropdowns],
@@ -172,14 +187,20 @@ export default function LicenseCertificationSearchForm({
   );
 
   const handleChange = e => {
-    const multiples = showMultipleNames(filteredSuggestions, name);
+    const multiples =
+      multipleOptions || showMultipleNames(filteredSuggestions, name);
+
+    let allowContinue = false;
 
     if (name) {
       if (
         e.target.id === 'state' &&
-        categoryDropdown.current.optionValue === 'license'
+        categoryCheck(categoryDropdown.current.optionValue)
       ) {
-        if (multiples.length === 2) {
+        if (
+          multiples.length === 2 &&
+          locationDropdown.options.length - 1 === mappedStates.length
+        ) {
           return handleShowModal(
             e.target.id,
             `The ${name} ${
@@ -189,16 +210,18 @@ export default function LicenseCertificationSearchForm({
             }, if you modify the state you will not get results you are looking for.`,
           );
         }
-        return null;
+        allowContinue = true;
       }
 
-      if (categoryDropdown.current.optionValue !== 'all') {
+      if (categoryDropdown.current.optionValue !== 'all' && !allowContinue) {
         return handleShowModal(
           e.target.id,
           'Your current selection will be lost, if you choose continue to change, you will have to start over',
         );
       }
     }
+
+    allowContinue = true;
 
     let newDropdowns;
 
@@ -212,16 +235,22 @@ export default function LicenseCertificationSearchForm({
           e.target.value,
           multiples,
           locationDropdown.current.optionValue,
+          locationDropdown.current.optionValue,
         ),
       );
     } else {
       newDropdowns = updateDropdowns(
         categoryDropdown.current.optionValue,
         e.target.value,
+        multiples,
       );
     }
 
-    return setDropdowns(newDropdowns);
+    if (allowContinue) {
+      setDropdowns(newDropdowns);
+    }
+
+    return newDropdowns;
   };
 
   const onSelection = selection => {
@@ -229,9 +258,13 @@ export default function LicenseCertificationSearchForm({
       const { type, state, name: _name } = selection;
       const multiples = showMultipleNames(filteredSuggestions, _name);
 
+      if (multiples.length > 1) {
+        setMultipleOptions(multiples);
+      }
+
       const newDropdowns =
         multiples.length > 1
-          ? updateDropdowns(type, multiples)
+          ? updateDropdowns(type, 'all', multiples)
           : updateDropdowns(type, state);
 
       setShowAlert(
@@ -288,12 +321,12 @@ export default function LicenseCertificationSearchForm({
         {showAlert ? (
           <LicenseCertificationAlert
             changeStateAlert={
-              categoryDropdown.current.optionValue === 'license' &&
-              showMultipleNames(filteredSuggestions, name).length === 2
+              categoryCheck(categoryDropdown.current.optionValue) &&
+              !multipleOptions
             }
             changeDropdownsAlert={
-              categoryDropdown.current.optionValue === 'license' &&
-              showMultipleNames(filteredSuggestions, name).length > 2
+              categoryCheck(categoryDropdown.current.optionValue) &&
+              multipleOptions?.length > 1
             }
             changeStateToAllAlert={
               categoryDropdown.current.optionValue === 'certification'

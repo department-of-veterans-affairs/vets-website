@@ -23,7 +23,7 @@ export default function LicenseCertificationKeywordSearch({
 
     onSelection({
       type,
-      state: type === 'license' ? state : 'all',
+      state: type === 'license' || type === 'prep' ? state : 'all',
       name,
       selected,
     });
