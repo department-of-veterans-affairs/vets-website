@@ -25,13 +25,12 @@ const renderAlert = (alertType, statements) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -41,6 +40,7 @@ const renderAlert = (alertType, statements) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
     </va-alert>
   );
 };
@@ -58,7 +58,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
