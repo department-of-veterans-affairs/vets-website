@@ -9,7 +9,7 @@ import {
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
-import POARequestCard from '../components/POARequestsCard/POARequestsCard';
+import POARequestCard from '../components/POARequestCard/POARequestCard';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
 const STATUSES = {
