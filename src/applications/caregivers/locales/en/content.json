@@ -142,6 +142,7 @@
   "validation-facilities--search-required": "Enter a city, state or postal code",
   "validation-facilities--submit-search-required": "Select the search button",
   "validation-facilities--default-required": "Select a medical center or clinic",
+  "validation-required-label": "(*Required)",
   "validation-signature-required": "Must certify by checking box",
   "validation-sign-as-rep": "You must sign as representative.",
   "validation-sign-as-rep--vet-name": "Your signature must match previously entered name: %s",
