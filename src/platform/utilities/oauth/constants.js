@@ -78,6 +78,7 @@ export const AUTHORIZE_KEYS_WEB = generateOAuthKeysWithout([
   'CODE_VERIFIER',
   'CODE',
   'REDIRECT_URI',
+  'APPLICATION',
 ]);
 
 export const AUTHORIZE_KEYS_MOBILE = generateOAuthKeysWithout([
