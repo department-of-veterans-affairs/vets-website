@@ -14,13 +14,18 @@ import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
-import { selectRefillContentFlag } from '../../util/selectors';
+import {
+  selectGroupingFlag,
+  selectRefillContentFlag,
+} from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import GroupedMedications from './GroupedMedications';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -306,6 +311,11 @@ const VaPrescription = prescription => {
               refillHistory[0].dispensedDate === undefined && (
                 <p>You haven’t filled this prescription yet.</p>
               )}
+            {showGroupingContent && (
+              <GroupedMedications
+                groupedMedicationsList={prescription.groupedMedications}
+              />
+            )}
           </div>
         </>
       );
