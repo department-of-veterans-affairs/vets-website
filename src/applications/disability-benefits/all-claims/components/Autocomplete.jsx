@@ -29,11 +29,11 @@ const Autocomplete = ({
 
   // Delays screen reader result count reading to avoid interruption by input content reading
   const debouncedSetAriaLiveText = useRef(
-    debounce((resultCount, freeTextResult) => {
+    debounce((resultCount, inputValue) => {
       const makePlural = resultCount > 1 ? 's' : '';
 
       setAriaLiveText(
-        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
+        `${resultCount} result${makePlural}. ${inputValue}, (1 of ${resultCount})`,
       );
     }, 700),
   ).current;
@@ -49,7 +49,7 @@ const Autocomplete = ({
       setResults(updatedResults);
       setActiveIndex(0);
 
-      debouncedSetAriaLiveText(updatedResults.length, freeTextResult);
+      debouncedSetAriaLiveText(updatedResults.length, inputValue);
     }, debounceDelay),
   ).current;
 
