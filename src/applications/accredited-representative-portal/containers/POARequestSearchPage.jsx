@@ -1,17 +1,31 @@
 import React from 'react';
-import { useLoaderData, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useLoaderData, useSearchParams, Link, Outlet } from 'react-router-dom';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
+const StatusTabLink = ({ status, currentStatus, children }) => {
+  const active = status === currentStatus;
+  const classNames = ['poa-request__tab-link'];
+  if (active) classNames.push('active');
+
+  return (
+    <Link to={`?status=${status}`} className={classNames.join(' ')} role="tab">
+      {children}
+    </Link>
+  );
+};
+
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
-  const { search } = useLocation();
-  const status = new URLSearchParams(search).get('status');
+  const [searchParams] = useSearchParams();
+  const currentStatus = searchParams.get('status');
+
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
       <DigitalSubmissionAlert />
+
       <div className="poa-requests-page-table-container">
         {poaRequests.length === 0 ? (
           <p data-testid="poa-requests-table-fetcher-no-poa-requests">
@@ -20,28 +34,12 @@ const POARequestSearchPage = () => {
         ) : (
           <>
             <div role="tablist" className="poa-request__tabs">
-              <NavLink
-                to="/poa-requests?status=pending"
-                className={({ isActive }) =>
-                  isActive && status === 'pending'
-                    ? 'poa-request__tab-link active'
-                    : 'poa-request__tab-link'
-                }
-                role="tab"
-              >
+              <StatusTabLink status="pending" currentStatus={currentStatus}>
                 Pending requests
-              </NavLink>
-              <NavLink
-                to="/poa-requests?status=completed"
-                className={({ isActive }) =>
-                  isActive && status === 'completed'
-                    ? 'poa-request__tab-link active'
-                    : 'poa-request__tab-link'
-                }
-                role="tab"
-              >
+              </StatusTabLink>
+              <StatusTabLink status="completed" currentStatus={currentStatus}>
                 Completed requests
-              </NavLink>
+              </StatusTabLink>
             </div>
             <Outlet />
           </>
