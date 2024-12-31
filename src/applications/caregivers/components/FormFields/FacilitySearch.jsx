@@ -309,12 +309,16 @@ const FacilitySearch = props => {
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
               aria-hidden="true"
             >
-              {content['form-facilities-search-label']}
-              <span className="vads-u-color--secondary-dark"> (*Required)</span>
+              {content['form-facilities-search-label']}{' '}
+              <span className="vads-u-color--secondary-dark">
+                {content['validation-required-label']}
+              </span>
             </p>
             {searchInputError && searchError()}
             <VaSearchInput
-              label={`${content['form-facilities-search-label']} (*Required)`}
+              label={`${content['form-facilities-search-label']} ${
+                content['validation-required-label']
+              }}`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}
