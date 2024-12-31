@@ -311,11 +311,12 @@ const VaPrescription = prescription => {
               refillHistory[0].dispensedDate === undefined && (
                 <p>You haven’t filled this prescription yet.</p>
               )}
-            {showGroupingContent && (
-              <GroupedMedications
-                groupedMedicationsList={prescription.groupedMedications}
-              />
-            )}
+            {showGroupingContent &&
+              prescription?.groupedMedications.length > 0 && (
+                <GroupedMedications
+                  groupedMedicationsList={prescription.groupedMedications}
+                />
+              )}
           </div>
         </>
       );
