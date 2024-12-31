@@ -2,9 +2,9 @@ import React from 'react';
 import {
   createBrowserRouter,
   useNavigation,
-  useLoaderData,
-  Navigate,
+  useRouteLoaderData,
   Outlet,
+  redirect,
 } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -18,37 +18,38 @@ import POARequestDetailsPage, {
   poaRequestLoader,
 } from './containers/POARequestDetailsPage';
 import ErrorMessage from './components/common/ErrorMessage';
-import UserContext from './userContext';
 import { userLoader } from './userLoader';
 import { SIGN_IN_URL } from './constants';
 
+const rootLoader = async () => {
+  const user = await userLoader();
+  if (!user || !user.profile) {
+    throw redirect(SIGN_IN_URL);
+  }
+  return user;
+};
+
 const LoadingWrapper = () => {
   const navigation = useNavigation();
-
   if (navigation.state === 'loading') {
     return <VaLoadingIndicator message="Loading..." />;
   }
-
   return <Outlet />;
 };
 
 const AuthenticatedRoutes = () => {
-  const user = useLoaderData();
-
-  if (!user || !user.profile) {
-    return <Navigate to={SIGN_IN_URL} replace />;
+  const user = useRouteLoaderData('rootLoader');
+  if (!user?.profile) {
+    return redirect(SIGN_IN_URL);
   }
-
-  return (
-    <UserContext.Provider value={user}>
-      <SignedInLayoutWrapper />
-    </UserContext.Provider>
-  );
+  return <SignedInLayoutWrapper />;
 };
 
 const router = createBrowserRouter(
   [
     {
+      id: 'rootLoader',
+      loader: rootLoader,
       element: <App />,
       children: [
         {
@@ -60,7 +61,6 @@ const router = createBrowserRouter(
           element: <LoadingWrapper />,
           children: [
             {
-              loader: userLoader,
               element: <AuthenticatedRoutes />,
               children: [
                 {
