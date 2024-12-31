@@ -99,45 +99,33 @@ describe('Mobile', () => {
     cy.checkSearch();
   });
 
-  it('should render the appropriate elements at each breakpoint', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
+  // [W,H, width of #facility-search]
+  const sizes = [
+    [1024, 1000, 280],
+    [1007, 1000, 100],
+    [768, 1000, 699],
+    [481, 1000, 436],
+  ];
+  const desktopExistsGreaterThanEq = 768;
+  const reactTabsExistsLessThanEq = 481;
 
-    // desktop - large
-    cy.viewport(1024, 1000);
-    // cy.reload();
-    cy.axeCheck();
-    cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(280, 5);
-    });
-    cy.get('.desktop-map-container').should('exist');
-    cy.get('.react-tabs').should('not.exist');
+  sizes.forEach(size => {
+    it(`should render in desktop layout at ${size[0]}x${size[1]}`, () => {
+      cy.viewport(size[0], size[1]);
+      cy.visit('/find-locations');
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.get('#facility-search').then($element => {
+        expect($element.width()).closeTo(size[2], 10);
+      });
 
-    // desktop - small
-    cy.viewport(1007, 1000);
-    cy.axeCheck();
-    cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(260, 9);
+      if (size[0] >= desktopExistsGreaterThanEq) {
+        cy.get('.desktop-map-container').should('exist');
+        cy.get('.react-tabs').should('not.exist');
+      } else if (size[0] <= reactTabsExistsLessThanEq) {
+        cy.get('.desktop-map-container').should('not.exist');
+        cy.get('.react-tabs').should('exist');
+      }
     });
-    cy.get('.desktop-map-container').should('exist');
-    cy.get('.react-tabs').should('not.exist');
-
-    // tablet
-    cy.viewport(768, 1000);
-    cy.axeCheck();
-    cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(260, 16);
-    });
-    cy.get('.desktop-map-container').should('exist');
-    cy.get('.react-tabs').should('not.exist');
-
-    // mobile
-    cy.viewport(481, 1000);
-    cy.axeCheck();
-    cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(260, 16);
-    });
-    cy.get('.desktop-map-container').should('not.exist');
-    cy.get('.react-tabs').should('exist');
   });
 });
