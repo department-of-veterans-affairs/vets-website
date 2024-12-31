@@ -17,12 +17,13 @@ export default function ReviewDirectScheduleInfo({
       <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
       <TypeOfAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <FacilitySection facility={facility} clinic={clinic} />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.selectedDates}
         facilityId={data.vaFacility}
+        directSchedule
       />
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <FacilitySection facility={facility} clinic={clinic} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
