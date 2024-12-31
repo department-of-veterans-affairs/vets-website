@@ -305,16 +305,16 @@ const FacilitySearch = props => {
               searchInputError ? 'caregiver-facilities-search-input-error' : ''
             }`}
           >
-            <label
-              htmlFor="facility-search"
+            <p
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+              aria-hidden="true"
             >
               {content['form-facilities-search-label']}
               <span className="vads-u-color--secondary-dark"> (*Required)</span>
-            </label>
+            </p>
             {searchInputError && searchError()}
             <VaSearchInput
-              label={content['form-facilities-search-label']}
+              label={`${content['form-facilities-search-label']} (*Required)`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}
