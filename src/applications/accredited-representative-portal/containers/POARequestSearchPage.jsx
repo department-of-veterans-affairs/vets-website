@@ -1,5 +1,10 @@
 import React from 'react';
-import { useLoaderData, useSearchParams, Link } from 'react-router-dom';
+import {
+  useLoaderData,
+  useSearchParams,
+  redirect,
+  Link,
+} from 'react-router-dom';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
@@ -103,8 +108,14 @@ export async function poaRequestsLoader({ request }) {
     });
     return response.data;
   } catch (error) {
-    const url = new URL(request.url);
-    const status = url.searchParams.get('status');
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+
+    if (!Object.values(STATUSES).includes(status)) {
+      searchParams.set('status', STATUSES.PENDING);
+      throw redirect(`?${searchParams.toString()}`);
+    }
+
     // Return mock data if API fails
     // TODO: Remove mock data before pilot and uncomment throw statement
     const requests = mockPOARequestsResponse?.data?.map(req => req);
