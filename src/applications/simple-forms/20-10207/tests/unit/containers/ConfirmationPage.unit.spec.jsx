@@ -1,103 +1,105 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { expect } from 'chai';
 
+import { expect } from 'chai';
+import { mount } from 'enzyme';
+import { createStore } from 'redux';
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { cleanup } from '@testing-library/react';
+import { format } from 'date-fns';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
+import testData from '../../e2e/fixtures/data/backend-mapping-support/veteran-maximal-2.json';
 
-const veteranFullName = {
-  first: 'John',
-  middle: '',
-  last: 'Veteran',
-};
-const storeBase = {
-  form: {
-    formId: formConfig.formId,
-    submission: {
-      response: {
-        confirmationNumber: '123456',
+describe('ConfirmationPage', () => {
+  let wrapper;
+  let store;
+  const mockStore = configureMockStore();
+  const initialState = {
+    form: {
+      data: {
+        ...createInitialState(formConfig),
+        ...testData.data,
       },
-      timestamp: Date.now(),
+      submission: {
+        response: {
+          confirmationNumber: '1234567890',
+        },
+        timestamp: '2022-01-01T00:00:00Z',
+      },
     },
-    data: {
-      preparerType: 'veteran',
-      veteranFullName,
-    },
-  },
-};
-const fullNameString = veteranFullName.middle
-  ? `${veteranFullName.first} ${veteranFullName.middle} ${veteranFullName.last}`
-  : `${veteranFullName.first} ${veteranFullName.last}`;
-const fullNameStringRegex = new RegExp(fullNameString, 'i');
+  };
 
-describe('Confirmation page', () => {
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
-
-  it('throws error if state.form is undefined', () => {
-    const storeWithUndefinedForm = {
-      ...storeBase,
-      form: undefined,
-    };
-
-    expect(() => {
-      render(
-        <Provider store={mockStore(storeWithUndefinedForm)}>
-          <ConfirmationPage />
-        </Provider>,
-      );
-    }).to.throw();
-  });
-
-  it('shows status success and the correct name of applicant', () => {
-    const { container, getByText } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+  beforeEach(() => {
+    store = mockStore(initialState);
+    wrapper = mount(
+      <Provider store={store}>
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
-    expect(container.querySelector('va-alert')).to.have.attr(
-      'status',
-      'success',
-    );
-    getByText(fullNameStringRegex);
   });
 
-  it('handles missing submission response', () => {
-    const storeWithMissingResponse = {
-      ...storeBase,
+  afterEach(() => {
+    if (wrapper) {
+      wrapper.unmount();
+    }
+    cleanup();
+  });
+
+  it('passes the correct props to ConfirmationPageView', () => {
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
+
+    expect(confirmationViewProps.submitDate).to.equal('2022-01-01T00:00:00Z');
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
+  });
+
+  it('should select form from state when state.form is defined', () => {
+    const submitDate = new Date();
+    const mockInitialState = {
       form: {
-        ...storeBase.form,
         submission: {
-          ...storeBase.form.submission,
-          response: null,
+          timestamp: submitDate,
+          response: { confirmationNumber: '1234' },
+        },
+        data: {
+          ...createInitialState(formConfig),
+          ...testData.data,
         },
       },
     };
+    const mockDefinedState = createStore(() => mockInitialState);
 
-    const { queryByText } = render(
-      <Provider store={mockStore(storeWithMissingResponse)}>
-        <ConfirmationPage />
+    const definedWrapper = mount(
+      <Provider store={mockDefinedState}>
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    expect(queryByText(/123456/)).to.be.null;
+    expect(definedWrapper.text()).to.include(
+      format(submitDate, 'MMMM d, yyyy'),
+    );
+    expect(definedWrapper.text()).to.include('1234');
+
+    definedWrapper.unmount();
   });
 
-  it('throws error when state.form is empty', () => {
-    const storeWithEmptyForm = {
-      ...storeBase,
-      form: {},
-    };
+  it('should throw error when state.form is undefined', () => {
+    const mockEmptyState = {};
+    const mockEmptyStore = createStore(() => mockEmptyState);
+
+    let errorWrapper;
 
     expect(() => {
-      render(
-        <Provider store={mockStore(storeWithEmptyForm)}>
-          <ConfirmationPage />
+      errorWrapper = mount(
+        <Provider store={mockEmptyStore}>
+          <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );
     }).to.throw();
+
+    if (errorWrapper) {
+      errorWrapper.unmount();
+    }
   });
 });

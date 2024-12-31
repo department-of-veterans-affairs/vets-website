@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -28,7 +27,6 @@ export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',
   RETIREMENT: 'RETIREMENT',
-  FUTURE: 'FUTURE',
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
@@ -38,7 +36,6 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
@@ -176,7 +173,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'DOD SkillBridge program',
@@ -272,22 +269,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
-    },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
     },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
@@ -610,7 +591,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -717,7 +698,7 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -742,7 +723,7 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'TGI',
     description:
-      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
+      'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
@@ -758,7 +739,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
     applyNowURL: '',
   },
   {

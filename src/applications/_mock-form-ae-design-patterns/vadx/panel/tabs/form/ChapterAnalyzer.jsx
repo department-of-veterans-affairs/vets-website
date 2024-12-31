@@ -20,9 +20,9 @@ const WarningBadge = ({ children }) => (
 
 const PageAnalysis = ({ page, pageName, urlPrefix }) => {
   const formData = useSelector(state => state?.form?.data || {});
-  const hasCustomPage = isReactComponent(page.CustomPage);
-  const hasCustomPageReview = isReactComponent(page.CustomPageReview);
-  const hasUiSchema = page.uiSchema && Object.keys(page.uiSchema).length > 0;
+  const hasCustomPage = isReactComponent(page?.CustomPage);
+  const hasCustomPageReview = isReactComponent(page?.CustomPageReview);
+  const hasUiSchema = page?.uiSchema && Object.keys(page?.uiSchema).length > 0;
   const showWarning = (hasCustomPage || hasCustomPageReview) && hasUiSchema;
 
   const depends = page?.depends;
@@ -33,11 +33,13 @@ const PageAnalysis = ({ page, pageName, urlPrefix }) => {
     depends(formData)
   );
 
+  const path = `${urlPrefix}${page.path}`;
+
   return (
     <li className="vads-u-margin-y--0">
       <small className="vads-u-display--flex vads-u-align-items--center vads-u-flex-wrap--wrap">
         <Link
-          to={`${urlPrefix}${page.path}`}
+          to={path}
           className="vads-u-text-decoration--none vads-u-color--primary vads-u-padding-x--0p5"
           activeClassName="active vads-u-background-color--primary-alt-lightest"
         >
@@ -114,17 +116,20 @@ ChapterAnalyzer.propTypes = {
   formConfig: PropTypes.shape({
     chapters: PropTypes.object.isRequired,
   }),
+  urlPrefix: PropTypes.string,
 };
 
 PageAnalysis.propTypes = {
   page: PropTypes.shape({
     title: PropTypes.string,
     path: PropTypes.string,
+    depends: PropTypes.func,
     CustomPage: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     CustomPageReview: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     uiSchema: PropTypes.object,
   }).isRequired,
   pageName: PropTypes.string.isRequired,
+  urlPrefix: PropTypes.string,
 };
 
 WarningBadge.propTypes = {

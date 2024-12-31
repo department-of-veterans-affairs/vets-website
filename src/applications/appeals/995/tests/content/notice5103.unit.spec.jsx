@@ -1,12 +1,15 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { Notice5103Description, reviewField } from '../../content/notice5103';
 
 describe('Notice5103Description', () => {
+  const mockStore = configureStore([]);
   const analyticsEvent = {
     'alert-box-type': 'info',
     'alert-box-heading': 'If you have a presumptive condition',
@@ -18,9 +21,9 @@ describe('Notice5103Description', () => {
   it('should render', () => {
     global.window.dataLayer = [];
     const { container, getAllByRole } = render(
-      <div>
+      <Provider store={mockStore({})}>
         <Notice5103Description />
-      </div>,
+      </Provider>,
     );
 
     const event = global.window.dataLayer.slice(-1)[0];
@@ -38,12 +41,28 @@ describe('Notice5103Description', () => {
     expect(headers[1].textContent).to.contain('Review and acknowledge');
     expect($('va-alert[visible="true"]', container)).to.exist;
   });
+
+  it('should render new form content', () => {
+    const { container, getAllByRole } = render(
+      // eslint-disable-next-line camelcase
+      <Provider store={mockStore({ featureToggles: { sc_new_form: true } })}>
+        <Notice5103Description />
+      </Provider>,
+    );
+
+    const headers = getAllByRole('heading');
+    expect(headers.length).to.eq(1);
+    expect(headers[0].tagName).to.eq('H3');
+    expect(headers[0].textContent).to.contain('Review and acknowledge');
+    expect($('va-alert', container)).to.not.exist;
+  });
+
   it('should update analytics after closing alert', async () => {
     global.window.dataLayer = [];
     const { container, getAllByRole } = render(
-      <div>
+      <Provider store={mockStore({})}>
         <Notice5103Description onReviewPage />
-      </div>,
+      </Provider>,
     );
 
     $('va-alert', container).__events.closeEvent();

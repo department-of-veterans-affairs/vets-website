@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import { debounce, isEqual } from 'lodash';
+import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMockedLogin } from '../../hooks/useMockedLogin';
 import { vadxPreferencesStorage } from '../utils/StorageAdapter';
@@ -22,10 +22,9 @@ import { setVadxToggles } from '../actions/toggles';
 export const VADXContext = createContext(null);
 
 /**
- * @param {Object} props
+ * @component VADXProvider
  * @param {React.ReactNode} props.children
  * @returns {React.ReactNode}
- * @component
  */
 export const VADXProvider = ({ children }) => {
   const [preferences, setPreferences] = useState({});
@@ -40,7 +39,7 @@ export const VADXProvider = ({ children }) => {
   );
 
   // mock login functions
-  const { logIn, logOut } = useMockedLogin();
+  const { logIn, logOut, loggedIn } = useMockedLogin();
 
   useEffect(
     () => {
@@ -129,10 +128,14 @@ export const VADXProvider = ({ children }) => {
 
   // update local toggles
   const updateLocalToggles = useCallback(
-    toggles => {
-      setSyncedData({ ...preferences, localToggles: toggles });
+    async toggles => {
+      await setSyncedData({
+        ...preferences,
+        localToggles: { ...toggles },
+      });
+      dispatch(setVadxToggles(toggles));
     },
-    [preferences, setSyncedData],
+    [preferences, setSyncedData, dispatch],
   );
 
   // clear local toggles
@@ -151,25 +154,6 @@ export const VADXProvider = ({ children }) => {
 
   const togglesState = useSelector(state => state?.featureToggles);
 
-  const localTogglesAreEmpty = useMemo(
-    () => isEqual(preferences?.localToggles, {}),
-    [preferences?.localToggles],
-  );
-
-  // check if the local toggles are not empty and not equal to the toggles state
-  const customLocalToggles =
-    !localTogglesAreEmpty && !isEqual(preferences?.localToggles, togglesState);
-
-  // if the custom local toggles are true, then update the redux state for the toggles
-  useEffect(
-    () => {
-      if (customLocalToggles) {
-        dispatch(setVadxToggles(preferences?.localToggles));
-      }
-    },
-    [customLocalToggles, preferences?.localToggles, dispatch],
-  );
-
   return (
     <VADXContext.Provider
       value={{
@@ -178,6 +162,7 @@ export const VADXProvider = ({ children }) => {
         togglesState,
         logIn,
         logOut,
+        loggedIn,
         setSyncedData,
         updateDevLoading,
         updateSearchQuery,

@@ -5,10 +5,6 @@ import {
   getPatientReferralById,
 } from '../../services/referral';
 
-export const SET_FACILITY = 'SET_FACILITY';
-export const SET_APPOINTMENT_DETAILS = 'SET_APPOINTMENT_DETAILS';
-export const SET_SORT_PROVIDER_BY = 'SET_SORT_PROVIDER_BY';
-export const SET_SELECTED_PROVIDER = 'SET_SELECTED_PROVIDER';
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
@@ -20,37 +16,8 @@ export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
 export const FETCH_REFERRAL_SUCCEEDED = 'FETCH_REFERRAL_SUCCEEDED';
 export const FETCH_REFERRAL_FAILED = 'FETCH_REFERRAL_FAILED';
-
-export function setFacility(facility) {
-  return {
-    type: SET_FACILITY,
-    payload: facility,
-  };
-}
-
-export function setAppointmentDetails(dateTime, facility) {
-  return {
-    type: SET_APPOINTMENT_DETAILS,
-    payload: {
-      dateTime,
-      facility,
-    },
-  };
-}
-
-export function setSortProviderBy(sortProviderBy) {
-  return {
-    type: SET_SORT_PROVIDER_BY,
-    payload: sortProviderBy,
-  };
-}
-
-export function setSelectedProvider(selectedProvider) {
-  return {
-    type: SET_SELECTED_PROVIDER,
-    payload: selectedProvider,
-  };
-}
+export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
+export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
 export function setFormCurrentPage(currentPage) {
   return {
@@ -121,5 +88,18 @@ export function fetchReferralById(id) {
       });
       return captureError(error);
     }
+  };
+}
+
+export function setSelectedSlot(slot) {
+  return {
+    type: SET_SELECTED_SLOT,
+    payload: slot,
+  };
+}
+
+export function setInitReferralFlow() {
+  return {
+    type: SET_INIT_REFERRAL_FLOW,
   };
 }
