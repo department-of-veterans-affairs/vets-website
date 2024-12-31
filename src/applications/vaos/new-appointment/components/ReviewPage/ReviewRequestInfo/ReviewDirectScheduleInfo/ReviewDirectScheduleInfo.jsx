@@ -4,7 +4,7 @@ import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
 import ContactDetailSection from '../ContactDetailSection';
 import AppointmentDate from '../../AppointmentDate';
 import TypeOfAppointmentSection from '../TypeOfAppointmentSection';
-import State from '../../../../../components/State';
+import FacilitySection from '../VAAppointmentSection/FacilitySection';
 
 export default function ReviewDirectScheduleInfo({
   data,
@@ -22,10 +22,7 @@ export default function ReviewDirectScheduleInfo({
         facilityId={data.vaFacility}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
-      {facility.name}
-      <br />
-      {facility.address?.city}, <State state={facility.address?.state} />
+      <FacilitySection facility={facility} clinic={clinic} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
