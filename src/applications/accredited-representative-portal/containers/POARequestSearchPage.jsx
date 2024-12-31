@@ -7,8 +7,35 @@ import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 import POARequestCard from '../components/POARequestsCard/POARequestsCard';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
-const StatusTabLink = ({ status, currentStatus, children }) => {
-  const active = status === currentStatus;
+const STATUSES = {
+  PENDING: 'pending',
+  COMPLETED: 'completed',
+};
+
+const SearchResults = ({ poaRequests }) => {
+  if (poaRequests.length === 0) {
+    return (
+      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+        No POA requests found
+      </p>
+    );
+  }
+
+  return (
+    <ul
+      data-testid="poa-requests-card"
+      className="poa-request__list"
+      sort-column={1}
+    >
+      {poaRequests.map(({ id, attributes: poaRequest }) => {
+        return <POARequestCard poaRequest={poaRequest} key={id} id={id} />;
+      })}
+    </ul>
+  );
+};
+
+const StatusTabLink = ({ status, searchStatus, children }) => {
+  const active = status === searchStatus;
   const classNames = ['poa-request__tab-link'];
   if (active) classNames.push('active');
 
@@ -21,8 +48,7 @@ const StatusTabLink = ({ status, currentStatus, children }) => {
 
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
-  const [searchParams] = useSearchParams();
-  const currentStatus = searchParams.get('status');
+  const searchStatus = useSearchParams()[0].get('status');
 
   return (
     <>
@@ -30,24 +56,39 @@ const POARequestSearchPage = () => {
       <DigitalSubmissionAlert />
 
       <div className="poa-requests-page-table-container">
-        {poaRequests.length === 0 ? (
-          <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-            No POA requests found
-          </p>
-        ) : (
-          <>
-            <div role="tablist" className="poa-request__tabs">
-              <StatusTabLink status="pending" currentStatus={currentStatus}>
-                Pending requests
-              </StatusTabLink>
-              <StatusTabLink status="completed" currentStatus={currentStatus}>
-                Completed requests
-              </StatusTabLink>
-            </div>
+        <div role="tablist" className="poa-request__tabs">
+          <StatusTabLink status={STATUSES.PENDING} searchStatus={searchStatus}>
+            Pending requests
+          </StatusTabLink>
+          <StatusTabLink
+            status={STATUSES.COMPLETED}
+            searchStatus={searchStatus}
+          >
+            Completed requests
+          </StatusTabLink>
+        </div>
 
-            <POARequestCard />
-          </>
-        )}
+        <div
+          className={searchStatus}
+          id={`panel-${searchStatus}`}
+          role="tabpanel"
+          aria-labelledby={`${searchStatus}`}
+        >
+          <h2 data-testid="poa-requests-table-heading">
+            {(() => {
+              switch (searchStatus) {
+                case STATUSES.PENDING:
+                  return 'Pending requests';
+                case STATUSES.COMPLETED:
+                  return 'Completed requests';
+                default:
+                  throw new Error(`Unexpected status: ${searchStatus}`);
+              }
+            })()}
+          </h2>
+
+          <SearchResults poaRequests={poaRequests} />
+        </div>
       </div>
     </>
   );
