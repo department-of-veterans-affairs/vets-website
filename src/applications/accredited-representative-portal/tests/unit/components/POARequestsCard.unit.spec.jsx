@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import POARequestsPage from '../../../components/POARequestsCard/POARequestsCard';
-// import { poaRequestsLoader } from '../../../containers/POARequestsPage';
+import POARequestsCard from '../../../components/POARequestsCard/POARequestsCard';
 import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
 import ErrorMessage from '../../../components/common/ErrorMessage';
 
@@ -12,14 +11,14 @@ describe('POARequestsTable', () => {
     const routes = [
       {
         path: '/representative/poa-requests',
-        element: <POARequestsPage />,
+        element: <POARequestsCard />,
         loader: mockPOARequestsResponse,
         errorElement: <ErrorMessage />,
       },
     ];
     const router = createMemoryRouter(routes);
 
-    const { getByTestId } = await render(<RouterProvider router={router} />);
-    await expect(getByTestId('error-message')).to.exist;
+    const { getByTestId } = render(<RouterProvider router={router} />);
+    expect(getByTestId('error-message')).to.exist;
   });
 });
