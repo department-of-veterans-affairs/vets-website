@@ -6,10 +6,8 @@ import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureCCDirectScheduling,
-} from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 
 function AppointmentListSection() {
@@ -18,11 +16,7 @@ function AppointmentListSection() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-
-  const featureCCDirectScheduling = useSelector(state =>
-    selectFeatureCCDirectScheduling(state),
-  );
-
+  const { isInCCPilot } = useIsInCCPilot();
   return (
     <>
       {!featureBreadcrumbUrlUpdate && (
@@ -49,7 +43,7 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
-          {featureCCDirectScheduling && (
+          {isInCCPilot && (
             <Route
               path="/referrals-requests"
               component={ReferralsAndRequests}
