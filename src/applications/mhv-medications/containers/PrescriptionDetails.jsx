@@ -324,7 +324,7 @@ const PrescriptionDetails = () => {
   const content = () => {
     if (prescription || prescriptionsApiError) {
       return (
-        <>
+        <div className="vads-u-margin-bottom--4">
           <div className="no-print">
             <h1
               aria-describedby="last-filled"
@@ -401,7 +401,7 @@ const PrescriptionDetails = () => {
             />
             <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
-        </>
+        </div>
       );
     }
     return (
