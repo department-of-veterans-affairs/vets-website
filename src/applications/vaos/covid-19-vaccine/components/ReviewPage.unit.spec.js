@@ -139,9 +139,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
       dateHeading,
       facilityHeading,
     ] = screen.getAllByRole('heading');
-    expect(pageHeading).to.contain.text(
-      'Review and confirm your appointment details',
-    );
+    expect(pageHeading).to.contain.text('Review your appointment details');
     expect(descHeading).to.contain.text('COVID-19 vaccine');
     expect(descHeading).to.have.tagName('h2');
 

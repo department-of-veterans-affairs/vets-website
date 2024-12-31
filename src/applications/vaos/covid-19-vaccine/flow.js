@@ -61,7 +61,7 @@ export default function getPageFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'review'
         : '/new-covid-19-vaccine-appointment/review',
-      label: 'Review and confirm your appointment details',
+      label: 'Review your appointment details',
       next: '',
     },
     root: {
