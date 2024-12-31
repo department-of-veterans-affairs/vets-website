@@ -46,7 +46,7 @@ const GroupedMedications = props => {
   );
 
   return (
-    <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--4">
+    <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--3">
       <section className="vads-u-margin-y--3">
         <h3>Previous prescriptions</h3>
         <p
@@ -67,7 +67,7 @@ const GroupedMedications = props => {
                 className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
                 key={rx.prescriptionId}
               >
-                <dt className="vads-u-margin-top--4">
+                <dt className="vads-u-margin-top--3">
                   <strong>Prescription number: {rx.prescriptionNumber}</strong>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
@@ -88,7 +88,7 @@ const GroupedMedications = props => {
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             max-page-list-length={MAX_PAGE_LIST_LENGTH}
-            className="vads-u-justify-content--center no-print vads-u-margin-top--4"
+            className="vads-u-justify-content--center no-print vads-u-margin-top--3"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}
             uswds
