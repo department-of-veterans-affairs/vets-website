@@ -77,6 +77,9 @@ const FacilityList = props => {
         <strong>“{query}”</strong>
       </div>
       <VaRadio
+        label={`${content['validation-facilities--default-required']} ${
+          content['validation-required-label']
+        }`}
         id="root_facility_search_list"
         name="root_facility_search_list"
         value={value}
