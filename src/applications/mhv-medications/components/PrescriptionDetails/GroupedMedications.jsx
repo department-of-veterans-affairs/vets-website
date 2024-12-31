@@ -31,7 +31,7 @@ const GroupedMedications = props => {
       );
       setCurrentGroupedList(currentItems);
     },
-    [currentPage, groupedMedicationsList, truncatedGroupedMedicationsList],
+    [currentPage, groupedMedicationsList],
   );
 
   const onPageChange = page => {
