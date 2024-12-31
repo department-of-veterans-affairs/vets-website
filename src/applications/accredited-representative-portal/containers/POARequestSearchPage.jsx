@@ -1,7 +1,10 @@
 import React from 'react';
-import { useLoaderData, useSearchParams, Link, Outlet } from 'react-router-dom';
+import { useLoaderData, useSearchParams, Link } from 'react-router-dom';
+
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
+import POARequestCard from '../components/POARequestsCard/POARequestsCard';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
 const StatusTabLink = ({ status, currentStatus, children }) => {
@@ -41,7 +44,8 @@ const POARequestSearchPage = () => {
                 Completed requests
               </StatusTabLink>
             </div>
-            <Outlet />
+
+            <POARequestCard />
           </>
         )}
       </div>
