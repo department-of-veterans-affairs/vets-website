@@ -4,7 +4,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
-const POARequestsPage = () => {
+const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const { search } = useLocation();
   const status = new URLSearchParams(search).get('status');
@@ -51,7 +51,7 @@ const POARequestsPage = () => {
   );
 };
 
-export default POARequestsPage;
+export default POARequestSearchPage;
 
 export async function poaRequestsLoader({ request }) {
   try {

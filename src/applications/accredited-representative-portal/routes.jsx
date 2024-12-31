@@ -4,9 +4,9 @@ import { createBrowserRouter, useNavigation, Outlet } from 'react-router-dom';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
-import POARequestsPage, {
+import POARequestSearchPage, {
   poaRequestsLoader,
-} from './containers/POARequestsPage';
+} from './containers/POARequestSearchPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
 import POARequestDetailsPage, {
   poaRequestLoader,
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
               children: [
                 {
                   path: 'poa-requests',
-                  element: <POARequestsPage />,
+                  element: <POARequestSearchPage />,
                   loader: poaRequestsLoader,
                   errorElement: <ErrorMessage />,
                   children: [
