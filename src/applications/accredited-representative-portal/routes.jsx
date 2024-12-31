@@ -2,7 +2,6 @@ import React from 'react';
 import {
   createBrowserRouter,
   useNavigation,
-  useRouteLoaderData,
   Outlet,
   redirect,
 } from 'react-router-dom';
@@ -37,31 +36,25 @@ const LoadingWrapper = () => {
   return <Outlet />;
 };
 
-const AuthenticatedRoutes = () => {
-  const user = useRouteLoaderData('rootLoader');
-  if (!user?.profile) {
-    return redirect(SIGN_IN_URL);
-  }
-  return <SignedInLayoutWrapper />;
-};
-
 const router = createBrowserRouter(
   [
     {
-      id: 'rootLoader',
-      loader: rootLoader,
       element: <App />,
       children: [
+        // Landing page has no loader => no user required
         {
           index: true,
           element: <LandingPage />,
         },
+        // Protected routes have the loader => user required
         {
+          id: 'rootLoader',
+          loader: rootLoader,
           path: '/',
           element: <LoadingWrapper />,
           children: [
             {
-              element: <AuthenticatedRoutes />,
+              element: <SignedInLayoutWrapper />,
               children: [
                 {
                   path: 'poa-requests',
