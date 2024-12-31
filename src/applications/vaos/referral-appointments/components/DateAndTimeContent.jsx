@@ -93,6 +93,8 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.UUID);
   };
 
+  const noSlotsAvailable = !provider.slots.length;
+
   return (
     <>
       <div>
@@ -120,51 +122,70 @@ export const DateAndTimeContent = props => {
           {provider.driveTime} ({provider.driveDistance})
         </p>
         <h2>Choose a date and time</h2>
-        <p>
-          Select an available date and time from the calendar below. Appointment
-          times are displayed in{' '}
-          {`${getTimezoneDescByFacilityId(
-            currentReferral.ReferringFacilityInfo.FacilityCode,
-          )}`}
-          .
-        </p>
+        {!noSlotsAvailable && (
+          <p>
+            Select an available date and time from the calendar below.
+            Appointment times are displayed in{' '}
+            {`${getTimezoneDescByFacilityId(
+              currentReferral.ReferringFacilityInfo.FacilityCode,
+            )}`}
+            .
+          </p>
+        )}
       </div>
-      <div data-testid="cal-widget">
-        <CalendarWidget
-          maxSelections={1}
-          availableSlots={provider.slots}
-          value={[selectedDate]}
-          id="dateTime"
-          timezone={facilityTimeZone}
-          additionalOptions={{
-            required: true,
-          }}
-          // disabled={loadingSlots}
-          disabledMessage={
-            <va-loading-indicator
-              data-testid="loadingIndicator"
-              set-focus
-              message="Finding appointment availability..."
+      {noSlotsAvailable && (
+        <va-alert
+          status="warning"
+          data-testid="no-slots-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">
+            We’re sorry. We couldn’t find any open time slots.
+          </h2>
+          <p>Please call this provider to schedule an appointment</p>
+          <va-telephone contact={provider.orgPhone} />
+        </va-alert>
+      )}
+      {!noSlotsAvailable && (
+        <>
+          <div data-testid="cal-widget">
+            <CalendarWidget
+              maxSelections={1}
+              availableSlots={provider.slots}
+              value={[selectedDate]}
+              id="dateTime"
+              timezone={facilityTimeZone}
+              additionalOptions={{
+                required: true,
+              }}
+              // disabled={loadingSlots}
+              disabledMessage={
+                <va-loading-indicator
+                  data-testid="loadingIndicator"
+                  set-focus
+                  message="Finding appointment availability..."
+                />
+              }
+              onChange={onChange}
+              onNextMonth={null}
+              onPreviousMonth={null}
+              minDate={format(new Date(), 'yyyy-MM-dd')}
+              maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
+              required
+              requiredMessage={error}
+              startMonth={format(new Date(), 'yyyy-MM')}
+              showValidation={error.length > 0}
+              showWeekends
+              overrideMaxDays
             />
-          }
-          onChange={onChange}
-          onNextMonth={null}
-          onPreviousMonth={null}
-          minDate={format(new Date(), 'yyyy-MM-dd')}
-          maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
-          required
-          requiredMessage={error}
-          startMonth={format(new Date(), 'yyyy-MM')}
-          showValidation={error.length > 0}
-          showWeekends
-          overrideMaxDays
-        />
-      </div>
-      <FormButtons
-        onBack={() => onBack()}
-        onSubmit={() => onSubmit()}
-        loadingText="Page change in progress"
-      />
+          </div>
+          <FormButtons
+            onBack={() => onBack()}
+            onSubmit={() => onSubmit()}
+            loadingText="Page change in progress"
+          />
+        </>
+      )}
     </>
   );
 };
