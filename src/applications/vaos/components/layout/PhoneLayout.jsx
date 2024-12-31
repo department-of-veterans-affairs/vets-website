@@ -86,7 +86,7 @@ export default function PhoneLayout({ data: appointment }) {
         )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
           </>
