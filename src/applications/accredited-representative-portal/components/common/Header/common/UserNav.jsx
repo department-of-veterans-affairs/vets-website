@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useRouteLoaderData } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import UserContext from '../../../../userContext';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 
 const generateUniqueId = () =>
@@ -9,9 +9,8 @@ const generateUniqueId = () =>
     .substring(2, 11)}`;
 
 const UserNav = ({ isMobile }) => {
-  const user = useContext(UserContext);
+  const user = useRouteLoaderData('rootLoader');
   const profile = user?.profile;
-  const isLoading = !profile;
   const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -42,16 +41,7 @@ const UserNav = ({ isMobile }) => {
   );
 
   let content;
-  if (isLoading) {
-    content = (
-      <div className="loading-icon-container">
-        <va-loading-indicator
-          data-testid="user-nav-loading-icon"
-          label="Loading"
-        />
-      </div>
-    );
-  } else if (!profile && isMobile) {
+  if (!profile && isMobile) {
     content = (
       <a
         href={SIGN_IN_URL}
