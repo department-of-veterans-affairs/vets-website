@@ -113,7 +113,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           )}
           {!!facility && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
               <ClinicOrFacilityPhone
                 clinicPhone={clinicPhone}
@@ -156,7 +156,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <br />
             {facility ? (
               <>
-                {facility.name}
+                <a href={facility.website}>{facility.name}</a>
                 <br />
                 <span>
                   {address.city}, <State state={address.state} />

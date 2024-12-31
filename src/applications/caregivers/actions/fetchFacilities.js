@@ -3,8 +3,18 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import content from '../locales/en/content.json';
 
-const joinAddressParts = (...parts) => {
-  return parts.filter(part => part != null).join(', ');
+const formatAddress = address => {
+  const joinAddressParts = (...parts) => {
+    const [city, state, zip] = parts;
+    const stateZip = state && zip ? `${state} ${zip}` : state || zip;
+    return [city, stateZip].filter(Boolean).join(', ');
+  };
+
+  return {
+    address1: address.address1,
+    address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
+    address3: joinAddressParts(address?.city, address?.state, address?.zip),
+  };
 };
 
 const formatFacilityIds = facilityIds => {
@@ -55,25 +65,13 @@ export const fetchFacilities = async ({
       }
       const facilities = response.data.map(facility => {
         const attributes = facility?.attributes;
-        const { physical } = attributes?.address;
-
-        // Create a new address object without modifying the original facility
-        const newPhysicalAddress = {
-          address1: physical.address1,
-          address2: joinAddressParts(physical?.address2, physical?.address3),
-          address3: joinAddressParts(
-            physical.city,
-            physical.state,
-            physical.zip,
-          ),
-        };
 
         // Return a new facility object with the updated address
         return {
           ...attributes,
           id: facility.id,
           address: {
-            physical: newPhysicalAddress,
+            physical: formatAddress(attributes?.address.physical),
           },
         };
       });

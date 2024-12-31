@@ -9,7 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
-import ConfirmApprovedPage from './ConfirmApprovedPage';
+import ReviewAndConfirm from './ReviewAndConfirm';
 import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -78,11 +78,9 @@ export default function ReferralAppointments() {
   return (
     <>
       <Switch>
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/review/`}
-          component={ConfirmApprovedPage}
-        />
+        <Route path={`${basePath.url}/review/`} search={id}>
+          <ReviewAndConfirm currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
         </Route>
