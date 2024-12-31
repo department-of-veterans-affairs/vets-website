@@ -21,6 +21,7 @@ const Autocomplete = ({
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const [ariaLiveText, setAriaLiveText] = useState('');
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
@@ -75,13 +76,26 @@ const Autocomplete = ({
     debouncedSearch(inputValue);
   };
 
+  const isElementVisible = (element, container) => {
+    const { top, bottom } = element?.getBoundingClientRect();
+    const containerRect = container?.getBoundingClientRect();
+
+    return top >= containerRect.top && bottom <= containerRect.bottom;
+  };
+
   const activateScrollToAndFocus = index => {
     setActiveIndex(index);
 
     const activeResult = resultsRef.current[index];
-    activeResult?.scrollIntoView({
-      block: 'nearest',
-    });
+    const container = activeResult?.parentNode;
+
+    if (!isElementVisible(activeResult, container)) {
+      activeResult?.scrollIntoView({
+        block: 'nearest',
+      });
+      setIsScrolling(true);
+    }
+
     activeResult?.focus();
   };
 
@@ -158,6 +172,13 @@ const Autocomplete = ({
     }
   };
 
+  const handleMouseEnter = index => {
+    if (!isScrolling) {
+      activateScrollToAndFocus(index);
+    }
+    setIsScrolling(false);
+  };
+
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
@@ -196,7 +217,7 @@ const Autocomplete = ({
               tabIndex={-1}
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              onMouseEnter={() => activateScrollToAndFocus(index)}
+              onMouseEnter={() => handleMouseEnter(index)}
             >
               {result}
             </li>
