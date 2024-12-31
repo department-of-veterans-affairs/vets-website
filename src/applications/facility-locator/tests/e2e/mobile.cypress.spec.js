@@ -116,7 +116,9 @@ describe('Mobile', () => {
       cy.injectAxe();
       cy.axeCheck();
       cy.get('#facility-search').then($element => {
-        expect($element.width()).closeTo(size[2], 10);
+        // increased this range because locally it was 699 and on the CI it was 684 for tablet
+        // similarly for 481px it was 436 locally and 421 on CI
+        expect($element.width()).closeTo(size[2], 20);
       });
 
       if (size[0] >= desktopExistsGreaterThanEq) {
