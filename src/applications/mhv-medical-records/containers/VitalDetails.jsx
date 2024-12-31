@@ -31,6 +31,7 @@ import {
   formatNameFirstLast,
   formatDateInLocalTimezone,
   formatUserDob,
+  sendDataDogAction,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -425,6 +426,9 @@ Provider notes: ${vital.notes}\n\n`,
         <div className="vads-u-margin-bottom--2 no-print">
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
+            onClick={() => {
+              sendDataDogAction(`Pagination - ${vitalDisplayName}`);
+            }}
             page={currentPage}
             pages={paginatedVitals.current.length}
             maxPageListLength={MAX_PAGE_LIST_LENGTH}

@@ -82,6 +82,7 @@ export const Locators = {
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
+  FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -189,7 +190,6 @@ export const Locators = {
     EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
-    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
@@ -239,6 +239,8 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+    FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
     CL_ALL: '[data-testid*="select-all"]',
@@ -293,6 +295,12 @@ export const Alerts = {
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
     UPCOMING: `Upcoming maintenance on My HealtheVet`,
+  },
+  DATE_FILTER: {
+    EMPTY_START_DATE: `Error Please enter a start date.`,
+    EMPTY_END_DATE: `Error Please enter an end date.`,
+    INVALID_START_DATE: `Start date must be on or before end date.`,
+    INVALID_END_DATE: `End date must be on or after start date.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
@@ -379,6 +387,21 @@ export const Data = {
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
     LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+  },
+  FAQ_LINK: {
+    URL: {
+      SEND: `/find-locations/`,
+      EMRG: `tel:911`,
+      SETTINGS: `/mhv-portal-web/preferences`,
+      PAY: `/health-care/pay-copay-bill/dispute-charges/`,
+    },
+    TEXT: {
+      SEND: `Find your nearest VA health facility`,
+      EMRG_BTN: `Connect with the Veterans Crisis Line`,
+      EMRG: `911`,
+      SETTINGS: `My HealtheVet (opens in new tab)`,
+      PAY: `Learn how to dispute your VA copay charges`,
+    },
   },
 };
 export const Assertions = {

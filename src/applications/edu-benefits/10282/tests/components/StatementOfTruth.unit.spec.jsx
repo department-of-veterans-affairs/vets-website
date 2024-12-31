@@ -26,6 +26,7 @@ describe('<StatementOfTruth>', () => {
       const formData = {
         veteranFullName: {
           first: 'Jane',
+          middle: '',
           last: 'Doe',
         },
       };

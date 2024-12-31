@@ -53,7 +53,7 @@ const AddressValidationRadio = props => {
     state_code: state || militaryState,
     country_name: 'United States',
     country_code_iso3: 'USA',
-    address_pou: 'RESIDENCE/CHOICE',
+    address_pou: 'RESIDENCE',
     address_type: 'DOMESTIC',
   };
 
@@ -156,6 +156,7 @@ const AddressValidationRadio = props => {
       <div role="alert">
         <VaAlert
           className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
+          status="warning"
           visible={shouldShowSuggestions || noRecommendationsAvailable}
         >
           <h4

@@ -26,6 +26,7 @@ export default function CallToActionAlert({
             label={primaryButtonAriaLabel}
             aria-describedby={primaryButtonAriaDescribedby}
             uswds
+            {...(status === 'continue' ? { 'primary-alternate': true } : {})}
           />
         )}
         {secondaryButtonText && (

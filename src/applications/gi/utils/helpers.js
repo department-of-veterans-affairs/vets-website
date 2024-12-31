@@ -530,51 +530,31 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 
 // TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
-  const { type } = filters; // destructure state once it's added to the response
-
-  if (!nameInput) {
-    return [];
-  }
+  const { type, state } = filters;
 
   return results.filter(result => {
-    // TODO add logic to account for state
-    if (type !== result.type && type !== 'all') return false;
+    if (result.type === 'exam') return false;
 
-    if (nameInput === 'all') return true;
+    if (type === 'all' && state === 'all' && nameInput === '') return true;
+
+    if (type !== 'all' && type !== result.type) return false;
+
+    // if result.state === all, it is a certifciation
+    if (state !== 'all' && state !== result.state && result.state !== 'all')
+      return false;
 
     return result.name.toLowerCase().includes(nameInput.toLowerCase());
   });
 };
 
-export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
-    return dropdown.label === target.id;
-  });
-
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
-    option => option.optionValue === target.value,
-  );
-
-  return dropdowns.map(
-    (dropdown, index) =>
-      index === updatedFieldIndex
-        ? {
-            ...dropdown,
-            current: dropdown.options[selectedOptionIndex],
-          }
-        : dropdown,
-  );
-};
-
 export const updateQueryParam = (history, location) => {
-  return (key, value) => {
-    // Get the current query parameters
+  return keyValuePairs => {
     const searchParams = new URLSearchParams(location.search);
 
-    // Set the new query parameter
-    searchParams.set(key, value);
+    keyValuePairs.forEach(([key, value]) => {
+      searchParams.set(key, value);
+    });
 
-    // Update the URL with the new query string
     history.push({
       pathname: location.pathname,
       search: searchParams.toString(),
@@ -649,4 +629,34 @@ export const generateMockPrograms = numPrograms => {
       institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
     },
   }));
+};
+
+export const deriveMaxAmount = contributionAmount => {
+  if (!contributionAmount) {
+    return 'Not provided';
+  }
+  const contributionAmountNum = parseFloat(contributionAmount);
+  if (contributionAmountNum >= 99999) {
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
+  }
+
+  return contributionAmountNum.toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+    style: 'currency',
+  });
+};
+
+export const deriveEligibleStudents = numberOfStudents => {
+  if (!numberOfStudents) {
+    return 'Not provided';
+  }
+  if (numberOfStudents >= 99999) {
+    return 'All eligible students';
+  }
+  if (numberOfStudents === 1) {
+    return '1 student';
+  }
+  return `${numberOfStudents} students`;
 };
