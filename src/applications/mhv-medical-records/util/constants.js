@@ -32,7 +32,7 @@ export const accessAlertTypes = {
 };
 
 export const documentTypes = {
-  BB: 'blue button',
+  BB: 'medical records reports',
   CCD: 'continuity of care document',
   SEI: 'self-entered information',
 };
@@ -219,6 +219,8 @@ export const vitalUnitDisplayText = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
+export const ALERT_TYPE_BB_ERROR = 'blue button download error';
+export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -226,6 +228,8 @@ export const pageTitles = {
     'Lab And Test Results - Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE:
+    'Lab And Test Results Images - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
@@ -244,6 +248,8 @@ export const pageTitles = {
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
+  DOWNLOAD_FORMS_PAGES_TITLE:
+    'Select Records And Download Report - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
@@ -384,7 +390,6 @@ export const Paths = {
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
-  DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
@@ -429,11 +434,6 @@ export const Breadcrumbs = {
     label: 'Medical records settings',
     isRouterLink: true,
   },
-  DOWNLOAD_ALL: {
-    href: Paths.DOWNLOAD_ALL,
-    label: 'Download all medical records',
-    isRouterLink: true,
-  },
   DOWNLOAD: {
     href: Paths.DOWNLOAD,
     label: 'Download medical records reports',
@@ -466,4 +466,35 @@ export const Breadcrumbs = {
     isRouterLink: true,
   },
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
+};
+
+export const CernerAlertContent = {
+  MR_LANDING_PAGE: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'medical records',
+  },
+  LABS_AND_TESTS: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'lab and test results',
+  },
+  CARE_SUMMARIES_AND_NOTES: {
+    linkPath: '/pages/health_record/app-views/cerner/reports/documents',
+    pageName: 'care summaries and notes',
+  },
+  VACCINES: {
+    linkPath: '/pages/health_record/health-record-immunizations',
+    pageName: 'vaccines',
+  },
+  ALLERGIES: {
+    linkPath: '/pages/health_record/health-record-allergies',
+    pageName: 'allergies and reactions',
+  },
+  HEALTH_CONDITIONS: {
+    linkPath: '/pages/health_record/conditions',
+    pageName: 'health conditions',
+  },
+  VITALS: {
+    linkPath: '/pages/health_record/results',
+    pageName: 'vitals',
+  },
 };

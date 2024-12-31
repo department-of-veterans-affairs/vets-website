@@ -1,3 +1,4 @@
+import { formatISO, subYears } from 'date-fns';
 import {
   getLabsAndTests,
   getNotes,
@@ -18,7 +19,10 @@ export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
 };
 
-export const getBlueButtonReportData = (options = {}) => async dispatch => {
+export const getBlueButtonReportData = (
+  options = {},
+  dateFilter,
+) => async dispatch => {
   const fetchMap = {
     labsAndTests: getLabsAndTests,
     notes: getNotes,
@@ -36,34 +40,53 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
 
   const promises = Object.entries(fetchMap)
     .filter(([key]) => options[key]) // Only include enabled fetches
-    .map(([key, fetchFn]) =>
-      fetchFn()
+    .map(([key, fetchFn]) => {
+      if (key === 'appointments') {
+        let fromDate;
+        let toDate;
+        if (dateFilter.option === 'any') {
+          const currentDate = new Date();
+          const dateTwoYearsAgo = subYears(currentDate, 2);
+          const farFutureDate = new Date(2099, 0, 1); // January 1, 2099
+          fromDate = formatISO(dateTwoYearsAgo);
+          toDate = formatISO(farFutureDate);
+        } else {
+          fromDate = formatISO(new Date(dateFilter.fromDate));
+          toDate = formatISO(new Date(dateFilter.toDate));
+        }
+
+        return fetchFn(fromDate, toDate)
+          .then(response => ({ key, response }))
+          .catch(error => {
+            const newError = new Error(error);
+            newError.key = key;
+            throw newError;
+          });
+      }
+      return fetchFn()
         .then(response => ({ key, response }))
         .catch(error => {
           const newError = new Error(error);
           newError.key = key;
           throw newError;
-        }),
-    );
+        });
+    });
 
   const results = await Promise.allSettled(promises);
+
+  // Temporary variables to hold labsAndTests and radiology results
+  let labsAndTestsResponse = null;
+  let radiologyResponse = null;
 
   results.forEach(({ status, value, reason }) => {
     if (status === 'fulfilled') {
       const { key, response } = value;
       switch (key) {
         case 'labsAndTests':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            labsAndTestsResponse: response,
-          });
+          labsAndTestsResponse = response;
           break;
-        // TODO: Handle this with labs
         case 'radiology':
-          dispatch({
-            type: Actions.LabsAndTests.GET_LIST,
-            radiologyResponse: response,
-          });
+          radiologyResponse = response;
           break;
         case 'notes':
           dispatch({
@@ -114,4 +137,13 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
       dispatch({ type: Actions.BlueButtonReport.ADD_FAILED, payload: key });
     }
   });
+
+  // Dispatch combined labsAndTests and radiology response
+  if (labsAndTestsResponse || radiologyResponse) {
+    dispatch({
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse,
+      radiologyResponse,
+    });
+  }
 };

@@ -16,7 +16,7 @@ import {
   ProgramSummary,
 } from '../pages';
 
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',
@@ -41,12 +41,14 @@ const formConfig = {
   transformForSubmit: transform,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  // introduction: CalculationInstructions,
   confirmation: ConfirmationPage,
   formId: '22-10215',
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  customText: {
+    submitButtonText: 'Continue',
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for new form benefits.',
     noAuth:

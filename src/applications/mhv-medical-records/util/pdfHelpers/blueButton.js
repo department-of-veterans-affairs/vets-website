@@ -125,7 +125,9 @@ export const generateBlueButtonData = (
       'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
       `Showing ${allergies?.length} records from newest to oldest`,
     ],
-    selected: recordFilter.includes('allergies'),
+    selected:
+      recordFilter.includes('allergies') ||
+      (recordFilter.includes('medications') && medications?.length > 0),
     records: allergies?.length ? generateAllergiesContent(allergies) : [],
   });
 
@@ -172,19 +174,23 @@ export const generateBlueButtonData = (
       : [],
   });
 
-  const upcoming = appointments?.length
-    ? appointments.filter(appt => appt.isUpcoming)
-    : [];
-  const past = appointments?.length
-    ? appointments.filter(appt => !appt.isUpcoming)
-    : [];
+  const upcoming =
+    appointments?.length && recordFilter.includes('upcomingAppts')
+      ? appointments.filter(appt => appt.isUpcoming)
+      : [];
+  const past =
+    appointments?.length && recordFilter.includes('pastAppts')
+      ? appointments.filter(appt => !appt.isUpcoming)
+      : [];
   data.push({
     type: blueButtonRecordTypes.APPOINTMENTS,
     title: 'Appointments',
     subtitles: [
       'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
     ],
-    selected: recordFilter.includes('appointments'),
+    selected:
+      recordFilter.includes('upcomingAppts') ||
+      recordFilter.includes('pastAppts'),
     records: [
       {
         title: 'Upcoming appointments',

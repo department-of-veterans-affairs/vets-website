@@ -27,6 +27,7 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -97,12 +98,25 @@ const Vitals = () => {
     updatePageTitle,
   );
 
+  const VITAL_TYPES = useMemo(
+    () => {
+      if (isAcceleratingVitals) {
+        return { ...vitalTypes };
+      }
+      // remove PAIN_SEVERITY from the list of vital types
+      const vitalTypesCopy = { ...vitalTypes };
+      delete vitalTypesCopy.PAIN_SEVERITY;
+      return vitalTypesCopy;
+    },
+    [isAcceleratingVitals],
+  );
+
   useEffect(
     () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        for (const [key, types] of Object.entries(vitalTypes)) {
+        for (const [key, types] of Object.entries(VITAL_TYPES)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
           else firstOfEach.push({ type: key, noRecords: true });
@@ -110,7 +124,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals],
+    [vitals, VITAL_TYPES],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -261,6 +275,9 @@ const Vitals = () => {
         {`Vitals are basic health numbers your providers check at your
         appointments.`}
       </p>
+
+      <CernerFacilityAlert {...Constants.CernerAlertContent.VITALS} />
+
       {isLoading && (
         <div className="vads-u-margin-y--8">
           <va-loading-indicator

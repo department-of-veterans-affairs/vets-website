@@ -154,18 +154,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     return newData;
   };
 
-  /**
-   * Save full name to use for verification on the Review page's signature component
-   */
-  const prefillFullName = data => {
-    const newData = _.omit(['view:userFullName'], data);
-    if (state?.user?.profile?.userFullName) {
-      newData['view:userFullName'] = state.user.profile.userFullName;
-    }
-
-    return newData;
-  };
-
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
@@ -173,7 +161,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     prefillBankInformation,
     prefillStartedFormVersion,
     prefillSyncModern0781Flow,
-    prefillFullName,
   ];
 
   const applyTransformations = (data = {}, transformer) =>

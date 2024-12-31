@@ -14,7 +14,11 @@ import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
 import SuppliesUnavailable from '../components/SuppliesUnavailable';
-import { selectSupplies, selectUnavailableSupplies } from '../selectors';
+import {
+  isAlerting,
+  selectSupplies,
+  selectUnavailableSupplies,
+} from '../selectors';
 
 const Loading = () => (
   <div className="vads-u-margin--5">
@@ -30,6 +34,7 @@ export const IntroductionPage = ({ route }) => {
     state?.user?.profile?.loading ||
     false;
 
+  const isNotAlerting = !useSelector(isAlerting);
   const supplies = useSelector(selectSupplies);
   const unavailableSupplies = useSelector(selectUnavailableSupplies);
 
@@ -47,17 +52,21 @@ export const IntroductionPage = ({ route }) => {
       <FormTitle title={TITLE} />
       <p className="vads-u-font-family--serif">{SUBTITLE}</p>
       <Alerts />
-      <SuppliesAvailable supplies={supplies} />
-      <SaveInProgressIntro
-        headingLevel={3}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start a new order"
-        formConfig={route.formConfig}
-        verifiedPrefillAlert={VerifiedPrefillAlert}
-      />
-      <SuppliesUnavailable supplies={unavailableSupplies} />
+      {isNotAlerting && (
+        <>
+          <SuppliesAvailable supplies={supplies} />
+          <SaveInProgressIntro
+            headingLevel={3}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            startText="Start a new order"
+            formConfig={route.formConfig}
+            verifiedPrefillAlert={VerifiedPrefillAlert}
+          />
+          <SuppliesUnavailable supplies={unavailableSupplies} />
+        </>
+      )}
     </>
   );
 };

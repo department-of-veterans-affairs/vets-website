@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -21,6 +20,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
@@ -72,7 +72,7 @@ const MicroDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
@@ -106,6 +106,7 @@ ${record.results}`;
         aria-describedby="microbio-date"
         data-testid="microbio-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - microbio name]"
       >
         {record.name}
       </h1>
@@ -136,7 +137,11 @@ ${record.results}`;
               <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                 Lab type
               </h3>
-              <p data-testid="microbio-lab-type" data-dd-privacy="mask">
+              <p
+                data-testid="microbio-lab-type"
+                data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - microbio lab type]"
+              >
                 {record.labType}
               </p>
             </>
@@ -144,31 +149,51 @@ ${record.results}`;
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
+        <p
+          data-testid="microbio-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio site]"
+        >
           {record.sampleTested}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Collection sample
         </h3>
-        <p data-testid="microbio-sample-from" data-dd-privacy="mask">
+        <p
+          data-testid="microbio-sample-from"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio sample]"
+        >
           {record.sampleFrom}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="microbio-ordered-by" data-dd-privacy="mask">
+        <p
+          data-testid="microbio-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio ordered by]"
+        >
           {record.orderedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="microbio-collecting-location" data-dd-privacy="mask">
+        <p
+          data-testid="microbio-collecting-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio location]"
+        >
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed" data-dd-privacy="mask">
+        <p
+          data-testid="microbio-date-completed"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio date]"
+        >
           {record.dateCompleted}
         </p>
       </div>
@@ -179,6 +204,7 @@ ${record.results}`;
         <p
           className="vads-u-font-size--base monospace vads-u-line-height--3"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio results]"
         >
           {record.results}
         </p>{' '}

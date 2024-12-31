@@ -10,6 +10,8 @@ import {
   interpretationMap,
   refreshPhases,
   VALID_REFRESH_DURATION,
+  Paths,
+  Breadcrumbs,
 } from './constants';
 
 /**
@@ -435,6 +437,42 @@ export const getStatusExtractPhase = (
   return refreshPhases.CURRENT;
 };
 
+/**
+ * Determine the overall phase for a PHR refresh, based on the phases of each component extract.
+ * The highest-priority extract phase takes precedence. For example, if one extract phase is
+ * IN_PROGRESS, then the overall status is IN_PROGRESS.
+ *
+ * @param {Object} refreshStatus the list of individual extract statuses
+ * @returns the current overall refresh phase, or null if needed data is missing
+ */
+export const getStatusExtractListPhase = (
+  retrievedDate,
+  phrStatus,
+  extractTypeList,
+) => {
+  if (!Array.isArray(extractTypeList) || extractTypeList.length === 0) {
+    return null;
+  }
+
+  const phaseList = extractTypeList.map(extractType =>
+    getStatusExtractPhase(retrievedDate, phrStatus, extractType),
+  );
+
+  const phasePriority = [
+    refreshPhases.IN_PROGRESS,
+    refreshPhases.STALE,
+    refreshPhases.CURRENT,
+    refreshPhases.FAILED,
+  ];
+
+  for (const phase of phasePriority) {
+    if (phaseList.includes(phase)) {
+      return phase;
+    }
+  }
+  return null;
+};
+
 export const decodeBase64Report = data => {
   if (data && typeof data === 'string') {
     return Buffer.from(data, 'base64')
@@ -445,34 +483,54 @@ export const decodeBase64Report = data => {
 };
 
 /**
+ * @param {Array} refreshStateStatus The array of refresh state objects containing extract types and their statuses
+ * @param {*} extractTypeList The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM)
+ * @returns {Object} an object containing the last time that all extracts were up to date
+ */
+export const getLastSuccessfulUpdate = (
+  refreshStateStatus,
+  extractTypeList,
+) => {
+  const matchingDates = refreshStateStatus
+    ?.filter(status => extractTypeList.includes(status.extract))
+    ?.map(status => {
+      const date = status.lastSuccessfulCompleted;
+      return typeof date === 'string' ? new Date(date) : date;
+    })
+    ?.filter(Boolean);
+
+  if (matchingDates?.length) {
+    const minDate = new Date(
+      Math.min(...matchingDates.map(date => date.getTime())),
+    );
+    return formatDateAndTime(minDate);
+  }
+  return null;
+};
+
+/**
  * @function getLastUpdatedText
  * @description Generates a string that displays the last successful update for a given extract type.
  * It checks the refresh state status and formats the time and date of the last update.
  *
  * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
- * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ * @param {string|Array} extractType - The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM).
  *
  * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
  */
 export const getLastUpdatedText = (refreshStateStatus, extractType) => {
   if (refreshStateStatus) {
-    const extract = refreshStateStatus.find(
-      status => status.extract === extractType,
+    const lastSuccessfulUpdate = getLastSuccessfulUpdate(
+      refreshStateStatus,
+      Array.isArray(extractType) ? extractType : [extractType],
     );
 
-    if (extract?.lastSuccessfulCompleted) {
-      const lastSuccessfulUpdate = formatDateAndTime(
-        extract.lastSuccessfulCompleted,
-      );
-
-      if (lastSuccessfulUpdate) {
-        return `Last updated at ${lastSuccessfulUpdate.time} on ${
-          lastSuccessfulUpdate.date
-        }`;
-      }
+    if (lastSuccessfulUpdate) {
+      return `Last updated at ${lastSuccessfulUpdate.time} on ${
+        lastSuccessfulUpdate.date
+      }`;
     }
   }
-
   return null;
 };
 
@@ -565,6 +623,46 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const handleDataDogAction = ({
+  locationBasePath,
+  locationChildPath,
+  sendAnalytics = true,
+}) => {
+  const domainPaths = [
+    Paths.LABS_AND_TESTS,
+    Paths.CARE_SUMMARIES_AND_NOTES,
+    Paths.VACCINES,
+    Paths.ALLERGIES,
+    Paths.HEALTH_CONDITIONS,
+    Paths.VITALS,
+  ];
+
+  const isVitalsDetail =
+    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+
+  const isDomain = domainPaths.some(path => path.includes(locationBasePath));
+  const isDetailPage = isDomain && !!locationChildPath;
+  const path = locationBasePath
+    ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+    : '/';
+  const feature = Object.keys(Paths).find(_path => Paths[_path].includes(path));
+
+  let tag = '';
+  if (isVitalsDetail) {
+    tag = `Back - Vitals - ${Breadcrumbs[feature].label}`;
+  } else if (isDomain) {
+    tag = `Back - ${Breadcrumbs[feature].label} - ${
+      isDetailPage ? 'Detail' : 'List'
+    }`;
+  } else {
+    tag = `Breadcrumb - ${Breadcrumbs[feature].label}`;
+  }
+  if (sendAnalytics) {
+    sendDataDogAction(tag);
+  }
+  return tag;
+};
+
 /**
  * Format a iso8601 date in the local browser timezone.
  *
@@ -578,4 +676,8 @@ export const formatDateInLocalTimezone = date => {
     .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
     .substring(4);
   return `${formattedDate} ${localTimeZoneName}`;
+};
+
+export const formatUserDob = userProfile => {
+  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
 };

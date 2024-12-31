@@ -87,6 +87,11 @@ export const SUBTITLE_0779 =
 export const DOWNLOAD_URL_0779 =
   'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf';
 
+export const SUBTITLE_509 = 'Statement of Dependency of Parent(s)';
+
+export const DOWNLOAD_URL_509 =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf';
+
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
   pdfDownloadUrl,
