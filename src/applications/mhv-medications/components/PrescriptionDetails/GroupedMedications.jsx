@@ -8,7 +8,6 @@ import LastFilledInfo from '../shared/LastFilledInfo';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const MAX_GROUPED_LIST_LENGTH = 26;
-const displayShowingInfoSelector = '#list-showing-info';
 
 const GroupedMedications = props => {
   const { groupedMedicationsList } = props;
@@ -17,7 +16,7 @@ const GroupedMedications = props => {
     0,
     MAX_GROUPED_LIST_LENGTH,
   );
-  const totalListCount = truncatedGroupedMedicationsList.length;
+  const totalListCount = truncatedGroupedMedicationsList?.length;
   const [currentGroupedList, setCurrentGroupedList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -36,7 +35,7 @@ const GroupedMedications = props => {
 
   const onPageChange = page => {
     setCurrentPage(page);
-    waitForRenderThenFocus(displayShowingInfoSelector, document);
+    waitForRenderThenFocus('#list-showing-info', document);
   };
 
   const displayNums = fromToNumbs(
@@ -50,12 +49,14 @@ const GroupedMedications = props => {
     <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--4">
       <section className="vads-u-margin-y--3">
         <h3>Previous prescriptions</h3>
-        <p className="vads-u-font-family--sans">
-          <span id="list-showing-info" data-testid="grouping-showing-info">
-            {`Showing ${displayNums[0]} - ${
-              displayNums[1]
-            } of ${totalListCount} prescriptions, from newest to oldest`}
-          </span>
+        <p
+          className="vads-u-font-family--sans"
+          id="list-showing-info"
+          data-testid="grouping-showing-info"
+        >
+          {`Showing ${displayNums[0]} - ${
+            displayNums[1]
+          } of ${totalListCount} prescriptions, from newest to oldest`}
         </p>
       </section>
       <section>
