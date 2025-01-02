@@ -82,7 +82,7 @@ export class ConfirmationPage extends React.Component {
           <p>
             If you're accepted into the SkillsBuild program, you'll receive an
             email from <a href="mailto:sbuser@us.ibm.com">sbuser@us.ibm.com</a>{' '}
-            with your login informatia. If you don't receive an email, check
+            with your login information. If you don't receive an email, check
             your spam folder.
           </p>
           <p>
