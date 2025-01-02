@@ -1,17 +1,26 @@
 import React from 'react';
-import { createBrowserRouter, useNavigation, Outlet } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  useNavigation,
+  useLoaderData,
+  Navigate,
+  Outlet,
+} from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
-import POARequestsPage, {
+import POARequestSearchPage, {
   poaRequestsLoader,
-} from './containers/POARequestsPage';
+} from './containers/POARequestSearchPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
 import POARequestDetailsPage, {
   poaRequestLoader,
 } from './containers/POARequestDetailsPage';
 import ErrorMessage from './components/common/ErrorMessage';
+import UserContext from './userContext';
+import { userLoader } from './userLoader';
+import { SIGN_IN_URL } from './constants';
 
 const LoadingWrapper = () => {
   const navigation = useNavigation();
@@ -21,6 +30,20 @@ const LoadingWrapper = () => {
   }
 
   return <Outlet />;
+};
+
+const AuthenticatedRoutes = () => {
+  const user = useLoaderData();
+
+  if (!user || !user.profile) {
+    return <Navigate to={SIGN_IN_URL} replace />;
+  }
+
+  return (
+    <UserContext.Provider value={user}>
+      <SignedInLayoutWrapper />
+    </UserContext.Provider>
+  );
 };
 
 const router = createBrowserRouter(
@@ -33,14 +56,16 @@ const router = createBrowserRouter(
           element: <LandingPage />,
         },
         {
-          element: <SignedInLayoutWrapper />,
+          path: '/',
+          element: <LoadingWrapper />,
           children: [
             {
-              element: <LoadingWrapper />,
+              loader: userLoader,
+              element: <AuthenticatedRoutes />,
               children: [
                 {
                   path: 'poa-requests',
-                  element: <POARequestsPage />,
+                  element: <POARequestSearchPage />,
                   loader: poaRequestsLoader,
                   errorElement: <ErrorMessage />,
                 },

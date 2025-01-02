@@ -12,9 +12,10 @@
   "bannerUseAlternativeBanners": "banner_use_alternative_banners",
   "bcasLettersUseLighthouse": "bcas_letters_use_lighthouse",
   "benefitsDocumentsUseLighthouse": "benefits_documents_use_lighthouse",
-  "benefitsNonDisabilityCh31V2":  "benefits_non_disability_ch31_v2",
+  "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
+  "burialBrowserMonitoringEnabled": "burial_browser_monitoring_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
   "caregiverUseFacilitiesApi": "caregiver_use_facilities_API",
   "CdpPaymentHistoryVba": "cdp_payment_history_vba",
@@ -57,7 +58,6 @@
   "decisionReviewHlrNewApi": "decision_review_hlr_new_api",
   "decisionReviewNodNewApi": "decision_review_nod_new_api",
   "decisionReviewScNewApi": "decision_review_sc_new_api",
-  "defaultRoutingUseNewVersion": "default_routing_use_new_version",
   "dependencyVerification": "dependency_verification",
   "dgiRudisillHideBenefitsSelectionStep": "dgi_rudisill_hide_benefits_selection_step",
   "dhpConnectedDevicesFitbit": "dhp_connected_devices_fitbit",
@@ -307,5 +307,6 @@
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
   "fsrWizard": "fsr_wizard",
   "isDGIBEndpoint": "is_DGIB_endpoint",
+  "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995"
 }

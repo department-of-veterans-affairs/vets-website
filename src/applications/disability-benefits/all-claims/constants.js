@@ -403,3 +403,11 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
 });
+
+export const TRAUMATIC_EVENT_TYPES = Object.freeze({
+  combat: 'Traumatic events related to combat',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  nonMst: 'Traumatic events related to other personal interactions',
+  other: 'Other traumatic events',
+});
