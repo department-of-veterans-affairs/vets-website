@@ -17,7 +17,6 @@ const FileInput = props => {
     setAttachFileError,
   } = props;
 
-  // const [error, setError] = useState();
   const fileInputRef = useRef();
   const errorRef = useRef(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
