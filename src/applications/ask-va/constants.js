@@ -513,9 +513,10 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select state',
   },
   SCHOOL_STATE_OR_RESIDENCY: {
-    TITLE: 'School information',
+    TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
-    QUESTION_1: 'Please provide one of the following',
+    QUESTION_1:
+      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
