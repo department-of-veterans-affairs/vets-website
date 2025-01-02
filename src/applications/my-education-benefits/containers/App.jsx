@@ -370,6 +370,7 @@ export const App = ({
       duplicatePhone,
       mebAutoPopulateRelinquishmentDate,
       meb160630Automation,
+      mebDpoAddressOptionEnabled,
     ],
   );
 
