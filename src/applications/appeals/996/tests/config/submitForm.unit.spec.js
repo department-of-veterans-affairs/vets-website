@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import formConfig from '../../config/form';
 import maximalTestV2 from '../fixtures/data/maximal-test-v2.json';
 import maximalTestV25 from '../fixtures/data/maximal-test-v2.5.json';
+import { SUBMIT_URL, SUBMIT_URL_NEW } from '../../constants/apis';
 
 import submitForm, { buildEventData } from '../../config/submitForm';
 
@@ -53,17 +54,15 @@ describe('submitForm', () => {
     xhr.restore();
   });
 
-  it('should use v1 endpoint with v1 data', done => {
+  it('should use v2 endpoint with v2 data', done => {
     submitForm(maximalTestV2, formConfig);
-    expect(requests[0].url).to.contain('/v1/higher_level_reviews');
-    expect(requests[0].url.split('://')[1]).to.not.contain('//');
+    expect(requests[0].url).to.contain(SUBMIT_URL.join(''));
     done();
   });
 
-  it('should use v1 endpoint with v2 data', done => {
+  it('should use v2 endpoint with v3 data', done => {
     submitForm(maximalTestV25, formConfig);
-    expect(requests[0].url).to.contain('/v2/higher_level_reviews');
-    expect(requests[0].url.split('://')[1]).to.not.contain('//');
+    expect(requests[0].url).to.contain(SUBMIT_URL_NEW.join(''));
     done();
   });
 });

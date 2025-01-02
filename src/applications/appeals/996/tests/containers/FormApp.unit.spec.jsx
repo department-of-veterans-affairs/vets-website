@@ -12,7 +12,7 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import { CONTESTABLE_ISSUES_API } from '../../constants';
+import { NEW_API, CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -63,6 +63,7 @@ const getData = ({
         // eslint-disable-next-line camelcase
         hlr_updateed_contnet: true,
         hlrUpdateedContnet: true,
+        [NEW_API]: true,
       },
     },
   };
@@ -159,7 +160,9 @@ describe('Form0996App', () => {
     );
 
     await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      expect(global.fetch.args[0][0]).to.contain(
+        CONTESTABLE_ISSUES_API.join(''),
+      );
       resetFetch();
     });
   });
@@ -286,6 +289,7 @@ describe('Form0996App', () => {
         legacyCount: 0,
         internalTesting: true,
         hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -376,6 +380,7 @@ describe('Form0996App', () => {
         additionalIssues,
         legacyCount: 0,
         hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
