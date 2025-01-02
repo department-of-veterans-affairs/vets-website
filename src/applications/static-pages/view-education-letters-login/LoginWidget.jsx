@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 const LoginInWidget = ({ toggleLoginModal, user }) => {
   const toggleLogin = e => {
