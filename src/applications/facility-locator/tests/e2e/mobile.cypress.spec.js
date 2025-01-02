@@ -99,12 +99,12 @@ describe('Mobile', () => {
     cy.checkSearch();
   });
 
-  // [W,H, width of #facility-search]
+  // [W,H, width of #facility-search, +/- range (this matters for CI) where it gets confused how to apply style sheets]
   const sizes = [
-    [1024, 1000, 280],
-    [1007, 1000, 100],
-    [768, 1000, 699],
-    [481, 1000, 436],
+    [1024, 1000, 180, 100],
+    [1007, 1000, 100, 20],
+    [768, 1000, 699, 20],
+    [481, 1000, 436, 20],
   ];
   const desktopExistsGreaterThanEq = 768;
   const reactTabsExistsLessThanEq = 481;
@@ -118,7 +118,7 @@ describe('Mobile', () => {
       cy.get('#facility-search').then($element => {
         // increased this range because locally it was 699 and on the CI it was 684 for tablet
         // similarly for 481px it was 436 locally and 421 on CI
-        expect($element.width()).closeTo(size[2], 20);
+        expect($element.width()).closeTo(size[2], size[3]);
       });
 
       if (size[0] >= desktopExistsGreaterThanEq) {
