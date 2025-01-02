@@ -1,5 +1,6 @@
 {
   "certifierRole": "applicant",
+  "certifierEmail": "certifier@email.gov",
   "primaryInsuranceCard": [
     {
       "name": "example_upload.png",

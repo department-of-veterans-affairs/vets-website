@@ -1,6 +1,30 @@
 import React from 'react';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 
-export const UploadDocuments = () => {
+export const supportingDocsInfo = (
+  <div>
+    <p>
+      <b>Supporting documents for certain claims</b>
+    </p>
+    <p className="vad-u-margin-top--0">
+      You’ll need to upload additional documents for these types of claims:
+    </p>
+    <ul>
+      <li>Inpatient hospital care</li>
+      <li>Medical devices, equipment, and supplies</li>
+      <li>Prescription medicines</li>
+      <li>COVID-19 vaccines</li>
+    </ul>
+    <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w">
+      Find out which documents you need
+    </a>
+    <div className="vads-u-margin-top--2">
+      {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+    </div>
+  </div>
+);
+
+export const UploadDocumentsVeteran = () => {
   return (
     <>
       <div>
@@ -15,35 +39,32 @@ export const UploadDocuments = () => {
           <li>Address of the provider or pharmacy</li>
           <li>Amount you paid</li>
         </ul>
-      </div>
-      <div>
-        <h3>Supporting documents for certain claims</h3>
-        <p className="vad-u-margin-top--0ß">
-          You’ll need to upload additional documents for these types of claims:
-        </p>
-        <ul>
-          <li>Inpatient hospital care</li>
-          <li>Medical devices, equipment, and supplies</li>
-          <li>Prescription medicines</li>
-          <li>COVID-19 vaccines</li>
-        </ul>
-        <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w">
-          Find out which documents you need
-        </a>
-        <h3 className="vad-u-margin-top--0">How to upload files:</h3>
-        <ul>
-          <li>Use a .jpg, .pdf, or .png file</li>
-          <li>Make sure the file size is 10MB or less</li>
-          <li>
-            If you only have a paper copy, scan or take a photo and upload the
-            file
-          </li>
-        </ul>
+        {supportingDocsInfo}
       </div>
     </>
   );
 };
 
-export const UploadDocumentSchema = {
-  type: 'object',
+export const UploadDocumentsProvider = () => {
+  return (
+    <>
+      <div>
+        <p>
+          <b>
+            Upload an itemized billing statement from your provider. Make sure
+            it includes this information:
+          </b>
+        </p>
+        <ul>
+          <li>Provider’s full name and medical title</li>
+          <li>Office address and billing address</li>
+          <li>Phone number</li>
+          <li>Health conditions you got care for</li>
+          <li>Dates you got that care</li>
+          <li>Amount due</li>
+        </ul>
+        {supportingDocsInfo}
+      </div>
+    </>
+  );
 };

@@ -1883,3 +1883,8 @@ export const mockInquiryData = {
     },
   ],
 };
+
+export const mockSubmitResponse = {
+  inquiryNumber: 'A-20230622-306458',
+  listOfAttachments: [],
+};

@@ -5,6 +5,46 @@
     width: 968px;
   }
 
+  &__form {
+    padding: 35px 14px;
+    background-color: $vads-color-base-lightest;
+    margin-top: 35px;
+
+    h4 {
+      font-family: var(--font-source-sans);
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      max-width: 654px;
+      padding: 52px 38px;
+      margin-top: 88px;
+    }
+
+    &-label {
+      margin: 0;
+
+      .poa-request-details__form--error & {
+        border-left: 0.25rem solid $vads-color-error;
+        padding-left: 1rem;
+        position: relative;
+      }
+    }
+
+    &-alert {
+      margin: 35px 0;
+      max-width: 521px;
+
+      @media (min-width: $small-desktop-screen) {
+        margin: 24px 0;
+      }
+    }
+
+    &-submit {
+      margin: 0;
+      width: auto !important;
+    }
+  }
+
   &__divider {
     border-bottom: 1px solid $vads-color-base-light;
     width: 100%;

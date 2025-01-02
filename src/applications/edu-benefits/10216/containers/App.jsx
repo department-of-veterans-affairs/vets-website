@@ -16,9 +16,11 @@ export default function App({ location, children }) {
     );
   });
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <div className="form-22-10216-container row">
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </div>
   );
 }
 App.propTypes = {

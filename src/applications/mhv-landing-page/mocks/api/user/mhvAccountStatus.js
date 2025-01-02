@@ -63,6 +63,33 @@ const fiveZeroZero = (req, res) => {
   });
 };
 
+const multiError = (req, res) => {
+  return res.status(422).json({
+    errors: [
+      {
+        title: 'The server responded with status 422',
+        detail: 'things fall apart',
+        code: '802',
+      },
+      {
+        title: 'The server responded with status 500',
+        detail: 'things fall apart',
+        code: '500',
+      },
+      {
+        title: 'The server responded with status 422',
+        detail: 'things fall apart',
+        code: '805',
+      },
+      {
+        title: 'The server responded with status 422',
+        detail: 'things fall apart',
+        code: '801',
+      },
+    ],
+  });
+};
+
 const accountStatusSuccessResponse = {
   data: {
     id: '12345678',
@@ -98,13 +125,40 @@ const accountStatusFiveZeroZero = {
   ],
 };
 
+const accountStatusMultiError = {
+  errors: [
+    {
+      title: 'The server responded with status 422',
+      detail: 'things fall apart',
+      code: '802',
+    },
+    {
+      title: 'The server responded with status 500',
+      detail: 'things fall apart',
+      code: '500',
+    },
+    {
+      title: 'The server responded with status 422',
+      detail: 'things fall apart',
+      code: '805',
+    },
+    {
+      title: 'The server responded with status 422',
+      detail: 'things fall apart',
+      code: '801',
+    },
+  ],
+};
+
 module.exports = {
   accountSuccess,
   eightZeroOne,
   eightZeroFive,
   eightZeroSix,
   fiveZeroZero,
+  multiError,
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
   accountStatusFiveZeroZero,
+  accountStatusMultiError,
 };

@@ -55,6 +55,7 @@ export const ConfirmationPage = props => {
           isValid(submitDate) ? ` on ${format(submitDate, 'MMMM d, yyyy')}` : ''
         }`}
         content={submissionAlertContent}
+        actions={<></>}
       />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />

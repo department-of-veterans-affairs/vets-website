@@ -27,7 +27,6 @@ import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import { routeToCCPage } from '../../../referral-appointments/flow';
@@ -167,11 +166,6 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {featureCCDirectScheduling && (
-        <div>
-          <ReferralAppLink linkText="Review and manage your appointment notifications" />
-        </div>
-      )}
       {featureCCDirectScheduling && <ReferralTaskCardWithReferral />}
       {featureCCDirectScheduling && (
         <div

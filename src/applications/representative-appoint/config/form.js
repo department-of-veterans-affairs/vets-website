@@ -1,5 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
@@ -12,7 +12,6 @@ import {
   preparerIsVeteran,
   isAttorneyOrClaimsAgent,
 } from '../utilities/helpers';
-
 import {
   authorizeMedical,
   authorizeMedicalSelect,
@@ -26,6 +25,7 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
+  veteranContactPhoneEmailClaimant,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -36,7 +36,7 @@ import {
   contactAccreditedRepresentative,
 } from '../pages';
 
-import initialData from '../tests/fixtures/data/test-data.json';
+// import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
@@ -45,7 +45,7 @@ import SelectOrganization from '../components/SelectOrganization';
 
 import SubmissionError from '../components/SubmissionError';
 
-const mockData = initialData;
+// const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -183,11 +183,11 @@ const formConfig = {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
           depends: formData => !preparerIsVeteran({ formData }),
-          initialData:
-            /* istanbul ignore next */
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          // initialData:
+          //   /* istanbul ignore next */
+          //   !!mockData && environment.isLocalhost() && !window.Cypress
+          //     ? mockData
+          //     : undefined,
           title: 'Your Personal Information',
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
@@ -206,7 +206,6 @@ const formConfig = {
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
         },
-
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -223,7 +222,7 @@ const formConfig = {
         },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
-          title: `Your phone number and email address`,
+          title: 'Your phone number and email address',
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
@@ -267,12 +266,12 @@ const formConfig = {
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,
         },
-        veteranContactPhoneEmail: {
-          path: 'veteran-contact-phone-email',
-          title: `Veteran's phone number and email address`,
+        veteranContactPhoneEmailClaimant: {
+          path: 'veteran-contact-phone-email-claimant',
+          title: "Veteran's phone number and email address",
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactPhoneEmail.uiSchema,
-          schema: veteranContactPhoneEmail.schema,
+          uiSchema: veteranContactPhoneEmailClaimant.uiSchema,
+          schema: veteranContactPhoneEmailClaimant.schema,
         },
         veteranIdentification: {
           path: 'veteran-identification',
