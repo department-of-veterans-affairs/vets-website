@@ -660,6 +660,7 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const { eligibleForActiveDutyKicker, eligibleForReserveKicker } = claimant;
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user || {};
   const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
@@ -769,6 +770,14 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
       mebAutoPopulateRelinquishmentDate,
       benefitEffectiveDate,
     ),
+    [formFields.activeDutyKicker]: eligibleForActiveDutyKicker
+      ? 'Yes'
+      : formData[formFields.activeDutyKicker] || 'No',
+
+    // If they're eligible for reserve kicker, default the answer to "Yes"
+    [formFields.selectedReserveKicker]: eligibleForReserveKicker
+      ? 'Yes'
+      : formData[formFields.selectedReserveKicker] || 'No',
     [formFields.viewDirectDeposit]: {
       [formFields.bankAccount]: {
         ...bankInformation,
