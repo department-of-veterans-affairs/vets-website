@@ -153,7 +153,7 @@ ${record.note}`;
           <LabelValue
             label="Note"
             value={record.note}
-            headerClass=""
+            headerClass="test-results-header"
             testId="note-record"
             actionName="[progress note - summary Note]"
             monospace

@@ -233,16 +233,12 @@ const App = ({ children }) => {
                 />
               </>
             ) : (
-              <>
-                <SectionProvider>
-                  <MrBreadcrumbs />
-                  <div className="vads-l-row">
-                    <div className="medium-screen:vads-l-col--8">
-                      {children}
-                    </div>
-                  </div>
-                </SectionProvider>
-              </>
+              <SectionProvider>
+                <MrBreadcrumbs />
+                <div className="vads-l-row">
+                  <div className="medium-screen:vads-l-col--8">{children}</div>
+                </div>
+              </SectionProvider>
             )}
             <va-back-to-top
               hidden={isHidden}
