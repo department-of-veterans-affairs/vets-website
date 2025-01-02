@@ -56,6 +56,10 @@ const inputTransformers = [
   // Example: Input: 'Hello @World!' => Output: 'Hello World'
   input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
 
+  // Remove leading and trailing whitespace
+  // Example: Input: '  Hello World  ' => Output: 'Hello World'
+  input => input.trim(),
+
   // Replace multiple spaces with a single space
   // Example: Input: 'Hello    World' => Output: 'Hello World'
   input => input.replace(/\s{2,}/g, ' '),

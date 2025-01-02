@@ -74,17 +74,16 @@ const Autocomplete = ({
   );
 
   const handleInputChange = inputValue => {
-    const transformedValue = transformInput(inputValue);
-    setValue(transformedValue);
-    onChange(transformedValue);
+    setValue(inputValue);
+    onChange(inputValue);
 
-    if (!transformedValue) {
+    if (!inputValue) {
       closeList();
       setAriaLiveText('Input is empty. Please enter a condition.');
       return;
     }
 
-    debouncedSearch(transformedValue);
+    debouncedSearch(inputValue);
   };
 
   const isElementVisible = (element, container) => {
@@ -195,6 +194,12 @@ const Autocomplete = ({
     setIsScrolling(false);
   };
 
+  const handleBlur = () => {
+    const transformedValue = transformInput(value);
+    setValue(transformedValue);
+    onChange(transformedValue);
+  };
+
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
@@ -206,6 +211,7 @@ const Autocomplete = ({
         ref={inputRef}
         required
         value={value}
+        onBlur={handleBlur}
         onFocus={handleFocus}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
