@@ -36,7 +36,6 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         <div className="vads-u-flex--1 vads-u-padding-right--1">
           <h2
             className={classNames({
-              'vads-u-font-size--base': FLOW_TYPES.DIRECT === flowType,
               'vaos-appts__block-label': FLOW_TYPES.DIRECT === flowType,
               'vads-u-font-size--h3': FLOW_TYPES.REQUEST === flowType,
               'vads-u-margin-top--0': FLOW_TYPES.REQUEST === flowType,

@@ -25,6 +25,8 @@ describe('VAOS Component: VideoLayout', () => {
               value: '307-778-7550',
             },
           ],
+          website:
+            'https://www.va.gov/cheyenne-health-care/locations/cheyenne-va-medical-center/',
         },
       },
     },
@@ -276,6 +278,11 @@ describe('VAOS Component: VideoLayout', () => {
         }),
       );
       expect(screen.getByText(/Cheyenne VA Medical Center/i));
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/cheyenne-health-care/locations/cheyenne-va-medical-center/"]',
+        ),
+      ).to.be.ok;
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
