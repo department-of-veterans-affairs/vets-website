@@ -55,6 +55,7 @@
   "cstUseLighthouse#index": "cst_use_lighthouse_index",
   "cstUseLighthouse#show": "cst_use_lighthouse_show",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
+  "defaultRoutingUseNewVersion": "default_routing_use_new_version",
   "decisionReviewHlrNewApi": "decision_review_hlr_new_api",
   "decisionReviewNodNewApi": "decision_review_nod_new_api",
   "decisionReviewScNewApi": "decision_review_sc_new_api",

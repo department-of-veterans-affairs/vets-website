@@ -20,7 +20,7 @@ const PrescriptionsRoute = (
 
 const routes = (
   <Routes>
-    <Route path="/" element={AboutRoute} />
+    <Route index path="/" element={AboutRoute} />
     <Route path="/prescriptions" element={PrescriptionsRoute} />
     <Route element={<PageNotFound />} />
   </Routes>
