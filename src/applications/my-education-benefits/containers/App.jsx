@@ -42,6 +42,7 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   mebAutoPopulateRelinquishmentDate,
+  mebKickerNotificationEnabled,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -230,6 +231,15 @@ export const App = ({
   useEffect(
     () => {
       if (
+        mebKickerNotificationEnabled !== formData.mebKickerNotificationEnabled
+      ) {
+        setFormData({
+          ...formData,
+          mebKickerNotificationEnabled,
+        });
+      }
+
+      if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
         setFormData({
@@ -363,6 +373,7 @@ export const App = ({
       duplicatePhone,
       mebAutoPopulateRelinquishmentDate,
       meb160630Automation,
+      mebKickerNotificationEnabled,
     ],
   );
 
@@ -476,6 +487,7 @@ App.propTypes = {
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
   mebAutoPopulateRelinquishmentDate: PropTypes.bool,
+  mebKickerNotificationEnabled: PropTypes.bool,
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
