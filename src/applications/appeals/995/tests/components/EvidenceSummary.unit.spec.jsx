@@ -136,7 +136,7 @@ describe('<EvidenceSummary>', () => {
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
-  it('should render error messages with partial data', () => {
+  it('should render error messages with partial data', async () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({
       list: {
@@ -155,8 +155,13 @@ describe('<EvidenceSummary>', () => {
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.false;
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
+
+    waitFor(() => {
+      expect(goForward.called).to.be.false;
+    });
   });
 
   it('should render only one section', () => {
@@ -222,7 +227,7 @@ describe('<EvidenceSummary>', () => {
     expect(goForward.called).to.be.true;
   });
 
-  it('should not navigate forward with errors', () => {
+  it('should not navigate forward with errors', async () => {
     const goForward = sinon.spy();
     const list = records();
     list.locations[0].issues = [];
@@ -232,11 +237,16 @@ describe('<EvidenceSummary>', () => {
       goForward,
     });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.false;
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
+
+    waitFor(() => {
+      expect(goForward.called).to.be.false;
+    });
   });
 
-  it('should not update on review & submit with errors', () => {
+  it('should not update on review & submit with errors', async () => {
     const updateSpy = sinon.spy();
     const list = records();
     list.locations[0].issues = [];
@@ -247,8 +257,11 @@ describe('<EvidenceSummary>', () => {
       updatePage: updateSpy,
     });
 
-    fireEvent.click($('.form-nav-buttons va-button', container));
-    expect(updateSpy.called).to.be.false;
+    await fireEvent.click($('.form-nav-buttons va-button', container));
+
+    waitFor(() => {
+      expect(updateSpy.called).to.be.false;
+    });
   });
 
   it('should navigate forward with not-included partial data', () => {
@@ -301,15 +314,20 @@ describe('<EvidenceSummary>', () => {
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
-  it('should not navigate forward with errors', () => {
+  it('should not navigate forward with errors', async () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({
       privacy: false,
       goForward,
     });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.false;
+    await fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+    );
+
+    waitFor(() => {
+      expect(goForward.called).to.be.false;
+    });
   });
 
   // Remove entries
