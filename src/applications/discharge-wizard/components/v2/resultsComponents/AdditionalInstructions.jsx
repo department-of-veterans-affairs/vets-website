@@ -65,7 +65,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             Service Organization (VSO) can collect and submit supporting
             documents for you.{' '}
             <a
-              href="https://www.benefits.va.gov/vso/varo.asp"
+              href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
               rel="noopener noreferrer"
               target="_blank"
             >
