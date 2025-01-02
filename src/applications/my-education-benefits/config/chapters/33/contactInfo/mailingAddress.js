@@ -160,14 +160,27 @@ const mailingAddress33 = {
           ],
           'ui:options': {
             replaceSchema: formData => {
-              if (formData['view:mailingAddress']?.livesOnMilitaryBase) {
+              const livesOnMilitaryBase =
+                formData['view:mailingAddress']?.livesOnMilitaryBase;
+
+              if (livesOnMilitaryBase) {
+                // Always have APO/FPO
+                const baseEnum = ['APO', 'FPO'];
+                // Conditionally add DPO if the feature toggle is enabled
+                if (formData?.mebDpoAddressOptionEnabled) {
+                  baseEnum.push('DPO');
+                }
+
                 return {
                   type: 'string',
-                  title: 'APO/FPO',
-                  enum: ['APO', 'FPO'],
+                  title: formData?.mebDpoAddressOptionEnabled
+                    ? 'APO/FPO/DPO'
+                    : 'APO/FPO',
+                  enum: baseEnum,
                 };
               }
 
+              // If not on a military base, show a normal City field
               return {
                 type: 'string',
                 title: 'City',

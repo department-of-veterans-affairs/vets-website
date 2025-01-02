@@ -33,6 +33,7 @@ export const App = ({
   isLOA3,
   isLoggedIn,
   location,
+  mebDpoAddressOptionEnabled,
   mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
@@ -229,6 +230,12 @@ export const App = ({
 
   useEffect(
     () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -476,6 +483,7 @@ App.propTypes = {
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
   mebAutoPopulateRelinquishmentDate: PropTypes.bool,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
