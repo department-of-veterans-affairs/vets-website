@@ -13,6 +13,13 @@ describe('Authenticated', () => {
         '/representation_management/v0/original_entities?query=**',
         mockRepResults,
       ).as('fetchRepresentatives');
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
