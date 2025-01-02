@@ -12,7 +12,8 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, nameWordingExt } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
+import { nameWordingExt } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
   fileUploadBlurb,

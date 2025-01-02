@@ -15,7 +15,7 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 
 export const blankSchema = { type: 'object', properties: {} };
 

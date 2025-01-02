@@ -11,7 +11,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
   fileWithMetadataSchema,
