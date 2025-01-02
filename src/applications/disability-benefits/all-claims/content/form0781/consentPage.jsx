@@ -50,5 +50,5 @@ export const CONSENT_OPTION_INDICATOR_CHOICES = Object.freeze({
   no: 'No',
   revoke:
     'I gave permission in the past, but I want to revoke (or cancel) my permission.',
-  notEnrolled: "I'm not enrolled or registered in VA health care.",
+  notEnrolled: 'I’m not enrolled or registered in VA health care.',
 });
