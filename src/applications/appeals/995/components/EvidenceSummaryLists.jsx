@@ -135,7 +135,9 @@ export const VaContent = ({
           return (
             <li
               key={locationAndName + index}
-              className={listClassNames(!showListOnly)}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
@@ -242,6 +244,24 @@ export const PrivateContent = ({
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
 
+  const showAddress = (
+    { street, street2, city, state, postalCode, country },
+    errors,
+  ) => (
+    <div
+      className="vads-u-margin-bottom--1 facility-address dd-privacy-hidden"
+      data-dd-action-name="Non-VA facility address"
+    >
+      <div>{street}</div>
+      {street2 && <div>{street2}</div>}
+      <div>
+        {city}, {state} {postalCode}
+      </div>
+      {country !== 'USA' && <div>{country}</div>}
+      {errors.address}
+    </div>
+  );
+
   return (
     <>
       <Header
@@ -253,13 +273,13 @@ export const PrivateContent = ({
       <ul className="evidence-summary remove-bullets" role="list">
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <strong
+            <div
               className={`private-authorization ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {title4142WithId}
-            </strong>
+            </div>
             <div>
               {privacyAgreementAccepted ? (
                 authorizationLabel
@@ -287,13 +307,13 @@ export const PrivateContent = ({
         )}
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <strong
+            <div
               className={`private-limitation-yn ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {limitContent.title}
-            </strong>
+            </div>
             <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
@@ -312,13 +332,13 @@ export const PrivateContent = ({
         )}
         {showLimitedConsentYN && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <strong
+            <div
               className={`private-limitation ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {limitContent.textAreaTitle}
-            </strong>
+            </div>
             <div>{limitedConsent}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
@@ -366,7 +386,9 @@ export const PrivateContent = ({
           return (
             <li
               key={providerFacilityName + index}
-              className={listClassNames(!showListOnly)}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
@@ -377,6 +399,11 @@ export const PrivateContent = ({
                     {providerFacilityName}
                   </strong>
                 )}
+                {showListOnly ? (
+                  showAddress(providerFacilityAddress, errors)
+                ) : (
+                  <div>{errors.address}</div>
+                )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="Non-VA facility treated issues"
@@ -386,7 +413,7 @@ export const PrivateContent = ({
                 <div>{errors.address}</div>
                 {errors.dates || (
                   <div
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden vads-u-margin-bottom--1p5"
                     data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
