@@ -4,7 +4,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
 describe('Review edit flows', () => {
   it('Back and Continue with no answer change returns to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction`);
+    cy.visit(`${h.ROOT}/introduction/`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -22,6 +22,15 @@ describe('Review edit flows', () => {
       h.DISCHARGE_YEAR_INPUT,
       SHORT_NAME_MAP.DISCHARGE_YEAR,
       h.get15YearsPast(),
+    );
+    h.clickContinue();
+
+    // DISCHARGE_MONTH
+    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
+    h.selectDropdown(
+      h.DISCHARGE_MONTH_INPUT,
+      SHORT_NAME_MAP.DISCHARGE_MONTH,
+      1,
     );
     h.clickContinue();
 
@@ -53,6 +62,11 @@ describe('Review edit flows', () => {
     // PREVIOUS_APPLICATION_TYPE
     h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
     h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
+    h.clickContinue();
+
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 0);
     h.clickContinue();
 
     // PRIOR_SERVICE
@@ -110,6 +124,32 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
+    h.clickBack();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.DISCHARGE_MONTH}"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+
+    // DISCHARGE_MONTH
+    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
+    h.clickContinue();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.DISCHARGE_MONTH}"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+
+    // DISCHARGE_MONTH
+    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
     h.clickBack();
 
     // REVIEW
@@ -256,6 +296,35 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.clickBack();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+
+    // PRIOR_SERVICE
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.clickContinue();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
       `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PRIOR_SERVICE}"]`,
     )
       .shadow()
@@ -342,6 +411,15 @@ describe('Review edit flows', () => {
       h.DISCHARGE_YEAR_INPUT,
       SHORT_NAME_MAP.DISCHARGE_YEAR,
       h.get15YearsPast(),
+    );
+    h.clickContinue();
+
+    // DISCHARGE_MONTH
+    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
+    h.selectDropdown(
+      h.DISCHARGE_MONTH_INPUT,
+      SHORT_NAME_MAP.DISCHARGE_MONTH,
+      3,
     );
     h.clickContinue();
 
