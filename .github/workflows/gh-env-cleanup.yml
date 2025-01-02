@@ -1,0 +1,48 @@
+name: GitHub Environment Cleanup
+
+on:
+  push:
+    branches: '*'
+  # schedule:
+  #   - cron: 0 18 * * 1-5
+
+jobs:
+  deploy:
+    name: Clean Up Environments
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+      
+      - name: Fetch all Environments
+        run: |
+          PAGE=1
+          ENVIRONMENTS="[]"
+
+          while true; do
+
+            RESPONSE=$(curl -sSL \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/department-of-veterans-affairs/vets-website/environments?per_page=100&page=$PAGE")
+
+            CURRENT=$(echo "$RESPONSE" | jq '.environments')
+
+            if [ "$CURRENT" = "null" ] || [ "$CURRENT" = "[]" ]; then
+              break
+            fi
+
+            ENVIRONMENTS=$(echo "$ENVIRONMENTS" "$CURRENT" | jq -s 'add')
+
+            PAGE=$((PAGE + 1))
+
+          done
+
+          echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
+
+      - name: Clean up Environments
+        run: script/github-actions/gh-env-cleanup.js
