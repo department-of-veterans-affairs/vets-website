@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
 
-const SignIn = ({ headerLevel }) => {
+const SignIn = ({ headerLevel = 3 }) => {
   return (
     <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
       <span slot="SignInButton">
