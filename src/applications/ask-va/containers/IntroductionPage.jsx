@@ -3,7 +3,6 @@ import {
   VaButton,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
@@ -232,35 +231,18 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <SaveInProgressIntro
-        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
-        formConfig={formConfig}
-        messages={route.formConfig.savedFormMessages}
-        prefillEnabled={formConfig.prefillEnabled}
-        pageList={pageList}
-        startText="Ask a new question"
-      />
-      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
-        <va-accordion
-          disable-analytics={{
-            value: 'false',
-          }}
-          open-single
-          section-heading={{
-            value: 'null',
-          }}
-          uswds={{
-            value: 'true',
-          }}
-        >
-          <va-accordion-item
-            header="Only use Ask VA for non-urgent questions"
-            id="first"
-          >
+      <p>This form takes about 2 to 15 minutes to complete.</p>
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+        <va-additional-info trigger="When to use Ask VA">
+          <div>
             <p>
               You can use Ask VA to ask a question online. You can ask about
               education, disability compensation, health care and many other
               topics.
+            </p>
+            <p>
+              We will review your information and reply back in up to{' '}
+              <span className="vads-u-font-weight--bold">7 business days</span>.
             </p>
             <p>
               If you need help now, use one of these urgent communication
@@ -284,10 +266,18 @@ const IntroductionPage = props => {
                 or go to the nearest emergency room.
               </li>
             </ul>
-          </va-accordion-item>
-        </va-accordion>
+          </div>
+        </va-additional-info>
       </div>
-
+      <SaveInProgressIntro
+        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
+        formConfig={formConfig}
+        messages={route.formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+        className="vads-u-margin--0"
+      />
       <DashboardCards />
     </>
   );
@@ -297,7 +287,17 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={subTitle} />
+      {/* <FormTitle title={formConfig.title} subTitle={subTitle} /> */}
+      <div className="schemaform-title vads-u-margin-bottom--2">
+        <h1 className="vads-u-margin-bottom--2p5" data-testid="form-title">
+          {formConfig.title}
+        </h1>
+        {subTitle && (
+          <div className="schemaform-subtitle" data-testid="form-subtitle">
+            {subTitle}
+          </div>
+        )}
+      </div>
       {loggedIn && authenticatedUI}
       {!loggedIn && unAuthenticatedUI}
     </div>

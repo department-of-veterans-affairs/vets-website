@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -76,7 +77,14 @@ export function getConditionalPages(pages, data, index) {
 
 // Expects a date as a string in YYYY-MM-DD format
 export function getAgeInYears(date) {
-  const difference = Date.now() - Date.parse(date);
+  let difference = new Date(Date.now() - Date.parse(date));
+
+  // Get UTC offset to account for local TZ (See https://stackoverflow.com/a/9756226)
+  const utcOffsetSeconds =
+    (difference.getTime() + difference.getTimezoneOffset() * 60 * 1000) / 1000;
+
+  difference -= utcOffsetSeconds;
+
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
 }
 
@@ -155,4 +163,26 @@ export function concatStreets(addr, newLines = false) {
     }
   }
   return updated;
+}
+
+/**
+ * Retrieves an array of objects containing the property 'attachmentId'
+ * from the given object.
+ *
+ * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @returns {Array} - An array containing objects with the 'attachmentId' property.
+ */
+export function getObjectsWithAttachmentId(obj) {
+  const objectsWithAttachmentId = [];
+  _.forEach(obj, value => {
+    if (_.isArray(value)) {
+      _.forEach(value, item => {
+        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+          objectsWithAttachmentId.push(item);
+        }
+      });
+    }
+  });
+
+  return objectsWithAttachmentId;
 }
