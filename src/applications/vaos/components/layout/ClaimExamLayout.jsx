@@ -109,7 +109,7 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
@@ -143,7 +143,7 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
           {!!facility && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
               {facilityPhone && (
                 <FacilityPhone heading="Phone:" contact={facilityPhone} />

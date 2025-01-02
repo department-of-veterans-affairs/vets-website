@@ -58,7 +58,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h1']);
+  focusByOrder(['va-segmented-progress-bar', 'h2']);
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
