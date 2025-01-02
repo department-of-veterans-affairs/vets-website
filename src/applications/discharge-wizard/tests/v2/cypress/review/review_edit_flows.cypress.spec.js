@@ -4,7 +4,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
 describe('Review edit flows', () => {
   it('Back and Continue with no answer change returns to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction/`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
