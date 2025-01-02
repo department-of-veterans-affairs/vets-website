@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 export const BASE_URL = '/education/verify-school-enrollment/';
@@ -10,44 +10,20 @@ export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGME
 export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 
 export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
-  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
-    toggleLoginModal,
-  ]);
+  const onSignInClicked = useCallback(
+    () => toggleLoginModal(true, 'enrollment-verifications', true),
+    [toggleLoginModal],
+  );
 
   const visitorUI = (
-    <va-alert status="continue" visible>
-      <h3 slot="headline">
-        Sign in to verify your enrollment for Post-9/11 GI Bill benefits
-      </h3>
-      <p>
-        Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have either of these
-        accounts, you can create a free{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://www.id.me/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          ID.me
-        </a>{' '}
-        account or{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://secure.login.gov/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Login.gov
-        </a>{' '}
-        account now.
-      </p>
-      <va-button
-        onClick={onSignInClicked}
-        primary-alternate
-        text="Sign in or create an account"
-      />
-    </va-alert>
+    <VaAlertSignIn>
+      <span slot="SignInButton">
+        <va-button
+          text="Sign in or create an account"
+          onClick={onSignInClicked}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   const loggedInUserUI = (
