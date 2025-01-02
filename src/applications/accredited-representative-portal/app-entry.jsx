@@ -8,7 +8,7 @@ import startReactApp from '@department-of-veterans-affairs/platform-startup/reac
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import './sass/accredited-representative-portal.scss';
-import './sass/POARequestsCard.scss';
+import './sass/POARequestCard.scss';
 import './sass/POARequestDetails.scss';
 
 import manifest from './manifest.json';
