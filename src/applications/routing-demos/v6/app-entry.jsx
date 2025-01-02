@@ -1,16 +1,16 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/default-routing.scss';
 
-import startApp from '@department-of-veterans-affairs/platform-startup/router';
+import { startAppFromRouterV6 } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import routes from './routes';
+import router from './router';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startApp({
+startAppFromRouterV6({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
-  routes,
+  router,
   fetchScheduledDowntimes: true,
 });

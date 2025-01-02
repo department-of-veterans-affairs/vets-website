@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -12,7 +13,7 @@ import {
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
-export default function App({ children }) {
+export default function App() {
   const user = useSelector(selectUser);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -40,7 +41,7 @@ export default function App({ children }) {
               If you can see this, the app is using the old version.
             </va-alert>
           )}
-          {children}
+          <Outlet />
         </DowntimeNotification>
       </RequiredLoginView>
     </div>

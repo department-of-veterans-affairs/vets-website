@@ -53,6 +53,7 @@ export default function startReactApp(
     return;
   }
 
+  console.log(component);
   if (document.readyState !== 'loading') {
     ReactDOM.render(component, root);
   } else {
