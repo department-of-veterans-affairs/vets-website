@@ -1,9 +1,13 @@
 {
   "confirmationCode": "123456",
   "formNumber": "21-0779",
-  "options": {
-    "ssn": "234232345",
-    "vaFileNumber": "456454567",
-    "zipCode": "12345"
+  "formData": {
+    "idNumber": {
+      "ssn": "234232345",
+      "vaFileNumber": "456454567"
+    },
+    "postalCode": "12345",
+    "fullName": "John Veteran",
+    "email": "john@veteran.com"
   }
 }

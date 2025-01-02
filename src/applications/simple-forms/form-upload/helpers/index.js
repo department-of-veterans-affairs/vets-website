@@ -80,12 +80,7 @@ export const getMockData = (mockData, isLocalhost) => {
 };
 
 export const formattedPhoneNumber = phoneNumber => {
-  const phoneNumberWithoutDashes = phoneNumber.replaceAll('-', '');
-  return `(${phoneNumberWithoutDashes.substr(
-    0,
-    3,
-  )}) ${phoneNumberWithoutDashes.substr(
-    3,
-    3,
-  )}-${phoneNumberWithoutDashes.substr(6, 4)}`;
+  const digits = phoneNumber.replaceAll('-', '');
+  // Formats the phone number to look like this: (123) 456-7890
+  return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 };
