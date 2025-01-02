@@ -10,8 +10,8 @@ export default function CallToActionAlert({
   secondaryButtonText,
   secondaryButtonHandler,
   status,
-  primaryButtonAriaLabel = null,
-  primaryButtonAriaDescribedby = null,
+  ariaLabel = null,
+  ariaDescribedby = null,
 }) {
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
@@ -23,8 +23,8 @@ export default function CallToActionAlert({
           <va-button
             onClick={primaryButtonHandler}
             text={primaryButtonText}
-            label={primaryButtonAriaLabel}
-            aria-describedby={primaryButtonAriaDescribedby}
+            label={ariaLabel}
+            aria-describedby={ariaDescribedby}
             uswds
             {...(status === 'continue' ? { 'primary-alternate': true } : {})}
           />
