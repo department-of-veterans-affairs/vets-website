@@ -29,7 +29,7 @@ export const consentPageDescription = (
       Your VA health care providers may review the indicator in your medical
       record. The indicator won’t identify your claim as MST-related. But since
       we only offer this option for MST-related claims, providers who review it
-      may know that your claim is related to MST.{' '}
+      may know that your claim is related to MST.
     </p>
     <p>
       You can always choose to tell a health care provider about these claim and
@@ -39,7 +39,7 @@ export const consentPageDescription = (
   </>
 );
 
-export const consentPageFormTitle =
+export const consentPageFormQuestion =
   'Do you give us permission to add an indicator about claim or appeal events to your VA medical record?';
 
 export const consentPageFormHint =

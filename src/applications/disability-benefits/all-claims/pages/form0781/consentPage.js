@@ -5,7 +5,7 @@ import {
 import {
   consentPageDescription,
   consentPageFormHint,
-  consentPageFormTitle,
+  consentPageFormQuestion,
   consentPageTitle,
   CONSENT_OPTION_INDICATOR_CHOICES,
 } from '../../content/form0781/consentPage';
@@ -15,7 +15,7 @@ export const uiSchema = {
   'ui:title': formTitle(consentPageTitle),
   'ui:description': consentPageDescription,
   optionIndicator: radioUI({
-    title: consentPageFormTitle,
+    title: consentPageFormQuestion,
     labelHeaderLevel: '4',
     hint: consentPageFormHint,
     labels: CONSENT_OPTION_INDICATOR_CHOICES,
