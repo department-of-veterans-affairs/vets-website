@@ -167,7 +167,7 @@ const VaPrescription = prescription => {
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
             </h2>
-            {refillHistory.length > 1 &&
+            {refillHistory?.length > 1 &&
               refillHistory.some(rx => rx.cmopNdcNumber) && (
                 <p className="vads-u-margin--0">
                   <strong>Note:</strong> Images on this page are for
@@ -177,7 +177,7 @@ const VaPrescription = prescription => {
                   <VaPharmacyText phone={pharmacyPhone} />.
                 </p>
               )}
-            {(refillHistory.length > 1 ||
+            {(refillHistory?.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => {
                 const { shape, color, backImprint, frontImprint } = entry;
@@ -307,12 +307,12 @@ const VaPrescription = prescription => {
                   </div>
                 );
               })}
-            {refillHistory.length <= 1 &&
+            {refillHistory?.length <= 1 &&
               refillHistory[0].dispensedDate === undefined && (
                 <p>You haven’t filled this prescription yet.</p>
               )}
             {showGroupingContent &&
-              prescription?.groupedMedications.length > 0 && (
+              prescription?.groupedMedications?.length > 0 && (
                 <GroupedMedications
                   groupedMedicationsList={prescription.groupedMedications}
                 />
