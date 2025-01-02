@@ -10,9 +10,7 @@ export function VideoVisitInstructions({ instructionsType }) {
   if (instructionsType === MEDICATION_REVIEW) {
     return (
       <div>
-        <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-          Medication review
-        </h4>
+        <h4>Medication review</h4>
         <p>
           During your video appointment, your provider will want to review all
           the medications, vitamins, herbs, and supplements you’re taking
@@ -29,9 +27,7 @@ export function VideoVisitInstructions({ instructionsType }) {
   if (instructionsType === VIDEO_VISIT_PREPARATION) {
     return (
       <div>
-        <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-          Before your appointment:
-        </h4>
+        <h4>Before your appointment:</h4>
         <ul>
           <li>
             If you’re using an iPad or iPhone for your appointment, you’ll need
@@ -54,9 +50,7 @@ export function VideoVisitInstructions({ instructionsType }) {
           the "Join session" button on this page or the link that's in your
           confirmation email.
         </p>
-        <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-          To have the best possible video experience, we recommend you:
-        </h4>
+        <h4>To have the best possible video experience, we recommend you:</h4>
         <ul>
           <li>
             Connect to your video appointment from a quiet, private, and
