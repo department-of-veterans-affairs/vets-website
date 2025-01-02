@@ -170,12 +170,17 @@ const Autocomplete = ({
     if (value && results.length === 0) {
       debouncedSearch(value);
     }
+
+    const labelElement = inputRef.current.shadowRoot.querySelector('label');
+
+    labelElement.scrollIntoView({ block: 'start', behavior: 'smooth' });
   };
 
   const handleMouseEnter = index => {
     if (!isScrolling) {
       activateScrollToAndFocus(index);
     }
+
     setIsScrolling(false);
   };
 
