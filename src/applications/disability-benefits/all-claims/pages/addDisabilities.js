@@ -31,12 +31,43 @@ import {
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
+const inputTransformers = [
+  // Replace double quotes and smart quotes with single quotes
+  // Example: Input: 'Hello “world”!' => Output: 'Hello 'world'!'
+  input => input.replace(/["”’]/g, `'`),
+
+  // Replace semicolons and en-dashes with a double dash
+  // Example: Input: 'A; B – C' => Output: 'A -- B -- C'
+  input => input.replace(/[;–]/g, ' -- '),
+
+  // Replace ampersands with the word 'and'
+  // Example: Input: 'Rock & Roll' => Output: 'Rock and Roll'
+  input => input.replace(/[&]/g, ' and '),
+
+  // Replace backslashes with forward slashes
+  // Example: Input: 'C:\\Users\\Documents' => Output: 'C:/Users/Documents'
+  input => input.replace(/[\\]/g, '/'),
+
+  // Replace periods with spaces
+  // Example: Input: 'Mr. Smith is here.' => Output: 'Mr Smith is here '
+  input => input.replace(/[.]/g, ' '),
+
+  // Remove anything not a letter, number, dash, single quote, comma, forward slash, parenthesis, or space
+  // Example: Input: 'Hello @World!' => Output: 'Hello World'
+  input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+
+  // Replace multiple spaces with a single space
+  // Example: Input: 'Hello    World' => Output: 'Hello World'
+  input => input.replace(/\s{2,}/g, ' '),
+];
+
 const autocompleteUiSchema = {
   'ui:field': data => (
     <Autocomplete
       availableResults={Object.values(disabilityLabelsRevised)}
       debounceDelay={200}
       id={data.idSchema.$id}
+      inputTransformers={inputTransformers}
       formData={data.formData}
       label="Enter your condition"
       onChange={data.onChange}

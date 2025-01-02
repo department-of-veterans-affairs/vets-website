@@ -14,6 +14,7 @@ const Autocomplete = ({
   debounceDelay,
   formData,
   id,
+  inputTransformers = [],
   label,
   onChange,
 }) => {
@@ -27,7 +28,16 @@ const Autocomplete = ({
   const inputRef = useRef(null);
   const resultsRef = useRef([]);
 
-  // Delays screen reader result count reading to avoid interruption by input content reading
+  const transformInput = useCallback(
+    inputValue => {
+      return inputTransformers.reduce(
+        (currentValue, transformer) => transformer(currentValue),
+        inputValue,
+      );
+    },
+    [inputTransformers],
+  );
+
   const debouncedSetAriaLiveText = useRef(
     debounce((resultCount, inputValue) => {
       const makePlural = resultCount > 1 ? 's' : '';
@@ -64,16 +74,17 @@ const Autocomplete = ({
   );
 
   const handleInputChange = inputValue => {
-    setValue(inputValue);
-    onChange(inputValue);
+    const transformedValue = transformInput(inputValue);
+    setValue(transformedValue);
+    onChange(transformedValue);
 
-    if (!inputValue) {
+    if (!transformedValue) {
       closeList();
       setAriaLiveText('Input is empty. Please enter a condition.');
       return;
     }
 
-    debouncedSearch(inputValue);
+    debouncedSearch(transformedValue);
   };
 
   const isElementVisible = (element, container) => {
@@ -241,6 +252,7 @@ Autocomplete.propTypes = {
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
   id: PropTypes.string,
+  inputTransformers: PropTypes.array,
   label: PropTypes.string,
   onChange: PropTypes.func,
 };
