@@ -101,7 +101,7 @@ describe('Mobile', () => {
 
   // [W,H, width of #facility-search, +/- range (this matters for CI) where it gets confused how to apply style sheets]
   const sizes = [
-    [1024, 1000, 180, 100],
+    [1024, 1000, 180.25, 100],
     [1007, 1000, 100, 20],
     [768, 1000, 699, 20],
     [481, 1000, 436, 20],
