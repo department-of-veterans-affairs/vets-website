@@ -37,7 +37,7 @@ const VehiclePage = ({
         use-forms-pattern="single"
         form-heading="Did you travel in your own vehicle?"
         form-heading-level={1}
-        id="mileage"
+        id="vehicle"
         onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
         value={yesNo.vehicle}
         data-testid="mileage-test-id"
@@ -72,7 +72,7 @@ const VehiclePage = ({
             If you traveled by bus, train, taxi, or other authorized public
             transportation, you can’t file a claim in this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online, within 30 days, through the{' '}
           <va-link
             external
             href="https://link-to-btsss"

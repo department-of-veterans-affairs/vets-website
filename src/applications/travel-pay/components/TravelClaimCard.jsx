@@ -65,6 +65,7 @@ export default function TravelClaimCard(props) {
         </Link>
       )}
 
+      {/* TODO: remove - shortcut for demo purposes only */}
       <Link
         to={{
           pathname: `/file-new-claim/${appointment.id}`,

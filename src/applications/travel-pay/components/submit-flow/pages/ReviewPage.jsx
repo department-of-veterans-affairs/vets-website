@@ -115,7 +115,6 @@ const ReviewPage = props => {
             uswds
           />
           <VaModal
-            // large
             modalTitle="Beneficiary travel agreement"
             onCloseEvent={() => setAgreementModalOpen(false)}
             onPrimaryButtonClick={() => setAgreementModalOpen(false)}
@@ -125,7 +124,7 @@ const ReviewPage = props => {
             <>
               <TravelAgreementContent />
               <p>
-                Review your claim informaiton now to file your travel pay claim.
+                Review your claim information now to file your travel pay claim.
               </p>
             </>
           </VaModal>
@@ -136,7 +135,7 @@ const ReviewPage = props => {
             description={null}
             error={
               !isAgreementChecked
-                ? 'You must accept the beneficiary travel agreement before continuting.'
+                ? 'You must accept the beneficiary travel agreement before continuing.'
                 : null
             }
             hint={null}

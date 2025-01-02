@@ -99,7 +99,7 @@ const AddressPage = ({
         <p>
           <strong>
             If you traveled from a different address, you can’t file a claim in
-            thie tool right now.
+            this tool right now.
           </strong>{' '}
           But you can file your claim online, within 30 days, through the
           <va-link

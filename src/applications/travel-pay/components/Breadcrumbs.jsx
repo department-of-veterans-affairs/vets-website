@@ -63,28 +63,24 @@ export default function BreadCrumbs() {
   };
 
   return isDetailsPage || isSubmitWrapper ? (
-    <>
+    <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
       {isDetailsPage && (
-        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-          <va-link
-            data-testid="details-back-link"
-            back
-            href="/my-health/travel-pay/claims/"
-            text="Back to your travel reimbursement claims"
-          />
-        </div>
+        <va-link
+          data-testid="details-back-link"
+          back
+          href="/my-health/travel-pay/claims/"
+          text="Back to your travel reimbursement claims"
+        />
       )}
       {isSubmitWrapper && (
-        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-          <va-link
-            data-testid="submit-back-link"
-            back
-            href={`/my-health/appointments/past/${apptId}`}
-            text="Back to your appointment"
-          />
-        </div>
+        <va-link
+          data-testid="submit-back-link"
+          back
+          href={`/my-health/appointments/past/${apptId}`}
+          text="Back to your appointment"
+        />
       )}
-    </>
+    </div>
   ) : (
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}

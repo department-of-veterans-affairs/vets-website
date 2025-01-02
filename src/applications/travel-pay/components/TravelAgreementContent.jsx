@@ -15,7 +15,7 @@ const TravelAgreementContent = () => {
           authorized travel that is not herein claimed.
         </li>
         <li>
-          I have not received other transportation resources at no-cost to me.
+          I have not received other transportation resources at no cost to me.
         </li>
         <li>I am the only person claiming for the travel listed.</li>
         <li>

@@ -96,10 +96,10 @@ const MileagePage = ({
         trigger="How do we calculate mileage"
       >
         <ul>
-          <li>We pay rounld-trip mileage for your scheduled appointments.</li>
+          <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
             We may only pay return mileage for unscheduled appointments, like
-            walk-ins and labe.
+            walk-ins and labs.
           </li>
         </ul>
         <va-link
@@ -115,10 +115,10 @@ const MileagePage = ({
       >
         <p>
           <strong>
-            If you need to submit receipts for other expenses like tols, meals,
+            If you need to submit receipts for other expenses like tolls, meals,
             or lodging, you can’t file a claim in this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online, within 30 days, through the{' '}
           <va-link
             external
             href="https://link-to-btsss"

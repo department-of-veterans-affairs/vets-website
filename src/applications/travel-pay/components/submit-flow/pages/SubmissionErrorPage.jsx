@@ -28,7 +28,10 @@ const SubmissionErrorPage = () => {
             Or you can still file within 30 days of the appointment through the
             Beneficiary Travel Self Service System (BTSSS).
           </p>
-          <p>Find out how to file for travel reimbursement</p>
+          <va-link
+            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+            text="Find out how to file for travel reimbursement"
+          />
         </va-alert>
         <h2>What happens next?</h2>
         <HelpTextModalities />
