@@ -8,7 +8,6 @@ import {
   VaCheckbox,
   VaPrivacyAgreement,
   VaStatementOfTruth,
-  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // platform - forms - selectors
@@ -149,6 +148,8 @@ export function PreSubmitSection(props) {
         <VaStatementOfTruth
           inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
           inputValue={form?.data.statementOfTruthSignature}
+          inputMessageAriaDescribedby={`${statementOfTruth.heading ||
+            'Statement of truth'}: ${statementOfTruth.messageAriaDescribedby}`}
           inputError={
             (showPreSubmitError || statementOfTruthSignatureBlurred) &&
             fullNameReducer(form?.data.statementOfTruthSignature) !==
@@ -179,7 +180,9 @@ export function PreSubmitSection(props) {
               ? 'You must certify by checking the box'
               : undefined
           }
-        />
+        >
+          {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
+        </VaStatementOfTruth>
       ) : (
         <div>
           {preSubmit.notice}
