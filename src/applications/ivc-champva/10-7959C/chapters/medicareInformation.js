@@ -225,12 +225,8 @@ export const applicantMedicareABUploadSchema = {
             <br />
             Upload a copy of one of these documents:
             <ul>
-              <li>
-                Medicare Parts A and B card, <b>or</b>
-              </li>
-              <li>
-                Medicare Advantage card, <b>or</b>
-              </li>
+              <li>Medicare Parts A and B card, or</li>
+              <li>Medicare Advantage card, or</li>
               <li>Medicare PACE card</li>
             </ul>
             If you don’t have a copy to upload now, you can send it by mail or
