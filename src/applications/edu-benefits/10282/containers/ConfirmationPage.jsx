@@ -56,10 +56,7 @@ export class ConfirmationPage extends React.Component {
           <p>
             <strong>Confirmation for your records </strong>
             <br />
-            <span>
-              You can print this confirmation page for your records. You can
-              also download your completed application as a PDF.
-            </span>
+            <span>You can print this confirmation page for your records.</span>
           </p>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
