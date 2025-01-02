@@ -747,7 +747,7 @@ export const BENEFITS_LIST = [
     category: categories.MORE_SUPPORT,
     id: 'DCU',
     description:
-      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgade, you may be eligible for additional VA benefits.',
+      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
