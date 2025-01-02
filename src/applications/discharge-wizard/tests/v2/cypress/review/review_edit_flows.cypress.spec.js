@@ -25,15 +25,6 @@ describe('Review edit flows', () => {
     );
     h.clickContinue();
 
-    // DISCHARGE_MONTH
-    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-    h.selectDropdown(
-      h.DISCHARGE_MONTH_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_MONTH,
-      3,
-    );
-    h.clickContinue();
-
     // DISCHARGE_REASON
     h.verifyUrl(ROUTES.REASON);
     h.selectRadio(h.REASON_INPUT, 1);
@@ -119,32 +110,6 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.clickBack();
-
-    // REVIEW
-    h.verifyUrl(ROUTES.REVIEW);
-    cy.get(
-      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.DISCHARGE_MONTH}"]`,
-    )
-      .shadow()
-      .find('a')
-      .click();
-
-    // DISCHARGE_MONTH
-    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-    h.clickContinue();
-
-    // REVIEW
-    h.verifyUrl(ROUTES.REVIEW);
-    cy.get(
-      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.DISCHARGE_MONTH}"]`,
-    )
-      .shadow()
-      .find('a')
-      .click();
-
-    // DISCHARGE_MONTH
-    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
     h.clickBack();
 
     // REVIEW
@@ -377,15 +342,6 @@ describe('Review edit flows', () => {
       h.DISCHARGE_YEAR_INPUT,
       SHORT_NAME_MAP.DISCHARGE_YEAR,
       h.get15YearsPast(),
-    );
-    h.clickContinue();
-
-    // DISCHARGE_MONTH
-    h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-    h.selectDropdown(
-      h.DISCHARGE_MONTH_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_MONTH,
-      3,
     );
     h.clickContinue();
 
