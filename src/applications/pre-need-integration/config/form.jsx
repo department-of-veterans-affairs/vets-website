@@ -445,8 +445,48 @@ const formConfig = {
         },
       },
     },
-    militaryDetails: {
-      title: 'Military details',
+    // militaryDetails: {
+    //   title: 'Military details',
+    //   pages: {
+    //     militaryDetailsSelf: {
+    //       path: 'military-details-self',
+    //       title: 'Military details',
+    //       depends: formData =>
+    //         isVeteran(formData) && !isAuthorizedAgent(formData),
+    //       uiSchema: militaryDetailsSelf.uiSchema,
+    //       schema: militaryDetailsSelf.schema,
+    //     },
+    //     militaryDetailsPreparer: {
+    //       path: 'military-details-preparer',
+    //       title: 'Military details',
+    //       depends: formData =>
+    //         isVeteran(formData) && isAuthorizedAgent(formData),
+    //       uiSchema: militaryDetailsPreparer.uiSchema,
+    //       schema: militaryDetailsPreparer.schema,
+    //     },
+    //     sponsorMilitaryDetailsSelf: {
+    //       title: "Sponsor's military details",
+    //       path: 'sponsor-military-details',
+    //       depends: formData =>
+    //         !isVeteran(formData) && !isAuthorizedAgent(formData),
+    //       uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+    //       schema: sponsorMilitaryDetailsSelf.schema,
+    //     },
+    //     sponsorMilitaryDetailsPreparer: {
+    //       title: "Sponsor's military details",
+    //       path: 'sponsor-military-details-preparer',
+    //       depends: formData =>
+    //         !isVeteran(formData) && isAuthorizedAgent(formData),
+    //       uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+    //       schema: sponsorMilitaryDetailsPreparer.schema,
+    //     },
+    //   },
+    // },
+    militaryName: {
+      title: formData =>
+        isVeteran(formData)
+          ? 'Applicant military history'
+          : 'Sponsor military history',
       pages: {
         militaryDetailsSelf: {
           path: 'military-details-self',
@@ -480,11 +520,6 @@ const formConfig = {
           uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
           schema: sponsorMilitaryDetailsPreparer.schema,
         },
-      },
-    },
-    militaryName: {
-      title: 'Applicant military history',
-      pages: {
         applicantMilitaryNameSelf: {
           path: 'applicant-military-name',
           depends: formData =>
