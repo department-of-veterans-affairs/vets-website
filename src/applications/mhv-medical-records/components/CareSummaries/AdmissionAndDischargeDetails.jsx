@@ -143,16 +143,12 @@ ${record.summary}`;
 
         <div className="test-details-container max-80">
           <Section header="Details">
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-              Location
-            </h3>
-            <p
-              data-testid="note-record-location"
-              data-dd-privacy="mask"
-              data-dd-action-name="[admission discharge summary - location]"
-            >
-              {record.location}
-            </p>
+            <LabelValue
+              label="Location"
+              value={record.location}
+              testId="note-record-location"
+              actionName="[admission discharge summary - location]"
+            />
             {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
               record.sortByField !== null && (
                 <LabelValue
