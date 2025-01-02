@@ -16,7 +16,7 @@ import {
   ProgramSummary,
 } from '../pages';
 
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',
@@ -46,6 +46,9 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  customText: {
+    submitButtonText: 'Continue',
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for new form benefits.',
     noAuth:

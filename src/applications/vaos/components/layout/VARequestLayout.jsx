@@ -89,7 +89,7 @@ export default function VARequestLayout({ data: appointment }) {
             )}
           {!!facility?.name && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
             </>
           )}
