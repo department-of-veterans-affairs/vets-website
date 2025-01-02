@@ -30,6 +30,8 @@ jobs:
               -H "Accept: application/vnd.github.v3+json" \
               "https://api.github.com/repos/department-of-veterans-affairs/vets-website/environments?per_page=100&page=$PAGE")
 
+            echo "API Response: $RESPONSE"
+
             CURRENT=$(echo "$RESPONSE" | jq '.environments')
 
             if [ "$CURRENT" = "null" ] || [ "$CURRENT" = "[]" ]; then
