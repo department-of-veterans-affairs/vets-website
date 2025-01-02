@@ -118,7 +118,7 @@ ConfirmationPage.propTypes = {
   name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     form: state.form,
   };

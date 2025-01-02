@@ -4,10 +4,13 @@ import formConfig from '../config/form';
 
 import { transform } from '../config/submit-transformer';
 
-import { transformedMinimalData } from './fixtures/data/transformedData';
+import {
+  transformedMinimalData,
+  transformedMaximalData,
+} from './fixtures/data/transformedData';
 
-import minimalData from './fixtures/data/minimal.json';
-// import maximalData from './fixtures/data/maximal.json';
+import minimalData from './fixtures/data/minimal-test.json';
+import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
   it('should transform minimal data correctly', () => {
@@ -16,9 +19,9 @@ describe('transform', () => {
     );
   });
 
-  // it('should transform maximal data correctly', () => {
-  //   expect(transform(formConfig, maximalData)).to.deep.equal(
-  //     transformedMaximalData,
-  //   );
-  // });
+  it('should transform maximal data correctly', () => {
+    expect(transform(formConfig, maximalData)).to.deep.equal(
+      transformedMaximalData,
+    );
+  });
 });

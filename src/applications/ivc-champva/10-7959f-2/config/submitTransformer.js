@@ -1,7 +1,10 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { formatDateShort } from 'platform/utilities/date';
-import { concatStreets } from '../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+} from '../../shared/utilities';
 
 // Take an address object and turn it into a string with line breaks
 function stringifyAddress(addr) {
@@ -54,7 +57,7 @@ export default function transformForSubmit(formConfig, form) {
       phone: transformedData.veteranPhoneNumber,
       email: transformedData.veteranEmailAddress,
     },
-    supportingDocs: transformedData.uploadSection,
+    supportingDocs: getObjectsWithAttachmentId(transformedData),
   };
 
   // Stringify and format the addresses so they fit in the PDF fields properly

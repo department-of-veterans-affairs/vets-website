@@ -16,6 +16,4 @@ describe('22-10215 - Form Config', () => {
     expect(formConfig).to.have.property('submit');
     expect(formConfig).to.have.property('saveInProgress');
   });
-
-  // Introduction and Get Help components to be added
 });
