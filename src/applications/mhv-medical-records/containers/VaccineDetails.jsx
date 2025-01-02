@@ -33,6 +33,8 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import Section from '../components/shared/Section';
+import LabelValue from '../components/shared/LabelValue';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -128,49 +130,45 @@ Location: ${record.location}\n`;
       return (
         <>
           <PrintHeader />
-          <h1
+
+          <Section
+            header={`Vaccines: ${record.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-testid="vaccine-name"
             data-dd-privacy="mask"
             data-dd-action-name="[vaccine details - name]"
           >
-            Vaccines: {record.name}
-          </h1>
-          <DateSubheading
-            date={record.date}
-            label="Date received"
-            id="vaccine-date"
-          />
-          {downloadStarted && <DownloadSuccessAlert />}
-          <PrintDownload
-            description="Vaccines Detail"
-            downloadPdf={generateVaccinePdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateVaccineTxt}
-          />
-          <DownloadingRecordsInfo
-            allowTxtDownloads={allowTxtDownloads}
-            description="Vaccines Detail"
-          />
-          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
-          <div>
-            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
-              Location
-            </h2>
-            <p
-              className="vads-u-margin-top--0"
-              data-testid="vaccine-location"
-              data-dd-privacy="mask"
-              data-dd-action-name="[vaccine details - location]"
-            >
-              {record.location}
-            </p>
-            {/* <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
-              Reactions recorded by provider
-            </h2>
-            <ItemList list={record.reactions} /> */}
-          </div>
+            <DateSubheading
+              date={record.date}
+              label="Date received"
+              id="vaccine-date"
+            />
+            {downloadStarted && <DownloadSuccessAlert />}
+            <PrintDownload
+              description="Vaccines Detail"
+              downloadPdf={generateVaccinePdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateVaccineTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Vaccines Detail"
+            />
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <div>
+              <LabelValue
+                label="Location"
+                value={record.location}
+                testId="vaccine-location"
+                actionName="[vaccine details - location]"
+              />
+              {/* <LabelValue
+                label="Reactions recorded by provider"
+                value={record.reactions}
+              /> */}
+            </div>
+          </Section>
         </>
       );
     }
@@ -186,10 +184,7 @@ Location: ${record.location}\n`;
   };
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
-      id="vaccine-details"
-    >
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {content()}
     </div>
   );

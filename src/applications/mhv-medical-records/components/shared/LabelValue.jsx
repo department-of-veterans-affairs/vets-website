@@ -10,7 +10,7 @@ const LabelValue = ({
   actionName,
   ifEmpty = 'N/A',
   monospace = false,
-  headerClass = 'vads-u-font-size--md vads-u-font-family--sans',
+  headerClass = 'vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans',
 }) => {
   let displayValue = children || value; // Prefer children if provided
   if (!children && (value === undefined || value === null || value === '')) {
@@ -20,7 +20,9 @@ const LabelValue = ({
   return (
     <Section header={label} className={headerClass}>
       <p
-        className={`${monospace ? 'monospace vads-u-line-height--6' : null}`}
+        className={`vads-u-margin-y--0 ${
+          monospace ? 'monospace vads-u-line-height--6' : null
+        }`}
         data-dd-privacy="mask"
         data-testid={testId}
         data-dd-action-name={actionName}
