@@ -124,10 +124,13 @@ describe('<CallToActionWidget>', () => {
     );
 
     const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
 
     expect(vaAlertSignIn).to.exist;
-    expect($('.idme-verify-buttons', container)).to.exist;
-    expect($('.logingov-verify-buttons', container)).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
     expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
@@ -144,10 +147,14 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
     const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
 
     expect(vaAlertSignIn).to.exist;
-    expect($('.idme-verify-buttons', container)).to.exist;
-    expect($('.logingov-verify-buttons', container)).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
+    expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');

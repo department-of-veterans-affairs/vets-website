@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-const Unauthed = ({ headerLevel }) => {
+const Unauthed = ({ headerLevel = 3 }) => {
+  const dispatch = useDispatch();
+
   // const content = {
   //   heading: `Sign in to change your direct deposit information online`,
   //   headerLevel,
@@ -29,8 +32,10 @@ const Unauthed = ({ headerLevel }) => {
   return (
     <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
       <span slot="SignInButton">
-        <VerifyButton csp="logingov" />
-        <VerifyButton csp="idme" />
+        <va-button
+          text="Sign in or create an account"
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+        />
       </span>
     </VaAlertSignIn>
   );

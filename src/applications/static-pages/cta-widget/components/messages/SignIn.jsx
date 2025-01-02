@@ -1,14 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 const SignIn = ({ headerLevel = 3 }) => {
+  const dispatch = useDispatch();
+
   return (
     <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
       <span slot="SignInButton">
-        <VerifyButton csp="logingov" />
-        <VerifyButton csp="idme" />
+        <va-button
+          text="Sign in or create an account"
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+        />
       </span>
     </VaAlertSignIn>
   );
