@@ -292,8 +292,12 @@ const FacilitySearch = props => {
           {content['vet-med-center-search-description']}
         </h3>
         <p>
-          Where the VA medical center is located may be different from the
-          Veteran’s home address.
+          You’ll need to find and select the VA medical center or clinic where
+          the Veteran receives or plans to recieve care.
+        </p>
+        <p>
+          The VA medical center or clinic may be in a different city, state, or
+          postal code than the Veteran’s home address.
         </p>
         <va-card background>
           <p className="vads-u-margin-top--0">
