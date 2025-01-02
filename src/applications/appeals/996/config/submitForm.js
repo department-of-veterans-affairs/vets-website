@@ -3,6 +3,8 @@ import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
 
+import { NEW_API, SUBMIT_URL_NEW } from '../constants/apis';
+
 export const buildEventData = formData => {
   const { informalConference, informalConferenceChoice } = formData;
   let informalConf = 'no';
@@ -23,9 +25,13 @@ export const buildEventData = formData => {
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
-  const version = form.data.hlrUpdatedContent ? 'v2' : 'v1';
 
-  const url = [environment.API_URL, version, submitUrl].join('/');
+  // TODO: hlrUpdatedContent is now at 100% - remove feature toggle code
+  // const version = form.data.hlrUpdatedContent ? 'v2' : 'v1';
+
+  const url = `${environment.API_URL}${
+    form.data[NEW_API] ? `/${SUBMIT_URL_NEW.join('')}` : submitUrl
+  }`;
 
   // eventData for analytics
   const eventData = buildEventData(form.data);
