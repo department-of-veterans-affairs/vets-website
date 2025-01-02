@@ -31,9 +31,11 @@ jobs:
       - name: Fetch all Environments
         run: |
           PAGE=1
-          ENVIRONMENTS="[]"
+          TEMP_FILE=$(mktemp)  # Temporary file for storing environments
+          echo "[]" > "$TEMP_FILE"  # Initialize with an empty JSON array
 
           while true; do
+            echo "Fetching page $PAGE..."
 
             RESPONSE=$(curl -sSL \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -44,17 +46,23 @@ jobs:
 
             CURRENT=$(echo "$RESPONSE" | jq '.environments')
 
-          if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
-            echo "No more environments found, exiting loop."
-            break
-          fi
+            if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
+              echo "No more environments found, exiting loop."
+              break
+            fi
 
-            ENVIRONMENTS=$(echo "$ENVIRONMENTS" "$CURRENT" | jq -s 'add')
+            # Append to the temporary file
+            jq -s 'add' "$TEMP_FILE" <(echo "$CURRENT") > temp.json && mv temp.json "$TEMP_FILE"
 
             PAGE=$((PAGE + 1))
-
           done
 
+          ENVIRONMENTS=$(cat "$TEMP_FILE")
+
+          # Output for debugging
+          echo "Final collected environments: $ENVIRONMENTS"
+
+          # Export the environments to the workflow
           echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
 
       - name: Clean up Environments
