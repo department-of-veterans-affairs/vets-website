@@ -210,47 +210,49 @@ const App = ({ children }) => {
       serviceRequired={[backendServices.MEDICAL_RECORDS]}
     >
       {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
-    <>
-      {phase0p5Flag && <MhvSecondaryNav />}
-      <div
-        ref={measuredRef}
-        className="vads-l-grid-container vads-u-padding-left--2"
-      >
-        {mhvMrDown === externalServiceStatus.down ? (
-          <>
-            {atLandingPage && <MrBreadcrumbs />}
-            <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
-              Medical records
-            </h1>
-            <DowntimeNotification
-              appTitle={downtimeNotificationParams.appTitle}
-              dependencies={[
-                externalServices.mhvMr,
-                externalServices.mhvPlatform,
-                externalServices.global,
-              ]}
-              render={renderMHVDowntime}
+        <>
+          {phase0p5Flag && <MhvSecondaryNav />}
+          <div
+            ref={measuredRef}
+            className="vads-l-grid-container vads-u-padding-left--2"
+          >
+            {mhvMrDown === externalServiceStatus.down ? (
+              <>
+                {atLandingPage && <MrBreadcrumbs />}
+                <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
+                  Medical records
+                </h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvMr,
+                    externalServices.mhvPlatform,
+                    externalServices.global,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <>
+                <SectionProvider>
+                  <MrBreadcrumbs />
+                  <div className="vads-l-row">
+                    <div className="medium-screen:vads-l-col--8">
+                      {children}
+                    </div>
+                  </div>
+                </SectionProvider>
+              </>
+            )}
+            <va-back-to-top
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
             />
-          </>
-        ) : (
-          <>
-            <SectionProvider>
-              <MrBreadcrumbs />
-              <div className="vads-l-row">
-                <div className="medium-screen:vads-l-col--8">{children}</div>
-              </div>
-            </SectionProvider>
-          </>
-        )}
-        <va-back-to-top
-          hidden={isHidden}
-          data-dd-privacy="mask"
-          data-dd-action-name="Back to top"
-        />
-        <ScrollToTop />
-        <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
-      </div>
-    </>
+            <ScrollToTop />
+            <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
+          </div>
+        </>
       )}
     </RequiredLoginView>
   );
