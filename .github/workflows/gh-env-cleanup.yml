@@ -10,7 +10,7 @@ jobs:
   deploy:
     name: Clean Up Environments
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -34,9 +34,10 @@ jobs:
 
             CURRENT=$(echo "$RESPONSE" | jq '.environments')
 
-            if [ "$CURRENT" = "null" ] || [ "$CURRENT" = "[]" ]; then
-              break
-            fi
+          if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
+            echo "No more environments found, exiting loop."
+            break
+          fi
 
             ENVIRONMENTS=$(echo "$ENVIRONMENTS" "$CURRENT" | jq -s 'add')
 
@@ -47,4 +48,5 @@ jobs:
           echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
 
       - name: Clean up Environments
+        if: ${{ always() }}
         run: script/github-actions/gh-env-cleanup.js
