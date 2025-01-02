@@ -43,10 +43,10 @@ export default function CallToActionAlert({
 
 CallToActionAlert.propTypes = {
   alertText: PropTypes.node,
+  ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
   headerLevel: PropTypes.number,
   heading: PropTypes.string,
-  primaryButtonAriaDescribedby: PropTypes.string,
-  primaryButtonAriaLabel: PropTypes.string,
   primaryButtonHandler: PropTypes.func,
   primaryButtonText: PropTypes.string,
   secondaryButtonHandler: PropTypes.func,
@@ -56,6 +56,6 @@ CallToActionAlert.propTypes = {
 
 CallToActionAlert.defaultProps = {
   headerLevel: 3,
-  primaryButtonAriaDescribedby: null,
-  primaryButtonAriaLabel: null,
+  ariaDescribedby: null,
+  ariaLabel: null,
 };
