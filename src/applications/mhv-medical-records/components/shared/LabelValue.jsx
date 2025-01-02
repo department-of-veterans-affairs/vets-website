@@ -20,6 +20,7 @@ const LabelValue = ({
   return (
     <Section header={label} className={headerClass}>
       <p
+        style={{ whiteSpace: 'pre-line' }}
         className={`vads-u-margin-y--0 ${
           monospace ? 'monospace vads-u-line-height--6' : null
         }`}
