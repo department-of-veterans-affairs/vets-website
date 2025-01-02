@@ -29,7 +29,7 @@ describe('<InformalConferenceReview>', () => {
     );
   });
 
-  it.skip('should render original informalConference Veteran data', () => {
+  it('should render original informalConference Veteran data', () => {
     const screen = setup({ informalConference: 'me' });
     screen.getByText(informalConferenceContactTitle);
     screen.getByText(informalConferenceContactLabel);
