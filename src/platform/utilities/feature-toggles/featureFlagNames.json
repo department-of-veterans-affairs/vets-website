@@ -305,5 +305,7 @@
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
   "fsrWizard": "fsr_wizard",
-  "isDGIBEndpoint": "is_DGIB_endpoint"
+  "isDGIBEndpoint": "is_DGIB_endpoint",
+  "isUpdatedGi": "is_updated_gi",
+  "showRudisill1995": "show_rudisill_1995"
 }
