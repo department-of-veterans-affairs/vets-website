@@ -69,13 +69,6 @@ export class ConfirmationPage extends React.Component {
           >
             Print this page
           </button>
-          <va-link
-            download
-            class="vads-u-display--block"
-            filetype="PDF"
-            href="/education/apply-for-education-benefits/10282/confirmation"
-            text="Download your completed application"
-          />
         </div>
         <div className="vads-u-margin-top--0">
           <h2>What to expect next</h2>
