@@ -106,7 +106,7 @@ describe('CG <FacilitySearch>', () => {
       expect(selectors().moreFacilities).not.to.exist;
       expect(selectors().ariaLiveStatus).not.to.exist;
       expect(queryByText(content['form-facilities-search-label'])).to.exist;
-      expect(queryByText('(*Required)')).to.exist;
+      expect(queryByText(content['validation-required-label'])).to.exist;
     });
   });
 
@@ -699,7 +699,7 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().searchInputError.parentElement).to.have.class(
             'caregiver-facilities-search-input-error',
           );
-          expect(getByText('(*Required)')).to.exist;
+          expect(getByText(content['validation-required-label'])).to.exist;
         });
 
         it('renders error when trying to click goForward when no search value is present', () => {
@@ -713,7 +713,7 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().searchInputError.parentElement).to.have.class(
             'caregiver-facilities-search-input-error',
           );
-          expect(getByText('(*Required)')).to.exist;
+          expect(getByText(content['validation-required-label'])).to.exist;
         });
       });
     });
