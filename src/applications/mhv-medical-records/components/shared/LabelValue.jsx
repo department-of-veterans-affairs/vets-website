@@ -5,15 +5,16 @@ import Section from './Section';
 const LabelValue = ({
   label,
   value,
+  children,
   testId,
   actionName,
   ifEmpty = 'N/A',
   monospace = false,
   headerClass = 'vads-u-font-size--md vads-u-font-family--sans',
 }) => {
-  let displayValue = value;
-  if (value === undefined || value === null || value === '') {
-    displayValue = ifEmpty; // Default to a placeholder if the value is empty
+  let displayValue = children || value; // Prefer children if provided
+  if (!children && (value === undefined || value === null || value === '')) {
+    displayValue = ifEmpty; // Default to a placeholder if both value and children are empty
   }
 
   return (
@@ -32,12 +33,13 @@ const LabelValue = ({
 
 LabelValue.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   actionName: PropTypes.string,
+  children: PropTypes.node,
   headerClass: PropTypes.string,
   ifEmpty: PropTypes.string,
   monospace: PropTypes.bool,
   testId: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default LabelValue;
