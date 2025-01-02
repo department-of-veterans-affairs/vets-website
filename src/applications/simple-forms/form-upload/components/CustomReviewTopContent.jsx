@@ -5,7 +5,12 @@ import {
   VaIcon,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getFileSize, getFormNumber, mask } from '../helpers';
+import {
+  getFileSize,
+  getFormNumber,
+  mask,
+  formattedPhoneNumber,
+} from '../helpers';
 import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
@@ -60,23 +65,12 @@ const CustomReviewTopContent = () => {
     </div>
   );
 
-  const formattedPhoneNumber = () => {
-    const phoneNumberWithoutDashes = phoneNumber.replaceAll('-', '');
-    return `(${phoneNumberWithoutDashes.substr(
-      0,
-      3,
-    )}) ${phoneNumberWithoutDashes.substr(
-      3,
-      3,
-    )}-${phoneNumberWithoutDashes.substr(6, 4)}`;
-  };
-
   const renderContactInfo = () => (
     <div>
       {phoneNumber ? (
         <div>
           <p className="usa-hint">Phone number</p>
-          <p>{formattedPhoneNumber()}</p>
+          <p>{formattedPhoneNumber(phoneNumber)}</p>
         </div>
       ) : null}
       <div>
