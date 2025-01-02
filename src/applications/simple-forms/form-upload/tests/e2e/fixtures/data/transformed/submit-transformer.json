@@ -7,7 +7,10 @@
       "vaFileNumber": "456454567"
     },
     "postalCode": "12345",
-    "fullName": "John Veteran",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
     "email": "john@veteran.com"
   }
 }
