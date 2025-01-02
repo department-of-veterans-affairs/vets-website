@@ -48,6 +48,7 @@ export function transformFacilityV2(facility) {
       state: facility.physicalAddress.state,
       postalCode: facility.physicalAddress.postalCode,
     },
+    website: facility.website,
   };
 }
 
