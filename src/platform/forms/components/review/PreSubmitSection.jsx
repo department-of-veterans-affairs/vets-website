@@ -235,12 +235,24 @@ PreSubmitSection.propTypes = {
     submission: PropTypes.shape({
       hasAttemptedSubmit: PropTypes.bool,
     }),
+    data: PropTypes.object,
   }).isRequired,
   formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      finishAppLaterMessage: PropTypes.string,
+    }),
     preSubmitInfo: PropTypes.object,
   }).isRequired,
   setPreSubmit: PropTypes.func.isRequired,
+  // added by withRouter
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  preSubmit: PropTypes.object,
+  saveAndRedirectToReturnUrl: PropTypes.func,
+  showLoginModal: PropTypes.bool,
   showPreSubmitError: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
@@ -248,13 +260,6 @@ PreSubmitSection.propTypes = {
     profile: PropTypes.shape({
       userFullName: PropTypes.object,
     }),
-  }),
-  showLoginModal: PropTypes.bool,
-  saveAndRedirectToReturnUrl: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
-  // added by withRouter
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
   }),
 };
 
