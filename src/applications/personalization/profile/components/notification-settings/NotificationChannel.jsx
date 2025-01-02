@@ -25,6 +25,7 @@ const NotificationChannel = props => {
     channelType,
     isMissingContactInfo,
     isOptedIn,
+    sensitive,
     itemName,
     itemId,
     permissionId,
@@ -95,6 +96,7 @@ const NotificationChannel = props => {
           permissionId,
           isAllowed: newValue,
           wasAllowed: isOptedIn,
+          sensitive,
         });
 
         const eventPayload = {
@@ -105,7 +107,6 @@ const NotificationChannel = props => {
         };
 
         recordEvent(eventPayload);
-
         saveSetting(channelId, model.getApiCallObject());
       }}
       loadingMessage={apiStatusInfo.loadingMessage}
@@ -132,6 +133,7 @@ NotificationChannel.propTypes = {
   last: PropTypes.bool,
   permissionId: PropTypes.number,
   radioButtonDescription: PropTypes.string,
+  sensitive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -149,12 +151,13 @@ const mapStateToProps = (state, ownProps) => {
     channel.channelType,
   );
   const isMissingContactInfo = !contactInfoSelector(state);
-
+  // console.log(channel);
   return {
     apiStatus: uiState.updateStatus,
     channelType: channel.channelType,
     itemId,
     isOptedIn: channel.isAllowed,
+    sensitive: channel.sensitive,
     isMissingContactInfo,
     permissionId: channel.permissionId,
     defaultSendIndicator: channel?.defaultSendIndicator,

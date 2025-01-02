@@ -96,6 +96,10 @@ export const useNotificationSettingsUtils = () => {
     TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting,
   );
 
+  const showSensitiveIndicator = useToggleValue(
+    TOGGLE_NAMES.profileShowSensitiveIndicator,
+  );
+
   const toggles = useMemo(
     () => {
       return {
@@ -103,6 +107,7 @@ export const useNotificationSettingsUtils = () => {
         showPaymentsNotificationSetting,
         showQuickSubmitNotificationSetting,
         profileShowMhvNotificationSettingsEmailAppointmentReminders,
+        showSensitiveIndicator,
         profileShowMhvNotificationSettingsEmailRxShipment,
         profileShowMhvNotificationSettingsNewSecureMessaging,
         profileShowMhvNotificationSettingsMedicalImages,
@@ -115,6 +120,7 @@ export const useNotificationSettingsUtils = () => {
       showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
       profileShowMhvNotificationSettingsEmailAppointmentReminders,
+      showSensitiveIndicator,
       profileShowMhvNotificationSettingsEmailRxShipment,
       profileShowMhvNotificationSettingsNewSecureMessaging,
       profileShowMhvNotificationSettingsMedicalImages,

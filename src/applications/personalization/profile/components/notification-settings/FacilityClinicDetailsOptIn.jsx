@@ -131,8 +131,9 @@ const FacilityClinicDetailsOptIn = ({
           item => item.channelType === type,
         );
 
+        //  || checkContactInfo(type)
         // Only display the VaCheckbox if the sensitiveIndicator is true or has correct contact info
-        if (!matchingItem?.sensitiveIndicator || checkContactInfo(type)) {
+        if (!matchingItem?.sensitiveIndicator || !checkContactInfo(type)) {
           return null;
         }
         // console.log({type, selectedType});
@@ -141,12 +142,13 @@ const FacilityClinicDetailsOptIn = ({
         //   selectedType,
         //   className: type === selectedType ? 'vads-u-display--none' : '',
         // });
+
         return (
           <div key={id}>
             {disabledForCheckbox ? (
               <VaCheckbox
                 id={id}
-                checked={matchingItem?.sensitive ?? false}
+                checked={matchingItem?.sensitive}
                 label={getCheckboxLabel(id)}
                 onVaChange={e => handleCheckboxChange(e, id)}
                 disabled
@@ -155,7 +157,7 @@ const FacilityClinicDetailsOptIn = ({
             ) : (
               <VaCheckbox
                 id={id}
-                checked={matchingItem?.sensitive ?? false}
+                checked={matchingItem?.sensitive}
                 label={getCheckboxLabel(id)}
                 onVaChange={e => handleCheckboxChange(e, id)}
               />

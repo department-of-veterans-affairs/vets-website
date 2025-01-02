@@ -20,15 +20,15 @@ export const NotificationChannelCheckboxesFieldset = ({
 
   const fieldsetWrapperClasses = classNames(
     'vads-u-position--relative',
-    'vads-u-border-left--4px',
+    // 'vads-u-border-left--4px',
     'vads-u-padding-left--1p5',
     'vads-u-margin-bottom--1p5',
     'vads-u-margin-left--neg1p5',
     {
       'vads-u-border-color--white':
         !hasSomeErrorUpdates && !hasSomeSuccessUpdates,
-      'vads-u-border-color--green': hasSomeSuccessUpdates,
-      'vads-u-border-color--secondary': hasSomeErrorUpdates,
+      // 'vads-u-border-color--green': hasSomeSuccessUpdates,
+      // 'vads-u-border-color--secondary': hasSomeErrorUpdates,
     },
   );
 

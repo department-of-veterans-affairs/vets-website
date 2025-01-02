@@ -97,7 +97,7 @@ const responses = {
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
             profileShowNewHealthCareCopayBillNotificationSetting: false,
-            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
@@ -322,7 +322,7 @@ const responses = {
         id: communicationItemId,
         communicationChannel: {
           id: communicationChannelId,
-          communicationPermission: { allowed },
+          communicationPermission: { allowed, sensitive },
         },
       },
     } = req.body;
@@ -334,6 +334,7 @@ const responses = {
         communicationItemId,
         communicationChannelId,
         allowed,
+        sensitive,
       },
     });
 

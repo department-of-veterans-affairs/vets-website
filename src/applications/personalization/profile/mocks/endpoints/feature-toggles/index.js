@@ -14,6 +14,7 @@ const profileToggles = {
   profileShowCredentialRetirementMessaging: false,
   profileShowPrivacyPolicy: false,
   profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+  profileShowSensitiveIndicator: true,
   profileShowMhvNotificationSettingsNewSecureMessaging: false,
   profileShowMhvNotificationSettingsEmailRxShipment: false,
   profileShowMhvNotificationSettingsMedicalImages: false,

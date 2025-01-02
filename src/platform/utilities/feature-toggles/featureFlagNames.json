@@ -184,6 +184,7 @@
   "profileHideDirectDeposit": "profile_hide_direct_deposit",
   "profileShowCredentialRetirementMessaging": "profile_show_credential_retirement_messaging",
   "profileShowMhvNotificationSettingsEmailAppointmentReminders": "profile_show_mhv_notification_settings_email_appointment_reminders",
+  "profileShowSensitiveIndicator": "profile_show_sensitive_indicator",
   "profileShowMhvNotificationSettingsNewSecureMessaging": "profile_show_mhv_notification_settings_new_secure_messaging",
   "profileShowMhvNotificationSettingsEmailRxShipment": "profile_show_mhv_notification_settings_email_rx_shipment",
   "profileShowMhvNotificationSettingsMedicalImages": "profile_show_mhv_notification_settings_medical_images",

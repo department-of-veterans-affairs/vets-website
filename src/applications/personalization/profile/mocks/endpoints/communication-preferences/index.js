@@ -88,9 +88,12 @@ const maximalSetOfPreferences = {
                   id: 1,
                   name: 'Text',
                   description: 'SMS Notification',
+                  sensitiveIndicator: true,
+                  defaultSensitiveIndicator: false,
                   communicationPermission: {
                     id: 8596,
                     allowed: true,
+                    sensitive: false,
                   },
                 },
                 // this is not currently present from VAProfile, but for testing we want a notification with 2 channels
@@ -100,9 +103,12 @@ const maximalSetOfPreferences = {
                   name: 'Email',
                   description: 'Email Notification',
                   defaultSendIndicator: true,
+                  sensitiveIndicator: true,
+                  defaultSensitiveIndicator: true,
                   communicationPermission: {
                     id: 1234,
-                    allowed: false,
+                    allowed: true,
+                    sensitive: false,
                   },
                 },
               ],
@@ -153,7 +159,7 @@ const maximalSetOfPreferences = {
                   description: 'Email Notification',
                   communicationPermission: {
                     id: 8362,
-                    allowed: false,
+                    allowed: true,
                   },
                 },
               ],
@@ -253,6 +259,7 @@ const generateSuccess = () => ({
     communicationChannelName: 'Text',
     communicationItemCommonName: 'Appointment reminders',
     allowed: true,
+    sensitive: true,
   },
 });
 

@@ -1,5 +1,12 @@
 class CommunicationChannel {
-  constructor({ type, parentItemId, permissionId, isAllowed, wasAllowed }) {
+  constructor({
+    type,
+    parentItemId,
+    permissionId,
+    isAllowed,
+    wasAllowed,
+    sensitive,
+  }) {
     if (typeof type !== 'number' || type < 1 || type > 2) {
       throw new Error(
         'Invalid Argument: options.type must be a valid channel type',
@@ -15,6 +22,7 @@ class CommunicationChannel {
     this.permissionId = permissionId;
     this.isAllowed = !!isAllowed;
     this.wasAllowed = wasAllowed;
+    this.isSensitive = !!sensitive;
   }
 
   setIsAllowed(isAllowed) {
@@ -38,6 +46,7 @@ class CommunicationChannel {
       ? `/profile/communication_preferences/${this.permissionId}`
       : '/profile/communication_preferences';
     const allowed = this.isAllowed;
+    const sensitive = this.isSensitive;
 
     return {
       method,
@@ -49,6 +58,7 @@ class CommunicationChannel {
             id: this.type,
             communicationPermission: {
               allowed,
+              sensitive,
             },
           },
         },

@@ -56,11 +56,8 @@ export const NotificationCheckbox = ({
         id={loadingSpanId}
         classes="vads-u-font-weight--normal"
       >
-        <va-loading-indicator
-          label="Loading"
-          className="vads-u-margin-right--1"
-        />{' '}
-        {loadingMessage}
+        <va-icon icon="autorenew" size={3} class="vads-u-margin-right--1" />{' '}
+        <span className="sr-only">Saving</span> {loadingMessage}
       </NotificationStatusMessage>
     );
   }
@@ -99,6 +96,7 @@ export const NotificationCheckbox = ({
           disabled
           uswds
           className={className}
+          // {...(errorMessage ? { error: errorMessage } : {})}
         />
       ) : (
         <VaCheckbox
@@ -109,6 +107,7 @@ export const NotificationCheckbox = ({
           id={checkboxId}
           uswds
           className={className}
+          // {...(errorMessage ? { error: errorMessage } : {})}
         />
       )}{' '}
     </div>

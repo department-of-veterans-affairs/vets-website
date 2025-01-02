@@ -2,7 +2,10 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { selectItemById } from '@@profile/ducks/communicationPreferences';
+import {
+  selectChannelById,
+  selectItemById,
+} from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 import {
   RX_TRACKING_SUPPORTING_FACILITIES,
@@ -19,6 +22,7 @@ import { LOADING_STATES } from '~/applications/personalization/common/constants'
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 import { useNotificationSettingsUtils } from '../../hooks';
+import FacilityClinicDetailsOptIn from './FacilityClinicDetailsOptIn';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
   return Object.values(channelEntities).filter(
@@ -26,10 +30,17 @@ const getChannelsByItemId = (itemId, channelEntities) => {
   );
 };
 
-const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
+const NotificationItem = ({
+  channelIds,
+  itemName,
+  description,
+  itemId,
+  // hasSensitiveIndicator,
+}) => {
   const {
     profileShowMhvNotificationSettingsEmailAppointmentReminders: aptReminderToggle,
     profileShowMhvNotificationSettingsEmailRxShipment: shipmentToggle,
+    showSensitiveIndicator: profileShowSensitiveIndicator,
   } = useNotificationSettingsUtils().toggles;
 
   // Determine which toggle applies based on itemId
@@ -62,6 +73,17 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
       itemId,
       state?.communicationPreferences?.channels?.entities,
     ),
+  );
+
+  const channelSensitiveIndicators = useSelector(state =>
+    filteredChannels.reduce((acc, channelId) => {
+      const channel = selectChannelById(
+        selectCommunicationPreferences(state),
+        channelId,
+      );
+      acc[channelId] = channel?.sensitiveIndicator || false;
+      return acc;
+    }, {}),
   );
 
   const userHasAtLeastOneChannelContactInfo = useSelector(state => {
@@ -98,6 +120,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     },
     [channelsByItemId],
   );
+  // console.log(channelsByItemId, getChannelsByItemId());
 
   // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
   const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
@@ -108,6 +131,19 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     !mobilePhone;
 
   if (shouldBlock) return null;
+
+  const groupedChannels = filteredChannels.reduce((acc, channelId) => {
+    const [facilityId] = channelId.split('-');
+
+    if (!acc[facilityId]) {
+      acc[facilityId] = [];
+    }
+    acc[facilityId].push(channelId);
+
+    return acc;
+  }, {});
+
+  const uniqueChannelGroups = Object.entries(groupedChannels);
 
   return (
     <>
@@ -130,6 +166,32 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
               itemName={itemName}
             />
           ))}
+          {profileShowSensitiveIndicator
+            ? uniqueChannelGroups.map(([channelItemId, channels]) => {
+                // skip rendering if no channel has a sensitive indicator
+                const hasSensitiveIndicator = channels.some(
+                  channelId => channelSensitiveIndicators[channelId],
+                );
+
+                if (!hasSensitiveIndicator) {
+                  return null;
+                }
+
+                return (
+                  <FacilityClinicDetailsOptIn
+                    id={channelItemId}
+                    detailsText="You can opt in to include facility and clinic details in your reminders."
+                    descriptionText="The clinic name may include the type of care you’re receiving, such as &quot;cardiology.&quot;"
+                    channelIds={channels}
+                    key={channelItemId}
+                    channelsByItemId={channelsByItemId}
+                    disabledForCheckbox={
+                      itemStatusIndicators.hasSomePendingUpdates
+                    }
+                  />
+                );
+              })
+            : null}
         </NotificationChannelCheckboxesFieldset>
       ) : null}
     </>
@@ -139,6 +201,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   itemId: PropTypes.string.isRequired,
+  channelType: PropTypes.number,
   description: PropTypes.string,
   itemName: PropTypes.string,
 };
