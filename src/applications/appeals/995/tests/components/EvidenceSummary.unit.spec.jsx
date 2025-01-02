@@ -151,7 +151,7 @@ describe('<EvidenceSummary>', () => {
     expect($$('h4', container).length).to.eq(4);
     expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
-    expect($$('.usa-input-error-message', container).length).to.eq(8);
+    expect($$('.usa-input-error-message', container).length).to.eq(9);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
 

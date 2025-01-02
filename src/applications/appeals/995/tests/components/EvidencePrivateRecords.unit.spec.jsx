@@ -95,6 +95,7 @@ describe('<EvidencePrivateRecords>', () => {
         'va-text-input[error]',
         'va-select[error]',
         'va-checkbox-group[error]',
+        'va-date[error]',
         'va-memorable-date[error]',
       ].join(','),
       container,
@@ -287,7 +288,7 @@ describe('<EvidencePrivateRecords>', () => {
       ]
         .filter(Boolean)
         .forEach((error, index) => {
-          expect(errorEls[index].error).to.eq(error);
+          expect(errorEls[index]?.error).to.eq(error);
           if (error === errors.blankDate) {
             expect(errorEls[index].invalidMonth).to.be.true;
             expect(errorEls[index].invalidDay).to.be.true;
