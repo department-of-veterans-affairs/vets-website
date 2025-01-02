@@ -59,4 +59,4 @@ jobs:
 
       - name: Clean up Environments
         if: ${{ always() }}
-        run: script/github-actions/gh-env-cleanup.js
+        run: node script/github-actions/gh-env-cleanup.js
