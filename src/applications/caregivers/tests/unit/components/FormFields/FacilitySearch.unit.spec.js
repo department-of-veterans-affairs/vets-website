@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -77,7 +78,9 @@ describe('CG <FacilitySearch>', () => {
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
       searchInputError: queryByRole('alert'),
-      moreFacilities: queryByText('Load more facilities'),
+      moreFacilities: container.vaButtonGetByText(
+        content['form-facilities-load-more-button'],
+      ),
       ariaLiveStatus: queryByRole('status'),
       formNavButtons: {
         back: getByText('Back'),
@@ -103,7 +106,7 @@ describe('CG <FacilitySearch>', () => {
       expect(selectors().moreFacilities).not.to.exist;
       expect(selectors().ariaLiveStatus).not.to.exist;
       expect(queryByText(content['form-facilities-search-label'])).to.exist;
-      expect(queryByText('(*Required)')).to.exist;
+      expect(queryByText(content['validation-required-label'])).to.exist;
     });
   });
 
@@ -696,7 +699,7 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().searchInputError.parentElement).to.have.class(
             'caregiver-facilities-search-input-error',
           );
-          expect(getByText('(*Required)')).to.exist;
+          expect(getByText(content['validation-required-label'])).to.exist;
         });
 
         it('renders error when trying to click goForward when no search value is present', () => {
@@ -710,7 +713,7 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().searchInputError.parentElement).to.have.class(
             'caregiver-facilities-search-input-error',
           );
-          expect(getByText('(*Required)')).to.exist;
+          expect(getByText(content['validation-required-label'])).to.exist;
         });
       });
     });
