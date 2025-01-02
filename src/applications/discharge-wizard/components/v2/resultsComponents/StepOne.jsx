@@ -175,10 +175,9 @@ const StepOne = ({ formResponses }) => {
   }
 
   const header = `Download and fill out DOD Form ${formNumber}`;
-  const level = stepHeaderLevel(formResponses);
 
   return (
-    <va-process-list-item header={header} level={level}>
+    <va-process-list-item header={header} level="2">
       <p>Important tips for completing {formTitle}:</p>
       {formResponses[SHORT_NAME_MAP.REASON] ===
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
@@ -211,11 +210,7 @@ const StepOne = ({ formResponses }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-<<<<<<< HEAD
-                href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
-=======
-                href="https://www.va.gov/get-help-from-accredited-representative/"
->>>>>>> 4da9833bcc (VACMS-19834 DUW content changes)
+                href="/get-help-from-accredited-representative/"
               >
                 Get help from an accredited representative (opens in a new tab)
               </a>
