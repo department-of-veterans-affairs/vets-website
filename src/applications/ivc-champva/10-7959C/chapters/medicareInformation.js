@@ -17,10 +17,7 @@ import {
   fileWithMetadataSchema,
   fileUploadBlurb,
 } from '../../shared/components/fileUploads/attachments';
-
-// TODO put in /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
@@ -45,7 +42,7 @@ export const applicantHasMedicareSchema = {
               false,
               true,
             )} have Medicare information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
@@ -282,7 +279,7 @@ export const applicantHasMedicareDSchema = {
               false,
               true,
             )} have Medicare Part D information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
