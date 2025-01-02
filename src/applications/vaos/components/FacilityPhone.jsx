@@ -31,9 +31,7 @@ export default function FacilityPhone({
       {!!icon === false &&
         level && (
           <>
-            <Heading
-              className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
-            >
+            <Heading className={`vads-u-display--inline ${className}`}>
               {heading}
             </Heading>{' '}
           </>

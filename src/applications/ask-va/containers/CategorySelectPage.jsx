@@ -10,7 +10,7 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, getApiUrl } from '../constants';
+import { URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
   const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
@@ -99,7 +99,6 @@ const CategorySelectPage = props => {
           id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
-          messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
           value={formData.selectCategory}
           onVaSelect={handleChange}
           required
