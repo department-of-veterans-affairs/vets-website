@@ -13,8 +13,13 @@ import BreadCrumbs from '../components/Breadcrumbs';
 
 import CantFilePage from '../components/submit-flow/pages/CantFilePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+import { appointment1 } from '../services/mocks/appointments';
 
 const SubmitFlowWrapper = () => {
+  // TODO: This will need to be from an API call based on the URL Params
+  // but for now is hard coded
+  const appointment = appointment1;
+
   const [cantFile, setCantFile] = useState(false);
 
   // This will actually be handled by the redux action, but for now it lives here
@@ -49,6 +54,7 @@ const SubmitFlowWrapper = () => {
       page: 'intro',
       component: (
         <IntroductionPage
+          appointment={appointment}
           onNext={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
