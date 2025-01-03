@@ -11,11 +11,13 @@ import LicenseCertificationSearchResult from './containers/LicenseCertificationS
 import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
 import NewGiApp from './updated-gi/containers/NewGiApp';
+import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  // const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const toggleValue = true;
   return (
     <>
       {!toggleValue ? (
@@ -69,10 +71,16 @@ const BuildRoutes = () => {
         <NewGiApp>
           <Switch>
             <Route
-              path="/"
               exact
-              render={({ match }) => <HomePage match={match} />}
-            />
+              path="/"
+            >
+              <HomePage />
+            </Route>
+            <Route
+              path="/schools-and-employers"
+            >
+              <SchoolsAndEmployers />
+            </Route>
           </Switch>
         </NewGiApp>
       )}

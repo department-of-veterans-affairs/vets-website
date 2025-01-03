@@ -15,6 +15,10 @@ const GiBillBreadcrumbs = () => {
       href: '/education/gi-bill-comparison-tool/',
       label: 'GI Bill® Comparison Tool',
     },
+    {
+      href: '/education/gi-bill-comparison-tool/schools-and-employers',
+      label: 'Schools and employers',
+    },
   ];
   return (
     <div className="gi-bill-container__bread-crumbs">
