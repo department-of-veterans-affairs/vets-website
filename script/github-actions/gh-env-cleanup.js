@@ -19,12 +19,15 @@ const fetchAllEnvironments = async (owner, repo) => {
       console.log(`Fetching page ${page}...`);
 
       // Fetch environments for the current page
-      const { data } = await octokit.rest.repos.listEnvironments({
-        owner,
-        repo,
-        per_page: 100,
-        page,
-      });
+      const { data } = await octokit.request(
+        'GET /repos/{owner}/{repo}/environments',
+        {
+          owner,
+          repo,
+          per_page: 100,
+          page,
+        },
+      );
 
       // Append to environments array
       environments = environments.concat(data.environments);
