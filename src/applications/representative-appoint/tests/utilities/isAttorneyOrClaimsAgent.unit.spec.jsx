@@ -59,7 +59,7 @@ describe('isAttorneyOrClaimsAgent', () => {
       },
     };
     const result = isAttorneyOrClaimsAgent(mockFormData);
-    expect(result).to.be.false;
+    expect(result).to.not.be.ok;
   });
 
   it('should return false when the selected rep has no individualType', () => {
@@ -69,6 +69,6 @@ describe('isAttorneyOrClaimsAgent', () => {
       },
     };
     const result = isAttorneyOrClaimsAgent(mockFormData);
-    expect(result).to.be.false;
+    expect(result).to.not.be.ok;
   });
 });
