@@ -10,8 +10,8 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities/helpers';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
+import { preparerIsVeteran } from '../../utilities/helpers';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -25,7 +25,10 @@ export const uiSchema = {
   ),
   profileNotUpdatedNote: {
     'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePhone />
+      <ProfileNotUpdatedNote
+        includePhone
+        preparerIsVeteran={preparerIsVeteran({ formData })}
+      />
     ),
   },
   veteranFullName: fullNameMiddleInitialUI,
