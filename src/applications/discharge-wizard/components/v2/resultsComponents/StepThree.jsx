@@ -66,7 +66,7 @@ const StepThree = ({ formResponses }) => {
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to
-        apply to {boardName}
+        apply to {boardName}.
       </p>
       {boardToSubmit.abbr === AFDRB ? (
         <>
