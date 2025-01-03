@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Element } from 'platform/utilities/scroll';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -21,15 +22,26 @@ const SubmitFlowWrapper = () => {
 
   const [pageIndex, setPageIndex] = useState(0);
 
-  const onSubmit = e => {
-    e.preventDefault();
-    // Placeholder until actual submit is hooked up
+  const handlers = {
+    onNext: e => {
+      e.preventDefault();
 
-    // Uncomment to simulate successful submission
-    // setPageIndex(pageIndex + 1);
+      setPageIndex(pageIndex + 1);
+    },
+    onBack: e => {
+      e.preventDefault();
+      setPageIndex(pageIndex - 1);
+    },
+    onSubmit: e => {
+      e.preventDefault();
+      // Placeholder until actual submit is hooked up
 
-    // Uncomment to simulate an error
-    setIsSubmissionError(true);
+      // Uncomment to simulate successful submission
+      // setPageIndex(pageIndex + 1);
+
+      // Uncomment to simulate an error
+      setIsSubmissionError(true);
+    },
   };
 
   const pageList = [
@@ -46,37 +58,53 @@ const SubmitFlowWrapper = () => {
     },
     {
       page: 'mileage',
-      component: (
-        <MileagePage pageIndex={pageIndex} setPageIndex={setPageIndex} />
-      ),
+      component: <MileagePage handlers={handlers} />,
     },
     {
       page: 'vehicle',
-      component: (
-        <VehiclePage pageIndex={pageIndex} setPageIndex={setPageIndex} />
-      ),
+      component: <VehiclePage handlers={handlers} />,
     },
     {
       page: 'address',
-      component: (
-        <AddressPage pageIndex={pageIndex} setPageIndex={setPageIndex} />
-      ),
+      component: <AddressPage handlers={handlers} />,
     },
     {
       page: 'review',
-      component: (
-        <ReviewPage
-          onSubmit={onSubmit}
-          pageIndex={pageIndex}
-          setPageIndex={setPageIndex}
-        />
-      ),
+      component: <ReviewPage handlers={handlers} />,
     },
     {
       page: 'confirm',
       component: <ConfirmationPage />,
     },
   ];
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const toggleIsLoading = useToggleLoadingValue();
+  const canSubmitMileage = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  if (toggleIsLoading) {
+    return (
+      <div className="vads-l-grid-container vads-u-padding-y--3">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
+        />
+      </div>
+    );
+  }
+
+  if (!canSubmitMileage) {
+    window.location.replace('/');
+    return null;
+  }
 
   return (
     <Element name="topScrollElement">

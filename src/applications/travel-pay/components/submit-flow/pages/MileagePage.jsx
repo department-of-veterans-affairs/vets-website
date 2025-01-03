@@ -1,18 +1,7 @@
 import React from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const MileagePage = ({ pageIndex, setPageIndex }) => {
-  const handlers = {
-    onNext: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex + 1);
-    },
-    onBack: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex - 1);
-    },
-  };
-
+const MileagePage = ({ handlers }) => {
   return (
     <div>
       <h1>Mileage page</h1>

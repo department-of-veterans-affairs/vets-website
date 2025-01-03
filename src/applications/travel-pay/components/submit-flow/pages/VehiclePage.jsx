@@ -1,19 +1,7 @@
 import React from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const VehiclePage = ({ pageIndex, setPageIndex }) => {
-  const handlers = {
-    onNext: e => {
-      e.preventDefault();
-
-      setPageIndex(pageIndex + 1);
-    },
-    onBack: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex - 1);
-    },
-  };
-
+const VehiclePage = ({ handlers }) => {
   return (
     <div>
       <h1>Vehicle page</h1>

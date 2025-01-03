@@ -1,13 +1,6 @@
 import React from 'react';
 
-const ReviewPage = props => {
-  const { onSubmit, pageIndex, setPageIndex } = props;
-
-  const onBack = e => {
-    e.preventDefault();
-    setPageIndex(pageIndex - 1);
-  };
-
+const ReviewPage = ({ handlers }) => {
   return (
     <>
       <div>
@@ -15,8 +8,8 @@ const ReviewPage = props => {
         <p>Confirm the information is correct before you submit your claim.</p>
 
         <div className="vads-u-margin-y--2">
-          <va-button text="Back" onClick={e => onBack(e)} />
-          <va-button text="Submit" onClick={e => onSubmit(e)} />
+          <va-button text="Back" onClick={e => handlers.onBack(e)} />
+          <va-button text="Submit" onClick={e => handlers.onSubmit(e)} />
         </div>
       </div>
     </>
