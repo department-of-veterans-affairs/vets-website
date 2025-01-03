@@ -23,7 +23,7 @@ import {
   ServerErrorAlert,
 } from '../config/helpers';
 import { envUrl, RESPONSE_PAGE, URL } from '../constants';
-import { mockInquiryResponse } from './mockInquiryReplyData';
+import { mockInquiryResponse } from '../utils/mockData';
 
 // Toggle this when testing locally to load dashboard cards
 const mockTestingFlag = false;

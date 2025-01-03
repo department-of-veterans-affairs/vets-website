@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { setData } from 'platform/forms-system/src/js/actions';
+
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
-
 import { getFormSubtitle } from '../utilities/helpers';
 
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
+
+  const {
+    TOGGLE_NAMES: { appointARepresentativeEnableFrontend: appToggleKey },
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+
+  const appIsEnabled = useToggleValue(appToggleKey);
+  const isProduction = window.Cypress || environment.isProduction();
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
@@ -55,6 +69,19 @@ function App({ loggedIn, location, children, formData, setFormData }) {
       'view:representativeSearchResults': [],
     });
   }, []);
+
+  if (isAppToggleLoading) {
+    return (
+      <div className="vads-u-margin-y--5">
+        <VaLoadingIndicator message="Loading..." />
+      </div>
+    );
+  }
+
+  if (isProduction && !appIsEnabled) {
+    window.location.replace('/');
+    return null;
+  }
 
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>

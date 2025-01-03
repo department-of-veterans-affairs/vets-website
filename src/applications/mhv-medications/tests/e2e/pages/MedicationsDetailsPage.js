@@ -454,6 +454,20 @@ class MedicationsDetailsPage {
       'Download a text file',
     );
   };
+
+  verifyPreviousPrescriptionsPaginationTextOnDetailsPage = text => {
+    cy.get('[data-testid="grouping-showing-info"]').should('have.text', text);
+  };
+
+  clickNextButtonForPreviousPrescriptionPagination = () => {
+    cy.contains('Next').click({ force: true });
+  };
+
+  verifyPaginationTextIsFocusedAfterClickingNext = text => {
+    cy.get('[data-testid="grouping-showing-info"]')
+      .should('have.text', text)
+      .and('have.focus');
+  };
 }
 
 export default MedicationsDetailsPage;

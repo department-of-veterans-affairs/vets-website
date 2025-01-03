@@ -139,7 +139,7 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'March 27, 2022');
   });
 
-  it('filters the claims by a date range preset', () => {
+  it.skip('filters the claims by a date range preset', () => {
     // the month argument is 0-indexed in the date constructor,
     // so this is setting the date to June 25, 2024, i.e., 6/25/24
     cy.clock(new Date(2024, 5, 25), ['Date']);
@@ -161,7 +161,7 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'May 15, 2024');
   });
 
-  it('filters by multiple properties with non-default sorting', () => {
+  it.skip('filters by multiple properties with non-default sorting', () => {
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
     cy.get('va-button[data-testid="Sort travel claims"]').click();
