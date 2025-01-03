@@ -17,9 +17,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 export const uiSchema = {
   ...titleUI('Your personal information'),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePhone />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
   applicantName: fullNameMiddleInitialUI,
   applicantDOB: dateOfBirthUI({
