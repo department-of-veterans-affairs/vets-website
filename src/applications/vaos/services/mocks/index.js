@@ -255,7 +255,7 @@ const responses = {
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
     } else {
-      const tokens = req.body.reasonCode?.text?.split('|');
+      const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
         if (token.startsWith('reason code:')) {
           reasonForAppointment =
