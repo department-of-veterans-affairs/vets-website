@@ -76,4 +76,13 @@ const DAYS = 120;
     `environments without protection rules older than 120 days: `,
     oldEnvironments.filter(env => env.protection_rules.length === 0).length,
   );
+
+  const environmentsWithProtectionRules = environments.filter(
+    environments.protection_rules.length > 0,
+  );
+
+  console.log(
+    `environments with protection rules: `,
+    environmentsWithProtectionRules,
+  );
 })();
