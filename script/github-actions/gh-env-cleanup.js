@@ -63,7 +63,10 @@ const DAYS = 120;
   const environments = await fetchAllEnvironments(OWNER, REPO);
   const oldEnvironments = filterOldEnvironments(environments, DAYS);
   console.log(`total environments: ${environments.length}`);
-  console.log('nonprod environments:', JSON.stringify(environments, null, 2));
+  console.log(
+    'nonprod environments:',
+    JSON.stringify(environments, null, 2).length,
+  );
   console.log(`environments older than 120 days: `, oldEnvironments.length);
   console.log(
     `nonproduction environments older than 120 days: `,
