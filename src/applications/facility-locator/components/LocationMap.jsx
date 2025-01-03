@@ -1,4 +1,4 @@
-import { mapboxToken } from '../utils/mapboxToken';
+import { mapboxToken } from 'platform/utilities/mapbox';
 import React from 'react';
 import { staticMapURL } from '../utils/mapHelpers';
 

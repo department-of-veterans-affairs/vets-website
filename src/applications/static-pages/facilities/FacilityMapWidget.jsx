@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
+import { mapboxToken } from 'platform/utilities/mapbox';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 

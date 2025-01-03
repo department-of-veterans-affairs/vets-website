@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
+import { getFeaturesFromAddress } from 'platform/utilities/mapbox';
 import { connect, useDispatch } from 'react-redux';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
@@ -10,7 +11,6 @@ import {
   convertMetersToMiles,
   distancesToNearbyVetCenters,
 } from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 import buildFacility from './buildFacility';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;

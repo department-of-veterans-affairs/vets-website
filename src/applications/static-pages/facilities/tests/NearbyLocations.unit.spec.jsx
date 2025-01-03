@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { mockApiRequest } from 'platform/testing/unit/helpers.js';
-import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
+import * as mapboxUtils from 'platform/utilities/mapbox';
 import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import NearByVALocations from '../vet-center/NearByVALocations';
 import VAFacilityInfoSection from '../vet-center/components/VAFacilityInfoSection';

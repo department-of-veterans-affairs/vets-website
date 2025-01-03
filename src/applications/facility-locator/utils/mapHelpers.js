@@ -1,5 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
+import { mapboxClient } from 'platform/utilities/mapbox';
 
 import { BOUNDING_RADIUS } from '../constants';
 

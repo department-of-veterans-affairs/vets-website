@@ -1,5 +1,5 @@
+import { mapboxToken } from 'platform/utilities/mapbox';
 import { MIN_RADIUS, MIN_RADIUS_CCP } from '../constants';
-import { mapboxToken } from './mapboxToken';
 
 function toRadians(value) {
   return (value * Math.PI) / 180;
