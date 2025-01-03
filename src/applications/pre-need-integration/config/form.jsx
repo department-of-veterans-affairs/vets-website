@@ -103,7 +103,7 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
-import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
+import preparerContactDetailsCustom from './pages/preparerContactDetailsSuggestedAddress';
 import preparerAddressConfirmation from './pages/preparerAddressConfirmation';
 
 const {
