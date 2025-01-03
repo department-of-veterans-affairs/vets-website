@@ -44,6 +44,6 @@ export function isCompletingForm0781(formData) {
 export function isRelatedToMST(formData) {
   return (
     isCompletingForm0781(formData) &&
-    formData.mentalHealth.eventTypes.mst === true
+    formData?.mentalHealth?.eventTypes?.mst === true
   );
 }
