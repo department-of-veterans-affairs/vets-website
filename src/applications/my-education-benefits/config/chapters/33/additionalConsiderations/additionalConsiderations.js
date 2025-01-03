@@ -1,14 +1,11 @@
 import React from 'react';
 import ExclusionPeriodsWidget from '../../../../components/ExclusionPeriodsWidget';
+import KickerWidget from '../../../../components/KickerWidget';
 import { formFields } from '../../../../constants';
 import { formPages } from '../../../../helpers';
 
 /**
- * Determines the "Question X of Y" text.
- * If mebKickerNotificationEnabled is true, pages 3-5 are hidden,
- * so only page 1 (active-duty-kicker), page 2 (reserve-kicker),
- * and possibly page 3 (additional-contributions) if chosenBenefit is 'chapter30'.
- * Otherwise, show the legacy 5 pages (+1 if chapter30).
+ * Determines the "Question X of Y" text for Additional Considerations pages.
  */
 function additionalConsiderationsQuestionTitleText(
   order,
@@ -17,27 +14,25 @@ function additionalConsiderationsQuestionTitleText(
   mebKickerNotificationEnabled,
 ) {
   if (mebKickerNotificationEnabled) {
-    // New feature: Only show pages 1-2, plus 3 if chapter30
     const pageOrder = {
       'active-duty-kicker': 1,
       'reserve-kicker': 2,
-      'additional-contributions': 3, // if chapter30
+      'six-hundred-dollar-buy-up': 3,
     };
     const pageNumber = pageOrder[pageName] || order;
     const totalPages = chosenBenefit === 'chapter30' ? 3 : 2;
     return `Question ${pageNumber} of ${totalPages}`;
   }
 
-  // Legacy (flag off): Show pages 1..5, plus 6 if chapter30
-  const pageOrder = {
+  const legacyPageOrder = {
     'active-duty-kicker': 1,
     'reserve-kicker': 2,
     'academy-commission': 3,
     'rotc-commission': 4,
     'loan-payment': 5,
-    'additional-contributions': 6,
+    'six-hundred-dollar-buy-up': 6,
   };
-  const pageNumber = pageOrder[pageName] || order;
+  const pageNumber = legacyPageOrder[pageName] || order;
   const totalPages = chosenBenefit === 'chapter30' ? 6 : 5;
   return `Question ${pageNumber} of ${totalPages}`;
 }
@@ -75,17 +70,12 @@ function additionalConsiderationsQuestionTitle(
 }
 
 /**
- * Template for building each "page" in Additional Considerations.
- * - Displays the question title and radio buttons
- * - Optionally includes an ExclusionPeriodsWidget
- * - Hides pages 3, 4, 5 if mebKickerNotificationEnabled is true
- * - Adds a Kicker Notification alert if kickerNotificationAlert is set
+ * Template function for Additional Considerations "page"
  */
 function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
 
-  // For Academy, ROTC, LRP we may show an ExclusionPeriodsWidget
   const displayTypeMapping = {
     [formFields.federallySponsoredAcademy]: 'Academy',
     [formFields.seniorRotcCommission]: 'ROTC',
@@ -93,13 +83,33 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   };
   const displayType = displayTypeMapping[formField] || '';
 
+  // Prepare the UI snippet that will be displayed on this page
   let additionalInfoView;
-  if (additionalInfo || options.includeExclusionWidget) {
+  if (
+    additionalInfo ||
+    options.includeExclusionWidget ||
+    options.kickerNotificationAlert
+  ) {
     const uiDescription = (
       <>
+        {/* Conditionally render the KickerWidget */}
+        {options.kickerNotificationAlert && (
+          <>
+            {page.name === 'active-duty-kicker' && (
+              <KickerWidget kickerType="activeDuty" />
+            )}
+            {page.name === 'reserve-kicker' && (
+              <KickerWidget kickerType="reserve" />
+            )}
+          </>
+        )}
+
+        {/* Conditionally render the ExclusionPeriodsWidget */}
         {options.includeExclusionWidget && (
           <ExclusionPeriodsWidget displayType={displayType} />
         )}
+
+        {/* Render additional info if available */}
         {additionalInfo && (
           <>
             <br />
@@ -143,54 +153,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       [formFields[formField]]: {
         'ui:title': title,
         'ui:widget': 'radio',
-
-        // Show Kicker Notification if feature flag + user eligibility
-        'ui:description': data => {
-          // If we didn't opt in, skip
-          if (!options.kickerNotificationAlert) {
-            return null;
-          }
-
-          // If the feature flag is off, skip
-          if (!data?.formData?.mebKickerNotificationEnabled) {
-            return null;
-          }
-
-          // Access the eligibility booleans from formData
-          const { eligibleForActiveDutyKicker, eligibleForReserveKicker } =
-            data?.formData || {};
-
-          // If this is "active-duty-kicker" and they're eligible, show the AD kicker alert
-          if (
-            page.name === 'active-duty-kicker' &&
-            eligibleForActiveDutyKicker
-          ) {
-            return (
-              <va-alert visible status="info">
-                <h3 slot="headline">
-                  DoD data shows you are potentially eligible for an active duty
-                  kicker
-                </h3>
-                <p>If this is incorrect, please change your answer below.</p>
-              </va-alert>
-            );
-          }
-
-          // If this is "reserve-kicker" and they're eligible, show the Reserve kicker alert
-          if (page.name === 'reserve-kicker' && eligibleForReserveKicker) {
-            return (
-              <va-alert visible status="info">
-                <h3 slot="headline">
-                  DoD data shows you are potentially eligible for a reserve
-                  kicker
-                </h3>
-                <p>If this is incorrect, please change your answer below.</p>
-              </va-alert>
-            );
-          }
-
-          return null;
-        },
       },
       ...additionalInfoView,
     },
@@ -212,10 +174,7 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
 }
 
 /**
- * Export the Additional Considerations config object with each page defined.
- * - Pages 1 & 2 always show, plus the new kicker alert if flagged & user is eligible
- * - Pages 3,4,5 are hidden if mebKickerNotificationEnabled is true (to preserve legacy behavior)
- * - Page 6 ($600 buy-up) shows only if chosenBenefit === 'chapter30'
+ * Final export: Additional Considerations config object
  */
 const additionalConsiderations33 = {
   // 1) Active Duty Kicker
@@ -243,7 +202,6 @@ const additionalConsiderations33 = {
       formFields.federallySponsoredAcademy,
       { includeExclusionWidget: true },
     ),
-    // Hide if mebKickerNotificationEnabled is true
     depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
@@ -254,7 +212,6 @@ const additionalConsiderations33 = {
       formFields.seniorRotcCommission,
       { includeExclusionWidget: true },
     ),
-    // Hide if mebKickerNotificationEnabled is true
     depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
@@ -265,11 +222,10 @@ const additionalConsiderations33 = {
       formFields.loanPayment,
       { includeExclusionWidget: true },
     ),
-    // Hide if mebKickerNotificationEnabled is true
     depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
-  // 6) $600 Buy-Up
+  // 6) $600 Buy-Up (chapter30)
   [formPages.additionalConsiderations.sixHundredDollarBuyUp.name]: {
     ...AdditionalConsiderationTemplate(
       formPages.additionalConsiderations.sixHundredDollarBuyUp,
