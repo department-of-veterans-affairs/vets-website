@@ -140,12 +140,14 @@ export const getFormName = formData => {
   return "Appointment of Individual As Claimant's Representative";
 };
 
-export const isVSORepresentative = formData => {
-  const rep = formData['view:selectedRepresentative'];
-
-  if (rep.attributes?.accreditedOrganizations?.data?.length > 0) {
+/**
+ * Takes rep object (rather than form object)
+ */
+export const isVSORepresentative = rep => {
+  if (rep?.attributes?.accreditedOrganizations?.data?.length > 0) {
     return true;
   }
+
   return false;
 };
 
