@@ -201,6 +201,7 @@ const Autocomplete = ({
           data-testid="autocomplete-list"
           role="listbox"
           tabIndex={-1}
+          aria-label="List of matching conditions"
         >
           {results.map((result, index) => (
             <li

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { Link, useLoaderData } from 'react-router-dom';
@@ -240,10 +239,6 @@ const POARequestDetailsPage = () => {
       </form>
     </section>
   );
-};
-
-POARequestDetailsPage.propTypes = {
-  usePOARequests: PropTypes.func.isRequired,
 };
 
 export default POARequestDetailsPage;

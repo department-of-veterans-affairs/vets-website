@@ -548,19 +548,6 @@ export const determineAirForceAFRBAPortal = formResponses =>
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
 
-// Determines step header level.
-export const stepHeaderLevel = formResponses => {
-  if (
-    [
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
-    ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
-  ) {
-    return 3;
-  }
-  return 2;
-};
-
 export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![

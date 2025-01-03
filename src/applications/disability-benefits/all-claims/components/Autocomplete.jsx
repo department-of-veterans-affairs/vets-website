@@ -223,6 +223,7 @@ const Autocomplete = ({
           ref={listRef}
           role="listbox"
           tabIndex={-1}
+          aria-label="List of matching conditions"
         >
           {results.map((result, index) => (
             <li
