@@ -206,16 +206,15 @@ export default function InstitutionProfile({
             id="yellow-ribbon-program-information"
           >
             <p>
-              The Yellow Ribbon program can be paid towards net tuition and fee
-              costs not covered by the Post-9/11 GI Bill at participating
-              institutions of higher learning (IHL). Schools that choose to
-              participate in the Yellow Ribbon program will contribute up to a
-              certain dollar amount toward the extra tuition. VA will match the
-              participating school’s contribution
+              The Yellow Ribbon program pays towards net tuition and fee costs
+              not covered by the Post-9/11 GI Bill at participating institutions
+              of higher learning (IHL). Schools that choose to participate in
+              the Yellow Ribbon program will contribute up to a certain dollar
+              amount toward the extra tuition. VA will match the participating
+              school’s contribution{' '}
               {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
-              to the total cost of the tuition and fees. Please contact the
-              individual school to validate the number of students remaining to
-              receive funding.
+              to the total cost of the tuition and fees. To confirm the number
+              of students eligible for funding, contact the individual school.
             </p>
             <va-link
               href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
@@ -232,22 +231,22 @@ export default function InstitutionProfile({
 
               <ul className="getting-started-with-benefits-li">
                 <li>
-                  Degree level: Type of degree such as Undergraduate, Graduate,
-                  Masters, or Doctorate.
+                  <strong>Degree level:</strong> type of degree such as
+                  Undergraduate, Graduate, Masters, or Doctorate.
                 </li>
                 <li>
-                  College or professional school: A school within a college or
-                  university that has a specialized professional or academic
-                  focus.
+                  <strong>College or professional school:</strong> a school
+                  within a college or university that has a specialized
+                  professional or academic focus.
                 </li>
                 <li>
-                  Funding available: Total number of students eligible to
-                  receive funding.
+                  <strong>Funding available:</strong> total number of students
+                  eligible to receive funding.
                 </li>
                 <li>
-                  School contribution: Maximum amount the IHL will contribute
-                  per student each academic year toward unmet tuition and fee
-                  costs.
+                  <strong> School contribution: </strong> maximum amount the IHL
+                  will contribute per student each academic year toward unmet
+                  tuition and fee costs.
                 </li>
               </ul>
             </div>
