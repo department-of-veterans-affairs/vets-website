@@ -27,6 +27,20 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+              
+    
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
       
       # - name: Fetch all Environments
       #   run: |
@@ -67,4 +81,4 @@ jobs:
         if: ${{ always() }}
         run: node script/github-actions/gh-env-cleanup.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
