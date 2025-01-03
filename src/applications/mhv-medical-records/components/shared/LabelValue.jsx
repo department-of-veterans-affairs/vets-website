@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Section from './Section';
+import HeaderSection from './HeaderSection';
 
 const LabelValue = ({
   label,
@@ -18,7 +18,7 @@ const LabelValue = ({
   }
 
   return (
-    <Section header={label} className={headerClass}>
+    <HeaderSection header={label} className={headerClass}>
       <p
         style={{ whiteSpace: 'pre-line' }}
         className={`vads-u-margin-y--0 ${
@@ -30,7 +30,7 @@ const LabelValue = ({
       >
         {displayValue}
       </p>
-    </Section>
+    </HeaderSection>
   );
 };
 

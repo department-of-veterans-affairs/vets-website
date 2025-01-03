@@ -33,7 +33,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import Section from '../components/shared/Section';
+import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 const VaccineDetails = props => {
@@ -131,7 +131,7 @@ Location: ${record.location}\n`;
         <>
           <PrintHeader />
 
-          <Section
+          <HeaderSection
             header={`Vaccines: ${record.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
@@ -168,7 +168,7 @@ Location: ${record.location}\n`;
                 value={record.reactions}
               /> */}
             </div>
-          </Section>
+          </HeaderSection>
         </>
       );
     }

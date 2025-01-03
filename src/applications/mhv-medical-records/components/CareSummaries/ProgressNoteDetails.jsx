@@ -28,7 +28,7 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import Section from '../shared/Section';
+import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 
 const ProgressNoteDetails = props => {
@@ -95,7 +95,7 @@ ${record.note}`;
       data-dd-privacy="mask"
     >
       <PrintHeader />
-      <Section
+      <HeaderSection
         header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
@@ -122,7 +122,7 @@ ${record.note}`;
         />
 
         <div className="test-details-container max-80">
-          <Section header="Details">
+          <HeaderSection header="Details">
             <LabelValue
               label="Location"
               value={record.location}
@@ -147,7 +147,7 @@ ${record.note}`;
               testId="progress-signed-date"
               actionName="[progress note - date signed]"
             />
-          </Section>
+          </HeaderSection>
         </div>
         <div className="test-results-container">
           <LabelValue
@@ -159,7 +159,7 @@ ${record.note}`;
             monospace
           />
         </div>
-      </Section>
+      </HeaderSection>
     </div>
   );
 };

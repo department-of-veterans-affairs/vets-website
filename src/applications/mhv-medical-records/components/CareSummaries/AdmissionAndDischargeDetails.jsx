@@ -28,7 +28,7 @@ import {
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import Section from '../shared/Section';
+import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 
 const AdmissionAndDischargeDetails = props => {
@@ -114,7 +114,7 @@ ${record.summary}`;
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
 
-      <Section
+      <HeaderSection
         header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
@@ -142,7 +142,7 @@ ${record.summary}`;
         />
 
         <div className="test-details-container max-80">
-          <Section header="Details">
+          <HeaderSection header="Details">
             <LabelValue
               label="Location"
               value={record.location}
@@ -173,7 +173,7 @@ ${record.summary}`;
               testId="note-discharged-by"
               actionName="[admission discharge summary - discharged by]"
             />
-          </Section>
+          </HeaderSection>
         </div>
 
         <div className="test-results-container">
@@ -186,7 +186,7 @@ ${record.summary}`;
             monospace
           />
         </div>
-      </Section>
+      </HeaderSection>
     </div>
   );
 };

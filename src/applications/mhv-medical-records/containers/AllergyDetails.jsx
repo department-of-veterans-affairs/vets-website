@@ -34,7 +34,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import Section from '../components/shared/Section';
+import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
@@ -175,7 +175,7 @@ Provider notes: ${allergyData.notes} \n`;
         <>
           <PrintHeader />
 
-          <Section
+          <HeaderSection
             header={`Allergies and reactions: ${allergyData.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
@@ -241,7 +241,7 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
-          </Section>
+          </HeaderSection>
         </>
       );
     }

@@ -38,7 +38,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import Section from '../components/shared/Section';
+import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 const ConditionDetails = props => {
@@ -142,7 +142,7 @@ Provider Notes: ${processList(record.comments)}\n`;
       return (
         <>
           <PrintHeader />
-          <Section
+          <HeaderSection
             header={`Health conditions: ${record.name}`}
             className="vads-u-margin-bottom--0"
             aria-describedby="condition-date"
@@ -202,7 +202,7 @@ Provider Notes: ${processList(record.comments)}\n`;
                 </LabelValue>
               )}
             </div>
-          </Section>
+          </HeaderSection>
         </>
       );
     }

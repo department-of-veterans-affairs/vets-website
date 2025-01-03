@@ -50,7 +50,7 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
-import Section from '../components/shared/Section';
+import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
@@ -257,7 +257,7 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <Section
+        <HeaderSection
           header={vitalDisplayName}
           className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
@@ -293,7 +293,7 @@ Provider notes: ${vital.notes}\n\n`,
             allowTxtDownloads={allowTxtDownloads}
           />
 
-          <Section
+          <HeaderSection
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
               records.length
             } records from newest to oldest`}
@@ -309,7 +309,7 @@ Provider notes: ${vital.notes}\n\n`,
                     key={idx}
                     className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
                   >
-                    <Section
+                    <HeaderSection
                       header={
                         isAcceleratingVitals
                           ? formatDateInLocalTimezone(vital.effectiveDateTime)
@@ -338,12 +338,12 @@ Provider notes: ${vital.notes}\n\n`,
                         testId="vital-provider-note"
                         actionName="[vitals detail - note]"
                       />
-                    </Section>
+                    </HeaderSection>
                   </li>
                 ))}
             </ul>
-          </Section>
-        </Section>
+          </HeaderSection>
+        </HeaderSection>
 
         <div className="vads-u-margin-bottom--2 no-print">
           <VaPagination
