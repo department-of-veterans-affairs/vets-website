@@ -7,7 +7,6 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
-import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(
@@ -15,13 +14,7 @@ export const uiSchema = {
     'We’ll send any important information about your form to this address.',
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote
-        includeLink
-        includePrefix
-        preparerIsVeteran={preparerIsVeteran({ formData })}
-      />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includeLink includePrefix />,
   },
   veteranHomeAddress: addressUI({
     labels: {
