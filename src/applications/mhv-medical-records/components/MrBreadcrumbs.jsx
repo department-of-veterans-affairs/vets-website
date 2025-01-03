@@ -29,7 +29,7 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(window.location.search);
   const page = searchIndex.get('page');
-  const { labId } = useParams();
+  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
   useEffect(
     () => {
@@ -82,6 +82,11 @@ const MrBreadcrumbs = () => {
     ? crumbsList[crumbsList.length - 1].href
     : `/${locationBasePath}`;
 
+  const backToAllergiesBreadcrumb = () =>
+    location.pathname.includes(`/allergies/${allergyId}`)
+      ? history.goBack()
+      : `/${locationBasePath}`;
+
   if (!phase0p5Flag) {
     // TODO: !crumbsList will always be truthy due to the useEffect above
     // This should logic should be looked at and refactored when we deprecate the feature toggle
@@ -111,21 +116,28 @@ const MrBreadcrumbs = () => {
 
   if (
     phase0p5Flag &&
-    location.pathname.includes(`/${locationBasePath}/${labId}`)
+    location.pathname.includes(
+      `/${locationBasePath}/${labId ||
+        vaccineId ||
+        summaryId ||
+        allergyId ||
+        conditionId}`,
+    )
   ) {
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
         label="Breadcrumb"
-        data-testid="lab-id-breadcrumbs"
+        data-testid="mr-breadcrumbs"
       >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
           to={backToImagesBreadcrumb}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
           }}
         >
           Back

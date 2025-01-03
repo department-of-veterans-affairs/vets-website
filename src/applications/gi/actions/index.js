@@ -102,8 +102,9 @@ export const fetchNationalExams = type => {
 };
 
 export const fetchInstitutionPrograms = (facilityCode, programType) => {
-  const url = `https://dev-api.va.gov/v0/gi/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
-
+  const url = `${
+    apiV0.url
+  }/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
   return async dispatch => {
     dispatch({ type: FETCH_INSTITUTION_PROGRAMS_STARTED });
 
