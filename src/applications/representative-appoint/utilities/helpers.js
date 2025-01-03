@@ -149,14 +149,10 @@ export const isVSORepresentative = formData => {
   return false;
 };
 
-export const isAttorneyOrClaimsAgent = formData => {
-  const repType =
-    formData['view:selectedRepresentative']?.attributes?.individualType;
-
-  return ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
-    repType,
-  );
-};
+export const isAttorneyOrClaimsAgent = formData =>
+  ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
+    formData?.['view:selectedRepresentative']?.attributes?.individualType,
+  ) || null;
 
 const isOrg = formData =>
   formData['view:selectedRepresentative']?.type === 'organization';
