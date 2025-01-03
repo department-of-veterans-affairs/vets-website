@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
-/* eslint-disable no-plusplus */
 /* eslint-disable camelcase */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable consistent-return */
-
 const { Octokit } = require('@octokit/rest');
 
 const octokit = new Octokit({
@@ -18,7 +16,6 @@ const fetchAllEnvironments = async (owner, repo) => {
     while (true) {
       console.log(`Fetching page ${page}...`);
 
-      // Fetch environments for the current page
       const { data } = await octokit.request(
         'GET /repos/{owner}/{repo}/environments',
         {
@@ -29,15 +26,13 @@ const fetchAllEnvironments = async (owner, repo) => {
         },
       );
 
-      // Append to environments array
       environments = environments.concat(data.environments);
 
-      // If no more environments, exit the loop
       if (data.environments.length === 0) {
         break;
       }
 
-      page++;
+      page += 1;
     }
 
     return environments;
@@ -55,34 +50,37 @@ const filterOldEnvironments = (environments, days) => {
   });
 };
 
+// const deleteEnvironment = async (owner, repo, environment) => {
+//   try {
+//     await octokit.request(
+//       'DELETE /repos/{owner}/{repo}/environments/{environment_name}',
+//       {
+//         owner,
+//         repo,
+//         environment_name: environment.name,
+//       },
+//     );
+//     console.log(`Successfully deleted environment: ${environmentName}`);
+//   } catch (error) {
+//     console.error(`Error deleting environment ${environmentName}:`, error);
+//   }
+// };
+
 // Replace with your repository owner and name
 const OWNER = 'department-of-veterans-affairs';
 const REPO = 'vets-website';
 const DAYS = 90;
+
 (async () => {
   const environments = await fetchAllEnvironments(OWNER, REPO);
-  const oldEnvironments = filterOldEnvironments(environments, DAYS);
-  console.log(`total environments: ${environments.length}`);
-  console.log(
-    'nonprod environments:',
-    environments.filter(env => env.name !== 'production').length,
-  );
-  console.log(`environments older than 120 days: `, oldEnvironments.length);
-  console.log(
-    `nonproduction environments older than 120 days: `,
-    oldEnvironments.filter(env => env.name !== 'production').length,
-  );
-  console.log(
-    `environments without protection rules older than 120 days: `,
-    oldEnvironments.filter(env => env.protection_rules.length === 0).length,
+  const oldEnvironments = await filterOldEnvironments(environments, DAYS);
+
+  const oldEnvironmentsWithoutProtectionRules = oldEnvironments.filter(
+    env => env.protection_rules.length === 0,
   );
 
-  const environmentsWithProtectionRules = environments.filter(
-    env => env.protection_rules.length > 0,
-  );
-
-  console.log(
-    `environments with protection rules: `,
-    environmentsWithProtectionRules,
-  );
+  for (const environment of oldEnvironmentsWithoutProtectionRules) {
+    // await deleteEnvironment(OWNER, REPO, environment);
+    console.log('deleting environment: ', environment.name);
+  }
 })();
