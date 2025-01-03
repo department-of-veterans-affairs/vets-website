@@ -1197,7 +1197,8 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1219,7 +1220,8 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance upload`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
