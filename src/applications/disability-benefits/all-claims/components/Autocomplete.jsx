@@ -9,6 +9,24 @@ const INSTRUCTIONS =
 
 const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
+const isElementVisibleOnPage = element => {
+  const { top, bottom, left, right } = element?.getBoundingClientRect();
+
+  return (
+    top >= 0 &&
+    left >= 0 &&
+    bottom <= window.innerHeight &&
+    right <= window.innerWidth
+  );
+};
+
+const isElementVisibleInContainer = (element, container) => {
+  const { top, bottom } = element?.getBoundingClientRect();
+  const containerRect = container?.getBoundingClientRect();
+
+  return top >= containerRect.top && bottom <= containerRect.bottom;
+};
+
 const Autocomplete = ({
   availableResults,
   debounceDelay,
@@ -25,6 +43,7 @@ const Autocomplete = ({
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+  const listRef = useRef(null);
   const resultsRef = useRef([]);
 
   // Delays screen reader result count reading to avoid interruption by input content reading
@@ -38,6 +57,14 @@ const Autocomplete = ({
     }, 700),
   ).current;
 
+  const ensureListIsVisibleOnPage = () => {
+    const labelElement = inputRef.current.shadowRoot.querySelector('label');
+
+    if (listRef.current && !isElementVisibleOnPage(listRef.current)) {
+      labelElement?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  };
+
   const debouncedSearch = useRef(
     debounce(async inputValue => {
       const freeTextResult = createFreeTextItem(inputValue);
@@ -50,6 +77,7 @@ const Autocomplete = ({
       setActiveIndex(0);
 
       debouncedSetAriaLiveText(updatedResults.length, inputValue);
+      ensureListIsVisibleOnPage();
     }, debounceDelay),
   ).current;
 
@@ -76,20 +104,12 @@ const Autocomplete = ({
     debouncedSearch(inputValue);
   };
 
-  const isElementVisible = (element, container) => {
-    const { top, bottom } = element?.getBoundingClientRect();
-    const containerRect = container?.getBoundingClientRect();
-
-    return top >= containerRect.top && bottom <= containerRect.bottom;
-  };
-
   const activateScrollToAndFocus = index => {
     setActiveIndex(index);
 
     const activeResult = resultsRef.current[index];
-    const container = activeResult?.parentNode;
 
-    if (!isElementVisible(activeResult, container)) {
+    if (!isElementVisibleInContainer(activeResult, listRef.current)) {
       activeResult?.scrollIntoView({
         block: 'nearest',
       });
@@ -171,9 +191,7 @@ const Autocomplete = ({
       debouncedSearch(value);
     }
 
-    const labelElement = inputRef.current.shadowRoot.querySelector('label');
-
-    labelElement.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    ensureListIsVisibleOnPage();
   };
 
   const handleMouseEnter = index => {
@@ -204,6 +222,7 @@ const Autocomplete = ({
           aria-activedescendant={`option-${activeIndex}`}
           className="cc-autocomplete__list"
           data-testid="autocomplete-list"
+          ref={listRef}
           role="listbox"
           tabIndex={-1}
         >
