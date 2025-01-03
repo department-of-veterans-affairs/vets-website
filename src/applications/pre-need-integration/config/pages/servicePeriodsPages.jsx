@@ -32,7 +32,7 @@ const options = {
       return item?.serviceBranch ? serviceLabels[item.serviceBranch] : null;
     },
     alertMaxItems: () =>
-      'You have added the maximum number of allowed service periods for this application. You may edit or delete a service period or choose to continue in the application.',
+      'You have added the maximum number of allowed service periods for this application. You may edit or delete a service period or choose to continue the application.',
     cardDescription: item => {
       const dateRangeFrom = item?.dateRange?.from;
       const dateRangeTo = item?.dateRange?.to;
