@@ -78,3 +78,9 @@ export const onCloseAlert = e => {
 export const getMockData = (mockData, isLocalhost) => {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 };
+
+export const formattedPhoneNumber = phoneNumber => {
+  const digits = phoneNumber.replaceAll('-', '');
+  // Formats the phone number to look like this: (123) 456-7890
+  return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+};
