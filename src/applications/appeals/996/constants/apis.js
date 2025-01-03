@@ -19,10 +19,3 @@ export const CONTESTABLE_ISSUES_API_NEW =
   '/decision_reviews/v1/higher_level_reviews/contestable_issues';
 
 export const SUBMIT_URL_NEW = '/decision_reviews/v2/higher_level_reviews';
-
-/**
- *
- *
- *
- * http://localhost:3000/v1/higher_level_reviews/contestable_issues/compensation
- */
