@@ -288,7 +288,7 @@ export const nonVeteranApplicantDetailsDescriptionPreparer =
 export const applicantContactInfoAddressTitle = 'Your mailing address';
 
 export const applicantContactInfoPreparerAddressTitle =
-  'Applicant’s mailing address';
+  'Applicant mailing address';
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">

@@ -357,6 +357,9 @@ export function uiSchema(
     street: {
       'ui:title': 'Street',
       'ui:autocomplete': 'address-line1',
+      'ui:errorMessages': {
+        required: 'Enter a street address',
+      },
     },
     street2: {
       'ui:title': 'Line 2',
@@ -369,12 +372,49 @@ export function uiSchema(
     city: {
       'ui:title': 'City',
       'ui:autocomplete': 'address-level2',
+      'ui:errorMessages': {
+        required: 'Enter a city',
+      },
+    },
+    state: {
+      'ui:errorMessages': {
+        enum: 'Select a state or territory',
+        required: 'Select a state or territory',
+      },
     },
     postalCode: {
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+        replaceSchema: (formData, _schema, _uiSchema, index, path) => {
+          const addressPath = path.slice(0, -1);
+          const data = get(addressPath, formData) ?? {};
+          const { country } = data;
+          const addressSchema = _schema;
+          const addressUiSchema = _uiSchema;
+
+          // country-specific error messages
+          if (country === 'USA') {
+            addressUiSchema['ui:errorMessages'] = {
+              required: 'Enter a valid 5- or 9-digit zip code',
+            };
+          } else if (['CAN', 'MEX'].includes(country) || !country) {
+            addressUiSchema['ui:errorMessages'] = {
+              required: 'Enter a postal code',
+            };
+          } else {
+            // no pattern validation for other countries
+            addressUiSchema['ui:errorMessages'] = {
+              required:
+                'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter N/A.',
+            };
+          }
+
+          return {
+            ...addressSchema,
+          };
+        },
       },
     },
   };

@@ -2,6 +2,7 @@ import React from 'react';
 import { merge } from 'lodash';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
+import get from 'platform/utilities/data/get';
 
 import * as address from '../../definitions/address';
 
@@ -63,6 +64,36 @@ export const uiSchema = {
             'ui:required': isAuthorizedAgent,
             'ui:errorMessages': {
               required: 'Enter a postal code',
+            },
+            'ui:options': {
+              replaceSchema: (formData, _schema, _uiSchema, index, path) => {
+                const addressPath = path.slice(0, -1);
+                const data = get(addressPath, formData) ?? {};
+                const { country } = data;
+                const addressSchema = _schema;
+                const addressUiSchema = _uiSchema;
+
+                // country-specific error messages
+                if (country === 'USA') {
+                  addressUiSchema['ui:errorMessages'] = {
+                    required: 'Enter a valid 5- or 9-digit zip code',
+                  };
+                } else if (['CAN', 'MEX'].includes(country) || !country) {
+                  addressUiSchema['ui:errorMessages'] = {
+                    required: 'Enter a postal code',
+                  };
+                } else {
+                  // no pattern validation for other countries
+                  addressUiSchema['ui:errorMessages'] = {
+                    required:
+                      'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter N/A.',
+                  };
+                }
+
+                return {
+                  ...addressSchema,
+                };
+              },
             },
           },
         }),
