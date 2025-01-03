@@ -6,20 +6,23 @@
 export const NEW_API = 'decisionReviewHlrNewApi';
 
 // Not shown is the `{benefit_type}` suffix
-export const CONTESTABLE_ISSUES_API = [
-  'v1',
-  '/higher_level_reviews/contestable_issues',
-];
+export const CONTESTABLE_ISSUES_API =
+  '/v1/higher_level_reviews/contestable_issues';
 
-export const SUBMIT_URL = ['v2', '/higher_level_reviews'];
+export const SUBMIT_URL = '/v2/higher_level_reviews';
 
 /**
  * New modularized API behind feature toggle: decision_review_sc_new_api
  * The endpoint will be the same until the backend has completed modularization
  */
-export const CONTESTABLE_ISSUES_API_NEW = [
-  'v1',
-  '/higher_level_reviews/contestable_issues',
-];
+export const CONTESTABLE_ISSUES_API_NEW =
+  '/decision_reviews/v1/higher_level_reviews/contestable_issues';
 
-export const SUBMIT_URL_NEW = ['v3', '/higher_level_reviews'];
+export const SUBMIT_URL_NEW = '/decision_reviews/v2/higher_level_reviews';
+
+/**
+ *
+ *
+ *
+ * http://localhost:3000/v1/higher_level_reviews/contestable_issues/compensation
+ */

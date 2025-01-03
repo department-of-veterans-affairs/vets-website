@@ -160,9 +160,7 @@ describe('Form0996App', () => {
     );
 
     await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain(
-        CONTESTABLE_ISSUES_API.join(''),
-      );
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
       resetFetch();
     });
   });

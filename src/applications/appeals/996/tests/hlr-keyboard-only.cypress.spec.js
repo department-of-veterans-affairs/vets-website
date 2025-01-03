@@ -29,7 +29,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
-      cy.intercept('GET', `/${CONTESTABLE_ISSUES_API.join('')}/compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(

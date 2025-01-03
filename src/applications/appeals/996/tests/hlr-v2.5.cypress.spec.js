@@ -134,13 +134,9 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
-        cy.intercept(
-          'GET',
-          `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
-          {
-            data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-          },
-        ).as('getIssues');
+        cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
+          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
+        }).as('getIssues');
         cy.intercept('GET', '/v0/feature_toggles*', {
           data: {
             type: 'feature_toggles',

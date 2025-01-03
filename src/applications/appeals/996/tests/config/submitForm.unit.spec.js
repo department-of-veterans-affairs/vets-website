@@ -56,13 +56,13 @@ describe('submitForm', () => {
 
   it('should use v2 endpoint with v2 data', done => {
     submitForm(maximalTestV2, formConfig);
-    expect(requests[0].url).to.contain(SUBMIT_URL.join(''));
+    expect(requests[0].url).to.contain(SUBMIT_URL);
     done();
   });
 
   it('should use v2 endpoint with v3 data', done => {
     submitForm(maximalTestV25, formConfig);
-    expect(requests[0].url).to.contain(SUBMIT_URL_NEW.join(''));
+    expect(requests[0].url).to.contain(SUBMIT_URL_NEW);
     done();
   });
 });

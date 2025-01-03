@@ -69,7 +69,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `/${SUBMIT_URL.join('')}`,
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {

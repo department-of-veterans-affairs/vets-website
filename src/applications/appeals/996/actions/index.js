@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
 import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
@@ -33,11 +34,11 @@ export const getContestableIssues = props => {
       );
     }
 
-    const [apiVersion, baseApi] = newApi
-      ? CONTESTABLE_ISSUES_API_NEW
-      : CONTESTABLE_ISSUES_API;
+    const apiUrl = `${environment.API_URL}${
+      newApi ? CONTESTABLE_ISSUES_API_NEW : CONTESTABLE_ISSUES_API
+    }/${benefitType}`;
 
-    return apiRequest(`${baseApi}/${benefitType}`, { apiVersion })
+    return apiRequest(apiUrl)
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,

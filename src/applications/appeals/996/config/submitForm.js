@@ -26,11 +26,8 @@ const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
 
-  // TODO: hlrUpdatedContent is now at 100% - remove feature toggle code
-  // const version = form.data.hlrUpdatedContent ? 'v2' : 'v1';
-
   const url = `${environment.API_URL}${
-    form.data[NEW_API] ? `/${SUBMIT_URL_NEW.join('')}` : submitUrl
+    form.data[NEW_API] ? SUBMIT_URL_NEW : submitUrl
   }`;
 
   // eventData for analytics

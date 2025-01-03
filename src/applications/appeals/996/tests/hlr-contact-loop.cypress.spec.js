@@ -26,11 +26,9 @@ describe('HLR contact info loop', () => {
     window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
 
-    cy.intercept(
-      'GET',
-      `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
-      [],
-    ).as('getIssues');
+    cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, []).as(
+      'getIssues',
+    );
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
