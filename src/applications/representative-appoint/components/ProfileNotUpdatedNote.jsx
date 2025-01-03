@@ -7,11 +7,18 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { isLoggedIn } from 'platform/user/selectors';
 
 function ProfileNotUpdatedNote(props) {
-  const { loggedIn, includePrefix, includeLink, includePhone } = props;
+  const {
+    includeLink,
+    includePhone,
+    includePrefix,
+    loggedIn,
+    preparerIsVeteran,
+  } = props;
+  const isLoggedInVeteran = loggedIn && preparerIsVeteran;
 
   return (
     <>
-      {loggedIn && (
+      {isLoggedInVeteran && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
@@ -45,11 +52,11 @@ function ProfileNotUpdatedNote(props) {
 }
 
 ProfileNotUpdatedNote.propTypes = {
-  formData: PropTypes.object,
   includeLink: PropTypes.bool,
   includePhone: PropTypes.bool,
   includePrefix: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  preparerIsVeteran: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
