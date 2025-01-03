@@ -1,11 +1,13 @@
 const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
-const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+// const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const travelClaims = require('./travel-claims-31.json');
+const user = require('./user');
 
 const responses = {
-  ...commonResponses,
+  // ...commonResponses,
+  'GET /v0/user': user,
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
