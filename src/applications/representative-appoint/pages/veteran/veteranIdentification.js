@@ -34,8 +34,8 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': formData => (
       <ProfileNotUpdatedNote
-        includePrefix
         includePhone
+        includePrefix
         preparerIsVeteran={preparerIsVeteran({ formData })}
       />
     ),

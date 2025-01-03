@@ -14,8 +14,8 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': formData => (
       <ProfileNotUpdatedNote
-        includePrefix
         includeLink
+        includePrefix
         preparerIsVeteran={preparerIsVeteran({ formData })}
       />
     ),
