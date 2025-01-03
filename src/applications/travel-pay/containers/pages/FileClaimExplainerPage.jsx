@@ -2,10 +2,11 @@ import React from 'react';
 
 const FileClaimExplainerPage = () => {
   return (
-    <div>
-      <h1>How to file a claim</h1>
-      <p>A generic how-to. Content/design TBD</p>
-    </div>
+    <article className="usa-grid-full vads-u-margin-y--3">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <h1>How to file a claim</h1>
+      </div>
+    </article>
   );
 };
 
