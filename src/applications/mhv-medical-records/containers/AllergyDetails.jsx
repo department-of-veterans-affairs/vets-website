@@ -176,7 +176,6 @@ Provider notes: ${allergyData.notes} \n`;
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
           >
-            Allergies and reactions:{' '}
             <span data-dd-privacy="mask" data-dd-action-name="[allergy name]">
               {allergyData.name}
             </span>
@@ -200,29 +199,31 @@ Provider notes: ${allergyData.notes} \n`;
             className="max-80 vads-u-margin-top--4"
             data-testid="allergy-reaction"
           >
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Signs and symptoms
             </h2>
             <ItemList list={allergyData.reaction} />
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Type of allergy
             </h2>
             <p
               data-dd-privacy="mask"
               data-dd-action-name="[allergy type]"
               data-testid="allergy-type"
+              className="vads-u-margin-top--0"
             >
               {allergyData.type}
             </p>
             {!allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
                   Location
                 </h2>
                 <p
                   data-dd-privacy="mask"
                   data-dd-action-name="[allergy location]"
                   data-testid="allergy-location"
+                  className="vads-u-margin-top--0"
                 >
                   {allergyData.location}
                 </p>
@@ -230,13 +231,14 @@ Provider notes: ${allergyData.notes} \n`;
             )}
             {!allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
                   Observed or historical
                 </h2>
                 <p
                   data-dd-privacy="mask"
                   data-dd-action-name="[allergy observed]"
                   data-testid="allergy-observed"
+                  className="vads-u-margin-top--0"
                 >
                   {allergyData.observedOrReported}
                 </p>
@@ -244,19 +246,20 @@ Provider notes: ${allergyData.notes} \n`;
             )}
             {allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
                   Recorded by
                 </h2>
                 <p
                   data-dd-privacy="mask"
                   data-dd-action-name="[allergy recorded by]"
                   data-testid="allergy-observed"
+                  className="vads-u-margin-top--0"
                 >
                   {allergyData.provider}
                 </p>
               </>
             )}
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Provider notes
             </h2>
             <p
@@ -264,6 +267,7 @@ Provider notes: ${allergyData.notes} \n`;
               data-testid="allergy-notes"
               style={{ whiteSpace: 'pre-line' }}
               data-dd-action-name="[allergy provider notes]"
+              className="vads-u-margin-top--0"
             >
               {allergyData.notes}
             </p>
