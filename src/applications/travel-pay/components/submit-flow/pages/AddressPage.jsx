@@ -1,7 +1,8 @@
 import React from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AddressPage = ({ handlers }) => {
+const AddressPage = props => {
+  const { handlers } = props;
   return (
     <div>
       <h1>Address page</h1>

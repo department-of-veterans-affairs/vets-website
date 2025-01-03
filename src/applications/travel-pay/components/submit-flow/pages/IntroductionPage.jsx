@@ -1,6 +1,7 @@
 import React from 'react';
 
-const IntroductionPage = ({ onNext }) => {
+const IntroductionPage = props => {
+  const { onNext } = props;
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>

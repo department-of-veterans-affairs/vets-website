@@ -1,6 +1,7 @@
 import React from 'react';
 
-const ReviewPage = ({ handlers }) => {
+const ReviewPage = props => {
+  const { handlers } = props;
   return (
     <>
       <div>

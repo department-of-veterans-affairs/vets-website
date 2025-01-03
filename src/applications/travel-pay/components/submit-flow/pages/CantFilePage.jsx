@@ -1,6 +1,7 @@
 import React from 'react';
 
-const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
+const CantFilePage = props => {
+  const { pageIndex, setPageIndex, setCantFile } = props;
   const onBack = e => {
     e.preventDefault();
     setCantFile(false);
