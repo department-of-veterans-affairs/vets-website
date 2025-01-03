@@ -1,4 +1,4 @@
-import { nameWording as sharedNameWording } from '../../shared/utilities';
+import { nameWording } from '../../shared/utilities';
 
 export function isRequiredFile(formContext, requiredFiles) {
   return Object.keys(formContext?.schema?.properties || {}).filter(v =>
@@ -8,19 +8,16 @@ export function isRequiredFile(formContext, requiredFiles) {
     : '(Optional)';
 }
 
-// Return either 'your' or the applicant's name depending
-export function nameWording(
-  formData,
-  isPosessive = true,
-  cap = true,
-  firstNameOnly = false,
-) {
-  // Moved contents of this function to shared utilities file,
-  // leaving this stub in place so existing imports still work.
-  // TODO: update all imports of nameWording to point directly to shared
-  return sharedNameWording(formData, isPosessive, cap, firstNameOnly);
-}
-
+/**
+ * Return a few different forms of direct address to the user.
+ * Main logic is housed in `nameWording` fn.
+ * e.g.,
+ *   posessive: ["your" | "Jim's"],
+ *   nonPosessive: ["you" | "Jim"],
+ *   beingVerb: ["you're" | "Jim is"]
+ * @param {Object} formData Obj containing `certifierRole` and `applicantName` properties
+ * @returns Object with three properties, each mapped to a string value
+ */
 export function nameWordingExt(formData) {
   const posessive = nameWording(formData, true, false, true);
   const nonPosessive = nameWording(formData, false, false, true);
