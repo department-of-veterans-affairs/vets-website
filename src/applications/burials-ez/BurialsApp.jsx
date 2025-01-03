@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -15,6 +16,12 @@ export default function BurialsEntry({ location, children }) {
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const burialModuleEnabled = useToggleValue(TOGGLE_NAMES.burialModuleEnabled);
+
+  const adjustedApiPath = burialModuleEnabled
+    ? '/burials/v0/burial_claims'
+    : '/v0/burial_claims';
+
+  formConfig.submitUrl = `${environment.API_URL}${adjustedApiPath}`;
 
   useBrowserMonitoring();
 

@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
@@ -28,12 +27,7 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(
-  form,
-  formConfig,
-  burialModuleEnabled,
-  apiPath = '/v0/burial_claims',
-) {
+export function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
 
   const body = transform(formConfig, form);
@@ -43,10 +37,6 @@ export function submit(
     method: 'POST',
     mode: 'cors',
   };
-
-  const adjustedApiPath = burialModuleEnabled
-    ? 'burials/v0/burial_claims'
-    : apiPath;
 
   const onSuccess = resp => {
     window.dataLayer.push({
@@ -65,10 +55,7 @@ export function submit(
     return Promise.reject(respOrError);
   };
 
-  return apiRequest(
-    `${environment.API_URL}${adjustedApiPath}`,
-    apiRequestOptions,
-  )
+  return apiRequest(formConfig.submitUrl, apiRequestOptions)
     .then(onSuccess)
     .catch(onFailure);
 }
