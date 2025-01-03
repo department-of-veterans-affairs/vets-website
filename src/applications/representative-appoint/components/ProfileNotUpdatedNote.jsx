@@ -32,7 +32,7 @@ function ProfileNotUpdatedNote(props) {
                 you can call us at{' '}
                 <va-telephone contact={CONTACTS.VA_BENEFITS} extension={0} /> (
                 <va-telephone contact={CONTACTS['711']} tty />
-                ). We’re here 24/7.
+                ). We’re here Monday through Friday, 8:00 a.m. and 9:00 p.m. ET.
               </p>
             </>
           )}
