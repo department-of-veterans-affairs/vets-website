@@ -25,25 +25,32 @@ const CustomReviewTopContent = () => {
   } = form?.data;
 
   const renderFileInfo = file => (
-    <VaCard style={{ maxWidth: '75%' }}>
-      <div className="vads-u-display--flex vads-u-flex-direction--row">
-        <span className="vads-u-color--primary">
-          <VaIcon
-            size={6}
-            icon="file_present"
-            className="vads-u-margin-right--1"
-            srtext="icon representing a file"
-            aria-hidden="true"
-          />
-        </span>
-        <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <span className="vads-u-font-weight--bold">{file.name}</span>
-          <span className="vads-u-color--gray-darker">
-            {getFileSize(file.size)}
+    <div className="vads-l-col--12 medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
+      <VaCard>
+        <div className="vads-u-display--flex vads-u-flex-direction--row">
+          <span className="vads-u-color--primary">
+            <VaIcon
+              size={6}
+              icon="file_present"
+              className="vads-u-margin-right--1"
+              srtext="icon representing a file"
+              aria-hidden="true"
+            />
           </span>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
+            <span
+              className="vads-u-font-weight--bold"
+              style={{ 'word-break': 'break-all' }}
+            >
+              {file.name}
+            </span>
+            <span className="vads-u-color--gray-darker">
+              {getFileSize(file.size)}
+            </span>
+          </div>
         </div>
-      </div>
-    </VaCard>
+      </VaCard>
+    </div>
   );
 
   const renderPersonalInfo = () => (
