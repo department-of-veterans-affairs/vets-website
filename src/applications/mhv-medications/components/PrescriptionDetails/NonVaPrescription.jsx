@@ -1,13 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { validateField, dateFormat } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
+import { selectGroupingFlag } from '../../util/selectors';
 
 const NonVaPrescription = prescription => {
+  const showGroupingFlag = useSelector(selectGroupingFlag);
   const content = () => {
     const status = prescription?.dispStatus?.toString();
     return (
-      <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--3">
+      <div
+        className={`medication-details-div vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--3 ${
+          showGroupingFlag
+            ? 'vads-u-border-top--1px vads-u-border-color--gray-lighter'
+            : ''
+        }`}
+      >
         <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2 no-print">
           About this medication or supply
         </h2>
