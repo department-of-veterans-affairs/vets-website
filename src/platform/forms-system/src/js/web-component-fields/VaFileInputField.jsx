@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { uploadScannedForm } from './vaFileInputFieldHelpers';
+import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
 
 let file = null;
 
@@ -82,9 +82,10 @@ const VaFileInputField = props => {
       return;
     }
 
-    // Disallow uploads greater than 25 MB
-    if (fileFromEvent.size > 25000000) {
-      setError('file - size must not be greater than 25.0 MB');
+    const { maxFileSize } = props.uiOptions;
+    if (fileFromEvent.size > maxFileSize) {
+      const fileSizeString = getFileSize(maxFileSize);
+      setError(`file - size must not be greater than ${fileSizeString}`);
       return;
     }
 
