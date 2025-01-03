@@ -28,7 +28,12 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig, apiPath = '/v0/burial_claims') {
+export function submit(
+  form,
+  formConfig,
+  burialModuleEnabled,
+  apiPath = '/v0/burial_claims',
+) {
   const headers = { 'Content-Type': 'application/json' };
 
   const body = transform(formConfig, form);
@@ -38,6 +43,10 @@ export function submit(form, formConfig, apiPath = '/v0/burial_claims') {
     method: 'POST',
     mode: 'cors',
   };
+
+  const adjustedApiPath = burialModuleEnabled
+    ? 'burials/v0/burial_claims'
+    : apiPath;
 
   const onSuccess = resp => {
     window.dataLayer.push({
@@ -56,7 +65,10 @@ export function submit(form, formConfig, apiPath = '/v0/burial_claims') {
     return Promise.reject(respOrError);
   };
 
-  return apiRequest(`${environment.API_URL}${apiPath}`, apiRequestOptions)
+  return apiRequest(
+    `${environment.API_URL}${adjustedApiPath}`,
+    apiRequestOptions,
+  )
     .then(onSuccess)
     .catch(onFailure);
 }
