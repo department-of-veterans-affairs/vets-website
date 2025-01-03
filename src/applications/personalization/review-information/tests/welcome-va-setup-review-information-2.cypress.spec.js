@@ -1,6 +1,8 @@
 import manifest from '../manifest.json';
 import mockUser from './fixtures/mocks/mockUser';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
+// import mockInitializeVet360Id from './fixtures/mocks/mockInitializeVet360Id';
+import mockNickData from './fixtures/mocks/mockInitializeVet360Id.json';
 // import minTestData from './fixtures/data/minimal-test.json';
 // import { goToNextPage } from './utils';
 
@@ -26,15 +28,19 @@ describe('Welcome to My VA Review Contact Information form', () => {
     );
   };
 
-  context('when user has no disability rating - 0%', () => {
+  context('when editing the mobile phone', () => {
     beforeEach(() => {
       setupAuthUser();
       startApplication();
+      cy.intercept('POST', '/v0/profile/initialize_vet360_id', mockNickData);
     });
 
-    it('should not follow the registration only pathway', () => {
+    it('should succeed', () => {
       cy.get('#edit-mobile-phone').click();
+      // cy.get('#edit-email').click();
+      // cy.get('#edit-address').click();
       cy.location('pathname').should('include', '/edit-mobile-phone');
+
       // cy.get('[name="root_inputPhoneNumber"]').type(testData.mobilePhone);
       cy.get('[data-testid="save-edit-button"]').click();
 
