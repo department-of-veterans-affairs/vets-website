@@ -4,6 +4,7 @@ import {
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import PropTypes from 'prop-types';
 import {
   UPLOAD_GUIDELINES,
   FORM_UPLOAD_OCR_ALERT,
@@ -78,3 +79,11 @@ export function UploadPage(props) {
     : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
   return <CustomAlertPage {...props} alert={alert} />;
 }
+
+UploadPage.propTypes = {
+  data: PropTypes.shape({
+    uploadedFile: PropTypes.shape({
+      warnings: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }).isRequired,
+};
