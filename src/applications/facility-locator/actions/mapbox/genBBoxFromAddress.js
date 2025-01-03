@@ -92,7 +92,9 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
           ];
         }
         const radius = radiusFromBoundingBox(
-          features,
+          features?.[0]?.bbox
+            ? features
+            : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
         );
         dispatch({

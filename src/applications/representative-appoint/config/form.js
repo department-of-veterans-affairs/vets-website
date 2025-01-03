@@ -1,6 +1,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -66,6 +67,7 @@ const formConfig = {
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   formId: '21-22',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,

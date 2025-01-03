@@ -9,7 +9,6 @@ import { BCNR, BCMR, DRB, AFDRB } from '../../../constants';
 import {
   determineBoardObj,
   determineVenueAddress,
-  stepHeaderLevel,
   getBoardExplanation,
   isPreviousApplicationYear,
 } from '../../../helpers';
@@ -53,10 +52,8 @@ const StepThree = ({ formResponses }) => {
       ? 'Submit your completed application form and all supporting documents online or by mail'
       : 'Mail your completed form and all supporting materials';
 
-  const level = stepHeaderLevel(formResponses);
-
   return (
-    <va-process-list-item header={headerText} level={level}>
+    <va-process-list-item header={headerText} level="2">
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to
