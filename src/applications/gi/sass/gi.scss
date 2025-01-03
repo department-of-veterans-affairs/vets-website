@@ -370,6 +370,15 @@
   }
 }
 
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"]{
+      border-bottom: 1px solid $color-primary !important;
+    }
+  }
+}
+
 .yellow-ribbon-selector-container {
   .selector-wrapper {
     display: flex;

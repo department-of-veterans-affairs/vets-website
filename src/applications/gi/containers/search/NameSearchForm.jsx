@@ -223,18 +223,18 @@ const mapDispatchToProps = {
 };
 
 NameSearchForm.propTypes = {
-  autocomplete: PropTypes.object.isRequired,
-  dispatchError: PropTypes.func.isRequired,
-  dispatchFetchNameAutocompleteSuggestions: PropTypes.func.isRequired,
-  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
-  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
-  dispatchUpdateAutocompleteName: PropTypes.func.isRequired,
-  errorReducer: PropTypes.object.isRequired,
-  filterBeforeResultsReducer: PropTypes.object.isRequired,
-  filters: PropTypes.object.isRequired,
-  focusSearchReducer: PropTypes.object.isRequired,
-  preview: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
+  autocomplete: PropTypes.object,
+  dispatchError: PropTypes.func,
+  dispatchFetchNameAutocompleteSuggestions: PropTypes.func,
+  dispatchFetchSearchByNameResults: PropTypes.func,
+  dispatchShowFiltersBeforeResult: PropTypes.func,
+  dispatchUpdateAutocompleteName: PropTypes.func,
+  errorReducer: PropTypes.object,
+  filterBeforeResultsReducer: PropTypes.object,
+  filters: PropTypes.object,
+  focusSearchReducer: PropTypes.object,
+  preview: PropTypes.object,
+  search: PropTypes.object,
   smallScreen: PropTypes.bool,
 };
 
