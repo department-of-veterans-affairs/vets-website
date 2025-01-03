@@ -58,7 +58,7 @@ export default function prefillTransformer(formData) {
       street: undefined,
     };
     newFormData.veteranEmail = undefined;
-    newFormData['Primary phone'] = undefined;
+    newFormData.primaryPhone = undefined;
     newFormData['Branch of Service'] = undefined;
   }
 
