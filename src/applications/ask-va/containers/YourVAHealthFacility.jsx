@@ -9,6 +9,10 @@ import SearchItem from '../components/search/SearchItem';
 import { getHealthFacilityTitle } from '../config/helpers';
 import { CHAPTER_3, URL, envUrl } from '../constants';
 import { convertToLatLng } from '../utils/mapbox';
+import { mockHealthFacilityResponse } from '../utils/mockData';
+
+// Toggle this when testing locally to load health facility search results
+const mockTestingFlag = false;
 
 const facilities = { data: [] };
 
@@ -31,6 +35,18 @@ const YourVAHealthFacilityPage = props => {
 
   const getApiData = url => {
     setIsSearching(true);
+
+    if (mockTestingFlag) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setApiData(mockHealthFacilityResponse);
+          setIsSearching(false);
+          resolve(mockHealthFacilityResponse);
+        }, 500);
+      });
+    }
+
     return apiRequest(url, options)
       .then(res => {
         setApiData(res);

@@ -13,6 +13,14 @@ describe('Unauthenticated', () => {
       cy.intercept('POST', '/representation_management/v0/pdf_generator2122a', {
         statusCode: 200,
       }).as('pdfGeneration');
+
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
