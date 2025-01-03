@@ -18,6 +18,7 @@ export const Data = {
     'Showing 11 - 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 - 26 of 26 prescriptions, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 4 refills, from newest to oldest',
 };
 export const Paths = {
   LANDING_LIST:

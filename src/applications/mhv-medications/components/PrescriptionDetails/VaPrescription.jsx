@@ -177,7 +177,10 @@ const VaPrescription = prescription => {
             {(refillHistory?.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) && (
               <>
-                <p className="vads-u-margin-y--2">
+                <p
+                  className="vads-u-margin-y--2"
+                  data-testid="refill-history-info"
+                >
                   Showing {refillHistory.length} refills, from newest to oldest
                 </p>
                 <va-accordion

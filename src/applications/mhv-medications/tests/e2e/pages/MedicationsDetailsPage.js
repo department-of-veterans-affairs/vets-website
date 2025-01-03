@@ -177,7 +177,7 @@ class MedicationsDetailsPage {
   clickDownloadMedicationDetailsAsPdfOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]').should('be.enabled');
     cy.get('[data-testid="download-pdf-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -194,7 +194,7 @@ class MedicationsDetailsPage {
   clickDownloadMedicationsDetailsAsTxtOnDetailsPage = () => {
     cy.get('[data-testid="download-txt-button"]').should('be.enabled');
     cy.get('[data-testid="download-txt-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -467,6 +467,31 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="grouping-showing-info"]')
       .should('have.text', text)
       .and('have.focus');
+  };
+
+  clickRefillHistoryAccordionOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .click({ force: true });
+  };
+
+  verifyAccordionCollapsedOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .should('have.attr', 'aria-expanded', 'false');
+  };
+
+  verifyAccordionExpandedOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .should('have.attr', 'aria-expanded', 'true');
+  };
+
+  verifyRefillHistoryInformationTextOnDetailsPage = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
 }
 
