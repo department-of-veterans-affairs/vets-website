@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertMessage from './AlertMessage';
-import {
-  determineBoardObj,
-  determineFormData,
-  stepHeaderLevel,
-} from '../../../helpers';
+import { determineBoardObj, determineFormData } from '../../../helpers';
 
 import {
   SHORT_NAME_MAP,
@@ -173,10 +169,9 @@ const StepOne = ({ formResponses }) => {
 
   const form = determineFormData(formResponses);
   const header = `Download and fill out DoD Form ${form.num}`;
-  const level = stepHeaderLevel(formResponses);
 
   return (
-    <va-process-list-item header={header} level={level}>
+    <va-process-list-item header={header} level="2">
       <p>Important tips for completing Form {form.num}:</p>
       {formResponses[SHORT_NAME_MAP.REASON] ===
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
@@ -214,7 +209,7 @@ const StepOne = ({ formResponses }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.benefits.va.gov/vso/varo.asp"
+                href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
               >
                 Find a VSO near you (opens in a new tab)
               </a>
