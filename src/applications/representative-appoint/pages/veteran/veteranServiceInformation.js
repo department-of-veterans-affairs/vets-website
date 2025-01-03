@@ -19,7 +19,10 @@ export const uiSchema = {
   ),
   profileNotUpdatedNote: {
     'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePhone />
+      <ProfileNotUpdatedNote
+        includePhone
+        preparerIsVeteran={preparerIsVeteran({ formData })}
+      />
     ),
   },
   'Branch of Service': radioUI('Branch of service'),

@@ -33,7 +33,11 @@ export const uiSchema = {
   ),
   profileNotUpdatedNote: {
     'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includePhone />
+      <ProfileNotUpdatedNote
+        includePhone
+        includePrefix
+        preparerIsVeteran={preparerIsVeteran({ formData })}
+      />
     ),
   },
   veteranSocialSecurityNumber: ssnUI('Social Security number'),
