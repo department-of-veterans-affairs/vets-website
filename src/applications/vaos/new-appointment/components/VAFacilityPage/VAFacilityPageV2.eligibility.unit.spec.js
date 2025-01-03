@@ -179,9 +179,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       await waitFor(() => {
         screen.queryByText(/San Diego VA Medical Center/i);
       });
-      expect(screen.baseElement).to.contain.text(
-        'You’ll need to call to schedule at this facility',
-      );
+      expect(
+        await screen.findByText(
+          /You.ll need to call to schedule at this facility/,
+        ),
+      ).to.exist;
 
       expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
