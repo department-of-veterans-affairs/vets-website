@@ -16,7 +16,7 @@ import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import ErrorAlert from './components/ErrorAlert';
+import ReferralLayout from './components/ReferralLayout';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
@@ -48,22 +48,22 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
+
   if (referralNotFound || !isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
-  if (
-    (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
-    !referralNotFound
-  ) {
+
+  if (referralFetchStatus === FETCH_STATUS.failed) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  }
+
+  if (!referral && referralFetchStatus !== FETCH_STATUS.failed) {
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
       </FormLayout>
     );
-  }
-
-  if (referralFetchStatus === FETCH_STATUS.failed) {
-    return <ErrorAlert />;
   }
 
   return (

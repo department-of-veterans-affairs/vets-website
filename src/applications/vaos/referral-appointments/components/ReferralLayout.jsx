@@ -82,11 +82,9 @@ export default function ReferralLayout({
                 {heading && <h1 data-testid={headingTestId}>{heading}</h1>}
               </>
             )}
-            {apiFailure ? (
-              <ErrorAlert />
-            ) : (
-              <ErrorBoundary>{children}</ErrorBoundary>
-            )}
+            <ErrorBoundary>
+              {apiFailure ? <ErrorAlert /> : children}
+            </ErrorBoundary>
             <NeedHelp />
           </div>
         </div>
