@@ -10,7 +10,8 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API, BASE_URL } from '../constants';
+import { BASE_URL } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
@@ -133,9 +134,13 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
-        cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
-          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-        }).as('getIssues');
+        cy.intercept(
+          'GET',
+          `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
+          {
+            data: fixDecisionDates(data.contestedIssues, { unselected: true }),
+          },
+        ).as('getIssues');
         cy.intercept('GET', '/v0/feature_toggles*', {
           data: {
             type: 'feature_toggles',
