@@ -65,7 +65,7 @@ const DAYS = 120;
   console.log(`total environments: ${environments.length}`);
   console.log(
     'nonprod environments:',
-    JSON.stringify(environments, null, 2).length,
+    environments.filter(env => env.name !== 'production').length,
   );
   console.log(`environments older than 120 days: `, oldEnvironments.length);
   console.log(
@@ -78,7 +78,7 @@ const DAYS = 120;
   );
 
   const environmentsWithProtectionRules = environments.filter(
-    environments.protection_rules.length > 0,
+    env => env.protection_rules.length > 0,
   );
 
   console.log(
