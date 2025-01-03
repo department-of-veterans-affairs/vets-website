@@ -63,7 +63,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-    expect(await screen.getByTestId('review-heading')).to.exist;
+    expect(await screen.getByTestId('review-your-appointment-details-heading'))
+      .to.exist;
     sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
   });
   it('should fetch provider if not in redux', async () => {
@@ -109,7 +110,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(noSelectState),
       },
     );
-    expect(await screen.getByTestId('review-heading')).to.exist;
+    expect(await screen.getByTestId('review-your-appointment-details-heading'))
+      .to.exist;
     expect(await screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
     );
