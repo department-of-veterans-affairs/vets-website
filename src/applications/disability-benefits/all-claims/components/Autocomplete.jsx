@@ -9,8 +9,13 @@ const INSTRUCTIONS =
 
 const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
-const isElementVisibleOnPage = element => {
+const isElementVisible = (element, container) => {
   const { top, bottom, left, right } = element?.getBoundingClientRect();
+
+  if (container) {
+    const containerRect = container.getBoundingClientRect();
+    return top >= containerRect.top && bottom <= containerRect.bottom;
+  }
 
   return (
     top >= 0 &&
@@ -18,13 +23,6 @@ const isElementVisibleOnPage = element => {
     bottom <= window.innerHeight &&
     right <= window.innerWidth
   );
-};
-
-const isElementVisibleInContainer = (element, container) => {
-  const { top, bottom } = element?.getBoundingClientRect();
-  const containerRect = container?.getBoundingClientRect();
-
-  return top >= containerRect.top && bottom <= containerRect.bottom;
 };
 
 const Autocomplete = ({
@@ -60,7 +58,7 @@ const Autocomplete = ({
   const ensureListIsVisibleOnPage = () => {
     const labelElement = inputRef.current.shadowRoot.querySelector('label');
 
-    if (listRef.current && !isElementVisibleOnPage(listRef.current)) {
+    if (listRef.current && !isElementVisible(listRef.current)) {
       labelElement?.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
   };
@@ -109,7 +107,7 @@ const Autocomplete = ({
 
     const activeResult = resultsRef.current[index];
 
-    if (!isElementVisibleInContainer(activeResult, listRef.current)) {
+    if (!isElementVisible(activeResult, listRef.current)) {
       activeResult?.scrollIntoView({
         block: 'nearest',
       });
