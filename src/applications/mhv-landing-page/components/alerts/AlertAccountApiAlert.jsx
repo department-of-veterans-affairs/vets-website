@@ -43,10 +43,11 @@ const AlertAccountApiAlert = ({
           </p>
 
           <p>
-            To get access to these My HealtheVet tools, call us at 877-327-0022
-            (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8 p.m.
-            ET. Tell the representative that you received{' '}
-            <b>error code {errorCode}</b>
+            To get access to these My HealtheVet tools, call us at&nbsp;
+            <va-telephone contact="8773270022" />(<va-telephone contact="711" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Tell
+            the representative that you received&nbsp;
+            <b>error code {errorCode}</b>.
           </p>
 
           <p>
