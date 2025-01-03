@@ -4,6 +4,8 @@
 /* eslint-disable consistent-return */
 const { Octokit } = require('@octokit/rest');
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
@@ -50,23 +52,22 @@ const filterOldEnvironments = (environments, days) => {
   });
 };
 
-// const deleteEnvironment = async (owner, repo, environment) => {
-//   try {
-//     await octokit.request(
-//       'DELETE /repos/{owner}/{repo}/environments/{environment_name}',
-//       {
-//         owner,
-//         repo,
-//         environment_name: environment.name,
-//       },
-//     );
-//     console.log(`Successfully deleted environment: ${environmentName}`);
-//   } catch (error) {
-//     console.error(`Error deleting environment ${environmentName}:`, error);
-//   }
-// };
+const deleteEnvironment = async (owner, repo, environment) => {
+  try {
+    await octokit.request(
+      'DELETE /repos/{owner}/{repo}/environments/{environment_name}',
+      {
+        owner,
+        repo,
+        environment_name: environment.name,
+      },
+    );
+    console.log(`Successfully deleted environment: ${environment.name}`);
+  } catch (error) {
+    console.error(`Error deleting environment ${environment.name}:`, error);
+  }
+};
 
-// Replace with your repository owner and name
 const OWNER = 'department-of-veterans-affairs';
 const REPO = 'vets-website';
 const DAYS = 90;
@@ -78,7 +79,7 @@ const DAYS = 90;
   console.log('Deleting ', oldEnvironments.length, ` envioronments`);
 
   for (const environment of oldEnvironments) {
-    // await deleteEnvironment(OWNER, REPO, environment);
-    console.log('deleting environment: ', environment.name);
+    await deleteEnvironment(OWNER, REPO, environment);
+    await delay(2000);
   }
 })();
