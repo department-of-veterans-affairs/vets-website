@@ -6,6 +6,7 @@ import {
   determineBoardObj,
   determineVenueAddress,
   determineBranchOfService,
+  determineBoardName,
 } from '../../helpers';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { pageSetup } from '../../utilities/page-setup';
@@ -93,14 +94,14 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
               There are a number of different boards that handle discharge
               upgrades and corrections. Because you want a new DD214, which is
               seen as a correction of your military record, you’ll need to apply
-              to the {abbr} for the {branchOfService}.
+              to the {determineBoardName(formResponses.SERVICE_BRANCH)}.
             </p>
-            <p>At this time, there isn’t a way to submit this form online.</p>
             <p>
               Mail your completed form and all supporting documents to the{' '}
               {abbr} at:
             </p>
             <p>{determineVenueAddress(formResponses, true)}</p>
+            <p>At this time, there isn’t a way to submit this form online.</p>
           </va-process-list-item>
         </va-process-list>
         <va-button
