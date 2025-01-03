@@ -13,17 +13,30 @@ const escapedCharacterReplacer = (_key, value) => {
 };
 
 export default function transformForSubmit(formConfig, form) {
+  const formCopy = {
+    ...form,
+    data: {
+      ...form.data,
+      application: {
+        ...form.data.application,
+        veteran: {
+          ...form.data.application.veteran,
+          serviceRecords: form.data.serviceRecords,
+        },
+      },
+    },
+  };
+  delete formCopy.data.serviceRecords;
   const transformedData = JSON.parse(
-    formsSystemTransformForSubmit(formConfig, form),
+    formsSystemTransformForSubmit(formConfig, formCopy),
   );
-
   if (
-    form.data.application.applicant.applicantRelationshipToClaimant === 'Self'
+    formCopy.data.application.applicant.applicantRelationshipToClaimant ===
+    'Self'
   ) {
     delete transformedData.application.applicant.name;
     delete transformedData.application.applicant.mailingAddress;
   }
-
   return JSON.stringify(
     {
       ...transformedData,

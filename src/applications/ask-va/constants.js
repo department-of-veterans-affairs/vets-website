@@ -63,6 +63,7 @@ export const branchesOfService = [
 
 // Categories
 export const CategoryEducation = 'Education benefits and work study';
+export const CategoryHealthCare = 'Health care';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
 export const CategoryGuardianshipCustodianshipFiduciaryIssues =
