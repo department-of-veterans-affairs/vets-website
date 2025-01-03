@@ -28,43 +28,43 @@ jobs:
             .cache/yarn
             node_modules
       
-      - name: Fetch all Environments
-        run: |
-          PAGE=1
-          TEMP_FILE=$(mktemp)  # Temporary file for storing environments
-          echo "[]" > "$TEMP_FILE"  # Initialize with an empty JSON array
+      # - name: Fetch all Environments
+      #   run: |
+      #     PAGE=1
+      #     TEMP_FILE=$(mktemp)  # Temporary file for storing environments
+      #     echo "[]" > "$TEMP_FILE"  # Initialize with an empty JSON array
 
-          while true; do
-            echo "Fetching page $PAGE..."
+      #     while true; do
+      #       echo "Fetching page $PAGE..."
 
-            RESPONSE=$(curl -sSL \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/department-of-veterans-affairs/vets-website/environments?per_page=100&page=$PAGE")
+      #       RESPONSE=$(curl -sSL \
+      #         -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #         -H "Accept: application/vnd.github.v3+json" \
+      #         "https://api.github.com/repos/department-of-veterans-affairs/vets-website/environments?per_page=100&page=$PAGE")
 
-            echo "API Response: $RESPONSE"
+      #       CURRENT=$(echo "$RESPONSE" | jq '.environments')
 
-            CURRENT=$(echo "$RESPONSE" | jq '.environments')
+      #       if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
+      #         echo "No more environments found, exiting loop."
+      #         break
+      #       fi
 
-            if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
-              echo "No more environments found, exiting loop."
-              break
-            fi
+      #       # Append to the temporary file
+      #       jq -s 'add' "$TEMP_FILE" <(echo "$CURRENT") > temp.json && mv temp.json "$TEMP_FILE"
 
-            # Append to the temporary file
-            jq -s 'add' "$TEMP_FILE" <(echo "$CURRENT") > temp.json && mv temp.json "$TEMP_FILE"
+      #       PAGE=$((PAGE + 1))
+      #     done
 
-            PAGE=$((PAGE + 1))
-          done
+      #     ENVIRONMENTS=$(cat "$TEMP_FILE")
 
-          ENVIRONMENTS=$(cat "$TEMP_FILE")
+      #     # Output for debugging
+      #     echo "Final collected environments: $ENVIRONMENTS"
 
-          # Output for debugging
-          echo "Final collected environments: $ENVIRONMENTS"
-
-          # Export the environments to the workflow
-          echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
+      #     # Export the environments to the workflow
+      #     echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
 
       - name: Clean up Environments
         if: ${{ always() }}
         run: node script/github-actions/gh-env-cleanup.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
