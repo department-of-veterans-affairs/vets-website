@@ -21,6 +21,7 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  focusOnErrorField,
   getLastUpdatedText,
   formatUserDob,
   sendDataDogAction,
@@ -41,6 +42,7 @@ const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
   const history = useHistory();
   const [fileType, setFileType] = useState('');
+  const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
@@ -363,6 +365,15 @@ const DownloadFileType = props => {
     [dispatch, isDataFetched, recordData, user],
   );
 
+  const checkFileTypeValidity = useCallback(
+    () => {
+      const isValid = !!fileType;
+      setFileTypeError(isValid ? '' : 'Please select a file type');
+      return isValid;
+    },
+    [fileType],
+  );
+
   const handleDdRum = useCallback(e => {
     const selectedNode = Array.from(e.target.childNodes).find(
       node => node.value === e.detail.value,
@@ -370,6 +381,11 @@ const DownloadFileType = props => {
     const selectedText = selectedNode ? selectedNode.innerText : '';
     sendDataDogAction(`${selectedText} - File type`);
   }, []);
+
+  const selectFileTypeHandler = e => {
+    checkFileTypeValidity();
+    if (e?.detail?.value) setFileTypeError(null);
+  };
 
   return (
     <div>
@@ -418,10 +434,12 @@ const DownloadFileType = props => {
               onVaValueChange={e => {
                 setFileType(e.detail.value);
                 handleDdRum(e);
+                selectFileTypeHandler(e);
               }}
+              error={fileTypeError}
             >
-              <va-radio-option label="PDF" value="pdf" />
-              <va-radio-option label="Text file" value="txt" />
+              <va-radio-option label="PDF" value="pdf" name="file-type" />
+              <va-radio-option label="Text file" value="txt" name="file-type" />
             </VaRadio>
             {downloadStarted && <DownloadSuccessAlert />}
             <div className="vads-u-margin-top--1">
@@ -449,6 +467,8 @@ const DownloadFileType = props => {
               className="vads-u-margin-y--0p5"
               data-testid="download-report-button"
               onClick={() => {
+                selectFileTypeHandler();
+                focusOnErrorField();
                 if (fileType === 'pdf') {
                   generatePdf().then(() => history.push('/download'));
                 } else if (fileType === 'txt') {

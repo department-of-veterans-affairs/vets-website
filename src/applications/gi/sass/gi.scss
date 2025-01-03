@@ -15,6 +15,7 @@
 @import "partials/gi-back-to-top";
 @import "partials/gi-filter";
 @import "partials/gi-search-controls";
+@import "partials/gi-updated";
 
 .gi-app {
   div.military-status-info {
@@ -335,20 +336,45 @@
   background-color: transparent;
 }
 
-.search-container {
-  va-text-input::part(input) {
-    width: 100%;
-    min-width: 576px;
+.programs-list-container {
+  .abbreviations {
+    font-family: var(--font-source-sans);
   }
-
-  @media (max-width: 1024px) {
-    va-text-input::part(input) {
-      min-width: 420px;
+  .list-style {
+    list-style: disc;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    .reset-search {
+      white-space: nowrap;
     }
-  }
-  @media (max-width: 480px) {
-    va-text-input::part(input) {
-      min-width: 100%;
+    @media (max-width: $small-screen) {
+      flex-direction: column;
+      .search-input {
+        width: 100%;
+      }
+      .search-btn {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .reset-search {
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    @media (min-width: $small-screen) {
+      va-text-input::part(input) {
+        min-width: 400px;
+      }
+    }
+    @media (min-width: $medium-screen) {
+      va-text-input::part(input) {
+        min-width: 576px;
+      }
     }
   }
 }
@@ -394,21 +420,27 @@
   }
   .degree-level-results {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 20px;
-    .degree-level-card {
-      flex: 1 1 calc(33.33% - 30px);
-      max-width: calc(33.33% - 10px);
-      box-sizing: border-box;
+    list-style: none;
+    padding: 0;
+    .degree-item {
       margin: 0;
+      height: auto;
+      display: flex;
+      width: 100%;
+      .degree-level-card {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+      }
     }
   }
   @media screen and (max-width: $medium-screen) {
     .degree-level-results {
-      .degree-level-card {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
+      flex-direction: column;
     }
   }
 }

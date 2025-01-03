@@ -14,13 +14,18 @@ import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
-import { selectRefillContentFlag } from '../../util/selectors';
+import {
+  selectGroupingFlag,
+  selectRefillContentFlag,
+} from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import GroupedMedications from './GroupedMedications';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -159,7 +164,7 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
             </h3>
-            {refillHistory.length > 1 &&
+            {refillHistory?.length > 1 &&
               refillHistory.some(rx => rx.cmopNdcNumber) && (
                 <p className="vads-u-margin--0">
                   <strong>Note:</strong> Images on this page are for
@@ -169,7 +174,7 @@ const VaPrescription = prescription => {
                   <VaPharmacyText phone={pharmacyPhone} />.
                 </p>
               )}
-            {(refillHistory.length > 1 ||
+            {(refillHistory?.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) && (
               <>
                 <p className="vads-u-margin-y--2">
@@ -310,9 +315,15 @@ const VaPrescription = prescription => {
                 </va-accordion>
               </>
             )}
-            {refillHistory.length <= 1 &&
+            {refillHistory?.length <= 1 &&
               refillHistory[0].dispensedDate === undefined && (
                 <p>You haven’t filled this prescription yet.</p>
+              )}
+            {showGroupingContent &&
+              prescription?.groupedMedications?.length > 0 && (
+                <GroupedMedications
+                  groupedMedicationsList={prescription.groupedMedications}
+                />
               )}
           </div>
         </>
