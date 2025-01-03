@@ -283,7 +283,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on any other failure', done => {
       server.use(
         http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.error();
+          return HttpResponse.json({ status: 500 }, { status: 500 });
         }),
       );
 

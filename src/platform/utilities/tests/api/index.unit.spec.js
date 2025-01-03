@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
@@ -16,10 +16,10 @@ describe('test wrapper', () => {
   before(() => {
     server.listen();
     server.events.on('request:end', async req => {
-      expected = { ...expected, request: req };
+      expected = { ...expected, ...req };
     });
     server.events.on('response:mocked', async res => {
-      expected = { ...expected, response: res };
+      expected = { ...expected, ...res };
     });
   });
 
@@ -46,10 +46,10 @@ describe('test wrapper', () => {
 
     it('should redirect to /session-expired if in production and session expired (401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -85,10 +85,10 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -120,10 +120,10 @@ describe('test wrapper', () => {
 
     it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -149,10 +149,10 @@ describe('test wrapper', () => {
 
     it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -177,8 +177,8 @@ describe('test wrapper', () => {
     it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
       const jsonResponse = { status: 'ok' };
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json(jsonResponse)),
+        http.get(/v0\/status/, () =>
+          HttpResponse.json(jsonResponse, { status: 200 }),
         ),
       );
 
@@ -186,7 +186,8 @@ describe('test wrapper', () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      expect(expected.response.body).to.have.a.lengthOf(
+      const body = await expected.response.json();
+      expect(JSON.stringify(body)).to.have.a.lengthOf(
         JSON.stringify(jsonResponse).length,
       );
       expect(response.status).to.eql('ok');
@@ -194,7 +195,7 @@ describe('test wrapper', () => {
 
     it('should not return JSON on (status: 204)', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) => res(ctx.status(204))),
+        http.get(/v0\/status/, () => new HttpResponse(null, { status: 204 })),
       );
 
       const response = await apiRequest('/status', {
@@ -202,43 +203,44 @@ describe('test wrapper', () => {
       });
 
       expect(response.ok).to.eql(true);
-      expect(expected.response.body).to.be.null;
-      expect(response.body._readableState.buffer.length).to.eql(0);
+      expect(response.body).to.be.null;
     });
 
     it('should not return JSON on (status: 404)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(404),
-            ctx.json({ errors: [{ status: '404', title: 'Not found' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '404', title: 'Not found' }] },
+            { status: 404 },
           ),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
-      }).catch(error => {
+      }).catch(async error => {
+        const body = await expected.response.json();
         expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(body);
       });
     });
 
     it('should return JSON on (status: 403)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(403),
-            ctx.json({ errors: [{ status: '403', title: 'Forbidden' }] }),
+        http.get('*', () =>
+          HttpResponse.json(
+            { errors: [{ status: '403', title: 'Forbidden' }] },
+            { status: 403 },
           ),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
-      }).catch(error => {
+      }).catch(async error => {
+        const body = await expected.response.json();
         expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(body);
       });
     });
 
@@ -256,21 +258,19 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.post(
-          `https://dev-api.va.gov/v0/letters/benefit_summary`,
-          (_, res, ctx) => {
-            const pdfFile = fs.readFileSync(
-              path.resolve(__dirname, './pdfFixture.pdf'),
-            );
+        http.post('https://dev-api.va.gov/v0/letters/benefit_summary', () => {
+          const pdfFile = fs.readFileSync(
+            path.resolve(__dirname, './pdfFixture.pdf'),
+          );
 
-            return res(
-              ctx.status(200),
-              ctx.set('Content-Length', pdfFile.byteLength.toString()),
-              ctx.set('Content-Type', 'application/pdf'),
-              ctx.body(pdfFile),
-            );
-          },
-        ),
+          return new HttpResponse(pdfFile, {
+            status: 200,
+            headers: {
+              'Content-Length': pdfFile.byteLength.toString(),
+              'Content-Type': 'applicationpdf',
+            },
+          });
+        }),
       );
 
       const response = await apiRequest('/letters/benefit_summary', {
@@ -315,8 +315,8 @@ describe('test wrapper', () => {
 
     it('does not call checkAndUpdateSSOSession if the hasSessionSSO flag is not set', async () => {
       server.use(
-        rest.get(environment.API_URL, (req, res, ctx) =>
-          res(ctx.status(500), ctx.json({})),
+        http.get(environment.API_URL, () =>
+          HttpResponse.json({}, { status: 500 }),
         ),
       );
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
@@ -326,9 +326,7 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(404), ctx.json({})),
-        ),
+        http.get(/v0\/status/, () => HttpResponse.json({}, { status: 404 })),
       );
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
