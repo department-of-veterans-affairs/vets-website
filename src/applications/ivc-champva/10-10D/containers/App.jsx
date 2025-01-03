@@ -8,6 +8,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
+import manifest from '../manifest.json';
 import WIP from '../../shared/components/WIP';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
 
@@ -28,6 +29,7 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  document.title = `${manifest.appName} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
