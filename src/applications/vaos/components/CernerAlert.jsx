@@ -33,8 +33,8 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
               <p>
                 Some of your appointments may be in a different portal. To view
                 or manage appointments at{' '}
-                <strong>{cernerFacilities[0].vamcFacilityName}</strong> My VA
-                Health.
+                <strong>{cernerFacilities[0].vamcFacilityName}</strong>, go to
+                My VA Health.
               </p>
             ) : (
               <>
