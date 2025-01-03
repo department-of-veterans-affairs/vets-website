@@ -207,6 +207,6 @@ describe('MrBreadcrumbs component', () => {
       },
     );
     const { getByTestId } = screen;
-    expect(getByTestId('lab-id-breadcrumbs')).to.exist;
+    expect(getByTestId('mr-breadcrumbs')).to.exist;
   });
 });
