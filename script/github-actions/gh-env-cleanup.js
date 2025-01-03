@@ -40,7 +40,6 @@ const fetchAllEnvironments = async (owner, repo) => {
       page++;
     }
 
-    console.log(`Total environments fetched: ${environments.length}`);
     return environments;
   } catch (error) {
     console.error('Error fetching environments:', error);
@@ -48,11 +47,30 @@ const fetchAllEnvironments = async (owner, repo) => {
   }
 };
 
+const filterOldEnvironments = (environments, days) => {
+  const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  return environments.filter(env => {
+    const createdAt = new Date(env.created_at);
+    return createdAt < cutoffDate;
+  });
+};
+
 // Replace with your repository owner and name
 const OWNER = 'department-of-veterans-affairs';
 const REPO = 'vets-website';
-
+const DAYS = 120;
 (async () => {
   const environments = await fetchAllEnvironments(OWNER, REPO);
-  console.log('Fetched environments:', JSON.stringify(environments, null, 2));
+  const oldEnvironments = filterOldEnvironments(environments, DAYS);
+  console.log(`total environments: ${environments.length}`);
+  console.log('nonprod environments:', JSON.stringify(environments, null, 2));
+  console.log(`environments older than 120 days: `, oldEnvironments.length);
+  console.log(
+    `nonproduction environments older than 120 days: `,
+    oldEnvironments.filter(env => env.name !== 'production').length,
+  );
+  console.log(
+    `environments without protection rules older than 120 days: `,
+    oldEnvironments.filter(env => env.protection_rules.length === 0).length,
+  );
 })();
