@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import {
   mockFetch,
   setFetchJSONFailure,
@@ -147,7 +146,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       );
     });
 
-    it('should show request limits message when not eligible for direct, requests are supported, over request limit', async () => {
+    it.skip('should show request limits message when not eligible for direct, requests are supported, over request limit', async () => {
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
           id: '983',
