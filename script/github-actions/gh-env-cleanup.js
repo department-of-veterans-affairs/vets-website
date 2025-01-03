@@ -46,7 +46,7 @@ const filterOldEnvironments = (environments, days) => {
   const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
   return environments.filter(env => {
     const createdAt = new Date(env.created_at);
-    return createdAt < cutoffDate;
+    return createdAt < cutoffDate && env.protection_rules.length === 0;
   });
 };
 
@@ -75,11 +75,9 @@ const DAYS = 90;
   const environments = await fetchAllEnvironments(OWNER, REPO);
   const oldEnvironments = await filterOldEnvironments(environments, DAYS);
 
-  const oldEnvironmentsWithoutProtectionRules = oldEnvironments.filter(
-    env => env.protection_rules.length === 0,
-  );
+  console.log('Deleting ', oldEnvironments.length, ` envioronments`);
 
-  for (const environment of oldEnvironmentsWithoutProtectionRules) {
+  for (const environment of oldEnvironments) {
     // await deleteEnvironment(OWNER, REPO, environment);
     console.log('deleting environment: ', environment.name);
   }
