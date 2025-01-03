@@ -9,7 +9,10 @@ import {
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
-  ...titleUI('Your mailing address'),
+  ...titleUI(
+    'Your mailing address',
+    'We’ll send any important information about your form to this address.',
+  ),
   profileNotUpdatedNote: {
     'ui:description': formData => (
       <ProfileNotUpdatedNote formData={formData} includePrefix includeLink />
