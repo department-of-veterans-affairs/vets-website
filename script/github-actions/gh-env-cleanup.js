@@ -58,7 +58,7 @@ const filterOldEnvironments = (environments, days) => {
 // Replace with your repository owner and name
 const OWNER = 'department-of-veterans-affairs';
 const REPO = 'vets-website';
-const DAYS = 120;
+const DAYS = 90;
 (async () => {
   const environments = await fetchAllEnvironments(OWNER, REPO);
   const oldEnvironments = filterOldEnvironments(environments, DAYS);
