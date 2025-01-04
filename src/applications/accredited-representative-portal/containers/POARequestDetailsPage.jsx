@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { Link, useLoaderData } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
+
+import api from '../utilities/api';
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -25,7 +25,7 @@ const checkAuthorizations = (
 };
 
 const POARequestDetailsPage = () => {
-  const poaRequest = useLoaderData();
+  const poaRequest = useLoaderData().attributes;
   const [error, setError] = useState(false);
   const handleChange = e => {
     e.preventDefault();
@@ -241,21 +241,10 @@ const POARequestDetailsPage = () => {
   );
 };
 
+POARequestDetailsPage.loader = ({ params, request }) => {
+  return api.getPOARequest(params.id, {
+    signal: request.signal,
+  });
+};
+
 export default POARequestDetailsPage;
-
-export async function poaRequestLoader({ params }) {
-  const { id } = params;
-
-  try {
-    const response = await apiRequest(`/power_of_attorney_requests/${id}`, {
-      apiVersion: 'accredited_representative_portal/v0',
-    });
-    return response.data;
-  } catch (error) {
-    // Return mock data if API fails (TODO: remove this before pilot and replace with commented throw below)
-    // throwing the error will cause the app to show the error message configured in routes.jsx
-    return mockPOARequestsResponse.data.find(r => r.id === Number(id))
-      ?.attributes;
-    // throw error;
-  }
-}
