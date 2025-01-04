@@ -164,15 +164,12 @@ const convertVitalRecords = (type, records) => ({
   results: {
     header: vitalHeaders[type],
     headerType: 'H3',
-    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
-    prefaceIndent: 20,
     sectionSeparators: false,
     items: records.map(record => ({
       header: record.date,
-      headerIndent: 20,
+      headerIndent: 30,
       headerType: 'H4',
-      itemsIndent: 40,
       items: mapRecordItems(type, record),
     })),
   },
