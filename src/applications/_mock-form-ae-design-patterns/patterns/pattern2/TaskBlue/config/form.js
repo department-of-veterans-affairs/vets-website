@@ -9,7 +9,7 @@ import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patt
 // page level imports
 import IntroductionPage from '../IntroductionPage';
 import profileContactInfo from './profileContactInfo';
-import veteranInfo from './veteranInfo';
+import { veteranInformation } from './veteranInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -62,8 +62,8 @@ const formConfig = {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-details',
-          uiSchema: veteranInfo.uiSchema,
-          schema: veteranInfo.schema,
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo3',

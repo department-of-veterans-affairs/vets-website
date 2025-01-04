@@ -1,5 +1,5 @@
 import React from 'react';
-import PersonalInformation from './PersonalInformation';
+import { PersonalInformation } from './PersonalInformation';
 
 // Example usage in a form as a veteranInformation page
 export const veteranInformation = {
@@ -15,7 +15,6 @@ export const veteranInformation = {
         }}
         dataAdapter={{
           ssnPath: 'formData.veteran.ssn',
-          // other mappings
         }}
         {...props}
       />
