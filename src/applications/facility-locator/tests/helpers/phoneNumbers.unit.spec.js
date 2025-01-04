@@ -113,4 +113,20 @@ describe('parsePhoneNumber', () => {
     expect(international).to.equal(true);
     expect(countryCode).to.equal(undefined); // because it is 1
   });
+
+  it('should process with extension from result', () => {
+    const phone = '573-475-4108 ext 1008';
+    const {
+      processed,
+      extension,
+      contact,
+      countryCode,
+      international,
+    } = parsePhoneNumber(phone);
+    expect(extension).to.equal('1008');
+    expect(contact).to.equal('5734754108');
+    expect(processed).to.equal(true);
+    expect(international).to.equal(false);
+    expect(countryCode).to.equal(undefined);
+  });
 });
