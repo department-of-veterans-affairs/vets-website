@@ -493,6 +493,37 @@ class MedicationsDetailsPage {
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
     cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
+
+  verifyFilledDateFieldInAccordionCardInfoOnDetailPage = text => {
+    cy.get(':nth-child(1) > [data-testid="fill-date"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyImageFieldInAccordionCardInfoOnDetailsPage = text => {
+    cy.get(':nth-child(1) > [data-testid="med-image"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyMedicationDescriptionFieldInAccordionCardInfo = text => {
+    cy.get(':nth-child(1) > [data-testid="med-description"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyDescriptionTextOnDetailsPage = text => {
+    cy.get('[data-testid="recent-rx"]')
+      .should('have.text', text)
+      .and('be.visible');
+  };
+
+  verifyPreviousPrescriptionHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="previous-rx"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;

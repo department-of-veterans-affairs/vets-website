@@ -64,7 +64,10 @@ const VaPrescription = prescription => {
                 prescriptionName={prescription.prescriptionName}
               />
             )}
-            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+            <h2
+              className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+              data-testid="recent-rx"
+            >
               Most recent prescription
             </h2>
             {prescription && <ExtraDetails {...prescription} />}
@@ -256,7 +259,10 @@ const VaPrescription = prescription => {
                             </p>
                           )}
                         </div>
-                        <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                        <h4
+                          className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                          data-testid="med-description"
+                        >
                           Medication description
                         </h4>
                         <div data-testid="rx-description">
