@@ -14,13 +14,25 @@
  */
 
 export const parsePhoneNumber = phone => {
-  const phoneUS = phone.replace(/^1-/, '');
-  const re = /^(\d{3})[ -]*?(\d{3})[ -]*?(\d{4})\s?(\D*)?[ ]?(\d*)?/;
-  const extension = phoneUS.replace(re, '$5').replace(/\D/g, '');
-  const formattedPhoneNumber = extension
-    ? phoneUS.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
-    : phoneUS.replace(re, '$1-$2-$3');
-  const contact = phoneUS.replace(re, '$1$2$3');
+  const phoneRegex = /^(?:\+?(?<intl>\d{1,}?)[ -.]*)?\(?(?<ac>\d{3})\)?[- .]*(?<pfx>\d{3})[- .]*(?<linenum>\d{4}),?(?: ?e?xt?e?n?s?i?o?n?\.? ?(?<ext>\d*))?$/i;
+  const match = phoneRegex.exec(phone);
+  const { intl, ac, pfx, linenum, ext } = match?.groups;
+  // must have at least ac, pfx, and linenum
+  if (!match || !ac || !pfx || !linenum) {
+    return {
+      contact: phone,
+      extension: '',
+      processed: false,
+      international: false,
+      countryCode: '',
+    };
+  }
 
-  return { formattedPhoneNumber, extension, contact };
+  return {
+    contact: `${ac}${pfx}${linenum}`,
+    extension: ext,
+    processed: true,
+    international: !!intl,
+    countryCode: intl && intl !== '1' ? intl : undefined,
+  };
 };
