@@ -9,22 +9,6 @@ const INSTRUCTIONS =
 
 const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
-const isElementVisible = (element, container) => {
-  const { top, bottom, left, right } = element?.getBoundingClientRect();
-
-  if (container) {
-    const containerRect = container.getBoundingClientRect();
-    return top >= containerRect.top && bottom <= containerRect.bottom;
-  }
-
-  return (
-    top >= 0 &&
-    left >= 0 &&
-    bottom <= window.innerHeight &&
-    right <= window.innerWidth
-  );
-};
-
 const Autocomplete = ({
   availableResults,
   debounceDelay,
@@ -37,11 +21,9 @@ const Autocomplete = ({
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const [ariaLiveText, setAriaLiveText] = useState('');
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
-  const listRef = useRef(null);
   const resultsRef = useRef([]);
 
   // Delays screen reader result count reading to avoid interruption by input content reading
@@ -55,14 +37,6 @@ const Autocomplete = ({
     }, 700),
   ).current;
 
-  const ensureListIsVisibleOnPage = () => {
-    const labelElement = inputRef.current.shadowRoot.querySelector('label');
-
-    if (listRef.current && !isElementVisible(listRef.current)) {
-      labelElement?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-    }
-  };
-
   const debouncedSearch = useRef(
     debounce(async inputValue => {
       const freeTextResult = createFreeTextItem(inputValue);
@@ -75,7 +49,6 @@ const Autocomplete = ({
       setActiveIndex(0);
 
       debouncedSetAriaLiveText(updatedResults.length, inputValue);
-      ensureListIsVisibleOnPage();
     }, debounceDelay),
   ).current;
 
@@ -106,13 +79,10 @@ const Autocomplete = ({
     setActiveIndex(index);
 
     const activeResult = resultsRef.current[index];
-
-    if (!isElementVisible(activeResult, listRef.current)) {
-      activeResult?.scrollIntoView({
-        block: 'nearest',
-      });
-      setIsScrolling(true);
-    }
+    activeResult?.scrollIntoView({
+      block: 'nearest',
+      behavior: 'instant',
+    });
 
     activeResult?.focus();
   };
@@ -188,16 +158,6 @@ const Autocomplete = ({
     if (value && results.length === 0) {
       debouncedSearch(value);
     }
-
-    ensureListIsVisibleOnPage();
-  };
-
-  const handleMouseEnter = index => {
-    if (!isScrolling) {
-      activateScrollToAndFocus(index);
-    }
-
-    setIsScrolling(false);
   };
 
   return (
@@ -220,7 +180,6 @@ const Autocomplete = ({
           aria-activedescendant={`option-${activeIndex}`}
           className="cc-autocomplete__list"
           data-testid="autocomplete-list"
-          ref={listRef}
           role="listbox"
           tabIndex={-1}
           aria-label="List of matching conditions"
@@ -240,7 +199,7 @@ const Autocomplete = ({
               tabIndex={-1}
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseMove={() => activateScrollToAndFocus(index)}
             >
               {result}
             </li>
