@@ -16,16 +16,23 @@
 export const parsePhoneNumber = phone => {
   const phoneRegex = /^(?:\+?(?<intl>\d{1,}?)[ -.]*)?\(?(?<ac>\d{3})\)?[- .]*(?<pfx>\d{3})[- .]*(?<linenum>\d{4}),?(?: ?e?xt?e?n?s?i?o?n?\.? ?(?<ext>\d*))?$/i;
   const match = phoneRegex.exec(phone);
-  const { intl, ac, pfx, linenum, ext } = match?.groups;
-  // must have at least ac, pfx, and linenum
-  if (!match || !ac || !pfx || !linenum) {
-    return {
-      contact: phone,
-      extension: '',
-      processed: false,
-      international: false,
-      countryCode: '',
-    };
+
+  const errorObject = {
+    contact: phone,
+    extension: undefined,
+    processed: false,
+    international: false,
+    countryCode: '',
+  };
+
+  // must have at least match
+  if (!match) {
+    return errorObject;
+  }
+
+  const { intl, ac, pfx, linenum, ext } = match.groups;
+  if (!ac || !pfx || !linenum) {
+    return errorObject;
   }
 
   return {
