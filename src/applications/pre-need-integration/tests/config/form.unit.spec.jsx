@@ -49,6 +49,38 @@ describe('formConfig', () => {
     wrapper.unmount();
   });
 
+  it('should render footerContent without crashing', () => {
+    const footerContent = ({ currentLocation }) => (
+      <Footer formConfig={formConfig} currentLocation={currentLocation} />
+    );
+
+    const wrapper = shallow(footerContent({ currentLocation: '/' }));
+    expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
+  });
+
+  //   it('should render help content when getHelp is defined', () => {
+  //     const wrapper = shallow(
+  //       <Footer formConfig={formConfig} currentLocation={{ pathname: '/' }} />,
+  //     );
+  //     const formFooterWrapper = wrapper.find('FormFooter');
+  //     expect(formFooterWrapper.find('.help-footer-box').exists()).to.be.true;
+  //     wrapper.unmount();
+  //   });
+
+  it('should not render help content when getHelp is not defined', () => {
+    const formConfigWithoutHelp = {};
+    const wrapper = shallow(
+      <Footer
+        formConfig={formConfigWithoutHelp}
+        currentLocation={{ pathname: '/' }}
+      />,
+    );
+    const formFooterWrapper = wrapper.find('FormFooter');
+    expect(formFooterWrapper.find('.help-footer-box').exists()).to.be.false;
+    wrapper.unmount();
+  });
+
   //   Still working on this one
   //   it('should render the IntroductionPage without crashing', () => {
   //     const wrapper = shallow(<IntroductionPage />);
