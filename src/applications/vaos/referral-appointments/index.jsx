@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
-import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
@@ -18,6 +17,7 @@ import { useGetReferralById } from './hooks/useGetReferralById';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import CompleteReferral from './CompleteReferral';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
@@ -26,7 +26,6 @@ export default function ReferralAppointments() {
     selectFeatureCCDirectScheduling,
   );
   const { search } = useLocation();
-
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const {
@@ -84,9 +83,8 @@ export default function ReferralAppointments() {
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
         </Route>
-        {/* TODO: remove this mock page when referral complete page is built */}
-        <Route path={`${basePath.url}/confirm`}>
-          <ConfirmReferral currentReferral={referral} />
+        <Route path={`${basePath.url}/complete/`} search={id}>
+          <CompleteReferral currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />

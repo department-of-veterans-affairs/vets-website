@@ -12,14 +12,23 @@ import WarningNotification from '../../components/WarningNotification';
 import { selectCurrentPage } from '../redux/selectors';
 import { routeToPreviousReferralPage } from '../flow';
 
+const getBackLinkText = currentPage => {
+  switch (currentPage) {
+    case 'referralsAndRequests':
+    case 'scheduleReferral':
+      return 'Appointments';
+    case 'complete':
+      return 'Back to Appointments';
+    default:
+      return 'Back';
+  }
+};
+
 function BreadCrumbNav() {
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
 
-  const text =
-    currentPage === 'referralsAndRequests' || currentPage === 'scheduleReferral'
-      ? 'Appointments'
-      : 'Back';
+  const text = getBackLinkText(currentPage);
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');

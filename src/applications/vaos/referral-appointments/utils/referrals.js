@@ -52,6 +52,7 @@ const createReferral = (startDate, uuid, providerId = '111') => {
     providerLocation: provider.providerLocation,
     providerId,
     details: 'Back pain',
+    reason: 'Referral',
   };
 };
 

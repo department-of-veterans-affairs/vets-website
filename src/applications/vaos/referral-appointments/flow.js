@@ -4,7 +4,7 @@ import { startReferralTimer } from './utils/timer';
  * Function to get referral page flow.
  *
  * @export
- * @param {boolean} state - New COVID appointment state
+ * @param {string} referralId - The referral unique identifier
  * @returns {object} Referral appointment workflow object
  */
 export default function getPageFlow(referralId) {
@@ -40,7 +40,7 @@ export default function getPageFlow(referralId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: 'appointments/[ID]?confirmMsg=true',
+      url: `/schedule-referral/complete?id=${referralId}&confirmMsg=true`,
       label: 'Your appointment is scheduled',
       next: '',
       previous: 'reviewAndConfirm',

@@ -12,7 +12,11 @@ import {
   setSelectedSlot,
 } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
-import { routeToPreviousReferralPage, routeToCCPage } from './flow';
+import {
+  routeToPreviousReferralPage,
+  routeToCCPage,
+  routeToNextReferralPage,
+} from './flow';
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotById } from './utils/provider';
 import {
@@ -217,6 +221,15 @@ const ReviewAndConfirm = props => {
             label="Continue"
             text="Continue"
             uswds
+            onClick={e => {
+              e.preventDefault();
+              // TODO: submit the referral here and poll for status
+              routeToNextReferralPage(
+                history,
+                'reviewAndConfirm',
+                currentReferral.UUID,
+              );
+            }}
           />
         </div>
       </div>
