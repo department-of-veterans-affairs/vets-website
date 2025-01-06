@@ -45,19 +45,6 @@ const GroupedMedications = props => {
     MAX_PAGE_LIST_LENGTH,
   );
 
-  const fromNumtoNumsContent = () => {
-    switch (true) {
-      case totalListCount === 1:
-        return `Showing ${totalListCount} prescription`;
-      case totalListCount <= MAX_PAGE_LIST_LENGTH:
-        return `Showing ${totalListCount} prescriptions, from newest to oldest`;
-      default:
-        return `Showing ${displayNums[0]} to ${
-          displayNums[1]
-        } of ${totalListCount} prescriptions, from newest to oldest`;
-    }
-  };
-
   return (
     <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--3">
       <section className="vads-u-margin-y--3" data-testid="previous-rx">
@@ -67,7 +54,11 @@ const GroupedMedications = props => {
           id="list-showing-info"
           data-testid="grouping-showing-info"
         >
-          {fromNumtoNumsContent()}
+          {totalListCount === 1
+            ? `Showing ${totalListCount} prescription`
+            : `Showing ${displayNums[0]} to ${
+                displayNums[1]
+              } of ${totalListCount} prescriptions, from newest to oldest`}
         </p>
       </section>
       <section>
