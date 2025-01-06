@@ -23,7 +23,7 @@ export default {
 
   schema: {
     type: 'object',
-    required: ['mentalHealthWorkflowChoice'],
+    required: ['view:mentalHealthWorkflowChoice'],
     properties: {
       'view:mentalHealthWorkflowChoice': {
         type: 'string',
