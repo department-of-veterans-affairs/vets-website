@@ -47,7 +47,7 @@ const GroupedMedications = props => {
 
   return (
     <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--3">
-      <section className="vads-u-margin-y--3">
+      <section className="vads-u-margin-y--3" data-testid="previous-rx">
         <h3>Previous prescriptions</h3>
         <p
           className="vads-u-font-family--sans"
