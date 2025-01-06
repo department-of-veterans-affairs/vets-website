@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "22-10216 5% EXEMPTION REQUEST FROM 85/15 REPORTING REQUIREMENT GENERAL INFORMATION (22-10216)",
+  "title": "35% exemption of the routine reporting",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -35,11 +35,7 @@
     },
     "studentRatioCalcChapter": {
       "type": "object",
-      "required": [
-        "beneficiaryStudent",
-        "numOfStudent",
-        "dateOfCalculation"
-      ],
+      "required": ["beneficiaryStudent", "numOfStudent", "dateOfCalculation"],
       "properties": {
         "beneficiaryStudent": {
           "type": "number"

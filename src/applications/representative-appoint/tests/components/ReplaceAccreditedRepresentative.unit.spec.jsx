@@ -45,39 +45,69 @@ const selectedRep = {
 };
 
 const oldRep = {
-  data: {
-    id: '074',
+  id: '074',
+  type: 'organization',
+  attributes: {
+    addressLine1: '1608 K St NW',
+    addressLine2: null,
+    addressLine3: null,
+    addressType: 'Domestic',
+    city: 'Washington',
+    countryName: null,
+    countryCodeIso3: null,
+    province: null,
+    internationalPostalCode: null,
+    stateCode: 'DC',
+    zipCode: '20006',
+    zipSuffix: '2801',
+    phone: '202-861-2700',
     type: 'organization',
-    attributes: {
-      addressLine1: '1608 K St NW',
-      addressLine2: null,
-      addressLine3: null,
-      addressType: 'Domestic',
-      city: 'Washington',
-      countryName: null,
-      countryCodeIso3: null,
-      province: null,
-      internationalPostalCode: null,
-      stateCode: 'DC',
-      zipCode: '20006',
-      zipSuffix: '2801',
-      phone: '202-861-2700',
-      type: 'organization',
-      name: 'American Legion',
+    name: 'American Legion',
+  },
+};
+
+const attorney = {
+  id: '20087',
+  type: 'representative',
+  attributes: {
+    firstName: 'John',
+    lastName: 'Adams',
+    fullName: 'John Adams',
+    addressLine1: '2342 Main St',
+    addressLine2: null,
+    addressLine3: null,
+    addressType: 'Domestic',
+    city: 'Anytown',
+    countryName: 'United States',
+    countryCodeIso3: 'USA',
+    province: 'Connecticut',
+    internationalPostalCode: null,
+    stateCode: 'CT',
+    zipCode: '54837',
+    zipSuffix: '2319',
+    email: 'attorney@law.com',
+    phone: '585-878-0710ext.321',
+    individualType: 'attorney',
+    accreditedOrganizations: {
+      data: [],
     },
   },
 };
 
 describe('<ReplaceAccreditedRepresentative>', () => {
-  const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
+  const getProps = ({
+    submitted = false,
+    setFormData = () => {},
+    currentRep = oldRep,
+  } = {}) => {
     return {
       props: {
         formContext: {
           submitted,
         },
         formData: {
-          'view:representativeStatus': selectedRep, // Add necessary mock data here
-          'view:selectedRepresentative': oldRep, // Add necessary mock data here },
+          'view:representativeStatus': currentRep, // Add necessary mock data here
+          'view:selectedRepresentative': selectedRep, // Add necessary mock data here },
         },
         setFormData,
       },
@@ -85,8 +115,8 @@ describe('<ReplaceAccreditedRepresentative>', () => {
         getState: () => ({
           form: {
             data: {
-              'view:representativeStatus': selectedRep, // Add necessary mock data here
-              'view:selectedRepresentative': oldRep, // Add necessary mock data here
+              'view:representativeStatus': currentRep, // Add necessary mock data here
+              'view:selectedRepresentative': selectedRep, // Add necessary mock data here
             },
           },
         }),
@@ -124,6 +154,7 @@ describe('<ReplaceAccreditedRepresentative>', () => {
       'You’ll replace your current accredited representative with the new one you’ve selected.',
     );
   });
+
   it('should render selected rep address', () => {
     const { props, mockStore } = getProps();
     const { container } = render(
@@ -133,7 +164,41 @@ describe('<ReplaceAccreditedRepresentative>', () => {
     );
 
     expect(container.querySelector('a')).to.contain.text(
-      'Franklin County Service officer8389 Dinah Shore BlvdWinchester, TN 37398',
+      '1608 K St NWWashington, DC 20006',
     );
+  });
+
+  context('when the current rep is an org or VSO', () => {
+    it('should render the work with any rep note', () => {
+      const { props, mockStore } = getProps();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ReplaceAccreditedRepresentative {...props} />
+        </Provider>,
+      );
+
+      const usedPolicy = container.querySelector(
+        '[data-testid="work-with-any-VSO-note"]',
+      );
+
+      expect(usedPolicy).to.exist;
+    });
+  });
+
+  context('when the current rep is an attorney or claims agent', () => {
+    it('should not render the work with any rep note', () => {
+      const { props, mockStore } = getProps({ currentRep: attorney });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ReplaceAccreditedRepresentative {...props} />
+        </Provider>,
+      );
+
+      const usedPolicy = container.querySelector(
+        '[data-testid="work-with-any-VSO-note"]',
+      );
+
+      expect(usedPolicy).not.to.exist;
+    });
   });
 });

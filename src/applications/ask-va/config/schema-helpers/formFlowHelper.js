@@ -46,7 +46,6 @@ import veteransLocationOfResidencePage from '../chapters/personalInformation/vet
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
 import yourBranchOfServicePage from '../chapters/personalInformation/yourBranchOfService';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
-import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
 import yourMailingAddressPage from '../chapters/personalInformation/yourMailingAddress';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
@@ -54,6 +53,7 @@ import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 import yourVRECounselorPage from '../chapters/personalInformation/yourVRECounselor';
 import yourVREInformationPage from '../chapters/personalInformation/yourVREInformation';
+import SchoolStateOrResidencyStateCustomPage from '../../containers/SchoolStateOrResidencyStatePage';
 
 export const flowPaths = {
   aboutMyselfRelationshipVeteran: 'about-myself-relationship-veteran',
@@ -195,6 +195,9 @@ const ch3Pages = {
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
+    editModeOnReviewPage: false,
+    CustomPage: SchoolStateOrResidencyStateCustomPage,
+    CustomPageReview: CustomPageReviewField,
     uiSchema: schoolStOrResidencyPage.uiSchema,
     schema: schoolStOrResidencyPage.schema,
   },
@@ -231,20 +234,15 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-      form.yourRoleEducation ===
-        yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP,
+      (form.school || form.schoolInfo?.schoolName) &&
+      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
+        form.yourRoleEducation ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
     uiSchema: yourContactInformationPage.uiSchema,
     schema: yourContactInformationPage.schema,
-  },
-  yourCountry: {
-    title: CHAPTER_3.YOUR_COUNTRY.TITLE,
-    uiSchema: yourCountryPage.uiSchema,
-    schema: yourCountryPage.schema,
-    depends: form => form.contactPreference === 'U.S. mail',
   },
   yourMailingAddress: {
     title: CHAPTER_3.YOUR_MAILING_ADDRESS.TITLE,
@@ -521,11 +519,11 @@ export const aboutMyselfRelationshipFamilyMemberPages = flowPages(
 const aboutSomeoneElseRelationshipVeteran = [
   'aboutYourRelationshipToFamilyMember',
   'aboutYourFamilyMember',
-  'familyMembersLocationOfResidence',
-  'familyMembersPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'familyMembersLocationOfResidence',
+  'familyMembersPostalCode',
   'stateOfProperty',
   'aboutYourself',
   'yourBranchOfService',
@@ -553,11 +551,11 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'dateOfDeath',
-  'veteransLocationOfResidence',
-  'veteransPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'veteransLocationOfResidence',
+  'veteransPostalCode',
   'stateOfProperty',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
@@ -573,11 +571,11 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages = flowPag
 const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'theirRelationshipToVeteran',
   'aboutYourFamilyMember',
-  'familyMembersLocationOfResidence',
-  'familyMembersPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'familyMembersLocationOfResidence',
+  'familyMembersPostalCode',
   'stateOfProperty',
   'aboutTheVeteran',
   'dateOfDeath',
@@ -607,11 +605,11 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
   'dateOfDeath',
-  'veteransLocationOfResidence',
-  'veteransPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'veteransLocationOfResidence',
+  'veteransPostalCode',
   'stateOfProperty',
   'aboutYourself',
   'yourContactInformation',

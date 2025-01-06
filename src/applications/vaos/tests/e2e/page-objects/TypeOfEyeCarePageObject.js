@@ -9,7 +9,7 @@ export class TypeOfEyeCarePageObject extends PageObject {
   }
 
   selectTypeOfEyeCare(label) {
-    return this.selectRadioButton(label);
+    return super.selectRadioButtonShadow(label);
   }
 }
 

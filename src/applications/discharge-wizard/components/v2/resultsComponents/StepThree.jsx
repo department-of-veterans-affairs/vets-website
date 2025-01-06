@@ -7,17 +7,16 @@ import {
 } from '../../../constants/question-data-map';
 import { BCNR, BCMR, DRB, AFDRB } from '../../../constants';
 import {
+  determineBoardName,
   determineBoardObj,
   determineVenueAddress,
-  stepHeaderLevel,
-  getBoardExplanation,
   isPreviousApplicationYear,
 } from '../../../helpers';
 
 const StepThree = ({ formResponses }) => {
   let onlineSubmissionMsg;
   const boardToSubmit = determineBoardObj(formResponses);
-  const boardExplanation = getBoardExplanation(formResponses);
+  const boardName = determineBoardName(formResponses.SERVICE_BRANCH);
 
   if (
     boardToSubmit.abbr === DRB &&
@@ -53,14 +52,21 @@ const StepThree = ({ formResponses }) => {
       ? 'Submit your completed application form and all supporting documents online or by mail'
       : 'Mail your completed form and all supporting materials';
 
-  const level = stepHeaderLevel(formResponses);
-
   return (
-    <va-process-list-item header={headerText} level={level}>
+    <va-process-list-item header={headerText} level="2">
+      {formResponses.SERVICE_BRANCH === RESPONSES.AIR_FORCE ? (
+        <p>
+          Based on your answers, you need to complete an Application for
+          Correction of Military Record (DD 149). You can download this form
+          from the Air Force Review Boards Agency Website and Portal.
+        </p>
+      ) : (
+        ''
+      )}
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to
-        apply to {boardExplanation}
+        apply to the {boardName}.
       </p>
       {boardToSubmit.abbr === AFDRB ? (
         <>

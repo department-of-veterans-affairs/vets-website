@@ -13,6 +13,14 @@ describe('Unauthenticated', () => {
       cy.intercept('POST', '/representation_management/v0/pdf_generator2122a', {
         statusCode: 200,
       }).as('pdfGeneration');
+
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
@@ -41,7 +49,7 @@ describe('Unauthenticated', () => {
 
       cy.contains('John Adams').should('be.visible');
 
-      cy.contains('button', 'Select this representative')
+      cy.contains('button', 'Select John Adams')
         .first()
         .click();
 
@@ -147,7 +155,7 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_Primary phone"]').type('5467364732');
+      cy.get('input[name="root_primaryPhone"]').type('5467364732');
 
       h.clickContinue();
 
@@ -211,6 +219,10 @@ describe('Unauthenticated', () => {
       cy.get(
         `va-checkbox[name="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"]`,
       ).click();
+      cy.get(`va-privacy-agreement`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
 
       h.clickContinue();
 

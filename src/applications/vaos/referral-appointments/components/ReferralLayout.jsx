@@ -20,7 +20,9 @@ function BreadCrumbNav() {
     currentPage === 'referralsAndRequests' || currentPage === 'scheduleReferral'
       ? 'Appointments'
       : 'Back';
-
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
   return (
     <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
       <nav aria-label="backlink" className="vads-u-padding-y--2 ">
@@ -31,7 +33,7 @@ function BreadCrumbNav() {
           text={text}
           onClick={e => {
             e.preventDefault();
-            routeToPreviousReferralPage(history, currentPage);
+            routeToPreviousReferralPage(history, currentPage, id);
           }}
         />
       </nav>
@@ -60,7 +62,7 @@ export default function ReferralLayout({ children, hasEyebrow }) {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {hasEyebrow && (
-              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
                 New Appointment
               </span>
             )}

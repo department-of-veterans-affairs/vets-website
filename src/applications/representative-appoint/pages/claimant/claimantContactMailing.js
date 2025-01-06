@@ -13,8 +13,8 @@ export const uiSchema = {
     'We’ll send any important information about your form to this address.',
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includeLink />
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includeLink includePrefix isClaimantChapter />
     ),
   },
   homeAddress: addressUI({

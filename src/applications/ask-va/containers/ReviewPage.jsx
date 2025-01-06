@@ -30,11 +30,15 @@ import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
 import submitTransformer from '../config/submit-transformer';
 import { URL, envUrl } from '../constants';
+import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
+
+// Toggle this when testing locally to get successful confirmation page inquiry
+const mockTestingFlag = false;
 
 const { scroller } = Scroll;
 
@@ -90,14 +94,32 @@ const ReviewPage = props => {
       },
     };
 
+    if (mockTestingFlag) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setIsDisabled(false);
+          resolve(mockSubmitResponse);
+          const inquiryNumber = 'A-20230622-306458';
+          const contactPreference = props.formData.contactPreference || 'Email';
+          localStorage.removeItem('askVAFiles');
+          props.router.push({
+            pathname: '/confirmation',
+            state: { contactPreference, inquiryNumber },
+          });
+        }, 500);
+      });
+    }
+
     return apiRequest(url, options)
       .then(response => {
         setIsDisabled(false);
         const { inquiryNumber } = response;
+        const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
         props.router.push({
           pathname: '/confirmation',
-          state: { inquiryNumber },
+          state: { contactPreference, inquiryNumber },
         });
       })
       .catch(() => {
