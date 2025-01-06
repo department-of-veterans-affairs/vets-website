@@ -558,7 +558,7 @@ export const BENEFITS_LIST = [
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Note: You must already have a VA service-connected disability rating to be approved for Veterans Affairs Life Insurance (VALife). VALife provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -583,7 +583,7 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL:
       'https://www.va.gov/life-insurance/options-eligibility/valife',
-    applyNowURL: '',
+    applyNowURL: 'https://insurance.va.gov/VALIFE/Fiduciary/',
   },
   {
     name: 'Disability compensation',
@@ -627,7 +627,7 @@ export const BENEFITS_LIST = [
     category: categories.HOUSING,
     id: 'COE',
     description:
-      'VA housing assistance can help Veterans, service members, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, improve, or keep your current home. Find out how to apply for and manage the Veterans housing assistance benefits you’ve earned.',
+      'VA-backed home loans can help Veterans, service members, and their survivors to buy, build, improve, or refinance a home. In most cases, you’ll still need to find a private lender and have sufficient income and credit for the amount you want to borrow. But a VA-backed home loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -653,8 +653,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/housing-assistance/home-loans/loan-types/',
+    learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
     applyNowURL:
       'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
   },

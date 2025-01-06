@@ -13,7 +13,9 @@ import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 export const uiSchema = {
   ...titleUI('Your phone number and email address'),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone isClaimantChapter />
+    ),
   },
   applicantPhone: phoneUI({
     required: true,
