@@ -29,7 +29,7 @@ describe('VAOS Component: VARequestLayout', () => {
     },
   };
 
-  describe('When viewing upcomming CC appointment details', () => {
+  describe('When viewing upcoming CC appointment details', () => {
     it('should display CC request layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -163,6 +163,19 @@ describe('VAOS Component: VARequestLayout', () => {
         .ok;
       expect(screen.container.querySelector('va-button[text="Cancel request"]'))
         .to.be.ok;
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
   });
 
