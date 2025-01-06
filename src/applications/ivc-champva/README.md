@@ -53,7 +53,10 @@ To run the IVC-CHAMPVA form apps locally:
 2.  Once you have completed local VA.gov setup per Platform
     documentation, simply
     start the server by running the following in a shell at the root of the `vets-website` repository (this will open a new browser window):
-    `` bash # Run from root of `vets-website` repo - opens local VA.gov in web browser yarn watch --open ``
+    ```bash
+    # Run from root of `vets-website` repo - opens local VA.gov in web browser 
+    yarn watch --open
+    ```
 
 3.  Then, in the newly opened browser window append the specific
     form application sub URL you wish to access to the base site URL
@@ -65,13 +68,13 @@ To run the IVC-CHAMPVA form apps locally:
     // vets-website/src/applications/ivc-champva/10-7959C/manifest.json:
     // ...
     {
-      "rootUrl": "/health-care/champva/other-insurance-form-10-7959c",
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/other-insurance-form-10-7959c",
       // ...
     }
     // ...
     ```
 
-    yielding: **localhost:3001/health-care/champva/other-insurance-form-10-7959c**
+    yielding: **localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/other-insurance-form-10-7959c**
 
 ### Developing a Form
 

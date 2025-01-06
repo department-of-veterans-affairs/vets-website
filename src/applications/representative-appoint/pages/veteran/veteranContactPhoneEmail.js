@@ -10,19 +10,14 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
-import { preparerIsVeteran } from '../../utilities/helpers';
+// import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(() => 'Your phone number and email address'),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote
-        includePhone
-        preparerIsVeteran={preparerIsVeteran({ formData })}
-      />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-  'Primary phone': phoneUI({
+  primaryPhone: phoneUI({
     required: true,
   }),
   veteranEmail: emailUI(),
@@ -30,11 +25,11 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['Primary phone'],
+  required: ['primaryPhone'],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    'Primary phone': phoneSchema,
+    primaryPhone: phoneSchema,
     veteranEmail: emailSchema,
   },
 };

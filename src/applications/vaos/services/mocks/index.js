@@ -492,7 +492,7 @@ const responses = {
   // EPS api
   'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(3, '2024-12-02'),
+      data: referralUtils.createReferrals(4, '2024-12-02'),
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
