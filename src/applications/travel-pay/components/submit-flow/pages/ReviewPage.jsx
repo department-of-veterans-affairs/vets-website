@@ -118,6 +118,7 @@ const ReviewPage = ({
         <VaCheckbox
           className="vads-u-margin-x--1 vads-u-margin-y--2"
           checked={isAgreementChecked}
+          name="accept-agreement"
           description={null}
           error={
             !isAgreementChecked
