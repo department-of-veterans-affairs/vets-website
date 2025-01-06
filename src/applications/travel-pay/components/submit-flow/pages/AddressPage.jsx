@@ -3,6 +3,7 @@ import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 const AddressPage = ({
   address,
@@ -119,6 +120,15 @@ const AddressPage = ({
       />
     </div>
   );
+};
+
+AddressPage.propTypes = {
+  address: PropTypes.object,
+  pageIndex: PropTypes.number,
+  setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
+  setYesNo: PropTypes.func,
+  yesNo: PropTypes.object,
 };
 
 export default AddressPage;

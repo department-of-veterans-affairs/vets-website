@@ -4,6 +4,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
+import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
 
 const ConfirmationPage = ({ appointment }) => {
@@ -52,6 +53,10 @@ const ConfirmationPage = ({ appointment }) => {
       </div>
     </Element>
   );
+};
+
+ConfirmationPage.propTypes = {
+  appointment: PropTypes.object,
 };
 
 export default ConfirmationPage;

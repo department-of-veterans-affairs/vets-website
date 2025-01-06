@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 
 const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
@@ -34,6 +35,12 @@ const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
       />
     </div>
   );
+};
+
+CantFilePage.propTypes = {
+  pageIndex: PropTypes.number,
+  setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
 };
 
 export default CantFilePage;

@@ -6,6 +6,7 @@ import {
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
+import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
 
 const MileagePage = ({
@@ -137,6 +138,15 @@ const MileagePage = ({
       />
     </Element>
   );
+};
+
+MileagePage.propTypes = {
+  appointment: PropTypes.object,
+  pageIndex: PropTypes.number,
+  setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
+  setYesNo: PropTypes.func,
+  yesNo: PropTypes.object,
 };
 
 export default MileagePage;

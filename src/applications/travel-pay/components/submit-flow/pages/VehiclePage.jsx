@@ -3,6 +3,7 @@ import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 const VehiclePage = ({
   pageIndex,
@@ -91,6 +92,14 @@ const VehiclePage = ({
       />
     </div>
   );
+};
+
+VehiclePage.propTypes = {
+  pageIndex: PropTypes.number,
+  setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
+  setYesNo: PropTypes.func,
+  yesNo: PropTypes.object,
 };
 
 export default VehiclePage;

@@ -3,6 +3,7 @@ import {
   VaCheckbox,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 
@@ -16,19 +17,6 @@ const ReviewPage = props => {
     isAgreementChecked,
     setIsAgreementChecked,
   } = props;
-
-  //   clinicName,
-  //   clinicPhysicalLocation,
-  //   clinicPhone,
-  //   clinicPhoneExtension,
-  //   facility,
-  //   facilityPhone,
-  //   locationId,
-  //   isPastAppointment,
-  //   practitionerName,
-  //   startDate,
-  //   status,
-  //   typeOfCareName,
 
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
@@ -152,6 +140,16 @@ const ReviewPage = props => {
       </div>
     </>
   );
+};
+
+ReviewPage.propTypes = {
+  address: PropTypes.object,
+  appointment: PropTypes.object,
+  onSubmit: PropTypes.func,
+  pageIndex: PropTypes.number,
+  isAgreementChecked: PropTypes.bool,
+  setIsAgreementChecked: PropTypes.func,
+  setPageIndex: PropTypes.func,
 };
 
 export default ReviewPage;
