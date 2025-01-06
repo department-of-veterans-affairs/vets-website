@@ -14,7 +14,7 @@ const SchoolAndEmployers = () => {
   return (
     <div className="schools-employers-tabs-container">
       <h1>Schools and employers</h1>
-      <p>Sentence here about schools and employers. Helpful info, what to do, use the comparison tool, compare benefits, etc.</p>
+      <p>Learn about and compare your GI Bill benefits at approved schools and employers.</p>
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--3">
         <Tabs onSelect={(firstTab) => setCurrentTab(firstTab)}>
           <TabList className="vads-l-row vads-u-padding--0 vads-u-margin--0" style={{listStyle: 'none', cursor: 'pointer'}}>
