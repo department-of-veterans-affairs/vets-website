@@ -105,7 +105,21 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.getByText(/Clinic: Not available/i));
       expect(screen.getByText(/Reason: Not available/i));
       expect(screen.getByText(/Other details: Not available/i));
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
+
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -298,6 +312,19 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).to.be.ok;
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
     it('should display phone layout without cancel button', async () => {
       // Arrange
