@@ -105,7 +105,7 @@ export default function LicenseCertificationKeywordSearch({
                         {...getItemProps({ item })}
                       >
                         {index !== 0 ? (
-                          item.name
+                          item.lacNm
                         ) : (
                           <div className="keyword-suggestion-container">
                             <span className="vads-u-padding-right--1">

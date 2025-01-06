@@ -127,15 +127,9 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchLicenseCertificationResults(
-  name = null,
-  filterOptions = { type: 'all', state: 'all' },
-) {
-  const { type, state } = filterOptions;
+export function fetchLicenseCertificationResults() {
+  const url = `${api.url}/lcpe/lacs`;
 
-  const url = name
-    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
-    : `${api.url}/lce?type=${type}&state=${state}`;
   return dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
@@ -147,11 +141,11 @@ export function fetchLicenseCertificationResults(
         throw new Error(res.statusText);
       })
       .then(results => {
-        const { data } = results;
+        const { lacs } = results;
 
         dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: data,
+          payload: lacs,
         });
       })
       .catch(err => {

@@ -24,13 +24,13 @@ export const updateDropdowns = (
       label: 'category',
       options: [
         { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'license', optionLabel: 'License' },
+        { optionValue: 'License', optionLabel: 'License' },
         {
-          optionValue: 'certification',
+          optionValue: 'Certification',
           optionLabel: 'Certification',
         },
         {
-          optionValue: 'prep',
+          optionValue: 'Prep',
           optionLabel: 'Prep Course',
         },
       ],
@@ -55,8 +55,11 @@ export const updateDropdowns = (
     },
   ];
 
+  // console.log('category', category);
+
   return initialDropdowns.map(dropdown => {
     if (dropdown.label === 'category') {
+      // console.log('dropdownOptions', dropdown.options);
       return {
         ...dropdown,
         current: dropdown.options.find(
@@ -105,7 +108,7 @@ export const checkAlert = (
     return true;
   }
 
-  if (type === 'certification' && currentLocation !== 'all') {
+  if (type === 'Certification' && currentLocation !== 'all') {
     if (!currentLocation) {
       return false;
     }
@@ -149,10 +152,12 @@ export default function LicenseCertificationSearchForm({
         state: locationDropdown.current.optionValue,
       });
 
+      // console.log('newSuggestions', newSuggestions);
+
       if (name.trim() !== '') {
         newSuggestions.unshift({
-          name,
-          link: 'lce/',
+          lacNm: name,
+          // link: 'lce/',
           type: 'all',
         });
       }
@@ -247,6 +252,7 @@ export default function LicenseCertificationSearchForm({
     }
 
     if (allowContinue) {
+      // console.log('newDropdowns 🟢', newDropdowns);
       setDropdowns(newDropdowns);
     }
 
@@ -254,9 +260,12 @@ export default function LicenseCertificationSearchForm({
   };
 
   const onSelection = selection => {
-    if (selection.selected !== filteredSuggestions[0]) {
-      const { type, state, name: _name } = selection;
+    const { selected } = selection;
+    if (selected !== filteredSuggestions[0]) {
+      const { eduLacTypeNm: type, state, lacNm: _name } = selected;
       const multiples = showMultipleNames(filteredSuggestions, _name);
+
+      // console.log({ type, state, name });
 
       if (multiples.length > 1) {
         setMultipleOptions(multiples);
@@ -266,6 +275,8 @@ export default function LicenseCertificationSearchForm({
         multiples.length > 1
           ? updateDropdowns(type, 'all', multiples)
           : updateDropdowns(type, state);
+
+      // console.log('newDropdowns', newDropdowns);
 
       setShowAlert(
         checkAlert(
