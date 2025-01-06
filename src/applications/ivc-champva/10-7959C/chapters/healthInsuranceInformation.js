@@ -12,17 +12,15 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, nameWordingExt } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
+import { nameWordingExt } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
   fileUploadBlurb,
 } from '../../shared/components/fileUploads/attachments';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { blankSchema } from './applicantInformation';
-
-// TODO: move to /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -64,7 +62,7 @@ export function applicantHasInsuranceSchema(isPrimary) {
                 isPrimary ? '' : 'any other'
               } medical health insurance information to provide or update at this time?`,
               'ui:options': {
-                hint: additionalFilesHint,
+                hint: ADDITIONAL_FILES_HINT,
               },
             };
           },

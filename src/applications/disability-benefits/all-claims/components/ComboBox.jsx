@@ -332,7 +332,7 @@ export class ComboBox extends React.Component {
         onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected={this.state.highlightedIndex === 0 ? 'true' : 'false'}
+        aria-selected={highlightedIndex === 0}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -341,7 +341,13 @@ export class ComboBox extends React.Component {
   }
 
   render() {
-    const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
+    const {
+      searchTerm,
+      ariaLive1,
+      ariaLive2,
+      filteredOptions,
+      highlightedIndex,
+    } = this.state;
     const autocompleteHelperText =
       searchTerm?.length > 0
         ? null
@@ -350,6 +356,11 @@ export class ComboBox extends React.Component {
       review and enter to select. Touch device users, explore by touch or
       with swipe gestures.
     `;
+
+    const activedescendant =
+      highlightedIndex === -1 || filteredOptions.length === 0
+        ? null
+        : `option-${highlightedIndex}`;
 
     return (
       <div className="cc-combobox">
@@ -378,11 +389,7 @@ export class ComboBox extends React.Component {
           aria-hidden={filteredOptions.length === 0}
           aria-label="List of matching conditions"
           id="combobox-list"
-          aria-activedescendant={
-            filteredOptions.length > 0
-              ? `option-${this.state.highlightedIndex}`
-              : null
-          }
+          aria-activedescendant={activedescendant}
           tabIndex={-1}
         >
           {this.drawFreeTextOption(searchTerm)}
@@ -390,7 +397,7 @@ export class ComboBox extends React.Component {
             filteredOptions.map((option, index) => {
               const optionIndex = index + 1;
               let classNameStr = 'cc-combobox__option';
-              if (optionIndex === this.state.highlightedIndex) {
+              if (optionIndex === highlightedIndex) {
                 classNameStr += ' cc-combobox__option--active';
               }
               return (
@@ -408,11 +415,7 @@ export class ComboBox extends React.Component {
                   onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected={
-                    optionIndex === this.state.highlightedIndex
-                      ? 'true'
-                      : 'false'
-                  }
+                  aria-selected={optionIndex === highlightedIndex}
                   id={`option-${optionIndex}`}
                 >
                   {option}

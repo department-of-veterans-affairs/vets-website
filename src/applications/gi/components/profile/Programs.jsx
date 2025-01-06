@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Programs = ({ programTypes, facilityCode, institutionName }) => {
+const Programs = ({ programTypes, facilityCode }) => {
   return (
     <>
       <p>The following programs are approved by the VA at this institution.</p>
@@ -19,8 +19,8 @@ const Programs = ({ programTypes, facilityCode, institutionName }) => {
               pathname: `/institution/${facilityCode}/${programType
                 .trim()
                 .toLowerCase()
-                .replace(/\s+/g, '-')}`,
-              state: { institutionName },
+                .replace(/\s+/g, '-')
+                .replace(/\//g, '-')}`,
             }}
             className="vads-u-display--flex vads-u-align-items--center"
           >
