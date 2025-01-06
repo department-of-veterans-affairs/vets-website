@@ -74,7 +74,6 @@ describe('Header <App>', () => {
     );
     expect(queryByText('Mobile header')).to.not.exist;
     expect(staticDom.querySelector('#header-minimal')).to.not.exist;
-
     document.body.removeChild(staticDom);
   });
 
