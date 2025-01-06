@@ -797,3 +797,25 @@ export const renderMedicalRecordInfo = formResponses => {
   }
   return null;
 };
+
+export const determineBoardName = branch => {
+  let boardName;
+
+  switch (branch) {
+    case RESPONSES.AIR_FORCE:
+      boardName = 'Air Force Board for Correction of Military Records';
+      break;
+    case RESPONSES.ARMY:
+    case RESPONSES.COAST_GUARD:
+      boardName = 'Board for Correction of Military Records (BCMR)';
+      break;
+    case RESPONSES.NAVY:
+    case RESPONSES.MARINE_CORPS:
+      boardName = 'Board for Correction of Naval Records (BCNR)';
+      break;
+    default:
+      boardName = '';
+      break;
+  }
+  return boardName;
+};

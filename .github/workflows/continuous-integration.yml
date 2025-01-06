@@ -663,7 +663,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&

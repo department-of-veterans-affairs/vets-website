@@ -5,13 +5,21 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { isLoggedIn } from 'platform/user/selectors';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 function ProfileNotUpdatedNote(props) {
-  const { loggedIn, includePrefix, includeLink, includePhone } = props;
+  const {
+    formData,
+    includeLink,
+    includePhone,
+    includePrefix,
+    loggedIn,
+  } = props;
+  const isLoggedInVeteran = loggedIn && preparerIsVeteran({ formData });
 
   return (
     <>
-      {loggedIn && (
+      {isLoggedInVeteran && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
@@ -25,7 +33,7 @@ function ProfileNotUpdatedNote(props) {
                 you can call us at{' '}
                 <va-telephone contact={CONTACTS.VA_BENEFITS} extension={0} /> (
                 <va-telephone contact={CONTACTS['711']} tty />
-                ). We’re here 24/7.
+                ). We’re here Monday through Friday, 8:00 a.m. and 9:00 p.m. ET.
               </p>
             </>
           )}
@@ -55,6 +63,7 @@ ProfileNotUpdatedNote.propTypes = {
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
+    formData: state.form.data,
   };
 }
 
