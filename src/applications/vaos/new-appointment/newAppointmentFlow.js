@@ -317,7 +317,7 @@ const flow = {
   },
   review: {
     url: '/new-appointment/review',
-    label: 'Review your appointment details',
+    label: 'Review and confirm your appointment details',
   },
 };
 
@@ -416,7 +416,7 @@ export default function getNewAppointmentFlow(state) {
       ...flow.review,
       label:
         FLOW_TYPES.DIRECT === flowType
-          ? 'Review your appointment details'
+          ? 'Review and confirm your appointment details'
           : 'Review and submit your request',
       url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },
