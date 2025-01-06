@@ -14,6 +14,10 @@ import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityPhone from '../FacilityPhone';
 import NewTabAnchor from '../NewTabAnchor';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function VARequestLayout({ data: appointment }) {
   const { search } = useLocation();
@@ -41,6 +45,10 @@ export default function VARequestLayout({ data: appointment }) {
     heading = 'Request for appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <PageLayout isDetailPage showNeedHelp>

@@ -50,7 +50,7 @@ import {
   certifierNameValidation,
   certifierAddressValidation,
 } from '../helpers/validations';
-import { ADDITIONAL_FILES_HINT } from './constants';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';

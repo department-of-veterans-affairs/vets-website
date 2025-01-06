@@ -43,10 +43,10 @@ describe('Allergy details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the allergy label and name', () => {
-    const allergyName = screen.getByText('Allergies and reactions: NUTS', {
+  it('displays the allergy name', () => {
+    const allergyName = screen.getByText('NUTS', {
       exact: true,
-      selector: 'h1',
+      selector: 'span',
     });
     expect(allergyName).to.exist;
   });

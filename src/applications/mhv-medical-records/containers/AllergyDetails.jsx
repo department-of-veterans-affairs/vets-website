@@ -176,7 +176,7 @@ Provider notes: ${allergyData.notes} \n`;
           <PrintHeader />
 
           <HeaderSection
-            header={`Allergies and reactions: ${allergyData.name}`}
+            header={`${allergyData.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
             data-dd-privacy="mask"
