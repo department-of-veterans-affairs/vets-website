@@ -1,35 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-const DirectDeposit = () => {
-  // const content = {
-  //   heading: `Go to your VA.gov profile to ${serviceDescription}`,
-  //   alertText: (
-  //     <p>
-  //       Here, you can edit your bank name as well as your account number and
-  //       type.
-  //     </p>
-  //   ),
-  //   primaryButtonText: 'Go to your VA.gov profile',
-  //   primaryButtonHandler,
-  //   status: 'continue',
-  // };
+const DirectDeposit = ({ headerLevel = 3 }) => {
+  const dispatch = useDispatch();
 
   return (
-    <VaAlertSignIn variant="signInRequired" visible>
+    <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
       <span slot="SignInButton">
-        <VerifyButton csp="logingov" />
-        <VerifyButton csp="idme" />
+        <va-button
+          text="Sign in or create an account"
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+        />
       </span>
     </VaAlertSignIn>
   );
 };
 
 DirectDeposit.propTypes = {
-  serviceDescription: PropTypes.string.isRequired,
-  primaryButtonHandler: PropTypes.func.isRequired,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default DirectDeposit;

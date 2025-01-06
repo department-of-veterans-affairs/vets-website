@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 // Relative imports.
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
@@ -163,6 +163,35 @@ describe('<CallToActionWidget>', () => {
     ].deriveToolUrlDetails()?.url;
     expect(authReturnUrl.includes(derivedUrl)).to.be.true;
     sessionStorage.clear();
+  });
+
+  it('should show the ChangeAddress cta', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          featureToggles={{ loading: false }}
+          appId={CTA_WIDGET_TYPES.CHANGE_ADDRESS}
+        />
+      </Provider>,
+    );
+    const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
+
+    expect(vaAlertSignIn).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
+    expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
 
   it('should show verify link', () => {
@@ -513,7 +542,7 @@ describe('<CallToActionWidget>', () => {
 
     it('should show direct deposit component when verified with multifactor', () => {
       const { mockStore } = getData();
-      const tree = mount(
+      const { container } = render(
         <Provider store={mockStore}>
           <CallToActionWidget
             fetchMHVAccount={d => d}
@@ -532,8 +561,17 @@ describe('<CallToActionWidget>', () => {
         </Provider>,
       );
 
-      expect(tree.find('DirectDeposit').exists()).to.be.true;
-      tree.unmount();
+      const vaAlertSignIn = $('va-alert-sign-in', container);
+      const signInButton = $('va-button', container);
+
+      expect(vaAlertSignIn).to.exist;
+      expect(signInButton).to.exist;
+      expect(signInButton.getAttribute('text')).to.eql(
+        'Sign in or create an account',
+      );
+      fireEvent.click(signInButton);
+      expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+      expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
     });
 
     describe('account state errors', () => {

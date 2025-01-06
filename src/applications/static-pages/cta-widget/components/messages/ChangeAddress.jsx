@@ -1,35 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-const ChangeAddress = () => {
-  // const content = {
-  //   heading: `Go to your VA.gov profile to ${serviceDescription}`,
-  //   alertText: (
-  //     <p>
-  //       You’ll find your mailing and home address in your profile’s{' '}
-  //       <strong>Contact information</strong> section.
-  //     </p>
-  //   ),
-  //   primaryButtonText: 'Go to your VA.gov profile',
-  //   primaryButtonHandler,
-  //   status: 'continue',
-  // };
+const ChangeAddress = ({ headerLevel = 3 }) => {
+  const dispatch = useDispatch();
 
   return (
-    <VaAlertSignIn variant="signInRequired" visible>
+    <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
       <span slot="SignInButton">
-        <VerifyButton csp="logingov" />
-        <VerifyButton csp="idme" />
+        <va-button
+          text="Sign in or create an account"
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+        />
       </span>
     </VaAlertSignIn>
   );
 };
 
 ChangeAddress.propTypes = {
-  primaryButtonHandler: PropTypes.func.isRequired,
-  serviceDescription: PropTypes.string.isRequired,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default ChangeAddress;
