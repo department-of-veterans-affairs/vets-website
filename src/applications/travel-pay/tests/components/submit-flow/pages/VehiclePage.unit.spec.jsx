@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import AddressPage from '../../components/submit-flow/pages/AddressPage';
+import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
 
 it('should render with back and continue buttons', () => {
   const props = {
@@ -12,8 +12,8 @@ it('should render with back and continue buttons', () => {
       onNext: () => {},
     },
   };
-  const screen = render(<AddressPage {...props} />);
+  const screen = render(<VehiclePage {...props} />);
 
-  expect(screen.getByText('Address page')).to.exist;
+  expect(screen.getByText('Vehicle page')).to.exist;
   expect($('va-button-pair')).to.exist;
 });

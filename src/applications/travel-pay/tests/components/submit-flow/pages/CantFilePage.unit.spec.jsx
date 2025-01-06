@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import CantFilePage from '../../components/submit-flow/pages/CantFilePage';
+import CantFilePage from '../../../../components/submit-flow/pages/CantFilePage';
 
 it('should render with back button', () => {
   const props = {
