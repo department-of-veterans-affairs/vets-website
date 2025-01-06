@@ -25,6 +25,10 @@ const breadcrumbList = [
     href: `/family-and-caregiver-benefits/health-and-disability/champva`,
     label: `CHAMPVA benefits`,
   },
+  {
+    href: `#content`,
+    label: `Apply for CHAMPVA benefits`,
+  },
 ];
 
 export default function App({ location, children }) {
