@@ -14,12 +14,7 @@ export const uiSchema = {
   ),
   profileNotUpdatedNote: {
     'ui:description': () => (
-      <ProfileNotUpdatedNote
-        isClaimant
-        includeLink
-        includePrefix
-        isClaimantChapter
-      />
+      <ProfileNotUpdatedNote includeLink includePrefix isClaimantChapter />
     ),
   },
   homeAddress: addressUI({
