@@ -26,6 +26,7 @@ const PrevApplicationType = ({
     PREV_APPLICATION_DRB_PERSONAL,
     PREV_APPLICATION_BCMR,
     PREV_APPLICATION_BCNR,
+    PREV_APPLICATION_DADT,
     NOT_SURE,
   } = RESPONSES;
 
@@ -34,8 +35,12 @@ const PrevApplicationType = ({
     PREV_APPLICATION_DRB_PERSONAL,
     PREV_APPLICATION_BCMR,
     PREV_APPLICATION_BCNR,
+    PREV_APPLICATION_DADT,
     NOT_SURE,
   ].filter(option => {
+    if (option === PREV_APPLICATION_DADT) {
+      return formResponses.REASON === RESPONSES.REASON_DD215_UPDATE_TO_DD214;
+    }
     if (
       [RESPONSES.NAVY, RESPONSES.MARINE_CORPS].includes(
         formResponses.SERVICE_BRANCH,
