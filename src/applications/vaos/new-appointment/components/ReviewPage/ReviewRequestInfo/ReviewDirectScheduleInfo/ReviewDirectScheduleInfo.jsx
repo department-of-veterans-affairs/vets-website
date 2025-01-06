@@ -22,6 +22,7 @@ export default function ReviewDirectScheduleInfo({
       <AppointmentDate
         dates={data.selectedDates}
         facilityId={data.vaFacility}
+        level={2}
         directSchedule
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

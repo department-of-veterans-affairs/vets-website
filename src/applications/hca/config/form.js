@@ -10,7 +10,6 @@ import { submitTransformer } from './submit-transformer';
 import {
   isLoggedOut,
   isSigiEnabled,
-  isRegOnlyEnabled,
   isMissingVeteranDob,
   hasDifferentHomeAddress,
   hasLowDisabilityRating,
@@ -57,7 +56,6 @@ import AuthBenefitsPackagePage from '../containers/AuthBenefitsPackagePage';
 import AuthRegistrationOnlyPage from '../containers/AuthRegistrationOnlyPage';
 
 // chapter 1 Veteran Information
-import VeteranInformation from '../components/FormPages/VeteranInformation';
 import veteranDateOfBirth from './chapters/veteranInformation/veteranDateOfBirth';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
@@ -170,7 +168,6 @@ const formConfig = {
       path: 'check-your-personal-information',
       component: PersonalInformationPage,
       pageKey: 'verify-personal-information',
-      depends: isRegOnlyEnabled,
     },
     {
       path: 'va-benefits-package',
@@ -201,15 +198,6 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        veteranProfileInformation: {
-          path: 'veteran-information/personal-information',
-          title: 'Veteran\u2019s personal information',
-          CustomPage: VeteranInformation,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          depends: formData => !isRegOnlyEnabled(formData),
-        },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
