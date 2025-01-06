@@ -3,15 +3,13 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { getReferral } from '../redux/selectors';
 import { fetchReferralById } from '../redux/actions';
 import { FETCH_STATUS } from '../../utils/constants';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
+import { useIsInCCPilot } from './useIsInCCPilot';
 
 const useGetReferralById = id => {
   const [referralNotFound, setReferralNotFound] = useState(false);
   const [currentReferral, setCurrentReferral] = useState(null);
   const dispatch = useDispatch();
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
+  const { isInCCPilot } = useIsInCCPilot();
   const { referrals, referralFetchStatus } = useSelector(
     state => getReferral(state),
     shallowEqual,
@@ -19,17 +17,17 @@ const useGetReferralById = id => {
   useEffect(
     () => {
       if (
-        featureCCDirectScheduling &&
+        isInCCPilot &&
         (referralFetchStatus === FETCH_STATUS.succeeded && !referrals.length)
       ) {
         setReferralNotFound(true);
       }
     },
-    [featureCCDirectScheduling, referralFetchStatus, referrals],
+    [isInCCPilot, referralFetchStatus, referrals],
   );
   useEffect(
     () => {
-      if (featureCCDirectScheduling && (referrals.length && id)) {
+      if (isInCCPilot && (referrals.length && id)) {
         const referralFromParam = referrals.find(ref => ref.UUID === id);
         if (referralFromParam) {
           setCurrentReferral(referralFromParam);
@@ -38,19 +36,19 @@ const useGetReferralById = id => {
         }
       }
     },
-    [id, referrals, referralFetchStatus, featureCCDirectScheduling],
+    [id, referrals, referralFetchStatus, isInCCPilot],
   );
   useEffect(
     () => {
       if (
-        featureCCDirectScheduling &&
+        isInCCPilot &&
         !referrals.length &&
         referralFetchStatus === FETCH_STATUS.notStarted
       ) {
         dispatch(fetchReferralById(id));
       }
     },
-    [dispatch, featureCCDirectScheduling, id, referralFetchStatus, referrals],
+    [dispatch, isInCCPilot, id, referralFetchStatus, referrals],
   );
   return {
     currentReferral,

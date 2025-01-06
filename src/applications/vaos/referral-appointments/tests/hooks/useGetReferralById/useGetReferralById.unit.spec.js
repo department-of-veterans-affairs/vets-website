@@ -32,6 +32,11 @@ describe('Community Care Referrals', () => {
           referrals: [],
           referralFetchStatus: FETCH_STATUS.notStarted,
         },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
+        },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
@@ -55,6 +60,11 @@ describe('Community Care Referrals', () => {
             createReferral(now, 'add2f0f4-a1ea-4dea-a504-a54ab57c6800'),
           ],
           referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
         },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
@@ -80,6 +90,11 @@ describe('Community Care Referrals', () => {
           ],
           referralFetchStatus: FETCH_STATUS.notStarted,
         },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
+        },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
@@ -101,6 +116,11 @@ describe('Community Care Referrals', () => {
           facility: null,
           referrals: [],
           referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
         },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
