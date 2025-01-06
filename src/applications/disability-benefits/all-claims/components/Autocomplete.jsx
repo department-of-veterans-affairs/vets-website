@@ -14,6 +14,7 @@ const Autocomplete = ({
   debounceDelay,
   formData,
   id,
+  inputTransformers = [],
   label,
   onChange,
 }) => {
@@ -26,7 +27,16 @@ const Autocomplete = ({
   const inputRef = useRef(null);
   const resultsRef = useRef([]);
 
-  // Delays screen reader result count reading to avoid interruption by input content reading
+  const transformInput = useCallback(
+    inputValue => {
+      return inputTransformers.reduce(
+        (currentValue, transformer) => transformer(currentValue),
+        inputValue,
+      );
+    },
+    [inputTransformers],
+  );
+
   const debouncedSetAriaLiveText = useRef(
     debounce((resultCount, inputValue) => {
       const makePlural = resultCount > 1 ? 's' : '';
@@ -160,6 +170,12 @@ const Autocomplete = ({
     }
   };
 
+  const handleBlur = () => {
+    const transformedValue = transformInput(value);
+    setValue(transformedValue);
+    onChange(transformedValue);
+  };
+
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
@@ -171,6 +187,7 @@ const Autocomplete = ({
         ref={inputRef}
         required
         value={value}
+        onBlur={handleBlur}
         onFocus={handleFocus}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -222,6 +239,7 @@ Autocomplete.propTypes = {
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
   id: PropTypes.string,
+  inputTransformers: PropTypes.array,
   label: PropTypes.string,
   onChange: PropTypes.func,
 };
