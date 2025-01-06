@@ -12,7 +12,11 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import { NEW_API, CONTESTABLE_ISSUES_API } from '../../constants/apis';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -178,6 +182,24 @@ describe('Form0996App', () => {
     await waitFor(() => {
       expect($('va-loading-indicator', container)).to.not.exist;
       expect(global.fetch.notCalled).to.be.true;
+      resetFetch();
+    });
+  });
+
+  it('should call API is logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <Form0996App {...props} toggles={{ [NEW_API]: true }} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
       resetFetch();
     });
   });
