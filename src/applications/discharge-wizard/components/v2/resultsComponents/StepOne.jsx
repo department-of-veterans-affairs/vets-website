@@ -210,7 +210,7 @@ const StepOne = ({ formResponses }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="/get-help-from-accredited-representative/"
+                href="/get-help-from-accredited-representative/find-rep"
               >
                 Get help from an accredited representative (opens in a new tab)
               </a>
