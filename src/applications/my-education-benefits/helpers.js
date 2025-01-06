@@ -657,152 +657,131 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
 }
 
 export function prefillTransformerV4(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const { eligibleForActiveDutyKicker, eligibleForReserveKicker } =
-    claimant || {};
-  const contactInfo = claimant?.contactInfo || {};
-  const stateUser = state.user || {};
-  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
-  const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
-  const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  try {
+    // Safely access data with optional chaining and provide fallback for null values
+    const bankInformation = state?.data?.bankInformation || {};
+    const claimant = state?.data?.formData?.data?.attributes?.claimant || {};
+    const serviceData =
+      state?.data?.formData?.data?.attributes?.serviceData || [];
+    const contactInfo = claimant?.contactInfo || {};
+    const stateUser = state?.user || {};
+    const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
+    const mebAutoPopulateRelinquishmentDate =
+      state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
+    const profile = stateUser?.profile;
+    const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
 
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
+    // Safely access eligible kicker fields
+    const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
+    const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
 
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
+    // Handle name information (safely access profile or claimant data)
+    const firstName = claimant?.firstName || profile?.userFullName?.first;
+    const middleName = claimant?.middleName || profile?.userFullName?.middle;
+    const lastName = claimant?.lastName || profile?.userFullName?.last;
+    const suffix = claimant?.suffix;
+
+    // Handle email and phone numbers
+    const emailAddress =
+      vapContactInfo.email?.emailAddress ||
+      profile?.email ||
+      contactInfo?.emailAddress;
+    const mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+    const mobilePhoneIsInternational =
+      contactInfo?.mobilePhone?.isInternational;
+    const homePhoneNumber = contactInfo?.homePhoneNumber;
+    const homePhoneIsInternational = contactInfo?.homePhone?.isInternational;
+    const address = vapContactInfo.mailingAddress?.addressLine1
+      ? vapContactInfo.mailingAddress
+      : contactInfo;
+
+    // Construct new data object
+    const newData = {
+      ...formData,
+      [formFields.formId]: state?.data?.formData?.data?.id,
+      [formFields.claimantId]:
+        claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
+      [formFields.viewUserFullName]: {
+        [formFields.userFullName]: {
+          first: firstName,
+          middle: middleName,
+          last: lastName,
+        },
+      },
+      [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+      [formFields.email]: {
+        email: emailAddress,
+        confirmEmail: emailAddress,
+      },
+      [formFields.viewPhoneNumbers]: {
+        [formFields.mobilePhoneNumber]: {
+          phone: mobilePhoneNumber?.replace(/\D/g, ''),
+          isInternational: mobilePhoneIsInternational,
+        },
+        [formFields.phoneNumber]: {
+          phone: homePhoneNumber?.replace(/\D/g, ''),
+          isInternational: homePhoneIsInternational,
+        },
+      },
+      [formFields.viewReceiveTextMessages]: {
+        [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
+      },
+      [formFields.viewMailingAddress]: {
+        [formFields.address]: {
+          street: address?.addressLine1,
+          street2: address?.addressLine2,
+          city: address?.city,
+          state: address?.stateCode || address?.province,
+          postalCode:
+            address?.zipCode ||
+            address?.zipcode ||
+            address?.internationalPostalCode,
+          country: getSchemaCountryCode(
+            address?.countryCodeIso3 || address?.countryCode,
+          ),
+        },
+        [formFields.livesOnMilitaryBase]:
+          address?.addressType === 'MILITARY_OVERSEAS',
+      },
+      [formFields.benefitEffectiveDate]: checkDate(
+        mebAutoPopulateRelinquishmentDate,
+        benefitEffectiveDate,
+      ),
+      [formFields.activeDutyKicker]: eligibleForActiveDutyKicker
+        ? 'Yes'
+        : formData[formFields.activeDutyKicker] || undefined,
+      [formFields.selectedReserveKicker]: eligibleForReserveKicker
+        ? 'Yes'
+        : formData[formFields.selectedReserveKicker] || undefined,
+      [formFields.viewDirectDeposit]: {
+        [formFields.bankAccount]: {
+          ...bankInformation,
+          accountType: bankInformation?.accountType?.toLowerCase(),
+        },
+      },
+      [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
+    };
+
+    // Add suffix if available
+    if (suffix) {
+      newData[formFields.viewUserFullName].userFullName.suffix =
+        state?.form?.pages?.applicantInformation?.schema?.properties[
+          formFields.viewUserFullName
+        ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+          equalsAlphaOnlyIgnoreCase(e, suffix),
+        ) || undefined;
+    }
+
+    return {
+      metadata,
+      formData: newData,
+      pages,
+      state,
+    };
+  } catch (error) {
+    // Error handling: Return original data if something goes wrong
+    return { metadata, formData, pages, state }; // Don't modify the form data on error
   }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]:
-      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipCode ||
-          address?.zipcode ||
-          address?.internationalPostalCode,
-        country: getSchemaCountryCode(
-          address?.countryCodeIso3 || address?.countryCode,
-        ),
-      },
-      [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
-    },
-    [formFields.benefitEffectiveDate]: checkDate(
-      mebAutoPopulateRelinquishmentDate,
-      benefitEffectiveDate,
-    ),
-    [formFields.activeDutyKicker]: eligibleForActiveDutyKicker
-      ? 'Yes'
-      : formData[formFields.activeDutyKicker] || 'No',
-
-    // If they're eligible for reserve kicker, default the answer to "Yes"
-    [formFields.selectedReserveKicker]: eligibleForReserveKicker
-      ? 'Yes'
-      : formData[formFields.selectedReserveKicker] || 'No',
-    [formFields.viewDirectDeposit]: {
-      [formFields.bankAccount]: {
-        ...bankInformation,
-        accountType: bankInformation?.accountType?.toLowerCase(),
-      },
-    },
-    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
 }
 
 export function prefillTransformer(pages, formData, metadata, state) {
