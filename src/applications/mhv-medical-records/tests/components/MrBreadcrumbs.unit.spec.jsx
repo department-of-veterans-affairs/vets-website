@@ -243,7 +243,6 @@ describe('MrBreadcrumbs component', () => {
       textContent: 'test',
     });
     const dispatchSpy = Sinon.spy();
-    // TODO: refactor this to use in other breadcrumb tests
     const mockStore = {
       getState: () => ({
         ...initialState,
@@ -251,6 +250,20 @@ describe('MrBreadcrumbs component', () => {
       subscribe: () => {},
       dispatch: action => {
         action(dispatchSpy);
+        expect(dispatchSpy.called).to.be.true;
+        Sinon.assert.calledWith(
+          dispatchSpy,
+          Sinon.match(params => {
+            expect(params.type).to.equal('MR_SET_BREAD_CRUMBS');
+            expect(params.payload).to.exist;
+            expect(params.payload.crumbs).to.exist;
+            expect(params.payload.crumbs.length).to.equal(2);
+            expect(params.payload.crumbs[0].href).to.equal(
+              '/vitals?timeFrame=2024-02',
+            );
+            return true;
+          }),
+        );
       },
     };
 
@@ -268,19 +281,5 @@ describe('MrBreadcrumbs component', () => {
 
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
-    expect(dispatchSpy.called).to.be.true;
-    Sinon.assert.calledWith(
-      dispatchSpy,
-      Sinon.match(params => {
-        expect(params.type).to.equal('MR_SET_BREAD_CRUMBS');
-        expect(params.payload).to.exist;
-        expect(params.payload.crumbs).to.exist;
-        expect(params.payload.crumbs.length).to.equal(2);
-        expect(params.payload.crumbs[0].href).to.equal(
-          '/vitals?timeFrame=2024-02',
-        );
-        return true;
-      }),
-    );
   });
 });
