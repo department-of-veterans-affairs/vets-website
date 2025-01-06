@@ -18,12 +18,7 @@ export const uiSchema = {
       } service information`,
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote
-        includePhone
-        preparerIsVeteran={preparerIsVeteran({ formData })}
-      />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
   'Branch of Service': radioUI('Branch of service'),
 };
