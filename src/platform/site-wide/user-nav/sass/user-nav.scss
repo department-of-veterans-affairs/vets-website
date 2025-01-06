@@ -218,15 +218,6 @@
 }
 
 .login.login-modal {
-  // temporary solution until DST can fix va-modal large property
-  margin-left: -1rem;
-  margin-right: 4rem;
-
-  @include media($medium-screen) {
-    margin-left: unset;
-    margin-right: unset;
-  }
-
   .downtime-notification.row {
     margin: 0 0 1em;
   }

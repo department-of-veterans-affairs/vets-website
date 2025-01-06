@@ -7,7 +7,7 @@ const transformForSubmit = (formConfig, form) => {
   );
 
   const { formNumber } = getFormContent();
-  const { idNumber = {}, address = {}, veteran = {}, email } = transformedData;
+  const { idNumber = {}, address = {}, fullName = {}, email } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
 
   return JSON.stringify({
@@ -16,7 +16,7 @@ const transformForSubmit = (formConfig, form) => {
     formData: {
       idNumber,
       postalCode: address.postalCode,
-      fullName: veteran.fullName,
+      fullName,
       email,
     },
   });

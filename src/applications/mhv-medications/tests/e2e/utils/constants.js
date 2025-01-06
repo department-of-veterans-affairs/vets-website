@@ -12,6 +12,16 @@ export const Data = {
     'Showing 1 - 10 of 29 recently requested medications, alphabetically by status',
   ACTIVE_REFILL_IN_PROCESS: 'We expect to fill this prescription on',
   ACTIVE_NON_VA: 'You can’t manage this medication in this online tool.',
+  PREVIOUS_PRESCRIPTION_PAGINATION:
+    'Showing 1 - 10 of 26 prescriptions, from newest to oldest',
+  PREVIOUS_PRESCRIPTION_PAGINATION_SECOND:
+    'Showing 11 - 20 of 26 prescriptions, from newest to oldest',
+  PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
+    'Showing 21 - 26 of 26 prescriptions, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
+  FILL_DATE_FIELD: 'Filled by pharmacy on',
+  IMAGE_FIELD: 'Image',
+  MED_DESCRIPTION: 'Medication description',
 };
 export const Paths = {
   LANDING_LIST:
