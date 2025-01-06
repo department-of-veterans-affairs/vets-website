@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaSelect,
@@ -62,7 +62,7 @@ const YellowRibbonSelector = ({ programs }) => {
   }));
 
   console.table(mappedPrograms); // eslint-disable-line no-console
-
+  const resultsSummaryRef = useRef(null);
   const [selectedOption, setSelectedOption] = useState('');
   const [activeOption, setActiveOption] = useState('');
   const [filteredPrograms, setFilteredPrograms] = useState([]);
@@ -118,10 +118,20 @@ const YellowRibbonSelector = ({ programs }) => {
   const handleDisplayResults = () => {
     setActiveOption(selectedOption);
     filterPrograms(selectedOption);
+    setTimeout(() => {
+      if (resultsSummaryRef.current) {
+        resultsSummaryRef.current.focus();
+      }
+    }, 0);
   };
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    setTimeout(() => {
+      if (resultsSummaryRef.current) {
+        resultsSummaryRef.current.focus();
+      }
+    }, 0);
   };
 
   const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage);
@@ -152,10 +162,11 @@ const YellowRibbonSelector = ({ programs }) => {
     } else {
       activeOptionLabel = `"${activeOption}" degree level`;
     }
-
     return (
       <p
         id="results-summary"
+        ref={resultsSummaryRef}
+        tabIndex="-1"
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
         {`Showing ${startIndex}-${endIndex} of ${
@@ -174,7 +185,7 @@ const YellowRibbonSelector = ({ programs }) => {
           </p>
           <div className="selector-wrapper vads-u-display--flex vads-u-align-items--flex-end ">
             <VaSelect
-              className="degree-selector "
+              className="degree-selector"
               id="degree"
               name="degree"
               label="Degree level"
@@ -188,7 +199,6 @@ const YellowRibbonSelector = ({ programs }) => {
                 </option>
               ))}
             </VaSelect>
-
             <VaButton
               onClick={handleDisplayResults}
               secondary
@@ -201,14 +211,20 @@ const YellowRibbonSelector = ({ programs }) => {
 
       <div className="vads-u-margin-bottom--0">
         {filteredPrograms.length > 0 && activeOption && renderResultsSummary()}
-        <div className="degree-level-results vads-u-margin-bottom--1 vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--stretch mobile-lg:vads-u-flex-direction--row">
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul
+          role="list"
+          className="degree-level-results vads-u-margin-bottom--1"
+        >
           {currentPrograms.map((program, index) => (
-            <ProgramCard
+            <li
+              className="degree-item"
               key={`${program.divisionProfessionalSchool}-${index}`}
-              program={program}
-            />
+            >
+              <ProgramCard program={program} />
+            </li>
           ))}
-        </div>
+        </ul>
         {currentPrograms.length > 0 && (
           <VaPagination
             page={currentPage}

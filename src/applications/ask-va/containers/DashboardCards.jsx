@@ -14,7 +14,7 @@ import {
   getVAStatusFromCRM,
 } from '../config/helpers';
 import { URL, envUrl } from '../constants';
-import { mockInquries } from './mockInquiryReplyData';
+import { mockInquiries } from '../utils/mockData';
 
 // Toggle this when testing locally to load dashboard cards
 const mockTestingFlag = false;
@@ -40,7 +40,7 @@ const DashboardCards = () => {
 
   const getApiData = url => {
     if (mockTestingFlag) {
-      const res = mockInquries;
+      const res = mockInquiries;
 
       const transformedInquiries = res.data.map(inquiry => ({
         ...inquiry,
