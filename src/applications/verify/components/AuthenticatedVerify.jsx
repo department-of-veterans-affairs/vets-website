@@ -10,6 +10,7 @@ import {
 
 export default function Authentication() {
   const profile = useSelector(selectProfile);
+
   useEffect(
     () => {
       if (!profile?.loading) {

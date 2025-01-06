@@ -1,9 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
@@ -27,13 +25,12 @@ export const verifyHandler = ({ policy, useOAuth, queryParams }) => {
  */
 export const VerifyIdmeButton = ({ queryParams }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   return (
     <button
       type="button"
       className="usa-button idme-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
+      onClick={() => verifyHandler({ policy, useOAuth: true, queryParams })}
     >
       <span>
         <svg viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,13 +57,12 @@ export const VerifyIdmeButton = ({ queryParams }) => {
  */
 export const VerifyLogingovButton = ({ queryParams }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
+      onClick={() => verifyHandler({ policy, useOAuth: true, queryParams })}
     >
       <div>Verify with {image}</div>
     </button>
@@ -80,10 +76,15 @@ export const VerifyLogingovButton = ({ queryParams }) => {
  * @param {String} config.onClick - Used for unit-testing: DO NOT OVERWRITE
  * @returns A button with just the Login.gov or ID.me logo that is used to start the identity-verification process
  */
-export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
+export const VerifyButton = ({
+  csp,
+  onClick = verifyHandler,
+  queryParams,
+  useOAuth,
+}) => {
   const { image } = SERVICE_PROVIDERS[csp];
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
   const className = `usa-button ${csp}-verify-buttons`;
+
   return (
     <button
       key={csp}
@@ -99,6 +100,7 @@ export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
 
 VerifyButton.propTypes = {
   csp: PropTypes.string.isRequired,
+  useOAuth: PropTypes.bool.isRequired,
   queryParams: PropTypes.object,
   onClick: PropTypes.func,
 };

@@ -12,20 +12,19 @@ export default function VerifyApp({ env = environment }) {
     () => {
       document.title = `Verify your identity`; // title should match h1 tag
 
-      if (isUnauthenticated && isProduction) {
-        window.location.replace('/');
+      if (
+        isUnauthenticated &&
+        isProduction &&
+        window.location.pathname !== '/verify'
+      ) {
+        window.location.replace('/verify');
       }
     },
     [isUnauthenticated, isProduction],
   );
-
   return (
     <>
-      {isUnauthenticated && !isProduction ? (
-        <UnauthenticatedVerify />
-      ) : (
-        <AuthenticatedVerify />
-      )}
+      {isUnauthenticated ? <UnauthenticatedVerify /> : <AuthenticatedVerify />}
     </>
   );
 }

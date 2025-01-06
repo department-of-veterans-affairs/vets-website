@@ -12,7 +12,10 @@ export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
       allowVerification: true,
       isSignup: false,
       isLink: true,
-      useOAuth,
+      useOAuth, // Enforce OAuth for unauthenticated flows
+      ...(useOAuth && {
+        queryParams: { operation: 'unauthenticated_verify_page' },
+      }), // IAM-specific param
     });
 
     if (useOAuth) {
