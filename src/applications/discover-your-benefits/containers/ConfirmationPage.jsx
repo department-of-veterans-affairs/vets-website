@@ -414,14 +414,23 @@ export class ConfirmationPage extends React.Component {
               )}
               {!this.props.location.query.allBenefits &&
                 window.history.length > 2 && (
-                  <p>
-                    <va-link
-                      data-testid="back-link"
-                      href="#"
-                      onClick={this.handleBackClick}
-                      text="Go back and review your entries"
-                    />
-                  </p>
+                  <>
+                    <p>
+                      <va-link
+                        data-testid="back-link"
+                        href="#"
+                        onClick={this.handleBackClick}
+                        text="Go back and review your entries"
+                      />
+                    </p>
+                    <p className="start-over-link-container">
+                      <va-link
+                        data-testid="start-over-link"
+                        href="/discover-your-benefits/goals"
+                        text="Start over"
+                      />
+                    </p>
+                  </>
                 )}
 
               <Benfits
