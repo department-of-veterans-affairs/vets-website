@@ -1,9 +1,23 @@
-// TODO: this is a placeholder. Structure will be added to this page in this ticket #97085
+import {
+  textareaUI,
+  textareaSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  additionalInformationPageTitle,
+  additionalInformationPageQuestion,
+} from '../../content/form0781/additionalInformationPage';
+import { formTitle } from '../../utils';
+
 export const uiSchema = {
-  'ui:description': 'Placeholder text for additional information page skeleton',
+  'ui:title': formTitle(additionalInformationPageTitle),
+  additionalInformation: textareaUI({
+    title: additionalInformationPageQuestion,
+  }),
 };
 
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    additionalInformation: textareaSchema,
+  },
 };
