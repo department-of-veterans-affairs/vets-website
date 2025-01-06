@@ -1,4 +1,4 @@
-import { addDays, format, isAfter, isFuture, isValid } from 'date-fns';
+import { parse, addDays, format, isAfter, isFuture, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { formatDateLong } from 'platform/utilities/date';
@@ -38,17 +38,27 @@ export const isNumber = value => {
  * @returns formatted date string 'MM/yyyy'; example: 01/2021
  *
  */
-export const monthYearFormatter = date => {
-  // Slicing off '-XX' from date string
-  // replacing - with / since date-fns will be off by 1 month if we don't
-  const newDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
-  return isValid(newDate) ? format(newDate, 'MM/yyyy') : undefined;
+
+export const monthYearFormatter = dateString => {
+  if (!dateString) return '';
+
+  // Replace any '-XX' legacy markers with '-01'
+  const safeDate = dateString.replace(/-XX$/, '-01');
+  let parsedDate;
+  if (safeDate.length === 7) {
+    parsedDate = parse(safeDate, 'yyyy-MM', new Date());
+  } else {
+    parsedDate = parse(safeDate, 'yyyy-MM-dd', new Date());
+  }
+
+  // If parsed successfully, format as "MM/yyyy"
+  return isValid(parsedDate) ? format(parsedDate, 'MM/yyyy') : '';
 };
 
 export const endDate = (date, days) => {
-  return isValid(new Date(date))
-    ? formatDateLong(addDays(new Date(date), days))
-    : '';
+  if (!date) return '';
+  const parsed = new Date(date);
+  return isValid(parsed) ? formatDateLong(addDays(parsed, days)) : '';
 };
 
 export const currency = amount => {

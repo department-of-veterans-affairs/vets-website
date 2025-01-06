@@ -51,6 +51,7 @@ const createReferral = (startDate, uuid, providerId = '111') => {
     providerName: provider.providerName,
     providerLocation: provider.providerLocation,
     providerId,
+    details: 'Back pain',
   };
 };
 
@@ -66,10 +67,7 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
   const baseDateObject = new Date(year, month - 1, day);
   const referrals = [];
   const baseUUID = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
-  const providerIds = ['111', '222'];
-  const isOdd = number => {
-    return number % 2;
-  };
+  const providerIds = ['111', '222', '0'];
 
   for (let i = 0; i < numberOfReferrals; i++) {
     const startDate = addDays(baseDateObject, i);
@@ -79,7 +77,7 @@ const createReferrals = (numberOfReferrals = 3, baseDate) => {
       createReferral(
         referralDate,
         `${baseUUID}${i.toString().padStart(2, '0')}`,
-        isOdd(i) ? providerIds[0] : providerIds[1],
+        providerIds[i % providerIds.length],
       ),
     );
   }

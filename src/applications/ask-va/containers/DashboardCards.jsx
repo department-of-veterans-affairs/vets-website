@@ -14,7 +14,7 @@ import {
   getVAStatusFromCRM,
 } from '../config/helpers';
 import { URL, envUrl } from '../constants';
-import { mockInquiries } from './mockInquiryReplyData';
+import { mockInquiries } from '../utils/mockData';
 
 // Toggle this when testing locally to load dashboard cards
 const mockTestingFlag = false;
