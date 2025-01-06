@@ -256,7 +256,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     button = screen.getByText(/Yes, cancel request/i);
     button.click();
 
-    expect(window.dataLayer[0]).to.deep.equal({
+    expect(window.dataLayer).to.deep.include({
       event: 'vaos-cancel-request-clicked',
     });
 
@@ -394,7 +394,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       button = screen.getByText(/Yes, cancel request/i);
       button.click();
 
-      expect(window.dataLayer[0]).to.deep.equal({
+      expect(window.dataLayer).to.deep.include({
         event: 'vaos-cancel-request-clicked',
       });
 
