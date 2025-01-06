@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { mapboxToken } from 'platform/utilities/mapbox';
+import {
+  buildAddressArray,
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
 import { fetchMultiFacility } from './actions';
-import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidgetDynamic extends React.Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { formatDateLong } from 'platform/utilities/date';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { camelCase } from 'lodash';
+import { formatDateLong } from 'platform/utilities/date';
 import FacilityApiAlert from './FacilityApiAlert';
 import FacilityDataLink from './FacilityDataLink';
 
@@ -13,7 +13,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           {established ? 'Existing patient' : 'New patient'}
         </p>
         <p
-          id={`facility-${_.camelCase(service)}-${
+          id={`facility-${camelCase(service)}-${
             established ? 'existing' : 'new'
           }-patient-wait-time`}
           className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -75,7 +75,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             </div>
             <div className="vads-l-row">
               <div
-                id={`facility-${_.camelCase(
+                id={`facility-${camelCase(
                   service,
                 )}-appointment-wait-times-effective-date`}
               >

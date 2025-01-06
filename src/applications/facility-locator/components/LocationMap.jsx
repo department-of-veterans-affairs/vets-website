@@ -1,6 +1,10 @@
-import { mapboxToken } from 'platform/utilities/mapbox';
 import React from 'react';
-import { staticMapURL } from '../utils/mapHelpers';
+import PropTypes from 'prop-types';
+import {
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
+import { LatLongAbbrTypes } from '../types';
 
 function LocationMap({ info }) {
   if (!info) {
@@ -20,5 +24,13 @@ function LocationMap({ info }) {
     </div>
   );
 }
+
+LocationMap.propTypes = {
+  info: PropTypes.shape({
+    attributes: {
+      LatLongAbbrTypes,
+    },
+  }),
+};
 
 export default LocationMap;

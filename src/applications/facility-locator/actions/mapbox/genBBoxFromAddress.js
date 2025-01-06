@@ -3,7 +3,7 @@ import {
   MAPBOX_QUERY_TYPES,
   CountriesList,
   mapboxClient,
-} from 'platform/utilities/mapbox';
+} from 'platform/utilities/facilities-and-mapbox';
 import { BOUNDING_RADIUS, EXPANDED_BOUNDING_RADIUS } from '../../constants';
 import {
   GEOCODE_STARTED,

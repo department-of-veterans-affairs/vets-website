@@ -8,7 +8,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/mapbox';
+import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   clearSearchText,
