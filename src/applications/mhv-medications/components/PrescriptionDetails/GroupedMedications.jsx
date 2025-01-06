@@ -54,7 +54,7 @@ const GroupedMedications = props => {
           id="list-showing-info"
           data-testid="grouping-showing-info"
         >
-          {`Showing ${displayNums[0]} - ${
+          {`Showing ${displayNums[0]} to ${
             displayNums[1]
           } of ${totalListCount} prescriptions, from newest to oldest`}
         </p>
@@ -68,7 +68,7 @@ const GroupedMedications = props => {
                 key={rx.prescriptionId}
               >
                 <dt className="vads-u-margin-top--3">
-                  <strong>Prescription number: {rx.prescriptionNumber}</strong>
+                  <h4>Prescription number: {rx.prescriptionNumber}</h4>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
                   <LastFilledInfo {...rx} />
