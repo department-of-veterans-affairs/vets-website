@@ -11,6 +11,18 @@ const vamcEhr = require('./vamc-ehr.json');
 // prescriptions module generates mocks
 const prescriptions = require('./medications/prescriptions/index');
 
+/**
+ * delays a response by a given amount of seconds
+ *
+ * @param {!function} cb - callback function to fire after delay
+ * @param {?number} delay - time to delay response in seconds (default: 3)
+ */
+const delaySingleResponse = (cb, delaySeconds = 3) => {
+  setTimeout(() => {
+    cb();
+  }, delaySeconds * 1000);
+};
+
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
@@ -43,6 +55,16 @@ const responses = {
       },
     };
     return res.json(data);
+  },
+  'GET /my_health/v1/prescriptions/:id/info': (req, res) => {
+    const { id } = req.params;
+    const data = {
+      id,
+      data: 'prescriptions info',
+      updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
+    };
+    const secondsOfDelay = 5;
+    delaySingleResponse(() => res.json(data), secondsOfDelay);
   },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,

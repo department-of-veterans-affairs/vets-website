@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom-v5-compat';
+import { Link, useLoaderData } from 'react-router-dom-v5-compat';
 
 export default function Prescriptions() {
   const prescriptions = useLoaderData();
@@ -18,6 +18,10 @@ export default function Prescriptions() {
                 Facility: {prescription.attributes.facilityName}
                 <br />
                 Status: {prescription.attributes.dispStatus}
+                <br />
+                <Link to={`/routing-demos/v6/prescription/${prescription.id}`}>
+                  View details
+                </Link>
               </p>
             </va-accordion-item>
           ))}
