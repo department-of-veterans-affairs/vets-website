@@ -15,7 +15,7 @@ describe('Medications Details Review Image DropDown', () => {
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
-    // detailsPage.clickReviewImageDropDownOnDetailsPage();
+    detailsPage.clickRefillHistoryAccordionOnDetailsPage();
     detailsPage.verifyMedicationImageVisibleOnDetailsPage();
     cy.injectAxe();
     cy.axeCheck('main');

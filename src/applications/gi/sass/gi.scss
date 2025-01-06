@@ -429,6 +429,7 @@
       height: auto;
       display: flex;
       width: 100%;
+      max-width: 305px;
       .degree-level-card {
         flex: 1;
         width: 100%;
@@ -441,6 +442,10 @@
   @media screen and (max-width: $medium-screen) {
     .degree-level-results {
       flex-direction: column;
+      .degree-item {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 }
