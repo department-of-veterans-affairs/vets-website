@@ -1,47 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaButton,
   VaPagination,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatProgramType, generateMockPrograms } from '../utils/helpers';
-// import { fetchInstitutionPrograms } from '../../actions';
+import {
+  formatProgramType,
+  mapToAbbreviation,
+  getAbbreviationsAsArray,
+} from '../utils/helpers';
+import { fetchInstitutionPrograms } from '../actions';
 
 const ProgramsList = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(state => state.institutionPrograms);
-  const location = useLocation();
-  const { institutionName } = location.state;
-
-  const { programType } = match.params;
-  // const { facilityCode } = match.params;
-
+  const { loading, error, institutionPrograms } = useSelector(
+    state => state.institutionPrograms,
+  );
+  const institutionName = localStorage.getItem('institutionName');
+  const { programType, facilityCode } = match.params;
   const formattedProgramType = formatProgramType(programType);
+  const abbreviatedProgramTypes = mapToAbbreviation(programType);
+  const abbreviatedList = getAbbreviationsAsArray(abbreviatedProgramTypes);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
-  const [key, setKey] = useState(0);
-
   const [searchError, setSearchError] = useState(null);
 
-  const mockPrograms = generateMockPrograms(30);
+  const [key, setKey] = useState(0);
 
-  const filteredPrograms = mockPrograms.filter(program =>
+  const triggerRerender = () => {
+    setKey(prevKey => prevKey + 1);
+  };
+
+  const filteredPrograms = institutionPrograms.filter(program =>
     program.attributes.description
-      .toLowerCase()
+      ?.toLowerCase()
       .includes(submittedQuery.toLowerCase()),
   );
 
   useEffect(
     () => {
       window.scrollTo(0, 0);
-      // dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
-      // dispatch(fetchInstitutionPrograms(facilityCode, programType));
+      dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
     },
     [dispatch],
   );
@@ -51,12 +56,8 @@ const ProgramsList = ({ match }) => {
     setSearchError(null);
   };
 
-  const triggerRerender = () => {
-    setKey(prevKey => prevKey + 1); // Changing the key forces a re-render
-  };
-
   const handleSearchSubmit = e => {
-    e?.preventDefault();
+    e.preventDefault();
     if (!searchQuery.trim()) {
       setSearchError('Please fill in a program name and then select search.');
       return;
@@ -120,34 +121,55 @@ const ProgramsList = ({ match }) => {
   }
 
   return (
-    <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+    <div className="programs-list-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
       <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         {formattedProgramType}
       </h2>
       <div
-        key={key}
-        className="search-container va-flex vads-u-align-items--flex-end"
+        className={`${institutionPrograms.length < 21 &&
+          'vads-u-margin-bottom--4'}`}
       >
-        <VaTextInput
-          error={searchError}
-          hint={null}
-          label="Search for a program name:"
-          message-aria-describedby="Search for a program name"
-          name="search-input"
-          onInput={handleSearchInput}
-          onKeyDown={e => e.key === 'Enter' && handleSearchSubmit(e)}
-          show-input-error
-        />
-        <VaButton onClick={handleSearchSubmit} text="Search" />
-        {submittedQuery && (
+        <h4 className="abbreviations" data-testid="abbreviations-container">
+          Abbreviation(s)
+        </h4>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="list-style" role="list">
+          {abbreviatedList.map(abb => (
+            <li className="vads-u-margin-bottom--0" key={abb}>
+              {abb}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {institutionPrograms.length > 20 && (
+        <div
+          key={key}
+          className="search-container va-flex vads-u-align-items--flex-end"
+        >
+          <VaTextInput
+            error={searchError}
+            className="search-input"
+            label="Search for a program name:"
+            message-aria-describedby="Search for a program name"
+            name="search-input"
+            onInput={handleSearchInput}
+            onKeyDown={e => e.key === 'Enter' && handleSearchSubmit(e)}
+            show-input-error
+          />
           <VaButton
+            className="search-btn"
+            onClick={handleSearchSubmit}
+            text="Search"
+          />
+          <VaButton
+            className="reset-search"
             onClick={handleReset}
             secondary
-            text="Back to program list"
+            text="Reset search"
           />
-        )}
-      </div>
+        </div>
+      )}
       {filteredPrograms.length > 0 ? (
         <p id="results-summary">
           {submittedQuery ? (
@@ -174,9 +196,9 @@ const ProgramsList = ({ match }) => {
       )}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
-        {currentPrograms.map(program => (
-          <li className="vads-u-margin-bottom--2" key={program.id}>
-            {program.attributes.description}
+        {currentPrograms.map(({ id, attributes: { description } }) => (
+          <li className="vads-u-margin-bottom--2" key={id}>
+            {description}
           </li>
         ))}
       </ul>

@@ -40,10 +40,11 @@ const App = ({ children }) => {
     sessionSampleRate: 100,
     sessionReplaySampleRate: 50,
     trackInteractions: true,
+    trackFrustrations: true,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask',
+    defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
 

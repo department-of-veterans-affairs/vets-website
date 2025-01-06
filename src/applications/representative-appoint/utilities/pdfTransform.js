@@ -30,7 +30,7 @@ export function pdfTransform(formData) {
     veteranDateOfBirth: dateOfBirth,
     serviceNumber,
     veteranHomeAddress: homeAddress,
-    'Primary phone': phone,
+    primaryPhone: phone,
     veteranEmail: email,
     'view:selectedRepresentative': selectedRep,
     applicantName,

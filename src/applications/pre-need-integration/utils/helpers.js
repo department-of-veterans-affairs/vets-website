@@ -30,7 +30,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
-import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import { rankLabels } from './rankLabels';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -617,6 +617,12 @@ export function requiresSponsorInfo(item) {
   return sponsor === undefined || sponsor === 'Other';
 }
 
+export function hasServiceRecord(item) {
+  const serviceRecords =
+    get('serviceRecords', item) || get('formData.serviceRecords', item);
+  return !(serviceRecords === undefined || serviceRecords.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
@@ -1070,91 +1076,86 @@ export const preparerVeteranUI = {
   },
 };
 
-export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
-  // Map the highestRank to the corresponding Rank Description from jsonData
-  const rankMap = jsonData.reduce((map, rank) => {
-    // eslint-disable-next-line no-param-reassign
-    map[rank['Rank Code'].toUpperCase()] = rank[
-      'Rank Description'
-    ].toUpperCase();
-    return map;
-  }, {});
-
-  // Create a list of valid rank descriptions
-  const validRanks = jsonData.map(rank =>
-    rank['Rank Description'].toUpperCase(),
-  );
-
-  for (let index = 0; index < serviceRecords.length; index++) {
-    const serviceRecord = serviceRecords[index];
+export const validateMilitaryHistory = (
+  errors,
+  serviceRecords,
+  useAllFormData,
+) => {
+  if (serviceRecords !== null && serviceRecords !== undefined) {
+    const serviceRecord = serviceRecords;
 
     // Check if serviceBranch is undefined and highestRank is defined
     if (
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined
     ) {
-      if (isVeteran(formData)) {
-        if (!isAuthorizedAgent(formData)) {
+      if (isVeteran(useAllFormData)) {
+        if (!isAuthorizedAgent(useAllFormData)) {
           // Self
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             'Select a branch of service before selecting your highest rank attained.',
           );
         } else {
           // Applicant
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
           );
         }
       } else {
         // Sponsor
-        errors[index].highestRank.addError(
+        errors.highestRank.addError(
           "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
         );
       }
     }
 
-    // Validate if highestRank is valid using Rank Description
-    const highestRank = serviceRecord.highestRank?.toUpperCase();
-    const highestRankDescription = rankMap[highestRank] || highestRank;
-
-    if (
-      highestRankDescription &&
-      !validRanks.includes(highestRankDescription)
-    ) {
-      errors[index].highestRank.addError(
-        'Enter a valid rank, or leave this field blank.',
+    if (serviceRecord.serviceBranch) {
+      const branchFilteredRanks = jsonData.filter(
+        rank => rank['Branch Of Service Code'] === serviceRecord.serviceBranch,
       );
+      if (
+        serviceRecord.highestRank &&
+        !branchFilteredRanks.some(
+          rank => rank['Rank Code'] === serviceRecord.highestRank,
+        )
+      ) {
+        errors.highestRank.addError(
+          `This is not a valid rank for ${
+            serviceLabels[serviceRecord.serviceBranch]
+          }`,
+        );
+      }
     }
 
     // Date of birth validation
     let dob;
     let errorMessage;
 
-    if (isVeteran(formData)) {
-      if (!isAuthorizedAgent(formData)) {
+    if (isVeteran(useAllFormData)) {
+      if (!isAuthorizedAgent(useAllFormData)) {
         // Self
-        dob = formData.application.claimant.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage = 'Provide a valid date that is after your date of birth';
       } else {
         // Applicant
-        dob = formData.application.claimant.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage =
           "Provide a valid date that is after the applicant's date of birth";
       }
     } else {
       // Sponsor
-      dob = formData.application.veteran.dateOfBirth;
+      dob = useAllFormData?.application?.veteran?.dateOfBirth;
       errorMessage =
         "Provide a valid date that is after the sponsor's date of birth";
     }
 
     // Date of birth validation against service start date and service end date
     if (serviceRecord.dateRange.from <= dob) {
-      errors[index].dateRange.from.addError(errorMessage);
+      errors.dateRange.from.addError(errorMessage);
     }
 
     if (serviceRecord.dateRange.to <= dob) {
-      errors[index].dateRange.to.addError(errorMessage);
+      errors.dateRange.to.addError(errorMessage);
     }
   }
 };
@@ -1204,14 +1205,13 @@ export const selfServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
+    highestRank: autosuggest.uiSchema('Highest rank attained', null, {
       'ui:options': {
+        labels: rankLabels,
         hint:
           'This field may clear if the branch of service or service start and end dates are updated.',
       },
-    },
+    }),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {
@@ -1269,14 +1269,17 @@ export const preparerServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Applicant’s highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
-      'ui:options': {
-        hint:
-          'This field may clear if the branch of service or service start and end dates are updated.',
+    highestRank: autosuggest.uiSchema(
+      'Applicant’s highest rank attained',
+      null,
+      {
+        'ui:options': {
+          labels: rankLabels,
+          hint:
+            'This field may clear if the branch of service or service start and end dates are updated.',
+        },
       },
-    },
+    ),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {

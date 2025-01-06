@@ -1,21 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearchPage({
   dispatchFetchLicenseCertificationResults,
-  // error,
   lcResults,
   fetchingLc,
   hasFetchedOnce,
 }) {
   const history = useHistory();
   const location = useLocation();
+  const [modal, setModal] = useState({
+    visible: false,
+    changedfield: '',
+    message: '',
+  });
+
+  const handleUpdateQueryParam = () => updateQueryParam(history, location);
+
+  const handleReset = callback => {
+    history.replace('/lc-search');
+    callback?.();
+  };
 
   useEffect(
     () => {
@@ -26,9 +40,29 @@ function LicenseCertificationSearchPage({
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
 
-  // if (error) {
-  //   {/* ERROR STATE */}
-  // }
+  const handleShowModal = (changedField, message, callback) => {
+    return setModal({
+      visible: true,
+      changedField,
+      message,
+      callback,
+    });
+  };
+
+  const toggleModal = () => {
+    setModal(current => {
+      return { ...current, visible: false };
+    });
+  };
+
+  const handleSearch = (category, name, state) => {
+    handleUpdateQueryParam()([
+      ['state', state],
+      ['category', category],
+      ['name', name],
+    ]);
+    handleLcResultsSearch(history, category, name, state);
+  };
 
   return (
     <div>
@@ -53,16 +87,35 @@ function LicenseCertificationSearchPage({
             <div className="form-wrapper row">
               <LicenseCertificationSearchForm
                 suggestions={lcResults}
-                handleSearch={(category, name) =>
-                  handleLcResultsSearch(history, category, name)
-                }
-                handleUpdateQueryParam={() =>
-                  updateQueryParam(history, location)
-                }
+                handleSearch={handleSearch}
+                handleUpdateQueryParam={handleUpdateQueryParam}
+                handleShowModal={handleShowModal}
                 location={location}
-                history={history}
+                handleReset={handleReset}
               />
             </div>
+            <VaModal
+              forcedModal={false}
+              clickToClose
+              disableAnalytics
+              large
+              modalTitle={`Are you sure you want to change the ${
+                modal.changedField
+              } field?`}
+              // initialFocusSelector={initialFocusSelector}
+              onCloseEvent={toggleModal}
+              onPrimaryButtonClick={() => {
+                modal.callback();
+                toggleModal();
+              }}
+              primaryButtonText="Continue to change"
+              onSecondaryButtonClick={toggleModal}
+              secondaryButtonText="Go Back"
+              // status={status}
+              visible={modal.visible}
+            >
+              <p>{modal.message}</p>
+            </VaModal>
           </section>
         )}
     </div>

@@ -9,14 +9,14 @@ export const URL = {
   GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`, // ?user_mock_data=true
+  GET_INQUIRIES: `${baseURL}/inquiries`,
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
+  DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
 // centralized logic for string replacement, incl. multiple fields
@@ -37,34 +37,33 @@ export const getApiUrl = (url, params) => {
 
 export const branchesOfService = [
   'Air Force',
-  'Air Force National Guard',
-  'Air Force Nursing Corps (AFNC)',
+  'Air Force Academy',
   'Air Force Reserves',
+  'Air National Guard',
   'Army',
+  'Army Air Corps or Army Air Force',
   'Army National Guard',
   'Army Reserves',
   'Coast Guard',
-  "Coast Guard Women's Reserve (SPARS)",
+  'Coast Guard Academy',
+  'Coast Guard Reserves',
   'Marine Corps',
-  'Marine Reserves',
-  'National Oceanic & Atmospheric Admin (NOAA)',
+  'Marine Corps Reserves',
+  'Merchant Marine',
+  'National Oceanic & Atmospheric Administration',
+  'Naval Academy',
   'Navy',
-  'Navy Nursing Corps (NNC)',
   'Navy Reserves',
-  'Philippines Guerilla',
-  'Philippines Scout',
+  'Other',
   'Public Health Service',
   'Space Force',
-  'U.S. Merchant Marine',
-  "Women's Air Force Service Pilots (WASP)",
-  "Women's Army Auxiliary Corps (WAAC)",
-  "Women's Army Corps (WAC)",
-  "Women's Voluntary Emergency Service (WAVES)",
-  'Unknown',
+  'US Military Academy',
+  "Women's Army Corps",
 ];
 
 // Categories
 export const CategoryEducation = 'Education benefits and work study';
+export const CategoryHealthCare = 'Health care';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
 export const CategoryGuardianshipCustodianshipFiduciaryIssues =
@@ -453,7 +452,10 @@ export const CHAPTER_3 = {
       HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
-    QUESTION_2: 'How should we contact you?',
+    QUESTION_2: {
+      QUESTION: 'How should we contact you?',
+      ERROR: 'Please select your contact preference',
+    },
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -512,9 +514,10 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select state',
   },
   SCHOOL_STATE_OR_RESIDENCY: {
-    TITLE: 'School information',
+    TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
-    QUESTION_1: 'Please provide one of the following',
+    QUESTION_1:
+      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
