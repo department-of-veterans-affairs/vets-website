@@ -10,7 +10,7 @@ const path = showUploadDocuments()
   ? 'additional-information/upload-documents'
   : 'temporarily-hidden-upload-documents';
 
-const MAX_FILE_SIZE_MB = 100;
+const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 const Description = (
@@ -45,6 +45,7 @@ export default {
     files: fileUploadUI('', {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       maxSize: MAX_FILE_SIZE_BYTES,
+      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
       fileTooBigErrorMessage:
         'Your file can’t have a width and height larger than 78 inches and 100 inches. Follow the instructions for your device on how to resize the file and try again.',
       fileUploadNetworkErrorAlert: {
