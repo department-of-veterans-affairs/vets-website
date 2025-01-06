@@ -221,12 +221,22 @@ describe('extractContainedByResourceType', () => {
 });
 
 describe('dispatchDetails function', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should dispatch a GET action when list is empty', async () => {
     // Create a spy for the dispatch function
-    const dispatchSpy = sinon.spy();
+    const dispatchSpy = sandbox.spy();
 
     // Mock the getDetail function and provide a sample response
-    const getDetailStub = sinon
+    const getDetailStub = sandbox
       .stub()
       .resolves({ id: '1', data: 'Sample Data' });
 
@@ -250,10 +260,10 @@ describe('dispatchDetails function', () => {
 
   it('should dispatch a GET_FROM_LIST action when a matching item is found', async () => {
     // Create a spy for the dispatch function
-    const dispatchSpy = sinon.spy();
+    const dispatchSpy = sandbox.spy();
 
     // Mock the getDetail function and provide a sample response
-    const getDetailStub = sinon
+    const getDetailStub = sandbox
       .stub()
       .resolves({ id: '1', data: 'Sample Data' });
 
@@ -277,10 +287,10 @@ describe('dispatchDetails function', () => {
 
   it('should dispatch a GET action when no matching item is found', async () => {
     // Create a spy for the dispatch function
-    const dispatchSpy = sinon.spy();
+    const dispatchSpy = sandbox.spy();
 
     // Mock the getDetail function and provide a sample response
-    const getDetailStub = sinon
+    const getDetailStub = sandbox
       .stub()
       .resolves({ id: '1', data: 'Sample Data' });
 

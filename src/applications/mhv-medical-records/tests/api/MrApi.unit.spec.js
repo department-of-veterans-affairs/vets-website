@@ -332,6 +332,7 @@ describe('Get military service info api call', () => {
 
     const thing = await getMilitaryService();
     expect(thing).to.equal(edipiNotFound);
+    fetchStub.restore();
   });
 
   it('should throw and error on failure', () => {
@@ -347,6 +348,7 @@ describe('Get military service info api call', () => {
     });
 
     return getMilitaryService().catch(err => {
+      fetchStub.restore();
       expect(err.statusText).to.equal('Server Error');
     });
   });
