@@ -11,6 +11,8 @@ import {
   VALID_REFRESH_DURATION,
 } from '../../util/constants';
 
+let sandbox;
+
 function TestComponent(props) {
   useListRefresh(props);
   return <></>;
@@ -32,8 +34,8 @@ const defaultTestProps = {
 
 const renderTestComponentWithProps = props => {
   const mergedProps = { ...defaultTestProps, ...props };
-  const dispatchActionMock = sinon.spy();
-  const dispatchMock = sinon.spy();
+  const dispatchActionMock = sandbox.spy();
+  const dispatchMock = sandbox.spy();
 
   render(
     <TestComponent
@@ -47,11 +49,19 @@ const renderTestComponentWithProps = props => {
 };
 
 describe('useListRefresh', () => {
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should not fetch data if list is present and refresh is current', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps();
 
     await waitFor(() => {
-      sinon.assert.notCalled(dispatchActionMock);
+      sandbox.assert.notCalled(dispatchActionMock);
     });
   });
 
@@ -63,7 +73,7 @@ describe('useListRefresh', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.called(dispatchActionMock);
+      sandbox.assert.called(dispatchActionMock);
     });
   });
 
@@ -73,7 +83,7 @@ describe('useListRefresh', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.called(dispatchActionMock);
+      sandbox.assert.called(dispatchActionMock);
     });
   });
 
@@ -84,7 +94,7 @@ describe('useListRefresh', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.notCalled(dispatchActionMock);
+      sandbox.assert.notCalled(dispatchActionMock);
     });
   });
 
@@ -100,7 +110,7 @@ describe('useListRefresh', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.notCalled(dispatchActionMock);
+      sandbox.assert.notCalled(dispatchActionMock);
     });
   });
 
@@ -119,7 +129,7 @@ describe('useListRefresh', () => {
       });
 
       await waitFor(() => {
-        sinon.assert.called(dispatchActionMock);
+        sandbox.assert.called(dispatchActionMock);
       });
     });
 
@@ -137,7 +147,7 @@ describe('useListRefresh', () => {
       });
 
       await waitFor(() => {
-        sinon.assert.notCalled(dispatchActionMock);
+        sandbox.assert.notCalled(dispatchActionMock);
       });
     });
   });

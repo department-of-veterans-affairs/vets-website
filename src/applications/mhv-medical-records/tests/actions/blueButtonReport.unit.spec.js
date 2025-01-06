@@ -11,11 +11,20 @@ import allergies from '../fixtures/allergies.json';
 import * as MrApi from '../../api/MrApi';
 
 describe('Blue Button Actions', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('getBlueButtonReportData', () => {
     it('should only get the domains that are specified in the options', async () => {
       const mockData = allergies;
       mockApiRequest(mockData);
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
 
       const action = getBlueButtonReportData({ allergies: true });
       await action(dispatch);
@@ -31,7 +40,7 @@ describe('Blue Button Actions', () => {
       it('should get allergies', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ allergies: true });
         await action(dispatch);
@@ -46,7 +55,7 @@ describe('Blue Button Actions', () => {
       it('should get labsAndTests', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ labsAndTests: true });
         await action(dispatch);
@@ -62,7 +71,7 @@ describe('Blue Button Actions', () => {
       it('should get radiology', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ radiology: true });
         await action(dispatch);
@@ -78,7 +87,7 @@ describe('Blue Button Actions', () => {
       it('should get notes', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ notes: true });
         await action(dispatch);
@@ -94,7 +103,7 @@ describe('Blue Button Actions', () => {
       it('should get vaccines', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ vaccines: true });
         await action(dispatch);
@@ -109,7 +118,7 @@ describe('Blue Button Actions', () => {
       it('should get conditions', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ conditions: true });
         await action(dispatch);
@@ -124,7 +133,7 @@ describe('Blue Button Actions', () => {
       it('should get vitals', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const action = getBlueButtonReportData({ vitals: true });
         await action(dispatch);
@@ -140,7 +149,7 @@ describe('Blue Button Actions', () => {
       it('should trigger the same action for medications, appointments, demographics, militaryService, or patient', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
 
         const actions = [
           'medications',
@@ -164,11 +173,11 @@ describe('Blue Button Actions', () => {
 
       it('should fetch appointments with the correct date range when dateFilter.option is "any"', async () => {
         const mockData = { mockData: 'appointmentsMockData' };
-        const getAppointmentsStub = sinon
+        const getAppointmentsStub = sandbox
           .stub(MrApi, 'getAppointments')
           .resolves(mockData);
 
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
         const action = getBlueButtonReportData(
           { appointments: true },
           { option: 'any' },
@@ -201,13 +210,13 @@ describe('Blue Button Actions', () => {
 
       it('should fetch appointments with the provided custom dateFilter range', async () => {
         const mockData = { mockData: 'appointmentsMockData' };
-        const getAppointmentsStub = sinon
+        const getAppointmentsStub = sandbox
           .stub(MrApi, 'getAppointments')
           .resolves(mockData);
 
         const fromDateCustom = '2021-01-01';
         const toDateCustom = '2021-12-31';
-        const dispatch = sinon.spy();
+        const dispatch = sandbox.spy();
         const action = getBlueButtonReportData(
           { appointments: true },
           { fromDate: fromDateCustom, toDate: toDateCustom },
@@ -233,7 +242,7 @@ describe('Blue Button Actions', () => {
     });
 
     it('should not dispatch any actions if no options are enabled', async () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const action = getBlueButtonReportData({});
       await action(dispatch);
       // Assert that dispatch was never called
@@ -243,7 +252,7 @@ describe('Blue Button Actions', () => {
     it('should dispatch an error for a failed API call', async () => {
       const mockData = allergies;
       mockApiRequest(mockData, false); // Unresolved promise
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const action = getBlueButtonReportData({ allergies: true });
       await action(dispatch);
       // Verify that dispatch was called only once
@@ -258,7 +267,7 @@ describe('Blue Button Actions', () => {
     it('should dispatch combined labsAndTests and radiology responses in a single action', async () => {
       const mockData = { mockData: 'mockData' };
       mockApiRequest(mockData);
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
 
       const action = getBlueButtonReportData({
         labsAndTests: true,
@@ -276,7 +285,7 @@ describe('Blue Button Actions', () => {
   });
   describe('ClearFailedList', () => {
     it('should dispatch an action of type ClearFailedList', () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       clearFailedList({ sample: 'test' })(dispatch);
       expect(dispatch.calledOnce).to.be.true;
       expect(dispatch.firstCall.args[0].type).to.equal(

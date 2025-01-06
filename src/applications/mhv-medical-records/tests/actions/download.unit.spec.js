@@ -12,16 +12,25 @@ import {
 import { Actions } from '../../util/actionTypes';
 
 describe('Download Actions', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('genAndDownloadCCD', () => {
     let clickToRestore = null;
     beforeEach(() => {
       clickToRestore = HTMLAnchorElement.prototype.click;
-      HTMLAnchorElement.prototype.click = sinon.spy();
+      HTMLAnchorElement.prototype.click = sandbox.spy();
       window.URL = {
-        createObjectURL: sinon.stub().returns('test'),
-        revokeObjectURL: sinon.spy(),
+        createObjectURL: sandbox.stub().returns('test'),
+        revokeObjectURL: sandbox.spy(),
       };
-      window.location = { assign: sinon.spy() };
+      window.location = { assign: sandbox.spy() };
     });
     afterEach(() => {
       delete window.URL;
@@ -29,7 +38,7 @@ describe('Download Actions', () => {
       HTMLAnchorElement.prototype.click = clickToRestore;
     });
     it('should dispatch an error on failed API calls', async () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const firstName = 'first';
       const lastName = 'last';
       mockApiRequest([{ status: 'ERROR', dateGenerated: 'date' }]);
@@ -42,7 +51,7 @@ describe('Download Actions', () => {
     });
 
     it('should dispatch a download on successful API calls', async () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const firstName = 'first';
       const lastName = 'last';
       const dateGenerated = '2024-10-30T10:00:40.000-0400';
@@ -52,7 +61,7 @@ describe('Download Actions', () => {
       };
       const downLoadRequest = {
         shouldResolve: true,
-        response: { text: sinon.stub().returns('xml') },
+        response: { text: sandbox.stub().returns('xml') },
       };
       mockMultipleApiRequests([completeRequest, downLoadRequest]);
       await genAndDownloadCCD(firstName, lastName)(dispatch);
@@ -61,7 +70,7 @@ describe('Download Actions', () => {
         .be.true;
     });
     it('should call itself recursively until we get a complete status', async () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const firstName = 'first';
       const lastName = 'last';
       const dateGenerated = '2024-10-30T10:00:40.000-0400';
@@ -82,7 +91,7 @@ describe('Download Actions', () => {
 
   describe('updateReportDateRange', () => {
     it('should dispatch an action of type updateReportDateRange', () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       const option = 'opt';
       const fromDate = 'from';
       const toDate = 'to';
@@ -101,7 +110,7 @@ describe('Download Actions', () => {
 
   describe('updateReportRecordType', () => {
     it('should dispatch an action of type updateReportRecordType', () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       updateReportRecordType({ sample: 'test' })(dispatch);
       expect(dispatch.calledOnce).to.be.true;
       expect(dispatch.firstCall.args[0].type).to.equal(

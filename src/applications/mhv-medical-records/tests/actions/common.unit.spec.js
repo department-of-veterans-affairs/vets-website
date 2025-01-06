@@ -4,6 +4,8 @@ import { Actions } from '../../util/actionTypes';
 import { getListWithRetry } from '../../actions/common';
 
 describe('getListWithRetry', () => {
+  let sandbox;
+
   let callCount = 0;
 
   const mockedGetListNoRetry = () => {
@@ -19,10 +21,15 @@ describe('getListWithRetry', () => {
 
   beforeEach(() => {
     callCount = 0;
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('returns success immediately and dispatches no actions', async () => {
-    const mockDispatch = sinon.spy();
+    const mockDispatch = sandbox.spy();
     let result = null;
     try {
       result = await getListWithRetry(
@@ -40,7 +47,7 @@ describe('getListWithRetry', () => {
   });
 
   it('times out if success is not returned quickly enough', async () => {
-    const mockDispatch = sinon.spy();
+    const mockDispatch = sandbox.spy();
     try {
       await getListWithRetry(
         mockDispatch,
@@ -57,7 +64,7 @@ describe('getListWithRetry', () => {
   });
 
   it('retries several times before returning successfully', async () => {
-    const mockDispatch = sinon.spy();
+    const mockDispatch = sandbox.spy();
     let result = null;
     try {
       result = await getListWithRetry(

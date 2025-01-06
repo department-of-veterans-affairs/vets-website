@@ -10,77 +10,88 @@ import {
   getVitals,
 } from '../../actions/vitals';
 
-describe('Get vitals action', () => {
-  it('should dispatch a get list action', () => {
-    const mockData = vitals;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVitals()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Vitals.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Vitals.GET_LIST,
-      );
-    });
+describe('Vitals', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
   });
 
-  it('should dispatch an add alert action', () => {
-    const mockData = vitals;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getVitals()(dispatch)
-      .then(() => {
-        throw new Error('Expected getVitals() to throw an error.');
-      })
-      .catch(() => {
-        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Get vitals action', () => {
+    it('should dispatch a get list action', () => {
+      const mockData = vitals;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getVitals()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Vitals.UPDATE_LIST_STATE,
+        );
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          Actions.Vitals.GET_LIST,
+        );
       });
-  });
-});
+    });
 
-describe('Get vital action', () => {
-  it('should dispatch a get details action', () => {
-    const mockData = vital;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVitalDetails('3106', undefined)(dispatch).then(() => {
-      expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
+    it('should dispatch an add alert action', () => {
+      const mockData = vitals;
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return getVitals()(dispatch)
+        .then(() => {
+          throw new Error('Expected getVitals() to throw an error.');
+        })
+        .catch(() => {
+          expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+        });
     });
   });
 
-  it('should dispatch an add alert action', () => {
-    const mockData = vitals;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getVitalDetails()(dispatch).then(() => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  describe('Get vital action', () => {
+    it('should dispatch a get details action', () => {
+      const mockData = vital;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getVitalDetails('3106', undefined)(dispatch).then(() => {
+        expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
+      });
+    });
+
+    it('should dispatch an add alert action', () => {
+      const mockData = vitals;
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return getVitalDetails()(dispatch).then(() => {
+        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+      });
     });
   });
-});
 
-describe('Get vital details action', () => {
-  it('it should dispatch a details action and pull from the list', async () => {
-    const dispatch = sinon.spy();
-    await getVitalDetails('vitalType', [{ id: '1' }])(dispatch);
-    expect(dispatch.firstCall.args[0]?.type).to.equal(Actions.Vitals.GET);
-  });
+  describe('Get vital details action', () => {
+    it('it should dispatch a details action and pull from the list', async () => {
+      const dispatch = sandbox.spy();
+      await getVitalDetails('vitalType', [{ id: '1' }])(dispatch);
+      expect(dispatch.firstCall.args[0]?.type).to.equal(Actions.Vitals.GET);
+    });
 
-  it('should dispatch an add alert action', () => {
-    const dispatch = sinon.spy();
-    return getVitalDetails()(dispatch).then(() => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    it('should dispatch an add alert action', () => {
+      const dispatch = sandbox.spy();
+      return getVitalDetails()(dispatch).then(() => {
+        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+      });
     });
   });
-});
 
-describe('Clear vital details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearVitalDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Vitals.CLEAR_DETAIL,
-      );
+  describe('Clear vital details action', () => {
+    it('should dispatch a clear details action', () => {
+      const dispatch = sandbox.spy();
+      return clearVitalDetails()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Vitals.CLEAR_DETAIL,
+        );
+      });
     });
   });
 });

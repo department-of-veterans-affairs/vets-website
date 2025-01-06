@@ -8,78 +8,93 @@ import {
   updateSharingStatus,
 } from '../../actions/sharing';
 
-describe('Fetch sharing status action', () => {
-  it('should dispatch a fetch action', () => {
-    const mockData = { test: 'test' };
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return fetchSharingStatus()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.STATUS);
+describe('Sharing', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Fetch sharing status action', () => {
+    it('should dispatch a fetch action', () => {
+      const mockData = { test: 'test' };
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return fetchSharingStatus()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Sharing.STATUS,
+        );
+      });
+    });
+
+    it('should dispatch an error action', () => {
+      const mockData = { test: 'test' };
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return fetchSharingStatus()(dispatch)
+        .then(() => {
+          throw new Error('Expected fetchSharingStatus() to throw an error.');
+        })
+        .catch(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Sharing.STATUS_ERROR,
+          );
+        });
     });
   });
 
-  it('should dispatch an error action', () => {
-    const mockData = { test: 'test' };
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return fetchSharingStatus()(dispatch)
-      .then(() => {
-        throw new Error('Expected fetchSharingStatus() to throw an error.');
-      })
-      .catch(() => {
+  describe('Update sharing status action', () => {
+    it('should dispatch an update to opt in action', () => {
+      const mockData = { test: 'test' };
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return updateSharingStatus(true)(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Sharing.STATUS_ERROR,
+          Actions.Sharing.UPDATE,
         );
       });
-  });
-});
+    });
 
-describe('Update sharing status action', () => {
-  it('should dispatch an update to opt in action', () => {
-    const mockData = { test: 'test' };
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return updateSharingStatus(true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.UPDATE);
+    it('should dispatch an error action and revert to opt in', () => {
+      const mockData = { test: 'test' };
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return updateSharingStatus(false)(dispatch)
+        .then(() => {
+          throw new Error('Expected updateSharingStatus() to throw an error.');
+        })
+        .catch(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Sharing.STATUS_ERROR,
+          );
+        });
+    });
+
+    it('should dispatch an error action and revert to opt out', () => {
+      const mockData = { test: 'test' };
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return updateSharingStatus(true)(dispatch)
+        .then(() => {
+          throw new Error('Expected updateSharingStatus() to throw an error.');
+        })
+        .catch(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Sharing.STATUS_ERROR,
+          );
+        });
     });
   });
 
-  it('should dispatch an error action and revert to opt in', () => {
-    const mockData = { test: 'test' };
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return updateSharingStatus(false)(dispatch)
-      .then(() => {
-        throw new Error('Expected updateSharingStatus() to throw an error.');
-      })
-      .catch(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Sharing.STATUS_ERROR,
-        );
+  describe('Clear sharing status action', () => {
+    it('should dispatch a clear sharing action', () => {
+      const dispatch = sandbox.spy();
+      return clearSharingStatus()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.CLEAR);
       });
-  });
-
-  it('should dispatch an error action and revert to opt out', () => {
-    const mockData = { test: 'test' };
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return updateSharingStatus(true)(dispatch)
-      .then(() => {
-        throw new Error('Expected updateSharingStatus() to throw an error.');
-      })
-      .catch(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Sharing.STATUS_ERROR,
-        );
-      });
-  });
-});
-
-describe('Clear sharing status action', () => {
-  it('should dispatch a clear sharing action', () => {
-    const dispatch = sinon.spy();
-    return clearSharingStatus()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.CLEAR);
     });
   });
 });
