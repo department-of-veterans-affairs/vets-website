@@ -242,8 +242,19 @@ export const formatHyphenlessDate = b => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  const featureTogglesLoaded = state.featureToggles?.loading === false;
+
+  // If feature toggles aren't loaded yet, return early
+  if (!featureTogglesLoaded) {
+    return { metadata, formData, pages, state }; // Defer prefill until feature toggles are loaded
+  }
+
   try {
-    // Safely access data with optional chaining and provide fallback for null values
+    // Access the feature toggle values safely
+    const mebKickerNotificationEnabled =
+      state?.featureToggles?.mebKickerNotificationEnabled;
+
+    // Access form data (same as before)
     const bankInformation = state?.data?.bankInformation || {};
     const claimant = state?.data?.formData?.data?.attributes?.claimant || {};
     const serviceData =
@@ -256,11 +267,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     const profile = stateUser?.profile;
     const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
 
-    // Safely access eligible kicker fields
-    const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
-    const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
-
-    // Handle name information (safely access profile or claimant data)
+    // Handle name information
     const firstName = claimant?.firstName || profile?.userFullName?.first;
     const middleName = claimant?.middleName || profile?.userFullName?.middle;
     const lastName = claimant?.lastName || profile?.userFullName?.last;
@@ -332,12 +339,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
         mebAutoPopulateRelinquishmentDate,
         benefitEffectiveDate,
       ),
-      [formFields.activeDutyKicker]: eligibleForActiveDutyKicker
-        ? 'Yes'
-        : formData[formFields.activeDutyKicker] || undefined,
-      [formFields.selectedReserveKicker]: eligibleForReserveKicker
-        ? 'Yes'
-        : formData[formFields.selectedReserveKicker] || undefined,
       [formFields.viewDirectDeposit]: {
         [formFields.bankAccount]: {
           ...bankInformation,
@@ -346,6 +347,19 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
       [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
     };
+
+    // Add kicker-related data only if the feature flag is enabled
+    if (mebKickerNotificationEnabled) {
+      const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
+      const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
+
+      newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
+        ? 'Yes'
+        : formData[formFields.activeDutyKicker] || undefined;
+      newData[formFields.selectedReserveKicker] = eligibleForReserveKicker
+        ? 'Yes'
+        : formData[formFields.selectedReserveKicker] || undefined;
+    }
 
     // Add suffix if available
     if (suffix) {
