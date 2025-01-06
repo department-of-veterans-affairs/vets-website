@@ -24,12 +24,7 @@ export const uiSchema = {
       } name and date of birth`,
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote
-        includePhone
-        preparerIsVeteran={preparerIsVeteran({ formData })}
-      />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
   veteranFullName: fullNameMiddleInitialUI,
   veteranDateOfBirth: dateOfBirthUI(),
