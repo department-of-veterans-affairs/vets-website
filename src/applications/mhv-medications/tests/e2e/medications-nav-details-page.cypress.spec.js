@@ -34,7 +34,7 @@ describe('verify navigation to medication details Page', () => {
       mockPrescriptionDetails.data.attributes.refillRemaining,
     );
     detailsPage.verifyPrescriptionNameIsFocusedAfterLoading();
-
+    detailsPage.verifyDescriptionTextOnDetailsPage('Most recent prescription');
     cy.injectAxe();
     cy.axeCheck('main');
   });
