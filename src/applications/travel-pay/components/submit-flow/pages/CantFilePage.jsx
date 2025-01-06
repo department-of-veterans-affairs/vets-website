@@ -20,7 +20,8 @@ const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
   return (
     <div>
       <h1 tabIndex="-1">
-        We can’t file this type of travel reimbursement claim
+        We can’t file this type of travel reimbursement claim in this tool at
+        this time
       </h1>
       <HelpTextModalities />
       <h2 className="vads-u-font-size--h4">
