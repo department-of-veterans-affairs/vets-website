@@ -660,7 +660,8 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const { eligibleForActiveDutyKicker, eligibleForReserveKicker } = claimant;
+  const { eligibleForActiveDutyKicker, eligibleForReserveKicker } =
+    claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user || {};
   const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
