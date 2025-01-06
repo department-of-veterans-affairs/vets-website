@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import manifest from '../manifest.json';
+// import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 
 function App({
   location,
   children,
-  isLoggedIn,
+  // isLoggedIn,
   isLoading,
-  vaFileNumber,
+  // vaFileNumber,
   featureToggles,
 }) {
   const { TOGGLE_NAMES } = useFeatureToggle();
@@ -45,15 +45,15 @@ function App({
   // If a user is not logged in OR
   // a user is logged in, but hasn't gone through va file number validation
   // redirect them to the introduction page.
-  if (
-    !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
-  ) {
-    document.location.replace(`${manifest.rootUrl}`);
-    return (
-      <va-loading-indicator message="Redirecting to introduction page..." />
-    );
-  }
+  // if (
+  //   !isLoggedIn ||
+  //   (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
+  // ) {
+  //   document.location.replace(`${manifest.rootUrl}`);
+  //   return (
+  //     <va-loading-indicator message="Redirecting to introduction page..." />
+  //   );
+  // }
 
   return content;
 }
