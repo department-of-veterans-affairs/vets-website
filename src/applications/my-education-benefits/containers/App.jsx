@@ -174,16 +174,21 @@ export const App = ({
 
   useEffect(
     () => {
-      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+      if (
+        !isLoggedIn ||
+        !featureTogglesLoaded ||
+        isLOA3 !== true ||
+        mebKickerNotificationEnabled // Add this condition to skip if mebKickerNotificationEnabled is true
+      ) {
         return;
       }
+
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
         const chosenBenefit = meb160630Automation
           ? formData?.chosenBenefit
           : 'Chapter33';
-
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
@@ -214,6 +219,7 @@ export const App = ({
       }
     },
     [
+      mebKickerNotificationEnabled,
       mebExclusionPeriodEnabled,
       fetchedExclusionPeriods,
       firstName,
