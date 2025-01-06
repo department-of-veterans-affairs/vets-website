@@ -264,7 +264,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/social security/i).type(
       testData.veteranSocialSecurityNumber,
     );
-    goToNextPage('veteran-information/personal-information');
+    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
