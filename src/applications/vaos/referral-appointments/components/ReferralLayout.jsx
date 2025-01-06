@@ -49,13 +49,6 @@ export default function ReferralLayout({
   heading,
 }) {
   const location = useLocation();
-  let headingTestId = null;
-  if (heading) {
-    headingTestId = `${heading
-      .replace(/\s+/g, '-')
-      .toLowerCase()
-      .replace(/[^a-z0-9-]/g, '')}-heading`;
-  }
 
   return (
     <>
@@ -79,7 +72,9 @@ export default function ReferralLayout({
                 <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
                   New Appointment
                 </span>
-                {heading && <h1 data-testid={headingTestId}>{heading}</h1>}
+                {heading && (
+                  <h1 data-testid="referral-layout-heading">{heading}</h1>
+                )}
               </>
             )}
             <ErrorBoundary>
