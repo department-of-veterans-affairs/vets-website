@@ -12,7 +12,7 @@ import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { SearchResultsHeader } from './SearchResultsHeader';
-import { isAttorneyOrClaimsAgent } from '../utilities/helpers';
+import { isVSORepresentative } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -73,8 +73,8 @@ const SelectAccreditedRepresentative = props => {
     const selection = formData['view:selectedRepresentative'];
 
     const repTypeChanged =
-      isAttorneyOrClaimsAgent(currentSelectedRep) !==
-      isAttorneyOrClaimsAgent(newSelection);
+      isVSORepresentative(currentSelectedRep.current) !==
+      isVSORepresentative(newSelection);
     const noSelectionExists = !selection && !selectionMade;
     const noNewSelection =
       !newSelection || newSelection === currentSelectedRep.current;

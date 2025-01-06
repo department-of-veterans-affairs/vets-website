@@ -6,7 +6,7 @@ import olderRxDetails from './fixtures/older-prescription-details.json';
 import { Data } from './utils/constants';
 
 describe('Medications Details Page Grouping', () => {
-  it('visits Medications Details Page Grouping Pagination', () => {
+  it('visits Medications Details Page Grouping accordion details', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
@@ -15,20 +15,20 @@ describe('Medications Details Page Grouping', () => {
     landingPage.visitMedicationsListPage(medicationsList);
     cy.injectAxe();
     cy.axeCheck('main');
-    detailsPage.clickMedicationDetailsLink(olderRxDetails, 2);
-    detailsPage.verifyPreviousPrescriptionHeaderTextOnDetailsPage(
-      'Previous prescriptions',
+    detailsPage.clickMedicationDetailsLink(olderRxDetails, 1);
+    detailsPage.verifyRefillHistoryInformationTextOnDetailsPage(
+      Data.REFILL_HISTORY_INFO,
     );
-    detailsPage.verifyPreviousPrescriptionsPaginationTextOnDetailsPage(
-      Data.PREVIOUS_PRESCRIPTION_PAGINATION,
+    detailsPage.clickRefillHistoryAccordionOnDetailsPage();
+    detailsPage.verifyFilledDateFieldInAccordionCardInfoOnDetailPage(
+      Data.FILL_DATE_FIELD,
     );
-    detailsPage.clickNextButtonForPreviousPrescriptionPagination();
-    detailsPage.verifyPaginationTextIsFocusedAfterClickingNext(
-      Data.PREVIOUS_PRESCRIPTION_PAGINATION_SECOND,
+    detailsPage.verifyImageFieldInAccordionCardInfoOnDetailsPage(
+      Data.IMAGE_FIELD,
     );
-    detailsPage.clickNextButtonForPreviousPrescriptionPagination();
-    detailsPage.verifyPaginationTextIsFocusedAfterClickingNext(
-      Data.PREVIOUS_PRESCRIPTION_PAGINATION_THIRD,
+    detailsPage.verifyShippedOnDateFieldOnDetailsPage();
+    detailsPage.verifyMedicationDescriptionFieldInAccordionCardInfo(
+      Data.MED_DESCRIPTION,
     );
   });
 });
