@@ -199,7 +199,11 @@ const Autocomplete = ({
               tabIndex={-1}
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              onMouseMove={() => activateScrollToAndFocus(index)}
+              onMouseMove={() => {
+                if (index !== activeIndex) {
+                  activateScrollToAndFocus(index);
+                }
+              }}
             >
               {result}
             </li>
