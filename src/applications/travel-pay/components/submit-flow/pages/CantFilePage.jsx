@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 
 const CantFilePage = ({ pageIndex, setPageIndex, setCantFile }) => {
   useEffect(() => {
-    focusElement('h2');
+    focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 

@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
@@ -18,7 +16,7 @@ const ConfirmationPage = ({ appointment }) => {
   );
 
   return (
-    <Element name="topScrollElement">
+    <div>
       <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
       <va-alert
         close-btn-aria-label="Close notification"
@@ -49,7 +47,7 @@ const ConfirmationPage = ({ appointment }) => {
         href="idk"
         text="Learn how to set up direct deposit for travel pay reimbursement"
       />
-    </Element>
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 
@@ -11,7 +10,7 @@ const SubmissionErrorPage = () => {
   }, []);
 
   return (
-    <Element name="topScrollElement">
+    <div>
       <h1 tabIndex="-1">We couldn’t file your claim</h1>
       <va-alert
         close-btn-aria-label="Close notification"
@@ -36,7 +35,7 @@ const SubmissionErrorPage = () => {
       <HelpTextModalities />
       <h3>How can I get help with my claim?</h3>
       <HelpTextGeneral />
-    </Element>
+    </div>
   );
 };
 

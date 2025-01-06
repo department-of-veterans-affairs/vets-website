@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   VaCheckbox,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 
@@ -16,6 +19,11 @@ const ReviewPage = ({
   isAgreementChecked,
   setIsAgreementChecked,
 }) => {
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
+
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
   );

@@ -4,7 +4,6 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
 
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
@@ -47,7 +46,7 @@ const MileagePage = ({
   };
 
   return (
-    <Element name="topScrollElement">
+    <div>
       <VaRadio
         use-forms-pattern="single"
         form-heading="Are you claiming only mileage?"
@@ -136,7 +135,7 @@ const MileagePage = ({
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />
-    </Element>
+    </div>
   );
 };
 
