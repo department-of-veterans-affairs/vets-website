@@ -19,6 +19,7 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
+import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
 import { flagsLoadedAndMhvEnabled } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
@@ -233,12 +234,12 @@ const App = ({ children }) => {
                 />
               </>
             ) : (
-              <>
+              <HeaderSectionProvider>
                 <MrBreadcrumbs />
                 <div className="vads-l-row">
                   <div className="medium-screen:vads-l-col--8">{children}</div>
                 </div>
-              </>
+              </HeaderSectionProvider>
             )}
             <va-back-to-top
               hidden={isHidden}
