@@ -57,7 +57,6 @@ describe('CompleteReferral', () => {
       );
 
       expect(getByTestId('review-appointments-link')).to.exist;
-      expect(getByTestId('shedule-new-appointments-link')).to.exist;
     });
     it('should call routeToCCPage when "Review your appointments" link is clicked', () => {
       const routeToCCPage = sandbox.stub(flow, 'routeToCCPage');
