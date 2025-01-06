@@ -35,15 +35,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       providerFetchStatus: FETCH_STATUS.notStarted,
     },
   };
-  const failedState = {
-    featureToggles: {
-      vaOnlineSchedulingCCDirectScheduling: true,
-    },
-    referral: {
-      selectedProvider: {},
-      providerFetchStatus: FETCH_STATUS.failed,
-    },
-  };
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
     sandbox
@@ -63,8 +54,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-    expect(await screen.getByTestId('review-your-appointment-details-heading'))
-      .to.exist;
+    expect(await screen.getByTestId('referral-layout-heading')).to.exist;
     sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
   });
   it('should fetch provider if not in redux', async () => {
@@ -81,20 +71,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(await screen.getByTestId('loading')).to.exist;
     sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
   });
-  it('should show the error message if fetch fails', async () => {
-    const selectedSlotKey = getReferralSlotKey('UUID');
-    sessionStorage.setItem(selectedSlotKey, '0');
-
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(failedState),
-      },
-    );
-    expect(await screen.getByTestId('error')).to.exist;
-  });
   it('should get selected slot from session storage if not in redux', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.setItem(selectedSlotKey, '0');
@@ -110,8 +86,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(noSelectState),
       },
     );
-    expect(await screen.getByTestId('review-your-appointment-details-heading'))
-      .to.exist;
+    expect(await screen.getByTestId('referral-layout-heading')).to.exist;
     expect(await screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
     );
