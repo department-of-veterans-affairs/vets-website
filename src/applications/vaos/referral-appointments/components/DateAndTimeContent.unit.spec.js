@@ -145,4 +145,17 @@ describe('VAOS Component: DateAndTimeContent', () => {
     // Routes to next page if selection exists
     expect(screen.history.push.called).to.be.true;
   });
+  it('should show error if no slots available', async () => {
+    const screen = renderWithStoreAndRouter(
+      <DateAndTimeContent
+        currentReferral={referral}
+        provider={createProviderDetails(0)}
+        appointmentsByMonth={appointmentsByMonth}
+      />,
+      {
+        initialState,
+      },
+    );
+    expect(screen.getByTestId('no-slots-alert')).to.exist;
+  });
 });

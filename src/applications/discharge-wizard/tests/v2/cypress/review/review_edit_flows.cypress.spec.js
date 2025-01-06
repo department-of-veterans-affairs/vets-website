@@ -30,7 +30,7 @@ describe('Review edit flows', () => {
     h.selectDropdown(
       h.DISCHARGE_MONTH_INPUT,
       SHORT_NAME_MAP.DISCHARGE_MONTH,
-      3,
+      1,
     );
     h.clickContinue();
 
@@ -62,6 +62,11 @@ describe('Review edit flows', () => {
     // PREVIOUS_APPLICATION_TYPE
     h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
     h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
+    h.clickContinue();
+
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 0);
     h.clickContinue();
 
     // PRIOR_SERVICE
@@ -286,6 +291,35 @@ describe('Review edit flows', () => {
 
     // PREV_APPLICATION_TYPE
     h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
+    h.clickContinue();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.clickBack();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+
+    // PRIOR_SERVICE
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
     h.clickContinue();
 
     // REVIEW

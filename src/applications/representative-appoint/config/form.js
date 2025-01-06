@@ -1,6 +1,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,10 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import {
-  preparerIsVeteran,
-  isAttorneyOrClaimsAgent,
-} from '../utilities/helpers';
+import { preparerIsVeteran, formIs2122A } from '../utilities/helpers';
 import {
   authorizeMedical,
   authorizeMedicalSelect,
@@ -66,6 +64,7 @@ const formConfig = {
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   formId: '21-22',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
@@ -238,10 +237,7 @@ const formConfig = {
           path: 'veteran-service-information',
           title: `Your service information`,
           depends: formData => {
-            return (
-              isAttorneyOrClaimsAgent(formData) &&
-              preparerIsVeteran({ formData })
-            );
+            return formIs2122A(formData) && preparerIsVeteran({ formData });
           },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
@@ -284,10 +280,7 @@ const formConfig = {
           path: 'veteran-service-information',
           title: `Veteran's service information`,
           depends: formData => {
-            return (
-              isAttorneyOrClaimsAgent(formData) &&
-              !preparerIsVeteran({ formData })
-            );
+            return formIs2122A(formData) && !preparerIsVeteran({ formData });
           },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
@@ -324,7 +317,7 @@ const formConfig = {
         authorizeInsideVA: {
           path: 'authorize-inside-va',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return formIs2122A(formData);
           },
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
@@ -333,7 +326,7 @@ const formConfig = {
         authorizeOutsideVA: {
           path: 'authorize-outside-va',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return formIs2122A(formData);
           },
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
@@ -343,7 +336,7 @@ const formConfig = {
           path: 'authorize-outside-va/names',
           depends: formData => {
             return (
-              isAttorneyOrClaimsAgent(formData) &&
+              formIs2122A(formData) &&
               formData.authorizeOutsideVARadio === 'Yes'
             );
           },

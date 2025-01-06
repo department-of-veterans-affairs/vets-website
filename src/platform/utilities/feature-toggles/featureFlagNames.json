@@ -12,9 +12,10 @@
   "bannerUseAlternativeBanners": "banner_use_alternative_banners",
   "bcasLettersUseLighthouse": "bcas_letters_use_lighthouse",
   "benefitsDocumentsUseLighthouse": "benefits_documents_use_lighthouse",
-  "benefitsNonDisabilityCh31V2":  "benefits_non_disability_ch31_v2",
+  "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
+  "burialBrowserMonitoringEnabled": "burial_browser_monitoring_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
   "caregiverUseFacilitiesApi": "caregiver_use_facilities_API",
   "CdpPaymentHistoryVba": "cdp_payment_history_vba",
@@ -84,6 +85,7 @@
   "findARepresentativeEnableFrontend": "find_a_representative_enable_frontend",
   "findARepresentativeFlagResultsEnabled": "find_a_representative_flag_results_enabled",
   "form1010d": "form1010d",
+  "form1010dBrowserMonitoringEnabled": "form1010d_browser_monitoring_enabled",
   "form107959c": "form107959c",
   "form107959a": "form107959a",
   "form107959f2": "form107959f2",
@@ -305,5 +307,8 @@
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
   "fsrWizard": "fsr_wizard",
-  "isDGIBEndpoint": "is_DGIB_endpoint"
+  "isDGIBEndpoint": "is_DGIB_endpoint",
+  "enableLightHouse": "enable_lighthouse",
+  "isUpdatedGi": "is_updated_gi",
+  "showRudisill1995": "show_rudisill_1995"
 }
