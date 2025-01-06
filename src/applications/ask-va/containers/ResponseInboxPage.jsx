@@ -402,7 +402,7 @@ const ResponseInboxPage = ({ router }) => {
                             }`}
                           >
                             <va-link
-                              href={`${URL.DOWNLOAD_ATTACHMENT}${
+                              href={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
                                 attachment.id
                               }`}
                               text={`${attachment.name}
