@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import { HelpTextManage } from '../../components/HelpText';
 import BreadCrumbs from '../../components/Breadcrumbs';
@@ -10,6 +11,34 @@ const FileClaimExplainerPage = () => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const toggleIsLoading = useToggleLoadingValue();
+  const canSubmitMileage = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  if (toggleIsLoading) {
+    return (
+      <div className="vads-l-grid-container vads-u-padding-y--3">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
+        />
+      </div>
+    );
+  }
+
+  if (!canSubmitMileage) {
+    window.location.replace('/');
+    return null;
+  }
 
   return (
     <Element name="topScrollElement">
