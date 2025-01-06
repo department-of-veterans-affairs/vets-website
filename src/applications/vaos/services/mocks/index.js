@@ -67,12 +67,6 @@ const purposeText = {
 
 const responses = {
   'GET /facilities_api/v2/ccp/provider': ccProviders,
-  'GET /v1/facilities/ccp/:id': (req, res) => {
-    const provider = ccProviders.data.find(p => p.id === req.params.id);
-    return res.json({
-      data: provider,
-    });
-  },
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
