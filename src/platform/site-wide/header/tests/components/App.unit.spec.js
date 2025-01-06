@@ -79,9 +79,9 @@ describe('Header <App>', () => {
 
   it('renders legacy header when our width is more than 768px', () => {
     window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+    const showDesktopHeaderSpy = sandbox.spy(helpers, 'showDesktopHeader');
+    const hideDesktopHeaderSpy = sandbox.spy(helpers, 'hideDesktopHeader');
+    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader();
 
@@ -99,16 +99,13 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-minimal')).to.not.exist;
 
     document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
   });
 
   it('renders header v2 (mobile) when our width is less than 768px', () => {
     window.innerWidth = 767;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+    const showDesktopHeaderSpy = sandbox.spy(helpers, 'showDesktopHeader');
+    const hideDesktopHeaderSpy = sandbox.spy(helpers, 'hideDesktopHeader');
+    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader();
 
@@ -126,16 +123,13 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-minimal')).to.not.exist;
 
     document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
   });
 
   it('renders minimal-header when applicable', () => {
     window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+    sandbox.spy(helpers, 'showDesktopHeader');
+    sandbox.spy(helpers, 'hideDesktopHeader');
+    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({ showMinimalHeader: true });
 
@@ -147,16 +141,13 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-minimal')).to.exist;
 
     document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
   });
 
   it('renders legacy if minimal-header is false and is Desktop size', () => {
     window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+    const showDesktopHeaderSpy = sandbox.spy(helpers, 'showDesktopHeader');
+    const hideDesktopHeaderSpy = sandbox.spy(helpers, 'hideDesktopHeader');
+    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
@@ -178,16 +169,13 @@ describe('Header <App>', () => {
     );
 
     document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
   });
 
   it('renders mobile if minimal-header is false and is mobile size', () => {
     window.innerWidth = 767;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+    const showDesktopHeaderSpy = sandbox.spy(helpers, 'showDesktopHeader');
+    const hideDesktopHeaderSpy = sandbox.spy(helpers, 'hideDesktopHeader');
+    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
@@ -209,8 +197,5 @@ describe('Header <App>', () => {
     );
 
     document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
   });
 });
