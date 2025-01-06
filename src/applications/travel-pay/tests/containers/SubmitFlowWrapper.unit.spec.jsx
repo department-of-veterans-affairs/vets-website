@@ -33,15 +33,17 @@ describe('SubmitFlowWrapper', () => {
       initialState: getData({
         areFeatureTogglesLoading: true,
       }),
+      path: `/file-new-claim/12345`,
     });
     expect(await screen.getByTestId('travel-pay-loading-indicator')).to.exist;
   });
 
-  it('should mount child Introduction Page component', () => {
+  it('should initially load child Introduction Page component', () => {
     const screen = renderWithStoreAndRouter(<SubmitFlowWrapper />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
       }),
+      path: `/file-new-claim/12345`,
     });
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
   });
