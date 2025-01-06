@@ -6,7 +6,7 @@ import { EMPTY_FIELD } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 
-const MAX_PAGE_LIST_LENGTH = 10;
+const MAX_PAGE_LIST_LENGTH = 2;
 const MAX_GROUPED_LIST_LENGTH = 26;
 
 const GroupedMedications = props => {
