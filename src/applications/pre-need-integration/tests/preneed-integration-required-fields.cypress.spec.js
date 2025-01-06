@@ -2,12 +2,12 @@
 // Axe check is performed on every page with the errorCheck function
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
-import preneedHelpers from './utils/cypress-preneed-helpers';
+import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 // Clicks continue, checks for any expected error messages, performs an axe check
 function errorCheck(errorList) {
   cy.get('.form-panel .usa-button-primary').click({ waitForAnimations: true });
-  errorList.map(id =>
+  errorList?.map(id =>
     cy.get(`#root_application_${id}-error-message`).should('be.visible'),
   );
   cy.axeCheck();

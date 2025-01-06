@@ -28,8 +28,8 @@ function interceptSetup() {
 function validateProgressBar(index) {
   cy.get('va-segmented-progress-bar')
     .shadow()
-    .find(`.progress-bar-segmented div.progress-segment:nth-child(${index})`)
-    .should('have.class', 'progress-segment-complete');
+    .find(`.usa-step-indicator__segments > li:nth-child(${index})`)
+    .should('have.class', 'usa-step-indicator__segment--current');
 }
 
 function clickContinue() {
@@ -53,13 +53,16 @@ function visitIntro() {
 }
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
-function fillApplicantInfo(name, ssn, dob, relationship) {
+function fillApplicantInfo(relationship) {
+  const relationshipToVetRadio =
+    'root_application_applicant_applicantRelationshipToClaimant';
   validateProgressBar('1');
-  cy.fillName('root_application_claimant_name', name);
-  cy.fill('#root_application_claimant_name_maiden', name.maiden);
-  cy.fill('input[name="root_application_claimant_ssn"]', ssn);
-  cy.fillDate('root_application_claimant_dateOfBirth', dob);
-  cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
+  if (relationship === 'veteran') {
+    cy.selectRadio(relationshipToVetRadio, 'Self');
+  } else {
+    cy.selectRadio(relationshipToVetRadio, 'Authorized Agent/Rep');
+  }
+  validateProgressBar('1');
   clickContinue();
   cy.url().should(
     'not.contain',

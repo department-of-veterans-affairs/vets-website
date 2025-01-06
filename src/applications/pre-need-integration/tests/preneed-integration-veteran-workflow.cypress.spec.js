@@ -1,5 +1,5 @@
 import testData from './schema/maximal-test.json';
-import preneedHelpers from './utils/cypress-preneed-helpers';
+import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
@@ -8,11 +8,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
 
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
-      testData.data.application.veteran.currentName,
-      testData.data.application.veteran.ssn,
-      testData.data.application.veteran.dateOfBirth,
       testData.data.application.veteran.relationshipToVet,
-      testData.data.application.veteran.placeOfBirth,
     );
 
     // Veteran Information Page

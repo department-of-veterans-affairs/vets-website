@@ -1,5 +1,5 @@
 import testData from './schema/maximal-test.json';
-import preneedHelpers from './utils/cypress-preneed-helpers';
+import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
