@@ -16,12 +16,13 @@ function ProfileNotUpdatedNote(props) {
     isClaimantChapter,
     loggedIn,
   } = props;
-  const isLoggedInClaimantAndInClaimantChapter = loggedIn && isClaimantChapter;
-  const isLoggedInVeteran = loggedIn && preparerIsVeteran({ formData });
+
+  const shouldShowNote =
+    loggedIn && (isClaimantChapter || preparerIsVeteran({ formData }));
 
   return (
     <>
-      {(isLoggedInClaimantAndInClaimantChapter || isLoggedInVeteran) && (
+      {shouldShowNote && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
