@@ -17,11 +17,9 @@ export default function BurialsEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const burialModuleEnabled = useToggleValue(TOGGLE_NAMES.burialModuleEnabled);
 
-  const adjustedApiPath = burialModuleEnabled
-    ? '/burials/v0/burial_claims'
-    : '/v0/burial_claims';
-
-  formConfig.submitUrl = `${environment.API_URL}${adjustedApiPath}`;
+  formConfig.submitUrl = `${environment.API_URL}${
+    burialModuleEnabled ? '/burials/v0/burial_claims' : formConfig.submitUrl
+  }`;
 
   useBrowserMonitoring();
 

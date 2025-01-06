@@ -55,7 +55,10 @@ export function submit(form, formConfig) {
     return Promise.reject(respOrError);
   };
 
-  return apiRequest(formConfig.submitUrl, apiRequestOptions)
+  return apiRequest(
+    formConfig.submitUrl || '/v0/burial_claims',
+    apiRequestOptions,
+  )
     .then(onSuccess)
     .catch(onFailure);
 }
