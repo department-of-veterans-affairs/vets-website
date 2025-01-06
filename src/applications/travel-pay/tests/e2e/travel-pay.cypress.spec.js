@@ -81,7 +81,7 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
-    cy.get('a[data-testid="status-explainer-link"]')
+    cy.get('va-link[data-testid="status-explainer-link"]')
       .first()
       .click();
 
