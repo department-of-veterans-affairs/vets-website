@@ -548,20 +548,7 @@ export const determineAirForceAFRBAPortal = formResponses =>
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
 
-// Determines step header level.
-export const stepHeaderLevel = formResponses => {
-  if (
-    [
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
-    ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
-  ) {
-    return 3;
-  }
-  return 2;
-};
-
-const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
+export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
       RESPONSES.PREV_APPLICATION_BCMR,
@@ -594,7 +581,7 @@ export const isPreviousApplicationYear = prevAppYear => {
   ].includes(prevAppYear);
 };
 
-const shouldReapplyToBoard = (prevAppType, formResponses) => {
+export const shouldReapplyToBoard = (prevAppType, formResponses) => {
   return (
     [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
       prevAppType,
@@ -606,14 +593,18 @@ const shouldReapplyToBoard = (prevAppType, formResponses) => {
   );
 };
 
-const isDocumentaryOrNotSure = prevAppType => {
+export const isDocumentaryOrNotSure = prevAppType => {
   return [
     RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
     RESPONSES.NOT_SURE,
   ].includes(prevAppType);
 };
 
-const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
+export const handleDRBExplanation = (
+  boardToSubmit,
+  serviceBranch,
+  prevAppType,
+) => {
   const boardName =
     boardToSubmit.abbr === DRB
       ? 'Discharge Review Board (DRB)'
@@ -805,4 +796,26 @@ export const renderMedicalRecordInfo = formResponses => {
     );
   }
   return null;
+};
+
+export const determineBoardName = branch => {
+  let boardName;
+
+  switch (branch) {
+    case RESPONSES.AIR_FORCE:
+      boardName = 'Air Force Board for Correction of Military Records';
+      break;
+    case RESPONSES.ARMY:
+    case RESPONSES.COAST_GUARD:
+      boardName = 'Board for Correction of Military Records (BCMR)';
+      break;
+    case RESPONSES.NAVY:
+    case RESPONSES.MARINE_CORPS:
+      boardName = 'Board for Correction of Naval Records (BCNR)';
+      break;
+    default:
+      boardName = '';
+      break;
+  }
+  return boardName;
 };

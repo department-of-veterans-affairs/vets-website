@@ -35,9 +35,7 @@ export default function FacilityAddress({
     <>
       {!!name && (
         <>
-          <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-            {name}
-          </Heading>
+          <Heading className="vads-u-display--inline">{name}</Heading>
           <br />
         </>
       )}
@@ -59,16 +57,14 @@ export default function FacilityAddress({
       <div className={extraInfoClasses} data-dd-privacy="mask">
         {!!clinicName && (
           <>
-            <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-              Clinic:
-            </HeadingSub>{' '}
+            <HeadingSub className="vads-u-display--inline">Clinic:</HeadingSub>{' '}
             {clinicName} <br />
           </>
         )}
         {!!clinicPhysicalLocation &&
           !isPhone && (
             <>
-              <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+              <HeadingSub className="vads-u-display--inline">
                 Location:
               </HeadingSub>{' '}
               {clinicPhysicalLocation} <br />

@@ -1,7 +1,7 @@
 /** @module testing/mocks/setup */
 
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -10,7 +10,7 @@ import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
-import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
@@ -101,25 +101,13 @@ export function renderWithStoreAndRouter(
   ui,
   { initialState, store = null, path = '/', history = null },
 ) {
-  const testStore =
-    store ||
-    createStore(
-      combineReducers({ ...commonReducer, ...reducers }),
-      initialState,
-      applyMiddleware(thunk),
-    );
-
-  const historyObject = history || createTestHistory(path);
-  const screen = renderInReduxProvider(
-    <Router history={historyObject}>{ui}</Router>,
-    {
-      store: testStore,
-      initialState,
-      reducers,
-    },
-  );
-
-  return { ...screen, history: historyObject };
+  return platformRenderWithStoreAndRouter(ui, {
+    initialState,
+    reducers,
+    store,
+    path,
+    history,
+  });
 }
 
 /**
@@ -196,18 +184,19 @@ export async function setTypeOfCare(store, label) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: label },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**

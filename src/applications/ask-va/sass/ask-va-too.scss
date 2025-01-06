@@ -299,7 +299,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 0);
     color: var(--vads-color-black);
     max-width: 1.25rem;
-    left: 68%;
+    left: 65%;
     padding-left: 0.3125rem;
 
     &:hover {
@@ -309,14 +309,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
     @media (max-width: $small-screen) {
       left: 64%;
-    }
-  }
-
-  #street-city-state-zip {
-    padding-right: 36px !important;
-
-    @media (max-width: $small-screen) {
-      padding-right: 48px !important;
     }
   }
 }
@@ -442,7 +434,8 @@ ul.react-tabs__tab-list {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  margin-top: 0px;
 
   @include media($medium-screen) {
     flex-direction: row;
@@ -484,4 +477,31 @@ ul.react-tabs__tab-list {
 
 .ask-va-modal-content {
   margin-bottom: 2rem;
+}
+
+.va-file-input.no-file {
+  margin: 0;
+}
+
+.dashboard-card-list {
+  list-style-type: none;
+}
+
+va-radio-option#facility-not-listed
+  .usa-radio__label[for="facility-not-listedinput"][role="radio"] {
+  font-weight: 600;
+}
+
+.school-info-bar {
+  border-left: 4px solid var(--vads-color-primary);
+}
+
+.school-state-error {
+  border-left: 0.25rem solid var(--vads-color-secondary-dark);
+  padding-left: 1rem;
+  position: relative;
+
+  [error]:not([error=""]) {
+    border-left: none;
+  }
 }

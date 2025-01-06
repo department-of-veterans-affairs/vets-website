@@ -5,7 +5,6 @@ import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/V
 import {
   aboutYourselfGeneralSchema,
   aboutYourselfGeneralUISchema,
-  aboutYourselfRelationshipFamilyMemberSchema,
   personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
   personalInformationUiSchemas,
@@ -41,27 +40,6 @@ describe('Personal Information Form Schemas', () => {
     });
   });
 
-  describe('aboutYourselfRelationshipFamilyMemberSchema', () => {
-    it('should have correct schema for social number', () => {
-      const schema = aboutYourselfRelationshipFamilyMemberSchema.socialNum;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[0-9]{9}$');
-    });
-
-    it('should have correct schema for branch of service', () => {
-      const schema =
-        aboutYourselfRelationshipFamilyMemberSchema.branchOfService;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema.enum).to.include.members([
-        'Army',
-        'Navy',
-        'Coast Guard',
-        'Air Force',
-        'Marine Corps',
-      ]);
-    });
-  });
-
   describe('aboutYourselfGeneralSchema', () => {
     it('should have correct schema for general information fields', () => {
       const schema = aboutYourselfGeneralSchema.first;
@@ -90,7 +68,7 @@ describe('Personal Information UI Schemas', () => {
 
     it('should have ssn UI with validation for socialOrServiceNum', () => {
       const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:title'].props.children[0].type).to.equal('h4');
+      expect(uiSchema['ui:title'].props.children[0].type).to.equal('p');
       expect(uiSchema['ui:validations'][0]).to.be.a('function');
     });
   });

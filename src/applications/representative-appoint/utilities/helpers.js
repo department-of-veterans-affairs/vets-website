@@ -52,6 +52,30 @@ export const getFormSubtitle = formData => {
   return 'VA Forms 21-22 and 21-22a';
 };
 
+export const parseRepType = repType => {
+  const parsedRep = {};
+
+  switch (repType) {
+    case 'Organization':
+      parsedRep.title = 'Veterans Service Organization (VSO)';
+      parsedRep.subTitle = 'Veteran Service Organization';
+      break;
+    case 'Attorney':
+      parsedRep.title = 'accredited attorney';
+      parsedRep.subTitle = 'Accredited attorney';
+      break;
+    case 'Claims Agent':
+      parsedRep.title = 'accredited claims agent';
+      parsedRep.subTitle = 'Accredited claims agent';
+      break;
+    default:
+      parsedRep.title = 'accredited representative';
+      parsedRep.subTitle = 'Accredited representative';
+  }
+
+  return parsedRep;
+};
+
 export const getEntityAddressAsObject = addressData => ({
   addressLine1: (addressData?.addressLine1 || '').trim(),
   addressLine2: (addressData?.addressLine2 || '').trim(),
@@ -78,7 +102,7 @@ export const getRepType = entity => {
     return 'Organization';
   }
 
-  const repType = entity.attributes?.individualType;
+  const repType = entity?.attributes?.individualType;
 
   if (repType === 'attorney') {
     return 'Attorney';
@@ -99,7 +123,7 @@ export const getFormNumber = formData => {
     entityType === 'organization' ||
     (['representative', 'individual'].includes(entityType) &&
       ['representative', 'veteran_service_officer'].includes(
-        entity.attributes.individualType,
+        entity?.attributes?.individualType,
       ))
   ) {
     return '21-22';
@@ -125,14 +149,10 @@ export const isVSORepresentative = formData => {
   return false;
 };
 
-export const isAttorneyOrClaimsAgent = formData => {
-  const repType =
-    formData['view:selectedRepresentative']?.attributes?.individualType;
-
-  return ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
-    repType,
-  );
-};
+export const isAttorneyOrClaimsAgent = formData =>
+  ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
+    formData?.['view:selectedRepresentative']?.attributes?.individualType,
+  ) || null;
 
 const isOrg = formData =>
   formData['view:selectedRepresentative']?.type === 'organization';
@@ -177,14 +197,18 @@ export const getRepresentativeName = formData => {
 
 export const getApplicantName = formData => {
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
-
   const applicantFullName = applicantIsVeteran
     ? formData.veteranFullName
     : formData.applicantName;
 
-  return `${applicantFullName.first} ${applicantFullName.middle} ${
-    applicantFullName.last
-  } ${applicantFullName.suffix}`;
+  return [
+    applicantFullName.first,
+    applicantFullName.middle,
+    applicantFullName.last,
+    applicantFullName.suffix,
+  ]
+    .filter(nameSection => nameSection && nameSection.trim())
+    .join(' ');
 };
 
 export const convertRepType = input => {

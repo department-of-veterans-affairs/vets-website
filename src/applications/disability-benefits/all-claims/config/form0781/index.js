@@ -1,11 +1,13 @@
 import workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
-import * as mentalHealthSupportInfoPage from '../../pages/form0781/mentalHealthSupportInfoPage';
 import {
+  isCompletingForm0781,
   showForm0781Pages,
   showManualUpload0781Page,
-  showMentalHealthSupportInfoPage,
 } from '../../utils/form0781';
+import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
+import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
+import * as eventType from '../../pages/form0781/traumaticEventTypes';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -26,11 +28,25 @@ export const form0781PagesConfig = {
     depends: formData => showManualUpload0781Page(formData),
     schema: manualUploadPage.schema,
   },
-  mentalHealthSupportInfoPage: {
-    path:
-      'disability/file-disability-claim-form-21-526ez/additional-forms/mental-health-statement/support',
-    uiSchema: mentalHealthSupportInfoPage.uiSchema,
-    depends: formData => showMentalHealthSupportInfoPage(formData),
-    schema: mentalHealthSupportInfoPage.schema,
+  mentalHealthSupport: {
+    title: 'Mental health support',
+    path: 'additional-forms/mental-health-statement/support',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: mentalHealthSupport.uiSchema,
+    schema: mentalHealthSupport.schema,
+  },
+  eventsIntro: {
+    title: 'Traumatic events',
+    path: 'additional-forms/mental-health-statement/events',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: traumaticEventsIntro.uiSchema,
+    schema: traumaticEventsIntro.schema,
+  },
+  eventType: {
+    title: 'Types of traumatic events',
+    path: 'additional-forms/mental-health-statement/events-type',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: eventType.uiSchema,
+    schema: eventType.schema,
   },
 };

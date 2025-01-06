@@ -11,12 +11,14 @@ import { selectProfile } from '~/platform/user/selectors';
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 import {
+  wantsToUploadEvidence,
   canUploadEvidence,
   needsHearingType,
   isDirectReview,
 } from '../utils/helpers';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -64,7 +66,7 @@ export const ConfirmationPageV2 = () => {
         <p>
           You submitted the request on {submitDate}. It can take a few days for
           the Board to receive your request. We’ll send you a confirmation
-          letter, once we’ve processed your request.
+          letter once we’ve processed your request.
         </p>
       </ConfirmationAlert>
 
@@ -115,7 +117,9 @@ export const ConfirmationPageV2 = () => {
               <div>P.O. Box 27063</div>
               <div>Washington, DC 20038</div>
             </div>
-            <p>Fax: 1-844-678-8979</p>
+            <p>
+              <strong>Fax:</strong> 1-844-678-8979
+            </p>
           </>
         )}
         {choseHearing && (
@@ -217,7 +221,7 @@ export const ConfirmationPageV2 = () => {
         </>
       </ConfirmationIssues>
 
-      <h3 className="vads-u-margin-top--2">Board review options</h3>
+      <h3 className={chapterHeaderClass}>Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -233,13 +237,13 @@ export const ConfirmationPageV2 = () => {
             {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {choseEvidence &&
-          data.evidence.length && (
-            <li>
-              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                Uploaded evidence
-              </div>
-              {data.evidence?.map((file, index) => (
+        {choseEvidence && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Uploaded evidence
+            </div>
+            {wantsToUploadEvidence(data) && data.evidence.length ? (
+              data.evidence?.map((file, index) => (
                 <div
                   key={index}
                   className="vads-u-margin-bottom--2 dd-privacy-hidden"
@@ -247,9 +251,12 @@ export const ConfirmationPageV2 = () => {
                 >
                   {file.name}
                 </div>
-              ))}
-            </li>
-          )}
+              ))
+            ) : (
+              <span className="evidence-later">I’ll submit it later.</span>
+            )}
+          </li>
+        )}
         {choseHearing && (
           <>
             <li>

@@ -528,41 +528,67 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
-    return dropdown.label === target.id;
+// TODO use this filter function on results page
+export const filterLcResults = (results, nameInput, filters) => {
+  const { type, state } = filters;
+
+  return results.filter(result => {
+    if (result.type === 'exam') return false;
+
+    if (type === 'all' && state === 'all' && nameInput === '') return true;
+
+    if (type !== 'all' && type !== result.type) return false;
+
+    // if result.state === all, it is a certifciation
+    if (state !== 'all' && state !== result.state && result.state !== 'all')
+      return false;
+
+    return result.name.toLowerCase().includes(nameInput.toLowerCase());
   });
+};
 
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
-    option => option.optionValue === target.value,
-  );
+export const updateQueryParam = (history, location) => {
+  return keyValuePairs => {
+    const searchParams = new URLSearchParams(location.search);
 
-  return dropdowns.map(
-    (dropdown, index) =>
-      index === updatedFieldIndex
-        ? {
-            ...dropdown,
-            current: dropdown.options[selectedOptionIndex],
-          }
-        : dropdown,
-  );
+    keyValuePairs.forEach(([key, value]) => {
+      searchParams.set(key, value);
+    });
+
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+  };
 };
 
 export const handleLcResultsSearch = (
   history,
-  type = 'all',
+  category = 'all',
   name = null,
   state = 'all',
 ) => {
   return name
     ? history.push(
-        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
       )
-    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+    : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
 
-export const formatProgramType = programType => {
+export function capitalizeFirstLetter(string) {
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return null;
+}
+
+export const formatProgramType = (programType = '') => {
   if (!programType) return '';
+
+  if (programType === 'on-the-job-training-apprenticeship') {
+    return 'On-the-job training/Apprenticeships';
+  }
 
   return programType
     .split('-')
@@ -607,4 +633,93 @@ export const generateMockPrograms = numPrograms => {
       institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
     },
   }));
+};
+
+export const deriveMaxAmount = contributionAmount => {
+  if (!contributionAmount) {
+    return 'Not provided';
+  }
+  const contributionAmountNum = parseFloat(contributionAmount);
+  if (contributionAmountNum >= 99999) {
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
+  }
+
+  return contributionAmountNum.toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+    style: 'currency',
+  });
+};
+
+export const deriveEligibleStudents = numberOfStudents => {
+  if (!numberOfStudents) {
+    return 'Not provided';
+  }
+  if (numberOfStudents >= 99999) {
+    return 'All eligible students';
+  }
+  if (numberOfStudents === 1) {
+    return '1 student';
+  }
+  return `${numberOfStudents} students`;
+};
+
+export const mapToAbbreviation = value => {
+  const mapping = {
+    'on-the-job-training-apprenticeship': 'OJT',
+    'non-college-degree': 'NCD',
+    'institution-of-higher-learning': 'IHL',
+    flight: 'FLGT',
+    correspondence: 'CORR',
+  };
+
+  return mapping[value.toLowerCase()];
+};
+
+export const getAbbreviationsAsArray = value => {
+  if (!value) return [];
+  const mapping = {
+    OJT: [
+      { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'OJT', description: 'On-the-job training' },
+    ],
+    NCD: [
+      { abbreviation: 'CERT', description: 'Certification' },
+      { abbreviation: 'UG CERT', description: 'Undergraduate Certification' },
+    ],
+    IHL: [
+      { abbreviation: 'AA', description: 'Associate of Arts' },
+      { abbreviation: 'AS', description: 'Associate of Science' },
+      { abbreviation: 'BA', description: 'Bachelor of Arts' },
+      { abbreviation: 'BS', description: 'Bachelor of Science' },
+      { abbreviation: 'GRAD CERT', description: 'Graduate Certification' },
+      { abbreviation: 'MA', description: 'Master of Arts' },
+      { abbreviation: 'MBA', description: 'Master of Business Administration' },
+      { abbreviation: 'MS', description: 'Master of Science' },
+    ],
+    CORR: [
+      { abbreviation: 'AAS', description: 'Associate of Applied Science' },
+      { abbreviation: 'CERT', description: 'Certification' },
+    ],
+    FLGT: [
+      { abbreviation: 'AMEL', description: 'Airplane Multi Engine Land' },
+      { abbreviation: 'ASEL', description: 'Airplane Single Engine Land' },
+      { abbreviation: 'ATM', description: 'Airline Transport Multiengine' },
+      { abbreviation: 'ATP', description: 'Airline Transport Pilot' },
+      { abbreviation: 'ATS', description: 'Airline Transport Single Engine' },
+      { abbreviation: 'CFI', description: 'Certified Flight Instructor' },
+      {
+        abbreviation: 'CFII',
+        description: 'Certified Flight Instructor Instrument',
+      },
+      { abbreviation: 'IR', description: 'Instrument Rating' },
+      { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
+    ],
+  };
+
+  const items = mapping[value.toUpperCase()] || [];
+
+  return items.map(item => `${item.abbreviation}: ${item.description}`);
 };

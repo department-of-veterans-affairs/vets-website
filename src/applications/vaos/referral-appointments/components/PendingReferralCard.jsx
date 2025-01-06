@@ -1,10 +1,10 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
-import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
-import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
-import AppointmentRow from '../../appointment-list/components/AppointmentsPage/AppointmentRow';
-import AppointmentColumn from '../../appointment-list/components/AppointmentsPage/AppointmentColumn';
+import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
+import ListItem from '../../components/ListItem';
+import AppointmentRow from '../../components/AppointmentRow';
+import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, handleClick, index }) => {
   const first = index === 0;
@@ -39,6 +39,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                     padding="0"
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
+                    data-testid="typeOfCare"
                   >
                     {`${typeOfCareName} referral`}
                   </AppointmentColumn>

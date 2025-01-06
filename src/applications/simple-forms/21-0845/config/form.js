@@ -14,6 +14,7 @@ import { AUTHORIZER_TYPES, INFORMATION_SCOPES } from '../definitions/constants';
 import authorizerTypePg from '../pages/authorizerType';
 import veteranPersonalInfoPg from '../pages/veteranPersonalInfo';
 import veteranIdInfoPg from '../pages/veteranIdInfo';
+import veteranContactInfoPg from '../pages/veteranContactInfo';
 import thirdPartyTypePg from '../pages/thirdPartyType';
 import personNamePg from '../pages/personName';
 import personAddressPg from '../pages/personAddress';
@@ -60,6 +61,7 @@ const formConfig = {
   formId: '21-0845',
   dev: {
     showNavLinks: !window.Cypress,
+    collapsibleNavLinks: true,
   },
   saveInProgress: {
     messages: {
@@ -169,6 +171,21 @@ const formConfig = {
           schema: veteranPersonalInfoPg.schema,
           scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'veteran-personal-information',
+        },
+      },
+    },
+    veteranContactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
+        vetContactInfoPage: {
+          path: 'veteran-contact-information',
+          title: 'Your contact information',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.VETERAN,
+          },
+          uiSchema: veteranContactInfoPg.uiSchema,
+          schema: veteranContactInfoPg.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },

@@ -33,10 +33,18 @@ export function showManualUpload0781Page(formData) {
   );
 }
 
-export function showMentalHealthSupportInfoPage(formData) {
+/**
+ * Checks if
+ * 1. modern 0781 pages should be showing
+ * 2. the option to complete the online form is selected
+ *
+ * @param {object} formData
+ * @returns {boolean} true if COMPLETE_ONLINE_FORM is selected, false otherwise
+ */
+export function isCompletingForm0781(formData) {
   return (
     showForm0781Pages(formData) &&
-    formData.mentalHealthWorkflowChoice ===
+    formData['view:mentalHealthWorkflowChoice'] ===
       form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
