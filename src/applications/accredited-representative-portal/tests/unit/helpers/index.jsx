@@ -1,6 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import {
+  createMemoryRouter,
+  RouterProvider,
+  MemoryRouter,
+} from 'react-router-dom';
 import { render } from '@testing-library/react';
 
 import createReduxStore from '../../../store';
@@ -19,4 +23,15 @@ export function renderTestApp(children, { initAction, initialEntries } = {}) {
       <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
     </Provider>,
   );
+}
+
+export function renderTestComponent(element) {
+  const router = createMemoryRouter([
+    {
+      path: '',
+      element,
+    },
+  ]);
+
+  return render(<RouterProvider router={router} />);
 }

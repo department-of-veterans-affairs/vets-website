@@ -32,8 +32,8 @@ export const uiSchema = {
       } Social Security and VA file numbers are the same. `,
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includePhone />
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone includePrefix />
     ),
   },
   veteranSocialSecurityNumber: ssnUI('Social Security number'),
