@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import {
   selectVAPResidentialAddress,
   isProfileLoading,
@@ -7,7 +6,7 @@ import {
 } from 'platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-// import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
 import PropTypes from 'prop-types';
@@ -25,46 +24,14 @@ import CantFilePage from '../components/submit-flow/pages/CantFilePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
 const SubmitFlowWrapper = ({ address }) => {
-  // const location = useLocation();
-  // const { appointment = null } = location.state ?? {};
-
+  // This will need to be an API call based on the apptID passed in the params
+  // But for now is hardcoded
   const appointment = appointment1;
 
-  // useEffect(() => {
-  //   focusElement('h1');
-  //   scrollToTop('topScrollElement');
-  // }, []);
-
-  // From the appts app, helpful ideas on how to normalize appt data
-  // const {
-  //   clinicName,
-  //   clinicPhysicalLocation,
-  //   clinicPhone,
-  //   clinicPhoneExtension,
-  //   facility,
-  //   facilityPhone,
-  //   locationId,
-  //   isPastAppointment,
-  //   practitionerName,
-  //   startDate,
-  //   status,
-  //   typeOfCareName,
-  // } = useSelector(
-  //   state => selectConfirmedAppointmentData(state, appointment),
-  //   shallowEqual,
-  // );
-
-  // const { apptId } = useParams();
-
-  // These are from the appts app, but would be helpful if we can implement them
-
-  // const appointment = useSelector(state =>
-  //   selectAppointmentById(state, apptId),
-  // );
-
-  // const selectedAppointment = useSelector(state =>
-  //   selectConfirmedAppointmentData(state, appointment),
-  // );
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
@@ -82,7 +49,7 @@ const SubmitFlowWrapper = ({ address }) => {
   const onSubmit = e => {
     e.preventDefault();
     if (!isAgreementChecked) {
-      // IDK, throw some kind of error or something
+      // throw some kind of error
     } else {
       // Placeholder until actual submit is hooked up
 
@@ -199,7 +166,7 @@ const SubmitFlowWrapper = ({ address }) => {
 
   return (
     <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-padding-bottom--0">
+      <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {cantFile && (

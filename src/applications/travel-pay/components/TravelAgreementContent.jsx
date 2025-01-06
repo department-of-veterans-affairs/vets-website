@@ -3,7 +3,6 @@ import React from 'react';
 const TravelAgreementContent = () => {
   return (
     <>
-      {/* <h1>Beneficiary travel agreement</h1> */}
       <ul>
         <li>I have incurred a cost in relation to the travel claim.</li>
         <li>
@@ -22,8 +21,6 @@ const TravelAgreementContent = () => {
           I have not previously received payment for the transportation claimed.
         </li>
       </ul>
-      {/* <p>Review your claim informaiton now to file your travel pay claim.</p>
-      <va-link text="Finish reviewing your claim" href="??" /> */}
     </>
   );
 };

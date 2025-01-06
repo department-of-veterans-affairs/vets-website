@@ -5,7 +5,6 @@ import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
-import TravelAgreementPage from './containers/pages/TravelAgreementPage';
 import FileClaimExplainerPage from './containers/pages/FileClaimExplainerPage';
 
 const routes = (
@@ -20,10 +19,6 @@ const routes = (
     <Route exact path="/help">
       <MhvSecondaryNav />
       <ClaimStatusExplainerPage />
-    </Route>
-    <Route exact path="/beneficiary-travel-agreement">
-      <MhvSecondaryNav />
-      <TravelAgreementPage />
     </Route>
     <Route exact path="/file-new-claim">
       <MhvSecondaryNav />
