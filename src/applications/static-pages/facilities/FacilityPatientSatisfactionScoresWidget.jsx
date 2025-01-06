@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { displayPercent } from 'platform/utilities/ui';
+import { connect } from 'react-redux';
 import FacilityApiAlert from './FacilityApiAlert';
 import FacilityDataLink from './FacilityDataLink';
 

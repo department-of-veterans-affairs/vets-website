@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
-import { AddressTypes } from '../../facility-locator/types';
 
 export default function FacilityAddress({ facility }) {
   let address = buildAddressArray(facility);
@@ -38,19 +36,3 @@ export default function FacilityAddress({ facility }) {
     </div>
   );
 }
-
-FacilityAddress.propTypes = {
-  facility: PropTypes.shape({
-    attributes: {
-      address: {
-        physical: {
-          address1: PropTypes.string,
-          address2: PropTypes.string,
-          address3: PropTypes.string,
-          ...AddressTypes,
-        },
-      },
-      name: PropTypes.string,
-    },
-  }),
-};
