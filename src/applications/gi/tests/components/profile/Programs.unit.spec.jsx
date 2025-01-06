@@ -7,13 +7,8 @@ describe('<Programs>', () => {
   it('should render', () => {
     const programTypes = ['Undergraduate', 'Graduate', 'OJT'];
     const facilityCode = '12345';
-    const name = 'Example Institution';
     const wrapper = shallow(
-      <Programs
-        programTypes={programTypes}
-        facilityCode={facilityCode}
-        institutionName={name}
-      />,
+      <Programs programTypes={programTypes} facilityCode={facilityCode} />,
     );
     expect(wrapper.type()).to.not.equal(null);
     expect(

@@ -322,7 +322,7 @@ const FacilitySearch = props => {
             <VaSearchInput
               label={`${content['form-facilities-search-label']} ${
                 content['validation-required-label']
-              }}`}
+              }`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}

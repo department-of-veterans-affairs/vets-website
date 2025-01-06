@@ -51,7 +51,7 @@ const ConfirmationPage = ({ location }) => {
     </va-alert>
   );
 
-  const actionLink = currentlyLoggedIn ?? (
+  const actionLink = currentlyLoggedIn && (
     <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
       <va-link-action
         href="/contact-us/ask-va-too"

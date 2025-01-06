@@ -13,4 +13,5 @@ startApp({
   reducer,
   routes,
   entryName: manifest.entryName,
+  preloadScheduledDowntimes: true,
 });
