@@ -86,13 +86,8 @@ const ReviewPage = props => {
             knowingly submitting a false, fictitious, or fraudulent claim.
           </p>
           <p>
-            By submitting this claim, you agree to the{' '}
-            <va-link
-              external
-              text="beneficiary travel agreement"
-              href="/my-health/travel-pay/beneficiary-travel-agreement"
-            />
-            .
+            By submitting this claim, you agree to the beneficiary travel
+            agreement.
           </p>
 
           <va-button
