@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { isLoggedIn } from 'platform/user/selectors';
 
 import { focusElement } from 'platform/utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -19,7 +18,6 @@ const centralTz = 'America/Chicago';
 
 const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form);
-  const loggedIn = useSelector(isLoggedIn);
   const { formConfig } = route;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showUpdatedConfirmation = useToggleValue(
@@ -37,6 +35,18 @@ const ConfirmationPage = ({ route }) => {
     timeZone: centralTz,
   });
 
+  const confirmationNumber = response?.confirmationNumber;
+  const submissionAlertContent = (
+    <>
+      <p>Your submission is in progress.</p>
+      <p>
+        It can take up to 10 days for us to receive your form.
+        {confirmationNumber &&
+          ` Your confirmation number is ${confirmationNumber}.`}
+      </p>
+    </>
+  );
+
   useEffect(() => {
     focusElement('h2');
     scrollToTop();
@@ -46,11 +56,14 @@ const ConfirmationPage = ({ route }) => {
     <div className="vads-u-margin-bottom--9">
       <ConfirmationView
         submitDate={submission?.timestamp}
-        confirmationNumber={response?.confirmationNumber}
+        confirmationNumber={confirmationNumber}
         formConfig={formConfig}
       >
         {showUpdatedConfirmation ? (
-          <ConfirmationView.SubmissionAlert actions={!loggedIn && <p />} />
+          <ConfirmationView.SubmissionAlert
+            content={submissionAlertContent}
+            actions={<p />}
+          />
         ) : (
           <>
             <h2 className="vads-u-margin-bottom--3">
@@ -68,12 +81,12 @@ const ConfirmationPage = ({ route }) => {
           <p>{fullName}</p>
           <h4>Date you submitted your application</h4>
           <p>{submittedAt}</p>
-          {response?.confirmationNumber && (
+          {confirmationNumber && (
             <>
               <h4 id="pension_527ez_submission_confirmation">
                 Confirmation number
               </h4>
-              <p>{response?.confirmationNumber}</p>
+              <p>{confirmationNumber}</p>
             </>
           )}
           {!showUpdatedConfirmation && (
@@ -90,12 +103,10 @@ const ConfirmationPage = ({ route }) => {
           <>
             <ConfirmationView.PrintThisPage />
             <ConfirmationView.WhatsNextProcessList
-              item1Content={`This can take up to 10 days. When we receive your form, ${
-                loggedIn
-                  ? 'we’ll update the status on My VA.'
-                  : 'we’ll send you an email.'
-              }`}
-              item1Actions={!loggedIn && <p />}
+              item1Header="We’ll confirm when we receive your form"
+              item1Content="This can take up to 10 days. When we receive your form, we'll send you an email."
+              item1Actions={<p />}
+              item2Content="If we have questions or need more information after reviewing your form, we'll contact you by phone, email, or mail."
             />
             <p className="vads-u-padding-left--7">
               <strong>Note:</strong> If we send you a request for more
