@@ -27,16 +27,21 @@ export const getDataFromPath = (formData, path) => {
  * @example
  * const formData = {
  *   veteran: {
- *     ssn: '7890',
- *     vaFileNumber: '8901'
+ *     ssnNested: '7890',
+ *     vaFileNumberNested: '8901'
  *   }
  * };
- * const adapter = { ssnPath: 'veteran.ssn', vaFileNumberPath: 'veteran.vaFileNumber' };
+ * const adapter = { ssnPath: 'veteran.ssnNested', vaFileNumberPath: 'veteran.vaFileNumberNested' };
  * adaptFormData(formData, adapter); // returns { ssnLastFour: '7890', vaFileLastFour: '8901' }
  */
 export const adaptFormData = (formData, adapter = {}) => {
+  const defaultAdapter = {
+    ssnPath: 'ssn',
+    vaFileNumberPath: 'vaFileNumber',
+  };
+  const adaptedAdapter = { ...defaultAdapter, ...adapter };
   return {
-    ssnLastFour: getDataFromPath(formData, adapter.ssnPath),
-    vaFileLastFour: getDataFromPath(formData, adapter.vaFileNumberPath),
+    ssnLastFour: getDataFromPath(formData, adaptedAdapter.ssnPath),
+    vaFileLastFour: getDataFromPath(formData, adaptedAdapter.vaFileNumberPath),
   };
 };

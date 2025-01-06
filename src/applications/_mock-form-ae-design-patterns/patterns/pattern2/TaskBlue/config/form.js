@@ -32,8 +32,8 @@ const formConfig = {
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.veteranSocialSecurityNumber || null,
+      ssn: formData?.veteranSocialSecurityNumber || null,
+      vaFileNumber: formData?.veteranVAFileNumber || null,
     };
     return {
       metadata,

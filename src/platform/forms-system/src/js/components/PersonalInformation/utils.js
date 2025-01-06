@@ -1,5 +1,5 @@
 import { isValid, parse, parseISO } from 'date-fns';
-import { get, every } from 'lodash';
+import { get } from 'lodash';
 
 /**
  * Checks if required data is present based on config
@@ -7,7 +7,7 @@ import { get, every } from 'lodash';
  * @param {Object} config - The field configuration
  * @returns {boolean} Whether all required data is present
  */
-export const hasRequiredData = (data, config) => {
+export const getMissingData = (data, config) => {
   const checks = {
     showName: get(data, 'userFullName.first') || get(data, 'userFullName.last'),
     showSSN: !config.showSSN || get(data, 'ssnLastFour'),
@@ -16,7 +16,7 @@ export const hasRequiredData = (data, config) => {
     showGender: !config.showGender || get(data, 'gender'),
   };
 
-  return every(checks);
+  return Object.keys(checks).filter(key => !checks[key]);
 };
 
 /**
