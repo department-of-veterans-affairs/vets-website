@@ -1,0 +1,83 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request {
+  &__tabs {
+    margin-top: 44px;
+    margin-bottom: 24px;
+    display: flex;
+    border-bottom: 1px solid $vads-color-base-light;
+
+    @media (min-width: $small-desktop-screen) {
+      border-bottom: none;
+    }
+  }
+  &__tab-link {
+    margin-right: 36px;
+    padding-bottom: 5px;
+    text-align: center;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      font-weight: 700;
+      border-bottom: 6px solid $vads-color-primary;
+      text-decoration: none;
+      color: $vads-color-black;
+    }
+  }
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    display: block;
+  }
+
+  &__card {
+    margin-bottom: 20px;
+
+    >a {
+      display: flex;
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      max-width: 600px;
+    }
+
+    &-icon {
+      margin-right: 5px;
+      color: var(--vads-color-warning-dark);
+    }
+
+    &-title {
+      margin: 3px 0 0 0;
+    }
+
+    &-field {
+      margin: 0;
+
+      &--status {
+        .pending & {
+          display: none;
+        }
+      }
+
+      &--request {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+
+      &--label {
+        font-weight: 700;
+        margin-bottom: 0;
+        margin-right: 5px;
+      }
+
+      &--expiry {
+        margin-left: 3px;
+      }
+    }
+  }
+}

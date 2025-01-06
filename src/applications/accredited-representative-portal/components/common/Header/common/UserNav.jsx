@@ -1,12 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-
+import UserContext from '../../../../userContext';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
-import {
-  selectUserProfile,
-  selectIsUserLoading,
-} from '../../../../selectors/user';
 
 const generateUniqueId = () =>
   `account-menu-${Math.random()
@@ -14,8 +9,9 @@ const generateUniqueId = () =>
     .substring(2, 11)}`;
 
 const UserNav = ({ isMobile }) => {
-  const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectIsUserLoading);
+  const user = useContext(UserContext);
+  const profile = user?.profile;
+  const isLoading = !profile;
   const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -130,12 +126,7 @@ const UserNav = ({ isMobile }) => {
 };
 
 UserNav.propTypes = {
-  isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
-  profile: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }),
 };
 
 export default UserNav;

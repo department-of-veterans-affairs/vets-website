@@ -2,10 +2,10 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../../constants';
 import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard: Discharge Update to form DD214 from DD215 Flow', () => {
+describe('Discharge Upgrade Wizard: Discharge Update to form DD214 from DD215 Flow', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

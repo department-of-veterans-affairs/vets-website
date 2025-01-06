@@ -19,6 +19,7 @@ import {
   processList,
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
+  handleDataDogAction,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -647,6 +648,45 @@ describe('getMonthFromSelectedDate', () => {
     const date = '2024';
     const result = getMonthFromSelectedDate({ date });
     expect(result).to.be.null;
+  });
+});
+
+describe('handleDataDogAction', () => {
+  it('should return a tag for the Vitals details page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'vitals',
+      locationChildPath: 'heart-rate-history',
+    });
+    expect(tag).to.equal('Back - Vitals - Heart rate');
+  });
+
+  it('should return a tag for the list page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'labs-and-tests',
+      locationChildPath: '1234',
+    });
+    expect(tag).to.equal('Back - Lab and test results - Detail');
+  });
+
+  it('should return a tag for the list page with no child path', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'summaries-and-notes',
+    });
+    expect(tag).to.equal('Back - Care summaries and notes - List');
+  });
+
+  it('should return a tag for the settings page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'settings',
+    });
+    expect(tag).to.equal('Breadcrumb - Medical records settings');
+  });
+
+  it('should return a tag for the downloads page', () => {
+    const tag = handleDataDogAction({
+      locationBasePath: 'download',
+    });
+    expect(tag).to.equal('Breadcrumb - Download medical records reports');
   });
 });
 

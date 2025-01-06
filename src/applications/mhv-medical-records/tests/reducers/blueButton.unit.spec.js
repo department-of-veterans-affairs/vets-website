@@ -20,7 +20,7 @@ describe('convertMedication', () => {
       id: '123',
       attributes: {
         prescriptionName: 'Aspirin',
-        lastFilledDate: '2021-01-01',
+        dispensedDate: '2021-01-01',
         refillStatus: 'Active',
         refillRemaining: 2,
         prescriptionNumber: 'RX123456',
@@ -277,8 +277,9 @@ describe('convertAccountSummary', () => {
       facilities: [
         {
           facilityInfo: {
+            id: '123',
             name: 'VA Medical Center',
-            stationNumber: '123',
+            stationNumber: 'TEST',
             treatment: true,
           },
         },
@@ -330,6 +331,7 @@ describe('blueButtonReducer', () => {
     demographics: undefined,
     militaryService: undefined,
     accountSummary: undefined,
+    failedDomains: [],
   };
 
   it('should return the initial state when passed an undefined state', () => {
@@ -345,7 +347,7 @@ describe('blueButtonReducer', () => {
             id: 'med1',
             attributes: {
               prescriptionName: 'Medication1',
-              lastFilledDate: '2021-01-01',
+              dispensedDate: '2021-01-01',
             },
           },
         ],
@@ -409,6 +411,7 @@ describe('blueButtonReducer', () => {
       'demographics',
       'militaryService',
       'accountSummary',
+      'failedDomains',
     ]);
 
     expect(newState.medicationsList).to.be.an('array');

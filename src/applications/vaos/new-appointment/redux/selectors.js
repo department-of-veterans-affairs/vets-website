@@ -279,7 +279,7 @@ export function getChosenClinicInfo(state) {
   const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
+    clinics?.[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.id === data.clinicId,
     ) || null
   );
@@ -409,10 +409,4 @@ export function selectFacilitiesRadioWidget(state) {
 
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
-}
-
-export function getSelectedDate(state) {
-  return getFormData(state).selectedDates?.length
-    ? getFormData(state).selectedDates[0]
-    : '';
 }

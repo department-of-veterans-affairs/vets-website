@@ -3,6 +3,10 @@ class DownloadReportsPage {
     cy.visit('my-health/medical-records/download');
   };
 
+  goToDownloadAllPage = () => {
+    cy.get('[data-testid="go-to-download-all"]').click();
+  };
+
   clickCcdAccordionItem = () => {
     cy.get('[data-testid="ccdAccordionItem"]').click();
   };

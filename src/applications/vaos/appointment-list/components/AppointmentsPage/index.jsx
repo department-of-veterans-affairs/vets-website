@@ -8,7 +8,6 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -27,10 +26,10 @@ import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import { routeToCCPage } from '../../../referral-appointments/flow';
+import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -53,10 +52,7 @@ export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
-
-  const featureCCDirectScheduling = useSelector(state =>
-    selectFeatureCCDirectScheduling(state),
-  );
+  const { isInCCPilot } = useIsInCCPilot();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -167,13 +163,8 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {featureCCDirectScheduling && (
-        <div>
-          <ReferralAppLink linkText="Review and manage your appointment notifications" />
-        </div>
-      )}
-      {featureCCDirectScheduling && <ReferralTaskCardWithReferral />}
-      {featureCCDirectScheduling && (
+      {isInCCPilot && <ReferralTaskCardWithReferral />}
+      {isInCCPilot && (
         <div
           className={classNames(
             'vads-u-padding-y--3',
@@ -195,7 +186,7 @@ export default function AppointmentsPage() {
         </div>
       )}
       <AppointmentListNavigation
-        hidePendingTab={featureCCDirectScheduling}
+        hidePendingTab={isInCCPilot}
         count={count}
         callback={setHasTypeChanged}
       />

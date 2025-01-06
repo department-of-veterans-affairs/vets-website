@@ -242,18 +242,24 @@ describe('evidenceSummaryList', () => {
     it('should render editable private content', () => {
       const privateEvidence = records().providerFacility;
       const { container } = render(
-        <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent="test"
+          privacyAgreementAccepted
+          showScNewForm
+          showLimitedConsentYN
+          testing
+        />,
       );
-
       expect($('.private-title', container).textContent).to.contain(
         content.privateTitle,
       );
       expect($$('ul[role="list"]', container).length).to.eq(1);
-      expect($$('li', container).length).to.eq(3);
+      expect($$('li', container).length).to.eq(5);
       expect($$('.private-facility', container).length).to.eq(2);
       expect($$('.private-limitation', container).length).to.eq(1);
-      expect($$('.edit-item', container).length).to.eq(3);
-      expect($$('.remove-item', container).length).to.eq(3);
+      expect($$('.edit-item', container).length).to.eq(5);
+      expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
       expect(
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,

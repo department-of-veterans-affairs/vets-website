@@ -7,6 +7,7 @@ import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDe
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 
 function AppointmentListSection() {
@@ -15,7 +16,7 @@ function AppointmentListSection() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-
+  const { isInCCPilot } = useIsInCCPilot();
   return (
     <>
       {!featureBreadcrumbUrlUpdate && (
@@ -42,7 +43,12 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
-          <Route path="/referrals-requests" component={ReferralsAndRequests} />
+          {isInCCPilot && (
+            <Route
+              path="/referrals-requests"
+              component={ReferralsAndRequests}
+            />
+          )}
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route

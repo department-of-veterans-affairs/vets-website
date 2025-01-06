@@ -16,6 +16,7 @@ const initialState = {
    * @type {Boolean}
    */
   error: false,
+  dateFilter: {},
 };
 
 export const downloadsReducer = (state = initialState, action) => {
@@ -57,6 +58,18 @@ export const downloadsReducer = (state = initialState, action) => {
       return {
         ...state,
         recordFilter: action.response,
+      };
+    }
+    case Actions.Downloads.BB_SUCCESS: {
+      return {
+        ...state,
+        bbDownloadSuccess: true,
+      };
+    }
+    case Actions.Downloads.BB_CLEAR_ALERT: {
+      return {
+        ...state,
+        bbDownloadSuccess: false,
       };
     }
     default: {

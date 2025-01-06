@@ -22,4 +22,28 @@ describe('VAOS referral generator', () => {
       expect(referrals[1].ReferralDate).to.equal('2024-10-31');
     });
   });
+  describe('getReferralSlotKey', () => {
+    expect(referralUtil.getReferralSlotKey('111')).to.equal(
+      'selected-slot-referral-111',
+    );
+  });
+  describe('filterReferrals', () => {
+    const nonPhysicalTherapyReferral = referralUtil.createReferral(
+      today,
+      'uid',
+      '333',
+    );
+    const physicalTherapyReferral = referralUtil.createReferral(
+      today,
+      'uid-2',
+      '111',
+    );
+    const referrals = [nonPhysicalTherapyReferral, physicalTherapyReferral];
+
+    it('Filters out non-physical therapy referrals', () => {
+      const filteredReferrals = referralUtil.filterReferrals(referrals);
+      expect(filteredReferrals.length).to.equal(1);
+      expect(filteredReferrals[0].UUID).to.equal('uid-2');
+    });
+  });
 });

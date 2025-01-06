@@ -1,18 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import formConfig from '../config/form';
 
 const childContent = (
   <div>
-    <h1 data-testid="form-title">
-      Request exemption from the 85/15 Rule reporting requirements
-    </h1>
-    <p>
-      35% exemption request from 85/15 Rule reporting requirements (VA Form
-      22-10215)
-    </p>
     <va-alert close-btn-aria-label="Close notification" status="into" visible>
       <h2 slot="headline">Complete all submission steps</h2>
       <p className="vads-u-margin-y--0">
@@ -21,7 +13,7 @@ const childContent = (
         correctly.
       </p>
     </va-alert>
-    <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+    <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
       To submit your form, follow the steps below
     </h2>
     <va-process-list uswds>
@@ -29,7 +21,6 @@ const childContent = (
         <div itemProp="itemListElement">
           <p>
             Make sure that your completed form is saved as a PDF on your device.
-            If you didn’t do that on the previous page, go back and do that now.
           </p>
           <p>
             <va-link
@@ -44,9 +35,11 @@ const childContent = (
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
-            <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-              VA Education File Upload Portal (opens in a new tab)
-            </a>
+            <va-link
+              external
+              text="VA Education File Upload Portal"
+              href="https://www.my.va.gov/EducationFileUploads/s/"
+            />
             , and upload your saved VA Form 22-10215.
           </p>
         </div>
@@ -61,26 +54,29 @@ const childContent = (
       <va-button
         secondary
         text="Print this page"
+        data-testid="print-page"
         onClick={() => window.print()}
       />
     </p>
     <p>
-      <va-link href="https://iam.education.va.gov/" text="Back" />
+      <va-link
+        href="/education/apply-for-education-benefits/application/10215/review-and-submit"
+        text="Back"
+      />
     </p>
-    <h1>What are my next steps?</h1>
+    <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+      What are my next steps?
+    </h2>
     <p>
       After you submit your 85/15 Rule enrollment ratios, we will review them
-      within 7-10 business days. Once we complete the review, we will email your
-      school a letter with the decision. If we accept your request, we will
-      include a copy of WEAMS form 1998 as confirmation in the letter. If we
-      deny your request, we will explain the reason for rejection in the letter
-      and provide further instructions for re-submission or additional steps.
+      within 7-10 business days. Once we review your submission, we will email
+      you with our determinations, and any next steps.
     </p>
   </div>
 );
 
-export const ConfirmationPage = () => {
-  const form = useSelector(state => state.form || {});
+export const ConfirmationPage = props => {
+  const form = useSelector(state => state?.form);
   const { submission } = form;
 
   const submitDate = submission.timestamp;
@@ -88,7 +84,7 @@ export const ConfirmationPage = () => {
 
   return (
     <ConfirmationView
-      formConfig={formConfig}
+      formConfig={props.route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
@@ -118,10 +114,4 @@ ConfirmationPage.propTypes = {
   route: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

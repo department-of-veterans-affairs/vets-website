@@ -56,7 +56,7 @@ describe(`${appName} -- Status Page`, () => {
 
     cy.location('pathname').should(
       'eq',
-      '/my-health/travel-claim-status/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
+      '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
     );
 
     // TODO: update mock data to reflect proper claim number formatting
@@ -65,9 +65,17 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
-    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Back to your travel reimbursement claims').click();
+
+    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
+
   it('navigates to the status explainer page and back to status page', () => {
     cy.get('va-additional-info')
       .first()
@@ -77,7 +85,7 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
-    cy.location('pathname').should('eq', '/my-health/travel-claim-status/help');
+    cy.location('pathname').should('eq', '/my-health/travel-pay/help');
 
     cy.get('h1').should('include.text', 'What does my claim status mean?');
 
@@ -90,7 +98,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('a')
       .eq(2)
       .click();
-    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
+    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
@@ -162,6 +170,8 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters by multiple properties with non-default sorting', () => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
+
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
     cy.get('va-button[data-testid="Sort travel claims"]').click();

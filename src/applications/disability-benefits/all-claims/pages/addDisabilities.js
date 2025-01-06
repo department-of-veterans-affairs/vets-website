@@ -44,6 +44,9 @@ const autocompleteUiSchema = {
   'ui:errorMessages': {
     required: missingConditionMessage,
   },
+  'ui:options': {
+    hideLabelText: true,
+  },
 };
 
 const platformArrayFieldWithAutocomplete = {

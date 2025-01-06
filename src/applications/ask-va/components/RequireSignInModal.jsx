@@ -1,16 +1,16 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 
 const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
   const dispatch = useDispatch();
 
   const openLoginModal = () => {
     onClose();
-    dispatch(toggleLoginModal(true, 'askVA'));
+    dispatch(toggleLoginModal(true));
   };
 
   useEffect(
