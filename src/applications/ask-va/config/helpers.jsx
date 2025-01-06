@@ -1,5 +1,6 @@
 import { format, isValid, parse } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
+import { enUS } from 'date-fns/locale';
 import React from 'react';
 
 import {
@@ -691,15 +692,31 @@ export const getDescriptiveTextFromCRM = status => {
 // Function to convert date to Response Inbox format using date-fns
 export const convertDateForInquirySubheader = dateString => {
   // Parse the input date string as UTC
-  const utcDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
+  let utcDate;
+  try {
+    utcDate = parse(dateString, 'M/d/yyyy h:mm:ss a', new Date(0));
+    utcDate.setUTCFullYear(utcDate.getFullYear());
+    utcDate.setUTCMonth(utcDate.getMonth());
+    utcDate.setUTCDate(utcDate.getDate());
+    utcDate.setUTCHours(utcDate.getHours());
+    utcDate.setUTCMinutes(utcDate.getMinutes());
+    utcDate.setUTCSeconds(utcDate.getSeconds());
+  } catch (error) {
+    return 'Invalid Date';
+  }
 
-  // Convert UTC to Eastern Time
-  const easternTime = utcToZonedTime(utcDate, 'America/New_York');
+  // Ensure the date is valid
+  if (isNaN(utcDate.getTime())) {
+    return 'Invalid Date';
+  }
 
-  // Format the date in Eastern Time
-  return format(easternTime, "MMM. d, yyyy 'at' h:mm aaaa 'E.T'", {
-    timeZone: 'America/New_York',
-  }).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  // Format the UTC date in Eastern Time
+  return formatInTimeZone(
+    utcDate,
+    'America/New_York',
+    "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
+    { locale: enUS },
+  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {

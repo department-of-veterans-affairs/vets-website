@@ -141,6 +141,13 @@ export default function InstitutionProfile({
                 jumpToId="calculate-your-benefits"
               />
             )}
+          {institution.yr === true &&
+            toggleValue && (
+              <JumpLink
+                label="Yellow Ribbon Program information"
+                jumpToId="yellow-ribbon-program-information"
+              />
+            )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
@@ -167,13 +174,6 @@ export default function InstitutionProfile({
             label="Contact information"
             jumpToId="contact-information"
           />
-          {institution.yr === true &&
-            toggleValue && (
-              <JumpLink
-                label="Yellow Ribbon Program information"
-                jumpToId="yellow-ribbon-program-information"
-              />
-            )}
         </div>
       </div>
       {showSchoolContentBasedOnType(type) &&
@@ -214,7 +214,7 @@ export default function InstitutionProfile({
               of higher learning (IHL). Schools that choose to participate in
               the Yellow Ribbon program will contribute up to a certain dollar
               amount toward the extra tuition. VA will match the participating
-              school’s contribution{' '}
+              school’s contribution
               {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
               to the total cost of the tuition and fees. To confirm the number
               of students eligible for funding, contact the individual school.
