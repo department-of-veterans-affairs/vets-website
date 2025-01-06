@@ -24,8 +24,8 @@ const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
 
 CantFilePage.propTypes = {
   pageIndex: PropTypes.number,
-  setPageIndex: PropTypes.func,
   setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
 };
 
 export default CantFilePage;
