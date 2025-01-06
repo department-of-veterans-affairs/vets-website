@@ -56,6 +56,7 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      fetchSvcsError: null, // reset
     });
   };
 
