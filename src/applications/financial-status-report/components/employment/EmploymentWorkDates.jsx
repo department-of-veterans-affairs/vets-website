@@ -34,50 +34,57 @@ const EmploymentWorkDates = props => {
     },
   } = data;
 
+  // If editing, pull the existing record. Otherwise, use the new record object.
   const [employmentRecord, setEmploymentRecord] = useState(
     isEditing ? employmentRecords[index] : newRecord,
   );
 
   const { employerName = '', from, to } = employmentRecord;
 
-  // Parse the 'from' and 'to' into { month, year } for VaDate
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
 
-  const fromErrorMessage = 'Please enter a valid employment start date.';
-  const toErrorMessage = 'Please enter a valid employment end date.';
+  const [fromDate, setFromDate] = useState(
+    `${fromYear || ''}-${fromMonth || ''}`,
+  );
+  const [toDate, setToDate] = useState(`${toYear || ''}-${toMonth || ''}`);
 
   const [fromDateError, setFromDateError] = useState(null);
   const [toDateError, setToDateError] = useState(null);
 
-  const handleChange = (key, value) => {
-    setEmploymentRecord(prev => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+  const fromErrorMessage = 'Please enter a valid employment start date.';
+  const toErrorMessage = 'Please enter a valid employment end date.';
 
   const updateFormData = () => {
-    const { from: startDate, to: endDate, isCurrent } = employmentRecord;
+    const { isCurrent } = employmentRecord;
 
-    // If start date or end date is invalid, set errors and stop
-    if (
-      !isValidStartDate(startDate) ||
-      (!isCurrent && !isValidEndDate(startDate, endDate))
-    ) {
-      setFromDateError(!isValidStartDate(startDate) ? fromErrorMessage : null);
-      setToDateError(
-        !isCurrent && !isValidEndDate(startDate, endDate)
-          ? toErrorMessage
-          : null,
-      );
-      return null;
+    const startDate = fromDate ? `${fromDate}-01` : '';
+    const endDate = toDate ? `${toDate}-01` : '';
+
+    setFromDateError(null);
+    setToDateError(null);
+
+    if (!isValidStartDate(startDate)) {
+      setFromDateError(fromErrorMessage);
+      return;
     }
 
-    // Past this point, we know the date(s) are valid
+    if (!isCurrent && !isValidEndDate(startDate, endDate)) {
+      setToDateError(toErrorMessage);
+      return;
+    }
+
+    const updatedRecord = {
+      ...employmentRecord,
+      from: startDate,
+      to: endDate,
+    };
+    setEmploymentRecord(updatedRecord);
+
+    // If editing existing record
     if (isEditing) {
       const updatedRecords = employmentRecords.map(
-        (item, idx) => (idx === index ? employmentRecord : item),
+        (item, idx) => (idx === index ? updatedRecord : item),
       );
 
       setFormData({
@@ -94,29 +101,26 @@ const EmploymentWorkDates = props => {
         },
       });
 
-      // If current job, go to gross monthly income; else go back
-      return employmentRecord.isCurrent
-        ? goToPath(`/gross-monthly-income`)
-        : goToPath(`/employment-history`);
+      goToPath(isCurrent ? `/gross-monthly-income` : `/employment-history`);
+      return;
     }
 
-    // Otherwise, adding a brand new record
-    if (employmentRecord.isCurrent) {
-      // Store new record for “current job”
+    if (isCurrent) {
       setFormData({
         ...data,
         personalData: {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            newRecord: { ...employmentRecord },
+            newRecord: { ...updatedRecord },
           },
         },
       });
-      return goToPath(`/gross-monthly-income`);
+      goToPath(`/gross-monthly-income`);
+      return;
     }
 
-    // Store record in array + reset newRecord
+    // Not current => push new record + reset newRecord
     setFormData({
       ...data,
       personalData: {
@@ -126,39 +130,18 @@ const EmploymentWorkDates = props => {
           newRecord: { ...BASE_EMPLOYMENT_RECORD },
           [userType]: {
             ...data.personalData.employmentHistory[userType],
-            employmentRecords: [employmentRecord, ...employmentRecords],
+            employmentRecords: [updatedRecord, ...employmentRecords],
           },
         },
       },
     });
-    return goToPath(`/employment-history`);
+    goToPath(`/employment-history`);
   };
 
   const handlers = {
     onCancel: event => {
       event.preventDefault();
       goToPath(RETURN_PATH);
-    },
-    handleDateChange: (key, rawMonthYear) => {
-      const dateString = `${rawMonthYear}-01`;
-      handleChange(key, dateString);
-      if (key === 'from') {
-        if (!isValidStartDate(dateString)) {
-          setFromDateError(fromErrorMessage);
-        } else {
-          setFromDateError(null);
-        }
-      }
-      if (key === 'to') {
-        if (
-          !isValidEndDate(employmentRecord.from, dateString) &&
-          !employmentRecord.isCurrent
-        ) {
-          setToDateError(toErrorMessage);
-        } else {
-          setToDateError(null);
-        }
-      }
     },
     onUpdate: event => {
       event.preventDefault();
@@ -176,28 +159,26 @@ const EmploymentWorkDates = props => {
     },
   };
 
-  /**
-   * Render the date fields. Note how we pass `onDateChange` to do immediate checks.
-   */
   const ShowWorkDates = () => (
     <div className="vads-u-margin-top--3">
       <VaDate
         monthYearOnly
-        value={`${fromYear}-${fromMonth}`} // e.g., "2021-01"
+        value={fromDate}
         label="Date you started work at this job?"
         name="from"
         required
-        onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+        onDateChange={e => setFromDate(e.target.value)}
         error={fromDateError}
       />
+
       {!employmentRecord.isCurrent && (
         <VaDate
           monthYearOnly
-          value={`${toYear}-${toMonth}`}
+          value={toDate}
           label="Date you stopped work at this job?"
           name="to"
           required
-          onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+          onDateChange={e => setToDate(e.target.value)}
           error={toDateError}
         />
       )}
@@ -205,7 +186,7 @@ const EmploymentWorkDates = props => {
   );
 
   return (
-    <form>
+    <form noValidate>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your job at {employerName}
