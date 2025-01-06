@@ -63,13 +63,13 @@ const POARequestSearchPage = () => {
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink status={STATUSES.PENDING} searchStatus={searchStatus}>
-            Pending
+            Pending requests
           </StatusTabLink>
           <StatusTabLink
             status={STATUSES.COMPLETED}
             searchStatus={searchStatus}
           >
-            Completed
+            Completed requests
           </StatusTabLink>
         </div>
 
@@ -79,10 +79,7 @@ const POARequestSearchPage = () => {
           role="tabpanel"
           aria-labelledby={`${searchStatus}`}
         >
-          <h2
-            data-testid="poa-requests-table-heading"
-            className="poa-request__search-header"
-          >
+          <h2 data-testid="poa-requests-table-heading">
             {(() => {
               switch (searchStatus) {
                 case STATUSES.PENDING:
