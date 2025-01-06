@@ -19,8 +19,8 @@ const AddressPage = ({ handlers }) => {
 
 AddressPage.propTypes = {
   handlers: PropTypes.shape({
-    onNext: PropTypes.func,
     onBack: PropTypes.func,
+    onNext: PropTypes.func,
   }),
 };
 

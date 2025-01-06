@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const IntroductionPage = props => {
-  const { onNext } = props;
+const IntroductionPage = ({ onNext }) => {
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
@@ -12,6 +12,10 @@ const IntroductionPage = props => {
       />
     </div>
   );
+};
+
+IntroductionPage.propTypes = {
+  onNext: PropTypes.func,
 };
 
 export default IntroductionPage;
