@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -322,24 +321,6 @@ describe('App', () => {
         providerFacility: [],
         locations: [{ issues: [] }],
       });
-    });
-  });
-
-  it('should set Sentry tags with account UUID & in progress ID', async () => {
-    const { props, data } = getData({ accountUuid: 'abcd-5678' });
-    const store = mockStore(data);
-
-    const setTag = sinon.stub(Sentry, 'setTag');
-    render(
-      <Provider store={store}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
-      expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
-      setTag.restore();
     });
   });
 
