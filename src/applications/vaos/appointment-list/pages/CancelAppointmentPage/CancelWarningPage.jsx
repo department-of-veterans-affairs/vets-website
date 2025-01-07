@@ -1,17 +1,17 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import AppointmentCard from '../../../components/AppointmentCard';
 import BackLink from '../../../components/BackLink';
+import { APPOINTMENT_TYPES } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   closeCancelAppointment,
   confirmCancelAppointment,
 } from '../../redux/actions';
 import { selectAppointmentType } from '../../redux/selectors';
-import { APPOINTMENT_TYPES } from '../../../utils/constants';
 import CancelPageContent from './CancelPageContent';
-import AppointmentCard from '../../../components/AppointmentCard';
 
 function handleConfirm(dispatch) {
   return () => dispatch(confirmCancelAppointment());
