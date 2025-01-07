@@ -6,14 +6,13 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import { useGetReferralById } from './hooks/useGetReferralById';
+import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -22,9 +21,7 @@ import CompleteReferral from './CompleteReferral';
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
+  const { isInCCPilot } = useIsInCCPilot();
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
@@ -50,7 +47,7 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
-  if (referralNotFound || !featureCCDirectScheduling) {
+  if (referralNotFound || !isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
   if (
