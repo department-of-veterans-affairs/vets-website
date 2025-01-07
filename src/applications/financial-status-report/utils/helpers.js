@@ -278,22 +278,24 @@ export const getDebtName = debt => {
  * - date is in the past or today
  * - date is not in the future
  *
- * @param {string} date - date string in ISO-ish; example: '2021-01' or '2021-01-01'
+ * @param {string} date - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
  * @returns {boolean} true if date meets requirements above
  */
 export const isValidStartDate = date => {
   if (!date) return false;
 
-  // If we only have "YYYY-MM", append "-01"
+  // Ensure the date is in a valid format (either YYYY-MM-DD or YYYY-MM)
+  const isProperFormat = date.length === 10 || date.length === 7;
+  if (!isProperFormat) return false;
+
+  // If only "YYYY-MM" is provided, append "-01" to make it complete
   const safeDate = date.length === 7 ? `${date}-01` : date;
 
-  // Convert to a valid JS date, e.g. "2021-02-01" => new Date('2021/02/01')
+  // Parse the date and check its validity
   const parsedDate = new Date(safeDate.replace(/-/g, '/'));
 
   const year = parsedDate.getFullYear();
-  if (year < 1900) {
-    return false;
-  }
+  if (year < 1900) return false;
 
   // Check that it's a real date, and not in the future
   return isValid(parsedDate) && !isFuture(parsedDate);
@@ -304,27 +306,34 @@ export const isValidStartDate = date => {
  * - ending date is not in the future
  * - ending date is after start date
  *
- * @param {string} startDate - '2021-01' or '2021-01-01'
- * @param {string} endedDate - '2021-01' or '2021-01-01'
+ * @param {string} startDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @param {string} endingDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
  * @returns {boolean} true if date meets requirements above
  */
-export const isValidEndDate = (startDate, endedDate) => {
-  if (!startDate || !endedDate) return false;
 
+export const isValidEndDate = (startDate, endingDate) => {
+  if (!startDate || !endingDate) return false;
+
+  // Ensure both dates are in a valid format
+  const isProperStartFormat = startDate.length === 10 || startDate.length === 7;
+  const isProperEndFormat = endingDate.length === 10 || endingDate.length === 7;
+
+  if (!isProperStartFormat || !isProperEndFormat) return false;
+
+  // Append "-01" to incomplete dates this applies to months and days
   const safeStart = startDate.length === 7 ? `${startDate}-01` : startDate;
-  const safeEnd = endedDate.length === 7 ? `${endedDate}-01` : endedDate;
+  const safeEnd = endingDate.length === 7 ? `${endingDate}-01` : endingDate;
 
+  // Parse the dates
   const parsedStart = new Date(safeStart.replace(/-/g, '/'));
   const parsedEnd = new Date(safeEnd.replace(/-/g, '/'));
 
-  if (!isValid(parsedEnd) || !isValid(parsedStart)) {
-    return false;
-  }
+  if (!isValid(parsedEnd) || !isValid(parsedStart)) return false;
 
-  const endYear = parsedEnd.getFullYear();
-  if (endYear < 1900) {
-    return false;
-  }
+  const year = parsedEnd.getFullYear();
+  if (year < 1900) return false;
+
+  // Ensure the end date is not in the future and is after the start date
   return !isFuture(parsedEnd) && isAfter(parsedEnd, parsedStart);
 };
 
