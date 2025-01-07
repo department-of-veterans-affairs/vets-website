@@ -9,17 +9,13 @@ export async function getPatientReferrals() {
 }
 
 export async function getPatientReferralById(referralId) {
-  try {
-    const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/referralDetails/${referralId}`,
-      {
-        method: 'GET',
-      },
-    );
-    return response.data;
-  } catch (error) {
-    return null;
-  }
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/referralDetails/${referralId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
 }
 
 export async function getProviderById(providerId) {

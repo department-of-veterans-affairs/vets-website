@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import classNames from 'classnames';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
-import { getPastAppointmentListInfo } from '../../redux/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
-import { groupAppointmentByDay } from '../../../services/appointment';
-import NoAppointments from '../NoAppointments';
-import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { groupAppointmentByDay } from '../../../services/appointment';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import UpcomingAppointmentLayout from '../../pages/AppointmentsPage/UpcomingAppointmentLayout';
 import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
-import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
+import { getPastAppointmentListInfo } from '../../redux/selectors';
 import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
+import NoAppointments from '../NoAppointments';
+import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
