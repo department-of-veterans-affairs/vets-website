@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom-v5-compat';
 
-export default function Prescription() {
+export function Component() {
   const prescription = useLoaderData();
 
   return (

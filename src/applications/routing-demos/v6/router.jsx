@@ -5,7 +5,6 @@ import { createBrowserRouter } from 'react-router-dom-v5-compat';
 
 import About from './containers/About';
 import App from './containers/App';
-import Prescription from './containers/Prescription';
 import PrescriptionInfo from './containers/PrescriptionInfo';
 import Prescriptions from './containers/Prescriptions';
 import { authenticatedLoader } from './loaders/authenticatedLoader';
@@ -28,8 +27,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'prescription/:id',
-        element: <Prescription />,
         loader: authenticatedLoader(prescriptionLoader),
+        lazy: () => import('./containers/Prescription'),
       },
       {
         path: 'prescription/:id/info',
