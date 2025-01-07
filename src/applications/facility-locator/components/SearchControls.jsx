@@ -384,13 +384,11 @@ const SearchControls = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
+        <div className="columns vads-u-margin--0 vads-u-padding--0">
           {renderLocationInputField()}
-          <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
-            <va-button id="facility-search" submit="prevent" text="Search" />
-          </div>
+          {renderFacilityTypeDropdown()}
+          {renderServiceTypeDropdown()}
+          <va-button id="facility-search" submit="prevent" text="Search" />
         </div>
       </form>
     </div>

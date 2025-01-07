@@ -304,6 +304,9 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       .service-type-dropdown-container {
         align-self: end;
+        select {
+          margin-top: 0.5em;
+        }
       }
 
       #service-typeahead-container {
@@ -321,11 +324,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
-        margin: 1em 0;
         text-align: left;
       }
 
       #facility-search {
+        margin-top: 24 px;
+
         @media screen and (min-width: $small-desktop-screen) {
           width: 100%;
           max-width: none;
