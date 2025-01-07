@@ -14,8 +14,8 @@ describe('transformForSubmit in Pre-need Integration', () => {
         application: {
           applicant: {
             applicantRelationshipToClaimant: 'Self',
-            name: 'John Doe',
-            mailingAddress: '123 Test Street',
+            name: 'Sonic Hedgehog',
+            mailingAddress: '123 GreenHillZone Street',
           },
         },
       },

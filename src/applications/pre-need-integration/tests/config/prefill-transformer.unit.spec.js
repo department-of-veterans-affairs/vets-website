@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
 
-describe('prefillTransformer', () => {
+describe('prefillTransformer in Pre-need Integration', () => {
   it('should transform formData correctly', () => {
     const pages = ['page1', 'page2'];
     const formData = {
       application: {
         claimant: {
           name: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Bruce',
+            last: 'Wayne',
           },
-          address: '123 Main St',
+          address: '123 BatCave St',
           ssn: '123-45-6789',
           dateOfBirth: '1990-01-01',
         },
@@ -27,19 +27,19 @@ describe('prefillTransformer', () => {
         application: {
           applicant: {
             name: {
-              first: 'John',
-              last: 'Doe',
+              first: 'Bruce',
+              last: 'Wayne',
             },
             'view:applicantInfo': {
-              mailingAddress: '123 Main St',
+              mailingAddress: '123 BatCave St',
             },
           },
           claimant: {
             name: {
-              first: 'John',
-              last: 'Doe',
+              first: 'Bruce',
+              last: 'Wayne',
             },
-            address: '123 Main St',
+            address: '123 BatCave St',
             ssn: '123-45-6789',
             dateOfBirth: '1990-01-01',
           },
