@@ -8,6 +8,7 @@ const CurrentAccreditedRepresentative = ({ repType, repAttributes }) => {
   const addressData = getEntityAddressAsObject(repAttributes);
   const repName = repAttributes.name || repAttributes.fullName;
   const { email, phone } = repAttributes;
+  const isOrgOrVSO = ['Organization', 'VSO Representative'].includes(repType);
 
   return (
     <va-card class="representative-result-card vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-border--0">
@@ -27,10 +28,12 @@ const CurrentAccreditedRepresentative = ({ repType, repAttributes }) => {
             </>
           )}
         </div>
-        <p>
-          <strong>Note:</strong> You can work with any accredited VSO
-          representative at this organization.
-        </p>
+        {isOrgOrVSO && (
+          <p data-testid="work-with-any-VSO-note">
+            <strong>Note:</strong> You can work with any accredited VSO
+            representative at this organization.
+          </p>
+        )}
         <AddressEmailPhone
           addressData={addressData}
           email={email}
