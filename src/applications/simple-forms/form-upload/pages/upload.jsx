@@ -43,6 +43,8 @@ export const uploadPage = {
         title,
         formNumber,
         required: () => true,
+        // Disallow uploads greater than 25 MB
+        maxFileSize: 25000000,
         updateUiSchema: formData => {
           return {
             'ui:title': warningsPresent(formData)
