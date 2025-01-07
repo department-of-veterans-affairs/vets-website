@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { getObjectsWithAttachmentId } from '../helpers/utilities';
-import { concatStreets } from '../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+} from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be

@@ -56,29 +56,6 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-/**
- * Checks if CCD retry is needed and returns a formatted timestamp or null.
- */
-const getCCDRetryTimestamp = () => {
-  const errorTimestamp = localStorage.getItem('lastCCDError');
-  if (!errorTimestamp) return null;
-
-  const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-  if (compareAsc(retryDate, new Date()) >= 0) {
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZoneName: 'short',
-    };
-    return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-  }
-  return null;
-};
-
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -88,7 +65,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
-        ccdError,
+        error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
       blueButton: { failedDomains: failedBBDomains },
@@ -115,7 +92,29 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
 
-  const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
+  // Checks if CCD retry is needed and returns a formatted timestamp or null.
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
 
   // Initial page setup effect
   useEffect(
@@ -319,11 +318,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <h2>Other reports you can download</h2>
       {accessErrors()}
       <va-accordion bordered>
-        <va-accordion-item
-          bordered
-          header="Continuity of Care Document (VA Health Summary)"
-          data-testid="ccdAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="ccdAccordionItem">
+          <h3 slot="headline">
+            Continuity of Care Document (VA Health Summary)
+          </h3>
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -362,11 +360,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             />
           )}
         </va-accordion-item>
-        <va-accordion-item
-          bordered
-          header="Self-entered health information"
-          data-testid="selfEnteredAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="selfEnteredAccordionItem">
+          <h3 slot="headline">Self-entered health information</h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.

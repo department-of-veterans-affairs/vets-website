@@ -26,6 +26,10 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import VideoInstructions from '../VideoInstructions';
 import State from '../State';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function VideoLayout({ data: appointment }) {
   const {
@@ -57,6 +61,10 @@ export default function VideoLayout({ data: appointment }) {
   if (isPastAppointment) heading = 'Past video appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
@@ -91,7 +99,7 @@ export default function VideoLayout({ data: appointment }) {
         <Section heading="Scheduling facility">
           {!!facility && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
               <span>
                 {address.city}, <State state={address.state} />
@@ -140,7 +148,7 @@ export default function VideoLayout({ data: appointment }) {
             <br />
             {facility ? (
               <>
-                {facility.name}
+                <a href={facility.website}>{facility.name}</a>
                 <br />
                 <span>
                   {address.city}, <State state={address.state} />

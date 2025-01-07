@@ -5972,6 +5972,11 @@ babel-plugin-transform-class-properties@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
+babel-plugin-transform-import-ignore@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-import-ignore/-/babel-plugin-transform-import-ignore-1.1.0.tgz#542592e88f6a17dfcf410c85cda3a7dedc526d73"
+  integrity sha512-LRlRUiZE9FB/s2LZUnXyq1d1xmBeR2bOB/cN2GXS+rbcauYhazYHjvQoBKMJ2/e5MB/G9p2ywkkbZ/ru+oA+RA==
+
 babel-plugin-transform-react-remove-prop-types@^0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
