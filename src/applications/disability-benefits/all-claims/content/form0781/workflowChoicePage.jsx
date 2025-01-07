@@ -20,6 +20,9 @@ export const workflowChoicePageDescription = (
   </>
 );
 
+export const form0781WorkflowChoiceDescription =
+  'Do you want to provide more information about your mental health conditions?';
+
 export const form0781WorkflowChoices = {
   COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
   SUBMIT_PAPER_FORM: 'optForPaperForm0781Upload',

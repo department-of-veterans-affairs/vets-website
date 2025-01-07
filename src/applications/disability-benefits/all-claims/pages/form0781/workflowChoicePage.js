@@ -1,6 +1,7 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
+  form0781WorkflowChoiceDescription,
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
   workflowChoicePageDescription,
@@ -11,9 +12,10 @@ import {
 export default {
   uiSchema: {
     'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
+    'ui:description': workflowChoicePageDescription,
     'view:mentalHealthWorkflowChoice': radioUI({
-      title: 'CHOICE TITLE',
-      description: workflowChoicePageDescription,
+      title: form0781WorkflowChoiceDescription,
+      labelHeaderLevel: '4',
       errorMessages: {
         required: 'You must provide a response',
       },
