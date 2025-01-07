@@ -15,6 +15,7 @@
 
 export const parsePhoneNumber = phone => {
   // This regex has named capture groups for the international code (optional), area code, prefix, line number, and extension.
+  // in regular expressions (?<name>...) is a named capture group, therefore you can reference the group by its name
   // The international code (intl) is optional. Someone may write +1 ac, +1 (ac), 1 (ac), 1-ac, 1.ac or 1ac or just ac, (ac), or ac.
   // the intl need not be separated by space, dash or period from the ac
   // The ac is the area code and is expected to be 3 digits exactly
