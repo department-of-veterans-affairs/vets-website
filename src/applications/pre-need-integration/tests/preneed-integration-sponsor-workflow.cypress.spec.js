@@ -1,4 +1,4 @@
-import testData from './schema/maximal-test.json';
+import testData from './fixtures/data/sponsor-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {

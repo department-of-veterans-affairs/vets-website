@@ -1,0 +1,71 @@
+{
+    "data": {
+        "application": {
+            "currentlyBuriedPersons": [
+                {
+                    "name": {
+                        "first": "Sam",
+                        "last": "Caldwell"
+                    }
+                }
+            ],
+            "hasCurrentlyBuried": "1",
+            "veteran": {
+                "serviceName": {
+                    "first": "Brian",
+                    "last": "Smalls"
+                },
+                "militaryStatus": "V",
+                "ethnicity": "notSpanishHispanicLatino",
+                "race": {
+                    "isOther": true
+                },
+                "raceComment": "Australian Aborigine",
+                "maritalStatus": "Single",
+                "gender": "Male",
+                "serviceRecords": [
+                    {
+                        "serviceBranch": "NG"
+                    }
+                ]
+            },
+            "claimant": {
+                "address": {
+                    "street": "60 Solutioning Ave",
+                    "city": "Nowhereville",
+                    "country": "USA",
+                    "state": "PR",
+                    "postalCode": "00667"
+                },
+                "phoneNumber": "9996663333",
+                "email": "solution@testing.test",
+                "name": {
+                    "first": "Charles",
+                    "last": "Black"
+                },
+                "ssn": "222334444",
+                "dateOfBirth": "1980-07-07",
+                "relationshipToVet": "veteran"
+            },
+            "applicant": {
+                "mailingAddress": {
+                    "street": "123 Treetop Ln",
+                    "city": "Florence",
+                    "country": "USA",
+                    "state": "SC",
+                    "postalCode": "29501"
+                },
+                "applicantPhoneNumber": "1235558585",
+                "applicantEmail": "JoeTest@test.test",
+                "name": {
+                    "first": "Will",
+                    "last": "Green"
+                },
+                "applicantRelationshipToClaimant": "Authorized Agent/Rep"
+            }
+        },
+        "privacyAgreementAccepted": true,
+        "formNumber": "40-10007",
+        "version": "int"
+    }
+}

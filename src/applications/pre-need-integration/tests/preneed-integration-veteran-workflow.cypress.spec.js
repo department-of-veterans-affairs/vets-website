@@ -1,4 +1,4 @@
-import testData from './schema/maximal-test.json';
+import testData from './fixtures/data/veteran-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
@@ -6,24 +6,26 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Applicant Information Page
+    // Preparer Information
+    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
+
+    // Applicant Information
     preneedHelpers.fillApplicantInfo(
-      testData.data.application.veteran.relationshipToVet,
+      testData.data.application.claimant.name,
+      testData.data.application.claimant.ssn,
+      testData.data.application.claimant.dateOfBirth,
+      testData.data.application.claimant.relationshipToVet,
+      testData.data.application.veteran.cityOfBirth,
+      testData.data.application.veteran.stateOfBirth,
     );
+    preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
+    preneedHelpers.fillApplicantDemographics(testData.data.application.veteran);
 
     // Veteran Information Page
-    preneedHelpers.validateProgressBar('1');
+    preneedHelpers.validateProgressBar('2');
     cy.get(
       'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
     ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
-    );
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-demographics');
@@ -57,7 +59,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     // Benefit Selection Page
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillBenefitSelection(
-      testData.data.application.veteran.desiredCemetery.label,
+      testData.data.application.veteran.desiredCemetery,
       testData.data.application.hasCurrentlyBuried,
       testData.data.application.currentlyBuriedPersons,
     );
@@ -72,11 +74,9 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
 
     // Applicant/Veteran Contact Information Page
     preneedHelpers.validateProgressBar('5');
-    preneedHelpers.fillApplicantContactInfo(testData.data.application.veteran);
 
     // Preparer Contact Information Page
     preneedHelpers.validateProgressBar('5');
-    preneedHelpers.fillPreparerInfo(testData.data.application.applicantForeign);
 
     // Review/Submit Page
     preneedHelpers.validateProgressBar('6');

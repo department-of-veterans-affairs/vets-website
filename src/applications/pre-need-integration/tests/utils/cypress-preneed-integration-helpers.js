@@ -20,6 +20,14 @@ function interceptSetup() {
       },
     },
   });
+  cy.intercept('POST', '/simple_forms_api/v1/simple_forms', {
+    data: {
+      attributes: {
+        confirmationNumber: '123fake-submission-id-567',
+        submittedAt: '2016-05-16',
+      },
+    },
+  });
   cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 }
@@ -52,22 +60,118 @@ function visitIntro() {
   cy.url().should('not.contain', '/introduction');
 }
 
-// Fills all fields on the Applicant Information page , performs axe check, continues to next page
-function fillApplicantInfo(relationship) {
-  const relationshipToVetRadio =
-    'root_application_applicant_applicantRelationshipToClaimant';
+// Fills Preparer Contact Information page performs axe check, continues to next page.
+// Fills Preparer Deatils and Preparer Mailing address conditional pages if the preparer is not the applicant.
+function fillPreparerInfo(preparer) {
   validateProgressBar('1');
-  if (relationship === 'veteran') {
-    cy.selectRadio(relationshipToVetRadio, 'Self');
-  } else {
-    cy.selectRadio(relationshipToVetRadio, 'Authorized Agent/Rep');
+  cy.selectRadio(
+    'root_application_applicant_applicantRelationshipToClaimant',
+    preparer.applicantRelationshipToClaimant,
+  );
+  cy.axeCheck();
+  clickContinue();
+  if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
+    // Preparer Details
+    cy.fill(
+      'input[name="root_application_applicant_name_first"]',
+      preparer['view:applicantInfo'].name.first,
+    );
+    cy.fill(
+      'input[name="root_application_applicant_name_last"]',
+      preparer['view:applicantInfo'].name.last,
+    );
+    cy.axeCheck();
+    clickContinue();
+    // Preparer Mailing address
+    cy.url().should('not.contain', '/preparer-details');
+
+    cy.fillAddress(
+      'root_application_applicant_view\\:applicantInfo_mailingAddress',
+      preparer['view:applicantInfo'].mailingAddress,
+    );
+    cy.fill(
+      'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
+      preparer.state,
+    );
+    cy.fill(
+      'input[name$="applicantPhoneNumber"]',
+      preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
+    );
+    cy.axeCheck();
+    clickContinue();
   }
-  validateProgressBar('1');
+}
+
+// Fills all fields on the Applicant Information page , performs axe check, continues to next page
+function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
+  validateProgressBar('2');
+
+  cy.get('#root_application_claimant_relationshipToVet').select(relationship);
   clickContinue();
   cy.url().should(
     'not.contain',
-    '/form-10007-apply-for-eligibility/applicant-information',
+    '/form-10007-apply-for-eligibility/applicant-relationship-to-vet',
   );
+
+  cy.fillName('root_application_claimant_name', name);
+  cy.fill('#root_application_claimant_name_maiden', name.maiden);
+  cy.fill('input[name="root_application_claimant_ssn"]', ssn);
+  cy.fillDate('root_application_claimant_dateOfBirth', dob);
+
+  if (relationship === 'veteran') {
+    cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
+    cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
+  }
+
+  clickContinue();
+  cy.url().should(
+    'not.contain',
+    '/form-10007-apply-for-eligibility/applicant-details',
+  );
+}
+
+function fillApplicantContactInfo(contact) {
+  cy.fillAddress('root_application_claimant_address', contact.address);
+  cy.fill('input[name$="email"]', contact.email);
+  cy.fill('input[name$="phoneNumber"]', contact.phoneNumber);
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/applicant-contact-information');
+}
+
+function fillApplicantDemographics(applicant) {
+  cy.selectRadio('root_application_veteran_gender', applicant.gender);
+  cy.selectRadio(
+    'root_application_veteran_maritalStatus',
+    applicant.maritalStatus,
+  );
+  cy.axeCheck();
+  clickContinue();
+  cy.selectRadio('root_application_veteran_ethnicity', applicant.ethnicity);
+  applicant.races?.map(race => cy.check(race));
+}
+
+// Submit Form
+function submitForm() {
+  cy.get('[name="privacyAgreementAccepted"]')
+    .find('[type="checkbox"]')
+    .check({
+      force: true,
+    });
+
+  cy.axeCheck();
+  cy.get('.form-progress-buttons .usa-button-primary').click();
+  cy.url().should('not.contain', '/review-and-submit');
+
+  cy.get('.js-test-location', { timeout: Timeouts.slow })
+    .invoke('attr', 'data-location')
+    .should('not.contain', '/review-and-submit');
+
+  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
+    'contain',
+    'Your claim has been submitted.',
+  );
+  cy.axeCheck();
 }
 
 // Fills in any existing military history data, performs axe check, continues to next page
@@ -144,7 +248,7 @@ function fillBenefitSelection(
     desiredCemetery,
   );
   cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-  cy.get('body').click();
+  cy.get('body').click({ force: true });
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
@@ -172,89 +276,18 @@ function fillBenefitSelection(
 }
 
 // Fills Applicant Contact Information page, performs axe check, continues to next page
-function fillApplicantContactInfo(contact) {
-  cy.fillAddress('root_application_claimant_address', contact.address);
-  cy.fill('input[name$="email"]', contact.email);
-  cy.fill('input[name$="phoneNumber"]', contact.phoneNumber);
-  cy.axeCheck();
-  clickContinue();
-  cy.url().should('not.contain', '/applicant-contact-information');
-}
-
-// Fills Preparer Contact Information page performs axe check, continues to next page.
-// Fills Preparer Deatils and Preparer Mailing address conditional pages if the preparer is not the applicant.
-function fillPreparerInfo(preparer) {
-  cy.selectRadio(
-    'root_application_applicant_applicantRelationshipToClaimant',
-    preparer.applicantRelationshipToClaimant,
-  );
-  cy.axeCheck();
-  clickContinue();
-  if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    // Preparer Details
-    cy.fill(
-      'input[name="root_application_applicant_name_first"]',
-      preparer['view:applicantInfo'].name.first,
-    );
-    cy.fill(
-      'input[name="root_application_applicant_name_last"]',
-      preparer['view:applicantInfo'].name.last,
-    );
-    cy.axeCheck();
-    clickContinue();
-    // Preparer Mailing address
-    cy.url().should('not.contain', '/preparer-details');
-
-    cy.fillAddress(
-      'root_application_applicant_view\\:applicantInfo_mailingAddress',
-      preparer['view:applicantInfo'].mailingAddress,
-    );
-    cy.fill(
-      'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
-      preparer.state,
-    );
-    cy.fill(
-      'input[name$="applicantPhoneNumber"]',
-      preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
-    );
-    cy.axeCheck();
-    clickContinue();
-  }
-}
-
-// Submit Form
-function submitForm() {
-  cy.get('[name="privacyAgreementAccepted"]')
-    .find('[type="checkbox"]')
-    .check({
-      force: true,
-    });
-
-  cy.axeCheck();
-  cy.get('.form-progress-buttons .usa-button-primary').click();
-  cy.url().should('not.contain', '/review-and-submit');
-
-  cy.get('.js-test-location', { timeout: Timeouts.slow })
-    .invoke('attr', 'data-location')
-    .should('not.contain', '/review-and-submit');
-
-  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
-    'contain',
-    'You’ve submitted your application',
-  );
-  cy.axeCheck();
-}
 
 module.exports = {
   clickContinue,
   interceptSetup,
   visitIntro,
+  fillPreparerInfo,
+  fillApplicantContactInfo,
+  fillApplicantDemographics,
   validateProgressBar,
   fillApplicantInfo,
   fillMilitaryHistory,
   fillPreviousName,
   fillBenefitSelection,
-  fillApplicantContactInfo,
-  fillPreparerInfo,
   submitForm,
 };

@@ -1,7 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 // Axe check is performed on every page with the errorCheck function
-import requiredHelpers from './utils/cypress-required-field-helpers';
-import testData from './schema/required-fields-test.json';
+import requiredHelpers from './utils/cypress-integration-required-field-helpers';
+import testData from './fixtures/data/required-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
 // Clicks continue, checks for any expected error messages, performs an axe check
