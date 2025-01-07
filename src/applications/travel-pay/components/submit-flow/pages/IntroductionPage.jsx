@@ -94,7 +94,7 @@ const IntroductionPage = ({ appointment, onStart }) => {
 
 IntroductionPage.propTypes = {
   appointment: PropTypes.object,
-  onNext: PropTypes.func,
+  onStart: PropTypes.func,
 };
 
 export default IntroductionPage;
