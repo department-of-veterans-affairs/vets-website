@@ -6,18 +6,29 @@ import {
   additionalInformationPageTitle,
   additionalInformationPageQuestion,
 } from '../../content/form0781/additionalInformationPage';
-import { formTitle } from '../../utils';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': formTitle(additionalInformationPageTitle),
+  'ui:title': titleWithTag(additionalInformationPageTitle, form0781HeadingTag),
   additionalInformation: textareaUI({
     title: additionalInformationPageQuestion,
   }),
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
 };
 
 export const schema = {
   type: 'object',
   properties: {
     additionalInformation: textareaSchema,
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };
