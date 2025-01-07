@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ReviewPage = props => {
-  const { handlers } = props;
+const ReviewPage = ({ handlers }) => {
   return (
     <div>
       <h1 className="vad-u-margin-top--0">Review your travel claim</h1>
@@ -13,6 +13,13 @@ const ReviewPage = props => {
       </div>
     </div>
   );
+};
+
+ReviewPage.propTypes = {
+  handlers: PropTypes.shape({
+    onBack: PropTypes.func,
+    onSubmit: PropTypes.func,
+  }),
 };
 
 export default ReviewPage;

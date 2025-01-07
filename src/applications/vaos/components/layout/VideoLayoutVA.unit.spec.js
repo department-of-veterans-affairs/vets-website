@@ -203,7 +203,21 @@ describe('VAOS Component: VideoLayoutVA', () => {
           name: /What/i,
         }),
       ).not.to.exist;
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
+
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -429,6 +443,19 @@ describe('VAOS Component: VideoLayoutVA', () => {
             'va-link[text="Find a full list of things to bring to your appointment"]',
           ),
         ).to.be.ok;
+
+        expect(window.dataLayer).to.deep.include({
+          event: 'vaos-null-states-expected-total',
+        });
+        expect(window.dataLayer).not.to.deep.include({
+          event: 'vaos-null-states-missing-any',
+        });
+        expect(window.dataLayer).to.deep.include({
+          event: 'vaos-null-states-expected-type-of-care',
+        });
+        expect(window.dataLayer).not.to.deep.include({
+          event: 'vaos-null-states-missing-type-of-care',
+        });
       });
     });
 

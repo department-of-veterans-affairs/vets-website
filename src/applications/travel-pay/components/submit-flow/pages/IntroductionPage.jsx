@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { HelpTextManage } from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
@@ -91,6 +92,10 @@ const IntroductionPage = props => {
       </va-need-help>
     </div>
   );
+};
+
+IntroductionPage.propTypes = {
+  onNext: PropTypes.func,
 };
 
 export default IntroductionPage;

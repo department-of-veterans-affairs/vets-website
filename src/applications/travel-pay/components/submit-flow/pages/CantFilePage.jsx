@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const CantFilePage = props => {
-  const { pageIndex, setPageIndex, setCantFile } = props;
+const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
   const onBack = e => {
     e.preventDefault();
     setCantFile(false);
@@ -20,6 +20,12 @@ const CantFilePage = props => {
       />
     </div>
   );
+};
+
+CantFilePage.propTypes = {
+  pageIndex: PropTypes.number,
+  setCantFile: PropTypes.func,
+  setPageIndex: PropTypes.func,
 };
 
 export default CantFilePage;

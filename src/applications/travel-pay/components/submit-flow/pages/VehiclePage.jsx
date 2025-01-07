@@ -1,8 +1,8 @@
 import React from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
-const VehiclePage = props => {
-  const { handlers } = props;
+const VehiclePage = ({ handlers }) => {
   return (
     <div>
       <h1>Vehicle page</h1>
@@ -15,6 +15,13 @@ const VehiclePage = props => {
       />
     </div>
   );
+};
+
+VehiclePage.propTypes = {
+  handlers: PropTypes.shape({
+    onBack: PropTypes.func,
+    onNext: PropTypes.func,
+  }),
 };
 
 export default VehiclePage;
