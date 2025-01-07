@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import RecordField from '../../components/RecordField';
+import RecordField from '../../../components/RecordField';
 
 describe('RecordField', () => {
   it('should render', () => {

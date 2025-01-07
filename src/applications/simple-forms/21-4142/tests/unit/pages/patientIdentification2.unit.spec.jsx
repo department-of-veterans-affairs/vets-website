@@ -1,8 +1,8 @@
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
-} from '../../../shared/tests/pages/pageTests.spec';
-import formConfig from '../../config/form';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import formConfig from '../../../config/form';
 
 const {
   schema,

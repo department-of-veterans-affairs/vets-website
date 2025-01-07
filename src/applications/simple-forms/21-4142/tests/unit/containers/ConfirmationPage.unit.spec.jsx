@@ -1,15 +1,14 @@
 import React from 'react';
-
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { cleanup } from '@testing-library/react';
 import { format } from 'date-fns';
+import { cleanup } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import testData from '../../e2e/fixtures/data/backend-mapping-support/veteran-maximal-2.json';
+import formConfig from '../../../config/form';
+import testData from '../../e2e/fixtures/data/maximal-test.json';
 
 const submitDate = new Date();
 const initialState = {
@@ -26,7 +25,7 @@ const initialState = {
 };
 const mockStore = state => createStore(() => state);
 
-const mountPage = (state = initialState) => {
+const mountPage = state => {
   const store = mockStore(state);
   return mount(
     <Provider store={store}>
@@ -36,10 +35,10 @@ const mountPage = (state = initialState) => {
 };
 
 describe('ConfirmationPage', () => {
-  let wrapper;
+  let wrapper = null;
 
   beforeEach(() => {
-    wrapper = mountPage();
+    wrapper = mountPage(initialState);
   });
 
   afterEach(() => {

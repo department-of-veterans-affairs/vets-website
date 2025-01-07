@@ -1,15 +1,15 @@
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
-} from '../../../shared/tests/pages/pageTests.spec';
-import formConfig from '../../config/form';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import formConfig from '../../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.preparerIdentification.pages.preparerIdentification;
+} = formConfig.chapters.contactInformation1Chapter.pages.contactInformation1;
 
-const pageTitle = 'preparer identification';
+const pageTitle = 'contact information 1';
 
 const expectedNumberOfFields = 8;
 testNumberOfFields(
@@ -20,7 +20,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 0;
+const expectedNumberOfErrors = 4;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
