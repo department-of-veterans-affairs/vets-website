@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
 import {
   VaRadio,
@@ -7,6 +7,46 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import api from '../utilities/api';
+
+const DECISION_TYPES = {
+  ACCEPTANCE: 'acceptance',
+  DECLINATION: 'declination',
+};
+
+const DECLINATION_OPTIONS = {
+  DECLINATION_HEALTH_RECORDS_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      "I decline the request, because the claimant didn't provide access to health records",
+  },
+  DECLINATION_ADDRESS_CHANGE_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      "I decline the request, because the claimant didn't allow me to change their address",
+  },
+  DECLINATION_BOTH_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      'I decline the request, because the claimant did not provide access to change address and to health records',
+  },
+  DECLINATION_NOT_ACCEPTING_CLIENTS: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      'I decline the request, because the VSO is not currently accepting new clients',
+  },
+  DECLINATION_OTHER: {
+    type: DECISION_TYPES.DECLINATION,
+    reason: 'I decline for another reason',
+  },
+};
+
+const DECISION_OPTIONS = {
+  ACCEPTANCE: {
+    type: DECISION_TYPES.ACCEPTANCE,
+    reason: null,
+  },
+  ...DECLINATION_OPTIONS,
+};
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -171,14 +211,14 @@ const POARequestDetailsPage = () => {
       </ul>
       <Link to="/poa-requests/">Back to power of attorney list</Link>
 
-      <form
+      <Form
         method="post"
+        action="decision"
         className={
           error
             ? `poa-request-details__form poa-request-details__form--error`
             : `poa-request-details__form`
         }
-        onSubmit={handleChange}
       >
         <VaRadio
           header-aria-describedby={null}
@@ -189,33 +229,20 @@ const POARequestDetailsPage = () => {
           onVaValueChange={handleChange}
           required
         >
-          <VaRadioOption label="I accept the request" name="group" value="1" />
           <VaRadioOption
-            label="I decline the request, because the claimant didn't provide access to health records"
-            name="group"
-            value="2"
+            label="I accept the request"
+            value="ACCEPTANCE"
+            name="decision"
           />
-          <VaRadioOption
-            label="I decline the request, because the claimant didn't allow me to change their address"
-            name="group"
-            value="3"
-          />
-          <VaRadioOption
-            label="I decline the request, because the claimant did not provide access to change address and to health records"
-            name="group"
-            value="4"
-          />
-          <VaRadioOption
-            label="I decline the request, because the VSO is not currently accepting new clients"
-            name="group"
-            value="5"
-          />
-          <VaRadioOption
-            label="I decline for another reason"
-            name="group"
-            value="6"
-            onVaValueChange={handleChange}
-          />
+
+          {Object.entries(DECLINATION_OPTIONS).map(([value, decision]) => (
+            <VaRadioOption
+              key={value}
+              label={decision.reason}
+              value={value}
+              name="decision"
+            />
+          ))}
         </VaRadio>
 
         <va-alert
@@ -236,7 +263,7 @@ const POARequestDetailsPage = () => {
         >
           Submit Decision
         </button>
-      </form>
+      </Form>
     </section>
   );
 };
@@ -245,6 +272,15 @@ POARequestDetailsPage.loader = ({ params, request }) => {
   return api.getPOARequest(params.id, {
     signal: request.signal,
   });
+};
+
+POARequestDetailsPage.createDecisionAction = async ({ request, params }) => {
+  const key = (await request.formData()).get('decision');
+  const decision = DECISION_OPTIONS[key];
+
+  await api.createPOARequestDecision(params.id, decision);
+
+  return redirect('..');
 };
 
 export default POARequestDetailsPage;
