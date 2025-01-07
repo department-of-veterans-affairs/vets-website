@@ -44,7 +44,7 @@ export function showManualUpload0781Page(formData) {
 export function isCompletingForm0781(formData) {
   return (
     showForm0781Pages(formData) &&
-    formData['view:mentalHealthWorkflowChoice'] ===
+    formData.mentalHealthWorkflowChoice ===
       form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
