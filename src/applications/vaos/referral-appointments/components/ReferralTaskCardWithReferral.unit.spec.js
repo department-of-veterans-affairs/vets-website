@@ -22,6 +22,11 @@ const initialState = {
     ],
     referralFetchStatus: FETCH_STATUS.succeeded,
   },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983' }],
+    },
+  },
 };
 
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
