@@ -112,6 +112,6 @@ export const onFormLoaded = props => {
       return location;
     });
   }
-  router.push(returnUrl);
+  router?.push(returnUrl);
   // return formData; // for testing only
 };

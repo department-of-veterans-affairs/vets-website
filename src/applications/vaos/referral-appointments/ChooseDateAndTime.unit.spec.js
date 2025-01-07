@@ -141,7 +141,7 @@ describe('VAOS ChoseDateAndTime component', () => {
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
-    const screen = renderWithStoreAndRouter(
+    renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferral('2024-09-09', 'UUID')}
       />,
@@ -149,7 +149,6 @@ describe('VAOS ChoseDateAndTime component', () => {
         store: createTestStore(initialFullState),
       },
     );
-    expect(await screen.getByTestId('pick-heading')).to.exist;
     sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });

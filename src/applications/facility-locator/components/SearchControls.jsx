@@ -240,11 +240,10 @@ const SearchControls = props => {
         <div className="facility-type-dropdown-block">
           <VaSelect
             ref={facilityTypeDropdownRef}
-            uswds
             required
             id="facility-type-dropdown"
             className={showError ? 'vads-u-padding-left--1p5' : null}
-            label="Facility Type"
+            label="Facility type"
             value={facilityType || ''}
             onVaSelect={e => handleFacilityTypeChange(e)}
             error={showError ? 'Please choose a facility type.' : null}
@@ -304,7 +303,7 @@ const SearchControls = props => {
     ));
 
     return (
-      <span className="service-type-dropdown-container">
+      <div className="service-type-dropdown-container">
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
@@ -314,7 +313,7 @@ const SearchControls = props => {
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
@@ -385,13 +384,11 @@ const SearchControls = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
+        <div className="columns vads-u-margin--0 vads-u-padding--0">
           {renderLocationInputField()}
-          <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
-            <va-button id="facility-search" submit="prevent" text="Search" />
-          </div>
+          {renderFacilityTypeDropdown()}
+          {renderServiceTypeDropdown()}
+          <va-button id="facility-search" submit="prevent" text="Search" />
         </div>
       </form>
     </div>

@@ -1,14 +1,14 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import AppointmentsPage from './components/AppointmentsPage/index';
-import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
+import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import AppointmentsPage from './pages/AppointmentsPage/index';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
