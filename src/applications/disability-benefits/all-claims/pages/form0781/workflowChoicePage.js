@@ -1,7 +1,9 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
+  form0781HeadingTag,
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
+  titleWithTag,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
 } from '../../content/form0781';
@@ -9,7 +11,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': workflowChoicePageTitle,
+    'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
     'view:mentalHealthWorkflowChoice': radioUI({
       title: 'CHOICE TITLE',
       description: workflowChoicePageDescription,
