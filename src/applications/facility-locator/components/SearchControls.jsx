@@ -303,7 +303,7 @@ const SearchControls = props => {
     ));
 
     return (
-      <span className="service-type-dropdown-container">
+      <div className="service-type-dropdown-container">
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
@@ -313,7 +313,7 @@ const SearchControls = props => {
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
