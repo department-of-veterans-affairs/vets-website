@@ -1,12 +1,12 @@
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from '../../../../shared/tests/pages/pageTests.spec';
 import {
   preparerIdentificationFields,
   veteranDirectRelative,
-} from '../../definitions/constants';
-import formConfig from '../../config/form';
+} from '../../../definitions/constants';
+import formConfig from '../../../config/form';
 
 const {
   schema,
