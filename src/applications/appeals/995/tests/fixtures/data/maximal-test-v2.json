@@ -30,7 +30,7 @@
     "benefitType": "compensation",
     "view:primaryPhone": "home",
     "showScNewForm": true,
-    "housingRisk": false,
+    "housingRisk": true,
     "livingSituation": {
       "notRegular": true,
       "shelter": true,
@@ -128,6 +128,7 @@
           "Test 2"
         ],
         "treatmentDate": "2001-2",
+        "noDate": true,
         "evidenceDates": {
           "from": "2002-2-2",
           "to": "2012-2-2"
@@ -171,6 +172,7 @@
         }
       }
     ],
+    "view:hasPrivateLimitation": true,
     "limitedConsent": "Pizza addiction",
     "view:patientAcknowledgement": {
       "view:acknowledgement": true

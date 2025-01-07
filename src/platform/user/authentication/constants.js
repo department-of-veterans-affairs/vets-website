@@ -91,6 +91,7 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
+  SMHD: 'smhdweb',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -108,6 +109,7 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+  [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
 };
 
 export const EXTERNAL_REDIRECTS_ALT = {
@@ -163,20 +165,3 @@ export const AUTH_PARAMS = {
   verification: 'verification',
   operation: 'operation',
 };
-
-export const OCC_MOBILE = {
-  REGISTERED_APPS: 'registeredApps',
-  DEFAULT: 'default',
-};
-
-export const OCC_MOBILE_DSLOGON_ONLY = [
-  'ahburnpitregistry',
-  '/ahburnpitregistry/',
-  '%2Fahburnpitregistry%2F',
-  'AHburnpitregistry',
-  '/AHburnpitregistry/',
-  '%2FAHburnpitregistry%2F',
-  'AHBurnPitRegistry',
-  '/AHBurnPitRegistry/',
-  '%2FAHBurnPitRegistry%2F',
-];

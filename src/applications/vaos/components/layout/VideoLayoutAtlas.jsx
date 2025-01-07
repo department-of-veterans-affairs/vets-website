@@ -23,6 +23,10 @@ import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import VideoInstructions from '../VideoInstructions';
 import State from '../State';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
@@ -49,6 +53,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     heading = 'Past video appointment at an ATLAS location';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment at an ATLAS location';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
@@ -113,7 +121,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           )}
           {!!facility && (
             <>
-              {facility.name}
+              <a href={facility.website}>{facility.name}</a>
               <br />
               <ClinicOrFacilityPhone
                 clinicPhone={clinicPhone}
@@ -156,7 +164,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <br />
             {facility ? (
               <>
-                {facility.name}
+                <a href={facility.website}>{facility.name}</a>
                 <br />
                 <span>
                   {address.city}, <State state={address.state} />

@@ -9,7 +9,8 @@ import {
 import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
-import ConfirmApprovedPage from './ConfirmApprovedPage';
+import ReviewAndConfirm from './ReviewAndConfirm';
+import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
@@ -50,6 +51,9 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
+  if (referralNotFound || !featureCCDirectScheduling) {
+    return <Redirect from={basePath.url} to="/" />;
+  }
   if (
     (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
     !referralNotFound
@@ -71,22 +75,19 @@ export default function ReferralAppointments() {
       </VaAlert>
     );
   }
-  if (referralNotFound || !featureCCDirectScheduling) {
-    return <Redirect from={basePath.url} to="/" />;
-  }
   return (
     <>
       <Switch>
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/review/`}
-          component={ConfirmApprovedPage}
-        />
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/date-time/`}
-          component={ChooseDateAndTime}
-        />
+        <Route path={`${basePath.url}/review/`} search={id}>
+          <ReviewAndConfirm currentReferral={referral} />
+        </Route>
+        <Route path={`${basePath.url}/date-time/`} search={id}>
+          <ChooseDateAndTime currentReferral={referral} />
+        </Route>
+        {/* TODO: remove this mock page when referral complete page is built */}
+        <Route path={`${basePath.url}/confirm`}>
+          <ConfirmReferral currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />
         </Route>

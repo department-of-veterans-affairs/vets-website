@@ -2,6 +2,8 @@
  * This function was based on RadiologyTransformer.parseRadiologyReport from MHV Classic. It pulls
  * fields out of a text report and puts them into an object.
  *
+ * @TODO: This logic should be moved to the API so that the mobile client can use it.
+ *
  * @param {String} radiologyReportText the raw text of a radiology report
  * @returns an object containing information from the report
  */
@@ -165,11 +167,21 @@ export const findMatchingCvixReport = (phrResponse, cvixResponseList) => {
   return null;
 };
 
-const generateHash = async data => {
-  const dataBuffer = new TextEncoder().encode(data);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+/**
+ * Generate a hash for fingerprinting an object. This hash does not need to be cryptographically
+ * strong. We used to use crypto.subtle.digest to generate the hash, but that library does not
+ * work on non-https connections, limiting testing.
+ *
+ * @param {string} data
+ * @returns a non-cryptographic hash
+ */
+const generateHash = data => {
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) {
+    const char = data.charCodeAt(i);
+    hash = (hash * 31 + char) % 2 ** 32;
+  }
+  return hash.toString(16).padStart(8, '0'); // Convert to hexadecimal, pad to 8 chars
 };
 
 export const radiologyRecordHash = async record => {

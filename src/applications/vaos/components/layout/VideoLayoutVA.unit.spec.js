@@ -25,6 +25,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
               value: '307-778-7550',
             },
           ],
+          website:
+            'https://www.va.gov/cheyenne-health-care/locations/cheyenne-va-medical-center/',
         },
       },
     },
@@ -201,7 +203,21 @@ describe('VAOS Component: VideoLayoutVA', () => {
           name: /What/i,
         }),
       ).not.to.exist;
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
+
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -379,6 +395,11 @@ describe('VAOS Component: VideoLayoutVA', () => {
           }),
         );
         expect(screen.getByText(/Cheyenne VA Medical Center/i));
+        expect(
+          screen.container.querySelector(
+            'a[href="https://www.va.gov/cheyenne-health-care/locations/cheyenne-va-medical-center/"]',
+          ),
+        ).to.be.ok;
         expect(screen.getByText(/2360 East Pershing Boulevard/i));
         expect(screen.container.querySelector('va-icon[icon="directions"]')).to
           .be.ok;
@@ -422,6 +443,19 @@ describe('VAOS Component: VideoLayoutVA', () => {
             'va-link[text="Find a full list of things to bring to your appointment"]',
           ),
         ).to.be.ok;
+
+        expect(window.dataLayer).to.deep.include({
+          event: 'vaos-null-states-expected-total',
+        });
+        expect(window.dataLayer).not.to.deep.include({
+          event: 'vaos-null-states-missing-any',
+        });
+        expect(window.dataLayer).to.deep.include({
+          event: 'vaos-null-states-expected-type-of-care',
+        });
+        expect(window.dataLayer).not.to.deep.include({
+          event: 'vaos-null-states-missing-type-of-care',
+        });
       });
     });
 

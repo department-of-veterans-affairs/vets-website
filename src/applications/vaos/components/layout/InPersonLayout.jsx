@@ -22,6 +22,10 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
@@ -51,6 +55,10 @@ export default function InPersonLayout({ data: appointment }) {
   if (isPastAppointment) heading = 'Past in-person appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled in-person appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
@@ -108,7 +116,7 @@ export default function InPersonLayout({ data: appointment }) {
           )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">

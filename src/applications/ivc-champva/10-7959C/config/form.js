@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -44,7 +44,10 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import { formSignatureSchema } from '../chapters/formSignature';
+import {
+  formSignatureSchema,
+  applicationEmailSchema,
+} from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
@@ -129,9 +132,15 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         formSignature: {
+          // initialData: mockdata.data,
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,
+        },
+        signerEmail: {
+          path: 'signer-email',
+          title: 'Your email address',
+          ...applicationEmailSchema,
         },
       },
     },
@@ -139,7 +148,6 @@ const formConfig = {
       title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
-          // initialData: mockdata.data,
           path: 'applicant-info',
           title: formData =>
             `${

@@ -32,21 +32,21 @@ const IntroductionPage = ({ router }) => {
 
       <div role="heading" aria-level="2">
         <p>
-          <b>Note:</b> This tool is not an application for VA benefits. And it
+          <b>Note:</b> This tool is not an application for VA benefits and it
           doesn’t confirm your eligibility. On the results page, we’ll help you
           learn more about eligibility and how to apply.
         </p>
         <p>
-          If you’re a family member, caregiver, or survivor of a Veteran,
+          If you’re a family member, caregiver, or survivor of a Veteran, you
+          may also be eligible for VA benefits.
           <br />
           <va-link
             href="https://www.va.gov/family-and-caregiver-benefits/"
             external
-            text="visit this page"
+            text="Learn about family and caregiver benefits"
             type="secondary"
-            label="visit this page"
-          />{' '}
-          to learn about potential benefits for you.
+            label="Learn about family and caregiver benefits"
+          />
         </p>
       </div>
     </article>

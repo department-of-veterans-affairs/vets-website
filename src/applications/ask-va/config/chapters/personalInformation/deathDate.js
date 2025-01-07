@@ -1,25 +1,20 @@
-import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
-import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
-import {
-  currentOrPastDateSchema,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
+import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
+import {
+  titleUI,
+  dateOfDeathUI,
+  dateOfDeathSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 
 const deathDatePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.DEATH_DATE.TITLE),
     dateOfDeath: {
-      'ui:webComponentField': VaMemorableDateField,
+      ...dateOfDeathUI(CHAPTER_3.DEATH_DATE.TITLE),
       'ui:validations': [validateCurrentOrPastMemorableDate],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid current or past date',
-        required: 'Please enter a date',
-      },
-      'ui:options': {
-        hideLabelText: true,
-        labelHeaderLevel: '3',
+        required: 'Please enter the date of death',
       },
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
@@ -45,7 +40,9 @@ const deathDatePage = {
   schema: {
     type: 'object',
     required: ['dateOfDeath'],
-    properties: { dateOfDeath: currentOrPastDateSchema },
+    properties: {
+      dateOfDeath: dateOfDeathSchema,
+    },
   },
 };
 

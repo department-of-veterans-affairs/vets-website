@@ -15,7 +15,7 @@ describe('Custom Alert component', () => {
           <p>{contentText}</p>
         </CustomAlert>,
       );
-      expect(getByRole('heading', { name: headline })).to.exist;
+      expect(getByRole('heading', { level: 2, name: headline })).to.exist;
       expect(getByText(contentText)).to.exist;
       const alertEl = getByTestId('mhv-custom-alert');
       expect(alertEl.className).to.include('mhv-u-reg-alert-info');
