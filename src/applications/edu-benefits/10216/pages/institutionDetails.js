@@ -32,7 +32,7 @@ const institutionDetails = () => ({
         },
         'ui:validations': [
           (errors, fieldData) => {
-            if (fieldData && fieldData.length !== 8) {
+            if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
               errors.addError('Please enter a valid 8-digit facility code');
             }
           },
