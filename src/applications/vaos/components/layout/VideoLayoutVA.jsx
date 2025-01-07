@@ -21,6 +21,10 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
@@ -46,6 +50,10 @@ export default function VideoLayoutVA({ data: appointment }) {
   if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment at VA location';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
@@ -106,7 +114,7 @@ export default function VideoLayoutVA({ data: appointment }) {
           )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">

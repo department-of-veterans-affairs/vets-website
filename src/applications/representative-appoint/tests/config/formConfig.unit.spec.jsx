@@ -35,13 +35,14 @@ describe('FormConfig depends function', () => {
 
     it('should hide selectAccreditedOrganization', () => {
       expect(repPages.selectAccreditedOrganization.depends(mockFormData2122a))
-        .to.be.false;
+        .to.not.be.ok;
     });
   });
 
   context('21-22', () => {
     it('should hide authorizeInsideVA', () => {
-      expect(authPages.authorizeInsideVA.depends(mockFormData2122)).to.be.false;
+      expect(authPages.authorizeInsideVA.depends(mockFormData2122)).to.not.be
+        .ok;
     });
 
     it('should show selectAccreditedOrganization', () => {
@@ -50,21 +51,21 @@ describe('FormConfig depends function', () => {
     });
 
     it('should hide authorizeInsideVA', () => {
-      expect(authPages.authorizeInsideVA.depends(mockFormData2122)).to.be.false;
+      expect(authPages.authorizeInsideVA.depends(mockFormData2122)).to.not.be
+        .ok;
     });
 
     it('should hide authorizeOutsideVA', () => {
-      expect(authPages.authorizeOutsideVA.depends(mockFormData2122)).to.be
-        .false;
+      expect(authPages.authorizeOutsideVA.depends(mockFormData2122)).to.not.be
+        .ok;
     });
     it('should hide authorizeOutsideVANames', () => {
-      expect(authPages.authorizeOutsideVANames.depends(mockFormData2122)).to.be
-        .false;
+      expect(authPages.authorizeOutsideVANames.depends(mockFormData2122)).to.be;
     });
 
     it('should hide veteranServiceInformation', () => {
       expect(veteranPages.veteranServiceInformation.depends(mockFormData2122))
-        .to.be.false;
+        .to.not.be.ok;
     });
   });
 

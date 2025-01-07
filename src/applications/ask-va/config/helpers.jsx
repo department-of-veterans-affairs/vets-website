@@ -1,8 +1,12 @@
+import { format, isValid, parse } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import { enUS } from 'date-fns/locale';
 import React from 'react';
 
 import {
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHealthCare,
   CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
   CHAPTER_3,
@@ -262,7 +266,6 @@ export const isLocationOfResidenceRequired = data => {
     selectTopic,
     whoIsYourQuestionAbout,
     isQuestionAboutVeteranOrSomeoneElse,
-    yourHealthFacility,
   } = data;
 
   // Check if location is required based on contact preference
@@ -270,7 +273,7 @@ export const isLocationOfResidenceRequired = data => {
     return false;
   }
 
-  // Guardianship and VR&E rules
+  // Guardianship, VR&E , and Health rules
   const GuardianshipAndVRE =
     (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
       selectCategory === CategoryVeteranReadinessAndEmployment) &&
@@ -351,11 +354,6 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
-  // Medical Facility was required
-  if (yourHealthFacility) {
-    return true;
-  }
-
   // Default to false if none of the conditions are met
   return false;
 };
@@ -380,7 +378,7 @@ export const isPostalCodeRequired = data => {
     return false;
   }
 
-  // Guardianship and VR&E rules
+  // Guardianship, VR&E , and Health rules
   const GuardianshipAndVRE =
     (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
       selectCategory === CategoryVeteranReadinessAndEmployment) &&
@@ -390,6 +388,10 @@ export const isPostalCodeRequired = data => {
     selectCategory === CategoryEducation &&
     selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
 
+  const HealthCare = selectCategory === CategoryHealthCare;
+
+  const HealthFacilityNotSelected = !yourHealthFacility;
+
   // About myself
   // Flow 1.1
   if (
@@ -397,6 +399,14 @@ export const isPostalCodeRequired = data => {
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
       relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
     statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
+    HealthFacilityNotSelected
   ) {
     return true;
   }
@@ -410,6 +420,14 @@ export const isPostalCodeRequired = data => {
   ) {
     return true;
   }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    HealthFacilityNotSelected
+  ) {
+    return true;
+  }
 
   // About someone else
   // Flow 2.1
@@ -418,6 +436,14 @@ export const isPostalCodeRequired = data => {
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
       relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
+    HealthFacilityNotSelected
   ) {
     return true;
   }
@@ -433,6 +459,16 @@ export const isPostalCodeRequired = data => {
   ) {
     return true;
   }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
+    HealthFacilityNotSelected
+  ) {
+    return true;
+  }
 
   // Flow 2.2.2
   if (
@@ -442,6 +478,16 @@ export const isPostalCodeRequired = data => {
       isQuestionAboutVeteranOrSomeoneElse ===
         isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE &&
+    HealthFacilityNotSelected
   ) {
     return true;
   }
@@ -457,17 +503,32 @@ export const isPostalCodeRequired = data => {
   ) {
     return true;
   }
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
+    HealthFacilityNotSelected
+  ) {
+    return true;
+  }
 
   // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
   }
-
-  if (selectCategory === 'Health care' && !yourHealthFacility) {
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (
+    HealthCare &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    HealthFacilityNotSelected
+  ) {
     return true;
   }
 
@@ -582,4 +643,113 @@ export const getHealthFacilityTitle = data => {
   }
 
   return YOUR_VA_HEALTH_FACILITY.TITLE;
+};
+
+// Helper functions for statuses https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Statuses%20and%20triggers.md
+export const getVAStatusFromCRM = status => {
+  switch (status.toLowerCase()) {
+    case 'new':
+    case 'in progress':
+    case 'inprogress':
+    case 'In progress':
+      return 'In progress';
+    case 'solved':
+    case 'Replied':
+      return 'Replied';
+    case 'reopened':
+    case 'Reopened':
+      return 'Reopened';
+    case 'closed':
+      return 'Closed';
+    case 'question not found':
+      return "We didn't find any questions with this reference number. Check your reference number and try again.";
+    case 'questionnotfound':
+      return "We didn't find any questions with this reference number. Check your reference number and try again.";
+    default:
+      return 'In progress';
+  }
+};
+
+export const getDescriptiveTextFromCRM = status => {
+  switch (status.toLowerCase()) {
+    case 'new':
+      return 'Your inquiry is current in queue to be reviewed.';
+    case 'in progress':
+      return 'Your inquiry is currently being reviewed by an agent.';
+    case 'solved':
+      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+    case 'reopened':
+      return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
+    case 'closed':
+      return 'Closed.';
+    case 'reference number not found':
+      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+    default:
+      return 'error';
+  }
+};
+
+// Function to convert date to Response Inbox format using date-fns
+export const convertDateForInquirySubheader = dateString => {
+  // Parse the input date string as UTC
+  let utcDate;
+  try {
+    utcDate = parse(dateString, 'M/d/yyyy h:mm:ss a', new Date(0));
+    utcDate.setUTCFullYear(utcDate.getFullYear());
+    utcDate.setUTCMonth(utcDate.getMonth());
+    utcDate.setUTCDate(utcDate.getDate());
+    utcDate.setUTCHours(utcDate.getHours());
+    utcDate.setUTCMinutes(utcDate.getMinutes());
+    utcDate.setUTCSeconds(utcDate.getSeconds());
+  } catch (error) {
+    return 'Invalid Date';
+  }
+
+  // Ensure the date is valid
+  if (isNaN(utcDate.getTime())) {
+    return 'Invalid Date';
+  }
+
+  // Format the UTC date in Eastern Time
+  return formatInTimeZone(
+    utcDate,
+    'America/New_York',
+    "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
+    { locale: enUS },
+  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+};
+
+export const formatDate = (dateString, formatType = 'short') => {
+  let parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
+
+  if (!isValid(parsedDate)) {
+    parsedDate = parse(dateString, 'MM/dd/yyyy', new Date());
+  }
+
+  if (!isValid(parsedDate)) {
+    return dateString;
+  }
+
+  const dateFormat = formatType === 'long' ? 'MMMM d, yyyy' : 'MMM d, yyyy';
+
+  return format(parsedDate, dateFormat);
+};
+
+// Helper for uploading multiple files
+export const getFiles = files => {
+  if (!files) {
+    return [
+      {
+        FileName: null,
+        FileContent: null,
+      },
+    ];
+  }
+
+  return files.map(file => {
+    return {
+      FileName: file.fileName,
+      FileContent: file.base64,
+    };
+  });
 };

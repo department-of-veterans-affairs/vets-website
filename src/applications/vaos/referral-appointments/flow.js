@@ -30,29 +30,32 @@ export default function getPageFlow(referralId) {
     scheduleAppointment: {
       url: `/schedule-referral/date-time?id=${referralId}`,
       label: 'Schedule an appointment with your provider',
-      next: 'confirmAppointment',
+      next: 'reviewAndConfirm',
       previous: 'scheduleReferral',
     },
-    confirmAppointment: {
+    reviewAndConfirm: {
       url: `/schedule-referral/review?id=${referralId}`,
       label: 'Review your appointment details',
-      next: 'appointments',
+      next: 'complete',
       previous: 'scheduleAppointment',
     },
     complete: {
       url: 'appointments/[ID]?confirmMsg=true',
       label: 'Your appointment is scheduled',
       next: '',
-      previous: 'confirmAppointment',
+      previous: 'reviewAndConfirm',
     },
   };
 }
 
 export function routeToPageInFlow(history, current, action, referralId) {
   const pageFlow = getPageFlow(referralId);
-  const nextPageString = pageFlow[current][action];
+  // if there is no current page meaning there was an error fetching referral data
+  // then we are on an error state in the form and back should go back to appointments.
+  const nextPageString = current
+    ? pageFlow[current][action]
+    : 'referralsAndRequests';
   const nextPage = pageFlow[nextPageString];
-
   if (action === 'next' && nextPageString === 'scheduleReferral') {
     startReferralTimer(referralId);
   }
@@ -85,8 +88,8 @@ export function routeToNextReferralPage(history, current, referralId = null) {
   return routeToPageInFlow(history, current, 'next', referralId);
 }
 
-export function routeToCCPage(history, page) {
-  const pageFlow = getPageFlow();
+export function routeToCCPage(history, page, referralId = null) {
+  const pageFlow = getPageFlow(referralId);
   const nextPage = pageFlow[page];
   return history.push(nextPage.url);
 }

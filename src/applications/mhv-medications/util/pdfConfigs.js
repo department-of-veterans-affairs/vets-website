@@ -137,7 +137,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
           items: [
             {
               title: 'Last filled on',
-              value: dateFormat(rx.dispensedDate, 'MMMM D, YYYY'),
+              value: dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {
@@ -497,9 +497,9 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                 },
                 {
                   title: `Shipped on`,
-                  value: entry?.trackingList?.[0]?.completeDateTime
-                    ? dateFormat(entry.trackingList[0].completeDateTime)
-                    : 'None noted',
+                  value: dateFormat(
+                    prescription?.trackingList?.[0]?.completeDateTime,
+                  ),
                   inline: true,
                 },
               ];
