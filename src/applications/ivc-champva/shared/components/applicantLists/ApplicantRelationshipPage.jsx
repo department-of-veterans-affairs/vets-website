@@ -8,7 +8,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { ADDITIONAL_FILES_HINT } from '../../../10-10D/config/constants';
+import { ADDITIONAL_FILES_HINT } from '../../constants';
 import { applicantWording } from '../../utilities';
 
 /*

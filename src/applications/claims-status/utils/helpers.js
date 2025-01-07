@@ -513,7 +513,13 @@ export function makeAuthRequest(
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation';
+  if (claim?.attributes?.claimType) {
+    const { claimType } = claim.attributes;
+    return claimType === 'Death'
+      ? 'expenses related to death or burial'
+      : claimType;
+  }
+  return 'Disability Compensation';
 }
 
 export const mockData = {

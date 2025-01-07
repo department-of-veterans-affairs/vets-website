@@ -464,3 +464,9 @@
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
  */
+
+/**
+ * @typedef {Object} ReplacerOptions
+ * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
+ * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
+ */

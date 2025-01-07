@@ -98,7 +98,21 @@ describe('VAOS Component: VideoLayout', () => {
 
       expect(screen.getByText(/Clinic not available/i));
       expect(screen.getByText(/Facility not available/i));
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
+
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -325,6 +339,19 @@ describe('VAOS Component: VideoLayout', () => {
           'va-additional-info[trigger="How to setup your device"]',
         ),
       ).to.be.ok;
+
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-total',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-any',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-type-of-care',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-type-of-care',
+      });
     });
   });
 
