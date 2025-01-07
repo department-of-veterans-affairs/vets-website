@@ -99,7 +99,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
             '2024-12-01',
           ),
         ],
-          },
+      },
     });
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
