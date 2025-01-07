@@ -86,4 +86,28 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     const taskCard = screen.queryByTestId('referral-task-card');
     expect(taskCard).to.be.null;
   });
+
+  it('should display the error alert when referral is not found', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=thisisareferralthatwontbefound',
+    });
+    expect(await screen.getByTestId('referral-error')).to.exist;
+  });
+
+  it('should display the error alert when fetch fails', async () => {
+    const store = createTestStore({
+      ...initialState,
+      referral: {
+        referrals: [],
+        referralFetchStatus: FETCH_STATUS.failed,
+      },
+    });
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
+    expect(await screen.getByTestId('referral-error')).to.exist;
+  });
 });
