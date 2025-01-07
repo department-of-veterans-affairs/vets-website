@@ -5,7 +5,7 @@ import { AppointmentList } from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import * as AppointmentsPage from './components/AppointmentsPage/index';
 import * as ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
-import * as RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
+import * as RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 describe('VAOS Page: Appointment list routes', () => {
   const sandbox = Sinon.createSandbox();

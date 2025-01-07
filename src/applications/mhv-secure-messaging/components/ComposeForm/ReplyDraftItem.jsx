@@ -78,6 +78,7 @@ const ReplyDraftItem = props => {
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
   const attachmentScanError = useMemo(
@@ -544,6 +545,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
 
               <FileInput
@@ -552,6 +555,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
             </section>
           )}

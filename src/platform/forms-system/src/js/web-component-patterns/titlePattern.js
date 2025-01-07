@@ -22,13 +22,10 @@ export const Title = ({
   const className =
     classNames || `vads-u-color--${color} vads-u-margin-top--0${style}`;
 
-  // If the header is an h1, it's intended to also be the focus,
-  // in which case we need an aria-describedby attribute to point to the
-  // stepper to read out the step and chapter after reading the title
+  // If the header is an h1, it's intended to also be the focus
   const focusHeaderProps =
     headerLevel === 1
       ? {
-          'aria-describedby': 'nav-form-header',
           tabIndex: '-1',
         }
       : {};

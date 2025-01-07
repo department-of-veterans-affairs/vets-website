@@ -20,6 +20,10 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
@@ -44,6 +48,10 @@ export default function PhoneLayout({ data: appointment }) {
   if (isPastAppointment) heading = 'Past phone appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled phone appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
@@ -86,7 +94,7 @@ export default function PhoneLayout({ data: appointment }) {
         )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
           </>
