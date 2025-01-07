@@ -4244,8 +4244,8 @@ __metadata:
     file-saver: "npm:^2.0.4"
     fontkit: "npm:^1.8.1"
     linebreak: "npm:^1.0.2"
-    pdfjs-dist: "npm:2.16.105"
-    pdfkit: "npm:^0.13.0"
+    pdfjs-dist: "npm:4.10.38"
+    pdfkit: "npm:^0.16.0"
     png-js: "npm:^1.0.0"
   languageName: unknown
   linkType: soft
@@ -5370,6 +5370,115 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@napi-rs/canvas-android-arm64@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-android-arm64@npm:0.1.65"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-darwin-arm64@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-darwin-arm64@npm:0.1.65"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-darwin-x64@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-darwin-x64@npm:0.1.65"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm-gnueabihf@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-arm-gnueabihf@npm:0.1.65"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm64-gnu@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-arm64-gnu@npm:0.1.65"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm64-musl@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-arm64-musl@npm:0.1.65"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-riscv64-gnu@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-riscv64-gnu@npm:0.1.65"
+  conditions: os=linux & cpu=riscv64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-x64-gnu@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-x64-gnu@npm:0.1.65"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-x64-musl@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-linux-x64-musl@npm:0.1.65"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-win32-x64-msvc@npm:0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas-win32-x64-msvc@npm:0.1.65"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas@npm:^0.1.65":
+  version: 0.1.65
+  resolution: "@napi-rs/canvas@npm:0.1.65"
+  dependencies:
+    "@napi-rs/canvas-android-arm64": "npm:0.1.65"
+    "@napi-rs/canvas-darwin-arm64": "npm:0.1.65"
+    "@napi-rs/canvas-darwin-x64": "npm:0.1.65"
+    "@napi-rs/canvas-linux-arm-gnueabihf": "npm:0.1.65"
+    "@napi-rs/canvas-linux-arm64-gnu": "npm:0.1.65"
+    "@napi-rs/canvas-linux-arm64-musl": "npm:0.1.65"
+    "@napi-rs/canvas-linux-riscv64-gnu": "npm:0.1.65"
+    "@napi-rs/canvas-linux-x64-gnu": "npm:0.1.65"
+    "@napi-rs/canvas-linux-x64-musl": "npm:0.1.65"
+    "@napi-rs/canvas-win32-x64-msvc": "npm:0.1.65"
+  dependenciesMeta:
+    "@napi-rs/canvas-android-arm64":
+      optional: true
+    "@napi-rs/canvas-darwin-arm64":
+      optional: true
+    "@napi-rs/canvas-darwin-x64":
+      optional: true
+    "@napi-rs/canvas-linux-arm-gnueabihf":
+      optional: true
+    "@napi-rs/canvas-linux-arm64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-arm64-musl":
+      optional: true
+    "@napi-rs/canvas-linux-riscv64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-x64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-x64-musl":
+      optional: true
+    "@napi-rs/canvas-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/87e92baf5b4bf479c3d4f0c853f974411d62b05f772f2b5f7f0e94f7bfb3103497913ce1b9e7a176f6e8017ebfad80acc78e4d476589d0a44eac3ee6db5c81a2
+  languageName: node
+  linkType: hard
+
 "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1":
   version: 5.1.1-v1
   resolution: "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1"
@@ -6413,6 +6522,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10c0/4fc621dedf82cb1eb4aed01f446376162e5eec38c58bab3dbd8cb318145170e18cd6693e83e121038e319d7405aed6cb1064e994edb7a89ca536a57ee34c306d
+  languageName: node
+  linkType: hard
+
+"@swc/helpers@npm:^0.5.12":
+  version: 0.5.15
+  resolution: "@swc/helpers@npm:0.5.15"
+  dependencies:
+    tslib: "npm:^2.8.0"
+  checksum: 10c0/33002f74f6f885f04c132960835fdfc474186983ea567606db62e86acd0680ca82f34647e8e610f4e1e422d1c16fce729dde22cd3b797ab1fd9061a825dabca4
   languageName: node
   linkType: hard
 
@@ -11260,7 +11378,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.0.0, crypto-js@npm:^4.2.0":
+"crypto-js@npm:^4.2.0":
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: 10c0/8fbdf9d56f47aea0794ab87b0eb9833baf80b01a7c5c1b0edc7faf25f662fb69ab18dc2199e2afcac54670ff0cd9607a9045a3f7a80336cccd18d77a55b9fdf0
@@ -12610,13 +12728,6 @@ __metadata:
   dependencies:
     domelementtype: "npm:^2.3.0"
   checksum: 10c0/bba1e5932b3e196ad6862286d76adc89a0dbf0c773e5ced1eb01f9af930c50093a084eff14b8de5ea60b895c56a04d5de8bbc4930c5543d029091916770b2d2a
-  languageName: node
-  linkType: hard
-
-"dommatrix@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "dommatrix@npm:1.0.3"
-  checksum: 10c0/498e630888ba138c1d140cbb25ca8dbd9ed747486aa0693dcc7a8318f910e4791d6b0fa4ef4c383c419b72e119fa2c26d9ee15a3c7b0e8088979cf02092e2a18
   languageName: node
   linkType: hard
 
@@ -15142,6 +15253,23 @@ __metadata:
     unicode-properties: "npm:^1.3.1"
     unicode-trie: "npm:^2.0.0"
   checksum: 10c0/a1c45999d90f1b25bf6f09797b64982207d3d24962b2a109bf6c913e7c1caced6a3e0e50e406a0862eae8f6f10846da00cab37818ad8f5c354febbfb8d11e748
+  languageName: node
+  linkType: hard
+
+"fontkit@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "fontkit@npm:2.0.4"
+  dependencies:
+    "@swc/helpers": "npm:^0.5.12"
+    brotli: "npm:^1.3.2"
+    clone: "npm:^2.1.2"
+    dfa: "npm:^1.2.0"
+    fast-deep-equal: "npm:^3.1.3"
+    restructure: "npm:^3.0.0"
+    tiny-inflate: "npm:^1.0.3"
+    unicode-properties: "npm:^1.4.0"
+    unicode-trie: "npm:^2.0.0"
+  checksum: 10c0/e68940a0801daa53a4bd160fc49814eeea5eab4dc67225b43064548d35939be9f14de17213bc1a88064adf81b6dfbdb53bda7189df1d07a3ad044482e7fd55e4
   languageName: node
   linkType: hard
 
@@ -18530,6 +18658,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jpeg-exif@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "jpeg-exif@npm:1.1.4"
+  checksum: 10c0/0f9225b2423184d60c66b3d7361176801c17ede92fc9b3c044fcf00f379a5a1d424b360ecf0027dda47d405d253c7b62bf5b353fb08b2589e3650f38cc575e82
+  languageName: node
+  linkType: hard
+
 "jpeg-js@npm:0.2.0":
   version: 0.4.4
   resolution: "jpeg-js@npm:0.4.4"
@@ -19209,7 +19344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linebreak@npm:^1.0.2":
+"linebreak@npm:^1.0.2, linebreak@npm:^1.1.0":
   version: 1.1.0
   resolution: "linebreak@npm:1.1.0"
   dependencies:
@@ -22838,30 +22973,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:2.16.105":
-  version: 2.16.105
-  resolution: "pdfjs-dist@npm:2.16.105"
+"pdfjs-dist@npm:4.10.38":
+  version: 4.10.38
+  resolution: "pdfjs-dist@npm:4.10.38"
   dependencies:
-    dommatrix: "npm:^1.0.3"
-    web-streams-polyfill: "npm:^3.2.1"
-  peerDependencies:
-    worker-loader: ^3.0.8
-  peerDependenciesMeta:
-    worker-loader:
+    "@napi-rs/canvas": "npm:^0.1.65"
+  dependenciesMeta:
+    "@napi-rs/canvas":
       optional: true
-  checksum: 10c0/903a2d95fb3b8a2ec66fb3164813e6181512a144abc39b7f87a735fbcf3384b1d2ee3c6ed8dde70bfbe87c8ae5f87fea8c799c22a2ebe2669ed8573bc076d1f6
+  checksum: 10c0/77b022109be7aac00372750a53decea3979409e6ef1cf93bf554351569cd4d1fafc70afae4a9a3e4b4de3facf59d3acd54d324b0fcff781374bcb00493d449ce
   languageName: node
   linkType: hard
 
-"pdfkit@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "pdfkit@npm:0.13.0"
+"pdfkit@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "pdfkit@npm:0.16.0"
   dependencies:
-    crypto-js: "npm:^4.0.0"
-    fontkit: "npm:^1.8.1"
-    linebreak: "npm:^1.0.2"
+    crypto-js: "npm:^4.2.0"
+    fontkit: "npm:^2.0.4"
+    jpeg-exif: "npm:^1.1.4"
+    linebreak: "npm:^1.1.0"
     png-js: "npm:^1.0.0"
-  checksum: 10c0/ef378fd2b26c8ada5854bda07732c955f32ba0a144d09025d3096baf7c62f584f2d0cf5574b1932a4bb77ba85e818fe4d1067878318806494b787ef0a83d63e9
+  checksum: 10c0/7238451e0638589ea544463f4e2a1d7f0cd2f02560cb9edad85fe74d13935bcfdfc57b7d390165a92336e5e26a91533b69b5e35b34f63143f6608efd3f556e9f
   languageName: node
   linkType: hard
 
@@ -25706,6 +25839,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"restructure@npm:^3.0.0":
+  version: 3.0.2
+  resolution: "restructure@npm:3.0.2"
+  checksum: 10c0/f13536c094ba40a9af704e6a9fc030afd48d6112e9a3bec5f9cf5bad50416a22a7cf9aaece542bbac8c82204ad4901bf455e6204613abedbc075bc221ea6bdef
+  languageName: node
+  linkType: hard
+
 "ret@npm:~0.1.10":
   version: 0.1.15
   resolution: "ret@npm:0.1.15"
@@ -28438,6 +28578,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:^2.8.0":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
+  languageName: node
+  linkType: hard
+
 "tty-browserify@npm:~0.0.0":
   version: 0.0.1
   resolution: "tty-browserify@npm:0.0.1"
@@ -28871,7 +29018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unicode-properties@npm:^1.3.1":
+"unicode-properties@npm:^1.3.1, unicode-properties@npm:^1.4.0":
   version: 1.4.1
   resolution: "unicode-properties@npm:1.4.1"
   dependencies:
@@ -29846,13 +29993,6 @@ __metadata:
   dependencies:
     defaults: "npm:^1.0.3"
   checksum: 10c0/5b61ca583a95e2dd85d7078400190efd452e05751a64accb8c06ce4db65d7e0b0cde9917d705e826a2e05cc2548f61efde115ffa374c3e436d04be45c889e5b4
-  languageName: node
-  linkType: hard
-
-"web-streams-polyfill@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "web-streams-polyfill@npm:3.2.1"
-  checksum: 10c0/70ed6b5708e14afa2ab699221ea197d7c68ec0c8274bbe0181aecc5ba636ca27cbd383d2049f0eb9d529e738f5c088825502b317f3df24d18a278e4cc9a10e8b
   languageName: node
   linkType: hard
 

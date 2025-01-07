@@ -13,12 +13,12 @@
     "file-saver": "^2.0.4",
     "fontkit": "^1.8.1",
     "linebreak": "^1.0.2",
-    "pdfkit": "^0.13.0",
+    "pdfkit": "^0.16.0",
     "png-js": "^1.0.0"
   },
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "pdfjs-dist": "2.16.105"
+    "pdfjs-dist": "4.10.38"
   }
 }
