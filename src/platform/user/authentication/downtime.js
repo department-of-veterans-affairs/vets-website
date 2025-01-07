@@ -2,6 +2,7 @@ import React from 'react';
 import {
   subHours,
   isWithinInterval,
+  isDate,
   parseJSON,
   format,
   differenceInHours,
@@ -114,9 +115,11 @@ export const createMaintenanceBanner = ({
 }) => {
   const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
 
-  const startTime = parseJSON(startingTime);
+  const checkDate = date => (isDate(date) ? parseJSON(date) : null);
+
+  const startTime = checkDate(startingTime);
   const startDate = format(startTime, `PPPP`);
-  const endTime = parseJSON(endingTime);
+  const endTime = checkDate(endingTime);
   const hours = differenceInHours(endTime, startTime);
   const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
 
@@ -158,8 +161,8 @@ export const determineMaintenance = maintArray =>
  * @returns Boolean (true/false) based on if the times are within the maintenance window
  */
 export const isInMaintenanceWindow = (startTime, endTime) => {
-  const start = subHours(parseJSON(startTime), 2);
-  const end = parseJSON(endTime);
+  const start = isDate(startTime) ? subHours(parseJSON(startTime), 2) : null;
+  const end = isDate(endTime) ? parseJSON(endTime) : null;
 
   const currentTime = new Date();
 
