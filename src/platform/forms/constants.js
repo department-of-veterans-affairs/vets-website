@@ -427,7 +427,7 @@ export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_10_7959F_2,
     benefit: `Foreign Medical Program (FMP) cover sheet`,
-    title: `Foreign Medical Program (FMP) cover sheet (10-7959f-1)`,
+    title: `Foreign Medical Program (FMP) cover sheet (10-7959f-2)`,
     description: '',
     trackingPrefix: 'fmp-cover-sheet-',
   },
