@@ -239,11 +239,10 @@ const SearchControls = props => {
         <div className="facility-type-dropdown-block">
           <VaSelect
             ref={facilityTypeDropdownRef}
-            uswds
             required
             id="facility-type-dropdown"
             className={showError ? 'vads-u-padding-left--1p5' : null}
-            label="Facility Type"
+            label="Facility type"
             value={facilityType || ''}
             onVaSelect={e => handleFacilityTypeChange(e)}
             error={showError ? 'Please choose a facility type.' : null}
