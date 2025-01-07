@@ -4,6 +4,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import ContactCard from '../components/ContactCard';
 import AddressBlock from '../components/AddressBlock';
+import GetFormHelp from '../components/GetFormHelp';
+
 import {
   addressExists,
   getFormSubtitle,
@@ -69,6 +71,10 @@ export default function NextStepsPage() {
       <a className="vads-c-action-link--green vads-u-margin-top--2" href="/">
         Go back to VA.gov
       </a>
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </div>
   );
 }
