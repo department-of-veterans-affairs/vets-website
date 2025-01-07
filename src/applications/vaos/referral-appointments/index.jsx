@@ -6,15 +6,14 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
-import ConfirmApprovedPage from './ConfirmApprovedPage';
+import ReviewAndConfirm from './ReviewAndConfirm';
 import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import { useGetReferralById } from './hooks/useGetReferralById';
+import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -22,9 +21,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
+  const { isInCCPilot } = useIsInCCPilot();
   const { search } = useLocation();
 
   const params = new URLSearchParams(search);
@@ -51,7 +48,7 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
-  if (referralNotFound || !featureCCDirectScheduling) {
+  if (referralNotFound || !isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
   if (
@@ -78,11 +75,9 @@ export default function ReferralAppointments() {
   return (
     <>
       <Switch>
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/review/`}
-          component={ConfirmApprovedPage}
-        />
+        <Route path={`${basePath.url}/review/`} search={id}>
+          <ReviewAndConfirm currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
         </Route>

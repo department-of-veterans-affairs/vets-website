@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
 import {
   applicantWording,
@@ -32,16 +33,36 @@ describe('applicantWording helper', () => {
   });
 });
 
-describe('getAgeInYears helper', () => {
-  const year = Number(
-    new Date()
-      .getFullYear()
-      .toString()
-      .slice(-2),
-  );
+describe('getAgeInYears', () => {
+  let clock;
 
-  it('should return the proper age in years', () => {
-    expect(getAgeInYears('2000-01-01')).to.equal(year);
+  beforeEach(() => {
+    // Mock Date.now() to always return a fixed value in 2024
+    // (Similar to ReferralTaskCard.unit.spec.js)
+    const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+    clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
+  it('should correctly calculate age in years', () => {
+    const birthDate = '1990-07-01';
+    const age = getAgeInYears(birthDate);
+    expect(age).to.equal(34);
+  });
+
+  it('should correctly calculate age with a New Year’s Day birthdate', () => {
+    const birthDate = '2000-01-01';
+    const age = getAgeInYears(birthDate);
+    expect(age).to.equal(24);
+  });
+
+  it('should correctly calculate age with a leap day birthdate', () => {
+    const birthDate = '2004-02-29';
+    const age = getAgeInYears(birthDate);
+    expect(age).to.equal(20);
   });
 });
 

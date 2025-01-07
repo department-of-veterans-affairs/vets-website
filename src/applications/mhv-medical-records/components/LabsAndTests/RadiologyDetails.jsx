@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   crisisLineHeader,
@@ -28,15 +27,17 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
+  sendDataDogAction,
   formatDateAndTime,
+  formatUserDob,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
   fetchImageRequestStatus,
   fetchBbmiNotificationStatus,
+  requestImages,
 } from '../../actions/images';
-import { requestImagingStudy } from '../../api/MrApi';
 import useAlerts from '../../hooks/use-alerts';
 
 const RadiologyDetails = props => {
@@ -55,18 +56,27 @@ const RadiologyDetails = props => {
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const processingAlertHeadingRef = useRef(null);
+  const [
+    imageProcessingAlertRendered,
+    setImageProcessingAlertRendered,
+  ] = useState(false);
+  const [isImageRequested, setIsImageRequested] = useState(false);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   // State to manage the dynamic backoff polling interval
   const [pollInterval, setPollInterval] = useState(2000);
 
+  const [processingRequest, setProcessingRequest] = useState(false);
+
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
-  const studyJobs = useSelector(state => state.mr.images.imageStatus);
-  const notificationStatus = useSelector(
-    state => state.mr.images.notificationStatus,
-  );
+  const {
+    imageStatus: studyJobs,
+    notificationStatus,
+    imageRequestApiFailed,
+  } = useSelector(state => state.mr.images);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -83,6 +93,24 @@ const RadiologyDetails = props => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      if (processingAlertHeadingRef.current) {
+        setImageProcessingAlertRendered(true);
+      }
+    },
+    [processingAlertHeadingRef.current],
+  );
+
+  useEffect(
+    () => {
+      if (imageProcessingAlertRendered && isImageRequested) {
+        focusElement(processingAlertHeadingRef.current);
+      }
+    },
+    [imageProcessingAlertRendered, isImageRequested],
+  );
+
   const studyJob = useMemo(
     () =>
       studyJobs?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
@@ -92,11 +120,22 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
+      if (imageRequestApiFailed) {
+        setProcessingRequest(false);
+      }
+    },
+    [imageRequestApiFailed],
+  );
+
+  useEffect(
+    () => {
       let timeoutId;
       if (
         studyJob?.status === studyJobStatus.NEW ||
         studyJob?.status === studyJobStatus.PROCESSING
       ) {
+        setProcessingRequest(false);
+
         timeoutId = setTimeout(() => {
           dispatch(fetchImageRequestStatus());
           // Increase the polling interval by 5% on each iteration, capped at 30 seconds
@@ -112,9 +151,6 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -137,7 +173,7 @@ const RadiologyDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
@@ -157,9 +193,9 @@ ${record.results}`;
   };
 
   const makeImageRequest = async () => {
-    await requestImagingStudy(radiologyDetails.studyId);
-    // After requesting the study, update the status.
-    dispatch(fetchImageRequestStatus());
+    setProcessingRequest(true);
+    dispatch(requestImages(radiologyDetails.studyId));
+    setIsImageRequested(true);
   };
 
   const notificationContent = () => (
@@ -209,27 +245,35 @@ ${record.results}`;
     </>
   );
 
-  const imageAlertProcessing = imageRequest => (
-    <>
-      {requestNote()}
-      <va-alert
-        status="info"
-        visible
-        aria-live="polite"
-        data-testid="image-request-progress-alert"
-      >
-        <h3>Image request</h3>
-        <p>{imageRequest.percentComplete}% complete</p>
-        <va-progress-bar
-          percent={
-            imageRequest.status === studyJobStatus.NEW
-              ? 0
-              : imageRequest.percentComplete
-          }
-        />
-      </va-alert>
-    </>
-  );
+  const imageAlertProcessing = imageRequest => {
+    const percent =
+      imageRequest.status === studyJobStatus.NEW
+        ? 0
+        : imageRequest.percentComplete;
+    return (
+      <>
+        {requestNote()}
+        <va-alert
+          status="info"
+          visible
+          aria-live="polite"
+          data-testid="image-request-progress-alert"
+        >
+          <h3
+            aria-describedby="in-progress-description"
+            ref={processingAlertHeadingRef}
+          >
+            Image request
+          </h3>
+          <p id="in-progress-description" className="sr-only">
+            in progress{' '}
+          </p>
+          <p>{percent}% complete</p>
+          <va-progress-bar percent={percent} />
+        </va-alert>
+      </>
+    );
+  };
 
   const imageAlertComplete = () => {
     const endDateParts = formatDateAndTime(
@@ -246,7 +290,7 @@ ${record.results}`;
           <Link
             to={`/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
-            data-testid="radiology-request-images"
+            data-testid="radiology-view-all-images"
           >
             View all {radiologyDetails.imageCount} images
           </Link>
@@ -282,6 +326,7 @@ ${record.results}`;
       <va-button
         class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
+        data-testid="radiology-request-images-button"
         disabled={imageRequest?.percentComplete < 100}
         ref={elementRef}
         text="Request Images"
@@ -292,6 +337,16 @@ ${record.results}`;
 
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
+      if (processingRequest) {
+        return (
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        );
+      }
+
       if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
         return imageAlert(ERROR_TRY_LATER);
       }
@@ -304,7 +359,8 @@ ${record.results}`;
             studyJob?.status === studyJobStatus.PROCESSING) &&
             imageAlertProcessing(studyJob)}
           {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
-          {studyJob?.status === studyJobStatus.ERROR &&
+          {(imageRequestApiFailed ||
+            studyJob?.status === studyJobStatus.ERROR) &&
             imageAlertError(studyJob)}
           {notificationContent()}
         </>
@@ -321,6 +377,7 @@ ${record.results}`;
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - radiology name]"
       >
         {record.name}
       </h1>
@@ -332,42 +389,66 @@ ${record.results}`;
       />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={downloadPdf}
         downloadTxt={generateRadioloyTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p data-testid="radiology-reason" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-reason"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology reason]"
+        >
           {record.reason}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p data-testid="radiology-clinical-history" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-clinical-history"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology clinical history]"
+        >
           {record.clinicalHistory}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="radiology-ordered-by" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology ordered by]"
+        >
           {record.orderedBy}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="radiology-imaging-location" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology location]"
+        >
           {record.imagingLocation}
         </p>
         <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
+        <p
+          data-testid="radiology-imaging-provider"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology provider]"
+        >
           {record.imagingProvider}
         </p>
         {!phase0p5Flag && (
@@ -387,6 +468,9 @@ ${record.results}`;
               )}
               text="Request images on the My HealtheVet website"
               data-testid="radiology-images-link"
+              onClick={() => {
+                sendDataDogAction('Request images on MHV');
+              }}
             />
           </>
         )}
@@ -399,6 +483,7 @@ ${record.results}`;
           data-testid="radiology-record-results"
           className="monospace"
           data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - radiology results]"
         >
           {record.results}
         </p>

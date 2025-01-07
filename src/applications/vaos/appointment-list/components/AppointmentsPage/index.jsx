@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureCCDirectScheduling,
-  // selectFeatureBookingExclusion,
-} from '../../../redux/selectors';
-import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
-import PastAppointmentsList from '../PastAppointmentsList';
-import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewAppointment from '../ScheduleNewAppointment';
-import PageLayout from '../PageLayout';
-import { selectPendingAppointments } from '../../redux/selectors';
-import {
-  APPOINTMENT_STATUS,
-  // OH_TRANSITION_SITES,
-} from '../../../utils/constants';
-import AppointmentListNavigation from '../AppointmentListNavigation';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerAlert from '../../../components/CernerAlert';
+import WarningNotification from '../../../components/WarningNotification';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import RequestedAppointmentsPage from '../../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
+import { selectPendingAppointments } from '../../redux/selectors';
+import AppointmentListNavigation from '../AppointmentListNavigation';
+import PageLayout from '../PageLayout';
+import PastAppointmentsList from '../PastAppointmentsList';
+import ScheduleNewAppointment from '../ScheduleNewAppointment';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
-import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import { routeToCCPage } from '../../../referral-appointments/flow';
+import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
+import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import UpcomingAppointmentsPage from '../../pages/UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -53,10 +46,7 @@ export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
-
-  const featureCCDirectScheduling = useSelector(state =>
-    selectFeatureCCDirectScheduling(state),
-  );
+  const { isInCCPilot } = useIsInCCPilot();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -167,13 +157,8 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {featureCCDirectScheduling && (
-        <div>
-          <ReferralAppLink linkText="Review and manage your appointment notifications" />
-        </div>
-      )}
-      {featureCCDirectScheduling && <ReferralTaskCardWithReferral />}
-      {featureCCDirectScheduling && (
+      {isInCCPilot && <ReferralTaskCardWithReferral />}
+      {isInCCPilot && (
         <div
           className={classNames(
             'vads-u-padding-y--3',
@@ -195,16 +180,16 @@ export default function AppointmentsPage() {
         </div>
       )}
       <AppointmentListNavigation
-        hidePendingTab={featureCCDirectScheduling}
+        hidePendingTab={isInCCPilot}
         count={count}
         callback={setHasTypeChanged}
       />
       <Switch>
         <Route exact path="/">
-          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
+          <UpcomingAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/pending">
-          <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
+          <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />

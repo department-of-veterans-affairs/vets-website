@@ -1,15 +1,34 @@
 import React from 'react';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import manifest from '../manifest.json';
+import transform from './transform';
+import { getFTECalcs } from '../helpers';
 
+// Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-// pages
-import { institutionDetails } from '../pages';
+
+import {
+  institutionDetails,
+  ProgramIntro,
+  programInfo,
+  ProgramSummary,
+} from '../pages';
+
+export const arrayBuilderOptions = {
+  arrayPath: 'programs',
+  nounSingular: 'program',
+  nounPlural: 'programs',
+  required: true,
+  text: {
+    getItemName: item => item.programName,
+    cardDescription: item => {
+      const percent = getFTECalcs(item).supportedFTEPercent;
+      return percent ? `${percent} supported student FTE` : null;
+    },
+  },
+};
 
 const { date } = commonDefinitions;
 
@@ -19,22 +38,19 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transform,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  // introduction: CalculationInstructions,
   confirmation: ConfirmationPage,
   formId: '22-10215',
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10215) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10215) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  customText: {
+    submitButtonText: 'Continue',
+  },
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
+    notFound: 'Please start over to apply for new form benefits.',
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
@@ -59,6 +75,30 @@ const formConfig = {
           schema: institutionDetails.schema,
         },
       },
+    },
+    programsChapter: {
+      title: '85/15 calculations',
+      pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+        programsIntro: pageBuilder.introPage({
+          path: '85/15-calculations',
+          title: '[noun plural]',
+          uiSchema: ProgramIntro.uiSchema,
+          schema: ProgramIntro.schema,
+        }),
+        programsSummary: pageBuilder.summaryPage({
+          title: 'Review your [noun plural]',
+          path: '85-15-calculations/summary',
+          uiSchema: ProgramSummary.uiSchema,
+          schema: ProgramSummary.schema,
+        }),
+        addProgram: pageBuilder.itemPage({
+          title: 'Program information',
+          path: '85/15-calculations/:index',
+          showPagePerItem: true,
+          uiSchema: programInfo.uiSchema,
+          schema: programInfo.schema,
+        }),
+      })),
     },
   },
 };

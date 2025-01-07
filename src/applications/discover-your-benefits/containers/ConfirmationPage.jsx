@@ -10,7 +10,7 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import SaveResultsModal from '../components/SaveResultsModal';
+import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 import Benfits from './components/Benefits';
 
@@ -41,6 +41,12 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
+    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.setState({ benefitsList: sortedBenefitsList });
   }
 
   componentDidUpdate(prevProps) {
@@ -87,7 +93,7 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      category: 'type',
+      category: 'category',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
@@ -183,9 +189,13 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const count =
+      this.props.location.query.allBenefits === 'true'
+        ? this.state.benefitsList.length
+        : this.state.resultsCount;
     return (
       <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
+        Showing {count} {resultsText}, filtered to show{' '}
         <b>{this.state.filterValue} results</b>, sorted{' '}
         {this.state.sortValue === 'alphabetical'
           ? 'alphabetically by benefit name'
@@ -242,34 +252,30 @@ export class ConfirmationPage extends React.Component {
             {this.props.location.query.allBenefits ? (
               <>
                 <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore.
-                  <br />
+                  Below are all of the benefits that this tool can recommend.
                   Remember to check your eligibility before you apply.
                 </p>
                 <p>
-                  These aren't your personalized benefit recommendations, but
-                  you can go back to your recommendations if you'd like.
+                  These aren’t your personalized benefit recommendations, but
+                  you can go back to your recommendations if you’d like.
                 </p>
                 <p>
                   We're also planning to add more benefits and resources to this
-                  tool.
-                  <br />
-                  Check back soon to find more benefits you want to apply for.
+                  tool. Check back soon to find more benefits you may want to
+                  apply for.
                 </p>
               </>
             ) : (
               <>
                 <p>
-                  Below are some benefits that this tool can recommend.
-                  <br />
-                  Remember to check your eligibility before you apply.
+                  Based on your answers, we’ve suggested some benefits for you
+                  to explore. Remember to check your eligibility before you
+                  apply.
                 </p>
               </>
             )}
           </div>
         </article>
-
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
@@ -291,13 +297,17 @@ export class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
+        <h2 className="vads-u-font-size--h3">
+          {this.props.location.query.allBenefits
+            ? 'All benefits'
+            : 'Recommended benefits for you'}
+        </h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
             {!this.props.location.query.allBenefits && (
               <div className="vads-l-col--12">
-                <SaveResultsModal />
+                <CopyResultsModal />
               </div>
             )}
             <div
@@ -399,19 +409,28 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              {this.state.hasResults && (
+              {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
               {!this.props.location.query.allBenefits &&
                 window.history.length > 2 && (
-                  <p>
-                    <va-link
-                      data-testid="back-link"
-                      href="#"
-                      onClick={this.handleBackClick}
-                      text="Go back and review your entries"
-                    />
-                  </p>
+                  <>
+                    <p>
+                      <va-link
+                        data-testid="back-link"
+                        href="#"
+                        onClick={this.handleBackClick}
+                        text="Go back and review your entries"
+                      />
+                    </p>
+                    <p className="start-over-link-container">
+                      <va-link
+                        data-testid="start-over-link"
+                        href="/discover-your-benefits/goals"
+                        text="Start over"
+                      />
+                    </p>
+                  </>
                 )}
 
               <Benfits

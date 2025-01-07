@@ -13,8 +13,8 @@ export const uiSchema = {
     'We’ll send any important information about your form to this address.',
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includeLink />
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includeLink includePrefix isClaimantChapter />
     ),
   },
   homeAddress: addressUI({
@@ -28,8 +28,31 @@ export const schema = {
   type: 'object',
   properties: {
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    homeAddress: addressSchema({
-      omit: ['street3'],
-    }),
+    homeAddress: {
+      ...addressSchema({ omit: ['street3'] }),
+      properties: {
+        ...addressSchema({ omit: ['street3'] }).properties,
+        street: {
+          type: 'string',
+          maxLength: 30,
+        },
+        street2: {
+          type: 'string',
+          maxLength: 5,
+        },
+        city: {
+          type: 'string',
+          maxLength: 18,
+        },
+        state: {
+          type: 'string',
+          maxLength: 2,
+        },
+        postalCode: {
+          type: 'string',
+          maxLength: 9,
+        },
+      },
+    },
   },
 };

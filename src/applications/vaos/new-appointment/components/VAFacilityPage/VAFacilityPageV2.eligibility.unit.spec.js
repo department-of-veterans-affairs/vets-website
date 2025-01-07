@@ -179,9 +179,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       await waitFor(() => {
         screen.queryByText(/San Diego VA Medical Center/i);
       });
-      expect(screen.baseElement).to.contain.text(
-        'You can’t request another appointment until you schedule or cancel your open requests',
-      );
+      expect(
+        await screen.findByText(
+          /You.ll need to call to schedule at this facility/,
+        ),
+      ).to.exist;
 
       expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
@@ -579,11 +581,14 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /We.re sorry. There.s a problem with our system. Try again later./i,
+        ),
+      ).to.exist;
     });
 
-    it('should show request limit message and link to the requested appointments, when current appt is over the request limit', async () => {
+    it('should show request limit message when current appt is over the request limit', async () => {
       // Given the user is requesting an appointment
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
@@ -630,11 +635,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Then they are presented with the message that they are over the request limit
       await screen.findByTestId('eligibilityModal');
 
-      // And the link in the over the limit message takes the user to the pending appt page
-      expect(screen.getByTestId('appointment-list-link')).to.exist;
       expect(
-        screen.getByTestId('appointment-list-link').getAttribute('href'),
-      ).to.equal('/my-health/appointments/pending');
+        screen.getByText(/You’ll need to call to schedule at this facility/i),
+      ).to.exist;
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {

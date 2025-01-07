@@ -1,4 +1,6 @@
 import {
+  emailUI,
+  emailSchema,
   titleUI,
   radioUI,
   radioSchema,
@@ -24,6 +26,23 @@ export const formSignatureSchema = {
     required: ['certifierRole'],
     properties: {
       certifierRole: radioSchema(['applicant', 'other']),
+    },
+  },
+};
+
+export const applicationEmailSchema = {
+  uiSchema: {
+    ...titleUI(
+      'Your email address',
+      `We'll use this email address to send you information about the form.`,
+    ),
+    certifierEmail: emailUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierEmail'],
+    properties: {
+      certifierEmail: emailSchema,
     },
   },
 };

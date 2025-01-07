@@ -27,7 +27,10 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  handleUpdateLcFilterDropdowns,
+  deriveMaxAmount,
+  deriveEligibleStudents,
+  capitalizeFirstLetter,
+  getAbbreviationsAsArray,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -538,6 +541,35 @@ describe('GIBCT helpers:', () => {
       expect(scrollByStub.called).to.be.false;
     });
   });
+  describe('capitalizeFirstLetter', () => {
+    it('should return null when the string is null', () => {
+      expect(capitalizeFirstLetter(null)).to.equal(null);
+    });
+
+    it('should return null when the string is undefined', () => {
+      expect(capitalizeFirstLetter(undefined)).to.equal(null);
+    });
+
+    it('should capitalize the first letter of a single word', () => {
+      expect(capitalizeFirstLetter('hello')).to.equal('Hello');
+    });
+
+    it('should return the string as is if the first letter is already uppercase', () => {
+      expect(capitalizeFirstLetter('Hello')).to.equal('Hello');
+    });
+
+    it('should handle empty strings and return null', () => {
+      expect(capitalizeFirstLetter('')).to.equal(null);
+    });
+
+    it('should handle strings with special characters correctly', () => {
+      expect(capitalizeFirstLetter('@hello')).to.equal('@hello');
+    });
+
+    it('should handle strings with numbers at the beginning correctly', () => {
+      expect(capitalizeFirstLetter('123hello')).to.equal('123hello');
+    });
+  });
 
   describe('formatProgramType', () => {
     it('should return an empty string when programType is null or undefined', () => {
@@ -565,67 +597,119 @@ describe('GIBCT helpers:', () => {
         'Doctorate Program',
       );
     });
+    it('should return a formatted string for "on-the-job-training-apprenticeship"', () => {
+      expect(formatProgramType('on-the-job-training-apprenticeship')).to.equal(
+        'On-the-job training/Apprenticeships',
+      );
+    });
   });
 
-  describe('handleUpdateLcFilterDropdowns', () => {
-    it('should update the correct dropdown with the selected option based on the target id and value', () => {
-      const dropdowns = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: '', optionLabel: '-Select-' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
+  describe('deriveMaxAmount', () => {
+    it('should return "Not provided" if no contributionAmount is given', () => {
+      expect(deriveMaxAmount()).to.equal('Not provided');
+      expect(deriveMaxAmount(null)).to.equal('Not provided');
+      expect(deriveMaxAmount('')).to.equal('Not provided');
+    });
 
-      // Sample target (representing an event.target object)
-      const target = {
-        id: 'category',
-        value: 'licenses',
-      };
+    it('should return a specific string when contributionAmount >= 99999', () => {
+      expect(deriveMaxAmount('99999')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
+      );
+      expect(deriveMaxAmount('100000')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
+      );
+    });
 
-      const expectedResult = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: 'licenses', optionLabel: 'License' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'all', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
+    it('should format currency correctly for values less than 99999', () => {
+      expect(deriveMaxAmount('5000')).to.equal('$5,000');
+      expect(deriveMaxAmount('1234.56')).to.equal('$1,235');
+      expect(deriveMaxAmount(300)).to.equal('$300');
+    });
+  });
+  describe('deriveEligibleStudents', () => {
+    it('should return "Not provided" if no numberOfStudents is given', () => {
+      expect(deriveEligibleStudents()).to.equal('Not provided');
+      expect(deriveEligibleStudents(null)).to.equal('Not provided');
+      expect(deriveEligibleStudents('')).to.equal('Not provided');
+    });
 
-      const result = handleUpdateLcFilterDropdowns(dropdowns, target);
+    it('should return "All eligible students" if numberOfStudents >= 99999', () => {
+      expect(deriveEligibleStudents(99999)).to.equal('All eligible students');
+      expect(deriveEligibleStudents(100000)).to.equal('All eligible students');
+    });
 
-      expect(result).to.deep.equal(expectedResult);
+    it('should return "1 student" if numberOfStudents is exactly 1', () => {
+      expect(deriveEligibleStudents(1)).to.equal('1 student');
+    });
+
+    it('should return "<X> students" for values other than 1 and less than 99999', () => {
+      expect(deriveEligibleStudents(2)).to.equal('2 students');
+      expect(deriveEligibleStudents(50)).to.equal('50 students');
+    });
+  });
+  describe('getAbbreviationsAsArray', () => {
+    it('should return an empty array when value is null or undefined or an empty string', () => {
+      expect(getAbbreviationsAsArray(null)).to.deep.equal([]);
+      expect(getAbbreviationsAsArray(undefined)).to.deep.equal([]);
+      expect(getAbbreviationsAsArray('')).to.deep.equal([]);
+    });
+
+    it('should return the corresponding abbreviations for "OJT"', () => {
+      const result = getAbbreviationsAsArray('OJT');
+      expect(result).to.deep.equal([
+        'APP: Apprenticeships',
+        'OJT: On-the-job training',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "NCD"', () => {
+      const result = getAbbreviationsAsArray('NCD');
+      expect(result).to.deep.equal([
+        'CERT: Certification',
+        'UG CERT: Undergraduate Certification',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "IHL"', () => {
+      const result = getAbbreviationsAsArray('IHL');
+      expect(result).to.deep.equal([
+        'AA: Associate of Arts',
+        'AS: Associate of Science',
+        'BA: Bachelor of Arts',
+        'BS: Bachelor of Science',
+        'GRAD CERT: Graduate Certification',
+        'MA: Master of Arts',
+        'MBA: Master of Business Administration',
+        'MS: Master of Science',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "CORR"', () => {
+      const result = getAbbreviationsAsArray('CORR');
+      expect(result).to.deep.equal([
+        'AAS: Associate of Applied Science',
+        'CERT: Certification',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "FLGT"', () => {
+      const result = getAbbreviationsAsArray('FLGT');
+      expect(result).to.deep.equal([
+        'AMEL: Airplane Multi Engine Land',
+        'ASEL: Airplane Single Engine Land',
+        'ATM: Airline Transport Multiengine',
+        'ATP: Airline Transport Pilot',
+        'ATS: Airline Transport Single Engine',
+        'CFI: Certified Flight Instructor',
+        'CFII: Certified Flight Instructor Instrument',
+        'IR: Instrument Rating',
+        'MEI: Multi Engine Instructor',
+        'ROTO: Rotorcraft; Rotary-Wing Aircraft',
+      ]);
+    });
+
+    it('should return an empty array when the value is not found in the mapping', () => {
+      expect(getAbbreviationsAsArray('XYZ')).to.deep.equal([]);
     });
   });
 });

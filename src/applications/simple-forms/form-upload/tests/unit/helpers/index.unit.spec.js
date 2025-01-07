@@ -1,13 +1,22 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import Scroll from 'react-scroll';
 import {
   getFileSize,
   getFormNumber,
   getFormContent,
   handleRouteChange,
   mask,
+  getPdfDownloadUrl,
+  scrollAndFocusTarget,
+  onCloseAlert,
+  getMockData,
+  formattedPhoneNumber,
 } from '../../../helpers';
+import { DOWNLOAD_URL_0779 } from '../../../config/constants';
+
+const { scroller } = Scroll;
 
 describe('Helpers', () => {
   describe('getFormNumber', () => {
@@ -42,25 +51,13 @@ describe('Helpers', () => {
     });
   });
 
-  describe('getFileSize', () => {
-    it('should be in bytes for values < 999', () => {
-      expect(getFileSize(998)).to.equal('998 B');
+  describe('getPdfDownloadUrl', () => {
+    it('returns the url', () => {
+      expect(getPdfDownloadUrl('21-0779')).to.eq(DOWNLOAD_URL_0779);
     });
-    it('should be in KB for values between a thousand and a million', () => {
-      expect(getFileSize(1024)).to.equal('1 KB');
-    });
-    it('should be in MB for values greater than a million', () => {
-      expect(getFileSize(2000000)).to.equal('2.0 MB');
-    });
-  });
 
-  describe('mask', () => {
-    it('should return a masked string', () => {
-      const node = shallow(mask('secret-stuf'));
-
-      expect(node.text()).to.contain('●●●–●●–stuf');
-
-      node.unmount();
+    it('returns an empty string', () => {
+      expect(getPdfDownloadUrl()).to.eq('');
     });
   });
 
@@ -76,6 +73,76 @@ describe('Helpers', () => {
       handleRouteChange(route, history);
 
       expect(historySpy.calledWith(fakeHref)).to.be.true;
+    });
+  });
+
+  describe('getFileSize', () => {
+    it('should be in bytes for values < 999', () => {
+      expect(getFileSize(998)).to.equal('998 B');
+    });
+    it('should be in KB for values between a thousand and a million', () => {
+      expect(getFileSize(1024)).to.equal('1 KB');
+    });
+    it('should be in MB for values greater than a million', () => {
+      expect(getFileSize(2000000)).to.equal('2.0 MB');
+    });
+  });
+
+  describe('scrollAndFocusTarget', () => {
+    let scrollToSpy;
+
+    beforeEach(() => {
+      scrollToSpy = sinon.stub(scroller, 'scrollTo');
+    });
+
+    it('calls scrollTo', () => {
+      scrollAndFocusTarget();
+
+      expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
+    });
+  });
+
+  describe('mask', () => {
+    it('should return a masked string', () => {
+      const node = shallow(mask('secret-stuf'));
+
+      expect(node.text()).to.contain('●●●–●●–stuf');
+
+      node.unmount();
+    });
+  });
+
+  describe('onCloseAlert', () => {
+    it('sets e.target.visible to false', () => {
+      const e = {
+        target: {
+          visible: true,
+        },
+      };
+
+      onCloseAlert(e);
+
+      expect(e.target.visible).to.eq(false);
+    });
+  });
+
+  describe('getMockData', () => {
+    const mockData = {
+      mock: 'data',
+    };
+
+    it('returns the mockData', () => {
+      expect(getMockData(mockData, () => true)).to.eq(mockData);
+    });
+
+    it('returns undefined', () => {
+      expect(getMockData(mockData, () => false)).to.eq(undefined);
+    });
+  });
+
+  describe('formattedPhoneNumber', () => {
+    it('formats the phone number', () => {
+      expect(formattedPhoneNumber('12345-67890')).to.eq('(123) 456-7890');
     });
   });
 });

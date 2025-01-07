@@ -34,14 +34,14 @@ const yourContactInformationPage = {
     businessPhone: phoneUI('Phone number'),
     businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
-      title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_2.QUESTION,
       labels: {
         PHONE: 'Phone call',
         EMAIL: 'Email',
         US_MAIL: 'U.S. mail',
       },
       errorMessages: {
-        required: 'Please select your contact preference',
+        required: CHAPTER_3.CONTACT_PREF.QUESTION_2.ERROR,
       },
     }),
     preferredName: {
@@ -97,7 +97,6 @@ const yourContactInformationPage = {
               pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
               pronounsNotListedText: {
                 type: 'string',
-                pattern: '^[A-Za-z]+$',
                 minLength: 1,
                 maxLength: 255,
               },
@@ -143,7 +142,6 @@ const yourContactInformationPage = {
             pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
             pronounsNotListedText: {
               type: 'string',
-              pattern: '^[A-Za-z]+$',
               minLength: 1,
               maxLength: 255,
             },
@@ -171,7 +169,6 @@ const yourContactInformationPage = {
       pronouns: checkboxGroupSchema(Object.values(pronounLabels)),
       pronounsNotListedText: {
         type: 'string',
-        pattern: '^[A-Za-z]+$',
         minLength: 1,
         maxLength: 255,
       },

@@ -82,7 +82,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               Veterans Service Organization (VSO) can collect and submit
               supporting documents for you.{' '}
               <va-link
-                href="https://www.benefits.va.gov/vso/varo.asp"
+                href="https://www.va.gov/get-help-from-accredited-representative/find-rep"
                 text="Find a VSO near you."
               />
             </p>

@@ -20,6 +20,10 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
@@ -45,13 +49,18 @@ export default function PhoneLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled phone appointment';
 
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
+
   return (
     <DetailPageLayout heading={heading} data={appointment}>
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            We'll call you at the appointment time. But contact the facility you
-            scheduled through if you have questions or need to reschedule.
+            We’ll call you at the appointment time. If you have questions or
+            need to reschedule, contact the facility you originally scheduled
+            through.
           </Section>
         )}
       <When>
@@ -85,7 +94,7 @@ export default function PhoneLayout({ data: appointment }) {
         )}
         {!!facility && (
           <>
-            {facility.name}
+            <a href={facility.website}>{facility.name}</a>
             <br />
             <Address address={facility?.address} />
           </>

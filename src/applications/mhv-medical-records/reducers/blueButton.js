@@ -7,31 +7,23 @@ import { medicationTypes, NA, NONE_RECORDED, UNKNOWN } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 
 const initialState = {
-  /**
-   * The list of medications returned from the api
-   * @type {Array}
-   */
+  /** The list of medications returned from the api @type {Array} */
   medicationsList: undefined,
-  /**
-   * The list of appointments returned from the api
-   * @type {Array}
-   */
+
+  /** The list of appointments returned from the api @type {Array} */
   appointmentsList: undefined,
-  /**
-   * The demographic info returned from the api
-   * @type {Array}
-   */
+
+  /** The demographic info returned from the api @type {Array} */
   demographics: undefined,
-  /**
-   * The military service info returned from the api
-   * @type {Array}
-   */
+
+  /** The military service info returned from the api @type {Array} */
   militaryService: undefined,
-  /**
-   * The account summary info returned from the api
-   * @type {Array}
-   */
+
+  /** The account summary info returned from the api @type {Array} */
   accountSummary: undefined,
+
+  /** A list of domains which failed during fetch @type {Array} */
+  failedDomains: [],
 };
 
 /**
@@ -73,8 +65,8 @@ export const convertMedication = med => {
     id: med.id,
     type: medicationTypes.VA,
     prescriptionName: attributes.prescriptionName,
-    lastFilledOn: attributes.lastFilledDate
-      ? formatDateLong(attributes.lastFilledDate)
+    lastFilledOn: attributes.dispensedDate
+      ? formatDateLong(attributes.dispensedDate)
       : 'Not filled yet',
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
@@ -157,7 +149,7 @@ export const convertDemographics = info => {
 
   return {
     id: info.id,
-    facility: info.facilityInfo.name || NONE_RECORDED,
+    facility: info.facilityInfo?.name || NONE_RECORDED,
     firstName: info.firstName,
     middleName: info.middleName || NONE_RECORDED,
     lastName: info.lastName || NONE_RECORDED,
@@ -279,9 +271,9 @@ export const convertAccountSummary = data => {
 
   // Map facilities
   const mappedFacilities = facilities.map(facility => ({
-    facilityName: facility.facilityInfo.name,
-    stationNumber: facility.facilityInfo.stationNumber,
-    type: facility.facilityInfo.treatment ? 'Treatment' : 'VAMC',
+    facilityName: facility.facilityInfo?.name || 'Unknown facility',
+    stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
+    type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
   }));
 
   // Extract user profile details
@@ -289,8 +281,7 @@ export const convertAccountSummary = data => {
   const authenticatingFacility =
     ipa?.authenticatingFacilityId &&
     facilities.find(
-      facility =>
-        facility.facilityInfo.stationNumber === ipa.authenticatingFacilityId,
+      facility => facility.facilityInfo?.id === ipa.authenticatingFacilityId,
     );
 
   const authenticationInfo = ipa
@@ -303,7 +294,7 @@ export const convertAccountSummary = data => {
         authenticationFacilityName:
           authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:
-          authenticatingFacility?.facilityInfo?.stationNumber || 'Unknown ID',
+          authenticatingFacility?.facilityInfo?.id || 'Unknown ID',
       }
     : {};
 
@@ -314,26 +305,67 @@ export const convertAccountSummary = data => {
 };
 
 export const blueButtonReducer = (state = initialState, action) => {
-  // eslint-disable-next-line sonarjs/no-small-switch
   switch (action.type) {
-    case Actions.BlueButtonReport.GET:
-      return {
-        ...state,
-        medicationsList:
+    case Actions.BlueButtonReport.GET: {
+      const updates = {};
+
+      if (action.medicationsResponse) {
+        updates.medicationsList =
           action.medicationsResponse.data?.map(med => {
             return convertMedication(med);
-          }) || [],
-        appointmentsList:
+          }) || [];
+      }
+
+      if (action.appointmentsResponse) {
+        updates.appointmentsList =
           action.appointmentsResponse.data?.map(appt => {
             return convertAppointment(appt);
-          }) || [],
-        demographics:
+          }) || [];
+      }
+
+      if (action.demographicsResponse) {
+        updates.demographics =
           action.demographicsResponse.content?.map(item => {
             return convertDemographics(item);
-          }) || [],
-        militaryService: action.militaryServiceResponse || '',
-        accountSummary: convertAccountSummary(action.patientResponse) || {},
+          }) || [];
+      }
+
+      if (action.militaryServiceResponse) {
+        updates.militaryService = action.militaryServiceResponse || undefined;
+      }
+
+      if (action.patientResponse) {
+        updates.accountSummary =
+          convertAccountSummary(action.patientResponse) || {};
+      }
+
+      return {
+        ...state,
+        ...updates,
       };
+    }
+    case Actions.BlueButtonReport.ADD_FAILED: {
+      const failedDomain = action.payload;
+
+      return {
+        ...state,
+        failedDomains: state.failedDomains.includes(failedDomain)
+          ? state.failedDomains
+          : [...state.failedDomains, failedDomain],
+      };
+    }
+    case Actions.BlueButtonReport.CLEAR_FAILED: {
+      return {
+        ...state,
+        failedDomains: [],
+      };
+    }
+    case Actions.BlueButtonReport.CLEAR_APPOINTMENTS: {
+      return {
+        ...state,
+        appointmentsList: undefined,
+      };
+    }
     default:
       return state;
   }

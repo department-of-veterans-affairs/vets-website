@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';
@@ -15,6 +16,9 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+
+const pageKey = 'typeOfEyeCare';
+const pageTitle = 'Which type of eye care do you need?';
 
 const initialSchema = {
   type: 'object',
@@ -29,42 +33,30 @@ const initialSchema = {
 
 const uiSchema = {
   typeOfEyeCareId: {
-    'ui:widget': 'radio',
+    'ui:title': pageTitle,
+    'ui:widget': 'radio', // Required
+    'ui:webComponentField': VaRadioField,
     'ui:options': {
-      hideLabelText: true,
+      classNames: 'vads-u-margin-top--neg2',
+      labelHeaderLevel: '1',
       labels: {
-        [TYPES_OF_EYE_CARE[0].id]: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              {TYPES_OF_EYE_CARE[0].name}
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              This includes routine eye exams, preventive vision testing and
-              treatment for conditions like glaucoma. Optometrists also can
-              provide prescriptions for eyeglasses and other assistive devices.
-            </span>
-          </>
-        ),
-        [TYPES_OF_EYE_CARE[1].id]: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              {TYPES_OF_EYE_CARE[1].name}
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              You can schedule an appointment with an ophthalmology specialist
-              to diagnose and provide medical and surgical care for conditions
-              that affect your eyes—like cataracts, glaucoma, macular
-              degeneration, and diabetic retinopathy.
-            </span>
-          </>
-        ),
+        [TYPES_OF_EYE_CARE[0].id]: TYPES_OF_EYE_CARE[0].name,
+        [TYPES_OF_EYE_CARE[1].id]: TYPES_OF_EYE_CARE[1].name,
+      },
+      descriptions: {
+        [TYPES_OF_EYE_CARE[0].id]:
+          'This includes routine eye exams, preventive vision testing and ' +
+          'treatment for conditions like glaucoma. Optometrists also can ' +
+          'provide prescriptions for eyeglasses and other assistive devices.',
+        [TYPES_OF_EYE_CARE[1].id]:
+          'You can schedule an appointment with an ophthalmology specialist ' +
+          'to diagnose and provide medical and surgical care for conditions ' +
+          'that affect your eyes—like cataracts, glaucoma, macular' +
+          'degeneration, and diabetic retinopathy.',
       },
     },
   },
 };
-
-const pageKey = 'typeOfEyeCare';
-const pageTitle = 'Choose the type of eye care you need';
 
 export default function TypeOfEyeCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -86,8 +78,7 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
   }, []);
 
   return (
-    <div className="vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field-descriptive">
       {!!schema && (
         <SchemaForm
           name="Type of eye care"

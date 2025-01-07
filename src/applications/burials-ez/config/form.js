@@ -1,6 +1,6 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -66,7 +66,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  formId: VA_FORM_IDS.FORM_21P_530V2,
+  formId: VA_FORM_IDS.FORM_21P_530EZ,
   saveInProgress: {
     messages: {
       inProgress:
