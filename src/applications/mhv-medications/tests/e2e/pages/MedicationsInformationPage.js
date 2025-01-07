@@ -23,7 +23,7 @@ class MedicationsInformationPage {
   verifyApiErrorText = () => {
     cy.get('[data-testid="no-medications-list"]')
       .should('be.visible')
-      .and('contain', 'We can’t access your medication information right now.');
+      .and('contain', 'We can’t access your medication information right now');
   };
 
   verifyNoInformationWarningText = () => {
