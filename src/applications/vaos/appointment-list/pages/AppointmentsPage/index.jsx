@@ -11,23 +11,19 @@ import WarningNotification from '../../../components/WarningNotification';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 import { selectPendingAppointments } from '../../redux/selectors';
-// import AppointmentListNavigation from '../AppointmentListNavigation';
-// import PageLayout from '../PageLayout';
-// import PastAppointmentsList from '../PastAppointmentsList';
-// import ScheduleNewAppointment from '../ScheduleNewAppointment';
+import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
-import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
-import PageLayout from '../../components/PageLayout';
-import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
+import PageLayout from '../../components/PageLayout';
 import PastAppointmentsListNew from '../../components/PastAppointmentsList';
+import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
+import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {
