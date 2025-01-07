@@ -312,7 +312,7 @@ const flow = {
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    label: 'Confirm your contact information',
+    label: 'How should we contact you?',
     next: 'review',
   },
   review: {
@@ -375,10 +375,6 @@ export default function getNewAppointmentFlow(state) {
     },
     contactInfo: {
       ...flow.contactInfo,
-      label:
-        FLOW_TYPES.DIRECT === flowType
-          ? 'Confirm your contact information'
-          : 'How should we contact you?',
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-appointment/contact-info',
