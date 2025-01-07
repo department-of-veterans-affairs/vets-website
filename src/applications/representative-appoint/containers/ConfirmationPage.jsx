@@ -7,6 +7,8 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
 
+import GetFormHelp from '../components/GetFormHelp';
+
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
@@ -78,6 +80,11 @@ export default function ConfirmationPage({ router }) {
         onVaChange={handlers.onChangeSignedFormCheckbox}
       />
       <va-button continue onClick={handlers.onClickContinueButton} />
+
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </>
   );
 }

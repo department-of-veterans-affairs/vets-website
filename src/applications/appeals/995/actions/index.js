@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 import { apiRequest } from 'platform/utilities/api';
 
 import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
@@ -36,11 +38,11 @@ export const getContestableIssues = props => {
       );
     }
 
-    const [apiVersion, baseApi] = newApi
-      ? CONTESTABLE_ISSUES_API_NEW
-      : CONTESTABLE_ISSUES_API;
+    const apiUrl = `${environment.API_URL}${
+      newApi ? CONTESTABLE_ISSUES_API_NEW : CONTESTABLE_ISSUES_API
+    }/${benefitType}`;
 
-    return apiRequest(`${baseApi}/${benefitType}`, { apiVersion })
+    return apiRequest(apiUrl)
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -68,10 +70,10 @@ export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
 export function fetchITF({ accountUuid, inProgressFormId }) {
-  const [apiVersion, baseApi] = ITF_API;
+  const apiUrl = `${environment.API_URL}${ITF_API}`;
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
-    return apiRequest(baseApi, { apiVersion })
+    return apiRequest(apiUrl)
       .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
       .catch(() => {
         window.DD_LOGS?.logger.error('SC ITF fetch failed', {
@@ -89,14 +91,11 @@ export function createITF({
   benefitType = DEFAULT_BENEFIT_TYPE,
   inProgressFormId,
 }) {
-  const [apiVersion, baseApi] = ITF_API;
+  const apiUrl = `${environment.API_URL}${ITF_API}/${benefitType}`;
   return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
 
-    return apiRequest(`${baseApi}/${benefitType}`, {
-      method: 'POST',
-      apiVersion,
-    })
+    return apiRequest(apiUrl, { method: 'POST' })
       .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
       .catch(() => {
         window.DD_LOGS?.logger.error('SC ITF creation failed', {
