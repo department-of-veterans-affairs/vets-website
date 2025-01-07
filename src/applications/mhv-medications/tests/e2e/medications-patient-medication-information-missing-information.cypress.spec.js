@@ -5,7 +5,7 @@ import rxTrackingDetails from './fixtures/prescription-tracking-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsInformationPage from './pages/MedicationsInformationPage';
 
-describe('template spec', () => {
+describe('Medication Information Missing Information', () => {
   it('visits medication information page and displays no information warning message', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
