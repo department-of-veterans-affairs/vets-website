@@ -22,7 +22,7 @@ import {
 } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import RequestedAppointmentsPage from '../../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
@@ -195,7 +195,7 @@ export default function AppointmentsPage() {
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/pending">
-          <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
+          <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
