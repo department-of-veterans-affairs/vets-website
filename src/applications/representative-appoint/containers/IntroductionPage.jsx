@@ -6,7 +6,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import repStatusLoader from 'applications/static-pages/representative-status';
 import { useStore, connect } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
-import GetFormHelp from '../components/GetFormHelp';
 
 const IntroductionPage = props => {
   const { route, loggedIn } = props;
@@ -144,7 +143,6 @@ const IntroductionPage = props => {
         res-burden="5"
       />
       <p />
-      <GetFormHelp />
     </article>
   );
 };

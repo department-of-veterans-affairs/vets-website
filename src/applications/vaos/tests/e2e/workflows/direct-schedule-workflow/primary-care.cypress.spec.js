@@ -278,7 +278,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
-            .assertHeading({ name: /Confirm your contact information/i })
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
