@@ -16,7 +16,9 @@ it('should render with link to file a claim', () => {
 
   expect(screen.getByText('File a travel reimbursement claim')).to.exist;
   expect(
-    screen.getByText('Sunday, December 1, 2024 at Cheyenne VA Medical Center'),
+    screen.getByText(
+      /Monday, December 30, 2024 at Cheyenne VA Medical Center/i,
+    ),
   ).to.exist;
   expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
 });
