@@ -4,7 +4,7 @@ export const appointment1 = {
   status: 'booked',
   cancelationReason: null,
   avsPath: null,
-  start: '2024-12-01T08:00:00-06:00',
+  start: '2024-12-30T08:00:00-06:00',
   patientComments: null,
   timezone: 'America/Denver',
   description: 'VAOS_UNKNOWN',
@@ -104,7 +104,7 @@ export const appointment1 = {
           },
         },
       ],
-      start: '2024-12-01T14:00:00Z',
+      start: '2024-12-30T14:00:00Z',
       end: '2024-08-01T14:15:00Z',
       minutesDuration: 15,
       slot: {
