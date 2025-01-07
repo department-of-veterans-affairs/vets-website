@@ -54,6 +54,23 @@ const providers = {
     driveDistance: '20 miles',
     location: 'Physical Therapy Solutions World Headquarters',
   },
+  '333': {
+    providerName: 'Dr. Smith',
+    typeOfCare: 'Mental Health',
+    orgName: 'Smith Mental Health Clinic',
+    orgAddress: {
+      street1: '333 Main St.',
+      street2: '',
+      street3: '',
+      city: 'New York',
+      state: 'New York',
+      zip: '10016',
+    },
+    orgPhone: '555-555-5555',
+    driveTime: '5 minute drive',
+    driveDistance: '5 miles',
+    location: 'Smith Mental Health Clinic',
+  },
 };
 
 /**

@@ -13,13 +13,16 @@ function ProfileNotUpdatedNote(props) {
     includeLink,
     includePhone,
     includePrefix,
+    isClaimantChapter,
     loggedIn,
   } = props;
-  const isLoggedInVeteran = loggedIn && preparerIsVeteran({ formData });
+
+  const shouldShowNote =
+    loggedIn && (isClaimantChapter || preparerIsVeteran({ formData }));
 
   return (
     <>
-      {isLoggedInVeteran && (
+      {shouldShowNote && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
@@ -57,6 +60,7 @@ ProfileNotUpdatedNote.propTypes = {
   includeLink: PropTypes.bool,
   includePhone: PropTypes.bool,
   includePrefix: PropTypes.bool,
+  isClaimantChapter: PropTypes.bool,
   loggedIn: PropTypes.bool,
 };
 

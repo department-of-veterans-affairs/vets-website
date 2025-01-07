@@ -85,6 +85,7 @@
   "findARepresentativeEnableFrontend": "find_a_representative_enable_frontend",
   "findARepresentativeFlagResultsEnabled": "find_a_representative_flag_results_enabled",
   "form1010d": "form1010d",
+  "form1010dBrowserMonitoringEnabled": "form1010d_browser_monitoring_enabled",
   "form107959c": "form107959c",
   "form107959a": "form107959a",
   "form107959f2": "form107959f2",
@@ -106,6 +107,7 @@
   "gibctSchoolRatings": "gibct_school_ratings",
   "giSandboxComparisonToolToggle": "gi_sandbox_comparision_tool_toggle",
   "giComparisonToolProgramsToggleFlag": "gi_comparison_tool_programs_toggle_flag",
+  "giComparisonToolLceToggleFlag": "gi_comparison_tool_lce_toggle_flag",
   "haCpapSuppliesCta": "ha_cpap_supplies_cta",
   "hcaBrowserMonitoringEnabled": "hca_browser_monitoring_enabled",
   "hcaEnrollmentStatusOverrideEnabled": "hca_enrollment_status_override_enabled",
@@ -303,10 +305,10 @@
   "vyeLoginWidget": "vye_login_widget",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
   "showYellowRibbonTable": "show_yellow_ribbon_table",
-  "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
   "fsrWizard": "fsr_wizard",
   "isDGIBEndpoint": "is_DGIB_endpoint",
+  "enableLightHouse": "enable_lighthouse",
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995"
 }
