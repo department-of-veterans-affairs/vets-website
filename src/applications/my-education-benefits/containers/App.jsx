@@ -78,28 +78,26 @@ export const App = ({
 
       // Only fetch personal and contact info once a benefit is chosen
       if (formData?.chosenBenefit) {
-        // Fetch personal and contact info if not already fetched
-        if (!fetchedPersonalInfo || !fetchedContactInfo) {
+        // Fetch personal and contact info if not already fetched, or if the benefit has changed
+        if (
+          !fetchedPersonalInfo ||
+          !fetchedContactInfo ||
+          formData?.chosenBenefit !== previousChosenBenefit.current
+        ) {
           setFetchedPersonalInfo(true);
           setFetchedContactInfo(true);
           getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
-        } else if (
-          !formData[formFields.claimantId] &&
-          claimantInfo?.claimantId
-        ) {
-          // If claimantId is missing in formData, update it with claimantInfo
+
+          // Update previousChosenBenefit to the current chosenBenefit
+          previousChosenBenefit.current = formData?.chosenBenefit;
+        }
+
+        // If claimantId is missing in formData, update it with claimantInfo
+        if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
           setFormData({
             ...formData,
             ...claimantInfo,
           });
-        }
-
-        // Fetch personal info based on benefit selection if necessary
-        if (formData?.chosenBenefit !== previousChosenBenefit.current) {
-          previousChosenBenefit.current = formData?.chosenBenefit;
-          setFetchedPersonalInfo(true);
-          setFetchedContactInfo(true);
-          getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
         }
       }
       // If claimantId is missing and claimantInfo is available, update formData
