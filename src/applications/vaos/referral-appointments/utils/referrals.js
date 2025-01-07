@@ -95,8 +95,8 @@ const createReferrals = (
     referrals.push(
       createReferral(
         referralDate,
-        providerIds[i % providerIds.length],
         `${uuidBase}${i.toString().padStart(2, '0')}`,
+        providerIds[i % providerIds.length],
         isExpired ? format(addDays(startDate, 6), mydFormat) : undefined,
       ),
     );

@@ -7,6 +7,9 @@ import ReferralTaskCard from './ReferralTaskCard';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const isExpired = referral => {
+  if (!referral?.ReferralExpirationDate) {
+    return false;
+  }
   const expirationDate = referral.ReferralExpirationDate;
   const now = new Date();
   const expiration = new Date(expirationDate);
