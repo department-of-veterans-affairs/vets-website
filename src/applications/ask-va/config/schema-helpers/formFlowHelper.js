@@ -191,7 +191,9 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
-    depends: form => form.useSchoolInProfile === schoolInYourProfileOptions.NO,
+    depends: form =>
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+      !form.schoolInfo?.schoolName,
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -226,8 +228,8 @@ const ch3Pages = {
     uiSchema: useThisSchoolPage.uiSchema,
     schema: useThisSchoolPage.schema,
     depends: form =>
-      form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
-      form.school !== 'My facility is not listed',
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+      (form.school && form.school !== 'My facility is not listed'),
   },
   schoolInYourProfile: {
     title: CHAPTER_3.SCHOOL.TITLE,

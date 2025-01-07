@@ -19,7 +19,6 @@ import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -32,10 +31,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
 
   const dispatch = useDispatch();
-
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
 
   useEffect(
     () => {
@@ -100,10 +95,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     return 0;
   });
 
-  const paragraphText = featureCCDirectScheduling
-    ? "These requests and referrals haven't been scheduled yet."
-    : 'Appointments that you request will show here until staff review and schedule them.';
-
   return (
     <>
       <div aria-live="polite" className="sr-only">
@@ -130,7 +121,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         )}
         {appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <p className="vaos-hide-for-print mobile:vads-u-margin-bottom--1 mobile-lg:vads-u-margin-bottom--2">
-            {paragraphText}
+            Appointments that you request will show here until staff review and
+            schedule them.
           </p>
         )}
         {appointmentsByStatus.map(statusBucket => {

@@ -13,7 +13,9 @@ import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 export const uiSchema = {
   ...titleUI('Your phone number and email address'),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone isClaimantChapter />
+    ),
   },
   applicantPhone: phoneUI({
     required: true,
@@ -28,6 +30,10 @@ export const schema = {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     applicantPhone: phoneSchema,
-    applicantEmail: emailSchema,
+    applicantEmail: {
+      ...emailSchema,
+      type: 'string',
+      maxLength: 31,
+    },
   },
 };

@@ -54,21 +54,21 @@ export default function startSitewideComponents(commonStore) {
    * Once https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3568 is complete
    * this block can be removed
    */
-  if (
-    document.readState === 'complete' ||
-    document.readState === 'loaded' ||
-    document.readState === 'interactive'
-  ) {
+  const waitForDocumentReady = () => {
+    return new Promise(resolve => {
+      if (document.readyState === 'complete') {
+        resolve();
+      } else {
+        window.addEventListener('load', resolve);
+      }
+    });
+  };
+
+  waitForDocumentReady().then(() => {
     loadAccordionHandler();
     createAdditionalInfoWidget();
     addSidenavListeners();
-  } else {
-    document.addEventListener('DOMContentLoaded', () => {
-      loadAccordionHandler();
-      createAdditionalInfoWidget();
-      addSidenavListeners();
-    });
-  }
+  });
 
   // Start site-wide widgets.
   startUserNavWidget(commonStore);
