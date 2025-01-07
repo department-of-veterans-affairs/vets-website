@@ -6,7 +6,7 @@ describe('Financial Status Report helpers', () => {
   // EmploymentWorkDates and use YYYY-MM-XX format. Day is not critical, so it is replaced with XX
   describe('EmploymentWorkDates isValidStartDate: ', () => {
     it('should return true with valid start date', () => {
-      expect(isValidStartDate('1961-08-XX')).to.equal(true);
+      expect(isValidStartDate('1961-08-01')).to.equal(true);
     });
 
     it('should return false with incomplete start date - empty date', () => {
@@ -30,7 +30,7 @@ describe('Financial Status Report helpers', () => {
   // Assumes that the start date is valid - isValidStartDate has it's own checks
   describe('EmploymentWorkDates isValidEndDate: ', () => {
     it('should return true with valid end date', () => {
-      expect(isValidEndDate('2001-10-XX', '2021-08-XX')).to.equal(true);
+      expect(isValidEndDate('2001-10-01', '2021-08-01')).to.equal(true);
     });
 
     it('should return false with incomplete end date - empty date', () => {
