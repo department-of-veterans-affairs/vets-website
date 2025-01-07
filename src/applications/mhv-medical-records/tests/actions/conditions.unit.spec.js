@@ -10,51 +10,64 @@ import {
   getConditionsList,
 } from '../../actions/conditions';
 
-describe('Get conditions action', () => {
-  it('should dispatch a get list action', () => {
-    const mockData = conditions;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getConditionsList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Conditions.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Conditions.GET_LIST,
-      );
+describe('Conditions', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Get conditions action', () => {
+    it('should dispatch a get list action', () => {
+      const mockData = conditions;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getConditionsList()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Conditions.UPDATE_LIST_STATE,
+        );
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          Actions.Conditions.GET_LIST,
+        );
+      });
     });
   });
-});
 
-describe('Get condition action', () => {
-  it('should dispatch a get details action', () => {
-    const mockData = condition;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getConditionDetails('3106', undefined)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
+  describe('Get condition action', () => {
+    it('should dispatch a get details action', () => {
+      const mockData = condition;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getConditionDetails('3106', undefined)(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Conditions.GET,
+        );
+      });
     });
   });
-});
 
-describe('Get condition action', () => {
-  it('should dispatch a get details action and pull from the list', () => {
-    const dispatch = sinon.spy();
-    return getConditionDetails('1', [{ id: '1' }])(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Conditions.GET_FROM_LIST,
-      );
+  describe('Get condition action', () => {
+    it('should dispatch a get details action and pull from the list', () => {
+      const dispatch = sandbox.spy();
+      return getConditionDetails('1', [{ id: '1' }])(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Conditions.GET_FROM_LIST,
+        );
+      });
     });
   });
-});
 
-describe('Clear condition details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearConditionDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Conditions.CLEAR_DETAIL,
-      );
+  describe('Clear condition details action', () => {
+    it('should dispatch a clear details action', () => {
+      const dispatch = sandbox.spy();
+      return clearConditionDetails()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Conditions.CLEAR_DETAIL,
+        );
+      });
     });
   });
 });

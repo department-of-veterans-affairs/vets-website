@@ -10,51 +10,62 @@ import {
   getlabsAndTestsDetails,
 } from '../../actions/labsAndTests';
 
-describe('Get labs and tests action', () => {
-  it('should dispatch a get list action', () => {
-    const mockData = labsAndTests;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getLabsAndTestsList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.LabsAndTests.GET_LIST,
-      );
-    });
+describe('Labs and Tests', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
   });
-});
 
-describe('Get labs and tests details action', () => {
-  it('should dispatch a get details action', () => {
-    const mockData = pathology;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getlabsAndTestsDetails('3106')(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.GET,
-      );
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Get labs and tests action', () => {
+    it('should dispatch a get list action', () => {
+      const mockData = labsAndTests;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getLabsAndTestsList()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.LabsAndTests.UPDATE_LIST_STATE,
+        );
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          Actions.LabsAndTests.GET_LIST,
+        );
+      });
     });
   });
 
-  it('should dispatch a get details action and pull from the list argument', () => {
-    const dispatch = sinon.spy();
-    return getlabsAndTestsDetails('1', [{ id: '1' }])(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.GET_FROM_LIST,
-      );
+  describe('Get labs and tests details action', () => {
+    it('should dispatch a get details action', () => {
+      const mockData = pathology;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getlabsAndTestsDetails('3106')(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.LabsAndTests.GET,
+        );
+      });
+    });
+
+    it('should dispatch a get details action and pull from the list argument', () => {
+      const dispatch = sandbox.spy();
+      return getlabsAndTestsDetails('1', [{ id: '1' }])(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.LabsAndTests.GET_FROM_LIST,
+        );
+      });
     });
   });
-});
 
-describe('Clear labs and tests details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearLabsAndTestDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.CLEAR_DETAIL,
-      );
+  describe('Clear labs and tests details action', () => {
+    it('should dispatch a clear details action', () => {
+      const dispatch = sandbox.spy();
+      return clearLabsAndTestDetails()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.LabsAndTests.CLEAR_DETAIL,
+        );
+      });
     });
   });
 });

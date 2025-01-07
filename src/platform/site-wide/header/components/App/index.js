@@ -28,7 +28,6 @@ function determineHeaderState(show, showMinimalHeader, path, isDesktop) {
   if (!isDesktop) {
     return 'mobile';
   }
-
   return 'default';
 }
 

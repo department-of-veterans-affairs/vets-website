@@ -22,6 +22,7 @@ import {
  */
 export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();
+
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');

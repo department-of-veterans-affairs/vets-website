@@ -10,75 +10,86 @@ import { Actions } from '../../util/actionTypes';
 import allergies from '../fixtures/allergies.json';
 import allergy from '../fixtures/allergy.json';
 
-describe('Get allergies action', () => {
-  it('should dispatch a get list action', () => {
-    const mockData = allergies;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Allergies.GET_LIST,
-      );
-    });
+describe('Allergies', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
   });
 
-  it('should dispatch an add alert action', () => {
-    const mockData = allergies;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch)
-      .then(() => {
-        throw new Error('Expected getAllergiesList() to throw an error.');
-      })
-      .catch(() => {
-        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Get allergies action', () => {
+    it('should dispatch a get list action', () => {
+      const mockData = allergies;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getAllergiesList()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Allergies.UPDATE_LIST_STATE,
+        );
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          Actions.Allergies.GET_LIST,
+        );
       });
-  });
-});
+    });
 
-describe('Get allergy details action', () => {
-  it('should dispatch a get details action', () => {
-    const mockData = allergy;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getAllergyDetails('3106', undefined)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
+    it('should dispatch an add alert action', () => {
+      const mockData = allergies;
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return getAllergiesList()(dispatch)
+        .then(() => {
+          throw new Error('Expected getAllergiesList() to throw an error.');
+        })
+        .catch(() => {
+          expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+        });
     });
   });
 
-  it('should dispatch a get details action and pull from the list argument', () => {
-    const dispatch = sinon.spy();
-    return getAllergyDetails('1', [{ id: '1' }])(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.GET_FROM_LIST,
-      );
-    });
-  });
-
-  it('should dispatch an add alert action', () => {
-    const mockData = allergy;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getAllergyDetails()(dispatch)
-      .then(() => {
-        throw new Error('Expected getAllergyDetails() to throw an error.');
-      })
-      .catch(() => {
-        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  describe('Get allergy details action', () => {
+    it('should dispatch a get details action', () => {
+      const mockData = allergy;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getAllergyDetails('3106', undefined)(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
       });
-  });
-});
+    });
 
-describe('Clear allergy details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearAllergyDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.CLEAR_DETAIL,
-      );
+    it('should dispatch a get details action and pull from the list argument', () => {
+      const dispatch = sandbox.spy();
+      return getAllergyDetails('1', [{ id: '1' }])(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Allergies.GET_FROM_LIST,
+        );
+      });
+    });
+
+    it('should dispatch an add alert action', () => {
+      const mockData = allergy;
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return getAllergyDetails()(dispatch)
+        .then(() => {
+          throw new Error('Expected getAllergyDetails() to throw an error.');
+        })
+        .catch(() => {
+          expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+        });
+    });
+  });
+
+  describe('Clear allergy details action', () => {
+    it('should dispatch a clear details action', () => {
+      const dispatch = sandbox.spy();
+      return clearAllergyDetails()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Allergies.CLEAR_DETAIL,
+        );
+      });
     });
   });
 });

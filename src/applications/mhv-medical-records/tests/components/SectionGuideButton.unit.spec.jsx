@@ -30,5 +30,7 @@ describe('Section guide button component', () => {
     const sectionGuideButton = screen.getByTestId('section-guide-button');
     fireEvent.click(sectionGuideButton);
     expect(onMenuClick.calledOnce).to.be.true;
+
+    onMenuClick.restore();
   });
 });

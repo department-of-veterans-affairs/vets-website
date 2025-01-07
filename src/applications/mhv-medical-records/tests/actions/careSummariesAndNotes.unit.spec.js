@@ -10,72 +10,83 @@ import {
   getCareSummaryAndNotesDetails,
 } from '../../actions/careSummariesAndNotes';
 
-describe('Get care summaries and notes list action', () => {
-  it('should dispatch a get list action', () => {
-    const mockData = notes;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getCareSummariesAndNotesList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.CareSummariesAndNotes.GET_LIST,
-      );
-    });
+describe('Care Summaries and Notes', () => {
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
   });
 
-  it('should dispatch an add alert action', () => {
-    const mockData = notes;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getCareSummariesAndNotesList()(dispatch)
-      .then(() => {
-        throw new Error(
-          'Expected getCareSummariesAndNotesList() to throw an error.',
-        );
-      })
-      .catch(() => {
-        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
-      });
+  afterEach(() => {
+    sandbox.restore();
   });
-});
 
-describe('Get care summaries and notes details action', () => {
-  it('should dispatch a get details action', () => {
-    const mockData = note;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails('ex-MHV-note-1', undefined)(
-      dispatch,
-    ).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.CareSummariesAndNotes.GET,
-      );
-    });
-  });
-});
-
-describe('Get care summaries and notes details action', () => {
-  it('should dispatch a get details action and pull from the list', () => {
-    const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails('1', [{ id: '1' }])(dispatch).then(
-      () => {
+  describe('Get care summaries and notes list action', () => {
+    it('should dispatch a get list action', () => {
+      const mockData = notes;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getCareSummariesAndNotesList()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.CareSummariesAndNotes.GET_FROM_LIST,
+          Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
         );
-      },
-    );
-  });
-});
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_LIST,
+        );
+      });
+    });
 
-describe('Clear care summaries and notes details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearCareSummariesDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.CareSummariesAndNotes.CLEAR_DETAIL,
+    it('should dispatch an add alert action', () => {
+      const mockData = notes;
+      mockApiRequest(mockData, false);
+      const dispatch = sandbox.spy();
+      return getCareSummariesAndNotesList()(dispatch)
+        .then(() => {
+          throw new Error(
+            'Expected getCareSummariesAndNotesList() to throw an error.',
+          );
+        })
+        .catch(() => {
+          expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+        });
+    });
+  });
+
+  describe('Get care summaries and notes details action', () => {
+    it('should dispatch a get details action', () => {
+      const mockData = note;
+      mockApiRequest(mockData);
+      const dispatch = sandbox.spy();
+      return getCareSummaryAndNotesDetails('ex-MHV-note-1', undefined)(
+        dispatch,
+      ).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET,
+        );
+      });
+    });
+  });
+
+  describe('Get care summaries and notes details action', () => {
+    it('should dispatch a get details action and pull from the list', () => {
+      const dispatch = sandbox.spy();
+      return getCareSummaryAndNotesDetails('1', [{ id: '1' }])(dispatch).then(
+        () => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.CareSummariesAndNotes.GET_FROM_LIST,
+          );
+        },
       );
+    });
+  });
+
+  describe('Clear care summaries and notes details action', () => {
+    it('should dispatch a clear details action', () => {
+      const dispatch = sandbox.spy();
+      return clearCareSummariesDetails()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.CLEAR_DETAIL,
+        );
+      });
     });
   });
 });

@@ -8,9 +8,19 @@ import {
 import { Actions } from '../../util/actionTypes';
 
 describe('Download Actions', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('getSelfEnteredData', () => {
     it('should dispatch the correct action for each fetch', async () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       mockApiRequest({ some: 'data' });
       await getSelfEnteredData()(dispatch);
       expect(dispatch.callCount).to.equal(14);
@@ -44,7 +54,7 @@ describe('Download Actions', () => {
 
   describe('clearFailedList', () => {
     it('should dispatch an action', () => {
-      const dispatch = sinon.spy();
+      const dispatch = sandbox.spy();
       clearFailedList()(dispatch);
       expect(dispatch.calledOnce).to.be.true;
       expect(dispatch.firstCall.args[0].type).to.equal(
