@@ -4,22 +4,9 @@
  * to translate component library actions into analytics dataLayer events.
  */
 import _recordEvent from 'platform/monitoring/record-event';
-import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
-  'va-accordion': [
-    {
-      action: 'expand',
-      event: 'int-accordion-expand',
-      prefix: 'accordion',
-    },
-    {
-      action: 'collapse',
-      event: 'int-accordion-collapse',
-      prefix: 'accordion',
-    },
-  ],
   'va-additional-info': [
     {
       action: 'expand',
@@ -322,14 +309,6 @@ export function subscribeComponentAnalyticsEvents(
 
           dataLayer[newKey] = e.detail.details[key];
         }
-      }
-
-      if (
-        ['int-accordion-expand', 'int-accordion-collapse'].includes(
-          action.event,
-        )
-      ) {
-        dataLayer['accordion-section-label'] = getSectionLabel(e.target);
       }
 
       recordEvent(dataLayer);
