@@ -101,8 +101,7 @@ const ReviewPage = props => {
           setIsDisabled(false);
           resolve(mockSubmitResponse);
           const inquiryNumber = 'A-20230622-306458';
-          const contactPreference =
-            props.formData?.contactPreference || 'email';
+          const contactPreference = props.formData.contactPreference || 'Email';
           localStorage.removeItem('askVAFiles');
           props.router.push({
             pathname: '/confirmation',
@@ -116,7 +115,7 @@ const ReviewPage = props => {
       .then(response => {
         setIsDisabled(false);
         const { inquiryNumber } = response;
-        const contactPreference = props.formData?.contactPreference || 'email';
+        const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
         props.router.push({
           pathname: '/confirmation',
