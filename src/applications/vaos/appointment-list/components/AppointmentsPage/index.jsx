@@ -1,35 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  // selectFeatureBookingExclusion,
-} from '../../../redux/selectors';
-import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
-import PastAppointmentsList from '../PastAppointmentsList';
-import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewAppointment from '../ScheduleNewAppointment';
-import PageLayout from '../PageLayout';
-import { selectPendingAppointments } from '../../redux/selectors';
-import {
-  APPOINTMENT_STATUS,
-  // OH_TRANSITION_SITES,
-} from '../../../utils/constants';
-import AppointmentListNavigation from '../AppointmentListNavigation';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerAlert from '../../../components/CernerAlert';
+import WarningNotification from '../../../components/WarningNotification';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import RequestedAppointmentsPage from '../../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
+import { selectPendingAppointments } from '../../redux/selectors';
+import AppointmentListNavigation from '../AppointmentListNavigation';
+import PageLayout from '../PageLayout';
+import PastAppointmentsList from '../PastAppointmentsList';
+import ScheduleNewAppointment from '../ScheduleNewAppointment';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
-import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
+import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import UpcomingAppointmentsPage from '../../pages/UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -192,10 +186,10 @@ export default function AppointmentsPage() {
       />
       <Switch>
         <Route exact path="/">
-          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
+          <UpcomingAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/pending">
-          <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
+          <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />

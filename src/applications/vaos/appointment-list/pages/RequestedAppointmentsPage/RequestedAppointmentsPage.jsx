@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import {
-  fetchPendingAppointments,
-  startNewAppointmentFlow,
-} from '../redux/actions';
-import { getRequestedAppointmentListInfo } from '../redux/selectors';
+import InfoAlert from '../../../components/InfoAlert';
 import {
   APPOINTMENT_STATUS,
   FETCH_STATUS,
   GA_PREFIX,
-} from '../../utils/constants';
-import NoAppointments from './NoAppointments';
-import InfoAlert from '../../components/InfoAlert';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
-import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
+} from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import RequestAppointmentLayout from '../../components/AppointmentsPage/RequestAppointmentLayout';
+import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
+import NoAppointments from '../../components/NoAppointments';
+import {
+  fetchPendingAppointments,
+  startNewAppointmentFlow,
+} from '../../redux/actions';
+import { getRequestedAppointmentListInfo } from '../../redux/selectors';
 
-export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
+export default function RequestedAppointmentsPage({ hasTypeChanged }) {
   const {
     pendingAppointments,
     pendingStatus,
@@ -157,6 +157,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
 }
 
-RequestedAppointmentsListGroup.propTypes = {
+RequestedAppointmentsPage.propTypes = {
   hasTypeChanged: PropTypes.bool,
 };
