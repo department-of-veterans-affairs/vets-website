@@ -49,7 +49,13 @@ export const schema = {
     descriptionSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     veteranSocialSecurityNumber: ssnSchema,
-    veteranVAFileNumber: vaFileNumberSchema,
-    veteranServiceNumber: serviceNumberSchema,
+    veteranVAFileNumber: {
+      ...vaFileNumberSchema,
+      maxLength: 9,
+    },
+    veteranServiceNumber: {
+      ...serviceNumberSchema,
+      maxLength: 9,
+    },
   },
 };

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 export default function LicenseCertificationKeywordSearch({
   inputValue,
+  handleInput,
   suggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
@@ -20,9 +21,12 @@ export default function LicenseCertificationKeywordSearch({
     // console.log('selected', selected);
     const { name, type, state } = selected;
 
-    onUpdateAutocompleteSearchTerm(name);
-
-    onSelection({ type, state: type === 'license' ? state : 'all', name });
+    onSelection({
+      type,
+      state: type === 'license' || type === 'prep' ? state : 'all',
+      name,
+      selected,
+    });
   };
 
   return (
@@ -64,6 +68,7 @@ export default function LicenseCertificationKeywordSearch({
                 {...getInputProps({
                   type: 'text',
                   onChange: handleChange,
+                  onInput: handleInput,
                   'aria-labelledby': 'lc-search-label',
                 })}
               />
