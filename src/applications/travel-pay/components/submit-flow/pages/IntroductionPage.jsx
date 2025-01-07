@@ -93,6 +93,7 @@ const IntroductionPage = ({ appointment, onNext }) => {
 };
 
 IntroductionPage.propTypes = {
+  appointment: PropTypes.object,
   onNext: PropTypes.func,
 };
 
