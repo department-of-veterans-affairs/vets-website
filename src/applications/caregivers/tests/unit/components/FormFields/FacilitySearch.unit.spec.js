@@ -427,7 +427,7 @@ describe('CG <FacilitySearch>', () => {
           expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
           expect(selectors().input).to.not.have.attr('error');
           expect(selectors().ariaLiveStatus.textContent).to.eq(
-            '1 new facility loaded',
+            '1 new facility loaded. Showing 2 facilities matching your search criteria.',
           );
         });
 
@@ -486,7 +486,7 @@ describe('CG <FacilitySearch>', () => {
           expect(getByText(/Showing 1-3 of 3 facilities for/)).to.exist;
           expect(selectors().input).to.not.have.attr('error');
           expect(selectors().ariaLiveStatus.textContent).to.eq(
-            '2 new facilities loaded',
+            '2 new facilities loaded. Showing 3 facilities matching your search criteria.',
           );
         });
 

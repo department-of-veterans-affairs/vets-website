@@ -58,7 +58,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h1']);
+  focusByOrder(['va-segmented-progress-bar', 'h2']);
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
@@ -77,4 +77,10 @@ export const onCloseAlert = e => {
 
 export const getMockData = (mockData, isLocalhost) => {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
+};
+
+export const formattedPhoneNumber = phoneNumber => {
+  const digits = phoneNumber.replaceAll('-', '');
+  // Formats the phone number to look like this: (123) 456-7890
+  return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 };

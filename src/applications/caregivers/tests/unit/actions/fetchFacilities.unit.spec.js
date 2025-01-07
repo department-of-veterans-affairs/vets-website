@@ -11,6 +11,8 @@ import {
 import content from '../../../locales/en/content.json';
 
 describe('CG fetchFacilities action', () => {
+  const method = 'POST';
+  const headers = { 'Content-Type': 'application/json' };
   const lat = 1;
   const long = 2;
   const perPage = 5;
@@ -31,30 +33,70 @@ describe('CG fetchFacilities action', () => {
     it('calls correct url when all params are passed', async () => {
       await fetchFacilities({ long, lat, perPage, radius, page, facilityIds });
 
+      const expectedBody = JSON.stringify({
+        type: 'health',
+        lat,
+        long,
+        radius,
+        page,
+        perPage,
+        facilityIds: `${facilityIds[0]},${facilityIds[1]}`,
+      });
+
       const expectedUrl = `${
         environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds=${
-        facilityIds[0]
-      },${facilityIds[1]}`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+      }/v0/caregivers_assistance_claims/facilities`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+        method,
+        headers,
+        body: expectedBody,
+      });
     });
 
     it('calls url without params when no params are passed', async () => {
       await fetchFacilities({});
 
+      const expectedBody = JSON.stringify({
+        type: 'health',
+        lat: null,
+        long: null,
+        radius: null,
+        page: null,
+        perPage: null,
+        facilityIds: '',
+      });
+
       const expectedUrl = `${
         environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities?type=health`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+      }/v0/caregivers_assistance_claims/facilities`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+        method,
+        headers,
+        body: expectedBody,
+      });
     });
 
     it('formats facility ids correctly when only one facility id', async () => {
       await fetchFacilities({ facilityIds: ['1'] });
 
+      const expectedBody = JSON.stringify({
+        type: 'health',
+        lat: null,
+        long: null,
+        radius: null,
+        page: null,
+        perPage: null,
+        facilityIds: '1',
+      });
+
       const expectedUrl = `${
         environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities?type=health&facilityIds=1`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+      }/v0/caregivers_assistance_claims/facilities`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+        method,
+        headers,
+        body: expectedBody,
+      });
     });
 
     it('formats facility addresses', async () => {
