@@ -292,8 +292,12 @@ const FacilitySearch = props => {
           {content['vet-med-center-search-description']}
         </h3>
         <p>
-          Where the VA medical center is located may be different from the
-          Veteran’s home address.
+          You’ll need to find and select the VA medical center or clinic where
+          the Veteran receives or plans to recieve care.
+        </p>
+        <p>
+          The VA medical center or clinic may be in a different city, state, or
+          postal code than the Veteran’s home address.
         </p>
         <va-card background>
           <p className="vads-u-margin-top--0">
@@ -305,16 +309,20 @@ const FacilitySearch = props => {
               searchInputError ? 'caregiver-facilities-search-input-error' : ''
             }`}
           >
-            <label
-              htmlFor="facility-search"
+            <p
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+              aria-hidden="true"
             >
-              {content['form-facilities-search-label']}
-              <span className="vads-u-color--secondary-dark"> (*Required)</span>
-            </label>
+              {content['form-facilities-search-label']}{' '}
+              <span className="vads-u-color--secondary-dark">
+                {content['validation-required-label']}
+              </span>
+            </p>
             {searchInputError && searchError()}
             <VaSearchInput
-              label={content['form-facilities-search-label']}
+              label={`${content['form-facilities-search-label']} ${
+                content['validation-required-label']
+              }`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}

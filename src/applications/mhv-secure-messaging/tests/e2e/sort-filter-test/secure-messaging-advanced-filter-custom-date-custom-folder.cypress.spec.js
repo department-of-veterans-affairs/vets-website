@@ -97,7 +97,7 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
 
     PatientSearchPage.selectStartMonth(startMonth);
     PatientSearchPage.selectStartDay(`1`);
-    PatientSearchPage.getStartYear(currentYear);
+    PatientSearchPage.getStartYear(currentYear - 1);
     PatientSearchPage.selectEndMonth(endMonth);
     PatientSearchPage.selectEndDay(`11`);
     PatientSearchPage.getEndYear(currentYear);
@@ -108,7 +108,7 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     PatientSearchPage.verifyMessageDate(2);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      `${startMonth} 1st ${currentYear} to ${endMonth} 11th ${currentYear}`,
+      `${startMonth} 1st ${currentYear - 1} to ${endMonth} 11th ${currentYear}`,
     );
 
     cy.injectAxe();

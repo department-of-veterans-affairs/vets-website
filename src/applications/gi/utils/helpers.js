@@ -528,7 +528,6 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-// TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
   const { type, state } = filters;
 
@@ -550,7 +549,6 @@ export const filterLcResults = (results, nameInput, filters) => {
 export const updateQueryParam = (history, location) => {
   return keyValuePairs => {
     const searchParams = new URLSearchParams(location.search);
-
     keyValuePairs.forEach(([key, value]) => {
       searchParams.set(key, value);
     });
@@ -562,17 +560,31 @@ export const updateQueryParam = (history, location) => {
   };
 };
 
-export const handleLcResultsSearch = (
-  history,
-  category = 'all',
-  name = null,
-  state = 'all',
-) => {
-  return name
-    ? history.push(
-        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-      )
-    : history.push(`/lc-search/results?category=${category}&state=${state}`);
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+
+  const nameParam = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
+
+  return { nameParam, categoryParam, stateParam };
+};
+
+export const handleLcResultsSearch = (history, category, name, state) => {
+  return history.push(
+    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+  );
+};
+
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}  `;
 };
 
 export function capitalizeFirstLetter(string) {
@@ -583,8 +595,12 @@ export function capitalizeFirstLetter(string) {
   return null;
 }
 
-export const formatProgramType = programType => {
+export const formatProgramType = (programType = '') => {
   if (!programType) return '';
+
+  if (programType === 'on-the-job-training-apprenticeship') {
+    return 'On-the-job training/Apprenticeships';
+  }
 
   return programType
     .split('-')
@@ -659,4 +675,63 @@ export const deriveEligibleStudents = numberOfStudents => {
     return '1 student';
   }
   return `${numberOfStudents} students`;
+};
+
+export const mapToAbbreviation = value => {
+  const mapping = {
+    'on-the-job-training-apprenticeship': 'OJT',
+    'non-college-degree': 'NCD',
+    'institution-of-higher-learning': 'IHL',
+    flight: 'FLGT',
+    correspondence: 'CORR',
+  };
+
+  return mapping[value.toLowerCase()];
+};
+
+export const getAbbreviationsAsArray = value => {
+  if (!value) return [];
+  const mapping = {
+    OJT: [
+      { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'OJT', description: 'On-the-job training' },
+    ],
+    NCD: [
+      { abbreviation: 'CERT', description: 'Certification' },
+      { abbreviation: 'UG CERT', description: 'Undergraduate Certification' },
+    ],
+    IHL: [
+      { abbreviation: 'AA', description: 'Associate of Arts' },
+      { abbreviation: 'AS', description: 'Associate of Science' },
+      { abbreviation: 'BA', description: 'Bachelor of Arts' },
+      { abbreviation: 'BS', description: 'Bachelor of Science' },
+      { abbreviation: 'GRAD CERT', description: 'Graduate Certification' },
+      { abbreviation: 'MA', description: 'Master of Arts' },
+      { abbreviation: 'MBA', description: 'Master of Business Administration' },
+      { abbreviation: 'MS', description: 'Master of Science' },
+    ],
+    CORR: [
+      { abbreviation: 'AAS', description: 'Associate of Applied Science' },
+      { abbreviation: 'CERT', description: 'Certification' },
+    ],
+    FLGT: [
+      { abbreviation: 'AMEL', description: 'Airplane Multi Engine Land' },
+      { abbreviation: 'ASEL', description: 'Airplane Single Engine Land' },
+      { abbreviation: 'ATM', description: 'Airline Transport Multiengine' },
+      { abbreviation: 'ATP', description: 'Airline Transport Pilot' },
+      { abbreviation: 'ATS', description: 'Airline Transport Single Engine' },
+      { abbreviation: 'CFI', description: 'Certified Flight Instructor' },
+      {
+        abbreviation: 'CFII',
+        description: 'Certified Flight Instructor Instrument',
+      },
+      { abbreviation: 'IR', description: 'Instrument Rating' },
+      { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
+    ],
+  };
+
+  const items = mapping[value.toUpperCase()] || [];
+
+  return items.map(item => `${item.abbreviation}: ${item.description}`);
 };

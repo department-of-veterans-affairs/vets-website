@@ -10,6 +10,10 @@ import Section from '../Section';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function CCRequestLayout({ data: appointment }) {
   const { search } = useLocation();
@@ -41,6 +45,10 @@ export default function CCRequestLayout({ data: appointment }) {
     heading = 'Request for community care appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for community care appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <PageLayout isDetailPage showNeedHelp>

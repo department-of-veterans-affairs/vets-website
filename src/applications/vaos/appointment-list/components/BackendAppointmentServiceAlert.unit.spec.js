@@ -13,7 +13,7 @@ import {
   getVAOSAppointmentMock,
   getVAOSRequestMock,
 } from '../../tests/mocks/mock';
-import RequestedAppointmentsListGroup from './RequestedAppointmentsListGroup';
+import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
 
 describe('VAOS Backend Service Alert', () => {
   const initialState = {
@@ -359,18 +359,15 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialState,
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSServiceRequests: true,
-          },
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
-    );
+    });
 
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
@@ -451,18 +448,15 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: false,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialState,
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSServiceRequests: true,
-          },
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
-    );
+    });
 
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
