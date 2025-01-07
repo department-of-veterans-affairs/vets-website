@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
-import { handleDataDogAction, removeTrialingSlash } from '../util/helpers';
+import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const MrBreadcrumbs = () => {
         if (pageNumber) {
           backToPageNumCrumb = {
             ...Breadcrumbs[feature],
-            href: `${removeTrialingSlash(
+            href: `${removeTrailingSlash(
               Breadcrumbs[feature].href,
             )}?page=${pageNumber}`,
           };
@@ -67,7 +67,7 @@ const MrBreadcrumbs = () => {
         } else if (urlVitalsDate) {
           const backToVitalsDateCrumb = {
             ...Breadcrumbs[feature],
-            href: `${removeTrialingSlash(
+            href: `${removeTrailingSlash(
               Breadcrumbs[feature].href,
             )}?timeFrame=${urlVitalsDate}`,
           };

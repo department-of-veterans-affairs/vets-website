@@ -20,7 +20,7 @@ import {
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
   handleDataDogAction,
-  removeTrialingSlash,
+  removeTrailingSlash,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -722,25 +722,25 @@ describe('formatDateInLocalTimezone', () => {
   });
 });
 
-describe('removeTrialingSlash', () => {
+describe('removeTrailingSlash', () => {
   it('should remove the trailing slash from a string', () => {
     const string = 'https://example.com/';
-    const result = removeTrialingSlash(string);
+    const result = removeTrailingSlash(string);
     expect(result).to.equal('https://example.com');
   });
   it('should return the string if there is no trailing slash', () => {
     const string = 'https://example.com';
-    const result = removeTrialingSlash(string);
+    const result = removeTrailingSlash(string);
     expect(result).to.equal(string);
   });
   it('should return the string if the string is empty', () => {
     const string = '';
-    const result = removeTrialingSlash(string);
+    const result = removeTrailingSlash(string);
     expect(result).to.equal(string);
   });
   it('should return the string if the string is null', () => {
     const string = null;
-    const result = removeTrialingSlash(string);
+    const result = removeTrailingSlash(string);
     expect(result).to.equal(string);
   });
 });
