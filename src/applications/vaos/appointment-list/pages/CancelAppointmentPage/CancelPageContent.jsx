@@ -1,8 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { APPOINTMENT_TYPES } from '../../../utils/constants';
-import CancelPageLayoutRequest from './CancelPageLayoutRequest';
 import CancelPageLayout from './CancelPageLayout';
+import CancelPageLayoutRequest from './CancelPageLayoutRequest';
 
 export default function CancelPageContent({ type }) {
   if (

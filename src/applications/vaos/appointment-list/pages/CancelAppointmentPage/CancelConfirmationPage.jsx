@@ -1,17 +1,17 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import AppointmentCard from '../../../components/AppointmentCard';
+import BackLink from '../../../components/BackLink';
 import { APPOINTMENT_TYPES, GA_PREFIX } from '../../../utils/constants';
 import { startNewAppointmentFlow } from '../../redux/actions';
-import BackLink from '../../../components/BackLink';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { selectAppointmentType } from '../../redux/selectors';
 import CancelPageContent from './CancelPageContent';
-import AppointmentCard from '../../../components/AppointmentCard';
 
 function handleClick(history, dispatch, url) {
   return e => {
