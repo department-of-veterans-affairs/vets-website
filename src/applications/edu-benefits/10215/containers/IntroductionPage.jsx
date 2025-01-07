@@ -39,12 +39,12 @@ const IntroductionPage = ({ router }) => {
         required by{' '}
         <va-link
           text="Title 38 United States Code (U.S.C.) 3680A(d)"
-          href="http://uscode.house.gov/view.xhtml?req=(title:38%20section:3680A%20edition:prelim)%20OR%20(granuleid:USC-prelim-title38-section3680A)&f=treesort&edition=prelim&num=0&jumpTo=true"
+          href="https://uscode.house.gov/view.xhtml?req=(title:38%20section:3680A%20edition:prelim)%20OR%20(granuleid:USC-prelim-title38-section3680A)&f=treesort&edition=prelim&num=0&jumpTo=true"
         />{' '}
         and{' '}
         <va-link
           text="38 Code of Federal Regulations (CFR) 21.4201"
-          href="https://www.ecfr.gov/cgi-bin/retrieveECFR?gp=1&SID=802bcf577ddc6d18df13f37d6f833071&ty=HTML&h=L&mc=true&r=SECTION&n=se38.2.21_14201"
+          href="https://www.ecfr.gov/current/title-38/chapter-I/part-21/subpart-D/subject-group-ECFRf512caa42cbfa1f/section-21.4201"
         />
         . This form is only utilized by Institutions of Higher Learning (IHLs)
         and Non-College Degree (NCD) schools. Vocational Flight Schools may
@@ -73,8 +73,11 @@ const IntroductionPage = ({ router }) => {
         report all of your calculations.
       </p>
       <p>
-        {/* TODO: Add link and verify remaining links. */}
-        <va-link external text="Review the calculation instructions" href="#" />
+        <va-link
+          external
+          text="Review the calculation instructions"
+          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+        />
       </p>
 
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
@@ -187,7 +190,7 @@ const IntroductionPage = ({ router }) => {
             Form 22-10216). Detailed instructions are provided on that form.{' '}
             <va-link
               text="Go to VA Form 22-10216"
-              href="/education/apply-for-education-benefits/application/10216"
+              href="/education/apply-for-education-benefits/application/10216/introduction"
             />
             .
           </p>
