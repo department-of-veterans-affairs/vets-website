@@ -26,22 +26,22 @@ const SearchByProgram = () => {
   const search = () => {};
 
   return (
-    <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--flex-end">
+    <div className="vads-u-display--flex mobile:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-justify-content--space-between mobile:vads-u-align-items--flex-start medium-screen:vads-u-align-items--flex-end">
       <VaTextInput
-        className="vads-u-flex--3 vads-u-margin-right--2p5"
+        className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5 mobile:vads-u-margin-top--neg2p5"
         name="program-name"
         type="text"
         label="Name of program"
         required
       />
       <VaTextInput
-        className="vads-u-flex--3 vads-u-margin-right--2p5"
+        className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5"
         name="program-location"
         type="text"
         label="City, state, or postal code"
         required
       />
-      <div className="vads-u-flex--2 vads-u-margin-right--2p5">
+      <div className="medium-screen:vads-u-flex--2 tablet:vads-u-flex--auto vads-u-margin-right--2p5 mobile:vads-u-margin-top--2p5">
         <button
           className="vads-u-line-height--3 vads-u-padding--0 vads-u-margin--0 vads-u-color--primary vads-u-background-color--white vads-u-font-weight--normal"
           onClick={useLocation}
@@ -61,7 +61,11 @@ const SearchByProgram = () => {
           ))}
         </VaSelect>
       </div>
-      <VaButton className="vads-u-flex--auto" onClick={search} text="Search" />
+      <VaButton
+        className="vads-u-flex--auto mobile:vads-u-margin-top--2p5"
+        onClick={search}
+        text="Search"
+      />
     </div>
   );
 };
