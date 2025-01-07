@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
@@ -56,7 +57,7 @@ export function submit(form, formConfig) {
   };
 
   return apiRequest(
-    formConfig.submitUrl || '/v0/burial_claims',
+    `${environment.API_URL}${formConfig.submitUrl ?? '/v0/burial_claims'}`,
     apiRequestOptions,
   )
     .then(onSuccess)
