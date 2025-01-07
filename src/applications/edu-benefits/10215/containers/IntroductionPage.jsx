@@ -63,7 +63,7 @@ const IntroductionPage = ({ router }) => {
         <va-link
           text="School Certifying Official Handbook"
           href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000149088/School-Certifying-Official-Handbook-On-line"
-        />{' '}
+        />
         .
       </p>
       <p>
