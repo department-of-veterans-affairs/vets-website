@@ -1,13 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
-import {
-  getConfirmedAppointmentDetailsInfo,
-  selectIsCanceled,
-  selectIsInPerson,
-  selectIsPhone,
-} from '../../redux/selectors';
+import Address from '../../../components/Address';
+import FacilityDirectionsLink from '../../../components/FacilityDirectionsLink';
 import {
   ClinicOrFacilityPhone,
   Details,
@@ -16,12 +12,19 @@ import {
   Where,
   Who,
 } from '../../../components/layout/DetailPageLayout';
-import Section from '../../../components/Section';
-import { AppointmentDate, AppointmentTime } from '../AppointmentDateTime';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import Section from '../../../components/Section';
 import { getRealFacilityId } from '../../../utils/appointment';
-import FacilityDirectionsLink from '../../../components/FacilityDirectionsLink';
-import Address from '../../../components/Address';
+import {
+  AppointmentDate,
+  AppointmentTime,
+} from '../../components/AppointmentDateTime';
+import {
+  getConfirmedAppointmentDetailsInfo,
+  selectIsCanceled,
+  selectIsInPerson,
+  selectIsPhone,
+} from '../../redux/selectors';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
