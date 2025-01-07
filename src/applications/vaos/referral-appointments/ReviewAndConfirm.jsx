@@ -94,6 +94,15 @@ const ReviewAndConfirm = props => {
     ],
   );
 
+  const handleGoBack = e => {
+    e.preventDefault();
+    routeToPreviousReferralPage(
+      history,
+      'reviewAndConfirm',
+      currentReferral.UUID,
+    );
+  };
+
   if (loading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading">
@@ -143,12 +152,7 @@ const ReviewAndConfirm = props => {
                 text="Edit"
                 data-testid="edit-when-information-link"
                 onClick={e => {
-                  e.preventDefault();
-                  routeToPreviousReferralPage(
-                    history,
-                    'reviewAndConfirm',
-                    currentReferral.UUID,
-                  );
+                  handleGoBack(e);
                 }}
               />
             </div>
@@ -195,12 +199,7 @@ const ReviewAndConfirm = props => {
             secondary
             uswds
             onClick={e => {
-              e.preventDefault();
-              routeToPreviousReferralPage(
-                history,
-                'confirmAppointment',
-                currentReferral.UUID,
-              );
+              handleGoBack(e);
             }}
           />
           <va-button
