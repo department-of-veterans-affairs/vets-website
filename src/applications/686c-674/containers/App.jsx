@@ -25,8 +25,13 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading || !featureToggles || featureToggles.loading) {
+  if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
+  }
+
+  if (!featureToggles?.loading && featureToggles?.vaDependentsV2 === false) {
+    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
+    return <></>;
   }
 
   const content = (
