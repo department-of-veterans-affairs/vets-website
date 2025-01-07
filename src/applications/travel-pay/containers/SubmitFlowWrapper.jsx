@@ -16,16 +16,14 @@ import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionError
 import { appointment1 } from '../services/mocks/appointments';
 
 const SubmitFlowWrapper = () => {
-  // TODO: This will need to be from an API call based on the URL Params
-  // but for now is hard coded
+  // TODO: Placeholders until backend integration
+  // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
-
-  const [cantFile, setCantFile] = useState(false);
-
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [cantFile, setCantFile] = useState(false);
 
   const handlers = {
     onNext: e => {

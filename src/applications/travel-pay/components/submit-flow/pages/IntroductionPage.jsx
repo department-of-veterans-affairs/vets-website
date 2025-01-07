@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { HelpTextManage } from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
 
-const IntroductionPage = props => {
-  const { appointment, onNext } = props;
-
+const IntroductionPage = ({ appointment, onNext }) => {
   const [formattedDate] = formatDateTime(appointment.vaos.apiData.start);
   const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
 
