@@ -53,7 +53,7 @@ const SubmitFlowWrapper = () => {
       component: (
         <IntroductionPage
           appointment={appointment}
-          onNext={e => {
+          onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
           }}
