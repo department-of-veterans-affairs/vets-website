@@ -41,7 +41,6 @@ export default function startAppV6({
     analyticsEvents,
     preloadScheduledDowntimes,
   });
-  console.log(router);
 
   startReactApp(
     <Provider store={store}>
