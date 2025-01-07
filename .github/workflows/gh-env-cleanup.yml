@@ -1,10 +1,8 @@
 name: GitHub Environment Cleanup
 
 on:
-  push:
-    branches: '*'
-  # schedule:
-  #   - cron: 0 18 * * 1-5
+  schedule:
+    - cron: 0 0 * * 1-5
 
 jobs:
   deploy:
@@ -40,41 +38,7 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-      
-      # - name: Fetch all Environments
-      #   run: |
-      #     PAGE=1
-      #     TEMP_FILE=$(mktemp)  # Temporary file for storing environments
-      #     echo "[]" > "$TEMP_FILE"  # Initialize with an empty JSON array
-
-      #     while true; do
-      #       echo "Fetching page $PAGE..."
-
-      #       RESPONSE=$(curl -sSL \
-      #         -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-      #         -H "Accept: application/vnd.github.v3+json" \
-      #         "https://api.github.com/repos/department-of-veterans-affairs/vets-website/environments?per_page=100&page=$PAGE")
-
-      #       CURRENT=$(echo "$RESPONSE" | jq '.environments')
-
-      #       if [ "$(echo "$CURRENT" | jq 'length')" -eq 0 ]; then
-      #         echo "No more environments found, exiting loop."
-      #         break
-      #       fi
-
-      #       # Append to the temporary file
-      #       jq -s 'add' "$TEMP_FILE" <(echo "$CURRENT") > temp.json && mv temp.json "$TEMP_FILE"
-
-      #       PAGE=$((PAGE + 1))
-      #     done
-
-      #     ENVIRONMENTS=$(cat "$TEMP_FILE")
-
-      #     # Output for debugging
-      #     echo "Final collected environments: $ENVIRONMENTS"
-
-      #     # Export the environments to the workflow
-      #     echo "ENVIRONMENTS=$ENVIRONMENTS" >> $GITHUB_ENV
+    
 
       - name: Clean up Environments
         if: ${{ always() }}
