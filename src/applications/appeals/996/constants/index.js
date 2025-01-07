@@ -34,9 +34,6 @@ export const PROFILE_URL = '/profile';
 // anchor (not an accordion)
 export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#file-by-mail-in-person-or-with`;
 
-export const CONTESTABLE_ISSUES_API =
-  '/higher_level_reviews/contestable_issues/';
-
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
