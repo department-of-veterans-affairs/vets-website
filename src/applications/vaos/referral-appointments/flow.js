@@ -50,7 +50,11 @@ export default function getPageFlow(referralId) {
 
 export function routeToPageInFlow(history, current, action, referralId) {
   const pageFlow = getPageFlow(referralId);
-  const nextPageString = pageFlow[current][action];
+  // if there is no current page meaning there was an error fetching referral data
+  // then we are on an error state in the form and back should go back to appointments.
+  const nextPageString = current
+    ? pageFlow[current][action]
+    : 'referralsAndRequests';
   const nextPage = pageFlow[nextPageString];
   if (action === 'next' && nextPageString === 'scheduleReferral') {
     startReferralTimer(referralId);

@@ -1,13 +1,16 @@
-import React from 'react';
-import moment from 'moment';
-import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
-import RequestedAppointmentsListGroup from './RequestedAppointmentsListGroup';
-import { getVAOSRequestMock } from '../../tests/mocks/mock';
-import reducers from '../../redux/reducer';
-import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
-import { getTestDate, renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import MockDate from 'mockdate';
+import moment from 'moment';
+import React from 'react';
+import reducers from '../../../redux/reducer';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
+import { getVAOSRequestMock } from '../../../tests/mocks/mock';
+import {
+  getTestDate,
+  renderWithStoreAndRouter,
+} from '../../../tests/mocks/setup';
+import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -104,15 +107,12 @@ describe('VAOS Component: RequestedAppointmentsList', () => {
     });
 
     // When veteran selects requested appointments
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialStateVAOSService,
-        },
-        reducers,
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialStateVAOSService,
       },
-    );
+      reducers,
+    });
 
     // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
@@ -194,15 +194,12 @@ describe('VAOS Component: RequestedAppointmentsList', () => {
     });
 
     // When veteran selects requested appointments
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialStateVAOSService,
-        },
-        reducers,
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialStateVAOSService,
       },
-    );
+      reducers,
+    });
 
     // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
@@ -238,15 +235,12 @@ describe('VAOS Component: RequestedAppointmentsList', () => {
     });
 
     // When veteran selects requested appointments
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialStateVAOSService,
-        },
-        reducers,
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialStateVAOSService,
       },
-    );
+      reducers,
+    });
 
     // Then it should display the no appointments alert message
     expect(
@@ -327,15 +321,12 @@ describe('VAOS Component: RequestedAppointmentsList', () => {
     });
 
     // When veteran selects requested appointments
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialStateVAOSService,
-        },
-        reducers,
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialStateVAOSService,
       },
-    );
+      reducers,
+    });
 
     // Then it should display the requested appointments
     expect(

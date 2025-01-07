@@ -16,17 +16,6 @@ const useGetReferralById = id => {
   );
   useEffect(
     () => {
-      if (
-        isInCCPilot &&
-        (referralFetchStatus === FETCH_STATUS.succeeded && !referrals.length)
-      ) {
-        setReferralNotFound(true);
-      }
-    },
-    [isInCCPilot, referralFetchStatus, referrals],
-  );
-  useEffect(
-    () => {
       if (isInCCPilot && (referrals.length && id)) {
         const referralFromParam = referrals.find(ref => ref.UUID === id);
         if (referralFromParam) {
@@ -41,6 +30,7 @@ const useGetReferralById = id => {
   useEffect(
     () => {
       if (
+        id &&
         isInCCPilot &&
         !referrals.length &&
         referralFetchStatus === FETCH_STATUS.notStarted

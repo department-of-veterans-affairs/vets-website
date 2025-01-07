@@ -6,21 +6,21 @@ import { expect } from 'chai';
 import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
-import { AppointmentList } from '..';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
-import MockAppointmentResponse from '../../tests/e2e/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../tests/e2e/fixtures/MockFacilityResponse';
-import { mockFacilityFetch } from '../../tests/mocks/fetch';
+import { AppointmentList } from '../..';
+import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/e2e/fixtures/MockFacilityResponse';
+import { mockFacilityFetch } from '../../../tests/mocks/fetch';
 import {
   mockAppointmentApi,
   mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../tests/mocks/helpers';
+} from '../../../tests/mocks/helpers';
 import {
   createTestStore,
   getTestDate,
   renderWithStoreAndRouter,
-} from '../../tests/mocks/setup';
+} from '../../../tests/mocks/setup';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 
 describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   const testDate = getTestDate();

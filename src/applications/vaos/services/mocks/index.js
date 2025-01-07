@@ -328,6 +328,9 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    if (req.params.referralId === 'error') {
+      return res.status(500).json({ error: true });
+    }
     const referrals = referralUtils.createReferrals(3, '2024-12-02');
     const singleReferral = referrals.find(
       referral => referral?.UUID === req.params.referralId,
