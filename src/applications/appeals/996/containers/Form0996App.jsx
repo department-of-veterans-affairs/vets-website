@@ -15,6 +15,7 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
+import { NEW_API } from '../constants/apis';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -80,7 +81,10 @@ export const Form0996App = ({
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              [NEW_API]: toggles[NEW_API],
+            });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             (issuesNeedUpdating(
@@ -132,30 +136,35 @@ export const Form0996App = ({
       isLoadingIssues,
       legacyCount,
       loggedIn,
+      pathname,
       setFormData,
       subTaskBenefitType,
-      pathname,
+      toggles,
     ],
   );
 
   useEffect(
     () => {
       const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
+      const isUpdatedApi = toggles[NEW_API] || false;
       if (
         !toggles.loading &&
         (typeof formData.hlrUpdatedContent === 'undefined' ||
-          formData.hlrUpdatedContent !== isUpdated)
+          formData.hlrUpdatedContent !== isUpdated ||
+          typeof formData[NEW_API] === 'undefined' ||
+          formData[NEW_API] !== isUpdatedApi)
       ) {
         setFormData({
           ...formData,
           hlrUpdatedContent: isUpdated,
+          [NEW_API]: toggles[NEW_API],
         });
         // temp storage, used for homelessness page focus management
         sessionStorage.setItem('hlrUpdated', isUpdated);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData.hlrUpdatedContent],
+    [toggles, formData.hlrUpdatedContent, formData[NEW_API]],
   );
 
   let content = (
