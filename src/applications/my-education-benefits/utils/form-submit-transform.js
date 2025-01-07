@@ -426,76 +426,47 @@ function getExclusionMessage(exclusionType, exclusionPeriods) {
     : null;
 }
 export function createAdditionalConsiderations(submissionForm) {
-  if (submissionForm?.mebExclusionPeriodEnabled) {
-    const exclusionPeriods = submissionForm.exclusionPeriods || [];
-    const mapping = {
-      academyRotcScholarship: {
-        formKey: 'federallySponsoredAcademy',
-        exclusionType: 'Academy',
-      },
-      seniorRotcScholarship: {
-        formKey: 'seniorRotcCommission',
-        exclusionType: 'ROTC',
-      },
-      activeDutyDodRepayLoan: {
-        formKey: 'loanPayment',
-        exclusionType: 'LRP',
-      },
-      activeDutyKicker: {
-        formKey: 'activeDutyKicker',
-        exclusionType: null,
-      },
-      reserveKicker: {
-        formKey: 'selectedReserveKicker',
-        exclusionType: null,
-      },
-    };
-    // Only add the sixHundredDollarBuyUp if meb160630Automation is true
-    if (submissionForm.meb160630Automation) {
-      mapping.sixHundredDollarBuyUp = {
-        formKey: 'sixHundredDollarBuyUp',
-        exclusionType: null,
-      };
-    }
-    return Object.entries(mapping).reduce(
-      (acc, [key, { formKey, exclusionType }]) => {
-        const value = submissionForm[formKey];
-        const exclusionMessage = exclusionType
-          ? getExclusionMessage(exclusionType, exclusionPeriods)
-          : '';
-        acc[key] =
-          setAdditionalConsideration(value) +
-          (exclusionMessage ? ` - ${exclusionMessage}` : '');
-        return acc;
-      },
-      {},
-    );
-  }
-  // Default object when mebExclusionPeriodEnabled is not true
-  const additionalConsiderations = {
-    activeDutyKicker: setAdditionalConsideration(
-      submissionForm.activeDutyKicker,
-    ),
-    academyRotcScholarship: setAdditionalConsideration(
-      submissionForm.federallySponsoredAcademy,
-    ),
-    reserveKicker: setAdditionalConsideration(
-      submissionForm.selectedReserveKicker,
-    ),
-    seniorRotcScholarship: setAdditionalConsideration(
-      submissionForm.seniorRotcCommission,
-    ),
-    activeDutyDodRepayLoan: setAdditionalConsideration(
-      submissionForm.loanPayment,
-    ),
+  const exclusionPeriods = submissionForm.exclusionPeriods || [];
+  const mapping = {
+    academyRotcScholarship: {
+      formKey: 'federallySponsoredAcademy',
+      exclusionType: 'Academy',
+    },
+    seniorRotcScholarship: {
+      formKey: 'seniorRotcCommission',
+      exclusionType: 'ROTC',
+    },
+    activeDutyDodRepayLoan: {
+      formKey: 'loanPayment',
+      exclusionType: 'LRP',
+    },
+    activeDutyKicker: {
+      formKey: 'activeDutyKicker',
+      exclusionType: null,
+    },
+    reserveKicker: {
+      formKey: 'selectedReserveKicker',
+      exclusionType: null,
+    },
+    sixHundredDollarBuyUp: {
+      formKey: 'sixHundredDollarBuyUp',
+      exclusionType: null,
+    },
   };
-  // Conditionally add sixHundredDollarBuyUp
-  if (submissionForm.meb160630Automation) {
-    additionalConsiderations.sixHundredDollarBuyUp = setAdditionalConsideration(
-      submissionForm.sixHundredDollarBuyUp,
-    );
-  }
-  return additionalConsiderations;
+
+  return Object.entries(mapping).reduce(
+    (acc, [key, { formKey, exclusionType }]) => {
+      const value = submissionForm[formKey];
+      const exclusionMessage = exclusionType
+        ? getExclusionMessage(exclusionType, exclusionPeriods)
+        : '';
+      acc[key] =
+        setAdditionalConsideration(value) +
+        (exclusionMessage ? ` - ${exclusionMessage}` : '');
+      return acc;
+    },
+    {},
+  );
 }
 
 function getTodayDate() {

@@ -44,9 +44,6 @@ export const getAppData = state => ({
   mebKickerNotificationEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebKickerNotificationEnabled
   ],
-  mebExclusionPeriodEnabled: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
-  ],
   mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
   ],

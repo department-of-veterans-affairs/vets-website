@@ -33,7 +33,6 @@ export const App = ({
   isLOA3,
   isLoggedIn,
   location,
-  mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
@@ -77,41 +76,34 @@ export const App = ({
         return;
       }
 
-      if (
-        (!fetchedPersonalInfo && !meb160630Automation) ||
-        (!fetchedContactInfo && !meb160630Automation)
-      ) {
-        setFetchedPersonalInfo(true);
-        setFetchedContactInfo(true);
-        getPersonalInfo('Chapter33');
-      } else if (
-        !formData[formFields.claimantId] &&
-        claimantInfo?.claimantId &&
-        !meb160630Automation
-      ) {
-        setFormData({
-          ...formData,
-          ...claimantInfo,
-        });
-      }
+      // Only fetch personal and contact info once a benefit is chosen
+      if (formData?.chosenBenefit) {
+        // Fetch personal and contact info if not already fetched
+        if (!fetchedPersonalInfo || !fetchedContactInfo) {
+          setFetchedPersonalInfo(true);
+          setFetchedContactInfo(true);
+          getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
+        } else if (
+          !formData[formFields.claimantId] &&
+          claimantInfo?.claimantId
+        ) {
+          // If claimantId is missing in formData, update it with claimantInfo
+          setFormData({
+            ...formData,
+            ...claimantInfo,
+          });
+        }
 
-      if (
-        (!fetchedPersonalInfo &&
-          meb160630Automation &&
-          formData?.chosenBenefit) ||
-        (!fetchedContactInfo &&
-          (meb160630Automation && formData?.chosenBenefit)) ||
-        (meb160630Automation &&
-          formData?.chosenBenefit !== previousChosenBenefit.current)
-      ) {
-        setFetchedPersonalInfo(true);
-        setFetchedContactInfo(true);
-        getPersonalInfo(formData?.chosenBenefit);
-      } else if (
-        !formData[formFields.claimantId] &&
-        claimantInfo?.claimantId &&
-        meb160630Automation
-      ) {
+        // Fetch personal info based on benefit selection if necessary
+        if (formData?.chosenBenefit !== previousChosenBenefit.current) {
+          previousChosenBenefit.current = formData?.chosenBenefit;
+          setFetchedPersonalInfo(true);
+          setFetchedContactInfo(true);
+          getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
+        }
+      }
+      // If claimantId is missing and claimantInfo is available, update formData
+      else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -128,7 +120,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      meb160630Automation,
       formData?.chosenBenefit,
     ],
   );
@@ -174,53 +165,46 @@ export const App = ({
 
   useEffect(
     () => {
-      if (
-        !isLoggedIn ||
-        !featureTogglesLoaded ||
-        isLOA3 !== true ||
-        mebKickerNotificationEnabled // Add this condition to skip if mebKickerNotificationEnabled is true
-      ) {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
 
-      // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
-      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
-        const chosenBenefit = meb160630Automation
-          ? formData?.chosenBenefit
-          : 'Chapter33';
+      // Skip fetching exclusion periods if mebKickerNotificationEnabled is true
+      if (mebKickerNotificationEnabled) {
+        return;
+      }
+
+      // The firstName check ensures that exclusion periods only get called after we have obtained claimant info
+      // We need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (firstName && !fetchedExclusionPeriods && formData?.chosenBenefit) {
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
+
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
 
       if (
-        (firstName &&
-          !fetchedExclusionPeriods &&
-          formData?.chosenBenefit &&
-          meb160630Automation) ||
-        (formData?.chosenBenefit !== previousChosenBenefit.current &&
-          meb160630Automation)
+        firstName &&
+        !fetchedExclusionPeriods &&
+        formData?.chosenBenefit &&
+        formData?.chosenBenefit !== previousChosenBenefit.current
       ) {
-        const chosenBenefit = meb160630Automation
-          ? formData?.chosenBenefit
-          : 'Chapter33';
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
 
         previousChosenBenefit.current = formData?.chosenBenefit;
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
+
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
           ...formData,
-          mebExclusionPeriodEnabled,
           exclusionPeriods, // Update form data with fetched exclusion periods
         };
         setFormData(updatedFormData);
       }
     },
     [
-      mebKickerNotificationEnabled,
-      mebExclusionPeriodEnabled,
       fetchedExclusionPeriods,
       firstName,
       getExclusionPeriods,
@@ -230,7 +214,7 @@ export const App = ({
       isLoggedIn,
       featureTogglesLoaded,
       isLOA3,
-      meb160630Automation,
+      mebKickerNotificationEnabled,
     ],
   );
 
@@ -494,7 +478,6 @@ App.propTypes = {
   meb160630Automation: PropTypes.bool,
   mebAutoPopulateRelinquishmentDate: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
-  mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
