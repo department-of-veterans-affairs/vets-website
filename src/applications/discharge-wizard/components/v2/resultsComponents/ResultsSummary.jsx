@@ -24,22 +24,28 @@ const ResultsSummary = ({ formResponses }) => {
 
   const airForceAFRBAPortal = determineAirForceAFRBAPortal(formResponses);
 
-  const formNumber = determineFormData(formResponses).num;
+  const formData = determineFormData(formResponses);
   const dischargeBoard = determineBoardObj(formResponses).name;
   const serviceBranch = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH];
   const isReconsideration = forReconsideration ? ' for reconsideration' : '';
-  let summary = `Based on your answers, you need to complete Department of Defense (DoD) Form ${formNumber} and send it to the ${dischargeBoard} for the ${determineBranchOfService(
+  const sendInstructions = `send it to the ${dischargeBoard} for the ${determineBranchOfService(
     serviceBranch,
   )}${isReconsideration}.`;
 
+  let summary = '';
+
   if (airForceAFRBAPortal) {
-    summary =
-      'Based on your answers, you need to complete an Application for Correction of Military Record (DD 149). You can download this form from the Air Force Review Boards Agency Website and Portal.';
+    summary = `Correction of Military Record (DD 149). You can download this form from the Air Force Review Boards Agency Website and Portal.`;
+  } else {
+    summary = `${formData?.formDescription} and ${sendInstructions}`;
   }
 
   return (
     <section className="va-introtext">
-      <p>{summary}</p>
+      <p>
+        Based on your answers, you’ll need to complete an Application for{' '}
+        {summary}
+      </p>
     </section>
   );
 };
