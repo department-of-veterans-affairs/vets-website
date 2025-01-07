@@ -77,6 +77,9 @@ describe('Welcome to My VA Review Contact Information form', () => {
 
   const checkConfirmationPage = () => {
     cy.findByText('Continue').click();
+    cy.location('pathname').should('include', '/confirmation');
+    cy.focused().should('have.attr', 'id', 'confirmation-heading');
+
     cy.axeCheck();
   };
 
