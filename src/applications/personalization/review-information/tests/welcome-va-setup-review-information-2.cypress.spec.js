@@ -1,6 +1,5 @@
 import manifest from '../manifest.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
-import mockNickData from './fixtures/mocks/mockInitializeVet360Id.json';
 import { cypressSetup } from './utils';
 
 const APIs = {
@@ -8,54 +7,97 @@ const APIs = {
 };
 
 describe('Welcome to My VA Review Contact Information form', () => {
-  const setupAuthUser = () => {
+  const startApplication = () => {
     cy.intercept(APIs.prefill, { statusCode: 200, body: mockPrefill }).as(
       'mockSip',
     );
-    //   cy.login(mockUser);
     cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser']);
-  };
-  const startApplication = () => {
-    // cy.wait('@mockSip');
+    cy.wait('@mockSip');
+
     // Ensure we've navigated to the contact information form
     cy.location('pathname').should('match', /\/contact-information$/);
+  };
+
+  const editMobileNumber = () => {
+    cy.get('#edit-mobile-phone').click();
+    cy.location('pathname').should('include', '/edit-mobile-phone');
+    cy.axeCheck();
+
+    cy.get('input[name="root_inputPhoneNumber"]').clear();
+    cy.get('input[name="root_inputPhoneNumber"]').type('1234567890');
+
+    cy.findByText('Update').click();
+  };
+
+  const editEmailAddress = () => {
+    cy.get('#edit-email').click();
+    cy.location('pathname').should('include', '/edit-email');
+    cy.axeCheck();
+
+    cy.get('input[name="root_emailAddress"]').clear();
+    cy.get('input[name="root_emailAddress"]').type('test@email.com');
+
+    // Update doesn't work
+    // cy.findByText('Update').click();
+    cy.findByText('Cancel').click();
+  };
+
+  const editMailingAddress = () => {
+    cy.get('#edit-address').click();
+    cy.location('pathname').should('include', '/edit-mailing-address');
+    cy.axeCheck();
+
+    // cy.get('input[name="root_emailAddress"]').clear();
+    // cy.get('input[name="root_emailAddress"]').type('test@email.com');
+
+    cy.get('select[name="root_countryCodeIso3"]').select('United States');
+
+    cy.get('input[name="root_addressLine1"]').clear();
+    cy.get('input[name="root_addressLine1"]').type('Address line 1');
+
+    cy.get('input[name="root_addressLine2"]').clear();
+    cy.get('input[name="root_addressLine2"]').type('Address line 2');
+
+    cy.get('input[name="root_addressLine3"]').clear();
+    cy.get('input[name="root_addressLine3"]').type('Address line 3');
+
+    cy.get('input[name="root_city"]').clear();
+    cy.get('input[name="root_city"]').type('City');
+
+    cy.get('select[name="root_stateCode"]').select('AL');
+
+    cy.get('input[name="root_zipCode"]').clear();
+    cy.get('input[name="root_zipCode"]').type('12345');
+
+    cy.findByText('Update').click();
+
+    // Update doesn't work
+    // cy.findByText('Use this address').click();
+
+    cy.findByText('Go back to edit').click();
+    cy.findByText('Cancel').click();
+  };
+
+  const checkConfirmationPage = () => {
+    cy.findByText('Continue').click();
+    cy.axeCheck();
   };
 
   context('when navigating the form', () => {
     beforeEach(() => {
       cypressSetup();
-      setupAuthUser();
       startApplication();
-      cy.intercept('POST', '/v0/profile/initialize_vet360_id', mockNickData);
+      // cy.intercept('POST', '/v0/profile/initialize_vet360_id', mockNickData);
     });
 
     it('should be completable', () => {
       cy.injectAxe();
-
-      // Ensure that the contact information page is accessible
       cy.axeCheck();
 
-      // Click the edit button
-      cy.get('#edit-mobile-phone').click();
-
-      // Ensure we've navigated to the right page
-      cy.location('pathname').should('include', '/edit-mobile-phone');
-
-      // Ensure that the edit mobile phone page is accessible
-      // cy.axeCheck();
-
-      // Type a new value
-      // cy.get('[name="root_inputPhoneNumber"]').type(testData.mobilePhone);
-
-      // Save the  mobile phone page
-      // cy.get('[data-testid="save-edit-button"]').click();
-
-      // cy.get('#edit-email').click();
-      // cy.get('#edit-address').click();
-
-      // Click the save button
-      // cy.get('#2-continueButton').click();
+      editMobileNumber();
+      editEmailAddress();
+      editMailingAddress();
+      checkConfirmationPage();
     });
   });
 });

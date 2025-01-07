@@ -22,10 +22,21 @@ export const cypressSetup = ({ user = mockUser } = {}) => {
 
   // contact page updates
   cy.intercept('GET', '/v0/profile/status*', mockStatus);
+
+  // This intercept might be requred if doing certain updates
+  // cy.intercept(
+  //   'GET',
+  //   '/v0/profile/status/cea7db25-65f4-4130-a7ee-e709249aae2e',
+  //   mockStatus,
+  // );
   cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
   cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
   cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);
   cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail);
+
+  // This intercept might be required if updating the email address
+  // cy.intercept('POST', '/v0/profile/email_addresses', mockProfileEmail);
+
   cy.intercept('PUT', '/v0/profile/addresses', mockProfileAddress);
   cy.intercept(
     'POST',
@@ -34,16 +45,4 @@ export const cypressSetup = ({ user = mockUser } = {}) => {
   ).as('getAddressValidation');
 
   cy.login(user);
-};
-
-export const goToNextPage = pagePath => {
-  // Clicks Continue button, and optionally checks destination path.
-  // eslint-disable-next-line cypress/unsafe-to-chain-command
-  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
-    .first()
-    .scrollIntoView()
-    .click();
-  if (pagePath) {
-    cy.location('pathname').should('include', pagePath);
-  }
 };

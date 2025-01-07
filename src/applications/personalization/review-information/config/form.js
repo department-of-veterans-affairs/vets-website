@@ -20,7 +20,6 @@ const confirmContactInfoKeys = {
 const contactPath = 'contact-information';
 const content = getContent('form');
 const profileContactInfoPage = profileContactInfo({
-  content,
   contactPath,
   included: allContactInformationKeys,
   contactInfoRequiredKeys: allContactInformationKeys,
