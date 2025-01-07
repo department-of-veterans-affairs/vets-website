@@ -1,12 +1,11 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
-  form0781HeadingTag,
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
-  titleWithTag,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
-} from '../../content/form0781';
+} from '../../content/form0781/workflowChoicePage';
 
 /** @type {PageSchema} */
 export default {

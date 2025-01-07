@@ -1,6 +1,6 @@
 // All flippers for the 0781 Papersync should be added to this file
 import { isClaimingNew } from '.';
-import { form0781WorkflowChoices } from '../content/form0781';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 
 /**
  * Checks if the modern 0781 flow should be shown if the flipper is active for this veteran
