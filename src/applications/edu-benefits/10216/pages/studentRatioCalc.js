@@ -35,6 +35,9 @@ export default {
         'ui:title': 'VA beneficiary students percentage (calculated)',
         'ui:field': PercentageCalc,
         'ui:reviewField': CustomReviewField,
+        'ui:options': {
+          classNames: 'vads-u-margin-top--2',
+        },
       },
       dateOfCalculation: {
         ...currentOrPastDateUI({
