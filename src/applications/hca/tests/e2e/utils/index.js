@@ -83,10 +83,7 @@ export const advanceToHousehold = () => {
     .first()
     .click();
   cy.wait('@mockSip');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/personal-information',
-  );
+  cy.location('pathname').should('include', '/check-your-personal-information');
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
   goToNextPage('/veteran-information/birth-sex');
