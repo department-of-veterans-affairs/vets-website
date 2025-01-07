@@ -90,6 +90,10 @@ async function vaFacilityNext(state, dispatch) {
     return 'scheduleCerner';
   }
 
+  if (isCerner && featureOHDirectSchedule && featureOHRequest) {
+    return 'selectProvider';
+  }
+
   // Fetch eligibility if we haven't already
   if (!eligibility) {
     const siteId = getSiteIdFromFacilityId(location.id);
@@ -261,6 +265,11 @@ const flow = {
       dispatch(startDirectScheduleFlow());
       return 'preferredDate';
     },
+  },
+  selectProvider: {
+    url: '/new-appointment/provider',
+    label: 'Which provider do you want to schedule with?',
+    next: 'selectProvider',
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
@@ -485,6 +494,12 @@ export default function getNewAppointmentFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'location'
         : '/new-appointment/va-facility-2',
+    },
+    selectProvider: {
+      ...flow.selectProvider,
+      url: featureBreadcrumbUrlUpdate
+        ? 'provider'
+        : '/new-appointment/provider',
     },
     visitType: {
       ...flow.visitType,
