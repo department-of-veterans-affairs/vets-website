@@ -44,7 +44,7 @@ function App({
 
   // If a user is not logged in OR
   // a user is logged in, but hasn't gone through va file number validation
-  // redirect them to the introduction page.
+  // redirect them to the introduction page
   if (
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
