@@ -41,6 +41,7 @@ const useGetReferralById = id => {
   useEffect(
     () => {
       if (
+        id &&
         isInCCPilot &&
         !referrals.length &&
         referralFetchStatus === FETCH_STATUS.notStarted
