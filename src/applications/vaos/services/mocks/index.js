@@ -733,6 +733,10 @@ const responses = {
               facility_id: '983',
               is_cerner: false,
             },
+            {
+              facility_id: '692',
+              is_cerner: true,
+            },
           ],
         },
         vet360ContactInformation: {
