@@ -29,9 +29,41 @@ describe('Medical Records View Vitals', () => {
       .padStart(2, '0')}`;
     Vitals.checkUrl({ timeFrame });
 
+    Vitals.selectMonthAndYear({
+      month: 'January',
+      year: '2020',
+    });
+    Vitals.checkUrl({ timeFrame: '2020-01' });
+
     cy.injectAxeThenAxeCheck();
 
     cy.get("[data-testid='current-date-display']").should('be.visible');
     cy.get("[data-testid='current-date-display']").should('not.be.empty');
+
+    cy.get('[data-testid="vital-blood-pressure-review-over-time"]')
+      .should('be.visible')
+      .click();
+
+    Vitals.checkUrl({ timeFrame: '2020-01' });
+
+    // This is checking that the breadcrumbs are correct
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('li')
+      .eq(3)
+      .find('a')
+      .should('be.visible')
+      .should('have.attr', 'href')
+      .and('include', '/vitals?timeFrame=2020-01');
+
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('li')
+      .eq(3)
+      .find('a')
+      .click();
+
+    // Maintaining the same timeFrame across page clicks
+    Vitals.checkUrl({ timeFrame: '2020-01' });
   });
 });
