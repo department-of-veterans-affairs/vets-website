@@ -30,7 +30,10 @@ export const form0781WorkflowChoices = {
 };
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
-  [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]: 'Complete online form',
-  [form0781WorkflowChoices.SUBMIT_PAPER_FORM]: 'Submit paper form',
-  [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]: 'Opt out of Form 0781',
+  [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
+    'Yes, I want to complete VA Form 21-0781 online right now',
+  [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
+    'Yes, but I’ve already completed the PDF version of VA Form 21-0781 and I want to submit it with my claim',
+  [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
+    'No, I don’t want to complete VA Form 21-0781 (opt out)',
 });
