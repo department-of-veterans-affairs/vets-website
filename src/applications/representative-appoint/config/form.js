@@ -2,6 +2,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -65,6 +66,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
+  getHelp: GetFormHelp,
   formId: '21-22',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
