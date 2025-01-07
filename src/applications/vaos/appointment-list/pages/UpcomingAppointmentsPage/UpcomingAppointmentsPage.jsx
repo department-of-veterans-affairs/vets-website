@@ -9,7 +9,6 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import UpcomingAppointmentLayout from '../../components/AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
 import NoAppointments from '../../components/NoAppointments';
 import {
@@ -17,6 +16,7 @@ import {
   startNewAppointmentFlow,
 } from '../../redux/actions';
 import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 
 export default function UpcomingAppointmentsPage() {
   const history = useHistory();

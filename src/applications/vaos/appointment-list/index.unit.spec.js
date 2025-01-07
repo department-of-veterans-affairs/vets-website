@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { AppointmentList } from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
-import * as AppointmentsPage from './components/AppointmentsPage/index';
+import * as AppointmentsPage from './pages/AppointmentsPage/index';
 import * as ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import * as RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
