@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppointmentsPage from './components/AppointmentsPage/index';
-import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
