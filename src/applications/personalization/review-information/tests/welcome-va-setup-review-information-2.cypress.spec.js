@@ -47,9 +47,6 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.location('pathname').should('include', '/edit-mailing-address');
     cy.axeCheck();
 
-    // cy.get('input[name="root_emailAddress"]').clear();
-    // cy.get('input[name="root_emailAddress"]').type('test@email.com');
-
     cy.get('select[name="root_countryCodeIso3"]').select('United States');
 
     cy.get('input[name="root_addressLine1"]').clear();
@@ -87,7 +84,6 @@ describe('Welcome to My VA Review Contact Information form', () => {
     beforeEach(() => {
       cypressSetup();
       startApplication();
-      // cy.intercept('POST', '/v0/profile/initialize_vet360_id', mockNickData);
     });
 
     it('should be completable', () => {
