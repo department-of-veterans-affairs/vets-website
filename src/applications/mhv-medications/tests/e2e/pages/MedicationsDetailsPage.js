@@ -438,7 +438,7 @@ class MedicationsDetailsPage {
   };
 
   verifyMedicationInformationTitle = rxName => {
-    cy.get('[data-testid="medication-information"]').should(
+    cy.get('[data-testid="medication-information-title"]').should(
       'contain',
       `Medication information: ${rxName}`,
     );
