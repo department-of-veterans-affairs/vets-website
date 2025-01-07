@@ -12,16 +12,21 @@ import {
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   const headline = 'Verify your identity';
-  const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
-  const verifyServiceButton =
+  const { variant } = SERVICE_PROVIDERS[cspId];
+
+  const spanSlot =
     cspId === CSP_IDS.LOGIN_GOV ? (
-      <VerifyLogingovButton />
+      <span slot="LoginGovVerifyButton">
+        <VerifyLogingovButton />
+      </span>
     ) : (
-      <VerifyIdmeButton />
+      <span slot="IdMeVerifyButton">
+        <VerifyIdmeButton />
+      </span>
     );
 
   useEffect(
@@ -37,26 +42,9 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlert data-testid={testId} status="warning" visible>
-      <h2 slot="headline">{headline}</h2>
-      <div>
-        <p className="vads-u-margin-y--2">
-          We need you to verify your identity for your{' '}
-          <strong>{serviceProviderLabel}</strong> account. This step helps us
-          protect all Veterans’ information and prevent scammers from stealing
-          your benefits.
-        </p>
-        <p>
-          This one-time process often takes about 10 minutes. You’ll need to
-          provide certain personal information and identification.
-        </p>
-        <p>{verifyServiceButton}</p>
-        <va-link
-          href="/resources/verifying-your-identity-on-vagov/"
-          text="Learn more about verifying your identity"
-        />
-      </div>
-    </VaAlert>
+    <VaAlertSignIn variant={variant} visible data-testid={testId}>
+      {spanSlot}
+    </VaAlertSignIn>
   );
 };
 
