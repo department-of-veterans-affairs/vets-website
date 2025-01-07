@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import AppointmentFlexGrid from '../../../components/AppointmentFlexGrid';
-import ListItem from '../../../components/ListItem';
-import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
+  selectApptDetailAriaText,
   selectIsCanceled,
+  selectIsCommunityCare,
   selectModalityIcon,
   selectTypeOfCareName,
-  selectApptDetailAriaText,
-  selectIsCommunityCare,
-} from '../../redux/selectors';
+} from '../appointment-list/redux/selectors';
 import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureCCDirectScheduling,
-} from '../../../redux/selectors';
-import AppointmentColumn from '../../../components/AppointmentColumn';
+} from '../redux/selectors';
+import AppointmentColumn from './AppointmentColumn';
+import AppointmentFlexGrid from './AppointmentFlexGrid';
+import AppointmentRow from './AppointmentRow';
+import ListItem from './ListItem';
 
 export default function RequestAppointmentLayout({ appointment, index }) {
   const appointmentLocality = useSelector(() =>
