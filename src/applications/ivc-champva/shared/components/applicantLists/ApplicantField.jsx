@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../sass/shared.scss';
 
 export default function ApplicantField({ formData }) {
   const { first, middle, last, suffix } = formData.applicantName;
