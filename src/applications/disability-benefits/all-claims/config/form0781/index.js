@@ -60,7 +60,7 @@ export const form0781PagesConfig = {
   },
   additionalInformationPage: {
     path: 'additional-forms/mental-health-statement/additional-information',
-    depends: formData => showForm0781Pages(formData),
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,
   },
