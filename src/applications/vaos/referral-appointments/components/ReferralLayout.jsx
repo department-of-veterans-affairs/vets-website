@@ -11,6 +11,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 import { selectCurrentPage } from '../redux/selectors';
 import { routeToPreviousReferralPage } from '../flow';
+import ErrorAlert from './ErrorAlert';
 
 function BreadCrumbNav() {
   const history = useHistory();
@@ -41,7 +42,12 @@ function BreadCrumbNav() {
   );
 }
 
-export default function ReferralLayout({ children, hasEyebrow }) {
+export default function ReferralLayout({
+  children,
+  hasEyebrow,
+  apiFailure,
+  heading,
+}) {
   const location = useLocation();
 
   return (
@@ -62,11 +68,18 @@ export default function ReferralLayout({ children, hasEyebrow }) {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {hasEyebrow && (
-              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
-                New Appointment
-              </span>
+              <>
+                <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
+                  New Appointment
+                </span>
+                {heading && (
+                  <h1 data-testid="referral-layout-heading">{heading}</h1>
+                )}
+              </>
             )}
-            <ErrorBoundary>{children}</ErrorBoundary>
+            <ErrorBoundary>
+              {apiFailure ? <ErrorAlert /> : children}
+            </ErrorBoundary>
             <NeedHelp />
           </div>
         </div>
@@ -76,6 +89,8 @@ export default function ReferralLayout({ children, hasEyebrow }) {
 }
 
 ReferralLayout.propTypes = {
+  apiFailure: PropTypes.bool,
   children: PropTypes.node,
   hasEyebrow: PropTypes.bool,
+  heading: PropTypes.string,
 };

@@ -4,15 +4,21 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   eventTypesPageTitle,
+  eventTypesDescription,
   eventTypesQuestion,
   eventTypesHint,
 } from '../../content/traumaticEventTypes';
-import { formTitle } from '../../utils';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  traumaticEventsExamples,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 import { TRAUMATIC_EVENT_TYPES } from '../../constants';
-import { traumaticEventsExamples } from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': formTitle(eventTypesPageTitle),
+  'ui:title': titleWithTag(eventTypesPageTitle, form0781HeadingTag),
+  'ui:description': eventTypesDescription,
   mentalHealth: {
     eventTypes: checkboxGroupUI({
       title: eventTypesQuestion,
@@ -23,6 +29,9 @@ export const uiSchema = {
   },
   'view:traumaticEventsInfo': {
     'ui:description': traumaticEventsExamples,
+  },
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
   },
 };
 
@@ -36,6 +45,10 @@ export const schema = {
       },
     },
     'view:traumaticEventsInfo': {
+      type: 'object',
+      properties: {},
+    },
+    'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},
     },
