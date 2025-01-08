@@ -13,7 +13,6 @@ import {
   createDetailItem,
   createHeading,
   createSubHeading,
-  getTestResultBlockHeight,
   registerVaGovFonts,
   generateFinalHeaderContent,
   generateFooterContent,
@@ -437,12 +436,7 @@ const generateDetailsContent = async (doc, parent, data) => {
   details.end();
 };
 
-const generateResultItemContent = async (
-  item,
-  doc,
-  results,
-  hasHorizontalRule,
-) => {
+const generateResultItemContent = async (item, doc, results) => {
   const headingOptions = {
     paragraphGap: item.headerGap ?? 10,
     x: item.headerIndent || config.indents.one,
@@ -475,9 +469,6 @@ const generateResultItemContent = async (
     }
   }
 
-  if (hasHorizontalRule) {
-    addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
-  }
   doc.moveDown(1);
 };
 
@@ -530,27 +521,11 @@ export const generateResultsContent = async (doc, parent, data) => {
     }
   }
 
-  const hasHorizontalRule = data.results.sectionSeparators !== false;
-
   if (data.results.items.length === 1) {
-    await generateResultItemContent(
-      data.results.items[0],
-      doc,
-      results,
-      hasHorizontalRule,
-    );
+    await generateResultItemContent(data.results.items[0], doc, results);
   } else {
     for (const item of data.results.items) {
-      // Insert a pagebreak if the next block will not fit on the current page,
-      // taking the footer height into account.
-      const blockHeight = getTestResultBlockHeight(
-        doc,
-        item,
-        hasHorizontalRule,
-      );
-      if (doc.y + blockHeight > 740) await doc.addPage();
-
-      await generateResultItemContent(item, doc, results, hasHorizontalRule);
+      await generateResultItemContent(item, doc, results);
     }
   }
   doc.moveDown();
