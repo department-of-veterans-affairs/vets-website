@@ -16,6 +16,7 @@ export default function BurialsEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const burialModuleEnabled = useToggleValue(TOGGLE_NAMES.burialModuleEnabled);
 
+  // Conditional to use new Burial module path in vets-api if enabled
   formConfig.submitUrl = burialModuleEnabled
     ? '/burials/v0/burial_claims'
     : '/v0/burial_claims';
