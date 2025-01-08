@@ -5,7 +5,7 @@ import {
   fixDateFormat,
   replaceSubmittedData,
 } from '../../shared/utils/replace';
-import { removeEmptyEntries } from '../../shared/utils/submit';
+import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 /**
  * Combine issues values into one field
@@ -132,8 +132,8 @@ export const getAddress = (formData = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   // note "ISO2" is submitted, "Iso2" is from profile address
-  const countryCodeISO2 = truncate(
-    'countryCodeIso2',
+  const countryCodeISO2 = getIso2Country(veteran.address).substring(
+    0,
     MAX_LENGTH.ADDRESS_COUNTRY,
   );
   // international postal code can be undefined/null
