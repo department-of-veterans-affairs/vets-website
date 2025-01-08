@@ -65,9 +65,17 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Back to your travel reimbursement claims').click();
+
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
+
   it('navigates to the status explainer page and back to status page', () => {
     cy.get('va-additional-info')
       .first()
@@ -139,7 +147,7 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'March 27, 2022');
   });
 
-  it.skip('filters the claims by a date range preset', () => {
+  it('filters the claims by a date range preset', () => {
     // the month argument is 0-indexed in the date constructor,
     // so this is setting the date to June 25, 2024, i.e., 6/25/24
     cy.clock(new Date(2024, 5, 25), ['Date']);
@@ -161,7 +169,9 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', 'May 15, 2024');
   });
 
-  it.skip('filters by multiple properties with non-default sorting', () => {
+  it('filters by multiple properties with non-default sorting', () => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
+
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
     cy.get('va-button[data-testid="Sort travel claims"]').click();

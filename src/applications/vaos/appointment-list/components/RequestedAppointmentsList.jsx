@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import InfoAlert from '../../components/InfoAlert';
+import RequestAppointmentLayout from '../../components/RequestAppointmentLayout';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   fetchPendingAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
 import { getRequestedAppointmentListInfo } from '../redux/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import NoAppointments from './NoAppointments';
-import InfoAlert from '../../components/InfoAlert';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {

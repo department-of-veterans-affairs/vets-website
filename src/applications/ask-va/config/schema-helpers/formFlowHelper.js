@@ -191,7 +191,9 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
-    depends: form => form.useSchoolInProfile === schoolInYourProfileOptions.NO,
+    depends: form =>
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+      !form.schoolInfo?.schoolName,
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -226,8 +228,8 @@ const ch3Pages = {
     uiSchema: useThisSchoolPage.uiSchema,
     schema: useThisSchoolPage.schema,
     depends: form =>
-      form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
-      form.school !== 'My facility is not listed',
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+      (form.school && form.school !== 'My facility is not listed'),
   },
   schoolInYourProfile: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -519,11 +521,11 @@ export const aboutMyselfRelationshipFamilyMemberPages = flowPages(
 const aboutSomeoneElseRelationshipVeteran = [
   'aboutYourRelationshipToFamilyMember',
   'aboutYourFamilyMember',
-  'familyMembersLocationOfResidence',
-  'familyMembersPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'familyMembersLocationOfResidence',
+  'familyMembersPostalCode',
   'stateOfProperty',
   'aboutYourself',
   'yourBranchOfService',
@@ -551,11 +553,11 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'dateOfDeath',
-  'veteransLocationOfResidence',
-  'veteransPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'veteransLocationOfResidence',
+  'veteransPostalCode',
   'stateOfProperty',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
@@ -571,11 +573,11 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages = flowPag
 const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'theirRelationshipToVeteran',
   'aboutYourFamilyMember',
-  'familyMembersLocationOfResidence',
-  'familyMembersPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'familyMembersLocationOfResidence',
+  'familyMembersPostalCode',
   'stateOfProperty',
   'aboutTheVeteran',
   'dateOfDeath',
@@ -605,11 +607,11 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
   'dateOfDeath',
-  'veteransLocationOfResidence',
-  'veteransPostalCode',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'veteransLocationOfResidence',
+  'veteransPostalCode',
   'stateOfProperty',
   'aboutYourself',
   'yourContactInformation',

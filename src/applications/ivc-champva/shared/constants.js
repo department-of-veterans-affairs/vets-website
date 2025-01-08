@@ -21,3 +21,6 @@ export const ConfirmationPagePropTypes = {
   }),
   name: PropTypes.string,
 };
+
+export const ADDITIONAL_FILES_HINT =
+  'Depending on your response, you may need to submit additional documents with this application.';

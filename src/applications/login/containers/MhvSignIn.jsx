@@ -18,7 +18,7 @@ export default function MhvSignIn() {
   };
 
   const handleButtonClick = () => {
-    apiRequest('/v0/test_account_user_email', {
+    apiRequest('/test_account_user_email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });

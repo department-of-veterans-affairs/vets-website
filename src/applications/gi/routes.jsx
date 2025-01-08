@@ -17,6 +17,9 @@ import HomePage from './updated-gi/components/Homepage';
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const lcToggleValue = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolLceToggleFlag,
+  );
 
   return (
     <>
@@ -35,28 +38,25 @@ const BuildRoutes = () => {
               path="/institution/:facilityCode"
               render={({ match }) => <ProfilePage match={match} />}
             />
-            <Route
-              exact
-              path="/lc-search"
-              render={({ match }) => (
-                <LicenseCertificationSearchPage match={match} />
-              )}
-            />
-            <Route
-              exact
-              path="/lc-search/results"
-              render={({ match }) => (
-                <LicenseCertificationSearchResults match={match} />
-              )}
-            />
+            {lcToggleValue && (
+              <>
+                <Route
+                  exact
+                  path="/lc-search"
+                  component={LicenseCertificationSearchPage}
+                />
+                <Route
+                  exact
+                  path="/lc-search/results"
+                  component={LicenseCertificationSearchResults}
+                />
+                <Route
+                  path="/lc-search/results/:type/:id"
+                  component={LicenseCertificationSearchResult}
+                />
+              </>
+            )}
             <Route path="/national-exams" component={NationalExamsList} />
-
-            <Route
-              path="/lc-search/results/:type/:id"
-              render={({ match }) => (
-                <LicenseCertificationSearchResult match={match} />
-              )}
-            />
             <Route
               path="/compare"
               render={({ match }) => <ComparePage match={match} />}
