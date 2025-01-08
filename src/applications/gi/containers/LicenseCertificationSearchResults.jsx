@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  VaCard,
+  VaLinkAction,
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
 import {
   capitalizeFirstLetter,
@@ -25,6 +27,7 @@ function LicenseCertificationSearchResults({
   const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
+  const history = useHistory();
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const itemsPerPage = 5;
@@ -59,6 +62,11 @@ function LicenseCertificationSearchResults({
 
   const handlePageChange = page => {
     setCurrentPage(page);
+  };
+
+  const handleRouteChange = id => event => {
+    event.preventDefault();
+    history.push(`/lc-search/results/${id}`);
   };
 
   // if (error) {
@@ -111,23 +119,26 @@ function LicenseCertificationSearchResults({
               </div>
               <div className="row">
                 {filteredResults.length > 0 ? (
-                  currentResults.map((result, index) => {
-                    return (
-                      <div className="vads-u-padding-bottom--2" key={index}>
-                        <va-card class="vads-u-background-color--gray-lightest">
-                          <h3 className="vads-u-margin--0">{result.name}</h3>
-                          <h4 className="lc-card-subheader vads-u-margin-y--1p5">
-                            {result.type}
-                          </h4>
-                          <va-link-action
-                            href={`results/${result.link.split('lce/')[1]}`}
-                            text="View test amount details"
-                            type="secondary"
-                          />
-                        </va-card>
-                      </div>
-                    );
-                  })
+                  <ul className="remove-bullets">
+                    {currentResults.map((result, index) => {
+                      return (
+                        <li className="vads-u-padding-bottom--2" key={index}>
+                          <VaCard class="vads-u-background-color--gray-lightest vads-u-border--0">
+                            <h3 className="vads-u-margin--0">{result.lacNm}</h3>
+                            <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                              {result.eduLacTypeNm}
+                            </h4>
+                            <VaLinkAction
+                              href={`/lc-search/results/${result.enrichedId}`}
+                              text="View test amount details"
+                              type="secondary"
+                              onClick={handleRouteChange(result.enrichedId)}
+                            />
+                          </VaCard>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 ) : (
                   <p>
                     We didn't find results based on the selected criteria.

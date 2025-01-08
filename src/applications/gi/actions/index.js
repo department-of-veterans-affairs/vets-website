@@ -172,7 +172,7 @@ export function fetchLcResult(id) {
       .then(result => {
         dispatch({
           type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.data,
+          payload: result.lac,
         });
       })
       .catch(err => {
