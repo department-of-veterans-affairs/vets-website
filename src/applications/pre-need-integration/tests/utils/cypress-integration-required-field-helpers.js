@@ -10,13 +10,10 @@ const veteranDetailsErrors = [
   'veteran_currentName_last',
   'veteran_ssn',
 ];
-const veteranDemographicsErrors = [
-  'veteran_gender',
-  'veteran_race',
-  'veteran_maritalStatus',
-];
+const veteranDemographicsErrors1 = ['veteran_maritalStatus', 'veteran_gender'];
+const veteranDemographicsErrors2 = ['veteran_ethnicity'];
+const veteranDemographicsErrors3 = ['veteran_raceComment'];
 const veteranDeceasedErrors = ['veteran_isDeceased'];
-const veteranMilitaryDetailsErrors = ['veteran_militaryStatus'];
 const previousNameErrors1 = ['veteran_view\\:hasServiceName'];
 const previousNameErrors2 = [
   'veteran_serviceName_first',
@@ -39,15 +36,17 @@ const preparerInfoErrors3 = [
   'applicant_view\\:applicantInfo_mailingAddress_state',
   'applicant_view\\:applicantInfo_mailingAddress_postalCode',
   'applicant_view\\:contactInfo_applicantPhoneNumber',
+  'applicant_view\\:contactInfo_applicantEmail',
 ];
 
 module.exports = {
   applicantRelationshipToVetErrors,
   applicantDetailsErrors,
   veteranDetailsErrors,
-  veteranDemographicsErrors,
+  veteranDemographicsErrors1,
+  veteranDemographicsErrors2,
+  veteranDemographicsErrors3,
   veteranDeceasedErrors,
-  veteranMilitaryDetailsErrors,
   previousNameErrors1,
   previousNameErrors2,
   burialBenefitsErrors,

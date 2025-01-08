@@ -14,7 +14,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     preneedHelpers.visitIntro();
 
     // Preparer Information
-    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
+    preneedHelpers.fillPreparerInfo(applicant);
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('2');

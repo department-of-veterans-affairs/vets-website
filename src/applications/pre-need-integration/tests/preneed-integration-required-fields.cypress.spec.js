@@ -4,6 +4,14 @@ import requiredHelpers from './utils/cypress-integration-required-field-helpers'
 import testData from './fixtures/data/required-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
+const { applicant } = testData.data.application;
+const { claimant } = testData.data.application;
+const { veteran } = testData.data.application;
+const { serviceRecords } = testData.data.application.veteran;
+const { currentlyBuriedPersons } = testData.data.application;
+// hard coded for now; found in veteran.race
+const demographicCheckboxes = ['isOther'];
+
 // Clicks continue, checks for any expected error messages, performs an axe check
 function errorCheck(errorList) {
   cy.get('.form-panel .usa-button-primary').click({ waitForAnimations: true });
@@ -13,95 +21,148 @@ function errorCheck(errorList) {
   cy.axeCheck();
 }
 
-const { serviceRecords } = testData.data.application.veteran;
-const { currentlyBuriedPersons } = testData.data.application;
-
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Applicant Information Page
+    // Preparer Information Page 1
     preneedHelpers.validateProgressBar('1');
+    errorCheck(requiredHelpers.preparerInfoErrors1);
+    cy.selectRadio(
+      'root_application_applicant_applicantRelationshipToClaimant',
+      applicant.applicantRelationshipToClaimant,
+    );
+    preneedHelpers.clickContinue();
+
+    // Preparer Information Page 2
+    if (applicant.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
+      errorCheck(requiredHelpers.preparerInfoErrors2);
+      cy.fill(
+        'input[name$="root_application_applicant_name_first"]',
+        applicant.name.first,
+      );
+      cy.fill(
+        'input[name$="root_application_applicant_name_last"]',
+        applicant.name.last,
+      );
+      preneedHelpers.clickContinue();
+
+      // Preparer Information Page 3
+      errorCheck(requiredHelpers.preparerInfoErrors3);
+      cy.fillAddress(
+        'root_application_applicant_view\\:applicantInfo_mailingAddress',
+        applicant.mailingAddress,
+      );
+      cy.get(
+        '#root_application_applicant_view\\:contactInfo_applicantPhoneNumber',
+      ).type(applicant.applicantPhoneNumber);
+      cy.get(
+        '#root_application_applicant_view\\:contactInfo_applicantEmail',
+      ).type(applicant.applicantEmail);
+    }
+    preneedHelpers.clickContinue();
+
+    // Address Validation page
+    preneedHelpers.clickContinue();
+
+    // Applicant Information Page 1
+    preneedHelpers.validateProgressBar('2');
     errorCheck(requiredHelpers.applicantRelationshipToVetErrors);
 
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
+    cy.get('#root_application_claimant_relationshipToVet').select(
+      claimant.relationshipToVet,
     );
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-relationship-to-vet');
 
+    // Applicant Information Page 2
+    errorCheck(requiredHelpers.applicantDetailsErrors);
     cy.fill(
       'input[name=root_application_claimant_name_first]',
-      testData.data.application.claimant.name.first,
+      claimant.name.first,
     );
     cy.fill(
       'input[name=root_application_claimant_name_last]',
-      testData.data.application.claimant.name.last,
+      claimant.name.last,
     );
-    cy.fill(
-      'input[name="root_application_claimant_ssn"]',
-      testData.data.application.claimant.ssn,
-    );
-    cy.fillDate(
-      'root_application_claimant_dateOfBirth',
-      testData.data.application.claimant.dateOfBirth,
-    );
+    cy.fill('input[name="root_application_claimant_ssn"]', claimant.ssn);
+    cy.fillDate('root_application_claimant_dateOfBirth', claimant.dateOfBirth);
 
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-details');
 
-    // Veteran/Sponsor Information Page
-    preneedHelpers.validateProgressBar('2');
-    errorCheck(requiredHelpers.veteranDetailsErrors);
-    cy.fill(
-      'input[name=root_application_veteran_currentName_first]',
-      testData.data.application.veteran.currentName.first,
-    );
-    cy.fill(
-      'input[name=root_application_veteran_currentName_last]',
-      testData.data.application.veteran.currentName.last,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_ssn"]',
-      testData.data.application.veteran.ssn,
-    );
+    // Applicant Information Page 3
+    errorCheck(requiredHelpers.applicantContactInfoErrors);
+    cy.fillAddress('root_application_claimant_address', claimant.address);
+    cy.fill('input[name$="email"]', claimant.email);
+    cy.fill('input[name$="phoneNumber"]', claimant.phoneNumber);
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-details');
 
-    errorCheck(requiredHelpers.veteranDemographicsErrors);
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
+    // Applicant Information Page 4
+    errorCheck(requiredHelpers.veteranDemographicsErrors1);
+    cy.selectRadio('root_application_veteran_gender', veteran.gender);
     cy.selectRadio(
       'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
+      veteran.maritalStatus,
     );
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-demographics');
 
-    errorCheck(requiredHelpers.veteranDeceasedErrors);
-    cy.selectRadio(
-      'root_application_veteran_isDeceased',
-      testData.data.application.veteran.isDeceased,
+    // Applicant Information Page 5
+    errorCheck(requiredHelpers.veteranDemographicsErrors2);
+    cy.get('#checkbox-error-message').contains('Please provide a response.');
+    cy.selectRadio('root_application_veteran_ethnicity', veteran.ethnicity);
+    cy.selectVaCheckbox('root_application_veteran_race_na', true);
+    cy.selectVaCheckbox('root_application_veteran_race_isOther', true);
+    errorCheck(requiredHelpers.veteranDemographicsErrors3);
+    cy.get('#checkbox-error-message').contains(
+      'When selecting Prefer not to answer, you can’t have another option.',
     );
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-demographics');
-
-    errorCheck(requiredHelpers.veteranMilitaryDetailsErrors);
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
+    cy.selectVaCheckbox('root_application_veteran_race_na', false);
+    cy.selectVaCheckbox('root_application_veteran_race_isOther', false);
+    demographicCheckboxes.map(checkbox =>
+      cy.selectVaCheckbox(`root_application_veteran_race_${checkbox}`, true),
     );
+    if (veteran.race.isOther) {
+      cy.get('#root_application_veteran_raceComment').type(veteran.raceComment);
+    }
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-military-details');
 
-    // Military History Page
+    // Military History Page 1
     preneedHelpers.validateProgressBar('3');
+    preneedHelpers.clickContinue();
+    cy.get('#input-error-message').contains('You must provide a response');
+    cy.axeCheck();
+    cy.selectVaSelect(
+      'root_application_veteran_militaryStatus',
+      veteran.militaryStatus,
+    );
+    preneedHelpers.clickContinue();
+
+    // Military History Page 2
+    errorCheck(requiredHelpers.previousNameErrors1);
+    if (veteran.serviceName.first) {
+      cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+      preneedHelpers.clickContinue();
+    } else {
+      cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
+      preneedHelpers.clickContinue();
+    }
+
+    // Military History Page 3
+    errorCheck(requiredHelpers.previousNameErrors2);
+    cy.fill(
+      'input[name=root_application_veteran_serviceName_first]',
+      testData.data.application.veteran.serviceName.first,
+    );
+    cy.fill(
+      'input[name=root_application_veteran_serviceName_last]',
+      testData.data.application.veteran.serviceName.last,
+    );
+    preneedHelpers.clickContinue();
+
+    // Old Service Records Component
     serviceRecords.forEach((branch, index) => {
       errorCheck([`veteran_serviceRecords_${index}_serviceBranch`]);
 
@@ -131,26 +192,31 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       }
     });
 
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-military-history');
-
-    // Previous Names Page 1
-    errorCheck(requiredHelpers.previousNameErrors1);
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-    preneedHelpers.clickContinue();
-
-    // Previous Names Page 2
-    errorCheck(requiredHelpers.previousNameErrors2);
+    // Veteran/Sponsor Information Page
+    preneedHelpers.validateProgressBar('2');
+    errorCheck(requiredHelpers.veteranDetailsErrors);
     cy.fill(
-      'input[name=root_application_veteran_serviceName_first]',
-      testData.data.application.veteran.serviceName.first,
+      'input[name=root_application_veteran_currentName_first]',
+      claimant.name.first,
     );
     cy.fill(
-      'input[name=root_application_veteran_serviceName_last]',
-      testData.data.application.veteran.serviceName.last,
+      'input[name=root_application_veteran_currentName_last]',
+      claimant.name.last,
+    );
+    cy.fill(
+      'input[name="root_application_veteran_ssn"]',
+      testData.data.application.veteran.ssn,
     );
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-military-name');
+    cy.url().should('not.contain', '/sponsor-details');
+
+    errorCheck(requiredHelpers.veteranDeceasedErrors);
+    cy.selectRadio(
+      'root_application_veteran_isDeceased',
+      testData.data.application.veteran.isDeceased,
+    );
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/sponsor-demographics');
 
     // Benefit Selection Page 1
     preneedHelpers.validateProgressBar('4');
@@ -188,63 +254,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Claimant Contact Information Page
-    preneedHelpers.validateProgressBar('6');
-    errorCheck(requiredHelpers.applicantContactInfoErrors);
-    cy.fillAddress(
-      'root_application_claimant_address',
-      testData.data.application.claimant.address,
-    );
-    cy.fill('input[name$="email"]', testData.data.application.claimant.email);
-    cy.fill(
-      'input[name$="phoneNumber"]',
-      testData.data.application.claimant.phoneNumber,
-    );
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-contact-information');
-
     // Sponsor Contact Information Page
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
-    // Preparer Information Page 1
-    preneedHelpers.validateProgressBar('6');
-    errorCheck(requiredHelpers.preparerInfoErrors1);
-    cy.selectRadio(
-      'root_application_applicant_applicantRelationshipToClaimant',
-      testData.data.application.applicant.applicantRelationshipToClaimant,
-    );
-    preneedHelpers.clickContinue();
-
-    // Preparer Information Page 2
-    if (
-      testData.data.application.applicant.applicantRelationshipToClaimant ===
-      'Authorized Agent/Rep'
-    ) {
-      errorCheck(requiredHelpers.preparerInfoErrors2);
-      cy.fill(
-        'input[name$="root_application_applicant_name_first"]',
-        testData.data.application.applicant.name.first,
-      );
-      cy.fill(
-        'input[name$="root_application_applicant_name_last"]',
-        testData.data.application.applicant.name.last,
-      );
-      preneedHelpers.clickContinue();
-
-      // Preparer Information Page 3
-      errorCheck(requiredHelpers.preparerInfoErrors3);
-      cy.fillAddress(
-        'root_application_applicant_view\\:applicantInfo_mailingAddress',
-        testData.data.application.applicant['view:applicantInfo']
-          .mailingAddress,
-      );
-      cy.fill(
-        'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicant.phoneNumber,
-      );
-    }
-    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/preparer');
 
     // Review/Submit Page
