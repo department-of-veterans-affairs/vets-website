@@ -141,6 +141,13 @@ export default function InstitutionProfile({
                 jumpToId="calculate-your-benefits"
               />
             )}
+          {institution.yr === true &&
+            toggleValue && (
+              <JumpLink
+                label="Yellow Ribbon Program information"
+                jumpToId="yellow-ribbon-program-information"
+              />
+            )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
@@ -167,13 +174,6 @@ export default function InstitutionProfile({
             label="Contact information"
             jumpToId="contact-information"
           />
-          {institution.yr === true &&
-            toggleValue && (
-              <JumpLink
-                label="Yellow Ribbon Program information"
-                jumpToId="yellow-ribbon-program-information"
-              />
-            )}
         </div>
       </div>
       {showSchoolContentBasedOnType(type) &&
@@ -209,12 +209,12 @@ export default function InstitutionProfile({
             id="yellow-ribbon-program-information"
           >
             <p>
-              The Yellow Ribbon program pays towards net tuition and fee costs
-              not covered by the Post-9/11 GI Bill at participating institutions
-              of higher learning (IHL). Schools that choose to participate in
-              the Yellow Ribbon program will contribute up to a certain dollar
-              amount toward the extra tuition. VA will match the participating
-              school’s contribution{' '}
+              The Yellow Ribbon program may pay towards net tuition and fee
+              costs not covered by the Post-9/11 GI Bill at participating
+              institutions of higher learning (IHL). Schools that choose to
+              participate in the Yellow Ribbon program will contribute up to a
+              certain dollar amount toward the extra tuition. VA will match the
+              participating school’s contribution
               {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
               to the total cost of the tuition and fees. To confirm the number
               of students eligible for funding, contact the individual school.
@@ -228,7 +228,7 @@ export default function InstitutionProfile({
             <div className="additional-info-wrapper vads-u-margin-top--2p5">
               <div className="subsection vads-u-margin-bottom--2">
                 <h3 className="small-screen-header">
-                  What to know about the content displayed below
+                  What to know about the content displayed
                 </h3>
               </div>
 

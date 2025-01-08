@@ -34,4 +34,8 @@ describe('Veteran Contact Phone Email page', () => {
 
     expect(container.querySelector('button[type="submit"]')).to.exist;
   });
+
+  it('should have proper max length for email field', () => {
+    expect(schema.properties.veteranEmail.maxLength).to.equal(61);
+  });
 });

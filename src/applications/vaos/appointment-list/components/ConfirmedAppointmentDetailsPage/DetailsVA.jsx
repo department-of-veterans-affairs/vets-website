@@ -1,21 +1,21 @@
-import React from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { shallowEqual } from 'recompose';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import BackLink from '../../../components/BackLink';
+import FacilityAddress from '../../../components/FacilityAddress';
+import FullWidthLayout from '../../../components/FullWidthLayout';
+import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
+import InPersonLayout from '../../../components/layout/InPersonLayout';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
-import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
-import InPersonLayout from '../../../components/layout/InPersonLayout';
-import CancelWarningPage from '../cancel/CancelWarningPage';
-import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
-import FacilityAddress from '../../../components/FacilityAddress';
-import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
-import PhoneLayout from '../../../components/layout/PhoneLayout';
-import FullWidthLayout from '../../../components/FullWidthLayout';
+import CancelConfirmationPage from '../../pages/CancelAppointmentPage/CancelConfirmationPage';
+import CancelWarningPage from '../../pages/CancelAppointmentPage/CancelWarningPage';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const { id } = useParams();
