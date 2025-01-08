@@ -6,7 +6,7 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import ConfirmedAppointmentDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
