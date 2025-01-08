@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CantFilePage = ({
+const UnsupportedClaimTypePage = ({
   pageIndex,
   setIsUnsupportedClaimType,
   setPageIndex,
@@ -26,10 +26,10 @@ const CantFilePage = ({
   );
 };
 
-CantFilePage.propTypes = {
+UnsupportedClaimTypePage.propTypes = {
   pageIndex: PropTypes.number,
   setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
 };
 
-export default CantFilePage;
+export default UnsupportedClaimTypePage;

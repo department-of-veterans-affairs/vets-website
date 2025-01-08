@@ -11,12 +11,12 @@ import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
 
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { appointment1 } from '../services/mocks/appointments';
 
 const SubmitFlowWrapper = () => {
-  // TODO: Placeholders until backend integration
+  // TODO: Placeholders until backend integration is complete
   // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
   // This will actually be handled by the redux action, but for now it lives here
@@ -28,7 +28,6 @@ const SubmitFlowWrapper = () => {
   const handlers = {
     onNext: e => {
       e.preventDefault();
-
       setPageIndex(pageIndex + 1);
     },
     onBack: e => {
@@ -116,7 +115,7 @@ const SubmitFlowWrapper = () => {
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
-            <CantFilePage
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}

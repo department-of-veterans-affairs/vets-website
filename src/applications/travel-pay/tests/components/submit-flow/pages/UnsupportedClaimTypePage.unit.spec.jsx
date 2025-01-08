@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import CantFilePage from '../../../../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../../../../components/submit-flow/pages/UnsupportedClaimTypePage';
 
 it('should render with back button', () => {
   const props = {
@@ -11,7 +11,7 @@ it('should render with back button', () => {
     setIsUnsupportedClaimType: () => {},
     setPageIndex: () => {},
   };
-  const screen = render(<CantFilePage {...props} />);
+  const screen = render(<UnsupportedClaimTypePage {...props} />);
 
   expect(
     screen.getByText('We can’t file this type of travel reimbursement claim'),
