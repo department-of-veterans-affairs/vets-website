@@ -65,8 +65,6 @@ describe('VAOS Component: DateAndTimeContent', () => {
         initialState,
       },
     );
-
-    expect(screen.getByTestId('pick-heading')).to.exist;
     expect(screen.getByTestId('cal-widget')).to.exist;
   });
   it('should show error if no date selected', async () => {

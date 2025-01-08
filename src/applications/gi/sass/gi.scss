@@ -395,6 +395,20 @@
   }
 }
 
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"]{
+      border-bottom: 1px solid $color-primary !important;
+    }
+    @media screen and (max-width: $small-screen) {
+      height: 94px;
+      padding: 0 4px;
+      text-align: left;
+    }
+  }
+}
+
 .yellow-ribbon-selector-container {
   .selector-wrapper {
     display: flex;
