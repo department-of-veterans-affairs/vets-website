@@ -727,7 +727,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
