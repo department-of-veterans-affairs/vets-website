@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
-  const onBack = e => {
-    e.preventDefault();
+  const onBack = () => {
     setCantFile(false);
     setPageIndex(pageIndex);
   };
@@ -13,11 +12,7 @@ const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
       <h1 tabIndex="-1">
         We can’t file this type of travel reimbursement claim
       </h1>
-      <va-button
-        class="vads-u-margin-y--2"
-        text="Back"
-        onClick={e => onBack(e)}
-      />
+      <va-button class="vads-u-margin-y--2" text="Back" onClick={onBack} />
     </div>
   );
 };
