@@ -37,7 +37,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   });
 
   const [pageIndex, setPageIndex] = useState(0);
-  const [cantFile, setCantFile] = useState(false);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
 
   const handlers = {
     onNext: e => {
@@ -83,7 +83,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
           yesNo={yesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
         />
       ),
     },
@@ -93,7 +93,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
         <VehiclePage
           setYesNo={setYesNo}
           yesNo={yesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
         />
@@ -106,7 +106,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
           address={homeAddress || mailingAddress}
           yesNo={yesNo}
           setYesNo={setYesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
         />
@@ -158,15 +158,17 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
+          {isUnsupportedClaimType && (
             <CantFilePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>

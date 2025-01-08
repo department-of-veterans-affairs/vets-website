@@ -11,7 +11,7 @@ const VehiclePage = ({
   setPageIndex,
   yesNo,
   setYesNo,
-  setCantFile,
+  setIsUnsupportedClaimType,
 }) => {
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -20,9 +20,9 @@ const VehiclePage = ({
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
-        setCantFile(true);
+        setIsUnsupportedClaimType(true);
       } else {
-        setCantFile(false);
+        setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
@@ -95,7 +95,7 @@ const VehiclePage = ({
 
 VehiclePage.propTypes = {
   pageIndex: PropTypes.number,
-  setCantFile: PropTypes.func,
+  setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,
   yesNo: PropTypes.object,

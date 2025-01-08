@@ -15,7 +15,7 @@ const MileagePage = ({
   setPageIndex,
   yesNo,
   setYesNo,
-  setCantFile,
+  setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
     focusElement('h1');
@@ -33,9 +33,9 @@ const MileagePage = ({
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
-        setCantFile(true);
+        setIsUnsupportedClaimType(true);
       } else {
-        setCantFile(false);
+        setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
@@ -140,7 +140,7 @@ const MileagePage = ({
 MileagePage.propTypes = {
   appointment: PropTypes.object,
   pageIndex: PropTypes.number,
-  setCantFile: PropTypes.func,
+  setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,
   yesNo: PropTypes.object,

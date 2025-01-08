@@ -208,7 +208,7 @@ describe('Mileage page', () => {
       address: '',
     },
     setYesNo: () => {},
-    setCantFile: () => {},
+    setIsUnsupportedClaimType: () => {},
   };
 
   it('should render correctly', async () => {

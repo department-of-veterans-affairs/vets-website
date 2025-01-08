@@ -54,7 +54,7 @@ describe('Address page', () => {
       address: '',
     },
     setYesNo: () => {},
-    setCantFile: () => {},
+    setIsUnsupportedClaimType: () => {},
   };
 
   it('should render with user home address', async () => {
