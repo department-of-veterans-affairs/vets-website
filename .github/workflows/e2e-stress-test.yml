@@ -330,7 +330,7 @@ jobs:
 
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       [
         testing-reports-prep,
