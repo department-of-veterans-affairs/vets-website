@@ -2,8 +2,6 @@ import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import mockUserAvail from './fixtures/mocks/user-transition-availabilities.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockVamc from './fixtures/mocks/vamc-ehr.json';
-
-// Profile specific responses
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUserUpdate from './fixtures/mocks/user-update.json';
 import mockProfilePhone from './fixtures/mocks/profile-phone.json';
@@ -11,16 +9,13 @@ import mockProfileEmail from './fixtures/mocks/profile-email.json';
 import mockProfileAddress from './fixtures/mocks/profile-address.json';
 import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
-const APIs = {
-  prefill: '/v0/in_progress_forms/WELCOME_VA_SETUP_REVIEW_INFORMATION',
-};
-
 export const cypressSetup = () => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
-  cy.intercept(APIs.prefill, { statusCode: 200, body: mockPrefill }).as(
-    'mockSip',
-  );
+  cy.intercept('/v0/in_progress_forms/WELCOME_VA_SETUP_REVIEW_INFORMATION', {
+    statusCode: 200,
+    body: mockPrefill,
+  });
 
   cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
     'features',
