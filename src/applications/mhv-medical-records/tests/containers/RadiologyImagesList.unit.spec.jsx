@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history-v4';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import RadiologyImagesList from '../../containers/RadiologyImagesList';
 import user from '../fixtures/user.json';
@@ -33,7 +34,7 @@ describe('Radiology Images List container', () => {
   const pagePath = '/labs-and-tests/12345/images';
 
   const setup = (state = initialState, history = null) =>
-    renderWithStoreAndRouter(<RadiologyImagesList />, {
+    renderWithStoreAndRouter(<RadiologyImagesList isTesting />, {
       initialState: state,
       reducers: reducer,
       history,

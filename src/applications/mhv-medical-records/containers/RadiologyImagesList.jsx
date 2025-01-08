@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -18,7 +19,7 @@ import {
   studyJobStatus,
 } from '../util/constants';
 
-const RadiologyImagesList = () => {
+const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
@@ -36,6 +37,11 @@ const RadiologyImagesList = () => {
   const imageList = useSelector(state => state.mr.images.imageList);
   const studyJobs = useSelector(state => state.mr.images.imageStatus);
 
+  const [isRadiologyDetailsLoaded, setRadiologyDetailsLoaded] = useState(
+    isTesting || false,
+  );
+  const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
+
   const returnToDetailsPage = useCallback(
     () => history.push(`/labs-and-tests/${labId}`),
     [history, labId],
@@ -50,7 +56,9 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      dispatch(fetchImageRequestStatus());
+      dispatch(fetchImageRequestStatus()).then(() => {
+        setStudyJobsLoaded(true);
+      });
     },
     [dispatch],
   );
@@ -58,7 +66,9 @@ const RadiologyImagesList = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getlabsAndTestsDetails(labId)).then(() => {
+          setRadiologyDetailsLoaded(true);
+        });
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
     },
@@ -67,7 +77,8 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      if (studyJobs) {
+      // Make sure data has been loaded before possibly redirecting users based on missing data
+      if (isRadiologyDetailsLoaded && isStudyJobsLoaded && studyJobs) {
         if (
           studyJob?.studyIdUrn &&
           studyJob?.status === studyJobStatus.COMPLETE
@@ -77,11 +88,17 @@ const RadiologyImagesList = () => {
         } else {
           returnToDetailsPage();
         }
-      } else {
-        returnToDetailsPage();
       }
     },
-    [dispatch, studyJobs, studyJob, history, returnToDetailsPage],
+    [
+      studyJobs,
+      studyJob,
+      isRadiologyDetailsLoaded,
+      isStudyJobsLoaded,
+      history,
+      dispatch,
+      returnToDetailsPage,
+    ],
   );
 
   useEffect(
@@ -190,3 +207,7 @@ const RadiologyImagesList = () => {
 };
 
 export default RadiologyImagesList;
+
+RadiologyImagesList.propTypes = {
+  isTesting: PropTypes.bool,
+};
