@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { connect } from 'react-redux';
 import { isReactComponent } from '~/platform/utilities/ui';
 
-export const Title = ({
+let Title = ({
   title,
   description,
   headerLevel = 3,
   headerStyleLevel,
   classNames,
+  isMinimalHeaderEnabled,
 }) => {
+  // eslint-disable-next-line no-param-reassign
+  headerLevel = isMinimalHeaderEnabled ? 1 : headerLevel;
   const CustomHeader = `h${headerLevel}`;
   const style = headerStyleLevel
     ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
@@ -43,6 +47,17 @@ export const Title = ({
     </>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    isMinimalHeaderEnabled: state?.layout?.header?.type === 'minimal',
+  };
+};
+
+Title = connect(
+  mapStateToProps,
+  null,
+)(Title);
 
 function isTitleObject(obj) {
   return (

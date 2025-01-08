@@ -84,6 +84,9 @@ export const withEditTitle = (title, lowerCase = true) => {
  *   title: string,
  *   nounSingular: string,
  *   lowerCase?: boolean,
+ *   hasMultipleItemPages?: boolean,
+ *   headerLevel?: number | string,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -93,11 +96,17 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
+  headerLevel = 3,
 }) => {
-  return titleUI(
-    withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
-  );
+  return titleUI({
+    title: withEditTitle(title, lowerCase),
+    description: withAlertOrDescription({
+      description,
+      nounSingular,
+      hasMultipleItemPages,
+    }),
+    headerLevel,
+  });
 };
 
 /**
@@ -125,12 +134,25 @@ export const arrayBuilderItemFirstPageTitleUI = ({
  *
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemSubsequentPageTitleUI = (
-  title,
-  description,
-  lowerCase = true,
-) => {
-  return titleUI(withEditTitle(title, lowerCase), description);
+export const arrayBuilderItemSubsequentPageTitleUI = (...args) => {
+  let title;
+  let description;
+  let lowerCase;
+  let headerLevel;
+
+  if (args.length === 1 && typeof args[0] === 'object' && args.title) {
+    // support args as a single object
+    [{ title, description, lowerCase, headerLevel }] = args;
+  } else {
+    // support args as multiple arguments
+    [title, description, lowerCase, headerLevel] = args;
+  }
+
+  return titleUI({
+    title: withEditTitle(title, lowerCase),
+    description,
+    headerLevel,
+  });
 };
 
 /**
@@ -228,6 +250,7 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
+                labelHeaderLevelStyle: yesNoOptionsMore?.labelHeaderLevelStyle,
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -256,6 +279,7 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
+                labelHeaderLevelStyle: yesNoOptions?.labelHeaderLevelStyle,
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,

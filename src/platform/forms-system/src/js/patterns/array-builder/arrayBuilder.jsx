@@ -521,6 +521,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
+      appStateSelector: state => ({
+        isMinimalHeader: state.layout?.header?.type === 'minimal',
+      }),
       scrollAndFocusTarget: 'h3',
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
@@ -556,6 +559,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         reviewRoute: reviewPath,
         required,
         getText,
+      }),
+      appStateSelector: state => ({
+        isMinimalHeader: state.layout?.header?.type === 'minimal',
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,

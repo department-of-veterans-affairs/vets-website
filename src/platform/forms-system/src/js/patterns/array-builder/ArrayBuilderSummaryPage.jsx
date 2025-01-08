@@ -110,6 +110,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       updateItemIndex != null
         ? arrayData?.[updateItemIndex]
         : null;
+    const isMinimalHeader = props.appStateData?.isMinimalHeader;
 
     const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
@@ -120,7 +121,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const Heading = `h${titleHeaderLevel}`;
+    const Heading = `h${isMinimalHeader ? '1' : titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
@@ -306,14 +307,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       }
     }
 
-    const Title = ({ textType }) => (
-      <Heading
-        className="vads-u-color--gray-dark vads-u-margin-top--0"
-        data-title-for-noun-singular={nounSingular}
-      >
-        {getText(textType, updatedItemData, props.data)}
-      </Heading>
-    );
+    const Title = ({ textType }) => {
+      const text = getText(textType, updatedItemData, props.data);
+
+      return text ? (
+        <Heading
+          className="vads-u-color--gray-dark vads-u-margin-top--0"
+          data-title-for-noun-singular={nounSingular}
+        >
+          {text}
+        </Heading>
+      ) : null;
+    };
 
     const UpdatedAlert = ({ show }) => {
       return (
