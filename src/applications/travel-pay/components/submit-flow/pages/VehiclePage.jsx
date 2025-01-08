@@ -16,8 +16,7 @@ const VehiclePage = ({
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
-    onNext: e => {
-      e.preventDefault();
+    onNext: () => {
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
@@ -27,8 +26,7 @@ const VehiclePage = ({
         setPageIndex(pageIndex + 1);
       }
     },
-    onBack: e => {
-      e.preventDefault();
+    onBack: () => {
       setPageIndex(pageIndex - 1);
     },
   };
@@ -42,7 +40,7 @@ const VehiclePage = ({
         id="vehicle"
         onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
         value={yesNo.vehicle}
-        data-testid="mileage-test-id"
+        data-testid="vehicle-test-id"
         error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
         hint=""
