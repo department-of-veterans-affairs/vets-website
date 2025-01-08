@@ -108,8 +108,9 @@ describe('Welcome to My VA Review Contact Information form', () => {
       startApplication();
     });
 
+    // We do not need to test the sign-in flow, just that we are redirected to it, so we can skip the Axe check
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('should redirect to sign in', () => {
-      cy.axeCheck();
       cy.location().should(loc => {
         expect(loc.search).to.eq(
           '?next=%2Fmy-va%2Fwelcome-va-setup%2Freview-information%2Fcontact-information',
