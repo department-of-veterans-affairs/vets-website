@@ -28,7 +28,7 @@ const AddressPage = ({
     onNext: () => {
       if (!yesNo.address) {
         setRequiredAlert(true);
-      } else if (yesNo.address !== 'yes' || !address) {
+      } else if (yesNo.address !== 'yes') {
         setCantFile(true);
       } else {
         setCantFile(false);
