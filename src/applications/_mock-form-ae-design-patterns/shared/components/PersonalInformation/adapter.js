@@ -41,7 +41,7 @@ export const adaptFormData = (formData, adapter = {}) => {
   };
   const adaptedAdapter = { ...defaultAdapter, ...adapter };
   return {
-    ssnLastFour: getDataFromPath(formData, adaptedAdapter.ssnPath),
+    ssn: getDataFromPath(formData, adaptedAdapter.ssnPath),
     vaFileLastFour: getDataFromPath(formData, adaptedAdapter.vaFileNumberPath),
   };
 };

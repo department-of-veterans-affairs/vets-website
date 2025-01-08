@@ -9,15 +9,33 @@ import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { srSubstitute } from '../../utilities/ui/mask-string';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 import {
   getMissingData,
   parseDateToDateObj,
   FORMAT_YMD_DATE_FNS_CONCAT,
   FORMAT_READABLE_DATE_FNS,
+  getChildrenByType,
 } from './utils';
 import { adaptFormData } from './adapter';
+import { DefaultErrorMessage } from './DefaultErroMessage';
+
+/**
+ * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
+ * @property {boolean} [name] - Whether to show name
+ * @property {boolean} [ssn] - Whether to show last 4 digits of SSN
+ * @property {boolean} [vaFileNumber] - Whether to show last 4 digits of VA file number
+ * @property {boolean} [dateOfBirth] - Whether to show date of birth
+ * @property {boolean} [gender] - Whether to show gender
+ * @property {string | ReactNode} [errorMessage] - Custom error message or ReactNode for missing data
+ */
+
+/**
+ * @typedef {Object} DataAdapter
+ * @property {string} [ssnPath] - Path to SSN in form data example: `'veteran.lastFourSSN'`
+ * @property {string} [vaFileNumberPath] - Path to VA file number in form data example: `'veteran.vaFileNumber'`
+ */
 
 const srSpacedNumber = number => {
   if (!number && number !== 0) return null;
@@ -29,59 +47,39 @@ const srSpacedNumber = number => {
     .join(' ');
 };
 
-const ALLOWED_CHILD_COMPONENTS = {
-  NOTE: 'PersonalInformationNote',
-  HEADER: 'PersonalInformationHeader',
-  FOOTER: 'PersonalInformationFooter',
+/**
+ * @type {PersonalInformationConfig}
+ */
+const defaultConfig = {
+  name: true,
+  ssn: true,
+  vaFileNumber: false,
+  dateOfBirth: true,
+  gender: false,
+  errorMessage: DefaultErrorMessage,
 };
 
 /**
- * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
- * @property {boolean} [showSSN] - Whether to show SSN field
- * @property {boolean} [showVAFileNumber] - Whether to show VA file number
- * @property {boolean} [showDateOfBirth] - Whether to show date of birth
- * @property {boolean} [showGender] - Whether to show gender
- * @property {boolean} [showName] - Whether to show name
- * @property {string | ReactNode} [errorMessage] - Custom error message or ReactNode for missing data
- */
-
-/**
- * @typedef {Object} DataAdapter
- * @property {string} [ssnPath] - Path to SSN in form data
- * @property {string} [vaFileNumberPath] - Path to VA file number in form data
- */
-
-/**
  * @param {Object} props - Component props
- * @param {Object} props.formData - Form data object
+ * @param {Object} props.data - Form data object
  * @param {PersonalInformationConfig} props.config - Field configuration object
  * @param {DataAdapter} props.dataAdapter - Data adapter object
  * @param {ReactNode} props.children - React children
  * @returns {ReactNode} - Rendered component
  */
 export const PersonalInformation = ({
-  formData,
+  data,
   config = {},
   dataAdapter = {},
   children,
+  NavButtons,
+  ...props
 }) => {
-  /**
-   * @type {PersonalInformationConfig}
-   */
-  const defaultConfig = {
-    showSSN: true,
-    showVAFileNumber: true,
-    showDateOfBirth: true,
-    showGender: true,
-    showName: true,
-    errorMessage: 'Required information is missing.',
-  };
-
   const finalConfig = { ...defaultConfig, ...config };
 
   const profile = useSelector(selectProfile);
-  const adaptedData = adaptFormData(formData, dataAdapter);
-  const { ssnLastFour, vaFileLastFour } = adaptedData;
+  const adaptedData = adaptFormData(data, dataAdapter);
+  const { ssn, vaFileLastFour } = adaptedData;
   const { dob, gender, userFullName = {} } = profile;
   const { first, middle, last, suffix } = userFullName;
 
@@ -90,51 +88,15 @@ export const PersonalInformation = ({
     finalConfig,
   );
 
-  const getChildrenByType = () => {
-    const childrenByType = {
-      note: null,
-      header: null,
-      footer: null,
-      other: [], // For any unrecognized children
-    };
-
-    React.Children.forEach(children, child => {
-      if (!child) return;
-
-      switch (child?.type?.name) {
-        case ALLOWED_CHILD_COMPONENTS.NOTE:
-          childrenByType.note = child;
-          break;
-        case ALLOWED_CHILD_COMPONENTS.HEADER:
-          childrenByType.header = child;
-          break;
-        case ALLOWED_CHILD_COMPONENTS.FOOTER:
-          childrenByType.footer = child;
-          break;
-        default:
-          childrenByType.other.push(child);
-      }
-    });
-
-    return childrenByType;
-  };
-
-  const { note, header, footer } = getChildrenByType();
+  const { note, header, footer } = getChildrenByType(children);
 
   if (missingData.length > 0) {
-    return config.errorMessage ? (
+    return finalConfig.errorMessage ? (
       <va-alert status="error">
-        <h2 slot="headline">
-          Sorry, we couldn’t access the information you need.
-        </h2>
+        <h2 slot="headline">We need more information</h2>
         <>
           <p className="vads-u-margin-y--0">
-            {config.errorMessage}
-            <ul>
-              {missingData.map(item => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            {finalConfig.errorMessage({ missingFields: missingData })}
           </p>
         </>
       </va-alert>
@@ -155,7 +117,10 @@ export const PersonalInformation = ({
       )}
       <div className="vads-u-display--flex">
         <va-card>
-          {config.showName && (
+          <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
+            Personal information
+          </h4>
+          {finalConfig.name && (
             <p>
               <strong
                 className="name dd-privacy-hidden"
@@ -167,16 +132,16 @@ export const PersonalInformation = ({
               {suffix ? `, ${suffix}` : null}
             </p>
           )}
-          {config.showSSN &&
-            ssnLastFour && (
+          {finalConfig.ssn &&
+            ssn && (
               <p>
                 <strong>Last 4 digits of Social Security number: </strong>
                 <span data-dd-action-name="Veteran's SSN">
-                  {srSubstitute(ssnLastFour, srSpacedNumber(ssnLastFour))}
+                  {srSubstitute(ssn, srSpacedNumber(ssn))}
                 </span>
               </p>
             )}
-          {config.showVAFileNumber &&
+          {finalConfig.vaFileNumber &&
             vaFileLastFour && (
               <p>
                 <strong>Last 4 digits of VA file number: </strong>
@@ -188,7 +153,7 @@ export const PersonalInformation = ({
                 </span>
               </p>
             )}
-          {config.showDateOfBirth && (
+          {finalConfig.dateOfBirth && (
             <p>
               <strong>Date of birth: </strong>
               {isValid(dobDateObj) ? (
@@ -203,7 +168,7 @@ export const PersonalInformation = ({
               )}
             </p>
           )}
-          {config.showGender && (
+          {finalConfig.gender && (
             <p>
               <strong>Gender: </strong>
               <span
@@ -238,11 +203,17 @@ export const PersonalInformation = ({
       )}
 
       {footer || null}
+
+      {props?.contentBeforeButtons || null}
+      <NavButtons goBack={props.goBack} goForward={props.goForward} />
+      {props?.contentAfterButtons || null}
     </>
   );
 };
 
 PersonalInformation.propTypes = {
+  NavButtons: PropTypes.func,
+  children: PropTypes.node,
   config: PropTypes.shape({
     showSSN: PropTypes.bool,
     showVAFileNumber: PropTypes.bool,
@@ -251,6 +222,19 @@ PersonalInformation.propTypes = {
     showName: PropTypes.bool,
     errorMessage: PropTypes.string,
   }),
+  contentAfterButtons: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.arrayOf(PropTypes.func),
+  ]),
+  contentBeforeButtons: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.arrayOf(PropTypes.func),
+  ]),
+  data: PropTypes.object,
   dataAdapter: PropTypes.shape({
     ssnPath: PropTypes.string,
     vaFileNumberPath: PropTypes.string,
@@ -261,4 +245,39 @@ PersonalInformation.propTypes = {
       vaFileLastFour: PropTypes.string,
     }),
   }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+};
+
+// the following are the allowed child components for the PersonalInformation component
+// you would wrap your custom components in these to use them as children of the PersonalInformation component
+export const PersonalInformationNote = ({ children }) => {
+  return <>{children}</>;
+};
+
+export const PersonalInformationHeader = ({ children }) => {
+  return <>{children}</>;
+};
+
+export const PersonalInformationFooter = ({ children }) => {
+  return <>{children}</>;
+};
+
+const ChildPropTypes = PropTypes.oneOfType([
+  PropTypes.node,
+  PropTypes.func,
+  PropTypes.arrayOf(PropTypes.node),
+  PropTypes.arrayOf(PropTypes.func),
+]);
+
+PersonalInformationNote.propTypes = {
+  children: ChildPropTypes,
+};
+
+PersonalInformationHeader.propTypes = {
+  children: ChildPropTypes,
+};
+
+PersonalInformationFooter.propTypes = {
+  children: ChildPropTypes,
 };

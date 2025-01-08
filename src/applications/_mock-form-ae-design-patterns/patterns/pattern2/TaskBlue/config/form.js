@@ -6,10 +6,11 @@ import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/c
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 
+import { personalInformationPage } from 'applications/_mock-form-ae-design-patterns/shared/components/PersonalInformation';
+
 // page level imports
 import IntroductionPage from '../IntroductionPage';
 import profileContactInfo from './profileContactInfo';
-import { veteranInformation } from './veteranInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -59,12 +60,10 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-details',
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
-        },
+        ...personalInformationPage({
+          title: 'Personal information',
+          path: 'personal-information',
+        }),
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo3',
           contactPath: 'veteran-information',
