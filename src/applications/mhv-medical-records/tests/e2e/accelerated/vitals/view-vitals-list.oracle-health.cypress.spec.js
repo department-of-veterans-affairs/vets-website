@@ -23,6 +23,12 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.goToVitalPage();
 
+    const today = new Date();
+    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}`;
+    Vitals.checkUrl({ timeFrame });
+
     cy.injectAxeThenAxeCheck();
 
     cy.get("[data-testid='current-date-display']").should('be.visible');
