@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import formConfig from '../../config/form';
 import maximalTestV2 from '../fixtures/data/maximal-test-v2.json';
-import maximalTestV25 from '../fixtures/data/maximal-test-v2.5.json';
 import { SUBMIT_URL, SUBMIT_URL_NEW } from '../../constants/apis';
 
 import submitForm, { buildEventData } from '../../config/submitForm';
@@ -48,7 +47,13 @@ describe('submitForm', () => {
   });
 
   it('should use v2 endpoint with v3 data', done => {
-    submitForm(maximalTestV25, formConfig);
+    const data = {
+      data: {
+        ...maximalTestV2.data,
+        decisionReviewHlrNewApi: true,
+      },
+    };
+    submitForm(data, formConfig);
     expect(requests[0].url).to.contain(SUBMIT_URL_NEW);
     done();
   });
