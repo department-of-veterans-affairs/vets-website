@@ -23,7 +23,7 @@ const SubmitFlowWrapper = () => {
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
-  const [cantFile, setCantFile] = useState(false);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
 
   const handlers = {
     onNext: e => {
@@ -115,15 +115,17 @@ const SubmitFlowWrapper = () => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
+          {isUnsupportedClaimType && (
             <CantFilePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>

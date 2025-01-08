@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
+const CantFilePage = ({
+  pageIndex,
+  setIsUnsupportedClaimType,
+  setPageIndex,
+}) => {
   const onBack = e => {
     e.preventDefault();
-    setCantFile(false);
+    setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
   };
 
@@ -24,7 +28,7 @@ const CantFilePage = ({ pageIndex, setCantFile, setPageIndex }) => {
 
 CantFilePage.propTypes = {
   pageIndex: PropTypes.number,
-  setCantFile: PropTypes.func,
+  setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
 };
 
