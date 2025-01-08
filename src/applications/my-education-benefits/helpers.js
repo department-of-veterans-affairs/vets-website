@@ -331,12 +331,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
       const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
       const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
 
+      // Safely handle falsey values by using ternary operators
       newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
         ? 'Yes'
-        : formData[formFields.activeDutyKicker] || undefined;
+        : undefined;
       newData[formFields.selectedReserveKicker] = eligibleForReserveKicker
         ? 'Yes'
-        : formData[formFields.selectedReserveKicker] || undefined;
+        : undefined;
     }
 
     // Add suffix if available
