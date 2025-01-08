@@ -66,7 +66,9 @@ describe('Welcome to My VA Review Contact Information form', () => {
   const checkConfirmationPage = () => {
     cy.findByText('Continue').click();
     cy.location('pathname').should('include', '/confirmation');
-
+    // Since focus occurs after a timeout, we do a timeout here to avoid inconsistent results
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(260);
     // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.focused().should('have.attr', 'id', 'confirmation-heading');
 
