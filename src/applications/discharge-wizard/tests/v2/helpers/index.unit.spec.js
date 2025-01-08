@@ -38,6 +38,7 @@ describe('Discharge Wizard helpers', () => {
     };
     const formNumber = determineFormData(formResponses);
     expect(formNumber).to.deep.equal({
+      formDescription: 'Correction of Military Record (DOD Form 149)',
       num: 149,
       link:
         'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
