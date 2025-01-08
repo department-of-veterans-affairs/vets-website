@@ -106,14 +106,29 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
       cy.realPress('Space');
 
+      // *** Authorization
+      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
+      cy.realPress('Space');
+
       // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
+      cy.tabToContinueForm();
+
+      // *** Informal conference choice
+      cy.url().should(
+        'include',
+        chapters.informalConference.pages.requestConference.path,
+      );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100); // wait for H3 focus before tabbing to radios
+      cy.tabToElement('input[name="informalConferenceChoice"]');
+      cy.chooseRadio('yes');
       cy.tabToContinueForm();
 
       // *** Informal conference option
       cy.url().should(
         'include',
-        chapters.informalConference.pages.requestConference.path,
+        chapters.informalConference.pages.conferenceContact.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for H3 focus before tabbing to radios

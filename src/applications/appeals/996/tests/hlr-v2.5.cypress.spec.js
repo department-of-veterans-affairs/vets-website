@@ -138,19 +138,7 @@ const testConfig = createTestConfig(
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         }).as('getIssues');
         cy.intercept('GET', '/v0/feature_toggles*', {
-          data: {
-            type: 'feature_toggles',
-            features: [
-              {
-                name: 'hlr_updateed_contnet',
-                value: true,
-              },
-              {
-                name: 'hlrUpdateedContnet',
-                value: true,
-              },
-            ],
-          },
+          data: { type: 'feature_toggles', features: [] },
         }).as('features');
       });
     },

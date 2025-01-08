@@ -89,7 +89,7 @@ describe('ConfirmationPageV2', () => {
     expect(h2s.map(el => el.textContent)).to.deep.equal([
       // `You submitted your Board Appeal request on ${date}`,
       'Request a Higher-Level Review', // print only header
-      'We’ve received your request for a Higher-Level Review',
+      'Your Higher Level Review request submission is in progress',
       'What to expect next',
       'How to contact us if you have questions',
       'Your Higher-Level Review request',
