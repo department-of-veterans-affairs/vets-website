@@ -8,6 +8,8 @@ export { default as startAppFromRouterV6 } from './routerV6'; // used outside pl
 
 export { default as createCommonStore } from './store'; // used outside platform
 
+export { authenticatedLoader } from './authenticatedLoader'; // used outside platform
+
 // tentative
 export { default as createAnalyticsMiddleware } from './analytics-middleware';
 export { default as startReactApp } from './react';

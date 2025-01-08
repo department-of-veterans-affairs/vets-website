@@ -25,6 +25,7 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
+  const { id, isLoggedIn } = props;
   useDatadogRum();
 
   const user = useSelector(selectUser);
@@ -37,21 +38,18 @@ const Avs = props => {
     },
     state => state.featureToggles,
   );
-  const { isLoggedIn } = props;
 
   const avsData = useLoaderData();
   const [avs, setAvs] = useState({});
 
   useEffect(
     () => {
-      if (avsData.id) {
+      if (avsData?.attributes) {
         setAvs(avsData.attributes);
       }
     },
     [avsData],
   );
-
-  const { id } = avsData;
 
   if (avsEnabled === false) {
     window.location.replace('/');
@@ -120,6 +118,7 @@ const mapStateToProps = state => ({
 });
 
 Avs.propTypes = {
+  id: PropTypes.string,
   isLoggedIn: PropTypes.bool,
   params: PropTypes.object,
 };
