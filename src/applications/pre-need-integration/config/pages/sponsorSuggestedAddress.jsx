@@ -28,10 +28,7 @@ const formatAddress = address => {
   return ''; // Return an empty string if no address is provided
 };
 
-function PreparerContactDetailsSuggestedAddress({
-  formData,
-  addressValidation,
-}) {
+function SponsorSuggestedAddress({ formData, addressValidation }) {
   const dispatch = useDispatch();
   const [userAddress, setUserAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -40,8 +37,7 @@ function PreparerContactDetailsSuggestedAddress({
 
   // Extract address details from formData
   const extractUserAddress = () =>
-    formData?.application?.applicant['view:applicantInfo']?.mailingAddress ||
-    {};
+    formData?.application?.veteran?.address || {};
 
   // Prepare address for API Request
   const prepareAddressForAPI = address => ({
@@ -116,7 +112,7 @@ function PreparerContactDetailsSuggestedAddress({
       newAddress = selected;
     }
     const updatedFormData = set(
-      'application.applicant[view:applicantInfo].mailingAddress',
+      'application.veteran.address',
       newAddress,
       formData,
     );
@@ -135,7 +131,7 @@ function PreparerContactDetailsSuggestedAddress({
         className="va-profile-wrapper"
         id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
       >
-        <ValidateAddressTitle title="Confirm your mailing address" />
+        <ValidateAddressTitle title="Confirm sponsor mailing address" />
         <VaRadio
           label="Tell us which address you'd like to use."
           onVaValueChange={onChangeSelectedAddress}
@@ -184,4 +180,4 @@ const mapStateToProps = state => ({
   addressValidation: state?.vapService?.addressValidation,
 });
 
-export default connect(mapStateToProps)(PreparerContactDetailsSuggestedAddress);
+export default connect(mapStateToProps)(SponsorSuggestedAddress);

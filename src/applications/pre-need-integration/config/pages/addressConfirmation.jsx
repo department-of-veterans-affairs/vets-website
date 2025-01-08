@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function PreparerAddressConfirmation({ formData }) {
+function AddressConfirmation({ formData }) {
   const formDataUserAddress =
     formData?.application?.applicant['view:applicantInfo']?.mailingAddress;
 
@@ -18,13 +18,11 @@ function PreparerAddressConfirmation({ formData }) {
   // For city/state/postalCode line, we build it conditionally:
   const cityStatePostal = [
     formDataUserAddress?.city,
-    // If we have a city and at least one more element (state or postal), add comma after city
     formDataUserAddress?.city &&
     (formDataUserAddress?.state || formDataUserAddress?.postalCode)
       ? ','
       : '',
     formDataUserAddress?.state,
-    // If state is present and postal code is also present, put a space
     formDataUserAddress?.state && formDataUserAddress?.postalCode ? ' ' : '',
     formDataUserAddress?.postalCode,
   ]
@@ -75,8 +73,10 @@ function PreparerAddressConfirmation({ formData }) {
 
 const mapStateToProps = state => {
   return {
+    state,
     formData: state?.form?.data,
+    addressValidation: state?.vapService?.addressValidation,
   };
 };
 
-export default connect(mapStateToProps)(PreparerAddressConfirmation);
+export default connect(mapStateToProps)(AddressConfirmation);

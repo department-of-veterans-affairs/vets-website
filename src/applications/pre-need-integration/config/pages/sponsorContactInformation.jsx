@@ -12,12 +12,20 @@ import {
   bottomPadding,
 } from '../../utils/helpers';
 
+// Import veteran properties from schema
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
+// Component for state title
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
 
+// Validation function
+const isRequired = formData => {
+  return formData?.application?.veteran?.address.street !== undefined;
+};
+
+// UI Schema
 export const uiSchema = {
   application: {
     veteran: {
@@ -26,6 +34,10 @@ export const uiSchema = {
         address.uiSchema(
           'Sponsor mailing address',
           'You can choose to enter your sponsor’s mailing address. This is optional. We’ll confirm this address with the U.S. Postal Service.',
+          false,
+          isRequired,
+          false,
+          ['city', 'postalCode'],
         ),
         {
           street: {
@@ -66,6 +78,7 @@ export const uiSchema = {
   },
 };
 
+// Schema
 export const schema = {
   type: 'object',
   properties: {
@@ -75,7 +88,7 @@ export const schema = {
         veteran: {
           type: 'object',
           properties: {
-            address: address.schema(fullSchemaPreNeed),
+            address: address.schema(fullSchemaPreNeed, isRequired),
             'view:contactInfoSubheader': {
               type: 'object',
               properties: {},

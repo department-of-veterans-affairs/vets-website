@@ -7,6 +7,7 @@ import set from 'platform/utilities/data/set';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ValidateAddressTitle } from '../../components/PreparerHelpers';
 import AddressConfirmation from './addressConfirmation';
+import { isAuthorizedAgent } from '../../utils/helpers';
 
 const formatAddress = address => {
   if (address) {
@@ -28,10 +29,7 @@ const formatAddress = address => {
   return ''; // Return an empty string if no address is provided
 };
 
-function PreparerContactDetailsSuggestedAddress({
-  formData,
-  addressValidation,
-}) {
+function ApplicantSuggestedAddress({ formData, addressValidation }) {
   const dispatch = useDispatch();
   const [userAddress, setUserAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -40,8 +38,7 @@ function PreparerContactDetailsSuggestedAddress({
 
   // Extract address details from formData
   const extractUserAddress = () =>
-    formData?.application?.applicant['view:applicantInfo']?.mailingAddress ||
-    {};
+    formData?.application?.claimant.address || {};
 
   // Prepare address for API Request
   const prepareAddressForAPI = address => ({
@@ -116,7 +113,7 @@ function PreparerContactDetailsSuggestedAddress({
       newAddress = selected;
     }
     const updatedFormData = set(
-      'application.applicant[view:applicantInfo].mailingAddress',
+      'application.claimant.address',
       newAddress,
       formData,
     );
@@ -135,7 +132,13 @@ function PreparerContactDetailsSuggestedAddress({
         className="va-profile-wrapper"
         id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
       >
-        <ValidateAddressTitle title="Confirm your mailing address" />
+        <ValidateAddressTitle
+          title={
+            !isAuthorizedAgent(formData)
+              ? 'Confirm your mailing address'
+              : 'Confirm applicant mailing address'
+          }
+        />
         <VaRadio
           label="Tell us which address you'd like to use."
           onVaValueChange={onChangeSelectedAddress}
@@ -184,4 +187,4 @@ const mapStateToProps = state => ({
   addressValidation: state?.vapService?.addressValidation,
 });
 
-export default connect(mapStateToProps)(PreparerContactDetailsSuggestedAddress);
+export default connect(mapStateToProps)(ApplicantSuggestedAddress);

@@ -148,6 +148,7 @@ export function schema(currentSchema, isRequired = false) {
  *   Receives formData and an index (if in an array item)
  * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
  *   customizations
+ *  @param {[string]} fields - Custom list of required fields. Defaults to address fields
  */
 export function uiSchema(
   label = 'Address',
@@ -155,6 +156,7 @@ export function uiSchema(
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
+  fields = requiredFields,
 ) {
   let fieldOrder = [
     'country',
@@ -336,7 +338,7 @@ export function uiSchema(
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {
-            currentSchema = set('required', requiredFields, currentSchema);
+            currentSchema = set('required', fields, currentSchema);
           } else if (!required && currentSchema.required.length > 0) {
             currentSchema = set('required', [], currentSchema);
           }
