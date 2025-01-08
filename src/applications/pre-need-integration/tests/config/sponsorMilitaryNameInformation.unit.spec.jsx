@@ -13,7 +13,7 @@ describe('Pre-need sponsor military name information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryNameInformation;
+  } = formConfig.chapters.militaryName.pages.sponsorMilitaryNameInformation;
 
   it('should render', () => {
     const form = mount(
