@@ -1,20 +1,10 @@
-import manifest from '../manifest.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import { cypressSetup } from './utils';
 import mockUser from './fixtures/mocks/user.json';
-
-const APIs = {
-  prefill: '/v0/in_progress_forms/WELCOME_VA_SETUP_REVIEW_INFORMATION',
-};
+import manifest from '../manifest.json';
 
 describe('Welcome to My VA Review Contact Information form', () => {
   const startApplication = () => {
-    cy.intercept(APIs.prefill, { statusCode: 200, body: mockPrefill }).as(
-      'mockSip',
-    );
     cy.visit(manifest.rootUrl);
-    // cy.wait('@mockSip');
-
     // Ensure we've navigated to the contact information form
     cy.location('pathname').should('match', /\/contact-information$/);
   };
@@ -38,8 +28,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_emailAddress"]').clear();
     cy.get('input[name="root_emailAddress"]').type('test@email.com');
 
-    // Update doesn't work
-    // cy.findByText('Update').click();
+    // Testing update would require additional work, so we'll just cancel
     cy.findByText('Cancel').click();
   };
 
@@ -69,9 +58,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
 
     cy.findByText('Update').click();
 
-    // Update doesn't work
-    // cy.findByText('Use this address').click();
-
+    // Testing update would require additional work, so we'll just cancel
     cy.findByText('Go back to edit').click();
     cy.findByText('Cancel').click();
   };
@@ -79,6 +66,8 @@ describe('Welcome to My VA Review Contact Information form', () => {
   const checkConfirmationPage = () => {
     cy.findByText('Continue').click();
     cy.location('pathname').should('include', '/confirmation');
+
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.focused().should('have.attr', 'id', 'confirmation-heading');
 
     cy.axeCheck();
