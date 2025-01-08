@@ -84,7 +84,7 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={formTitle} />
-      <ConfirmationAlert alertTitle="We’ve received your request for a Higher-Level Review">
+      <ConfirmationAlert alertTitle="Your Higher Level Review request submission is in progress">
         <>
           <p className="vads-u-margin-top--0">
             You submitted the request on {submitDate}. It can take a few days
