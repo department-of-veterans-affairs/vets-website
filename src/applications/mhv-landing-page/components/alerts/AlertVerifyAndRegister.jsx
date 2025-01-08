@@ -42,7 +42,12 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlertSignIn variant={variant} visible data-testid={testId}>
+    <VaAlertSignIn
+      variant={variant}
+      visible
+      data-testid={testId}
+      headingLevel={2}
+    >
       {spanSlot}
     </VaAlertSignIn>
   );

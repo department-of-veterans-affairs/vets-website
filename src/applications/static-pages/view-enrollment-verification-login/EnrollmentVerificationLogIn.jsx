@@ -16,7 +16,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   );
 
   const visitorUI = (
-    <VaAlertSignIn>
+    <VaAlertSignIn variant="signInRequired" headingLevel={3}>
       <span slot="SignInButton">
         <va-button
           text="Sign in or create an account"

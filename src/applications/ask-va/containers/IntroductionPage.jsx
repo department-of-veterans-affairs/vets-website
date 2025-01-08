@@ -155,7 +155,7 @@ const IntroductionPage = props => {
         when it’s ready.
       </p>
 
-      <VaAlertSignIn variant="signInRequired" visible headerLevel={4}>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
         <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"

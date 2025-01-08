@@ -22,7 +22,12 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlertSignIn variant="signInEither" visible data-testid={testId}>
+    <VaAlertSignIn
+      variant="signInEither"
+      visible
+      data-testid={testId}
+      headingLevel={4}
+    >
       <span slot="LoginGovSignInButton">
         <VerifyLogingovButton csp="logingov" />
       </span>

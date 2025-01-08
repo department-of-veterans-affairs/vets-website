@@ -14,7 +14,7 @@ export const AccountSecurityLoa1CredAlert = () => {
 
   return (
     <>
-      <VaAlertSignIn variant="signInRequired" visible>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={2}>
         <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"
@@ -28,7 +28,7 @@ export const AccountSecurityLoa1CredAlert = () => {
 
 export const SignInEmailAlert = () => {
   return (
-    <VaAlertSignIn variant="signInEither" visible>
+    <VaAlertSignIn variant="signInEither" visible headingLevel={2}>
       <span slot="LoginGovSignInButton">
         <VerifyButton csp="logingov" />
       </span>
