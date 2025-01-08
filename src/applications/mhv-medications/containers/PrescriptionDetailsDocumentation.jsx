@@ -173,12 +173,10 @@ const PrescriptionDetailsDocumentation = () => {
   }
   if (hasDocApiError || hasPrescriptionApiError) {
     return (
-      <div className="vads-u-margin-top--1">
-        <ApiErrorNotification
-          errorType="access"
-          content="medication information"
-        />
-      </div>
+      <ApiErrorNotification
+        errorType="access"
+        content="medication information"
+      />
     );
   }
 
@@ -213,7 +211,7 @@ const PrescriptionDetailsDocumentation = () => {
         </div>
       )}
       {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
-      <article>
+      <article className="vads-u-padding-bottom--0">
         <div ref={contentRef} />
       </article>
     </>
