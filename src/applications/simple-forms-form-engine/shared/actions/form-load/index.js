@@ -6,7 +6,7 @@ export const INTEGRATION_DEPLOYMENT =
   'https://pr18811-ps4nwwul37jtyembecv4bg0gafmyl3oj.ci.cms.va.gov';
 
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
-import mockForms from '../../_config/formConfig';
+import mockForms from '../../config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
 
 export const formLoadingInitiated = formId => {

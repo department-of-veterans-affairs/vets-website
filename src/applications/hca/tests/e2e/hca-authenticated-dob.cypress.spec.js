@@ -57,7 +57,7 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     goToNextPage('/veteran-information/profile-information-dob');
@@ -116,7 +116,7 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     goToNextPage('/veteran-information/profile-information-dob');
@@ -174,7 +174,7 @@ describe('HCA-User-Authenticated-With-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     goToNextPage('/veteran-information/birth-information');

@@ -35,6 +35,7 @@
     },
     "socOptIn": true,
     "hlrUpdatedContent": true,
+    "decisionReviewHlrNewApi": true,
     "informalConferenceTime": "time0800to1200",
     "contestedIssues": [
       {

@@ -1,10 +1,12 @@
-// TODO: this is a placeholder; structure will be added in ticket #97079
-import { mentalHealthSupportPageTitle } from '../../content/mentalHealthSupport';
-
-import { formTitle } from '../../utils';
+import {
+  mentalHealthSupportPageTitle,
+  mentalHealthSupportDescription,
+} from '../../content/mentalHealthSupport';
+import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': formTitle(mentalHealthSupportPageTitle),
+  'ui:title': titleWithTag(mentalHealthSupportPageTitle, form0781HeadingTag),
+  'ui:description': mentalHealthSupportDescription,
 };
 
 export const schema = {

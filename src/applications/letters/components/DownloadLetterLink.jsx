@@ -22,7 +22,7 @@ export class DownloadLetterLink extends React.Component {
     });
     this.props.getLetterPdf(
       this.props.letterType,
-      this.props.letterName,
+      this.props.letterTitle,
       this.props.letterOptions,
       this.props.LH_MIGRATION__options,
     );
@@ -38,7 +38,7 @@ export class DownloadLetterLink extends React.Component {
         buttonDisabled = true;
         break;
       case DOWNLOAD_STATUSES.success:
-        buttonText = `${this.props.letterName} (PDF)`;
+        buttonText = `${this.props.letterTitle} (PDF)`;
         buttonDisabled = undefined;
         message = (
           <va-alert status="success" role="alert">
@@ -64,7 +64,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       default:
-        buttonText = `${this.props.letterName} (PDF)`;
+        buttonText = `${this.props.letterTitle} (PDF)`;
         buttonDisabled = undefined;
     }
 
@@ -101,7 +101,7 @@ export class DownloadLetterLink extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     letterType: ownProps.letterType,
-    letterName: ownProps.letterName,
+    letterTitle: ownProps.letterTitle,
     downloadStatus: ownProps.downloadStatus,
     letterOptions: state.letters.requestOptions,
     shouldUseLighthouse: state.shouldUseLighthouse,
@@ -109,7 +109,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 DownloadLetterLink.propTypes = {
-  letterName: PropTypes.string.isRequired,
+  letterTitle: PropTypes.string.isRequired,
   letterType: PropTypes.string.isRequired,
   downloadStatus: PropTypes.string,
 };
