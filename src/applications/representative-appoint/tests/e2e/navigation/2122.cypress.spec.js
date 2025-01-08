@@ -108,7 +108,7 @@ describe('Authenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_Primary phone"]').type('5467364732');
+      cy.get('input[name="root_primaryPhone"]').type('5467364732');
 
       h.clickContinue();
 
