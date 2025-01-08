@@ -27,9 +27,6 @@ describe('Medical Records View Pain Severity', () => {
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
-    // go to second page
-    Vitals.viewNextPage();
-
     // check for latest id
     cy.get(
       '[data-testid="vital-pain-severity-0-10-verbal-numeric-rating-score-reported-measurement"]',
