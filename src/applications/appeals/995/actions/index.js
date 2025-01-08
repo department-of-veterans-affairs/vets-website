@@ -1,6 +1,5 @@
-import * as Sentry from '@sentry/browser';
-
 import environment from 'platform/utilities/environment';
+
 import { apiRequest } from 'platform/utilities/api';
 
 import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
@@ -77,10 +76,10 @@ export function fetchITF({ accountUuid, inProgressFormId }) {
     return apiRequest(apiUrl)
       .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.withScope(scope => {
-          scope.setExtra('accountUuid', accountUuid);
-          scope.setExtra('inProgressFormId', inProgressFormId);
-          Sentry.captureMessage('itf_fetch_failed');
+        window.DD_LOGS?.logger.error('SC ITF fetch failed', {
+          name: 'sc_itf_fetch_failed',
+          accountUuid,
+          inProgressFormId,
         });
         dispatch({ type: ITF_FETCH_FAILED });
       });
@@ -99,10 +98,10 @@ export function createITF({
     return apiRequest(apiUrl, { method: 'POST' })
       .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.withScope(scope => {
-          scope.setExtra('accountUuid', accountUuid);
-          scope.setExtra('inProgressFormId', inProgressFormId);
-          Sentry.captureMessage('itf_creation_failed');
+        window.DD_LOGS?.logger.error('SC ITF creation failed', {
+          name: 'sc_itf_creation_failed',
+          accountUuid,
+          inProgressFormId,
         });
         dispatch({ type: ITF_CREATION_FAILED });
       });
