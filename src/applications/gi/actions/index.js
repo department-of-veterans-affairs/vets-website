@@ -157,9 +157,9 @@ export function fetchLicenseCertificationResults() {
   };
 }
 
-export function fetchLcResult(link) {
+export function fetchLcResult(id) {
   return dispatch => {
-    const url = `${api.url}/${link}`;
+    const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
     return fetch(url, api.settings)

@@ -109,7 +109,7 @@ export default function LicenseCertificationKeywordSearch({
                         ) : (
                           <div className="keyword-suggestion-container">
                             <span className="vads-u-padding-right--1">
-                              {item.name}
+                              {item.lacNm}
                             </span>
                             <span>
                               {`(${

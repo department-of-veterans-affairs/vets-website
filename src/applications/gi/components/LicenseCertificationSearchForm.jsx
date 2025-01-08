@@ -30,7 +30,7 @@ export const updateDropdowns = (
           optionLabel: 'Certification',
         },
         {
-          optionValue: 'Prep',
+          optionValue: 'Prep Course',
           optionLabel: 'Prep Course',
         },
       ],
@@ -55,11 +55,8 @@ export const updateDropdowns = (
     },
   ];
 
-  // console.log('category', category);
-
   return initialDropdowns.map(dropdown => {
     if (dropdown.label === 'category') {
-      // console.log('dropdownOptions', dropdown.options);
       return {
         ...dropdown,
         current: dropdown.options.find(
@@ -81,26 +78,23 @@ export const updateDropdowns = (
   });
 };
 
-export const showMultipleNames = (suggestions, name) => {
-  return suggestions.filter(suggestion => suggestion.name === name);
+export const showMultipleNames = (suggestions, nameInput) => {
+  return suggestions.filter(
+    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
+  );
 };
 
 export const categoryCheck = type => {
-  if (type === 'license') {
+  if (type === 'License') {
     return true;
   }
-  if (type === 'prep') return true;
+  if (type === 'Prep Course') return true;
 
   return false;
 };
 
-export const checkAlert = (
-  type,
-  filteredStates,
-  currentLocation,
-  newLocation,
-) => {
-  if (filteredStates.length > 1) {
+export const checkAlert = (type, multiples, currentLocation, newLocation) => {
+  if (multiples.length > 1 && type !== 'Certification') {
     return true;
   }
 
@@ -109,9 +103,6 @@ export const checkAlert = (
   }
 
   if (type === 'Certification' && currentLocation !== 'all') {
-    if (!currentLocation) {
-      return false;
-    }
     return true;
   }
 
@@ -151,8 +142,6 @@ export default function LicenseCertificationSearchForm({
         type: categoryDropdown.current.optionValue,
         state: locationDropdown.current.optionValue,
       });
-
-      // console.log('newSuggestions', newSuggestions);
 
       if (name.trim() !== '') {
         newSuggestions.unshift({
@@ -207,6 +196,7 @@ export default function LicenseCertificationSearchForm({
               );
               setShowAlert(false);
               setName('');
+              setMultipleOptions(null);
             },
           );
         }
@@ -221,6 +211,7 @@ export default function LicenseCertificationSearchForm({
             setDropdowns(updateDropdowns());
             setShowAlert(false);
             setName('');
+            setMultipleOptions(null);
           },
         );
       }
@@ -252,7 +243,6 @@ export default function LicenseCertificationSearchForm({
     }
 
     if (allowContinue) {
-      // console.log('newDropdowns 🟢', newDropdowns);
       setDropdowns(newDropdowns);
     }
 
@@ -261,29 +251,28 @@ export default function LicenseCertificationSearchForm({
 
   const onSelection = selection => {
     const { selected } = selection;
+
     if (selected !== filteredSuggestions[0]) {
       const { eduLacTypeNm: type, state, lacNm: _name } = selected;
       const multiples = showMultipleNames(filteredSuggestions, _name);
-
-      // console.log({ type, state, name });
 
       if (multiples.length > 1) {
         setMultipleOptions(multiples);
       }
 
+      const _state = type === 'Certification' ? 'all' : state;
+
       const newDropdowns =
         multiples.length > 1
           ? updateDropdowns(type, 'all', multiples)
-          : updateDropdowns(type, state);
-
-      // console.log('newDropdowns', newDropdowns);
+          : updateDropdowns(type, _state);
 
       setShowAlert(
         checkAlert(
           type,
           multiples,
           locationDropdown.current.optionValue,
-          state,
+          _state,
         ),
       );
 
@@ -294,8 +283,14 @@ export default function LicenseCertificationSearchForm({
 
   const handleClearInput = () => {
     setName('');
-    setDropdowns(updateDropdowns(categoryDropdown.current.optionValue));
     setShowAlert(false);
+    setMultipleOptions(null);
+    setDropdowns(
+      updateDropdowns(
+        categoryDropdown.current.optionValue,
+        locationDropdown.current.optionValue,
+      ),
+    );
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
@@ -318,7 +313,7 @@ export default function LicenseCertificationSearchForm({
       />
 
       <Dropdown
-        disabled={categoryDropdown.current.optionValue === 'certification'}
+        disabled={categoryDropdown.current.optionValue === 'Certification'}
         label={`${capitalizeFirstLetter(locationDropdown.label)}`}
         visible
         name={locationDropdown.label}
@@ -340,7 +335,7 @@ export default function LicenseCertificationSearchForm({
               multipleOptions?.length > 1
             }
             changeStateToAllAlert={
-              categoryDropdown.current.optionValue === 'certification'
+              categoryDropdown.current.optionValue === 'Certification'
             }
             visible={showAlert}
             name={name}

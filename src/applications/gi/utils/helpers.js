@@ -529,25 +529,29 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 };
 
 export const filterLcResults = (results, nameInput, filters) => {
-  const { type, state } = filters;
+  const { type: typeFilter, state: stateFilter } = filters;
 
-  // console.log('filteredResults', {
-  //   filters,
-  //   filteredResults,
-  // });
+  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
+    return results;
 
   return results.filter(result => {
-    if (result.eduLacTypeNm === 'Exam') return false;
+    let allowContinue = true;
 
-    if (type === 'all' && state === 'all' && nameInput === '') return true;
-
-    if (type !== 'all' && type !== result.eduLacTypeNm) return false;
-
-    // if result.state === all, it is a certifciation
-    if (state !== 'all' && state !== result.state && result.state !== 'all')
+    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
       return false;
+    if (
+      stateFilter !== 'all' &&
+      stateFilter !== result.state &&
+      result.eduLacTypeNm !== 'Certification'
+    ) {
+      allowContinue = false;
+    }
 
-    return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
+    if (allowContinue) {
+      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
+    }
+
+    return false;
   });
 };
 
