@@ -18,7 +18,7 @@ export default function prefillTransformer(formData) {
       street: formData?.contactInformation?.address?.street,
     };
     newFormData.veteranEmail = formData?.contactInformation?.email;
-    newFormData['Primary phone'] = formData?.contactInformation?.primaryPhone;
+    newFormData.primaryPhone = formData?.contactInformation?.primaryPhone;
     newFormData['Branch of Service'] =
       formData?.militaryInformation?.serviceBranch;
     // reset the applicant information in case of claimant type change
@@ -58,7 +58,7 @@ export default function prefillTransformer(formData) {
       street: undefined,
     };
     newFormData.veteranEmail = undefined;
-    newFormData['Primary phone'] = undefined;
+    newFormData.primaryPhone = undefined;
     newFormData['Branch of Service'] = undefined;
   }
 

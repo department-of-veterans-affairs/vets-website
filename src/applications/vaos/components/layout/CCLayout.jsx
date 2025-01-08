@@ -19,6 +19,10 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import FacilityPhone from '../FacilityPhone';
 import Address from '../Address';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
 
 export default function CCLayout({ data: appointment }) {
   const {
@@ -43,6 +47,10 @@ export default function CCLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled community care appointment';
   else heading = 'Community care appointment';
+
+  recordAppointmentDetailsNullStates({
+    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+  });
 
   return (
     <>

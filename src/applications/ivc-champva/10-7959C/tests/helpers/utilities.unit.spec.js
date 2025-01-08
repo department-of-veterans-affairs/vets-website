@@ -1,13 +1,10 @@
 import { expect } from 'chai';
-import {
-  isRequiredFile,
-  nameWording,
-  nameWordingExt,
-} from '../../helpers/utilities';
+import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
 import {
   concatStreets,
   getObjectsWithAttachmentId,
+  nameWording,
 } from '../../../shared/utilities';
 
 describe('isRequiredFile', () => {

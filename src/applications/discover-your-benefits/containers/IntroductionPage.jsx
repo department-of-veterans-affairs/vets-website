@@ -32,7 +32,7 @@ const IntroductionPage = ({ router }) => {
 
       <div role="heading" aria-level="2">
         <p>
-          <b>Note:</b> This tool is not an application for VA benefits. And it
+          <b>Note:</b> This tool is not an application for VA benefits and it
           doesn’t confirm your eligibility. On the results page, we’ll help you
           learn more about eligibility and how to apply.
         </p>

@@ -122,24 +122,18 @@ export function teSubtitle(
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. 'startedFormVersion' has 2019 or 2022
- *  2. the claim has a claim type of new
- *  3. claiming at least one new disability
+ *  1. the claim has a claim type of new
+ *  2. claiming at least one new disability
  *
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
-  return (
-    (formData?.startedFormVersion === '2019' ||
-      formData?.startedFormVersion === '2022') &&
-    isClaimingNew(formData) &&
-    formData?.newDisabilities?.length > 0
-  );
+  return isClaimingNew(formData) && formData?.newDisabilities?.length > 0;
 }
 
 /**
  * Checks if
- * 1. TE pages should be showing at all
+ * 1. TE pages should be showing
  * 2. at least one checkbox on the TE conditions page is selected that is not 'none'
  *
  * @param {object} formData

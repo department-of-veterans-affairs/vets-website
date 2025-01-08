@@ -5,7 +5,7 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
  * Returns either a form of 'you', or the applicant's full name based
  * on the formData's `certifierRole` property. Assumes presences of an
  * `applicantName` key.
- * @param {object} formData Obj containing `certifierRole` and `applicantName
+ * @param {object} formData Obj containing `certifierRole` and `applicantName`
  * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
  * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
  * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name

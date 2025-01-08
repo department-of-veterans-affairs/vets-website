@@ -1,7 +1,7 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import formConfig from '../config/form';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockV2p5Data from './fixtures/data/maximal-test-v2.5.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -29,7 +29,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
-      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(

@@ -5,20 +5,24 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { isLoggedIn } from 'platform/user/selectors';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 function ProfileNotUpdatedNote(props) {
   const {
+    formData,
     includeLink,
     includePhone,
     includePrefix,
+    isClaimantChapter,
     loggedIn,
-    preparerIsVeteran,
   } = props;
-  const isLoggedInVeteran = loggedIn && preparerIsVeteran;
+
+  const shouldShowNote =
+    loggedIn && (isClaimantChapter || preparerIsVeteran({ formData }));
 
   return (
     <>
-      {isLoggedInVeteran && (
+      {shouldShowNote && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
@@ -52,16 +56,18 @@ function ProfileNotUpdatedNote(props) {
 }
 
 ProfileNotUpdatedNote.propTypes = {
+  formData: PropTypes.object,
   includeLink: PropTypes.bool,
   includePhone: PropTypes.bool,
   includePrefix: PropTypes.bool,
+  isClaimantChapter: PropTypes.bool,
   loggedIn: PropTypes.bool,
-  preparerIsVeteran: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
+    formData: state.form.data,
   };
 }
 

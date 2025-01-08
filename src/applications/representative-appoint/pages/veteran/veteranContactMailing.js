@@ -7,7 +7,6 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
-import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(
@@ -15,13 +14,7 @@ export const uiSchema = {
     'We’ll send any important information about your form to this address.',
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote
-        includeLink
-        includePrefix
-        preparerIsVeteran={preparerIsVeteran({ formData })}
-      />
-    ),
+    'ui:description': () => <ProfileNotUpdatedNote includeLink includePrefix />,
   },
   veteranHomeAddress: addressUI({
     labels: {
@@ -35,8 +28,31 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranHomeAddress: addressSchema({
-      omit: ['street3'],
-    }),
+    veteranHomeAddress: {
+      ...addressSchema({ omit: ['street3'] }),
+      properties: {
+        ...addressSchema({ omit: ['street3'] }).properties,
+        street: {
+          type: 'string',
+          maxLength: 30,
+        },
+        street2: {
+          type: 'string',
+          maxLength: 5,
+        },
+        city: {
+          type: 'string',
+          maxLength: 18,
+        },
+        state: {
+          type: 'string',
+          maxLength: 2,
+        },
+        postalCode: {
+          type: 'string',
+          maxLength: 9,
+        },
+      },
+    },
   },
 };
