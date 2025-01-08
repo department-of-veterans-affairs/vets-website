@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -14,14 +13,13 @@ import {
   fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer, checkDate } from '../helpers';
+import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
   claimantInfo,
-  dgiRudisillHideBenefitsSelectionStep,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
@@ -40,12 +38,10 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
-  mebAutoPopulateRelinquishmentDate,
   mebKickerNotificationEnabled,
   email,
   duplicateEmail,
   duplicatePhone,
-  benefitEffectiveDate,
   meb160630Automation,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
@@ -297,30 +293,10 @@ export const App = ({
         });
       }
 
-      if (
-        mebAutoPopulateRelinquishmentDate !==
-        formData.mebAutoPopulateRelinquishmentDate
-      ) {
-        setFormData({
-          ...formData,
-          mebAutoPopulateRelinquishmentDate,
-        });
-      }
-
       if (meb160630Automation !== formData?.meb160630Automation) {
         setFormData({
           ...formData,
           meb160630Automation,
-        });
-      }
-
-      if (
-        dgiRudisillHideBenefitsSelectionStep !==
-        formData.dgiRudisillHideBenefitsSelectionStep
-      ) {
-        setFormData({
-          ...formData,
-          dgiRudisillHideBenefitsSelectionStep,
         });
       }
 
@@ -346,7 +322,6 @@ export const App = ({
       }
     },
     [
-      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
@@ -359,7 +334,6 @@ export const App = ({
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
-      mebAutoPopulateRelinquishmentDate,
       meb160630Automation,
       mebKickerNotificationEnabled,
     ],
@@ -383,43 +357,19 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (
-          showDgiDirectDeposit1990EZ &&
-          isLoggedIn &&
-          isLOA3 &&
-          !fetchedDirectDeposit
-        ) {
+        if (isLoggedIn && isLOA3 && !fetchedDirectDeposit) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
       };
       fetchAndUpdateDirectDepositInfo();
-
-      const currentDate = moment();
-      const oneYearAgo = currentDate.subtract(1, 'y');
-      if (
-        !benefitEffectiveDate ||
-        (mebAutoPopulateRelinquishmentDate &&
-          moment(benefitEffectiveDate).isBefore(oneYearAgo))
-      ) {
-        setFormData({
-          ...formData,
-          benefitEffectiveDate: checkDate(
-            mebAutoPopulateRelinquishmentDate,
-            benefitEffectiveDate,
-          ),
-        });
-      }
     },
     [
       isLoggedIn,
-      featureTogglesLoaded,
       isLOA3,
-      showDgiDirectDeposit1990EZ,
       fetchedDirectDeposit,
       getDirectDeposit,
       setFetchedDirectDeposit,
-      benefitEffectiveDate,
     ],
   );
 
@@ -458,7 +408,6 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   email: PropTypes.string,
@@ -474,7 +423,6 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
-  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,

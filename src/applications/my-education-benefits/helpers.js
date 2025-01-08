@@ -3,22 +3,6 @@ import moment from 'moment';
 import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
-export const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
-  const dateFromData = moment(dateToCheck);
-
-  if (!mebAutoPopulateRelinquishmentDate)
-    return dateFromData.format('YYYY-MM-DD');
-
-  const currentDate = moment();
-  const oneYearAgo = currentDate.subtract(1, 'y');
-
-  if (dateFromData.isBefore(oneYearAgo) || dateToCheck === undefined) {
-    return oneYearAgo.format('YYYY-MM-DD');
-  }
-
-  return dateFromData.format('YYYY-MM-DD');
-};
-
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -209,6 +193,62 @@ function transformServiceHistory(serviceHistory) {
     separationReason: serviceHistory?.reasonForSeparation,
   };
 }
+// function transformServiceHistory(serviceHistory) {
+//   const formatDate = date => {
+//     if (!date) {
+//       console.log('No date provided:', date);
+//       return null;
+//     }
+
+//     const parsedDate = new Date(date);
+//     if (isNaN(parsedDate)) {
+//       console.log('Invalid date:', date);
+//       return null;
+//     }
+
+//     // Correct date handling to match local time
+//     const formattedDate = parsedDate.toLocaleDateString('en-US', {
+//       year: 'numeric',
+//       month: '2-digit',
+//       day: '2-digit',
+//     });
+
+//     console.log(`Formatted date for ${date}:`, formattedDate);
+//     return formattedDate;
+//   };
+
+//   console.log('Transforming service history:', serviceHistory);
+
+//   // Transform and return the service history
+//   const transformedHistory = {
+//     dateRange: {
+//       from: formatDate(serviceHistory?.beginDate),
+//       to: formatDate(serviceHistory?.endDate),
+//     },
+//     exclusionPeriods: serviceHistory?.exclusionPeriods?.map(exclusionPeriod => {
+//       console.log('Transforming exclusion period:', exclusionPeriod);
+//       return {
+//         from: formatDate(exclusionPeriod.beginDate),
+//         to: formatDate(exclusionPeriod.endDate),
+//       };
+//     }),
+//     trainingPeriods: serviceHistory?.trainingPeriods?.map(trainingPeriod => {
+//       console.log('Transforming training period:', trainingPeriod);
+//       return {
+//         from: formatDate(trainingPeriod.beginDate),
+//         to: formatDate(trainingPeriod.endDate),
+//       };
+//     }),
+//     serviceBranch: serviceHistory?.branchOfService,
+//     serviceCharacter: serviceHistory?.characterOfService,
+//     separationReason: serviceHistory?.reasonForSeparation,
+//   };
+
+//   // Check the transformed data
+//   console.log('Transformed service history:', transformedHistory);
+
+//   return transformedHistory;
+// }
 function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
@@ -261,9 +301,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
       state?.data?.formData?.data?.attributes?.serviceData || [];
     const contactInfo = claimant?.contactInfo || {};
     const stateUser = state?.user || {};
-    const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
-    const mebAutoPopulateRelinquishmentDate =
-      state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
     const profile = stateUser?.profile;
     const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
 
@@ -335,10 +372,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
         [formFields.livesOnMilitaryBase]:
           address?.addressType === 'MILITARY_OVERSEAS',
       },
-      [formFields.benefitEffectiveDate]: checkDate(
-        mebAutoPopulateRelinquishmentDate,
-        benefitEffectiveDate,
-      ),
       [formFields.viewDirectDeposit]: {
         [formFields.bankAccount]: {
           ...bankInformation,
@@ -416,7 +449,6 @@ export const formPages = {
     newPreferredContactMethod: 'newPreferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
-  benefitSelectionLegacy: 'benefitSelectionLegacy',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',
