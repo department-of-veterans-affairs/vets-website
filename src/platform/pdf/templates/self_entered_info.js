@@ -379,7 +379,7 @@ const generateResultItemContent = async (
 ) => {
   const headingOptions = {
     paragraphGap: item.headerGap ?? 10,
-    x: item.headerIndent || (hasH2 ? 40 : config.margins.left),
+    x: item.headerIndent ?? config.margins.one,
   };
   if (item.header) {
     results.add(
@@ -394,8 +394,8 @@ const generateResultItemContent = async (
   }
 
   for (const resultItem of item.items) {
-    let indent = item.header ? 50 : 40;
-    if (!hasH2) indent = 30;
+    let indent = config.indents.one;
+    if (!hasH2) indent = config.margins.left;
     if (item.itemsIndent) indent = item.itemsIndent;
 
     let structs;
@@ -411,7 +411,7 @@ const generateResultItemContent = async (
   }
 
   if (hasHorizontalRule) {
-    addHorizontalRule(doc, 30, 1.5, 1.5);
+    addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
   }
   if (item.spaceResults) doc.moveDown(item.spaceResults);
 };
@@ -424,7 +424,7 @@ export const generateResultsContent = async (doc, parent, data) => {
   if (data.results.header) {
     const headingOptions = {
       paragraphGap: 12,
-      x: data.results.headerIndent || 30,
+      x: data.results.headerIndent || config.margins.left,
     };
     results.add(
       createHeading(
@@ -440,7 +440,7 @@ export const generateResultsContent = async (doc, parent, data) => {
   if (data.results.preface) {
     const prefaceOptions = {
       paragraphGap: 12,
-      x: data.results.prefaceIndent || 30,
+      x: data.results.prefaceIndent || config.margins.left,
     };
     results.add(
       createSubHeading(doc, config, data.results.preface, prefaceOptions),
@@ -500,6 +500,7 @@ const generate = async data => {
   for (const recordSet of data.recordSets) {
     doc.addPage({ margins: config.margins });
     generateRecordSetIntroduction(doc, wrapper, recordSet);
+
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
         if (record.title) generateRecordTitle(doc, wrapper, record);

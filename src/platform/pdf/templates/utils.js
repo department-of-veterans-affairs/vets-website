@@ -430,7 +430,10 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text(titleText, x, doc.y, { lineGap: 2, paragraphGap: 6 });
+          .text(titleText, x, doc.y, {
+            lineGap: 2,
+            paragraphGap: item.paragraphGap ?? 2,
+          });
       }),
     );
   }
