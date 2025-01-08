@@ -22,7 +22,7 @@ import {
   fixDateFormat,
   replaceSubmittedData,
 } from '../../shared/utils/replace';
-import { removeEmptyEntries } from '../../shared/utils/submit';
+import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 /**
  * @typedef ClaimantData
@@ -69,8 +69,8 @@ export const getAddress = formData => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-  const countryCodeISO2 = truncate(
-    'countryCodeIso2',
+  const countryCodeISO2 = getIso2Country(veteran.address).substring(
+    0,
     MAX_LENGTH.ADDRESS_COUNTRY,
   );
   // international postal code can be undefined/null
