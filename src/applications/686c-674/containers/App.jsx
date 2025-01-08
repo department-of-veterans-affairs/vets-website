@@ -25,13 +25,14 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading || !featureToggles || featureToggles.loading) {
+  if (isLoading || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (!featureToggles.vaDependentsV2) {
-    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
-    return <></>;
+  if (!featureToggles.loading && featureToggles.vaDependentsV2 === false) {
+    window.location = '/view-change-dependents/add-remove-form-21-686c/';
+
+    return <va-loading-indicator message="Redirecting to form..." />;
   }
 
   const content = (

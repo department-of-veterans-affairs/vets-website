@@ -25,14 +25,14 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading || !featureToggles || featureToggles.loading) {
+  if (isLoading || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (featureToggles.vaDependentsV2) {
-    window.location.href =
-      '/view-change-dependents/add-remove-form-21-686c-v2/';
-    return <></>;
+  if (!featureToggles.loading && featureToggles.vaDependentsV2) {
+    window.location = '/view-change-dependents/add-remove-form-21-686c-v2';
+
+    return <va-loading-indicator message="Redirecting to updated form..." />;
   }
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
@@ -54,7 +54,7 @@ function App({
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(`${manifest.rootUrl}`);
+    window.location.replace(`${manifest.rootUrl}`);
     return (
       <va-loading-indicator message="Redirecting to introduction page..." />
     );
