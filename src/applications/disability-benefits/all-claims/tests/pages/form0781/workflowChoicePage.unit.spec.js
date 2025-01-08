@@ -8,7 +8,10 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import workflowChoicePage from '../../../pages/form0781/workflowChoicePage';
-import { workflowChoicePageTitle } from '../../../content/form0781';
+import {
+  form0781WorkflowChoiceLabels,
+  form0781WorkflowChoices,
+} from '../../../content/form0781/workflowChoicePage';
 
 describe('Form 0781 workflow choice page', () => {
   const { schema, uiSchema } = workflowChoicePage;
@@ -34,27 +37,40 @@ describe('Form 0781 workflow choice page', () => {
       />,
     );
 
-    getByText(workflowChoicePageTitle);
+    getByText('Statement about mental health conditions (VA Form 21-0781)');
 
     const radioButtons = $$('va-radio');
     expect(radioButtons.length).to.equal(1);
+
     expect(
       container.querySelector(
-        `va-radio-option[label="Complete online form"]`,
+        `va-radio-option[label="${
+          form0781WorkflowChoiceLabels[
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+          ]
+        }"]`,
         container,
       ),
     ).to.exist;
 
     expect(
       container.querySelector(
-        `va-radio-option[label="Submit paper form"]`,
+        `va-radio-option[label="${
+          form0781WorkflowChoiceLabels[
+            form0781WorkflowChoices.SUBMIT_PAPER_FORM
+          ]
+        }"]`,
         container,
       ),
     ).to.exist;
 
     expect(
       container.querySelector(
-        `va-radio-option[label="Opt out of Form 0781"]`,
+        `va-radio-option[label="${
+          form0781WorkflowChoiceLabels[
+            form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+          ]
+        }"]`,
         container,
       ),
     ).to.exist;
