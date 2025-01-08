@@ -94,6 +94,15 @@ const ReviewAndConfirm = props => {
     ],
   );
 
+  const handleGoBack = e => {
+    e.preventDefault();
+    routeToPreviousReferralPage(
+      history,
+      'reviewAndConfirm',
+      currentReferral.UUID,
+    );
+  };
+
   if (loading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading">
@@ -101,24 +110,15 @@ const ReviewAndConfirm = props => {
       </div>
     );
   }
-
-  if (failed) {
-    return (
-      <va-alert data-testid="error" status="error">
-        <h2>We’re sorry. We’ve run into a problem</h2>
-        <p>
-          We’re having trouble getting your upcoming appointments. Please try
-          again later.
-        </p>
-      </va-alert>
-    );
-  }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
-    <ReferralLayout hasEyebrow>
+    <ReferralLayout
+      hasEyebrow
+      heading="Review your appointment details"
+      apiFailure={failed}
+    >
       <div>
-        <h1 data-testid="review-heading">Review your appointment details</h1>
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
@@ -152,12 +152,7 @@ const ReviewAndConfirm = props => {
                 text="Edit"
                 data-testid="edit-when-information-link"
                 onClick={e => {
-                  e.preventDefault();
-                  routeToPreviousReferralPage(
-                    history,
-                    'reviewAndConfirm',
-                    currentReferral.UUID,
-                  );
+                  handleGoBack(e);
                 }}
               />
             </div>
@@ -204,12 +199,7 @@ const ReviewAndConfirm = props => {
             secondary
             uswds
             onClick={e => {
-              e.preventDefault();
-              routeToPreviousReferralPage(
-                history,
-                'confirmAppointment',
-                currentReferral.UUID,
-              );
+              handleGoBack(e);
             }}
           />
           <va-button

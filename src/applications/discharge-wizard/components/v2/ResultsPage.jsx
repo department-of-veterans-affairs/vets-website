@@ -8,7 +8,6 @@ import { ROUTES } from '../../constants';
 import ResultsSummary from './resultsComponents/ResultsSummary';
 import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderationStatement';
 import Warnings from './resultsComponents/Warnings';
-import OptionalStep from './resultsComponents/OptionalStep';
 import StepOne from './resultsComponents/StepOne';
 import AdditionalInstructions from './resultsComponents/AdditionalInstructions';
 import StepTwo from './resultsComponents/StepTwo';
@@ -43,7 +42,6 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
         router={router}
       />
       <Warnings formResponses={formResponses} />
-      <OptionalStep formResponses={formResponses} />
       <section>
         <va-process-list>
           <StepOne formResponses={formResponses} />
