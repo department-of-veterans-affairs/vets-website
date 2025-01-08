@@ -524,6 +524,18 @@ class MedicationsDetailsPage {
   verifyPreviousPrescriptionHeaderTextOnDetailsPage = text => {
     cy.get('[data-testid="previous-rx"]').should('contain', text);
   };
+
+  visitMedDetailsPage = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my-health/medications/prescription/${prescriptionDetails}`,
+    );
+    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+  };
+
+  verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('have.text', text);
+  };
 }
 
 export default MedicationsDetailsPage;
