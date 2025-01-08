@@ -85,7 +85,7 @@ const VaFileInputField = props => {
     const { maxFileSize } = props.uiOptions;
     if (fileFromEvent.size > maxFileSize) {
       const fileSizeString = getFileSize(maxFileSize);
-      setError(`file - size must not be greater than ${fileSizeString}`);
+      setError(`File size cannot be greater than ${fileSizeString}`);
       return;
     }
 
