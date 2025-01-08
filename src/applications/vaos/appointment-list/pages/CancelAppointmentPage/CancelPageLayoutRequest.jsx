@@ -5,16 +5,16 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
 import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
-import { selectRequestedAppointmentDetails } from '../../redux/selectors';
-import ListBestTimeToCall from '../ListBestTimeToCall';
 import {
   CCDetails,
   Details,
 } from '../../../components/layout/DetailPageLayout';
-import Section from '../../../components/Section';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
-import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import Section from '../../../components/Section';
+import { getRealFacilityId } from '../../../utils/appointment';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import ListBestTimeToCall from '../../components/ListBestTimeToCall';
+import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();

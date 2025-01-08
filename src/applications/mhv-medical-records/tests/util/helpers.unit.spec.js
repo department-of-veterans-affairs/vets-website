@@ -20,6 +20,7 @@ import {
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
   handleDataDogAction,
+  removeTrailingSlash,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -718,5 +719,28 @@ describe('formatDateInLocalTimezone', () => {
     const formattedDate = formatDateInLocalTimezone(dateString);
     const expectedDate = 'October 3, 2023 12:00 a.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
+  });
+});
+
+describe('removeTrailingSlash', () => {
+  it('should remove the trailing slash from a string', () => {
+    const string = 'https://example.com/';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal('https://example.com');
+  });
+  it('should return the string if there is no trailing slash', () => {
+    const string = 'https://example.com';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
+  });
+  it('should return the string if the string is empty', () => {
+    const string = '';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
+  });
+  it('should return the string if the string is null', () => {
+    const string = null;
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
   });
 });

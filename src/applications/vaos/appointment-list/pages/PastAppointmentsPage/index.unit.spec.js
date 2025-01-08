@@ -1,19 +1,19 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
-import { within } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import {
-  renderWithStoreAndRouter,
-  getTestDate,
-} from '../../../tests/mocks/setup';
+import { within } from '@testing-library/dom';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import moment from 'moment';
+import React from 'react';
 import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
-import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
+import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
 import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
+import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import {
+  getTestDate,
+  renderWithStoreAndRouter,
+} from '../../../tests/mocks/setup';
 
 const initialState = {
   featureToggles: {

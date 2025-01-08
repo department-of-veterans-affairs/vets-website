@@ -10,14 +10,14 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import UpcomingAppointmentLayout from '../../pages/AppointmentsPage/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
+import NoAppointments from '../../components/NoAppointments';
 import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
-import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
-import NoAppointments from '../NoAppointments';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -91,7 +91,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   return options;
 }
 
-export default function PastAppointmentsListNew() {
+export default function PastAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
