@@ -7,6 +7,18 @@ import _recordEvent from 'platform/monitoring/record-event';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
+  'va-accordion': [
+    {
+      action: 'expand',
+      event: 'int-accordion-expand',
+      prefix: 'accordion',
+    },
+    {
+      action: 'collapse',
+      event: 'int-accordion-collapse',
+      prefix: 'accordion',
+    },
+  ],
   'va-additional-info': [
     {
       action: 'expand',
@@ -284,6 +296,20 @@ const analyticsEvents = {
   ],
 };
 
+// This function assumes an accordion element in a <section> tag
+// which has a data-label attribute set.
+const getSectionLabel = node => {
+  let currentNode = node;
+  while (
+    currentNode &&
+    currentNode.tagName &&
+    currentNode.nodeName.toUpperCase() !== 'SECTION'
+  ) {
+    currentNode = currentNode.parentNode;
+  }
+  return currentNode?.dataset?.label;
+};
+
 export function subscribeComponentAnalyticsEvents(
   e,
   recordEvent = _recordEvent,
@@ -309,6 +335,14 @@ export function subscribeComponentAnalyticsEvents(
 
           dataLayer[newKey] = e.detail.details[key];
         }
+      }
+
+      if (
+        ['int-accordion-expand', 'int-accordion-collapse'].includes(
+          action.event,
+        )
+      ) {
+        dataLayer['accordion-section-label'] = getSectionLabel(e.target);
       }
 
       recordEvent(dataLayer);
