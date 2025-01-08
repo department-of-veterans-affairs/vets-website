@@ -1,3 +1,4 @@
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 
 export const workflowChoicePageTitle = (
@@ -40,3 +41,16 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
     'No, I don’t want to complete VA Form 21-0781 (opt out)',
 });
+
+export const ptsdQuestionsPreview = (
+  <VaAdditionalInfo trigger="We'll ask you questions about these topics">
+    <ul>
+      <li>
+        Traumatic events during your military service that are related to your
+        mental health conditions
+      </li>
+
+      <li>Behavioral changes you experienced after the traumatic events</li>
+    </ul>
+  </VaAdditionalInfo>
+);

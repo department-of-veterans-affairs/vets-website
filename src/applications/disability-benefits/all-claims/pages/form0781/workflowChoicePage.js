@@ -4,6 +4,7 @@ import {
   form0781WorkflowChoiceDescription,
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
+  ptsdQuestionsPreview,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
 } from '../../content/form0781/workflowChoicePage';
@@ -22,6 +23,9 @@ export default {
       labels: form0781WorkflowChoiceLabels,
       enableAnalytics: true,
     }),
+    'view:ptsdQuestionsPreview': {
+      'ui:description': ptsdQuestionsPreview,
+    },
   },
 
   schema: {
@@ -33,6 +37,10 @@ export default {
         enum: Object.keys(form0781WorkflowChoices).map(
           key => form0781WorkflowChoices[key],
         ),
+      },
+      'view:ptsdQuestionsPreview': {
+        type: 'object',
+        properties: {},
       },
     },
   },
