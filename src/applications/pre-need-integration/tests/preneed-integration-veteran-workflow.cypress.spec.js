@@ -1,5 +1,14 @@
-import testData from './fixtures/data/veteran-test.json';
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+// axe checks are called in the helper file for all pages
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
+import testData from './fixtures/data/veteran-test.json';
+
+const { applicant } = testData.data.application;
+const { claimant } = testData.data.application;
+const { veteran } = testData.data.application;
+
+// hard coded for now; found in veteran.race
+const demographicCheckboxes = ['isWhite'];
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
@@ -7,57 +16,42 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.visitIntro();
 
     // Preparer Information
-    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
+    preneedHelpers.fillPreparerInfo(applicant);
 
     // Applicant Information
     preneedHelpers.fillApplicantInfo(
-      testData.data.application.claimant.name,
-      testData.data.application.claimant.ssn,
-      testData.data.application.claimant.dateOfBirth,
-      testData.data.application.claimant.relationshipToVet,
-      testData.data.application.veteran.cityOfBirth,
-      testData.data.application.veteran.stateOfBirth,
+      claimant.name,
+      claimant.ssn,
+      claimant.dateOfBirth,
+      claimant.relationshipToVet,
+      veteran.cityOfBirth,
+      veteran.stateOfBirth,
     );
-    preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
-    preneedHelpers.fillApplicantDemographics(testData.data.application.veteran);
 
-    // Veteran Information Page
-    preneedHelpers.validateProgressBar('2');
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-demographics');
+    // Applicant Contact Info
+    preneedHelpers.fillApplicantContactInfo(
+      claimant.address,
+      claimant.email,
+      claimant.phoneNumber,
+    );
 
-    cy.fill(
-      'input[name="root_application_veteran_militaryServiceNumber"]',
-      testData.data.application.veteran.militaryServiceNumber,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_vaClaimNumber"]',
-      testData.data.application.veteran.vaClaimNumber,
-    );
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-military-details');
+    // Applicant Demographics
+    preneedHelpers.fillVeteranDemographics(veteran, demographicCheckboxes);
 
     // Military History Page
-    preneedHelpers.validateProgressBar('2');
+    preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillMilitaryHistory(
-      testData.data.application.veteran.serviceRecords,
+      veteran.militaryStatus,
+      veteran.militaryServiceNumber,
+      veteran.vaClaimNumber,
     );
-    cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names Page
-    preneedHelpers.fillPreviousName(testData.data.application.veteran);
+    preneedHelpers.fillPreviousName(veteran);
     cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection Page
-    preneedHelpers.validateProgressBar('3');
+    preneedHelpers.validateProgressBar('4');
     preneedHelpers.fillBenefitSelection(
       testData.data.application.veteran.desiredCemetery,
       testData.data.application.hasCurrentlyBuried,

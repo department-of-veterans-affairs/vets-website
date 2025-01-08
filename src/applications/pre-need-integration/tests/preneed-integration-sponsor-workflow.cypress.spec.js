@@ -1,98 +1,83 @@
 import testData from './fixtures/data/sponsor-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
 
+const { applicant } = testData.data.application;
+const { claimant } = testData.data.application;
+const { veteran } = testData.data.application;
+
+// hard coded for now; found in veteran.race
+const demographicCheckboxes = ['isBlackOrAfricanAmerican', 'isOther'];
+
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
+    // Preparer Information
+    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
+
     // Applicant Information Page
+    preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillApplicantInfo(
-      testData.data.application.claimant.name,
-      testData.data.application.claimant.ssn,
-      testData.data.application.claimant.dateOfBirth,
-      testData.data.application.claimant.relationshipToVet,
+      claimant.name,
+      claimant.ssn,
+      claimant.dateOfBirth,
+      claimant.relationshipToVet,
     );
+    preneedHelpers.fillApplicantContactInfo(
+      applicant.mailingAddress,
+      applicant.applicantEmail,
+      applicant.applicantPhoneNumber,
+    );
+
+    cy.selectRadio('root_application_applicant_isSponsor', applicant.isSponsor);
+    preneedHelpers.clickContinue();
 
     // Veteran/Sponsor Information Page
-    preneedHelpers.validateProgressBar('2');
-    cy.fillName(
-      'root_application_veteran_currentName',
-      testData.data.application.veteran.currentName,
-    );
+    preneedHelpers.validateProgressBar('3');
+    cy.fillName('root_application_veteran_currentName', veteran.currentName);
     cy.fill(
       '#root_application_veteran_currentName_maiden',
-      testData.data.application.veteran.currentName.maiden,
+      veteran.currentName.maiden,
     );
-    cy.fill(
-      'input[name="root_application_veteran_ssn"]',
-      testData.data.application.veteran.ssn,
-    );
-
-    cy.fillDate(
-      'root_application_veteran_dateOfBirth',
-      testData.data.application.veteran.dateOfBirth,
-    );
+    cy.fill('input[name="root_application_veteran_ssn"]', veteran.ssn);
+    cy.fillDate('root_application_veteran_dateOfBirth', veteran.dateOfBirth);
     cy.fill(
       'input[name="root_application_veteran_placeOfBirth"]',
-      testData.data.application.veteran.placeOfBirth,
+      veteran.placeOfBirth,
     );
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-details');
 
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-demogrpahics');
-
-    cy.selectRadio(
-      'root_application_veteran_isDeceased',
-      testData.data.application.veteran.isDeceased,
-    );
+    // Is Sponsor Deceased
+    cy.selectRadio('root_application_veteran_isDeceased', veteran.isDeceased);
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-deceased');
-    cy.fillDate(
-      'root_application_veteran_dateOfDeath',
-      testData.data.application.veteran.dateOfDeath,
-    );
+    cy.fillDate('root_application_veteran_dateOfDeath', veteran.dateOfDeath);
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-date-of-death');
 
-    cy.fill(
-      'input[name="root_application_veteran_militaryServiceNumber"]',
-      testData.data.application.veteran.militaryServiceNumber,
-    );
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-military-details');
+    preneedHelpers.fillVeteranDemographics(veteran, demographicCheckboxes);
 
-    // Military History Page
-    preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillMilitaryHistory(
-      testData.data.application.veteran.serviceRecords,
+      veteran.militaryStatus,
+      veteran.militaryServiceNumber,
+      veteran.vaClaimNumber,
     );
-    cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names Page
     preneedHelpers.fillPreviousName(testData.data.application.veteran);
     cy.url().should('not.contain', '/sponsor-military-name');
+
+    // Military History Page
+    preneedHelpers.validateProgressBar('5');
+    preneedHelpers.fillServicePeriods(
+      testData.data.application.veteran.serviceRecords,
+    );
+    cy.url().should('not.contain', '/sponsor-military-history');
 
     // Benefit Selection Page
     preneedHelpers.validateProgressBar('4');

@@ -74,11 +74,11 @@ function fillPreparerInfo(preparer) {
     // Preparer Details
     cy.fill(
       'input[name="root_application_applicant_name_first"]',
-      preparer['view:applicantInfo'].name.first,
+      preparer.name.first,
     );
     cy.fill(
       'input[name="root_application_applicant_name_last"]',
-      preparer['view:applicantInfo'].name.last,
+      preparer.name.last,
     );
     cy.axeCheck();
     clickContinue();
@@ -87,7 +87,7 @@ function fillPreparerInfo(preparer) {
 
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
-      preparer['view:applicantInfo'].mailingAddress,
+      preparer.mailingAddress,
     );
     cy.fill(
       'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
@@ -95,9 +95,15 @@ function fillPreparerInfo(preparer) {
     );
     cy.fill(
       'input[name$="applicantPhoneNumber"]',
-      preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
+      preparer.applicantPhoneNumber,
+    );
+    cy.fill(
+      'input[name="root_application_applicant_view\\:contactInfo_applicantEmail"]',
+      preparer.applicantEmail,
     );
     cy.axeCheck();
+    clickContinue();
+    // Address validation page
     clickContinue();
   }
 }
@@ -130,52 +136,61 @@ function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
   );
 }
 
-function fillApplicantContactInfo(contact) {
-  cy.fillAddress('root_application_claimant_address', contact.address);
-  cy.fill('input[name$="email"]', contact.email);
-  cy.fill('input[name$="phoneNumber"]', contact.phoneNumber);
+// Fills Applicant Contact Information page, performs axe check, continues to next page
+function fillApplicantContactInfo(address, email, phone) {
+  cy.fillAddress('root_application_claimant_address', address);
+  cy.fill('input[name$="email"]', email);
+  cy.fill('input[name$="phoneNumber"]', phone);
   cy.axeCheck();
   clickContinue();
-  cy.url().should('not.contain', '/applicant-contact-information');
 }
 
-function fillApplicantDemographics(applicant) {
-  cy.selectRadio('root_application_veteran_gender', applicant.gender);
+function fillVeteranDemographics(veteran, demographicCheckboxes) {
+  cy.selectRadio('root_application_veteran_gender', veteran.gender);
   cy.selectRadio(
     'root_application_veteran_maritalStatus',
-    applicant.maritalStatus,
+    veteran.maritalStatus,
   );
   cy.axeCheck();
   clickContinue();
-  cy.selectRadio('root_application_veteran_ethnicity', applicant.ethnicity);
-  applicant.races?.map(race => cy.check(race));
+  cy.selectRadio('root_application_veteran_ethnicity', veteran.ethnicity);
+  demographicCheckboxes.map(checkbox =>
+    cy.selectVaCheckbox(`root_application_veteran_race_${checkbox}`, true),
+  );
+  if (veteran.race.isOther) {
+    cy.get('#root_application_veteran_raceComment').type(veteran.raceComment);
+  }
+  cy.axeCheck();
+  clickContinue();
 }
 
-// Submit Form
-function submitForm() {
-  cy.get('[name="privacyAgreementAccepted"]')
-    .find('[type="checkbox"]')
-    .check({
-      force: true,
-    });
-
-  cy.axeCheck();
-  cy.get('.form-progress-buttons .usa-button-primary').click();
-  cy.url().should('not.contain', '/review-and-submit');
-
-  cy.get('.js-test-location', { timeout: Timeouts.slow })
-    .invoke('attr', 'data-location')
-    .should('not.contain', '/review-and-submit');
-
-  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
-    'contain',
-    'Your claim has been submitted.',
+function fillMilitaryHistory(status, serviceNumber, claimNumber) {
+  cy.selectVaSelect('root_application_veteran_militaryStatus', status);
+  cy.fill(
+    'input[name="root_application_veteran_militaryServiceNumber"]',
+    serviceNumber,
   );
+  cy.fill('input[name="root_application_veteran_vaClaimNumber"]', claimNumber);
   cy.axeCheck();
+  clickContinue();
+}
+
+// Fills in previous name information if the veteran has it, performs axe check, continues to next page
+function fillPreviousName(veteran) {
+  if (veteran.serviceName.first) {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+    cy.axeCheck();
+    clickContinue();
+    cy.fillName('root_application_veteran_serviceName', veteran.serviceName);
+  } else {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
+  }
+  cy.axeCheck();
+  clickContinue();
 }
 
 // Fills in any existing military history data, performs axe check, continues to next page
-function fillMilitaryHistory(serviceRecord) {
+function fillServicePeriods(serviceRecord) {
   serviceRecord.forEach((tour, index) => {
     cy.fillDate(
       `root_application_veteran_serviceRecords_${index}_dateRange_from`,
@@ -222,20 +237,6 @@ function fillMilitaryHistory(serviceRecord) {
   clickContinue();
 }
 
-// Fills in previous name information if the veteran has it, performs axe check, continues to next page
-function fillPreviousName(veteran) {
-  if (veteran['view:hasServiceName']) {
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-    cy.axeCheck();
-    clickContinue();
-    cy.fillName('root_application_veteran_serviceName', veteran.serviceName);
-  } else {
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
-  }
-  cy.axeCheck();
-  clickContinue();
-}
-
 // Fills both benefit selection pages, performs axe checks on each, continues to next page
 function fillBenefitSelection(
   desiredCemetery,
@@ -275,7 +276,28 @@ function fillBenefitSelection(
   }
 }
 
-// Fills Applicant Contact Information page, performs axe check, continues to next page
+// Submit Form
+function submitForm() {
+  cy.get('[name="privacyAgreementAccepted"]')
+    .find('[type="checkbox"]')
+    .check({
+      force: true,
+    });
+
+  cy.axeCheck();
+  cy.get('.form-progress-buttons .usa-button-primary').click();
+  cy.url().should('not.contain', '/review-and-submit');
+
+  cy.get('.js-test-location', { timeout: Timeouts.slow })
+    .invoke('attr', 'data-location')
+    .should('not.contain', '/review-and-submit');
+
+  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
+    'contain',
+    'Your claim has been submitted.',
+  );
+  cy.axeCheck();
+}
 
 module.exports = {
   clickContinue,
@@ -283,11 +305,12 @@ module.exports = {
   visitIntro,
   fillPreparerInfo,
   fillApplicantContactInfo,
-  fillApplicantDemographics,
+  fillVeteranDemographics,
   validateProgressBar,
   fillApplicantInfo,
   fillMilitaryHistory,
   fillPreviousName,
+  fillServicePeriods,
   fillBenefitSelection,
   submitForm,
 };
