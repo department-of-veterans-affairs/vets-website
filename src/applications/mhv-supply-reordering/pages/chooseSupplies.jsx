@@ -19,12 +19,8 @@ const Description = ({ formData }) => {
         You have {numberOfSuppliesPhrase(count)} that are available for reorder.
       </p>
       <p>
-        <strong>Note:</strong> For CPAP supplies, each order is a 12-month
-        supply. You can only order each item once every 12 months.
-      </p>
-      <p>
-        For hearing aid supplies, each order is a 6-month supply. You can only
-        order each item once every 6 months.
+        <strong>Note:</strong> We’ll send you a 6-month supply of each item
+        added to your order. You can only order each item once every 5 months.
       </p>
     </>
   );
