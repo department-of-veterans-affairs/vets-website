@@ -16,8 +16,8 @@ import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  // const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
-  const toggleValue = true;
+  const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+
   return (
     <>
       {!toggleValue ? (
@@ -70,15 +70,10 @@ const BuildRoutes = () => {
       ) : (
         <NewGiApp>
           <Switch>
-            <Route
-              exact
-              path="/"
-            >
+            <Route exact path="/">
               <HomePage />
             </Route>
-            <Route
-              path="/schools-and-employers"
-            >
+            <Route path="/schools-and-employers">
               <SchoolsAndEmployers />
             </Route>
           </Switch>
