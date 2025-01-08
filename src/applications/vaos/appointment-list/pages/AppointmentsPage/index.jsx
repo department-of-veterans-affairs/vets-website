@@ -21,8 +21,8 @@ import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPi
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
-import PastAppointmentsListNew from '../../components/PastAppointmentsList';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
+import PastAppointmentsPage from '../PastAppointmentsPage';
 import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
@@ -192,7 +192,7 @@ export default function AppointmentsPage() {
           <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
-          <PastAppointmentsListNew hasTypeChanged={hasTypeChanged} />
+          <PastAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>
