@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // import { validateAtLeastOneSelected } from '../utils/validators';
 import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
@@ -24,6 +25,12 @@ const Description = ({ formData }) => {
       </p>
     </>
   );
+};
+
+Description.propTypes = {
+  formData: PropTypes.shape({
+    supplies: PropTypes.array,
+  }),
 };
 
 /** @type {PageSchema} */
