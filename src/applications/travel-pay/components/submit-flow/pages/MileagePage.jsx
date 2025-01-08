@@ -29,8 +29,7 @@ const MileagePage = ({
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
-    onNext: e => {
-      e.preventDefault();
+    onNext: () => {
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
@@ -40,8 +39,7 @@ const MileagePage = ({
         setPageIndex(pageIndex + 1);
       }
     },
-    onBack: e => {
-      e.preventDefault();
+    onBack: () => {
       setPageIndex(pageIndex - 1);
     },
   };
@@ -132,8 +130,8 @@ const MileagePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        onPrimaryClick={e => handlers.onNext(e)}
-        onSecondaryClick={e => handlers.onBack(e)}
+        onPrimaryClick={handlers.onNext}
+        onSecondaryClick={handlers.onBack}
       />
     </div>
   );
