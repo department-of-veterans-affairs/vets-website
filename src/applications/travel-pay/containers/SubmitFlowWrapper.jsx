@@ -19,7 +19,7 @@ import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
 
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { appointment1 } from '../services/mocks/appointments';
 
@@ -159,7 +159,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
-            <CantFilePage
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}
