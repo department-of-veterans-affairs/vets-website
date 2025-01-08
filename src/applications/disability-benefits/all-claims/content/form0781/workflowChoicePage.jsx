@@ -1,7 +1,10 @@
 import React from 'react';
 
-export const workflowChoicePageTitle =
-  'Statement about mental health conditions (VA Form 21-0781)';
+export const workflowChoicePageTitle = (
+  <div className="vads-u-font-size--h3">
+    Statement about mental health conditions (VA Form 21-0781)
+  </div>
+);
 
 export const workflowChoicePageDescription = (
   <>
