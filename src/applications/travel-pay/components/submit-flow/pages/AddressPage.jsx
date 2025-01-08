@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
+import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 
 const AddressPage = ({
   address,
@@ -14,25 +17,52 @@ const AddressPage = ({
   setYesNo,
   setCantFile,
 }) => {
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
+
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
-    onNext: e => {
-      e.preventDefault();
+    onNext: () => {
       if (!yesNo.address) {
         setRequiredAlert(true);
-      } else if (yesNo.address !== 'yes') {
+      } else if (yesNo.address !== 'yes' || !address) {
         setCantFile(true);
       } else {
         setCantFile(false);
         setPageIndex(pageIndex + 1);
       }
     },
-    onBack: e => {
-      e.preventDefault();
+    onBack: () => {
       setPageIndex(pageIndex - 1);
     },
   };
+
+  if (!address) {
+    return (
+      <>
+        <h1 className="vads-u-margin-bottom--2">
+          Did you travel from your home address?
+        </h1>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+        >
+          <h2 slot="headline">You don’t have an address on file</h2>
+          <p className="vads-u-margin-y--0">
+            We’re sorry, we don’t have an address on file for you and can’t file
+            a claim in this tool right now.
+          </p>
+        </va-alert>
+        <HelpTextModalities />
+        <HelpTextGeneral />
+        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+      </>
+    );
+  }
 
   return (
     <div>
@@ -59,6 +89,8 @@ const AddressPage = ({
           </p>
           <hr className="vads-u-margin-y--0" />
           <p className="vads-u-margin-top--2">
+            <strong>Home address</strong>
+            <br />
             {address.addressLine1}
             <br />
             {address.addressLine2 && (
@@ -113,12 +145,11 @@ const AddressPage = ({
           person.
         </p>
       </va-additional-info>
-
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        onPrimaryClick={e => handlers.onNext(e)}
-        onSecondaryClick={e => handlers.onBack(e)}
+        onPrimaryClick={handlers.onNext}
+        onSecondaryClick={handlers.onBack}
       />
     </div>
   );

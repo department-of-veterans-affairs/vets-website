@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux';
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import {
+  selectVAPMailingAddress,
   selectVAPResidentialAddress,
   isProfileLoading,
   isLoggedIn,
@@ -22,7 +23,7 @@ import CantFilePage from '../components/submit-flow/pages/CantFilePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { appointment1 } from '../services/mocks/appointments';
 
-const SubmitFlowWrapper = ({ address }) => {
+const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   // TODO: Placeholders until backend integration
   // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
@@ -102,7 +103,7 @@ const SubmitFlowWrapper = ({ address }) => {
       page: 'address',
       component: (
         <AddressPage
-          address={address}
+          address={homeAddress || mailingAddress}
           yesNo={yesNo}
           setYesNo={setYesNo}
           setCantFile={setCantFile}
@@ -178,7 +179,8 @@ SubmitFlowWrapper.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    address: selectVAPResidentialAddress(state),
+    homeAddress: selectVAPResidentialAddress(state),
+    mailingAddress: selectVAPMailingAddress(state),
   };
 }
 
