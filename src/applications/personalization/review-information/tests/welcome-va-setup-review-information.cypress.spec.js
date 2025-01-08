@@ -1,6 +1,7 @@
 import manifest from '../manifest.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import { cypressSetup } from './utils';
+import mockUser from './fixtures/mocks/user.json';
 
 const APIs = {
   prefill: '/v0/in_progress_forms/WELCOME_VA_SETUP_REVIEW_INFORMATION',
@@ -12,7 +13,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
       'mockSip',
     );
     cy.visit(manifest.rootUrl);
-    cy.wait('@mockSip');
+    // cy.wait('@mockSip');
 
     // Ensure we've navigated to the contact information form
     cy.location('pathname').should('match', /\/contact-information$/);
@@ -83,9 +84,10 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.axeCheck();
   };
 
-  context('when navigating the form', () => {
+  context('when signed in', () => {
     beforeEach(() => {
       cypressSetup();
+      cy.login(mockUser);
       startApplication();
     });
 
@@ -97,6 +99,22 @@ describe('Welcome to My VA Review Contact Information form', () => {
       editEmailAddress();
       editMailingAddress();
       checkConfirmationPage();
+    });
+  });
+
+  context('when not signed in', () => {
+    beforeEach(() => {
+      cypressSetup();
+      startApplication();
+    });
+
+    it('should redirect to sign in', () => {
+      cy.axeCheck();
+      cy.location().should(loc => {
+        expect(loc.search).to.eq(
+          '?next=%2Fmy-va%2Fwelcome-va-setup%2Freview-information%2Fcontact-information',
+        );
+      });
     });
   });
 });

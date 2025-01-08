@@ -1,4 +1,3 @@
-import mockUser from './fixtures/mocks/user.json';
 import mockUserAvail from './fixtures/mocks/user-transition-availabilities.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockVamc from './fixtures/mocks/vamc-ehr.json';
@@ -11,7 +10,7 @@ import mockProfileEmail from './fixtures/mocks/profile-email.json';
 import mockProfileAddress from './fixtures/mocks/profile-address.json';
 import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
-export const cypressSetup = ({ user = mockUser } = {}) => {
+export const cypressSetup = () => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
   cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
@@ -43,6 +42,4 @@ export const cypressSetup = ({ user = mockUser } = {}) => {
     '/v0/profile/address_validation',
     mockProfileAddressValidation,
   ).as('getAddressValidation');
-
-  cy.login(user);
 };
