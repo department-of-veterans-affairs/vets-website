@@ -217,12 +217,6 @@ describe('getDaysLeft', () => {
     expect(actual).to.eq(10);
   });
 
-  it('returns 1 for a date 30 days ago if earlier in day', () => {
-    MockDate.set('2024-05-31T09:00:00Z'); // filing at 9 am on the 30th day
-    const actual = getDaysLeft('2024-05-01T14:00:00Z'); // appt was at 2 pm
-    expect(actual).to.eq(1);
-  });
-
   it('returns 0 for a date more than 30 days ago', () => {
     MockDate.set('2024-06-25T14:00:00Z');
     const actual = getDaysLeft('2024-05-05T14:00:00Z');
