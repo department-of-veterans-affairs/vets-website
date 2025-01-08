@@ -19,6 +19,11 @@ describe('22-10216 Edu form', () => {
 
     // Tab to and press 'Start your 35% exemption request' to start form
 
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('va-accordion-item[header="VA education service help"]');
+    cy.realPress('Space');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Education Liaison Representative');
     cy.tabToElement('[text="Start your 35% exemption request"]');
     cy.realPress('Enter');
 
@@ -45,6 +50,12 @@ describe('22-10216 Edu form', () => {
     cy.tabToContinueForm();
 
     // Continue past accredited warning
+    cy.url().should(
+      'include',
+      formConfig.chapters.institutionDetailsChapter.pages.additionalErrorChapter
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
     cy.tabToContinueForm();
 
     // Student ratio calculation page
@@ -60,6 +71,10 @@ describe('22-10216 Edu form', () => {
     cy.typeInFocused(25);
     cy.tabToElement('input[name="root_studentRatioCalcChapter_numOfStudent"]');
     cy.typeInFocused(100);
+
+    cy.tabToElement('va-additional-info');
+    cy.realPress('Space');
+
     cy.tabToElement(
       'select[name="root_studentRatioCalcChapter_dateOfCalculationMonth"]',
     );
@@ -75,11 +90,18 @@ describe('22-10216 Edu form', () => {
     cy.realType('2000');
     cy.tabToContinueForm();
 
+    cy.url().should(
+      'include',
+      formConfig.chapters.submissionInstructionsChapter.pages
+        .submissionInstructions.path,
+    );
+    cy.injectAxeThenAxeCheck();
     cy.tabToContinueForm();
 
     // // Review and sumbit page
 
     cy.url().should('include', 'review-and-submit');
+    cy.injectAxeThenAxeCheck();
     cy.tabToSubmitForm();
 
     // // Confirmation page
