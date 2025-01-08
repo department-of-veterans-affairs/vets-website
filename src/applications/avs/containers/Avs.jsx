@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,6 @@ import { selectUser } from '@department-of-veterans-affairs/platform-user/select
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
@@ -39,44 +38,27 @@ const Avs = props => {
     state => state.featureToggles,
   );
   const { isLoggedIn } = props;
-  const { id } = useParams();
 
+  const avsData = useLoaderData();
   const [avs, setAvs] = useState({});
-  const [avsLoading, setAvsLoading] = useState(true);
-
-  const [error, setError] = useState(null);
-
-  if (error) {
-    throw error;
-  }
 
   useEffect(
     () => {
-      const fetchAvs = async () => {
-        try {
-          const response = await getAvs(id);
-
-          // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
-          setAvs(response.data.attributes);
-          setAvsLoading(false);
-        } catch (e) {
-          setError(e);
-        }
-      };
-
-      if (isLoggedIn && avsLoading && id) {
-        fetchAvs();
+      if (avsData.id) {
+        setAvs(avsData.attributes);
       }
     },
-    [avs, avsLoading, id, isLoggedIn],
+    [avsData],
   );
+
+  const { id } = avsData;
 
   if (avsEnabled === false) {
     window.location.replace('/');
     return null;
   }
 
-  if (isLoggedIn && id && (avsLoading || featureTogglesLoading)) {
+  if (isLoggedIn && featureTogglesLoading) {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
