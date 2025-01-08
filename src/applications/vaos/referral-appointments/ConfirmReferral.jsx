@@ -6,8 +6,10 @@ import ReferralLayout from './components/ReferralLayout';
 export default function ConfirmReferral(props) {
   const { currentReferral } = props;
   return (
-    <ReferralLayout>
-      <h1>Confirm Referral for {currentReferral.CategoryOfCare}</h1>
+    <ReferralLayout
+      hasEyebrow
+      heading={`Confirm Referral for ${currentReferral.CategoryOfCare}`}
+    >
       <p>{currentReferral.UUID}</p>
       <va-button
         className="va-button-link"

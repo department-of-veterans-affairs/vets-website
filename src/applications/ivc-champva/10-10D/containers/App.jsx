@@ -33,6 +33,7 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):

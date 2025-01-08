@@ -1,5 +1,7 @@
 import React from 'react';
+import { formTitleTag, formTitle } from '../utils';
 
+export const form0781HeadingTag = 'VA FORM 21-0781';
 export const additionalFormsTitle = 'Additional Forms';
 
 export const form0781WorkflowChoices = {
@@ -73,3 +75,118 @@ export const traumaticEventsExamples = (
     </va-accordion-item>
   </va-accordion>
 );
+
+export const mentalHealthSupportResources = (
+  <>
+    <strong>
+      Veterans Crisis Line responders are available 24 hours a day. You can
+      connect with a responder in any of these ways:
+    </strong>
+    <ul>
+      <li>
+        Dial <va-telephone contact="988" /> then select 1.
+      </li>
+      <li>
+        <va-link
+          external
+          href="https://www.veteranscrisisline.net/get-help-now/chat/"
+          text="Start a confidential chat."
+        />
+      </li>
+      <li>
+        Text <va-telephone contact="838255" />.
+      </li>
+      <li>
+        If you have hearing loss, call TTY: <va-telephone contact="711" />, then{' '}
+        <va-telephone contact="988" />.
+      </li>
+    </ul>
+    <strong>You can also get support in any of these ways:</strong>
+    <ul>
+      <li>
+        <va-link
+          external
+          href="https://www.va.gov/get-help-from-accredited-representative/"
+          text="Connect with a Veterans Service Officer (VSO) to assist you with your
+          application."
+        />
+      </li>
+      <li>
+        Call <va-telephone contact="911" />.
+      </li>
+      <li>Go to the nearest emergency room.</li>
+      <li>
+        Go directly to your nearest VA medical center. It doesn’t matter what
+        your discharge status is or if you’re enrolled in VA health care.
+        <va-link
+          external
+          href="https://www.va.gov/find-locations/?facilityType=health"
+          text="Find your nearest VA medical center"
+        />
+      </li>
+    </ul>
+    <strong>
+      If your claim is related to MST (military sexual trauma), you can also get
+      support in these ways:
+    </strong>
+    <ul>
+      <li>
+        <va-link
+          external
+          href="https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp"
+          text="Connect with a MST Outreach Coordinator."
+        />
+      </li>
+      <li>
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+          text="Learn more about our MST-related services."
+        />
+      </li>
+    </ul>
+  </>
+);
+
+export const mentalHealthSupportAlert = () => {
+  return (
+    <va-alert-expandable
+      status="info"
+      trigger="How do I get mental health support right now?"
+    >
+      <p>
+        We understand that some of the questions may be difficult to answer. If
+        you need to take a break and come back to your application, your
+        information will be saved.
+      </p>
+      <br />
+      <p>
+        If you’re a Veteran in crisis or concerned about one, connect with our
+        caring, qualified Veterans Crisis Line responders for confidential help.
+        Many of them are Veterans themselves. This service is private, free, and
+        available 24/7.
+      </p>
+      <br />
+      {mentalHealthSupportResources}
+    </va-alert-expandable>
+  );
+};
+
+/**
+ * Create a title and headingTag for a page which will be passed into ui:title so that
+ * they are grouped in the same legend
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} headingTag - the headingTag for the page, which displays above the title
+ * @returns {JSX.Element} markup with title and headingTag. example below.
+ *
+ * <h3 class="...">VA FORM 21-0781</h3>
+ * <h3 class="...">Mental health support</h3>
+ */
+export function titleWithTag(title, headingTag) {
+  return (
+    <>
+      {formTitleTag(headingTag)}
+      {formTitle(title)}
+    </>
+  );
+}

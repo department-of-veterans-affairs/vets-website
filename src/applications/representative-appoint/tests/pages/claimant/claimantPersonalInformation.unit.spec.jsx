@@ -37,4 +37,12 @@ describe('Claimant Personal Information page', () => {
 
     expect($('button[type="submit"]', container)).to.exist;
   });
+
+  it('should have proper max lengths for name fields', () => {
+    const nameProps = schema.properties.applicantName.properties;
+
+    expect(nameProps.first.maxLength).to.equal(12);
+    expect(nameProps.middle.maxLength).to.equal(1);
+    expect(nameProps.last.maxLength).to.equal(18);
+  });
 });

@@ -116,7 +116,7 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `/${SUBMIT_URL.join('')}`,
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
