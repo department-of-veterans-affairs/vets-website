@@ -46,7 +46,7 @@ const mailingAddress = {
 
 describe('Address page', () => {
   const props = {
-    pageIndex: 2,
+    pageIndex: 3,
     setPageIndex: () => {},
     yesNo: {
       mileage: 'yes',
