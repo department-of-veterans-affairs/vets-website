@@ -42,6 +42,7 @@ const SearchByProgram = () => {
         required
       />
       <div className="medium-screen:vads-u-flex--2 tablet:vads-u-flex--auto vads-u-margin-right--2p5 mobile:vads-u-margin-top--2p5">
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           type="button"
           className="vads-u-line-height--3 vads-u-padding--0 vads-u-margin--0 vads-u-color--primary vads-u-background-color--white vads-u-font-weight--normal"
