@@ -21,7 +21,7 @@ export const privateRecordsChoiceHelp = (
       <p>
         If you upload a digital copy of all your medical records, we can review
         your claim more quickly. Uploading a digital file works best if you have
-        a computer with a fast Internet connection. The digital file can be
+        a computer with a fast internet connection. The digital file can be
         uploaded as a .pdf or other photo file format, like a .jpeg or .png.
       </p>
       <h3 className="vads-u-font-size--h4">

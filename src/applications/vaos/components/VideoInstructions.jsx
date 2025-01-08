@@ -42,7 +42,7 @@ export default function VideoInstructions() {
             well-lighted location
           </li>
           <li>
-            Check to ensure you have a strong Internet connection before your
+            Check to ensure you have a strong internet connection before your
             appointment
           </li>
           <li>

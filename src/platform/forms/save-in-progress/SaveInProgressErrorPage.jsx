@@ -126,7 +126,7 @@ class SaveInProgressErrorPage extends React.Component {
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
               We’re sorry, but we’re unable to connect to VA.gov. Please check
-              that you’re connected to the Internet and try again.
+              that you’re connected to the internet and try again.
             </div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}

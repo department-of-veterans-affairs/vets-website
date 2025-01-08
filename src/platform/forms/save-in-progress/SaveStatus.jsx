@@ -73,7 +73,7 @@ function SaveStatus({
           uswds
         >
           {autoSavedStatus === SAVE_STATUSES.clientFailure &&
-            `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
+            `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the internet, so we can save your ${appType} in progress.`}
           {autoSavedStatus === SAVE_STATUSES.failure &&
             `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
           {!isLoggedIn &&

@@ -200,7 +200,7 @@ describe('Schemaform review: <ClientError />', () => {
     );
 
     expect(
-      tree.getByText('Please check your Internet connection and try again.'),
+      tree.getByText('Please check your internet connection and try again.'),
     ).to.not.be.null;
     expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
 

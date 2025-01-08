@@ -254,7 +254,7 @@ export const TIMS_DOCUMENTS = {
     displayName:
       "Electronic Application For Dependent's Education Benefits (VA Form 22-5490)",
     explanation:
-      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the Internet using VONAPP.',
+      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the internet using VONAPP.',
   },
   TUTOR: {
     displayName: 'Tutorial Assistance Request',
@@ -287,7 +287,7 @@ export const TIMS_DOCUMENTS = {
   V1990: {
     displayName: 'Electronic Application for Benefits',
     explanation:
-      'Application for Education Benefits submitted via the Internet using VONAPP.',
+      'Application for Education Benefits submitted via the internet using VONAPP.',
   },
   OTAT: {
     displayName: 'Tuition Assistance Top-Up',
@@ -301,17 +301,17 @@ export const TIMS_DOCUMENTS = {
   V1995: {
     displayName: 'V1995',
     explanation:
-      'Document submitted via the Internet using VONAPP indicating you have changed your program or training establishment.',
+      'Document submitted via the internet using VONAPP indicating you have changed your program or training establishment.',
   },
   V5490: {
     displayName: "Electronic Application For Dependent's Education Benefits",
     explanation:
-      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the Internet using VONAPP.',
+      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the internet using VONAPP.',
   },
   V5495: {
     displayName: 'Electronic Change of School or Program',
     explanation:
-      'Document submitted via the Internet using VONAPP indicating that you have changed your program or training establishment.',
+      'Document submitted via the internet using VONAPP indicating that you have changed your program or training establishment.',
   },
   VSIGN: {
     displayName: 'VONAPP Signature',
@@ -325,7 +325,7 @@ export const TIMS_DOCUMENTS = {
   OV1990: {
     displayName: 'Electronic Application for Benefits',
     explanation:
-      'Application for Education Benefits, submitted via the Internet using VONAPP.',
+      'Application for Education Benefits, submitted via the internet using VONAPP.',
   },
   O5490: {
     displayName: "Application for Dependent's Education benefits",
@@ -335,7 +335,7 @@ export const TIMS_DOCUMENTS = {
   OV5490: {
     displayName: "Electronic Application For Dependent's Education Benefits",
     explanation:
-      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the Internet using VONAPP.',
+      'Application for Education Benefits for dependents based on the veteran being 100% permanently and totally disabled submitted via the internet using VONAPP.',
   },
   OHCOPY: {
     displayName: 'Flight, Apprenticeship, OJT, or Correspondence Claim',

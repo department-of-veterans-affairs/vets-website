@@ -69,7 +69,7 @@ export const CAUGHT_EXCEPTIONS = {
   'NetworkError when attempting to fetch resource.': {
     LEVEL: Sentry.Severity.Warning,
   },
-  'The Internet connection appears to be offline.': {
+  'The internet connection appears to be offline.': {
     LEVEL: Sentry.Severity.Info,
   },
   'The network connection was lost.': {

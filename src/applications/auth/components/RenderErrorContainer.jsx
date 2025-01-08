@@ -475,7 +475,7 @@ export default function RenderErrorContainer({
           </p>
           <ul>
             <li>
-              Clear your Internet browser’s cookies and cache. Depending on
+              Clear your internet browser’s cookies and cache. Depending on
               which browser you’re using, you’ll usually find this information
               referred to as “Browsing Data,”, “Browsing History,” or “Website
               Data.”
@@ -509,7 +509,7 @@ export default function RenderErrorContainer({
           </p>
           <ul>
             <li>
-              Clear your Internet browser’s cookies and cache. Depending on
+              Clear your internet browser’s cookies and cache. Depending on
               which browser you’re using, you’ll usually find this information
               referred to as “Browsing Data,”, “Browsing History,” or “Website
               Data.”

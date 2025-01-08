@@ -37,7 +37,7 @@ export default function ClientError(props) {
           <ErrorMessage
             active
             title="We’re sorry, there was an error connecting to VA.gov."
-            message="Please check your Internet connection and try again."
+            message="Please check your internet connection and try again."
           />
         </Column>
       </Row>
