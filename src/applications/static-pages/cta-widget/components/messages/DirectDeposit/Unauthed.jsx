@@ -8,7 +8,7 @@ const Unauthed = ({ headerLevel = 3 }) => {
   const dispatch = useDispatch();
 
   return (
-    <VaAlertSignIn variant="signInRequired" visible headerLevel={headerLevel}>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={headerLevel}>
       <span slot="SignInButton">
         <va-button
           text="Sign in or create an account"

@@ -131,7 +131,7 @@ describe('<CallToActionWidget>', () => {
     expect(signInButton.getAttribute('text')).to.eql(
       'Sign in or create an account',
     );
-    expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
 
@@ -154,7 +154,7 @@ describe('<CallToActionWidget>', () => {
     expect(signInButton.getAttribute('text')).to.eql(
       'Sign in or create an account',
     );
-    expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
@@ -190,7 +190,7 @@ describe('<CallToActionWidget>', () => {
     expect(signInButton.getAttribute('text')).to.eql(
       'Sign in or create an account',
     );
-    expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
 
@@ -570,7 +570,7 @@ describe('<CallToActionWidget>', () => {
         'Sign in or create an account',
       );
       fireEvent.click(signInButton);
-      expect(vaAlertSignIn.getAttribute('header-level')).to.eql('3');
+      expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
       expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
     });
 

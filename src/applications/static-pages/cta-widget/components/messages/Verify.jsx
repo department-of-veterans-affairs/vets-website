@@ -35,7 +35,7 @@ const Verify = ({ signInService, headerLevel }) => {
     }[signInService] || {};
 
   return (
-    <VaAlertSignIn variant={variant} visible headerLevel={headerLevel}>
+    <VaAlertSignIn variant={variant} visible headingLevel={headerLevel}>
       {spanSlot}
     </VaAlertSignIn>
   );

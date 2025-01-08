@@ -10,7 +10,7 @@ import { VerifyButton } from 'platform/user/authentication/components/VerifyButt
  */
 const SignInOtherAccount = ({ headerLevel }) => {
   return (
-    <VaAlertSignIn variant="signInEither" visible headerLevel={headerLevel}>
+    <VaAlertSignIn variant="signInEither" visible headingLevel={headerLevel}>
       <span slot="LoginGovSignInButton">
         <VerifyButton csp="logingov" />
       </span>
