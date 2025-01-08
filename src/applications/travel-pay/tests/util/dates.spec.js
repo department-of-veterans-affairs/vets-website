@@ -217,6 +217,12 @@ describe('getDaysLeft', () => {
     expect(actual).to.eq(10);
   });
 
+  it('returns 30 for an appointment on the day filed', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const actual = getDaysLeft('2024-06-25T14:00:00Z');
+    expect(actual).to.eq(30);
+  });
+
   it('returns 0 for a date more than 30 days ago', () => {
     MockDate.set('2024-06-25T14:00:00Z');
     const actual = getDaysLeft('2024-05-05T14:00:00Z');
