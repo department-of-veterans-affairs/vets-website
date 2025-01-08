@@ -8,7 +8,7 @@ import CantFilePage from '../../../../components/submit-flow/pages/CantFilePage'
 it('should render with back button', () => {
   const props = {
     pageIndex: 2,
-    setCantFile: () => {},
+    setIsUnsupportedClaimType: () => {},
     setPageIndex: () => {},
   };
   const screen = render(<CantFilePage {...props} />);
