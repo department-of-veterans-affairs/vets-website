@@ -214,7 +214,7 @@ export default function DetailPageLayout({
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1 className="vads-u-font-size--h2">{heading}</h1>
+        <h1 className="vaos__dynamic-font-size--h2">{heading}</h1>
         {featureTravelPayViewClaimDetails && (
           <ErrorAlert appointment={appointment} />
         )}
