@@ -35,6 +35,7 @@ const suppliesUpdateUiSchema = formData =>
 
 const suppliesUi = ({
   title,
+  tile,
   description,
   hint,
   replaceSchema,
@@ -42,6 +43,7 @@ const suppliesUi = ({
 }) =>
   checkboxGroupUI({
     title,
+    tile,
     description,
     hint,
     labels: {},

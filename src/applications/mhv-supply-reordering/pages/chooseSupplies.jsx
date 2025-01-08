@@ -32,6 +32,7 @@ export default {
     'ui:description': Description,
     chosenSupplies: suppliesUi({
       title: 'Select available supplies for reorder',
+      tile: true,
       replaceSchema: suppliesReplaceSchema,
       updateUiSchema: suppliesUpdateUiSchema,
     }),
