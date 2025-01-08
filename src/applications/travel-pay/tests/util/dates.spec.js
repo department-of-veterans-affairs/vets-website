@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { getDateFilters, formatDateTime } from '../../util/dates';
+import { getDateFilters, formatDateTime, getDaysLeft } from '../../util/dates';
 
 function formatDateRange(dateRange) {
   const [startDay, startTime] = formatDateTime(dateRange.start);
@@ -203,5 +203,29 @@ describe('getDateFilters', () => {
     );
 
     expect(dateRanges.length).to.eq(6);
+  });
+});
+
+describe('getDaysLeft', () => {
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('returns 10 for a date 20 days ago', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const actual = getDaysLeft('2024-06-05T14:00:00Z');
+    expect(actual).to.eq(10);
+  });
+
+  it('returns 1 for a date 30 days ago if earlier in day', () => {
+    MockDate.set('2024-05-31T09:00:00Z'); // filing at 9 am on the 30th day
+    const actual = getDaysLeft('2024-05-01T14:00:00Z'); // appt was at 2 pm
+    expect(actual).to.eq(1);
+  });
+
+  it('returns 0 for a date more than 30 days ago', () => {
+    MockDate.set('2024-06-25T14:00:00Z');
+    const actual = getDaysLeft('2024-05-05T14:00:00Z');
+    expect(actual).to.eq(0);
   });
 });
