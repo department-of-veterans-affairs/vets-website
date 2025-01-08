@@ -6,15 +6,17 @@ import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 
-export const verifyHandler = ({ policy, useOAuth, queryParams }) => {
+export const verifyHandler = ({ policy, queryParams }) => {
+  const updatedQueryParams = { ...queryParams, oauth: true };
+
   verify({
     policy,
-    useOAuth,
+    useOAuth: updatedQueryParams.oauth,
     acr: defaultWebOAuthOptions.acrVerify[policy],
-    queryParams,
+    queryParams: updatedQueryParams,
   });
 
-  if (useOAuth) {
+  if (updatedQueryParams.oauth) {
     updateStateAndVerifier(policy);
   }
 };
@@ -30,7 +32,7 @@ export const VerifyIdmeButton = ({ queryParams }) => {
     <button
       type="button"
       className="usa-button idme-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth: true, queryParams })}
+      onClick={() => verifyHandler({ policy, queryParams })}
     >
       <span>
         <svg viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,14 +57,17 @@ export const VerifyIdmeButton = ({ queryParams }) => {
  *
  * @returns The updated design of the Login.gov identity-verification buttion
  */
-export const VerifyLogingovButton = ({ queryParams }) => {
+export const VerifyLogingovButton = ({
+  onClick = verifyHandler,
+  queryParams,
+}) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth: true, queryParams })}
+      onClick={() => onClick({ policy, queryParams })}
     >
       <div>Verify with {image}</div>
     </button>
@@ -76,12 +81,7 @@ export const VerifyLogingovButton = ({ queryParams }) => {
  * @param {String} config.onClick - Used for unit-testing: DO NOT OVERWRITE
  * @returns A button with just the Login.gov or ID.me logo that is used to start the identity-verification process
  */
-export const VerifyButton = ({
-  csp,
-  onClick = verifyHandler,
-  queryParams,
-  useOAuth,
-}) => {
+export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
 
@@ -90,7 +90,7 @@ export const VerifyButton = ({
       key={csp}
       type="button"
       className={className}
-      onClick={() => onClick({ policy: csp, useOAuth, queryParams })}
+      onClick={() => onClick({ policy: csp, queryParams })}
     >
       <span className="sr-only">Verify with</span>
       {image}
@@ -98,9 +98,18 @@ export const VerifyButton = ({
   );
 };
 
+VerifyIdmeButton.propTypes = {
+  queryParams: PropTypes.object,
+  onClick: PropTypes.func,
+};
+
+VerifyLogingovButton.propTypes = {
+  queryParams: PropTypes.object,
+  onClick: PropTypes.func,
+};
+
 VerifyButton.propTypes = {
   csp: PropTypes.string.isRequired,
-  useOAuth: PropTypes.bool.isRequired,
   queryParams: PropTypes.object,
   onClick: PropTypes.func,
 };

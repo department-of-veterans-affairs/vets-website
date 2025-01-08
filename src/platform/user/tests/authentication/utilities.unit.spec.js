@@ -184,97 +184,134 @@ describe('Authentication Utilities', () => {
     const typeVerified = `${type}_verified`;
     const signupType = SIGNUP_TYPES[CSP_IDS.LOGIN_GOV];
     const signupTypeVerified = `${signupType}_verified`;
-    const queryParams = {
-      test: 'test',
-    };
+    const queryParams = { test: 'test' };
+
     afterEach(() => cleanup());
 
     it('should return null if not provided a type', () => {
       expect(authUtilities.sessionTypeUrl({})).to.be.null;
     });
 
-    it('should return session url with type in its simplest form', () => {
-      expect(authUtilities.sessionTypeUrl({ type })).to.equal(
-        API_SESSION_URL({ type }),
-      );
+    it('should return session URL with type in its simplest form', () => {
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.equal(API_SESSION_URL({ type }));
     });
 
-    it('should return session url with queryParams appended if provided', () => {
-      expect(authUtilities.sessionTypeUrl({ type, queryParams })).to.eql(
-        appendQuery(API_SESSION_URL({ type }), queryParams),
-      );
+    it('should return session URL with queryParams appended if provided', () => {
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+          queryParams,
+        }),
+      ).to.eql(appendQuery(API_SESSION_URL({ type }), queryParams));
     });
 
-    it('should return session url with additional params appeneded for MHV Logins', () => {
+    it('should return session URL with additional params appended for MHV Logins', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
-        'redirect=',
-        'postLogin=true',
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.contain.all('redirect=', 'postLogin=true');
     });
 
-    it('should return session url with additional params appended for My VA Health (Cerner) login', () => {
+    it('should return session URL with additional params appended for My VA Health (Cerner) login', () => {
       setup({ path: usipPathWithParams(cernerUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.not.contain.all(
-        'skip_dupe=true',
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.not.contain.all('skip_dupe=true');
     });
 
-    it('should return session url with _verified appended to type for OCC logins', () => {
+    it('should return session URL with _verified appended to type for OCC logins', () => {
       setup({ path: usipPathWithParams(occUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.include(
-        appendQuery(API_SESSION_URL({ type: typeVerified })),
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SESSION_URL({ type: typeVerified })));
     });
 
-    it('should return session url with _verified appended to type for Flagship logins', () => {
+    it('should return session URL with _verified appended to type for Flagship logins', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.include(
-        appendQuery(API_SESSION_URL({ type: typeVerified })),
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SESSION_URL({ type: typeVerified })));
     });
 
-    it('should return session url with _verified appended to type for OCC signups', () => {
+    it('should return session URL with _verified appended to type for OCC signups', () => {
       setup({ path: usipPathWithParams(occUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.include(
-        appendQuery(API_SESSION_URL({ type: signupTypeVerified })),
+      expect(
+        authUtilities.sessionTypeUrl({
+          type: signupType,
+        }),
+      ).to.include(
+        appendQuery(
+          API_SESSION_URL({
+            type: signupTypeVerified,
+          }),
+        ),
       );
     });
 
-    it('should return session url with _verified appended to type for Flagship signups', () => {
+    it('should return session URL with _verified appended to type for Flagship signups', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.include(
-        appendQuery(API_SESSION_URL({ type: signupTypeVerified })),
+      expect(
+        authUtilities.sessionTypeUrl({
+          type: signupType,
+        }),
+      ).to.include(
+        appendQuery(
+          API_SESSION_URL({
+            type: signupTypeVerified,
+          }),
+        ),
       );
     });
 
-    it('should return the SIS session URL if oauth is set', async () => {
-      setup({ path: usipPathWithParams(normalPathWithParams) });
+    it('should include oauth=true in the queryParams for OAuth-enabled requests', async () => {
+      setup({ path: normalPathWithParams });
       const url = await authUtilities.sessionTypeUrl({
         type: 'logingov',
+        queryParams: { operation: 'unauthenticated_verify_page' },
+        useOauth: true,
       });
-      expect(url).to.include(`v0/sign_in`);
+
+      expect(url).to.include('oauth=true');
+      expect(url).to.include(API_SIGN_IN_SERVICE_URL({ type: 'logingov' }));
     });
 
-    it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
+    it('should NOT return session URL with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: 'mfa' })).to.include(
-        appendQuery(API_SESSION_URL({ type: 'mfa' })),
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type: 'mfa',
+        }),
+      ).to.include(appendQuery(API_SESSION_URL({ type: 'mfa' })));
     });
 
-    it('should NOT return session url with _verified appended to type when not on USiP', () => {
+    it('should NOT return session URL with _verified appended to type when not on USiP', () => {
       setup({ path: flagshipUsipParams });
-      expect(authUtilities.sessionTypeUrl({ type })).to.include(
-        appendQuery(API_SESSION_URL({ type })),
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SESSION_URL({ type })));
     });
 
-    it('should NOT return session url with _verified appended for external applications other than OCC/Flagship', () => {
+    it('should NOT return session URL with _verified appended for external applications other than OCC/Flagship', () => {
       setup({ path: usipPathWithParams(ebenefitsUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
-        '_verified',
-      );
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.not.include('_verified');
     });
 
     it('should use `API_SIGN_IN_SERVICE_URL` when `useOAuth` is true', async () => {
@@ -283,26 +320,19 @@ describe('Authentication Utilities', () => {
           `${flagshipUsipParams}&oauth=true&code_challenge=hello&code_challenge_method=S256`,
         ),
       });
-      expect(
-        await authUtilities.sessionTypeUrl({
-          type,
-        }),
-      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+      const url = await authUtilities.sessionTypeUrl({ type });
+      expect(url).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
     });
-    it('should use API_SESSION_URL when OAuth is disabled', async () => {
-      const params = { application: 'vamobile' };
-      setup({
-        path: usipPathWithParams(
-          `${flagshipUsipParams}&oauth=false&code_challenge=hello&code_challenge_method=S256`,
-        ),
+
+    it('should return session URL for non-OAuth requests without oauth=true', async () => {
+      const url = await authUtilities.sessionTypeUrl({
+        type: 'logingov',
+        queryParams: { operation: 'regular_verification' },
+        useOauth: false,
       });
-      expect(
-        await authUtilities.sessionTypeUrl({
-          type,
-        }),
-      ).to.include(
-        appendQuery(API_SESSION_URL({ type: typeVerified }), params),
-      );
+
+      expect(url).to.not.include('oauth=true');
+      expect(url).to.include(API_SESSION_URL({ type: 'logingov' }));
     });
   });
 
