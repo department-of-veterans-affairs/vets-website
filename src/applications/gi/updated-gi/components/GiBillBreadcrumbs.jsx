@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 const GiBillBreadcrumbs = () => {
@@ -23,13 +23,12 @@ const GiBillBreadcrumbs = () => {
     },
   ];
 
-  if (isSchools) crumbs.push(
-    {
+  if (isSchools)
+    crumbs.push({
       href: '/schools-and-employers',
       label: 'Schools and employers',
       isRouterLink: true,
-    },
-  );
+    });
 
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
@@ -38,9 +37,9 @@ const GiBillBreadcrumbs = () => {
 
   return (
     <div className="gi-bill-container__bread-crumbs">
-      <VaBreadcrumbs 
-        uswds 
-        breadcrumbList={crumbs}       
+      <VaBreadcrumbs
+        uswds
+        breadcrumbList={crumbs}
         onRouteChange={handleRouteChange}
       />
     </div>
