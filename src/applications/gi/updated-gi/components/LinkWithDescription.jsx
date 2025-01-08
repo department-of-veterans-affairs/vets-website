@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const LinkWithDescription = ({ text, link, description }) => (
   <div className="vads-u-flex--1 site-grid-example">
     <Link
-      className="vads-u-font-weight--bold vads-u-font-family--serif"
+      className="comparison-tool-link vads-u-font-weight--bold vads-u-font-family--serif"
       to={link}
     >
       {text}
