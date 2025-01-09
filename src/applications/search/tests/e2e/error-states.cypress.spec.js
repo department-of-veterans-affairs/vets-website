@@ -41,7 +41,7 @@ xdescribe('Error states', () => {
     });
   });
 
-  it('fails to search and has an error', () => {
+  it('shows an error when the search service fails', () => {
     cy.intercept('GET', '/v0/search?query=benefits', {
       body: [],
       statusCode: 500,
