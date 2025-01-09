@@ -8,16 +8,16 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { formatNumberForScreenReader } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 
 import {
   getMissingData,
   parseDateToDateObj,
-  FORMAT_YMD_DATE_FNS_CONCAT,
   FORMAT_READABLE_DATE_FNS,
   getChildrenByType,
+  FORMAT_YMD_DATE_FNS,
 } from './utils';
 
 import { adaptFormData } from './adapter';
@@ -37,16 +37,6 @@ import { adaptFormData } from './adapter';
  * @property {string} [ssnPath] - Path to SSN in form data example: `'veteran.lastFourSSN'`
  * @property {string} [vaFileNumberPath] - Path to VA file number in form data example: `'veteran.vaFileNumber'`
  */
-
-const srSpacedNumber = number => {
-  if (!number && number !== 0) return null;
-
-  return number
-    .toString()
-    .slice(-4)
-    .split('')
-    .join(' ');
-};
 
 /**
  * @type {PersonalInformationConfig}
@@ -74,7 +64,10 @@ export const PersonalInformation = ({
   dataAdapter = {},
   children,
   NavButtons,
-  ...props
+  goBack,
+  goForward,
+  contentBeforeButtons,
+  contentAfterButtons,
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -95,19 +88,15 @@ export const PersonalInformation = ({
     return finalConfig.errorMessage ? (
       <va-alert status="error">
         <h2 slot="headline">We need more information</h2>
-        <>
-          <p className="vads-u-margin-y--0">
-            {finalConfig.errorMessage({ missingFields: missingData })}
-          </p>
-        </>
+
+        <div className="vads-u-margin-y--0">
+          {finalConfig.errorMessage({ missingFields: missingData })}
+        </div>
       </va-alert>
     ) : null;
   }
 
-  const dobDateObj = parseDateToDateObj(
-    dob || null,
-    FORMAT_YMD_DATE_FNS_CONCAT,
-  );
+  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
 
   return (
     <>
@@ -138,7 +127,7 @@ export const PersonalInformation = ({
               <p>
                 <strong>Last 4 digits of Social Security number: </strong>
                 <span data-dd-action-name="Veteran's SSN">
-                  {srSubstitute(ssn, srSpacedNumber(ssn))}
+                  {formatNumberForScreenReader(ssn)}
                 </span>
               </p>
             )}
@@ -150,7 +139,7 @@ export const PersonalInformation = ({
                   className="dd-privacy-mask"
                   data-dd-action-name="Veteran's VA file number"
                 >
-                  {srSubstitute(vaFileLastFour, srSpacedNumber(vaFileLastFour))}
+                  {formatNumberForScreenReader(vaFileLastFour)}
                 </span>
               </p>
             )}
@@ -184,7 +173,7 @@ export const PersonalInformation = ({
       </div>
 
       {note || (
-        <div className="vads-u-margin-bottom--4">
+        <div className="vads-u-margin-bottom--4" data-testid="default-note">
           <p>
             <strong>Note:</strong> To protect your personal information, we
             don’t allow online changes to your name, Social Security number,
@@ -205,9 +194,9 @@ export const PersonalInformation = ({
 
       {footer || null}
 
-      {props?.contentBeforeButtons || null}
-      <NavButtons goBack={props.goBack} goForward={props.goForward} />
-      {props?.contentAfterButtons || null}
+      {contentBeforeButtons || null}
+      <NavButtons goBack={goBack} goForward={goForward} />
+      {contentAfterButtons || null}
     </>
   );
 };

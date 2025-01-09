@@ -29,9 +29,9 @@ export const DefaultErrorMessage = ({ missingFields = [] }) => {
   const missingFieldsText = formatter.format(missingFieldLabels);
 
   return (
-    <div>
+    <>
       <p>
-        Your VA account is missing your {missingFieldsText}, which we need
+        {`Your VA account is missing your ${missingFieldsText}`}, which we need
         before you can begin this form. For security reasons, we don’t allow
         online changes to this information. To update this information, call us
         at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
@@ -40,7 +40,7 @@ export const DefaultErrorMessage = ({ missingFields = [] }) => {
       </p>
 
       <p>Tell the representative you may be missing {missingFieldsText}.</p>
-    </div>
+    </>
   );
 };
 

@@ -73,7 +73,6 @@ export const getChildrenByType = children => {
     note: null,
     header: null,
     footer: null,
-    other: [], // For any unrecognized children, although not used currently
   };
 
   React.Children.forEach(children, child => {
@@ -90,7 +89,6 @@ export const getChildrenByType = children => {
         childrenByType.footer = child;
         break;
       default:
-        childrenByType.other.push(child);
     }
   });
 
