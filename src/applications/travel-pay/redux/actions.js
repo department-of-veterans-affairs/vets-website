@@ -20,7 +20,7 @@ export function getTravelClaims() {
     dispatch(fetchTravelClaimsStart());
 
     try {
-      const claimsUrl = `${environment.API_URL}/travel_pay/claims`;
+      const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims`;
       const response = await apiRequest(claimsUrl);
 
       dispatch(fetchTravelClaimsSuccess(response.data));

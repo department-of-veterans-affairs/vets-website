@@ -33,7 +33,7 @@ const mockStore = data => ({
   }),
 });
 
-describe('add issue page', () => {
+describe('contestable issues page', () => {
   const {
     schema,
     uiSchema,

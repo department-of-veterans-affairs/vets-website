@@ -62,11 +62,6 @@ export const BOUNDING_RADIUS = 0.75;
 export const EXPANDED_BOUNDING_RADIUS = 1.4;
 
 /**
- *Defines the marker letter list
- */
-export const MARKER_LETTERS = new Set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
-
-/**
  * Enum for operating status.
  */
 export const OperatingStatus = {
@@ -74,6 +69,42 @@ export const OperatingStatus = {
   LIMITED: 'LIMITED',
   CLOSED: 'CLOSED',
   NOTICE: 'NOTICE',
+  TEMPORARY_CLOSURE: 'TEMPORARY_CLOSURE',
+  TEMPORARY_LOCATION: 'TEMPORARY_LOCATION',
+  VIRTUAL_CARE: 'VIRTUAL_CARE',
+  COMING_SOON: 'COMING_SOON',
+};
+
+// Used in multiple places, so export it here
+export const OperatingStatusDisplay = {
+  [OperatingStatus.CLOSED]: {
+    operationStatusTitle: 'Facility Closed',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.LIMITED]: {
+    operationStatusTitle: 'Limited services and hours',
+    alertClass: 'info',
+  },
+  [OperatingStatus.NOTICE]: {
+    operationStatusTitle: 'Facility notice',
+    alertClass: 'info',
+  },
+  [OperatingStatus.COMING_SOON]: {
+    operationStatusTitle: 'Coming soon',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_CLOSURE]: {
+    operationStatusTitle: 'Temporary facility closure',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_LOCATION]: {
+    operationStatusTitle: 'Temporary location',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.VIRTUAL_CARE]: {
+    operationStatusTitle: 'Virtual care only',
+    alertClass: 'warning',
+  },
 };
 
 /**
@@ -127,13 +158,19 @@ export const MapboxInit = {
  * Mapbox api request countries
  */
 
-export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
+export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp', 'vi'];
 
 /**
  * Mapbox api request types
  */
 
-export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
+export const MAPBOX_QUERY_TYPES = [
+  'place',
+  'region',
+  'postcode',
+  'locality',
+  'country',
+];
 
 /**
  * Max search area in miles
@@ -144,5 +181,6 @@ export const MAX_SEARCH_AREA = 500;
  * Min radius search area in miles
  */
 export const MIN_RADIUS = 10;
+export const MIN_RADIUS_CCP = 20;
 
 export const Covid19Vaccine = 'Covid19Vaccine';

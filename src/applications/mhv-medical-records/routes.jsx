@@ -18,10 +18,13 @@ import LabAndTestDetails from './containers/LabAndTestDetails';
 import Allergies from './containers/Allergies';
 import AllergyDetails from './containers/AllergyDetails';
 import CareSummariesDetails from './containers/CareSummariesDetails';
-import DownloadRecordsPage from './containers/DownloadRecordsPage';
 import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
+import DownloadReportPage from './containers/DownloadReportPage';
+import DownloadDateRange from './components/DownloadRecords/DowloadDateRange';
+import DownloadRecordType from './components/DownloadRecords/DownloadRecordType';
+import DownloadFileType from './components/DownloadRecords/DownloadFileType';
 
 const AccessGuardWrapper = ({ children }) => {
   const redirectToMyHealth = useMyHealthAccessGuard();
@@ -147,9 +150,38 @@ const routes = (
       >
         <SettingsPage />
       </FeatureFlagRoute>
-      <AppRoute exact path="/download-all" key="DownloadRecords">
-        <DownloadRecordsPage />
-      </AppRoute>
+      <FeatureFlagRoute
+        exact
+        path="/download"
+        key="Download"
+        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
+      >
+        <DownloadReportPage />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        exact
+        path="/download/date-range"
+        key="Download-date-range"
+        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
+      >
+        <DownloadDateRange />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        exact
+        path="/download/record-type"
+        key="Download-record-type"
+        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
+      >
+        <DownloadRecordType />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        exact
+        path="/download/file-type"
+        key="Download-file-type"
+        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
+      >
+        <DownloadFileType />
+      </FeatureFlagRoute>
       <Route>
         <PageNotFound />
       </Route>

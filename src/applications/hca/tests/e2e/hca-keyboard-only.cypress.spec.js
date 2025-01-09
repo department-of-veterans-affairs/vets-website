@@ -347,6 +347,9 @@ describe('HCA-Keyboard-Only', () => {
       );
       cy.tabToContinueForm();
 
+      // Health insurance info
+      cy.tabToElementAndPressSpace('.usa-button-primary');
+
       // Health insurance coverage
       selectRadioWithKeyboard('isCoveredByHealthInsurance', 'Y');
 
@@ -364,8 +367,6 @@ describe('HCA-Keyboard-Only', () => {
       cy.tabToContinueForm();
 
       // VA medical facility
-      cy.tabToElementAndPressSpace('[name="root_isEssentialAcaCoverage"]');
-
       const { vaMedicalFacility, 'view:facilityState': facilityState } = data[
         'view:preferredFacility'
       ];

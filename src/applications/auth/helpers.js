@@ -22,7 +22,8 @@ export const checkReturnUrl = passedUrl => {
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE]) ||
-    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP])
+    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP]) ||
+    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD])
   );
 };
 
@@ -43,15 +44,15 @@ export const generateSentryAuthError = ({
 };
 
 export const handleTokenRequest = async ({
-  code: authCode,
-  state: authState,
+  code,
+  state,
   csp,
   generateOAuthError,
 }) => {
   // Verify the state matches in storage
   if (
     !localStorage.getItem(OAUTH_KEYS.STATE) ||
-    localStorage.getItem(OAUTH_KEYS.STATE) !== authState
+    localStorage.getItem(OAUTH_KEYS.STATE) !== state
   ) {
     generateOAuthError({
       oauthErrorCode: AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
@@ -60,7 +61,7 @@ export const handleTokenRequest = async ({
   } else {
     // Matches - requestToken exchange
     try {
-      await requestToken({ code: authCode, csp });
+      await requestToken({ code, csp });
     } catch (error) {
       const { errors } = await error.json();
       const oauthErrorCode = OAUTH_ERROR_RESPONSES[errors];

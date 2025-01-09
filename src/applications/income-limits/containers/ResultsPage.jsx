@@ -13,7 +13,6 @@ import {
   getFifthAccordionHeader,
 } from '../utilities/results-accordions';
 import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
-import { customizeTitle } from '../utilities/customize-title';
 
 /**
  * There are two pathways to displaying income ranges on this page
@@ -24,11 +23,6 @@ import { customizeTitle } from '../utilities/customize-title';
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
   const APPLY_URL = '/health-care/apply-for-health-care-form-10-10ez/';
   const currentYear = new Date().getFullYear();
-  const H1 = `Your income limits for ${year || currentYear}`;
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
 
   useEffect(
     () => {
@@ -126,7 +120,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
 
     return (
       <>
-        <h1>{H1}</h1>
+        <h1>Your income limits for {year || currentYear}</h1>
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
         <a

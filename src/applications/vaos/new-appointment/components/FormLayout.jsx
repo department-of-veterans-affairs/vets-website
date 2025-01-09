@@ -1,11 +1,12 @@
 import React from 'react';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useDispatch, useSelector } from 'react-redux';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -44,24 +45,18 @@ function Nav({ pageTitle }) {
     );
 
   return (
-    <div className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--0 small-screen:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+    <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
       <nav aria-label="backlink" className="vads-u-padding-y--2 ">
-        <va-icon
-          icon="navigate_before"
-          size="2"
-          class="vads-u-padding-y--0p25 vads-color-gray-medium"
-        />
-        <NavLink
+        <VaLink
+          back
           aria-label="Back link"
-          to="#"
-          className=""
+          href="#"
+          text="Back"
           onClick={e => {
             e.preventDefault();
             dispatch(routeToPreviousAppointmentPage(history, pageKey));
           }}
-        >
-          Back
-        </NavLink>
+        />
       </nav>
     </div>
   );
@@ -78,7 +73,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
   return (
     <>
       {location.pathname === typeOfCareUrl && <MhvSecondaryNav />}
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
@@ -94,7 +89,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {!isReviewPage && (
-              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
                 <Title />
               </span>
             )}

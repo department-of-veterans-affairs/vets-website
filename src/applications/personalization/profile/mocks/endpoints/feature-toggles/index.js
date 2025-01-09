@@ -12,15 +12,12 @@ const profileToggles = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
-  profileShowDirectDepositSingleForm: false,
-  profileShowDirectDepositSingleFormUAT: false,
-  profileShowDirectDepositSingleFormAlert: false,
-  profileShowDirectDepositSingleFormEduDowntime: false,
   profileShowPrivacyPolicy: false,
   profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
   profileShowMhvNotificationSettingsNewSecureMessaging: false,
   profileShowMhvNotificationSettingsEmailRxShipment: false,
   profileShowMhvNotificationSettingsMedicalImages: false,
+  profileShowNoValidationKeyAddressAlert: false,
 };
 
 const makeAllTogglesTrue = toggles => {

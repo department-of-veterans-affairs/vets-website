@@ -162,6 +162,9 @@ class Accessories extends Component {
                       ),
                     })}
                   >
+                    <span className="icon-wrap">
+                      <va-icon icon="check" size={3} />
+                    </span>
                     Order this hearing aid accessory
                   </label>
                 </div>

@@ -1,4 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
@@ -11,7 +12,7 @@ describe('Secure Messaging Basic User', () => {
       service => service !== 'messaging',
     );
 
-    SecureMessagingSite.login(true, basicUser);
+    SecureMessagingSite.login(mockFeatureToggles, true, basicUser);
 
     cy.intercept('GET', '/v0/user', basicUser).as('user');
     cy.intercept(

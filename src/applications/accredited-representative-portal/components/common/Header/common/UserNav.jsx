@@ -1,12 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-
+import UserContext from '../../../../userContext';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
-import {
-  selectUserProfile,
-  selectUserIsLoading,
-} from '../../../../selectors/user';
 
 const generateUniqueId = () =>
   `account-menu-${Math.random()
@@ -14,8 +9,9 @@ const generateUniqueId = () =>
     .substring(2, 11)}`;
 
 const UserNav = ({ isMobile }) => {
-  const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectUserIsLoading);
+  const user = useContext(UserContext);
+  const profile = user?.profile;
+  const isLoading = !profile;
   const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -52,7 +48,6 @@ const UserNav = ({ isMobile }) => {
         <va-loading-indicator
           data-testid="user-nav-loading-icon"
           label="Loading"
-          message="Loading"
         />
       </div>
     );
@@ -79,7 +74,7 @@ const UserNav = ({ isMobile }) => {
   } else if (profile) {
     content = (
       <div className="va-dropdown" ref={dropdownRef}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           data-testid="user-nav-dropdown-panel-button"
           className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
@@ -131,12 +126,7 @@ const UserNav = ({ isMobile }) => {
 };
 
 UserNav.propTypes = {
-  isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
-  profile: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }),
 };
 
 export default UserNav;

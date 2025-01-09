@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ProfileSection({ children, id, label }) {
   return (
@@ -8,3 +9,8 @@ export default function ProfileSection({ children, id, label }) {
     </div>
   );
 }
+ProfileSection.propTypes = {
+  children: PropTypes.node.isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};

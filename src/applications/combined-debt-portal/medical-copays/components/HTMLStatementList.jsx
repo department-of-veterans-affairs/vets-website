@@ -19,8 +19,10 @@ const HTMLStatementList = ({ selectedId }) => {
   const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
 
   return (
-    <section data-testid="view-statements">
-      <h2 id="statement-list">Your statements</h2>
+    <article data-testid="view-statements" className="vads-u-padding-x--0">
+      <h2 id="statement-list" className="vads-u-margin-top--2">
+        Your statements
+      </h2>
       <p>
         Review your charges and download your mailed statements from the past 6
         months for this facility.
@@ -34,7 +36,7 @@ const HTMLStatementList = ({ selectedId }) => {
           />
         ))}
       </ul>
-    </section>
+    </article>
   );
 };
 

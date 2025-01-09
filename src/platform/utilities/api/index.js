@@ -78,7 +78,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
 /**
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
- * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
  * URL.
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
  * the fetch request. Will be mixed with, and potentially override, the
@@ -126,7 +126,8 @@ export function apiRequestWithResponse(resource, optionalSettings) {
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
-          window.location = '/session-expired';
+          sessionStorage.removeItem('shouldRedirectExpiredSession');
+          window.location = '/?next=loginModal&status=session_expired';
         }
       }
 

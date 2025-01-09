@@ -12,8 +12,6 @@ const initialState = {
   showFormSignInModal: false,
   showLoginModal: false,
   modalInformation: {
-    redirectLocation: '',
-    startingLocation: '',
     trigger: '',
   },
   utilitiesMenuIsOpen: {
@@ -40,9 +38,6 @@ export default function userNavReducer(state = initialState, action) {
       return {
         ...state,
         modalInformation: {
-          startingLocation: action?.startingLocation || '/',
-          redirectLocation:
-            action?.redirectLocation || action?.startingLocation,
           trigger: action?.trigger,
         },
         showLoginModal: action.isOpen,

@@ -8,7 +8,6 @@ import moment from 'moment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import {
-  selectFeatureFacilitiesServiceV2,
   selectSystemIds,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
@@ -40,7 +39,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
 } from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
-import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
@@ -152,9 +151,6 @@ export function openFacilityPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
       let facilityId = newBooking.data.vaFacility;
@@ -167,7 +163,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useV2: featureFacilitiesServiceV2,
         });
       }
 
@@ -457,9 +452,6 @@ export function openContactFacilitiesPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
 
@@ -471,7 +463,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useV2: featureFacilitiesServiceV2,
         });
       }
 

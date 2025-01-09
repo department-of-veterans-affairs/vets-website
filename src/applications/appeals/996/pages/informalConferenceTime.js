@@ -1,16 +1,14 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { checkConferenceTimes } from '../validations';
-import { errorMessages, CONFERENCE_TIMES_V3 } from '../constants';
+import { errorMessages, CONFERENCE_TIMES_V2_5 } from '../constants';
 
 import {
   InformalConferenceTimesTitle,
   InformalConferenceTimesDescription,
   informalConferenceTimeSelectTitle,
-  informalConferenceTimeSelectTitleOriginal,
   informalConferenceTimeSelectHint,
   informalConferenceTimeReviewField,
 } from '../content/InformalConferenceTimes';
-import { showNewHlrContent } from '../utils/helpers';
 
 // HLR version 2
 export default {
@@ -25,29 +23,8 @@ export default {
           required: errorMessages.informalConferenceTimes,
         },
         enableAnalytics: true,
-        updateUiSchema: formData => {
-          const showNew = showNewHlrContent(formData);
-          return {
-            'ui:title': showNew
-              ? informalConferenceTimeSelectTitle
-              : informalConferenceTimeSelectTitleOriginal,
-            'ui:options': {
-              hint: showNew ? informalConferenceTimeSelectHint : '',
-            },
-          };
-        },
+        hint: informalConferenceTimeSelectHint,
       }),
-      'ui:options': {
-        updateSchema: (formData, schema) => {
-          const showNew = showNewHlrContent(formData);
-          return {
-            ...schema,
-            enumNames: Object.values(CONFERENCE_TIMES_V3).map(
-              name => name[showNew ? 'labelMe' : 'label'],
-            ),
-          };
-        },
-      },
       'ui:validations': [checkConferenceTimes],
       'ui:reviewField': informalConferenceTimeReviewField,
     },
@@ -57,8 +34,10 @@ export default {
     properties: {
       informalConferenceTime: {
         type: 'string',
-        enum: Object.keys(CONFERENCE_TIMES_V3),
-        enumNames: Object.values(CONFERENCE_TIMES_V3).map(name => name.label),
+        enum: Object.keys(CONFERENCE_TIMES_V2_5),
+        enumNames: Object.values(CONFERENCE_TIMES_V2_5).map(
+          name => name.labelMe,
+        ),
       },
     },
   },

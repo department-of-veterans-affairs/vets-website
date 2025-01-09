@@ -23,3 +23,5 @@ export default function VaMemorableDateField(props) {
     />
   );
 }
+
+VaMemorableDateField.identifier = 'VaMemorableDateField';

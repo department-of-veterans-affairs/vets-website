@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { range } from 'lodash';
-import Scroll from 'react-scroll';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { Element } from 'platform/utilities/scroll';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
-
-const { Element } = Scroll;
 
 const DischargeYear = ({
   formValues,

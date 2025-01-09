@@ -12,6 +12,8 @@ import {
 } from '../content/livingSituation';
 import { livingSituationNone } from '../validations/livingSituation';
 
+import { isOnReviewPage } from '../../../shared/utils/helpers';
+
 const labels = Object.keys(livingSituationChoices);
 
 export default {
@@ -23,6 +25,11 @@ export default {
         required: false,
         labelHeaderLevel: '3',
         labels: livingSituationChoices,
+        updateUiSchema: () => ({
+          'ui:options': {
+            labelHeaderLevel: isOnReviewPage() ? 4 : 3,
+          },
+        }),
       }),
       'ui:validations': [livingSituationNone],
       'ui:errorMessages': {

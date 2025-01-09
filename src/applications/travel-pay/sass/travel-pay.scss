@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -6,15 +6,6 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
-
-.btsss-portal-link {
-  display: inline-flex;
-  align-items: center;
-}
-
-.btsss-portal-link va-icon {
-  margin-left: 4px;
-}
 
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
@@ -34,7 +25,8 @@
 h2#pagination-info {
   font-size: 1.06rem;
   font-weight: normal;
-  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -48,7 +40,27 @@ h2#pagination-info {
   }
 }
 
-.claims-controller-title {
-  font-size: 4rem;
-  font-weight: 700;
+.travel-pay-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+
+  .back-arrow {
+    color: var(--vads-color-gray-medium);
+    padding-right: 2px;
+  }
+
+  //  Matches the padding on the usa-breadcrumbs, ensures
+  //  visual consistency between claims details and other pages
+  .go-back-link,
+  .back-arrow {
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .go-back-link,
+    .back-arrow {
+      padding-bottom: 48px;
+    }
+  }
 }

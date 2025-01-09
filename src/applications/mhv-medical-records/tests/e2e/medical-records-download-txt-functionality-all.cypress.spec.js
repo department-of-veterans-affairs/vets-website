@@ -17,9 +17,9 @@ describe.skip('Medical Records Download All TXT Functionality', () => {
       '',
     );
 
-    DownloadAllPage.verifyBreadcrumbs('Back to Medical Records');
+    DownloadAllPage.verifyBreadcrumbs('Medical Records');
 
-    DownloadAllPage.clickBreadcrumbs();
+    DownloadAllPage.clickBreadcrumbs('Medical Records');
 
     MedicalRecordsLandingPage.verifyPageTitle();
     // Axe check

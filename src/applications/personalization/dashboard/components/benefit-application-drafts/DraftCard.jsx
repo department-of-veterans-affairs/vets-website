@@ -17,17 +17,17 @@ const Draft = ({
   const content = (
     <>
       <div className="vads-u-width--full">
-        <h3 aria-describedby="21-0845" className="vads-u-margin-top--0">
+        <h3 className="vads-u-margin-top--0">
           <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
             Draft
           </span>
-          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--2">
+          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--1p5">
             {formatFormTitle(formTitle)}
           </span>
         </h3>
         <p
           id={formId}
-          className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
+          className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
         >
           {/* TODO: rethink our helpers for presentable form ID */}
           VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
@@ -60,7 +60,7 @@ const Draft = ({
       data-testid="application-in-progress"
     >
       <va-card>
-        <div className="vads-u-padding--1">{content}</div>
+        <div>{content}</div>
       </va-card>
     </div>
   );

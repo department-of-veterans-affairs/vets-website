@@ -60,3 +60,13 @@ export const checkVaCheckbox = (checkboxGroup, bool) => {
     detail: { checked: bool },
   });
 };
+
+export const getProps = element => {
+  let prop;
+  Object.keys(element).forEach(key => {
+    if (key.match(/^__react[^$]*(\$.+)$/)) {
+      prop = key;
+    }
+  });
+  return prop;
+};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const SignInMyBeRequired = ({ loggedIn }) => {
+const SignInMayBeRequired = ({ loggedIn }) => {
   // Render for users that are Unauthenticated
   return !loggedIn ? (
     <div className="vads-u-margin-bottom--3">
@@ -25,7 +25,7 @@ const SignInMyBeRequired = ({ loggedIn }) => {
   ) : null;
 };
 
-SignInMyBeRequired.propTypes = {
+SignInMayBeRequired.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
@@ -35,4 +35,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SignInMyBeRequired);
+export default connect(mapStateToProps)(SignInMayBeRequired);

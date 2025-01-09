@@ -73,12 +73,12 @@ const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + 60000);
 };
-export function fetchPersonalInformation(showMebEnhancements09) {
+export function fetchPersonalInformation(selectedChapter) {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
-    return apiRequest(CLAIMANT_INFO_ENDPOINT)
+    return apiRequest(`${CLAIMANT_INFO_ENDPOINT}?type=${selectedChapter}`)
       .then(response => {
-        if (!response?.data?.attributes?.claimant && !showMebEnhancements09) {
+        if (!response?.data?.attributes?.claimant) {
           window.location.href =
             '/education/apply-for-education-benefits/application/1990/';
         }
@@ -92,10 +92,6 @@ export function fetchPersonalInformation(showMebEnhancements09) {
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
         });
-        if (!showMebEnhancements09) {
-          window.location.href =
-            '/education/apply-for-education-benefits/application/1990/';
-        }
       });
   };
 }
@@ -139,7 +135,7 @@ function getNowDate() {
   const date = new Date();
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
-export function fetchClaimStatus() {
+export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
@@ -149,7 +145,7 @@ export function fetchClaimStatus() {
       },
     };
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}`,
       validate: response =>
         response?.data?.attributes?.claimStatus &&
         response.data.attributes.claimStatus !==
@@ -161,9 +157,9 @@ export function fetchClaimStatus() {
     });
   };
 }
-export function fetchEligibility() {
+export function fetchEligibility(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_ELIGIBILITY });
+    dispatch({ type: `${FETCH_ELIGIBILITY}?type=${selectedChapter}` });
     return apiRequest(ELIGIBILITY_ENDPOINT)
       .then(response =>
         dispatch({
@@ -246,11 +242,13 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
       );
   };
 }
-export function fetchExclusionPeriods() {
+export function fetchExclusionPeriods(selectedChapter) {
   return async dispatch => {
     dispatch({ type: FETCH_EXCLUSION_PERIODS });
     try {
-      const response = await apiRequest(EXCLUSION_PERIODS_ENDPOINT);
+      const response = await apiRequest(
+        `${EXCLUSION_PERIODS_ENDPOINT}?=type=${selectedChapter}`,
+      );
       dispatch({
         type: FETCH_EXCLUSION_PERIODS_SUCCESS,
         response,

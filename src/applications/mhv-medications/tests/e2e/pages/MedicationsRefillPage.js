@@ -1,16 +1,17 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import { medicationsUrls } from '../../../util/constants';
+import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
-    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
   loadRefillPageForApiCallFailure = () => {
@@ -29,12 +30,7 @@ class MedicationsRefillPage {
   };
 
   clickSelectAllRefillCheckBox = () => {
-    cy.get('[data-testid="select-all-checkbox"]')
-      .shadow()
-      .find('#option-label')
-      .click({
-        force: true,
-      });
+    cy.get('[data-testid="select-all-checkbox"]').click();
   };
 
   verifyRequestRefillsButtonExists = numberOfRefills => {
@@ -71,20 +67,14 @@ class MedicationsRefillPage {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
       .first()
-      .click({
-        waitForAnimations: true,
-      });
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+      .click({ waitForAnimations: true });
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
   };
 
   clickGoToMedicationsListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=20All%20medications',
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
@@ -93,20 +83,15 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.get('[data-testid="medications-page-link"]').should('exist');
     cy.get('[data-testid="medications-page-link"]')
       .first()
-      .click({
-        waitForAnimations: true,
-      });
+      .click({ waitForAnimations: true });
   };
 
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -123,15 +108,12 @@ class MedicationsRefillPage {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
     cy.get('[data-testid="rx-breadcrumb"]')
       .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
-      .click({
-        waitForAnimations: true,
-      });
+      .click({ waitForAnimations: true });
   };
 
   verifyShippedMedicationOnRefillPage = () => {
     cy.get('[data-testid="refill-prescription-checkbox-0"]')
-      .shadow()
-      .find('[aria-describedby="option-label"]')
+      .invoke('attr', 'checkbox-description')
       .should('contain', 'Last filled on October 2, 2023');
   };
 
@@ -159,10 +141,10 @@ class MedicationsRefillPage {
   };
 
   verifyTotalRefillablePrescriptionsCount = count => {
-    cy.get('[data-testid="refill-page-list-count"]').should(
-      'contain',
-      `You have ${count} prescriptions ready to refill.`,
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', `You have ${count} prescriptions ready to refill.`);
   };
 
   verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
@@ -186,16 +168,14 @@ class MedicationsRefillPage {
     refillsRemaining,
   ) => {
     cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`)
-      .shadow()
-      .find('[aria-describedby="option-label"]')
+      .invoke('attr', 'checkbox-description')
       .should('contain', refillsRemaining);
   };
 
   verifyActiveParkedRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
-    cy.get('[data-testid="refill-prescription-checkbox-1"]')
-      .shadow()
-      .find('#option-label')
-      .should('be.visible');
+    cy.get('[data-testid="refill-prescription-checkbox-1"]').should(
+      'be.visible',
+    );
   };
 
   verifyActiveParkedRxWithRefillsStatus = status => {
@@ -210,8 +190,7 @@ class MedicationsRefillPage {
 
   verifyRefillsRemainingForActiveParkedRxOnRefillPage = refillsRemaining => {
     cy.get('[data-testid="refill-prescription-checkbox-1"]')
-      .shadow()
-      .find('[aria-describedby="option-label"]')
+      .invoke('attr', 'checkbox-description')
       .should('contain', refillsRemaining);
   };
 
@@ -234,9 +213,7 @@ class MedicationsRefillPage {
     );
     cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`)
       .first()
-      .click({
-        waitForAnimations: true,
-      });
+      .click({ waitForAnimations: true });
   };
 
   verifyExpiredRxOnRenewSection = rxStatus => {
@@ -292,8 +269,7 @@ class MedicationsRefillPage {
     refillsRemaining = 0,
   ) => {
     cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`)
-      .shadow()
-      .find('[aria-describedby="option-label"]')
+      .invoke('attr', 'checkbox-description')
       .should('contain', refillsRemaining);
   };
 
@@ -393,10 +369,10 @@ class MedicationsRefillPage {
   };
 
   verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
-    cy.get('[data-testid="select-rx-error-message"]').should(
-      'contain',
-      'Select at least one prescription',
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[id="checkbox-error-message"]')
+      .should('contain', 'Select at least one prescription');
   };
 
   verifyRefillRequestSuccessConfirmationMessage = () => {
@@ -407,7 +383,7 @@ class MedicationsRefillPage {
   };
 
   verifyMedicationRefillRequested = refillName => {
-    cy.get('[data-testid="medication-requested"]').should(
+    cy.get('[data-testid="medication-requested-successful"]').should(
       'contain',
       refillName,
     );
@@ -455,6 +431,48 @@ class MedicationsRefillPage {
 
   verifyShippedRxInformationOnRenewSectionRefillsPage = shippedDate => {
     cy.get('[data-testid="shipped-date"]').should('contain', shippedDate);
+  };
+
+  clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      medicationsList,
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.get('[data-testid="back-to-medications-page-link"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="back-to-medications-page-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyRefillSuccessDescriptionText = () => {
+    cy.get('[data-testid="success-message-description"] > p').should(
+      'contain',
+      'recently requested',
+    );
+  };
+
+  verifyNoteOnRefillPageAboutRenewal = () => {
+    cy.get('[data-testid="note-refill-page"]').should(
+      'contain',
+      'renewal needed before refill',
+    );
+  };
+
+  verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
+    cy.get('[data-testid="success-message-title"]')
+      .should('have.text', alert)
+      .and('not.be.visible');
+  };
+
+  verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-description"]')
+      .should('have.text', text)
+      .and('not.be.visible');
   };
 }
 

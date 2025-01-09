@@ -200,7 +200,11 @@ const AppointmentDetails = props => {
             prevUrl="#back"
             text={t('back-to-last-screen')}
           />
-          <Wrapper classNames="appointment-details-page" withBackButton>
+          <Wrapper
+            classNames="appointment-details-page"
+            withBackButton
+            titleOverride={appointmentTitle()}
+          >
             <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
               <div className="appointment-details--icon">
                 {appointmentIcon(appointment)}

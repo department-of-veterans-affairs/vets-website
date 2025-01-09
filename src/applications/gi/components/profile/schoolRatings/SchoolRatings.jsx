@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { convertRatingToStars } from '../../../utils/helpers';
 import { CTRatingsHeaderQuestions } from '../../../constants';
 import RatingsAbout from './RatingsAbout';
@@ -58,3 +59,9 @@ export default function SchoolRatings({
     </div>
   );
 }
+
+SchoolRatings.propTypes = {
+  institutionCategoryRatings: PropTypes.object,
+  ratingAverage: PropTypes.number,
+  ratingCount: PropTypes.number,
+};

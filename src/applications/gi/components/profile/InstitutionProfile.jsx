@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -23,6 +23,8 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
+import YellowRibbonSelector from './YellowRibbonSelector';
+import Programs from './Programs';
 
 export default function InstitutionProfile({
   institution,
@@ -36,18 +38,34 @@ export default function InstitutionProfile({
   compare,
   smallScreen,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
+  const programTypes = [
+    'Non College Degree',
+    'Institution of Higher Learning',
+    'On The Job Training/Apprenticeship',
+    'Flight',
+    'Correspondence',
+  ];
+
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-
-  const { type } = institution;
-
+  const { type, facilityCode, name } = institution;
+  localStorage.setItem('institutionName', name);
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
   // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
+
   let stars = false;
   let ratingCount = 0;
   let institutionRatingIsNotNull = false;
@@ -80,10 +98,7 @@ export default function InstitutionProfile({
   }
   /** ************************************************************************ */
   const displayStars =
-    isProduction &&
-    stars &&
-    isProduction &&
-    ratingCount >= MINIMUM_RATING_COUNT;
+    isShowRatingsToggle && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -95,7 +110,10 @@ export default function InstitutionProfile({
         className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
       >
         <div className="usa-width-three-fourths">
-          <ProfilePageHeader institution={institution} />
+          <ProfilePageHeader
+            institution={institution}
+            isShowRatingsToggle={isShowRatingsToggle}
+          />
           {type === 'FLIGHT' && (
             <p>
               For information about VA flight benefits, visit{' '}
@@ -123,12 +141,19 @@ export default function InstitutionProfile({
                 jumpToId="calculate-your-benefits"
               />
             )}
+          {institution.yr === true &&
+            toggleValue && (
+              <JumpLink
+                label="Yellow Ribbon Program information"
+                jumpToId="yellow-ribbon-program-information"
+              />
+            )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
           {displayStars &&
-            isProduction && (
+            isShowRatingsToggle && (
               <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
             )}
           <JumpLink
@@ -163,6 +188,7 @@ export default function InstitutionProfile({
             />
           </ProfileSection>
         )}
+
       {type === 'FOREIGN' && (
         <p>
           Limited programs are approved at foreign schools, please contact
@@ -176,6 +202,68 @@ export default function InstitutionProfile({
           location.
         </p>
       )}
+      {institution.yr === true &&
+        toggleValue && (
+          <ProfileSection
+            label="Yellow Ribbon Program information"
+            id="yellow-ribbon-program-information"
+          >
+            <p>
+              The Yellow Ribbon program may pay towards net tuition and fee
+              costs not covered by the Post-9/11 GI Bill at participating
+              institutions of higher learning (IHL). Schools that choose to
+              participate in the Yellow Ribbon program will contribute up to a
+              certain dollar amount toward the extra tuition. VA will match the
+              participating school’s contribution
+              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
+              to the total cost of the tuition and fees. To confirm the number
+              of students eligible for funding, contact the individual school.
+            </p>
+            <va-link
+              href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+              text="Find out if you qualify for the Yellow Ribbon Program"
+              className="vads-u-margin-bottom--2"
+            />
+
+            <div className="additional-info-wrapper vads-u-margin-top--2p5">
+              <div className="subsection vads-u-margin-bottom--2">
+                <h3 className="small-screen-header">
+                  What to know about the content displayed
+                </h3>
+              </div>
+
+              <ul className="getting-started-with-benefits-li">
+                <li>
+                  <strong>Degree level:</strong> type of degree such as
+                  Undergraduate, Graduate, Masters, or Doctorate.
+                </li>
+                <li>
+                  <strong>College or professional school:</strong> a school
+                  within a college or university that has a specialized
+                  professional or academic focus.
+                </li>
+                <li>
+                  <strong>Funding available:</strong> total number of students
+                  eligible to receive funding.
+                </li>
+                <li>
+                  <strong> School contribution: </strong> maximum amount the IHL
+                  will contribute per student each academic year toward unmet
+                  tuition and fee costs.
+                </li>
+              </ul>
+            </div>
+            {institution.yellowRibbonPrograms.length > 0 ? (
+              <YellowRibbonSelector
+                programs={institution.yellowRibbonPrograms}
+              />
+            ) : (
+              <p className="vads-u-font-weight--bold vads-u-padding-top--3">
+                No programs to display
+              </p>
+            )}
+          </ProfileSection>
+        )}
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
@@ -183,7 +271,7 @@ export default function InstitutionProfile({
         <GettingStartedWithBenefits />
       </ProfileSection>
       {displayStars &&
-        isProduction && (
+        isShowRatingsToggle && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
             <div>
               <SchoolRatings
@@ -220,6 +308,11 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
+      {toggleGiProgramsFlag && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
+        </ProfileSection>
+      )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />
@@ -249,3 +342,18 @@ export default function InstitutionProfile({
     </div>
   );
 }
+InstitutionProfile.propTypes = {
+  calculator: PropTypes.object,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  eligibility: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([null]),
+  ]),
+  institution: PropTypes.object,
+  isOJT: PropTypes.bool,
+  showModal: PropTypes.func,
+  smallScreen: PropTypes.bool,
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+};

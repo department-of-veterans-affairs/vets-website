@@ -4,6 +4,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
@@ -30,7 +31,11 @@ const TravelReview = props => {
     if (agree) {
       goToNextPage();
     } else {
+      const nestedShadowElement = document
+        .getElementById('travel-agreement-checkbox')
+        .shadowRoot.getElementById('checkbox-element');
       setError(true);
+      focusElement(nestedShadowElement);
     }
   };
   const startOverAction = () => {
@@ -93,7 +98,9 @@ const TravelReview = props => {
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
         style={{ overflow: 'hidden' }}
       >
-        <h3>{t('beneficiary-travel-agreement')}</h3>
+        <h2 className="vads-u-font-size--h3">
+          {t('beneficiary-travel-agreement')}
+        </h2>
         <p>
           <Trans
             i18nKey="penalty-statement"
@@ -103,6 +110,7 @@ const TravelReview = props => {
           />
         </p>
         <VaCheckbox
+          id="travel-agreement-checkbox"
           description={null}
           error={error ? t('claim-review-error') : null}
           label={t('claim-checkbox-confirm')}

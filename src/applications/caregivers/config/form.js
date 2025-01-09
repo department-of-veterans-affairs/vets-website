@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -27,7 +28,8 @@ import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
-import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
+import FacilitySearch from '../components/FormFields/FacilitySearch';
+import FacilityReview from '../components/FormReview/FacilityReview';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -54,7 +56,7 @@ import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
-import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+import documentUpload from './chapters/signAsRepresentative/documentUpload';
 
 const {
   address,
@@ -149,8 +151,10 @@ const formConfig = {
           path: 'veteran-information/va-medical-center/locator',
           title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
-          uiSchema: vetMedicalCenterApiPage.uiSchema,
-          schema: vetMedicalCenterApiPage.schema,
+          CustomPage: FacilitySearch,
+          CustomPageReview: FacilityReview,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         vetMedicalCenterConfirmation: {
           path: 'veteran-information/va-medical-center/confirm',
@@ -311,8 +315,8 @@ const formConfig = {
           title: content['sign-as-rep-title--upload'],
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
-          uiSchema: uploadPOADocument.uiSchema,
-          schema: uploadPOADocument.schema,
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
       },
     },

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
@@ -13,7 +14,6 @@ import { getCalculatedBenefits } from '../selectors/calculator';
 import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
-import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export function CalculateYourBenefits({
   calculated,
@@ -72,7 +72,6 @@ export function CalculateYourBenefits({
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, []);
-
   const toggleEybExpansion = () => {
     if (expandEybSheet) {
       document.body.style.overflow = 'visible';
@@ -100,14 +99,14 @@ export function CalculateYourBenefits({
   const spacerClassNames = classNames(
     'medium-1',
     'columns',
-    'small-screen:vads-u-margin-right--neg1',
-    'small-screen:vads-u-margin--0',
+    'mobile-lg:vads-u-margin-right--neg1',
+    'mobile-lg:vads-u-margin--0',
     'vads-u-margin-top--1',
   );
 
   const summarySheetClassNames = classNames(
     'vads-u-display--block',
-    'small-screen:vads-u-display--none',
+    'mobile-lg:vads-u-display--none',
     'eyb-sheet',
     {
       open: showEybSheet,
@@ -185,38 +184,6 @@ export function CalculateYourBenefits({
               </span>
             )}
           </div>
-
-          <div className="vads-u-padding-bottom--1 small-screen-font">
-            <LearnMoreLabel
-              text="Protection against late VA payments"
-              onClick={() => {
-                dispatchShowModal('section103');
-              }}
-              buttonClassName="small-screen-font"
-              bold
-              buttonId="protection-against-late-payments-learn-more"
-            />
-            <strong>:</strong>
-            &nbsp;
-            {profile.attributes.section103Message
-              ? profile.attributes.section103Message
-              : 'No'}
-          </div>
-
-          <div className="vads-u-padding-bottom--1 small-screen-font">
-            <LearnMoreLabel
-              text="Yellow Ribbon Program"
-              onClick={() => {
-                dispatchShowModal('yribbon');
-              }}
-              buttonClassName="small-screen-font"
-              bold
-              buttonId="yellow-ribbon-additional-info-learn-more"
-            />
-            <strong>:</strong>
-            &nbsp;
-            {profile.attributes.yr ? 'Yes' : 'No'}
-          </div>
         </>
       )}
     </div>
@@ -238,7 +205,20 @@ const mapDispatchToProps = {
   dispatchEligibilityChange: eligibilityChange,
   dispatchUpdateEstimatedBenefits: updateEstimatedBenefits,
 };
-
+CalculateYourBenefits.propTypes = {
+  dispatchBeneficiaryZIPCodeChanged: PropTypes.func.isRequired,
+  dispatchCalculatorInputChange: PropTypes.func.isRequired,
+  dispatchEligibilityChange: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  dispatchUpdateEstimatedBenefits: PropTypes.func.isRequired,
+  calculated: PropTypes.object,
+  calculator: PropTypes.object,
+  eligibility: PropTypes.object,
+  estimatedBenefits: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.bool,
+  isOJT: PropTypes.bool,
+  profile: PropTypes.object,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

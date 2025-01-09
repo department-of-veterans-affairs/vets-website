@@ -10,12 +10,17 @@ import { allergyReducer } from './allergies';
 import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
 import { refreshReducer } from './refresh';
-import { isDetailsReducer } from './isDetails';
+import { pageTrackerReducer } from './pageTracker';
+import { imagesReducer } from './images';
+import { downloadsReducer } from './downloads';
+import { blueButtonReducer } from './blueButton';
+import { selfEnteredReducer } from './selfEnteredData';
 
 const rootReducer = {
   mr: combineReducers({
     allergies: allergyReducer,
     breadcrumbs: breadcrumbsReducer,
+    downloads: downloadsReducer,
     labsAndTests: labsAndTestsReducer,
     careSummariesAndNotes: careSummariesAndNotesReducer,
     vaccines: vaccineReducer,
@@ -24,7 +29,10 @@ const rootReducer = {
     sharing: sharingReducer,
     alerts: alertsReducer,
     refresh: refreshReducer,
-    isDetails: isDetailsReducer,
+    pageTracker: pageTrackerReducer,
+    images: imagesReducer,
+    blueButton: blueButtonReducer,
+    selfEntered: selfEnteredReducer,
   }),
 };
 

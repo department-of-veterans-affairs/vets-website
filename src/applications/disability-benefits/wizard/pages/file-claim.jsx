@@ -21,7 +21,6 @@ const FileClaimPage = ({ setWizardStatus }) => {
       {formStartButton({
         setWizardStatus,
         label,
-        ariaId: 'other_ways_to_file_526',
         eventReason:
           'wizard completed, starting 526 disability compensation flow',
       })}

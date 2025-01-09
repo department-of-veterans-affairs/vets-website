@@ -12,5 +12,6 @@ describe('Medications Refill Page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitle();
+    refillPage.verifyNoteOnRefillPageAboutRenewal();
   });
 });

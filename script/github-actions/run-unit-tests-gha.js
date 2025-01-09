@@ -111,7 +111,7 @@ if (testsToVerify === null) {
         : `--recursive ${glob.sync(updatedPath)}`;
       const command = `LOG_LEVEL=${options[
         'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+      ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
         /,/g,
         ' ',
       )} `;
@@ -128,7 +128,6 @@ if (testsToVerify === null) {
     core.exportVariable('NO_APPS_TO_RUN', true);
   }
 } else {
-  // Stress test
   const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2])
@@ -137,27 +136,41 @@ if (testsToVerify === null) {
         app.startsWith('src/platform'),
       ),
     );
-  for (const app of appsToVerify) {
-    const testsToRun = testsToVerify
-      .filter(
-        test =>
-          test.includes(`src/applications/${app}`) ||
-          test.includes(`src/platform`),
-      )
-      .join(' ');
-    if (testsToRun !== '') {
-      const command = `LOG_LEVEL=${options[
-        'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
-        /,/g,
-        ' ',
-      )} `;
-      // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
-      runCommand(command);
-    } else {
-      // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
-      console.log('This app has no tests to run');
+  /* eslint-disable no-await-in-loop */
+  /* eslint-disable no-inner-declarations */
+
+  async function runTests() {
+    for (const app of appsToVerify) {
+      console.log(app);
+      const testsToRun = testsToVerify
+        .filter(
+          test =>
+            test.includes(`src/applications/${app}`) ||
+            test.includes(`src/platform`),
+        )
+        .join(' ');
+
+      if (testsToRun !== '') {
+        const command = `LOG_LEVEL=${options[
+          'log-level'
+        ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+          /,/g,
+          ' ',
+        )} `;
+
+        // Wait for the command to finish before proceeding to the next app
+        try {
+          await runCommand(command);
+        } catch (error) {
+          console.error(`Error running tests for app ${app}:`, error);
+        }
+      } else {
+        console.log('This app has no tests to run');
+      }
     }
   }
+
+  // Call the function to start running tests
+  runTests();
   // Case: Unit Tests are needed to be Stress Tested. Selected tests are all run in one container so each container runs the full suite.
 }

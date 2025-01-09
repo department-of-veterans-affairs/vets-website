@@ -1,14 +1,16 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { getObjectsWithAttachmentId } from '../helpers/utilities';
-import { concatStreets } from '../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+} from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
   // treated as the primary contact.
   return {
     name: data?.applicantName ?? false,
-    email: false, // We don't collect email
+    email: data?.certifierEmail ?? false,
     phone: data?.applicantPhone ?? false,
   };
 }
@@ -33,9 +35,7 @@ export default function transformForSubmit(formConfig, form) {
 
   // Combine all street strings for main address into one
   if (copyOfData.applicantAddress)
-    copyOfData.applicantAddress.streetCombined = concatStreets(
-      copyOfData.applicantAddress,
-    );
+    copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
 
   // Get today's date as YYYY-MM-DD
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');

@@ -1,7 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
@@ -34,11 +34,13 @@ export function mapRawUserDataToState(json) {
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
+          initialSignIn,
           signIn,
           birthDate: dob,
           email,
           firstName: first,
           gender,
+          icn,
           lastName: last,
           loa,
           middleName: middle,
@@ -46,6 +48,7 @@ export function mapRawUserDataToState(json) {
           verified,
           claims,
           edipi,
+          preferredName,
         },
         services,
         vaProfile,
@@ -60,9 +63,11 @@ export function mapRawUserDataToState(json) {
   const userState = {
     accountType: loa.current,
     accountUuid,
+    initialSignIn,
     dob,
     email,
     gender,
+    icn,
     isCernerPatient: vaProfile?.isCernerPatient,
     loa,
     multifactor,
@@ -75,6 +80,7 @@ export function mapRawUserDataToState(json) {
       middle,
       last,
     },
+    preferredName,
     verified,
     claims,
     edipi,

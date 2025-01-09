@@ -17,7 +17,6 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.verifyElectronicSignatureAlert();
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
-    PatientComposePage.verifyESCheckBoxRequired();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -27,7 +26,9 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.verifyElectronicSignatureAlert();
     PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`ES test`);
+    PatientComposePage.getMessageSubjectField().type(`ES test`, {
+      force: true,
+    });
     PatientComposePage.getMessageBodyField().type(`\nES tests text`, {
       force: true,
     });

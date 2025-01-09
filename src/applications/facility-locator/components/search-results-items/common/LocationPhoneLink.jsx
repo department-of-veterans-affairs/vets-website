@@ -15,8 +15,13 @@ export const renderPhoneNumber = (
     return null;
   }
 
-  const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
-
+  const {
+    extension,
+    contact,
+    processed,
+    international,
+    countryCode,
+  } = parsePhoneNumber(phone);
   // The Telephone component will throw an error if passed an invalid phone number.
   // Since we can't use try/catch or componentDidCatch here, we'll just do this:
   if (contact.length !== 10) {
@@ -26,22 +31,28 @@ export const renderPhoneNumber = (
   const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
 
   return (
-    <div>
+    <p>
       {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
-      <va-telephone
-        className={
-          subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
-        }
-        contact={contact}
-        extension={extension}
-        aria-describedby={phoneNumberId}
-        message-aria-describedby={title}
-      >
-        {formattedPhoneNumber}
-      </va-telephone>
-    </div>
+      {processed ? (
+        <va-telephone
+          className={
+            subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
+          }
+          contact={contact}
+          extension={extension}
+          message-aria-describedby={title}
+          country-code={countryCode}
+          international={international}
+        />
+      ) : (
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+        <a href={`tel:${contact}`} aria-describedby={phoneNumberId}>
+          {contact}
+        </a>
+      )}
+    </p>
   );
 };
 
@@ -68,9 +79,8 @@ const LocationPhoneLink = ({
   }
 
   return (
-    <div className="facility-phone-group vads-u-margin-top--2">
+    <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from, location)}
-      {showHealthConnectNumber && <div style={{ minHeight: '20px' }} />}
       {showHealthConnectNumber &&
         renderPhoneNumber(
           'VA health connect',
@@ -79,7 +89,6 @@ const LocationPhoneLink = ({
           from,
           location,
         )}
-      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
       {renderPhoneNumber(
         'Mental health',
         null,

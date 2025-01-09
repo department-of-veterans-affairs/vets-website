@@ -8,6 +8,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import {
   MOCK_SIPS_API,
@@ -16,7 +17,6 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
-import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 export const mockItf = (
   offset = { days: 1 },
@@ -110,16 +110,6 @@ export const postItf = () => ({
 });
 
 /**
- * Get the toggle value within a given list of toggles and for a given a name
- * @param {object} toggles - feature toggles object, based on api response
- * @param {string} name - unique name for the toggle
- * @returns {boolean} true if the toggle is enabled, false otherwise
- */
-function getToggleValue(toggles, name) {
-  return toggles.data.features.find(item => item.name === name)?.value;
-}
-
-/**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
  * @param {object} testOptions - object with optional prefill data or toggles
@@ -196,47 +186,25 @@ export const setup = (cy, testOptions = {}) => {
   });
 };
 
-/**
- * Build a list of unreleased pages using the given toggles
- *
- * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
- * @returns {string[]} - list of paths for unreleased pages
- */
-function getUnreleasedPages(testOptions) {
-  // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
-  if (
-    testOptions?.prefillData?.startedFormVersion !== '2019' &&
-    testOptions?.prefillData?.startedFormVersion !== '2022'
-  ) {
-    return Object.keys(toxicExposurePages).map(page => {
-      return toxicExposurePages[page].path;
-    });
-  }
+export const reviewAndSubmitPageFlow = (
+  submitButtonText = 'Submit application',
+) => {
+  const first = mockUser.data.attributes.profile.firstName;
+  const middle = mockUser.data.attributes.profile.middleName;
+  const last = mockUser.data.attributes.profile.lastName;
 
-  return [];
-}
+  const veteranSignature = middle
+    ? `${first} ${middle} ${last}`
+    : `${first} ${last}`;
 
-/**
- * For each unreleased page, create the page hook to throw an error if the page loads
- * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
- * @returns {object} object with page hook for each unreleased page
- */
-function makeUnreleasedPageHooks(testOptions) {
-  const pages = getUnreleasedPages(testOptions);
+  cy.fillVaTextInput('veteran-signature', veteranSignature);
+  cy.selectVaCheckbox('veteran-certify', true);
+  cy.findByText(submitButtonText, {
+    selector: 'button',
+  }).click();
+};
 
-  return Object.assign(
-    {},
-    ...pages.map(path => {
-      return {
-        [path]: () => {
-          throw new Error(`Unexpectedly showing unreleased page [${path}]`);
-        },
-      };
-    }),
-  );
-}
-
-export const pageHooks = (cy, testOptions = {}) => ({
+export const pageHooks = cy => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -305,32 +273,52 @@ export const pageHooks = (cy, testOptions = {}) => ({
     });
   },
 
-  'new-disabilities-revised/add': () => {
+  'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        if (
-          getToggleValue(
-            testOptions.toggles,
-            'disability_526_improved_autosuggestions_add_disabilities_page',
-          ) !== true
-        ) {
-          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
-        }
+        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const input = '#inputField';
+        const option = '[role="option"]';
 
-        // if not first index
-        // click the add another condition button
+        // click add another if more than 1
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
+
+          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
         }
 
-        // click on input and enter data
-        // enterData() condition name into input
-        cy.get('#root_newDisabilities_0_condition')
+        // click on input and type search text
+        cy.get(comboBox)
           .shadow()
-          .find('#inputField')
+          .find(input)
           .type(disability.condition, { force: true });
-        // select the first option from the autosuggestions list
-        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+
+        // select the option based on loop index and then check that the value matches
+        if (index === 0) {
+          cy.get(option)
+            .first()
+            .click();
+
+          cy.get(comboBox)
+            .shadow()
+            .find(input)
+            .should('have.value', disability.condition);
+        } else {
+          cy.get(option)
+            .eq(1)
+            .invoke('text')
+            .then(selectedOption => {
+              cy.get(option)
+                .eq(1)
+                .click();
+
+              cy.get(comboBox)
+                .shadow()
+                .find(input)
+                .should('have.value', selectedOption);
+            });
+        }
+
         // click save
         cy.findByText(/save/i, { selector: 'button' }).click();
       });
@@ -360,5 +348,15 @@ export const pageHooks = (cy, testOptions = {}) => ({
       }
     });
   },
-  ...makeUnreleasedPageHooks(testOptions),
+  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
+  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
+  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
+  // locally. this will be uncommented for launch.
+  // 'review-and-submit': ({ afterHook }) => {
+  //   afterHook(() => {
+  //     cy.get('@testData').then(() => {
+  //       reviewAndSubmitPageFlow();
+  //     });
+  //   });
+  // },
 });

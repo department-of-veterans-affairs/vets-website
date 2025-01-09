@@ -76,9 +76,20 @@ export default function TermsOfUse() {
   );
 
   const handleTouClick = async type => {
-    const termsCode = termsCodeExists
-      ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
-      : '';
+    const params = {
+      ...(redirectLocation.searchParams.get('terms_code') && {
+        // eslint-disable-next-line camelcase
+        terms_code: redirectLocation.searchParams.get('terms_code'),
+      }),
+      ...(redirectLocation.searchParams.get('skip_mhv_account_creation') && {
+        // eslint-disable-next-line camelcase
+        skip_mhv_account_creation: redirectLocation.searchParams.get(
+          'skip_mhv_account_creation',
+        ),
+      }),
+    };
+
+    const queryString = `?${new URLSearchParams(params).toString()}`;
 
     setButtonPushed(buttonPushed + 1);
 
@@ -93,7 +104,7 @@ export default function TermsOfUse() {
 
       setIsDisabled(true);
       const response = await apiRequest(
-        `/terms_of_use_agreements/v1/${type}${termsCode}`,
+        `/terms_of_use_agreements/v1/${type}${queryString}`,
         {
           method: 'POST',
           credentials: 'include',

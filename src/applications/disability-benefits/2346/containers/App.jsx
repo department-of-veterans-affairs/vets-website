@@ -73,7 +73,7 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+          <div className="vads-u-padding-left--2">
             <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" />
           </div>
         )}

@@ -66,7 +66,7 @@ function ActionButtons(props) {
         </>
       )}
       <>
-        <div className="vads-l-col--12 medium-screen:vads-l-col--5 small-desktop-screen:vads-u-padding-x--1">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--5 desktop:vads-u-padding-x--1">
           <NewTabAnchor
             href={`/find-locations/facility/vha_${getRealFacilityId(
               facilityId,

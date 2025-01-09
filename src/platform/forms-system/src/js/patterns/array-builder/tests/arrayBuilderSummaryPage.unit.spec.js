@@ -106,6 +106,10 @@ describe('ArrayBuilderSummaryPage', () => {
     isReviewPage = false,
     reviewErrors,
     text,
+    uiSchema,
+    schema,
+    useButtonInsteadOfYesNo,
+    useLinkInsteadOfYesNo,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -127,26 +131,32 @@ describe('ArrayBuilderSummaryPage', () => {
     });
 
     const summaryPage = {
-      uiSchema: {
-        'view:hasOption': arrayBuilderYesNoUI({
-          arrayPath: 'employers',
-          nounSingular: 'employer',
-          required: false,
-          maxItems,
-        }),
-      },
-      schema: {
-        type: 'object',
-        properties: {
-          'view:hasOption': arrayBuilderYesNoSchema,
-        },
-        required: ['view:hasOption'],
-      },
+      uiSchema:
+        uiSchema !== undefined
+          ? uiSchema
+          : {
+              'view:hasOption': arrayBuilderYesNoUI({
+                arrayPath: 'employers',
+                nounSingular: 'employer',
+                required: false,
+                maxItems,
+              }),
+            },
+      schema:
+        schema !== undefined
+          ? schema
+          : {
+              type: 'object',
+              properties: {
+                'view:hasOption': arrayBuilderYesNoSchema,
+              },
+              required: ['view:hasOption'],
+            },
     };
 
     const CustomPage = ArrayBuilderSummaryPage({
       arrayPath: 'employers',
-      firstItemPagePath: '/first-item/:index',
+      getFirstItemPagePath: () => '/first-item/:index',
       hasItemsKey: 'view:hasOption',
       isItemIncomplete: item => !item?.name,
       isReviewPage,
@@ -157,6 +167,8 @@ describe('ArrayBuilderSummaryPage', () => {
       summaryRoute: '/summary',
       introRoute: '/intro',
       reviewRoute: '/review',
+      useButtonInsteadOfYesNo,
+      useLinkInsteadOfYesNo,
       getText,
     });
 
@@ -191,6 +203,8 @@ describe('ArrayBuilderSummaryPage', () => {
 
     expect(container.querySelector('va-radio')).to.exist;
     expect(container.querySelector('va-card')).to.not.exist;
+    expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to
+      .exist;
   });
 
   it('should display appropriately with 1 items', () => {
@@ -201,7 +215,9 @@ describe('ArrayBuilderSummaryPage', () => {
       maxItems: 5,
     });
 
-    expect(container.querySelector('va-radio')).to.exist;
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('value')).to.equal('false');
     expect(container.querySelector('va-card')).to.exist;
   });
 
@@ -360,5 +376,74 @@ describe('ArrayBuilderSummaryPage', () => {
     expect($legend).to.include.text('Custom summary review title');
     const description = $fieldset.querySelector('p');
     expect(description).to.not.exist;
+  });
+
+  it('should display summaryDescription text override when array has data', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryDescription: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary review title');
+    const description = $fieldset.querySelector('span');
+    expect(description).to.exist;
+    expect(description).to.include.text('Custom summary description');
+  });
+
+  it('should allow for showing a link instead of a yes no question', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      uiSchema: null,
+      schema: null,
+      useLinkInsteadOfYesNo: true,
+    });
+
+    expect(container.querySelector('va-link-action[name="employersAddLink"]'))
+      .to.exist;
+    expect(container.querySelector('va-button[name="employersAddButton"]')).to
+      .not.exist;
+    expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
+      .exist;
+  });
+
+  it('should allow for showing a button instead of a yes no question', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      uiSchema: null,
+      schema: null,
+      useButtonInsteadOfYesNo: true,
+    });
+
+    expect(container.querySelector('va-link-action[name="employersAddLink"]'))
+      .to.not.exist;
+    expect(container.querySelector('va-button[name="employersAddButton"]')).to
+      .exist;
+    expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
+      .exist;
+  });
+
+  it('should allow empty schema with a link', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      uiSchema: null,
+      schema: null,
+      useLinkInsteadOfYesNo: true,
+    });
+
+    expect(container.querySelector('va-link-action[name="employersAddLink"]'))
+      .to.exist;
   });
 });

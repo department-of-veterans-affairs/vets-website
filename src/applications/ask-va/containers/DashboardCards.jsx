@@ -1,116 +1,236 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { format, parse } from 'date-fns';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { compareDesc, parse } from 'date-fns';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { ServerErrorAlert } from '../config/helpers';
-import { envUrl } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import {
+  ServerErrorAlert,
+  formatDate,
+  getVAStatusFromCRM,
+} from '../config/helpers';
+import { URL, envUrl } from '../constants';
+import { mockInquiries } from '../utils/mockData';
+
+// Toggle this when testing locally to load dashboard cards
+const mockTestingFlag = false;
 
 const DashboardCards = () => {
+  const filterSummaryRef = useRef(null);
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const [, setOriginalInquries] = useState([]);
-  const [lastUpdatedFilter, setLastUpdatedFilter] = useState('newestToOldest');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+  const showingStart = (currentPage - 1) * itemsPerPage + 1;
+  const showingEnd = Math.min(currentPage * itemsPerPage, inquiries.length);
 
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
-
-  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
-    inquiries.some(card => card.levelOfAuthentication === 'Business');
+    inquiries.some(
+      card => card.attributes.levelOfAuthentication === 'Business',
+    );
 
-  const getData = async () => {
-    const response = await apiRequest(DASHBOARD_DATA)
+  const getApiData = url => {
+    if (mockTestingFlag) {
+      const res = mockInquiries;
+
+      const transformedInquiries = res.data.map(inquiry => ({
+        ...inquiry,
+        attributes: {
+          ...inquiry.attributes,
+          status: getVAStatusFromCRM(inquiry.attributes.status),
+        },
+      }));
+
+      setInquiries(transformedInquiries);
+      const uniqueCategories = [
+        ...new Set(
+          transformedInquiries.map(item => item.attributes.categoryName),
+        ),
+      ];
+      setCategories(uniqueCategories);
+      setLoading(false);
+      return Promise.resolve();
+    }
+    setLoading(true);
+    return apiRequest(url)
       .then(res => {
-        // Using mock data until BE is ready with new fields and pagination
-        setOriginalInquries(res);
+        setInquiries(res.data);
+        const uniqueCategories = [
+          ...new Set(res.data.map(item => item.attributes.categoryName)),
+        ];
+        setCategories(uniqueCategories);
         setLoading(false);
-        return mockInquiryData;
       })
       .catch(() => {
+        setLoading(false);
         hasError(true);
       });
-
-    const data = [];
-    if (response) {
-      for (const inquiry of response.data) {
-        data.push({
-          ...inquiry.attributes,
-          id: inquiry.id,
-        });
-      }
-    }
-
-    setInquiries(data);
-
-    const uniqueCategories = [...new Set(data.map(item => item.category))];
-    setCategories(uniqueCategories);
   };
 
   useEffect(() => {
-    getData();
+    focusElement('.schemaform-title > h1');
+    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
 
-  const filterAndSortInquiries = category => {
+  const filterAndSortInquiries = loa => {
     return inquiries
       .filter(
-        card => categoryFilter === 'All' || card.category === categoryFilter,
+        card =>
+          categoryFilter === 'All' ||
+          card.attributes.categoryName === categoryFilter,
       )
-      .filter(card => statusFilter === 'All' || card.status === statusFilter)
       .filter(
-        card => category === 'All' || card.levelOfAuthentication === category,
+        card =>
+          statusFilter === 'All' || card.attributes.status === statusFilter,
+      )
+      .filter(
+        card => loa === 'All' || card.attributes.levelOfAuthentication === loa,
       )
       .sort((a, b) => {
-        if (lastUpdatedFilter === 'newestToOldest') {
-          return (
-            moment(b.lastUpdate, 'MM/DD/YY') - moment(a.lastUpdate, 'MM/DD/YY')
-          );
-        }
-        return (
-          moment(a.lastUpdate, 'MM/DD/YY') - moment(b.lastUpdate, 'MM/DD/YY')
+        const dateA = parse(
+          a.attributes.lastUpdate,
+          'MM/dd/yyyy hh:mm:ss a',
+          new Date(),
         );
+        const dateB = parse(
+          b.attributes.lastUpdate,
+          'MM/dd/yyyy hh:mm:ss a',
+          new Date(),
+        );
+        return compareDesc(dateA, dateB);
       });
   };
 
-  const inquiriesGridView = category => {
-    const sortedInquiries = filterAndSortInquiries(category);
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+  };
+
+  const handleTabChange = () => {
+    setCurrentPage(1);
+  };
+
+  const inquiriesGridView = loa => {
+    const filteredInquiries = filterAndSortInquiries(loa);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentInquiries = filteredInquiries.slice(
+      indexOfFirstItem,
+      indexOfLastItem,
+    );
+    const totalPages = Math.ceil(filteredInquiries.length / itemsPerPage);
+
+    if (filteredInquiries.length === 0) {
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          slim
+          status="info"
+          visible
+        >
+          <p className="vads-u-margin-y--0">No questions match your filter</p>
+        </va-alert>
+      );
+    }
 
     return (
-      <div className="dashboard-cards-grid">
-        {sortedInquiries.map(card => (
-          <div className="" key={card.inquiryNumber}>
-            <va-card className="vacard">
-              <div>
-                <span className="usa-label">{card.status}</span>
-              </div>
-              <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                {`Submitted on ${formatDate(card.createdOn)}`}
-              </h3>
-              <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                {`Last Updated: ${formatDate(card.lastUpdate)}`}
-              </p>
-              <p className="vads-u-margin--0">Category: {card.category}</p>
-              <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
-              <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
-                {card.submitterQuestion}
-              </p>
-              <Link to={`/user/dashboard/${card.id}`}>
-                <va-link active text="Check details" />
-              </Link>
-            </va-card>
-          </div>
-        ))}
-      </div>
+      <>
+        <ul
+          className={
+            hasBusinessLevelAuth
+              ? 'dashboard-cards-grid-with-business'
+              : 'dashboard-cards-grid vads-u-padding--0'
+          }
+        >
+          {currentInquiries.map(card => (
+            <li key={card.id} className="dashboard-card-list">
+              <va-card class="vacard">
+                <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  <div className="vads-u-margin-bottom--1p5">
+                    <dt className="sr-only">Status</dt>
+                    <dd>
+                      <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                        {getVAStatusFromCRM(card.attributes.status)}
+                      </span>
+                    </dd>
+                  </div>
+                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                    {`Submitted on ${formatDate(card.attributes.createdOn)}`}
+                  </span>
+                </h3>
+                <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
+                  <span className="vads-u-font-weight--bold">
+                    Last updated:
+                  </span>{' '}
+                  {formatDate(card.attributes.lastUpdate)}
+                </p>
+                <p className="vacardCategory multiline-ellipsis-1">
+                  <span className="vads-u-font-weight--bold">Category:</span>{' '}
+                  {card.attributes.categoryName}
+                </p>
+                <p className="vacardSubmitterQuestion">
+                  {card.attributes.submitterQuestion}
+                </p>
+                <Link
+                  to={`${URL.DASHBOARD_ID}${card.attributes.inquiryNumber}`}
+                >
+                  <va-link
+                    active
+                    text="Review conversation"
+                    label={`Review conversation for question submitted on ${formatDate(
+                      card.attributes.createdOn,
+                      'long',
+                    )}`}
+                  />
+                </Link>
+              </va-card>
+            </li>
+          ))}
+        </ul>
+
+        {totalPages > 1 && (
+          <VaPagination
+            page={currentPage}
+            pages={totalPages}
+            maxPageListLength={5}
+            showLastPage
+            onPageSelect={e => handlePageChange(e.detail.page)}
+            className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--0"
+          />
+        )}
+      </>
+    );
+  };
+
+  const renderFilteredResultsInfo = () => {
+    const filteredInquiries = filterAndSortInquiries(
+      hasBusinessLevelAuth ? 'All' : 'Personal',
+    );
+    const totalFilteredCount = filteredInquiries.length;
+
+    return (
+      <>
+        Showing{' '}
+        {totalFilteredCount === 0
+          ? 'no'
+          : `${showingStart}-${Math.min(
+              showingEnd,
+              totalFilteredCount,
+            )} of ${totalFilteredCount}`}{' '}
+        results for
+        <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
+        {statusFilter !== 'All' ? 'status' : 'statuses'} and{' '}
+        <span className="vads-u-font-weight--bold">"{categoryFilter}" </span>
+        {categoryFilter !== 'All' ? 'category' : 'categories'}
+      </>
     );
   };
 
@@ -132,33 +252,46 @@ const DashboardCards = () => {
   }
 
   return (
-    <div className="vads-u-width--full">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
+    <div className="vads-u-width--full vads-u-margin-bottom--5">
+      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
-        <div className="vads-u-margin-bottom--2">
-          {/* Filters and Buttons  */}
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
-            <div className="vads-u-flex--1">
+        <>
+          <div className="vacardSelectFilters">
+            <div className="vads-u-flex--1 vads-u-width--full">
               <VaSelect
                 hint={null}
-                label="Last updated"
-                name="lastUpdated"
-                value={lastUpdatedFilter}
-                onVaSelect={event => setLastUpdatedFilter(event.target.value)}
+                label="Filter by status"
+                name="status"
+                value={statusFilter}
+                onVaSelect={event => {
+                  setStatusFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                  setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
+                }}
               >
-                <option value="newestToOldest">Newest to oldest</option>
-                <option value="oldestToNewest">Oldest to newest</option>
+                <option value="All">All</option>
+                <option value="In progress">In progress</option>
+                <option value="Replied">Replied</option>
+                <option value="Reopened">Reopened</option>
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
+            <div className="vads-u-flex--2 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by category"
                 name="category"
                 value={categoryFilter}
-                onVaSelect={event => setCategoryFilter(event.target.value)}
+                onVaSelect={event => {
+                  setCategoryFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                  setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
+                }}
               >
                 <option value="All">All</option>
                 {categories.map(category => (
@@ -168,26 +301,18 @@ const DashboardCards = () => {
                 ))}
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <VaSelect
-                hint={null}
-                label="Filter by status"
-                name="status"
-                value={statusFilter}
-                onVaSelect={event => setStatusFilter(event.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="New">New</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Reopened">Reopened</option>
-                <option value="Resolved">Archived</option>
-              </VaSelect>
-            </div>
           </div>
-          {/* Inquiries Views */}
+
+          <p
+            ref={filterSummaryRef}
+            className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+          >
+            {renderFilteredResultsInfo()}
+          </p>
+
           {hasBusinessLevelAuth ? (
-            <div className="columns small-12 vads-u-border--1px vads-u-border-style--solid vads-u-border-color--gray-lightest vads-u-padding--0 vads-u-margin--0 vads-u-border-top--0px">
-              <Tabs>
+            <div className="columns small-12 tabs">
+              <Tabs onSelect={handleTabChange}>
                 <TabList>
                   <Tab className="small-6 tab">Business</Tab>
                   <Tab className="small-6 tab">Personal</Tab>
@@ -199,7 +324,7 @@ const DashboardCards = () => {
           ) : (
             inquiriesGridView('Personal')
           )}
-        </div>
+        </>
       ) : (
         <div className="vads-u-margin-bottom--5">
           <va-alert

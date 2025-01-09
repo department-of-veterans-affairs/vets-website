@@ -102,7 +102,7 @@ const TravelMileage = props => {
               rel="noreferrer"
               className="vads-u-padding-top--3 vads-u-display--block"
             >
-              {t('check-current-mileage-rates')}
+              {t('check-current-mileage-rates-new-tab')}
             </ExternalLink>
           </va-alert-expandable>
           {multipleAppointments ? (
@@ -129,7 +129,17 @@ const TravelMileage = props => {
               ]}
             />
           </va-additional-info>
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch mobile-lg:vads-u-flex-direction--row">
+            <va-button
+              uswds
+              big
+              secondary
+              onClick={goToPreviousPage}
+              data-testid="back-button"
+              class="vads-u-margin-top--2"
+              value="back"
+              back
+            />
             <va-button
               uswds
               big
@@ -138,16 +148,6 @@ const TravelMileage = props => {
               data-testid="continue-button"
               class="vads-u-margin-top--2"
               value="continue"
-            />
-            <va-button
-              uswds
-              big
-              secondary
-              onClick={goToPreviousPage}
-              data-testid="back-button"
-              class="vads-u-margin-top--2 small-screen:vads-u-order--first"
-              value="back"
-              back
             />
           </div>
         </div>

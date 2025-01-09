@@ -18,7 +18,7 @@ export default function GenderIdentityAdditionalInfo() {
             It’s your choice whether or not to share your gender identity in
             your VA.gov profile. Here’s what to know before you share:
           </p>
-          <ul className="vads-u-margin-top--0 vads-u-padding-left--1 list-type-disc">
+          <ul className="vads-u-margin-top--0 vads-u-padding-left--3 list-type-disc">
             <li>
               <b>If you get health care at VA</b>, knowing your gender identity
               can help your care team better assess your health needs and

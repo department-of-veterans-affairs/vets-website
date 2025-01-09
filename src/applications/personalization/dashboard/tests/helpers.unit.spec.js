@@ -1,10 +1,5 @@
 import { expect } from 'chai';
-
-import {
-  FORM_DESCRIPTIONS,
-  SIP_ENABLED_FORMS,
-  MY_VA_SIP_FORMS,
-} from '~/platform/forms/constants';
+import { FORM_DESCRIPTIONS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 
 import {
   normalizeSubmissionStatus,
@@ -14,8 +9,8 @@ import {
 describe('profile helpers:', () => {
   describe('FORM_DESCRIPTIONS', () => {
     it('should have description information for each verified form', () => {
-      SIP_ENABLED_FORMS.forEach(form => {
-        expect(FORM_DESCRIPTIONS[form]).to.exist;
+      MY_VA_SIP_FORMS.forEach(form => {
+        expect(FORM_DESCRIPTIONS[form.id]).to.exist;
       });
     });
   });
@@ -40,15 +35,17 @@ describe('profile helpers:', () => {
     });
 
     it('should normalize "received" from api submission status', () => {
-      ['received', 'processing', 'success', 'VBMS'].forEach(value => {
+      ['VBMS'].forEach(value => {
         expect(normalizeSubmissionStatus(value)).to.equal('received');
       });
     });
 
     it('should normalize "inProgress" from api submission status', () => {
-      ['pending', 'uploaded'].forEach(value => {
-        expect(normalizeSubmissionStatus(value)).to.equal('inProgress');
-      });
+      ['pending', 'uploaded', 'received', 'processing', 'success'].forEach(
+        value => {
+          expect(normalizeSubmissionStatus(value)).to.equal('inProgress');
+        },
+      );
     });
   });
 

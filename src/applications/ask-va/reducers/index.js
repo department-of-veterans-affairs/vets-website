@@ -8,6 +8,7 @@ import {
   SET_CATEGORY_ID,
   SET_LOCATION_SEARCH,
   SET_TOPIC_ID,
+  SET_SUBTOPIC_ID,
   SET_UPDATED_IN_REVIEW,
 } from '../actions';
 
@@ -20,6 +21,7 @@ import {
 const initialState = {
   categoryID: '',
   topicID: '',
+  subtopicID: '',
   updatedInReview: '',
   searchLocationInput: '',
   getLocationInProgress: false,
@@ -45,6 +47,11 @@ export default {
         return {
           ...state,
           topicID: action.payload,
+        };
+      case SET_SUBTOPIC_ID:
+        return {
+          ...state,
+          subtopicID: action.payload,
         };
       case SET_UPDATED_IN_REVIEW:
         return {

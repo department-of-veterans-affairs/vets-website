@@ -47,11 +47,14 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { getByText, container } = renderWithRouter(
       <ClaimDetailLayout currentTab="Status" claim={claim} />,
     );
 
-    expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
+    expect($('va-alert', container)).to.exist;
+    getByText(
+      "We can't show all of the details of your claim. Please check back later.",
+    );
   });
 
   it('should not render adding details info if closed', () => {
@@ -122,5 +125,44 @@ describe('<ClaimDetailLayout>', () => {
     );
 
     expect(tree.subTree('Notification')).not.to.be.false;
+  });
+
+  describe('<ClaimsBreadcrumbs>', () => {
+    it('should render default breadcrumbs for the Your Claims list page while loading', () => {
+      const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.be.an('array')
+        .that.is.empty;
+    });
+    it('should render breadcrumbs specific to the claim once loaded', () => {
+      const claim = {
+        attributes: {
+          claimDate: '2024-09-04',
+          claimType: 'Dependency',
+          claimTypeCode: '130PSA',
+        },
+      };
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={claim} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your request to add or remove a dependent',
+          isRouterLink: true,
+        },
+      ]);
+    });
+    it('should render a default breadcrumb if the claim fails to load', () => {
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={null} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your claim',
+          isRouterLink: true,
+        },
+      ]);
+    });
   });
 });

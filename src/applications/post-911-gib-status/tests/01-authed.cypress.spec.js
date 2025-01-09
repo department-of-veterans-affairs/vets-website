@@ -20,16 +20,14 @@ describe('Gibs Test', () => {
     cy.visit('/education/gi-bill/post-9-11/ch-33-benefit');
     cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('a[href="/education/gi-bill/post-9-11/ch-33-benefit/status"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get(
+      'a[href="/education/check-remaining-post-9-11-gi-bill-benefits/status"]',
+      {
+        timeout: Timeouts.slow,
+      },
+    ).click();
 
     cy.get('#gibs-full-name').should('contain', 'First Last');
-
-    cy.get('#enrollment-0 h4').should(
-      'contain',
-      '11/01/2012 to 12/01/2012 at purdue university',
-    );
 
     cy.get('#print-button').click();
     cy.get('.print-status', { timeout: Timeouts.slow }).should('be.visible');

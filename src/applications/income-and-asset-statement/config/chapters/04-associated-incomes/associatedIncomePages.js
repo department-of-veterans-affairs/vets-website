@@ -18,7 +18,6 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
@@ -38,7 +37,7 @@ const options = {
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item && (
+      item?.grossMonthlyIncome && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income type:{' '}
@@ -137,26 +136,34 @@ const incomeRecipientPage = {
           'associatedIncomes',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'associatedIncomes'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income and net worth associated with financial accounts',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -226,6 +233,14 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'associated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
+    }),
+    associatedIncomeRecipientNamePage: pageBuilder.itemPage({
+      title: 'Financial account recipient name',
+      path: 'associated-incomes/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'associatedIncomes'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     associatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Financial account type',

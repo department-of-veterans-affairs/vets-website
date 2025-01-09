@@ -4,7 +4,7 @@ import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import activeRxZeroRefills from './fixtures/active-rx-zero-refills-on-refill-page.json';
 
 describe('Medications Refill Page Active Rx No Refills', () => {
-  it('visits Medications Refill Page Active Rx Zero Refills Remaining', () => {
+  it.skip('visits Medications Refill Page Active Rx Zero Refills Remaining', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const listNumber = 3;

@@ -15,8 +15,10 @@ describe('Medications Details Page Download', () => {
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.clickPrintOrDownloadThisListDropDown();
+    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
+    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
     cy.injectAxe();
     cy.axeCheck('main');

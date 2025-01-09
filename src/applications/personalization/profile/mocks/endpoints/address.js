@@ -107,7 +107,7 @@ const addressValidation = {
         zipCode: '94115',
       },
       addressMetaData: {
-        confidenceScore: 0,
+        confidenceScore: 88,
         addressType: 'Domestic',
         deliveryPointValidation: 'MISSING_ZIP',
       },

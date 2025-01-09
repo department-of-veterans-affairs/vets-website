@@ -61,20 +61,22 @@ const ConfirmationApproved = ({
         </a>
       </va-alert>
 
-      <div className="feature">
-        <h3>Application for VA education benefits (Form 22-1990)</h3>
+      <va-summary-box class="vads-u-margin-y--3">
+        <h3 slot="headline">
+          Application for VA education benefits (Form 22-1990)
+        </h3>
+        <h3 slot="headline">Post-9/11 GI Bill, Chapter 33</h3>
         {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
         <dl>
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
         <va-button
-          uswds
-          className="usa-button meb-print"
+          class="meb-print"
           text="Print this page"
           onClick={printPage}
         />
-      </div>
+      </va-summary-box>
 
       <h2>What happens next?</h2>
       <ul>

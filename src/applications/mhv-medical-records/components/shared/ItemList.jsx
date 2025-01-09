@@ -5,7 +5,11 @@ const ItemList = props => {
   const { list } = props;
   if (typeof list === 'string')
     return (
-      <span data-dd-privacy="mask" data-testid="item-list-string">
+      <span
+        data-dd-privacy="mask"
+        data-dd-action-name="[list item]"
+        data-testid="item-list-string"
+      >
         {list}
       </span>
     );
@@ -18,6 +22,7 @@ const ItemList = props => {
               key={idx}
               className="vads-u-margin-bottom--0"
               data-dd-privacy="mask"
+              data-dd-action-name="[list item]"
               data-testid="list-item-multiple"
             >
               {item}
@@ -29,7 +34,12 @@ const ItemList = props => {
   }
   if (list?.length === 1) {
     return (
-      <span data-testid="list-item-single" data-dd-privacy="mask">
+      <span
+        data-testid="list-item-single"
+        data-dd-privacy="mask"
+        data-dd-action-name="[list item]"
+        style={{ whiteSpace: 'pre-line' }}
+      >
         {list[0]}
       </span>
     );

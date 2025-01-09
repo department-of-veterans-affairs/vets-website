@@ -3,8 +3,8 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
-// import { showNewHlrContent } from '../utils/helpers';
 import { validateConferenceContactChoice } from '../validations';
 import { errorMessages } from '../constants';
 
@@ -48,6 +48,9 @@ export const InformalConferenceContact = ({
     );
     const errorMsg = error?.[0] || null;
     setHasError(errorMsg);
+    if (errorMsg) {
+      scrollToFirstError({ focusOnAlertRole: true });
+    }
     return errorMsg;
   };
 
@@ -56,6 +59,11 @@ export const InformalConferenceContact = ({
       event.preventDefault();
       if (!checkErrors() && conference !== '') {
         goForward(data);
+      }
+    },
+    onUpdatePage: event => {
+      if (!checkErrors() && conference !== '') {
+        updatePage(event);
       }
     },
     onSelection: event => {
@@ -79,7 +87,7 @@ export const InformalConferenceContact = ({
   const navButtons = onReviewPage ? (
     <va-button
       text={updateButtonText}
-      onClick={updatePage}
+      onClick={handlers.onUpdatePage}
       class="vads-u-margin-bottom--4"
     />
   ) : (

@@ -1,0 +1,8 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": "attachment; filename=\"10-10CG_Mickey_Mouse.pdf\""
+  },
+  "body": "Fake 10-10CG Form for Micky Mouse"
+}

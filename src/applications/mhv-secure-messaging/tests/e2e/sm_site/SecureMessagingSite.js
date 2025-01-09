@@ -8,6 +8,7 @@ import { Paths } from '../utils/constants';
 
 class SecureMessagingSite {
   login = (
+    featureToggles = mockToggles,
     mockVamc = vamcUser,
     isSMUser = true,
     user = mockUser,
@@ -20,7 +21,7 @@ class SecureMessagingSite {
       cy.intercept('GET', '/v0/user', user).as('mockUser');
       cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
+      cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
         'featureToggle',
       );
       const facilityIDs = [];

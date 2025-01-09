@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,7 +14,7 @@ export default function JumpLink({
   customClass,
 }) {
   const jumpLinkClicked = e => {
-    e.preventDefault();
+    e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
   };
 
@@ -70,3 +71,11 @@ export default function JumpLink({
     </a>
   );
 }
+JumpLink.propTypes = {
+  jumpToId: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  customClass: PropTypes.string,
+  dataTestId: PropTypes.string,
+  iconToggle: PropTypes.bool,
+  onClick: PropTypes.func,
+};

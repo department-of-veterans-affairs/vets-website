@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -10,12 +11,13 @@ import {
 } from '../utils/helpers';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 import { standard5103Item } from '../constants';
-
+// Not currently being used. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+// Waiting to see if we still need this component or not
 const filesPath = '../files';
 const statusPath = '../status';
 
 export function Standard5103NoticePage({ claim, loading }) {
-  setDocumentTitle('5103 Evidence Notice');
+  setDocumentTitle('Review your evidence list (5103 notice)');
 
   const claimType = getClaimType(claim).toLowerCase();
 
@@ -43,7 +45,7 @@ export function Standard5103NoticePage({ claim, loading }) {
     previousPageBreadcrumb,
     {
       href: '../5103-evidence-notice',
-      label: '5103 Evidence Notice',
+      label: 'Review evidence list (5103 notice)',
       isRouterLink: true,
     },
   ];
@@ -88,3 +90,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Standard5103NoticePage);
+
+Standard5103NoticePage.propTypes = {
+  claim: PropTypes.object,
+  loading: PropTypes.bool,
+};

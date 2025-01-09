@@ -370,4 +370,12 @@ export default class MockAppointmentResponse {
     this.attributes.preferredModality = value;
     return this;
   }
+
+  setUrl(value = 'test.com') {
+    this.attributes.telehealth = {
+      url: value,
+    };
+
+    return this;
+  }
 }

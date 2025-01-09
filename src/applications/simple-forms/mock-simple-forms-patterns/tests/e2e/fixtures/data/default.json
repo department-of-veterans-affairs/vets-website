@@ -1,5 +1,18 @@
 {
   "data": {
+    "chapterSelect": {
+      "arrayMultiPageAggregate": true,
+      "arrayMultiPageBuilder": true,
+      "arraySinglePage": true,
+      "checkbox": true,
+      "date": true,
+      "formsPattern": true,
+      "miscellaneous": true,
+      "numberInput": true,
+      "radio": true,
+      "select": true,
+      "textInput": true
+    },
     "dateDefault": "1999-02-02",
     "dateWCV3": "2000-02-12",
     "dateRange": {

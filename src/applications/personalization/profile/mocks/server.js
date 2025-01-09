@@ -102,13 +102,11 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
-            profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormUAT: false,
-            profileShowDirectDepositSingleFormAlert: true,
-            profileShowDirectDepositSingleFormEduDowntime: true,
+            profileShowNoValidationKeyAddressAlert: false,
+            profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
+            veteranStatusCardUseLighthouse: true,
           }),
         ),
       secondsOfDelay,
@@ -123,8 +121,8 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
@@ -150,7 +148,13 @@ const responses = {
     // downtime for VA Profile aka Vet360 (according to service name in response)
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //     maintenanceWindows.SERVICES.VAPRO_PROFILE_PAGE,
+    //     maintenanceWindows.SERVICES.VAPRO_CONTACT_INFO,
+    //     maintenanceWindows.SERVICES.LIGHTHOUSE_DIRECT_DEPOSIT,
+    //     maintenanceWindows.SERVICES.VAPRO_MILITARY_INFO,
+    //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
+    //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
+    //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
     //   ]),
     // );
   },
@@ -183,8 +187,13 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(directDeposits.base),
+      secondsOfDelay,
+    );
     // this endpoint is used for the single form version of the direct deposit page
-    return res.status(200).json(directDeposits.base);
+
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
@@ -228,7 +237,8 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
-    return res.status(200).json(ratingInfo.success);
+    // return res.status(200).json(ratingInfo.success.serviceConnected0);
+    return res.status(200).json(ratingInfo.success.serviceConnected40);
     // return res.status(500).json(genericErrors.error500);
   },
 

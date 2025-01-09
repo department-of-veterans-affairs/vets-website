@@ -4,9 +4,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   ALERT_TYPE_ERROR,
+  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -16,6 +16,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const LabsAndTests = () => {
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.CHEM_HEM,
+    extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
@@ -55,7 +56,6 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
@@ -67,6 +67,7 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
+
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         Most lab and test results are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after the lab
@@ -74,6 +75,9 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.LABS_AND_TESTS}
@@ -84,7 +88,7 @@ const LabsAndTests = () => {
       >
         <NewRecordsIndicator
           refreshState={refresh}
-          extractType={refreshExtractTypes.CHEM_HEM}
+          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
           newRecordsFound={
             Array.isArray(labsAndTests) &&
             Array.isArray(updatedRecordList) &&
@@ -94,6 +98,7 @@ const LabsAndTests = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>

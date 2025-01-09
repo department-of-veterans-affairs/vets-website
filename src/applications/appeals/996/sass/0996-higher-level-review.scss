@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -183,31 +183,5 @@ article[data-location="review-and-submit"] {
 article[data-location="review-and-submit"] {
   dt strong.opt-in-title {
     font-weight: normal;
-  }
-}
-
-/* Confirmation page */
-article[data-location="confirmation"] {
-  h1[tabindex="-1"] {
-    outline: none;
-  }
-
-  @media print {
-    .confirmation-page-title,
-    a {
-      text-align: left;
-      padding-left: 0;
-    }
-  }
-}
-
-@media print {
-  .usa-width-two-thirds {
-    width: 100%;
-  }
-
-  .schemaform-title,
-  .schemaform-subtitle {
-    display: none;
   }
 }

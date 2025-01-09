@@ -51,6 +51,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
+  useEffect(() => {
+    document.title =
+      'Your Montgomery GI Bill benefits information | Veterans Affairs';
+  }, []);
 
   // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
@@ -63,10 +67,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setFormData({});
       if (confidenceScore === 100 && response) {
-        const isUSA = address.countryCodeIso3 === 'USA';
         const stateAndZip = {
-          stateCode: isUSA ? address.stateCode : address.province,
-          zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
+          stateCode: address.stateCode,
+          zipCode: address.zipCode,
         };
         setNewAddress({
           street: `${address.addressLine1} ${address.addressLine2 || ''}`,
@@ -74,7 +77,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           ...stateAndZip,
         });
       }
-      sessionStorage.setItem('address', JSON.stringify(address));
+      sessionStorage.setItem('address', JSON.stringify(address) || '{}');
       setToggleAddressForm(false);
       scrollToTopOfForm();
     },
@@ -87,8 +90,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (Object.keys(formData).length === 0) {
       Object.assign(formData, editFormData);
     }
-
-    const addressData = prepareAddressData(formData);
+    const data = formData?.addressLine1 ? formData : newAddress;
+    const addressData = prepareAddressData(data);
     const fields = {
       address: addressData,
     };
@@ -233,7 +236,18 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setFormData(tempData);
     setEditFormData(tempData);
   };
-
+  const addressMapping = {
+    street: 'addressLine1',
+    street2: 'addressLine2',
+    city: 'city',
+    stateCode: 'stateCode',
+    zipCode: 'zipCode',
+  };
+  const transformedAddress = Object.keys(newAddress)?.reduce((acc, key) => {
+    const newKey = addressMapping[key] || key; // Use mapped key or original key
+    acc[newKey] = newAddress[key];
+    return acc;
+  }, {});
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
       <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
@@ -254,7 +268,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {suggestedAddressPicked ||
             confidenceScore < (addressType === 'International' ? 96 : 100) ? (
               <SuggestedAddress
-                formData={editFormData}
+                formData={
+                  Object.keys(editFormData).length === 0
+                    ? transformedAddress
+                    : editFormData
+                }
                 address={JSON.parse(sessionStorage.getItem('address'))}
                 handleAddNewClick={event => handleAddNewClick(event)}
                 setFormData={setFormData}
@@ -302,13 +320,16 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               cancelEditClick={cancelEditClick}
               formType=" mailing address"
             />
-
             <ChangeOfAddressForm
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
-              formData={editFormData}
+              formData={
+                Object.keys(editFormData).length === 0
+                  ? transformedAddress
+                  : editFormData
+              }
             >
               <div className="button-container">
                 <LoadingButton

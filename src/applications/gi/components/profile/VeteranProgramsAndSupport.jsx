@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   createId,
   formatCurrency,
@@ -84,6 +85,7 @@ export default function VeteranProgramsAndSupport({
         &nbsp;
         <strong>
           <LearnMoreLabel
+            bold
             text={program.text}
             onClick={() => {
               showModal(program.modal);
@@ -99,7 +101,7 @@ export default function VeteranProgramsAndSupport({
   };
 
   const veteranPrograms = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>
@@ -113,10 +115,10 @@ export default function VeteranProgramsAndSupport({
   );
 
   const historicalInformation = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <div className="historical-information table">
         <h3>Historical Information</h3>
-        <va-table class="vads-u-margin-top--0">
+        <va-table table-type="bordered">
           <va-table-row slot="headers">
             <span>Benefit</span>
             <span>Recipients</span>
@@ -140,9 +142,14 @@ export default function VeteranProgramsAndSupport({
   );
 
   return (
-    <div className="row veteran-programs-and-support">
+    <div className="veteran-programs-and-support vads-u-display--flex vads-u-justify-content--space-between">
       {veteranPrograms}
       {historicalInformation}
     </div>
   );
 }
+VeteranProgramsAndSupport.propTypes = {
+  constants: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+};

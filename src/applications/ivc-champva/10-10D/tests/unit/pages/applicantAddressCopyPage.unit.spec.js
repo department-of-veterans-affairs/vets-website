@@ -15,7 +15,7 @@ describe('ApplicantAddressCopyPage handlers', () => {
       <ApplicantAddressCopyPage
         contentBeforeButtons={<></>}
         contentAfterButtons={<></>}
-        data={{ ...mockData.data, certifierRole: 'applicant' }}
+        data={{ ...mockData.data }}
         setFormData={() => {}}
         goBack={() => {}}
         goForward={goFwdSpy}
@@ -45,7 +45,7 @@ describe('ApplicantAddressCopyPage handlers', () => {
       <ApplicantAddressCopyPage
         contentBeforeButtons={<></>}
         contentAfterButtons={<></>}
-        data={{ ...mockData.data, certifierRole: 'other' }}
+        data={{ ...mockData.data }}
         setFormData={() => {}}
         goBack={() => {}}
         goForward={() => {}}

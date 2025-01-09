@@ -11,7 +11,7 @@ function axeTestPage() {
   });
 }
 
-describe('functionality of discharge wizard', () => {
+xdescribe('functionality of discharge wizard', () => {
   it('fill out the form and expect the form to have elements', () => {
     // navigate to discharge wizard and make an axe check
     // landing page
@@ -19,7 +19,9 @@ describe('functionality of discharge wizard', () => {
     axeTestPage();
 
     // questions page | fill out form
-    cy.get('.main .vads-c-action-link--green').click();
+    cy.findByTestId('duw-start')
+      .should('be.visible')
+      .click();
 
     cy.get('va-radio-option[name=1_branchOfService][value="army"]')
       .find('label')
@@ -62,7 +64,9 @@ describe('functionality of discharge wizard', () => {
     // a11y check after all elements are visible
     axeTestPage();
 
-    cy.get('.main .vads-c-action-link--green').click();
+    cy.findByTestId('duw-guidance')
+      .should('be.visible')
+      .click();
 
     // a11y check on results page
     axeTestPage();

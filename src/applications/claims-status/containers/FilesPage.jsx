@@ -10,6 +10,7 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
+import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
@@ -25,13 +26,16 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
 class FilesPage extends React.Component {
   componentDidMount() {
-    const { claim } = this.props;
-    setTabDocumentTitle(claim, 'Files');
+    const { claim, location } = this.props;
+    // Only set the document title at mount-time if the claim is already available.
+    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
-    setTimeout(() => {
-      const { lastPage, loading } = this.props;
-      setPageFocus(lastPage, loading);
-    }, 100);
+    if (location?.hash === '') {
+      setTimeout(() => {
+        const { lastPage, loading } = this.props;
+        setPageFocus(lastPage, loading);
+      }, 100);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +44,9 @@ class FilesPage extends React.Component {
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
+    // Set the document title when loading completes.
+    //   If loading was successful it will display a title specific to the claim.
+    //   Otherwise it will display a default title of "Files for Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
     }
@@ -137,6 +144,7 @@ FilesPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.shape({
     body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     title: PropTypes.string,
@@ -144,9 +152,11 @@ FilesPage.propTypes = {
   }),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilesPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FilesPage),
+);
 
 export { FilesPage };

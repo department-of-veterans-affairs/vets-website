@@ -91,10 +91,10 @@ describe('<DocumentRequestPage>', () => {
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        '5103 Evidence Notice',
+        'Review evidence list (5103 notice)',
       );
       expect(document.title).to.equal(
-        '5103 Evidence Notice | Veterans Affairs',
+        'Review evidence list (5103 notice) | Veterans Affairs',
       );
     });
 
@@ -368,11 +368,6 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Create a file
       const file = {
         file: new File(['hello'], 'hello.jpg', {
@@ -420,11 +415,6 @@ describe('<DocumentRequestPage>', () => {
           ,
         </Provider>,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Create a file
       const file = {

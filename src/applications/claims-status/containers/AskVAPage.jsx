@@ -85,7 +85,7 @@ class AskVAPage extends React.Component {
     ];
 
     return (
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0  vads-u-margin-bottom--7">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0  vads-u-margin-bottom--7">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs crumbs={crumbs} />

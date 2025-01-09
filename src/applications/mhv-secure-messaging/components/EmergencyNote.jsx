@@ -26,7 +26,11 @@ const EmergencyNote = props => {
           <CrisisLineConnectButton />
           <li>
             <strong>If you think your life or health is in danger,</strong> Call{' '}
-            <va-telephone contact="911" /> or go to the nearest emergency room.
+            <va-telephone
+              data-dd-action-name="911 Link Expandable Alert"
+              contact="911"
+            />
+            or go to the nearest emergency room.
           </li>
         </ul>
       </div>
@@ -39,6 +43,7 @@ const EmergencyNote = props => {
         <va-alert-expandable
           status="info"
           trigger="Only use messages for non-urgent needs"
+          data-dd-action-name="Only Use Messages For Non-Urgent Needs Expandable Alert"
         >
           <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
             {content()}

@@ -13,6 +13,7 @@ describe('Medications List Page Refill Prescriptions Link', () => {
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
+    listPage.verifyRefillPageLinkTextOnMedicationsListPage();
     refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');

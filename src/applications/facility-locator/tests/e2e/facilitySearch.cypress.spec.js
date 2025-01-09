@@ -57,13 +57,6 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have.attr', 'disabled');
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('VA benefits');
-  cy.get('.service-type-dropdown-container')
-    .find('select')
-    .should('not.have.attr', 'disabled');
 
   // Va facilities don't have services available
   cy.get('#facility-type-dropdown')
@@ -80,6 +73,13 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have', 'disabled');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA benefits');
+  cy.get('.service-type-dropdown-container') // remember to remove when we allow selection again for VA Benefits
+    .find('select')
+    .should('have.attr', 'disabled');
 
   // CCP care have services available
   cy.get('#facility-type-dropdown')
@@ -139,10 +139,10 @@ describe('Facility VA search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
-    cy.get('.i-pin-card-map').contains('A');
-    cy.get('.i-pin-card-map').contains('B');
-    cy.get('.i-pin-card-map').contains('C');
-    cy.get('.i-pin-card-map').contains('D');
+    cy.get('.i-pin-card-map').contains('1');
+    cy.get('.i-pin-card-map').contains('2');
+    cy.get('.i-pin-card-map').contains('3');
+    cy.get('.i-pin-card-map').contains('4');
 
     cy.get('#other-tools').should('exist');
   });

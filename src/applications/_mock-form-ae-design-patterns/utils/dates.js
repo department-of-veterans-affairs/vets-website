@@ -3,7 +3,7 @@ import { parse, parseISO, add, format, isValid } from 'date-fns';
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
-} from '../constants/task-purple/constants';
+} from '../patterns/pattern1/TaskPurple/constants';
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)

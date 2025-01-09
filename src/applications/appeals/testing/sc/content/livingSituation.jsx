@@ -57,10 +57,7 @@ export const livingSituationReviewField = ({ formData }) => {
   return (
     <div className="review-row">
       <dt>{livingSituationTitle}</dt>
-      <dd
-        className="dd-privacy-hidden"
-        data-dd-action-name="Areas of disagreement"
-      >
+      <dd className="dd-privacy-hidden" data-dd-action-name="living situation">
         {list}
       </dd>
     </div>
@@ -91,7 +88,7 @@ export const domesticViolenceInfo = (
 /**
  * Other housing risks page
  */
-export const OtherHousingRisksTitle = (
+export const OtherHousingRisksTitle = () => (
   <>
     <h3>Other housing risks</h3>
     <p>

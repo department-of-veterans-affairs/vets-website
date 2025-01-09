@@ -1,6 +1,6 @@
-import moment from 'moment';
 import { expect } from 'chai';
 
+import { parseISO } from 'date-fns';
 import formConfig from '../../../config/form';
 
 import { transform } from '../../../config/submit';
@@ -36,7 +36,7 @@ describe('Pensions isUnder65', () => {
         veteranDateOfBirth: '1950-01-01',
         isOver65: true,
       },
-      moment('2020-01-01'),
+      parseISO('2020-01-01'),
     );
     expect(under65).to.be.false;
   });
@@ -47,7 +47,7 @@ describe('Pensions isUnder65', () => {
         veteranDateOfBirth: '2000-01-01',
         isOver65: true,
       },
-      moment('2020-01-01'),
+      parseISO('2020-01-01'),
     );
     expect(under65).to.be.true;
   });
@@ -58,7 +58,7 @@ describe('Pensions isUnder65', () => {
         veteranDateOfBirth: '1950-01-01',
         isOver65: false,
       },
-      moment('2020-01-01'),
+      parseISO('2020-01-01'),
     );
     expect(under65).to.be.true;
   });

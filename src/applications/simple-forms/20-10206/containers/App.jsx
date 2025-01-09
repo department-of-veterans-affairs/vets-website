@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { isLoggedIn, isLOA3 } from 'platform/user/selectors';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import formConfig from '../config/form';
 
@@ -43,7 +47,12 @@ const App = props => {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="personal records request system"
+        dependencies={[externalServices.lighthouseBenefitsIntake]}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 };

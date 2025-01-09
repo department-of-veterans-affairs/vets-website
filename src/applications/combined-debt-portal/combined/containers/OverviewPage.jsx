@@ -8,10 +8,12 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import DisasterAlert from '../components/DisasterAlert';
+import { GenericDisasterAlert } from '../components/DisasterAlert';
+import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -59,7 +61,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        <DisasterAlert />
+        <GenericDisasterAlert />
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
@@ -67,10 +69,6 @@ const OverviewPage = () => {
         ) : (
           <>
             <h2>Debt and bill overview</h2>
-            <p>
-              Any payments you may have made will not be reflected here until
-              our systems are updated with your next monthly statement.
-            </p>
             <Balances />
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>

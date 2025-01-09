@@ -1,8 +1,17 @@
+import {
+  ACTIVE_FILTER_KEY,
+  ALL_MEDICATIONS_FILTER_KEY,
+  NON_ACTIVE_FILTER_KEY,
+  RECENTLY_REQUESTED_FILTER_KEY,
+  RENEWAL_FILTER_KEY,
+} from './constants';
+
 export const pageType = {
   ABOUT: 'About Page',
   DETAILS: 'Details Page',
   LIST: 'List Page',
   REFILL: 'Refill Page',
+  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {
@@ -18,6 +27,13 @@ export const dataDogActionNames = {
       pageType.LIST
     }`,
     SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.LIST}`,
+    [ALL_MEDICATIONS_FILTER_KEY]: 'All medications filter',
+    [ACTIVE_FILTER_KEY]: 'Active filter',
+    [RECENTLY_REQUESTED_FILTER_KEY]: 'Recently requested filter',
+    [RENEWAL_FILTER_KEY]: 'Renewal needed filter',
+    [NON_ACTIVE_FILTER_KEY]: 'Non-active filter',
+    APPLY_FILTER_BUTTON: 'Apply filter button',
+    RESET_FILTER_BUTTON: 'Reset filter button',
   },
   landingPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.ABOUT}`,

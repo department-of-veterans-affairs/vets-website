@@ -7,10 +7,10 @@ import {
   getCareSummariesAndNotesList,
   reloadRecords,
 } from '../actions/careSummariesAndNotes';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import useListRefresh from '../hooks/useListRefresh';
 import {
   ALERT_TYPE_ERROR,
+  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -19,6 +19,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -60,14 +61,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/',
-            label: 'medical records',
-          },
-        ]),
-      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
@@ -85,6 +78,9 @@ const CareSummariesAndNotes = () => {
         providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
@@ -105,6 +101,7 @@ const CareSummariesAndNotes = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

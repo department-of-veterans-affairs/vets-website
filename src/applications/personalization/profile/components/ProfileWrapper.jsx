@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
 import ProfileSubNav from './ProfileSubNav';
@@ -49,14 +48,7 @@ const ProfileWrapper = ({
 }) => {
   const location = useLocation();
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const profileShowDirectDepositSingleFormToggle = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleForm,
-  );
-
-  const routesForNav = getRoutesForNav({
-    profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
-  });
+  const routesForNav = getRoutesForNav();
 
   const layout = useMemo(
     () => {

@@ -1,20 +1,30 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SearchControls from '../components/search/SearchControls';
 import SearchItem from '../components/search/SearchItem';
+import { getHealthFacilityTitle } from '../config/helpers';
 import { CHAPTER_3, URL, envUrl } from '../constants';
 import { convertToLatLng } from '../utils/mapbox';
+import { mockHealthFacilityResponse } from '../utils/mockData';
+
+// Toggle this when testing locally to load health facility search results
+const mockTestingFlag = false;
 
 const facilities = { data: [] };
 
-// Mock facilities api call locally
-// const facilities = healthFacilityMockData;
-
-const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
+const YourVAHealthFacilityPage = props => {
+  const { data, setFormData, goBack, goForward, searchQuery } = props;
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
+  const [validationError, setValidationError] = useState({
+    searchInputError: false,
+    radioError: null,
+  });
 
   const options = {
     method: 'POST',
@@ -25,6 +35,18 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
 
   const getApiData = url => {
     setIsSearching(true);
+
+    if (mockTestingFlag) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setApiData(mockHealthFacilityResponse);
+          setIsSearching(false);
+          resolve(mockHealthFacilityResponse);
+        }, 500);
+      });
+    }
+
     return apiRequest(url, options)
       .then(res => {
         setApiData(res);
@@ -38,7 +60,7 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
   const getFacilitiesFromLocation = async input => {
     const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
       input[1]
-    }&long=${input[0]}`;
+    }&long=${input[0]}&radius=50`;
     await getApiData(url);
     setPageURL(url);
   };
@@ -47,22 +69,45 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
     const latLong = await convertToLatLng(input);
     const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
       latLong[0]
-    }&radius=75&type=health`;
+    }&radius=50&type=health`;
     await getApiData(url);
     setPageURL(url);
   };
 
+  const updateForm = selection => {
+    setFormData({ ...data, yourHealthFacility: selection });
+  };
+
+  const checkInput = formData => {
+    if (formData.yourHealthFacility) {
+      goForward(formData);
+    }
+
+    if (searchQuery.length === 0) {
+      focusElement('#street-city-state-zip');
+      return setValidationError({ ...validationError, searchInputError: true });
+    }
+
+    focusElement('va-radio');
+    return setValidationError({
+      ...validationError,
+      radioError: 'Please select a facility',
+    });
+  };
+
   return (
     <>
-      <h3>{CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE}</h3>
+      <h3>{getHealthFacilityTitle(data)}</h3>
       <form className="rjsf">
-        <p className="vads-u-margin-top--5 vads-u-margin-bottom--2">
+        <p className="vads-u-margin-top--3 vads-u-margin-bottom--2">
           {CHAPTER_3.YOUR_VA_HEALTH_FACILITY.DESCRIPTION}
         </p>
         <div className="facility-locator vads-u-margin-top--2">
           <SearchControls
             locateUser={getFacilitiesFromLocation}
             onSubmit={getFacilities}
+            searchTitle="City or postal code"
+            hasSearchInput={validationError.searchInputError}
           />
           {isSearching ? (
             <va-loading-indicator
@@ -75,15 +120,28 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
               facilityData={apiData}
               pageURL={pageURL}
               getData={getApiData}
-              onChange={onChange}
+              onChange={updateForm}
+              validationError={validationError.radioError}
             />
           )}
         </div>
 
-        <FormNavButtons goBack={goBack} goForward={goForward} />
+        <FormNavButtons goBack={goBack} goForward={() => checkInput(data)} />
       </form>
     </>
   );
 };
 
-export default YourVAHealthFacilityPage;
+YourVAHealthFacilityPage.propTypes = {
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  onChange: PropTypes.func,
+};
+
+function mapStateToProps(state) {
+  return {
+    searchQuery: state.askVA.searchLocationInput,
+  };
+}
+
+export default connect(mapStateToProps)(YourVAHealthFacilityPage);

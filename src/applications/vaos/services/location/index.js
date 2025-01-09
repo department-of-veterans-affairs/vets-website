@@ -6,7 +6,6 @@
  * a FHIR resource request
  */
 
-import { getCommunityCareFacilities } from '../var';
 import { mapToFHIRErrors } from '../utils';
 
 import { VHA_FHIR_ID } from '../../utils/constants';
@@ -15,6 +14,7 @@ import {
   getSchedulingConfigurations,
   getFacilities,
   getFacilityById,
+  getCommunityCareFacilities,
 } from '../vaos';
 import {
   transformParentFacilitiesV2,

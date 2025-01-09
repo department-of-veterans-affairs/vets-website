@@ -207,4 +207,17 @@ describe('SearchBenefits', () => {
     expect(setEnlistmentService.calledWith('33b')).to.equal(true);
     wrapper.unmount();
   });
+  it('should render ', async () => {
+    const setEligForPostGiBill = sinon.spy();
+    const wrapper = mount(
+      <Provider store={store}>
+        <SearchBenefits setEligForPostGiBill={setEligForPostGiBill} />
+      </Provider>,
+    );
+
+    const dropdown = wrapper.find('Dropdown[name="eligForPostGiBill"]');
+    dropdown.props().onChange({ target: { value: 'no' } });
+    expect(setEligForPostGiBill.calledWith('no')).to.equal(true);
+    wrapper.unmount();
+  });
 });

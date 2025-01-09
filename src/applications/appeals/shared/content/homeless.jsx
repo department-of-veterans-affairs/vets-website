@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
-
-export const homelessTitle = 'Are you experiencing homelessness?';
+export const pageTitle = 'Housing situation';
+export const homelessTitle = 'Are you experiencing homelessness?'; // NOD
 export const homelessRiskTitle =
   'Are you experiencing or at risk of homelessness?';
 
@@ -11,17 +10,9 @@ export const homelessLabels = {
   N: 'No',
 };
 
-export const homelessDescription =
-  'If you’re experiencing or at risk of homelessness, we’ll process your request more quickly.';
-
 export const homelessReviewField = ({ children }) => (
   <div className="review-row">
-    <dt>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-        <Toggler.Enabled>{homelessRiskTitle}</Toggler.Enabled>
-        <Toggler.Disabled>{homelessTitle}</Toggler.Disabled>
-      </Toggler>
-    </dt>
+    <dt>{homelessRiskTitle}</dt>
     <dd>{children}</dd>
   </div>
 );

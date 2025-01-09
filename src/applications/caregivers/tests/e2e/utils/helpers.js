@@ -10,14 +10,22 @@ import featureToggles from '../fixtures/mocks/feature-toggles.json';
 import mockUpload from '../fixtures/mocks/mock-upload.json';
 import mockFacilities from '../fixtures/mocks/mock-facilities.json';
 import mockSubmission from '../fixtures/mocks/mock-submission.json';
+import mockPdfDownload from '../fixtures/mocks/mock-pdf-download.json';
 
 export const setupPerTest = () => {
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
   cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
-  cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
-    'getFacilities',
-  );
+  cy.intercept(
+    'POST',
+    '/v0/caregivers_assistance_claims/facilities',
+    mockFacilities,
+  ).as('getFacilities');
   cy.intercept('POST', '/v0/caregivers_assistance_claims', mockSubmission);
+  cy.intercept(
+    'POST',
+    '/v0/caregivers_assistance_claims/download_pdf',
+    mockPdfDownload,
+  ).as('downloadPdf');
 };
 
 export const pageHooks = {
@@ -42,13 +50,13 @@ export const pageHooks = {
   'veteran-information/va-medical-center/locator': ({ afterHook }) => {
     afterHook(() => {
       cy.fillPage();
-      cy.get('va-text-input')
+      cy.get('va-search-input')
         .shadow()
         .find('input')
-        .type('33880');
-      cy.get('[data-testid="caregivers-search-btn"]').click();
+        .type('43231');
+      cy.realPress('Enter');
       cy.wait('@getFacilities');
-      cy.get('#root_plannedClinic_plannedClinic')
+      cy.get('#root_facility_search_list')
         .should('be.visible')
         .first()
         .click();
@@ -172,6 +180,17 @@ export const pageHooks = {
           );
           break;
       }
+    });
+  },
+  confirmation: ({ afterHook }) => {
+    afterHook(() => {
+      cy.get('va-link')
+        .contains(content['button-download'])
+        .click();
+
+      cy.wait('@downloadPdf').then(() => {
+        cy.get('va-link').contains(content['button-download']);
+      });
     });
   },
 };

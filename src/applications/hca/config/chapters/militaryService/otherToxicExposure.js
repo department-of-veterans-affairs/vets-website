@@ -1,5 +1,6 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { OtherExposureDescription } from '../../../components/FormDescriptions/OtherExposureDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
 const {
   exposureToAirPollutants,
@@ -12,14 +13,11 @@ const {
   exposureToShad,
   exposureToWarfareAgents,
   exposureToOther,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    ...titleUI(
-      'Other toxic exposures',
-      'Have you been exposed to any of these toxins or hazards? Check any that you\u2019ve been exposed to.',
-    ),
+    ...titleUI('Other toxic exposures', OtherExposureDescription),
     'view:otherToxicExposures': {
       exposureToAirPollutants: {
         'ui:title':
@@ -40,7 +38,7 @@ export default {
       },
       exposureToOccupationalHazards: {
         'ui:title':
-          'Occupational hazards (jet fuel, industrial solvents, lead, firefighting foams)',
+          'Occupational hazards (like jet fuel, industrial solvents, lead, or firefighting foams)',
       },
       exposureToRadiation: {
         'ui:title': 'Radiation',

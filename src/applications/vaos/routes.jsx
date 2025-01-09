@@ -10,6 +10,7 @@ import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
 import { AppointmentList } from './appointment-list';
 import EnrolledRoute from './components/EnrolledRoute';
+import ReferralAppointments from './referral-appointments';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -32,6 +33,7 @@ export default function createRoutesWithStore(store) {
     '/new-covid-19-vaccine-appointment',
     '/schedule/covid-vaccine',
   ];
+  const communityCarePaths = ['/schedule-referral'];
 
   return (
     <ErrorBoundary fullWidth>
@@ -58,6 +60,10 @@ export default function createRoutesWithStore(store) {
                 })
                 .catch(handleLoadError),
             )}
+          />
+          <EnrolledRoute
+            path={communityCarePaths}
+            component={ReferralAppointments}
           />
           <Redirect
             from="/new-covid-19-vaccine-booking"

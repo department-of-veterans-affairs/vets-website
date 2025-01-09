@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { apiRequest } from 'platform/utilities/api';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -95,7 +96,21 @@ export class ConfirmationPoll extends React.Component {
     const { submissionStatus, claimId } = this.state;
     if (submissionStatus === submissionStatuses.pending) {
       setTimeout(() => focusElement('.loading-indicator-container'));
-      return pendingMessage(this.state.longWait);
+      return (
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.disability526NewConfirmationPage}
+        >
+          <Toggler.Enabled>
+            <va-loading-indicator
+              message="Preparing your submission. This may take up to 30 seconds. Please don’t refresh the page."
+              set-focus
+            />
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            {pendingMessage(this.state.longWait)}
+          </Toggler.Disabled>
+        </Toggler>
+      );
     }
 
     const {
@@ -104,6 +119,7 @@ export class ConfirmationPoll extends React.Component {
       submittedAt,
       jobId,
       isSubmittingBDD,
+      route,
     } = this.props;
 
     setTimeout(() => focusElement('h2'));
@@ -116,6 +132,7 @@ export class ConfirmationPoll extends React.Component {
         disabilities={disabilities}
         submittedAt={submittedAt}
         isSubmittingBDD={isSubmittingBDD}
+        route={route}
       />
     );
   }
@@ -152,6 +169,9 @@ ConfirmationPoll.propTypes = {
   jobId: PropTypes.string,
   longWaitTime: PropTypes.number,
   pollRate: PropTypes.number,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   submittedAt: PropTypes.object,
 };
 

@@ -110,28 +110,6 @@ function ContactInformationParagraph() {
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 
-function Description() {
-  const flowType = useSelector(getFlowType);
-
-  if (FLOW_TYPES.DIRECT === flowType)
-    return (
-      <>
-        <ContactInformationParagraph />
-        <p className="vads-u-margin-y--2">
-          Want to update your contact information for more VA benefits and
-          services?
-          <br />
-          <NewTabAnchor href="/profile/contact-information">
-            Go to your VA profile
-          </NewTabAnchor>
-          .
-        </p>
-      </>
-    );
-
-  return <ContactInformationParagraph />;
-}
-
 export default function ContactInfoPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
@@ -151,7 +129,7 @@ export default function ContactInfoPage() {
   }, []);
 
   const uiSchema = {
-    'ui:description': <Description />,
+    'ui:description': <ContactInformationParagraph />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
@@ -220,7 +198,7 @@ export default function ContactInfoPage() {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Contact info"
@@ -234,22 +212,21 @@ export default function ContactInfoPage() {
           onChange={newData => setData(newData)}
           data={data}
         >
-          {FLOW_TYPES.REQUEST === flowType && (
-            <va-additional-info
-              trigger="How to update your information in your VA.gov profile"
-              class="vads-u-margin-y--4"
-              data-testid="additional-info"
-            >
-              <div>
-                You can update your contact information for most of your
-                benefits and services in your VA.gov profile.
-                <br />
-                <NewTabAnchor href="/profile/contact-information">
-                  Go to your VA profile
-                </NewTabAnchor>
-              </div>
-            </va-additional-info>
-          )}
+          <va-additional-info
+            trigger="How to update your information in your VA.gov profile"
+            class="vads-u-margin-y--4"
+            data-testid="additional-info"
+          >
+            <div>
+              You can update your contact information for most of your benefits
+              and services in your VA.gov profile.
+              <br />
+              <NewTabAnchor href="/profile/contact-information">
+                Go to your VA.gov profile (opens in new tab)
+              </NewTabAnchor>
+            </div>
+          </va-additional-info>
+
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))

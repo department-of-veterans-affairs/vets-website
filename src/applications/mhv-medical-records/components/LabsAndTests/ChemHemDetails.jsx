@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -25,6 +23,8 @@ import {
   processList,
   generateTextFile,
   getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -33,7 +33,6 @@ import {
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -46,15 +45,9 @@ const ChemHemDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -80,8 +73,8 @@ const ChemHemDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+${formatNameFirstLast(user.userFullName)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
@@ -118,6 +111,8 @@ Lab comments: ${entry.labComments}\n`,
         className="vads-u-margin-bottom--1"
         aria-describedby="chem-hem-date"
         data-testid="chem-hem-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - name]"
       >
         {record.name}
       </h1>
@@ -130,41 +125,67 @@ Lab comments: ${entry.labComments}\n`,
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateChemHemPdf}
         downloadTxt={generateChemHemTxt}
         allowTxtDownloads={allowTxtDownloads}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Type of test
         </h3>
-        <p data-testid="chem-hem-category">{record.category}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="chem-hem-category"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - category]"
+        >
+          {record.category}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="chem-hem-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - site]"
+        >
+          {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="chem-hem-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - ordered by]"
+        >
+          {record.orderedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="chem-hem-collecting-location">
+        <p
+          data-testid="chem-hem-collecting-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - location]"
+        >
           {record.collectingLocation}
         </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
@@ -172,7 +193,7 @@ Lab comments: ${entry.labComments}\n`,
             for your health. To ask a question now, send a secure message to
             your care team.
           </p>
-          <h4 className="vads-u-margin--0 vads-u-font-size--base vads-u-font-family--sans">
+          <h4 className="vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
             Standard range
           </h4>
           <p className="vads-u-margin-top--0">

@@ -10,7 +10,6 @@ import {
   updateZipCode,
 } from '../actions';
 import { ROUTES } from '../constants';
-import { customizeTitle } from '../utilities/customize-title';
 
 const HomePage = ({
   router,
@@ -19,12 +18,6 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
-  const H1 = 'Income limits and your VA health care';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
-
   useEffect(
     () => {
       const clearForm = () => {
@@ -54,11 +47,24 @@ const HomePage = ({
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1>Income limits and your VA health care</h1>
       <p>
         Answer 2 questions to find out how your income may affect your VA health
         care eligibility and costs.
       </p>
+      <va-alert
+        class="vads-u-margin-top--1 vads-u-margin-bottom--3"
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+      >
+        <h2 slot="headline">
+          We’ve updated this tool to check 2025 income limits
+        </h2>
+        <p className="vads-u-margin-y--0">
+          You can check your income limits for 2025 now.
+        </p>
+      </va-alert>
       <h2>What to know before you start:</h2>
       <ul className="vads-u-margin-left--1">
         <li>

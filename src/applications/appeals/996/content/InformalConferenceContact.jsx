@@ -13,8 +13,8 @@ export const informalConferenceContactInfo = (
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href="/get-help-from-accredited-representative/" target="_blank">
-          Find, contact, and appoint an accredited representative (opens in new
-          tab)
+          Find, contact, and appoint an accredited representative (opens in a
+          new tab)
         </a>
       </p>
     </div>
@@ -36,4 +36,4 @@ export const informalConferenceContactOptionDescriptions = {
     'VA may contact my accredited representative by mail, telephone, email, or another way to schedule my conference.',
 };
 
-export const newEditButtonLabel = `Edit ${informalConferenceContactTitle}`;
+export const editButtonLabel = `Edit ${informalConferenceContactTitle}`;

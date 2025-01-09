@@ -2,11 +2,11 @@
   "data": [
     {
       "id": "7026562",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 7026562,
         "name": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
-        "stationNumber": "989",
+        "stationNumber": "607",
         "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -14,11 +14,11 @@
     },
     {
       "id": "6832726",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 6832726,
         "name": "TG-7410",
-        "stationNumber": "989",
+        "stationNumber": "589",
         "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -26,11 +26,11 @@
     },
     {
       "id": "6910405",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 6910405,
         "name": "Jeasmitha-Cardio-Clinic",
-        "stationNumber": "989",
+        "stationNumber": "607",
         "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -38,10 +38,10 @@
     },
     {
       "id": "6978853",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 6978853,
-        "stationNumber": "989",
+        "stationNumber": "607",
         "blockedStatus": false,
         "name": "***TG 100_SLC4%",
         "relationType": "PATIENT",
@@ -50,10 +50,10 @@
     },
     {
       "id": "6978854",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 6978854,
-        "stationNumber": "989",
+        "stationNumber": "589",
         "blockedStatus": false,
         "name": "***TG 200_APPT_SLC4%",
         "relationType": "PATIENT",
@@ -62,11 +62,11 @@
     },
     {
       "id": "7123233",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 7123233,
         "name": "CAMRY_PCMM RELATIONSHIP_05092022_SLC4",
-        "stationNumber": "989",
+        "stationNumber": "663",
         "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -74,10 +74,10 @@
     },
     {
       "id": "56219",
-      "type": "triage_teams",
+      "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "stationNumber": "989",
+        "stationNumber": "613GF",
         "blockedStatus": false,
         "name": "SLC4 PCMM",
         "relationType": "PATIENT",
@@ -90,7 +90,7 @@
       "attributes": {
         "triageTeamId": 3658288,
         "name": "Record Amendment Admin",
-        "stationNumber": "989",
+        "stationNumber": "589",
         "blockedStatus": false,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
@@ -102,7 +102,7 @@
       "attributes": {
         "triageTeamId": 3658299,
         "name": "OH TG GROUP 002",
-        "stationNumber": "989",
+        "stationNumber": "663",
         "blockedStatus": false,
         "preferredTeam": true,
         "relationshipType": "PATIENT"

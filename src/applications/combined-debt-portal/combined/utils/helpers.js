@@ -1,8 +1,7 @@
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { format } from 'date-fns';
+import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import moment from 'moment';
 import React from 'react';
 
 export const APP_TYPES = Object.freeze({
@@ -33,8 +32,17 @@ export const showPaymentHistory = state =>
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
+/**
+ * Helper function to consisently format date strings
+ *
+ * @param {string} date - date string or date type
+ * @returns formatted date string; example:
+ * - January 1, 2021
+ */
 export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
+  const newDate =
+    typeof date === 'string' ? new Date(date.replace(/-/g, '/')) : date;
+  return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
 };
 
 export const currency = amount => {
@@ -57,9 +65,7 @@ export const formatTableData = tableData =>
   }));
 
 export const calcDueDate = (date, days) => {
-  return moment(date, 'MM-DD-YYYY')
-    .add(days, 'days')
-    .format('MMMM D, YYYY');
+  return formatDate(addDays(new Date(date), days));
 };
 
 export const titleCase = str => {
@@ -73,19 +79,18 @@ export const titleCase = str => {
 // if currentDate is on or before dueDate show current status
 // else show past due status
 export const verifyCurrentBalance = date => {
-  const currentDate = moment();
+  const currentDate = new Date();
   const dueDate = calcDueDate(date, 30);
-  return currentDate.isSameOrBefore(dueDate);
+  return (
+    isBefore(currentDate, new Date(dueDate)) ||
+    isEqual(currentDate, new Date(dueDate))
+  );
 };
 
-// receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  const dateFormat = 'MM-DD-YYYY';
   return statements.sort(
     (a, b) =>
-      moment(b.pSStatementDate, dateFormat) -
-      moment(a.pSStatementDate, dateFormat),
+      new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 

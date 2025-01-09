@@ -98,13 +98,8 @@ class IntroductionPage extends React.Component {
                 Array - multiple page - builder pattern
               </Link>
             </li>
-          </ul>
-        </div>
-        <div className="vads-u-margin-bottom--4">
-          <h3>Additional Pages</h3>
-          <ul>
             <li>
-              <Link to="/confirmation-page-new">New Confirmation Page</Link>
+              <Link to="/confirmation">Confirmation page</Link>
             </li>
           </ul>
         </div>

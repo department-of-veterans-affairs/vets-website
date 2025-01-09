@@ -3,16 +3,6 @@ import {
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Scroll from 'react-scroll';
-
-import {
-  getActiveExpandedPages,
-  getPageKeys,
-} from '@department-of-veterans-affairs/platform-forms-system/helpers';
-
 import {
   setData,
   setEditMode,
@@ -20,22 +10,41 @@ import {
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
+  getActiveExpandedPages,
+  getPageKeys,
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
+import Scroll from 'react-scroll';
+import {
   closeReviewChapter,
   openReviewChapter,
   setUpdatedInReview,
 } from '../actions';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import submitTransformer from '../config/submit-transformer';
+import { URL, envUrl } from '../constants';
+import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
 
+// Toggle this when testing locally to get successful confirmation page inquiry
+const mockTestingFlag = false;
+
 const { scroller } = Scroll;
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useDispatch();
 
   const scrollToChapter = chapterKey => {
@@ -75,22 +84,81 @@ const ReviewPage = props => {
     }
   };
 
+  const postFormData = (url, data) => {
+    setIsDisabled(true);
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    if (mockTestingFlag) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setIsDisabled(false);
+          resolve(mockSubmitResponse);
+          const inquiryNumber = 'A-20230622-306458';
+          const contactPreference = props.formData.contactPreference || 'Email';
+          localStorage.removeItem('askVAFiles');
+          props.router.push({
+            pathname: '/confirmation',
+            state: { contactPreference, inquiryNumber },
+          });
+        }, 500);
+      });
+    }
+
+    return apiRequest(url, options)
+      .then(response => {
+        setIsDisabled(false);
+        const { inquiryNumber } = response;
+        const contactPreference = props.formData.contactPreference || 'Email';
+        localStorage.removeItem('askVAFiles');
+        props.router.push({
+          pathname: '/confirmation',
+          state: { contactPreference, inquiryNumber },
+        });
+      })
+      .catch(error => {
+        setIsDisabled(false);
+        localStorage.removeItem('askVAFiles');
+        // TODO - need error modal instead of forwarding to confirmation per final design
+        // Temporary alert dialog for testing
+        alert(error.error);
+      });
+  };
+
   const handleSubmit = () => {
-    props.goForward('/confirmation');
+    const files = localStorage.getItem('askVAFiles');
+    const transformedData = submitTransformer(
+      props.formData,
+      JSON.parse(files),
+      props.askVA,
+    );
+
+    if (props.loggedIn) {
+      // auth call
+      postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
+    } else {
+      // no auth call
+      postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
+    }
   };
 
   return (
-    <article>
+    <article className="vads-u-padding-x--2p5 vads-u-padding-bottom--7">
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
-      <div className="vads-u-margin-y--7">
+      <div className="vads-u-margin-y--3">
         {showAlert ? (
           <VaAlert
             closeBtnAriaLabel="Close notification"
             closeable
             onCloseEvent={() => setShowAlert(false)}
             status="info"
-            uswds
             visible
           >
             <h3 id="track-your-status-on-mobile" slot="headline">
@@ -106,7 +174,7 @@ const ReviewPage = props => {
           </VaAlert>
         ) : null}
       </div>
-      <VaAccordion uswds>
+      <VaAccordion>
         {props.chapters
           .filter(chapter => chapter.name === 'yourQuestion')
           .map(chapter => {
@@ -118,6 +186,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -151,6 +220,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -184,6 +254,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -217,6 +288,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -250,6 +322,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -275,20 +348,22 @@ const ReviewPage = props => {
 
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
-        <va-button text="Submit question" onClick={handleSubmit} />
+        <va-button
+          text="Submit question"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        />
       </div>
     </article>
   );
 };
 
 function mapStateToProps(state, ownProps) {
-  // from ownprops
   const { formContext } = ownProps;
-
-  // from redux state
-  const { form } = state;
-  const formData = state.form.data;
-  const { openChapters } = state.askVA.reviewPageView;
+  const loggedIn = isLoggedIn(state);
+  const { form, askVA } = state;
+  const formData = form.data;
+  const { openChapters } = askVA.reviewPageView;
   const viewedPages = getViewedPages(state);
 
   const pagesToMoveConfig = {
@@ -302,7 +377,6 @@ function mapStateToProps(state, ownProps) {
     relationshipToTheVeteran: [
       'relationshipToVeteran',
       'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
-      'aboutYourself_aboutmyselfrelationshipveteran',
       'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
       'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
       'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
@@ -336,7 +410,7 @@ function mapStateToProps(state, ownProps) {
     ],
     yourInformation: [
       'aboutYourself_aboutmyselfrelationshipveteran',
-      'searchVAMedicalCenter_aboutmyselfrelationshipfamilymember',
+      'yourVAHealthFacility_aboutmyselfrelationshipfamilymember',
       'yourContactInformation_aboutmyselfrelationshipfamilymember',
       'yourLocationOfResidence_aboutmyselfrelationshipfamilymember',
       'yourMailingAddress_aboutmyselfrelationshipfamilymember',
@@ -347,25 +421,31 @@ function mapStateToProps(state, ownProps) {
       'yourPostalCode_aboutmyselfrelationshipveteran',
       'yourVAHealthFacility_aboutmyselfrelationshipveteran',
       'aboutYourself_aboutsomeoneelserelationshipconnectedthroughwork',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipconnectedthroughwork',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipconnectedthroughwork',
       'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughwork',
       'yourMailingAddress_aboutsomeoneelserelationshipconnectedthroughwork',
       'aboutYourself_aboutsomeoneelserelationshipconnectedthroughworkeducation',
       'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'aboutYourselfRelationshipFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'aboutYourself_aboutsomeoneelserelationshipveteran',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipveteran',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipveteran',
       'yourContactInformation_aboutsomeoneelserelationshipveteran',
       'yourMailingAddress_aboutsomeoneelserelationshipveteran',
       'aboutYourself_aboutsomeoneelserelationshipveteranorfamilymembereducation',
       'schoolStOrResidency_aboutsomeoneelserelationshipveteranorfamilymembereducation',
       'yourContactInformation_aboutsomeoneelserelationshipveteranorfamilymembereducation',
+      'aboutYourselfGeneral_generalquestion',
+      'yourContactInformation_generalquestion',
+      'yourLocationOfResidence_generalquestion',
+      'yourMailingAddress_generalquestion',
+      'yourPostalCode_generalquestion',
+      'yourVAHealthFacility_generalquestion',
     ],
   };
 
@@ -421,9 +501,21 @@ function mapStateToProps(state, ownProps) {
     formData,
     formContext,
     viewedPages,
+    loggedIn,
     openChapterList: state.askVA.reviewPageView.openChapters,
+    askVA: state.askVA,
   };
 }
+
+ReviewPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  loggedIn: PropTypes.bool,
+};
 
 const mapDispatchToProps = {
   setData,
@@ -435,4 +527,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewPage);
+)(withRouter(ReviewPage));

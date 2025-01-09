@@ -67,8 +67,13 @@ describe('hca AuthBenefitsPackagePage', () => {
 
   it('should fire the routers `push` method with the correct path when the `continue` button is clicked', () => {
     const { props, mockStore } = getData();
-    const { selectors } = subject({ props, mockStore });
+    const { container, selectors } = subject({ props, mockStore });
     const { router } = props;
+    simulateInputChange(
+      container,
+      '#root_view\\3A vaBenefitsPackage_1',
+      'regOnly',
+    );
     fireEvent.click(selectors().primaryBtn);
     expect(router.push.calledWith('/next')).to.be.true;
   });

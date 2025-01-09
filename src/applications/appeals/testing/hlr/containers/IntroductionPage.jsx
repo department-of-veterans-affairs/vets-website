@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import { formTitle, formSubTitle } from '../content/title';
 import {
@@ -17,7 +17,7 @@ import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
 export const IntroductionPage = props => {
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollTo('topContentElement');
   });
 
   const { route, location } = props;

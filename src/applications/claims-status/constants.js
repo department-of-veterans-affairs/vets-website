@@ -125,20 +125,21 @@ export const addOrRemoveDependentClaimTypeCodes = [
   '130SCHEBNREJ',
 ];
 
-// The Standard 5103 Notice Response doesnt come through as a tracked item from our API until it is closed so we need to make a
+// The Standard 5103 Notice Response doesn't come through as a tracked item from our API until it is closed so we need to make a
 // mocked item with information.
 export const standard5103Item = {
-  displayName: '5103 Evidence Notice',
+  displayName: 'Review evidence list (5103 notice)',
   type: '5103 Notice Response',
   description: (
     <>
       <p>
-        We sent you a "5103 notice" letter that lists the types of evidence we
-        may need to decide your claim.
+        We sent you a “List of evidence we may need (5103 notice)” letter. This
+        letter lets you know if submitting additional evidence will help decide
+        your claim.
       </p>
       <p>
-        Upload the waiver attached to the letter if you’re finished adding
-        evidence.
+        You can also let us know that you’re done submitting additional
+        evidence, for now.
       </p>
     </>
   ),

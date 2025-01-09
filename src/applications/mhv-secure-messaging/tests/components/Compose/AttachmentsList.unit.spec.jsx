@@ -1,12 +1,12 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Paths } from '../../../util/constants';
+import { Paths, Alerts } from '../../../util/constants';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
 import AttachmentsList from '../../../components/AttachmentsList';
 
@@ -65,8 +65,17 @@ describe('Attachments List component', () => {
             'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
         },
       ],
+      attachmentScanError: false,
+      editingEnabled: false,
     };
-    const screen = render(<AttachmentsList {...customProps} />);
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
     expect(document.querySelector('.message-body-attachments-label')).to.exist;
     expect(screen.getByTestId('attachments-count').textContent).to.equal(
       ' (1)',
@@ -181,5 +190,75 @@ describe('Attachments List component', () => {
     waitFor(() => {
       expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
     });
+  });
+
+  it('renders error message when attachment contains a virus', async () => {
+    const customProps = {
+      attachments: [
+        {
+          id: 2664842,
+          messageId: 2664846,
+          name: 'BIRD 1.gif',
+          attachmentSize: 31127,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+        },
+      ],
+      attachmentScanError: true,
+      editingEnabled: true,
+    };
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    expect(screen.findByTestId('attachment-virus-alert')).to.exist;
+    expect(screen.getByText(Alerts.Message.ATTACHMENT_SCAN_FAIL)).to.exist;
+  });
+
+  it('renders error message when multiple attachments receive failed scan response', async () => {
+    const customProps = {
+      attachments: [
+        {
+          id: 2664842,
+          messageId: 2664846,
+          name: 'BIRD 1.gif',
+          attachmentSize: 31127,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+        },
+        {
+          id: 2664843,
+          messageId: 2664846,
+          name: 'BIRD 2.gif',
+          attachmentSize: 31138,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664843',
+        },
+      ],
+      attachmentScanError: true,
+      editingEnabled: true,
+    };
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    expect(screen.findByTestId('attachment-virus-alert')).to.exist;
+    expect(screen.getByText(Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL)).to
+      .exist;
+
+    const removeAllAttachments = await screen.findByTestId(
+      'remove-all-attachments-button',
+    );
+    expect(removeAllAttachments).to.exist;
   });
 });

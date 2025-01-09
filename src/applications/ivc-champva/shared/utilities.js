@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
  * Returns either a form of 'you', or the applicant's full name based
  * on the formData's `certifierRole` property. Assumes presences of an
  * `applicantName` key.
- * @param {object} formData Obj containing `certifierRole` and `applicantName
+ * @param {object} formData Obj containing `certifierRole` and `applicantName`
  * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
  * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
  * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
@@ -76,7 +77,14 @@ export function getConditionalPages(pages, data, index) {
 
 // Expects a date as a string in YYYY-MM-DD format
 export function getAgeInYears(date) {
-  const difference = Date.now() - Date.parse(date);
+  let difference = new Date(Date.now() - Date.parse(date));
+
+  // Get UTC offset to account for local TZ (See https://stackoverflow.com/a/9756226)
+  const utcOffsetSeconds =
+    (difference.getTime() + difference.getTimezoneOffset() * 60 * 1000) / 1000;
+
+  difference -= utcOffsetSeconds;
+
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
 }
 
@@ -142,14 +150,39 @@ export function adjustYearString(data) {
 /**
  * Combine all street fields from an address into a single string.
  * @param {Object} addr Standard form address object containing one or more `street` properties (e.g., street, street1, street2)
- * @returns String of all street fields combined.
+ * @param {boolean} newLines Whether or not to separate streets with a '\n' character
+ * @returns Copy of passed-in address object with a new `streetCombined` property (string)
  */
-export function concatStreets(addr) {
-  let res = '';
+export function concatStreets(addr, newLines = false) {
+  const updated = { ...addr, streetCombined: '' };
   if (addr) {
     for (const [k, v] of Object.entries(addr)) {
-      res += k.includes('street') ? `${v} ` : '';
+      updated.streetCombined += k.includes('street')
+        ? `${v}${newLines ? '\n' : ' '}`
+        : '';
     }
   }
-  return res;
+  return updated;
+}
+
+/**
+ * Retrieves an array of objects containing the property 'attachmentId'
+ * from the given object.
+ *
+ * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @returns {Array} - An array containing objects with the 'attachmentId' property.
+ */
+export function getObjectsWithAttachmentId(obj) {
+  const objectsWithAttachmentId = [];
+  _.forEach(obj, value => {
+    if (_.isArray(value)) {
+      _.forEach(value, item => {
+        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+          objectsWithAttachmentId.push(item);
+        }
+      });
+    }
+  });
+
+  return objectsWithAttachmentId;
 }

@@ -4,7 +4,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
@@ -17,34 +16,10 @@ const OtherAssetsChecklist = ({
 }) => {
   const {
     assets,
-    gmtData,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { otherAssets = [] } = assets;
-
-  // Calculate total assets as necessary
-  // - Calculating these assets is only necessary in the long form version
-  const updateStreamlinedValues = () => {
-    if (
-      otherAssets?.length ||
-      !gmtData?.isEligibleForStreamlined ||
-      gmtData?.incomeBelowGmt
-    )
-      return;
-
-    // liquid assets are caluclated in cash in bank with this ff
-    if (data['view:streamlinedWaiverAssetUpdate']) return;
-
-    const calculatedAssets = calculateLiquidAssets(data);
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-      },
-    });
-  };
 
   const onChange = ({ name, checked }) => {
     setFormData({
@@ -96,7 +71,7 @@ const OtherAssetsChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}
@@ -113,15 +88,10 @@ OtherAssetsChecklist.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      assetThreshold: PropTypes.number,
-      incomeBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-    }),
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    reviewNavigation: PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,

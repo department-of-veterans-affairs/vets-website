@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import constants from 'vets-json-schema/dist/constants.json';
-import { usePrevious } from '~/platform/utilities/react-hooks';
-import environment from '~/platform/utilities/environment';
-import { apiRequest } from '~/platform/utilities/api';
-import { focusElement } from '~/platform/utilities/ui';
+import { usePrevious } from 'platform/utilities/react-hooks';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+import { focusElement } from 'platform/utilities/ui';
+import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
+
+// expose React binding for web components
+const { VaSelect } = REACT_BINDINGS;
 
 const apiRequestWithUrl = `${
   environment.API_URL
@@ -150,12 +151,13 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [localDataFacilityState, previousFacilityState],
   );
 
   // render the static facility name on review page
   if (reviewMode) {
-    const stateLabel = constants.states.USA.find(
+    const stateLabel = STATES_USA.find(
       state => state.value === localData['view:facilityState'],
     )?.label;
     return (
@@ -186,14 +188,7 @@ const VaMedicalCenter = props => {
   }
 
   return (
-    <fieldset className="rjsf-object-field vads-u-margin-y--2">
-      <legend
-        id="root_view:preferredFacility__title"
-        className="schemaform-block-title"
-      >
-        Select your preferred VA medical facility
-      </legend>
-
+    <>
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
@@ -203,9 +198,8 @@ const VaMedicalCenter = props => {
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       >
-        {constants.states.USA.map(s => {
+        {STATES_USA.map(s => {
           return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
             <option key={s.value} value={s.value}>
               {s.label}
@@ -223,7 +217,6 @@ const VaMedicalCenter = props => {
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       >
         {facilities.map(f => (
           <option key={f.id} value={getFieldNameSuffix(f.id)}>
@@ -231,7 +224,7 @@ const VaMedicalCenter = props => {
           </option>
         ))}
       </VaSelect>
-    </fieldset>
+    </>
   );
 };
 

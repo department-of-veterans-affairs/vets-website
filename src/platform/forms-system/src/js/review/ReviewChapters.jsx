@@ -22,6 +22,7 @@ import {
 } from '../actions';
 
 import { scrollTo } from '../../../../utilities/ui';
+import { getPageKey } from '../utilities/review';
 
 class ReviewChapters extends React.Component {
   componentDidMount() {
@@ -45,7 +46,7 @@ class ReviewChapters extends React.Component {
   };
 
   handleEdit = (pageKey, editing, index = null) => {
-    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    const fullPageKey = `${pageKey}${index ?? ''}`;
     if (editing) {
       this.props.setViewedPages([fullPageKey]);
     }
@@ -88,6 +89,7 @@ class ReviewChapters extends React.Component {
             open={chapter.open}
             pageKeys={chapter.pageKeys}
             pageList={pageList}
+            reviewEditFocusOnHeaders={formConfig?.reviewEditFocusOnHeaders}
             setData={(...args) => this.handleSetData(...args)}
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}
@@ -120,7 +122,7 @@ export function mapStateToProps(state, ownProps) {
     const pageKeys = getPageKeys(pages, formData);
 
     const hasErrors = form.formErrors?.errors?.some(err =>
-      pageKeys.includes(err.pageKey),
+      pageKeys.includes(getPageKey(err)),
     );
     const hasUnviewedPages =
       hasErrors || pageKeys.some(key => !viewedPages.has(key));

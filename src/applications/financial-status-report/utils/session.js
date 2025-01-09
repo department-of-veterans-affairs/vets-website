@@ -11,6 +11,13 @@ const jobButtonConstants = {
   EDIT_JOB: 'EDIT',
 };
 
+const jobTypeConstants = {
+  FULL_TIME: 'Full time',
+  PART_TIME: 'Part time',
+  SEASONAL: 'Seasonal',
+  TEMPORARY: 'Temporary',
+};
+
 const getJobIndex = () => {
   return sessionStorage.getItem(sessionStorageKeys.JOB_EDITING_INDEX);
 };
@@ -44,4 +51,5 @@ export {
   getJobButton,
   clearJobButton,
   jobButtonConstants,
+  jobTypeConstants,
 };

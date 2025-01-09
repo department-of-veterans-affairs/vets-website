@@ -35,31 +35,8 @@
 
   .apply-filter-button {
     margin-left: 0% !important;
+    padding: 0;
   }
-
-  .clear-filters-button {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    margin-top: 1em;
-    margin-left: 1.5em;
-    margin-bottom: 0.5em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    color: var(--vads-color-primary);
-    background-color: transparent;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
-      "Arial", sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1;
-    padding: 0.625rem 1.25rem;
-    text-align: center;
-    text-decoration: underline;
-  }
-
   .mobile-clear-filter-button {
     margin-left: 0% !important;
   }

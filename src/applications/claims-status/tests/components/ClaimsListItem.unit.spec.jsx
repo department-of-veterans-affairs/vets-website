@@ -214,7 +214,7 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
+        expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 8: Initial review');
@@ -240,7 +240,11 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
+        getByText(
+          'This message will go away when we finish reviewing your response.',
+        );
         getByText('Step 2 of 8: Initial review');
       });
       it('should not show any flags when closed', () => {
@@ -489,7 +493,7 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
+        expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
@@ -515,7 +519,11 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
+        getByText(
+          'This message will go away when we finish reviewing your response.',
+        );
         getByText('Step 2 of 5: Initial review');
       });
       it('should not show any flags when closed', () => {
@@ -764,7 +772,7 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
+        expect(queryByText('We requested more information from you:')).to.be
           .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
@@ -790,7 +798,11 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
+        getByText(
+          'This message will go away when we finish reviewing your response.',
+        );
         getByText('Step 2 of 5: Initial review');
       });
       it('should not show any flags when closed', () => {

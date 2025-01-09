@@ -5,6 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import recordEvent from 'platform/monitoring/record-event';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
@@ -16,6 +17,11 @@ const IntroductionPage = ({ route, formId }) => {
     focusElement('h1');
     clearJobIndex();
   }, []);
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showWizard = useToggleValue(
+    TOGGLE_NAMES.showFinancialStatusReportWizard,
+  );
 
   return (
     <div className="fsr-introduction schemaform-intro">
@@ -40,20 +46,22 @@ const IntroductionPage = ({ route, formId }) => {
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
-      <p>
-        If you don’t think this is the right form for you,
-        <a
-          href={manifest.rootUrl}
-          onClick={() => {
-            sessionStorage.removeItem(WIZARD_STATUS);
-            recordEvent({ event: 'howToWizard-start-over' });
-          }}
-          className="vads-u-margin-left--0p5"
-        >
-          go back and answer questions again
-        </a>
-        .
-      </p>
+      {showWizard ? (
+        <p>
+          If you don’t think this is the right form for you,
+          <a
+            href={manifest.rootUrl}
+            onClick={() => {
+              sessionStorage.removeItem(WIZARD_STATUS);
+              recordEvent({ event: 'howToWizard-start-over' });
+            }}
+            className="vads-u-margin-left--0p5"
+          >
+            go back and answer questions again
+          </a>
+          .
+        </p>
+      ) : null}
       <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
         <va-process-list-item header="Prepare">
           <p>

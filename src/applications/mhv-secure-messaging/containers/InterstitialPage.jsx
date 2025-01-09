@@ -40,7 +40,7 @@ const InterstitialPage = props => {
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
           onClick={acknowledge}
-          data-dd-action-name={continueButtonText}
+          data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         >
           {continueButtonText}
           <span className="sr-only">. Page content will change.</span>
@@ -65,8 +65,12 @@ const InterstitialPage = props => {
           <li className="vads-u-margin--0">
             <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
               <strong>If you think your life or health is in danger, </strong>{' '}
-              call <va-telephone contact="911" /> or go to the nearest emergency
-              room.
+              call
+              <va-telephone
+                contact="911"
+                data-dd-action-name="911 link on Interstital Page"
+              />
+              or go to the nearest emergency room.
             </p>
           </li>
         </ul>

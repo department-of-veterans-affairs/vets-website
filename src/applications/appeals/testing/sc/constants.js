@@ -36,7 +36,7 @@ export const CONTESTABLE_ISSUES_API =
 export const ITF_API = '/intent_to_file';
 
 // Evidence upload API - same endpoint as NOD
-export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
+export const EVIDENCE_UPLOAD_API = '/v1/decision_review_evidence';
 
 export const SUBMIT_URL = '/v1/supplemental_claims';
 
@@ -78,6 +78,7 @@ export const errorMessages = {
   },
 
   missingPrimaryPhone: 'You must choose a primary phone number',
+  missingPrimaryPhoneReview: 'Missing primary phone',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -131,7 +132,7 @@ export const CLAIMANT_TYPES = [
 export const ITF_STATUSES = {
   active: 'active',
   expired: 'expired',
-  claimRecieved: 'claim_recieved',
+  claimRecieved: 'claim_recieved', // intentional typo to match API
   duplicate: 'duplicate',
   incomplete: 'incomplete',
   canceled: 'canceled',

@@ -1,80 +1,76 @@
 import React from 'react';
-import { datadogRum } from '@datadog/browser-rum';
 import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  setDatadogRumUser,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
 import AppConfig from '../../containers/AppConfig';
 import { appName } from '../../manifest.json';
 
-const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
-  user: {
-    profile: {
-      accountUuid,
-    },
-  },
-});
-
 describe(`${appName} -- <AppConfig />`, () => {
+  const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
+    user: {
+      profile: {
+        accountUuid,
+      },
+    },
+  });
+
   it('initializes datadog RUM', () => {
-    const useRumSpy = sinon.spy(datadogRum, 'init');
-
+    const useRumSpy = sinon.spy(useDatadogRum);
     const initialState = initialStateFn();
 
     const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
+      <AppConfig useDatadogRumFn={useRumSpy}>
         <p>child node</p>
       </AppConfig>,
       { initialState },
     );
 
-    waitFor(() => {
-      getByText('child node');
-
-      // Check that datadogRum methods are called
-      expect(useRumSpy.called).to.be.true;
-    });
-
-    useRumSpy.restore();
+    getByText('child node');
+    expect(useRumSpy.called).to.be.true;
   });
 
-  it('calls datadogRum.setUser when a user id is available', () => {
-    const setRumUserSpy = sinon.spy(datadogRum, 'setUser');
-    const initialState = initialStateFn();
-
-    const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
-        <p>child node</p>
-      </AppConfig>,
-      { initialState },
-    );
-
-    waitFor(() => {
-      getByText('child node');
-      // Check that datadogRum methods are called
-      expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
+  describe('calls datadogRum.setUser', () => {
+    let setRumUserSpy;
+    beforeEach(() => {
+      setRumUserSpy = sinon.spy(setDatadogRumUser);
     });
 
-    setRumUserSpy.restore();
-  });
+    it('when a user id is available', async () => {
+      const initialState = initialStateFn();
 
-  it('does not call datadogRum.setUser when user id is not available', () => {
-    const setRumUserSpy = sinon.spy(datadogRum, 'setUser');
-    const initialState = initialStateFn({ accountUuid: '' });
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
 
-    const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
-        <p>child node</p>
-      </AppConfig>,
-      { initialState },
-    );
-
-    waitFor(() => {
-      getByText('child node');
-      expect(setRumUserSpy.called).to.be.false;
+      await waitFor(() => {
+        getByText('child node');
+        expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
+      });
     });
 
-    setRumUserSpy.restore();
+    it('unless user id is not available', async () => {
+      const initialState = initialStateFn({ accountUuid: '' });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+
+      await waitFor(() => {
+        getByText('child node');
+        expect(setRumUserSpy.called).to.be.false;
+      });
+    });
   });
 });

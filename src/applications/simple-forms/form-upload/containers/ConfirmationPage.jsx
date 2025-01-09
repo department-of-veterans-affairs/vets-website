@@ -12,16 +12,18 @@ const content = {
 
 const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
-  const { timestamp, response = {} } = form.submission;
-  const submitterFullName = form.data?.veteran?.fullName;
+  const { submission } = form;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitterFullName = form.data?.fullName;
 
   return (
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
       submitterName={submitterFullName}
-      submitDate={timestamp}
-      confirmationNumber={response.confirmationNumber}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
       content={content}
       childContent={<></>}
     />

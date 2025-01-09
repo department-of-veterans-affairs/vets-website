@@ -5,20 +5,13 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import formConfig from '../config/form';
-import { CHAR_LIMITS, SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../constants';
+import { CHAR_LIMITS } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
-  beforeEach(() => {
-    sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, false);
-  });
-  afterEach(() => {
-    sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
-  });
-
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
@@ -43,7 +36,7 @@ describe('transform', () => {
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
 
-        // special logic for unreleased pages. set the indicator, otherwise the test considers TE pages as inactive
+        // special logic for 2022 forms. this comes from prefill on the BE and is not something the user inputs
         if (fileName === 'maximal-toxic-exposure-test.json') {
           rawData.data.startedFormVersion = '2022';
         }

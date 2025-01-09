@@ -2,44 +2,119 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 export const envUrl = environment.API_URL;
 
-// Used to test against dev
-// export const envUrl = 'https://dev-api.va.gov';
-//
-
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
-  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
+  GET_INQUIRIES: `${baseURL}/inquiries`,
+  INQUIRIES: `${baseURL}/inquiries`,
+  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
+  DASHBOARD_ID: `/user/dashboard/`,
+  DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
+// centralized logic for string replacement, incl. multiple fields
+// ex: getApiUrl(URL.GET_TOPICS, { PARENT_ID: 1 })
+
+//* @param {string} url - the URL to replace
+//* @param {object} params - the object with the key(s) to replace, if any
+//* @returns {string} - the URL with the replaced value(s)
+export const getApiUrl = (url, params) => {
+  let apiUrl = url || '';
+  if (params) {
+    Object.keys(params).forEach(key => {
+      apiUrl = apiUrl.replace(`%${key}%`, params[key]);
+    });
+  }
+  return envUrl + apiUrl;
+};
+
+export const branchesOfService = [
+  'Air Force',
+  'Air Force Academy',
+  'Air Force Reserves',
+  'Air National Guard',
+  'Army',
+  'Army Air Corps or Army Air Force',
+  'Army National Guard',
+  'Army Reserves',
+  'Coast Guard',
+  'Coast Guard Academy',
+  'Coast Guard Reserves',
+  'Marine Corps',
+  'Marine Corps Reserves',
+  'Merchant Marine',
+  'National Oceanic & Atmospheric Administration',
+  'Naval Academy',
+  'Navy',
+  'Navy Reserves',
+  'Other',
+  'Public Health Service',
+  'Space Force',
+  'US Military Academy',
+  "Women's Army Corps",
+];
+
+// Categories
+export const CategoryEducation = 'Education benefits and work study';
+export const CategoryHealthCare = 'Health care';
+export const CategoryVeteranReadinessAndEmployment =
+  'Veteran Readiness and Employment';
+export const CategoryGuardianshipCustodianshipFiduciaryIssues =
+  'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHousingAssistanceAndHomeLoans =
+  'Housing assistance and home loans';
+
+// Topics
+export const TopicVeteranReadinessAndEmploymentChapter31 =
+  'Veteran Readiness and Employment (Chapter 31)';
+export const TopicSpeciallyAdapatedHousing =
+  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
+export const TopicAppraisals = 'Appraisals';
 export const requireSignInCategories = [
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+  CategoryEducation,
+  'Education benefits and work study',
   'Disability compensation',
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
 ];
+export const TopicEducationBenefitsAndWorkStudy =
+  'Education benefits and work study';
 
-export const requireSignInTopics = [
-  'Compensation',
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-];
+export const requireSignInTopics = ['Compensation', CategoryEducation];
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
-  'GI Bill',
+  'Board Appeals',
   'Caregiver support program',
+  'Education benefits and work study',
+  'GI Bill',
   'Family health benefits',
+  'Memorial items',
   'Prosthetics',
+  'Signing in to VA.gov',
+  'Signing in to VA.gov and managing VA.gov profile',
+  'Technical issues on VA.gov',
+  'Transfer of benefits',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+  'Work study',
+];
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const branchOfServiceRuleforCategories = [
+  'Veteran ID Card (VIC)',
+  'Disability compensation',
+  'Survivor benefits',
+  'Burials and memorials',
+  'Center for Women Veterans',
+  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -74,6 +149,8 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
 };
+
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
 export const pronounLabels = {
   heHimHis: 'He/him/his',
@@ -162,20 +239,20 @@ export const aboutTheirRelationshipToVet = {
 };
 
 // Who your question is about
-export const whoYourQuestionIsAbout = {
+export const isQuestionAboutVeteranOrSomeoneElseLabels = {
   VETERAN: 'Veteran',
   SOMEONE_ELSE: 'Someone else',
 };
 
 // Question About labels
-export const questionAboutLabels = {
+export const whoIsYourQuestionAboutLabels = {
   MYSELF: 'Myself',
   SOMEONE_ELSE: 'Someone else',
   GENERAL: "It's a general question",
 };
 
 // Question About descriptions
-export const questionAboutDescriptions = {
+export const whoIsYourQuestionAboutDescriptions = {
   GENERAL: `For example, "What type of home loans does the VA offer?`,
 };
 
@@ -211,6 +288,14 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
+  YES: `Yes, replace my saved school facility with this facility.
+  This school facility will be saved for future submissions`,
+  NO: `No, don't update my saved facility.
+  This school facility will only be used for this submissions`,
+};
+
+// Do you want to use the school facility in your profile options
+export const schoolInYourProfileOptions = {
   YES: 'Yes',
   NO: "No, I'll choose a different option",
 };
@@ -281,14 +366,14 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
-    TITLE: 'Tell us more about your relationship?',
+    TITLE: 'Tell us more about your relationship',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
   THEIR_RELATIONSHIP_TO_VET: {
-    TITLE: 'What is their relationship to the veteran?',
+    TITLE: 'What is their relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Please describe their relationship to the veteran',
+    QUESTION_1: 'Please describe their relationship to the Veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -334,7 +419,6 @@ export const CHAPTER_3 = {
   WHO_QUES_IS_ABOUT: {
     TITLE: 'Is your question about the Veteran or someone else?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select who your question is about:',
   },
   VA_EMPLOYEE: {
     TITLE: 'VA employee',
@@ -370,7 +454,10 @@ export const CHAPTER_3 = {
       HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
-    QUESTION_2: 'How should we contact you?',
+    QUESTION_2: {
+      QUESTION: 'How should we contact you?',
+      ERROR: 'Please select your contact preference',
+    },
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -401,26 +488,38 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   YOUR_ROLE: {
-    TITLE: 'Your role',
-    QUESTION_1: 'Select your role:',
+    TITLE: 'What is your role?',
   },
   STATE_OR_FACILITY: {
     TITLE: 'School information',
     PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
     QUESTION_1: 'Select school or state facility',
   },
+  USE_SCHOOL_IN_PROFILE: {
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want to use the school in your profile?',
+  },
   USE_THIS_SCHOOL: {
-    TITLE: 'School information',
-    QUESTION_1: 'Do you want to use this school?',
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want this to be your saved school facility?',
+  },
+  STATE_OF_PROPERTY: {
+    TITLE: 'State of property',
+    QUESTION_1: 'Select state',
   },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
     QUESTION_1: 'Select state',
   },
+  STATE_OF_FACILITY: {
+    TITLE: 'State of facility',
+    QUESTION_1: 'Select state',
+  },
   SCHOOL_STATE_OR_RESIDENCY: {
-    TITLE: 'School information',
+    TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
-    QUESTION_1: 'Please provide one of the following',
+    QUESTION_1:
+      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
@@ -443,6 +542,44 @@ export const CHAPTER_3 = {
     PATH: 'your-va-health-facility',
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  VETERAN_VA_HEALTH_FACILITY: {
+    TITLE: "Veteran's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  FAMILY_MEMBER_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: "Family member's VA health facility",
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  YOUR_VRE_INFORMATION: {
+    TITLE:
+      'Have you ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if you've applied for services.",
+  },
+  YOUR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of your counselor:',
+    ERROR: 'Please enter the name of your counselor',
+  },
+  THEIR_VRE_INFORMATION: {
+    TITLE:
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if they've applied for services.",
+  },
+  THEIR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of their counselor:',
+    ERROR: 'Please enter the name of their counselor',
+  },
+  BRANCH_OF_SERVICE: {
+    TITLE: 'Your branch of service',
+    DESCRIPTION: 'Select your branch of service',
+    ERROR: 'Please select your branch of service',
+  },
+  VETERANS_BRANCH_OF_SERVICE: {
+    TITLE: 'Branch of service',
+    ERROR: "Please select the Veteran's branch of service",
   },
 };
 
@@ -481,13 +618,27 @@ export const newQuestionBreadcrumbs = [
   { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
+export const responseSentBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { href: '/response-sent', label: 'Question sent', key: 'responseSent' },
+];
+
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': questionDetailsBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
+  '/response-sent': responseSentBreadcrumbs,
 };
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
+
+// Define the states requiring postal code
+export const statesRequiringPostalCode = [
+  'California',
+  'New York',
+  'Pennsylvania',
+  'Texas',
+];

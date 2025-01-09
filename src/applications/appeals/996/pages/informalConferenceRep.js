@@ -75,7 +75,7 @@ export default {
   // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L79-L92
   schema: {
     type: 'object',
-    required: ['informalConference'],
+    required: ['informalConferenceRep'],
     properties: {
       informalConferenceRep: {
         type: 'object',

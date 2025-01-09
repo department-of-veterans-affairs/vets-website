@@ -57,9 +57,9 @@ describe('Updating Notification Settings', () => {
 
       cy.get('@hearingCheckbox').should('exist');
       cy.get('@hearingCheckboxInput').should('be.checked');
-      cy.get('@hearingCheckbox')
+      cy.get('@hearingCheckboxInput')
         .first()
-        .click();
+        .click({ force: true });
 
       // we should now see a saving indicator
       cy.findByText(/^Saving/).should('exist');
@@ -91,9 +91,9 @@ describe('Updating Notification Settings', () => {
 
       cy.get('@hearingCheckbox').should('exist');
       cy.get('@hearingCheckboxInput').should('be.checked');
-      cy.get('@hearingCheckbox')
+      cy.get('@hearingCheckboxInput')
         .first()
-        .click();
+        .click({ force: true });
 
       // we should now see a saving indicator
       cy.findByText(/^Saving.../).should('exist');

@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -35,6 +36,10 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'medical-release-4142-',
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
@@ -240,6 +245,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

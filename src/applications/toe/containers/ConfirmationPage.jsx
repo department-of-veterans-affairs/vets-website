@@ -1,5 +1,3 @@
-// src/applications/toe/containers/ConfirmationPage.jsx
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +8,6 @@ import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 
 import { formFields } from '../constants';
-
 import {
   fetchClaimStatus,
   sendConfirmation as sendConfirmationAction,
@@ -26,21 +23,25 @@ export const ConfirmationPage = ({
   confirmationLoading,
   confirmationError,
 }) => {
-  const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+  const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
   useEffect(
     () => {
-      if (!fetchedClaimStatus) {
-        getClaimStatus();
-        setFetchedClaimStatus(true);
+      if (!claimStatus) {
+        getClaimStatus('ToeSubmission')
+          .then(response => {
+            // Only trigger error if response has a status code >= 400
+            if (response?.status >= 400) {
+              setApiError(true); // Set error if the response status indicates a failure
+            }
+          })
+          .catch(() => {
+            // Catch any network errors and set error to true
+            setApiError(true);
+          });
       }
     },
-    [
-      fetchedClaimStatus,
-      getClaimStatus,
-      claimStatus,
-      user?.login?.currentlyLoggedIn,
-    ],
+    [getClaimStatus, claimStatus],
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
@@ -60,6 +61,35 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
+  // Handle API errors
+  if (apiError) {
+    // Show error page if apiError is true
+    return (
+      <UnderReviewConfirmation
+        user={claimantName}
+        confirmationError={confirmationError}
+        confirmationLoading={confirmationLoading}
+        dateReceived={newReceivedDate}
+        printPage={printPage}
+        sendConfirmation={sendConfirmation}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+      />
+    );
+  }
+
+  if (!claimStatus) {
+    return (
+      <va-loading-indicator
+        class="vads-u-margin-y--5"
+        label="Loading"
+        message="Loading your results..."
+        set-focus
+      />
+    );
+  }
+
+  // Handle rendering based on claimStatus once it's populated
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {
       return (

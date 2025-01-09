@@ -33,7 +33,7 @@ const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.CSP_METHOD]: '',
 };
 
-export function generateMockKeepAliveResponse(
+function generateMockKeepAliveResponse(
   { headers = {}, status = 200 } = {
     headers: {
       ...defaultKeepAliveOpts,
@@ -81,21 +81,23 @@ describe('checkAutoSession', () => {
     localStorage.clear();
   });
 
-  it('should redirect user to cerner if logged in via SSOe and on the "/sign-in/?application=myvahealth" subroute', async () => {
-    sandbox.stub(keepAliveMod, 'keepAlive').returns({
-      ttl: 900,
-      authn: CSP_IDS.DS_LOGON,
-      transactionid: 'X',
-    });
-    global.window.location.origin = 'http://localhost';
-    global.window.location.pathname = '/sign-in/';
-    global.window.location.search = '?application=myvahealth';
-    const profile = { verified: true };
-    await checkAutoSession(true, 'X', profile);
+  ['sandbox', 'staging'].forEach(cernerEndpoint => {
+    it('should redirect user to cerner if logged in via SSOe and on the "/sign-in/?application=myvahealth" subroute', async () => {
+      sandbox.stub(keepAliveMod, 'keepAlive').returns({
+        ttl: 900,
+        authn: CSP_IDS.DS_LOGON,
+        transactionid: 'X',
+      });
+      global.window.location = new URL(
+        `http://localhost/sign-in/?application=myvahealth&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252F${cernerEndpoint}-patientportal.myhealth.va.gov%252F`,
+      );
+      const profile = { verified: true };
+      await checkAutoSession(true, 'X', profile);
 
-    expect(global.window.location).to.eq(
-      'https://staging-patientportal.myhealth.va.gov/?authenticated=true',
-    );
+      expect(global.window.location).to.eq(
+        `https://${cernerEndpoint}-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
+      );
+    });
   });
 
   it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {

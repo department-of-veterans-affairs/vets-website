@@ -7,7 +7,7 @@ import mockVamc from '../fixtures/mocks/vamc-ehr.json';
 const TEST_URL =
   '/pension/apply-for-veteran-pension-form-21p-527ez/introduction';
 const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-527EZ';
-const PENSIONS_CLAIMS_URL = '/v0/pension_claims';
+const PENSIONS_CLAIMS_URL = 'pensions/v0/claims';
 const SUBMISSION_DATE = new Date().toISOString();
 
 const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
@@ -15,17 +15,6 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 export const cypressBeforeAllSetup = () => {
   cy.config('numTestsKeptInMemory', 0);
   cy.config('waitForAnimations', true);
-
-  Cypress.on('window:before:load', window => {
-    const win = window;
-    const original = win.addEventListener;
-    win.addEventListener = function addEventListener(...args) {
-      if (args && args[0] === 'beforeunload') {
-        return null;
-      }
-      return original.apply(this, args);
-    };
-  });
 };
 
 const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {

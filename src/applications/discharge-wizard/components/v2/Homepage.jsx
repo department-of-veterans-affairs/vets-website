@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +6,8 @@ import { ROUTES } from '../../constants';
 import { updateIntroPageViewed } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { QUESTION_MAP } from '../../constants/question-data-map';
+import { NeedHelp } from './NeedHelp';
+import VABenefitsAccordion from './VABenefitsAccordion';
 
 const HomePage = ({ router, setIntroPageViewed }) => {
   const H1 = QUESTION_MAP.HOME;
@@ -29,9 +30,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           <p itemProp="description">
             Answer a series of questions to get customized step-by-step
             instructions on how to apply for a discharge upgrade or correction.
-            If your application goes through and your discharge is upgraded,
-            you’ll be eligible for the VA benefits you earned during your period
-            of service.
+            If we accept your application and upgrade your discharge, you’ll be
+            eligible for the VA benefits you earned during your period of
+            service.
           </p>
         </div>
         <p>
@@ -58,76 +59,20 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           The information you enter on the next page is completely confidential.
         </p>
         <p>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link
-            className="vads-c-action-link--green"
+          <va-link-action
             data-testid="duw-start-form"
             href="#"
             onClick={startForm}
-          >
-            Get started
-          </Link>
+            text="Get started"
+          />
         </p>
         <va-accordion>
-          <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
-            <p>
-              Even with a less than honorable discharge, you may be able to
-              access some VA benefits through the Character of Discharge review
-              process. When you apply for VA benefits, we’ll review your record
-              to determine if your service was “honorable for VA purposes.” This
-              review can take up to a year. Please provide us with documents
-              supporting your case, similar to the evidence you’d send with an
-              application to upgrade your discharge.
-            </p>
-            <p>
-              You may want to consider finding someone to advocate on your
-              behalf, depending on the complexity of your case. A lawyer or
-              Veterans Service Organization (VSO) can collect and submit
-              supporting documents for you.{' '}
-              <va-link
-                href="https://www.benefits.va.gov/vso/varo.asp"
-                text="Find a VSO near you."
-              />
-            </p>
-            <p>
-              <strong>Note:</strong> You can ask for a VA Character of Discharge
-              review while at the same time applying for a discharge upgrade
-              from the Department of Defense (DoD) or the Coast Guard.
-            </p>
-            <p>
-              If you need mental health services related to PTSD or other mental
-              health problems linked to your service (including conditions
-              related to an experience of military sexual trauma), you may
-              qualify for VA health benefits right away, even without a VA
-              Character of Discharge review or a discharge upgrade.
-            </p>
-            <p>Learn more about:</p>
-            <ul>
-              <li>
-                <va-link
-                  href="/health-care/health-needs-conditions/military-sexual-trauma/"
-                  text="VA health benefits for Veterans who’ve experienced military sexual trauma"
-                />
-              </li>
-              <li>
-                <va-link
-                  href="/health-care/health-needs-conditions/mental-health/"
-                  text="VA health benefits for Veterans with mental health conditions"
-                />
-              </li>
-              <li>
-                <va-link
-                  href="/health-care/health-needs-conditions/mental-health/ptsd/"
-                  text="VA health benefits for Veterans with PTSD"
-                />
-              </li>
-            </ul>
-          </va-accordion-item>
+          <VABenefitsAccordion />
           <va-accordion-item header="What if I already applied for an upgrade or correction and was denied?">
             <p>
               If your previous upgrade application was denied, you can apply
-              again, but you may have to follow a different process. Click the{' '}
-              <strong>Get Started</strong> button above. When you’re asked if
+              again, but you may have to follow a different process. Select the{' '}
+              <strong>Get Started</strong> link above. When you’re asked if
               you’ve applied before, select <strong>Yes</strong>. After you’ve
               answered all the questions, you’ll see application instructions
               specific to your situation.
@@ -136,8 +81,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               Applying again is most likely to be successful if your application
               is significantly different from when you last applied. For
               example, you may have additional evidence that wasn’t available to
-              you when you last applied, or the Department of Defense (DoD) may
-              have issued new rules regarding discharges. DoD rules changed for
+              you when you last applied, or the Department of Defense (DOD) may
+              have issued new rules regarding discharges. DOD rules changed for
               discharges related to PTSD, TBI, and mental health in 2014,
               military sexual harassment and assault in 2017, and sexual
               orientation in 2011.
@@ -145,7 +90,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </va-accordion-item>
           <va-accordion-item header="What if I have discharges for more than one period of service?">
             <p>
-              If the Department of Defense (DoD) or the Coast Guard determined
+              If the Department of Defense (DOD) or the Coast Guard determined
               you served honorably in one period of service, you may use that
               honorable characterization to establish eligibility for VA
               benefits, even if you later received a less than honorable
@@ -177,9 +122,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               to confirm your eligibility.
             </p>
             <p>
-              You can also apply to the Department of Defense (DoD) or the Coast
+              You can also apply to the Department of Defense (DOD) or the Coast
               Guard for a second DD214 only for that honorable period of
-              service. Click the <strong>Get Started</strong> button above and
+              service. Select the <strong>Get Started</strong> link above and
               answer the questions based on your most recent discharge. When
               you’re asked if you completed a period of service in which your
               character of service was honorable or general under honorable
@@ -189,24 +134,25 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </va-accordion-item>
           <va-accordion-item header="What if I have a DD215 showing an upgraded discharge, but my DD214 still isn’t correct?">
             <p>
-              When the Department of Defense (DoD) or the Coast Guard upgrades a
+              When the Department of Defense (DOD) or the Coast Guard upgrades a
               Veteran’s discharge, it usually issues a DD215 showing corrections
-              to the DD214. The DoD or the Coast Guard attaches the DD215 to the
+              to the DD214. The DOD or the Coast Guard attaches the DD215 to the
               old DD214—which still shows the outdated discharge and related
               information. While the discharge on the DD215 is the correct
               discharge, a Veteran may still want a new DD214 that shows no
               record of their earlier characterization of discharge.
             </p>
             <p>
-              If you have a DD215 and want an updated DD214, click the{' '}
-              <strong>Get Started</strong> button above. On the next page,
-              select: “I received a discharge upgrade or correction, but my
-              upgrade came in the form of a DD215, and I want an updated DD214.”
-              After you’ve answered all the questions, you’ll see instructions
-              for how to request a new DD214.
+              If you have a DD215 and want an updated DD214, select the{' '}
+              <strong>Get Started</strong> link above. On the next page, select:
+              “I received a discharge upgrade or correction, but my upgrade came
+              in the form of a DD215, and I want an updated DD214.” After you’ve
+              answered all the questions, you’ll see instructions for how to
+              request a new DD214.
             </p>
           </va-accordion-item>
         </va-accordion>
+        <NeedHelp />
       </div>
     </>
   );

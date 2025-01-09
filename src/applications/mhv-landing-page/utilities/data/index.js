@@ -33,33 +33,9 @@ const resolveLandingPageLinks = (
   unreadMessageAriaLabel,
   registered = false,
 ) => {
-  const messagesLinks = [
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[0],
-      ariaLabel: unreadMessageAriaLabel,
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[1],
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[2],
-    },
-  ];
-
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  if (messagesLinks.length > 0)
+    messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
@@ -83,7 +59,7 @@ const resolveLandingPageLinks = (
       text: 'Update health benefits info (10-10EZR)',
     },
     {
-      href: mhvUrl(authdWithSSOe, 'health-information-card'),
+      href: '/health-care/get-health-id-card/',
       text: 'Veteran health information card',
     },
     // {
@@ -129,18 +105,30 @@ const resolveLandingPageLinks = (
 
   const spotlightLinks = [
     {
-      text: 'Make the Most of Your VA Appointment',
-      href: mhvUrl(authdWithSSOe, 'ss20240415-make-most-your-va-appointment'),
+      text: 'Tips for Creating Your Login.gov or ID.me Account',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20241209-tips-creating-login-gov-id-me-account',
+      ),
     },
     {
-      text: 'VA Health Care Expands to Millions of Veterans',
-      href: mhvUrl(authdWithSSOe, 'ss20240315-va-health-care-expands-millions'),
+      text: '5 Morning Routines to Reduce Stress',
+      href: mhvUrl(authdWithSSOe, 'ss20220719-start-your-day-with-mindfulness'),
     },
     {
-      text: 'Hearing Aids Connect with Telehealth',
-      href: mhvUrl(authdWithSSOe, 'ss20211015-fix-your-hearing-aid-over-video'),
+      text: 'Give Your Immune System a Boost',
+      href: mhvUrl(authdWithSSOe, 'ss20220803-your-body-defense-system'),
     },
   ];
+
+  const paymentsLinks = [
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-pay/claims',
+      text: 'Check travel reimbursement claim status',
+    },
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
 
   const cards = [
     {
@@ -161,13 +149,15 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      links: medicalRecordsLinks,
+      introduction:
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -26,7 +26,6 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -39,15 +38,9 @@ const EkgDetails = props => {
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -91,6 +84,8 @@ const EkgDetails = props => {
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - ekg name]"
       >
         {record.name}
       </h1>
@@ -102,20 +97,28 @@ const EkgDetails = props => {
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateEkgDetailsPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generateEkgTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h2>
-        <p data-testid="ekg-record-facility">
+        <p
+          data-testid="ekg-record-facility"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - ekg facility]"
+        >
           {record.facility || 'There is no facility reported at this time'}
         </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
           Results
         </h2>
         <p data-testid="ekg-results">

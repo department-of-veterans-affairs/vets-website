@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+
 import {
   addCompareInstitution,
   removeCompareInstitution,
@@ -22,9 +24,6 @@ import {
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
-
-// environment variable to keep ratings out of production until ready
-const isProduction = !environment.isProduction();
 
 export function ResultCard({
   compare,
@@ -56,6 +55,11 @@ export function ResultCard({
     programLengthInHours,
     type,
   } = institution;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  // environment variable to keep ratings out of production until ready
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
 
   let ratingCount = 0;
   let ratingAverage = false;
@@ -141,7 +145,7 @@ export function ResultCard({
 
   const containerClasses = classNames({
     'vads-u-margin-bottom--2': !location,
-    'small-screen:vads-u-margin-left--2p5': !location,
+    'mobile-lg:vads-u-margin-left--2p5': !location,
     'vads-u-margin--0': location,
     'vads-u-padding--0': location,
   });
@@ -183,7 +187,7 @@ export function ResultCard({
 
   // toggle for production/staging------------------------------------------------
   let ratingsInformation = false;
-  if (isProduction) {
+  if (isShowRatingsToggle) {
     const stars = convertRatingToStars(ratingAverage);
     const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
@@ -217,21 +221,28 @@ export function ResultCard({
   }
   // end toggle for production/staging------------------------------------------------
 
-  const estimate = ({ qualifier, value }) => {
-    if (qualifier === '% of instate tuition') {
-      return <span>{value}% in-state</span>;
-    }
+  const estimateHousing = ({ qualifier, value }) => {
+    return qualifier === null ? value : <span>{formatCurrency(value)}</span>;
+  };
+
+  const estimateTuition = ({ qualifier, value }) => {
     if (qualifier === null) {
       return value;
     }
+
+    if (qualifier === '% of instate tuition') {
+      return <span>{value}% in-state</span>;
+    }
+
     const lesserVal = tuitionOutOfState
       ? Math.min(value, tuitionOutOfState)
       : value;
+
     return <span>{formatCurrency(lesserVal)}</span>;
   };
 
-  const tuition = estimate(estimated.tuition);
-  const housing = estimate(estimated.housing);
+  const tuition = estimateTuition(estimated.tuition);
+  const housing = estimateHousing(estimated.housing);
 
   const tuitionAndEligibility = (
     <>
@@ -403,6 +414,23 @@ const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchShowModal: showModal,
+};
+
+ResultCard.propTypes = {
+  compare: PropTypes.object.isRequired,
+  dispatchAddCompareInstitution: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  estimated: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  active: PropTypes.bool,
+  header: PropTypes.node,
+  location: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  paginationRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default connect(

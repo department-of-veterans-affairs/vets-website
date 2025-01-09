@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
@@ -9,10 +8,17 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-import { IncomeSourceDescription } from '../../../helpers';
+import {
+  IncomeSourceDescription,
+  showMultiplePageResponse,
+} from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-import { doesReceiveIncome } from './helpers';
+import {
+  dependentNameRequired,
+  doesReceiveIncome,
+  otherExplanationRequired,
+} from './helpers';
 
 const {
   otherTypeExplanation,
@@ -22,17 +28,12 @@ const {
   // amount,
 } = fullSchemaPensions.definitions.incomeSources.items.properties;
 
-export const otherExplanationRequired = (form, index) =>
-  get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
-
-export const dependentNameRequired = (form, index) =>
-  get(['incomeSources', index, 'receiver'], form) === 'DEPENDENT';
-
 /** @type {PageSchema} */
 export default {
   title: 'Gross monthly income',
   path: 'financial/income-sources',
-  depends: doesReceiveIncome,
+  depends: formData =>
+    !showMultiplePageResponse() && doesReceiveIncome(formData),
   uiSchema: {
     ...titleUI('Gross monthly income', IncomeSourceDescription),
     'view:informationAlert': {

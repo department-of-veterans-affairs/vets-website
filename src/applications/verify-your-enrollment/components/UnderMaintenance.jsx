@@ -7,7 +7,7 @@ import NeedHelp from './NeedHelp';
 
 const UnderMaintenance = () => {
   return (
-    <div className="vads-u-margin-top--6 vads-u-margin-bottom--8 vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-u-margin-top--6 vads-u-margin-bottom--8 vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <VaAlert
         close-btn-aria-label="Close notification"
         status="warning"

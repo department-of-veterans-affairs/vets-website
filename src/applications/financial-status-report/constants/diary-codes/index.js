@@ -1,7 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
@@ -15,11 +15,6 @@ const ContactDMC = () => (
 );
 
 export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
-  const endDate = (date, days) =>
-    moment(date, 'MM-DD-YYYY')
-      .add(days, 'days')
-      .format('MMMM Do, YYYY,');
-
   switch (diaryCode) {
     case '71':
       return {

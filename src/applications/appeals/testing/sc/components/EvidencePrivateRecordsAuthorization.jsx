@@ -61,7 +61,7 @@ const EvidencePrivateRecordsAuthorization = ({
     },
     onChange: event => {
       const { checked } = event.target;
-      setFormData({ ...data, privacyAgreementAccepted: checked });
+      setFormData({ ...data, evidencePrivacyAgreementAccepted: checked });
       setHasError(!checked);
       if (!checked) {
         focusOnAlert();
@@ -69,7 +69,7 @@ const EvidencePrivateRecordsAuthorization = ({
     },
     onGoForward: () => {
       // Required checkbox
-      if (data.privacyAgreementAccepted) {
+      if (data.evidencePrivacyAgreementAccepted) {
         setHasError(false);
         goForward(data);
       } else {
@@ -89,7 +89,7 @@ const EvidencePrivateRecordsAuthorization = ({
         <VaCheckbox
           id="privacy-agreement"
           label={authorizationLabel}
-          checked={data.privacyAgreementAccepted}
+          checked={data.evidencePrivacyAgreementAccepted}
           onVaChange={handlers.onChange}
           aria-describedby="authorize-text"
           required

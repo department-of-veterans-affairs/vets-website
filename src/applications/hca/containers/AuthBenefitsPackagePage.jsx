@@ -12,7 +12,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import definition from '../config/chapters/vaBenefits/benefitsPackage';
-import RegistrationOnlyDescription from '../components/FormDescriptions/RegistrationOnlyDescription';
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
@@ -25,7 +24,7 @@ const AuthBenefitsPackagePage = props => {
     ...definition.uiSchema,
     ...titleUI({
       title: content['benefits--reg-only-title'],
-      description: RegistrationOnlyDescription,
+      description: content['benefits--reg-only-description'],
       headerLevel: 2,
       headerStyleLevel: 3,
     }),
@@ -35,6 +34,8 @@ const AuthBenefitsPackagePage = props => {
   const [localData, setLocalData] = useState({});
   const dispatch = useDispatch();
 
+  const setFormData = dataToSet => dispatch(setData(dataToSet));
+
   const handlers = {
     goBack: () => {
       const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
@@ -42,12 +43,10 @@ const AuthBenefitsPackagePage = props => {
     },
     onChange: data => {
       setLocalData(data);
-      dispatch(
-        setData({
-          ...formData,
-          'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
-        }),
-      );
+      setFormData({
+        ...formData,
+        'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
+      });
     },
     onSubmit: () => {
       const nextPagePath = getNextPagePath(pageList, formData, pathname);

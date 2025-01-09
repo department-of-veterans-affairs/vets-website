@@ -1,108 +1,65 @@
 import React from 'react';
+import { waitFor } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import localStorage from 'platform/utilities/storage/localStorage';
-import { VerifyApp } from '../../containers/VerifyApp';
+import sinon from 'sinon';
+import VerifyApp from '../../containers/VerifyApp';
 
-const mockProfile = {
-  verified: false,
-  signIn: { serviceName: 'logingov' },
-};
-const generateProps = ({
-  useOAuth = false,
-  profile = mockProfile,
-  loading = false,
-}) => ({
-  loading,
-  profile,
-  useOAuth,
+const generateStore = ({ serviceName = 'logingov' } = {}) => ({
+  user: {
+    profile: {
+      loading: false,
+      signIn: { serviceName },
+      verified: false,
+      session: { authBroker: 'iam' },
+    },
+  },
 });
 
-describe('VerifyApp', () => {
-  let props;
+describe('VerifyApp Component', () => {
+  const oldLocation = global.window.location;
 
   afterEach(() => {
-    props = {};
+    global.window.location = oldLocation;
     localStorage.clear();
   });
 
-  it('renders VerifyApp', () => {
-    props = generateProps({});
-    localStorage.setItem('hasSession', true);
-    const wrapper = render(<VerifyApp {...props} />);
+  it('renders the correct title', async () => {
+    renderInReduxProvider(<VerifyApp />);
 
-    const verifyApp = wrapper.getByTestId('verify-app');
-
-    expect(verifyApp);
-    wrapper.unmount();
-  });
-  it('renders loading indicator when app is loading', () => {
-    props = generateProps({ loading: true });
-    localStorage.setItem('hasSession', true);
-
-    const wrapper = render(<VerifyApp {...props} />);
-
-    const verifyApp = wrapper.getByTestId('loading-indicator');
-
-    expect(verifyApp);
-    wrapper.unmount();
-  });
-
-  ['dslogon', 'mhv'].forEach(csp => {
-    it('displays both logingov and idme verification buttons for mhv, and dslogon users', () => {
-      props = generateProps({
-        profile: {
-          signIn: {
-            serviceName: csp,
-          },
-        },
-      });
-      const wrapper = render(<VerifyApp {...props} />);
-
-      localStorage.setItem('hasSession', true);
-      const verifyButtonGroup = wrapper.getByTestId('verify-button-group')
-        .children;
-      expect(verifyButtonGroup.length).to.equal(2);
-      expect(verifyButtonGroup[0]).to.have.attr(
-        'aria-label',
-        `Verify with Login.gov`,
-      );
-      expect(verifyButtonGroup[1]).to.have.attr(
-        'aria-label',
-        `Verify with ID.me`,
-      );
-      wrapper.unmount();
+    await waitFor(() => {
+      expect(document.title).to.eql('Verify your identity');
     });
   });
-  ['idme', 'logingov'].forEach(csp => {
-    it(`should display one ${csp} verification button for ${csp} users`, () => {
-      props = generateProps({
-        profile: {
-          signIn: {
-            serviceName: `${csp}`,
-          },
-        },
-      });
-      localStorage.setItem('hasSession', true);
-      const wrapper = render(<VerifyApp {...props} />);
-      const verifyButton = wrapper.getByTestId('verify-button').children;
-      expect(verifyButton.length).to.equal(1);
-      expect(verifyButton[0]).to.have.attr('aria-label');
-      wrapper.unmount();
+
+  it('renders unauthenticated and not in production: UnauthenticatedVerify', async () => {
+    const screen = renderInReduxProvider(<VerifyApp />);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('unauthenticated-verify-app')).to.exist;
+      expect(screen.queryByTestId('authenticated-verify-app')).to.not.exist;
     });
   });
-  it('should redirect to home page when user is using a verified account', () => {
-    localStorage.setItem('hasSession', true);
-    props = generateProps({
-      loading: true,
-      profile: {
-        verified: true,
-        signIn: { serviceName: 'logingov' },
-      },
-    });
-    const wrapper = render(<VerifyApp {...props} />);
 
-    expect(wrapper.findByTestId('loading-indicator'));
-    wrapper.unmount();
+  it('renders authenticated and not in production: AuthenticatedVerify', async () => {
+    localStorage.setItem('hasSession', true);
+    const screen = renderInReduxProvider(<VerifyApp />, {
+      initialState: generateStore(),
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('unauthenticated-verify-app')).to.not.exist;
+      expect(screen.queryByTestId('authenticated-verify-app')).to.exist;
+    });
+  });
+
+  it('redirects when unauthenticated and is production', async () => {
+    global.window.location.pathname = '/verify';
+    const isProduction = sinon.stub().returns(true);
+    renderInReduxProvider(<VerifyApp env={{ isProduction }} />);
+
+    await waitFor(() => {
+      expect(global.window.location.pathname).to.eql('/');
+    });
   });
 });

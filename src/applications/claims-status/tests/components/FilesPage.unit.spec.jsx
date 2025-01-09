@@ -4,12 +4,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
+import * as helpers from '../../utils/helpers';
 
 const getStore = (cst5103UpdateEnabled = false) =>
   createStore(() => ({
@@ -22,22 +24,26 @@ const getStore = (cst5103UpdateEnabled = false) =>
 const props = {
   claim: {},
   clearNotification: () => {},
-  lastPage: '',
+  lastPage: '/overview',
   loading: false,
+  location: { hash: '' },
   message: {},
 };
 
 describe('<FilesPage>', () => {
   let stub;
-  before(() => {
+  let setPageFocusSpy;
+  beforeEach(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
+    setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
   });
 
-  after(() => {
+  afterEach(() => {
     stub.restore();
+    setPageFocusSpy.restore();
   });
 
   it('should render loading state', () => {
@@ -58,7 +64,6 @@ describe('<FilesPage>', () => {
     );
 
     expect($('.claim-files', container)).to.not.exist;
-    expect(document.title).to.equal('Files for Your Claim | Veterans Affairs');
     getByText('Claim status is unavailable');
   });
 
@@ -72,8 +77,138 @@ describe('<FilesPage>', () => {
     );
 
     expect($('.claim-files', container)).to.not.exist;
-    expect(document.title).to.equal('Files for Your Claim | Veterans Affairs');
     getByText('Claim status is unavailable');
+  });
+
+  describe('pageFocus', () => {
+    const claim = {
+      id: '1',
+      type: 'claim',
+      attributes: {
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
+        trackedItems: [],
+      },
+    };
+
+    it('should call setPageFocus when location.hash is empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} location={{ hash: '' }} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.true;
+      });
+    });
+
+    it('should not call setPageFocus when location.hash is not empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} location={{ hash: '#add-files' }} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.false;
+      });
+    });
+  });
+
+  describe('document.title', () => {
+    // Minimum data needed for these test cases.
+    const claim = {
+      attributes: {
+        claimDate: '2024-09-04',
+        claimType: 'Compensation',
+        claimPhaseDates: {
+          previousPhases: {},
+        },
+        trackedItems: [],
+        supportingDocuments: [],
+      },
+    };
+    it('should not update document title at mount-time if claim is not available', () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} />
+        </Provider>,
+      );
+      expect(document.title).to.equal('');
+    });
+    it('should update document title with claim details at mount-time if claim is already loaded', () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Files for September 4, 2024 Compensation Claim | Veterans Affairs',
+      );
+    });
+    it('should update document title with claim details after mount once the claim has loaded', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Files for September 4, 2024 Compensation Claim | Veterans Affairs',
+      );
+    });
+    it('should update document title with a default message after mount once the claim fails to load', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={null} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Files for Your Claim | Veterans Affairs',
+      );
+    });
+    it('should not update document title after mount if the loading status has not changed', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            loading
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
+      );
+      expect(document.title).to.equal('');
+    });
   });
 
   it('should clear alert', () => {
@@ -106,6 +241,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
+        {...props}
         clearNotification={clearNotification}
         message={message}
         claim={claim}
@@ -154,6 +290,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
+        {...props}
         clearNotification={clearNotification}
         message={message}
         claim={claim}
@@ -191,6 +328,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -240,6 +378,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -282,6 +421,7 @@ describe('<FilesPage>', () => {
         const { getByText } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -320,6 +460,7 @@ describe('<FilesPage>', () => {
         const { queryByText } = renderWithRouter(
           <Provider store={getStore(true)}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -359,6 +500,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}

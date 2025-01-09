@@ -19,7 +19,7 @@ export default function PageLayout({
       {location.search.includes('?confirmMsg=true') === false && (
         <MhvSecondaryNav />
       )}
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         {showBreadcrumbs && <Breadcrumbs />}
         <div className="vads-l-row">
           <div

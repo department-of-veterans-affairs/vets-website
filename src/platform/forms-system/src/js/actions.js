@@ -1,10 +1,9 @@
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
-import { timeFromNow } from './utilities/date';
+import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -232,14 +231,16 @@ export function uploadFile(
     if (file.size > maxSize) {
       const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
       const fileTooBigErrorMessage =
+        uiOptions?.fileTooBigErrorMessage ||
         'We couldn\u2019t upload your file because it\u2019s too large. ' +
-        `File size must be less than ${fileSizeText}.`;
-
-      onChange({
+          `File size must be less than ${fileSizeText}.`;
+      const fileTooBigErrorAlert = uiOptions?.fileTooBigErrorAlert;
+      const changePayload = {
         name: file.name,
         errorMessage: fileTooBigErrorMessage,
-      });
-
+        ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
+      };
+      onChange(changePayload);
       onError();
       return null;
     }
@@ -312,25 +313,25 @@ export function uploadFile(
         onChange({ ...fileData, isEncrypted: !!password });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
-        let errorMessage = req.statusText;
-        try {
-          // detail contains a better error message
-          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
-        } catch (error) {
-          // intentionally empty
-        }
+        let errorMessage =
+          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.';
+        const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
-            moment.unix(
-              parseInt(req.getResponseHeader('x-ratelimit-reset'), 10),
+            new Date(
+              parseInt(req.getResponseHeader('x-ratelimit-reset'), 10) * 1000,
             ),
           )}.`;
         }
-
         if (password) {
           onChange({ ...fileObj, errorMessage, isEncrypted: true });
         } else {
-          onChange({ ...fileObj, errorMessage });
+          const changePayload = {
+            ...fileObj,
+            errorMessage,
+            ...(errorAlert && { alert: errorAlert }),
+          };
+          onChange(changePayload);
         }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
@@ -339,6 +340,7 @@ export function uploadFile(
 
     req.addEventListener('error', () => {
       const errorMessage = FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+      const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
 
       if (password) {
         onChange({
@@ -348,7 +350,13 @@ export function uploadFile(
           password: file.password,
         });
       } else {
-        onChange({ file, name: file.name, errorMessage }); // return file object to allow resubmit
+        const changePayload = {
+          file,
+          name: file.name,
+          errorMessage,
+          ...(errorAlert && { alert: errorAlert }),
+        };
+        onChange(changePayload); // return file object to allow resubmit
       }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);

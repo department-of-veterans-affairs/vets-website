@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   txtLine,
@@ -20,6 +18,8 @@ import {
   makePdf,
   getNameDateAndTime,
   generateTextFile,
+  formatNameFirstLast,
+  formatUserDob,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -29,7 +29,6 @@ import {
   generatePathologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -42,15 +41,9 @@ const PathologyDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -76,14 +69,21 @@ const PathologyDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n    
 ${record.name} \n
-${formatName(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+${formatNameFirstLast(user.userFullName)}\n
+Date of birth: ${formatUserDob(user)}\n
 Details about this test: \n
 ${txtLine} \n
+Date and time collected: ${record.dateCollected}\n
 Site or sample tested: ${record.sampleTested} \n
+Collection sample: ${record.sampleFrom} \n
 Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
+'Your provider will review your results. If you need to do anything, 
+your provider will contact you. If you have questions, 
+send a message to the care team that ordered this test.\n
+'Note: If you have questions about more than 1 test ordered by the same care team, 
+send 1 message with all of your questions.\n
 ${record.results} \n`;
 
     const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
@@ -98,6 +98,8 @@ ${record.results} \n`;
         className="vads-u-margin-bottom--0"
         aria-describedby="pathology-date"
         data-testid="pathology-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - pathology name]"
       >
         {record.name}
       </h1>
@@ -110,31 +112,68 @@ ${record.results} \n`;
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generatePathologyPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generatePathologyTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="pathology-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology site]"
+        >
+          {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Collection sample
+        </h3>
+        <p
+          data-testid="pathology-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology sample]"
+        >
+          {record.sampleFrom}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="pathology-location">{record.labLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="pathology-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology location]"
+        >
+          {record.labLocation}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="date-completed">{record.date}</p>
+        <p
+          data-testid="date-completed"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology date]"
+        >
+          {record.date}
+        </p>
       </div>
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-report" className="monospace">
+        <p
+          data-testid="pathology-report"
+          className="monospace"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - pathology results]"
+        >
           {record.results}
         </p>
       </div>

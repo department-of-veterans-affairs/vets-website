@@ -36,7 +36,7 @@ describe('Contact info fields', () => {
       'be.focused',
     );
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit mailing address/i }).should(
       'be.focused',
     );
@@ -46,7 +46,7 @@ describe('Contact info fields', () => {
       'be.focused',
     );
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit home address/i }).should(
       'be.focused',
     );
@@ -55,7 +55,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('homePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit home.*number/i }).should(
       'be.focused',
     );
@@ -63,7 +63,7 @@ describe('Contact info fields', () => {
     cy.findByRole('button', { name: /edit work.*number/i }).click();
     cy.findByTestId('workPhone').should('exist');
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit work.*number/i }).should(
       'be.focused',
     );
@@ -72,7 +72,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('mobilePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit mobile.*number/i }).should(
       'be.focused',
     );
@@ -81,7 +81,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('email').should('exist');
     cy.get('va-text-input[name="root_emailAddress"]').should('be.focused');
     cy.axeCheck();
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.findByRole('button', { name: /edit contact email/i }).should(
       'be.focused',
     );

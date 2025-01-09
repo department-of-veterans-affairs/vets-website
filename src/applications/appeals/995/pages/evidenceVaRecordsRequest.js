@@ -4,17 +4,20 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
+  requestVaRecordsTitleOld,
+  requestVaRecordsHint,
   requestVaRecordsTitle,
   requestVaRecordsInfo,
 } from '../content/evidenceVaRecordsRequest';
 
 import { EVIDENCE_VA } from '../constants';
+import { showScNewForm } from '../utils/toggle';
 import errorMessages from '../../shared/content/errorMessages';
 
 export default {
   uiSchema: {
     [EVIDENCE_VA]: yesNoUI({
-      title: requestVaRecordsTitle,
+      title: requestVaRecordsTitleOld,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {
@@ -26,6 +29,14 @@ export default {
         required: errorMessages.requiredYesNo,
       },
       hideOnReview: true,
+      updateUiSchema: formData => ({
+        'ui:title': showScNewForm(formData)
+          ? requestVaRecordsTitle
+          : requestVaRecordsTitleOld,
+        'ui:options': {
+          hint: showScNewForm(formData) ? requestVaRecordsHint : '',
+        },
+      }),
     }),
 
     'view:vaEvidenceInfo': {

@@ -35,6 +35,7 @@ import otherHousingRisk from '../pages/otherHousingRisk';
 import pointOfContact from '../pages/pointOfContact';
 
 import contestableIssues from '../pages/contestableIssues';
+import addIssue from '../pages/addIssue';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
 
@@ -80,20 +81,22 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence } from '../utils/focus';
-import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
-
-import maximalData from '../tests/fixtures/data/maximal-test.json';
-
-import submissionError from '../../../shared/content/submissionError';
-import NeedHelp from '../../../shared/content/NeedHelp';
-import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
+  focusEvidence,
   focusAlertH3,
   focusRadioH3,
   focusH3,
   focusOnAlert,
-} from '../../../shared/utils/focus';
+  focusIssue,
+} from '../utils/focus';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
+
+import maximalData from '../tests/fixtures/data/prototype-test.json';
+
+import submissionError from '../../../shared/content/submissionError';
+
+import GetFormHelp from '../../../shared/content/GetFormHelp';
+import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
@@ -139,6 +142,10 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3,
+  reviewEditFocusOnHeaders: true,
+  formOptions: {
+    focusOnAlertRole: true,
+  },
 
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
@@ -211,6 +218,9 @@ const formConfig = {
           uiSchema: otherHousingRisk.uiSchema,
           schema: otherHousingRisk.schema,
           depends: hasOtherHousingRisk,
+          initialData: {
+            'view:otherHousingRisk': {},
+          },
         },
         contact: {
           title: 'Your point of contact',
@@ -231,6 +241,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -239,8 +250,8 @@ const formConfig = {
           depends: () => false, // accessed from contestable issues
           CustomPage: AddContestableIssue,
           CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
@@ -368,12 +379,13 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
+          scrollAndFocusTarget: focusAlertH3,
         },
       },
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

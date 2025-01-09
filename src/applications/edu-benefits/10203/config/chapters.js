@@ -3,6 +3,7 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 import { displayConfirmEligibility, isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import createDirectDepositPage10203 from '../pages/DirectDeposit';
+import { updateApplicantInformationPage } from '../../utils/helpers';
 
 import {
   activeDuty,
@@ -19,14 +20,14 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
     pages: {
-      applicantInformation: {
+      applicantInformation: updateApplicantInformationPage({
         ...createApplicantInformationPage(fullSchema10203, {
           isVeteran: true,
           fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
           required: ['veteranFullName', 'veteranSocialSecurityNumber'],
         }),
         uiSchema: applicantInformation.uiSchema,
-      },
+      }),
     },
   },
   benefitSelection: {

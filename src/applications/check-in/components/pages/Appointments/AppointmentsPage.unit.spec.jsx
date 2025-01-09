@@ -65,7 +65,7 @@ describe('unified check-in experience', () => {
     });
     it('shows the date & time the appointments were loaded & a refresh link', () => {
       const checkIn = render(
-        <CheckInProvider store={{ features: appointmentsOn }}>
+        <CheckInProvider store={{ features: appointmentsOn, app: 'dayOf' }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );

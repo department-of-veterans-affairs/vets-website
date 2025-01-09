@@ -10,7 +10,6 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const DependentsPage = ({
   dependents,
@@ -30,10 +29,6 @@ const DependentsPage = ({
       ? `How many dependents did you have in ${year - 1}?`
       : `How many dependents did you have last year?`;
   };
-
-  useEffect(() => {
-    document.title = customizeTitle(determineH1());
-  });
 
   const dependentsValid = deps => {
     return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;

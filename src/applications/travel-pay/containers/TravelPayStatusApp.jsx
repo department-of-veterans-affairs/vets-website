@@ -5,7 +5,6 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -15,11 +14,14 @@ import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { focusElement } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/ui/scroll';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
-import HelpText from '../components/HelpText';
+import HelpTextContent from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 
@@ -30,6 +32,11 @@ export default function App({ children }) {
 
   const filterInfoRef = useRef();
 
+  useEffect(() => {
+    focusElement('h1');
+    scrollTo('topScrollElement');
+  });
+
   // TODO: utilize user info for authenticated requests
   // and validating logged in status
   // const user = useSelector(selectUser);
@@ -37,6 +44,7 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -155,16 +163,20 @@ export default function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && !hasFetchedClaims && travelClaims.length === 0) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -261,19 +273,20 @@ export default function App({ children }) {
   }
 
   return (
-    <>
-      <MhvSecondaryNav />
+    <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        <h1
-          className="claims-controller-title"
-          tabIndex="-1"
-          data-testid="header"
-        >
+        <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
         </h1>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <HelpText />
+          <h2 className="vads-u-font-size--h4">
+            You can use this tool to check the status of your VA travel claims.
+          </h2>
+          <va-additional-info trigger="How to manage your claims or get more information">
+            <HelpTextContent />
+          </va-additional-info>
+
           {isLoading && (
             <va-loading-indicator
               label="Loading"
@@ -295,7 +308,7 @@ export default function App({ children }) {
             travelClaims.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
-                  <h2>Your travel claims</h2>
+                  <h2 className="vads-u-font-size--h4">Your travel claims</h2>
                   <p>
                     This list shows all the appointments you've filed a travel
                     claim for.
@@ -348,9 +361,13 @@ export default function App({ children }) {
                   id="travel-claims-list"
                   className="travel-claim-list-container"
                 >
-                  {displayedClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
+                  {displayedClaims.map(travelClaim => (
+                    <TravelClaimCard
+                      key={travelClaim.id}
+                      {...travelClaim}
+                      canViewClaimDetails={canViewClaimDetails}
+                    />
+                  ))}
                 </section>
                 {shouldPaginate && (
                   <VaPagination
@@ -370,7 +387,7 @@ export default function App({ children }) {
       </article>
 
       {children}
-    </>
+    </Element>
   );
 }
 

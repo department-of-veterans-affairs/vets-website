@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
+import {
+  PAGE_PATH,
+  SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  TYPEAHEAD_CLICKED,
+  TYPEAHEAD_LIST,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
 /**
  * Homepage redesign
@@ -14,39 +22,7 @@ import { replaceWithStagingDomain } from 'platform/utilities/environment/staging
 const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
-
-  // fetch Typeahead suggestions from API
-  const fetchDropDownSuggestions = async inputValue => {
-    // encode user input for query to suggestions url
-    const encodedInput = encodeURIComponent(inputValue);
-
-    // fetch suggestions
-    try {
-      const apiRequestOptions = {
-        method: 'GET',
-      };
-      const fetchedSuggestions = await apiRequest(
-        `/search_typeahead?query=${encodedInput}`,
-        apiRequestOptions,
-      );
-
-      if (fetchedSuggestions.length !== 0) {
-        return fetchedSuggestions.sort((a, b) => {
-          return a.length - b.length;
-        });
-      }
-      return [];
-      // if we fail to fetch suggestions
-    } catch (error) {
-      if (error?.error?.code === 'OVER_RATE_LIMIT') {
-        Sentry.captureException(
-          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
-        );
-      }
-      Sentry.captureException(error);
-      return [];
-    }
-  };
+  const [typeaheadClicked, setTypeaheadClicked] = useState(false);
 
   // clear all suggestions and saved suggestions
   const clearSuggestions = () => {
@@ -63,10 +39,27 @@ const HomepageSearch = () => {
       clearSuggestions();
       return;
     }
-
-    const results = await fetchDropDownSuggestions(inputValue);
+    const results = await fetchTypeaheadSuggestions(inputValue);
     setLatestSuggestions(results);
   };
+
+  useEffect(() => {
+    if (document) {
+      setTimeout(() => {
+        const searchListBoxItems = document
+          .querySelector('va-search-input')
+          .shadowRoot?.querySelectorAll('.va-search-suggestion');
+
+        if (searchListBoxItems?.length) {
+          searchListBoxItems?.forEach(item => {
+            item?.addEventListener('click', () => {
+              setTypeaheadClicked(true);
+            });
+          });
+        }
+      }, 500);
+    }
+  });
 
   const handleSubmit = e => {
     // create a search url
@@ -76,23 +69,17 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
-    // Record the analytic event.
-    recordEvent({
-      event: 'view_search_results',
-      action: 'Homepage - Search',
-      'search-page-path': searchUrl,
-      'search-query': e.target.value,
-      'search-results-total-count': null,
-      'search-results-total-pages': null,
-      'search-selection': 'All VA.gov - In page search',
-      'search-typeahead-enabled': false,
-      'search-location': 'Homepage Search',
-      'sitewide-search-app-used': false,
-      'type-ahead-option-keyword-selected': null,
-      'type-ahead-option-position': null,
-      'type-ahead-options-list': null,
-      'type-ahead-options-count': null,
-    });
+    const analyticsData = {
+      [PAGE_PATH]: document.location.pathname,
+      [SEARCH_LOCATION]: 'Homepage Search',
+      [SEARCH_APP_USED]: false,
+      [SEARCH_SELECTION]: 'All VA.gov - In page search',
+      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [TYPEAHEAD_CLICKED]: typeaheadClicked,
+      [TYPEAHEAD_LIST]: latestSuggestions,
+    };
+
+    addSearchGADataToStorage(analyticsData);
 
     // relocate to search results, preserving history
     window.location.assign(searchUrl);
@@ -100,6 +87,7 @@ const HomepageSearch = () => {
 
   return (
     <VaSearchInput
+      disableAnalytics
       value={userInput}
       label="Search VA.gov"
       onInput={handleInputChange}

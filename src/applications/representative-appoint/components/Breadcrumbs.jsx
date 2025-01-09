@@ -14,7 +14,7 @@ export const wrapWithBreadcrumb = component => (
             href: '/get-help-from-accredited-representative',
           },
           {
-            label: 'Appoint An Accredited Representative',
+            label: 'Request help from a VA accredited representative or VSO',
             href: '/get-help-from-accredited-representative/appoint',
           },
         ]}

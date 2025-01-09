@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 
 import {
+  EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   PRIMARY_PHONE,
+  SC_NEW_FORM_DATA,
 } from '../../constants';
 import {
   getAddress,
@@ -220,6 +222,7 @@ describe('hasDuplicateLocation', () => {
       locationAndName: name,
       issues: ['1', '2'],
       evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
+      treatmentDate: from.substring(0, from.lastIndexOf('-')),
     };
     return wrap ? { attributes: location } : location;
   };
@@ -246,6 +249,23 @@ describe('hasDuplicateLocation', () => {
     const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
     expect(hasDuplicateLocation(list, first2)).to.be.true;
   });
+
+  it('should not find any duplicates in new form', () => {
+    const name = getLocation({ name: 'test 3' });
+    expect(hasDuplicateLocation(list, name, true)).to.be.false;
+    const from = getLocation({ from: '2022-03-03' });
+    expect(hasDuplicateLocation(list, from, true)).to.be.false;
+  });
+  it('should report duplicate location', () => {
+    const first = getLocation();
+    expect(hasDuplicateLocation(list, first, true)).to.be.true;
+    const second = getLocation({ name: 'test 2' });
+    expect(hasDuplicateLocation(list, second, true)).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getLocation({ from: '2022-1-1' });
+    expect(hasDuplicateLocation(list, first2, true)).to.be.true;
+  });
 });
 
 describe('getEmail', () => {
@@ -259,35 +279,37 @@ describe('getEmail', () => {
       'test@test.com',
     );
   });
+  it('should return the defined email truncated to 255 characters', () => {
+    const email = `${'abcde12345'.repeat(25)}@test.com`;
+    const result = getEmail({ veteran: { email } });
+    expect(result.length).to.eq(255);
+    // results in an invalid email, but we use profile, and they won't accept
+    // emails > 255 characters in length
+    expect(result.slice(-10)).to.eq('12345@test');
+  });
 });
-it('should return the defined email truncated to 255 characters', () => {
-  const email = `${'abcde12345'.repeat(25)}@test.com`;
-  const result = getEmail({ veteran: { email } });
-  expect(result.length).to.eq(255);
-  // results in an invalid email, but we use profile, and they won't accept
-  // emails > 255 characters in length
-  expect(result.slice(-10)).to.eq('12345@test');
-});
-
 describe('getEvidence', () => {
-  const getData = ({ hasVa = true } = {}) => ({
+  const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
+      showScNewForm,
       form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
           issues: ['1', '2'],
-          evidenceDates: { from: '2022-01-01', to: '2022-02-02' },
+          evidenceDates: { from: '2022-01-05', to: '2022-02-02' },
+          treatmentDate: '2002-05',
         },
         {
           locationAndName: 'test 2',
           issues: ['1', '2'],
           evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
+          treatmentDate: '2002-07',
         },
       ],
     },
-    result: {
+    result: (newForm = false) => ({
       form5103Acknowledged: true,
       evidenceSubmission: {
         evidenceType: ['retrieval'],
@@ -297,7 +319,10 @@ describe('getEvidence', () => {
             attributes: {
               locationAndName: 'test 1',
               evidenceDates: [
-                { startDate: '2022-01-01', endDate: '2022-02-02' },
+                {
+                  startDate: newForm ? '2002-05-01' : '2022-01-05',
+                  endDate: newForm ? '2002-05-01' : '2022-02-02',
+                },
               ],
             },
           },
@@ -306,13 +331,16 @@ describe('getEvidence', () => {
             attributes: {
               locationAndName: 'test 2',
               evidenceDates: [
-                { startDate: '2022-03-03', endDate: '2022-04-04' },
+                {
+                  startDate: newForm ? '2002-07-01' : '2022-03-03',
+                  endDate: newForm ? '2002-07-01' : '2022-04-04',
+                },
               ],
             },
           },
         ],
       },
-    },
+    }),
   });
 
   it('should include evidenceType of none when no evidence submitted', () => {
@@ -326,7 +354,7 @@ describe('getEvidence', () => {
   });
   it('should process evidence when available', () => {
     const evidence = getData();
-    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
   it('should add "upload" to evidence type when available', () => {
     const { data } = getData();
@@ -356,7 +384,14 @@ describe('getEvidence', () => {
     evidence.data.locations.push(evidence.data.locations[1]);
 
     expect(evidence.data.locations.length).to.eq(4);
-    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
+  });
+
+  // TODO: Replace this test once Lighthouse provides an endpoint for the new
+  // form data
+  it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
+    const evidence = getData({ showScNewForm: true });
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
   });
 });
 
@@ -467,5 +502,31 @@ describe('getForm4142', () => {
     data.providerFacility.push(data.providerFacility[0]); // add duplicate
     expect(data.providerFacility.length).to.eq(3);
     expect(getForm4142(data)).to.deep.equal(getData(true));
+  });
+
+  it('should return 4142 form data with limited consent when y/n is set to yes', () => {
+    const data = {
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      [EVIDENCE_LIMIT]: true,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    expect(getForm4142(data)).to.deep.equal(getData(true));
+  });
+
+  it('should return 4142 form data with no limited consent when y/n is set to no', () => {
+    const data = {
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      [EVIDENCE_LIMIT]: false,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    const result = {
+      ...getData(true),
+      limitedConsent: '',
+    };
+    expect(getForm4142(data)).to.deep.equal(result);
   });
 });

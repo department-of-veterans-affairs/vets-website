@@ -4,13 +4,15 @@ import FormElementTitle from '../../../components/FormElementTitle';
 
 const searchSchoolsPage = {
   uiSchema: {
-    'ui:title': FormElementTitle({
-      title: 'School Information',
-    }),
     'ui:objectViewField': PageFieldSummary,
     school: {
-      'ui:title': 'Search by city, postal code, or use your current location.',
+      'ui:title': FormElementTitle({
+        title: 'School information',
+      }),
       'ui:widget': EducationFacilitySearch,
+      'ui:errorMessages': {
+        required: 'Please select your school facility',
+      },
     },
   },
   schema: {

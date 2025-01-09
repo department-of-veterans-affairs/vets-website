@@ -15,8 +15,8 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import { OnThisPageOverview } from '../components/OnThisPageOverview';
 import MCPAlerts from '../../combined/components/MCPAlerts';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
@@ -29,13 +29,12 @@ const renderAlert = (alertType, debts) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -45,6 +44,7 @@ const renderAlert = (alertType, debts) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
     </va-alert>
   );
 };
@@ -57,12 +57,12 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h3>Your other VA debts</h3>
+        <h2 className="vads-u-font-size--h3">Your other VA debts</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
-          <h4 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
-          </h4>
-          {alertInfo.body}
+          </h3>
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -86,6 +86,7 @@ const OverviewPage = () => {
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -117,19 +118,15 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
     return (
-      <>
-        <OnThisPageOverview multiple={statements?.length > 1} />
+      <article className="vads-u-padding-x--0">
+        <va-on-this-page />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
-        <HowToPay
-          isOverview="true"
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
-          facility={statementsByUniqueFacility[0].station}
-        />
+        <HowToPay isOverview />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />
-      </>
+      </article>
     );
   };
   return (

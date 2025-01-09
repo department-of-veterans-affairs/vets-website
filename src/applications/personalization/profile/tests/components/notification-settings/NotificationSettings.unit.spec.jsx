@@ -2,8 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { maximalSetOfPreferences } from '@@profile/mocks/endpoints/communication-preferences';
-
-import { waitForElementToBeRemoved } from '@testing-library/dom';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import {
   mockFetch,
   setFetchJSONResponse,
@@ -48,19 +47,25 @@ describe('<NotificationSettings />', () => {
             ],
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       path: '/profile/notifications',
     });
 
-    expect(await view.findByText('Your health care')).to.exist;
-
+    await waitFor(() => expect(view.queryByText('Your health care')).to.exist);
     expect(
-      await view.findByText(
+      await view.queryByText(
         'Applications, claims, decision reviews, and appeals',
       ),
     ).to.exist;
 
-    expect(await view.findByText('Payments')).to.exist;
+    expect(await view.queryByText('Payments')).to.exist;
 
     expect(await view.queryByText('General VA Updates and Information')).to.not
       .exist;
@@ -79,6 +84,13 @@ describe('<NotificationSettings />', () => {
           [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,
           [featureFlagNames.profileShowMhvNotificationSettingsMedicalImages]: true,
           [featureFlagNames.profileShowQuickSubmitNotificationSetting]: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
         user: {
           profile: {
@@ -121,7 +133,6 @@ describe('<NotificationSettings />', () => {
     expect(view.getByTestId('loading-indicator')).to.exist;
 
     expect(view.queryByText('Your health care')).to.not.exist;
-
     await waitForElementToBeRemoved(view.getByTestId('loading-indicator'));
 
     expect(view.queryByText('Your health care')).to.exist;
@@ -129,11 +140,21 @@ describe('<NotificationSettings />', () => {
 
   it('show alert to add mobile phone info', async () => {
     const view = renderWithProfileReducersAndRouter(<NotificationSettings />, {
-      initialState: {},
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
       path: '/profile/notifications',
     });
 
-    expect(await view.findByTestId('add-mobile-phone-link')).to.exist;
+    await waitFor(
+      () => expect(view.findByTestId('add-mobile-phone-link')).to.exist,
+    );
 
     expect(view.queryByTestId('add-email-address-link')).to.not.exist;
   });
@@ -141,6 +162,13 @@ describe('<NotificationSettings />', () => {
   it('when profileShowEmailNotificationSettings toggle is true, show alert to add email and mobile phone info', async () => {
     const view = renderWithProfileReducersAndRouter(<NotificationSettings />, {
       initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
         featureToggles: {
           loading: false,
           [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
@@ -149,7 +177,9 @@ describe('<NotificationSettings />', () => {
       path: '/profile/notifications',
     });
 
-    expect(await view.findByTestId('add-mobile-phone-link')).to.exist;
+    await waitFor(
+      () => expect(view.findByTestId('add-mobile-phone-link')).to.exist,
+    );
 
     expect(await view.findByTestId('add-email-address-link')).to.exist;
   });

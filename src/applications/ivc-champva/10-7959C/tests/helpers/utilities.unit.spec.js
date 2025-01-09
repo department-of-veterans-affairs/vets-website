@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import {
-  isRequiredFile,
-  nameWording,
-  getObjectsWithAttachmentId,
-} from '../../helpers/utilities';
+import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
-import { concatStreets } from '../../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+  nameWording,
+} from '../../../shared/utilities';
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {
@@ -53,6 +53,14 @@ describe('nameWording', () => {
   });
 });
 
+describe('nameWordingExt', () => {
+  it("should set `beingVerb` to 'you’re' if certifierRole is 'applicant'", () => {
+    expect(nameWordingExt({ certifierRole: 'applicant' }).beingVerb).to.equal(
+      'you’re',
+    );
+  });
+});
+
 describe('getObjectsWithAttachmentId', () => {
   it('should return list of objects with the `attachmentId` property', () => {
     const objectList = [
@@ -72,7 +80,7 @@ describe('concatStreets function', () => {
       street3: 'Apt A',
       state: 'MD',
     };
-    expect(concatStreets(addr).trim()).to.equal(
+    expect(concatStreets(addr).streetCombined.trim()).to.equal(
       `${addr.street} ${addr.street2} ${addr.street3}`,
     );
   });
@@ -81,6 +89,8 @@ describe('concatStreets function', () => {
       street: '123 St',
       state: 'MD',
     };
-    expect(concatStreets(addr).trim()).to.equal(`${addr.street}`);
+    expect(concatStreets(addr).streetCombined.trim()).to.equal(
+      `${addr.street}`,
+    );
   });
 });

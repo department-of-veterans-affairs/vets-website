@@ -12,10 +12,11 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import { CONTESTABLE_ISSUES_API } from '../../constants';
-
-import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
-import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -63,9 +64,7 @@ const getData = ({
       },
       contestableIssues,
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        hlr_updateed_contnet: true,
-        hlrUpdateedContnet: true,
+        [NEW_API]: true,
       },
     },
   };
@@ -184,6 +183,24 @@ describe('Form0996App', () => {
     });
   });
 
+  it('should call API is logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <Form0996App {...props} toggles={{ [NEW_API]: true }} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
+      resetFetch();
+    });
+  });
+
   it('should update benefit type in form data', async () => {
     const { props, data } = getData({ loggedIn: true, formData: {} });
     const store = mockStore(data);
@@ -218,7 +235,6 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
@@ -232,7 +248,6 @@ describe('Form0996App', () => {
             [SELECTED]: true,
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
       },
     });
@@ -260,7 +275,6 @@ describe('Form0996App', () => {
             },
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
       });
     });
@@ -272,7 +286,6 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_FAILED,
         issues: [],
-        legacyCount: undefined,
       },
       formData: {
         benefitType: 'compensation',
@@ -286,9 +299,8 @@ describe('Form0996App', () => {
             },
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
-        hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -321,14 +333,12 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
         contestedIssues: issues,
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
-        legacyCount: 0,
         internalTesting: true,
       },
     });
@@ -370,15 +380,13 @@ describe('Form0996App', () => {
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         benefitType: 'compensation',
         issues,
-        legacyCount: 0,
       },
       formData: {
         contestedIssues: issues,
         benefitType: 'compensation',
         areaOfDisagreement: [issues[0], additionalIssues[0]],
         additionalIssues,
-        legacyCount: 0,
-        hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -392,40 +400,6 @@ describe('Form0996App', () => {
     await waitFor(() => {
       const action = store.getActions()[0];
       expect(action).to.be.undefined;
-    });
-  });
-
-  it('should force transform of v1 data', async () => {
-    const { props, data } = getData({
-      contestableIssues: {
-        benefitType: 'compensation',
-        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-        issues: maximalTestV1.data.contestedIssues,
-        legacyCount: 0,
-      },
-      formData: {
-        ...maximalTestV1.data,
-        benefitType: 'compensation',
-        contestedIssues: [],
-        legacyCount: 0,
-        internalTesting: true,
-      },
-    });
-    const store = mockStore(data);
-
-    render(
-      <Provider store={store}>
-        <Form0996App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const action = store.getActions()[0];
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal({
-        ...migratedMaximalTestV1,
-        internalTesting: true,
-      });
     });
   });
 });

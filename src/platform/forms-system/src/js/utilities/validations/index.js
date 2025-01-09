@@ -1,10 +1,13 @@
 import range from 'lodash/range';
 import moment from 'moment';
 
+import { isValid, isBefore, isSameDay } from 'date-fns';
+
 import {
   minYear,
   maxYear,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { dateFieldToDate } from '../../../../../utilities/date';
 
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
@@ -99,14 +102,6 @@ function isBlankDateField(field) {
   );
 }
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day ? dateField.day.value : null,
-  });
-}
-
 // To do: Fix
 // allowSameMonth only checks whether the end/to date is the same as or after the
 // start/from date, regardless of month, rename to allowSameDate or fix
@@ -115,16 +110,16 @@ export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
     return true;
   }
 
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
+  const start = dateFieldToDate(fromDate);
+  const end = dateFieldToDate(toDate);
 
-  if (!momentStart.isValid() || !momentEnd.isValid()) {
+  if (!isValid(start) || !isValid(end)) {
     return false;
   }
 
   return allowSameMonth
-    ? momentStart.isSameOrBefore(momentEnd)
-    : momentStart.isBefore(momentEnd);
+    ? isSameDay(end, start) || isBefore(start, end)
+    : isBefore(start, end);
 }
 
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit

@@ -17,6 +17,7 @@ import {
 import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
+import { SearchControlsTypes } from '../types';
 
 const SearchControls = props => {
   const {
@@ -211,7 +212,7 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
+    const { suppressPharmacies, suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = suppressPPMS
       ? nonPPMSfacilityTypeOptions
@@ -220,10 +221,6 @@ const SearchControls = props => {
 
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
-    }
-
-    if (suppressCCP) {
-      delete locationOptions.provider;
     }
 
     const options = Object.keys(locationOptions).map(facility => (
@@ -261,7 +258,6 @@ const SearchControls = props => {
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
-      LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
       LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
@@ -382,7 +378,11 @@ const SearchControls = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form id="facility-search-controls" onSubmit={handleSubmit}>
+      <form
+        className="vads-u-margin-bottom--0"
+        id="facility-search-controls"
+        onSubmit={handleSubmit}
+      >
         <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
@@ -395,5 +395,7 @@ const SearchControls = props => {
     </div>
   );
 };
+
+SearchControls.propTypes = SearchControlsTypes;
 
 export default SearchControls;

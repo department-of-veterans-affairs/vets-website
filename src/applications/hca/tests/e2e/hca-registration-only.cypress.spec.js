@@ -83,21 +83,8 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
       goToNextPage('/va-benefits-package');
     });
 
-    it('should allow user to advance to the application if `no selection` is made on the form page', () => {
-      goToNextPage('/veteran-information/birth-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
     it('should allow user to advance to the application if `full medical benefits` is selected on the form page', () => {
       cy.get('[name="root_view:vaBenefitsPackage"]').check('fullPackage');
-      goToNextPage('/veteran-information/birth-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
-    it('should allow user to advance to the application if `not sure` is selected on the form page', () => {
-      cy.get('[name="root_view:vaBenefitsPackage"]').check('notSure');
       goToNextPage('/veteran-information/birth-information');
       cy.injectAxe();
       cy.axeCheck();
@@ -194,21 +181,8 @@ describe('HCA-Registration-Only-Guest-User', () => {
       goToNextPage('/va-benefits/benefits-package');
     });
 
-    it('should allow user to continue through the application if `no selection` is made on the form page', () => {
-      goToNextPage('/military-service/service-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
     it('should allow user to continue through the application if `full medical benefits` is selected on the form page', () => {
       cy.get('[name="root_view:vaBenefitsPackage"]').check('fullPackage');
-      goToNextPage('/military-service/service-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
-    it('should allow user to continue through the application if `not sure` is selected on the form page', () => {
-      cy.get('[name="root_view:vaBenefitsPackage"]').check('notSure');
       goToNextPage('/military-service/service-information');
       cy.injectAxe();
       cy.axeCheck();

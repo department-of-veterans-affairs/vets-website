@@ -60,6 +60,9 @@ export default {
   uiSchema: {
     'ui:title': ' ',
     'ui:description': MockContactInfo,
+    'ui:options': {
+      forceDivWrapper: true,
+    },
   },
   schema: {
     type: 'object',

@@ -12,17 +12,15 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
+import { nameWordingExt } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
   fileUploadBlurb,
 } from '../../shared/components/fileUploads/attachments';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { blankSchema } from './applicantInformation';
-
-// TODO: move to /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -58,16 +56,13 @@ export function applicantHasInsuranceSchema(isPrimary) {
         ...yesNoUI({
           updateUiSchema: formData => {
             return {
-              'ui:title': `Does ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} have ${
+              'ui:title': `${
+                formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+              } ${nameWording(formData, false, false, true)} have ${
                 isPrimary ? '' : 'any other'
               } medical health insurance information to provide or update at this time?`,
               'ui:options': {
-                hint: additionalFilesHint,
+                hint: ADDITIONAL_FILES_HINT,
               },
             };
           },
@@ -154,7 +149,7 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
               'ui:title': `Is this insurance through ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} employer?`,
             };
@@ -195,7 +190,7 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
               'ui:title': `Does ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} health insurance cover prescriptions?`,
               'ui:options': {
@@ -238,7 +233,7 @@ export function applicantInsuranceEobSchema(isPrimary) {
               'ui:title': `Does ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} health insurance have an explanation of benefits (EOB) for prescriptions?`,
               'ui:options': {
@@ -328,16 +323,15 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           },
           required: () => true,
           updateUiSchema: formData => {
+            const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the type of insurance plan or program ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} is enrolled in`,
+              'ui:title': `Select the type of insurance plan or program ${
+                wording.beingVerb
+              } enrolled in`,
               'ui:options': {
-                hint:
-                  'You may find this information on the front of your health insurance card.',
+                hint: `You may find this information on the front of ${
+                  wording.posessive
+                } health insurance card.`,
               },
             };
           },
@@ -378,13 +372,11 @@ export function applicantMedigapSchema(isPrimary) {
           required: () => true,
           labels: MEDIGAP,
           updateUiSchema: formData => {
+            const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the Medigap plan ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} is enrolled in`,
+              'ui:title': `Select the Medigap plan ${
+                wording.beingVerb
+              } enrolled in`,
             };
           },
         }),
@@ -421,7 +413,7 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
             'ui:title': `Any additional comments about ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} health insurance?`,
           };

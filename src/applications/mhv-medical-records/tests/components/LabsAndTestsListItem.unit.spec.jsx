@@ -108,7 +108,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE, JANE A', {
+    const date = screen.getByText('Ordered by JANE A DOE', {
       selector: 'div',
       exact: true,
     });
@@ -204,7 +204,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getByText('August 11, 1999, 4:09 p.m.', {
+    const date = screen.getByText('August 11, 1999', {
       selector: 'div',
       exact: true,
     });
@@ -254,7 +254,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   // This test will give different results when run in different time zones.
-  it.skip('should display the date of the record', () => {
+  it('should display the date of the record', () => {
     const date = screen.getByText('January 6, 2004, 7:27 p.m.', {
       selector: 'div',
       exact: true,
@@ -263,7 +263,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE,JANE', {
+    const date = screen.getByText('Ordered by JANE DOE', {
       selector: 'div',
       exact: true,
     });

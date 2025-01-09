@@ -3,7 +3,7 @@ import React from 'react';
 const RatingsAbout = () => {
   return (
     <div className="vads-u-padding-top--4 about-ratings">
-      <div className="small-screen:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font">
+      <div className="mobile-lg:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font">
         About ratings
       </div>
       <hr className="vads-u-margin-top--neg1px" />
@@ -12,7 +12,7 @@ const RatingsAbout = () => {
         they’ve attended on a scale of 1 to 4 stars, with 4 stars being the best
         rating.
       </p>
-      <span className="small-screen:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font">
+      <span className="mobile-lg:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font">
         How ratings are collected
       </span>
       <p>

@@ -314,7 +314,7 @@ const single = (req, res) => {
   const response = all.entry.find(item => {
     return +item.resource.id === +id;
   });
-  return res.json(response.resource);
+  return res.json(response ? response.resource : {});
 };
 
 module.exports = {

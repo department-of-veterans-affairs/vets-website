@@ -6,12 +6,10 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
-import PdfAlert from './PdfAlert';
 
-export const FindVaForms = ({ showPdfWarningBanner = false }) => {
+export const FindVaForms = () => {
   return (
     <>
-      {showPdfWarningBanner && <PdfAlert />}
       <SearchForm />
       <SearchResults />
       <h2>Frequently used VA forms</h2>
@@ -21,7 +19,7 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
         through the process step-by-step.
       </p>
       <ul
-        className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row"
+        className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-x--0"
         role="list"
       >
         <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">

@@ -346,6 +346,7 @@ function enterData(field) {
     case 'email':
     case 'number':
     case 'text': {
+      cy.get(field.element).should('not.be.disabled');
       cy.wrap(field.element)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })

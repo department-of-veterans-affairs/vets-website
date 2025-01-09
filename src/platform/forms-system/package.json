@@ -73,6 +73,7 @@
       "reselect": "*",
       "vets-json-schema": "*",
       "downshift": "*",
+      "date-fns": "*",
       "moment": "*",
       "fast-levenshtein": "*",
       "recompose": "*",

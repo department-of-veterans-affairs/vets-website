@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import Scroll from 'react-scroll';
 
 import {
   toIdSchema,
@@ -13,6 +12,7 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { Element } from 'platform/utilities/scroll';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
 import {
@@ -23,8 +23,6 @@ import {
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
-
-const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {

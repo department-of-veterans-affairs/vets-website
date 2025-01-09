@@ -5,7 +5,7 @@ import {
   validateCurrentOrPastDate,
 } from '~/platform/forms-system/src/js/validation';
 import { isValidDateRange } from '~/platform/forms/validations';
-import content from '../locales/en/content.json';
+import content from '../shared/locales/en/content.json';
 
 /**
  * HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)

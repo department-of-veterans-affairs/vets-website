@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { createId } from '../../utils/helpers';
@@ -88,6 +89,17 @@ export default function EstimatedBenefits({
       </li>
     ) : null;
 
+  CalculatorResultRow.propTypes = {
+    label: PropTypes.node.isRequired,
+    value: PropTypes.node.isRequired,
+    bold: PropTypes.bool,
+    eybH4: PropTypes.bool,
+    header: PropTypes.bool,
+    id: PropTypes.string,
+    screenReaderSpan: PropTypes.node,
+    visible: PropTypes.bool,
+  };
+
   const perTermSections = () => {
     const { perTerm } = outputs;
 
@@ -149,7 +161,15 @@ export default function EstimatedBenefits({
       </div>
     );
   };
-
+  const bookStipendLabel = (
+    <LearnMoreLabel
+      bold
+      text="Book stipend"
+      onClick={() => dispatchShowModal('bookStipendInfo')}
+      ariaLabel="Learn more about the book stipend"
+      buttonId="book-stipend-learn-more"
+    />
+  );
   return (
     <div className="medium-6 columns">
       <div className="your-estimated-benefits">
@@ -208,16 +228,7 @@ export default function EstimatedBenefits({
               bold
             />
             <CalculatorResultRow
-              label={
-                <LearnMoreLabel
-                  text="Book stipend"
-                  onClick={() => {
-                    dispatchShowModal('bookStipendInfo');
-                  }}
-                  ariaLabel="Learn more about the book stipend"
-                  buttonId="book-stipend-learn-more"
-                />
-              }
+              label={bookStipendLabel}
               id="book-stipend"
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
@@ -248,3 +259,11 @@ export default function EstimatedBenefits({
     </div>
   );
 }
+
+EstimatedBenefits.propTypes = {
+  calculator: PropTypes.object.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  outputs: PropTypes.object.isRequired,
+  estimatedBenefitsRef: PropTypes.object,
+  isOJT: PropTypes.bool,
+};

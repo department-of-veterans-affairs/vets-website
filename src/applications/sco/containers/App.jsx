@@ -22,7 +22,7 @@ const App = () => {
         />
       </div>
       <div className="row">
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
           <div className="vads-l-row medium-screen:vads-u-margin-x--neg2p5">
             <MainContent />
             <HubRail />

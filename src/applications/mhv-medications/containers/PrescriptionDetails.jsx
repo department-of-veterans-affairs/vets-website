@@ -39,6 +39,7 @@ import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
+import { selectGroupingFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -57,8 +58,8 @@ const PrescriptionDetails = () => {
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
-    message: undefined,
   });
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const dispatch = useDispatch();
 
   const prescriptionHeader =
@@ -78,12 +79,12 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${prescriptionHeader} | Veterans Affairs`);
+        updatePageTitle('Medications details | Veterans Affairs');
       } else {
         window.scrollTo(0, 0);
       }
     },
-    [prescription, prescriptionHeader],
+    [prescription],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -202,7 +203,6 @@ const PrescriptionDetails = () => {
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
-      message: 'Loading...',
     });
     await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
@@ -324,13 +324,12 @@ const PrescriptionDetails = () => {
   const hasPrintError =
     prescription && !prescriptionsApiError && !allergiesError;
   const content = () => {
-    if (
-      (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
-        allergiesError) &&
-      (prescription || prescriptionsApiError)
-    ) {
+    if (prescription || prescriptionsApiError) {
       return (
-        <>
+        // TODO: clean after grouping flag is gone
+        <div
+          className={`${showGroupingContent ? 'vads-u-margin-bottom--4' : ''}`}
+        >
           <div className="no-print">
             <h1
               aria-describedby="last-filled"
@@ -346,7 +345,11 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--4 vads-u-margin-bottom--3"
+                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:${
+                    showGroupingContent
+                      ? 'vads-u-margin-bottom--3 vads-u-margin-bottom--2'
+                      : 'vads-u-margin-bottom--4 vads-u-margin-bottom--3'
+                  }`}
                   data-testid="rx-last-filled-date"
                 >
                   {filledEnteredDate()}
@@ -367,20 +370,54 @@ const PrescriptionDetails = () => {
                     </p>
                   </ApiErrorNotification>
                 )}
-                <div className="no-print">
+                {/* TODO: clean after grouping flag is gone */}
+                {showGroupingContent && (
+                  <>
+                    {nonVaPrescription ? (
+                      <NonVaPrescription {...prescription} />
+                    ) : (
+                      <VaPrescription {...prescription} />
+                    )}
+                  </>
+                )}
+                {/* TODO: clean after grouping flag is gone */}
+                <div
+                  className={`no-print${
+                    showGroupingContent
+                      ? ' vads-u-margin-top--3 vads-u-margin-bottom--5'
+                      : ''
+                  }`}
+                >
+                  {/* TODO: clean after grouping flag is gone */}
+                  {showGroupingContent && (
+                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  )}
                   <PrintDownload
                     onDownload={handleFileDownload}
                     isSuccess={
                       pdfTxtGenerateStatus.status ===
                       PDF_TXT_GENERATE_STATUS.Success
                     }
+                    isLoading={
+                      !allergiesError &&
+                      pdfTxtGenerateStatus.status ===
+                        PDF_TXT_GENERATE_STATUS.InProgress
+                    }
                   />
-                  <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  {/* TODO: clean after grouping flag is gone */}
+                  {!showGroupingContent && (
+                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  )}
                 </div>
-                {nonVaPrescription ? (
-                  <NonVaPrescription {...prescription} />
-                ) : (
-                  <VaPrescription {...prescription} />
+                {/* TODO: clean after grouping flag is gone */}
+                {!showGroupingContent && (
+                  <>
+                    {nonVaPrescription ? (
+                      <NonVaPrescription {...prescription} />
+                    ) : (
+                      <VaPrescription {...prescription} />
+                    )}
+                  </>
                 )}
               </>
             )}
@@ -402,14 +439,12 @@ const PrescriptionDetails = () => {
             />
             <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
-        </>
+        </div>
       );
     }
     return (
       <va-loading-indicator
-        message={
-          pdfTxtGenerateStatus.message || 'Loading your medication record...'
-        }
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />

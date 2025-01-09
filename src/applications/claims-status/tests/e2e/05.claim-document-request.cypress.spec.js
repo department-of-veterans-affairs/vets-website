@@ -1,7 +1,6 @@
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
-import claimDetailWith5103Notice from './fixtures/mocks/lighthouse/claim-detail-with-standard-5103-notice.json';
 
 describe('When feature toggle cst_5103_update_enabled disabled', () => {
   context('A user can view primary alert details from the status tab', () => {
@@ -23,7 +22,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
         trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitFilesForReview(false);
@@ -52,7 +51,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitFilesForReview(false);
@@ -96,28 +95,8 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
           true,
         );
         trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, true);
         trackClaimsPage.verifyDocRequestfor5103Notice();
-        trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
-        trackClaimsPage.submitEvidenceWaiver();
-        cy.axeCheck();
-      });
-    });
-
-    context('when alert is a Standard 5103 Notice', () => {
-      it('Shows primary alert details', () => {
-        const trackClaimsPage = new TrackClaimsPageV2();
-        trackClaimsPage.loadPage(
-          claimsList,
-          claimDetailWith5103Notice,
-          true,
-          false,
-          false,
-          true,
-        );
-        trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
-        trackClaimsPage.verifyDocRequestfor5103Notice(true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();
@@ -159,29 +138,8 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         );
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, true);
         trackClaimsPage.verifyDocRequestfor5103Notice();
-        trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
-        trackClaimsPage.submitEvidenceWaiver();
-        cy.axeCheck();
-      });
-    });
-
-    context('when alert is a Standard 5103 Notice', () => {
-      it('Shows primary alert details', () => {
-        const trackClaimsPage = new TrackClaimsPageV2();
-        trackClaimsPage.loadPage(
-          claimsList,
-          claimDetailWith5103Notice,
-          true,
-          false,
-          false,
-          true,
-        );
-        trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
-        trackClaimsPage.verifyDocRequestfor5103Notice(true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();

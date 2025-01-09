@@ -6,7 +6,7 @@ import vaTextInputFieldMapping from './vaTextInputFieldMapping';
 /**
  * Mask a SSN, but leave the final sequence of digits visible (up to 4)
  */
-function maskSSN(ssnString = '') {
+export function maskSSN(ssnString = '') {
   const strippedSSN = ssnString.replace(/[- ]/g, '');
   const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
     digit.replace(/\d/g, '●'),

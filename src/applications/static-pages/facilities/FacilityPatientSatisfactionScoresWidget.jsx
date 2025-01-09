@@ -19,6 +19,7 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
   const facility = props.facility.attributes;
 
   if (
+    facility?.feedback?.health === undefined ||
     Object.values(facility.feedback.health).length === 0 ||
     Object.values(facility.feedback.health).some(x => x <= 0)
   )
@@ -28,7 +29,7 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
     <div>
       <h2
         id="our-patient-satisfaction-scores"
-        className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+        className="vads-u-margin-top--4 vads-u-font-size--lg mobile-lg:vads-u-font-size--xl"
       >
         Veteran satisfaction with appointment wait times at this location
       </h2>

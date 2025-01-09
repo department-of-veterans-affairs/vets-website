@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
@@ -17,13 +14,9 @@ import ApplicationsInProgress from './ApplicationsInProgress';
 const BenefitApplications = ({
   getESREnrollmentStatus,
   getFormStatuses,
-  isLOA1,
   shouldGetESRStatus,
 }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isFormSubmissionStatusWork = useToggleValue(
-    TOGGLE_NAMES.myVaFormSubmissionStatuses,
-  );
+  const sectionRef = useRef(null);
 
   useEffect(
     () => {
@@ -36,21 +29,37 @@ const BenefitApplications = ({
 
   useEffect(
     () => {
-      if (isFormSubmissionStatusWork) {
-        getFormStatuses();
-      }
+      getFormStatuses();
     },
-    [getFormStatuses, isFormSubmissionStatusWork],
+    [getFormStatuses],
   );
 
+  useLayoutEffect(() => {
+    const handleAnchorLink = () => {
+      if (document.location.hash === '#benefit-applications') {
+        const elt = sectionRef.current;
+        const sectionPosition =
+          elt?.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: sectionPosition,
+          behavior: 'smooth',
+        });
+        elt?.focus();
+      }
+    };
+
+    handleAnchorLink();
+  }, []);
+
   return (
-    <div data-testid="dashboard-section-benefit-application-drafts">
-      <h2>
-        {isFormSubmissionStatusWork
-          ? 'Benefit applications and forms'
-          : 'Benefit application drafts'}
-      </h2>
-      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
+    <div
+      data-testid="dashboard-section-benefit-application-drafts"
+      id="benefit-applications"
+      ref={sectionRef}
+      tabIndex={-1}
+    >
+      <h2>Benefit applications and forms</h2>
+      <ApplicationsInProgress hideH3 />
     </div>
   );
 };
@@ -73,13 +82,11 @@ const mapStateToProps = state => {
 BenefitApplications.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
   getFormStatuses: PropTypes.func,
-  isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
   getFormStatuses: fetchFormStatuses,
-  getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
 };
 

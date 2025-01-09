@@ -6,11 +6,7 @@ import { connect } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import manifest from '../manifest.json';
-import {
-  ADDITIONAL_INFO_THIRD_PARTY,
-  SUBTITLE,
-  TITLE,
-} from '../config/constants';
+import { SUBTITLE, TITLE } from '../config/constants';
 
 const ombInfo = {
   resBurden: '5',
@@ -34,58 +30,43 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         Use this form to access personal military, compensation, pension, or
         benefit records.
       </p>
-      <h2>What to know before filling out this form</h2>
-      <p>
-        If you want to request your records through this online form, you’ll
-        need to sign in to your account. You’ll need to verify your identity, so
-        we encourage you to use a <strong>Login.gov</strong> or{' '}
-        <strong>ID.me</strong> account.
-      </p>
-      <p>
-        <a
-          href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about verified accounts (opens in new tab)
-        </a>
-        .
-      </p>
-      <p>
-        <strong>Note:</strong> You need to be a U.S. citizen or a legal
-        permanent resident to access your records under the Privacy Act (PA).
-      </p>
-      <p>
-        If you’re a third-party representative or power of attorney requesting
-        records for someone else, you can’t submit this online form. You’ll need
-        to submit a FOIA request online using the Public Access Link (PAL).
-      </p>
-      <p>
-        <a
-          href="https://www.va.gov/FOIA/index.asp"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Submit a FOIA request online (opens in new tab)
-        </a>
-        .
-      </p>
-      <p>Or you can submit a PDF version of this form.</p>
-      <h2>What types of information can I request?</h2>
-      <p>You can request any of these kinds of personal records:</p>
-      <h3 className="vads-u-font-size--h6">Compensation and pension records</h3>
+      <h2>What to know before you fill out this form</h2>
       <ul>
         <li>
-          Certificate of Release or Discharge from Active Duty (DD Form 214)
+          You must be a U.S. citizen or a legal permanent resident to access
+          your records under the Privacy Act (PA).
         </li>
+        <li>
+          You can use this form only to request your own personal records. To
+          request records for someone else, you can use the Public Access Link
+          (PAL) to submit a FOIA request.{' '}
+          <a
+            href="https://www.va.gov/FOIA/index.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Request someone else’s records on PAL (opens in new tab)
+          </a>
+        </li>
+      </ul>
+
+      <h2>Types of information you can request</h2>
+      <p>You can request any of these kinds of personal records:</p>
+      <h3 className="vads-u-font-size--h6">
+        Your compensation and pension records
+      </h3>
+      <ul>
+        <li>Certificate of Release or Discharge from Active Duty (DD214)</li>
         <li>Claims file (C-file)</li>
-        <li>Disability examinations (C&P exams)</li>
+        <li>
+          Claim exams (sometimes called disability examinations or C&P exams){' '}
+        </li>
         <li>Official military personnel file (OMPF)</li>
         <li>Pension benefit documents</li>
         <li>Service or military treatment</li>
         <li>Other compensation and pension records</li>
       </ul>
-      <h3 className="vads-u-font-size--h6">Benefit records</h3>
+      <h3 className="vads-u-font-size--h6">Your benefit records</h3>
       <ul>
         <li>Education benefit</li>
         <li>Fiduciary services</li>
@@ -95,14 +76,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Vocational rehabilitation and employment</li>
         <li>Other benefit record</li>
       </ul>
-      <div className="vads-u-margin-top--4">
-        <va-alert status="warning" uswds visible>
-          <div className="vads-u-margin-y--0">
-            Only use the online form if you’re requesting your own records
-          </div>
-        </va-alert>
-      </div>
-      <div className="vads-u-margin-y--4">{ADDITIONAL_INFO_THIRD_PARTY}</div>
+
       <h2 id="start-your-request">Start your request</h2>
       <p>
         <strong>Note</strong>: You’ll need to sign in with a verified{' '}
@@ -158,6 +132,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       childContent={childContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

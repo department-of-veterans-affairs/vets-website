@@ -3,6 +3,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const { vaTreatmentHistory } = fullSchemaPensions.properties;
 
@@ -10,6 +11,7 @@ const { vaTreatmentHistory } = fullSchemaPensions.properties;
 export default {
   title: 'Treatment from a VA medical center',
   path: 'medical/history/va-treatment',
+  depends: () => !showMultiplePageResponse(),
   uiSchema: {
     ...titleUI('Treatment from a VA medical center'),
     vaTreatmentHistory: yesNoUI({

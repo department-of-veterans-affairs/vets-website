@@ -66,19 +66,33 @@ export const getAllergies = async () => {
   );
 };
 
-export const getDocumentation = (id, ndcNumber) => {
+export const getDocumentation = id => {
+  return apiRequest(`${apiBasePath}/prescriptions/${id}/documentation`, {
+    method: 'GET',
+    headers,
+  });
+};
+
+// **Remove once filter feature is developed and live.**
+export const getPaginatedSortedList = (
+  pageNumber = 1,
+  sortEndpoint = '',
+  perPage = 10,
+) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions/${id}/documentation?ndc=${ndcNumber}`,
-    {
-      method: 'GET',
-      headers,
-    },
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=${perPage}${sortEndpoint}`,
+    { headers },
   );
 };
 
-export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
+export const getFilteredList = (
+  pageNumber = 1,
+  filterOption = '',
+  sortEndpoint = '',
+  perPage = 10,
+) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=${perPage}${filterOption}${sortEndpoint}`,
     { headers },
   );
 };

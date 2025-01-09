@@ -1,20 +1,17 @@
 import format from 'date-fns/format';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-// import prefillTransformer from '../config/prefill-transformer';
 
 const PersonalAuthenticatedInformation = ({
-  goBack,
   goForward,
-  // setFormData,
   formData,
   isLoggedIn,
+  router,
 }) => {
-  // const prefillData = prefillTransformer();
   if (!isLoggedIn) {
     goForward(formData);
   }
@@ -37,14 +34,16 @@ const PersonalAuthenticatedInformation = ({
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
-  useEffect(() => {
-    focusElement('h2');
-    // if (!formData.aboutYourself.first) {
-    //   setFormData({
-    //     ...prefillData.formData,
-    //   });
-    // }
-  }, []);
+  const handleGoBack = () => {
+    router.push('/');
+  };
+
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [formData.aboutYourself],
+  );
 
   return (
     <>
@@ -77,7 +76,7 @@ const PersonalAuthenticatedInformation = ({
             Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </div>
-        <FormNavButtons goBack={goBack} goForward={goForward} />
+        <FormNavButtons goBack={handleGoBack} goForward={goForward} />
       </div>
     </>
   );
@@ -88,6 +87,7 @@ PersonalAuthenticatedInformation.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   user: PropTypes.object,
 };
 
@@ -99,11 +99,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(
+  withRouter(PersonalAuthenticatedInformation),
+);

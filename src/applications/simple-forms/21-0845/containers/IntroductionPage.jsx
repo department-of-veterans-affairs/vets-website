@@ -126,6 +126,9 @@ class IntroductionPage extends React.Component {
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}
             pageList={pageList}
+            devOnly={{
+              forceShowFormControls: true,
+            }}
             startText="Start your authorization"
             unauthStartText="Sign in to start your authorization"
             verifiedPrefillAlert={

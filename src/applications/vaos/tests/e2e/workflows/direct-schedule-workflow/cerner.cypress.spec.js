@@ -63,7 +63,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
           text: /To schedule an appointment online at this facility, go to/i,
         })
         .assertLink({ name: /My VA Health/i })
-        .assertNexButton({
+        .assertNextButton({
           isEnabled: false,
         });
 
@@ -111,7 +111,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
           text: /To schedule an appointment online at this facility, go to/i,
         })
         .assertLink({ name: /My VA Health/i })
-        .assertNexButton({
+        .assertNextButton({
           isEnabled: false,
         });
 

@@ -3,50 +3,85 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import content from '../locales/en/content.json';
 
-export const fetchFacilities = async ({
-  lat,
-  long,
-  radius = 500,
-  page = 1,
-  perPage = 5,
-}) => {
-  const lightHouseRequestUrl = `${
-    environment.API_URL
-  }/v0/health_care_applications/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}`;
-
-  const fetchRequest = apiRequest(`${lightHouseRequestUrl}`, {});
-
-  // Helper function to join address parts, filtering out null or undefined values
+const formatAddress = address => {
   const joinAddressParts = (...parts) => {
-    return parts.filter(part => part != null).join(', ');
+    const [city, state, zip] = parts;
+    const stateZip = state && zip ? `${state} ${zip}` : state || zip;
+    return [city, stateZip].filter(Boolean).join(', ');
   };
+
+  return {
+    address1: address.address1,
+    address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
+    address3: joinAddressParts(address?.city, address?.state, address?.zip),
+  };
+};
+
+const formatFacilityIds = facilityIds => {
+  let facilityIdList = '';
+  if (facilityIds.length > 0) {
+    facilityIdList = `${facilityIds.join(',')}`;
+  }
+
+  return facilityIdList;
+};
+
+export const fetchFacilities = async ({
+  lat = null,
+  long = null,
+  radius = null,
+  page = null,
+  perPage = null,
+  facilityIds = [],
+  type = 'health',
+}) => {
+  const url = `${
+    environment.API_URL
+  }/v0/caregivers_assistance_claims/facilities`;
+
+  const body = {
+    type,
+    lat,
+    long,
+    radius,
+    page,
+    perPage,
+    facilityIds: formatFacilityIds(facilityIds),
+  };
+
+  const fetchRequest = apiRequest(url, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   return fetchRequest
     .then(response => {
-      return response.map(facility => {
-        const { physical } = facility?.address;
-
-        // Create a new address object without modifying the original facility
-        const newPhysicalAddress = {
-          address1: physical.address1,
-          address2: joinAddressParts(physical?.address2, physical?.address3),
-          address3: joinAddressParts(
-            physical.city,
-            physical.state,
-            physical.zip,
-          ),
+      if (!response?.data?.length) {
+        return {
+          type: 'NO_SEARCH_RESULTS',
+          errorMessage: content['error--no-results-found'],
         };
+      }
+      const facilities = response.data.map(facility => {
+        const attributes = facility?.attributes;
 
         // Return a new facility object with the updated address
         return {
-          ...facility,
+          ...attributes,
+          id: facility.id,
           address: {
-            physical: newPhysicalAddress,
+            physical: formatAddress(attributes?.address.physical),
           },
         };
       });
+
+      return {
+        facilities,
+        meta: response.meta,
+      };
     })
-    .catch(({ error }) => {
+    .catch(error => {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage(content['error--facilities-fetch']);
@@ -54,7 +89,7 @@ export const fetchFacilities = async ({
 
       return {
         type: 'SEARCH_FAILED',
-        errorMessage: error,
+        errorMessage: 'There was an error fetching the health care facilities.',
       };
     });
 };

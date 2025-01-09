@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
   recordType,
@@ -11,13 +10,16 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const HealthConditions = () => {
+  const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
   const dispatch = useDispatch();
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
@@ -53,7 +55,6 @@ const HealthConditions = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },
@@ -70,6 +71,9 @@ const HealthConditions = () => {
         <span className="vads-u-font-weight--bold">36 hours</span> after your
         providers enter them.
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
@@ -90,8 +94,10 @@ const HealthConditions = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <va-additional-info
-          trigger="About the codes in some condition names"
+          data-dd-action-name={ABOUT_THE_CODES_LABEL}
+          trigger={ABOUT_THE_CODES_LABEL}
           class="no-print vads-u-margin-bottom--3"
         >
           <p>

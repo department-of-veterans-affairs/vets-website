@@ -47,6 +47,7 @@
       "last": "Jones"
     },
     "sponsorDob": "1950-01-01",
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": false,
@@ -54,6 +55,7 @@
       }
     },
     "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
       "country": "USA",
       "street": "123 Certifier Street",
@@ -66,7 +68,6 @@
       "last": "Jones",
       "suffix": "Jr."
     },
-    "certifierRole": "other",
     "statementOfTruthSignature": "certifier jones",
     "statementOfTruthCertified": true
   }
