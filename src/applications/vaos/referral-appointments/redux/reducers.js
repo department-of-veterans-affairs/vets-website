@@ -58,6 +58,7 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         referralsFetchStatus: FETCH_STATUS.succeeded,
+        referralFetchStatus: FETCH_STATUS.succeeded,
         referrals: action.data,
       };
     case FETCH_REFERRALS_FAILED:
