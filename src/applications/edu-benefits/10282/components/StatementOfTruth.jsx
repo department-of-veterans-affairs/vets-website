@@ -1,5 +1,6 @@
 import React from 'react';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
+import { capitalizeFirstLetter } from '../../utils/helpers';
 /**
  * Checks that the provided signature string matches the existing
  * applicantName in the formData.
@@ -24,7 +25,9 @@ export function signatureValidator(signatureName, formData) {
     .toLowerCase();
   const processedName = name.replaceAll(' ', '');
   if (processedSignatureName !== processedName) {
-    return `Please enter your full name exactly as entered on the form: ${name}`;
+    return `Please enter your full name exactly as entered on the form: ${capitalizeFirstLetter(
+      name,
+    )}`;
   }
   return undefined;
 }
