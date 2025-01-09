@@ -8,6 +8,8 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { routeToPreviousAppointmentPage } from '../../redux/actions';
 import { getPageTitle } from '../../newAppointmentFlow';
+import ProviderCard from './ProviderCard';
+import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 
 const pageKey = 'selectProvider';
 
@@ -15,6 +17,17 @@ export default function SelectProviderPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const providers = [
+    {
+      name: 'Sarah Bennett, RD',
+      lastAppointment: '9/12/2024',
+    },
+    {
+      name: 'Julie Carson, RD',
+      lastAppointment: '7/12/2024',
+    },
+  ];
+
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const dispatch = useDispatch();
   const { pageChangeInProgress } = useSelector(
@@ -42,6 +55,11 @@ export default function SelectProviderPage({ changeCrumb }) {
         pageChangeInProgress={pageChangeInProgress}
         loadingText="Page change in progress"
       />
+      {providers.map((provider, index) => (
+        <ProviderCard key={index} provider={provider} />
+      ))}
+
+      <ScheduleWithDifferentProvider />
     </div>
   );
 }
