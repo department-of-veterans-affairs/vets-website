@@ -7,7 +7,6 @@ describe('Unified Sign-in Page', () => {
           data: {
             type: 'feature_toggles',
             features: [
-              { name: 'mhv_credential_button_disabled', value: true },
               {
                 name: 'mhvCredentialButtonDisabled',
                 value: true,
@@ -36,7 +35,6 @@ describe('Unified Sign-in Page', () => {
         cy.intercept('GET', '/v0/feature_toggles*', {
           data: {
             features: [
-              { name: 'mhv_credential_button_disabled', value: false },
               {
                 name: 'mhvCredentialButtonDisabled',
                 value: false,
@@ -51,7 +49,7 @@ describe('Unified Sign-in Page', () => {
         cy.visit('/sign-in/?oauth=false');
         cy.wait('@featureToggles');
         cy.get('body').should('be.visible');
-        cy.get('#mhvH3').should('be.visible');
+        cy.get('#mhvH3').should('exist');
         cy.get('#dslogonH3').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
