@@ -9,6 +9,13 @@ import { PersonalInformation } from './PersonalInformation';
  * @typedef {import('./PersonalInformation').DataAdapter} DataAdapter
  */
 
+const defaultConfig = {
+  title: 'Personal Information',
+  path: '/personal-information',
+  personalInfoConfig: {},
+  dataAdapter: {},
+};
+
 /**
  * @typedef {Object} PersonalInformationPageConfig - Configuration object for the PersonalInformationPage component
  * @property {string} title - The title of the page
@@ -17,11 +24,11 @@ import { PersonalInformation } from './PersonalInformation';
  * @property {DataAdapter} dataAdapter - Data adapter configuration object for the PersonalInformation component
  */
 const personalInformationPage = ({
-  title,
-  path,
-  personalInfoConfig = {},
-  dataAdapter = {},
-}) => {
+  title = defaultConfig.title,
+  path = defaultConfig.path,
+  personalInfoConfig = defaultConfig.personalInfoConfig,
+  dataAdapter = defaultConfig.dataAdapter,
+} = defaultConfig) => {
   return {
     personalInfoPage: {
       title,
