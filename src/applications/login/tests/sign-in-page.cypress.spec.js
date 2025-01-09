@@ -34,6 +34,7 @@ describe('Unified Sign-in Page', () => {
       beforeEach(() => {
         cy.intercept('GET', '/v0/feature_toggles*', {
           data: {
+            type: 'feature_toggles',
             features: [
               {
                 name: 'mhvCredentialButtonDisabled',
