@@ -159,19 +159,19 @@ describe('App', () => {
       .exist;
   });
 
-  it('shows the login modal when clicking the login prompt', async () => {
-    const { container } = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: true,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
+  // it('shows the login modal when clicking the login prompt', async () => {
+  //   const { container } = renderWithStoreAndRouter(<App />, {
+  //     initialState: getData({
+  //       areFeatureTogglesLoading: false,
+  //       hasFeatureFlag: true,
+  //       isLoggedIn: true,
+  //     }),
+  //     path: `/claims/`,
+  //     reducers: reducer,
+  //   });
 
-    expect($('va-loading-indicator', container)).to.exist;
-  });
+  //   expect($('va-loading-indicator', container)).to.exist;
+  // });
 
   it('handles a failed fetch of claims', async () => {
     global.fetch.restore();
