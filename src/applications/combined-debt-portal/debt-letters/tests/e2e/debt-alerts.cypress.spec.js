@@ -17,7 +17,6 @@ describe('CDP - VBA Debt Alerts', () => {
         ],
       },
     }).as('features');
-    cy.visit('/manage-va-debt/summary/debt-balances');
   });
 
   describe('Debt Balances Page - debts ok', () => {
@@ -29,6 +28,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // Has both VBA and VHA balances
     it('displays the current debts section and Your Other VA section', () => {
       copayResponses.good('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@debtVBMS', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -42,6 +42,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // Has VBA balances and VHA endpoint 404s
     it('displays the current debts section and alert in Your Other VA section', () => {
       copayResponses.bad('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@debtVBMS', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -62,6 +63,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // VHA && VBA endpoints 404
     it('should display alert error message for VBA & VHA 404 responses', () => {
       copayResponses.bad('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -77,6 +79,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // // VBA endpoint 404s & VHA has balance
     it('should display alert error message for VBA 404 response with Your Other VA section', () => {
       copayResponses.good('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -90,6 +93,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // // VBA 404 & VHA 0 balance
     it('should display alert error message for VBA 404 response without Your Other VA section', () => {
       copayResponses.empty('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -110,6 +114,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // // VBA 0 balance & VHA balance
     it('should display alert info message for 0 VBA balance with Your Other VA section', () => {
       copayResponses.good('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@features']);
       // Page load
       cy.findByTestId('summary-page-title').should('exist');
@@ -123,6 +128,7 @@ describe('CDP - VBA Debt Alerts', () => {
     // // VBA & VHA 0 balance
     it('should display alert info message for 0 VBA balance without Your Other VA section', () => {
       copayResponses.empty('copays');
+      cy.visit('/manage-va-debt/summary/debt-balances');
       cy.wait(['@copays', '@debts', '@features']);
       // Page Load
       cy.findByTestId('summary-page-title').should('exist');

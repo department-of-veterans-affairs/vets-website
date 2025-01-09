@@ -7,14 +7,14 @@ import { shallowEqual } from 'recompose';
 import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
-import InPersonLayout from '../../../components/layout/InPersonLayout';
-import PhoneLayout from '../../../components/layout/PhoneLayout';
+import ClaimExamLayout from '../../../components/layouts/ClaimExamLayout';
+import InPersonLayout from '../../../components/layouts/InPersonLayout';
+import PhoneLayout from '../../../components/layouts/PhoneLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
-import CancelConfirmationPage from '../../pages/CancelAppointmentPage/CancelConfirmationPage';
-import CancelWarningPage from '../../pages/CancelAppointmentPage/CancelWarningPage';
+import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
+import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPage';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 export default function DetailsVA({ appointment, facilityData }) {
