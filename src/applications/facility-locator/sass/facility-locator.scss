@@ -389,6 +389,17 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
   }
+
+  .usa-input-error {
+    right: unset;
+    width: calc(100% - 1.1875rem);
+  }
+
+  // For this we need to override the design system default
+  // To keep it in line with the other error elements
+  va-select[error]:not([error=""]) {
+    margin-left: 0px !important;
+  }
 }
 
 #service-typeahead {
