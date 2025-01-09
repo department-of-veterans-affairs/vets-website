@@ -181,7 +181,7 @@ describe('<AreaOfDisagreement>', () => {
     expect(updateSpy.called).to.be.true;
   });
 
-  it('should not submit on review page with nothing is set', async () => {
+  it('should not submit on review page with nothing is set', () => {
     const updateSpy = sinon.spy();
     const aod = {
       ...aod2,
@@ -205,13 +205,13 @@ describe('<AreaOfDisagreement>', () => {
 
     fireEvent.click($('va-button', container));
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(updateSpy.called).to.be.false;
       expect($('va-checkbox-group[error]', container)).to.exist;
     });
   });
 
-  it('should not submit page when nothing is checked or input is empty', async () => {
+  it('should not submit page when nothing is checked or input is empty', () => {
     const goSpy = sinon.spy();
     const data = getData({ goForward: goSpy });
     const { container } = render(
@@ -222,7 +222,7 @@ describe('<AreaOfDisagreement>', () => {
 
     fireEvent.click($('button.usa-button-primary', container));
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(goSpy.called).to.be.false;
       expect(
         $('va-checkbox-group[error]', container)?.getAttribute('error'),
@@ -230,7 +230,7 @@ describe('<AreaOfDisagreement>', () => {
     });
   });
 
-  it('should not submit page when text input is too long', async () => {
+  it('should not submit page when text input is too long', () => {
     const goSpy = sinon.spy();
     const aod = {
       ...aod1,
@@ -250,7 +250,7 @@ describe('<AreaOfDisagreement>', () => {
 
     fireEvent.click($('button.usa-button-primary', container));
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(goSpy.called).to.be.false;
       expect(
         $('va-text-input[error]', container)?.getAttribute('error'),
