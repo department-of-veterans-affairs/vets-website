@@ -289,7 +289,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
       <va-link
         text="Contact us online through Ask VA"
         label="Contact us online through Ask VA"
-        href="ask.va.gov"
+        href="https://ask.va.gov/"
       />
     </>
   );
