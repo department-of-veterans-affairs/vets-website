@@ -95,7 +95,7 @@ export const InformalConference = ({
         updatePage(event);
       }
     },
-    onSelectionNew: event => {
+    onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
         const conf = data.informalConference;
@@ -133,7 +133,7 @@ export const InformalConference = ({
           class="vads-u-margin-y--2"
           label={informalConferenceLabel}
           error={hasError && sharedErrorMessages.requiredYesNo}
-          onVaValueChange={handlers.onSelectionNew}
+          onVaValueChange={handlers.onSelection}
           required
         >
           <va-radio-option
