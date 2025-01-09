@@ -32,8 +32,8 @@ const SearchResults = ({ poaRequests }) => {
       className="poa-request__list"
       sort-column={1}
     >
-      {poaRequests.map(({ id, attributes: poaRequest }) => {
-        return <POARequestCard poaRequest={poaRequest} key={id} id={id} />;
+      {poaRequests.map((request, index) => {
+        return <POARequestCard poaRequest={request} key={index} />;
       })}
     </ul>
   );
@@ -54,7 +54,6 @@ const StatusTabLink = ({ status, searchStatus, children }) => {
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
@@ -123,10 +122,10 @@ export async function poaRequestsLoader({ request }) {
     // TODO: Remove mock data before pilot and uncomment throw statement
     const requests = mockPOARequestsResponse?.data?.map(req => req);
     return requests?.filter(x => {
-      if (status === 'completed') {
-        return x.attributes.status !== 'Pending';
+      if (status === 'pending') {
+        return x.resolution === null;
       }
-      return x.attributes.status === 'Pending';
+      return x.resolution !== null;
     });
     // throw error;
   }
