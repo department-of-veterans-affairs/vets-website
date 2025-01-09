@@ -1,6 +1,7 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
+import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -411,7 +412,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation?ndc=00113002239`,
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
       medicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -419,8 +420,25 @@ class MedicationsDetailsPage {
     });
   };
 
+  clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      noMedicationInformation,
+    ).as('medicationDescription');
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyMedicationInformationTitle = rxName => {
-    cy.get('[data-testid="medication-information"]').should(
+    cy.get('[data-testid="medication-information-title"]').should(
       'contain',
       `Medication information: ${rxName}`,
     );

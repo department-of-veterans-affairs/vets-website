@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatHours } from '../../utils/formatHours';
+import { formatHours } from '../facilityUtilities';
 
 describe('formatHours', () => {
   it('Should return a formatted hour string 6:20 p.m.', () => {
