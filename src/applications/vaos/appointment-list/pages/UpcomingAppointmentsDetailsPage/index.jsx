@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import VideoLayout from '../../../components/layout/VideoLayout';
+import CCLayout from '../../../components/layouts/CCLayout';
+import VideoLayout from '../../../components/layouts/VideoLayout';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
@@ -14,6 +15,7 @@ import {
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import PageLayout from '../../components/PageLayout';
 import {
   closeCancelAppointment,
   fetchConfirmedAppointmentDetails,
@@ -24,11 +26,9 @@ import {
   selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
-import PageLayout from '../PageLayout';
 import DetailsVA from './DetailsVA';
-import CCLayout from '../../../components/layout/CCLayout';
 
-export default function ConfirmedAppointmentDetailsPage() {
+export default function UpcomingAppointmentsDetailsPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
