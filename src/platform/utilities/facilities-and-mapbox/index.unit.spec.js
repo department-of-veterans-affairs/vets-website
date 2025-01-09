@@ -1,16 +1,19 @@
 import { expect } from 'chai';
-import {
-  buildAddressArray,
-  titleCaseFacilityName,
-} from '../../utils/facilityAddress';
-import { LocationType } from '../../constants';
+import { buildAddressArray } from '.';
 
-describe('titleCaseFacilityName', () => {
-  it('Should convert all caps to title case', () => {
-    const actual = titleCaseFacilityName('FAYETTEVILLE VA MEDICAL CENTER');
-    expect(actual).to.equal('Fayetteville VA Medical Center');
-  });
-});
+const LocationType = {
+  NONE: '',
+  VA_FACILITIES: 'va_facilities',
+  CC_PROVIDER: 'provider',
+  // Subtypes of VA_FACILITIES
+  HEALTH: 'health',
+  BENEFITS: 'benefits',
+  CEMETERY: 'cemetery',
+  VET_CENTER: 'vet_center',
+  URGENT_CARE: 'urgent_care',
+  URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
+};
 
 describe('buildAddressArray', () => {
   describe('with titleCase = false (default)', () => {
