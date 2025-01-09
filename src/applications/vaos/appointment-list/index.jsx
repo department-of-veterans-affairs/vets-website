@@ -6,7 +6,7 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
@@ -23,11 +23,11 @@ function AppointmentListSection() {
         <Switch>
           <Route
             path="/:pastOrPending?/cc/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
           <Route
             path="/:pastOrPending?/va/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
           <Route
             path="/:pastOrPending?/requests/:id"
@@ -49,12 +49,12 @@ function AppointmentListSection() {
               component={ReferralsAndRequests}
             />
           )}
-          <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
+          <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
             exact
             path={['/va/:id', '/:id']}
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
           <Route
             exact

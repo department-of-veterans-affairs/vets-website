@@ -291,22 +291,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
-    },
     learnMoreURL:
       'https://www.va.gov/careers-employment/veteran-owned-business-support/',
     applyNowURL: '',
@@ -727,7 +711,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
