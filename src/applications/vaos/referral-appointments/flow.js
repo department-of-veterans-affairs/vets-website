@@ -14,36 +14,48 @@ export default function getPageFlow(referralId) {
       label: 'Appointments',
       next: 'scheduleReferral',
       previous: '',
+      breadcrumbText: 'Appointments',
+      useBackBreadcrumb: false,
     },
     referralsAndRequests: {
       url: '/referrals-requests',
       label: 'Active referrals',
       next: 'scheduleReferral',
       previous: 'appointments',
+      breadcrumbText: 'Requests and referrals',
+      useBackBreadcrumb: false,
     },
     scheduleReferral: {
       url: `/schedule-referral?id=${referralId}`,
       label: 'Referral for',
       next: 'scheduleAppointment',
       previous: 'referralsAndRequests',
+      breadcrumbText: 'Referral for {{ categoryOfCare }}',
+      useBackBreadcrumb: false,
     },
     scheduleAppointment: {
       url: `/schedule-referral/date-time?id=${referralId}`,
       label: 'Schedule an appointment with your provider',
       next: 'reviewAndConfirm',
       previous: 'scheduleReferral',
+      breadcrumbText: 'Back',
+      useBackBreadcrumb: true,
     },
     reviewAndConfirm: {
       url: `/schedule-referral/review?id=${referralId}`,
       label: 'Review your appointment details',
       next: 'complete',
       previous: 'scheduleAppointment',
+      breadcrumbText: 'Back',
+      useBackBreadcrumb: true,
     },
     complete: {
       url: `/schedule-referral/complete?id=${referralId}&confirmMsg=true`,
       label: 'Your appointment is scheduled',
       next: '',
       previous: 'reviewAndConfirm',
+      breadcrumbText: 'Back to appointments',
+      useBackBreadcrumb: true,
     },
   };
 }
@@ -116,3 +128,46 @@ export function getReferralUrlLabel(state, location) {
   }
   return null;
 }
+
+export const getReferralBreadcumb = (
+  location,
+  currentPage,
+  referralId,
+  categoryOfCare = '',
+) => {
+  const _flow = getPageFlow(referralId);
+  const result = _flow[currentPage];
+
+  if (!result) {
+    return null;
+  }
+  const { useBackBreadcrumb } = result;
+
+  return {
+    href: useBackBreadcrumb ? '#' : location.href,
+    label: result.breadcrumbText.replace(
+      '{{ categoryOfCare }}',
+      categoryOfCare,
+    ),
+    useBackBreadcrumb,
+  };
+};
+
+export const getBreadcrumbList = (rootUrl, currentBreadcrumb) => {
+  const BREADCRUMB_BASE = [
+    {
+      href: '/',
+      label: 'Home',
+    },
+    {
+      href: '/my-health',
+      label: 'My HealtheVet',
+    },
+    {
+      href: rootUrl,
+      label: 'Appointments',
+    },
+  ];
+
+  return [...BREADCRUMB_BASE, currentBreadcrumb];
+};
