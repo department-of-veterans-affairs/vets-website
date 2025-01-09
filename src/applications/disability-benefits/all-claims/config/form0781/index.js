@@ -50,12 +50,6 @@ export const form0781PagesConfig = {
     uiSchema: eventType.uiSchema,
     schema: eventType.schema,
   },
-  consentPage: {
-    path: 'additional-forms/mental-health-statement/consent',
-    depends: formData => isRelatedToMST(formData),
-    uiSchema: consentPage.uiSchema,
-    schema: consentPage.schema,
-  },
   additionalInformationPage: {
     path: 'additional-forms/mental-health-statement/additional-information',
     depends: formData => showForm0781Pages(formData),
@@ -80,5 +74,11 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorListPage(formData),
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
+  },
+  consentPage: {
+    path: 'additional-forms/mental-health-statement/consent',
+    depends: formData => isRelatedToMST(formData),
+    uiSchema: consentPage.uiSchema,
+    schema: consentPage.schema,
   },
 };
