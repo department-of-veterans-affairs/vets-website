@@ -52,10 +52,10 @@ const Verify = () => {
   } else {
     buttonContent = (
       <>
-        <VerifyIdmeButton
+        <VerifyLogingovButton
           queryParams={{ operation: 'unauthenticated_verify_page' }}
         />
-        <VerifyLogingovButton
+        <VerifyIdmeButton
           queryParams={{ operation: 'unauthenticated_verify_page' }}
         />
       </>

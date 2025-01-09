@@ -234,9 +234,17 @@ export function sessionTypeUrl({
     externalApplicationsConfig[application] ||
     externalApplicationsConfig.default;
 
-  // Explicitly determine OAuth usage
+  // We should use OAuth when the following are true:
+  // OAuth param is 'true'
+  // config.OAuthEnabled is true
   const useOAuth =
     useOauth || queryParams.oauth || (config?.OAuthEnabled && OAuth === 'true');
+
+  // Only require verification when all of the following are true:
+  // 1. On the USiP (Unified Sign In Page)
+  // 2. The outbound application is one of the mobile apps
+  // 3. The generated link type is for signup, and login only
+  // Explicitly determine OAuth usage
 
   // Handle verification requirement
   const requireVerification =
@@ -273,7 +281,9 @@ export function sessionTypeUrl({
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
-        ...(queryParams.operation && { operation: queryParams.operation }),
+        ...(queryParams.operation && {
+          operation: queryParams.operation,
+        }),
         ...(queryParams.redirect && { redirect: queryParams.redirect }), // Ensure redirect is passed
       },
       passedOptions: {
@@ -362,7 +372,7 @@ export async function login({
   const url = await sessionTypeUrl({
     type: policy,
     version,
-    queryParams: { ...queryParams, oauth: true }, // Ensure oauth=true is passed
+    queryParams: { ...queryParams },
   });
 
   if (!isExternalRedirect()) {
