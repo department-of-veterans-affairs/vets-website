@@ -1,16 +1,17 @@
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useMemo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
+import { sendDataDogAction } from '../../util/helpers';
 
 const DownloadRecordType = () => {
   const history = useHistory();
@@ -29,14 +30,17 @@ const DownloadRecordType = () => {
   const [milServCheck, setMilServCheck] = useState(false);
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+  const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
 
+  const checkboxGroupRef = useRef(null);
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
     [dispatch],
   );
@@ -75,9 +79,11 @@ const DownloadRecordType = () => {
     } else if (newCheckAll === false) {
       setSelectedRecords([]);
     }
+    sendDataDogAction('Select All VA records - Record type');
   };
 
-  const handleSingleCheck = (recordType, checked) => {
+  const handleSingleCheck = (recordType, e) => {
+    const { checked } = e.detail;
     setCheckAll(false);
     setSelectionError(null);
 
@@ -88,28 +94,29 @@ const DownloadRecordType = () => {
       newArray.splice(newArray.indexOf(recordType), 1);
     }
     setSelectedRecords(newArray);
+    sendDataDogAction(`${e.target.label} - Record type`);
   };
 
   useEffect(
     () => {
-      if (!dateFilter) {
+      if (!dateFilterOption) {
         history.push('/download/date-range');
       }
     },
-    [dateFilter],
+    [dateFilterOption, history],
   );
 
   const selectedDateRange = useMemo(
     () => {
-      if (dateFilter?.option === 'any') {
+      if (dateFilterOption === 'any') {
         return 'Any';
       }
-      if (dateFilter?.option === 'custom') {
+      if (dateFilterOption === 'custom') {
         return 'Custom';
       }
-      return `Last ${dateFilter?.option} months`;
+      return `Last ${dateFilterOption} months`;
     },
-    [dateFilter],
+    [dateFilterOption],
   );
 
   return (
@@ -130,21 +137,22 @@ const DownloadRecordType = () => {
       <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         <p>
           Date range: <strong>{selectedDateRange}</strong>{' '}
-          {dateFilter && dateFilter?.option !== 'any'
-            ? `(${format(new Date(dateFilter?.fromDate), 'PPP')} to ${format(
-                new Date(dateFilter?.toDate),
+          {dateFilterOption && dateFilterOption !== 'any'
+            ? `(${format(new Date(fromDate), 'PPP')} to ${format(
+                new Date(toDate),
                 'PPP',
               )})`
             : ''}
         </p>
       </div>
       <div className="vads-u-margin-bottom--3">
-        <va-checkbox-group error={selectionError}>
+        <va-checkbox-group error={selectionError} ref={checkboxGroupRef}>
           <VaCheckbox
             label="Select all VA records"
             checkbox-description="Includes all available VA records for the date range you selected."
             checked={checkAll}
             onVaChange={handleCheckAll}
+            data-testid="select-all-records-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
@@ -152,8 +160,9 @@ const DownloadRecordType = () => {
             checked={labTestCheck}
             onVaChange={e => {
               setLabTestCheck(e.detail.checked);
-              handleSingleCheck('labTests', e.detail.checked);
+              handleSingleCheck('labTests', e);
             }}
+            data-testid="labs-and-test-results-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
@@ -161,7 +170,7 @@ const DownloadRecordType = () => {
             checked={careSummariesCheck}
             onVaChange={e => {
               setCareSummariesCheck(e.detail.checked);
-              handleSingleCheck('careSummaries', e.detail.checked);
+              handleSingleCheck('careSummaries', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -170,8 +179,9 @@ const DownloadRecordType = () => {
             checked={vaccineCheck}
             onVaChange={e => {
               setVaccineCheck(e.detail.checked);
-              handleSingleCheck('vaccines', e.detail.checked);
+              handleSingleCheck('vaccines', e);
             }}
+            data-testid="vaccines-checkbox"
           />
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
@@ -179,7 +189,7 @@ const DownloadRecordType = () => {
             checked={allergiesCheck}
             onVaChange={e => {
               setAllergiesCheck(e.detail.checked);
-              handleSingleCheck('allergies', e.detail.checked);
+              handleSingleCheck('allergies', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -188,7 +198,7 @@ const DownloadRecordType = () => {
             checked={conditionsCheck}
             onVaChange={e => {
               setConditionsCheck(e.detail.checked);
-              handleSingleCheck('conditions', e.detail.checked);
+              handleSingleCheck('conditions', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -197,7 +207,7 @@ const DownloadRecordType = () => {
             checked={vitalsCheck}
             onVaChange={e => {
               setVitalsCheck(e.detail.checked);
-              handleSingleCheck('vitals', e.detail.checked);
+              handleSingleCheck('vitals', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -207,7 +217,7 @@ const DownloadRecordType = () => {
             checked={medicationsCheck}
             onVaChange={e => {
               setMedicationsCheck(e.detail.checked);
-              handleSingleCheck('medications', e.detail.checked);
+              handleSingleCheck('medications', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -216,7 +226,7 @@ const DownloadRecordType = () => {
             checked={upcomingAppCheck}
             onVaChange={e => {
               setUpcomingAppCheck(e.detail.checked);
-              handleSingleCheck('upcomingAppts', e.detail.checked);
+              handleSingleCheck('upcomingAppts', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -226,7 +236,7 @@ const DownloadRecordType = () => {
             checked={pastAppCheck}
             onVaChange={e => {
               setPastAppCheck(e.detail.checked);
-              handleSingleCheck('pastAppts', e.detail.checked);
+              handleSingleCheck('pastAppts', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -235,7 +245,7 @@ const DownloadRecordType = () => {
             checked={demoCheck}
             onVaChange={e => {
               setDemoCheck(e.detail.checked);
-              handleSingleCheck('demographics', e.detail.checked);
+              handleSingleCheck('demographics', e);
             }}
           />
           <div className="vads-u-margin-top--3" />
@@ -245,7 +255,7 @@ const DownloadRecordType = () => {
             checked={milServCheck}
             onVaChange={e => {
               setMilServCheck(e.detail.checked);
-              handleSingleCheck('militaryService', e.detail.checked);
+              handleSingleCheck('militaryService', e);
             }}
           />
         </va-checkbox-group>
@@ -254,17 +264,24 @@ const DownloadRecordType = () => {
         continue
         onSecondaryClick={() => {
           history.push('/download/date-range');
+          sendDataDogAction('Record type - Back - Record type');
         }}
         onPrimaryClick={() => {
           if (selectedRecords.length === 0) {
             setSelectionError(
               'Please select at least one record type to download.',
             );
+            focusElement(
+              '#checkbox-error-message',
+              {},
+              checkboxGroupRef.current.shadowRoot,
+            );
             return;
           }
           dispatch(updateReportRecordType(selectedRecords)).then(
             history.push('/download/file-type'),
           );
+          sendDataDogAction('Record type - Continue - Record type');
         }}
       />
       <NeedHelpSection />

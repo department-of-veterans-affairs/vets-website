@@ -22,7 +22,7 @@ Cypress.Commands.add('openFilters', () => {
     .click({ waitForAnimations: true });
 });
 
-describe.skip(`${appName} -- Status Page`, () => {
+describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
@@ -65,9 +65,17 @@ describe.skip(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Back to your travel reimbursement claims').click();
+
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
+
   it('navigates to the status explainer page and back to status page', () => {
     cy.get('va-additional-info')
       .first()
@@ -162,6 +170,8 @@ describe.skip(`${appName} -- Status Page`, () => {
   });
 
   it('filters by multiple properties with non-default sorting', () => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
+
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
     cy.get('va-button[data-testid="Sort travel claims"]').click();

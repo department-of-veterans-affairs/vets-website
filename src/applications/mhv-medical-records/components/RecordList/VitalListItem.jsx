@@ -11,7 +11,7 @@ import {
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating } = options;
+  const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const ddLabelName = useMemo(
@@ -60,6 +60,10 @@ const VitalListItem = props => {
     },
     [updatedRecordType, isAccelerating],
   );
+
+  const url = `/vitals/${kebabCase(updatedRecordType)}-history${
+    isAccelerating ? `?timeFrame=${timeFrame}` : ''
+  }`;
 
   return (
     <va-card
@@ -116,7 +120,7 @@ const VitalListItem = props => {
           </div>
 
           <Link
-            to={`/vitals/${kebabCase(updatedRecordType)}-history`}
+            to={url}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
             onClick={() => {

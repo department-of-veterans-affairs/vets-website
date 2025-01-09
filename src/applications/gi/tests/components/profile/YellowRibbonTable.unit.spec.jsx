@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import YellowRibbonTable, {
   matchColumn,
   handleSort,
@@ -144,5 +144,52 @@ describe('YellowRibbonTable Component', () => {
     expect(getByText('School of Law')).to.exist;
     expect(getByText('School of Medicine')).to.exist;
     expect(getByText('School of Engineering')).to.exist;
+  });
+
+  it('renders sort icons for each column', () => {
+    const { container } = render(<YellowRibbonTable programs={mockPrograms} />);
+
+    // Check that icons with ids icon-{column.id} exist
+    Object.values(_yellowRibbonColumns).forEach(column => {
+      const icon = container.querySelector(`#icon-${column.id}`);
+      expect(icon).to.exist;
+    });
+  });
+
+  it('sorts programs in ascending order when clicking on a column icon the first time', () => {
+    const { container } = render(<YellowRibbonTable programs={mockPrograms} />);
+    const fundingIcon = container.querySelector('#icon-3');
+    expect(fundingIcon).to.exist;
+
+    fireEvent.click(fundingIcon);
+
+    const rowsText = container.textContent;
+    // Ensure "School of Medicine" appears before "School of Law" after sort
+    const medicineIndex = rowsText.indexOf('School of Medicine');
+    const lawIndex = rowsText.indexOf('School of Law');
+    const engineeringIndex = rowsText.indexOf('School of Engineering');
+
+    expect(medicineIndex).to.be.lessThan(lawIndex);
+    expect(lawIndex).to.be.lessThan(engineeringIndex);
+  });
+
+  it('sorts programs in descending order when clicking on the same column icon again', () => {
+    const { container } = render(<YellowRibbonTable programs={mockPrograms} />);
+
+    const fundingIcon = container.querySelector('#icon-3');
+    // First click -> ascending
+    fireEvent.click(fundingIcon);
+    // Second click -> descending
+    fireEvent.click(fundingIcon);
+
+    // After descending sort by contributionAmount:
+    // School of Engineering (3000), School of Law (2000), School of Medicine (1500)
+    const rowsText = container.textContent;
+    const engineeringIndex = rowsText.indexOf('School of Engineering');
+    const lawIndex = rowsText.indexOf('School of Law');
+    const medicineIndex = rowsText.indexOf('School of Medicine');
+
+    expect(engineeringIndex).to.be.lessThan(lawIndex);
+    expect(lawIndex).to.be.lessThan(medicineIndex);
   });
 });

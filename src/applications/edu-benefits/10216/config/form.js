@@ -24,14 +24,15 @@ import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
 import InstitutionDetails from '../pages/institutionDetails';
 import { transform } from './submit-transformer';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 // import submitForm from './submitForm';
 
 const { date, dateRange } = commonDefinitions;
 
 const subTitle = () => (
-  <div className="schemaform-subtitle vads-u-color--gray">
+  <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
-  </div>
+  </p>
 );
 
 let isAccredited = false;
@@ -113,6 +114,25 @@ const formConfig = {
             } else {
               goPath('/institution-details');
             }
+          },
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {},
           },
         },
       },

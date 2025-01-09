@@ -743,6 +743,17 @@ export const truncateDescriptions = data =>
   );
 
 /**
+ * Creates consistent form title tag
+ * @param {string} titleTag
+ * @returns {string} markup with h3 tag and consistent styling
+ */
+export const formTitleTag = titleTag => (
+  <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+    {`${titleTag} `}
+  </h3>
+);
+
+/**
  * Creates consistent form title
  * @param {string} title
  * @returns {string} markup with h3 tag and consistent styling
@@ -858,8 +869,8 @@ export const formatFullName = (fullName = {}) => {
 
 /**
  * Uses an environment check to determine if changes should be visible. For now it
- * should display on dev or below environments
+ * should display on staging or below environments
  * @returns true if the updates should be used, false otherwise
  */
 export const show5103Updates = () =>
-  environment.isDev() || environment.isLocalhost();
+  environment.isDev() || environment.isLocalhost() || environment.isStaging();

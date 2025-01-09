@@ -1,8 +1,8 @@
 import React from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { FETCH_STATUS } from '../../../utils/constants';
 import getEligibilityMessage from './getEligibilityMessage';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function EligibilityModal({
   onClose,
@@ -10,7 +10,7 @@ export default function EligibilityModal({
   facilityDetails,
   typeOfCare,
 }) {
-  const { title, content } = getEligibilityMessage({
+  const { title, content, status = 'warning' } = getEligibilityMessage({
     eligibility,
     facilityDetails,
     typeOfCare,
@@ -20,10 +20,9 @@ export default function EligibilityModal({
   return (
     <VaModal
       id="eligibilityModal"
-      status="warning"
+      status={status}
       visible
       onCloseEvent={onClose}
-      hideCloseButton={status === FETCH_STATUS.loading}
       modalTitle={title}
       ariaLabel={title}
       data-testid="eligibilityModal"
@@ -31,7 +30,16 @@ export default function EligibilityModal({
       uswds
     >
       <div aria-atomic="true" aria-live="assertive">
-        {content}
+        <p>{content}</p>
+        {status === 'error' && (
+          <p>
+            If you need to schedule now, call your VA facility.
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find a VA health facility
+            </NewTabAnchor>
+          </p>
+        )}
       </div>
     </VaModal>
   );

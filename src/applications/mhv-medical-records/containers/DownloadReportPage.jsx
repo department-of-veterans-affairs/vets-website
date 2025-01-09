@@ -22,10 +22,13 @@ import {
   makePdf,
   getLastSuccessfulUpdate,
   formatUserDob,
+  sendDataDogAction,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
+  ALERT_TYPE_BB_ERROR,
+  ALERT_TYPE_SEI_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -38,6 +41,8 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
+import { addAlert } from '../actions/alerts';
 
 /**
  * Formats failed domain lists with display names.
@@ -51,29 +56,6 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-/**
- * Checks if CCD retry is needed and returns a formatted timestamp or null.
- */
-const getCCDRetryTimestamp = () => {
-  const errorTimestamp = localStorage.getItem('lastCCDError');
-  if (!errorTimestamp) return null;
-
-  const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-  if (compareAsc(retryDate, new Date()) >= 0) {
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZoneName: 'short',
-    };
-    return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-  }
-  return null;
-};
-
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -83,7 +65,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
-        ccdError,
+        error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
       blueButton: { failedDomains: failedBBDomains },
@@ -108,7 +90,31 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
 
-  const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
+  const activeAlert = useAlerts(dispatch);
+
+  // Checks if CCD retry is needed and returns a formatted timestamp or null.
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
 
   // Initial page setup effect
   useEffect(
@@ -126,7 +132,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     () => {
       if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
       return SEI_DOMAINS.every(item => {
-        const isFetched = !!seiRecords[item];
+        const isFetched = !!seiRecords[item] || seiRecords[item] === null;
         const hasFailed = failedSeiDomains.includes(item);
         return isFetched || hasFailed;
       });
@@ -136,32 +142,44 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const generateSEIPdf = useCallback(
     async () => {
-      setSelfEnteredPdfRequested(true);
+      try {
+        setSelfEnteredPdfRequested(true);
+        setSeiPdfGenerationError(false);
 
-      if (!isDataFetched) {
-        // Fetch data if not all defined
-        dispatch(clearFailedList());
-        dispatch(getSelfEnteredData());
-      } else {
-        // If already defined, generate the PDF directly
-        setSelfEnteredPdfRequested(false);
-        const title = 'Self-entered information report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(userProfile, title, subject);
-        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-          userProfile,
-        )}`;
+        if (!isDataFetched) {
+          // Fetch data if not all defined
+          dispatch(clearFailedList());
+          dispatch(getSelfEnteredData());
+        } else {
+          // If already defined, generate the PDF directly
+          setSelfEnteredPdfRequested(false);
+          const title = 'Self-entered information report';
+          const subject = 'VA Medical Record';
+          const scaffold = generatePdfScaffold(userProfile, title, subject);
+          const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+            userProfile,
+          )}`;
 
-        const pdfData = {
-          recordSets: generateSelfEnteredData(seiRecords),
-          ...scaffold,
-          name,
-          dob,
-          lastUpdated: UNKNOWN,
-        };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
-          .then(() => setSuccessfulSeiDownload(true))
-          .catch(() => setSeiPdfGenerationError(true));
+          Object.keys(seiRecords).forEach(key => {
+            const item = seiRecords[key];
+            if (item && Array.isArray(item) && !item.length) {
+              seiRecords[key] = null;
+            }
+          });
+
+          const pdfData = {
+            recordSets: generateSelfEnteredData(seiRecords),
+            ...scaffold,
+            name,
+            dob,
+            lastUpdated: UNKNOWN,
+          };
+          makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+            .then(() => setSuccessfulSeiDownload(true))
+            .catch(() => setSeiPdfGenerationError(true));
+        }
+      } catch (error) {
+        dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
       }
     },
     [
@@ -242,6 +260,22 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         </va-card>
       )}
 
+      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.BB}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
@@ -277,15 +311,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         href="/my-health/medical-records/download/date-range"
         label="Select records and download"
         text="Select records and download"
+        data-dd-action-name="Select records and download"
+        onClick={() => sendDataDogAction('Select records and download')}
+        data-testid="go-to-download-all"
       />
       <h2>Other reports you can download</h2>
       {accessErrors()}
       <va-accordion bordered>
-        <va-accordion-item
-          bordered
-          header="Continuity of Care Document (VA Health Summary)"
-          data-testid="ccdAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="ccdAccordionItem">
+          <h3 slot="headline">
+            Continuity of Care Document (VA Health Summary)
+          </h3>
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -306,24 +342,26 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() =>
+              href="#"
+              onClick={e => {
+                e.preventDefault();
                 dispatch(
                   genAndDownloadCCD(
                     userProfile.userFullName.first,
                     userProfile.userFullName.last,
                   ),
-                )
-              }
+                );
+                sendDataDogAction(
+                  'Download Continuity of Care Document xml Link',
+                );
+              }}
               text="Download .xml file"
               data-testid="generateCcdButton"
             />
           )}
         </va-accordion-item>
-        <va-accordion-item
-          bordered
-          header="Self-entered health information"
-          data-testid="selfEnteredAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="selfEnteredAccordionItem">
+          <h3 slot="headline">Self-entered health information</h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
@@ -333,12 +371,29 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <va-link
-            download
-            onClick={generateSEIPdf}
-            text="Download PDF"
-            data-testid="downloadSelfEnteredButton"
-          />
+          {selfEnteredPdfRequested &&
+          !successfulSeiDownload &&
+          !seiPdfGenerationError ? (
+            <div id="generating-sei-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+                data-testid="sei-loading-indicator"
+              />
+            </div>
+          ) : (
+            <va-link
+              download
+              href="#"
+              onClick={e => {
+                e.preventDefault();
+                generateSEIPdf();
+                sendDataDogAction('Self entered health information PDF link ');
+              }}
+              text="Download PDF"
+              data-testid="downloadSelfEnteredButton"
+            />
+          )}
           <p>
             <strong>Note:</strong> Self-entered My Goals are no longer available
             on My HealtheVet and not included in this report. To download your

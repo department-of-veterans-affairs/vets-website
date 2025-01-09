@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import formConfig from '../config/form';
 
 const childContent = (
   <div>
@@ -55,6 +54,7 @@ const childContent = (
       <va-button
         secondary
         text="Print this page"
+        data-testid="print-page"
         onClick={() => window.print()}
       />
     </p>
@@ -75,8 +75,8 @@ const childContent = (
   </div>
 );
 
-export const ConfirmationPage = () => {
-  const form = useSelector(state => state.form || {});
+export const ConfirmationPage = props => {
+  const form = useSelector(state => state?.form);
   const { submission } = form;
 
   const submitDate = submission.timestamp;
@@ -84,7 +84,7 @@ export const ConfirmationPage = () => {
 
   return (
     <ConfirmationView
-      formConfig={formConfig}
+      formConfig={props.route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
@@ -114,10 +114,4 @@ ConfirmationPage.propTypes = {
   route: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

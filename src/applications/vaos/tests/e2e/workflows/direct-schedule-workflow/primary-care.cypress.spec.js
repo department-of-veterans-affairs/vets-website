@@ -137,12 +137,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -209,12 +206,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -284,19 +278,16 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
-            .assertHeading({ name: /Confirm your contact information/i })
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -481,12 +472,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -548,12 +536,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -711,12 +696,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl()
           .assertHeading({
-            name: /Review your appointment details/i,
+            name: /Review and confirm your appointment details/i,
           })
-          .assertHeading({
-            level: 2,
-            name: /You.re scheduling a primary care appointment/i,
-          })
+          .assertText({ text: /primary care/i })
           .clickConfirmButton();
 
         ConfirmationPageObject.assertUrl().assertText({

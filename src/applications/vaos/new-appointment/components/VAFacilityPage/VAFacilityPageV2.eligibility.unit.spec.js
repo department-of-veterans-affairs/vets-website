@@ -179,9 +179,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       await waitFor(() => {
         screen.queryByText(/San Diego VA Medical Center/i);
       });
-      expect(screen.baseElement).to.contain.text(
-        'You’ll need to call to schedule at this facility',
-      );
+      expect(
+        await screen.findByText(
+          /You.ll need to call to schedule at this facility/,
+        ),
+      ).to.exist;
 
       expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
@@ -579,8 +581,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /We.re sorry. There.s a problem with our system. Try again later./i,
+        ),
+      ).to.exist;
     });
 
     it('should show request limit message when current appt is over the request limit', async () => {

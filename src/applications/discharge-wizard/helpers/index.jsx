@@ -529,15 +529,20 @@ export const determineVenueAddress = (formResponses, noDRB) => {
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
+
   if ([DRB, AFDRB].includes(boardData?.abbr)) {
     return {
       num: 293,
+      formDescription:
+        'the Review of Discharge From the Armed Forces of the United States (DOD Form 293)',
       link:
         'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
+
   return {
     num: 149,
+    formDescription: 'Correction of Military Record (DOD Form 149)',
     link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
@@ -547,19 +552,6 @@ export const determineAirForceAFRBAPortal = formResponses =>
   formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
-
-// Determines step header level.
-export const stepHeaderLevel = formResponses => {
-  if (
-    [
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
-      RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
-    ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
-  ) {
-    return 3;
-  }
-  return 2;
-};
 
 export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
@@ -809,4 +801,26 @@ export const renderMedicalRecordInfo = formResponses => {
     );
   }
   return null;
+};
+
+export const determineBoardName = branch => {
+  let boardName;
+
+  switch (branch) {
+    case RESPONSES.AIR_FORCE:
+      boardName = 'Air Force Board for Correction of Military Records';
+      break;
+    case RESPONSES.ARMY:
+    case RESPONSES.COAST_GUARD:
+      boardName = 'Board for Correction of Military Records (BCMR)';
+      break;
+    case RESPONSES.NAVY:
+    case RESPONSES.MARINE_CORPS:
+      boardName = 'Board for Correction of Naval Records (BCNR)';
+      break;
+    default:
+      boardName = '';
+      break;
+  }
+  return boardName;
 };

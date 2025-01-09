@@ -18,6 +18,7 @@ import {
   suffixes,
   yesNoOptions,
 } from '../../constants';
+import { isBranchOfServiceRequired } from '../helpers';
 
 const ssnServiceInfo = (
   <div className="vads-u-margin-bottom--neg2p5">
@@ -76,26 +77,6 @@ export const personalInformationFormSchemas = {
     },
     required: [],
   },
-  dateOfBirth: dateOfBirthSchema,
-  branchOfService: selectSchema(branchesOfService),
-};
-
-export const aboutYourselfRelationshipFamilyMemberSchema = {
-  first: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  middle: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
-  suffix: selectSchema(suffixes),
-  socialNum: ssnSchema,
   dateOfBirth: dateOfBirthSchema,
   branchOfService: selectSchema(branchesOfService),
 };
@@ -166,7 +147,7 @@ export const personalInformationUiSchemas = {
     'ui:title': 'Branch of service',
     'ui:webComponentField': VaSelectField,
     'ui:options': {
-      hideIf: () => true,
+      hideIf: formData => !isBranchOfServiceRequired(formData),
     },
   },
 };
@@ -254,28 +235,10 @@ export const personalInformationAboutYourselfUiSchemas = {
   branchOfService: {
     'ui:title': 'Branch of service',
     'ui:webComponentField': VaSelectField,
-    'ui:required': formData =>
-      (formData.whoIsYourQuestionAbout === 'Myself' ||
-        formData.whoIsYourQuestionAbout === 'Someone else') &&
-      formData.relationshipToVeteran === "I'm the Veteran" &&
-      (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
-        formData.selectCategory === 'Survivor Benefits' ||
-        formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
-        formData.selectCategory === "Women Veterans' issues" ||
-        formData.selectCategory === 'Benefits Issues Outside the US'),
+    'ui:required': formData => isBranchOfServiceRequired(formData),
     'ui:options': {
       uswds: true,
-      hideIf: formData =>
-        !(
-          (formData.whoIsYourQuestionAbout === 'Myself' ||
-            formData.whoIsYourQuestionAbout === 'Someone else') &&
-          formData.relationshipToVeteran === "I'm the Veteran" &&
-          (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
-            formData.selectCategory === 'Survivor Benefits' ||
-            formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
-            formData.selectCategory === "Women Veterans' issues" ||
-            formData.selectCategory === 'Benefits Issues Outside the US')
-        ),
+      hideIf: formData => !isBranchOfServiceRequired(formData),
     },
   },
 };

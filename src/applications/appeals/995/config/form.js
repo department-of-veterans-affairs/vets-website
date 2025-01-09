@@ -45,6 +45,8 @@ import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecords
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateLimitationRequest from '../pages/evidencePrivateLimitationRequest';
+import evidencePrivateLimitation from '../pages/evidencePrivateLimitation';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -53,6 +55,9 @@ import evidenceSummary from '../pages/evidenceSummary';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
+  hasOriginalPrivateLimitation,
+  hasNewPrivateLimitation,
+  hasPrivateLimitation,
   hasOtherEvidence,
   onFormLoaded,
 } from '../utils/evidence';
@@ -67,6 +72,8 @@ import {
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SC_NEW_FORM_DATA,
@@ -109,7 +116,7 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `/${SUBMIT_URL.join('')}`,
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
@@ -325,6 +332,24 @@ const formConfig = {
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
         },
+        evidencePrivateLimitationRequest: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH1,
+          depends: hasNewPrivateLimitation,
+          uiSchema: evidencePrivateLimitationRequest.uiSchema,
+          schema: evidencePrivateLimitationRequest.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        // Duplicate of evidencePrivateLimitation page, but doesn't need to
+        // CustomPage to handle navigation
+        evidencePrivateLimitation2: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH2,
+          depends: hasPrivateLimitation,
+          uiSchema: evidencePrivateLimitation.uiSchema,
+          schema: evidencePrivateLimitation.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
@@ -335,10 +360,11 @@ const formConfig = {
           schema: evidencePrivateRecords.schema,
           scrollAndFocusTarget: focusEvidence,
         },
+        // Original limitation page
         evidencePrivateLimitation: {
           title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
-          depends: hasPrivateEvidence,
+          depends: hasOriginalPrivateLimitation,
           CustomPage: EvidencePrivateLimitation,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
