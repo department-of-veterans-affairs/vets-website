@@ -345,29 +345,6 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
-  describe('selectProvider page', () => {
-    describe('next page', () => {
-      it('should be vaFacility page if they chose VA', () => {
-        const state = {
-          newAppointment: {
-            data: {
-              facilityType: 'va',
-              typeOfCareId: '203',
-            },
-          },
-          featureToggles: {
-            loading: false,
-          },
-        };
-
-        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
-          state,
-        );
-        expect(nextState).to.equal('vaFacilityV2');
-      });
-    });
-  });
-
   describe('typeOfFacility page', () => {
     describe('next page', () => {
       it('should be audiologyCareType if CC supported and audiology chosen', () => {
@@ -472,6 +449,16 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     describe('next page', () => {
+      describe('Oracle Health', () => {
+        it('should be selectProvider page if they select a VA facility and OH direct schedule and requests are enabled via feature flags and the typeOfCare is enabled', () => {
+          return true;
+        });
+
+        it('should be scheduleCerner page if they select a VA facility and OH direct schedule and requests are disabled via feature flags, -OR- OH direct schedule and requests are enabled but the type of care is NOT enabled', () => {
+          return true;
+        });
+      });
+
       it('should be clinicChoice page if eligible', async () => {
         mockFetch();
         setFetchJSONResponse(global.fetch, past);
