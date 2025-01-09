@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { Toggler } from 'platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
 
 export const ContactRepresentativeTitle = (
   <h3 className="vads-u-margin-top--0">
@@ -9,14 +8,10 @@ export const ContactRepresentativeTitle = (
 );
 
 export const ContactRepresentativeDescription = (
-  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-    <Toggler.Enabled>
-      <p className="vads-u-margin-top--0">
-        We’ll contact your accredited representative to schedule an informal
-        conference
-      </p>
-    </Toggler.Enabled>
-  </Toggler>
+  <p className="vads-u-margin-top--0">
+    We’ll contact your accredited representative to schedule an informal
+    conference
+  </p>
 );
 
 export const RepresentativeNameTitle = 'Representative’s name';
@@ -34,3 +29,8 @@ export const RepresentativeReviewWidget = ({ name, value }) => (
     {value || null}
   </span>
 );
+
+RepresentativeReviewWidget.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+};
