@@ -234,15 +234,11 @@ export function sessionTypeUrl({
     externalApplicationsConfig[application] ||
     externalApplicationsConfig.default;
 
-  // We should use OAuth when the following are true:
-  // OAuth param is 'true'
-  // config.OAuthEnabled is true
-  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
+  // Explicitly determine OAuth usage
+  const useOAuth =
+    useOauth || queryParams.oauth || (config?.OAuthEnabled && OAuth === 'true');
 
-  // Only require verification when all of the following are true:
-  // 1. On the USiP (Unified Sign In Page)
-  // 2. The outbound application is one of the mobile apps
-  // 3. The generated link type is for signup, and login only
+  // Handle verification requirement
   const requireVerification =
     allowVerification ||
     forceVerify === 'required' ||
@@ -250,9 +246,10 @@ export function sessionTypeUrl({
       ? '_verified'
       : '';
 
-  // Passes GA Client ID if it is an `ID.me` type
+  // GA Client ID for ID.me types
   const gaClientId = IDME_TYPES.includes(type) && getGAClientId();
 
+  // Additional parameters for external redirects
   const appendParams =
     externalRedirect && isLogin
       ? {
@@ -263,6 +260,7 @@ export function sessionTypeUrl({
         }
       : {};
 
+  // OAuth request
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
       acr,
@@ -276,6 +274,7 @@ export function sessionTypeUrl({
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
         ...(queryParams.operation && { operation: queryParams.operation }),
+        ...(queryParams.redirect && { redirect: queryParams.redirect }), // Ensure redirect is passed
       },
       passedOptions: {
         isSignup,
@@ -283,6 +282,8 @@ export function sessionTypeUrl({
       },
     });
   }
+
+  // Non-OAuth request
   return appendQuery(
     API_SESSION_URL({
       version,
@@ -358,10 +359,16 @@ export async function login({
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
-  const url = await sessionTypeUrl({ type: policy, version, queryParams });
+  const url = await sessionTypeUrl({
+    type: policy,
+    version,
+    queryParams: { ...queryParams, oauth: true }, // Ensure oauth=true is passed
+  });
+
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
+
   return redirect(url, clickedEvent);
 }
 
