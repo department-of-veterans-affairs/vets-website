@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import {
   checkboxGroupSchema,
-  checkboxGroupUI,
+  checkboxGroupUI as checkboxGroupUiFn,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const formatDate = dateString =>
@@ -40,6 +40,7 @@ const suppliesUi = ({
   hint,
   replaceSchema,
   updateUiSchema,
+  checkboxGroupUI = checkboxGroupUiFn,
 }) =>
   checkboxGroupUI({
     title,
