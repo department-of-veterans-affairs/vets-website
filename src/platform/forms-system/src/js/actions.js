@@ -313,8 +313,15 @@ export function uploadFile(
         onChange({ ...fileData, isEncrypted: !!password });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
+        let serverErrorMessage = req.statusText;
+        try {
+          // detail contains a better error message
+          serverErrorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+        } catch (error) {
+          // intentionally empty
+        }
         let errorMessage =
-          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.';
+          uiOptions?.fileUploadNetworkErrorMessage || serverErrorMessage;
         const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(

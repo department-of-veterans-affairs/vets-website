@@ -11,6 +11,8 @@ export default {
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate', {
+        fileUploadNetworkErrorMessage:
+          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
         fileUploadNetworkErrorAlert: {
           header: 'We couldn’t upload your file',
           body: [

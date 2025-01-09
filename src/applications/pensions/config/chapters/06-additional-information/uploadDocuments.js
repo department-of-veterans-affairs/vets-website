@@ -46,6 +46,8 @@ export default {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       maxSize: MAX_FILE_SIZE_BYTES,
       fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+      fileUploadNetworkErrorMessage:
+        'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
       fileUploadNetworkErrorAlert: {
         header: 'We couldn’t upload your file',
         body: [
