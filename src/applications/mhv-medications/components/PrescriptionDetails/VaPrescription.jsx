@@ -77,6 +77,9 @@ const VaPrescription = prescription => {
                 }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
                 to="/refill"
                 data-testid="refill-nav-link"
+                data-dd-action-name={
+                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                }
               >
                 {/* TODO: clean after grouping flag is gone */}
                 {!showGroupingContent &&
@@ -106,7 +109,7 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescription number
                 </h3>
-                <p data-testid="prescription-number">
+                <p data-testid="prescription-number" data-dd-privacy="mask">
                   {prescription.prescriptionNumber}
                 </p>
               </>
@@ -133,7 +136,7 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescription number
                 </h3>
-                <p data-testid="prescription-number">
+                <p data-testid="prescription-number" data-dd-privacy="mask">
                   {prescription.prescriptionNumber}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
