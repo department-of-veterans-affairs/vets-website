@@ -155,7 +155,7 @@ describe(`${appName} -- Status Page`, () => {
   it('filters the claims by a date range preset', () => {
     // the month argument is 0-indexed in the date constructor,
     // so this is setting the date to June 25, 2024, i.e., 6/25/24
-    cy.clock(new Date(2024, 5, 25), ['Date']);
+    // cy.clock(new Date(2024, 5, 25), ['Date']);
 
     cy.openFilters();
 
@@ -175,7 +175,7 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters by multiple properties with non-default sorting', () => {
-    cy.clock(new Date(2024, 5, 25), ['Date']);
+    // cy.clock(new Date(2024, 5, 25), ['Date']);
 
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
