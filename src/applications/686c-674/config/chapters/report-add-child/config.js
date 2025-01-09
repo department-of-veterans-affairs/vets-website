@@ -1,3 +1,4 @@
+/** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
   arrayPath: 'childrenToAdd',
   nounSingular: 'child',

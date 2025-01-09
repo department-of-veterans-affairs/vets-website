@@ -19,6 +19,5 @@ export const summary = {
     properties: {
       'view:completedAddChild': arrayBuilderYesNoSchema,
     },
-    required: ['view:completedAddChild'],
   },
 };

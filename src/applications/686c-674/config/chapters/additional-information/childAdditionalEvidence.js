@@ -18,7 +18,6 @@ const schema = {
         },
         childSupportingDocuments: fileInputSchema,
       },
-      required: ['childSupportingDocuments'],
     },
   },
 };

@@ -18,6 +18,5 @@ export const childAddressPartOne = {
     properties: {
       address: addressSchema(),
     },
-    required: ['address'],
   },
 };

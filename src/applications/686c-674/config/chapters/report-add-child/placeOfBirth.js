@@ -24,7 +24,7 @@ export const placeOfBirth = {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
           'ui:required': formData => {
-            return formData?.birthLocation?.outsideUsa;
+            return !formData?.birthLocation?.outsideUsa;
           },
           'ui:errorMessages': {
             required: 'Select a state',

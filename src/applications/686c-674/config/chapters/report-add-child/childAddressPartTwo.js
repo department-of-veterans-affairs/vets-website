@@ -16,6 +16,5 @@ export const childAddressPartTwo = {
     properties: {
       livingWith: fullNameNoSuffixSchema,
     },
-    required: ['livingWith'],
   },
 };
