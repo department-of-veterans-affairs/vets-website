@@ -143,10 +143,10 @@ const StepOne = ({ formResponses }) => {
           <li>
             You can request either a Documentary Review or Personal Appearance
             Review from the Discharge Review Board (DRB). If your case is
-            especially complicated and requires detailed explanation, you{' '}
-            <strong>may</strong> have more success with a Personal Appearance
-            Review. Note that you’ll have to pay your travel costs if you make a
-            personal appearance. Documentary Reviews are generally faster, so we
+            especially complicated and requires detailed explanation, you may
+            have more success with a Personal Appearance Review. Note that
+            you’ll have to pay your travel costs if you make a personal
+            appearance. Documentary Reviews are generally faster, so we
             recommend you begin with this type of review. Also, if you’re denied
             in a Documentary Review, you can then appeal through a Personal
             Appearance Review. But you can’t request Documentary Review after a
