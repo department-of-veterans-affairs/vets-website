@@ -40,7 +40,7 @@ describe('personalInformationPage', () => {
     expect(result.personalInfoPage.path).to.equal(defaultProps.path);
   });
 
-  it('should have correct schema structure', () => {
+  it('should have correct schema and uiSchema structure', () => {
     const result = personalInformationPage(defaultProps);
 
     expect(result.personalInfoPage.schema).to.deep.equal({
@@ -50,7 +50,7 @@ describe('personalInformationPage', () => {
     expect(result.personalInfoPage.uiSchema).to.deep.equal({});
   });
 
-  it('should set correct review-related properties', () => {
+  it('should set correct review page related properties', () => {
     const result = personalInformationPage(defaultProps);
 
     expect(result.personalInfoPage.CustomPageReview).to.be.null;
