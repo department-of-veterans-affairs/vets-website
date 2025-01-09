@@ -1,0 +1,70 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
+
+$menu-width--desktop: 275px;
+
+.mhv-c-sec-nav-bar-row {
+  max-width: $site-max-width !important;
+}
+
+.mhv-dropdown {
+  height: 60px;
+  list-style: none;
+
+  .mhv-dropdown-trigger {
+    margin: 0;
+    border-radius: 0;
+    padding: units(1) units(4) units(1) units(2);
+    font-weight: 400;
+
+    background-position: right units(1) center;
+    background-repeat: no-repeat;
+    background-size: 0.8125rem auto;
+
+    &[aria-expanded="true"] {
+      background-image: url(/img/arrow-up.svg);
+    }
+
+    &[aria-expanded="false"] {
+      background-image: url(/img/arrow-down-white.svg);
+    }
+  }
+}
+
+.mhv-dropdown-menu {
+  width: $menu-width--desktop;
+  z-index: 100;
+
+  a {
+    @include no-sr-content;
+
+    background-image: none;
+    color: var(--vads-color-white);
+    display: block;
+    text-decoration: none;
+
+    padding: units(1) units(3);
+
+
+    @include media($medium-screen) {
+      color: var(--vads-color-link);
+
+      &:hover {
+        background: transparent;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @include media($medium-screen) {
+    box-shadow: 0 5px 9px -5px var(--vads-color-base);
+    background: var(--vads-color-white);
+    padding-bottom: 1rem;
+    position: absolute;
+  }
+}
+
+
+
