@@ -345,6 +345,29 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
+  describe('selectProvider page', () => {
+    describe('next page', () => {
+      it('should be vaFacility page if they chose VA', () => {
+        const state = {
+          newAppointment: {
+            data: {
+              facilityType: 'va',
+              typeOfCareId: '203',
+            },
+          },
+          featureToggles: {
+            loading: false,
+          },
+        };
+
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+          state,
+        );
+        expect(nextState).to.equal('vaFacilityV2');
+      });
+    });
+  });
+
   describe('typeOfFacility page', () => {
     describe('next page', () => {
       it('should be audiologyCareType if CC supported and audiology chosen', () => {
