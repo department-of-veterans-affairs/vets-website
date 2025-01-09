@@ -1,6 +1,10 @@
 import { fillIdentityForm, fillVaFacility } from './fillers';
-import { acceptPrivacyAgreement, goToNextPage } from './helpers';
-import { startAsAuthUser, startAsGuestUser } from './setup';
+import {
+  acceptPrivacyAgreement,
+  goToNextPage,
+  startAsAuthUser,
+  startAsGuestUser,
+} from './helpers';
 
 export const advanceToVaBenefits = (testData, props = {}) => {
   const { compensation = 'none' } = props;

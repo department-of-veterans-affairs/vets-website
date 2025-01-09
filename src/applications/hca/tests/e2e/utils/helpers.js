@@ -5,7 +5,6 @@ export const acceptPrivacyAgreement = () => {
     .click();
 };
 
-// Clicks Continue button, and optionally checks destination path.
 export const goToNextPage = pagePath => {
   cy.findAllByText(/continue|confirm/i, { selector: 'button' })
     .first()
@@ -13,6 +12,21 @@ export const goToNextPage = pagePath => {
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
+};
+
+export const startAsAuthUser = () => {
+  cy.get('[href="#start"]')
+    .first()
+    .click();
+  cy.wait('@mockPrefill');
+  cy.location('pathname').should('include', '/check-your-personal-information');
+};
+
+export const startAsGuestUser = () => {
+  cy.get('.schemaform-start-button')
+    .first()
+    .click();
+  cy.location('pathname').should('include', '/id-form');
 };
 
 // Keyboard-only pattern helpers

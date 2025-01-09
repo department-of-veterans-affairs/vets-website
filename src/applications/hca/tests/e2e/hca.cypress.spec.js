@@ -12,6 +12,7 @@ import {
   fillIdentityForm,
   fillVaFacility,
   goToNextPage,
+  startAsGuestUser,
 } from './utils';
 
 const testConfig = createTestConfig(
@@ -21,16 +22,10 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('.schemaform-start-button')
-            .first()
-            .click();
-        });
+        afterHook(() => startAsGuestUser());
       },
       'id-form': () => {
-        cy.get('@testData').then(data => {
-          fillIdentityForm(data);
-        });
+        cy.get('@testData').then(data => fillIdentityForm(data));
       },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {

@@ -58,7 +58,12 @@ export const setupForAuth = (props = {}) => {
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
-  cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+  cy.wait([
+    '@mockUser',
+    '@mockFeatures',
+    '@mockEnrollmentStatus',
+    '@mockDisabilityRating',
+  ]);
 };
 
 export const setupForGuest = (props = {}) => {
@@ -80,19 +85,4 @@ export const setupForGuest = (props = {}) => {
 
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockFeatures']);
-};
-
-export const startAsAuthUser = () => {
-  cy.get('[href="#start"]')
-    .first()
-    .click();
-  cy.wait('@mockPrefill');
-  cy.location('pathname').should('include', '/check-your-personal-information');
-};
-
-export const startAsGuestUser = () => {
-  cy.get('.schemaform-start-button')
-    .first()
-    .click();
-  cy.location('pathname').should('include', '/id-form');
 };
