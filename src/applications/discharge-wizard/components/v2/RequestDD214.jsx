@@ -41,14 +41,14 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
           <p>
             To receive a second DD214 reflecting <strong>only</strong> your
             period of honorable service, you’ll need to complete Department of
-            Defense (DoD) Form 149 and send it to the {name}—
+            Defense (DOD) Form 149 and send it to the {name}—
             <strong>do not</strong> send it to the Discharge Review Board (DRB)
             for the {branchOfService}.
           </p>
         </div>
         <va-process-list>
           <va-process-list-item
-            header="Download and fill out DoD Form 149"
+            header="Download and fill out DOD Form 149"
             level="2"
           >
             <ul>

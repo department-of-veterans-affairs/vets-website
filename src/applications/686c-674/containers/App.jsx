@@ -29,11 +29,6 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (!featureToggles.vaDependentsV2) {
-    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
-    return <></>;
-  }
-
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
