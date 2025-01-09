@@ -702,8 +702,7 @@ describe('Schemaform actions:', () => {
         file: { name: '1.jpg', size: 1 },
         name: '1.jpg',
         size: 1,
-        errorMessage:
-          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+        errorMessage: 'Bad Request',
       });
     });
     it('should set error on network issue', () => {
@@ -759,6 +758,47 @@ describe('Schemaform actions:', () => {
         {
           fileTypes: ['jpg'],
           maxSize: 50,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(500, null, undefined);
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        file: { name: '1.jpg', size: 42 },
+        name: '1.jpg',
+        size: 42,
+        errorMessage: 'Internal Server Error',
+      });
+    });
+    it('should set custom error if error message is bad', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 42,
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 50,
+          fileUploadNetworkErrorMessage:
+            'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
           createPayload: f => f,
           parseResponse: f => f.data.attributes,
         },
@@ -882,8 +922,7 @@ describe('Schemaform actions:', () => {
         file: { name: '1.jpg', size: 1 },
         name: '1.jpg',
         size: 1,
-        errorMessage:
-          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+        errorMessage: 'Bad Request',
         alert: {
           header: 'Alert header text',
           body: ['Alert body text'],
