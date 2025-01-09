@@ -125,7 +125,9 @@ export default function VAFacilityPageV2() {
     [requestingLocation, requestLocationStatus, sortFocusEl],
   );
 
-  const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
+  const pageHeader = (
+    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+  );
 
   if (hasDataFetchingError) {
     return (
