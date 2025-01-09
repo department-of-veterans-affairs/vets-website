@@ -10,44 +10,11 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
   };
 
   const visitorUI = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h3 slot="headline">
-        Sign in to download your VA education decision letter
-      </h3>
-      <p>
-        Sign in with your existing{' '}
-        <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
-        <span className="vads-u-font-weight--bold">Login.gov</span> account. If
-        you don’t have any of these accounts, you can create a free{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://www.id.me/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          ID.me
-        </a>{' '}
-        account or{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://secure.login.gov/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Login.gov
-        </a>{' '}
-        account now.
-      </p>
-      <va-button
-        onClick={toggleLogin}
-        primary-alternate
-        text="Sign in or create an account"
-      />
-    </va-alert>
+    <va-alert-sign-in variant="signInRequired" visible headingLevel={3}>
+      <span slot="SignInButton">
+        <va-button onClick={toggleLogin} text="Sign in or create an account" />
+      </span>
+    </va-alert-sign-in>
   );
 
   const spinner = (
