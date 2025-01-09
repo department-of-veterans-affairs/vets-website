@@ -99,8 +99,8 @@ export function showBehaviorListPage(formData) {
     _.get('view:answerCombatBehaviorQuestions', formData, 'false') === 'true';
 
   return (
-    (showForm0781Pages(formData) &&
-      (showBehaviorIntroCombatPage(formData) && answerQuestions)) ||
-    !combatOnlySelection(formData)
+    showForm0781Pages(formData) &&
+    ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
+      !combatOnlySelection(formData))
   );
 }

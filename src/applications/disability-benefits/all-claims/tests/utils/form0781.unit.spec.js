@@ -207,8 +207,6 @@ describe('showBehaviorListPage', () => {
           conditions: {
             someCondition: true,
           },
-        },
-        form0781: {
           eventTypes: {
             combat: true,
             nonMst: true,
