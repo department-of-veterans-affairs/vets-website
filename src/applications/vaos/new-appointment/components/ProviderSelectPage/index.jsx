@@ -29,6 +29,11 @@ export default function SelectProviderPage() {
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <div>
+        <strong>Type of care:</strong> Nutrition and Food <br />
+        <strong>Facility:</strong> Grove City VA Clinic
+      </div>
+
       {providers.map((provider, index) => (
         <ProviderCard key={index} provider={provider} />
       ))}
