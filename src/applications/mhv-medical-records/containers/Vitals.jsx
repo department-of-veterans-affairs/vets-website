@@ -7,6 +7,7 @@ import {
   updatePageTitle,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory, useLocation } from 'react-router-dom';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -31,17 +32,24 @@ import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vitals = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+
   const updatedRecordList = useSelector(state => state.mr.vitals.updatedList);
   const listState = useSelector(state => state.mr.vitals.listState);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
   const [cards, setCards] = useState(null);
+  const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
-    format(new Date(), 'yyyy-MM'),
+    urlVitalsDate || format(new Date(), 'yyyy-MM'),
   );
   const [displayDate, setDisplayDate] = useState(acceleratedVitalsDate);
+
   const activeAlert = useAlerts(dispatch);
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
@@ -91,6 +99,22 @@ const Vitals = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedVitalsDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [acceleratedVitalsDate, history, location.pathname, location.search],
+  );
+
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
@@ -111,6 +135,13 @@ const Vitals = () => {
     [isAcceleratingVitals],
   );
 
+  const PER_PAGE = useMemo(
+    () => {
+      return Object.keys(VITAL_TYPES).length;
+    },
+    [VITAL_TYPES],
+  );
+
   useEffect(
     () => {
       if (vitals?.length) {
@@ -126,8 +157,6 @@ const Vitals = () => {
     },
     [vitals, VITAL_TYPES],
   );
-
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
     if (accessAlert) {
@@ -164,6 +193,7 @@ const Vitals = () => {
         </>
       );
     }
+
     if (cards?.length) {
       return (
         <>
@@ -201,7 +231,7 @@ const Vitals = () => {
           <RecordList
             records={cards}
             type={recordType.VITALS}
-            perPage={7}
+            perPage={PER_PAGE}
             hidePagination
             domainOptions={{
               isAccelerating: isAcceleratingVitals,
@@ -233,6 +263,12 @@ const Vitals = () => {
 
   const triggerApiUpdate = e => {
     e.preventDefault();
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('timeFrame', acceleratedVitalsDate);
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
     setDisplayDate(acceleratedVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,

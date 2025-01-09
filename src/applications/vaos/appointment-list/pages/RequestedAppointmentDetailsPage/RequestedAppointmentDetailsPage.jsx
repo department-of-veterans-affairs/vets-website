@@ -7,20 +7,20 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import CCRequestLayout from '../../../components/layout/CCRequestLayout';
-import VARequestLayout from '../../../components/layout/VARequestLayout';
+import CCRequestLayout from '../../../components/layouts/CCRequestLayout';
+import VARequestLayout from '../../../components/layouts/VARequestLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import CancelConfirmationPage from '../../components/cancel/CancelConfirmationPage';
-import CancelWarningPage from '../../components/cancel/CancelWarningPage';
 import PageLayout from '../../components/PageLayout';
 import {
   closeCancelAppointment,
   fetchRequestDetails,
 } from '../../redux/actions';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
+import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
+import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPage';
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
