@@ -8,7 +8,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from '../utils/mapboxToken';
+import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import {
   clearSearchText,
   clearSearchResults,

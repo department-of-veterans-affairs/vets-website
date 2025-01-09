@@ -228,7 +228,6 @@ const SearchControls = props => {
         {locationOptions[facility]}
       </option>
     ));
-
     return (
       <div
         className={classNames(

@@ -135,6 +135,13 @@ const Vitals = () => {
     [isAcceleratingVitals],
   );
 
+  const PER_PAGE = useMemo(
+    () => {
+      return Object.keys(VITAL_TYPES).length;
+    },
+    [VITAL_TYPES],
+  );
+
   useEffect(
     () => {
       if (vitals?.length) {
@@ -224,7 +231,7 @@ const Vitals = () => {
           <RecordList
             records={cards}
             type={recordType.VITALS}
-            perPage={7}
+            perPage={PER_PAGE}
             hidePagination
             domainOptions={{
               isAccelerating: isAcceleratingVitals,
