@@ -65,6 +65,10 @@
     }
 
     &-item {
+      span {
+        margin-bottom: 1em;
+        display: block;
+      }
       @media (min-width: $small-desktop-screen) {
         flex: 33%;
       }

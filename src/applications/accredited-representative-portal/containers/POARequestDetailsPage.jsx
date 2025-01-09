@@ -125,7 +125,7 @@ const POARequestDetailsPage = () => {
           {poaRequest?.created_at && (
             <>
               <p className="poa-request-details__title">Request submitted on</p>
-              {resolutionDate(poaRequest?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest?.created_at, poaRequest.id)}
             </>
           )}
         </li>
@@ -135,7 +135,7 @@ const POARequestDetailsPage = () => {
               <p className="poa-request-details__title">
                 POA request declined on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.created_at, poaRequest.id)}
             </>
           )}
           {poaStatus === 'acceptance' && (
@@ -147,7 +147,7 @@ const POARequestDetailsPage = () => {
                 />{' '}
                 POA request accepted on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.created_at, poaRequest.id)}
             </>
           )}
           {poaStatus === 'expiration' && (
@@ -159,7 +159,7 @@ const POARequestDetailsPage = () => {
                 />{' '}
                 POA request expired on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.created_at, poaRequest.id)}
             </>
           )}
           {poaStatus === 'Pending' && (
@@ -176,7 +176,7 @@ const POARequestDetailsPage = () => {
                 )}
                 POA request expires on
               </p>
-              {resolutionDate(poaRequest?.expires_at, poaStatus.id)}
+              {resolutionDate(poaRequest?.expires_at, poaRequest.id)}
             </>
           )}
         </li>
