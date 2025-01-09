@@ -24,12 +24,17 @@ Cypress.Commands.add('openFilters', () => {
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
+  });
+
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
   it('defaults to "most recent" sort order', () => {
