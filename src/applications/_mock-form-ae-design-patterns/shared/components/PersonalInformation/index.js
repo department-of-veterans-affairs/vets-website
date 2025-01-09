@@ -9,7 +9,7 @@ import { PersonalInformation } from './PersonalInformation';
  * @typedef {import('./PersonalInformation').DataAdapter} DataAdapter
  */
 
-const defaultConfig = {
+export const defaultConfig = {
   title: 'Personal Information',
   path: '/personal-information',
   personalInfoConfig: {},
