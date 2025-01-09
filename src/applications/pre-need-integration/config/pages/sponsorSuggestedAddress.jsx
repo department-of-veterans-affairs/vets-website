@@ -1,32 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { FIELD_NAMES } from '@@vap-svc/constants';
 import { validateAddress } from 'platform/user/profile/vap-svc/actions';
 import set from 'platform/utilities/data/set';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { ValidateAddressTitle } from '../../components/PreparerHelpers';
 import AddressConfirmation from './addressConfirmation';
-
-const formatAddress = address => {
-  if (address) {
-    let displayAddress = '';
-    const street = address.street || address.addressLine1;
-    const street2 = address.street2 || address.addressLine2; // Fixed the typo
-    const { city } = address;
-    const state = address.state || address.stateCode;
-    const zip = address.postalCode || address.zipCode;
-
-    if (street) displayAddress += street;
-    if (street2) displayAddress += `, ${street2}`;
-    if (city) displayAddress += `, ${city}`;
-    if (state) displayAddress += `, ${state}`;
-    if (zip) displayAddress += ` ${zip}`; // Added a space instead of comma before zip
-
-    return displayAddress.trim();
-  }
-  return ''; // Return an empty string if no address is provided
-};
+import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
 
 function SponsorSuggestedAddress({ formData, addressValidation }) {
   const dispatch = useDispatch();
@@ -89,7 +67,7 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
 
   useEffect(
     () => {
-      setSuggestedAddress(addressValidation.confirmedSuggestions[0]);
+      setSuggestedAddress(addressValidation?.confirmedSuggestions[0]);
     },
     [addressValidation],
   );
@@ -125,53 +103,17 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
     );
   }
 
-  if (shouldShowSuggestedAddress()) {
-    return (
-      <div
-        className="va-profile-wrapper"
-        id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
-      >
-        <ValidateAddressTitle title="Confirm sponsor mailing address" />
-        <VaRadio
-          label="Tell us which address you'd like to use."
-          onVaValueChange={onChangeSelectedAddress}
-          required
-        >
-          {userAddress && (
-            <va-radio-option
-              key="userAddress"
-              name="addressGroup"
-              label="Address you entered:"
-              description={formatAddress(userAddress)}
-              value={JSON.stringify(userAddress)}
-              tile
-              checked={
-                JSON.stringify(selectedAddress) === JSON.stringify(userAddress)
-              }
-            />
-          )}
-          {addressValidation?.confirmedSuggestions?.[0] && (
-            <va-radio-option
-              key="suggestedAddress"
-              name="addressGroup"
-              label="Suggested address:"
-              description={formatAddress(
-                addressValidation?.confirmedSuggestions[0],
-              )}
-              value={JSON.stringify(addressValidation?.confirmedSuggestions[0])}
-              tile
-              checked={
-                JSON.stringify(selectedAddress) ===
-                JSON.stringify(addressValidation?.confirmedSuggestions[0])
-              }
-            />
-          )}
-        </VaRadio>
-      </div>
-    );
-  }
-
-  return <AddressConfirmation />;
+  return shouldShowSuggestedAddress() ? (
+    <SuggestedAddressRadio
+      title="Confirm sponsor mailing address"
+      userAddress={userAddress}
+      selectedAddress={selectedAddress}
+      addressValidation={addressValidation}
+      onChangeSelectedAddress={onChangeSelectedAddress}
+    />
+  ) : (
+    <AddressConfirmation />
+  );
 }
 
 // Map state to props

@@ -103,9 +103,9 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
-import PreparerContactDetailsSuggestedAddress from './pages/preparerContactDetailsSuggestedAddress';
 import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
 import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
+import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
 
 const {
   preneedAttachments,
@@ -213,7 +213,7 @@ const formConfig = {
               applicant: {
                 'view:preparerSuggestedAddress': {
                   'ui:title': 'Validate Address',
-                  'ui:field': PreparerContactDetailsSuggestedAddress,
+                  'ui:field': preparerSuggestedAddress,
                 },
               },
             },

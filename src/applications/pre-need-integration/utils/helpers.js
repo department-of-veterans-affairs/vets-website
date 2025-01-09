@@ -14,6 +14,7 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { countries } from 'platform/forms/address';
 
 import {
   stringifyFormReplacer,
@@ -1361,3 +1362,27 @@ export function MailingAddressStateTitle(props) {
   }
   return 'State or territory';
 }
+
+export const formatSuggestedAddress = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city) displayAddress += `, ${city}`;
+    if (state) displayAddress += `, ${state}`;
+    if (zip) displayAddress += ` ${zip}`;
+    if (country && country !== 'USA')
+      displayAddress += `, ${countries.find(c => c.value === country).label ||
+        country}`;
+
+    return displayAddress.trim();
+  }
+  return '';
+};
