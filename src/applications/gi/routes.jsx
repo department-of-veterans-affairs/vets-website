@@ -11,6 +11,7 @@ import LicenseCertificationSearchResult from './containers/LicenseCertificationS
 import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
 import NewGiApp from './updated-gi/containers/NewGiApp';
+import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
@@ -19,6 +20,7 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
+
   return (
     <>
       {!toggleValue ? (
@@ -68,11 +70,12 @@ const BuildRoutes = () => {
       ) : (
         <NewGiApp>
           <Switch>
-            <Route
-              path="/"
-              exact
-              render={({ match }) => <HomePage match={match} />}
-            />
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route path="/schools-and-employers">
+              <SchoolsAndEmployers />
+            </Route>
           </Switch>
         </NewGiApp>
       )}
