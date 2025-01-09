@@ -8,7 +8,11 @@ const MISSING_FIELD_LABELS = {
 };
 
 export const DefaultErrorMessage = ({ missingFields = [] }) => {
-  // get the labels for the missing fields, don't include or nulls
+  if (!missingFields || missingFields.length === 0) {
+    return null;
+  }
+
+  // get the labels for the missing fields, don't include null values
   const missingFieldLabels = missingFields.reduce((acc, field) => {
     if (MISSING_FIELD_LABELS?.[field]) {
       acc.push(MISSING_FIELD_LABELS[field]);

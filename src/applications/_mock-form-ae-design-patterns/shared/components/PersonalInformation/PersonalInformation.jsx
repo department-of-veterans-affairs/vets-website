@@ -7,9 +7,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
-
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+
+import { DefaultErrorMessage } from './DefaultErrorMessage';
 
 import {
   getMissingData,
@@ -18,8 +19,8 @@ import {
   FORMAT_READABLE_DATE_FNS,
   getChildrenByType,
 } from './utils';
+
 import { adaptFormData } from './adapter';
-import { DefaultErrorMessage } from './DefaultErroMessage';
 
 /**
  * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
