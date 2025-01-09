@@ -11,8 +11,6 @@ export default {
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate', {
-        fileTooBigErrorMessage:
-          'Your file can’t have a width and height larger than 78 inches and 100 inches. Follow the instructions for your device on how to resize the file and try again.',
         fileUploadNetworkErrorAlert: {
           header: 'We couldn’t upload your file',
           body: [

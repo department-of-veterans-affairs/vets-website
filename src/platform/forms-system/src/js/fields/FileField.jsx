@@ -27,6 +27,7 @@ import {
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
+  reMapErrorMessage,
 } from '../utilities/file';
 import { usePreviousValue } from '../helpers';
 import {
@@ -171,7 +172,7 @@ const ErrorMessageOrAlertComponent = ({
       {hasVisibleError &&
         (!hasVisibleAlert || shouldHideAlert) && (
           <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span> {error}
+            <span className="sr-only">Error</span> {reMapErrorMessage(error)}
           </span>
         )}
       {/* Show alert if it's visible and not hidden */}
