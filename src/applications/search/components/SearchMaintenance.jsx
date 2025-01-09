@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
 import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
-const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
 const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
+const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
 const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
 const maintenanceDurationHours = maintenanceEndHour - maintenanceStartHour;
 const maintenanceTimezone = 'America/New_York';
