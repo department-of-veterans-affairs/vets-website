@@ -6,9 +6,9 @@ import {
 import { errorMessages } from '../constants';
 
 import {
-  newInformalConferenceTitle,
+  informalConferenceTitle,
   InformalConferenceDescription,
-  newInformalConferenceLabels,
+  informalConferenceLabels,
   informalConferenceDescriptions,
 } from '../content/InformalConference';
 import { validateConferenceChoice } from '../validations';
@@ -18,8 +18,8 @@ const informalConference = {
     'ui:description': InformalConferenceDescription,
     informalConference: {
       ...radioUI({
-        title: newInformalConferenceTitle,
-        labels: newInformalConferenceLabels,
+        title: informalConferenceTitle,
+        labels: informalConferenceLabels,
         descriptions: informalConferenceDescriptions,
         enableAnalytics: true,
         errorMessages: {

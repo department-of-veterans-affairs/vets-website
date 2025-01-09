@@ -11,10 +11,10 @@ import { checkValidations } from '../../shared/validations';
 import sharedErrorMessages from '../../shared/content/errorMessages';
 
 import {
-  newInformalConferenceTitle,
+  informalConferenceTitle,
   InformalConferenceDescription,
   informalConferenceLabel,
-  newInformalConferenceLabels,
+  informalConferenceLabels,
   informalConferenceDescriptions,
   updateButtonText,
 } from '../content/InformalConference';
@@ -77,7 +77,7 @@ export const InformalConference = ({
     checkErrors(formData);
     recordEvent({
       event: 'int-radio-button-option-click',
-      'radio-button-label': newInformalConferenceTitle,
+      'radio-button-label': informalConferenceTitle,
       'radio-button-optionLabel': label,
       'radio-button-required': false,
     });
@@ -104,7 +104,7 @@ export const InformalConference = ({
           informalConferenceChoice: value,
           informalConference: value !== 'no' && conf === 'no' ? '' : conf,
         };
-        update(formData, value, newInformalConferenceLabels[value]);
+        update(formData, value, informalConferenceLabels[value]);
       }
     },
   };
@@ -138,7 +138,7 @@ export const InformalConference = ({
         >
           <va-radio-option
             id="yes-conference"
-            label={newInformalConferenceLabels.yes}
+            label={informalConferenceLabels.yes}
             value="yes"
             name="informalConferenceChoice"
             checked={data.informalConferenceChoice === 'yes'}
@@ -146,7 +146,7 @@ export const InformalConference = ({
           />
           <va-radio-option
             id="no-conference"
-            label={newInformalConferenceLabels.no}
+            label={informalConferenceLabels.no}
             value="no"
             name="informalConferenceChoice"
             checked={data.informalConferenceChoice === 'no'}

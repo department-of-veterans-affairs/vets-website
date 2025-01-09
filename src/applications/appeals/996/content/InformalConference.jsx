@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const newInformalConferenceTitle =
+export const informalConferenceTitle =
   'Option to request an informal conference';
 
 export const informalConferenceLabel =
@@ -8,7 +8,7 @@ export const informalConferenceLabel =
 
 export const InformalConferenceDescription = (
   <>
-    <h3>{newInformalConferenceTitle}</h3>
+    <h3>{informalConferenceTitle}</h3>
     <p>
       You or your accredited representative have the option to request an
       informal conference. If you request an informal conference, we’ll conduct
@@ -35,7 +35,7 @@ export const InformalConferenceDescription = (
   </>
 );
 
-export const newInformalConferenceLabels = {
+export const informalConferenceLabels = {
   yes: 'Yes',
   no: 'No',
 };
@@ -49,4 +49,4 @@ export const informalConferenceDescriptions = {
 export const editButtonText = 'Edit';
 export const updateButtonText = 'Update page';
 
-export const newEditButtonLabel = `Edit ${newInformalConferenceTitle}`;
+export const editButtonLabel = `Edit ${informalConferenceTitle}`;

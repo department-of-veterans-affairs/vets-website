@@ -11,7 +11,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 import {
   informalConferenceLabel,
-  newInformalConferenceLabels,
+  informalConferenceLabels,
 } from '../content/InformalConference';
 import {
   informalConferenceContactLabel,
@@ -163,7 +163,7 @@ export const ConfirmationPageV2 = () => {
             className="vads-u-margin-bottom--2 dd-privacy-hidden"
             data-dd-action-name="informal conference choice"
           >
-            {newInformalConferenceLabels[data.informalConferenceChoice] || ''}
+            {informalConferenceLabels[data.informalConferenceChoice] || ''}
           </div>
         </li>
         {hasConference && (

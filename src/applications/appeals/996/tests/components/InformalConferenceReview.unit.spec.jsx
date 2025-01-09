@@ -6,10 +6,10 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import InformalConferenceReview from '../../components/InformalConferenceReview';
 import {
-  newInformalConferenceTitle,
+  informalConferenceTitle,
   informalConferenceLabel,
-  newEditButtonLabel,
-  newInformalConferenceLabels,
+  editButtonLabel,
+  informalConferenceLabels,
 } from '../../content/InformalConference';
 
 describe('<InformalConferenceReview>', () => {
@@ -22,11 +22,11 @@ describe('<InformalConferenceReview>', () => {
       informalConference: 'rep',
       informalConferenceChoice: 'yes',
     });
-    screen.getByText(newInformalConferenceTitle);
+    screen.getByText(informalConferenceTitle);
     screen.getByText(informalConferenceLabel);
-    screen.getByText(newInformalConferenceLabels.yes);
+    screen.getByText(informalConferenceLabels.yes);
     expect($('va-button', screen.container).getAttribute('label')).to.eq(
-      newEditButtonLabel,
+      editButtonLabel,
     );
   });
 
@@ -35,11 +35,11 @@ describe('<InformalConferenceReview>', () => {
       informalConference: 'me',
       informalConferenceChoice: 'yes',
     });
-    screen.getByText(newInformalConferenceTitle);
+    screen.getByText(informalConferenceTitle);
     screen.getByText(informalConferenceLabel);
-    screen.getByText(newInformalConferenceLabels.yes);
+    screen.getByText(informalConferenceLabels.yes);
     expect($('va-button', screen.container).getAttribute('label')).to.eq(
-      newEditButtonLabel,
+      editButtonLabel,
     );
   });
 
@@ -48,11 +48,11 @@ describe('<InformalConferenceReview>', () => {
       informalConference: 'me',
       informalConferenceChoice: 'no',
     });
-    screen.getByText(newInformalConferenceTitle);
+    screen.getByText(informalConferenceTitle);
     screen.getByText(informalConferenceLabel);
-    screen.getByText(newInformalConferenceLabels.no);
+    screen.getByText(informalConferenceLabels.no);
     expect($('va-button', screen.container).getAttribute('label')).to.eq(
-      newEditButtonLabel,
+      editButtonLabel,
     );
   });
 });

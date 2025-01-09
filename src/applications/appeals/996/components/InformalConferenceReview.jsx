@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  newInformalConferenceTitle,
+  informalConferenceTitle,
   informalConferenceLabel,
   editButtonText,
-  newEditButtonLabel,
-  newInformalConferenceLabels,
+  editButtonLabel,
+  informalConferenceLabels,
 } from '../content/InformalConference';
 
 import { data996 } from '../../shared/props';
@@ -15,8 +15,8 @@ const InformalConferenceReview = ({ data, editPage }) => {
   // show 'me', 'rep' or 'no' for original content
   // show 'yes' or 'no' for new content
   const value = data.informalConferenceChoice;
-  const title = newInformalConferenceTitle;
-  const displayValue = newInformalConferenceLabels[value];
+  const title = informalConferenceTitle;
+  const displayValue = informalConferenceLabels[value];
 
   return (
     <div className="form-review-panel-page">
@@ -28,7 +28,7 @@ const InformalConferenceReview = ({ data, editPage }) => {
           secondary
           class="edit-page float-right"
           onClick={editPage}
-          label={newEditButtonLabel}
+          label={editButtonLabel}
           text={editButtonText}
           uswds
         />

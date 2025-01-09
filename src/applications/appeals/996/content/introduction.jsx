@@ -7,7 +7,7 @@ import {
   MST_INFO,
 } from '../constants';
 
-export const NewIntroText = () => (
+export const IntroText = () => (
   <p className="va-introtext">
     If you disagree with a VA decision on an initial claim or Supplemental
     Claim, you or your representative can request a Higher-Level Review of the
