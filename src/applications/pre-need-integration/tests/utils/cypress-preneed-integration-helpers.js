@@ -1,6 +1,8 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import cemeteries from '../fixtures/mocks/cemeteries.json';
 import featureToggles from '../fixtures/mocks/feature-toggles.json';
+import { serviceLabels } from '../../utils/labels';
+import { rankLabels } from '../../utils/rankLabels';
 
 function interceptSetup() {
   cy.intercept('POST', '/v0/preneeds/burial_forms', {
@@ -42,6 +44,14 @@ function validateProgressBar(index) {
 
 function clickContinue() {
   cy.get('.form-panel .usa-button-primary').click();
+}
+
+function autoSuggestFirstResult(field, value) {
+  cy.get(field).type(value);
+  cy.get(field).trigger('keydown', { keyCode: 40 });
+  cy.get(field).trigger('keyup', { keyCode: 40 });
+  cy.get(field).trigger('keydown', { keyCode: 13 });
+  cy.get(field).trigger('keyup', { keyCode: 13 });
 }
 
 // Visits the pre-need intro page, validates the title, clicks start application
@@ -191,46 +201,29 @@ function fillPreviousName(veteran) {
 
 // Fills in any existing military history data, performs axe check, continues to next page
 function fillServicePeriods(serviceRecord) {
+  cy.axeCheck();
+  clickContinue();
   serviceRecord.forEach((tour, index) => {
-    cy.fillDate(
-      `root_application_veteran_serviceRecords_${index}_dateRange_from`,
-      tour.dateRange.from,
+    autoSuggestFirstResult(
+      '#root_serviceBranch',
+      serviceLabels[tour.serviceBranch],
     );
-    cy.fillDate(
-      `root_application_veteran_serviceRecords_${index}_dateRange_to`,
-      tour.dateRange.to,
-    );
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-    ).click();
-    cy.fill(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      'ALLIED FORCES',
-    );
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-    ).trigger('keydown', { keyCode: 40 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-    ).trigger('keyup', { keyCode: 40 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-    ).trigger('keydown', { keyCode: 13 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-    ).trigger('keyup', { keyCode: 13 });
 
-    cy.fill(
-      `input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`,
-      tour.highestRank,
-    );
-    cy.get(
-      `#root_application_veteran_serviceRecords_${index}_dischargeType`,
-    ).select(tour.dischargeType);
+    cy.fillDate('root_dateRange_from', tour.dateRange.from);
+    cy.fillDate('root_dateRange_to', tour.dateRange.to);
+
+    autoSuggestFirstResult('#root_highestRank', rankLabels[tour.highestRank]);
+
+    cy.get('#root_dischargeType').select(tour.dischargeType);
+
+    clickContinue();
 
     // Keep adding them until we're finished.
     if (index < serviceRecord.length - 1) {
-      cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      cy.selectRadio('root_view:hasServicePeriods', 'Y');
+      clickContinue();
+    } else {
+      cy.selectRadio('root_view:hasServicePeriods', 'N');
     }
   });
   cy.axeCheck();
@@ -244,12 +237,12 @@ function fillBenefitSelection(
   currentlyBuriedPersons,
 ) {
   // Page 1
-  cy.fill(
-    'input[name="root_application_claimant_desiredCemetery"]',
-    desiredCemetery,
-  );
-  cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-  cy.get('body').click({ force: true });
+  // cy.fill(
+  //   'input[name="root_application_claimant_desiredCemetery"]',
+  //   desiredCemetery,
+  // );
+  // cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
+  // cy.get('body').click({ force: true });
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
@@ -274,6 +267,14 @@ function fillBenefitSelection(
     clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
   }
+
+  // Page 3
+  autoSuggestFirstResult(
+    '#root_application_claimant_desiredCemetery',
+    cemeteries.data.find(({ id }) => id === desiredCemetery).attributes.name,
+  );
+  cy.axeCheck();
+  clickContinue();
 }
 
 // Submit Form
@@ -294,13 +295,14 @@ function submitForm() {
 
   cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
     'contain',
-    'Your claim has been submitted.',
+    'You’ve submitted your application',
   );
   cy.axeCheck();
 }
 
 module.exports = {
   clickContinue,
+  autoSuggestFirstResult,
   interceptSetup,
   visitIntro,
   fillPreparerInfo,

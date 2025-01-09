@@ -1,8 +1,7 @@
-/* eslint-disable @department-of-veterans-affairs/axe-check-required */
-// Axe check is performed on every page with the errorCheck function
 import requiredHelpers from './utils/cypress-integration-required-field-helpers';
 import testData from './fixtures/data/required-test.json';
 import preneedHelpers from './utils/cypress-preneed-integration-helpers';
+import { serviceLabels } from '../utils/labels';
 
 const { applicant } = testData.data.application;
 const { claimant } = testData.data.application;
@@ -154,43 +153,47 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     errorCheck(requiredHelpers.previousNameErrors2);
     cy.fill(
       'input[name=root_application_veteran_serviceName_first]',
-      testData.data.application.veteran.serviceName.first,
+      veteran.serviceName.first,
     );
     cy.fill(
       'input[name=root_application_veteran_serviceName_last]',
-      testData.data.application.veteran.serviceName.last,
+      veteran.serviceName.last,
     );
     preneedHelpers.clickContinue();
 
-    // Old Service Records Component
-    serviceRecords.forEach((branch, index) => {
-      errorCheck([`veteran_serviceRecords_${index}_serviceBranch`]);
-
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).click();
-      cy.fill(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        branch.serviceBranch,
+    // Service Records
+    preneedHelpers.clickContinue();
+    veteran.serviceRecords.forEach((tour, index) => {
+      cy.get('.form-panel .usa-button-primary').click({
+        waitForAnimations: true,
+      });
+      cy.get('#root_serviceBranch-error-message').should('be.visible');
+      cy.axeCheck();
+      preneedHelpers.autoSuggestFirstResult(
+        '#root_serviceBranch',
+        serviceLabels[tour.serviceBranch],
       );
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keydown', { keyCode: 40 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keyup', { keyCode: 40 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keydown', { keyCode: 13 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keyup', { keyCode: 13 });
+      preneedHelpers.clickContinue();
+      // cy.get('root_view:hasServicePeriods').contains(
+      //   'Select yes if you have another service period to add',
+      // );
+      cy.get('.form-panel .usa-button-primary').click({
+        waitForAnimations: true,
+      });
+      cy.get('.rjsf-web-component-field').contains(
+        'Select yes if you have another service period to add',
+      );
+      cy.axeCheck();
 
       // Keep adding them until we're finished.
       if (index < serviceRecords.length - 1) {
-        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+        cy.selectRadio('root_view:hasServicePeriods', 'Y');
+        preneedHelpers.clickContinue();
+      } else {
+        cy.selectRadio('root_view:hasServicePeriods', 'N');
       }
     });
+    preneedHelpers.clickContinue();
 
     // Veteran/Sponsor Information Page
     preneedHelpers.validateProgressBar('2');

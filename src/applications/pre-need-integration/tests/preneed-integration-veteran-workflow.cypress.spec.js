@@ -48,12 +48,15 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
 
     // Previous Names Page
     preneedHelpers.fillPreviousName(veteran);
-    cy.url().should('not.contain', '/applicant-military-name');
+
+    // Service Periods
+    preneedHelpers.validateProgressBar('4');
+    preneedHelpers.fillServicePeriods(veteran.serviceRecords);
 
     // Benefit Selection Page
-    preneedHelpers.validateProgressBar('4');
+    preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillBenefitSelection(
-      testData.data.application.veteran.desiredCemetery,
+      claimant.desiredCemetery,
       testData.data.application.hasCurrentlyBuried,
       testData.data.application.currentlyBuriedPersons,
     );
@@ -62,18 +65,11 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.get('label[for="root_application_preneedAttachments"]').should(
       'be.visible',
     );
-    preneedHelpers.validateProgressBar('4');
+    preneedHelpers.validateProgressBar('6');
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/supporting-documents');
-
-    // Applicant/Veteran Contact Information Page
-    preneedHelpers.validateProgressBar('5');
-
-    // Preparer Contact Information Page
-    preneedHelpers.validateProgressBar('5');
 
     // Review/Submit Page
-    preneedHelpers.validateProgressBar('6');
+    preneedHelpers.validateProgressBar('7');
     preneedHelpers.submitForm();
   });
 });

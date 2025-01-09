@@ -69,20 +69,18 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
 
     // Previous Names Page
-    preneedHelpers.fillPreviousName(testData.data.application.veteran);
+    preneedHelpers.fillPreviousName(veteran);
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Military History Page
     preneedHelpers.validateProgressBar('5');
-    preneedHelpers.fillServicePeriods(
-      testData.data.application.veteran.serviceRecords,
-    );
+    preneedHelpers.fillServicePeriods(veteran.serviceRecords);
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Benefit Selection Page
-    preneedHelpers.validateProgressBar('4');
+    preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillBenefitSelection(
-      testData.data.application.claimant.desiredCemetery.label,
+      claimant.desiredCemetery,
       testData.data.application.hasCurrentlyBuried,
       testData.data.application.currentlyBuriedPersons,
     );
@@ -91,30 +89,12 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.get('label[for="root_application_preneedAttachments"]').should(
       'be.visible',
     );
-    preneedHelpers.validateProgressBar('5');
+    preneedHelpers.validateProgressBar('7');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Claimant Contact Information Page
-    preneedHelpers.validateProgressBar('6');
-    preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
-
-    // Veteran Contact Information Page
-    preneedHelpers.validateProgressBar('6');
-    cy.fillAddress(
-      'root_application_veteran_address',
-      testData.data.application.veteran.address,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-mailing-address');
-
-    // Preparer Contact Information Page
-    preneedHelpers.validateProgressBar('6');
-    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
-
     // Review/Submit Page
-    preneedHelpers.validateProgressBar('7');
+    preneedHelpers.validateProgressBar('8');
     preneedHelpers.submitForm();
   });
 });
