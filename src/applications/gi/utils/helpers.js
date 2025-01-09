@@ -528,7 +528,6 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-// TODO use this filter function on results page
 export const filterLcResults = (results, nameInput, filters) => {
   const { type, state } = filters;
 
@@ -550,7 +549,6 @@ export const filterLcResults = (results, nameInput, filters) => {
 export const updateQueryParam = (history, location) => {
   return keyValuePairs => {
     const searchParams = new URLSearchParams(location.search);
-
     keyValuePairs.forEach(([key, value]) => {
       searchParams.set(key, value);
     });
@@ -562,17 +560,31 @@ export const updateQueryParam = (history, location) => {
   };
 };
 
-export const handleLcResultsSearch = (
-  history,
-  category = 'all',
-  name = null,
-  state = 'all',
-) => {
-  return name
-    ? history.push(
-        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-      )
-    : history.push(`/lc-search/results?category=${category}&state=${state}`);
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+
+  const nameParam = searchParams.get('name') ?? '';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const stateParam = searchParams.get('state') ?? 'all';
+
+  return { nameParam, categoryParam, stateParam };
+};
+
+export const handleLcResultsSearch = (history, category, name, state) => {
+  return history.push(
+    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+  );
+};
+
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}  `;
 };
 
 export function capitalizeFirstLetter(string) {

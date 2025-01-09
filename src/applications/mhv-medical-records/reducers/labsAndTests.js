@@ -249,7 +249,7 @@ const convertPathologyRecord = record => {
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime, 'MMMM d, yyyy')
       : EMPTY_FIELD,
     dateCollected: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)

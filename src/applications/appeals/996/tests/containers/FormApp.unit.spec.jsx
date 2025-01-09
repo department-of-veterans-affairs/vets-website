@@ -12,7 +12,11 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import { CONTESTABLE_ISSUES_API } from '../../constants';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -63,6 +67,7 @@ const getData = ({
         // eslint-disable-next-line camelcase
         hlr_updateed_contnet: true,
         hlrUpdateedContnet: true,
+        [NEW_API]: true,
       },
     },
   };
@@ -181,6 +186,24 @@ describe('Form0996App', () => {
     });
   });
 
+  it('should call API is logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <Form0996App {...props} toggles={{ [NEW_API]: true }} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
+      resetFetch();
+    });
+  });
+
   it('should update benefit type in form data', async () => {
     const { props, data } = getData({ loggedIn: true, formData: {} });
     const store = mockStore(data);
@@ -286,6 +309,7 @@ describe('Form0996App', () => {
         legacyCount: 0,
         internalTesting: true,
         hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -376,6 +400,7 @@ describe('Form0996App', () => {
         additionalIssues,
         legacyCount: 0,
         hlrUpdatedContent: true,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
