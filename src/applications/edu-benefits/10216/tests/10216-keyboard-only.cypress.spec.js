@@ -22,6 +22,8 @@ describe('22-10216 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('va-accordion-item[header="VA education service help"]');
     cy.realPress('Space');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(100);
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Education Liaison Representative');
     cy.tabToElement('[text="Start your 35% exemption request"]');
