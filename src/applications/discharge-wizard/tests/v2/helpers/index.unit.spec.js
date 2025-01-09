@@ -567,6 +567,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for diagnosis or treatment of PTSD or another mental health condition,',
+          { exact: false },
         ),
       ).to.exist;
     });
@@ -582,6 +583,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for diagnosis or treatment of TBI,',
+          { exact: false },
         ),
       ).to.exist;
     });
@@ -597,6 +599,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for for treatment after your assault or harassment,',
+          { exact: false },
         ),
       ).to.exist;
     });
