@@ -4,7 +4,7 @@ import { BASE_URL, FORM_URL } from '../constants';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
 
-describe('995 subtask', () => {
+describe('996 subtask', () => {
   beforeEach(() => {
     cypressSetup();
     window.dataLayer = [];

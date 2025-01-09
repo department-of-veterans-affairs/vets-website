@@ -36,6 +36,7 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import {
   mayHaveLegacyAppeals,
   showNewHlrContent,
@@ -68,7 +69,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: 'higher_level_reviews',
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
