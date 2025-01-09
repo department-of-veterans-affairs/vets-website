@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
-import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
+import PrintButton from '../pages/UpcomingAppointmentsDetailsPage/PrintButton';
 
 export default function AppointmentListNavigation({
   count,

@@ -36,4 +36,4 @@ export const informalConferenceContactOptionDescriptions = {
     'VA may contact my accredited representative by mail, telephone, email, or another way to schedule my conference.',
 };
 
-export const newEditButtonLabel = `Edit ${informalConferenceContactTitle}`;
+export const editButtonLabel = `Edit ${informalConferenceContactTitle}`;
