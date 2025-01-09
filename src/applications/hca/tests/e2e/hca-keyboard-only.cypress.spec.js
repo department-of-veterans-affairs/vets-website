@@ -1,16 +1,12 @@
 import { format, subYears } from 'date-fns';
-import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
   fillAddressWithKeyboard,
   fillDateWithKeyboard,
   fillNameWithKeyboard,
-  selectRadioWithKeyboard,
   selectDropdownWithKeyboard,
+  selectRadioWithKeyboard,
+  setupForAuth,
 } from './utils';
 
 describe('HCA-Keyboard-Only', () => {
@@ -19,50 +15,18 @@ describe('HCA-Keyboard-Only', () => {
   // eslint-disable-next-line func-names
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
-      'mockFeatures',
-    );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/health_care_applications/rating_info', {
-      statusCode: 200,
-      body: {
-        data: {
-          id: '',
-          type: 'hash',
-          attributes: { userPercentOfDisability: 0 },
-        },
-      },
-    }).as('mockDisabilityRating');
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
-    cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {});
-    cy.intercept('POST', '/v0/health_care_applications', {
-      statusCode: 200,
-      body: {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: format(new Date(), 'yyyy-MM-dd'),
-      },
-    }).as('mockSubmit');
+    setupForAuth();
   });
 
   it('should navigate and input maximal data using only a keyboard', () => {
     cy.wrap(maxTestData.data).as('testData');
     cy.get('@testData').then(data => {
-      cy.visit(manifest.rootUrl);
-      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
       cy.injectAxeThenAxeCheck();
 
       cy.tabToElement('[href="#start"]');
       cy.realPress('Enter');
 
-      cy.wait('@mockSip');
+      cy.wait('@mockPrefill');
       cy.tabToElementAndPressSpace('.usa-button-primary');
 
       // Place of birth
