@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
-import { addStyleToShadowDomOnPages } from '../utilities';
+import { addStyleToShadowDomOnPages } from '../../utils/helpers';
 
-// export const isAccredited = val => val;
 export default function App({ location, children }) {
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -15,13 +15,17 @@ export default function App({ location, children }) {
       '#dateHint {display: none}',
     );
   });
+
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <div className="form-22-10216-container row">
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </div>
   );
 }
+
 App.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.object,
   location: PropTypes.object,
 };

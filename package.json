@@ -151,6 +151,7 @@
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-import-ignore": "^1.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
     "browserify-zlib": "^0.2.0",
@@ -334,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6732ef3d0c5804484f7e3aa580333ecad29eb085",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#35ca8ea9a798407936e20ccf76a4be0fd75a8f76",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {

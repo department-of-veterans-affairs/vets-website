@@ -6,6 +6,7 @@ import {
   RESPONSES,
 } from '../../../constants/question-data-map';
 import { BCMR, DRB } from '../../../constants';
+import VABenefitsAccordion from '../VABenefitsAccordion';
 
 const AdditionalInstructions = ({ formResponses }) => {
   const serviceBranch = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH];
@@ -49,74 +50,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             .
           </p>
         </va-accordion-item>
-        <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
-          <p>
-            Even with a less than honorable discharge, you may be able to access
-            some VA benefits through the Character of Discharge review process.
-            When you apply for VA benefits, we’ll review your record to
-            determine if your service was “honorable for VA purposes.” This
-            review can take up to a year. Please provide us with documents
-            supporting your case, similar to the evidence you’d send with an
-            application to upgrade your discharge.
-          </p>
-          <p>
-            You may want to consider finding someone to advocate on your behalf,
-            depending on the complexity of your case. A lawyer or Veterans
-            Service Organization (VSO) can collect and submit supporting
-            documents for you.{' '}
-            <a
-              href="https://www.benefits.va.gov/vso/varo.asp"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Find a VSO near you (opens in a new tab).
-            </a>
-          </p>
-          <p>
-            <strong>Note:</strong> You can ask for a VA Character of Discharge
-            review while at the same time applying for a discharge upgrade from
-            the Department of Defense (DoD) or the Coast Guard.
-          </p>
-          <p>
-            If you experienced sexual assault or harassment while in the
-            military, or need mental health services related to PTSD or other
-            mental health conditions linked to your service, you may qualify
-            immediately for VA health benefits, even without a VA Character of
-            Discharge review or a discharge upgrade.
-          </p>
-          <p>Learn more about:</p>
-          <ul>
-            <li>
-              <a
-                href="/health-care/health-needs-conditions/military-sexual-trauma/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                VA health benefits for Veterans who have experienced military
-                sexual trauma (opens in a new tab)
-              </a>
-            </li>
-            <li>
-              <a
-                href="/health-care/health-needs-conditions/mental-health/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                VA health benefits for Veterans with mental health conditions
-                (opens in a new tab)
-              </a>
-            </li>
-            <li>
-              <a
-                href="/health-care/health-needs-conditions/mental-health/ptsd/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                VA health benefits for Veterans with PTSD (opens in a new tab)
-              </a>
-            </li>
-          </ul>
-        </va-accordion-item>
+        <VABenefitsAccordion isResultsPage />
       </va-accordion>
       <h2>Additional Resources</h2>
       <hr />
@@ -246,9 +180,9 @@ const AdditionalInstructions = ({ formResponses }) => {
           )}
       </ul>
       <p>
-        <strong>Please note:</strong> This information was created based on how
-        you answered the questions on the previous page. This information will
-        not be specific to someone with different answers to the questions.
+        <strong>Note:</strong> This information was created based on how you
+        answered the questions on the previous page. This information will not
+        be specific to someone with different answers to the questions.
       </p>
     </section>
   );
