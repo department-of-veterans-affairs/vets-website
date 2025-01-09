@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ADDRESS_DATA from 'platform/forms/address/data';
 import {
   VaCard,
   VaLinkAction,
@@ -110,7 +111,11 @@ function LicenseCertificationSearchResults({
                 </p>
                 <p className="lc-filter-option">
                   <strong>State: </strong>{' '}
-                  {`${stateParam === 'all' ? `"All"` : `"${stateParam}"`}`}
+                  {`${
+                    stateParam === 'all'
+                      ? `"All"`
+                      : `"${ADDRESS_DATA.states[stateParam]}"`
+                  }`}
                 </p>
                 <p className="lc-filter-option">
                   <strong>License/Certification Name: </strong>{' '}
@@ -130,7 +135,9 @@ function LicenseCertificationSearchResults({
                             </h4>
                             <VaLinkAction
                               href={`/lc-search/results/${result.enrichedId}`}
-                              text="View test amount details"
+                              text={`View test amount details for ${
+                                result.lacNm
+                              }`}
                               type="secondary"
                               onClick={handleRouteChange(result.enrichedId)}
                             />

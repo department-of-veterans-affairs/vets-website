@@ -56,7 +56,7 @@ export default function LicenseCertificationKeywordSearch({
             >
               License/Certification Name
             </label>
-            <div className="lc-name-search-container vads-u-display--flex">
+            <div className="vads-u-display--flex input-container">
               <input
                 style={
                   inputValue === ''
@@ -64,7 +64,6 @@ export default function LicenseCertificationKeywordSearch({
                     : { width: '100%', borderRight: 'none' }
                 }
                 aria-controls="lcKeywordSearch"
-                className="lc-name-search-input"
                 {...getInputProps({
                   type: 'text',
                   onChange: handleChange,
@@ -78,7 +77,7 @@ export default function LicenseCertificationKeywordSearch({
                     size={3}
                     icon="cancel"
                     id="clear-input"
-                    class="lc-clear vads-u-display--flex vads-u-align-items--center"
+                    class="clear-icon vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}

@@ -378,6 +378,7 @@ export default function LicenseCertificationSearchForm({
               setDropdowns(updateDropdowns());
               setName('');
               setShowAlert(false);
+              setMultipleOptions(null);
             })
           }
         />

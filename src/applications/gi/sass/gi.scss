@@ -314,17 +314,29 @@
   max-width: 30rem;
 }
 
-.lc-clear {
-  border: 1px solid $color-gray-dark;
-  border-left: none;
-}
-
 .lc-card-subheader {
   text-transform: capitalize;
 }
 
 .license-alert {
   max-width: 30rem;
+}
+
+.input-container {
+  display: flex;
+  border: 1px solid $color-gray-dark;
+  margin: 6px 0px;
+  height: 2.625rem;
+  max-width: 30rem;
+
+  input {
+    border: none;
+    height: unset;
+  }
+
+  .clear-icon {
+    padding: 0 3px;
+  }
 }
 
 .reset-search {
