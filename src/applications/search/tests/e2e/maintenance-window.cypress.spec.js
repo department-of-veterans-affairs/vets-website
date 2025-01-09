@@ -91,10 +91,10 @@ describe('Search.gov maintenance window message', () => {
     cy.axeCheck();
   });
 
-  it('should NOT display message if returns with search results at 4 PM EST on a Tuesday', () => {
+  it('should display message if returns with search results at 4 PM EST on a Tuesday', () => {
     mockResults();
     setClockAndSearch('2021-03-16T20:00:00.000Z');
-    verifyNoBanner();
+    verifyBanner();
     checkForResults();
 
     cy.axeCheck();

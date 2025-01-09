@@ -376,15 +376,8 @@ const SearchApp = ({
   // 1. Search.gov errors during their maintenance windows (Tues & Thurs 3-6pm EST)
   // 2. Sitewide team using the search_gov_maintenance feature flipper
   //    when Search.gov is experiencing major outages
-  const searchGovIssuesWithinMaintenanceWindow =
-    isWithinMaintenanceWindow() &&
-    results &&
-    results.length === 0 &&
-    !hasErrors &&
-    !searchIsLoading;
-
   const shouldShowMaintenanceBanner =
-    searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
+    isWithinMaintenanceWindow() || searchGovMaintenance;
 
   return (
     <div className="search-app" data-e2e-id="search-app">
@@ -446,6 +439,7 @@ const SearchApp = ({
 
 const mapStateToProps = state => ({
   search: state.search,
+  // searchGovMaintenance: true
   searchGovMaintenance: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchGovMaintenance
   ],

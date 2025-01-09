@@ -5,7 +5,8 @@ import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
 export const isWithinMaintenanceWindow = () => {
   const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
-  const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
+  const maintenanceStartHour = 10; // DUMMY - remove this
+  // const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
   const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
   const timeZone = 'America/New_York';
 
@@ -20,7 +21,8 @@ export const isWithinMaintenanceWindow = () => {
 };
 
 const calculateCurrentMaintenanceWindow = () => {
-  const maintenanceStartHour = 15; // 3 PM in 24-hour format
+  const maintenanceStartHour = 10; // DUMMY - remove this
+  // const maintenanceStartHour = 15; // 3 PM in 24-hour format
   const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
   const timeZone = 'America/New_York';
 
@@ -60,7 +62,7 @@ const SearchMaintenance = ({ unexpectedMaintenance }) => {
         <va-banner
           data-label="Error banner"
           headline="Search Maintenance"
-          type="error"
+          type="warning"
         >
           We’re working on Search VA.gov right now. If you have trouble using
           the search tool, check back later. Thank you for your patience.
