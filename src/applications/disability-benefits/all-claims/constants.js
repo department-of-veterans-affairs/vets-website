@@ -411,3 +411,10 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   nonMst: 'Traumatic events related to other personal interactions',
   other: 'Other traumatic events',
 });
+
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
