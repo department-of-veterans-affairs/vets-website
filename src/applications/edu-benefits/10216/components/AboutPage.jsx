@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const AboutPage = ({ props }) => {
   const goToIntroduction = event => {
     event.preventDefault();
     props?.router.push('/introduction');
   };
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+  }, []);
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">

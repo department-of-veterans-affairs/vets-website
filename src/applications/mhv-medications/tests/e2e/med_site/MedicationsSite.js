@@ -14,17 +14,17 @@ class MedicationsSite {
     this.mockVamcEhr();
 
     if (isMedicationsUser) {
-      cy.login(mockUser);
-      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
-      // window.localStorage.setItem('isLoggedIn', true);
-      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
+
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+      // window.localStorage.setItem('isLoggedIn', true);
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.login(mockUser);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);

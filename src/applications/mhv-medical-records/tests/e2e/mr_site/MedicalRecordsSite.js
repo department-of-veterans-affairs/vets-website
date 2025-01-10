@@ -11,7 +11,6 @@ class MedicalRecordsSite {
     }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
-    cy.login(userFixture);
     cy.intercept('POST', '/my_health/v1/medical_records/session', {
       statusCode: 204,
       body: {},
@@ -20,9 +19,7 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
-    // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
-    // window.localStorage.setItem('isLoggedIn', true);
-    // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+    cy.login(userFixture);
   };
 
   mockFeatureToggles = ({
