@@ -140,8 +140,7 @@ describe('Schemaform <ArrayField>', () => {
     const button = tree.everySubTree('button');
     // no remove button
     expect(button.length).to.equal(1);
-    // expect(button[0].text()).to.equal('Save');
-    expect(tree.toString()).to.contain('text="Save"'); // SkinDeep doesn't handle VaButton, so can't directly query for this edit button.
+    expect(tree.toString()).to.contain('text="Save"'); // SkinDeep doesn't handle VaButton, so can't directly query for this save button.
     expect(button[0].text()).to.contain('Add another');
   });
   it('should render save button with showSave option', () => {
@@ -265,7 +264,7 @@ describe('Schemaform <ArrayField>', () => {
     const button = tree.everySubTree('button');
     expect(button.length).to.equal(1);
 
-    // SkinDeep doesn't handle VaButton, so can't directly query for these three buttons directly.
+    // SkinDeep doesn't handle VaButton, so can't directly query for these three buttons directly:
     expect(tree.toString()).to.contain('label="Edit foo');
     expect(tree.toString()).to.contain('label="Save bar');
     expect(tree.toString()).to.contain('label="Remove bar');
