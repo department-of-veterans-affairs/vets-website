@@ -24,6 +24,8 @@ export const Data = {
   MED_DESCRIPTION: 'Medication description',
   LAST_FILLED_DATE: 'Last filled on March 18, 2024',
   REFILL_LINK_TEXT: 'Request a refill',
+  ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
+  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
 };
 export const Paths = {
   LANDING_LIST:

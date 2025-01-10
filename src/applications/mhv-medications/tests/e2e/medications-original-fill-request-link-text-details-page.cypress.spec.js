@@ -5,8 +5,8 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import olderRxDetails from './fixtures/older-prescription-details.json';
 import { Data } from './utils/constants';
 
-describe('Medications Details Page Refill Prescription Link', () => {
-  it('visits Medications Details Page Grouping Refill Link Text', () => {
+describe('Medications Details Page Request Refill Link', () => {
+  it('visits Medications Details Page Original Fill Link Text', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
@@ -15,8 +15,7 @@ describe('Medications Details Page Refill Prescription Link', () => {
     landingPage.visitMedicationsListPage(medicationsList);
     cy.injectAxe();
     cy.axeCheck('main');
-    detailsPage.clickMedicationDetailsLink(olderRxDetails, 1);
-    detailsPage.verifyLastFilledDateOnDetailsPage(Data.LAST_FILLED_DATE);
-    detailsPage.verifyRefillLinkTextOnDetailsPage(Data.REFILL_LINK_TEXT);
+    detailsPage.clickMedicationDetailsLink(olderRxDetails, 2);
+    detailsPage.verifyRefillLinkTextOnDetailsPage(Data.ORIGINAL_FILL_LINK_TEXT);
   });
 });

@@ -562,6 +562,10 @@ class MedicationsDetailsPage {
   verifyRefillLinkTextOnDetailsPage = text => {
     cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
   };
+
+  verifyRefillHistoryDescriptionText = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
+  };
 }
 
 export default MedicationsDetailsPage;
