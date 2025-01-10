@@ -76,7 +76,7 @@ export const uiSchema = {
                 // country-specific error messages
                 if (country === 'USA') {
                   addressUiSchema['ui:errorMessages'] = {
-                    required: 'Enter a valid 5- or 9-digit zip code',
+                    required: 'Please provide a valid postal code',
                   };
                 } else if (['CAN', 'MEX'].includes(country) || !country) {
                   addressUiSchema['ui:errorMessages'] = {
