@@ -135,6 +135,7 @@ const Dropdown = ({
         enable-analytics={false}
         label={determineLabel(shortName)}
         error={formError ? determineErrorMessage(shortName) : null}
+        required
         name={`${shortName}_dropdown`}
         value={formValue || ''}
         onVaSelect={e => onValueChange(e.detail.value)}

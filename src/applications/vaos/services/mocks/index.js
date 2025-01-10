@@ -331,7 +331,7 @@ const responses = {
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
-    const referrals = referralUtils.createReferrals(3, '2024-12-02');
+    const referrals = referralUtils.createReferrals(3, '2024-12-02', 1);
     const singleReferral = referrals.find(
       referral => referral?.UUID === req.params.referralId,
     );
