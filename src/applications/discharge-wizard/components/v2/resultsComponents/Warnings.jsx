@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertMessage from './AlertMessage';
-import {
-  determineBranchOfService,
-  determineOldDischarge,
-  determineBoardObj,
-} from '../../../helpers';
-import { venueWarning, upgradeVenueWarning, DRB } from '../../../constants';
+import { determineBranchOfService, determineBoardObj } from '../../../helpers';
+import { venueWarning, DRB } from '../../../constants';
 import {
   RESPONSES,
   SHORT_NAME_MAP,
@@ -16,9 +12,6 @@ const Warnings = ({ formResponses }) => {
   const renderVenueWarnings = () => {
     const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
     const reason = formResponses[SHORT_NAME_MAP.REASON];
-    const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-    const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
-    const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
 
     return (
       <>
@@ -27,15 +20,6 @@ const Warnings = ({ formResponses }) => {
           isVisible={
             prevAppType === RESPONSES.NOT_SURE &&
             reason !== RESPONSES.REASON_DD215_UPDATE_TO_DD214
-          }
-          status="warning"
-        />
-        <AlertMessage
-          content={upgradeVenueWarning}
-          isVisible={
-            prevAppType === RESPONSES.NOT_SURE &&
-            reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
-            !oldDischarge
           }
           status="warning"
         />
@@ -71,7 +55,7 @@ const Warnings = ({ formResponses }) => {
         These instructions are for Veterans who had a successful upgrade application reviewed by the${' '}
         ${determineBranchOfService(
           formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
-        )}
+        )} 
         Discharge Review Board (DRB). For more reliable information, 
         please review your records to find out which board you sent your earlier application to, 
         and complete the questions again.`;
