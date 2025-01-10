@@ -52,7 +52,7 @@ const mergeResults = files => {
 
 const results = mergeResults(coverageResultsFiles);
 fs.writeFileSync(
-  'mergedResults.json',
+  'merged-coverage-report.json',
   JSON.stringify(results, null, 2),
   'utf8',
 );
