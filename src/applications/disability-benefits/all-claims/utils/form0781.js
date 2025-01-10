@@ -47,3 +47,7 @@ export function isRelatedToMST(formData) {
     formData?.mentalHealth?.eventTypes?.mst === true
   );
 }
+
+export function showManualUpload0781Page(formData) {
+  return showForm0781Pages(formData);
+}
