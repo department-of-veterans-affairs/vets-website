@@ -787,7 +787,7 @@ describe('Schemaform actions:', () => {
         errorMessage: 'Internal Server Error',
       });
     });
-    it('should set custom error if error message is bad', () => {
+    it('should NOT set custom error if network 500 response', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -825,11 +825,51 @@ describe('Schemaform actions:', () => {
         file: { name: '1.jpg', size: 42 },
         name: '1.jpg',
         size: 42,
+        errorMessage: 'Internal Server Error',
+      });
+    });
+    it('should set custom error message on network error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 42,
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 50,
+          fileUploadNetworkErrorMessage:
+            'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].error();
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        file: { name: '1.jpg', size: 42 },
+        name: '1.jpg',
         errorMessage:
           'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
       });
     });
-    it('should set alert on network issue', () => {
+    it('should set alert on network error', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -880,7 +920,7 @@ describe('Schemaform actions:', () => {
         },
       });
     });
-    it('should set alert on failure', () => {
+    it('should not set alert on network 400 response', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -923,10 +963,6 @@ describe('Schemaform actions:', () => {
         name: '1.jpg',
         size: 1,
         errorMessage: 'Bad Request',
-        alert: {
-          header: 'Alert header text',
-          body: ['Alert body text'],
-        },
       });
     });
   });

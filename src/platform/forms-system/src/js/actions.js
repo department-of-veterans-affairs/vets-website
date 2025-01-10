@@ -313,16 +313,13 @@ export function uploadFile(
         onChange({ ...fileData, isEncrypted: !!password });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
-        let serverErrorMessage = req.statusText;
+        let errorMessage = req.statusText;
         try {
           // detail contains a better error message
-          serverErrorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
         } catch (error) {
           // intentionally empty
         }
-        let errorMessage =
-          uiOptions?.fileUploadNetworkErrorMessage || serverErrorMessage;
-        const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             new Date(
@@ -333,12 +330,7 @@ export function uploadFile(
         if (password) {
           onChange({ ...fileObj, errorMessage, isEncrypted: true });
         } else {
-          const changePayload = {
-            ...fileObj,
-            errorMessage,
-            ...(errorAlert && { alert: errorAlert }),
-          };
-          onChange(changePayload);
+          onChange({ ...fileObj, errorMessage });
         }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
