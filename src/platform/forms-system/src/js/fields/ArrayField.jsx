@@ -458,31 +458,29 @@ export default class ArrayField extends React.Component {
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
-                              <button
-                                type="button"
+                              <VaButton
                                 className="float-left"
-                                aria-label={`${updateText} ${ariaItemName}`}
+                                label={`${updateText} ${ariaItemName} ${index +
+                                  1}`}
                                 onClick={() => this.handleUpdate(index)}
-                              >
-                                {updateText}
-                              </button>
+                                text={updateText}
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
                             {multipleRows && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${ariaItemName}`}
+                              <VaButton
+                                secondary
+                                className="float-right"
+                                label={`Remove ${ariaItemName} ${index + 1}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
                                     uiOptions.confirmRemove,
                                   )
                                 }
-                              >
-                                Remove
-                              </button>
+                                text="Remove"
+                              />
                             )}
                           </div>
                         </div>
