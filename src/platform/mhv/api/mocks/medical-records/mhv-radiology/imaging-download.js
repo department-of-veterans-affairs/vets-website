@@ -16,6 +16,9 @@ const all = [
       'Series 02 - Image 01.jpg',
     ],
   },
+  {
+    '2184acee-280a-493b-91a1-c7914f3eaf98': ['Series 01 - Image 01.jpg'],
+  },
 ];
 
 const imagingDownload = (req, res) => {

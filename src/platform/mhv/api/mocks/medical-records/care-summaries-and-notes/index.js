@@ -264,7 +264,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-02-28T08:00:00-05:00',
+        date: '2024-11-01T08:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -409,7 +409,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-02-28T07:00:00-05:00',
+        date: '2022-08-01T07:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -554,7 +554,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-02-22T07:00:00-05:00',
+        date: '2024-06-29T07:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -699,7 +699,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-01-30T12:00:00-05:00',
+        date: '2024-05-20T12:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -844,7 +844,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-01-30T10:00:00-05:00',
+        date: '2024-03-05T10:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -989,7 +989,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-01-08T10:00:00-05:00',
+        date: '2024-01-07T10:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -1136,7 +1136,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2024-01-08T09:00:00-05:00',
+        date: '2023-11-28T09:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -1286,7 +1286,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2023-12-28T10:00:00-05:00',
+        date: '2023-07-19T10:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -1433,7 +1433,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2023-11-30T09:00:00-05:00',
+        date: '2023-03-10T09:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -1583,7 +1583,7 @@ const all = {
         subject: {
           reference: 'Patient/974',
         },
-        date: '2023-11-28T07:00:00-05:00',
+        date: '2018-04-08T07:00:00-05:00',
         author: [
           {
             reference: '#Author-0',
@@ -1605,442 +1605,7 @@ const all = {
               contentType: 'text/plain',
               data:
                 'TE9DQUwgVElUTEU6IEhUIE1PTlRITFkgTU9OSVRPUiBOT1RFDQpTVEFOREFSRCBUSVRMRTogQ0FSRSBDT09SRElOQVRJT04gSE9NRSBURUxFSEVBTFRIIFNVTU1BUklaQVRJT04NCkRBVEUgT0YgTk9URTogTk9WIDI4LCAyMDIzQDA4OjMyIEVOVFJZIERBVEU6IE5PViAyOCwgMjAyM0AwODozMjo1MA0KQVVUSE9SOiBBTkRSRSBZT1VORyBFWFAgQ09TSUdORVI6DQpVUkdFTkNZOiBTVEFUVVM6IENPTVBMRVRFRA0KVGhlIFZldGVyYW4gaXMgZW5yb2xsZWQgaW4gdGhlIEhvbWUgVGVsZWhlYWx0aCAoSFQpIHByb2dyYW0gYW5kIGNvbnRpbnVlcyB0byBiZSBtb25pdG9yZWQgdmlhIEhUIHRlY2hub2xvZ3kuIFRoZSBkYXRhIHNlbnQgYnkgdGhlIFZldGVyYW4gaXMgcmV2aWV3ZWQgYW5kIGFuYWx5emVkIGJ5IHRoZSBIVCBzdGFmZiwgd2hvIHByb3ZpZGUgb25nb2luZyBjYXNlIG1hbmFnZW1lbnQgYW5kIFZldGVyYW4gaGVhbHRoIGVkdWNhdGlvbiB3aGlsZSBjb21tdW5pY2F0aW5nIGFuZCBjb2xsYWJvcmF0aW5nIHdpdGggdGhlIGhlYWx0aCBjYXJlIHRlYW0gYXMgYXBwcm9wcmlhdGUuIFRoaXMgbm90ZSBjb3ZlcnMgYSB0b3RhbCBvZiAzMCBtaW51dGVzIGZvciB0aGUgbW9udGggbW9uaXRvcmVkLg0KTW9udGggbW9uaXRvcmVkOiBOb3ZlbWJlciAyMDIzDQovZXMvIEFORFJFIFlPVU5HDQpNU04sIFJOIEhvbWUgVGVsZWhlYWx0aCBDYXJlIENvb3JkaW5hdG9yDQpTaWduZWQ6IDExLzI4LzIwMjMgMDg6MzU=',
-              title: 'HT MONTHLY MONITOR NOTE',
-              creation: '2023-11-16T14:40:00-05:00',
-            },
-          },
-        ],
-        context: {
-          related: [
-            {
-              reference: '#Location-0',
-            },
-          ],
-        },
-        resourceType: 'DocumentReference',
-      },
-      search: {
-        mode: 'match',
-      },
-    },
-    {
-      fullUrl:
-        'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
-      resource: {
-        id: '123412',
-        meta: {
-          versionId: '2',
-          lastUpdated: '2024-05-03T12:05:25.407-04:00',
-          source: '#YJJUQxzI9g1Bx8zi',
-          profile: [
-            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note',
-          ],
-        },
-        contained: [
-          {
-            id: 'Location-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'HospitalLocationTO.984ZZI',
-              },
-            ],
-            name: 'Washington DC VAMC',
-            resourceType: 'Location',
-          },
-          {
-            id: 'Author-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: 'Calvin Broadus',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-          {
-            id: 'Provider-1',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: '',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-        ],
-        identifier: [
-          {
-            use: 'usual',
-            system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-            value: 'NoteTO.5298388',
-          },
-        ],
-        status: 'current',
-        type: {
-          coding: [
-            {
-              system: 'http://loinc.org',
-              code: '11506-3',
-              display: 'Progress Note',
-            },
-          ],
-        },
-        category: [
-          {
-            coding: [
-              {
-                system:
-                  'http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category',
-                code: 'clinical-note',
-              },
-            ],
-          },
-        ],
-        subject: {
-          reference: 'Patient/974',
-        },
-        date: '2023-10-26T12:00:00-05:00',
-        author: [
-          {
-            reference: '#Author-0',
-          },
-        ],
-        authenticator: {
-          extension: [
-            {
-              url:
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen',
-              valueDateTime: '2023-10-26T12:00:00-05:00',
-            },
-          ],
-          reference: '#Provider-1',
-        },
-        content: [
-          {
-            attachment: {
-              contentType: 'text/plain',
-              data:
-                'TE9DQUwgVElUTEU6IFBSSU1BUlkgQ0FSRSBOVVJTSU5HIFRSSUFHRSBOT1RFDQpTVEFOREFSRCBUSVRMRTogUFJJTUFSWSBDQVJFIE5VUlNJTkcgVFJJQUdFIE5PVEUNCkRBVEUgT0YgTk9URTogT0NUIDI2LCAyMDIzQDE0OjE2IEVOVFJZIERBVEU6IE9DVCAyNiwgMjAyM0AxNDoxNjo1Nw0KQVVUSE9SOiBDQUxWSU4gQlJPQURVUyBFWFAgQ09TSUdORVI6DQpVUkdFTkNZOiBTVEFUVVM6IENPTVBMRVRFRA0KUGF0aWVudCBhZ2U6IDYyIHkuby4NCkNoaWVmIGNvbXBsYWludCAoaW5jbHVkZSBkYXRlIG9mIG9uc2V0KTogbm8gYy9vIHBhaW4NClZpdGFsIHNpZ25zOg0KVDogOTcuMiBGIFszNi4yIENdICgxMC8yNi8yMDIzIDE0OjE1KQ0KQlA6IDEzNi84NCAoMTAvMjYvMjAyMyAxNDoxNSkNClA6IDgyICgxMC8yNi8yMDIzIDE0OjE1KQ0KUlI6IDE2ICgxMC8yNi8yMDIzIDE0OjE1KQ0KUGFpbiBTY29yZTogMCAoMTAvMjYvMjAyMyAxNDoxNSkNCk8yIHNhdCduOiBTYU8yLU06IE5vIGxhYiBkYXRhIGF2YWlsYWJsZQ0KVGhlIHBhdGllbnQgd2FzIGFza2VkLCAiT3ZlciB0aGUgcGFzdCB0d28gd2Vla3MsIGhvdyBvZnRlbiBoYXZlIHlvdSBiZWVuIGJvdGhlcmVkIGJ5IHRob3VnaHRzIHRoYXQgeW91IHdvdWxkIGJlIGJldHRlciBvZmYgZGVhZCBvciBvZiBodXJ0aW5nIHlvdXJzZWxmIGluIHNvbWUgd2F5PyINCk5vdCBBdCBBbGwNCkFkdmFuY2VkIERpcmVjdGl2ZXMgRWR1Y2F0aW9uOg0KUkVRVUlSRUQgSEVBTFRIIEVEVUNBVElPTg0KQWR2YW5jZSBEaXJlY3RpdmVzIFNjcmVlbiBhbmQgRWR1Y2F0aW9uDQpIYXZlIGFuIGFkdmFuY2UgZGlyZWN0aXZlPw0KWWVzLg0KU2V4dWFsIE9yaWVudGF0aW9uOg0KVGhlIHBhdGllbnQgdGhpbmtzIG9mIHRoZWlyIHNleHVhbCBvcmllbnRhdGlvbiBhczoNClN0cmFpZ2h0IG9yIEhldGVyb3NleHVhbA0KRmFsbCBSaXNrIEFzc2Vzc21lbnQgT3V0cGF0aWVudDoNCkZhbGwgcmlzayBpbmZvcm1hdGlvbiB3YXMgb2J0YWluZWQgZnJvbTogcGF0aWVudA0KUGF0aWVudCBoYXMgTk8gaGlzdG9yeSBvZiBmYWxscyBpbiB0aGUgcGFzdCAzIG1vbnRocy4NClRoZSBwYXRpZW50IGhhcyB0aGUgZm9sbG93aW5nIHJpc2sgZmFjdG9yczoNCkZBTEwgUklTSyBBU1NFU1NNRU5UIE9VVENPTUU6DQpJTlRFUlZFTlRJT05TOg0KSG9tZWxlc3NuZXNzL0Zvb2QgSW5zZWN1cml0eSBTY3JlZW46DQpJbiB0aGUgcGFzdCAyIG1vbnRocywgaGF2ZSB5b3UgYmVlbiBsaXZpbmcgaW4gc3RhYmxlIGhvdXNpbmcgdGhhdCB5b3Ugb3duLCByZW50LCBvciBzdGF5IGluIGFzIHBhcnQgb2YgYSBob3VzZWhvbGQ/IFllcyAtIExpdmluZyBpbiBzdGFibGUgaG91c2luZy4NCkFyZSB5b3Ugd29ycmllZCBvciBjb25jZXJuZWQgdGhhdCBpbiB0aGUgbmV4dCAyIG1vbnRocyB5b3UgbWF5IE5PVCBoYXZlIHN0YWJsZSBob3VzaW5nIHRoYXQgeW91IG93biwgcmVudCwgb3Igc3RheSBpbiBhcyBwYXJ0IG9mIGEgaG91c2Vob2xkPw0KTm8gLSBOb3Qgd29ycmllZCBhYm91dCBob3VzaW5nIG5lYXIgZnV0dXJlDQpUaGUgVmV0ZXJhbiByZXBvcnRzIHRoZSBmb2xsb3dpbmc6DQpXaXRoaW4gdGhlIHBhc3QgMTIgbW9udGhzLCB5b3Ugd29ycmllZCB3aGV0aGVyIHlvdXIgZm9vZCB3b3VsZCBydW4gb3V0IGJlZm9yZSB5b3UgZ290IG1vbmV5IHRvIGJ1eSBtb3JlLg0KTmV2ZXIgdHJ1ZQ0KV2l0aGluIHRoZSBwYXN0IDEyIG1vbnRocywgdGhlIGZvb2QgeW91IGJvdWdodCBqdXN0IGRpZG4ndCBsYXN0IGFuZCB5b3UgZGlkbid0IGhhdmUgbW9uZXkgdG8gZ2V0IG1vcmUuDQpOZXZlciB0cnVlDQpIVE4gTGlmZXN0eWxlIEVkdWNhdGlvbjoNClRoZSBwYXRpZW50IHdhcyBlZHVjYXRlZCBvbiB0aGUgcm9sZSBvZiB3ZWlnaHQgY29udHJvbCwgbG93IHNhbHQgZGlldCBhbmQgYSBoZWFydCBoZWFsdGh5IGRpZXQgaW4gdGhlIGNvbnRyb2wgb2YgYmxvb2QgcHJlc3N1cmUuIFRoZSBpbXBvcnRhbmNlIG9mIHJlZ3VsYXIgYWVyb2JpYyBleGVyY2lzZSAzMCBtaW51dGVzIGF0IGxlYXN0IDMtNCB0aW1lcyBhIHdlZWsgd2FzIGFsc28gcmV2aWV3ZWQgd2l0aCB0aGUgcGF0aWVudC4NClRoZSBwYXRpZW50IHdhcyBlZHVjYXRlZCBvbiB0aGUgYmVuZWZpdHMgb2YgcmVndWxhciBleGVyY2lzZSBmb3IgdGhlIGNvbnRyb2wgb2YgYmxvb2QgcHJlc3N1cmUuDQpUaGUgcGF0aWVudCB3YXMgZWR1Y2F0ZWQgb24gdGhlIHJvbGUgb2YgbnV0cml0aW9uIGFuZCB3ZWlnaHQgY29udHJvbCBpbiB0aGUgbWFuYWdlbWVudCBvZiBoeXBlcnRlbnNpb24uDQpMRUFSTklORyBORUVEUyAoUk4gT05MWSk6DQooVG8gYmUgY29tcGxldGVkIGJ5IFJOKS4NCkZhbWlseS9TaWduaWZpY2FudCBPdGhlciB0byBiZSBpbmNsdWRlZCBpbiB0ZWFjaGluZy9sZWFybmluZyBwcm9jZXNzPw0KTm8NCkluIHdoYXQgbGFuZ3VhZ2UgZG8geW91IHByZWZlciB0byBkaXNjdXNzIHlvdXIgaGVhbHRoIGNhcmU/DQpFbmdsaXNoDQpPVEhFUiBGQUNUT1JTIElNUEFDVElORyBPTiBMRUFSTklORzoNCkFyZSB0aGVyZSBhbnkgaGVhbHRoIGNhcmUgcHJvY2VkdXJlcyBvciB0ZXN0cyB0aGF0IHlvdSB3b3VsZCBub3QgYWdyZWUgdG8gaGF2ZSwgZS5nLCBibG9vZCB0cmFuc2Z1c2lvbnM/IE5vDQpBcmUgdGhlcmUgYW55IHJlbGlnaW91cyBvciBzcGlyaXR1YWwgb2JzZXJ2YW5jZXMgdGhhdCB3b3VsZCBhZmZlY3QgeW91ciBjYXJlIG9yIHRyZWF0bWVudCwgZS5nLiwgZmFzdGluZyBzZXZlcmFsIGRheXMgcGVyIG1vbnRoIGFuZCBoYXMgdG8gdGFrZSBtZWRpY2F0aW9uIHdpdGggZm9vZD8gTm8NCkJBUlJJRVJTIFRPIFRFQUNISU5HL0xFQVJOSU5HIChlLmcuLCBoZWFyaW5nLCB2aXNpb24sIHBoeXNpY2FsIG9yIGNvZ25pdGl2ZSBpbXBhaXJtZW50KQ0KTm8uDQpQUkVGRVJSRUQgTUVUSE9EIE9GIExFQVJOSU5HOg0KQ29tYmluYXRpb24gb2YgYWJvdmU6DQpXRUlHSFQgJiBOVVRSSVRJT04gU0NSRUVOOg0KV2VpZ2h0IDE4NyBsYiBbODQuODIga2ddICgxMC8yNi8yMDIzIDE0OjE1KQ0KSEVJR0hUIDY5IGluIFsxNzUuMyBjbV0gKDEwLzI2LzIwMjMgMTQ6MTUpDQpCTUkgMjgqDQpCTUkgPT4gMjUuIEEgYnJpZWYgY29udmVyc2F0aW9uIHdpdGggdGhlIHBhdGllbnQgd2FzIGNvbmR1Y3RlZCB0byBwcm92aWRlDQppbmZvcm1hdGlvbiBhYm91dCB0aGUgcGF0aWVudCdzIHdlaWdodCAmIEJNSSB0aGF0IGluZGljYXRlcyBvdmVyd2VpZ2h0L29iZXNpdHksIHRoYXQgdGhlcmUgYXJlIGhlYWx0aCByaXNrcyBhc3NvY2lhdGVkIHdpdGggb3ZlcndlaWdodC9vYmVzaXR5IHN1Y2ggYXMgaHlwZXJ0ZW5zaW9uLCBkaWFiZXRlcywgaGVhcnQgZGlzZWFzZSwgYW5kIHRoYXQgdHJlYXRtZW50IGlzIGF2YWlsYWJsZSBzdWNoIGFzIHRoZSBEQyBWQU1DIE1PVkUgKE1hbmFnaW5nIE92ZXJ3ZWlnaHQvT2Jlc2l0eSBmb3IgVmV0ZXJhbnMgRXZlcnl3aGVyZSkgcHJvZ3JhbS4NCkxldmVsIG9mIFVuZGVyc3RhbmRpbmc6IEdvb2QNClBhdGllbnQgcmVzcG9uc2UgdG8gY29udmVyc2F0aW9uIGFib3V0IHdlaWdodCBtYW5hZ2VtZW50IHRyZWF0bWVudCB3YXM6DQpQYXRpZW50IHJlZnVzZXMgd2VpZ2h0IG1hbmFnZW1lbnQgdHJlYXRtZW50Lg0KTVNUIFNjcmVlbmluZzoNClBhdGllbnQgZGVuaWVzIGV4cGVyaWVuY2luZyBtaWxpdGFyeSBzZXh1YWwgdHJhdW1hIChNU1QpLg0KUGF0aWVudCBFZHVjYXRpb246DQpDaGFyYWN0ZXJpc3RpY3Mgb3IgYmFycmllcnMgdGhhdCBtYXkgYWZmZWN0IHRlYWNoaW5nL2NvbXBsaWFuY2U6DQouLi5QYXRpZW50IGRlbmllcyBhbnkgYmFycmllcnMgdG8gbGVhcm5pbmcgYXQgdGhpcyB0aW1lLg0KUHJlZmVycmVkIE1ldGhvZChzKSBvZiBMZWFybmluZzoNCi4uLlJlYWRpbmcNCi4uLkxpc3RlbmluZw0KLi4uVmlkZW9zDQouLi5Eb2luZw0KUG5ldW1vY29jY2FsIENvbmp1Z2F0ZSBWYWNjaW5lIChQQ1YxNS9QQ1YyMCk6DQpQbmV1bW9jb2NjYWwgdmFjY2luZSBnaXZlbiBwcmV2aW91c2x5IC0gd3JpdHRlbiByZWNvcmRzIGF2YWlsYWJsZQ0KRG9jdW1lbnRlZDogUE5FVU1PQ09DQ0FMIFBPTFlTQUNDSEFSSURFIFBQVjIzDQpIaXN0b3JpY2FsIERhdGUgQWRtaW5pc3RlcmVkOiBBdWcgMTAsIDIwMTANCk91dHNpZGUgTG9jYXRpb246IGRvZA0KSW5mb3JtYXRpb24gU291cmNlOiBTT1VSQ0UgVU5TUEVDSUZJRUQNClRveGljIEV4cG9zdXJlIFNjcmVlbmluZzoNClRoZSBWZXRlcmFuL2NhcmVnaXZlciB3YXMgYXNrZWQgaWYgdGhleSBiZWxpZXZlIHRoZSBWZXRlcmFuIGV4cGVyaWVuY2VkIGFueSB0b3hpYyBleHBvc3VyZShzKSwgc3VjaCBhcyBBaXJib3JuZSBIYXphcmRzIGFuZCBPcGVuIEJ1cm4gUGl0LCBHdWxmIFdhciByZWxhdGVkIGV4cG9zdXJlcywgQWdlbnQgT3JhbmdlLCBSYWRpYXRpb24sIGNvbnRhbWluYXRlZCB3YXRlciBhdCBDYW1wIExlamV1bmUgb3Igb3RoZXIgc3VjaCBleHBvc3VyZXMsIHdoaWxlIHNlcnZpbmcgaW4gdGhlIEFybWVkIEZvcmNlcy4NClZldGVyYW4vY2FyZWdpdmVyIGJlbGlldmVzIHRoZSBWZXRlcmFuIHdhcyBleHBvc2VkIHRvIHRoZSBmb2xsb3dpbmcgd2hpbGUgc2VydmluZyBpbiB0aGUgQXJtZWQgRm9yY2VzOg0KUmFkaWF0aW9uOg0KVmV0ZXJhbi9jYXJlZ2l2ZXIgd2FzIG1hZGUgYXdhcmUgb2YgZWR1Y2F0aW9uYWwgcmVzb3VyY2VzIHRoYXQgaW5jbHVkZXMgaW5mb3JtYXRpb24gb24gdGhlIFJlZ2lzdHJ5IFByb2dyYW0sIHByZXN1bXB0aXZlIGNvbmRpdGlvbnMgYW5kIGhvdyB0byBmaWxlIGEgY2xhaW0uIFByaW50ZWQgaW5mb3JtYXRpb24gd2FzIG9mZmVyZWQgYW5kIHByb3ZpZGVkIGlmIGRlc2lyZWQuDQpPdGhlciBleHBvc3VyZXM6DQpDb21tZW50OiBjaGVtaWNhbA0KVmV0ZXJhbi9jYXJlZ2l2ZXIgd2FzIG1hZGUgYXdhcmUgb2YgZWR1Y2F0aW9uYWwgcmVzb3VyY2VzIGFuZCBwcmludGVkIGluZm9ybWF0aW9uIHdhcyBvZmZlcmVkIGFuZCBwcm92aWRlZCBpZiBkZXNpcmVkLg0KSGVhbHRoL01lZGljYWwgUXVlc3Rpb25zDQpBbGwgcGF0aWVudHMgd2hvIHJlcG9ydCBhIGhlYWx0aC9tZWRpY2FsIGNvbmNlcm4gd2lsbCByZWNlaXZlIGZvbGxvd3VwIGZyb20gYSBjbGluaWNpYW4uIEZvciB1cmdlbnQgb3IgZW1lcmdlbnQgY29uY2VybnMsIHRoZXkgd2VyZSBhZHZpc2VkIHRvIGZvbGxvdyBsb2NhbCBmYWNpbGl0eSBwb2xpY3kuDQpCZW5lZml0cy9DbGFpbXMgUXVlc3Rpb25zDQpWZXRlcmFuL2NhcmVnaXZlciB3YXMgaW5mb3JtZWQgb2YgbG9jYWwgcG9pbnQgb2YgY29udGFjdC4NClZBIEhlYWx0aCBDYXJlIEVucm9sbG1lbnQgYW5kIEVsaWdpYmlsaXR5IFF1ZXN0aW9ucw0KVmV0ZXJhbi9jYXJlZ2l2ZXIgd2FzIGluZm9ybWVkIG9mIGxvY2FsIHBvaW50IG9mIGNvbnRhY3QuDQpSZWdpc3RyeSBRdWVzdGlvbnMNClZldGVyYW4vY2FyZWdpdmVyIHdhcyBpbmZvcm1lZCBvZiBsb2NhbCBwb2ludCBvZiBjb250YWN0Lg0KQ29udGFjdCBpbmZvcm1hdGlvbiBmb3IgbG9jYWwgcmVzb3VyY2VzOiBFbnZpcm9ubWVudGFsIENvb3JkaW5hdG9yIGF0IDIwMi03NDUtODQxOSBvciB2aWEgZW1haWwgQUhPQlBSNjg4QHZhLmdvdi4NClRveGljIEV4cG9zdXJlIFNjcmVlbmluZyBGb2xsb3ctVXAgcmVtaW5kZXIgaXMgbmVlZGVkLg0KTmFtZSBvZiBwZXJzb24gbm90aWZpZWQ6IERyLiBNYXRoZXJzDQovZXMvIENBTFZJTiBCUk9BRFVTDQpSTiBTVEFGRg0KU2lnbmVkOiAxMC8yNi8yMDIzIDE0OjIw',
-              title: 'PRIMARY CARE NURSING TRIAGE NOTE',
-              creation: '2023-11-16T14:40:00-05:00',
-            },
-          },
-        ],
-        context: {
-          related: [
-            {
-              reference: '#Location-0',
-            },
-          ],
-        },
-        resourceType: 'DocumentReference',
-      },
-      search: {
-        mode: 'match',
-      },
-    },
-    {
-      fullUrl:
-        'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
-      resource: {
-        id: '123413',
-        meta: {
-          versionId: '2',
-          lastUpdated: '2024-05-03T12:05:25.407-04:00',
-          source: '#YJJUQxzI9g1Bx8zi',
-          profile: [
-            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note',
-          ],
-        },
-        contained: [
-          {
-            id: 'Location-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'HospitalLocationTO.984ZZI',
-              },
-            ],
-            name: 'Washington DC VAMC',
-            resourceType: 'Location',
-          },
-          {
-            id: 'Author-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: 'Marshall Mathers',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-          {
-            id: 'Provider-1',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: '',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-        ],
-        identifier: [
-          {
-            use: 'usual',
-            system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-            value: 'NoteTO.5298388',
-          },
-        ],
-        status: 'current',
-        type: {
-          coding: [
-            {
-              system: 'http://loinc.org',
-              code: '11506-3',
-              display: 'Progress Note',
-            },
-          ],
-        },
-        category: [
-          {
-            coding: [
-              {
-                system:
-                  'http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category',
-                code: 'clinical-note',
-              },
-            ],
-          },
-        ],
-        subject: {
-          reference: 'Patient/974',
-        },
-        date: '2023-10-11T12:00:00-05:00',
-        author: [
-          {
-            reference: '#Author-0',
-          },
-        ],
-        authenticator: {
-          extension: [
-            {
-              url:
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen',
-              valueDateTime: '2023-10-11T12:00:00-05:00',
-            },
-          ],
-          reference: '#Provider-1',
-        },
-        content: [
-          {
-            attachment: {
-              contentType: 'text/plain',
-              data:
-                'TE9DQUwgVElUTEU6IFBSSU1BUlkgQ0FSRSBTRUNVUkUgTUVTU0FHSU5HDQpTVEFOREFSRCBUSVRMRTogUFJJTUFSWSBDQVJFIFNFQ1VSRSBNRVNTQUdJTkcNCkRBVEUgT0YgTk9URTogT0NUIDExLCAyMDIzQDA5OjMzIEVOVFJZIERBVEU6IE9DVCAxMSwgMjAyM0AxMDozMzozNw0KQVVUSE9SOiBNQVJTSEFMTCBNQVRIRVJTIEVYUCBDT1NJR05FUjoNClVSR0VOQ1k6IFNUQVRVUzogQ09NUExFVEVEDQoqKiogUFJJTUFSWSBDQVJFIFNFQ1VSRSBNRVNTQUdJTkcgSGFzIEFEREVOREEgKioqDQotLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpTZW50OiAwOS8xMi8yMDIzIDExOjUxIEFNIEVUDQpGcm9tOiBQQVQgV0lMU09ODQpUbzogTUFSU0hBTEwgTUFUSEVSUw0KU3ViamVjdDogR2VuZXJhbDpDb250aW51b3VzIGdsdWNvc2UgbW9uaXRvcmluZyAoQ0dNKQ0KRHIuIE1hdGhlcnMNCkZvciBteSBuZXh0IGZvbGxvdyB1cCBhcHBvaW50bWVudCBzY2hlZHVsZWQgaW4gbGF0ZSBPY3RvYmVyIEkgd291bGQgbGlrZSB0byBkaXNjdXNzIHRoZSBwb3NzaWJpbGl0eSBvZiBwdXJzdWluZyBhIENvbnRpbnVvdXMgZ2x1Y29zZSBtb25pdG9yaW5nIChDR00pIHN5c3RlbSBhcyBteSB3aWZlIGFuZCBJIGFyZSBnZXR0aW5nIHRpcmVkIG9mIHRoZSByb3V0aW5lIGZpbmdlciBzdGlja3MuDQpUaGFuayB5b3UgZm9yIHlvdXIgdGltZSBhbmQgSSBsb29rIGZvcndhcmQgdG8gaGVhcmluZyBmcm9tIHlvdSBpbiBPY3RvYmVyLg0KQ29yZGlhbGx5LA0KUGF0IFdpbHNvbg0KLS0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KU2VudDogMDkvMTIvMjAyMyAxMjo1NyBQTSBFVA0KRnJvbTogTUFSU0hBTEwgTUFUSEVSUw0KVG86IFBBVCBXSUxTT04NClN1YmplY3Q6IEdlbmVyYWw6Q29udGludW91cyBnbHVjb3NlIG1vbml0b3JpbmcgKENHTSkNCkdvb2QgYWZ0ZXJub29uIE1yLiBXaWxzb24sDQpXZSB3aWxsIGRpc2N1c3MgdGhlIENHTSBmdXJ0aGVyIGF0IG91ciBhcHBvaW50bWVudCBpbiBPY3RvYmVyLCB0aGFuayB5b3UgZm9yIHRoZSBoZWFkcyB1cC4NCkJlc3QsDQpNYXJzaGFsbCBNYXRoZXJzDQpNLkQuDQotLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpTZW50OiAxMC8xMS8yMDIzIDA5OjQ5IEFNIEVUDQpGcm9tOiBQQVQgV0lMU09ODQpUbzogTUFSU0hBTEwgTUFUSEVSUw0KU3ViamVjdDogR2VuZXJhbDpDb250aW51b3VzIGdsdWNvc2UgbW9uaXRvcmluZyAoQ0dNKQ0KQXR0YWNobWVudHM6IFdpbHNvblBhdF9oZWFsdGgtc3VtbWFyeTIwMjMtMTAtMTEucGRmICg4Mi4xNiBLQikNCkF0dGFjaGluZyBteSBIZWFsdGggU3VtbWFyeSBmcm9tIG15IDEwIE9jdG9iZXIgMjAyMyAoVHVlc2RheSBtb3JuaW5nKSBXYWx0ZXIgUmVlZCBCZXRoZXNkYSBlbmNvdW50ZXIuDQpBbGwgbXkgYmVzdCB0byB5b3UgYW5kIHlvdXJzLg0KQ29yZGlhbGx5LA0KUGF0DQotLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpTZW50OiAxMC8xMS8yMDIzIDEwOjMzIEFNIEVUDQpGcm9tOiBNQVJTSEFMTCBNQVRIRVJTDQpUbzogUEFUIFdJTFNPTg0KU3ViamVjdDogR2VuZXJhbDpDb250aW51b3VzIGdsdWNvc2UgbW9uaXRvcmluZyAoQ0dNKQ0KVGhhbmsgeW91IGZvciB0aGUgdXBkYXRlIE1yLiBXaWxzb24uDQpCZXN0LA0KTWFyc2hhbGwgTWF0aGVycw0KTS5ELg0KL2VzLyBNQVJTSEFMTCBNQVRIRVJTDQpBVFRFTkRJTkcgUEhZU0lDSUFODQpTaWduZWQ6IDEwLzExLzIwMjMgMTA6MzMNCjEwLzExLzIwMjMgQURERU5EVU0gU1RBVFVTOiBDT01QTEVURUQNClJldmlld2VkIGF0dGFjaG1lbnQgV1JOTUMgUENQIDkvMjcvMjAyMyBub3RlDQotQ29udGludWUgTGFudHVzIDE0IHVuaXRzLCBkdWxhZ2x1dGlkZSAxLjVtZyB3ZWVrbHksIGFyZGlhbmNlIDI1IGFuZCBtZXRmb3JtaW4NCjEwMDAgQklEDQovZXMvIE1BUlNIQUxMIE1BVEhFUlMNCkFUVEVORElORyBQSFlTSUNJQU4NClNpZ25lZDogMTAvMTEvMjAyMyAxMDozNQ==',
-              title: 'PRIMARY CARE SECURE MESSAGING',
-              creation: '2023-11-16T14:40:00-05:00',
-            },
-          },
-        ],
-        context: {
-          related: [
-            {
-              reference: '#Location-0',
-            },
-          ],
-        },
-        resourceType: 'DocumentReference',
-      },
-      search: {
-        mode: 'match',
-      },
-    },
-    {
-      fullUrl:
-        'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
-      resource: {
-        id: '123414',
-        meta: {
-          versionId: '2',
-          lastUpdated: '2024-05-03T12:05:25.407-04:00',
-          source: '#YJJUQxzI9g1Bx8zi',
-          profile: [
-            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note',
-          ],
-        },
-        contained: [
-          {
-            id: 'Location-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'HospitalLocationTO.984ZZI',
-              },
-            ],
-            name: 'Washington DC VAMC',
-            resourceType: 'Location',
-          },
-          {
-            id: 'Author-0',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: 'Marshall Mathers',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-          {
-            id: 'Provider-1',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-                value: 'AuthorTO.36556',
-              },
-            ],
-            name: [
-              {
-                text: '',
-              },
-            ],
-            resourceType: 'Practitioner',
-          },
-        ],
-        identifier: [
-          {
-            use: 'usual',
-            system: 'urn:oid:2.16.840.1.113883.4.349.4.984',
-            value: 'NoteTO.5298388',
-          },
-        ],
-        status: 'current',
-        type: {
-          coding: [
-            {
-              system: 'http://loinc.org',
-              code: '11506-3',
-              display: 'Progress Note',
-            },
-          ],
-        },
-        category: [
-          {
-            coding: [
-              {
-                system:
-                  'http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category',
-                code: 'clinical-note',
-              },
-            ],
-          },
-        ],
-        subject: {
-          reference: 'Patient/974',
-        },
-        date: '2023-09-12T12:00:00-05:00',
-        author: [
-          {
-            reference: '#Author-0',
-          },
-        ],
-        authenticator: {
-          extension: [
-            {
-              url:
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen',
-              valueDateTime: '2023-09-12T12:00:00-05:00',
-            },
-          ],
-          reference: '#Provider-1',
-        },
-        content: [
-          {
-            attachment: {
-              contentType: 'text/plain',
-              data:
-                'TE9DQUwgVElUTEU6IFBSSU1BUlkgQ0FSRSBTRUNVUkUgTUVTU0FHSU5HDQpTVEFOREFSRCBUSVRMRTogUFJJTUFSWSBDQVJFIFNFQ1VSRSBNRVNTQUdJTkcNCkRBVEUgT0YgTk9URTogU0VQIDEyLCAyMDIzQDExOjU3IEVOVFJZIERBVEU6IFNFUCAxMiwgMjAyM0AxMjo1NzozOA0KQVVUSE9SOiBNQVJTSEFMTCBNQVRIRVJTIEVYUCBDT1NJR05FUjoNClVSR0VOQ1k6IFNUQVRVUzogQ09NUExFVEVEDQotLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpTZW50OiAwOS8xMi8yMDIzIDExOjUxIEFNIEVUDQpGcm9tOiBQQVQgV0lMU09ODQpUbzogTUFSU0hBTEwgTUFUSEVSUw0KU3ViamVjdDogR2VuZXJhbDpDb250aW51b3VzIGdsdWNvc2UgbW9uaXRvcmluZyAoQ0dNKQ0KRHIuIE1hdGhlcnMsDQpGb3IgbXkgbmV4dCBmb2xsb3cgdXAgYXBwb2ludG1lbnQgc2NoZWR1bGVkIGluIGxhdGUgT2N0b2JlciBJIHdvdWxkIGxpa2UgdG8gZGlzY3VzcyB0aGUgcG9zc2liaWxpdHkgb2YgcHVyc3VpbmcgYSBDb250aW51b3VzIGdsdWNvc2UgbW9uaXRvcmluZyAoQ0dNKSBzeXN0ZW0gYXMgbXkgd2lmZSBhbmQgSSBhcmUgZ2V0dGluZyB0aXJlZCBvZiB0aGUgcm91dGluZSBmaW5nZXIgc3RpY2tzLg0KVGhhbmsgeW91IGZvciB5b3VyIHRpbWUgYW5kIEkgbG9vayBmb3J3YXJkIHRvIGhlYXJpbmcgZnJvbSB5b3UgaW4gT2N0b2Jlci4NCkNvcmRpYWxseSwNClBhdCBXaWxzb24NCi0tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClNlbnQ6IDA5LzEyLzIwMjMgMTI6NTcgUE0gRVQNCkZyb206IE1BUlNIQUxMIE1BVEhFUlMNClRvOiBQQVQgV0lMU09ODQpTdWJqZWN0OiBHZW5lcmFsOkNvbnRpbnVvdXMgZ2x1Y29zZSBtb25pdG9yaW5nIChDR00pDQpHb29kIGFmdGVybm9vbiBNci4gV2lsc29uLA0KV2Ugd2lsbCBkaXNjdXNzIHRoZSBDR00gZnVydGhlciBhdCBvdXIgYXBwb2ludG1lbnQgaW4gT2N0b2JlciwgdGhhbmsgeW91IGZvciB0aGUgaGVhZHMgdXAuDQpCZXN0LA0KTWFyc2hhbGwgTWF0aGVycw0KTS5ELg0KL2VzLyBNQVJTSEFMTCBNQVRIRVJTDQpBVFRFTkRJTkcgUEhZU0lDSUFODQpTaWduZWQ6IDA5LzEyLzIwMjMgMTI6NTc=',
-              title: 'PRIMARY CARE SECURE MESSAGING',
+              title: 'Primary care progress note',
               creation: '2023-11-16T14:40:00-05:00',
             },
           },
