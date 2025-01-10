@@ -98,7 +98,7 @@ const checkLimitations = (limitations, limit) => {
 };
 
 const POARequestDetailsPage = () => {
-  const poaRequest = useLoaderData().attributes;
+  const poaRequest = useLoaderData();
   const [error, setError] = useState(false);
   const handleChange = e => {
     e.preventDefault();
