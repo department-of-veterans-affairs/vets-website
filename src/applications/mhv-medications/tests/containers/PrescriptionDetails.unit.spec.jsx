@@ -239,4 +239,26 @@ describe('Prescription details container', () => {
 
     expect(rxName).to.exist;
   });
+
+  it('Shows error message for apiError', async () => {
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: undefined,
+            apiError: true,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    await waitFor(() => {
+      const errorMessageH2 = screen.getByTestId('no-medications-list');
+      expect(errorMessageH2).to.exist;
+      expect(errorMessageH2).to.have.text(
+        'We can’t access your medications right now',
+      );
+    });
+  });
 });
