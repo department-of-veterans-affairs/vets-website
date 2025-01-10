@@ -998,10 +998,12 @@ describe('actionCreators', () => {
         ok: true,
         json: sinon.stub().returns(
           Promise.resolve({
-            data: {
-              id: 1,
-              detail: 'Sample Exam Result',
-            },
+            exams: [
+              {
+                enrichedId: '1@acce9',
+                name: 'AP-ADVANCED PLACEMENT EXAMS',
+              },
+            ],
           }),
         ),
       };
@@ -1014,10 +1016,9 @@ describe('actionCreators', () => {
           expect(
             mockDispatch.calledWith({
               type: actions.FETCH_NATIONAL_EXAMS_SUCCEEDED,
-              payload: {
-                id: 1,
-                detail: 'Sample Exam Result',
-              },
+              payload: [
+                { enrichedId: '1@acce9', name: 'AP-ADVANCED PLACEMENT EXAMS' },
+              ],
             }),
           ).to.be.true;
           mockFetch.restore();
@@ -1064,6 +1065,103 @@ describe('actionCreators', () => {
               payload: errorMessage,
             }),
           ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+  });
+  describe('fetchNationalExamDetails action creator', () => {
+    it('dispatches FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED on successful fetch', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+
+      const mockExam = {
+        enrichedId: '1@acce9',
+        name: 'AP-ADVANCED PLACEMENT EXAMS',
+      };
+
+      const mockResponse = {
+        ok: true,
+        statusText: 'OK',
+        json: sinon.stub().resolves({ exam: mockExam }),
+      };
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchNationalExamDetails('1@acce9')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_STARTED,
+            }),
+          ).to.be.true;
+
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED,
+              payload: mockExam,
+            }),
+          ).to.be.true;
+
+          mockFetch.restore();
+        });
+    });
+
+    it('dispatches FETCH_NATIONAL_EXAM_DETAILS_FAILED on fetch error', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const error = new Error('Network error occurred');
+
+      mockFetch.rejects(error);
+
+      return actions
+        .fetchNationalExamDetails('1@acce9')(mockDispatch)
+        .catch(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_STARTED,
+            }),
+          ).to.be.true;
+
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_FAILED,
+              payload: 'Network error occurred',
+            }),
+          ).to.be.true;
+
+          mockFetch.restore();
+        });
+    });
+
+    it('dispatches FETCH_NATIONAL_EXAM_DETAILS_FAILED when response is not ok', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const errorMessage = 'Internal Server Error';
+
+      const mockResponse = new Response(null, {
+        status: 500,
+        statusText: errorMessage,
+      });
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchNationalExamDetails('1@acce9')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_STARTED,
+            }),
+          ).to.be.true;
+
+          expect(
+            mockDispatch.calledWith({
+              type: actions.FETCH_NATIONAL_EXAM_DETAILS_FAILED,
+              payload: errorMessage,
+            }),
+          ).to.be.true;
+
           mockFetch.restore();
         });
     });
