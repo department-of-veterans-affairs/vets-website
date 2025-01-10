@@ -5,10 +5,10 @@ import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+import profileContactInfo from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/profileContactInfo';
 
 // page level imports
 import IntroductionPage from '../IntroductionPage';
-import profileContactInfo from './profileContactInfo';
 import veteranInfo from './veteranInfo';
 
 const formConfig = {
@@ -75,6 +75,7 @@ const formConfig = {
             'mobilePhone',
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
+          disableMockContactInfo: true,
         }),
         taskCompletePagePattern2,
       },

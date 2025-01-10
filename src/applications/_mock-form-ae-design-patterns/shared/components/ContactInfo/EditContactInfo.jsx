@@ -1,16 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-
-// import {
-//   ProfileInformationFieldController,
-//   InitializeVAPServiceID,
-//   FIELD_NAMES,
-// } from '@department-of-veterans-affairs/platform-user/exports';
-
-// import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-// import { FIELD_NAMES } from '@@vap-svc/constants';
+import { useDispatch, useSelector } from 'react-redux';
 
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
@@ -23,20 +13,29 @@ import {
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { usePrevious } from 'platform/utilities/react-hooks';
+import { withRouter } from 'react-router';
+import { refreshProfile } from 'platform/user/exportsFile';
+import { useRouteMetadata } from './useRouteMetadata';
 
-export const BuildPage = ({
+export const BuildPageBase = ({
   title,
   field,
   id,
   goToPath,
   contactPath,
   editContactInfoHeadingLevel,
+  router,
 }) => {
+  const dispatch = useDispatch();
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
 
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
+
+  const routeMetadata = useRouteMetadata(router);
+
+  const fullContactPath = `${routeMetadata?.urlPrefix || ''}${contactPath}`;
 
   useEffect(
     () => {
@@ -64,7 +63,7 @@ export const BuildPage = ({
   );
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  const returnPath = onReviewPage ? '/review-and-submit' : `/${contactPath}`;
+  const returnPath = onReviewPage ? '/review-and-submit' : fullContactPath;
 
   const handlers = {
     onSubmit: event => {
@@ -76,8 +75,9 @@ export const BuildPage = ({
       setReturnState(id, 'canceled');
       goToPath(returnPath);
     },
-    success: () => {
+    success: async () => {
       setReturnState(id, 'updated');
+      await dispatch(refreshProfile);
       goToPath(returnPath);
     },
   };
@@ -101,7 +101,7 @@ export const BuildPage = ({
   );
 };
 
-BuildPage.propTypes = {
+BuildPageBase.propTypes = {
   contactPath: PropTypes.string,
   editContactInfoHeadingLevel: PropTypes.string,
   field: PropTypes.string,
@@ -109,6 +109,8 @@ BuildPage.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
 };
+
+const BuildPage = withRouter(BuildPageBase);
 
 export const EditHomePhone = props => (
   <BuildPage {...props} field="HOME_PHONE" id="home-phone" />

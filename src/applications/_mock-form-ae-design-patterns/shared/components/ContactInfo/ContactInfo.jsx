@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import {
   focusElement,
@@ -39,6 +39,7 @@ import {
   contactInfoPropTypes,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+import { ContactInfoLoader } from './ContactInfoLoader';
 
 /**
  * Render contact info page
@@ -56,7 +57,7 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
-const ContactInfo = ({
+const ContactInfoBase = ({
   data,
   goBack,
   goForward,
@@ -74,7 +75,12 @@ const ContactInfo = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
+  ...rest
 }) => {
+  const { router } = rest;
+
+  const { pathname } = router.location;
+
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [hasInitialized, setHasInitialized] = useState(false);
@@ -253,7 +259,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-home-phone"
-              to={`/${contactPath}/edit-home-phone`}
+              to={`${pathname}/edit-home-phone`}
               aria-label={content.editHomePhone}
             >
               {editText}
@@ -276,7 +282,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-mobile-phone"
-              to={`/${contactPath}/edit-mobile-phone`}
+              to={`${pathname}/edit-mobile-phone`}
               aria-label={content.editMobilePhone}
             >
               {editText}
@@ -299,7 +305,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-email"
-              to={`/${contactPath}/edit-email-address`}
+              to={`${pathname}/edit-email-address`}
               aria-label={content.editEmail}
             >
               {editText}
@@ -320,7 +326,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-address"
-              to={`/${contactPath}/edit-mailing-address`}
+              to={`${pathname}/edit-mailing-address`}
               aria-label={content.editMailingAddress}
             >
               {editText}
@@ -345,84 +351,105 @@ const ContactInfo = ({
   );
 
   return (
-    <div className="vads-u-margin-y--2">
-      <Element name={`${contactInfoPageKey}ScrollElement`} />
-      <form onSubmit={handlers.onSubmit}>
-        <MainHeader
-          id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--0"
-        >
-          {content.title}
-        </MainHeader>
-        {content.description}
-        {!loggedIn && (
-          <strong className="usa-input-error-message">
-            You must be logged in to enable view and edit this page.
-          </strong>
-        )}
-        <div ref={wrapRef}>
-          {hadError &&
-            missingInfo.length === 0 &&
-            validationErrors.length === 0 && (
-              <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" slim>
-                  <div className="vads-u-font-size--base">
-                    {content.alertContent}
-                  </div>
-                </va-alert>
-              </div>
-            )}
-          {missingInfo.length > 0 && (
-            <>
-              <p className="vads-u-margin-top--1p5">
-                <strong>Note:</strong>
-                {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-                {list} {plural ? 'are' : 'is'} required for this application.
-              </p>
-              {submitted && (
-                <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" slim>
+    <ContactInfoLoader
+      data={data}
+      goBack={goBack}
+      goForward={goForward}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
+      contentBeforeButtons={contentBeforeButtons}
+      contentAfterButtons={contentAfterButtons}
+      setFormData={setFormData}
+      content={content}
+      contactPath={contactPath}
+      keys={keys}
+      requiredKeys={requiredKeys}
+      uiSchema={uiSchema}
+      testContinueAlert={testContinueAlert}
+      contactInfoPageKey={contactInfoPageKey}
+      disableMockContactInfo={disableMockContactInfo}
+      contactSectionHeadingLevel={contactSectionHeadingLevel}
+      router={router}
+    >
+      <div className="vads-u-margin-y--2">
+        <Element name={`${contactInfoPageKey}ScrollElement`} />
+        <form onSubmit={handlers.onSubmit}>
+          <MainHeader
+            id={`${contactInfoPageKey}Header`}
+            className="vads-u-margin-top--0"
+          >
+            {content.title}
+          </MainHeader>
+          {content.description}
+          {!loggedIn && (
+            <strong className="usa-input-error-message">
+              You must be logged in to enable view and edit this page.
+            </strong>
+          )}
+          <div ref={wrapRef}>
+            {hadError &&
+              missingInfo.length === 0 &&
+              validationErrors.length === 0 && (
+                <div className="vads-u-margin-top--1p5">
+                  <va-alert status="success" slim>
                     <div className="vads-u-font-size--base">
-                      We still don’t have your {list}. Please edit and update
-                      the field.
+                      {content.alertContent}
                     </div>
                   </va-alert>
                 </div>
               )}
-              <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" slim>
-                  <div className="vads-u-font-size--base">
-                    Your {list} {plural ? 'are' : 'is'} missing. Please edit and
-                    update the {plural ? 'fields' : 'field'}.
+            {missingInfo.length > 0 && (
+              <>
+                <p className="vads-u-margin-top--1p5">
+                  <strong>Note:</strong>
+                  {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
+                  {list} {plural ? 'are' : 'is'} required for this application.
+                </p>
+                {submitted && (
+                  <div className="vads-u-margin-top--1p5" role="alert">
+                    <va-alert status="error" slim>
+                      <div className="vads-u-font-size--base">
+                        We still don’t have your {list}. Please edit and update
+                        the field.
+                      </div>
+                    </va-alert>
                   </div>
-                </va-alert>
-              </div>
-            </>
-          )}
-          {submitted &&
-            missingInfo.length === 0 &&
-            validationErrors.length > 0 && (
-              <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="error" slim>
-                  <div className="vads-u-font-size--base">
-                    {validationErrors[0]}
-                  </div>
-                </va-alert>
-              </div>
+                )}
+                <div className="vads-u-margin-top--1p5" role="alert">
+                  <va-alert status="warning" slim>
+                    <div className="vads-u-font-size--base">
+                      Your {list} {plural ? 'are' : 'is'} missing. Please edit
+                      and update the {plural ? 'fields' : 'field'}.
+                    </div>
+                  </va-alert>
+                </div>
+              </>
             )}
-        </div>
-        <div className="blue-bar-block vads-u-margin-top--4">
-          <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
-            {contactSection}
+            {submitted &&
+              missingInfo.length === 0 &&
+              validationErrors.length > 0 && (
+                <div className="vads-u-margin-top--1p5" role="alert">
+                  <va-alert status="error" slim>
+                    <div className="vads-u-font-size--base">
+                      {validationErrors[0]}
+                    </div>
+                  </va-alert>
+                </div>
+              )}
           </div>
-        </div>
-      </form>
-      <div className="vads-u-margin-top--4">{navButtons}</div>
-    </div>
+          <div className="blue-bar-block vads-u-margin-top--4">
+            <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+              {contactSection}
+            </div>
+          </div>
+        </form>
+        <div className="vads-u-margin-top--4">{navButtons}</div>
+      </div>
+    </ContactInfoLoader>
   );
 };
 
-ContactInfo.propTypes = {
+ContactInfoBase.propTypes = {
   contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
   contactSectionHeadingLevel: PropTypes.string,
@@ -444,5 +471,7 @@ ContactInfo.propTypes = {
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
+
+const ContactInfo = withRouter(ContactInfoBase);
 
 export default ContactInfo;

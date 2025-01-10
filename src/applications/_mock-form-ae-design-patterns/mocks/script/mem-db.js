@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
-const { loa3User } = require('../endpoints/user');
+const { loa3UserWithNoContactInfo } = require('../endpoints/user');
 
 // in memory db
 const memDb = {
-  user: loa3User,
+  user: loa3UserWithNoContactInfo,
 };
 
 // sanitize user input
@@ -55,6 +55,11 @@ const updateConfig = {
       'city',
       'stateCode',
       'zipCode',
+      'countryCodeIso2',
+      'countryCodeIso3',
+      'countryCodeFips',
+      'countyCode',
+      'countyName',
     ],
     transactionId: 'mock-update-residential-address-success-transaction-id',
     type: 'AsyncTransaction::VAProfile::AddressTransaction',
@@ -114,7 +119,10 @@ const updateMemDb = (req, res = null) => {
     throw new Error('Invalid phone type sent to PUT telephones');
   }
 
-  if (key === 'PUT /v0/profile/addresses') {
+  if (
+    key === 'PUT /v0/profile/addresses' ||
+    key === 'POST /v0/profile/addresses'
+  ) {
     const addressType = body.addressPou?.toLowerCase();
     if (
       addressType === 'correspondence' ||
