@@ -71,8 +71,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           <va-accordion-item header="What if I already applied for an upgrade or correction and was denied?">
             <p>
               If your previous upgrade application was denied, you can apply
-              again, but you may have to follow a different process. Select the{' '}
-              Get Started link above. When you’re asked if you’ve applied
+              again, but you may have to follow a different process. Select the
+              Get Started link on this page. When you’re asked if you’ve applied
               before, select Yes. After you’ve answered all the questions,
               you’ll see application instructions specific to your situation.
             </p>
@@ -123,7 +123,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
             <p>
               You can also apply to the Department of Defense (DOD) or the Coast
               Guard for a second DD214 only for that honorable period of
-              service. Select the Get Started link above and answer the
+              service. Select the Get Started link on this page and answer the
               questions based on your most recent discharge. When you’re asked
               if you completed a period of service in which your character of
               service was honorable or general under honorable conditions,
@@ -143,7 +143,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
             </p>
             <p>
               If you have a DD215 and want an updated DD214, select the Get
-              Started link above. On the next page, select: “I received a
+              Started link on this page. On the next page, select: “I received a
               discharge upgrade or correction, but my upgrade came in the form
               of a DD215, and I want an updated DD214.” After you’ve answered
               all the questions, you’ll see instructions for how to request a
