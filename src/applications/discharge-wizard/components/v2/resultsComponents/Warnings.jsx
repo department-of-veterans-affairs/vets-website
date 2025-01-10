@@ -31,11 +31,9 @@ const Warnings = ({ formResponses }) => {
     const boardToSubmit = determineBoardObj(formResponses);
     const courtMartial = formResponses[SHORT_NAME_MAP.COURT_MARTIAL];
 
-    const alertContent = `Because you answered that you’re not sure if your discharge was the
-        outcome of a general court-martial, it’s important for you to check your
-        military records. The results below are for Veterans who have discharges
-        that are administrative or the result of a special or summary
-        court-martial.`;
+    const alertContent = `Because you answered that you’re not sure if your discharge was the outcome of a general court-martial, 
+    it’s important for you to check your military records. 
+    These results are for Veterans who have discharges that are administrative or the result of a special or summary court-martial.`;
 
     return (
       <AlertMessage
@@ -52,14 +50,15 @@ const Warnings = ({ formResponses }) => {
     const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
     const reason = formResponses[SHORT_NAME_MAP.REASON];
 
-    const alertContent = `Because you answered that you weren’t sure where you applied for an
-        upgrade before, it’s important for you to check your records. The
-        instructions below are for Veterans who had a successful upgrade
-        application reviewed by the${' '}
+    const alertContent = `Because you answered that you weren’t sure where you applied for an upgrade before, 
+        it’s important for you to check your records. 
+        These instructions are for Veterans who had a successful upgrade application reviewed by the${' '}
         ${determineBranchOfService(
           formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
-        )}
-        Discharge Review Board (DRB).`;
+        )} 
+        Discharge Review Board (DRB). For more reliable information, 
+        please review your records to find out which board you sent your earlier application to, 
+        and complete the questions again.`;
 
     return (
       <AlertMessage
