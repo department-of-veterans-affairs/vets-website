@@ -1,39 +1,13 @@
 import { expect } from 'chai';
-
-const getStream = require('get-stream');
-
-// Workaround for pdf.js incompatibility.
-// cf. https://github.com/mozilla/pdf.js/issues/15728
-const originalPlatform = navigator.platform;
-navigator.platform = '';
-
-const pdfjs = require('pdfjs-dist/legacy/build/pdf');
+import { generateAndParsePdf } from '../../helpers';
 
 describe('Medications PDF template', () => {
-  after(() => {
-    navigator.platform = originalPlatform;
-  });
-
-  const generatePdf = async data => {
-    const template = require('../../../templates/medications');
-
-    const doc = await template.generate(data);
-    doc.end();
-    return getStream.buffer(doc);
-  };
-
-  const generateAndParsePdf = async data => {
-    const pdfData = await generatePdf(data);
-    const pdf = await pdfjs.getDocument(pdfData).promise;
-    const metadata = await pdf.getMetadata();
-
-    return { metadata, pdf };
-  };
+  const template = require('../../../templates/medications');
 
   describe('PDF Semantics', () => {
     it('places the title in an H1', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -49,7 +23,7 @@ describe('Medications PDF template', () => {
 
     it('All sections are contained by a root level Document element', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -68,7 +42,7 @@ describe('Medications PDF template', () => {
   describe('Document section customization', () => {
     it('Shows item details', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -85,7 +59,7 @@ describe('Medications PDF template', () => {
 
     it('Horizontal rules are added below each item', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the second page
       const pageNumber = 2;
@@ -105,7 +79,7 @@ describe('Medications PDF template', () => {
 
     it('Outputs document sections in the correct order', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -147,20 +121,20 @@ describe('Medications PDF template', () => {
 
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Language).to.equal('en-US');
     });
 
     it('Can customize the document language', async () => {
       const json = require('./fixtures/medications_list.json');
       const data = { ...json, lang: 'en_UK' };
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Language).to.equal('en_UK');
     });
 
     it('Provides defaults', async () => {
       const data = require('./fixtures/medications_list.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Author).to.equal('Department of Veterans Affairs');
       expect(metadata.info.Subject).to.equal('');
     });
@@ -168,7 +142,7 @@ describe('Medications PDF template', () => {
     it('Metadata may be customized', async () => {
       const json = require('./fixtures/medications_list.json');
       const data = { ...json, author: 'John Smith' };
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Author).to.equal(data.author);
       expect(metadata.info.Title).to.equal(data.title);
     });
