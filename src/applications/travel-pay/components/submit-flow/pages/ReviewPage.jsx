@@ -42,9 +42,7 @@ const ReviewPage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1" className="vad-u-margin-top--0">
-        Review your travel claim
-      </h1>
+      <h1 tabIndex="-1">Review your travel claim</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
       <h2 className="vads-u-margin-bottom--0">Claims</h2>
