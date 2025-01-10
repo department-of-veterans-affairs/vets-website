@@ -5,7 +5,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 describe('Discharge Upgrade Wizard Main Flow', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -72,7 +72,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
   });
   describe('Forward and Backward navigation', () => {
     it('navigates through the flow forward/backward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -182,7 +182,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
     });
 
     it('navigates through the flow forward/backward successfully with changed answers for Reason question', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

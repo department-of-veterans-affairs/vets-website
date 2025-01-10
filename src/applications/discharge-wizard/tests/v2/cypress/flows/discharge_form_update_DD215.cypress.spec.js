@@ -5,7 +5,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 describe('Discharge Upgrade Wizard: Discharge Update to form DD214 from DD215 Flow', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

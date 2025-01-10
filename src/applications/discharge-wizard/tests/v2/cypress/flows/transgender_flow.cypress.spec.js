@@ -5,7 +5,7 @@ import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 describe('Discharge Upgrade Wizard: Transgender Flow', () => {
   describe('Base navigation', () => {
     it('Flow 1: Navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -61,7 +61,7 @@ describe('Discharge Upgrade Wizard: Transgender Flow', () => {
 
     // Skips prev app type question
     it('Flow 2: Navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction`);
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

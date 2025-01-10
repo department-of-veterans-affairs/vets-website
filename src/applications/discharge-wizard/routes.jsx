@@ -38,7 +38,6 @@ const envChildRoutes = [
 const routes = {
   path: '/',
   component: DischargeWizardApp,
-  // indexRoute: { component: HomePage },
   indexRoute: {
     onEnter: (nextState, replace) => replace('/introduction'),
   },
