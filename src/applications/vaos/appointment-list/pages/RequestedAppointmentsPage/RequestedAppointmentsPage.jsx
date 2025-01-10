@@ -11,7 +11,7 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestAppointmentLayout from '../../components/AppointmentsPage/RequestAppointmentLayout';
+import RequestAppointmentLayout from '../../../components/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
 import NoAppointments from '../../components/NoAppointments';
 import {

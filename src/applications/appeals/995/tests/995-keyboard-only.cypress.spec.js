@@ -1,6 +1,7 @@
 import path from 'path';
 
 import formConfig from '../config/form';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
@@ -19,16 +20,17 @@ describe('Supplemental Claim keyboard only navigation', () => {
       'testData',
     );
 
-    cy.intercept('PUT', '/v0/in_progress_forms/995', mockInProgress);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-    cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
+    cy.intercept('GET', ITF_API, fetchItf());
   });
 
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/${CONTESTABLE_ISSUES_API.join('')}/compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       });
       cy.visit(

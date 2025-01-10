@@ -18,8 +18,8 @@ const CarefulConsiderationStatement = ({ formResponses, router }) => {
           <p>
             Because you answered that your discharge was related to
             posttraumatic stress disorder (PTSD) or other mental health
-            conditions, the DoD will apply “liberal consideration” to your case.
-            In 2014, the DoD recognized that many Veterans had received
+            conditions, the DOD will apply “liberal consideration” to your case.
+            In 2014, the DOD recognized that many Veterans had received
             discharges due to behavior connected to their previously undiagnosed
             or undocumented PTSD or mental health condition.
           </p>
@@ -28,8 +28,8 @@ const CarefulConsiderationStatement = ({ formResponses, router }) => {
         return (
           <p>
             Because you answered that your discharge was related to a traumatic
-            brain injury (TBI), the DoD will apply “liberal consideration” to
-            your case. In 2014, the DoD recognized that many Veterans had
+            brain injury (TBI), the DOD will apply “liberal consideration” to
+            your case. In 2014, the DOD recognized that many Veterans had
             received discharges due to behavior connected to their previously
             undiagnosed or undocumented TBI.
           </p>
@@ -39,8 +39,8 @@ const CarefulConsiderationStatement = ({ formResponses, router }) => {
           return (
             <p>
               Because you answered that your discharge was due to your sexual
-              orientation, the DoD encourages you to apply for an upgrade. In
-              2011, the DoD recognized that many Veterans received discharges
+              orientation, the DOD encourages you to apply for an upgrade. In
+              2011, the DOD recognized that many Veterans received discharges
               only because of their sexual orientation. <br />{' '}
               <strong>Note:</strong> You must prove that your discharge was
               solely due to your sexual orientation and events specifically
@@ -65,8 +65,8 @@ const CarefulConsiderationStatement = ({ formResponses, router }) => {
         return (
           <p>
             Because you answered that your discharge was related to sexual
-            assault or harassment, the DoD will apply “liberal consideration” to
-            your case. In 2017, the DoD recognized that many Veterans had
+            assault or harassment, the DOD will apply “liberal consideration” to
+            your case. In 2017, the DOD recognized that many Veterans had
             received discharges due to sexual assault or harassment, and had
             unfairly received less than honorable discharges.{' '}
             <strong>Note:</strong> You must prove that your discharge was solely
