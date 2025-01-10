@@ -1,54 +1,60 @@
-const fs = require('fs');
 /* eslint-disable no-console */
-async function mergeCoverageReports(files) {
-  const merged = {
-    total: {
-      lines: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      functions: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      statements: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      branches: { total: 0, covered: 0, skipped: 0, pct: 0 },
-    },
-  };
+/* eslint-disable no-param-reassign */
 
-  for (const file of files) {
-    try {
-      const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+const fs = require('fs');
 
-      ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-        merged.total[key].total += data.total[key].total;
-        merged.total[key].covered += data.total[key].covered;
-        merged.total[key].skipped += data.total[key].skipped;
-        merged.total[key].pct =
-          (merged.total[key].covered / merged.total[key].total) * 100;
+const coverageResultsFiles = process.argv.slice(2);
+
+const mergeResults = files => {
+  const mergedResults = {};
+
+  files.forEach(file => {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+    Object.entries(data).forEach(([filePath, coverageData]) => {
+      const match = filePath.match(/applications\/(?:[^/]+\/[^/]+|[^/]+)\//);
+
+      if (!match) {
+        return;
+      }
+
+      const directoryKey = match[0];
+
+      if (!mergedResults[directoryKey]) {
+        mergedResults[directoryKey] = {
+          lines: { total: 0, covered: 0, skipped: 0 },
+          statements: { total: 0, covered: 0, skipped: 0 },
+          functions: { total: 0, covered: 0, skipped: 0 },
+          branches: { total: 0, covered: 0, skipped: 0 },
+        };
+      }
+
+      const directoryCoverage = mergedResults[directoryKey];
+      ['lines', 'statements', 'functions', 'branches'].forEach(key => {
+        directoryCoverage[key].total += coverageData[key].total;
+        directoryCoverage[key].covered += coverageData[key].covered;
+        directoryCoverage[key].skipped += coverageData[key].skipped;
       });
-
-      Object.keys(data).forEach(appKey => {
-        if (appKey !== 'total') {
-          merged[appKey] = data[appKey];
-        }
-      });
-    } catch (err) {
-      console.error(`Error reading ${file}: ${err}`);
-    }
-  }
-
-  ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-    merged.total[key].pct = (
-      (merged.total[key].covered / merged.total[key].total) *
-      100
-    ).toFixed(2);
+    });
   });
 
-  return merged;
-}
+  Object.values(mergedResults).forEach(coverageData => {
+    ['lines', 'statements', 'functions', 'branches'].forEach(key => {
+      coverageData[key].pct = (
+        (coverageData[key].covered / coverageData[key].total) *
+        100
+      ).toFixed(2);
+    });
+  });
 
-const files = process.argv.slice(2);
-mergeCoverageReports(files).then(merged => {
-  console.log(JSON.stringify(merged, null, 2));
+  return mergedResults;
+};
 
-  fs.writeFileSync(
-    'merged-coverage-report.json',
-    JSON.stringify(merged, null, 2),
-    'utf8',
-  );
-});
+const results = mergeResults(coverageResultsFiles);
+fs.writeFileSync(
+  'mergedResults.json',
+  JSON.stringify(results, null, 2),
+  'utf8',
+);
+
+console.log('Merged results saved to mergedResults.json');
