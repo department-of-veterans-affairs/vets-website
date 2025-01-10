@@ -110,12 +110,14 @@ const ReviewPage = ({
 
         <va-button
           secondary
+          data-testid="open-agreement-modal"
           class="vads-u-margin-bottom--1"
           onClick={() => setAgreementModalOpen(true)}
           text="View beneficiary travel agreement"
           uswds
         />
         <VaModal
+          data-testid="agreement-modal"
           modalTitle="Beneficiary travel agreement"
           onCloseEvent={() => setAgreementModalOpen(false)}
           onPrimaryButtonClick={() => setAgreementModalOpen(false)}

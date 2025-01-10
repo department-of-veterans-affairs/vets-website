@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
@@ -49,5 +49,17 @@ describe('Revew page', () => {
       screen.findByText(/You must accept the beneficiary travel agreement/i),
     ).to.exist;
     expect($('va-button-pair')).to.exist;
+  });
+
+  it('should open the travel agreement modal', async () => {
+    const screen = render(<ReviewPage {...props} />);
+
+    fireEvent.click(screen.getByTestId('open-agreement-modal'));
+    await waitFor(() => {
+      expect(screen.getByTestId('agreement-modal')).to.have.attribute(
+        'visible',
+        'true',
+      );
+    });
   });
 });
