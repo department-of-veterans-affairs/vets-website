@@ -64,38 +64,24 @@ export const removeStateAndVerifier = () => {
 export const updateStateAndVerifier = csp => {
   const storage = localStorage;
 
-  const state = storage.getItem(`${csp}_signup_state`);
-  const codeVerifier = storage.getItem(`${csp}_signup_code_verifier`);
-
-  if (state) {
-    storage.setItem('state', state);
-  }
-
-  if (codeVerifier) {
-    storage.setItem('code_verifier', codeVerifier);
-  }
-
-  const signupTypesMap = [
-    'logingov_signup_state',
-    'logingov_signup_code_verifier',
-    'idme_signup_state',
-    'idme_signup_code_verifier',
-  ];
-
-  const keysToRemove = Object.keys(storage).filter(key =>
-    signupTypesMap.includes(key),
+  storage.setItem(OAUTH_KEYS.STATE, storage.getItem(`${csp}_signup_state`));
+  storage.setItem(
+    OAUTH_KEYS.CODE_VERIFIER,
+    storage.getItem(`${csp}_signup_code_verifier`),
   );
 
-  keysToRemove.forEach(key => {
-    storage.removeItem(key);
-  });
+  const signupTypesMap = [
+    `logingov_signup_state`,
+    `logingov_signup_code_verifier`,
+    `idme_signup_state`,
+    `idme_signup_code_verifier`,
+  ];
 
-  const hasSession = storage.getItem('hasSession');
-
-  if (!hasSession) {
-    storage.removeItem('state');
-    storage.removeItem('code_verifier');
-  }
+  Object.keys(storage)
+    .filter(key => signupTypesMap.includes(key))
+    .forEach(key => {
+      storage.removeItem(key);
+    });
 };
 
 /**
@@ -119,12 +105,10 @@ export async function createOAuthRequest({
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
     ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
-
   const { oAuthOptions } =
     config ??
     (externalApplicationsConfig[application] ||
       externalApplicationsConfig.default);
-
   const useType = passedOptions.isSignup
     ? type.slice(0, type.indexOf('_'))
     : type;
@@ -135,10 +119,9 @@ export async function createOAuthRequest({
       : acr ?? oAuthOptions.acr[type];
 
   /*
-    Web - Generate state & codeVerifier if default OAuth
+    Web - Generate state & codeVerifier if default oAuth
   */
   const { state, codeVerifier } = isDefaultOAuth && saveStateAndVerifier(type);
-
   /*
     Mobile - Use passed code_challenge
     Web - Generate code_challenge
@@ -149,7 +132,6 @@ export async function createOAuthRequest({
       : await pkceChallengeFromVerifier(codeVerifier);
 
   const usedClientId = clientId || oAuthOptions.clientId;
-
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
@@ -168,23 +150,16 @@ export async function createOAuthRequest({
       passedQueryParams.scope && {
         [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
       }),
-    // Always add oauth=true for OAuth-enabled flows
-    ...(isDefaultOAuth || isMobileOAuth ? { oauth: true } : {}),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
 
-  // Append all query params to the URL
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
   );
 
-  // Store client ID in session for tracking
   sessionStorage.setItem('ci', usedClientId);
-
-  // Record the login attempt
   recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
-
   return url.toString();
 }
 

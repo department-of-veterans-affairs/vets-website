@@ -234,10 +234,10 @@ export function sessionTypeUrl({
     externalApplicationsConfig[application] ||
     externalApplicationsConfig.default;
 
-  // Ensure useOauth reflects oauth=true
-  const useOAuth =
-    useOauth ||
-    (config?.OAuthEnabled && (OAuth === 'true' || queryParams.oauth === true));
+  // We should use OAuth when the following are true:
+  // OAuth param is 'true'
+  // config.OAuthEnabled is true
+  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
@@ -276,7 +276,6 @@ export function sessionTypeUrl({
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
         ...(queryParams.operation && { operation: queryParams.operation }),
-        oauth: true,
       },
       passedOptions: {
         isSignup,
