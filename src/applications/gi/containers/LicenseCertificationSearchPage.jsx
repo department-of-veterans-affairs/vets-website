@@ -78,10 +78,20 @@ function LicenseCertificationSearchPage({
           <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className=" mobile-lg:vads-u-text-align--left">
-                Licenses and Certifications
+                Licenses, Certifications, and Prep courses
               </h1>
               <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
-                Licenses and certifications search page
+                Use the search tool to find out which tests or related prep
+                courses are reimbursable. If you don’t see a test or prep course
+                listed, it may be a valid test that’s not yet approved. We
+                encourage you to submit an application for reimbursement. We’ll
+                prorate the entitlement charges based on the actual amount of
+                the fee charged for the test.
+                <br />
+                <br /> Tests to obtain licenses tend to be state-specific, while
+                certifications are valid nationally. Be aware of the
+                requirements for the specific license or certification test
+                you’re trying to obtain and whether or not it is state-specific.
               </p>
             </div>
             <div className="form-wrapper row">

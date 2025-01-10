@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import {
   VaCard,
+  VaLink,
   VaLinkAction,
   VaLoadingIndicator,
   VaPagination,
@@ -31,7 +32,7 @@ function LicenseCertificationSearchResults({
   const history = useHistory();
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
   const currentResults = filteredResults.slice(
@@ -70,6 +71,11 @@ function LicenseCertificationSearchResults({
     history.push(`/lc-search/results/${id}`);
   };
 
+  const handlePreviousRouteChange = event => {
+    event.preventDefault();
+    history.push(`/lc-search?category=${categoryParam}&state=${stateParam}`);
+  };
+
   // if (error) {
   //   {/* ERROR STATE */}
   // }
@@ -88,39 +94,50 @@ function LicenseCertificationSearchResults({
             <>
               <div className="row">
                 <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
-                  Licenses and Certifications Search Results
+                  Licenses, Certifications, and Prep courses Search Results
                 </h1>
 
-                <p className="vads-u-color--gray-dark lc-filter-options">
-                  Showing {filteredResults.length === 0 && ' 0 results for:'}
-                  {filteredResults.length !== 0 &&
-                    `${
-                      filteredResults.length > itemsPerPage
-                        ? `${formatResultCount(
-                            filteredResults,
-                            currentPage,
-                            itemsPerPage,
-                          )} of ${filteredResults.length} results for: `
-                        : `${filteredResults.length}
-                  of ${filteredResults.length} results for: `
+                <div className="result-info-wrapper">
+                  <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
+                    <p className="vads-u-color--gray-dark lc-filter-options">
+                      Showing{' '}
+                      {filteredResults.length === 0 && ' 0 results for:'}
+                      {filteredResults.length !== 0 &&
+                        `${
+                          filteredResults.length > itemsPerPage
+                            ? `${formatResultCount(
+                                filteredResults,
+                                currentPage,
+                                itemsPerPage,
+                              )} of ${filteredResults.length} results for: `
+                            : `${filteredResults.length}
+                          of ${filteredResults.length} results for: `
+                        }`}
+                    </p>
+                    <VaLink
+                      href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
+                      back
+                      text="Back to search"
+                      onClick={handlePreviousRouteChange}
+                    />
+                  </div>
+                  <p className="lc-filter-option">
+                    <strong>Category type: </strong>{' '}
+                    {`"${capitalizeFirstLetter(categoryParam)}"`}
+                  </p>
+                  <p className="lc-filter-option">
+                    <strong>State: </strong>{' '}
+                    {`${
+                      stateParam === 'all'
+                        ? `"All"`
+                        : `"${ADDRESS_DATA.states[stateParam]}"`
                     }`}
-                </p>
-                <p className="lc-filter-option">
-                  <strong>Category type: </strong>{' '}
-                  {`"${capitalizeFirstLetter(categoryParam)}"`}
-                </p>
-                <p className="lc-filter-option">
-                  <strong>State: </strong>{' '}
-                  {`${
-                    stateParam === 'all'
-                      ? `"All"`
-                      : `"${ADDRESS_DATA.states[stateParam]}"`
-                  }`}
-                </p>
-                <p className="lc-filter-option">
-                  <strong>License/Certification Name: </strong>{' '}
-                  {`"${nameParam}"`}
-                </p>
+                  </p>
+                  <p className="lc-filter-option">
+                    <strong>License/Certification Name: </strong>{' '}
+                    {`"${nameParam}"`}
+                  </p>
+                </div>
               </div>
               <div className="row">
                 {filteredResults.length > 0 ? (

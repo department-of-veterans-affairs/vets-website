@@ -318,10 +318,6 @@
   text-transform: capitalize;
 }
 
-.license-alert {
-  max-width: 30rem;
-}
-
 .input-container {
   display: flex;
   border: 1px solid $color-gray-dark;
@@ -337,11 +333,6 @@
   .clear-icon {
     padding: 0 3px;
   }
-}
-
-.reset-search {
-  background-color: $color-white;
-  color: $color-primary;
 }
 
 .inst-remove-btn::part(button) {

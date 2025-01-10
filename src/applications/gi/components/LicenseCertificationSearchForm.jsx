@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Dropdown from './Dropdown';
 import {
   capitalizeFirstLetter,
@@ -126,7 +127,7 @@ export default function LicenseCertificationSearchForm({
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 
-  // Use params if present to assign initial dropdown values
+  // If available, use url query params to assign initial dropdown values
   useEffect(
     () => {
       setDropdowns(updateDropdowns(categoryParam, stateParam));
@@ -146,7 +147,6 @@ export default function LicenseCertificationSearchForm({
       if (name.trim() !== '') {
         newSuggestions.unshift({
           lacNm: name,
-          // link: 'lce/',
           type: 'all',
         });
       }
@@ -155,25 +155,13 @@ export default function LicenseCertificationSearchForm({
     [name, suggestions, dropdowns],
   );
 
-  // Set state value to all whenever cert is selected
-  useEffect(
-    () => {
-      if (
-        categoryDropdown.current.optionValue === 'certification' &&
-        locationDropdown.current.optionValue !== 'all'
-      ) {
-        setDropdowns(updateDropdowns('certification', 'all'));
-      }
-    },
-    [dropdowns],
-  );
-
   const handleChange = e => {
     const multiples =
-      multipleOptions || showMultipleNames(filteredSuggestions, name);
+      multipleOptions ?? showMultipleNames(filteredSuggestions, name);
 
     let allowContinue = false;
 
+    // check if selection combo should enable the modal
     if (name) {
       if (
         e.target.id === 'state' &&
@@ -359,8 +347,8 @@ export default function LicenseCertificationSearchForm({
         />
       </div>
 
-      <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
-        <va-button
+      <div className="button-wrapper vads-u-flex row vads-u-padding-y--6 vads-u-padding-x--1">
+        <VaButton
           text="Submit"
           onClick={() =>
             handleSearch(
@@ -370,9 +358,10 @@ export default function LicenseCertificationSearchForm({
             )
           }
         />
-        <va-button
+        <VaButton
           text="Reset Search"
-          className="usa-button-secondary reset-search"
+          className="reset-search"
+          secondary
           onClick={() =>
             handleReset(() => {
               setDropdowns(updateDropdowns());
