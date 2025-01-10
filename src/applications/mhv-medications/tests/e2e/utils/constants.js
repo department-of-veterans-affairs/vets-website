@@ -26,6 +26,7 @@ export const Data = {
   REFILL_LINK_TEXT: 'Request a refill',
   ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
   SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
+  SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
 };
 export const Paths = {
   LANDING_LIST:
