@@ -1,0 +1,312 @@
+{
+    "data": [
+        {
+            "id": "1b2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Benefits for survivors and dependents",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Benefits for survivors and dependents",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "5716ab8e-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Certificate of Eligibility (COE) or Statement of Benefits",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Certificate of Eligibility (COE) or Statement of Benefits",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "6d12b789-dc9e-eb11-b1ac-001dd804ad31",
+            "type": "contents",
+            "attributes": {
+                "name": "Compliance surveys",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Compliance surveys",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "2b2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Educational and career counseling",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Educational and career counseling",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "73d0ad94-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Licensing and testing fees",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Licensing and testing fees",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "1d2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Montgomery GI Bill Active Duty (Chapter 30)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Montgomery GI Bill Active Duty (Chapter 30)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "1f2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Montgomery GI Bill Selected Reserve (Chapter 1606)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Montgomery GI Bill Selected Reserve (Chapter 1606)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "192b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "On-the-job training and apprenticeships",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "On-the-job training and apprenticeships",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "172b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Post-9/11 GI Bill (Chapter 33)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Post-9/11 GI Bill (Chapter 33)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "2f2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Reserve Educational Assistance Program (Chapter 1607)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Reserve Educational Assistance Program (Chapter 1607)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "352b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "School Certifying Officials (SCOs)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "School Certifying Officials (SCOs)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "8085b967-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Transfer of benefits",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Transfer of benefits",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "272b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Tuition Assistance Top-Up",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Tuition Assistance Top-Up",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "c070c79a-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Verifying school enrollment",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Verifying school enrollment",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "b18831a7-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran Readiness and Employment (Chapter 31)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran Readiness and Employment (Chapter 31)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "2d2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Veterans’ Educational Assistance Program (Chapter 32)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veterans’ Educational Assistance Program (Chapter 32)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "292b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Web Automated Verification of Enrollment (WAVE)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Web Automated Verification of Enrollment (WAVE)",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "152b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Work study",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Work study",
+                "parentId": "75524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}
