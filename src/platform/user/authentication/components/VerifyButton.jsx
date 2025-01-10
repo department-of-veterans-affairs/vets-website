@@ -23,7 +23,7 @@ export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
  *
  * @returns The updated design of the ID.me identity-verification button
  */
-export const VerifyIdmeButton = ({ queryParams, useOAuth }) => {
+export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
 
   return (
@@ -58,7 +58,7 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth }) => {
 export const VerifyLogingovButton = ({
   onClick = verifyHandler,
   queryParams,
-  useOAuth,
+  useOAuth = false,
 }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
 
@@ -84,7 +84,7 @@ export const VerifyButton = ({
   csp,
   onClick = verifyHandler,
   queryParams,
-  useOAuth,
+  useOAuth = false,
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
