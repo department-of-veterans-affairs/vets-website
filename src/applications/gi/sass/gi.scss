@@ -380,6 +380,9 @@
 }
 
 .national-exams-container {
+  .va-link {
+    font-size: 18px !important;
+  }
   .national-exams-description {
     font-size: 20px;
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
@@ -387,18 +390,11 @@
     font-weight: 400;
     line-height: 34px;
   }
-  .provider-info-container > span {
-    gap: 1rem;
-  }
-  va-accordion-item {
-    margin-bottom: 20px;
-  }
 }
-
 .schools-employers-tabs-container {
   li {
     height: 54px;
-    &[aria-selected="false"]{
+    &[aria-selected="false"] {
       border-bottom: 1px solid $color-primary !important;
     }
     @media screen and (max-width: $small-screen) {

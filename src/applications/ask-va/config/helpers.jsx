@@ -12,6 +12,7 @@ import {
   CHAPTER_3,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
+  relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
@@ -345,7 +346,7 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
@@ -519,7 +520,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
-    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
   }
@@ -654,6 +655,7 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
+    case 'Solved':
     case 'Replied':
       return 'Replied';
     case 'reopened':
@@ -752,4 +754,99 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const aboutMyselfRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
+  );
+};
+
+export const aboutMyselfRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.FAMILY_MEMBER
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran !== relationshipOptionsSomeoneElse.WORK &&
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+  );
+};
+
+export const generalQuestionCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
 };

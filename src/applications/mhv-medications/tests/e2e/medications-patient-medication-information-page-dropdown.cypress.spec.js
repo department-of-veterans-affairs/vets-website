@@ -5,7 +5,7 @@ import rxTrackingDetails from './fixtures/prescription-tracking-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsInformationPage from './pages/MedicationsInformationPage';
 
-describe.skip('Medications Information Page DropDown', () => {
+describe('Medications Information Page DropDown', () => {
   it('visits what to know dropdown on medication information page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
