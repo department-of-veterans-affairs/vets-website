@@ -38,27 +38,16 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
-  const handlers = {
-    onNext: e => {
-      e.preventDefault();
+  const onSubmit = () => {
+    // Placeholder until actual submit is hooked up
 
-      setPageIndex(pageIndex + 1);
-    },
-    onBack: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex - 1);
-    },
-    onSubmit: e => {
-      e.preventDefault();
-      // Placeholder until actual submit is hooked up
+    // Uncomment to simulate successful submission
+    // setPageIndex(pageIndex + 1);
 
-      // Uncomment to simulate successful submission
-      // setPageIndex(pageIndex + 1);
-
-      // Uncomment to simulate an error
-      setIsSubmissionError(true);
-    },
+    // Uncomment to simulate an error
+    setIsSubmissionError(true);
   };
 
   const pageList = [
@@ -114,7 +103,17 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
     {
       page: 'review',
-      component: <ReviewPage handlers={handlers} />,
+      component: (
+        <ReviewPage
+          appointment={appointment}
+          address={homeAddress || mailingAddress}
+          onSubmit={onSubmit}
+          setYesNo={setYesNo}
+          setPageIndex={setPageIndex}
+          isAgreementChecked={isAgreementChecked}
+          setIsAgreementChecked={setIsAgreementChecked}
+        />
+      ),
     },
     {
       page: 'confirm',
