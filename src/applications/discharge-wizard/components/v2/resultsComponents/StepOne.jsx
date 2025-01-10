@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertMessage from './AlertMessage';
-import {
-  determineBoardObj,
-  determineFormData,
-  stepHeaderLevel,
-} from '../../../helpers';
+import { determineBoardObj, determineFormData } from '../../../helpers';
 
 import {
   SHORT_NAME_MAP,
@@ -102,7 +98,7 @@ const StepOne = ({ formResponses }) => {
           <strong>Note:</strong> You’re generally only eligible for
           reconsideration if you have new evidence to present that wasn’t
           available when you applied last time. Make sure you’re clear about
-          exactly what that new evidence is. Additionally, changes in DoD
+          exactly what that new evidence is. Additionally, changes in DOD
           policy, like the new consideration guidelines for PTSD, TBI, and
           sexual assault or harassment, can qualify you for reconsideration.
         </li>
@@ -110,13 +106,13 @@ const StepOne = ({ formResponses }) => {
       {formResponses[SHORT_NAME_MAP.REASON] ===
         RESPONSES.REASON_SEXUAL_ASSAULT && (
         <li>
-          Note: For upgrades related to sexual assault or harassment, you do not
-          need to prove the original assault or harassment occurred—meaning if
-          you didn’t file charges or report the incident, you can still apply
-          for an upgrade. The important part of your application is where you
-          explain the impact of the incident on your service. For example,
-          detail how the incident caused a decrease in your productivity, or was
-          the reason for PTSD.
+          <strong>Note:</strong> For upgrades related to sexual assault or
+          harassment, you do not need to prove the original assault or
+          harassment occurred—meaning if you didn’t file charges or report the
+          incident, you can still apply for an upgrade. The important part of
+          your application is where you explain the impact of the incident on
+          your service. For example, detail how the incident caused a decrease
+          in your productivity, or was the reason for PTSD.
         </li>
       )}
       {boardToSubmit.abbr !== DRB && (
@@ -147,10 +143,10 @@ const StepOne = ({ formResponses }) => {
           <li>
             You can request either a Documentary Review or Personal Appearance
             Review from the Discharge Review Board (DRB). If your case is
-            especially complicated and requires detailed explanation, you{' '}
-            <strong>may</strong> have more success with a Personal Appearance
-            Review. Note that you’ll have to pay your travel costs if you make a
-            personal appearance. Documentary Reviews are generally faster, so we
+            especially complicated and requires detailed explanation, you may
+            have more success with a Personal Appearance Review. Note that
+            you’ll have to pay your travel costs if you make a personal
+            appearance. Documentary Reviews are generally faster, so we
             recommend you begin with this type of review. Also, if you’re denied
             in a Documentary Review, you can then appeal through a Personal
             Appearance Review. But you can’t request Documentary Review after a
@@ -171,13 +167,18 @@ const StepOne = ({ formResponses }) => {
     </ul>
   );
 
-  const form = determineFormData(formResponses);
-  const header = `Download and fill out DoD Form ${form.num}`;
-  const level = stepHeaderLevel(formResponses);
+  const { num: formNumber, link: formLink } = determineFormData(formResponses);
+  let formTitle = `Form ${formNumber}`;
+
+  if ([293, 149].includes(formNumber)) {
+    formTitle = `DOD Form ${formNumber}`;
+  }
+
+  const header = `Download and fill out DOD Form ${formNumber}`;
 
   return (
-    <va-process-list-item header={header} level={level}>
-      <p>Important tips for completing Form {form.num}:</p>
+    <va-process-list-item header={header} level="2">
+      <p>Important tips for completing {formTitle}:</p>
       {formResponses[SHORT_NAME_MAP.REASON] ===
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
         ? dd214Tips
@@ -186,7 +187,7 @@ const StepOne = ({ formResponses }) => {
       <a
         className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
         download
-        href={form.link}
+        href={formLink}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -195,28 +196,23 @@ const StepOne = ({ formResponses }) => {
           size={3}
           className="vads-u-margin-top--0p5 vads-u-padding-right--1"
         />
-        Download Form {form.num} (opens in a new tab)
+        Download {formTitle} (opens in a new tab)
       </a>
       <AlertMessage
         content={
           <>
             <h3 className="usa-alert-heading">
-              Need help preparing your application?
+              If you need help filling out your form
             </h3>
             <p>
-              The process of preparing a discharge upgrade or correction
-              application can be a lot of work and can take a long time.
-              Although many Veterans are successful on their own, you may want
-              to consider finding someone to advocate for you in this process.
-              Try a Veterans Service Organization (VSO), search online for a
-              lawyer who may provide services for low or no cost, or ask other
-              Veterans for recommendations.{' '}
+              You can appoint an accredited attorney, claims agent, or Veterans
+              Service Organization (VSO) representative.{' '}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.benefits.va.gov/vso/varo.asp"
+                href="/get-help-from-accredited-representative/find-rep"
               >
-                Find a VSO near you (opens in a new tab)
+                Get help from an accredited representative (opens in a new tab)
               </a>
               .
             </p>

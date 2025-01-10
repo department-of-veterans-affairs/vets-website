@@ -19,6 +19,7 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
+import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
 import { flagsLoadedAndMhvEnabled } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
@@ -88,6 +89,14 @@ const App = ({ children }) => {
     [dispatch],
   );
 
+  const handleDdRumBeforeSend = event => {
+    const customEvent = { ...event };
+    if (customEvent._dd.action?.target?.selector?.includes('VA-BREADCRUMBS')) {
+      customEvent.action.target.name = 'Breadcrumb';
+    }
+    return customEvent;
+  };
+
   const datadogRumConfig = {
     applicationId: '04496177-4c70-4caf-9d1e-de7087d1d296',
     clientToken: 'pubf11b8d8bfe126a01d84e01c177a90ad3',
@@ -96,10 +105,15 @@ const App = ({ children }) => {
     sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
     sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
     trackInteractions: true,
+    trackFrustrations: true,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask',
+    enablePrivacyForActionName: true,
+    beforeSend: event => {
+      handleDdRumBeforeSend(event);
+    },
   };
   useDatadogRum(datadogRumConfig);
 
@@ -128,18 +142,25 @@ const App = ({ children }) => {
   useEffect(
     () => {
       if (!current) return () => {};
+      let isMounted = true; // Flag to prevent React state update on an unmounted component
+
       const resizeObserver = new ResizeObserver(() => {
-        setHeight(current.offsetHeight);
+        requestAnimationFrame(() => {
+          if (isMounted && height !== current.offsetHeight) {
+            setHeight(current.offsetHeight);
+          }
+        });
       });
       resizeObserver.observe(current);
       return () => {
+        isMounted = false;
         if (current) {
           resizeObserver.unobserve(current);
         }
         resizeObserver.disconnect();
       };
     },
-    [current],
+    [current, height],
   );
 
   useEffect(
@@ -213,14 +234,18 @@ const App = ({ children }) => {
                 />
               </>
             ) : (
-              <>
+              <HeaderSectionProvider>
                 <MrBreadcrumbs />
                 <div className="vads-l-row">
                   <div className="medium-screen:vads-l-col--8">{children}</div>
                 </div>
-              </>
+              </HeaderSectionProvider>
             )}
-            <va-back-to-top hidden={isHidden} />
+            <va-back-to-top
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
+            />
             <ScrollToTop />
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>

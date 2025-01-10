@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/pain-severity.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/pain-severity.json';
 
 describe('Medical Records View Pain Severity', () => {
   const site = new MedicalRecordsSite();
@@ -13,19 +13,19 @@ describe('Medical Records View Pain Severity', () => {
       isAcceleratingVitals: true,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
-    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List', () => {
-    Vitals.checkLandingPageLinks();
+    site.loadPage();
+
     // check for MY Va Health links
+    Vitals.checkLandingPageLinks();
+
     Vitals.goToVitalPage();
+
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
-
-    // go to second page
-    Vitals.viewNextPage();
 
     // check for latest id
     cy.get(

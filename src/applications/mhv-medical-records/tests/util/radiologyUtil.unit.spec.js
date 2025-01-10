@@ -4,6 +4,7 @@ import {
   findMatchingCvixReport,
   findMatchingPhrAndCvixStudies,
   parseRadiologyReport,
+  radiologyRecordHash,
   radiologyReportsMatch,
 } from '../../util/radiologyUtil';
 
@@ -230,7 +231,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-e4fae142',
       phrResponse,
       cvixResponse,
     );
@@ -265,7 +266,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-4ec8b4e4',
       null,
       cvixResponse,
     );
@@ -313,5 +314,47 @@ describe('findMatchingPhrAndCvixStudies', () => {
     );
     expect(record.phrDetails).to.be.null;
     expect(record.cvixDetails).to.be.null;
+  });
+});
+
+describe('radiologyRecordHash', () => {
+  const record = {
+    procedureName: 'CT THORAX W/O CONT',
+    radiologist: 'JOHNSON,JOHN',
+    stationNumber: '660',
+  };
+
+  it('returns the different hashes for timestamps on different days', () => {
+    const record1 = {
+      ...record,
+      performedDatePrecise: 1296052117949, // January 26, 2011 9:28:37.949 AM ET
+    };
+
+    const record2 = {
+      ...record,
+      performedDatePrecise: 1296138517949, // January 27, 2011 9:28:37.949 AM ET (one day later)
+    };
+
+    const hash1 = radiologyRecordHash(record1);
+    const hash2 = radiologyRecordHash(record2);
+
+    expect(hash1).to.not.eq(hash2); // Assert that the hashes are different.
+  });
+
+  it('returns the same hash for slightly differing timestamps', () => {
+    const record1 = {
+      ...record,
+      performedDatePrecise: 1296052117949, // January 26, 2011 9:28:37.949 AM ET
+    };
+
+    const record2 = {
+      ...record,
+      performedDatePrecise: 1296052177949, // January 26, 2011 9:29:37.949 AM ET (one minute later)
+    };
+
+    const hash1 = radiologyRecordHash(record1);
+    const hash2 = radiologyRecordHash(record2);
+
+    expect(hash1).to.eq(hash2); // Assert that the hashes are the same.
   });
 });

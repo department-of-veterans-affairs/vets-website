@@ -43,7 +43,7 @@ import {
   transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers.v2';
+} from './helpers/formSubmitTransformers';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -59,7 +59,10 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
-import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import {
+  fetchFlowEligibilityAndClinics,
+  fetchPatientRelationships,
+} from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 
@@ -143,6 +146,12 @@ export const FORM_REQUESTED_PROVIDERS_FAILED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
 export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
   'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -217,6 +226,23 @@ export function startRequestAppointmentFlow(isCommunityCare) {
   };
 }
 
+export function fetchPatientProviderRelationships() {
+  return async dispatch => {
+    try {
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS });
+
+      const patientProviderRelationships = await fetchPatientRelationships();
+
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED });
+
+      return patientProviderRelationships;
+    } catch (e) {
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
+      return captureError(e);
+    }
+  };
+}
+
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
@@ -241,6 +267,7 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
+
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();

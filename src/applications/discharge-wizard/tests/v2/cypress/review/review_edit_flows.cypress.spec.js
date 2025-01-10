@@ -2,9 +2,9 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../../constants';
 import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Review edit flows', () => {
+describe('Review edit flows', () => {
   it('Back and Continue with no answer change returns to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -30,7 +30,7 @@ xdescribe('Review edit flows', () => {
     h.selectDropdown(
       h.DISCHARGE_MONTH_INPUT,
       SHORT_NAME_MAP.DISCHARGE_MONTH,
-      3,
+      1,
     );
     h.clickContinue();
 
@@ -62,6 +62,11 @@ xdescribe('Review edit flows', () => {
     // PREVIOUS_APPLICATION_TYPE
     h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
     h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
+    h.clickContinue();
+
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 0);
     h.clickContinue();
 
     // PRIOR_SERVICE
@@ -291,6 +296,35 @@ xdescribe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+    // FAILURE_TO_EXHAUST
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.clickBack();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
+      `va-link[data-testid="duw-edit-link-${
+        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
+      }"]`,
+    )
+      .shadow()
+      .find('a')
+      .click();
+
+    // PRIOR_SERVICE
+    h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+    h.clickContinue();
+
+    // REVIEW
+    h.verifyUrl(ROUTES.REVIEW);
+    cy.get(
       `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PRIOR_SERVICE}"]`,
     )
       .shadow()
@@ -331,7 +365,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Reason question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -394,7 +428,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Reason question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -477,7 +511,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Court Martial question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -562,7 +596,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Discharge Type question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -651,7 +685,7 @@ xdescribe('Review edit flows', () => {
     h.verifyUrl(ROUTES.REVIEW);
   });
   it('Clicking continue on Previous Application question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -741,7 +775,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Previous Application Type question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);
@@ -833,7 +867,7 @@ xdescribe('Review edit flows', () => {
   });
 
   it('Clicking continue on Previous Application Year question with answer change continues through the flow back to review screen', () => {
-    cy.visit(`${h.ROOT}/introduction1`);
+    cy.visit(`${h.ROOT}/introduction`);
 
     // Home
     h.verifyUrl(ROUTES.HOME);

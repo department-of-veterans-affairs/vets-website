@@ -256,18 +256,25 @@ const DEFAULT_SCHEMA_COUNTRY_CODE =
   })?.schemaValue || 'USA';
 
 export function getLTSCountryCode(schemaCountryValue) {
+  if (!schemaCountryValue || typeof schemaCountryValue !== 'string') {
+    // Return 'ZZ' if the input is invalid
+    return 'ZZ';
+  }
+
   // Start by assuming the input is a three-character code.
   let country = countries.find(
     countryInfo => countryInfo.schemaValue === schemaCountryValue,
   );
+
   // If no match was found, and the input is a two-character code, try to match against the ltsValue.
   if (!country && schemaCountryValue.length === 2) {
     country = countries.find(
       countryInfo => countryInfo.ltsValue === schemaCountryValue,
     );
   }
+
   // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
-  return country?.ltsValue ? country.ltsValue : 'ZZ'; // 'ZZ' is the LTS code for unknown.
+  return country?.ltsValue || 'ZZ'; // 'ZZ' is the LTS code for unknown.
 }
 
 export function getSchemaCountryCode(inputSchemaValue) {
@@ -497,27 +504,55 @@ function getTodayDate() {
 }
 
 export function createComments(submissionForm) {
-  if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
-    if (submissionForm.incorrectServiceHistoryExplanation) {
+  const serviceHistoryIncorrect =
+    submissionForm['view:serviceHistory']?.serviceHistoryIncorrect;
+
+  if (serviceHistoryIncorrect) {
+    const explanation = submissionForm.incorrectServiceHistoryExplanation || {};
+
+    // Remove commas, newlines, and normalize excessive whitespace
+    const incorrectServiceHistoryText = explanation.incorrectServiceHistoryText
+      ? explanation.incorrectServiceHistoryText
+          .replace(/,/g, '') // Remove commas
+          .replace(/\n/g, ' ') // Replace newlines with spaces
+          .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+          .trim() // Remove leading/trailing whitespace
+      : '';
+
+    const incorrectServiceHistoryInputs =
+      explanation.incorrectServiceHistoryInputs || {};
+
+    if (
+      !incorrectServiceHistoryText &&
+      !Object.keys(incorrectServiceHistoryInputs).length
+    ) {
       return {
+        disagreeWithServicePeriod: true,
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
-            ? submissionForm.incorrectServiceHistoryExplanation
-            : submissionForm.incorrectServiceHistoryExplanation
-                .incorrectServiceHistoryText,
+          comments: {
+            incorrectServiceHistoryInputs: {}, // Default empty inputs
+            incorrectServiceHistoryText: '', // Default empty text
+          },
         },
-        disagreeWithServicePeriod: true,
       };
     }
+
     return {
-      claimantComment: {},
       disagreeWithServicePeriod: true,
+      claimantComment: {
+        commentDate: getTodayDate(),
+        comments: {
+          incorrectServiceHistoryInputs,
+          incorrectServiceHistoryText,
+        },
+      },
     };
   }
+
   return {
-    claimantComment: {},
     disagreeWithServicePeriod: false,
+    claimantComment: {}, // Default empty object for no disagreement
   };
 }
 

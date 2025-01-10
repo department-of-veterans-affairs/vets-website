@@ -4,6 +4,7 @@ import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import { getPastItf, fetchItf } from '../../995/tests/995.cypress.helpers';
+import { ITF_API } from '../../995/constants/apis';
 
 import cypressSetup from './cypress.setup';
 import mockUser from './fixtures/mocks/user.json';
@@ -27,7 +28,7 @@ const downtimeTesting = ({
     beforeEach(() => {
       setStoredSubTask({ benefitType: 'compensation' }); // HLR & SC
 
-      cy.intercept('GET', `${contestableApi}compensation`, {
+      cy.intercept('GET', `${contestableApi}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.intercept('PUT', `/v0/in_progress_forms/${formId}`, mockInProgress);
@@ -36,7 +37,9 @@ const downtimeTesting = ({
         `/v0/in_progress_forms/${formId}`,
         inProgressMock({ data }),
       );
-      cy.intercept('GET', '/v0/intent_to_file', fetchItf()); // 995 only
+      cy.intercept('GET', ITF_API, fetchItf()); // 995 only
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+      cy.intercept('GET', '/v0/feature_toggles*', {});
 
       cy.visit(baseUrl);
       cy.injectAxeThenAxeCheck();

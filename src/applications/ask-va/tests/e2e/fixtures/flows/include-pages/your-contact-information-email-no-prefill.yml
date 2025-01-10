@@ -1,0 +1,15 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your contact information
+  - action: typeTextInput
+    target: PHONE_NUMBER
+    value:  3345551212
+  - action: typeTextInput
+    target: EMAIL
+    value:  joe@joe.com
+  - action: click
+    target: radio
+    value:  Email
+  - action: click
+    target: call-to-action

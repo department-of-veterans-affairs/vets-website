@@ -18,8 +18,6 @@ import ResultsPage from './components/v2/ResultsPage';
 import RequestDD214v2 from './components/v2/RequestDD214';
 
 const envChildRoutes = [
-  // new routes for DUW v2
-  { path: 'introduction1', component: HomePage },
   { path: 'introduction', component: HomePage },
   { path: 'service-branch', component: ServiceBranch },
   { path: 'discharge-year', component: DischargeYear },
@@ -40,7 +38,10 @@ const envChildRoutes = [
 const routes = {
   path: '/',
   component: DischargeWizardApp,
-  indexRoute: { component: HomePage },
+  // indexRoute: { component: HomePage },
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/introduction'),
+  },
   childRoutes: envChildRoutes,
 };
 

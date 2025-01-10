@@ -7,8 +7,13 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
-import { normalizedForm } from '../../../_config/formConfig';
-import { createFormConfig, formatPages } from '../../../utils/formConfig';
+import * as submitTransform from '../../../config/submitTransformer';
+import { normalizedForm } from '../../../config/formConfig';
+import {
+  createFormConfig,
+  formatPages,
+  statementOfTruthBody,
+} from '../../../utils/formConfig';
 
 const [
   yourPersonalInfo,
@@ -20,6 +25,7 @@ const [
 describe('createFormConfig', () => {
   let formConfig;
   let stub;
+  let transformSpy;
 
   beforeEach(() => {
     const FakeComponent = ({ ombInfo }) => (
@@ -38,6 +44,7 @@ describe('createFormConfig', () => {
       }),
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
+    transformSpy = sinon.spy(submitTransform, 'default');
 
     formConfig = createFormConfig(normalizedForm, {
       rootUrl: '/root-url',
@@ -47,6 +54,7 @@ describe('createFormConfig', () => {
 
   afterEach(() => {
     stub.restore();
+    transformSpy.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -85,6 +93,25 @@ describe('createFormConfig', () => {
     expect(screen.getByTestId('res-burden')).to.have.text(
       `resBurden: ${normalizedForm.ombInfo.resBurden}`,
     );
+  });
+
+  it('includes a statement of truth', () => {
+    const statementOfTruth = formConfig.preSubmitInfo.statementOfTruth;
+
+    expect(statementOfTruth.body).to.eq(statementOfTruthBody);
+    expect(statementOfTruth.fullNamePath).to.eq('fullName');
+  });
+
+  it('includes transformForSubmit', () => {
+    const form = { data: {} };
+
+    formConfig.transformForSubmit(formConfig, form);
+
+    expect(transformSpy.calledWith(formConfig, form)).to.eq(true);
+  });
+
+  it('does not include a custom submit', () => {
+    expect(formConfig.submit).to.eq(undefined);
   });
 });
 
