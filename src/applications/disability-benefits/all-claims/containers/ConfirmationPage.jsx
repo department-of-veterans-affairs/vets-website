@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  focusElement,
-  scrollToTop,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import {
   submissionStatuses,
@@ -22,7 +19,6 @@ import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
 
 export default class ConfirmationPage extends React.Component {
   componentDidMount() {
-    scrollToTop();
     setTimeout(() => focusElement('va-alert h2'), 100);
   }
 
