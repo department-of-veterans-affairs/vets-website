@@ -17,7 +17,7 @@ const ErrorBoundaryWrapper = props => {
   );
 };
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: '/my-health/medical-records/summaries-and-notes/visit-summary/',
     element: <ErrorBoundaryWrapper />,
@@ -31,6 +31,7 @@ const router = createBrowserRouter([
     path: '*',
     element: <PageNotFound />,
   },
-]);
+];
+const router = createBrowserRouter(routes);
 
-export default router;
+export { routes, router as default };
