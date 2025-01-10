@@ -35,6 +35,7 @@ const uiSchema = {
       // hint: 'File types you can upload: JPEG, JPG, PNG or PDF. You can upload multiple files, but they have to add up to 10 MB or less.',
       name: `file-input`,
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+      formNumber: '686C-674-V2',
     }),
   },
 };

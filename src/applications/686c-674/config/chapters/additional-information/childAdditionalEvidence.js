@@ -32,6 +32,7 @@ const uiSchema = {
       title: 'Upload supporting documents',
       name: `file-input`,
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+      formNumber: '686C-674-V2',
     }),
   },
 };
