@@ -2,7 +2,7 @@
 
 // describe('10282 Review Page', () => {
 //   beforeEach(() => {
-//     cy.visit('/education/apply-for-education-benefits/10282/');
+//     cy.visit('/education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282');
 //   });
 //   beforeEach(() => {
 //     cy.get('[text="Start your application"]').click();
