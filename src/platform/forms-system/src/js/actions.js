@@ -346,7 +346,9 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage = FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+      const errorMessage =
+        uiOptions?.fileUploadNetworkErrorMessage ||
+        FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
       const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
 
       if (password) {
