@@ -82,9 +82,10 @@ describe('Submit Mileage Only Claims', () => {
     // Review page
     cy.get('h1').should('include.text', 'Review your travel claim');
 
-    cy.get('va-button[text="Submit"]')
-      .first()
-      .click();
+    // Agree to travel agreement and submit
+    cy.selectVaCheckbox('accept-agreement', true);
+
+    cy.selectVaButtonPairPrimary();
 
     // Submission Error page is currently the hard-coded default behavior
     cy.get('h1').should('include.text', 'We couldn’t file your claim');
