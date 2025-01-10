@@ -176,6 +176,9 @@ class IntroductionPage extends React.Component {
             unauthStartText="Sign in to start your intent to file"
             hideUnauthedStartLink
             pathname="/introduction"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
             displayNonVeteranMessaging
             verifiedPrefillAlert={
               <div>
