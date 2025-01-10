@@ -105,7 +105,13 @@ export function ApplicantRelationshipReviewPage(props) {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {props.title(currentListItem)}
         </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
+        <VaButton
+          secondary
+          onClick={props.editPage}
+          text="Edit"
+          label={`Edit ${props.title(currentListItem)}`}
+          uswds
+        />
       </div>
       <dl className="review">
         <div className="review-row">
