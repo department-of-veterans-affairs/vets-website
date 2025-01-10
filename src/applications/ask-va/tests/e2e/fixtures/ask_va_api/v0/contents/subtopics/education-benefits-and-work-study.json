@@ -1,0 +1,55 @@
+{
+    "data": [
+        {
+            "id": "ab00e84d-6aa3-eb11-b1ac-001dd804abb9",
+            "type": "contents",
+            "attributes": {
+                "name": "Other",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Other",
+                "parentId": "bf2a8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 999,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "7217573f-6aa3-eb11-b1ac-001dd804abb9",
+            "type": "contents",
+            "attributes": {
+                "name": "School Certifying Officials (SCOs)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "School Certifying Officials (SCOs)",
+                "parentId": "bf2a8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "2a434916-6aa3-eb11-b1ac-001dd804abb9",
+            "type": "contents",
+            "attributes": {
+                "name": "Work study",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Work study",
+                "parentId": "bf2a8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}
