@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LoginRequiredAlert = ({ handleLogin }) => (
   <va-alert status="error" data-testid="hca-idform-login-alert" uswds>
-    <h2 slot="headline">Please sign in to review your information</h2>
+    <h2 slot="headline">Sign in to review your information</h2>
     <p>
       We’re sorry for the interruption, but we’ve found some more information
       that we need you to review before you can apply for VA health care. Please
