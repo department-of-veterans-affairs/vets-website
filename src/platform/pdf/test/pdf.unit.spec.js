@@ -9,11 +9,6 @@ const fileSaver = require('file-saver');
 
 const { expect } = chai;
 
-// Workaround for pdf.js incompatibility.
-// cf. https://github.com/mozilla/pdf.js/issues/15728
-const originalPlatform = navigator.platform;
-navigator.platform = '';
-
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
 let fileSaverMock = {};
@@ -35,9 +30,6 @@ const blobToArrayBuffer = blob => {
 describe('PDF generation API', () => {
   before(() => {
     fileSaverMock = sinon.stub(fileSaver, 'saveAs').returns('foo');
-  });
-  after(() => {
-    navigator.platform = originalPlatform;
   });
 
   describe('Template selection', () => {

@@ -1,39 +1,13 @@
 import { expect } from 'chai';
-
-const getStream = require('get-stream');
-
-// Workaround for pdf.js incompatibility.
-// cf. https://github.com/mozilla/pdf.js/issues/15728
-const originalPlatform = navigator.platform;
-navigator.platform = '';
-
-const pdfjs = require('pdfjs-dist/legacy/build/pdf');
+import { generateAndParsePdf } from '../../helpers';
 
 describe('Medical records PDF template', () => {
-  after(() => {
-    navigator.platform = originalPlatform;
-  });
-
-  const generatePdf = async (data, config) => {
-    const template = require('../../../templates/medical_records');
-
-    const doc = await template.generate(data, config);
-    doc.end();
-    return getStream.buffer(doc);
-  };
-
-  const generateAndParsePdf = async (data, config) => {
-    const pdfData = await generatePdf(data, config);
-    const pdf = await pdfjs.getDocument(pdfData).promise;
-    const metadata = await pdf.getMetadata();
-
-    return { metadata, pdf };
-  };
+  const template = require('../../../templates/medical_records');
 
   describe('PDF Semantics', () => {
     it('places the title in an H1', async () => {
       const data = require('./fixtures/lab_test_blood_count.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -49,7 +23,7 @@ describe('Medical records PDF template', () => {
 
     it('All sections are contained by a root level Document element', async () => {
       const data = require('./fixtures/single_vital.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -68,7 +42,7 @@ describe('Medical records PDF template', () => {
   describe('Document section customization', () => {
     it('Only outputs detail headers when present in JSON', async () => {
       const data = require('./fixtures/single_vital.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -85,7 +59,7 @@ describe('Medical records PDF template', () => {
 
     it('Horizontal rules are added below result sections by default', async () => {
       const data = require('./fixtures/result_sections_with_horizontal_rules.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the second page
       const pageNumber = 2;
@@ -105,7 +79,7 @@ describe('Medical records PDF template', () => {
 
     it('Outputs document sections in the correct order', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -152,7 +126,7 @@ describe('Medical records PDF template', () => {
 
     it('Special characters are rendered correctly', async () => {
       const data = require('./fixtures/special_characters.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -175,26 +149,26 @@ describe('Medical records PDF template', () => {
 
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Language).to.equal('en-US');
     });
 
     it('Can customize the document language', async () => {
       const data = require('./fixtures/single_vital_es.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Language).to.equal(data.lang);
     });
 
     it('Provides defaults', async () => {
       const data = require('./fixtures/single_vital.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Author).to.equal('Department of Veterans Affairs');
       expect(metadata.info.Subject).to.equal('');
     });
 
     it('Metadata may be customized', async () => {
       const data = require('./fixtures/single_vital_custom_metadata.json');
-      const { metadata } = await generateAndParsePdf(data);
+      const { metadata } = await generateAndParsePdf({ data, template });
       expect(metadata.info.Author).to.equal(data.author);
       expect(metadata.info.Subject).to.equal(data.subject);
       expect(metadata.info.Title).to.equal(data.title);
@@ -202,20 +176,25 @@ describe('Medical records PDF template', () => {
 
     it('Can opt for results to be in monospace font', async () => {
       const data = require('./fixtures/monospace_result.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
       const page = await pdf.getPage(pageNumber);
 
+      let monospaceFontCode;
+      await page.getOperatorList();
+      for (const [objId, objData] of page.commonObjs) {
+        if (
+          objData.name?.indexOf(template.defaultConfig.text.monospaceFont) > -1
+        ) {
+          // This code represents the font in the content items
+          // It is something like g_d3_f5
+          monospaceFontCode = objId;
+        }
+      }
+
       const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // This code represents the font in the content items
-      // It is something like g_d3_f5
-      const monospaceFontCode = Object.keys(content.styles).find(
-        key => content.styles[key].fontFamily === 'monospace',
-      );
-
       const monospaceStartItemIndex = 81;
       const monospaceEndItemIndex = 162;
       const monospaceItems = content.items.slice(
@@ -267,7 +246,7 @@ describe('Medical records PDF template', () => {
       };
 
       const data = require('./fixtures/monospace_result.json');
-      const { pdf } = await generateAndParsePdf(data, config);
+      const { pdf } = await generateAndParsePdf({ data, config, template });
 
       // Fetch the first page
       const pageNumber = 1;

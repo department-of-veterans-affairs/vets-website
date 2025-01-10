@@ -252,4 +252,4 @@ const generate = async (data, config = defaultConfig) => {
   return doc;
 };
 
-export { generate };
+export { defaultConfig, generate };

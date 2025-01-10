@@ -1,40 +1,14 @@
 import { expect } from 'chai';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-
-const getStream = require('get-stream');
-
-// Workaround for pdf.js incompatibility.
-// cf. https://github.com/mozilla/pdf.js/issues/15728
-const originalPlatform = navigator.platform;
-navigator.platform = '';
-
-const pdfjs = require('pdfjs-dist/legacy/build/pdf');
+import { generateAndParsePdf } from '../../helpers';
 
 describe('Blue Button report PDF template', () => {
-  after(() => {
-    navigator.platform = originalPlatform;
-  });
-
-  const generatePdf = async data => {
-    const template = require('../../../templates/blue_button_report');
-
-    const doc = await template.generate(data);
-    doc.end();
-    return getStream.buffer(doc);
-  };
-
-  const generateAndParsePdf = async data => {
-    const pdfData = await generatePdf(data);
-    const pdf = await pdfjs.getDocument(pdfData).promise;
-    const metadata = await pdf.getMetadata();
-
-    return { metadata, pdf };
-  };
+  const template = require('../../../templates/blue_button_report');
 
   describe('PDF Semantics', () => {
     it('places the title in an H1', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -50,7 +24,7 @@ describe('Blue Button report PDF template', () => {
 
     it('All sections are contained by a root level Document element', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       // Fetch the first page
       const pageNumber = 1;
@@ -187,7 +161,7 @@ describe('Blue Button report PDF template', () => {
   describe('Document section customization', () => {
     it('Only outputs detail headers when present in JSON', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       const pageNumber = 3;
       const page = await pdf.getPage(pageNumber);
