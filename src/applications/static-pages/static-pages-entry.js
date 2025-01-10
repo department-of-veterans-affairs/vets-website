@@ -12,8 +12,6 @@ import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
-import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
-import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
 import widgetTypes from './widgetTypes';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
@@ -128,8 +126,6 @@ Sentry.withScope(scope => {
 });
 
 // Before create-widget tasks.
-subscribeAdditionalInfoEvents();
-subscribeAccordionEvents();
 alertsBuildShow();
 // See `content-build/src/site/includes/social-share.drupal.liquid
 // & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
