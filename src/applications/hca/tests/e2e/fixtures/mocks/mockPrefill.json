@@ -14,6 +14,6 @@
   "metadata": {
     "version": 0,
     "prefill": true,
-    "returnUrl": "/veteran-information/personal-information"
+    "returnUrl": "/check-your-personal-information"
   }
 }

@@ -1,13 +1,27 @@
-// TODO: this is a placeholder; structure will be added in ticket #97079
-import { eventsPageTitle } from '../../content/traumaticEventsIntro';
-
-import { formTitle } from '../../utils';
+import {
+  eventsPageTitle,
+  eventsIntroDescription,
+} from '../../content/traumaticEventsIntro';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': formTitle(eventsPageTitle),
+  'ui:title': titleWithTag(eventsPageTitle, form0781HeadingTag),
+  'ui:description': eventsIntroDescription,
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
 };
 
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
+  },
 };
