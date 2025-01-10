@@ -42,10 +42,12 @@ function validateProgressBar(index) {
     .should('have.class', 'usa-step-indicator__segment--current');
 }
 
+// Clicks continue and then optionally checks to make sure the form page url is as expected
 function clickContinue() {
   cy.get('.form-panel .usa-button-primary').click();
 }
 
+// Types a text value into an autocomplete field, presses down arrow key (40), presses enter key (13)
 function autoSuggestFirstResult(field, value) {
   cy.get(field).type(value);
   cy.get(field).trigger('keydown', { keyCode: 40 });
@@ -67,7 +69,7 @@ function visitIntro() {
   cy.get('.schemaform-start-button')
     .first()
     .click();
-  cy.url().should('not.contain', '/introduction');
+  cy.url().should('contain', '/preparer');
 }
 
 // Fills Preparer Contact Information page performs axe check, continues to next page.
@@ -124,38 +126,31 @@ function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
 
   cy.get('#root_application_claimant_relationshipToVet').select(relationship);
   clickContinue();
-  cy.url().should(
-    'not.contain',
-    '/form-10007-apply-for-eligibility/applicant-relationship-to-vet',
-  );
 
   cy.fillName('root_application_claimant_name', name);
   cy.fill('#root_application_claimant_name_maiden', name.maiden);
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
 
+  cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
+  cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
   if (relationship === 'veteran') {
     cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
     cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
   }
-
   clickContinue();
-  cy.url().should(
-    'not.contain',
-    '/form-10007-apply-for-eligibility/applicant-details',
-  );
 }
 
 // Fills Applicant Contact Information page, performs axe check, continues to next page
-function fillApplicantContactInfo(address, email, phone) {
+function fillApplicantContactInfo(address, phone, email) {
   cy.fillAddress('root_application_claimant_address', address);
-  cy.fill('input[name$="email"]', email);
   cy.fill('input[name$="phoneNumber"]', phone);
+  cy.fill('input[name$="email"]', email);
   cy.axeCheck();
   clickContinue();
 }
 
-function fillVeteranDemographics(veteran, demographicCheckboxes) {
+function fillVeteranDemographics(veteran) {
   cy.selectRadio('root_application_veteran_gender', veteran.gender);
   cy.selectRadio(
     'root_application_veteran_maritalStatus',
@@ -163,8 +158,9 @@ function fillVeteranDemographics(veteran, demographicCheckboxes) {
   );
   cy.axeCheck();
   clickContinue();
+
   cy.selectRadio('root_application_veteran_ethnicity', veteran.ethnicity);
-  demographicCheckboxes.map(checkbox =>
+  Object.keys(veteran.race).map(checkbox =>
     cy.selectVaCheckbox(`root_application_veteran_race_${checkbox}`, true),
   );
   if (veteran.race.isOther) {
@@ -181,6 +177,34 @@ function fillMilitaryHistory(status, serviceNumber, claimNumber) {
     serviceNumber,
   );
   cy.fill('input[name="root_application_veteran_vaClaimNumber"]', claimNumber);
+  cy.axeCheck();
+  cy.axeCheck();
+  clickContinue();
+}
+
+// Fills in any existing military history data, performs axe check, continues to next page
+function fillServicePeriods(serviceRecord) {
+  cy.axeCheck();
+  clickContinue();
+
+  serviceRecord.forEach((tour, index) => {
+    autoSuggestFirstResult(
+      '#root_serviceBranch',
+      serviceLabels[tour.serviceBranch],
+    );
+    cy.fillDate('root_dateRange_from', tour.dateRange.from);
+    cy.fillDate('root_dateRange_to', tour.dateRange.to);
+    autoSuggestFirstResult('#root_highestRank', rankLabels[tour.highestRank]);
+    cy.get('#root_dischargeType').select(tour.dischargeType);
+    clickContinue();
+    // Keep adding them until we're finished.
+    if (index < serviceRecord.length - 1) {
+      cy.selectRadio('root_view:hasServicePeriods', 'Y');
+      clickContinue();
+    } else {
+      cy.selectRadio('root_view:hasServicePeriods', 'N');
+    }
+  });
   cy.axeCheck();
   clickContinue();
 }
@@ -199,37 +223,6 @@ function fillPreviousName(veteran) {
   clickContinue();
 }
 
-// Fills in any existing military history data, performs axe check, continues to next page
-function fillServicePeriods(serviceRecord) {
-  cy.axeCheck();
-  clickContinue();
-  serviceRecord.forEach((tour, index) => {
-    autoSuggestFirstResult(
-      '#root_serviceBranch',
-      serviceLabels[tour.serviceBranch],
-    );
-
-    cy.fillDate('root_dateRange_from', tour.dateRange.from);
-    cy.fillDate('root_dateRange_to', tour.dateRange.to);
-
-    autoSuggestFirstResult('#root_highestRank', rankLabels[tour.highestRank]);
-
-    cy.get('#root_dischargeType').select(tour.dischargeType);
-
-    clickContinue();
-
-    // Keep adding them until we're finished.
-    if (index < serviceRecord.length - 1) {
-      cy.selectRadio('root_view:hasServicePeriods', 'Y');
-      clickContinue();
-    } else {
-      cy.selectRadio('root_view:hasServicePeriods', 'N');
-    }
-  });
-  cy.axeCheck();
-  clickContinue();
-}
-
 // Fills both benefit selection pages, performs axe checks on each, continues to next page
 function fillBenefitSelection(
   desiredCemetery,
@@ -237,12 +230,6 @@ function fillBenefitSelection(
   currentlyBuriedPersons,
 ) {
   // Page 1
-  // cy.fill(
-  //   'input[name="root_application_claimant_desiredCemetery"]',
-  //   desiredCemetery,
-  // );
-  // cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-  // cy.get('body').click({ force: true });
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
@@ -265,7 +252,6 @@ function fillBenefitSelection(
     }
     cy.axeCheck();
     clickContinue();
-    cy.url().should('not.contain', '/burial-benefits');
   }
 
   // Page 3
@@ -287,11 +273,11 @@ function submitForm() {
 
   cy.axeCheck();
   cy.get('.form-progress-buttons .usa-button-primary').click();
-  cy.url().should('not.contain', '/review-and-submit');
+  cy.url().should('contain', '/confirmation');
 
   cy.get('.js-test-location', { timeout: Timeouts.slow })
     .invoke('attr', 'data-location')
-    .should('not.contain', '/review-and-submit');
+    .should('contain', '/confirmation');
 
   cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
     'contain',

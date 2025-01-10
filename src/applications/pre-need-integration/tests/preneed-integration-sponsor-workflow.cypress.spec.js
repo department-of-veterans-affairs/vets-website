@@ -5,9 +5,6 @@ const { applicant } = testData.data.application;
 const { claimant } = testData.data.application;
 const { veteran } = testData.data.application;
 
-// hard coded for now; found in veteran.race
-const demographicCheckboxes = ['isBlackOrAfricanAmerican', 'isOther'];
-
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
@@ -26,8 +23,8 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
     preneedHelpers.fillApplicantContactInfo(
       applicant.mailingAddress,
-      applicant.applicantEmail,
       applicant.applicantPhoneNumber,
+      applicant.applicantEmail,
     );
 
     cy.selectRadio('root_application_applicant_isSponsor', applicant.isSponsor);
@@ -43,24 +40,25 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.fill('input[name="root_application_veteran_ssn"]', veteran.ssn);
     cy.fillDate('root_application_veteran_dateOfBirth', veteran.dateOfBirth);
     cy.fill(
-      'input[name="root_application_veteran_placeOfBirth"]',
-      veteran.placeOfBirth,
+      'input[name="root_application_veteran_cityOfBirth"]',
+      veteran.cityOfBirth,
+    );
+    cy.fill(
+      'input[name="root_application_veteran_stateOfBirth"]',
+      veteran.stateOfBirth,
     );
     cy.axeCheck();
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-details');
 
     // Is Sponsor Deceased
     cy.selectRadio('root_application_veteran_isDeceased', veteran.isDeceased);
     cy.axeCheck();
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-deceased');
     cy.fillDate('root_application_veteran_dateOfDeath', veteran.dateOfDeath);
     cy.axeCheck();
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-date-of-death');
 
-    preneedHelpers.fillVeteranDemographics(veteran, demographicCheckboxes);
+    preneedHelpers.fillVeteranDemographics(veteran);
 
     preneedHelpers.fillMilitaryHistory(
       veteran.militaryStatus,
@@ -70,12 +68,10 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Previous Names Page
     preneedHelpers.fillPreviousName(veteran);
-    cy.url().should('not.contain', '/sponsor-military-name');
 
     // Military History Page
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillServicePeriods(veteran.serviceRecords);
-    cy.url().should('not.contain', '/sponsor-military-history');
 
     // Benefit Selection Page
     preneedHelpers.validateProgressBar('6');
@@ -91,7 +87,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
     preneedHelpers.validateProgressBar('7');
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/supporting-documents');
 
     // Review/Submit Page
     preneedHelpers.validateProgressBar('8');

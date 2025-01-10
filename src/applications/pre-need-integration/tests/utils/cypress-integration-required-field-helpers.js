@@ -20,6 +20,7 @@ const previousNameErrors2 = [
   'veteran_serviceName_last',
 ];
 const burialBenefitsErrors = ['hasCurrentlyBuried'];
+const preferredCemeteryErrors = ['claimant_desiredCemetery'];
 const applicantContactInfoErrors = [
   'claimant_address_street',
   'claimant_address_city',
@@ -50,6 +51,7 @@ module.exports = {
   previousNameErrors1,
   previousNameErrors2,
   burialBenefitsErrors,
+  preferredCemeteryErrors,
   applicantContactInfoErrors,
   preparerInfoErrors1,
   preparerInfoErrors2,

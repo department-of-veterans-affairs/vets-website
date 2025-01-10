@@ -7,9 +7,6 @@ const { applicant } = testData.data.application;
 const { claimant } = testData.data.application;
 const { veteran } = testData.data.application;
 
-// hard coded for now; found in veteran.race
-const demographicCheckboxes = ['isWhite'];
-
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
@@ -19,6 +16,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.fillPreparerInfo(applicant);
 
     // Applicant Information
+    preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillApplicantInfo(
       claimant.name,
       claimant.ssn,
@@ -31,12 +29,12 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     // Applicant Contact Info
     preneedHelpers.fillApplicantContactInfo(
       claimant.address,
-      claimant.email,
       claimant.phoneNumber,
+      claimant.email,
     );
 
     // Applicant Demographics
-    preneedHelpers.fillVeteranDemographics(veteran, demographicCheckboxes);
+    preneedHelpers.fillVeteranDemographics(veteran);
 
     // Military History Page
     preneedHelpers.validateProgressBar('3');

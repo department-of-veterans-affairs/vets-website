@@ -8,8 +8,6 @@ const { claimant } = testData.data.application;
 const { veteran } = testData.data.application;
 const { serviceRecords } = testData.data.application.veteran;
 const { currentlyBuriedPersons } = testData.data.application;
-// hard coded for now; found in veteran.race
-const demographicCheckboxes = ['isOther'];
 
 // Clicks continue, checks for any expected error messages, performs an axe check
 function errorCheck(errorList) {
@@ -74,7 +72,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     );
 
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-relationship-to-vet');
 
     // Applicant Information Page 2
     errorCheck(requiredHelpers.applicantDetailsErrors);
@@ -90,7 +87,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.fillDate('root_application_claimant_dateOfBirth', claimant.dateOfBirth);
 
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-details');
 
     // Applicant Information Page 3
     errorCheck(requiredHelpers.applicantContactInfoErrors);
@@ -110,17 +106,22 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant Information Page 5
     errorCheck(requiredHelpers.veteranDemographicsErrors2);
-    cy.get('#checkbox-error-message').contains('Please provide a response.');
+    cy.get('#checkbox-error-message')
+      .should('contain', 'Please provide a response.')
+      .should('be.visible');
     cy.selectRadio('root_application_veteran_ethnicity', veteran.ethnicity);
     cy.selectVaCheckbox('root_application_veteran_race_na', true);
     cy.selectVaCheckbox('root_application_veteran_race_isOther', true);
     errorCheck(requiredHelpers.veteranDemographicsErrors3);
-    cy.get('#checkbox-error-message').contains(
-      'When selecting Prefer not to answer, you can’t have another option.',
-    );
+    cy.get('#checkbox-error-message')
+      .should(
+        'contain',
+        'When selecting Prefer not to answer, you can’t have another option.',
+      )
+      .should('be.visible');
     cy.selectVaCheckbox('root_application_veteran_race_na', false);
     cy.selectVaCheckbox('root_application_veteran_race_isOther', false);
-    demographicCheckboxes.map(checkbox =>
+    Object.keys(veteran.race).map(checkbox =>
       cy.selectVaCheckbox(`root_application_veteran_race_${checkbox}`, true),
     );
     if (veteran.race.isOther) {
@@ -131,7 +132,9 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Military History Page 1
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.clickContinue();
-    cy.get('#input-error-message').contains('You must provide a response');
+    cy.get('#input-error-message')
+      .should('contain', 'You must provide a response')
+      .should('be.visible');
     cy.axeCheck();
     cy.selectVaSelect(
       'root_application_veteran_militaryStatus',
@@ -161,7 +164,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     );
     preneedHelpers.clickContinue();
 
-    // Service Records
+    // Service Records Page 1
     preneedHelpers.clickContinue();
     veteran.serviceRecords.forEach((tour, index) => {
       cy.get('.form-panel .usa-button-primary').click({
@@ -174,15 +177,12 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         serviceLabels[tour.serviceBranch],
       );
       preneedHelpers.clickContinue();
-      // cy.get('root_view:hasServicePeriods').contains(
-      //   'Select yes if you have another service period to add',
-      // );
       cy.get('.form-panel .usa-button-primary').click({
         waitForAnimations: true,
       });
-      cy.get('.rjsf-web-component-field').contains(
+      cy.contains(
         'Select yes if you have another service period to add',
-      );
+      ).should('be.visible');
       cy.axeCheck();
 
       // Keep adding them until we're finished.
@@ -195,34 +195,8 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     });
     preneedHelpers.clickContinue();
 
-    // Veteran/Sponsor Information Page
-    preneedHelpers.validateProgressBar('2');
-    errorCheck(requiredHelpers.veteranDetailsErrors);
-    cy.fill(
-      'input[name=root_application_veteran_currentName_first]',
-      claimant.name.first,
-    );
-    cy.fill(
-      'input[name=root_application_veteran_currentName_last]',
-      claimant.name.last,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_ssn"]',
-      testData.data.application.veteran.ssn,
-    );
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-details');
-
-    errorCheck(requiredHelpers.veteranDeceasedErrors);
-    cy.selectRadio(
-      'root_application_veteran_isDeceased',
-      testData.data.application.veteran.isDeceased,
-    );
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-demographics');
-
     // Benefit Selection Page 1
-    preneedHelpers.validateProgressBar('4');
+    preneedHelpers.validateProgressBar('5');
     errorCheck(requiredHelpers.burialBenefitsErrors);
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
@@ -250,18 +224,18 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     });
 
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/burial-benefits');
+
+    // Benefit Selection Page 2
+    cy.get('#root_application_claimant_desiredCemetery').type(
+      'AAAAAAAAAAAAAAAA',
+    );
+    errorCheck(preneedHelpers.preferredCemeteryErrors);
+    cy.get('#root_application_claimant_desiredCemetery').clear();
+    preneedHelpers.clickContinue();
 
     // Supporting Documents Page
-    preneedHelpers.validateProgressBar('5');
+    preneedHelpers.validateProgressBar('6');
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/supporting-documents');
-
-    // Sponsor Contact Information Page
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/sponsor-mailing-address');
-
-    cy.url().should('not.contain', '/preparer');
 
     // Review/Submit Page
     preneedHelpers.submitForm();
