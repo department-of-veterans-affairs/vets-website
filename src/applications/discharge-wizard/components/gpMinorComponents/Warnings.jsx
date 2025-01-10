@@ -1,33 +1,22 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 // Relative imports
 import AlertMessage from '../AlertMessage';
 import { branchOfService, board } from '../../helpers';
-import { venueWarning, upgradeVenueWarning } from '../../constants';
+import { venueWarning } from '../../constants';
 
 const Warnings = ({ formValues }) => {
   const renderVenueWarnings = () => {
     const prevAppType = formValues['10_prevApplicationType'];
     const reason = formValues['4_reason'];
-    const dischargeYear = formValues['2_dischargeYear'];
-    const dischargeMonth = formValues['3_dischargeMonth'] || 1;
-    const oldDischarge =
-      moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >=
-      15;
 
     return (
       <>
         <AlertMessage
           content={venueWarning}
           isVisible={prevAppType === '4' && reason !== '8'}
-          status="warning"
-        />
-        <AlertMessage
-          content={upgradeVenueWarning}
-          isVisible={prevAppType === '4' && reason === '8' && !oldDischarge}
           status="warning"
         />
       </>
