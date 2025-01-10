@@ -42,7 +42,7 @@ describe('HCA-TERA-Branching', () => {
 
     cy.get('#root_ssn').type(testData.veteranSocialSecurityNumber);
 
-    goToNextPage('/veteran-information/personal-information');
+    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

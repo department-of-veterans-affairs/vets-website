@@ -40,3 +40,19 @@ export function isCompletingForm0781(formData) {
       form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
+
+/**
+ * Checks if
+ * 1. modern 0781 pages should be showing
+ * 2. the option to complete the online form is selected
+ * 3. MST is selected as a mentalHealth eventType
+ *
+ * @param {object} formData
+ * @returns {boolean} true if MST is selected, false otherwise
+ */
+export function isRelatedToMST(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.mentalHealth?.eventTypes?.mst === true
+  );
+}

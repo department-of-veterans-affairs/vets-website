@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Higher-Level Reviews or Supplemental Claims
+  - action: click
+    target: call-to-action

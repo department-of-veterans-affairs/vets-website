@@ -16,6 +16,9 @@ describe('Medications Details Page Grouping', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     detailsPage.clickMedicationDetailsLink(olderRxDetails, 2);
+    detailsPage.verifyPreviousPrescriptionHeaderTextOnDetailsPage(
+      'Previous prescriptions',
+    );
     detailsPage.verifyPreviousPrescriptionsPaginationTextOnDetailsPage(
       Data.PREVIOUS_PRESCRIPTION_PAGINATION,
     );

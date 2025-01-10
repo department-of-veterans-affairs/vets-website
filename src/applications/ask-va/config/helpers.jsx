@@ -1,5 +1,6 @@
 import { format, isValid, parse } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
+import { enUS } from 'date-fns/locale';
 import React from 'react';
 
 import {
@@ -11,6 +12,7 @@ import {
   CHAPTER_3,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
+  relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
@@ -344,7 +346,7 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
@@ -518,7 +520,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
-    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
   }
@@ -653,6 +655,7 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
+    case 'Solved':
     case 'Replied':
       return 'Replied';
     case 'reopened':
@@ -691,15 +694,31 @@ export const getDescriptiveTextFromCRM = status => {
 // Function to convert date to Response Inbox format using date-fns
 export const convertDateForInquirySubheader = dateString => {
   // Parse the input date string as UTC
-  const utcDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
+  let utcDate;
+  try {
+    utcDate = parse(dateString, 'M/d/yyyy h:mm:ss a', new Date(0));
+    utcDate.setUTCFullYear(utcDate.getFullYear());
+    utcDate.setUTCMonth(utcDate.getMonth());
+    utcDate.setUTCDate(utcDate.getDate());
+    utcDate.setUTCHours(utcDate.getHours());
+    utcDate.setUTCMinutes(utcDate.getMinutes());
+    utcDate.setUTCSeconds(utcDate.getSeconds());
+  } catch (error) {
+    return 'Invalid Date';
+  }
 
-  // Convert UTC to Eastern Time
-  const easternTime = utcToZonedTime(utcDate, 'America/New_York');
+  // Ensure the date is valid
+  if (isNaN(utcDate.getTime())) {
+    return 'Invalid Date';
+  }
 
-  // Format the date in Eastern Time
-  return format(easternTime, "MMM. d, yyyy 'at' h:mm aaaa 'E.T'", {
-    timeZone: 'America/New_York',
-  }).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  // Format the UTC date in Eastern Time
+  return formatInTimeZone(
+    utcDate,
+    'America/New_York',
+    "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
+    { locale: enUS },
+  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -735,4 +754,99 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const aboutMyselfRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
+  );
+};
+
+export const aboutMyselfRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.FAMILY_MEMBER
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran !== relationshipOptionsSomeoneElse.WORK &&
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+  );
+};
+
+export const generalQuestionCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
 };

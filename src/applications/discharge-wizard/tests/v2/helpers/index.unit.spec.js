@@ -38,6 +38,7 @@ describe('Discharge Wizard helpers', () => {
     };
     const formNumber = determineFormData(formResponses);
     expect(formNumber).to.deep.equal({
+      formDescription: 'Correction of Military Record (DOD Form 149)',
       num: 149,
       link:
         'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
@@ -566,6 +567,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for diagnosis or treatment of PTSD or another mental health condition,',
+          { exact: false },
         ),
       ).to.exist;
     });
@@ -581,6 +583,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for diagnosis or treatment of TBI,',
+          { exact: false },
         ),
       ).to.exist;
     });
@@ -596,6 +599,7 @@ describe('Discharge Wizard helpers', () => {
       expect(
         getByText(
           'If you’ve seen a non-VA health care provider for for treatment after your assault or harassment,',
+          { exact: false },
         ),
       ).to.exist;
     });
