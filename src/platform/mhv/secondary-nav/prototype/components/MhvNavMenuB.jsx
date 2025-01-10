@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import MhvSecondaryNavItem from '../../components/MhvSecondaryNavItem';
 import { mhvNavItems } from '../data';
 import Dropdown from './Dropdown';
 
@@ -16,6 +15,7 @@ import Dropdown from './Dropdown';
  * @returns the navigation bar
  */
 const MhvNavMenuB = ({ loading }) => {
+  localStorage.setItem('hasSession', true);
   /**
    * Strip the trailing slash in a path if it exists.
    * @param {String} path the path
@@ -47,15 +47,41 @@ const MhvNavMenuB = ({ loading }) => {
   };
 
   const activeItem = findActiveItem();
-  const navContent = mhvNavItems.map((item, index) => {
-    const key = item.title.toLowerCase().replaceAll(' ', '_');
+  const navContent = mhvNavItems.map(item => {
+    const {
+      href,
+      icon,
+      title,
+      abbreviation,
+      ariaLabel,
+      isHeader = false,
+    } = item;
+    const isActive = activeItem === item;
+    const key = title.toLowerCase().replaceAll(' ', '_');
+    const itemClasses = classNames('mhv-nav-item', {
+      'mhv-nav-item--active': isActive,
+    });
+    const titleClass = classNames({
+      'vads-u-font-weight--bold': isActive,
+      'vads-u-font-size--lg': isHeader,
+    });
     return (
-      <MhvSecondaryNavItem
-        {...item}
-        isActive={activeItem === item}
-        key={key}
-        isHeader={index === 0}
-      />
+      <li key={key}>
+        <a
+          className={itemClasses}
+          href={href}
+          aria-label={abbreviation && ariaLabel}
+          aria-current={isActive ? 'page' : false}
+        >
+          {!!icon && <va-icon icon={icon} size={3} />}
+          <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
+            {title}
+          </span>
+          <span className={`mhv-u-sec-nav-short-title ${titleClass}`}>
+            {abbreviation || title}
+          </span>
+        </a>
+      </li>
     );
   });
 
@@ -69,12 +95,12 @@ const MhvNavMenuB = ({ loading }) => {
       aria-label="My HealtheVet"
     >
       <div className="vads-u-font-family--sans vads-font-weight-regular usa-grid usa-grid-full row">
-        <div className="vads-u-display--flex vads-u-flex-wrap--nowrap vads-u-text-align--left vads-u-width--full">
+        <ul id="mhv-nav-menu">
           {navContent}
-          <>
+          <li>
             <Dropdown />
-          </>
-        </div>
+          </li>
+        </ul>
       </div>
     </nav>
   );

@@ -9,9 +9,9 @@ const Dropdown = () => {
   ));
 
   return (
-    <div className="mhv-dropdown">
+    <>
       <button
-        className="mhv-dropdown-trigger"
+        className="mhv-dropdown"
         aria-controls="mhv-dropdown-menu"
         aria-expanded="false"
         type="button"
@@ -21,7 +21,7 @@ const Dropdown = () => {
       <div className="mhv-dropdown-menu">
         <ul className="usa-unstyled-list">{links}</ul>
       </div>
-    </div>
+    </>
   );
 };
 
