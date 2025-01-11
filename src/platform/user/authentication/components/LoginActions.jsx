@@ -29,7 +29,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;
-  const mhvButtonShouldDisplay = mhvButtonDeprecated ?? mhv;
+  const mhvButtonShouldDisplay = mhvButtonDeprecated;
 
   return (
     <div className="row">
