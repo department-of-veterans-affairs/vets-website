@@ -1,4 +1,3 @@
-// TODO: additional structure will be added in ticket #97080
 import {
   textUI,
   textareaUI,
