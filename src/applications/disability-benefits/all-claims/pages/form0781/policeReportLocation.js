@@ -1,4 +1,3 @@
-// TODO: additional structure will be added in ticket #97080
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
 import CountrySelect from '../../components/CountrySelect';
 import {
