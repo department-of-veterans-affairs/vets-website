@@ -17,7 +17,7 @@ import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const toggleValue = true;
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
@@ -81,6 +81,21 @@ const BuildRoutes = () => {
             <Route path="/schools-and-employers">
               <SchoolsAndEmployers />
             </Route>
+            <Route
+              exact
+              path="/lc-search"
+              component={LicenseCertificationSearchPage}
+            />
+            <Route
+              exact
+              path="/lc-search/results"
+              component={LicenseCertificationSearchResults}
+            />
+            <Route
+              path="/lc-search/results/:type/:id"
+              component={LicenseCertificationSearchResult}
+            />
+            <Route path="/national-exams" component={NationalExamsList} />
           </Switch>
         </NewGiApp>
       )}

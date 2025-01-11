@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import SearchByName from '../components/SearchByName';
-import SearchByProgram from '../components/SearchByProgram';
+import SearchByName from './SearchByName';
+import SearchByProgram from './SearchByProgram';
 
 const SchoolAndEmployers = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -27,6 +27,7 @@ const SchoolAndEmployers = () => {
             style={{ listStyle: 'none', cursor: 'pointer' }}
           >
             <Tab
+              tabIndex="0"
               className={
                 currentTab === 0 ? activeTabClassList : inactiveTabClassList
               }
@@ -40,6 +41,7 @@ const SchoolAndEmployers = () => {
               </h3>
             </Tab>
             <Tab
+              tabIndex="0"
               className={
                 currentTab === 1 ? activeTabClassList : inactiveTabClassList
               }

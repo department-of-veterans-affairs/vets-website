@@ -502,6 +502,7 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
   version,
+  description,
 ) {
   const [longitude, latitude] = coordinates;
 
@@ -509,16 +510,16 @@ export function fetchSearchByLocationCoords(
     latitude,
     longitude,
     distance,
-    ...rubyifyKeys(buildSearchFilters(filters)),
+    description,
   };
-  if (version) {
-    params.version = version;
-  }
+
+  if (filters) params.push(...rubyifyKeys(buildSearchFilters(filters)));
+  if (version) params.version = version;
   const url = appendQuery(`${api.url}/institutions/search`, params);
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude, distance },
+      payload: { location, latitude, longitude, distance, description },
     });
 
     return fetch(url, api.settings)
@@ -558,6 +559,7 @@ export function fetchSearchByLocationResults(
   distance,
   filters,
   version,
+  description,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -580,7 +582,6 @@ export function fetchSearchByLocationResults(
       .send()
       .then(({ body: { features } }) => {
         dispatch({ type: GEOCODE_SUCCEEDED, payload: features });
-
         dispatch(
           fetchSearchByLocationCoords(
             location,
@@ -588,6 +589,7 @@ export function fetchSearchByLocationResults(
             distance,
             filters,
             version,
+            description,
           ),
         );
       })
