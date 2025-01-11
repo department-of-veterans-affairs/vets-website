@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { SHOW_ADD_DISABILITIES_ENHANCEMENT } from '../constants';
-
 export const addDisabilitiesInstructions = (
   <>
     <h3>Tell us the new conditions you want to claim</h3>
@@ -74,6 +72,3 @@ export const increaseAndNewAlertRevised = ({ formContext }) => {
     </va-alert>
   );
 };
-
-export const getShowAddDisabilitiesEnhancement = () =>
-  window.sessionStorage.getItem(SHOW_ADD_DISABILITIES_ENHANCEMENT) === 'true';

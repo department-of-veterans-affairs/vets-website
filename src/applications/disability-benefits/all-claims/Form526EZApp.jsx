@@ -13,6 +13,7 @@ import {
 import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
@@ -23,7 +24,6 @@ import {
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
-  SHOW_ADD_DISABILITIES_ENHANCEMENT,
   WIZARD_STATUS,
 } from './constants';
 import {
@@ -86,6 +86,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -93,6 +94,7 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
   showWizard,
   user,
@@ -151,11 +153,12 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      window.sessionStorage.setItem(
-        SHOW_ADD_DISABILITIES_ENHANCEMENT,
-        showAddDisabilitiesEnhancement,
-      );
+      setFormData({
+        ...formData,
+        'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
+      });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [showAddDisabilitiesEnhancement],
   );
 
@@ -268,6 +271,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  formData: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -282,6 +286,7 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
@@ -291,6 +296,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  formData: state.form.data,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
@@ -302,4 +308,11 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

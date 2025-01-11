@@ -615,9 +615,18 @@ export const DISABILITY_SHARED_CONFIG = {
     path: 'disabilities/rated-disabilities',
     depends: formData => isClaimingIncrease(formData),
   },
+  // TODO: Remove this page when allClaimsAddDisabilitiesEnhancement feature flag is removed
+  addDisabilitiesPrevious: {
+    path: 'new-disabilities-previous/add',
+    depends: formData =>
+      isClaimingNew(formData) &&
+      !formData['view:showAddDisabilitiesEnhancement'],
+  },
   addDisabilities: {
     path: 'new-disabilities/add',
-    depends: isClaimingNew,
+    depends: formData =>
+      isClaimingNew(formData) &&
+      formData['view:showAddDisabilitiesEnhancement'],
   },
 };
 
@@ -874,3 +883,30 @@ export const formatFullName = (fullName = {}) => {
  */
 export const show5103Updates = () =>
   environment.isDev() || environment.isLocalhost() || environment.isStaging();
+
+const showAddDisabilitiesEnhancement = formData =>
+  formData['view:showAddDisabilitiesEnhancement'];
+
+/**
+ * // TODO: Remove when allClaimsAddDisabilitiesEnhancement feature flag is removed. This feature flag can only be removed when no more save in progress forms are left on the new-disabilities-previous/add page.
+ * @param {Object} formData - Form data from save-in-progress
+ * @param {String} returnUrl - URL of last saved page
+ * @param {Object} router - React router
+ */
+export const onFormLoaded = props => {
+  const { formData, returnUrl, router } = props;
+
+  if (
+    showAddDisabilitiesEnhancement(formData) &&
+    returnUrl === 'new-disabilities-previous/add'
+  ) {
+    router?.push('new-disabilities/add');
+  } else if (
+    !showAddDisabilitiesEnhancement(formData) &&
+    returnUrl === 'new-disabilities/add'
+  ) {
+    router?.push('new-disabilities-previous/add');
+  } else {
+    router?.push(returnUrl);
+  }
+};
