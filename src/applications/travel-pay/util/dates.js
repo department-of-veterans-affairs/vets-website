@@ -74,3 +74,12 @@ export function getDateFilters() {
 
   return dateRanges;
 }
+
+export function getDaysLeft(datetimeString) {
+  const apptDate = new Date(datetimeString);
+  const daysSinceAppt = Math.floor(
+    (new Date() - apptDate) / 1000 / 60 / 60 / 24,
+  );
+
+  return daysSinceAppt >= 30 ? 0 : 30 - daysSinceAppt;
+}

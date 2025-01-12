@@ -21,7 +21,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
-import HelpTextContent from '../components/HelpText';
+import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 
@@ -283,8 +283,18 @@ export default function App({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          <va-additional-info trigger="How to manage your claims or get more information">
-            <HelpTextContent />
+          <va-additional-info
+            class="vads-u-margin-y--3"
+            trigger="How to manage your claims or get more information"
+          >
+            <>
+              <HelpTextManage />
+              <va-link
+                data-testid="status-explainer-link"
+                href="/my-health/travel-pay/help"
+                text="What does my claim status mean?"
+              />
+            </>
           </va-additional-info>
 
           {isLoading && (

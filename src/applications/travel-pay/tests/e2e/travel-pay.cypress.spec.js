@@ -72,7 +72,6 @@ describe(`${appName} -- Status Page`, () => {
 
     // Instead just find the text for the link and click it
     cy.contains('Back to your travel reimbursement claims').click();
-
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
 
@@ -81,7 +80,7 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
-    cy.get('a[data-testid="status-explainer-link"]')
+    cy.get('va-link[data-testid="status-explainer-link"]')
       .first()
       .click();
 
