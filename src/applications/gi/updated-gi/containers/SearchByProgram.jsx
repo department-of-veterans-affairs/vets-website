@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   VaButton,
   VaModal,
@@ -25,6 +26,7 @@ const SearchByProgram = () => {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const [programName, setProgramName] = useState(null);
+  const [searchDirty, setSearchDirty] = useState(false);
 
   const handleLocateUser = e => {
     e.preventDefault();
@@ -35,8 +37,14 @@ const SearchByProgram = () => {
   };
 
   const handleSearch = () => {
+    if (!searchDirty) {
+      setSearchDirty(true);
+      return;
+    }
     const description = programName;
-    dispatch(fetchSearchByLocationResults(location, distance, null, null, description));
+    dispatch(
+      fetchSearchByLocationResults(location, distance, null, null, description),
+    );
     // Go to program results page...
   };
 
@@ -65,7 +73,10 @@ const SearchByProgram = () => {
         label="Name of program"
         required
         value={programName}
-        onInput={(e) => setProgramName(e.target.value)}
+        error={
+          searchDirty && !programName ? 'Please fill in a program name.' : null
+        }
+        onInput={e => setProgramName(e.target.value)}
       />
       <VaTextInput
         className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5"
@@ -74,30 +85,35 @@ const SearchByProgram = () => {
         label="City, state, or postal code"
         required
         value={location}
-        onInput={(e) => setLocation(e.target.value)}
+        error={
+          searchDirty && !location
+            ? 'Please fill in a city, state, or postal code.'
+            : null
+        }
+        onInput={e => setLocation(e.target.value)}
       />
       <div className="medium-screen:vads-u-flex--2 tablet:vads-u-flex--auto vads-u-margin-right--2p5 mobile:vads-u-margin-top--2p5">
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-        { search.geolocationInProgress ? (
+        {search.geolocationInProgress ? (
           <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--primary">
             <va-icon size={3} icon="autorenew" aria-hidden="true" />
-            <span aria-live="assertive">
-              Finding your location...
-            </span>
+            <span aria-live="assertive">Finding your location...</span>
           </div>
         ) : (
-          <button
-            type="button"
-            className="vads-u-line-height--3 vads-u-padding--0 vads-u-margin--0 vads-u-color--primary vads-u-background-color--white vads-u-font-weight--normal"
-            onClick={handleLocateUser}
-          >
-            <va-icon icon="near_me" size={3} />
-            Use my location
-          </button>
+          <>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+            <button
+              type="button"
+              className="vads-u-line-height--3 vads-u-padding--0 vads-u-margin--0 vads-u-color--primary vads-u-background-color--white vads-u-font-weight--normal"
+              onClick={handleLocateUser}
+            >
+              <va-icon icon="near_me" size={3} />
+              Use my location
+            </button>
+          </>
         )}
         <VaSelect
           name="program-distance"
-          onVaSelect={(e)=>setDistance(e.target.value)}
+          onVaSelect={e => setDistance(e.target.value)}
           value={distance}
         >
           {distanceDropdownOptions.map(option => (
@@ -116,4 +132,4 @@ const SearchByProgram = () => {
   );
 };
 
-export default SearchByProgram
+export default SearchByProgram;
