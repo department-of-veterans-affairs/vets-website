@@ -3,15 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   VaButton,
-  VaModal,
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  geolocateUser,
-  clearGeocodeError,
-  fetchSearchByLocationResults,
-} from '../../actions';
+import { geolocateUser, fetchSearchByLocationResults } from '../../actions';
+import { UseMyLocation } from '../components/school-and-employers/UseMyLocation';
+import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
 
 const SearchByProgram = () => {
   const distanceDropdownOptions = [
@@ -50,22 +47,7 @@ const SearchByProgram = () => {
 
   return (
     <div className="vads-u-display--flex mobile:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-justify-content--space-between mobile:vads-u-align-items--flex-start medium-screen:vads-u-align-items--flex-end">
-      <VaModal
-        modalTitle={
-          search.geocodeError === 1
-            ? 'We need to use your location'
-            : "We couldn't locate you"
-        }
-        onCloseEvent={() => dispatch(clearGeocodeError())}
-        status="warning"
-        visible={search.geocodeError > 0}
-      >
-        <p>
-          {search.geocodeError === 1
-            ? 'Please enable location sharing in your browser to use this feature.'
-            : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-        </p>
-      </VaModal>
+      <UseMyLocationModal geocodeError={search.geocodeError} />
       <VaTextInput
         className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5 mobile:vads-u-margin-top--neg2p5"
         name="program-name"
@@ -93,24 +75,10 @@ const SearchByProgram = () => {
         onInput={e => setLocation(e.target.value)}
       />
       <div className="medium-screen:vads-u-flex--2 tablet:vads-u-flex--auto vads-u-margin-right--2p5 mobile:vads-u-margin-top--2p5">
-        {search.geolocationInProgress ? (
-          <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--primary">
-            <va-icon size={3} icon="autorenew" aria-hidden="true" />
-            <span aria-live="assertive">Finding your location...</span>
-          </div>
-        ) : (
-          <>
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-            <button
-              type="button"
-              className="vads-u-line-height--3 vads-u-padding--0 vads-u-margin--0 vads-u-color--primary vads-u-background-color--white vads-u-font-weight--normal"
-              onClick={handleLocateUser}
-            >
-              <va-icon icon="near_me" size={3} />
-              Use my location
-            </button>
-          </>
-        )}
+        <UseMyLocation
+          geolocationInProgress={search.geolocationInProgress}
+          handleLocateUser={handleLocateUser}
+        />
         <VaSelect
           name="program-distance"
           onVaSelect={e => setDistance(e.target.value)}
