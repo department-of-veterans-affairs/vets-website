@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-import { sentryLogger } from './index';
+import { sentryLogger } from './sentryLogger';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal-root');

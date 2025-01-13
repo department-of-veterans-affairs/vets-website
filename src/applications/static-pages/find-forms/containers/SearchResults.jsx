@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { connect } from 'react-redux';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 import * as customPropTypes from '../prop-types';
 import {
   updateSortByPropertyNameThunk,
@@ -14,11 +14,10 @@ import {
 } from '../actions';
 import { deriveDefaultModalState } from '../helpers';
 import { getFindFormsAppState } from '../helpers/selectors';
-import { FAF_SORT_OPTIONS } from '../constants';
+import { FAF_SORT_OPTIONS, MAX_PAGE_LIST_LENGTH } from '../constants';
 import SearchResult from '../components/SearchResult';
 import PdfModal from '../components/PdfModal';
 
-export const MAX_PAGE_LIST_LENGTH = 10;
 const usePreviousProps = value => {
   // This is a mirror to storing and assessing prevProps vs current props
   const ref = useRef(); // Refs are like a class instance var, in react their values don't change unless that same ref is redefined.
