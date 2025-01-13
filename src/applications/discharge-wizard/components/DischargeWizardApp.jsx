@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Breadcrumbs from './v2/Breadcrumbs';
+import Breadcrumbs from './Breadcrumbs';
 
 export default function DischargeWizardApp({ children }) {
   return (

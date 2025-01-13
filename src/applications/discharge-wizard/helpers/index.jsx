@@ -2,8 +2,6 @@ import React from 'react';
 import { BCMR, BCNR, DRB, AFDRB, monthLabelMap } from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
-// v2 Helpers
-
 // Changes Marine Corps discharge board to Navy for naming on results pages
 // since the Marine Corps does not have a discharge board.
 export const determineBranchOfService = key =>

@@ -3,7 +3,6 @@ export const DW_UPDATE_FIELD = 'discharge-wizard/UPDATE_FIELD';
 export const venueWarning =
   "You answered that you weren't sure where you applied for an upgrade before. The instructions below are for Veterans who have never applied for a discharge upgrade, so your process may be different. For more reliable information on your discharge upgrade process, review your records to find out which board you sent your earlier application to, and complete the questions again.";
 
-// v2 constants
 import { SHORT_NAME_MAP } from './question-data-map';
 
 export const DUW_VIEWED_INTRO_PAGE =
@@ -47,10 +46,6 @@ export const BCNR = 'BCNR';
 export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
-  // v1
-  QUESTIONS: 'questions',
-  GUIDANCE: 'guidance',
-  // v2
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
@@ -66,7 +61,7 @@ export const ROUTES = Object.freeze({
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
   REVIEW: 'review',
   RESULTS: 'results',
-  DD214: 'request-dd214-v2',
+  DD214: 'request-dd214',
 });
 
 export const questionsToClearMap = Object.freeze({

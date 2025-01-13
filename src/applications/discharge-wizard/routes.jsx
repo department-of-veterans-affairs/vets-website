@@ -1,21 +1,21 @@
 import DischargeWizardApp from './components/DischargeWizardApp';
 
-import HomePage from './components/v2/Homepage';
-import ServiceBranch from './components/v2/questions/ServiceBranch';
-import DischargeYear from './components/v2/questions/DischargeYear';
-import DischargeMonth from './components/v2/questions/DischargeMonth';
-import Reason from './components/v2/questions/Reason';
-import DischargeType from './components/v2/questions/DischargeType';
-import CourtMartial from './components/v2/questions/CourtMartial';
-import Intention from './components/v2/questions/Intention';
-import PrevApplicationType from './components/v2/questions/PrevApplicationType';
-import PrevApplication from './components/v2/questions/PrevApplication';
-import PrevApplicationYear from './components/v2/questions/PrevApplicationYear';
-import PriorService from './components/v2/questions/PriorService';
-import FailureToExhaust from './components/v2/questions/FailureToExhaust';
-import ReviewPage from './components/v2/ReviewPage';
-import ResultsPage from './components/v2/ResultsPage';
-import RequestDD214v2 from './components/v2/RequestDD214';
+import HomePage from './components/Homepage';
+import ServiceBranch from './components/questions/ServiceBranch';
+import DischargeYear from './components/questions/DischargeYear';
+import DischargeMonth from './components/questions/DischargeMonth';
+import Reason from './components/questions/Reason';
+import DischargeType from './components/questions/DischargeType';
+import CourtMartial from './components/questions/CourtMartial';
+import Intention from './components/questions/Intention';
+import PrevApplicationType from './components/questions/PrevApplicationType';
+import PrevApplication from './components/questions/PrevApplication';
+import PrevApplicationYear from './components/questions/PrevApplicationYear';
+import PriorService from './components/questions/PriorService';
+import FailureToExhaust from './components/questions/FailureToExhaust';
+import ReviewPage from './components/ReviewPage';
+import ResultsPage from './components/ResultsPage';
+import RequestDD214 from './components/RequestDD214';
 
 const envChildRoutes = [
   { path: 'introduction', component: HomePage },
@@ -33,7 +33,7 @@ const envChildRoutes = [
   { path: 'failure-to-exhaust', component: FailureToExhaust },
   { path: 'review', component: ReviewPage },
   { path: 'results', component: ResultsPage },
-  { path: 'request-dd214-v2', component: RequestDD214v2 },
+  { path: 'request-dd214', component: RequestDD214 },
 ];
 const routes = {
   path: '/',

@@ -43,7 +43,7 @@ import {
   updateFailureToExhaust,
 } from '../../actions';
 
-describe('Discharge Wizard Redux Actions v2', () => {
+describe('Discharge Wizard Redux Actions', () => {
   describe('updateFormStore', () => {
     it('should return an action in the shape we expect', () => {
       const value = 'Army';
@@ -256,7 +256,7 @@ describe('Discharge Wizard Redux Actions v2', () => {
   });
 });
 
-describe('Discharge Wizard Redux Actions v2', () => {
+describe('Discharge Wizard Redux Actions', () => {
   describe('updateFormStore', () => {
     it('should return an action in the shape we expect', () => {
       const value = 'Army';
