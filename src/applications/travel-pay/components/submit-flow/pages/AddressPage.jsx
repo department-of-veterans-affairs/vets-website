@@ -18,8 +18,12 @@ const AddressPage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
-    focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
+    if (!address) {
+      focusElement('h1');
+    } else {
+      focusElement('h1', {}, 'va-radio');
+    }
   }, []);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
