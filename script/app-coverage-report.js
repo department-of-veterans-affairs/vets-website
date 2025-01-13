@@ -21,7 +21,7 @@ const printCoverage = coverageResults => {
   Object.values(coverageResults).forEach(cov => {
     const appLocation =
       cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
-
+    console.log('generating coverage data for: ', cov);
     coverageTable.push({
       [appLocation]: [
         `${cov.lines.pct}%`,
