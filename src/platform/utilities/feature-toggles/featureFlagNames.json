@@ -16,6 +16,7 @@
   "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
+  "burialModuleEnabled": "burial_module_enabled",
   "burialBrowserMonitoringEnabled": "burial_browser_monitoring_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
   "caregiverUseFacilitiesApi": "caregiver_use_facilities_API",
@@ -313,5 +314,6 @@
   "isDGIBEndpoint": "is_DGIB_endpoint",
   "enableLightHouse": "enable_lighthouse",
   "isUpdatedGi": "is_updated_gi",
-  "showRudisill1995": "show_rudisill_1995"
+  "showRudisill1995": "show_rudisill_1995",
+  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled"
 }

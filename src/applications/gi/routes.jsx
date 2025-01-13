@@ -10,6 +10,7 @@ import LicenseCertificationSearchResults from './containers/LicenseCertification
 import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
 import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
+import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
 import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
@@ -56,6 +57,10 @@ const BuildRoutes = () => {
                 />
               </>
             )}
+            <Route
+              path="/national-exams/:examId"
+              component={NationalExamDetails}
+            />
             <Route path="/national-exams" component={NationalExamsList} />
             <Route
               path="/compare"
