@@ -1,0 +1,94 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { scrollToFirstError } from 'platform/utilities/ui';
+import { useReviewPage } from '../hooks/useReviewPage';
+
+const SubmissionMethod = props => {
+  const { formData, setFormData, goBack, goForward, goToPath } = props;
+  const [error, setError] = useState(null);
+
+  const isReviewPage = useReviewPage();
+
+  const handleGoBack = () => {
+    if (isReviewPage) {
+      goToPath('representative-contact?review=true');
+    } else {
+      goBack(formData);
+    }
+  };
+  const handleGoForward = () => {
+    if (!formData?.representativeSubmissionMethod) {
+      setError('You must select a submission method');
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (isReviewPage) {
+      goToPath('/representative-replace?review=true');
+    } else {
+      goForward(formData);
+    }
+  };
+
+  const handleRadioSelect = e => {
+    setError(null);
+    setFormData({
+      ...formData,
+      representativeSubmissionMethod: e.detail.value,
+    });
+  };
+
+  return (
+    <>
+      <VaRadio
+        error={error}
+        label="Select how to submit your request"
+        required
+        onVaValueChange={handleRadioSelect}
+      >
+        <va-radio-option
+          label="Online"
+          name="method"
+          value="digital"
+          key={0}
+          checked={formData.representativeSubmissionMethod === 'digital'}
+        />
+        <va-radio-option
+          label="By mail"
+          name="method"
+          value="mail"
+          key={1}
+          checked={formData.representativeSubmissionMethod === 'mail'}
+        />
+        <va-radio-option
+          label="In person"
+          name="method"
+          value="in person"
+          key={2}
+          checked={formData.representativeSubmissionMethod === 'in person'}
+        />
+      </VaRadio>
+      <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
+    </>
+  );
+};
+
+SubmissionMethod.propTypes = {
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+};
+
+function mapStateToProps(state) {
+  return {
+    formData: state.form.data,
+  };
+}
+
+// export { SubmissionMethod };
+export default connect(
+  mapStateToProps,
+  null,
+)(SubmissionMethod);
