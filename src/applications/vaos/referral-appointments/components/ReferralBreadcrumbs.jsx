@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 import manifest from '../../manifest.json';
 import { selectCurrentPage } from '../redux/selectors';
 import { useGetReferralById } from '../hooks/useGetReferralById';
-import {
-  getReferralBreadcumb,
-  routeToPreviousReferralPage,
-  getBreadcrumbList,
-} from '../flow';
+import { getReferralBreadcumb, routeToPreviousReferralPage } from '../flow';
+
+const BREADCRUMB_BASE = [
+  {
+    href: '/',
+    label: 'Home',
+  },
+  {
+    href: '/my-health',
+    label: 'My HealtheVet',
+  },
+  {
+    href: manifest.rootUrl,
+    label: 'Appointments',
+  },
+];
 
 export default function ReferralBreadcrumbs() {
   const location = useLocation();
@@ -48,6 +59,7 @@ export default function ReferralBreadcrumbs() {
       <va-link
         back
         aria-label="Back link"
+        data-testid="back-link"
         text={breadcrumb.label}
         href={breadcrumb.href}
         onClick={e => {
@@ -59,8 +71,9 @@ export default function ReferralBreadcrumbs() {
   ) : (
     <VaBreadcrumbs
       role="navigation"
+      data-testid="breadcrumbs"
       aria-label="Breadcrumbs"
-      breadcrumbList={getBreadcrumbList(manifest.rootUrl, breadcrumb)}
+      breadcrumbList={[...BREADCRUMB_BASE, breadcrumb]}
       home-veterans-affairs
       uswds
     />

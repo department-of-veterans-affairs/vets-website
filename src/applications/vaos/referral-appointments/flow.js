@@ -129,6 +129,15 @@ export function getReferralUrlLabel(state, location) {
   return null;
 }
 
+/**
+ * Generates the breadcrumb information for a referral appointment flow.
+ *
+ * @param {object} location - The location object containing the current URL.
+ * @param {string} currentPage - The current page identifier in the referral flow.
+ * @param {string} referralId - The unique identifier for the referral.
+ * @param {string} [categoryOfCare=''] - The category of care for the referral.
+ * @returns {Object|null} The breadcrumb information including href, label, and useBackBreadcrumb flag, or null if the current page is not found in the flow.
+ */
 export const getReferralBreadcumb = (
   location,
   currentPage,
@@ -151,23 +160,4 @@ export const getReferralBreadcumb = (
     ),
     useBackBreadcrumb,
   };
-};
-
-export const getBreadcrumbList = (rootUrl, currentBreadcrumb) => {
-  const BREADCRUMB_BASE = [
-    {
-      href: '/',
-      label: 'Home',
-    },
-    {
-      href: '/my-health',
-      label: 'My HealtheVet',
-    },
-    {
-      href: rootUrl,
-      label: 'Appointments',
-    },
-  ];
-
-  return [...BREADCRUMB_BASE, currentBreadcrumb];
 };
