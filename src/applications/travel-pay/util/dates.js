@@ -1,4 +1,5 @@
 import {
+  differenceInCalendarDays,
   endOfQuarter,
   endOfYear,
   format,
@@ -77,9 +78,7 @@ export function getDateFilters() {
 
 export function getDaysLeft(datetimeString) {
   const apptDate = new Date(datetimeString);
-  const daysSinceAppt = Math.floor(
-    (new Date() - apptDate) / 1000 / 60 / 60 / 24,
-  );
+  const daysSinceAppt = differenceInCalendarDays(new Date(), apptDate);
 
-  return daysSinceAppt >= 30 ? 0 : 30 - daysSinceAppt;
+  return daysSinceAppt > 30 ? 0 : 30 - daysSinceAppt;
 }
