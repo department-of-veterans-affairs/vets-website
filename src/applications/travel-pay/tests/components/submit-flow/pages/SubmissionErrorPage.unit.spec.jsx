@@ -8,6 +8,13 @@ it('should render submission error page with expected links', () => {
   const screen = render(<SubmissionErrorPage />);
   expect(screen.getByText('We couldn’t file your claim')).to.exist;
 
+  // Text only found in HelpTextGeneral used in SubmissionErrorPage
+  expect(
+    screen.getByText(
+      'Or call your VA health facility’s Beneficiary Travel contact.',
+    ),
+  ).to.exist;
+
   expect(
     screen.container.querySelector(
       '[href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"]',
