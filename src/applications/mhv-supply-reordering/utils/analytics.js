@@ -1,4 +1,4 @@
-import { recordEventOnce as recordEventOnceFn } from '@department-of-veterans-affairs/platform-monitoring';
+import { recordEventOnce as recordEventOnceFn } from '~/platform/monitoring/record-event';
 import transformDlcResponse from './transformSubmitResponse';
 
 const analytics = ({

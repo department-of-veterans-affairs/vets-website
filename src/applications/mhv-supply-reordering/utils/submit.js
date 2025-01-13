@@ -1,9 +1,11 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '~/platform/utilities/api';
 import analyticsFn from './analytics';
 
 const submit = (form, formConfig, analytics = analyticsFn) => {
+  const { data } = form;
   const { submitUrl, trackingPrefix, transformForSubmit } = formConfig;
-  const params = transformForSubmit(form.data);
+
+  const params = transformForSubmit(data);
   const productIdsCount = params.order.length;
 
   const options = {
