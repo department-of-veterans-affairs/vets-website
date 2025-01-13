@@ -15,13 +15,14 @@ export default function ReferralLayout({
   hasEyebrow,
   apiFailure,
   heading,
+  categoryOfCare = '',
 }) {
   const location = useLocation();
 
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <ReferralBreadcrumbs />
+        <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
             appTitle="VA online scheduling tool"
@@ -58,6 +59,7 @@ export default function ReferralLayout({
 
 ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
+  categoryOfCare: PropTypes.string,
   children: PropTypes.node,
   hasEyebrow: PropTypes.bool,
   heading: PropTypes.string,

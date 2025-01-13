@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import PropTypes from 'prop-types';
 
 import manifest from '../../manifest.json';
 import { selectCurrentPage } from '../redux/selectors';
-import { useGetReferralById } from '../hooks/useGetReferralById';
 import { getReferralBreadcumb, routeToPreviousReferralPage } from '../flow';
 
 const BREADCRUMB_BASE = [
@@ -23,35 +23,24 @@ const BREADCRUMB_BASE = [
   },
 ];
 
-export default function ReferralBreadcrumbs() {
+export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
   const location = useLocation();
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
-  const { currentReferral } = useGetReferralById(id);
 
   const [breadcrumb, setBreadcrumb] = useState(
-    getReferralBreadcumb(
-      location,
-      currentPage,
-      id,
-      currentPage?.CategoryOfCare,
-    ),
+    getReferralBreadcumb(location, currentPage, id, categoryOfCare),
   );
 
   useEffect(
     () => {
       setBreadcrumb(() =>
-        getReferralBreadcumb(
-          location,
-          currentPage,
-          id,
-          currentReferral?.CategoryOfCare,
-        ),
+        getReferralBreadcumb(location, currentPage, id, categoryOfCare),
       );
     },
-    [location, currentPage, currentReferral?.CategoryOfCare, id],
+    [location, currentPage, id, categoryOfCare],
   );
 
   const content = breadcrumb?.useBackBreadcrumb ? (
@@ -85,3 +74,7 @@ export default function ReferralBreadcrumbs() {
     </div>
   );
 }
+
+ReferralBreadcrumbs.propTypes = {
+  categoryOfCare: PropTypes.string,
+};
