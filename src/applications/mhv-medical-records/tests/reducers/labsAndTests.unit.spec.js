@@ -166,7 +166,65 @@ describe('convertChemHemObservation', () => {
     expect(convertChemHemObservation(record)).to.deep.equal([
       {
         name: 'Name',
-        result: '138.0 mEq/L (Low)',
+        result: '138 mEq/L (Low)',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should retain significant digits in small numbers', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: 0.0007,
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007 mEq/L',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should display string values as-is', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: '0.0007000',
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007000 mEq/L',
         standardRange: EMPTY_FIELD,
         status: 'final',
         labComments: EMPTY_FIELD,

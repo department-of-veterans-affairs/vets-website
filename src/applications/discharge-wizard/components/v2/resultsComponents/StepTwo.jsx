@@ -135,7 +135,7 @@ const StepTwo = ({ formResponses }) => {
   return (
     <va-process-list-item header="Add supporting information" level="2">
       <p>
-        To improve your chances of success, also include as many of the below
+        To improve your chances of success, also include as many of these
         documents as you can.
       </p>
       <ul>
