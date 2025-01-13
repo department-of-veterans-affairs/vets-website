@@ -1,10 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default () => {
-  const mhvButtonDeprecated = useSelector(
-    state => state?.featureToggles?.mhvCredentialButtonDisabled,
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const mhvButtonDeprecated = useToggleValue(
+    TOGGLE_NAMES.mhvCredentialButtonDisabled,
   );
   return (
     <div className="row">
