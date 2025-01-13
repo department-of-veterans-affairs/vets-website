@@ -194,6 +194,7 @@ const App = ({ children }) => {
               </HeaderSectionProvider>
             )}
             <va-back-to-top
+              class="no-print"
               hidden={isHidden}
               data-dd-privacy="mask"
               data-dd-action-name="Back to top"

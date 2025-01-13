@@ -102,9 +102,11 @@ const App = ({ children }) => {
           >
             {children}
             <va-back-to-top
+              class="no-print"
               hidden={isHidden}
               data-dd-privacy="mask"
               data-dd-action-name="Back to top"
+              data-testid="rx-back-to-top"
             />
           </DowntimeNotification>
         </div>
