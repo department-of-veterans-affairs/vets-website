@@ -56,7 +56,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     () => {
       const updatedFormData = {
         ...formData,
-        v2IsEnabled: environment.isProduction ? false : v2FeatureToggle,
+        v2IsEnabled: v2FeatureToggle,
         'view:isLoggedIn': loggedIn,
         'view:representativeQueryInput': '',
         'view:representativeSearchResults': [],

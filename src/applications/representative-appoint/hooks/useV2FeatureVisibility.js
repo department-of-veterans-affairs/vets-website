@@ -1,5 +1,6 @@
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
+import { enableV2FeaturesForLocalTesting } from '../constants/enableV2FeaturesLocally';
 
 const useV2FeatureToggle = () => {
   const {
@@ -16,8 +17,12 @@ const useV2FeatureToggle = () => {
   }
 
   // can remove this after verifying the toggle in staging
-  if (environment.isProduction) {
+  if (environment.isProduction()) {
     return false;
+  }
+
+  if (environment.isLocalhost()) {
+    return enableV2FeaturesForLocalTesting;
   }
 
   return appointV2FeaturesEnabled;
