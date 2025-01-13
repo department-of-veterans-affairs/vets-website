@@ -9,6 +9,10 @@ import {
 import api from '../utilities/api';
 import POARequestCard from '../components/POARequestCard';
 
+const SEARCH_PARAMS = {
+  STATUS: 'status',
+};
+
 const STATUSES = {
   PENDING: 'pending',
   COMPLETED: 'completed',
@@ -128,10 +132,10 @@ const POARequestSearchPage = () => {
 
 POARequestSearchPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get('status');
+  const status = searchParams.get(SEARCH_PARAMS.STATUS);
 
   if (!Object.values(STATUSES).includes(status)) {
-    searchParams.set('status', STATUSES.PENDING);
+    searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
     throw redirect(`?${searchParams}`);
   }
 
