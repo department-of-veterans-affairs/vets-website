@@ -8,6 +8,7 @@ import { format } from 'date-fns-tz';
 import scrollToTop from '~/platform/utilities/ui/scrollToTop';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
 import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import VerifyAlert from '~/platform/user/authentication/components/VerifyAlert';
 
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -19,7 +20,6 @@ const FormSaved = props => {
     route,
     lastSavedDate,
     user,
-    location = window.location,
     formId,
     expirationMessage,
   } = props;
@@ -82,21 +82,7 @@ const FormSaved = props => {
           you leave so your information stays secure.
         </div>
       </va-alert>
-      {!verified && (
-        <va-alert status="warning" uswds class="vads-u-margin-top--2">
-          <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of
-            security. Please{' '}
-            <a
-              href={`/verify?next=${location.pathname}`}
-              className="verify-link"
-            >
-              verify your identity
-            </a>
-            .
-          </div>
-        </va-alert>
-      )}
+      {!verified && <VerifyAlert headingLevel={2} />}
       <br />
       <FormStartControls
         startPage={props.route.pageList[1].path}
