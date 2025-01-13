@@ -153,10 +153,12 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      setFormData({
-        ...formData,
-        'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
-      });
+      if (showAddDisabilitiesEnhancement !== undefined) {
+        setFormData({
+          ...formData,
+          'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
+        });
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [showAddDisabilitiesEnhancement],
