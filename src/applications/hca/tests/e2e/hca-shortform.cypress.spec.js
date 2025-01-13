@@ -20,7 +20,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
   it('works with total disability rating greater than or equal to 50%', () => {
     advanceToAuthShortForm();
-    advanceFromShortFormToSubmit();
+    advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
 });
