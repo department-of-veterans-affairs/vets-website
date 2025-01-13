@@ -13,13 +13,13 @@ const BreadcrumbUsedInForm = () => {
     },
     {
       href:
-        '/education/apply-for-education-benefits/application/10215/introduction',
-      label: 'Report 85/15 Rule enrollment ratios',
+        '/education/apply-for-education-benefits/application/10216/introduction',
+      label: 'Request exemption from the 85/15 Rule reporting requirement',
     },
   ];
   return (
     <div className="row">
-      <VaBreadcrumbs breadcrumbList={crumbs} />
+      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
     </div>
   );
 };
