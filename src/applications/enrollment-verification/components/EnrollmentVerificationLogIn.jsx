@@ -9,7 +9,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
     toggleLoginModal,
   ]);
   return (
-    <va-alert-sign-in variant="signInRequired" visible headingLevel={3}>
+    <va-alert-sign-in variant="signInRequired" visible heading-level={3}>
       <span slot="SignInButton">
         <va-button
           onClick={onSignInClicked}

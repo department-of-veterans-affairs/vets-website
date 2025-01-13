@@ -16,7 +16,7 @@ const NeedsToVerify = () => {
     'reason-for-alert': `Not verified`,
   });
 
-  return <VerifyAlert />;
+  return <VerifyAlert headingLevel={2} />;
 };
 
 export default NeedsToVerify;

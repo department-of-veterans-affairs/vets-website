@@ -7,7 +7,7 @@ export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
   return (
     <>
       <h2>Connected devices</h2>
-      <va-alert-sign-in variant="signInRequired" visible>
+      <va-alert-sign-in variant="signInRequired" visible heading-level={3}>
         <span slot="SignInButton">
           <va-button
             text="Sign in or create an account"

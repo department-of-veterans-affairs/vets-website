@@ -26,7 +26,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
       variant="signInEither"
       visible
       data-testid={testId}
-      headingLevel={4}
+      headingLevel={2}
     >
       <span slot="LoginGovSignInButton">
         <VerifyLogingovButton csp="logingov" />
