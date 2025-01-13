@@ -8,7 +8,7 @@ import {
   fillIdentityForm,
   fillVaFacility,
   goToNextPage,
-  setupForFormTester,
+  setupBasicTest,
   startAsGuestUser,
 } from './utils';
 
@@ -62,7 +62,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    setupPerTest: () => setupForFormTester(),
+    setupPerTest: () => setupBasicTest(),
   },
   manifest,
   formConfig,

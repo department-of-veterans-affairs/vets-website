@@ -31,30 +31,37 @@ const mockDisabilityRating = userPercentOfDisability => ({
   },
 });
 
-export const setupForAuth = (props = {}) => {
+export const setupBasicTest = (props = {}) => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
+  const {
+    enrollmentStatus = mockEnrollmentStatus,
+    features = mockFeatures,
+  } = props;
+
+  cy.intercept('GET', APIs.features, features).as('mockFeatures');
+  cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
+  cy.intercept('GET', APIs.vamc, mockVamc);
+  cy.intercept('GET', APIs.enrollment, enrollmentStatus).as(
+    'mockEnrollmentStatus',
+  );
+  cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
+  cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
+};
+
+export const setupForAuth = (props = {}) => {
   const {
     disabilityRating = 0,
     enrollmentStatus = mockEnrollmentStatus,
     features = mockFeatures,
     user = mockUser,
   } = props;
+  const mockRating = mockDisabilityRating(disabilityRating);
 
-  cy.intercept('GET', APIs.features, features).as('mockFeatures');
-  cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
-  cy.intercept('GET', APIs.vamc, mockVamc);
+  setupBasicTest({ enrollmentStatus, features });
   cy.intercept('GET', APIs.saveInProgress, mockPrefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
-  cy.intercept('GET', APIs.enrollment, enrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
-  cy.intercept(
-    APIs.disabilityRating,
-    mockDisabilityRating(disabilityRating),
-  ).as('mockDisabilityRating');
-  cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
-  cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
+  cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
@@ -67,37 +74,13 @@ export const setupForAuth = (props = {}) => {
 };
 
 export const setupForGuest = (props = {}) => {
-  Cypress.config({ scrollBehavior: 'nearest' });
-
   const {
     enrollmentStatus = mockEnrollmentStatus,
     features = mockFeatures,
   } = props;
 
-  cy.intercept('GET', APIs.features, features).as('mockFeatures');
-  cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
-  cy.intercept('GET', APIs.vamc, mockVamc);
-  cy.intercept('GET', APIs.enrollment, enrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
-  cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
-  cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
+  setupBasicTest({ enrollmentStatus, features });
 
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockFeatures']);
-};
-
-export const setupForFormTester = (props = {}) => {
-  Cypress.config({ scrollBehavior: 'nearest' });
-
-  const { features = mockFeatures } = props;
-
-  cy.intercept('GET', APIs.features, features);
-  cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
-  cy.intercept('GET', APIs.vamc, mockVamc);
-  cy.intercept('POST', APIs.submit, mockSubmission);
-  cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
-  cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
 };
