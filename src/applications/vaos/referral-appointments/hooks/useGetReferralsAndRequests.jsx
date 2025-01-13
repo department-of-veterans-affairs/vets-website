@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { getReferrals } from '../redux/selectors';
 import { fetchReferrals } from '../redux/actions';
-import { getRequestedAppointmentListInfo } from '../../appointment-list/redux/selectors';
-import { fetchPendingAppointments } from '../../appointment-list/redux/actions';
+import { getRequestedAppointmentListInfo } from '../../redux/selectors';
+import { fetchPendingAppointments } from '../../redux/actions';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const useGetReferralsAndRequests = () => {
