@@ -21,16 +21,16 @@ const printCoverage = coverageResults => {
   Object.values(coverageResults).forEach(cov => {
     console.log('generating coverage data for: ', cov);
 
-    const appLocation =
-      cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
-    coverageTable.push({
-      [appLocation]: [
-        `${cov.lines.pct}%`,
-        `${cov.functions.pct}%`,
-        `${cov.statements.pct}%`,
-        `${cov.branches.pct}%`,
-      ],
-    });
+    // const appLocation =
+    //   cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
+    // coverageTable.push({
+    //   [appLocation]: [
+    //     `${cov.lines.pct}%`,
+    //     `${cov.functions.pct}%`,
+    //     `${cov.statements.pct}%`,
+    //     `${cov.branches.pct}%`,
+    //   ],
+    // });
   });
 
   console.log(coverageTable.toString());
