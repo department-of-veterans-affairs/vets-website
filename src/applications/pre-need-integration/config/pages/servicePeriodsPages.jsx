@@ -136,7 +136,7 @@ function handleTitle(isVet, isPrep, vetTitle, sponsorTitle, prepTitle) {
 }
 
 /** @returns {PageSchema} */
-function servicePeriodInformationPage(isVet, isPrep) {
+export function servicePeriodInformationPage(isVet, isPrep) {
   return {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
