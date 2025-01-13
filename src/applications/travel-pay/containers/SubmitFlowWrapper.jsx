@@ -24,7 +24,7 @@ import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionError
 import { appointment1 } from '../services/mocks/appointments';
 
 const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
-  // TODO: Placeholders until backend integration
+  // TODO: Placeholders until backend integration is complete
   // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
   // This will actually be handled by the redux action, but for now it lives here
@@ -42,7 +42,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   const handlers = {
     onNext: e => {
       e.preventDefault();
-
       setPageIndex(pageIndex + 1);
     },
     onBack: e => {
