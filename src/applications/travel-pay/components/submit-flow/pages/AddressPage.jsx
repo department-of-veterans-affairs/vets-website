@@ -17,14 +17,17 @@ const AddressPage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
-  useEffect(() => {
-    scrollToTop('topScrollElement');
-    if (!address) {
-      focusElement('h1');
-    } else {
-      focusElement('h1', {}, 'va-radio');
-    }
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      if (!address) {
+        focusElement('h1');
+      } else {
+        focusElement('h1', {}, 'va-radio');
+      }
+    },
+    [address],
+  );
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
