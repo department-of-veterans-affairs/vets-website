@@ -9,8 +9,7 @@ import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-
-import manifest from '../manifest.json';
+import VerifyAlert from 'platform/user/authentication/components/VerifyAlert';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -83,27 +82,7 @@ class IntroductionPage extends React.Component {
         {userLoggedIn &&
         !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
             <div className="id-not-verified-content vads-u-margin-top--4">
-              <va-alert status="continue" uswds>
-                <h3 slot="headline">
-                  You’ll need to verify your identity to authorize the release
-                  of your information
-                </h3>
-                <p>
-                  We need to make sure you’re you — and not someone pretending
-                  to be you — before we can give you access to your personal and
-                  health-related information. This helps to keep your
-                  information safe, and to prevent fraud and identity theft.
-                </p>
-                <strong>This one-time process takes about 5-10 minutes.</strong>
-                <p>
-                  <a
-                    href={`/verify?next=${manifest.rootUrl}/introduction`}
-                    className="verify-link vads-c-action-link--green"
-                  >
-                    Verify your identity
-                  </a>
-                </p>
-              </va-alert>
+              <VerifyAlert headingLevel={3} />
               <p className="vads-u-margin-top--3">
                 If you don’t want to verify your identity right now, you can
                 still download and complete the PDF version of this

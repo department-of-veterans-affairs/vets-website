@@ -80,7 +80,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <h2 id="start-your-request">Start your request</h2>
       <p>
         <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account, or a
+        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
         Premium <strong>DS Logon</strong> account. If you don’t have any of
         those accounts, you can create a free <strong>Login.gov</strong> or{' '}
         <strong>ID.me</strong> account now.
@@ -88,7 +88,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
-            <VerifyAlert />
+            <VerifyAlert headingLevel={3} />
             <p className="vads-u-margin-top--3">
               If you don’t want to verify your identity right now, you can still
               download and complete the PDF version of this request.
