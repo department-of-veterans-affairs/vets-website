@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import { startNewAppointmentFlow } from '../redux/actions';
-// eslint-disable-next-line import/no-restricted-paths
-import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const ScheduleAppointmentLink = () => {
   const dispatch = useDispatch();
