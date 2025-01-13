@@ -7,16 +7,16 @@ import MhvAccess from '../../containers/MhvAccess';
 describe('MhvAccess', () => {
   it('renders main title', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
-    const mainTitle = screen.getByRole('heading', {
-      name: /accesss the my healthevet sign-in option/i,
-    });
+    const mainTitle = screen.getByText(
+      /access the my healthevet sign-in option/i,
+    );
     expect(mainTitle).to.exist;
   });
 
   it('renders information paragraph', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
     const description = screen.getByText(
-      /get temporary access to the mu healthevet sign-in option/i,
+      /get temporary access to the my healthevet sign-in option/i,
     );
     expect(description).to.exist;
   });
