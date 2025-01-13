@@ -24,12 +24,17 @@ Cypress.Commands.add('openFilters', () => {
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
+  });
+
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -65,15 +70,23 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
     );
 
-    cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Back to your travel reimbursement claims').click();
+
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
+
   it('navigates to the status explainer page and back to status page', () => {
     cy.get('va-additional-info')
       .first()
       .click();
 
-    cy.get('a[data-testid="status-explainer-link"]')
+    cy.get('va-link[data-testid="status-explainer-link"]')
       .first()
       .click();
 
@@ -140,10 +153,6 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters the claims by a date range preset', () => {
-    // the month argument is 0-indexed in the date constructor,
-    // so this is setting the date to June 25, 2024, i.e., 6/25/24
-    cy.clock(new Date(2024, 5, 25), ['Date']);
-
     cy.openFilters();
 
     cy.get('select[name="claimsDates"]').should('have.value', 'all');

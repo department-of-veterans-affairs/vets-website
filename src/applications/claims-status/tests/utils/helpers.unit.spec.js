@@ -698,6 +698,17 @@ describe('Disability benefits helpers: ', () => {
       expect(getClaimType(claim)).to.equal('Awesome');
     });
 
+    it('should return new text for death claims', () => {
+      const claim = {
+        attributes: {
+          claimType: 'Death',
+        },
+      };
+      expect(getClaimType(claim)).to.equal(
+        'expenses related to death or burial',
+      );
+    });
+
     it('should return the default claim type', () => {
       const claim = {
         attributes: {

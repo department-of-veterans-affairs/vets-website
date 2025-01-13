@@ -4,6 +4,7 @@ import {
   getPatientReferrals,
   getPatientReferralById,
 } from '../../services/referral';
+import { filterReferrals } from '../utils/referrals';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
@@ -55,10 +56,10 @@ export function fetchReferrals() {
         type: FETCH_REFERRALS,
       });
       const referrals = await getPatientReferrals();
-
+      const filteredReferrals = filterReferrals(referrals);
       dispatch({
         type: FETCH_REFERRALS_SUCCEEDED,
-        data: referrals,
+        data: filteredReferrals,
       });
       return referrals;
     } catch (error) {
@@ -79,7 +80,7 @@ export function fetchReferralById(id) {
       const referrals = await getPatientReferralById(id);
       dispatch({
         type: FETCH_REFERRAL_SUCCEEDED,
-        data: Object.keys(referrals).length ? [referrals] : [],
+        data: [referrals],
       });
       return referrals;
     } catch (error) {

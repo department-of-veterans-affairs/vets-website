@@ -75,7 +75,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     cy.findAllByText(/continue/i, { selector: 'button' })
@@ -197,7 +197,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     cy.wait('@mockSip');
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     goToNextPage('/veteran-information/birth-information');
@@ -264,7 +264,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/social security/i).type(
       testData.veteranSocialSecurityNumber,
     );
-    goToNextPage('veteran-information/personal-information');
+    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

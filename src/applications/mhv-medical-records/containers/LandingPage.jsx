@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -61,14 +61,11 @@ const LandingPage = () => {
   );
   const {
     isLoading,
+    isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
   } = useAcceleratedData();
 
-  const isAcceleratingEnabled = useMemo(
-    () => isAcceleratingAllergies || isAcceleratingVitals,
-    [isAcceleratingAllergies, isAcceleratingVitals],
-  );
   const accordionRef = useRef(null);
 
   useEffect(() => {
@@ -145,7 +142,7 @@ const LandingPage = () => {
                 Get results of your VA medical tests. This includes blood tests,
                 X-rays, and other imaging tests.
               </p>
-              {isAcceleratingEnabled ? (
+              {isAccelerating ? (
                 <a
                   className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                   href={getCernerURL('/pages/health_record/results', true)}
@@ -179,7 +176,7 @@ const LandingPage = () => {
                 care. This includes summaries of your stays in health facilities
                 (called admission and discharge summaries).
               </p>
-              {isAcceleratingEnabled ? (
+              {isAccelerating ? (
                 <>
                   <a
                     className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
@@ -220,7 +217,7 @@ const LandingPage = () => {
                 Get a list of all vaccines (immunizations) in your VA medical
                 records.
               </p>
-              {isAcceleratingEnabled ? (
+              {isAccelerating ? (
                 <a
                   className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                   href={getCernerURL(
@@ -256,7 +253,7 @@ const LandingPage = () => {
               VA medical records. This includes medication side effects (also
               called adverse drug reactions).
             </p>
-            {isAcceleratingEnabled && !isAcceleratingAllergies ? (
+            {isAccelerating && !isAcceleratingAllergies ? (
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                 href={getCernerURL(
@@ -291,7 +288,7 @@ const LandingPage = () => {
                 Get a list of health conditions your VA providers are helping
                 you manage.
               </p>
-              {isAcceleratingEnabled ? (
+              {isAccelerating ? (
                 <a
                   className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                   href={getCernerURL('/pages/health_record/conditions', true)}
@@ -330,7 +327,7 @@ const LandingPage = () => {
                 <li>Height and weight</li>
                 <li>Temperature</li>
               </ul>
-              {isAcceleratingEnabled && !isAcceleratingVitals ? (
+              {isAccelerating && !isAcceleratingVitals ? (
                 <a
                   className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                   href={getCernerURL('/pages/health_record/results', true)}

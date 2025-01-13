@@ -1,75 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { Element } from 'platform/utilities/scroll';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updatePrevApplication } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const PrevApplication = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setPrevApplication,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '8_prevApplication';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.PREV_APPLICATION;
+  const H1 = QUESTION_MAP[shortName];
+  const prevApplication = formResponses[shortName];
+  const { YES, NO } = RESPONSES;
+  const hint =
+    'Note: You can still apply even if you’ve been denied before. We’ll tell you where to send your application based on your answer. ';
 
-  if (!formValues) {
-    return null;
-  }
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  // explicit override for dd214 condition
-  if (formValues['4_reason'] === '8') {
-    return null;
-  }
-
-  const options = [{ label: 'Yes', value: '1' }, { label: 'No', value: '2' }];
-  const radioButtonProps = {
-    name: key,
-    label:
-      'Have you previously applied for and been denied a discharge upgrade for this period of service?',
-    'label-header-level': '2',
-    hint:
-      'Note: You can still apply. Your answer to this question simply changes where you send your application.',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={prevApplication}
+      H1={H1}
+      hint={hint}
+      responses={[YES, NO]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-prev_application"
+      valueSetter={setPrevApplication}
+    />
   );
 };
 
 PrevApplication.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setPrevApplication: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default PrevApplication;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setPrevApplication: updatePrevApplication,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PrevApplication);
