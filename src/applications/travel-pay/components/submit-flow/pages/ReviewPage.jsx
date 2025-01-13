@@ -161,11 +161,11 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   address: PropTypes.object,
   appointment: PropTypes.object,
-  onSubmit: PropTypes.func,
   isAgreementChecked: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default ReviewPage;
