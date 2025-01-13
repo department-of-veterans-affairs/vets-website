@@ -159,15 +159,9 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchLicenseCertificationResults(
-  name = null,
-  filterOptions = { type: 'all', state: 'all' },
-) {
-  const { type, state } = filterOptions;
+export function fetchLicenseCertificationResults() {
+  const url = `${api.url}/lcpe/lacs`;
 
-  const url = name
-    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
-    : `${api.url}/lce?type=${type}&state=${state}`;
   return dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
@@ -179,11 +173,11 @@ export function fetchLicenseCertificationResults(
         throw new Error(res.statusText);
       })
       .then(results => {
-        const { data } = results;
+        const { lacs } = results;
 
         dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: data,
+          payload: lacs,
         });
       })
       .catch(err => {
@@ -195,9 +189,9 @@ export function fetchLicenseCertificationResults(
   };
 }
 
-export function fetchLcResult(link) {
+export function fetchLcResult(id) {
   return dispatch => {
-    const url = `${api.url}/${link}`;
+    const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
     return fetch(url, api.settings)
@@ -210,7 +204,7 @@ export function fetchLcResult(link) {
       .then(result => {
         dispatch({
           type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.data,
+          payload: result.lac,
         });
       })
       .catch(err => {
