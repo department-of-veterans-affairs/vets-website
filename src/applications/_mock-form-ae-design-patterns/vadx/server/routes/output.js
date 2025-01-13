@@ -14,4 +14,8 @@ router.get('/output/:name', (req, res) => {
   }
 });
 
+router.get('/output', (req, res) => {
+  res.json({ all: outputCache });
+});
+
 module.exports = router;

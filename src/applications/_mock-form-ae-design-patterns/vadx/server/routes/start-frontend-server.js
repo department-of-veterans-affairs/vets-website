@@ -4,6 +4,7 @@ const { startProcess } = require('../utils/processes');
 const paths = require('../utils/paths');
 const logger = require('../utils/logger');
 const { getCachedManifests } = require('../utils/manifests');
+const { FRONTEND_PROCESS_NAME } = require('../../constants');
 
 const router = express.Router();
 
@@ -50,7 +51,7 @@ router.post('/start-frontend-server', async (req, res) => {
     await killProcessOnPort('3001');
 
     const result = await startProcess(
-      'fe-dev-server',
+      FRONTEND_PROCESS_NAME,
       'yarn',
       [
         '--cwd',
@@ -62,10 +63,15 @@ router.post('/start-frontend-server', async (req, res) => {
       ],
       {
         forceRestart: true,
+        metadata: {
+          entries: validatedEntries,
+        },
       },
     );
 
-    return res.json(result);
+    logger.debug('result', result);
+
+    return res.status(200).json(result);
   } catch (error) {
     logger.error('Error in /start-frontend-server:', error);
     return res.status(500).json({

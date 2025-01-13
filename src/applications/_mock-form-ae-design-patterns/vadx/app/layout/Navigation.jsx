@@ -1,50 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { useProcessManager } from '../../context/processManager';
 
-export const NavigationTemp = () => {
-  return (
-    <ul className="vads-u-margin--0 vads-u-padding-left--0">
-      <li className="vads-u-margin-bottom--1">
-        <Link
-          to="/vadx/server-control"
-          className="vads-u-text-decoration--none vads-u-color--primary"
-          activeClassName="vads-u-font-weight--bold"
-        >
-          Server Control
-        </Link>
-      </li>
-      <li>
-        <Link
-          to="/vadx/debug"
-          className="vads-u-text-decoration--none vads-u-color--primary"
-          activeClassName="vads-u-font-weight--bold"
-        >
-          Debug
-        </Link>
-      </li>
-      <li className="vads-u-margin-bottom--1">
-        <Link
-          to="/vadx/feature-toggles"
-          className="vads-u-text-decoration--none vads-u-color--primary"
-          activeClassName="vads-u-font-weight--bold"
-        >
-          Feature Toggles
-        </Link>
-      </li>
-      <li>
-        <Link
-          to="/vadx/form-tester"
-          className="vads-u-text-decoration--none vads-u-color--primary"
-          activeClassName="vads-u-font-weight--bold"
-        >
-          Form Tester
-        </Link>
-      </li>
-    </ul>
-  );
-};
-
+// side navigation for the vadx pages
 export const Navigation = () => {
+  const { activeApps } = useProcessManager();
   return (
     <nav aria-label="Side navigation,">
       <ul className="usa-sidenav-list">
@@ -55,6 +15,24 @@ export const Navigation = () => {
           >
             Development Servers
           </Link>
+
+          {activeApps.length > 0 && (
+            <>
+              <p className="vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-y--0 vads-u-padding-y--0 vads-u-padding-left--1">
+                Running frontend apps:
+              </p>
+              <ul className="usa-sidenav-sublist vads-u-margin-y--0 vads-u-padding-y--0">
+                {activeApps.map(app => (
+                  <li
+                    className="vads-u-margin-y--0 vads-u-font-size--sm"
+                    key={app.entryName}
+                  >
+                    <va-link href={`${app.rootUrl}`} text={app.appName} />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </li>
         <li className="usa-sidenav-item">
           <Link

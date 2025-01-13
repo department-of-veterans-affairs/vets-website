@@ -2,6 +2,7 @@ const { spawn, exec } = require('child_process');
 const { stripAnsi } = require('./strings');
 const logger = require('./logger');
 const paths = require('./paths');
+const { FRONTEND_PROCESS_NAME } = require('../../constants');
 
 const processes = {};
 const outputCache = {};
@@ -41,22 +42,47 @@ function addToCache(name, type, data) {
   if (!outputCache[name]) {
     outputCache[name] = [];
   }
+
   const strippedData = stripAnsi(data.toString().trim());
-  outputCache[name].unshift(strippedData);
-  if (outputCache[name].length > MAX_CACHE_LINES) {
-    outputCache[name].pop();
-  }
 
   // Send SSE to all connected clients for this process
   const clientsForProcess = clients.get(name) || [];
   clientsForProcess.forEach(client => {
     sendSSE(client, { type, data: strippedData });
   });
+
+  if (type === 'status') {
+    return;
+  }
+
+  outputCache[name].unshift(strippedData);
+  if (outputCache[name].length > MAX_CACHE_LINES) {
+    outputCache[name].pop();
+  }
 }
 
-// Setup process handlers for stdout, stderr, and close events
-// this way we can handle the process starting and stopping in a single function
-function setupProcessHandlers(childProcess, procName) {
+// Modify setupProcessHandlers to include status events
+function setupProcessHandlers(childProcess, procName, metadata) {
+  addToCache(procName, 'status', {
+    status: 'started',
+    timestamp: Date.now(),
+    metadata,
+  });
+
+  const statusInterval = setInterval(() => {
+    if (processes[procName]) {
+      const clientsForProcess = clients.get(procName) || [];
+      clientsForProcess.forEach(client => {
+        sendSSE(client, {
+          type: 'status',
+          data: { status: 'running', metadata },
+        });
+      });
+    } else {
+      clearInterval(statusInterval);
+    }
+  }, 5000);
+
   childProcess.stdout.on('data', data => {
     logger.process(procName, 'stdout', data);
     addToCache(procName, 'stdout', data);
@@ -69,13 +95,8 @@ function setupProcessHandlers(childProcess, procName) {
 
   childProcess.on('close', code => {
     logger.process(procName, 'close', code);
-    const clientsForProcess = clients.get(procName) || [];
-    clientsForProcess.forEach(client => {
-      sendSSE(client, {
-        type: 'close',
-        data: `Process exited with code ${code}`,
-      });
-    });
+    addToCache(procName, 'status', 'stopped');
+    clearInterval(statusInterval);
     delete processes[procName];
   });
 }
@@ -83,6 +104,12 @@ function setupProcessHandlers(childProcess, procName) {
 function startProcess(procName, command, args, options = {}) {
   const { forceRestart = false } = options;
 
+  const { metadata } = options;
+
+  logger.debug(`Starting process: ${procName}`);
+  logger.debug(`Command: ${command}`);
+  logger.debug(`Args: ${args}`);
+  logger.debug({ metadata });
   return new Promise(resolve => {
     if (processes[procName]) {
       if (!forceRestart) {
@@ -108,7 +135,7 @@ function startProcess(procName, command, args, options = {}) {
         });
         processes[procName] = childProcess;
 
-        setupProcessHandlers(childProcess, procName);
+        setupProcessHandlers(childProcess, procName, metadata);
 
         resolve({
           success: true,
@@ -124,7 +151,7 @@ function startProcess(procName, command, args, options = {}) {
     });
     processes[procName] = childProcess;
 
-    setupProcessHandlers(childProcess, procName);
+    setupProcessHandlers(childProcess, procName, metadata);
 
     return resolve({
       success: true,
@@ -140,11 +167,14 @@ async function autoStartServers(options = {}) {
   await killProcessOnPort('3001');
 
   await startProcess(
-    'fe-dev-server',
+    FRONTEND_PROCESS_NAME,
     'yarn',
     ['--cwd', paths.root, 'watch', '--env', `entry=${entry}`, `api=${api}`],
     {
       forceRestart: true,
+      metadata: {
+        entries: [entry],
+      },
     },
   );
 
@@ -154,6 +184,9 @@ async function autoStartServers(options = {}) {
     ['--cwd', paths.root, 'mock-api', '--responses', responses],
     {
       forceRestart: true,
+      metadata: {
+        responses,
+      },
     },
   );
 }
@@ -166,4 +199,5 @@ module.exports = {
   addToCache,
   startProcess,
   autoStartServers,
+  killProcessOnPort,
 };

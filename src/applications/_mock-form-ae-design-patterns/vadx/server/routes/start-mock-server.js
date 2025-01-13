@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-const { killProcessOnPort } = require('../utils/processes');
-const { startProcess } = require('../utils/processes');
+const { killProcessOnPort, startProcess } = require('../utils/processes');
 const paths = require('../utils/paths');
 const { MOCK_SERVER_PATHS } = require('../constants/mockServerPaths');
+const { MOCK_SERVER_PROCESS_NAME } = require('../../constants');
 
 const router = express.Router();
 
@@ -43,7 +43,7 @@ router.post('/start-mock-server', async (req, res) => {
   await killProcessOnPort('3000');
 
   const result = await startProcess(
-    'mock-server',
+    MOCK_SERVER_PROCESS_NAME,
     'node',
     [paths.mockApi, '--responses', validatedPath],
     {

@@ -10,6 +10,9 @@ export const MainLayout = ({ children, navigation }) => {
     <div className="vads-l-grid-container--full vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-top--3">
         <div className="vads-l-col--2 vads-u-padding-right--2 vads-u-margin-bottom--2">
+          <h1 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin--0 vads-u-padding-x--2">
+            VADX tools
+          </h1>
           <nav
             className="vads-u-padding--1 va-sidebarnav"
             aria-label="VADX Tools Navigation"

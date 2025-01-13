@@ -42,18 +42,22 @@ async function findManifestFiles(dir) {
       const manifestPromises = [];
 
       for (const { file, filePath, stat } of fileStats) {
-        if (stat.isDirectory()) {
-          dirPromises.push(searchDir(filePath));
-        } else if (file === 'manifest.json') {
-          try {
-            manifestPromises.push(
-              fs.readFile(filePath, 'utf8').then(content => ({
-                path: filePath,
-                ...JSON.parse(content),
-              })),
-            );
-          } catch (err) {
-            logger.error(`Error reading manifest at ${filePath}:`, err);
+        // there were a few files called manifest.json in the node_modules folder
+        // so we need to filter them out
+        if (file !== 'node_modules') {
+          if (stat.isDirectory()) {
+            dirPromises.push(searchDir(filePath));
+          } else if (file === 'manifest.json') {
+            try {
+              manifestPromises.push(
+                fs.readFile(filePath, 'utf8').then(content => ({
+                  path: filePath,
+                  ...JSON.parse(content),
+                })),
+              );
+            } catch (err) {
+              logger.error(`Error reading manifest at ${filePath}:`, err);
+            }
           }
         }
       }

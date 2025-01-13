@@ -3,6 +3,7 @@ const express = require('express');
 const { processes } = require('../utils/processes');
 const { getCachedManifests } = require('../utils/manifests');
 const logger = require('../utils/logger');
+const { FRONTEND_PROCESS_NAME } = require('../../constants');
 
 const router = express.Router();
 
@@ -20,18 +21,18 @@ const getEntryNamesFromArgs = args => {
 };
 
 /**
- * Gets route information from manifests for given entry names
+ * Gets app information from manifests for given entry names
  * @param {string[]} entryNames - Array of entry names to look up
- * @returns {Object[]} Array of route information objects
+ * @returns {Object[]} Array of app information objects
  */
-const getRouteInfo = async entryNames => {
-  const routes = [];
+const getAppInfo = async entryNames => {
+  const apps = [];
   const manifestFiles = getCachedManifests();
 
   entryNames.forEach(entryName => {
     const manifest = manifestFiles.find(m => m.entryName === entryName);
     if (manifest) {
-      routes.push({
+      apps.push({
         entryName,
         rootUrl: manifest.rootUrl,
         appName: manifest.appName || '',
@@ -39,7 +40,7 @@ const getRouteInfo = async entryNames => {
     }
   });
 
-  return routes;
+  return apps;
 };
 
 router.get('/status', async (req, res) => {
@@ -57,17 +58,17 @@ router.get('/status', async (req, res) => {
     }, {});
 
     // Get route information for frontend process if running
-    let routes = [];
-    if (processStatus['fe-dev-server']) {
+    let apps = [];
+    if (processStatus[FRONTEND_PROCESS_NAME]) {
       const entryNames = getEntryNamesFromArgs(
-        processStatus['fe-dev-server'].args,
+        processStatus[FRONTEND_PROCESS_NAME].args,
       );
-      routes = await getRouteInfo(entryNames);
+      apps = await getAppInfo(entryNames);
     }
 
     res.json({
       processes: processStatus,
-      routes,
+      apps,
     });
   } catch (error) {
     logger.error('Error getting status:', error);

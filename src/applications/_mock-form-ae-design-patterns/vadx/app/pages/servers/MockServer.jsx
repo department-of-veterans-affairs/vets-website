@@ -1,7 +1,7 @@
 import React from 'react';
 import ServerControls from './ServerControls';
 import ProcessOutput from './ProcessOutput';
-import { useProcessManager } from '../../../hooks/useProcessManager';
+import { useProcessManager } from '../../../context/processManager';
 
 export const MockServer = () => {
   const { processes, output, startProcess, stopProcess } = useProcessManager();
