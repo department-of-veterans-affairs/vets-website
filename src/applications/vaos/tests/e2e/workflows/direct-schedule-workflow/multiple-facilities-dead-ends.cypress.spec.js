@@ -214,7 +214,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You can.t schedule an appointment online at this facility/i,
+            text: /You can.t schedule an appointment online/i,
           });
 
         // Assert

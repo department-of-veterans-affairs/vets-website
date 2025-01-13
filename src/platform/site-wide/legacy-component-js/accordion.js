@@ -135,7 +135,7 @@ const addAccordionClickHandler = () => {
             // Cannot use new customEvent() method due to IE11 support.
             const accordionClickEvent = document.createEvent('Event');
             accordionClickEvent.initEvent(
-              '@department-of-veterans-affairs/formation/accordion/button-clicked',
+              'accordion/button-clicked',
               true,
               true,
             );

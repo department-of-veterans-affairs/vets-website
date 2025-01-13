@@ -733,39 +733,31 @@ export const renderMedicalRecordInfo = formResponses => {
     if (reason === RESPONSES.REASON_PTSD) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for diagnosis or
-            treatment of PTSD or another mental health condition,
-          </strong>{' '}
-          you should also submit private medical treatment records that can
-          provide information about your condition. You’ll need to contact your
-          provider to request copies of your records.
+          If you’ve seen a non-VA health care provider for diagnosis or
+          treatment of PTSD or another mental health condition, you should also
+          submit private medical treatment records that can provide information
+          about your condition. You’ll need to contact your provider to request
+          copies of your records.
         </li>
       );
     }
     if (reason === RESPONSES.REASON_TBI) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for diagnosis or
-            treatment of TBI,
-          </strong>{' '}
-          you should also submit private medical treatment records that can
-          provide information about your condition. You’ll need to contact your
-          provider to request copies of your records.
+          If you’ve seen a non-VA health care provider for diagnosis or
+          treatment of TBI, you should also submit private medical treatment
+          records that can provide information about your condition. You’ll need
+          to contact your provider to request copies of your records.
         </li>
       );
     }
     if (reason === RESPONSES.REASON_SEXUAL_ASSAULT) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for for treatment after
-            your assault or harassment,
-          </strong>{' '}
-          you should also submit records from a non-VA health care provider.
-          You’ll need to contact your provider to request copies of your
-          records.
+          If you’ve seen a non-VA health care provider for for treatment after
+          your assault or harassment, you should also submit records from a
+          non-VA health care provider. You’ll need to contact your provider to
+          request copies of your records.
         </li>
       );
     }
@@ -776,12 +768,9 @@ export const renderMedicalRecordInfo = formResponses => {
         <ul>
           <li>You’ll need to submit copies of your medical records.</li>
           <li>
-            <strong>
-              If you need to request copies of your VA medical records,
-            </strong>{' '}
-            fill out and submit a Request for and Authorization to Release
-            Health Information (VA Form 10-5345) to your local VA medical
-            center.
+            If you need to request copies of your VA medical records, fill out
+            and submit a Request for and Authorization to Release Health
+            Information (VA Form 10-5345) to your local VA medical center.
           </li>
           <li>
             {requestQuestion}

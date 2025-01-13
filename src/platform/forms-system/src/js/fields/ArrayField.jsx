@@ -10,6 +10,7 @@ import {
 import {
   VaCard,
   VaModal,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { Element } from 'platform/utilities/scroll';
@@ -537,14 +538,12 @@ export default class ArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName}`}
+                  <VaButton
+                    secondary
+                    label={`Edit ${ariaItemName} ${index + 1}`}
                     onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
+                    text="Edit"
+                  />
                 </div>
               </CardOrDiv>
             );
