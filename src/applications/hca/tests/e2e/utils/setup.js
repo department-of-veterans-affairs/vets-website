@@ -11,7 +11,7 @@ import mockVamc from '../fixtures/mocks/vamc-ehr.json';
 
 const APIs = {
   disabilityRating: '/v0/health_care_applications/rating_info',
-  facilities: '/v0/health_care_applications/facilities?*',
+  facilities: '/v0/health_care_applications/facilities*',
   features: '/v0/feature_toggles*',
   enrollment: '/v0/health_care_applications/enrollment_status*',
   maintenance: '/v0/maintenance_windows',

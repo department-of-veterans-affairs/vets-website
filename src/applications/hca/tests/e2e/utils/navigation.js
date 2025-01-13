@@ -107,8 +107,7 @@ export const advanceFromHouseholdToReview = testData => {
 };
 
 export const advanceToHealthInsurance = testData => {
-  startAsGuestUser();
-  fillIdentityForm(testData);
+  startAsAuthUser();
 
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
@@ -135,11 +134,18 @@ export const advanceToHealthInsurance = testData => {
   goToNextPage('/insurance-information/health-insurance');
 };
 
-export const shortFormSelfDisclosureToSubmit = testData => {
-  goToNextPage('/va-benefits/basic-information');
-  cy.selectRadio('root_vaCompensationType', 'highDisability');
+export const advanceToAuthShortForm = () => {
+  goToNextPage('/veteran-information/birth-information');
+  goToNextPage('/veteran-information/maiden-name-information');
+  goToNextPage('/veteran-information/birth-sex');
+  goToNextPage('/veteran-information/demographic-information');
+  goToNextPage('/veteran-information/veteran-address');
+  cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
 
-  goToNextPage('/va-benefits/confirm-service-pay');
+  goToNextPage('/veteran-information/contact-information');
+};
+
+export const advanceFromShortFormToSubmit = testData => {
   goToNextPage('/military-service/toxic-exposure');
   cy.selectRadio('root_hasTeraResponse', 'N');
 
@@ -160,7 +166,7 @@ export const shortFormSelfDisclosureToSubmit = testData => {
 
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {
-    // check submitted vaCompensationType value.
+    // check submitted `vaCompensationType` value
     cy.wrap(JSON.parse(interception.request.body.form))
       .its('vaCompensationType')
       .should('eq', 'highDisability');

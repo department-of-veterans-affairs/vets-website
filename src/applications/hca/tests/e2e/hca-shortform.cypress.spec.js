@@ -1,12 +1,11 @@
 import minTestData from './fixtures/data/minimal-test.json';
 import {
-  acceptPrivacyAgreement,
+  advanceFromShortFormToSubmit,
+  advanceToAuthShortForm,
   fillIdentityForm,
-  fillVaFacility,
   goToNextPage,
   setupForAuth,
   setupForGuest,
-  shortFormSelfDisclosureToSubmit,
   startAsAuthUser,
   startAsGuestUser,
 } from './utils';
@@ -20,33 +19,8 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
-    goToNextPage('/veteran-information/birth-information');
-    goToNextPage('/veteran-information/maiden-name-information');
-    goToNextPage('/veteran-information/birth-sex');
-    goToNextPage('/veteran-information/demographic-information');
-    goToNextPage('/veteran-information/veteran-address');
-    cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
-
-    goToNextPage('/veteran-information/contact-information');
-    goToNextPage('/military-service/toxic-exposure');
-    cy.selectRadio('root_hasTeraResponse', 'N');
-
-    goToNextPage('/insurance-information/medicaid');
-    cy.selectRadio('root_isMedicaidEligible', 'N');
-
-    goToNextPage('/insurance-information/your-health-insurance');
-    goToNextPage('/insurance-information/general');
-    cy.selectRadio('root_isCoveredByHealthInsurance', 'N');
-
-    goToNextPage('/insurance-information/va-facility');
-    fillVaFacility(testData['view:preferredFacility']);
-
-    goToNextPage('review-and-submit');
-    acceptPrivacyAgreement();
-
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-    cy.wait('@mockSubmit');
-    cy.location('pathname').should('include', '/confirmation');
+    advanceToAuthShortForm();
+    advanceFromShortFormToSubmit();
     cy.injectAxeThenAxeCheck();
   });
 });
@@ -58,15 +32,13 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
-    goToNextPage('/veteran-information/birth-information');
-    goToNextPage('/veteran-information/maiden-name-information');
-    goToNextPage('/veteran-information/birth-sex');
-    goToNextPage('/veteran-information/demographic-information');
-    goToNextPage('/veteran-information/veteran-address');
-    cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
+    advanceToAuthShortForm();
 
-    goToNextPage('/veteran-information/contact-information');
-    shortFormSelfDisclosureToSubmit(testData);
+    goToNextPage('/va-benefits/basic-information');
+    cy.selectRadio('root_vaCompensationType', 'highDisability');
+
+    goToNextPage('/va-benefits/confirm-service-pay');
+    advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
 });
@@ -91,7 +63,11 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
 
     goToNextPage('/veteran-information/contact-information');
-    shortFormSelfDisclosureToSubmit(testData);
+    goToNextPage('/va-benefits/basic-information');
+    cy.selectRadio('root_vaCompensationType', 'highDisability');
+
+    goToNextPage('/va-benefits/confirm-service-pay');
+    advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -4,14 +4,14 @@ import {
   advanceToHealthInsurance,
   fillInsuranceInformation,
   goToNextPage,
-  setupForGuest,
+  setupForAuth,
 } from './utils';
 
 const { data: testData } = maxTestData;
 
 describe('HCA-Health-Insurance-Information', () => {
   beforeEach(() => {
-    setupForGuest({ features: mockFeatures });
+    setupForAuth({ features: mockFeatures });
     advanceToHealthInsurance(testData);
   });
 
