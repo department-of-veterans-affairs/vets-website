@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 export const formTitle = 'Request a Higher-Level Review';
@@ -10,12 +9,7 @@ export const longFormTitle =
 
 export const subTitle = 'VA Form 20-0996';
 
-export const AppTitle = () => (
-  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-    <Toggler.Enabled>{formTitle}</Toggler.Enabled>
-    <Toggler.Disabled>{longFormTitle}</Toggler.Disabled>
-  </Toggler>
-);
+export const AppTitle = () => formTitle;
 
 /**
  * Render page title

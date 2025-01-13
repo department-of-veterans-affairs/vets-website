@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerAlert from '../../../components/CernerAlert';
 import WarningNotification from '../../../components/WarningNotification';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectPendingAppointments,
+} from '../../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { selectPendingAppointments } from '../../redux/selectors';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
@@ -21,8 +23,8 @@ import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPi
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
-import PastAppointmentsListNew from '../../components/PastAppointmentsList';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
+import PastAppointmentsPage from '../PastAppointmentsPage';
 import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
@@ -192,7 +194,7 @@ export default function AppointmentsPage() {
           <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
-          <PastAppointmentsListNew hasTypeChanged={hasTypeChanged} />
+          <PastAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>

@@ -19,7 +19,6 @@ import {
   sortUpcoming,
   groupAppointmentsByMonth,
   isUpcomingAppointment,
-  sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
@@ -127,14 +126,6 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPendingAppointments = createSelector(
-  state => state.appointments.pending,
-  pending =>
-    pending
-      ?.filter(isPendingOrCancelledRequest)
-      .sort(sortByCreatedDateDescending) || null,
-);
-
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
@@ -204,16 +195,6 @@ export function selectCanUseVaccineFlow(state) {
 export function selectProviderAddress(appointment) {
   const practitioners = appointment?.practitioners || [];
   return practitioners.length > 0 ? practitioners[0].address : null;
-}
-
-export function getRequestedAppointmentListInfo(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
-    pendingAppointments: selectPendingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
 }
 
 export function getUpcomingAppointmentListInfo(state) {

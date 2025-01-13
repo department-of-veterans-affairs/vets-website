@@ -11,7 +11,7 @@ import {
   When,
   Where,
   Who,
-} from '../../../components/layout/DetailPageLayout';
+} from '../../../components/layouts/DetailPageLayout';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import Section from '../../../components/Section';
 import { getRealFacilityId } from '../../../utils/appointment';
