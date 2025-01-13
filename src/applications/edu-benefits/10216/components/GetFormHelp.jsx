@@ -1,29 +1,22 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-export function GetFormHelp() {
-  return (
-    <>
-      <p className="help-talk">
-        <strong>If you have trouble using this online form,</strong> call us at{' '}
-        <va-telephone contact="8006982411" /> (
-        <va-telephone contact="711" tty />
-        ).
-        <br />
-        We&rsquo;re here 24/7.
-      </p>
-      <p className="help-talk">
-        <strong>
-          If you need help gathering your information or filling out your form,
-        </strong>{' '}
-        <br />
-        contact a local Veterans Service Organization (VSO).
-      </p>
+const GetFormHelp = () => (
+  <>
+    <p>
+      <strong>If you have trouble using this online form,</strong> call us at{' '}
+      <va-telephone contact={CONTACTS.GI_BILL} international not-clickable />.
+    </p>
+    <p>
+      <strong>
+        If you need help gathering your information or filling out your form,{' '}
+      </strong>
       <va-link
-        href="https://va.gov/vso/"
-        text="Find a local Veterans Service Organization"
+        text="visit Education Liaison Representatives - Education and Training."
+        href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
       />
-    </>
-  );
-}
+    </p>
+  </>
+);
 
 export default GetFormHelp;
