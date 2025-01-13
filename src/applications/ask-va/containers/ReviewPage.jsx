@@ -101,8 +101,7 @@ const ReviewPage = props => {
           setIsDisabled(false);
           resolve(mockSubmitResponse);
           const inquiryNumber = 'A-20230622-306458';
-          const contactPreference =
-            props.formData?.contactPreference || 'email';
+          const contactPreference = props.formData.contactPreference || 'Email';
           localStorage.removeItem('askVAFiles');
           props.router.push({
             pathname: '/confirmation',
@@ -116,21 +115,19 @@ const ReviewPage = props => {
       .then(response => {
         setIsDisabled(false);
         const { inquiryNumber } = response;
-        const contactPreference = props.formData?.contactPreference || 'email';
+        const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
         props.router.push({
           pathname: '/confirmation',
           state: { contactPreference, inquiryNumber },
         });
       })
-      .catch(() => {
+      .catch(error => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // TODO - need error modal instead of forwarding to confirmation
-        props.router.push({
-          pathname: '/confirmation',
-          state: { inquiryNumber: 'error' },
-        });
+        // TODO - need error modal instead of forwarding to confirmation per final design
+        // Temporary alert dialog for testing
+        alert(error.error);
       });
   };
 

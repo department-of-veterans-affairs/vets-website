@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import InfoAlert from '../components/InfoAlert';
-import BackendAppointmentServiceAlert from '../appointment-list/components/BackendAppointmentServiceAlert';
 import { setFormCurrentPage } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralList from './components/ReferralList';
@@ -51,9 +50,7 @@ export default function ReferralsAndRequests() {
   }
 
   return (
-    <ReferralLayout>
-      <BackendAppointmentServiceAlert />
-      <h1>Referrals and requests</h1>
+    <ReferralLayout hasEyebrow heading="Referrals and requests">
       <p>Find your requested appointments and community care referrals.</p>
       <h2 data-testid="referrals-heading">Community care referrals</h2>
       <p data-testid="referrals-text">

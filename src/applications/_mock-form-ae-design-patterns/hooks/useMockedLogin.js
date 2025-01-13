@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { initializeProfile } from 'platform/user/profile/actions';
 
 import { useLocalStorage } from './useLocalStorage';
 
@@ -25,7 +26,7 @@ export const useMockedLogin = () => {
 
   const logIn = () => {
     setLocalHasSession('true');
-    dispatch(updateLoggedInStatus(true));
+    dispatch(initializeProfile());
   };
 
   const logOut = () => {
@@ -39,7 +40,7 @@ export const useMockedLogin = () => {
       () => {
         if (location?.query?.loggedIn === 'true') {
           setLocalHasSession('true');
-          dispatch(updateLoggedInStatus(true));
+          dispatch(initializeProfile());
         }
 
         if (location?.query?.loggedIn === 'false') {

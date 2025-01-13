@@ -529,15 +529,20 @@ export const determineVenueAddress = (formResponses, noDRB) => {
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
+
   if ([DRB, AFDRB].includes(boardData?.abbr)) {
     return {
       num: 293,
+      formDescription:
+        'the Review of Discharge From the Armed Forces of the United States (DOD Form 293)',
       link:
         'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
+
   return {
     num: 149,
+    formDescription: 'Correction of Military Record (DOD Form 149)',
     link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
@@ -728,39 +733,31 @@ export const renderMedicalRecordInfo = formResponses => {
     if (reason === RESPONSES.REASON_PTSD) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for diagnosis or
-            treatment of PTSD or another mental health condition,
-          </strong>{' '}
-          you should also submit private medical treatment records that can
-          provide information about your condition. You’ll need to contact your
-          provider to request copies of your records.
+          If you’ve seen a non-VA health care provider for diagnosis or
+          treatment of PTSD or another mental health condition, you should also
+          submit private medical treatment records that can provide information
+          about your condition. You’ll need to contact your provider to request
+          copies of your records.
         </li>
       );
     }
     if (reason === RESPONSES.REASON_TBI) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for diagnosis or
-            treatment of TBI,
-          </strong>{' '}
-          you should also submit private medical treatment records that can
-          provide information about your condition. You’ll need to contact your
-          provider to request copies of your records.
+          If you’ve seen a non-VA health care provider for diagnosis or
+          treatment of TBI, you should also submit private medical treatment
+          records that can provide information about your condition. You’ll need
+          to contact your provider to request copies of your records.
         </li>
       );
     }
     if (reason === RESPONSES.REASON_SEXUAL_ASSAULT) {
       providerStatement = (
         <li>
-          <strong>
-            If you’ve seen a non-VA health care provider for for treatment after
-            your assault or harassment,
-          </strong>{' '}
-          you should also submit records from a non-VA health care provider.
-          You’ll need to contact your provider to request copies of your
-          records.
+          If you’ve seen a non-VA health care provider for for treatment after
+          your assault or harassment, you should also submit records from a
+          non-VA health care provider. You’ll need to contact your provider to
+          request copies of your records.
         </li>
       );
     }
@@ -771,12 +768,9 @@ export const renderMedicalRecordInfo = formResponses => {
         <ul>
           <li>You’ll need to submit copies of your medical records.</li>
           <li>
-            <strong>
-              If you need to request copies of your VA medical records,
-            </strong>{' '}
-            fill out and submit a Request for and Authorization to Release
-            Health Information (VA Form 10-5345) to your local VA medical
-            center.
+            If you need to request copies of your VA medical records, fill out
+            and submit a Request for and Authorization to Release Health
+            Information (VA Form 10-5345) to your local VA medical center.
           </li>
           <li>
             {requestQuestion}
@@ -796,4 +790,26 @@ export const renderMedicalRecordInfo = formResponses => {
     );
   }
   return null;
+};
+
+export const determineBoardName = branch => {
+  let boardName;
+
+  switch (branch) {
+    case RESPONSES.AIR_FORCE:
+      boardName = 'Air Force Board for Correction of Military Records';
+      break;
+    case RESPONSES.ARMY:
+    case RESPONSES.COAST_GUARD:
+      boardName = 'Board for Correction of Military Records (BCMR)';
+      break;
+    case RESPONSES.NAVY:
+    case RESPONSES.MARINE_CORPS:
+      boardName = 'Board for Correction of Naval Records (BCNR)';
+      break;
+    default:
+      boardName = '';
+      break;
+  }
+  return boardName;
 };

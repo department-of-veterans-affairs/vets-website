@@ -145,6 +145,7 @@ const RadioGroup = ({
         id="duw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}
+        required
         use-forms-pattern="single"
       >
         {renderRadioOptions()}

@@ -75,6 +75,12 @@ import {
  * @property {DOMFileObject} file - (Encrypted PDF only) File object, used
  *  when user submits password
  */
+/**
+ * Optional alert to override error message
+ * @typedef {Object} Alert
+ * @property {string} header - The header text of the alert.
+ * @property {string[]} body - An array of strings representing the body content of the alert.
+ */
 const FileField = props => {
   const {
     enableShortWorkflow,
@@ -437,6 +443,7 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
+            const alerts = [file.alert].filter(alert => alert);
 
             if (file.isEncrypted && !content.allowEncryptedFiles) {
               if (errors[0] === MISSING_PASSWORD_ERROR) {
@@ -451,6 +458,8 @@ const FileField = props => {
             // prevent page submission without adding an error; see #71406
             const hasVisibleError =
               errors.length > 0 && errors[0] !== MISSING_PASSWORD_ERROR;
+
+            const hasVisibleAlert = alerts.length > 0;
 
             const itemClasses = classNames('va-growable-background', {
               'schemaform-file-error usa-input-error':
@@ -614,11 +623,28 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
+                {/* Sometimes an error needs to be shown as an alert instead of an error message.
+                Do not show the error message if an alert is included with the error */}
                 {!file.uploading &&
-                  hasVisibleError && (
+                  hasVisibleError &&
+                  !hasVisibleAlert && (
                     <span className="usa-input-error-message" role="alert">
                       <span className="sr-only">Error</span> {errors[0]}
                     </span>
+                  )}
+                {/* Show the included alert instead of an error message */}
+                {!file.uploading &&
+                  hasVisibleAlert && (
+                    <div className="vads-u-margin-y--1p5">
+                      <va-alert status="error">
+                        <h2 slot="headline">{alerts[0].header}</h2>
+                        {alerts[0].body.map((body, i) => (
+                          <p key={i} className="vads-u-margin-top--0">
+                            {body}
+                          </p>
+                        ))}
+                      </va-alert>
+                    </div>
                   )}
                 {showPasswordInput && (
                   <ShowPdfPassword
