@@ -22,6 +22,11 @@ export const Data = {
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
+  LAST_FILLED_DATE: 'Last filled on March 18, 2024',
+  REFILL_LINK_TEXT: 'Request a refill',
+  ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
+  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
+  SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
 };
 export const Paths = {
   LANDING_LIST:
