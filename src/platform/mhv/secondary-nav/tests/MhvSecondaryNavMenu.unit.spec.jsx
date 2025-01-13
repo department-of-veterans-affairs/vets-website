@@ -39,7 +39,6 @@ const testSecNavItems = [
  * @param {String} pathname the pathname of the URL
  */
 const setWindowUrl = pathname => {
-  delete window.location;
   window.location = new URL(`https://www.va.gov${pathname}`);
 };
 
@@ -112,6 +111,10 @@ describe('MHV Secondary Navigation Menu Component', () => {
       medNavItem.appRootUrl = '/my-health/medications/';
       setWindowUrl('/my-health/medications');
       expect(getOneLink(medNavItem).className).to.include(activeClassString);
+    });
+
+    afterEach(() => {
+      delete window.location;
     });
   });
 
