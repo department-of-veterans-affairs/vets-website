@@ -118,9 +118,18 @@ const accountStatusEightZeroOne = {
 const accountStatusFiveZeroZero = {
   errors: [
     {
-      title: 'The server responded with status 422',
+      title: 'The server responded with status 500',
       detail: 'things fall apart',
       code: '500',
+    },
+  ],
+};
+
+const accountStatusFourTwoTwo = {
+  errors: [
+    {
+      title: 'The server responded with status 422',
+      detail: 'this error never gets past vets-api so it has no code value',
     },
   ],
 };
@@ -160,5 +169,6 @@ module.exports = {
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
   accountStatusFiveZeroZero,
+  accountStatusFourTwoTwo,
   accountStatusMultiError,
 };

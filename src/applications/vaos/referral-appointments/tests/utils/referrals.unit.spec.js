@@ -21,6 +21,12 @@ describe('VAOS referral generator', () => {
       expect(referrals[0].ReferralDate).to.equal('2024-10-30');
       expect(referrals[1].ReferralDate).to.equal('2024-10-31');
     });
+    it('Creates specified number of expired referrals', () => {
+      const referrals = referralUtil.createReferrals(3, '2024-10-30', 2);
+      expect(referrals[0].ReferralExpirationDate).to.equal('2024-05-06');
+      expect(referrals[1].ReferralExpirationDate).to.equal('2024-05-07');
+      expect(referrals[2].ReferralExpirationDate).to.equal('2025-05-01');
+    });
   });
   describe('getReferralSlotKey', () => {
     expect(referralUtil.getReferralSlotKey('111')).to.equal(

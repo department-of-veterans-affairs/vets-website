@@ -21,7 +21,7 @@ export const nameAndZipCodePage = {
     fullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
-        postalCode: 'Zip code',
+        postalCode: 'Postal code',
       },
       omit: [
         'country',
