@@ -1,15 +1,34 @@
 import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
 
+import features from '../fixtures/features';
+
 const avsId = '9A7AF40B2BC2471EA116891839113252';
 const testUrl = `${manifest.rootUrl}/${avsId}`;
 
 import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
-describe('After-visit Summary', () => {
+const setup = ({
+  featureToggleDelay = 0,
+  avsEnabled = true,
+  apiStatus = 200,
+}) => {
+  cy.intercept('/v0/feature_toggles*', features(avsEnabled)).as('features');
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    statusCode: 200,
+    delay: featureToggleDelay,
+    body: features(avsEnabled),
+  });
+  cy.intercept('GET', `/avs/v0/avs/*`, {
+    statusCode: apiStatus,
+    body: apiStatus === 200 ? avsData : {},
+  });
+  cy.login();
+};
+
+describe('After-visit Summary - Happy Path', () => {
   beforeEach(() => {
-    cy.intercept('GET', `/avs/v0/avs/*`, avsData);
-    cy.login();
+    setup({});
   });
 
   it('is accessible', () => {
@@ -78,5 +97,33 @@ describe('After-visit Summary', () => {
 
     cy.visit(`${testUrl}/path1/path2`);
     cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+  });
+});
+
+describe('After-visit Summary - Feature Toggles', () => {
+  it('Loading indicator is displayed while feature toggles are loading', () => {
+    setup({ featureToggleDelay: 10000 });
+    cy.visit(testUrl);
+    // find test id avs-loading-indicator
+    cy.get('[data-testid="avs-loading-indicator"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('Users are redirected to the homepage if the feature toggle is not enabled', () => {
+    setup({ avsEnabled: false });
+    cy.visit(testUrl);
+    cy.injectAxeThenAxeCheck();
+    cy.url().should('match', /\/$/);
+  });
+});
+
+describe('After-visit Summary - API', () => {
+  it('Error is shown on API failure', () => {
+    setup({ apiStatus: 500 });
+    cy.visit(testUrl);
+    cy.get('body').contains(
+      'We can’t access your after-visit summary right now',
+    );
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -25,9 +25,7 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
-  console.log('in AVS');
   const { id, isLoggedIn } = props;
-  console.log(id);
   useDatadogRum();
 
   const user = useSelector(selectUser);
@@ -41,7 +39,6 @@ const Avs = props => {
     state => state.featureToggles,
   );
 
-  console.log(useLoaderData);
   const avsData = useLoaderData();
   const [avs, setAvs] = useState({});
 
@@ -55,12 +52,9 @@ const Avs = props => {
   );
 
   if (avsEnabled === false) {
-    console.log('not enabled');
     window.location.replace('/');
     return null;
   }
-
-  console.log('enabled');
 
   if (isLoggedIn && featureTogglesLoading) {
     return (
@@ -120,7 +114,6 @@ const Avs = props => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
   };
