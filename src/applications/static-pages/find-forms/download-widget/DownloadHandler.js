@@ -7,7 +7,7 @@ import InvalidFormDownload from './InvalidFormAlert';
 import { sentryLogger } from './sentryLogger';
 
 const removeReactRoot = () => {
-  const pdf = document.querySelector('.faf-pdf-alert-modal-root');
+  const pdf = document.querySelector('.faf-pdf-alert-modal');
   pdf.remove();
 };
 

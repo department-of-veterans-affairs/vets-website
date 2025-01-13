@@ -207,7 +207,7 @@ export const SearchResults = ({
           <span role="text">
             <>
               Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
-              of <span>{results.length}</span> results for "{' '}
+              of <span>{results.length}</span> results for "
             </>
             <span className="vads-u-font-weight--bold">{query}</span>"
           </span>
