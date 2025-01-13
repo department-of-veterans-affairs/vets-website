@@ -1,4 +1,3 @@
-import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -48,19 +47,25 @@ export const deceasedDependentOptions = {
       !item?.dependentDeathLocation?.location?.state),
   maxItems: 20,
   text: {
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
-      ) || ''}`,
-    cardDescription: item => {
-      const birthDate = item?.birthDate
-        ? format(parseISO(item.birthDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const dependentDeathDate = item?.dependentDeathDate
-        ? format(parseISO(item.dependentDeathDate), 'MM/dd/yyyy')
-        : 'Unknown';
+    getItemName: item => {
+      const dependentType = item?.dependentType;
 
-      return `${birthDate} - ${dependentDeathDate}`;
+      if (!dependentType) {
+        return 'Unknown';
+      }
+
+      const label = relationshipLabels[dependentType];
+
+      if (label) {
+        return label;
+      }
+
+      return 'Unknown'; // Default if `dependentType` is null for some reason
+    },
+    cardDescription: item => {
+      return `${capitalize(item?.fullName?.first)} ${capitalize(
+        item?.fullName?.last,
+      )}`;
     },
     summaryTitle: 'Review your dependents who have died',
   },
