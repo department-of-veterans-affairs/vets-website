@@ -1,114 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Dropdown from './Dropdown';
 import {
   capitalizeFirstLetter,
+  categoryCheck,
+  checkAlert,
   filterLcResults,
+  mappedStates,
   showLcParams,
+  showMultipleNames,
+  updateDropdowns,
 } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 import LicenseCertificationAlert from './LicenseCertificationAlert';
-
-const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
-
-export const updateDropdowns = (
-  category = 'all',
-  location = 'all',
-  multiples = [],
-) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'License', optionLabel: 'License' },
-        {
-          optionValue: 'Certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'Prep Course',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
-              ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
-
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
-      };
-    }
-
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
-    }
-
-    return dropdown;
-  });
-};
-
-export const showMultipleNames = (suggestions, nameInput) => {
-  return suggestions.filter(
-    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
-  );
-};
-
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
-};
-
-export const checkAlert = (type, multiples, currentLocation, newLocation) => {
-  if (multiples.length > 1 && type !== 'Certification') {
-    return true;
-  }
-
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'Certification' && currentLocation !== 'all') {
-    return true;
-  }
-
-  return false;
-};
 
 export default function LicenseCertificationSearchForm({
   suggestions,
