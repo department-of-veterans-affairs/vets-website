@@ -15,7 +15,7 @@ import {
 
 const { data: testData } = maxTestData;
 
-describe('HCA-Household-Non-Disclosure', () => {
+describe('HCA-Household: Non-disclosure', () => {
   beforeEach(() => {
     setupForAuth();
     advanceToHousehold();
@@ -83,7 +83,7 @@ describe('HCA-Household-Non-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-Spousal-Disclosure', () => {
+describe('HCA-Household: Spousal disclosure', () => {
   beforeEach(() => {
     setupForAuth();
     advanceToHousehold();
@@ -193,7 +193,7 @@ describe('HCA-Household-Spousal-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-Dependent-Disclosure', () => {
+describe('HCA-Household: Dependent disclosure', () => {
   beforeEach(() => {
     setupForAuth();
     advanceToHousehold();
@@ -618,7 +618,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-Full-Disclosure', () => {
+describe('HCA-Household: Full disclosure', () => {
   beforeEach(() => {
     setupForAuth();
     advanceToHousehold();

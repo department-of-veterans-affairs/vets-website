@@ -10,7 +10,7 @@ import {
 
 const { data: testData } = minTestData;
 
-describe('HCA-Registration-Only-Authenticated-User', () => {
+describe('HCA-Registration-Only: Authenticated user', () => {
   context('when user has no disability rating - 0%', () => {
     beforeEach(() => {
       setupForAuth({ features: mockFeatures });
@@ -56,7 +56,7 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
   });
 });
 
-describe('HCA-Registration-Only-Guest-User', () => {
+describe('HCA-Registration-Only: Guest user', () => {
   beforeEach(() => {
     setupForGuest({ features: mockFeatures });
   });

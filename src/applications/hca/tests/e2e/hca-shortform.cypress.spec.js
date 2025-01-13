@@ -12,7 +12,7 @@ import {
 
 const { data: testData } = minTestData;
 
-describe('HCA-Shortform-Authenticated-High-Disability', () => {
+describe('HCA-ShortForm-Authenticated: High disability', () => {
   beforeEach(() => {
     setupForAuth({ disabilityRating: 90 });
     startAsAuthUser();
@@ -25,7 +25,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
   });
 });
 
-describe('HCA-Shortform-Authenticated-Low-Disability', () => {
+describe('HCA-ShortForm-Authenticated: Low disability', () => {
   beforeEach(() => {
     setupForAuth({ disabilityRating: 40 });
     startAsAuthUser();
@@ -43,7 +43,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
   });
 });
 
-describe('HCA-Shortform-UnAuthenticated', () => {
+describe('HCA-ShortForm: Unauthenticated', () => {
   beforeEach(() => {
     setupForGuest();
     startAsGuestUser();

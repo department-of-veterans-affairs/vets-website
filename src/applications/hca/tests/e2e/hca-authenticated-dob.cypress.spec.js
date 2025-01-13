@@ -2,7 +2,7 @@ import mockUserInvalidDob from './fixtures/mocks/user.invalidDob.json';
 import mockUserNoDob from './fixtures/mocks/user.noDob.json';
 import { goToNextPage, setupForAuth, startAsAuthUser } from './utils';
 
-describe('HCA-User-Authenticated-Without-DOB', () => {
+describe('HCA-User-Authenticated: No DOB value ', () => {
   beforeEach(() => {
     setupForAuth({ user: mockUserNoDob });
     startAsAuthUser();
@@ -14,7 +14,7 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
   });
 });
 
-describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
+describe('HCA-User-Authenticated: Invalid DOB value', () => {
   beforeEach(() => {
     setupForAuth({ user: mockUserInvalidDob });
     startAsAuthUser();
@@ -26,7 +26,7 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
   });
 });
 
-describe('HCA-User-Authenticated-With-DOB', () => {
+describe('HCA-User-Authenticated: With DOB value', () => {
   beforeEach(() => {
     setupForAuth();
     startAsAuthUser();
