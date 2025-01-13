@@ -6,11 +6,9 @@ import InfoAlert from '../../components/InfoAlert';
 import RequestAppointmentLayout from '../../components/RequestAppointmentLayout';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  fetchPendingAppointments,
-  startNewAppointmentFlow,
-} from '../redux/actions';
-import { getRequestedAppointmentListInfo } from '../redux/selectors';
+import { startNewAppointmentFlow } from '../redux/actions';
+import { fetchPendingAppointments } from '../../redux/actions';
+import { getRequestedAppointmentListInfo } from '../../redux/selectors';
 import NoAppointments from './NoAppointments';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
