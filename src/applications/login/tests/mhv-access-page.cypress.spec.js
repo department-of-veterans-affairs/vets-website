@@ -18,9 +18,7 @@ describe('My HealtheVet Access Page', () => {
 
   it('displays a sign-in button and respond to clicks', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-testid="accessMhvBtn"]')
-      .should('exist')
-      .and('contain', 'My HealtheVet');
+    cy.get('va-button[text="My HealtheVet"]').should('exist');
     cy.get('[data-testid="accessMhvBtn"]').click();
   });
 

@@ -18,18 +18,14 @@ describe('LoginInfo', () => {
   });
 
   it('renders 5 links when toggle is on', () => {
-    const { container } = renderInReduxProvider(
-      // eslint-disable-next-line camelcase
-      <LoginInfo />,
-      {
-        initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_credential_button_disabled: true,
-          },
+    const { container } = renderInReduxProvider(<LoginInfo />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_credential_button_disabled: true,
         },
       },
-    );
+    });
 
     const links = container.querySelectorAll('a');
     expect(links.length).to.eq(5);
