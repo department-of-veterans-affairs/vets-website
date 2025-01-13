@@ -9,6 +9,11 @@ export default function transformForSubmit(formConfig, form) {
     sharedTransformForSubmit(formConfig, form),
   );
 
+  if (transformedData.fullName) {
+    transformedData.veteranFullName = transformedData.fullName;
+    delete transformedData.fullName;
+  }
+
   return JSON.stringify({
     ...transformedData,
     benefitSelection: {
