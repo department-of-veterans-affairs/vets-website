@@ -15,7 +15,7 @@ import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
 import prefillTransformer from './prefillTransformer';
-import submit from './submit';
+import submit from '../utils/submit';
 
 const blankSchema = { type: 'object', properties: {} };
 
@@ -96,7 +96,8 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
   submit,
-  // transformForSubmit, // https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-transformforsubm
+  // https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-transformforsubm
+  transformForSubmit: args => args, // just pass arguments, for now
   trackingPrefix: 'mhv-supply-reordering-',
   introduction,
   confirmation,
