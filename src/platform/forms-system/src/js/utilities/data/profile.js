@@ -410,14 +410,12 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
  */
 export const setReturnState = (key = '', state = '') =>
   window.sessionStorage.setItem(CONTACT_EDIT, `${key},${state}`);
-
 /**
  * Get ID and state of last edited contact field so we know where to move focus
  * @returns {Array} Array with ID at index zero, and state at index one
  */
 export const getReturnState = () =>
   window.sessionStorage.getItem(CONTACT_EDIT) || '';
-
 export const clearReturnState = () =>
   window.sessionStorage.removeItem(CONTACT_EDIT);
 
