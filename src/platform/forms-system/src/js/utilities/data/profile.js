@@ -421,28 +421,6 @@ export const getReturnState = () =>
 export const clearReturnState = () =>
   window.sessionStorage.removeItem(CONTACT_EDIT);
 
-export const setCompoundReturnState = (key = '', state = '') => {
-  // first get the current return state
-  const currentReturnState = getReturnState();
-
-  // if current state includes | then it should be assumed to be compound
-  if (currentReturnState.includes('|')) {
-    const compoundState = [...new Set(currentReturnState.split('|'))];
-
-    const foundIndex = compoundState.findIndex(s =>
-      s.includes(`${key},${state}`),
-    );
-    if (foundIndex !== -1) {
-      compoundState[foundIndex] = `${key},${state}`;
-    }
-    compoundState.push(`${key},${state}`);
-    window.sessionStorage.setItem(CONTACT_EDIT, compoundState.join('|'));
-  }
-
-  // then set the new return state
-  setReturnState(key, state);
-};
-
 export const contactInfoPropTypes = {
   contactInfoPageKey: PropTypes.string,
   content: PropTypes.shape({
