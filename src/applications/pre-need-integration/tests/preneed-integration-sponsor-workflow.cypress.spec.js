@@ -32,7 +32,17 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Veteran/Sponsor Information Page
     preneedHelpers.validateProgressBar('3');
-    cy.fillName('root_application_veteran_currentName', veteran.currentName);
+    cy.get('#root_application_veteran_currentName_first').should(
+      'have.value',
+      applicant.name.first,
+    );
+    cy.get('#root_application_veteran_currentName_last').should(
+      'have.value',
+      applicant.name.last,
+    );
+    cy.get('#root_application_veteran_currentName_suffix').select(
+      veteran.currentName.suffix,
+    );
     cy.fill(
       '#root_application_veteran_currentName_maiden',
       veteran.currentName.maiden,
@@ -50,12 +60,39 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.axeCheck();
     preneedHelpers.clickContinue();
 
-    // Is Sponsor Deceased
-    cy.selectRadio('root_application_veteran_isDeceased', veteran.isDeceased);
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.fillDate('root_application_veteran_dateOfDeath', veteran.dateOfDeath);
-    cy.axeCheck();
+    // Page 2 Autocomplete
+    cy.get('#root_application_veteran_address_country').should(
+      'have.value',
+      applicant.mailingAddress.country,
+    );
+    cy.get('#root_application_veteran_address_street').should(
+      'have.value',
+      applicant.mailingAddress.street,
+    );
+    cy.get('#root_application_veteran_address_street2').should(
+      'have.value',
+      applicant.mailingAddress.street2,
+    );
+    cy.get('#root_application_veteran_address_city').should(
+      'have.value',
+      applicant.mailingAddress.city,
+    );
+    cy.get('#root_application_veteran_address_state').should(
+      'have.value',
+      applicant.mailingAddress.state,
+    );
+    cy.get('#root_application_veteran_address_postalCode').should(
+      'have.value',
+      applicant.mailingAddress.postalCode,
+    );
+    cy.get('#root_application_veteran_phoneNumber').should(
+      'have.value',
+      applicant.applicantPhoneNumber,
+    );
+    cy.get('#root_application_veteran_email').should(
+      'have.value',
+      applicant.applicantEmail,
+    );
     preneedHelpers.clickContinue();
 
     preneedHelpers.fillVeteranDemographics(veteran);

@@ -1,4 +1,4 @@
-{
+{ 
     "data": {
         "application": {
             "currentlyBuriedPersons": [
@@ -18,16 +18,43 @@
                 "militaryStatus": "V",
                 "ethnicity": "notSpanishHispanicLatino",
                 "race": {
-                    "isOther": true
+                    "isAmericanIndianOrAlaskanNative": true,
+                    "isAsian": true,
+                    "isBlackOrAfricanAmerican": true,
+                    "isNativeHawaiianOrOtherPacificIslander": true,
+                    "isWhite": true
                 },
-                "raceComment": "Australian Aborigine",
                 "maritalStatus": "Single",
-                "gender": "Male",
+                "gender": "Female",
+                "dateOfDeath": "1989-01-01",
+                "isDeceased": "yes",
+                "currentName": {
+                    "first": "Sally",
+                    "last": "Doe"
+                },
+                "ssn": "888556666",
                 "serviceRecords": [
                     {
                         "serviceBranch": "NG"
                     }
                 ]
+            },
+            "applicant": {
+                "isSponsor": "no",
+                "mailingAddress": {
+                    "street": "123 Treetop Ln",
+                    "city": "Florence",
+                    "country": "USA",
+                    "state": "SC",
+                    "postalCode": "29501"
+                },
+                "applicantPhoneNumber": "1235558585",
+                "applicantEmail": "JoeTest@test.test",
+                "name": {
+                    "first": "Will",
+                    "last": "Green"
+                },
+                "applicantRelationshipToClaimant": "Authorized Agent/Rep"
             },
             "claimant": {
                 "address": {
@@ -44,24 +71,8 @@
                     "last": "Black"
                 },
                 "ssn": "222334444",
-                "dateOfBirth": "1980-07-07",
-                "relationshipToVet": "veteran"
-            },
-            "applicant": {
-                "mailingAddress": {
-                    "street": "123 Treetop Ln",
-                    "city": "Florence",
-                    "country": "USA",
-                    "state": "SC",
-                    "postalCode": "29501"
-                },
-                "applicantPhoneNumber": "1235558585",
-                "applicantEmail": "JoeTest@test.test",
-                "name": {
-                    "first": "Will",
-                    "last": "Green"
-                },
-                "applicantRelationshipToClaimant": "Authorized Agent/Rep"
+                "dateOfBirth": "1980-06-07",
+                "relationshipToVet": "other"
             }
         },
         "privacyAgreementAccepted": true,

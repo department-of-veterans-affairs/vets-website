@@ -65,6 +65,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant Information Page 1
     preneedHelpers.validateProgressBar('2');
+
     errorCheck(requiredHelpers.applicantRelationshipToVetErrors);
 
     cy.get('#root_application_claimant_relationshipToVet').select(
@@ -91,8 +92,32 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Applicant Information Page 3
     errorCheck(requiredHelpers.applicantContactInfoErrors);
     cy.fillAddress('root_application_claimant_address', claimant.address);
-    cy.fill('input[name$="email"]', claimant.email);
     cy.fill('input[name$="phoneNumber"]', claimant.phoneNumber);
+    cy.fill('input[name$="email"]', claimant.email);
+    preneedHelpers.clickContinue();
+
+    // Are you the sponsor page
+    preneedHelpers.validateProgressBar('3');
+    errorCheck(requiredHelpers.veteranDetailsErrors1);
+    cy.selectRadio('root_application_applicant_isSponsor', applicant.isSponsor);
+    preneedHelpers.clickContinue();
+
+    // Sponsor Information
+    errorCheck(requiredHelpers.veteranDetailsErrors2);
+    cy.get('#root_application_veteran_currentName_first').type(
+      veteran.currentName.first,
+    );
+    cy.get('#root_application_veteran_currentName_last').type(
+      veteran.currentName.last,
+    );
+    cy.fill('input[name="root_application_veteran_ssn"]', veteran.ssn);
+    preneedHelpers.clickContinue();
+
+    // Is Sponsor Deceased page
+    errorCheck(requiredHelpers.veteranDeceasedErrors);
+    preneedHelpers.fillSponsorDeceased(veteran.isDeceased, veteran.dateOfDeath);
+
+    // Sponsor Address
     preneedHelpers.clickContinue();
 
     // Applicant Information Page 4
@@ -130,7 +155,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Military History Page 1
-    preneedHelpers.validateProgressBar('3');
+    preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.get('#input-error-message')
       .should('contain', 'You must provide a response')
@@ -196,7 +221,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Benefit Selection Page 1
-    preneedHelpers.validateProgressBar('5');
+    preneedHelpers.validateProgressBar('6');
     errorCheck(requiredHelpers.burialBenefitsErrors);
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
@@ -234,7 +259,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Supporting Documents Page
-    preneedHelpers.validateProgressBar('6');
+    preneedHelpers.validateProgressBar('7');
     preneedHelpers.clickContinue();
 
     // Review/Submit Page

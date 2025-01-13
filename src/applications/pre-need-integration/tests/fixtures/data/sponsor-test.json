@@ -50,19 +50,27 @@
                 "raceComment": "Kryptonian",
                 "maritalStatus": "Married",
                 "gender": "Female",
-                "dateOfDeath": "1989-01-01",
-                "isDeceased": "yes",
                 "currentName": {
-                    "first": "Jane",
-                    "middle": "Meg",
-                    "last": "Johnson",
-                    "suffix": "Sr.",
-                    "maiden": "Anderson"
+                    "first": "Ben",
+                    "middle": "Marshall",
+                    "last": "Preparer",
+                    "suffix": "III",
+                    "maiden": "Green"
                 },
-                "ssn": "234444443",
-                "dateOfBirth": "1950-03-02",
-                "cityOfBirth": "Amherst",
-                "stateOfBirth": "Massachusetts ",
+                "ssn": "333557777",
+                "dateOfBirth": "1950-05-07",
+                "cityOfBirth": "New Orleans",
+                "stateOfBirth": "Louisiana",
+                "address": {
+                    "street": "102 medium sky st",
+                    "street2": "Apt 4",
+                    "city": "Boston",
+                    "country": "USA",
+                    "state": "MA",
+                    "postalCode": "02034"
+                },
+                "phoneNumber": "1234244444",
+                "email": "BenPrep@test.test",
                 "serviceRecords": [
                     {
                         "dateRange": {
@@ -85,13 +93,13 @@
                 ]
             },
             "applicant": {
-                "isSponsor": "no",
+                "isSponsor": "yes",
                 "mailingAddress": {
                     "street": "102 medium sky st",
                     "street2": "Apt 4",
                     "city": "Boston",
                     "country": "USA",
-                    "state": "ME",
+                    "state": "MA",
                     "postalCode": "02034"
                 },
                 "applicantPhoneNumber": "1234244444",

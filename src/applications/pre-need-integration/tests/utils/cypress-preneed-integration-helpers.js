@@ -95,7 +95,6 @@ function fillPreparerInfo(preparer) {
     cy.axeCheck();
     clickContinue();
     // Preparer Mailing address
-    cy.url().should('not.contain', '/preparer-details');
 
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
@@ -132,8 +131,6 @@ function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
 
-  cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
-  cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
   if (relationship === 'veteran') {
     cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
     cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
@@ -148,6 +145,17 @@ function fillApplicantContactInfo(address, phone, email) {
   cy.fill('input[name$="email"]', email);
   cy.axeCheck();
   clickContinue();
+}
+
+function fillSponsorDeceased(deceased, dod) {
+  cy.selectRadio('root_application_veteran_isDeceased', deceased);
+  cy.axeCheck();
+  clickContinue();
+  if (deceased === 'yes') {
+    cy.fillDate('root_application_veteran_dateOfDeath', dod);
+    cy.axeCheck();
+    clickContinue();
+  }
 }
 
 function fillVeteranDemographics(veteran) {
@@ -293,6 +301,7 @@ module.exports = {
   visitIntro,
   fillPreparerInfo,
   fillApplicantContactInfo,
+  fillSponsorDeceased,
   fillVeteranDemographics,
   validateProgressBar,
   fillApplicantInfo,
