@@ -18,7 +18,7 @@ const MileagePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
-    focusElement('h1');
+    focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
 

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 const VehiclePage = ({
   pageIndex,
@@ -13,6 +14,11 @@ const VehiclePage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
+  useEffect(() => {
+    focusElement('h1', {}, 'va-radio');
+    scrollToTop('topScrollElement');
+  }, []);
+
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
