@@ -794,8 +794,8 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
-    cy.visit(medicationsUrls.MEDICATIONS_URL);
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 
   verifyEmptyMedicationsListAlertOnListPage = text => {
