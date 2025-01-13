@@ -16,6 +16,10 @@ const routes = {
             path: 'mocked-auth',
             component: MockAuth,
           },
+          {
+            path: 'mhv',
+            component: MhvAccess,
+          },
         ]
       : [
           {

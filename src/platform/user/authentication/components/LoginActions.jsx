@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
@@ -25,6 +26,8 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isSignInV2 = useToggleValue(TOGGLE_NAMES.signInModalV2);
 
   return (
     <div className="row">
@@ -41,28 +44,30 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>
-            {mhv && (
-              <>
-                <h3 id="mhvH3">
-                  My HealtheVet sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through January 31, 2025
-                  </span>
-                </h3>
-                <p>
-                  You’ll still be able to use the <strong>My HealtheVet</strong>{' '}
-                  website after this date. You’ll just need to start signing in
-                  with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
-                  account.
-                </p>
-                <LoginButton
-                  csp="mhv"
-                  useOAuth={useOAuth}
-                  ariaDescribedBy="mhvH3"
-                  actionLocation={actionLocation}
-                />
-              </>
-            )}
+            {mhv &&
+              !isSignInV2 && (
+                <>
+                  <h3 id="mhvH3">
+                    My HealtheVet sign-in option
+                    <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                      Available through January 31, 2025
+                    </span>
+                  </h3>
+                  <p>
+                    You’ll still be able to use the{' '}
+                    <strong>My HealtheVet</strong> website after this date.
+                    You’ll just need to start signing in with a{' '}
+                    <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+                    account.
+                  </p>
+                  <LoginButton
+                    csp="mhv"
+                    useOAuth={useOAuth}
+                    ariaDescribedBy="mhvH3"
+                    actionLocation={actionLocation}
+                  />
+                </>
+              )}
             {dslogon && (
               <>
                 <h3
