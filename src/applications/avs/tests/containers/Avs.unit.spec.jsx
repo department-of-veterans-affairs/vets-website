@@ -1,26 +1,21 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch';
-import {
-  createMemoryRouter,
-  json,
-  RouterProvider,
-} from 'react-router-dom-v5-compat';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { render, waitFor } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
-import { createMemoryHistory } from 'history';
 
 import { routes } from '../../router';
 import { Avs } from '../../containers/Avs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
+import avsLoader from '../../loaders/avsLoader';
 
 const id = '9A7AF40B2BC2471EA116891839113252';
 const avsPath = `/my-health/medical-records/summaries-and-notes/visit-summary/${id}`;
@@ -73,7 +68,7 @@ describe('Avs container', () => {
 
   const props = { id };
 
-  it.only('user is not logged in', async () => {
+  it('user is not logged in', async () => {
     // expected behavior is be redirected to the home page with next in the url
 
     /*
@@ -89,27 +84,17 @@ describe('Avs container', () => {
     const router = createMemoryRouter(
       [
         {
-          path: '/foo',
+          path: '/:id',
           element: <Avs {...props} />,
-          loader: () => {
-            return json({ foo: 'bar' });
-          },
+          loader: avsLoader,
         },
       ],
-      { initialEntries: ['/foo'] },
+      { initialEntries: ['/123'] },
     );
 
-    const screen = render(
-      <Provider store={testStore}>
-        <RouterProvider router={router} />,
-      </Provider>,
-    );
-
-    /*
     renderInReduxProvider(<RouterProvider router={router} />, {
       initialState,
     });
-    */
 
     /*
     render(
@@ -157,11 +142,11 @@ describe('Avs container', () => {
 
   it('feature flag set to false', () => {
     renderInReduxProvider(
-      <MemoryRouter initialEntries={[`/${id}`]}>
-        <Route path="/:id">
+      <reactRouter.MemoryRouter initialEntries={[`/${id}`]}>
+        <reactRouter.Route path="/:id">
           <Avs {...props} />
-        </Route>
-      </MemoryRouter>,
+        </reactRouter.Route>
+      </reactRouter.MemoryRouter>,
       {
         initialState,
       },
@@ -237,14 +222,22 @@ describe('Avs container', () => {
 
   it('API request fails', async () => {
     mockApiRequest({}, false);
+    const router = reactRouter.createMemoryRouter(
+      [
+        {
+          path: '/:id',
+          element: (
+            <ErrorBoundary>
+              <Avs {...props} />
+            </ErrorBoundary>
+          ),
+          // loader: loader cannot be used until node has been upgraded above v14.
+        },
+      ],
+      { initialEntries: ['/9A7AF40B2BC2471EA116891839113252'] },
+    );
     const screen = renderInReduxProvider(
-      <MemoryRouter initialEntries={[`/${id}`]}>
-        <Route path="/:id">
-          <ErrorBoundary>
-            <Avs {...props} />
-          </ErrorBoundary>
-        </Route>
-      </MemoryRouter>,
+      <reactRouter.RouterProvider router={router} />,
       {
         initialState: {
           ...initialState,
@@ -253,6 +246,47 @@ describe('Avs container', () => {
             avs_enabled: true,
             loading: false,
           },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.USER_PROFILE],
+            },
+          },
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByText('We can’t access your after-visit summary right now'),
+      );
+    });
+  });
+
+  it.only('Happy path', async () => {
+    mockApiRequest({}, false);
+    const router = reactRouter.createMemoryRouter(
+      [
+        {
+          path: '/:id',
+          element: <Avs {...props} />,
+          // loader: () => Promise.resolve(mockAvs),
+        },
+      ],
+      { initialEntries: ['/9A7AF40B2BC2471EA116891839113252'] },
+    );
+    const screen = renderInReduxProvider(
+      <reactRouter.RouterProvider router={router} />,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            avs_enabled: true,
+            loading: false,
+          },
+          avs: mockAvs,
           user: {
             login: {
               currentlyLoggedIn: true,

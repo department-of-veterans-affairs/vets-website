@@ -18,6 +18,8 @@ describe('After-visit Summary', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  // Add container behavior tests.
+
   it('only the top accordion is open by default', () => {
     cy.visit(testUrl);
     cy.get('h1').contains('After-visit summary');
