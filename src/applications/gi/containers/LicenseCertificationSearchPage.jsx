@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
   VaAccordion,
   VaAccordionItem,
+  VaLink,
   VaLoadingIndicator,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -15,29 +16,63 @@ import { fetchLicenseCertificationResults } from '../actions';
 const faqs = [
   {
     question: 'What is the difference between a license and certification?',
-    answer:
-      'A license is granted by the state or a governing authority; whereas, a certification is granted by professional organizations or associations.',
+    answer: (
+      <p className="faq-answer">
+        A license is granted by the state or a governing authority; whereas, a
+        certification is granted by professional organizations or associations.
+      </p>
+    ),
   },
   {
     question: 'What will my benefits cover?',
-    answer:
-      "Part of your entitlement can be used to cover the costs of tests, up to $2000, for a job that requires a license or certification—even if you're already receiving other education benefits. Your benefits will only cover tests approved for the GI Bill.",
+    answer: (
+      <p className="faq-answer">
+        Part of your entitlement can be used to cover the costs of tests, up to
+        \$2000, for a job that requires a license or certification—even if
+        you’re already receiving other education benefits. Your benefits will
+        only cover tests approved for the GI Bill.
+      </p>
+    ),
   },
   {
     question:
       'How do I get reimbursed for the licenses, certifications, and prep courses?',
-    answer:
-      'Print and fill out form Request for Reimbursement of Licensing or Certification Test Fees. Send the completed application to the Regional Processing Office for your region listed in the form. Get VA Form 22-0803 to print.',
+    answer: (
+      <>
+        <VaLink
+          text="Find out how to get reimbursed for licenses, certifications and prep courses."
+          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
+        />
+        <p className="faq-answer">
+          Print and fill out form Request for Reimbursement of Licensing or
+          Certification Test Fees. Send the completed application to the
+          Regional Processing Office for your region listed in the form.
+        </p>
+        <VaLink
+          text="Get VA Form22-0803 to download."
+          href="../find-forms/about-form-22-0803/"
+        />
+      </>
+    ),
   },
   {
     question: 'What is a prep course?',
-    answer:
-      'A preparatory course (prep course) is a course that prepares students for success tied to a specific license or certification.',
+    answer: (
+      <p className="faq-answer">
+        A preparatory course (prep course) is a course that prepares students
+        for success tied to a specific license or certification.
+      </p>
+    ),
   },
   {
     question: 'Can I get paid to take a test more than once?',
-    answer:
-      "If you fail a license or certification test, we will pay again. If the license or certification expires, you can take it again and we'll pay for the renewal.",
+    answer: (
+      <p className="faq-answer">
+        If you fail a license or certification test, we will pay again. If the
+        license or certification expires, you can take it again and we’ll pay
+        for the renewal.
+      </p>
+    ),
   },
 ];
 
@@ -96,7 +131,7 @@ function LicenseCertificationSearchPage({
   };
 
   return (
-    <div>
+    <div className="lc-page-wrapper">
       {fetchingLc && (
         <VaLoadingIndicator
           // data-testid="loading-indicator"
@@ -108,10 +143,10 @@ function LicenseCertificationSearchPage({
         lcResults.length !== 0 && (
           <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
-              <h1 className=" mobile-lg:vads-u-text-align--left">
+              <h1 className="mobile-lg:vads-u-text-align--left">
                 Licenses, Certifications, and Prep courses
               </h1>
-              <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+              <p className="vads-u-color--gray-dark">
                 Use the search tool to find out which tests or related prep
                 courses are reimbursable. If you don’t see a test or prep course
                 listed, it may be a valid test that’s not yet approved. We

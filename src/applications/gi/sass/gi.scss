@@ -314,6 +314,11 @@
   text-transform: capitalize;
 }
 
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+}
 .lc-form-wrapper {
   $input-width: 30rem;
 
