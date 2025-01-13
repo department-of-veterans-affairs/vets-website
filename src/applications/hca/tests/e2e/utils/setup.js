@@ -20,17 +20,6 @@ const APIs = {
   vamc: '/data/cms/vamc-ehr.json',
 };
 
-const mockDisabilityRating = userPercentOfDisability => ({
-  statusCode: 200,
-  body: {
-    data: {
-      id: '',
-      type: 'hash',
-      attributes: { userPercentOfDisability },
-    },
-  },
-});
-
 export const setupBasicTest = (props = {}) => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
@@ -56,12 +45,24 @@ export const setupForAuth = (props = {}) => {
     features = mockFeatures,
     user = mockUser,
   } = props;
-  const mockRating = mockDisabilityRating(disabilityRating);
+
+  const mockDisabilityRating = {
+    statusCode: 200,
+    body: {
+      data: {
+        id: '',
+        type: 'hash',
+        attributes: { userPercentOfDisability: disabilityRating },
+      },
+    },
+  };
 
   setupBasicTest({ enrollmentStatus, features });
   cy.intercept('GET', APIs.saveInProgress, mockPrefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
-  cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
+  cy.intercept(APIs.disabilityRating, mockDisabilityRating).as(
+    'mockDisabilityRating',
+  );
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
