@@ -86,3 +86,18 @@ export const setupForGuest = (props = {}) => {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockFeatures']);
 };
+
+export const setupForFormTester = (props = {}) => {
+  Cypress.config({ scrollBehavior: 'nearest' });
+
+  const { features = mockFeatures } = props;
+
+  cy.intercept('GET', APIs.features, features);
+  cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
+  cy.intercept('GET', APIs.vamc, mockVamc);
+  cy.intercept('POST', APIs.submit, mockSubmission);
+  cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+    'mockEnrollmentStatus',
+  );
+  cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
+};

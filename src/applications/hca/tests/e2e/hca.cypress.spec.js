@@ -3,15 +3,12 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import mockFacilities from './fixtures/mocks/facilities.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockSubmission from './fixtures/mocks/submission.json';
 import {
   acceptPrivacyAgreement,
   fillIdentityForm,
   fillVaFacility,
   goToNextPage,
+  setupForFormTester,
   startAsGuestUser,
 } from './utils';
 
@@ -25,7 +22,7 @@ const testConfig = createTestConfig(
         afterHook(() => startAsGuestUser());
       },
       'id-form': () => {
-        cy.get('@testData').then(data => fillIdentityForm(data));
+        cy.get('@testData').then(testData => fillIdentityForm(testData));
       },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {
@@ -46,16 +43,14 @@ const testConfig = createTestConfig(
       },
       'household-information/dependents': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.selectRadio('root_view:reportDependents', 'N');
-            goToNextPage();
-          });
+          cy.selectRadio('root_view:reportDependents', 'N');
+          goToNextPage();
         });
       },
       'insurance-information/va-facility-api': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillVaFacility(data['view:preferredFacility']);
+          cy.get('@testData').then(testData => {
+            fillVaFacility(testData['view:preferredFacility']);
             goToNextPage();
           });
         });
@@ -67,20 +62,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', '/v0/health_care_applications', mockSubmission);
-      cy.intercept(
-        'GET',
-        '/v0/health_care_applications/enrollment_status*',
-        mockEnrollmentStatus,
-      );
-      cy.intercept(
-        'GET',
-        '/v0/health_care_applications/facilities?*',
-        mockFacilities,
-      ).as('getFacilities');
-    },
+    setupPerTest: () => setupForFormTester(),
   },
   manifest,
   formConfig,
