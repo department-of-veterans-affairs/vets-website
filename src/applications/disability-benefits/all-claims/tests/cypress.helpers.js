@@ -276,7 +276,7 @@ export const pageHooks = cy => ({
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
@@ -288,7 +288,7 @@ export const pageHooks = cy => ({
         }
 
         // click on input and type search text
-        cy.get(comboBox)
+        cy.get(autocomplete)
           .shadow()
           .find(input)
           .type(disability.condition, { force: true });
@@ -299,7 +299,7 @@ export const pageHooks = cy => ({
             .first()
             .click();
 
-          cy.get(comboBox)
+          cy.get(autocomplete)
             .shadow()
             .find(input)
             .should('have.value', disability.condition);
@@ -312,7 +312,7 @@ export const pageHooks = cy => ({
                 .eq(1)
                 .click();
 
-              cy.get(comboBox)
+              cy.get(autocomplete)
                 .shadow()
                 .find(input)
                 .should('have.value', selectedOption);
