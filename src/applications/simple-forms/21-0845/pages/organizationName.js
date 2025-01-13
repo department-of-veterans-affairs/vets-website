@@ -1,4 +1,5 @@
 import {
+  titleUI,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,6 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Organization to disclose information to'),
     organizationName: textUI({
       title: 'Organization’s name',
       errorMessages: {
