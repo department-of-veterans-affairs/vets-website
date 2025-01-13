@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import ScheduleAppointmentLink from './ScheduleAppointmentLink';
+import ScheduleAppointmentLink from '../../components/ScheduleAppointmentLink';
 
 export default function NoAppointments({
   showScheduleButton,

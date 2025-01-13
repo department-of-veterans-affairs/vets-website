@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RequestAppointmentLayout from '../../components/RequestAppointmentLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import InfoAlert from '../../components/InfoAlert';
-import ScheduleAppointmentLink from '../../appointment-list/components/ScheduleAppointmentLink';
+import ScheduleAppointmentLink from '../../components/ScheduleAppointmentLink';
 
 const RequestList = ({ appointments, requestsError }) => {
   if (requestsError) {
