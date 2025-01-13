@@ -19,7 +19,7 @@ export default function SuggestedAddressRadio({
       <ValidateAddressTitle title={title} />
       <p>We found a similar address to the one you entered.</p>
       <VaRadio
-        label="Tell us which address you'd like to use."
+        label="Tell us which address you’d like to use."
         onVaValueChange={onChangeSelectedAddress}
         required
       >
