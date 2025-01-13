@@ -2,43 +2,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
-import { getCernerURL } from 'platform/utilities/cerner';
 import { connect } from 'react-redux';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
-import {
-  cernerFacilitiesPropType,
-  ehrDataByVhaIdPropType,
-  otherFacilitiesPropType,
-  useSingleLogoutPropType,
-} from '../../../propTypes';
+import { useSingleLogoutPropType } from '../../../propTypes';
 
-export const AuthContent = ({
-  cernerFacilities,
-  otherFacilities,
-  ehrDataByVhaId,
-  useSingleLogout,
-  widgetType,
-  featureBreadcrumbUrlUpdate,
-}) => (
+export const AuthContent = () => (
   <>
-    <CernerCallToAction
-      cernerFacilities={cernerFacilities}
-      otherFacilities={otherFacilities}
-      ehrDataByVhaId={ehrDataByVhaId}
-      linksHeaderText="Manage appointments at:"
-      myHealtheVetLink={
-        featureBreadcrumbUrlUpdate
-          ? '/my-health/appointments'
-          : '/health-care/schedule-view-va-appointments/appointments'
-      }
-      myVAHealthLink={getCernerURL(
-        '/pages/scheduling/upcoming',
-        useSingleLogout,
-      )}
-      widgetType={widgetType}
-    />
+    <p>
+      <va-link-action
+        href="/my-health/appointments"
+        text="Go to appointments on va.gov"
+      />
+    </p>
     <p data-testid="cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
       contact the facility as soon as you can to reschedule or cancel.
@@ -184,10 +160,7 @@ export const AuthContent = ({
 
 AuthContent.propTypes = {
   widgetType: PropTypes.string.isRequired,
-  cernerFacilities: cernerFacilitiesPropType,
-  ehrDataByVhaId: ehrDataByVhaIdPropType,
   featureBreadcrumbUrlUpdate: PropTypes.bool,
-  otherFacilities: otherFacilitiesPropType,
   useSingleLogout: useSingleLogoutPropType,
 };
 
