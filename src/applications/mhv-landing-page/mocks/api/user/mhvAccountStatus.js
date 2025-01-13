@@ -21,7 +21,7 @@ const eightZeroOne = (req, res) => {
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '801',
+        code: 801,
       },
     ],
   });
@@ -33,7 +33,7 @@ const eightZeroFive = (req, res) => {
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '805',
+        code: 805,
       },
     ],
   });
@@ -45,7 +45,7 @@ const eightZeroSix = (req, res) => {
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '802',
+        code: 802,
       },
     ],
   });
@@ -57,7 +57,7 @@ const fiveZeroZero = (req, res) => {
       {
         title: 'The server responded with status 500',
         detail: 'things fall apart',
-        code: '500',
+        code: 500,
       },
     ],
   });
@@ -69,22 +69,22 @@ const multiError = (req, res) => {
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '802',
+        code: 802,
       },
       {
         title: 'The server responded with status 500',
         detail: 'things fall apart',
-        code: '500',
+        code: 500,
       },
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '805',
+        code: 805,
       },
       {
         title: 'The server responded with status 422',
         detail: 'things fall apart',
-        code: '801',
+        code: 801,
       },
     ],
   });
@@ -110,7 +110,7 @@ const accountStatusEightZeroOne = {
     {
       title: 'The server responded with status 422',
       detail: 'things fall apart',
-      code: '801',
+      code: 801,
     },
   ],
 };
@@ -120,7 +120,7 @@ const accountStatusFiveZeroZero = {
     {
       title: 'The server responded with status 500',
       detail: 'things fall apart',
-      code: '500',
+      code: 500,
     },
   ],
 };
@@ -139,22 +139,22 @@ const accountStatusMultiError = {
     {
       title: 'The server responded with status 422',
       detail: 'things fall apart',
-      code: '802',
+      code: 802,
     },
     {
       title: 'The server responded with status 500',
       detail: 'things fall apart',
-      code: '500',
+      code: 500,
     },
     {
       title: 'The server responded with status 422',
       detail: 'things fall apart',
-      code: '805',
+      code: 805,
     },
     {
       title: 'The server responded with status 422',
       detail: 'things fall apart',
-      code: '801',
+      code: 801,
     },
   ],
 };
