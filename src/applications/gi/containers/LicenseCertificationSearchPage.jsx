@@ -125,7 +125,7 @@ function LicenseCertificationSearchPage({
                 you’re trying to obtain and whether or not it is state-specific.
               </p>
             </div>
-            <div className="form-wrapper row">
+            <div className="lc-form-wrapper row">
               <LicenseCertificationSearchForm
                 suggestions={lcResults}
                 handleSearch={handleSearch}

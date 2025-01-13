@@ -296,7 +296,7 @@ export default function LicenseCertificationSearchForm({
         value={categoryDropdown.current.optionValue}
         onChange={handleChange}
         alt={categoryDropdown.alt}
-        selectClassName="lc-dropdown-filter"
+        selectClassName="dropdown-filter"
         required={categoryDropdown.label === 'category'}
       />
 
@@ -309,7 +309,7 @@ export default function LicenseCertificationSearchForm({
         value={locationDropdown.current.optionValue ?? 'all'}
         onChange={handleChange}
         alt={locationDropdown.alt}
-        selectClassName="lc-dropdown-filter"
+        selectClassName="dropdown-filter"
         required={locationDropdown.label === 'category'}
       >
         {showAlert ? (
