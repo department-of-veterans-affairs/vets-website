@@ -41,7 +41,7 @@ const useAcceleratedData = () => {
   const { featureToggles, drupalStaticData } = useSelector(state => state);
   const isLoading = useMemo(
     () => {
-      return featureToggles.loading; // || drupalStaticData?.vamcEhrData?.loading;
+      return featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
     },
     [drupalStaticData, featureToggles],
   );
