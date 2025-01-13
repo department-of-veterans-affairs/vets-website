@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 
 import {
   focusElement,
@@ -15,6 +15,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { Element } from 'platform/utilities/scroll';
 
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
@@ -39,7 +40,9 @@ import {
   contactInfoPropTypes,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ContactInfoLoader } from './ContactInfoLoader';
+import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
 
 /**
  * Render contact info page
@@ -75,8 +78,12 @@ const ContactInfoBase = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
+  prefillPatternEnabled,
   ...rest
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const aedpPrefillToggleEnabled = useToggleValue(TOGGLE_NAMES.aedpPrefill);
+
   const { router } = rest;
 
   const { pathname } = router.location;
@@ -220,119 +227,148 @@ const ContactInfoBase = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
-  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
-    ' ',
-  );
+  const headerClassNames = [
+    'vads-u-font-size--h4',
+    'vads-u-width--auto',
+    'vads-u-margin-top--0',
+  ].join(' ');
 
   // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
   // delay to move focus away from the h3
-  const showSuccessAlert = (id, text) => (
-    <va-alert
-      id={`updated-${id}`}
-      visible={editState === `${id},updated`}
-      class="vads-u-margin-y--1"
-      status="success"
-      slim
-    >
-      {`${text} ${content.updated}`}
-    </va-alert>
-  );
-
-  const editText = content.edit.toLowerCase();
+  const showSuccessAlertInField = (id, text) => {
+    if (prefillPatternEnabled && aedpPrefillToggleEnabled) {
+      return null;
+    }
+    return (
+      <va-alert
+        id={`updated-${id}`}
+        visible={editState === `${id},updated`}
+        class="vads-u-margin-y--1"
+        status="success"
+        slim
+      >
+        {`${text} ${content.updated}`}
+      </va-alert>
+    );
+  };
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
+
   const contactSection = [
+    keys.address ? (
+      <React.Fragment key="mailing">
+        <va-card class="vads-u-margin-bottom--3">
+          <Headers name="header-address" className={headerClassNames}>
+            {content.mailingAddress}
+          </Headers>
+          {showSuccessAlertInField('address', content.mailingAddress)}
+          <AddressView data={dataWrap[keys.address]} />
+          {loggedIn && (
+            <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+              <VaLink
+                href={`${pathname}/edit-mailing-address`}
+                label={content.editMailingAddress}
+                text={content.edit}
+                onClick={e => {
+                  e.preventDefault();
+                  router.push(`${pathname}/edit-mailing-address`);
+                }}
+                active
+              />
+            </p>
+          )}
+        </va-card>
+      </React.Fragment>
+    ) : null,
+
     keys.homePhone ? (
       <React.Fragment key="home">
-        <Headers
-          name="header-home-phone"
-          className={`${headerClassNames} vads-u-margin-top--0p5`}
-        >
-          {content.homePhone}
-        </Headers>
-        {showSuccessAlert('home-phone', content.homePhone)}
-        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-          {renderTelephone(dataWrap[keys.homePhone])}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-home-phone"
-              to={`${pathname}/edit-home-phone`}
-              aria-label={content.editHomePhone}
-            >
-              {editText}
-            </Link>
-          </p>
-        )}
+        <va-card class="vads-u-margin-bottom--3">
+          <Headers
+            name="header-home-phone"
+            className={`${headerClassNames} vads-u-margin-top--0p5`}
+          >
+            {content.homePhone}
+          </Headers>
+          {showSuccessAlertInField('home-phone', content.homePhone)}
+          <span className="dd-privacy-hidden" data-dd-action-name="home phone">
+            {renderTelephone(dataWrap[keys.homePhone])}
+          </span>
+          {loggedIn && (
+            <p className="vads-u-margin-top--0p5">
+              <VaLink
+                href={`${pathname}/edit-home-phone`}
+                label={content.editHomePhone}
+                text={content.edit}
+                onClick={e => {
+                  e.preventDefault();
+                  router.push(`${pathname}/edit-home-phone`);
+                }}
+                active
+              />
+            </p>
+          )}
+        </va-card>
       </React.Fragment>
     ) : null,
 
     keys.mobilePhone ? (
       <React.Fragment key="mobile">
-        <Headers name="header-mobile-phone" className={headerClassNames}>
-          {content.mobilePhone}
-        </Headers>
-        {showSuccessAlert('mobile-phone', content.mobilePhone)}
-        <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
-          {renderTelephone(dataWrap[keys.mobilePhone])}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-mobile-phone"
-              to={`${pathname}/edit-mobile-phone`}
-              aria-label={content.editMobilePhone}
-            >
-              {editText}
-            </Link>
-          </p>
-        )}
+        <va-card class="vads-u-margin-bottom--3">
+          <Headers name="header-mobile-phone" className={headerClassNames}>
+            {content.mobilePhone}
+          </Headers>
+          {showSuccessAlertInField('mobile-phone', content.mobilePhone)}
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="mobile phone"
+          >
+            {renderTelephone(dataWrap[keys.mobilePhone])}
+          </span>
+          {loggedIn && (
+            <p className="vads-u-margin-top--0p5">
+              <VaLink
+                href={`${pathname}/edit-mobile-phone`}
+                label={content.editMobilePhone}
+                text={content.edit}
+                onClick={e => {
+                  e.preventDefault();
+                  router.push(`${pathname}/edit-mobile-phone`);
+                }}
+                active
+              />
+            </p>
+          )}
+        </va-card>
       </React.Fragment>
     ) : null,
 
     keys.email ? (
       <React.Fragment key="email">
-        <Headers name="header-email" className={headerClassNames}>
-          {content.email}
-        </Headers>
-        {showSuccessAlert('email', content.email)}
-        <span className="dd-privacy-hidden" data-dd-action-name="email">
-          {dataWrap[keys.email] || ''}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-email"
-              to={`${pathname}/edit-email-address`}
-              aria-label={content.editEmail}
-            >
-              {editText}
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
-
-    keys.address ? (
-      <React.Fragment key="mailing">
-        <Headers name="header-address" className={headerClassNames}>
-          {content.mailingAddress}
-        </Headers>
-        {showSuccessAlert('address', content.mailingAddress)}
-        <AddressView data={dataWrap[keys.address]} />
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-address"
-              to={`${pathname}/edit-mailing-address`}
-              aria-label={content.editMailingAddress}
-            >
-              {editText}
-            </Link>
-          </p>
-        )}
+        <va-card>
+          <Headers name="header-email" className={headerClassNames}>
+            {content.email}
+          </Headers>
+          {showSuccessAlertInField('email', content.email)}
+          <span className="dd-privacy-hidden" data-dd-action-name="email">
+            {dataWrap[keys.email] || ''}
+          </span>
+          {loggedIn && (
+            <p className="vads-u-margin-top--0p5">
+              <VaLink
+                href={`${pathname}/edit-email-address`}
+                label={content.editEmail}
+                text={content.edit}
+                onClick={e => {
+                  e.preventDefault();
+                  router.push(`${pathname}/edit-email-address`);
+                }}
+                active
+              />
+            </p>
+          )}
+        </va-card>
       </React.Fragment>
     ) : null,
   ];
@@ -370,6 +406,7 @@ const ContactInfoBase = ({
       disableMockContactInfo={disableMockContactInfo}
       contactSectionHeadingLevel={contactSectionHeadingLevel}
       router={router}
+      prefillPatternEnabled={prefillPatternEnabled && aedpPrefillToggleEnabled}
     >
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
@@ -436,10 +473,27 @@ const ContactInfoBase = ({
                   </va-alert>
                 </div>
               )}
+
+            <ContactInfoSuccessAlerts
+              submitted={submitted}
+              missingInfo={missingInfo}
+              contactInfoPageKey={contactInfoPageKey}
+              editState={editState}
+              prefillPatternEnabled={
+                prefillPatternEnabled && aedpPrefillToggleEnabled
+              }
+            />
           </div>
-          <div className="blue-bar-block vads-u-margin-top--4">
-            <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
-              {contactSection}
+          <div className="vads-u-margin-top--4">
+            <div
+              className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
+              onSubmit={handlers.onSubmit}
+            >
+              <div className="vads-l-row">
+                <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+                  {contactSection}
+                </div>
+              </div>
             </div>
           </div>
         </form>
@@ -460,6 +514,7 @@ ContactInfoBase.propTypes = {
   disableMockContactInfo: PropTypes.bool,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  immediateRedirect: PropTypes.bool,
   keys: contactInfoPropTypes.keys,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
@@ -470,6 +525,7 @@ ContactInfoBase.propTypes = {
   }),
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
+  prefillPatternEnabled: PropTypes.bool,
 };
 
 const ContactInfo = withRouter(ContactInfoBase);

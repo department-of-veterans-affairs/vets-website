@@ -5,11 +5,11 @@ import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
-import profileContactInfo from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/profileContactInfo';
 
 // page level imports
 import IntroductionPage from '../IntroductionPage';
 import veteranInfo from './veteranInfo';
+import { contactInfo } from './contactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -65,18 +65,7 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo3',
-          contactPath: 'veteran-information',
-          contactInfoRequiredKeys: [
-            'mailingAddress',
-            'email',
-            'homePhone',
-            'mobilePhone',
-          ],
-          included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
-          disableMockContactInfo: true,
-        }),
+        ...contactInfo,
         taskCompletePagePattern2,
       },
     },

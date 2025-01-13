@@ -94,6 +94,7 @@ const profileContactInfo = ({
   disableMockContactInfo = false,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
+  prefillPatternEnabled = false,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -205,6 +206,7 @@ const profileContactInfo = ({
           disableMockContactInfo={disableMockContactInfo}
           contactSectionHeadingLevel={contactSectionHeadingLevel}
           editContactInfoHeadingLevel={editContactInfoHeadingLevel}
+          prefillPatternEnabled={prefillPatternEnabled}
         />
       ),
       CustomPageReview: props =>
