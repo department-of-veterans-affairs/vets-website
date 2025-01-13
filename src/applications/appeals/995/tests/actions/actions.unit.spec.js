@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { testkit } from 'platform/testing/unit/sentry';
+
+import * as apiUtils from 'platform/utilities/api';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
@@ -15,6 +16,13 @@ import {
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
 } from '../../actions';
+
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
+
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -22,8 +30,8 @@ import {
 } from '../../../shared/actions';
 
 describe('fetch contestable issues action', () => {
+  const mockData = { data: 'asdf' };
   it('should dispatch an init action', () => {
-    const mockData = { data: 'asdf' };
     const benefitType = 'compensation';
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
@@ -42,7 +50,6 @@ describe('fetch contestable issues action', () => {
   });
 
   it('should dispatch an add person failed action', () => {
-    const mockData = { data: 'asdf' };
     const props = { benefitType: 'compensation' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
@@ -57,7 +64,6 @@ describe('fetch contestable issues action', () => {
   });
 
   it('should dispatch failed action from unsupported benefitType', () => {
-    const mockData = { data: 'asdf' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
     return getContestableIssues({ benefitType: 'foo' })(dispatch).then(() => {
@@ -69,6 +75,35 @@ describe('fetch contestable issues action', () => {
       );
     });
   });
+
+  describe('test new apiRequest', () => {
+    let apiRequestSpy;
+    beforeEach(() => {
+      apiRequestSpy = sinon.stub(apiUtils, 'apiRequest').resolves(mockData);
+    });
+    afterEach(() => {
+      apiRequestSpy.restore();
+    });
+    it('should dispatch an init action', () => {
+      mockApiRequest(mockData);
+      const dispatch = sinon.spy();
+      return getContestableIssues()(dispatch).then(() => {
+        // Original API
+        expect(apiRequestSpy.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      });
+    });
+    it('should dispatch an init action with new API endpoint', () => {
+      mockApiRequest(mockData);
+      const dispatch = sinon.spy();
+      return getContestableIssues({ [NEW_API]: true })(dispatch).then(() => {
+        return getContestableIssues()(dispatch).then(() => {
+          expect(apiRequestSpy.args[0][0]).to.contain(
+            CONTESTABLE_ISSUES_API_NEW,
+          );
+        });
+      });
+    });
+  });
 });
 
 describe('ITF actions', () => {
@@ -77,9 +112,6 @@ describe('ITF actions', () => {
     inProgressFormId: '5678',
   };
   describe('fetchITF', () => {
-    before(() => {
-      testkit.reset();
-    });
     it('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
@@ -96,27 +128,28 @@ describe('ITF actions', () => {
     it('should dispatch a fetch failed action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
+      global.window.DD_LOGS = { logger: { error: sinon.spy() } };
       const dispatch = sinon.spy();
       return fetchITF(mockExtraProps)(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
         expect(dispatch.secondCall.args[0].type).to.equal(ITF_FETCH_FAILED);
 
-        const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.be.gte(1);
-        // expect(sentryReports[1].extra.accountUuid).to.equal(
-        //   mockExtraProps.accountUuid,
-        // );
-        // expect(sentryReports[1].extra.inProgressFormId).to.equal(
-        //   mockExtraProps.inProgressFormId,
-        // );
+        const loggerSpy = global.window.DD_LOGS.logger.error;
+        expect(loggerSpy.called).to.be.true;
+        expect(loggerSpy.args[0][0]).to.equal('SC ITF fetch failed');
+        expect(loggerSpy.args[0][1].name).to.equal('sc_itf_fetch_failed');
+        expect(loggerSpy.args[0][1].accountUuid).to.equal(
+          mockExtraProps.accountUuid,
+        );
+        expect(loggerSpy.args[0][1].inProgressFormId).to.equal(
+          mockExtraProps.inProgressFormId,
+        );
+        delete global.window.DD_LOGS;
       });
     });
   });
 
   describe('createITF', () => {
-    before(() => {
-      testkit.reset();
-    });
     it('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
@@ -135,6 +168,7 @@ describe('ITF actions', () => {
     it('should dispatch a fetch failed action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
+      global.window.DD_LOGS = { logger: { error: sinon.spy() } };
       const dispatch = sinon.spy();
       return createITF(mockExtraProps)(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
@@ -142,14 +176,17 @@ describe('ITF actions', () => {
         );
         expect(dispatch.secondCall.args[0].type).to.eql(ITF_CREATION_FAILED);
 
-        const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.be.gte(1);
-        // expect(sentryReports[1].extra.accountUuid).to.equal(
-        //   mockExtraProps.accountUuid,
-        // );
-        // expect(sentryReports[1].extra.inProgressFormId).to.equal(
-        //   mockExtraProps.inProgressFormId,
-        // );
+        const loggerSpy = global.window.DD_LOGS.logger.error;
+        expect(loggerSpy.called).to.be.true;
+        expect(loggerSpy.args[0][0]).to.equal('SC ITF creation failed');
+        expect(loggerSpy.args[0][1].name).to.equal('sc_itf_creation_failed');
+        expect(loggerSpy.args[0][1].accountUuid).to.equal(
+          mockExtraProps.accountUuid,
+        );
+        expect(loggerSpy.args[0][1].inProgressFormId).to.equal(
+          mockExtraProps.inProgressFormId,
+        );
+        delete global.window.DD_LOGS;
       });
     });
   });

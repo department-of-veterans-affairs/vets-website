@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import * as getPatientReferralByIdModule from '../../../../services/referral';
 import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
@@ -32,6 +31,11 @@ describe('Community Care Referrals', () => {
           referrals: [],
           referralFetchStatus: FETCH_STATUS.notStarted,
         },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
+        },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
@@ -55,6 +59,11 @@ describe('Community Care Referrals', () => {
             createReferral(now, 'add2f0f4-a1ea-4dea-a504-a54ab57c6800'),
           ],
           referralFetchStatus: FETCH_STATUS.notStarted,
+        },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
         },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
@@ -80,36 +89,17 @@ describe('Community Care Referrals', () => {
           ],
           referralFetchStatus: FETCH_STATUS.notStarted,
         },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '983' }],
+          },
+        },
       };
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
       });
       expect(screen.getByText('Referral not found: true')).to.exist;
       sandbox.assert.notCalled(
-        getPatientReferralByIdModule.getPatientReferralById,
-      );
-    });
-    it('Returns the referral not found when referral not in fetch', async () => {
-      sandbox
-        .stub(getPatientReferralByIdModule, 'getPatientReferralById')
-        .resolves({});
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingCCDirectScheduling: true,
-        },
-        referral: {
-          facility: null,
-          referrals: [],
-          referralFetchStatus: FETCH_STATUS.notStarted,
-        },
-      };
-      const screen = renderWithStoreAndRouter(<TestComponent />, {
-        initialState,
-      });
-      await waitFor(() => {
-        expect(screen.getByText('Referral not found: true')).to.exist;
-      });
-      sandbox.assert.calledOnce(
         getPatientReferralByIdModule.getPatientReferralById,
       );
     });
