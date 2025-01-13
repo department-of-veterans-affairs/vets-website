@@ -5,6 +5,7 @@ import mockVamc from './fixtures/mocks/vamc-ehr.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUserUpdate from './fixtures/mocks/user-update.json';
 import mockProfilePhone from './fixtures/mocks/profile-phone.json';
+// TODO: Implement update for email address and mailing address
 // import mockProfileEmail from './fixtures/mocks/profile-email.json';
 // import mockProfileAddress from './fixtures/mocks/profile-address.json';
 // import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
@@ -32,6 +33,7 @@ export const cypressSetup = () => {
   cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone).as(
     'telephones',
   );
+  // TODO: Implement update for email address and mailing address
   // cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail).as(
   //   'emailAddresses',
   // );
