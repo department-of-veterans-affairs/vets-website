@@ -10,6 +10,7 @@ import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
 const setup = ({
   featureToggleDelay = 0,
+  avsDelay = 0,
   avsEnabled = true,
   apiStatus = 200,
 }) => {
@@ -21,6 +22,7 @@ const setup = ({
   });
   cy.intercept('GET', `/avs/v0/avs/*`, {
     statusCode: apiStatus,
+    delay: avsDelay,
     body: apiStatus === 200 ? avsData : {},
   });
   cy.login();
@@ -118,6 +120,14 @@ describe('After-visit Summary - Feature Toggles', () => {
 });
 
 describe('After-visit Summary - API', () => {
+  it('Loading indicator is displayed while AVS data is loading', () => {
+    setup({ avsDelay: 10000 });
+    cy.visit(testUrl);
+    // find test id avs-loading-indicator
+    cy.get('[data-testid="avs-loading-indicator"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   it('Error is shown on API failure', () => {
     setup({ apiStatus: 500 });
     cy.visit(testUrl);

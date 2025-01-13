@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useLoaderData } from 'react-router-dom-v5-compat';
+import React, { Suspense } from 'react';
+import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -39,30 +39,22 @@ const Avs = props => {
     state => state.featureToggles,
   );
 
-  const avsData = useLoaderData();
-  const [avs, setAvs] = useState({});
-
-  useEffect(
-    () => {
-      if (avsData?.attributes) {
-        setAvs(avsData.attributes);
-      }
-    },
-    [avsData],
-  );
+  const loader = useLoaderData();
 
   if (avsEnabled === false) {
     window.location.replace('/');
     return null;
   }
 
-  if (isLoggedIn && featureTogglesLoading) {
-    return (
-      <va-loading-indicator
-        data-testid="avs-loading-indicator"
-        message="Loading your after-visit summary"
-      />
-    );
+  const loadingIndicator = (
+    <va-loading-indicator
+      data-testid="avs-loading-indicator"
+      message="Loading your after-visit summary"
+    />
+  );
+
+  if (isLoggedIn && (!loader.avs || featureTogglesLoading)) {
+    return loadingIndicator;
   }
 
   if (!id) {
@@ -72,43 +64,49 @@ const Avs = props => {
 
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 main-content">
-      <RequiredLoginView
-        user={user}
-        serviceRequired={[backendServices.USER_PROFILE]}
-      >
-        <BreadCrumb />
-        <h1 className="vads-u-padding-top--2">After-visit summary</h1>
-        {avs.meta?.pageHeader && (
-          <p>
-            <AvsPageHeader text={avs.meta.pageHeader} />
-          </p>
-        )}
+      <Suspense fallback={loadingIndicator}>
+        <Await resolve={loader.avs}>
+          {avs => (
+            <RequiredLoginView
+              user={user}
+              serviceRequired={[backendServices.USER_PROFILE]}
+            >
+              <BreadCrumb />
+              <h1 className="vads-u-padding-top--2">After-visit summary</h1>
+              {avs.meta?.pageHeader && (
+                <p>
+                  <AvsPageHeader text={avs.meta.pageHeader} />
+                </p>
+              )}
 
-        <va-accordion uswds>
-          <va-accordion-item
-            header={generateAppointmentHeader(avs)}
-            open="true"
-            uswds
-          >
-            <YourAppointment avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your treatment plan from this appointment"
-            uswds
-          >
-            <YourTreatmentPlan avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your health information as of this appointment"
-            uswds
-          >
-            <YourHealthInformation avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item header="More information" uswds>
-            <MoreInformation avs={avs} />
-          </va-accordion-item>
-        </va-accordion>
-      </RequiredLoginView>
+              <va-accordion uswds>
+                <va-accordion-item
+                  header={generateAppointmentHeader(avs)}
+                  open="true"
+                  uswds
+                >
+                  <YourAppointment avs={avs} />
+                </va-accordion-item>
+                <va-accordion-item
+                  header="Your treatment plan from this appointment"
+                  uswds
+                >
+                  <YourTreatmentPlan avs={avs} />
+                </va-accordion-item>
+                <va-accordion-item
+                  header="Your health information as of this appointment"
+                  uswds
+                >
+                  <YourHealthInformation avs={avs} />
+                </va-accordion-item>
+                <va-accordion-item header="More information" uswds>
+                  <MoreInformation avs={avs} />
+                </va-accordion-item>
+              </va-accordion>
+            </RequiredLoginView>
+          )}
+        </Await>
+      </Suspense>
     </div>
   );
 };
