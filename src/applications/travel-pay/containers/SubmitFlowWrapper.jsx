@@ -175,7 +175,8 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 };
 
 SubmitFlowWrapper.propTypes = {
-  address: PropTypes.object,
+  homeAddress: PropTypes.object,
+  mailingAddress: PropTypes.object,
 };
 
 function mapStateToProps(state) {
