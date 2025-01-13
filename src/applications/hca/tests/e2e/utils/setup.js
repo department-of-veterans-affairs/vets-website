@@ -46,7 +46,7 @@ export const setupForAuth = (props = {}) => {
     user = mockUser,
   } = props;
 
-  const mockDisabilityRating = {
+  const mockRating = {
     statusCode: 200,
     body: {
       data: {
@@ -60,9 +60,7 @@ export const setupForAuth = (props = {}) => {
   setupBasicTest({ enrollmentStatus, features });
   cy.intercept('GET', APIs.saveInProgress, mockPrefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
-  cy.intercept(APIs.disabilityRating, mockDisabilityRating).as(
-    'mockDisabilityRating',
-  );
+  cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
