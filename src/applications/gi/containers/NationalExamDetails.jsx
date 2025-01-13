@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
@@ -55,21 +55,8 @@ const NationalExamDetails = () => {
   }, []);
 
   // Remove this once the table width is updated in the component
-  useEffect(
+  useLayoutEffect(
     () => {
-      setTimeout(() => {
-        const vaTableInner = document.querySelector(
-          '.exams-table va-table-inner',
-        );
-        if (vaTableInner?.shadowRoot) {
-          const { shadowRoot } = vaTableInner;
-          const usaTable = shadowRoot.querySelector('.usa-table');
-          if (usaTable) {
-            usaTable.style.width = '100%';
-          }
-        }
-      }, 0);
-
       const observer = new MutationObserver(() => {
         const vaTableInner = document.querySelector(
           '.exams-table va-table-inner',
@@ -97,17 +84,6 @@ const NationalExamDetails = () => {
     [examDetails],
   );
 
-  if (loadingDetails || !examDetails) {
-    return (
-      <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <va-loading-indicator
-          label="Loading"
-          message="Loading your National Exam Details..."
-        />
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
@@ -127,6 +103,17 @@ const NationalExamDetails = () => {
     );
   }
 
+  if (loadingDetails || !examDetails) {
+    return (
+      <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your National Exam Details..."
+        />
+      </div>
+    );
+  }
+
   const { name, tests, institution } = examDetails;
 
   return (
@@ -141,11 +128,10 @@ const NationalExamDetails = () => {
 
           <span>{institution?.name}</span>
         </span>
-        <span className="vads-u-display--flex vads-u-align-items--center">
+        {/* <span className="vads-u-display--flex vads-u-align-items--center">
           <VaIcon icon="public" size={3} />
-          {/* If your API includes a "web_address", display it */}
-          {/* <span>{institution?.web_address}</span> */}
-        </span>
+          <span>{institution?.web_address}</span>
+        </span> */}
       </div>
 
       <div className="address-container vads-u-margin-bottom--3">
