@@ -78,7 +78,7 @@ export function isRelatedToMST(formData) {
  *       - AND is not seeing the 'Combat Only' version of this page
  */
 export function showBehaviorIntroPage(formData) {
-  return showForm0781Pages(formData) && !combatOnlySelection(formData);
+  return isCompletingForm0781(formData) && !combatOnlySelection(formData);
 }
 
 /*
