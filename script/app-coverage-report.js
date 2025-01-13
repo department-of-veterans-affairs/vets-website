@@ -19,18 +19,16 @@ const printCoverage = coverageResults => {
 
   // Add each app coverage result to the table
   Object.values(coverageResults).forEach(cov => {
-    console.log('generating coverage data for: ', cov);
-
-    // const appLocation =
-    //   cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
-    // coverageTable.push({
-    //   [appLocation]: [
-    //     `${cov.lines.pct}%`,
-    //     `${cov.functions.pct}%`,
-    //     `${cov.statements.pct}%`,
-    //     `${cov.branches.pct}%`,
-    //   ],
-    // });
+    const appLocation =
+      cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
+    coverageTable.push({
+      [appLocation]: [
+        `${cov.lines.pct}%`,
+        `${cov.functions.pct}%`,
+        `${cov.statements.pct}%`,
+        `${cov.branches.pct}%`,
+      ],
+    });
   });
 
   console.log(coverageTable.toString());
@@ -121,7 +119,11 @@ if (fs.existsSync(path.join(__dirname, '../merged-coverage-report.json'))) {
   );
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
-  logCoverage(appCoverages);
+  logCoverage(
+    appCoverages[
+      Object.keys(appCoverages).filter(cov => !appCoverages[cov].lines)[0]
+    ],
+  );
   printCoverage(appCoverages);
 } else {
   console.log('./merged-coverage-report.json not found.');
