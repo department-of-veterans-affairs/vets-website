@@ -9,7 +9,7 @@ const possibleUsers = {
 
 // in memory db
 const memDb = {
-  user: possibleUsers.loa3User,
+  user: possibleUsers.loa3UserWithNoContactInfo,
 };
 
 // sanitize user input
