@@ -1,16 +1,15 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import manifest from '../manifest.json';
 
 const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
-  const dispatch = useDispatch();
-
-  const openLoginModal = () => {
+  const navigateToAskVAAndTriggerLoginModal = () => {
     onClose();
-    dispatch(toggleLoginModal(true));
+    window.location.href = `${
+      manifest.rootUrl
+    }/introduction?showSignInModal=true`;
   };
 
   useEffect(
@@ -35,6 +34,10 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
     },
   };
 
+  if (!show) {
+    return null;
+  }
+
   return (
     <VaModal
       clickToClose
@@ -42,7 +45,7 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
       modalTitle="You need to sign in"
       onCloseEvent={onClose}
       visible={show}
-      onPrimaryButtonClick={openLoginModal}
+      onPrimaryButtonClick={navigateToAskVAAndTriggerLoginModal}
       onSecondaryButtonClick={onClose}
       primaryButtonText="Sign in"
       secondaryButtonText={`Go back to ${
@@ -66,6 +69,7 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
 RequireSignInModal.propTypes = {
   message: PropTypes.string,
   restrictedItem: PropTypes.string,
+  router: PropTypes.object,
   show: PropTypes.bool,
   onClose: PropTypes.func,
 };

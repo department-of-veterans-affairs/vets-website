@@ -171,8 +171,12 @@ const ch3Pages = {
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
     depends: form => {
-      const { first, last, socialSecurityNumber } = form.aboutYourself;
-      return !(first && last && socialSecurityNumber);
+      if (!form?.aboutYourself) return true;
+      return (
+        !form.aboutYourself.first ||
+        !form.aboutYourself.last ||
+        !form.aboutYourself.socialSecurityNumber
+      );
     },
   },
   aboutYourselfGeneral: {
@@ -181,8 +185,12 @@ const ch3Pages = {
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
     depends: form => {
-      const { first, last, socialSecurityNumber } = form.aboutYourself;
-      return !(first && last && socialSecurityNumber);
+      if (!form?.aboutYourself) return true;
+      return (
+        !form.aboutYourself.first ||
+        !form.aboutYourself.last ||
+        !form.aboutYourself.socialSecurityNumber
+      );
     },
   },
   aboutYourselfRelationshipFamilyMember: {
@@ -192,8 +200,12 @@ const ch3Pages = {
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
     depends: form => {
-      const { first, last, socialSecurityNumber } = form.aboutYourself;
-      return !(first && last && socialSecurityNumber);
+      if (!form?.aboutYourself) return true;
+      return (
+        !form.aboutYourself.first ||
+        !form.aboutYourself.last ||
+        !form.aboutYourself.socialSecurityNumber
+      );
     },
   },
   searchSchools: {
