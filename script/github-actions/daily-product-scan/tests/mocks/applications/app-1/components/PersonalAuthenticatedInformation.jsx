@@ -1,7 +1,7 @@
-import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
@@ -17,6 +17,8 @@ const PersonalAuthenticatedInformation = ({
     veteranSocialSecurityNumber,
   },
 }) => {
+  const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
+
   let dateOfBirthFormatted = '-';
   let ssnLastFour = '-';
   if (veteranSocialSecurityNumber) {
@@ -25,8 +27,7 @@ const PersonalAuthenticatedInformation = ({
     );
   }
   if (veteranDateOfBirth) {
-    const parsedDate = parse(veteranDateOfBirth, 'yyyy-MM-dd', new Date());
-    dateOfBirthFormatted = format(parsedDate, 'MMMM dd, yyyy');
+    dateOfBirthFormatted = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
   }
 
   return (
@@ -71,7 +72,7 @@ const PersonalAuthenticatedInformation = ({
               department.
             </p>
           </div>
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          {navButtons}
         </div>
       )}
     </>
