@@ -21,9 +21,7 @@ export const MainLayout = ({ children, navigation }) => {
           </nav>
         </div>
 
-        <div className="vads-l-col--10 vads-u-padding-left--2">
-          <main>{children}</main>
-        </div>
+        <div className="vads-l-col--10 vads-u-padding-left--0">{children}</div>
       </div>
     </div>
   );

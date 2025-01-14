@@ -99,8 +99,6 @@ export const FrontendServerConfiguration = ({
       });
       await onStart(selectedManifests);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error starting server:', error);
       setStartError(error.message);
     }
   };

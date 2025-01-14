@@ -14,14 +14,22 @@ const ServerControls = ({ processName, displayName, isRunning, onStart }) => {
             <>
               Process: Running{' '}
               <span className="vads-u-color--green vads-u-padding-x--0 vads-u-padding-y--0p25">
-                <va-icon icon="check_circle" size={3} />
+                <va-icon
+                  icon="check_circle"
+                  size={3}
+                  srtext="server is running"
+                />
               </span>
             </>
           ) : (
             <>
               Status: Stopped{' '}
               <span className="vads-u-color--error vads-u-padding-x--0 vads-u-padding-y--0p25">
-                <va-icon icon="report" size={3} />
+                <va-icon
+                  icon="report"
+                  size={3}
+                  srtext="server is not running"
+                />
               </span>
             </>
           )}

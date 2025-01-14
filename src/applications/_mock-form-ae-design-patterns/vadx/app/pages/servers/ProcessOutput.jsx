@@ -45,6 +45,11 @@ const ProcessOutput = ({ output, processName }) => {
       <div
         className="usa-textarea"
         style={{ height: '50vh', overflowY: 'scroll' }}
+        tabIndex="0"
+        role="textbox"
+        aria-multiline="true"
+        aria-readonly="true"
+        aria-label={`Process Output for ${processName}`}
       >
         <TransitionGroup>
           {output?.flatMap((msg, index) => {

@@ -65,35 +65,6 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
-        testControl: {
-          path: 'test-control',
-          title: 'Test Control',
-          schema: {
-            type: 'object',
-            properties: {
-              testControl: { type: 'string' },
-            },
-          },
-          uiSchema: {
-            testControl: {
-              'ui:title': 'Test Control',
-            },
-          },
-        },
-        testDepends: {
-          path: 'test-depends',
-          title: 'Test Depends',
-          schema: {
-            type: 'object',
-            properties: {
-              testDepends: { type: 'string' },
-            },
-          },
-          uiSchema: {},
-          depends: formData => {
-            return formData?.testControl === 'something';
-          },
-        },
         taskCompletePagePattern1,
       },
     },

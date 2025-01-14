@@ -22,12 +22,10 @@ function killProcessOnPort(portToKill) {
 
     exec(command, error => {
       if (error) {
-        // eslint-disable-next-line no-console
-        console.error(`Error killing process on port ${portToKill}: ${error}`);
+        logger.error(`Error killing process on port ${portToKill}: ${error}`);
         reject(error);
       } else {
-        // eslint-disable-next-line no-console
-        console.log(`Process on port ${portToKill} killed`);
+        logger.debug(`Process on port ${portToKill} killed`);
         resolve();
       }
     });

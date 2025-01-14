@@ -20,10 +20,10 @@ export const ProcessManagerProvider = ({ children }) => {
   const [manifests, setManifests] = useState([]);
 
   const handleSSEMessage = useCallback((processName, event) => {
-    const data = JSON.parse(event.data);
+    const parsedEvent = JSON.parse(event.data);
 
-    if (data.type === 'status') {
-      if (data.data === 'stopped') {
+    if (parsedEvent.type === 'status') {
+      if (parsedEvent.data === 'stopped') {
         // remove the process from the output
         setOutput(prev => {
           // eslint-disable-next-line no-unused-vars
@@ -36,34 +36,34 @@ export const ProcessManagerProvider = ({ children }) => {
         ...prev,
         [processName]: {
           ...prev[processName],
-          status: data.data.status,
-          lastUpdate: data.data.timestamp,
-          metadata: data.data.metadata,
+          status: parsedEvent.data.status,
+          lastUpdate: parsedEvent.data.timestamp,
+          metadata: parsedEvent.data.metadata,
         },
       }));
       return;
     }
 
-    if (data.type === 'stdout' || data.type === 'stderr') {
+    if (parsedEvent.type === 'stdout' || parsedEvent.type === 'stderr') {
       setOutput(prev => ({
         ...prev,
         [processName]: [
           {
             id: Date.now(),
             friendlyDate: formatDate(new Date().toISOString()),
-            ...data,
+            ...parsedEvent,
           },
           ...(prev[processName] || []),
         ],
       }));
     }
 
-    if (data.type === 'cache') {
+    if (parsedEvent.type === 'cache') {
       setOutput(prev => ({
         ...prev,
         [processName]: [
           ...(prev[processName] || []),
-          ...data.data.map((line, index) => ({
+          ...parsedEvent.data.map((line, index) => ({
             id: `${processName}-cache-${index}`,
             friendlyDate: formatDate(new Date().toISOString()),
             data: line,
@@ -74,65 +74,69 @@ export const ProcessManagerProvider = ({ children }) => {
   }, []);
 
   // Move all the event source and process management logic here
-  const setupEventSource = processName => {
-    const eventSource = new EventSource(
-      `${API_BASE_URL}/events/${processName}`,
-    );
+  const setupEventSource = useCallback(
+    processName => {
+      const eventSource = new EventSource(
+        `${API_BASE_URL}/events/${processName}`,
+      );
 
-    eventSource.onmessage = event => {
-      handleSSEMessage(processName, event);
-    };
+      eventSource.onmessage = event => {
+        handleSSEMessage(processName, event);
+      };
 
-    eventSource.onerror = error => {
-      // eslint-disable-next-line no-console
-      console.error(`EventSource failed for ${processName}:`, error);
-      eventSource.close();
-      delete eventSourcesRef.current[processName];
-    };
+      eventSource.onerror = () => {
+        eventSource.close();
+        delete eventSourcesRef.current[processName];
+      };
 
-    return eventSource;
-  };
+      return eventSource;
+    },
+    [handleSSEMessage],
+  );
 
-  const fetchStatus = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/status`);
-      const { processes: processStatus, apps } = await response.json();
-      setProcesses(processStatus);
-      setActiveApps(apps);
+  const fetchStatus = useCallback(
+    async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/status`);
+        const { processes: processStatus, apps } = await response.json();
+        setProcesses(processStatus);
+        setActiveApps(apps);
 
-      // Setup or tear down event sources based on process status
-      Object.keys(processStatus).forEach(processName => {
-        if (
-          processStatus[processName] &&
-          !eventSourcesRef.current[processName]
-        ) {
-          eventSourcesRef.current[processName] = setupEventSource(processName);
-        } else if (
-          !processStatus[processName] &&
-          eventSourcesRef.current[processName]
-        ) {
-          eventSourcesRef.current[processName].close();
-          delete eventSourcesRef.current[processName];
-        }
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error fetching status:', error);
-    }
-  };
+        // Setup or tear down event sources based on process status
+        Object.keys(processStatus).forEach(processName => {
+          if (
+            processStatus[processName] &&
+            !eventSourcesRef.current[processName]
+          ) {
+            eventSourcesRef.current[processName] = setupEventSource(
+              processName,
+            );
+          } else if (
+            !processStatus[processName] &&
+            eventSourcesRef.current[processName]
+          ) {
+            eventSourcesRef.current[processName].close();
+            delete eventSourcesRef.current[processName];
+          }
+        });
+      } catch (error) {
+        setProcesses({});
+        setActiveApps([]);
+      }
+    },
+    [setupEventSource],
+  ); // Empty dependency array since it only uses stable references
 
-  const fetchManifests = async () => {
+  const fetchManifests = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/manifests`);
       const data = await response.json();
       setManifests(data.manifests);
       return data.manifests;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error fetching manifests:', error);
       return [];
     }
-  };
+  }, []); // Empty dependency array since it only uses stable references
 
   const startProcess = async (processName, processConfig) => {
     try {
@@ -146,14 +150,6 @@ export const ProcessManagerProvider = ({ children }) => {
         signal: controller.signal,
       });
 
-      // eslint-disable-next-line no-console
-      console.log('response', response);
-
-      const data = await response.json();
-
-      // eslint-disable-next-line no-console
-      console.log('data', data);
-
       clearTimeout(timeoutId);
 
       if (response.ok) {
@@ -164,16 +160,12 @@ export const ProcessManagerProvider = ({ children }) => {
 
       throw new Error('Failed to start process');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('error', error);
       if (error.name === 'AbortError') {
         // remove process from event sources
         delete eventSourcesRef.current[processName];
         fetchStatus();
         return true;
       }
-      // eslint-disable-next-line no-console
-      console.error(`Error starting ${processName}:`, error);
       return false;
     }
   };
@@ -208,8 +200,6 @@ export const ProcessManagerProvider = ({ children }) => {
         fetchStatus();
         return true;
       }
-      // eslint-disable-next-line no-console
-      console.error(`Error stopping process on port ${port}:`, error);
       return false;
     }
   };
