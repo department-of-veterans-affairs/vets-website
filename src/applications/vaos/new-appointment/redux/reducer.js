@@ -71,9 +71,7 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request: 'Add any details you’d like to share with your provider.',
-  direct:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  va: 'Add any details you’d like to share with your provider.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
@@ -657,10 +655,7 @@ export default function formReducer(state = initialState, action) {
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-        additionalInfoTitle =
-          state.flowType === FLOW_TYPES.DIRECT
-            ? REASON_ADDITIONAL_INFO_TITLES.direct
-            : REASON_ADDITIONAL_INFO_TITLES.request;
+        additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
       } else {
         delete formData.reasonForAppointment;
       }

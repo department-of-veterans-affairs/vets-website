@@ -59,7 +59,7 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            letterTitle={letterTitle}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}

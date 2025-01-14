@@ -152,7 +152,7 @@ const AreaOfDisagreement = ({
             ),
         )}
         <VaTextInput
-          label={`${DISAGREEMENT_TYPES.otherEntry}. ${content.otherEntryHint}`}
+          label={content.otherEntry}
           name="otherEntry"
           error={inputErrorMessage}
           onInput={handlers.onInput}

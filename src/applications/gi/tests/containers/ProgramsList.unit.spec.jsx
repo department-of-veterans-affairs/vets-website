@@ -5,7 +5,6 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router-dom';
 import ProgramsList from '../../containers/ProgramsList';
 import { generateMockPrograms } from '../../utils/helpers';
 
@@ -40,29 +39,34 @@ describe('ProgramsList component', () => {
 
     return mount(
       <Provider store={store}>
-        <Router
-          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-        >
-          <ProgramsList
-            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-          />
-        </Router>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
       </Provider>,
     );
   };
 
   it('should render institution name and program type when not loading', () => {
     const wrapper = mountComponent();
-
-    // Check that the institution name and program type are rendered
-    expect(wrapper.find('h1').text()).to.equal('Institution 1');
+    expect(wrapper.find('h1').exists()).to.be.true;
     expect(wrapper.find('h2').exists()).to.be.true;
 
     // Check that relevant components like search input, button, and pagination exist
     expect(wrapper.find('VaTextInput')).to.have.lengthOf(1);
-    expect(wrapper.find('VaButton')).to.have.lengthOf(1);
+    expect(wrapper.find('VaButton')).to.have.lengthOf(2);
     expect(wrapper.find('VaPagination')).to.have.lengthOf(1);
 
+    wrapper.unmount();
+  });
+
+  it('should cause a re-render when the key state is changed', () => {
+    const wrapper = mountComponent();
+    const firstRender = wrapper.find('VaTextInput').exists();
+    expect(firstRender).to.be.true;
+    wrapper.find('VaButton.reset-search').simulate('click');
+    wrapper.update();
+    const secondRender = wrapper.find('VaTextInput').exists();
+    expect(secondRender).to.be.true;
     wrapper.unmount();
   });
 
@@ -175,10 +179,53 @@ describe('ProgramsList component', () => {
 
     wrapper.unmount();
   });
+  it('submits the search when Enter key is pressed in the search input', () => {
+    const wrapper = mountComponent();
+    const searchQuery = 'CISCO SYSTEMS - CCNA SECURITY';
 
+    const textInput = wrapper.find('VaTextInput.search-input');
+    expect(textInput.exists()).to.be.true;
+
+    textInput.simulate('input', { target: { value: searchQuery } });
+    wrapper.update();
+
+    textInput.simulate('keydown', { key: 'Enter', preventDefault: () => {} });
+    wrapper.update();
+
+    const filteredPrograms = store
+      .getState()
+      .institutionPrograms.institutionPrograms.filter(program =>
+        program.attributes.description.includes(searchQuery),
+      );
+    const displayedPrograms = wrapper.find('li').map(node => node.text());
+    const expectedPrograms = filteredPrograms.map(
+      program => program.attributes.description,
+    );
+    expect(displayedPrograms).to.deep.equal(expectedPrograms);
+    wrapper.unmount();
+  });
+  it('applies the correct class when the number of programs is less than 21', () => {
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(10),
+        loading: false,
+        error: null,
+      },
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+    const abbreviationsDiv = wrapper.find('h4.abbreviations').parent('div');
+    expect(abbreviationsDiv.hasClass('vads-u-margin-bottom--4')).to.be.true;
+    wrapper.unmount();
+  });
   it('displays an error when the search input is empty and submitted', () => {
     const wrapper = mountComponent();
-    wrapper.find('VaButton').simulate('click');
+    wrapper.find('VaButton.search-btn').simulate('click');
     wrapper.update();
     const errorMessage = wrapper.find('VaTextInput').prop('error');
     expect(errorMessage).to.equal(
@@ -197,13 +244,9 @@ describe('ProgramsList component', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Router
-          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-        >
-          <ProgramsList
-            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-          />
-        </Router>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
       </Provider>,
     );
 
@@ -227,13 +270,9 @@ describe('ProgramsList component', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Router
-          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-        >
-          <ProgramsList
-            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-          />
-        </Router>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
       </Provider>,
     );
 
@@ -249,7 +288,7 @@ describe('ProgramsList component', () => {
     );
 
     // Check institution name and program type are displayed
-    expect(wrapper.find('h1').text()).to.equal('Institution 1');
+    expect(wrapper.find('h1').exists()).to.be.true;
     expect(
       wrapper
         .find('h2')
@@ -257,6 +296,29 @@ describe('ProgramsList component', () => {
         .text()
         .toUpperCase(),
     ).to.include('NCD'); // Convert text to uppercase for comparison
+
+    wrapper.unmount();
+  });
+  it('shows the "no-results-message" when no programs match the search query', () => {
+    const wrapper = mountComponent();
+    const impossibleQuery = 'ThisWillNotMatchAnyProgramName';
+    const textInput = wrapper.find('VaTextInput.search-input');
+    expect(textInput.exists()).to.be.true;
+
+    textInput.simulate('input', { target: { value: impossibleQuery } });
+    wrapper.update();
+
+    const searchButton = wrapper.find('VaButton.search-btn');
+    expect(searchButton.exists()).to.be.true;
+    searchButton.simulate('click');
+    wrapper.update();
+
+    const noResultsMessage = wrapper.find('#no-results-message');
+    expect(noResultsMessage.exists()).to.be.true;
+    expect(noResultsMessage.text()).to.include(
+      `We didn’t find any results for`,
+    );
+    expect(noResultsMessage.text()).to.include(impossibleQuery);
 
     wrapper.unmount();
   });

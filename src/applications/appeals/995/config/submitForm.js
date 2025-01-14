@@ -12,7 +12,7 @@ const submitForm = (form, formConfig) => {
   const body = transform(formConfig, form);
 
   const url = `${environment.API_URL}${
-    form.data[NEW_API] ? `/${SUBMIT_URL_NEW.join('')}` : submitUrl
+    form.data[NEW_API] ? SUBMIT_URL_NEW : submitUrl
   }`;
 
   // eventData for analytics
