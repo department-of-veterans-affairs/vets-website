@@ -19,8 +19,8 @@ const mergeResults = files => {
     const data = JSON.parse(fs.readFileSync(file, 'utf8'));
 
     Object.entries(data).forEach(([filePath, coverageData]) => {
-      const match = filePath.match(/applications\/(?:[^/]+\/[^/]+|[^/]+)\//);
-
+      // const match = filePath.match(/applications\/(?:[^/]+\/[^/]+|[^/]+)\//);
+      const match = filePath.match(/(applications\/(?:[^/]+\/)*[^/]+)/);
       if (!match) {
         return;
       }
