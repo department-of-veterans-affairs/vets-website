@@ -44,7 +44,9 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathLocation?.location?.city ||
     !item?.dependentDeathDate ||
     (item?.dependentDeathLocation?.outsideUsa === false &&
-      !item?.dependentDeathLocation?.location?.state),
+      !item?.dependentDeathLocation?.location?.state) ||
+    (item?.dependentDeathLocation?.outsideUsa === true &&
+      !item?.dependentDeathLocation?.location?.country),
   maxItems: 20,
   text: {
     getItemName: item => {
@@ -238,17 +240,32 @@ export const deceasedDependentLocationOfDeathPage = {
           'ui:errorMessages': {
             required: 'Enter a state',
           },
-          'ui:required': (formData, index) => {
-            const isEditMode = formData?.dependentDeathLocation?.outsideUsa;
-            const isAddMode =
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa;
-
-            return !isAddMode && !isEditMode;
-          },
+          'ui:required': (formData, index) =>
+            !(
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa
+            ),
           'ui:options': {
             hideIf: (formData, index) =>
-              formData?.dependentDeathLocation?.outsideUsa ||
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa,
+          },
+        },
+        country: {
+          'ui:title': 'Select a country',
+          'ui:webComponentField': VaSelectField,
+          'ui:errorMessages': {
+            required: 'Select a country',
+          },
+          'ui:required': (formData, index) =>
+            formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+            formData?.dependentDeathLocation?.outsideUsa,
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !(
+                formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+                formData?.dependentDeathLocation?.outsideUsa
+              ),
           },
         },
       },
