@@ -21,8 +21,8 @@ const partialOrder = [
 ];
 
 module.exports = {
-  // 'POST /v0/mdot/supplies': ok,
+  'POST /v0/mdot/supplies': ok,
   // 'POST /v0/mdot/supplies': partialOrder,
-  'POST /v0/mdot/supplies': (_, res) => res.status(422),
+  // 'POST /v0/mdot/supplies': (_, res) => res.status(422),
   // 'POST /v0/mdot/supplies': (_, res) => res.status(500),
 };

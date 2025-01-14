@@ -30,7 +30,7 @@ const submit = (form, formConfig, analytics = analyticsFn) => {
   //     return Promise.reject(error);
   //   });
 
-  return submitToUrl(body, submitUrl, trackingPrefix, { productIdsCount })
+  return submitToUrl(body, submitUrl, trackingPrefix, { productIdsCount });
     // .then(resource => {
     //   console.log({ resource });
     //   analytics({ ok: true, resource, productIdsCount, trackingPrefix });
