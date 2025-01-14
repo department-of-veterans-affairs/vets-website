@@ -97,7 +97,7 @@ const NationalExamDetails = () => {
           data-e2e-id="alert-box"
         >
           <h2 slot="headline">
-            We can’t load the National exam details right now
+            We can’t load the national exam details right now
           </h2>
           <p>
             We’re sorry. There’s a problem with our system. Try again later.
@@ -112,7 +112,7 @@ const NationalExamDetails = () => {
       <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
         <va-loading-indicator
           label="Loading"
-          message="Loading your National exam details..."
+          message="Loading your national exam details..."
         />
       </div>
     );
@@ -144,10 +144,8 @@ const NationalExamDetails = () => {
           {institution?.physicalAddress?.address1}
           <br />
           {institution.physicalAddress?.city},
-          {institution.physicalAddress?.state}
+          {institution.physicalAddress?.state}{' '}
           {institution.physicalAddress?.zip}
-          <br />
-          {institution.physicalAddress?.country}
         </p>
       </div>
 
