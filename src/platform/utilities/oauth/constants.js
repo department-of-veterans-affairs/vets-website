@@ -39,6 +39,7 @@ export const COOKIES = {
 };
 
 export const OAUTH_KEYS = {
+  APPLICATION: 'application',
   CLIENT_ID: 'client_id',
   CODE_CHALLENGE: 'code_challenge',
   CODE_CHALLENGE_METHOD: 'code_challenge_method',
@@ -77,6 +78,7 @@ export const AUTHORIZE_KEYS_WEB = generateOAuthKeysWithout([
   'CODE_VERIFIER',
   'CODE',
   'REDIRECT_URI',
+  'APPLICATION',
 ]);
 
 export const AUTHORIZE_KEYS_MOBILE = generateOAuthKeysWithout([
