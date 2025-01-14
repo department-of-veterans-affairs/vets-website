@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your location of residence
+  - action: select
+    target: RESIDENCE
+    value:  Georgia
+  - action: click
+    target: call-to-action
