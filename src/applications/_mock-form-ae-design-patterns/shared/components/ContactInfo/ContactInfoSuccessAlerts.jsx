@@ -15,7 +15,7 @@ export const ContactInfoSuccessAlerts = ({
 
   return showSuccessAlert ? (
     <div>
-      <va-alert status="success">
+      <va-alert status="success" class="vads-u-margin-bottom--0">
         <h2 className="vads-u-font-size--h3">
           We’ve updated your contact information.
         </h2>

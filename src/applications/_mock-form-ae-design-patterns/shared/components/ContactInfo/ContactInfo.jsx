@@ -410,10 +410,19 @@ const ContactInfoBase = ({
     >
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
+        <ContactInfoSuccessAlerts
+          submitted={submitted}
+          missingInfo={missingInfo}
+          contactInfoPageKey={contactInfoPageKey}
+          editState={editState}
+          prefillPatternEnabled={
+            prefillPatternEnabled && aedpPrefillToggleEnabled
+          }
+        />
         <form onSubmit={handlers.onSubmit}>
           <MainHeader
             id={`${contactInfoPageKey}Header`}
-            className="vads-u-margin-top--0"
+            className="vads-u-margin-top--3 vads-u-margin-bottom--0"
           >
             {content.title}
           </MainHeader>
@@ -473,18 +482,8 @@ const ContactInfoBase = ({
                   </va-alert>
                 </div>
               )}
-
-            <ContactInfoSuccessAlerts
-              submitted={submitted}
-              missingInfo={missingInfo}
-              contactInfoPageKey={contactInfoPageKey}
-              editState={editState}
-              prefillPatternEnabled={
-                prefillPatternEnabled && aedpPrefillToggleEnabled
-              }
-            />
           </div>
-          <div className="vads-u-margin-top--4">
+          <div className="vads-u-margin-top--3">
             <div
               className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
               onSubmit={handlers.onSubmit}
@@ -516,7 +515,7 @@ ContactInfoBase.propTypes = {
   goForward: PropTypes.func,
   immediateRedirect: PropTypes.bool,
   keys: contactInfoPropTypes.keys,
-  requiredKeys: PropTypes.shape([PropTypes.string]),
+  requiredKeys: PropTypes.arrayOf(PropTypes.string),
   setFormData: PropTypes.func,
   testContinueAlert: PropTypes.bool, // for unit testing only
   uiSchema: PropTypes.shape({
