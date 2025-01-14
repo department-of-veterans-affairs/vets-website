@@ -24,7 +24,10 @@ const routes = [
   },
   {
     path: '/my-health/medical-records/summaries-and-notes/visit-summary/:id',
-    loader: authenticatedLoader(avsLoader),
+    loader: authenticatedLoader({
+      loader: avsLoader,
+      defaultReturn: { avs: {} },
+    }),
     element: <ErrorBoundaryWrapper />,
     errorElement: <ErrorBoundary />,
   },

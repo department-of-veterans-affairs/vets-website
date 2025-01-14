@@ -64,49 +64,51 @@ const Avs = props => {
 
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 main-content">
-      <Suspense fallback={loadingIndicator}>
-        <Await resolve={loader.avs}>
-          {avs => (
-            <RequiredLoginView
-              user={user}
-              serviceRequired={[backendServices.USER_PROFILE]}
-            >
-              <BreadCrumb />
-              <h1 className="vads-u-padding-top--2">After-visit summary</h1>
-              {avs.meta?.pageHeader && (
-                <p>
-                  <AvsPageHeader text={avs.meta.pageHeader} />
-                </p>
-              )}
+      <RequiredLoginView
+        user={user}
+        serviceRequired={[backendServices.USER_PROFILE]}
+      >
+        <Suspense fallback={loadingIndicator}>
+          <Await resolve={loader.avs}>
+            {avs => (
+              <>
+                <BreadCrumb />
+                <h1 className="vads-u-padding-top--2">After-visit summary</h1>
+                {avs.meta?.pageHeader && (
+                  <p>
+                    <AvsPageHeader text={avs.meta.pageHeader} />
+                  </p>
+                )}
 
-              <va-accordion uswds>
-                <va-accordion-item
-                  header={generateAppointmentHeader(avs)}
-                  open="true"
-                  uswds
-                >
-                  <YourAppointment avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item
-                  header="Your treatment plan from this appointment"
-                  uswds
-                >
-                  <YourTreatmentPlan avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item
-                  header="Your health information as of this appointment"
-                  uswds
-                >
-                  <YourHealthInformation avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item header="More information" uswds>
-                  <MoreInformation avs={avs} />
-                </va-accordion-item>
-              </va-accordion>
-            </RequiredLoginView>
-          )}
-        </Await>
-      </Suspense>
+                <va-accordion uswds>
+                  <va-accordion-item
+                    header={generateAppointmentHeader(avs)}
+                    open="true"
+                    uswds
+                  >
+                    <YourAppointment avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item
+                    header="Your treatment plan from this appointment"
+                    uswds
+                  >
+                    <YourTreatmentPlan avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item
+                    header="Your health information as of this appointment"
+                    uswds
+                  >
+                    <YourHealthInformation avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item header="More information" uswds>
+                    <MoreInformation avs={avs} />
+                  </va-accordion-item>
+                </va-accordion>
+              </>
+            )}
+          </Await>
+        </Suspense>
+      </RequiredLoginView>
     </div>
   );
 };

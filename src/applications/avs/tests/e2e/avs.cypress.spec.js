@@ -13,6 +13,7 @@ const setup = ({
   avsDelay = 0,
   avsEnabled = true,
   apiStatus = 200,
+  login = true,
 }) => {
   cy.intercept('/v0/feature_toggles*', features(avsEnabled)).as('features');
   cy.intercept('GET', '/v0/feature_toggles*', {
@@ -25,7 +26,10 @@ const setup = ({
     delay: avsDelay,
     body: apiStatus === 200 ? avsData : {},
   });
-  cy.login();
+
+  if (login) {
+    cy.login();
+  }
 };
 
 describe('After-visit Summary - Happy Path', () => {
@@ -116,6 +120,16 @@ describe('After-visit Summary - Feature Toggles', () => {
     cy.visit(testUrl);
     cy.injectAxeThenAxeCheck();
     cy.url().should('match', /\/$/);
+  });
+});
+
+describe('After-visit Summary - Authentication', () => {
+  it('Users are redirected to login if they are not authenticated', () => {
+    setup({ login: false });
+    cy.visit(testUrl);
+    cy.injectAxeThenAxeCheck();
+    const urlPattern = `\\/\\?next=%2Fmy-health%2Fmedical-records%2Fsummaries-and-notes%2Fvisit-summary%2F${avsId}$`;
+    cy.url().should('match', new RegExp(urlPattern));
   });
 });
 

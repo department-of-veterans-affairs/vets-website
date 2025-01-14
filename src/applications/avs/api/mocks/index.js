@@ -18,7 +18,7 @@ const responses = {
     return delaySingleResponse(() => res.json({ data }), secondsOfDelay);
   },
   'GET /avs/v0/avs/:id': (req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     const { data } = avs.data(req.params.id);
     if (!data.data) {
       return res.status(404).json(data);
