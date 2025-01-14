@@ -99,7 +99,7 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
 describe('HCA-Registration-Only-Guest-User', () => {
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, mockPrefill).as(
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
       'mockEnrollmentStatus',
     );
     cy.visit(manifest.rootUrl);
