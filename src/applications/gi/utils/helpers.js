@@ -744,3 +744,38 @@ export const getAbbreviationsAsArray = value => {
 
   return items.map(item => `${item.abbreviation}: ${item.description}`);
 };
+
+export const formatNationalExamName = name => {
+  if (!name || !name.trim()) {
+    return '';
+  }
+
+  if (name === 'DSST-DANTES') {
+    return name;
+  }
+
+  if (name === 'MAT-MILLER ANALOGIES TEST') {
+    return 'MAT-MILLER analogies test';
+  }
+
+  if (name === 'ECE (4 hours)' || name === 'ECE (6 hours)') {
+    return name;
+  }
+
+  const eceNursingMatch = name.match(/^ECE\s+(\d+)\s+HOURS\s+NURSING$/i);
+  if (eceNursingMatch) {
+    const hours = eceNursingMatch[1];
+    return `ECE (${hours} hours) nursing`;
+  }
+
+  if (name === 'DANTES SPONSORED CLEP EXAMS') {
+    return 'DANTES sponsored clep exams';
+  }
+
+  if (name.includes('-')) {
+    const [left, right] = name.split('-', 2);
+    return `${left}-${right.toLowerCase()}`;
+  }
+
+  return name;
+};
