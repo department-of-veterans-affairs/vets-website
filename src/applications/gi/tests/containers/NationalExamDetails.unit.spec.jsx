@@ -54,7 +54,7 @@ describe('NationalExamDetails', () => {
     const wrapper = mountComponent();
     expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
-      'Loading your National Exam Details...',
+      'Loading your National exam details...',
     );
     wrapper.unmount();
   });
@@ -80,7 +80,7 @@ describe('NationalExamDetails', () => {
     expect(alert.exists()).to.be.true;
     expect(alert.prop('status')).to.equal('error');
     expect(alert.find('h2[slot="headline"]').text()).to.equal(
-      'We can’t load the National Exam Details right now',
+      'We can’t load the National exam details right now',
     );
     expect(alert.find('p').text()).to.include(
       'We’re sorry. There’s a problem with our system. Try again later.',
@@ -135,7 +135,7 @@ describe('NationalExamDetails', () => {
     );
     expect(formLink.exists()).to.be.true;
     expect(formLink.prop('text')).to.equal(
-      'Get link to VA Form 22-0810 to print',
+      'Get link to VA Form 22-0810 to download',
     );
 
     const tableRows = wrapper.find('va-table-row');
@@ -161,7 +161,7 @@ describe('NationalExamDetails', () => {
     const wrapper = mountComponent();
     expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
-      'Loading your National Exam Details...',
+      'Loading your National exam details...',
     );
     wrapper.unmount();
   });

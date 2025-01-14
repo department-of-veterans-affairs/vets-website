@@ -1,0 +1,174 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+.header {
+  min-height: auto;
+
+  &__govt-site {
+    width: 100%;
+    margin: 8px 16px;
+    max-width: 1000px;
+    @media (min-width: $medium-screen) {
+      margin: 0 auto;
+    }
+
+    &-explanation {
+      flex-direction: column;
+      color: var(--vads-color-black);
+      width: 91%;
+      font-size: 12.8px;
+
+      @media (min-width: $medium-screen) {
+        flex-direction: row;
+        margin: 4px;
+      }
+
+      &-sub-text {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__flag {
+    width: 16px;
+    height: 16px;
+    margin-right: 15px;
+    @media (min-width: $medium-screen) {
+      margin: 4px 12px 4px;
+    }
+  }
+}
+.user-nav {
+  margin-left: auto;
+
+  &__chevron {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}
+.nav {
+  padding: 1.5px 8px;
+  flex-wrap: wrap;
+
+  &__sign-in {
+    margin-left: auto;
+  }
+
+  &__user-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      border-bottom: 1px solid $vads-color-base-light;
+      padding: 12px 0;
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    a {
+      width: max-content;
+      text-decoration: none;
+
+    }
+  }
+
+  &__user-btn {
+    width: max-content;
+
+    &--user {
+      background-color: transparent !important;
+      box-shadow: none !important;
+      display: flex;
+    }
+
+    &--menu {
+      background: var(--vads-color-white) !important;
+    }
+
+    &-icon {
+      margin-left: 8px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1000px;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  &__decorator {
+    display: none;
+    width: 100%;
+    height: 1px;
+    background-color: var(--vads-color-white);
+    margin-bottom: 48px;
+
+    &--login {
+      margin: 0 auto !important;
+    }
+
+    @media (min-width: $medium-screen) {
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto 48px;
+    }
+  }
+
+  > .usa-button {
+    ~ .nav__decorator {
+      margin-bottom: 0;
+    }
+  }
+  &__sign-in {
+    width: auto;
+    margin-left: auto;
+  }
+
+  &__link {
+    align-items: center;
+  }
+  &__logo {
+    height: 24px;
+    margin-right: 10px;
+
+    &--desktop {
+      height: auto;
+      width: 636px;
+      margin: 16px 5px 16px 0;
+    }
+
+    &-text {
+      display: flex;
+      flex-wrap: wrap;
+      width: 40%;
+      color: var(--vads-color-white);
+      text-decoration: none;
+      line-height: 15.08px;
+      font-size: 12px;
+    }
+  }
+
+  &__dropdown {
+    width: 174px;
+  }
+
+  .mobile {
+    @media (min-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+  .desktop {
+    @media (max-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+}

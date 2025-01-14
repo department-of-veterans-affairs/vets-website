@@ -92,7 +92,7 @@ export default function CCLayout({ data: appointment }) {
           {!!ccProvider && (
             <>
               <br />
-              <FacilityPhone heading="Phone:" contact={ccProvider.phone} />
+              <FacilityPhone contact={ccProvider.phone} />
             </>
           )}
         </Section>
