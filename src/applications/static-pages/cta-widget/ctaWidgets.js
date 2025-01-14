@@ -267,7 +267,7 @@ export const ctaWidgetsLookup = {
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
       redirect: false,
     }),
-    hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
+    hasRequiredMhvAccount: () => false,
     isHealthTool: true,
     mhvToolName: 'VA Appointments',
     requiredServices: null,
