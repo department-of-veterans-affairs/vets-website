@@ -305,6 +305,11 @@
   color: $color-red-dark;
 }
 
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+
 .lc-page-wrapper {
   .faq-answer {
     display: inline;
