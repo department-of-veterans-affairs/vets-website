@@ -1323,7 +1323,7 @@ const all = {
               code: '18725-2',
             },
           ],
-          text: 'LR MICROBIOLOGY REPORT',
+          text: 'Microbiology',
         },
         subject: {
           reference: 'Patient/ex-MHV-patient-1',
@@ -3029,7 +3029,7 @@ const all = {
                   display: 'T-TRANSGLUTAMINASE IGA',
                 },
               ],
-              text: 'SARS-CoV-2 Ag QI IA rapid~DSS ACC',
+              text: 'Surgical Pathology',
             },
             subject: {
               reference: 'Patient/4130',
