@@ -318,6 +318,26 @@
   .faq-answer {
     display: inline;
   }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
 .lc-form-wrapper {
   $input-width: 30rem;
