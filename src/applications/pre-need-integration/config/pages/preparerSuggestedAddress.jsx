@@ -14,9 +14,12 @@ function PreparerSuggestedAddress({ formData, addressValidation }) {
   const [suggestedAddress, setSuggestedAddress] = useState(null);
 
   // Extract address details from formData
-  const extractUserAddress = () =>
-    formData?.application?.applicant['view:applicantInfo']?.mailingAddress ||
-    {};
+  const extractUserAddress = () => {
+    return (
+      formData?.application?.applicant['view:applicantInfo']?.mailingAddress ||
+      {}
+    );
+  };
 
   // Prepare address for API Request
   const prepareAddressForAPI = address => ({
@@ -31,7 +34,7 @@ function PreparerSuggestedAddress({ formData, addressValidation }) {
   });
 
   const shouldShowSuggestedAddress = () => {
-    if (!suggestedAddress.addressLine1 || !userAddress.street) return false;
+    if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
     return !(
       userAddress.street === suggestedAddress.addressLine1 &&
       userAddress.city === suggestedAddress.city &&
@@ -41,7 +44,7 @@ function PreparerSuggestedAddress({ formData, addressValidation }) {
     );
   };
 
-  // Handle Address Validation
+  // Fetch suggested addresses when component mounts
   useEffect(() => {
     async function fetchSuggestedAddresses() {
       try {
@@ -58,22 +61,30 @@ function PreparerSuggestedAddress({ formData, addressValidation }) {
             'mailing-address',
           ),
         );
-        setIsLoading(false);
       } catch (error) {
-        setIsLoading(true);
+        setIsLoading(true); // This is temporary, send it to address confirmation screen instead
       }
     }
     fetchSuggestedAddresses();
   }, []);
 
+  // Update isLoading state when addressValidation changes
   useEffect(
     () => {
-      setSuggestedAddress(addressValidation.confirmedSuggestions[0]);
+      if (addressValidation?.addressFromUser?.addressLine1) setIsLoading(false);
     },
     [addressValidation],
   );
 
-  // Handle Address Selection Change
+  // Update suggested address when addressValidation changes
+  useEffect(
+    () => {
+      setSuggestedAddress(addressValidation?.confirmedSuggestions[0]);
+    },
+    [addressValidation],
+  );
+
+  // Handle address selection changes
   const onChangeSelectedAddress = event => {
     const selected = JSON.parse(event.detail.value);
     setSelectedAddress(selected);
@@ -98,6 +109,7 @@ function PreparerSuggestedAddress({ formData, addressValidation }) {
     dispatch(setData(updatedFormData));
   };
 
+  // Render loading indicator or content
   if (isLoading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />

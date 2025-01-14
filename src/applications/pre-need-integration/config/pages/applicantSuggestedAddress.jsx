@@ -15,10 +15,9 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [suggestedAddress, setSuggestedAddress] = useState(null);
 
-  // Extract address details from formData
-  const extractUserAddress = () =>
-    formData?.application?.claimant.address || {};
-
+  const extractUserAddress = () => {
+    return formData?.application?.claimant?.address || {};
+  };
   // Prepare address for API Request
   const prepareAddressForAPI = address => ({
     addressLine1: address.street,
@@ -59,13 +58,19 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
             'mailing-address',
           ),
         );
-        setIsLoading(false);
       } catch (error) {
-        setIsLoading(true);
+        setIsLoading(true); // This is temporary, send it to address confirmation screen instead
       }
     }
     fetchSuggestedAddresses();
   }, []);
+
+  useEffect(
+    () => {
+      if (addressValidation?.addressFromUser?.addressLine1) setIsLoading(false);
+    },
+    [addressValidation],
+  );
 
   useEffect(
     () => {

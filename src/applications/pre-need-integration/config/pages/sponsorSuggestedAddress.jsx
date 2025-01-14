@@ -13,9 +13,9 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [suggestedAddress, setSuggestedAddress] = useState(null);
 
-  // Extract address details from formData
-  const extractUserAddress = () =>
-    formData?.application?.veteran?.address || {};
+  const extractUserAddress = () => {
+    return formData?.application?.veteran?.address || {};
+  };
 
   // Prepare address for API Request
   const prepareAddressForAPI = address => ({
@@ -30,7 +30,7 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
   });
 
   const shouldShowSuggestedAddress = () => {
-    if (!suggestedAddress.addressLine1 || !userAddress.street) return false;
+    if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
     return !(
       userAddress.street === suggestedAddress.addressLine1 &&
       userAddress.city === suggestedAddress.city &&
@@ -40,7 +40,6 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
     );
   };
 
-  // Handle Address Validation
   useEffect(() => {
     async function fetchSuggestedAddresses() {
       try {
@@ -57,14 +56,21 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
             'mailing-address',
           ),
         );
-        setIsLoading(false);
       } catch (error) {
-        setIsLoading(true);
+        setIsLoading(true); // This is temporary, send it to address confirmation screen instead
       }
     }
     fetchSuggestedAddresses();
   }, []);
 
+  useEffect(
+    () => {
+      if (addressValidation?.addressFromUser?.addressLine1) setIsLoading(false);
+    },
+    [addressValidation],
+  );
+
+  // Update suggested address when addressValidation changes
   useEffect(
     () => {
       setSuggestedAddress(addressValidation?.confirmedSuggestions[0]);

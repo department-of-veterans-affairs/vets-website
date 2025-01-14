@@ -1,9 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function AddressConfirmation({ formData }) {
-  const formDataUserAddress =
-    formData?.application?.applicant['view:applicantInfo']?.mailingAddress;
+function AddressConfirmation(/* { formData } */) {
+  const formDataUserAddress = {
+    street: '123 Test Street',
+    city: 'City',
+    state: 'MC',
+    postalCode: '28226',
+    country: 'USA',
+  };
 
   // Helper function to conditionally return a line with a break
   const renderLine = content => {

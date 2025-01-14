@@ -1,94 +1,112 @@
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import configureMockStore from 'redux-mock-store';
+import { expect } from 'chai';
+import { act } from 'react-dom/test-utils';
+import { mount } from 'enzyme';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import thunk from 'redux-thunk';
-
-// Import the actual validateAddress function *and* the actions object
-import * as vapActions from 'platform/user/profile/vap-svc/actions';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
-}
+const mockStore = configureMockStore([thunk]);
 
-describe('Pre-need-integration Preparer suggested address', () => {
-  const {
-    uiSchema,
-    schema,
-  } = formConfig.chapters.preparerInformation.pages.preparerSuggestedAddress;
-  const middlewares = [thunk];
-  const mockStore = configureStore(middlewares);
+const payload = {
+  applicant: {
+    'view:applicantInfo': {
+      mailingAddress: {
+        street: '123 Test Street',
+        city: 'City',
+        state: 'MC',
+        postalCode: '28226',
+        country: 'USA',
+      },
+    },
+  },
+};
 
-  let sandbox;
-  let store;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-
-    store = mockStore({
-      form: {
-        data: {
-          application: {
-            claimant: {
-              address: {
-                street: '1234 Mock St',
-                city: 'Mock City',
-                state: 'MC',
-                postalCode: '12345',
-                country: 'USA',
-              },
-            },
-          },
+const createStore = confirmedSuggestions =>
+  mockStore({
+    form: {
+      data: {
+        application: payload,
+      },
+    },
+    vapService: {
+      addressValidation: {
+        confirmedSuggestions,
+        addressFromUser: {
+          addressLine1: '123 Test',
         },
       },
-      vapService: {
-        addressValidation: {
-          confirmedSuggestions: [
-            {
-              addressLine1: '123 Mock St',
-              city: 'Mock City',
-              stateCode: 'MC',
-              zipCode: '12345',
-              countryCodeIso3: 'USA',
-            },
-          ],
-        },
-      },
-    });
-
-    // Stub validateAddress so the dispatch call resolves, allowing isLoading to become false
-    sandbox
-      .stub(vapActions, 'validateAddress')
-      .returns(() => Promise.resolve({}));
+    },
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+// Helper to flush promises in the event loop
+const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
-  /* Cant figure out how to mock the address validation properly to get isLoading to be false */
-  it('should render loading indicator', async () => {
-    const form = mount(
+// Reusable test setup function
+const renderComponent = async store => {
+  let wrapper;
+
+  await act(async () => {
+    wrapper = mount(
       <Provider store={store}>
         <DefinitionTester
-          schema={schema}
+          schema={
+            formConfig.chapters.preparerInformation.pages
+              .preparerSuggestedAddress.schema
+          }
           definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
+          uiSchema={
+            formConfig.chapters.preparerInformation.pages
+              .preparerSuggestedAddress.uiSchema
+          }
         />
       </Provider>,
     );
+  });
 
-    // Let the async call in useEffect finish, removing the loading indicator
+  // Wait for all async effects to complete
+  await act(async () => {
     await flushPromises();
-    form.update();
+  });
 
-    // Confirm there's no va-loading-indicator in the DOM
-    expect(form.find('va-loading-indicator').length).to.equal(1);
+  // Trigger a re-render
+  wrapper.update();
 
-    form.unmount();
+  return wrapper;
+};
+
+describe('Preparer Suggested Address', () => {
+  it('should render suggested address radio if given a suggested address', async () => {
+    const store = createStore([
+      {
+        addressLine1: '123 Mock St',
+        city: 'Mock City',
+        stateCode: 'MC',
+        zipCode: '12345',
+        countryCodeIso3: 'USA',
+      },
+    ]);
+
+    const wrapper = await renderComponent(store);
+
+    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(1);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should render confirm address if NOT given a suggested address', async () => {
+    const store = createStore([]);
+
+    const wrapper = await renderComponent(store);
+
+    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(1);
+
+    wrapper.unmount();
   });
 });
