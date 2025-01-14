@@ -6,11 +6,8 @@ import { endDate } from '../../utils/helpers';
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
     <va-telephone contact={CONTACTS.DMC} /> (or{' '}
-    <VaTelephone
-      contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-      international
-    />{' '}
-    from overseas)
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+    overseas)
   </span>
 );
 
