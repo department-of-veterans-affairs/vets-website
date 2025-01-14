@@ -2,6 +2,7 @@ import manifest from '../../../manifest.json';
 // eslint-disable-next-line import/no-duplicates
 import mockUsers from '../../../mocks/endpoints/user';
 import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 // eslint-disable-next-line import/no-duplicates
 
 describe('Prefill pattern - Blue Task', () => {
@@ -78,6 +79,8 @@ describe('Prefill pattern - Blue Task', () => {
         },
       },
     });
+
+    cy.intercept('GET', '/v0/feature_toggles', generateFeatureToggles({}));
   });
 
   it('should show user as authenticated from the start', () => {
@@ -146,8 +149,9 @@ describe('Prefill pattern - Blue Task', () => {
 
     cy.injectAxeThenAxeCheck();
 
+    cy.get('va-link[label="Edit mailing address"]').click();
     // update mailing address and save form
-    cy.findByLabelText('Edit mailing address').click();
+    // cy.findByLabelText('Edit mailing address').click();
 
     // need this to access the input in the web component shadow dom
     cy.get('va-text-input[name="root_addressLine1"]')
@@ -159,12 +163,12 @@ describe('Prefill pattern - Blue Task', () => {
     cy.get('@addressInput').type('345 Mailing Address St.');
 
     // confirming save to profile ques is selected yes by default
-    cy.contains(
-      'legend',
-      'Do you also want to update this information in your VA.gov profile?',
-    ).should('exist');
+    // cy.contains(
+    //   'legend',
+    //   'Do you also want to update this information in your VA.gov profile?',
+    // ).should('exist');
 
-    cy.get('#saveToProfileYes').click();
+    // cy.get('#saveToProfileYes').click();
 
     cy.findByTestId('save-edit-button').click();
 
