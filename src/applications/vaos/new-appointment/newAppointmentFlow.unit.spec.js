@@ -1,15 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  mockFetch,
-  setFetchJSONResponse,
-  setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
-
-import past from '../services/mocks/var/past.json';
-import supportedSites from '../services/mocks/var/sites-supporting-var.json';
-import parentFacilities from '../services/mocks/var/facilities.json';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import getNewAppointmentFlow from './newAppointmentFlow';
 import { FACILITY_TYPES } from '../utils/constants';
@@ -94,9 +86,6 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {});
         const state = {
           ...userState,
           featureToggles: {
@@ -123,9 +112,6 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONFailure(global.fetch.onCall(2), {});
         const state = {
           ...userState,
           featureToggles: {
@@ -449,19 +435,8 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     describe('next page', () => {
-      describe('Oracle Health', () => {
-        it('should be selectProvider page if they select a VA facility and OH direct schedule and requests are enabled via feature flags and the typeOfCare is enabled', () => {
-          return true;
-        });
-
-        it('should be scheduleCerner page if they select a VA facility and OH direct schedule and requests are disabled via feature flags, -OR- OH direct schedule and requests are enabled but the type of care is NOT enabled', () => {
-          return true;
-        });
-      });
-
       it('should be clinicChoice page if eligible', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, past);
         const state = {
           ...defaultState,
           newAppointment: {
@@ -709,13 +684,6 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be vaFacility page when Ophthalmology selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, parentFacilities);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
-        data: {
-          attributes: { eligible: true },
-        },
-      });
       const state = {
         ...userState,
         featureToggles: {
