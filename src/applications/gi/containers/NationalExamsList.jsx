@@ -78,12 +78,12 @@ const NationalExamsList = () => {
       <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
         <NationalExamsInfo />
         <VaAlert
-          style={{ marginTop: '8px', marginBottom: '32px' }}
+          style={{ marginTop: '18px', marginBottom: '32px' }}
           status="error"
           data-e2e-id="alert-box"
         >
           <h2 slot="headline">
-            We can’t load the National Exams list right now
+            We can’t load the National exams list right now
           </h2>
           <p>
             We’re sorry. There’s a problem with our system. Try again later.
@@ -98,7 +98,7 @@ const NationalExamsList = () => {
         <NationalExamsInfo />
         <va-loading-indicator
           label="Loading"
-          message="Loading your National Exams..."
+          message="Loading your National exams..."
         />
       </div>
     );
