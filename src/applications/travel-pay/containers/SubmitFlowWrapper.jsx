@@ -11,21 +11,23 @@ import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
 
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+import { appointment1 } from '../services/mocks/appointments';
 
 const SubmitFlowWrapper = () => {
-  const [cantFile, setCantFile] = useState(false);
-
+  // TODO: Placeholders until backend integration is complete
+  // API call based on the URL Params, but for now is hard coded
+  const appointment = appointment1;
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
 
   const handlers = {
     onNext: e => {
       e.preventDefault();
-
       setPageIndex(pageIndex + 1);
     },
     onBack: e => {
@@ -49,7 +51,8 @@ const SubmitFlowWrapper = () => {
       page: 'intro',
       component: (
         <IntroductionPage
-          onNext={e => {
+          appointment={appointment}
+          onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
           }}
@@ -111,15 +114,17 @@ const SubmitFlowWrapper = () => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
-            <CantFilePage
+          {isUnsupportedClaimType && (
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>

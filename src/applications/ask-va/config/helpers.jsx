@@ -348,7 +348,7 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
@@ -522,7 +522,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
-    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
   }
@@ -824,7 +824,10 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition = for
   return (
     formData.whoIsYourQuestionAbout ===
       whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-    formData.relationshipToVeteran === relationshipOptionsMyself.FAMILY_MEMBER
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
   );
 };
 
@@ -832,7 +835,10 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition 
   return (
     formData.whoIsYourQuestionAbout ===
       whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-    formData.relationshipToVeteran === relationshipOptionsMyself.FAMILY_MEMBER
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
   );
 };
 

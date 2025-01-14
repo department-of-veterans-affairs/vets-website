@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import ADDRESS_DATA from 'platform/forms/address/data';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -529,20 +530,29 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 };
 
 export const filterLcResults = (results, nameInput, filters) => {
-  const { type, state } = filters;
+  const { type: typeFilter, state: stateFilter } = filters;
+
+  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
+    return results;
 
   return results.filter(result => {
-    if (result.type === 'exam') return false;
+    let allowContinue = true;
 
-    if (type === 'all' && state === 'all' && nameInput === '') return true;
-
-    if (type !== 'all' && type !== result.type) return false;
-
-    // if result.state === all, it is a certifciation
-    if (state !== 'all' && state !== result.state && result.state !== 'all')
+    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
       return false;
+    if (
+      stateFilter !== 'all' &&
+      stateFilter !== result.state &&
+      result.eduLacTypeNm !== 'Certification'
+    ) {
+      allowContinue = false;
+    }
 
-    return result.name.toLowerCase().includes(nameInput.toLowerCase());
+    if (allowContinue) {
+      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
+    }
+
+    return false;
   });
 };
 
@@ -594,6 +604,105 @@ export function capitalizeFirstLetter(string) {
 
   return null;
 }
+
+export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
+  return { optionValue: state[0], optionLabel: state[1] };
+});
+
+export const updateDropdowns = (
+  category = 'all',
+  location = 'all',
+  multiples = [],
+) => {
+  const initialDropdowns = [
+    {
+      label: 'category',
+      options: [
+        { optionValue: 'all', optionLabel: 'All' },
+        { optionValue: 'License', optionLabel: 'License' },
+        {
+          optionValue: 'Certification',
+          optionLabel: 'Certification',
+        },
+        {
+          optionValue: 'Prep Course',
+          optionLabel: 'Prep Course',
+        },
+      ],
+      alt: 'category type',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+    {
+      label: 'state',
+      options:
+        multiples.length === 0
+          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+          : [
+              { optionValue: 'all', optionLabel: 'All' },
+              ...mappedStates.filter(mappedState =>
+                multiples.find(
+                  multiple => multiple.state === mappedState.optionValue,
+                ),
+              ),
+            ],
+      alt: 'state',
+      current: { optionValue: 'all', optionLabel: 'All' },
+    },
+  ];
+
+  return initialDropdowns.map(dropdown => {
+    if (dropdown.label === 'category') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === category,
+        ),
+      };
+    }
+
+    if (dropdown.label === 'state') {
+      return {
+        ...dropdown,
+        current: dropdown.options.find(
+          option => option.optionValue === location,
+        ) ?? { ...dropdown.current },
+      };
+    }
+
+    return dropdown;
+  });
+};
+
+export const showMultipleNames = (suggestions, nameInput) => {
+  return suggestions.filter(
+    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
+  );
+};
+
+export const categoryCheck = type => {
+  if (type === 'License') {
+    return true;
+  }
+  if (type === 'Prep Course') return true;
+
+  return false;
+};
+
+export const checkAlert = (type, multiples, currentLocation, newLocation) => {
+  if (multiples.length > 1 && type !== 'Certification') {
+    return true;
+  }
+
+  if (categoryCheck(type) && currentLocation !== newLocation) {
+    return true;
+  }
+
+  if (type === 'Certification' && currentLocation !== 'all') {
+    return true;
+  }
+
+  return false;
+};
 
 export const formatProgramType = (programType = '') => {
   if (!programType) return '';
@@ -734,4 +843,39 @@ export const getAbbreviationsAsArray = value => {
   const items = mapping[value.toUpperCase()] || [];
 
   return items.map(item => `${item.abbreviation}: ${item.description}`);
+};
+
+export const formatNationalExamName = name => {
+  if (!name || !name.trim()) {
+    return '';
+  }
+
+  if (name === 'DSST-DANTES') {
+    return name;
+  }
+
+  if (name === 'MAT-MILLER ANALOGIES TEST') {
+    return 'MAT-MILLER analogies test';
+  }
+
+  if (name === 'ECE (4 hours)' || name === 'ECE (6 hours)') {
+    return name;
+  }
+
+  const eceNursingMatch = name.match(/^ECE\s+(\d+)\s+HOURS\s+NURSING$/i);
+  if (eceNursingMatch) {
+    const hours = eceNursingMatch[1];
+    return `ECE (${hours} hours) nursing`;
+  }
+
+  if (name === 'DANTES SPONSORED CLEP EXAMS') {
+    return 'DANTES sponsored clep exams';
+  }
+
+  if (name.includes('-')) {
+    const [left, right] = name.split('-', 2);
+    return `${left}-${right.toLowerCase()}`;
+  }
+
+  return name;
 };

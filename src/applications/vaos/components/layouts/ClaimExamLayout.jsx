@@ -153,9 +153,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             <>
               <a href={facility.website}>{facility.name}</a>
               <br />
-              {facilityPhone && (
-                <FacilityPhone heading="Phone:" contact={facilityPhone} />
-              )}
+              {facilityPhone && <FacilityPhone contact={facilityPhone} />}
               {!facilityPhone && <>Not available</>}
             </>
           )}

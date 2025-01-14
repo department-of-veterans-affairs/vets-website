@@ -2,6 +2,7 @@
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "aedpVADX": "aedp_vadx",
+  "aedpPrefill": "aedp_prefill",
   "allClaimsAddDisabilitiesEnhancement": "all_claims_add_disabilities_enhancement",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
@@ -15,6 +16,8 @@
   "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
+  "burialDocumentUploadUpdate": "burial_document_upload_update",
+  "burialModuleEnabled": "burial_module_enabled",
   "burialBrowserMonitoringEnabled": "burial_browser_monitoring_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
   "caregiverUseFacilitiesApi": "caregiver_use_facilities_API",
@@ -62,7 +65,6 @@
   "dgiRudisillHideBenefitsSelectionStep": "dgi_rudisill_hide_benefits_selection_step",
   "dhpConnectedDevicesFitbit": "dhp_connected_devices_fitbit",
   "disability526ToxicExposure": "disability_526_toxic_exposure",
-  "disability526NewConfirmationPage": "disability_526_new_confirmation_page",
   "disablityBenefitsBrowserMonitoringEnabled": "disablity_benefits_browser_monitoring_enabled",
   "dischargeWizardFeatures": "discharge_wizard_features",
   "disputeDebt": "dispute_debt",
@@ -304,6 +306,7 @@
   "virtualAgentEnableRootBot": "virtual_agent_enable_root_bot",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentVoice": "virtual_agent_voice",
+  "virtualAgentEnableDatadogLogging": "virtual_agent_enable_datadog_logging",
   "vyeLoginWidget": "vye_login_widget",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
   "showYellowRibbonTable": "show_yellow_ribbon_table",
@@ -312,5 +315,6 @@
   "isDGIBEndpoint": "is_DGIB_endpoint",
   "enableLightHouse": "enable_lighthouse",
   "isUpdatedGi": "is_updated_gi",
-  "showRudisill1995": "show_rudisill_1995"
+  "showRudisill1995": "show_rudisill_1995",
+  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled"
 }
