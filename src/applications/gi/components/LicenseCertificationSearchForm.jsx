@@ -252,8 +252,9 @@ export default function LicenseCertificationSearchForm({
         />
       </div>
 
-      <div className="button-wrapper vads-u-flex row vads-u-padding-y--6 vads-u-padding-x--1">
+      <div className="button-wrapper row">
         <VaButton
+          className="va-button"
           text="Submit"
           onClick={() =>
             handleSearch(
@@ -265,7 +266,7 @@ export default function LicenseCertificationSearchForm({
         />
         <VaButton
           text="Reset Search"
-          className="reset-search"
+          // className="reset-search"
           secondary
           onClick={() =>
             handleReset(() => {

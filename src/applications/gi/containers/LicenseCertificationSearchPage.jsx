@@ -43,11 +43,15 @@ const faqs = [
           text="Find out how to get reimbursed for licenses, certifications and prep courses."
           href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
+        <br />
+        <br />
         <p className="faq-answer">
           Print and fill out form Request for Reimbursement of Licensing or
           Certification Test Fees. Send the completed application to the
           Regional Processing Office for your region listed in the form.
         </p>
+        <br />
+        <br />
         <VaLink
           text="Get VA Form22-0803 to download."
           href="../find-forms/about-form-22-0803/"
@@ -144,7 +148,7 @@ function LicenseCertificationSearchPage({
           <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className="mobile-lg:vads-u-text-align--left">
-                Licenses, Certifications, and Prep courses
+                Licenses, certifications, and prep courses
               </h1>
               <p className="vads-u-color--gray-dark">
                 Use the search tool to find out which tests or related prep
