@@ -81,7 +81,7 @@ const DebtLettersDownload = () => {
             </span>{' '}
             (or{' '}
             <span className="no-wrap">
-              <va-telephone contact="6127136415" international />
+              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />
             </span>{' '}
             from overseas). You can also call us to get information about your
             resolved debts.

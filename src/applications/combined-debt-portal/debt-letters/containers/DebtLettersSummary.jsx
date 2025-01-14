@@ -150,8 +150,8 @@ const DebtLettersSummary = () => {
               <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone contact="711" tty="true" />
               ). For international callers, use{' '}
-              <va-telephone contact="6127136415" />. We’re here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         </va-need-help>
