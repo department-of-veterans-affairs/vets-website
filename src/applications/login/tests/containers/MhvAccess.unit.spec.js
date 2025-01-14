@@ -7,22 +7,24 @@ import MhvAccess from '../../containers/MhvAccess';
 describe('MhvAccess', () => {
   it('renders main title', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
-    const mainTitle = screen.getByRole('heading', {
-      name: /get temporary access to my healthevet/i,
-    });
+    const mainTitle = screen.getByText(
+      /access the my healthevet sign-in option/i,
+    );
     expect(mainTitle).to.exist;
   });
 
   it('renders information paragraph', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
     const description = screen.getByText(
-      /Some groups are approved to access the My HealtheVet sign-in option/i,
+      /get temporary access to the my healthevet sign-in option/i,
     );
     expect(description).to.exist;
   });
 
   it('renders button', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
+    const signInHeading = screen.getByText(/sign in/i);
+    expect(signInHeading).to.exist;
     const accessButton = screen.getByTestId('accessMhvBtn');
     expect(accessButton).to.exist;
     fireEvent.click(accessButton);
