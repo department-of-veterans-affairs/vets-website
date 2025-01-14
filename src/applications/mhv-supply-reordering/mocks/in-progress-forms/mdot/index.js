@@ -64,4 +64,5 @@ module.exports = {
   // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(404).json(notFound),
   // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(500).json(internalServerError),
   'PUT /v0/in_progress_forms/MDOT': putOk,
+  // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(500),
 };
