@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 
 export const ConfirmationPage = () => {
+  // Set focus
+  useEffect(() => {
+    focusElement('#confirmation-content');
+  }, []);
+
   return (
     <>
-      <div className="vads-u-margin-bottom--4">
+      <div id="confirmation-content" className="vads-u-margin-bottom--4">
         <va-alert
           status="success"
           id="welcome-va-setup-review-information-confirmation-alert"

@@ -1,0 +1,63 @@
+flow:
+  title: Health Care for Child (Unauth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value:  start-your-question-unauth
+
+    - action: include
+      target: page
+      value:  select-category-veteran-id-card-vic
+
+    - action: include
+      target: page
+      value:  select-topic-veteran-id-card-vic-for-discounts
+
+    - action: include
+      target: page
+      value:  select-subtopic-checking-application-status
+      
+    - action: include
+      target: page
+      value:  who-is-your-question-about-myself
+    
+    - action: include
+      target: page
+      value:  what-is-your-relationship-to-the-veteran-veteran
+
+    - action: include
+      target: page
+      value:  tell-us-about-yourself
+
+    # - action: include
+    #   target: page
+    #   value:  your-branch-of-service-air-force
+
+    # - action: include
+    #   target: page
+    #   value:  have-you-applied-for-VRE-benefits
+
+    - action: include
+      target: page
+      value:  your-contact-information-email-no-prefill
+
+    # - action: include
+    #   target: page
+    #   value:  your-location-of-residence
+
+    # - action: include
+    #   target: page
+    #   value:  your-postal-code-veteran
+
+    - action: include
+      target: page
+      value:  your-question
+
+    - action: include
+      target: page
+      value:  editing-answers
+
+    - action: include
+      target: page
+      value:  your-confirmation-number

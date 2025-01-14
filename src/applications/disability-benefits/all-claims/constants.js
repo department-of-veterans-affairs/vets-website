@@ -403,3 +403,37 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
 });
+
+export const TRAUMATIC_EVENT_TYPES = Object.freeze({
+  combat: 'Traumatic events related to combat',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  nonMst: 'Traumatic events related to other personal interactions',
+  other: 'Other traumatic events',
+});
+
+export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+  reassignment:
+    'Request for a change in occupational series or duty assignment',
+  absences: 'Increased or decreased use of leave',
+  performance: 'Changes in performance or performance evaluations',
+});
+
+export const BEHAVIOR_CHANGES_HEALTH = Object.freeze({
+  consultations:
+    'Increased or decreased visits to a healthcare professional, counselor, or treatment facility',
+  episodes: 'Episodes of depression, panic attacks, or anxiety',
+  medications: 'Increased or decreased use of prescription medications',
+  selfMedication: 'Increased or decreased use of over-the-counter medications',
+  substances: 'Increased or decreased use of alcohol or drugs',
+  appetite:
+    'Changes in eating habits, such as overeating or undereating, or significant changes in weight',
+  pregnancy: 'Pregnancy tests around the time of the traumatic experiences',
+  screenings: 'Tests for sexually transmitted infections',
+});
+
+export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
+  socialEconomic: 'Economic or social behavioral changes',
+  relationships: 'Changes in or breakup of a significant relationship',
+  misconduct: 'Disciplinary or legal difficulties',
+});

@@ -13,6 +13,13 @@ describe('Authenticated', () => {
         '/representation_management/v0/original_entities?query=**',
         mockRepResults,
       ).as('fetchRepresentatives');
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
@@ -101,7 +108,7 @@ describe('Authenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_Primary phone"]').type('5467364732');
+      cy.get('input[name="root_primaryPhone"]').type('5467364732');
 
       h.clickContinue();
 
