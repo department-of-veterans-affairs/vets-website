@@ -1,19 +1,19 @@
 import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockFacilities from './fixtures/mocks/facilities.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUser from './fixtures/mocks/user.json';
 import {
   acceptPrivacyAgreement,
-  advanceToHousehold,
   advanceFromHouseholdToReview,
-  goToNextPage,
+  advanceToHousehold,
   fillDependentBasicInformation,
   fillSpousalBasicInformation,
+  goToNextPage,
 } from './utils';
-import mockFacilities from './fixtures/mocks/mockFacilitiesV1.json';
 
 const { data: testData } = maxTestData;
 
@@ -23,14 +23,12 @@ describe('HCA-Household-Non-Disclosure', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -173,14 +171,12 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -396,14 +392,12 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -1075,14 +1069,12 @@ describe('HCA-Household-Full-Disclosure', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
