@@ -250,6 +250,11 @@ export const customLocationSchemaStatePostal = {
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
         },
+        country: {
+          type: 'string',
+          enum: COUNTRY_VALUES,
+          enumNames: COUNTRY_NAMES,
+        },
         postalCode: {
           type: 'string',
         },
