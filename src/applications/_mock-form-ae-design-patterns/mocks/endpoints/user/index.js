@@ -275,9 +275,13 @@ const loa3UserWithUpdatedHomePhoneTimeStamp = set(
 );
 
 const loa3UserWithUpdatedMailingAddress = set(
-  cloneDeep(loa3User),
-  'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
-  '345 Mailing Address St.',
+  set(
+    cloneDeep(loa3User),
+    'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
+    '345 Mailing Address St.',
+  ),
+  'data.attributes.vet360ContactInformation.mailingAddress.updatedAt',
+  new Date().toISOString(),
 );
 
 const loa3UserWithNoEmail = set(

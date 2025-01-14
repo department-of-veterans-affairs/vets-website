@@ -80,7 +80,13 @@ describe('Prefill pattern - Blue Task', () => {
       },
     });
 
-    cy.intercept('GET', '/v0/feature_toggles', generateFeatureToggles({}));
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        aedpPrefill: true,
+      }),
+    );
   });
 
   it('should show user as authenticated from the start', () => {
@@ -176,7 +182,7 @@ describe('Prefill pattern - Blue Task', () => {
 
     // redirect to previous page and show save alert
     cy.url().should('contain', '/veteran-information');
-    cy.findByText('We’ve updated your mailing address').should('exist');
+    cy.findByText('We’ve updated your contact information.').should('exist');
     cy.findByText(
       'We’ve made these changes to this form and your VA.gov profile.',
     ).should('exist');
