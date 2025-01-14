@@ -24,7 +24,7 @@ const SubmissionMethod = props => {
       setError('You must select a submission method');
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      goToPath('/representative-replace?review=true');
+      goToPath('/representative-organization?review=true');
     } else {
       goForward(formData);
     }
@@ -87,7 +87,8 @@ function mapStateToProps(state) {
   };
 }
 
-// export { SubmissionMethod };
+export { SubmissionMethod }; // Named export for testing
+
 export default connect(
   mapStateToProps,
   null,
