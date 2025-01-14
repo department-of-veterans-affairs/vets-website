@@ -46,8 +46,8 @@ export default {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       maxSize: MAX_FILE_SIZE_BYTES,
       fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-      fileTooBigErrorMessage:
-        'Your file can’t have a width and height larger than 78 inches and 100 inches. Follow the instructions for your device on how to resize the file and try again.',
+      fileUploadNetworkErrorMessage:
+        'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
       fileUploadNetworkErrorAlert: {
         header: 'We couldn’t upload your file',
         body: [
