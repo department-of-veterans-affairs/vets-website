@@ -1,7 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { pciuStates: PCIU_STATES } = constants;
+const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
 import {
   VA_FORM_IDS,
@@ -38,10 +38,10 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
