@@ -136,7 +136,7 @@ src/applications/income-limits @department-of-veterans-affairs/vfs-public-websit
 src/applications/public-outreach-materials @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/search @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/BTSSS-login @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/cta-widget @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/cta-widget @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
