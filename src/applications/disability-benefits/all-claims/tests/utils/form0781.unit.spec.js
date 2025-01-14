@@ -6,6 +6,7 @@ import {
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
   isCompletingForm0781,
+  isRelatedToMST,
 } from '../../utils/form0781';
 import { form0781WorkflowChoices } from '../../content/form0781';
 
@@ -110,6 +111,49 @@ describe('isCompletingForm0781', () => {
         },
       };
       expect(isCompletingForm0781(formData)).to.eq(false);
+    });
+  });
+});
+
+// Flipper is on AND user is claiming a new condition AND user opts into completing online form
+describe('isRelatedToMST', () => {
+  describe('when a user has selected MST', () => {
+    it('should return true', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        mentalHealth: {
+          conditions: {
+            someCondition: true,
+          },
+          eventTypes: {
+            combat: true,
+            mst: true,
+          },
+        },
+      };
+
+      expect(isRelatedToMST(formData)).to.eq(true);
+    });
+  });
+  describe('when a user has NOT selected MST', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        mentalHealth: {
+          conditions: {
+            someCondition: true,
+          },
+          eventTypes: {
+            combat: true,
+            mst: false,
+          },
+        },
+      };
+      expect(isRelatedToMST(formData)).to.eq(false);
     });
   });
 });
