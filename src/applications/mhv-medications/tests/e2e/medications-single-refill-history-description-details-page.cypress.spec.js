@@ -5,8 +5,8 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import olderRxDetails from './fixtures/older-prescription-details.json';
 import { Data } from './utils/constants';
 
-describe('Medications Details Page Grouping', () => {
-  it('visits Medications Details Page Grouping accordion details', () => {
+describe('Medications Details Page refill history', () => {
+  it('visits Medications Details Page single refill description', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
@@ -15,18 +15,9 @@ describe('Medications Details Page Grouping', () => {
     landingPage.visitMedicationsListPage(medicationsList);
     cy.injectAxe();
     cy.axeCheck('main');
-    detailsPage.clickMedicationDetailsLink(olderRxDetails, 1);
+    detailsPage.clickMedicationDetailsLink(olderRxDetails, 7);
     detailsPage.verifyRefillHistoryInformationTextOnDetailsPage(
-      Data.REFILL_HISTORY_INFO,
-    );
-    detailsPage.clickRefillHistoryAccordionOnDetailsPage();
-
-    detailsPage.verifyImageFieldInAccordionCardInfoOnDetailsPage(
-      Data.IMAGE_FIELD,
-    );
-    detailsPage.verifyShippedOnDateFieldOnDetailsPage();
-    detailsPage.verifyMedicationDescriptionFieldInAccordionCardInfo(
-      Data.MED_DESCRIPTION,
+      Data.SINGLE_REFILL_HISTORY_INFO,
     );
   });
 });
