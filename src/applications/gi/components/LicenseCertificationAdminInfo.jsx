@@ -1,24 +1,16 @@
 import React from 'react';
 
 function LicenseCertificationAdminInfo({ institution }) {
-  const {
-    name,
-    mailingStreet,
-    mailingCity,
-    mailingState,
-    mailingZip,
-  } = institution;
+  const { name, mailingAddress } = institution;
   return (
     <div className="address-wrapper">
-      <strong>
-        <p>The following is the headquarters address</p>
-      </strong>{' '}
+      <h3>Admin Info</h3>
       <p className="va-address-block">
         {name} <br />
         <br />
-        {mailingStreet}
+        {mailingAddress.address1}
         <br />
-        {mailingCity}, {mailingState} {mailingZip}
+        {mailingAddress.city}, {mailingAddress.state} {mailingAddress.zip}
         <br />
       </p>
       <strong>
