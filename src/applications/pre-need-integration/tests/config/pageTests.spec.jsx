@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 // import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-// import { mount } from 'enzyme';
+import { mount } from 'enzyme';
 
 // import getFixtureData, {
 //   FixtureDataType,
@@ -144,57 +144,57 @@ export const testNumberOfWebComponentFields = (
   });
 };
 
-// export const testNumberOfFieldsByType = (
-//   formConfig,
-//   schema,
-//   uiSchema,
-//   expectedFields,
-//   pageTitle,
-//   data = {},
-//   options = {},
-// ) => {
-//   describe(`${pageTitle} page`, () => {
-//     it('should have appropriate number of fields of each type', () => {
-//       const { container } = render(
-//         <FakeProvider>
-//           <DefinitionTester
-//             definitions={formConfig.defaultDefinitions}
-//             schema={schema}
-//             uiSchema={uiSchema}
-//             data={data}
-//             formData={{}}
-//             {...options}
-//           />
-//         </FakeProvider>,
-//       );
+export const testNumberOfFieldsByType = (
+  formConfig,
+  schema,
+  uiSchema,
+  expectedFields,
+  pageTitle,
+  data = {},
+  options = {},
+) => {
+  describe(`${pageTitle} page`, () => {
+    it('should have appropriate number of fields of each type', () => {
+      const { container } = render(
+        <FakeProvider>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+            {...options}
+          />
+        </FakeProvider>,
+      );
 
-//       expect(container.querySelectorAll('va-alert')).to.have.lengthOf(
-//         expectedFields['va-alert'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-text-input')).to.have.lengthOf(
-//         expectedFields['va-text-input'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-memorable-date')).to.have.lengthOf(
-//         expectedFields['va-memorable-date'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-select')).to.have.lengthOf(
-//         expectedFields['va-select'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-checkbox')).to.have.lengthOf(
-//         expectedFields['va-checkbox'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-radio')).to.have.lengthOf(
-//         expectedFields['va-radio'] || 0,
-//       );
-//       expect(container.querySelectorAll('va-textarea')).to.have.lengthOf(
-//         expectedFields['va-textarea'] || 0,
-//       );
-//       expect(container.querySelectorAll('input')).to.have.lengthOf(
-//         expectedFields.input || 0,
-//       );
-//     });
-//   });
-// };
+      expect(container.querySelectorAll('va-alert')).to.have.lengthOf(
+        expectedFields['va-alert'] || 0,
+      );
+      expect(container.querySelectorAll('va-text-input')).to.have.lengthOf(
+        expectedFields['va-text-input'] || 0,
+      );
+      expect(container.querySelectorAll('va-memorable-date')).to.have.lengthOf(
+        expectedFields['va-memorable-date'] || 0,
+      );
+      expect(container.querySelectorAll('va-select')).to.have.lengthOf(
+        expectedFields['va-select'] || 0,
+      );
+      expect(container.querySelectorAll('va-checkbox')).to.have.lengthOf(
+        expectedFields['va-checkbox'] || 0,
+      );
+      expect(container.querySelectorAll('va-radio')).to.have.lengthOf(
+        expectedFields['va-radio'] || 0,
+      );
+      expect(container.querySelectorAll('va-textarea')).to.have.lengthOf(
+        expectedFields['va-textarea'] || 0,
+      );
+      expect(container.querySelectorAll('input')).to.have.lengthOf(
+        expectedFields.input || 0,
+      );
+    });
+  });
+};
 
 export const getWebComponentErrors = container => {
   const nodes = Array.from(
@@ -299,3 +299,21 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
 //     });
 //   });
 // };
+
+export const testRender = (formConfig, schema, uiSchema, pageTitle) => {
+  describe(`${pageTitle} page`, () => {
+    it('should render', async () => {
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />,
+      );
+
+      expect(form.find('select').length).to.equal(5);
+      expect(form.find('input').length).to.equal(4);
+      form.unmount();
+    });
+  });
+};
