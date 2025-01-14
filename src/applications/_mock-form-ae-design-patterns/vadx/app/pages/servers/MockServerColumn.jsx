@@ -3,7 +3,7 @@ import ServerControls from './ServerControls';
 import ProcessOutput from './ProcessOutput';
 import { useProcessManager } from '../../../context/processManager';
 
-export const MockServer = () => {
+export const MockServerColumn = () => {
   const { processes, output, startProcess, stopProcess } = useProcessManager();
   const processName = 'mock-server';
 

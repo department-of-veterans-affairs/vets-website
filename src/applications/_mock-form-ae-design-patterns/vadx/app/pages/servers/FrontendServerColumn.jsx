@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import ServerControls from './ServerControls';
 import ProcessOutput from './ProcessOutput';
-import { FrontendServerStarter } from './FrontendServerStarter';
+import { FrontendServerConfiguration } from './FrontendServerConfiguration';
 import { useProcessManager } from '../../../context/processManager';
 import { FRONTEND_PROCESS_NAME } from '../../../constants';
 
-export const FrontendServer = () => {
+export const FrontendServerColumn = () => {
   const {
     processes,
     output,
@@ -46,7 +46,7 @@ export const FrontendServer = () => {
         processName={processName}
       />
 
-      <FrontendServerStarter
+      <FrontendServerConfiguration
         onClose={handleStarterClose}
         onStart={async manifestsToStart => {
           setStarting(true);

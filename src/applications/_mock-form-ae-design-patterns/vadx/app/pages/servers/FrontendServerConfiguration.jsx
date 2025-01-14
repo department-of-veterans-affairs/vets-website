@@ -25,9 +25,8 @@ const ManifestOption = ({ manifest, selected, onToggle }) => {
   );
 };
 
-// Add these styles to the checkbox container
 const scrollableCheckboxStyles = {
-  maxHeight: '525px', // Adjust this value as needed
+  maxHeight: '60vh',
   overflowY: 'auto',
   padding: '0 .5rem',
   border: '1px solid #e1e1e1',
@@ -35,7 +34,7 @@ const scrollableCheckboxStyles = {
   backgroundColor: '#f9f9f9',
 };
 
-export const FrontendServerStarter = ({
+export const FrontendServerConfiguration = ({
   onClose,
   onStart,
   visible,
@@ -205,7 +204,9 @@ export const FrontendServerStarter = ({
   ) : null;
 };
 
-FrontendServerStarter.propTypes = {
+FrontendServerConfiguration.propTypes = {
+  starting: PropTypes.bool.isRequired,
+  visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onStart: PropTypes.func.isRequired,
 };
