@@ -43,10 +43,11 @@ const AlertAccountApiAlert = ({
           </p>
 
           <p>
-            To get access to these My HealtheVet tools, call us at 877-327-0022
-            (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8 p.m.
-            ET. Tell the representative that you received{' '}
-            <b>error code {errorCode}</b>
+            To get access to these My HealtheVet tools, call us at&nbsp;
+            <va-telephone contact="8773270022" />(<va-telephone contact="711" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Tell
+            the representative that you received&nbsp;
+            <b>error code {errorCode}</b>.
           </p>
 
           <p>
@@ -65,13 +66,20 @@ const AlertAccountApiAlert = ({
             page. Or check back later.
           </p>
 
-          <p>
-            If the problem persists, call the My HealtheVet helpdesk at
-            877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
-            to 8 p.m. ET. Tell the representative that you received{' '}
-            <b>error code {errorCode}</b>.
-          </p>
-
+          {errorCode.length > 0 ? (
+            <p>
+              If the problem persists, call the My HealtheVet helpdesk at
+              877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00
+              a.m. to 8 p.m. ET. Tell the representative that you received{' '}
+              <b>error code {errorCode}</b>.
+            </p>
+          ) : (
+            <p>
+              If the problem persists, call the My HealtheVet helpdesk at
+              877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00
+              a.m. to 8 p.m. ET.
+            </p>
+          )}
           <p>
             If you need to contact your care team now, call your VA health
             facility.
@@ -88,7 +96,7 @@ const AlertAccountApiAlert = ({
 
 AlertAccountApiAlert.defaultProps = {
   title: 'Error code 000: Contact the My HealtheVet help desk',
-  errorCode: 'unknown',
+  errorCode: '',
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',
 };

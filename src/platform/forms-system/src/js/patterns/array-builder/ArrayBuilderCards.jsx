@@ -16,11 +16,10 @@ import { focusElement } from 'platform/utilities/ui';
 import { createArrayBuilderItemEditPath } from './helpers';
 
 const EditLink = ({ to, srText }) => (
-  <Link to={to} data-action="edit">
+  <Link to={to} data-action="edit" aria-label={srText}>
     <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
       Edit
       <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-      <span className="sr-only">{srText}</span>
     </span>
   </Link>
 );

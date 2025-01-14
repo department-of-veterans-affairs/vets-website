@@ -47,7 +47,8 @@ const responses = {
         res.json(
           generateFeatureToggles({
             aedpVADX: true,
-            coeAccess: true,
+            aedpPrefill: true,
+            coeAccess: false,
             profileUseExperimental: false,
           }),
         ),

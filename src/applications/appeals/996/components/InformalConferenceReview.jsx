@@ -3,33 +3,20 @@ import PropTypes from 'prop-types';
 
 import {
   informalConferenceTitle,
-  newInformalConferenceTitle,
   informalConferenceLabel,
   editButtonText,
   editButtonLabel,
-  newEditButtonLabel,
   informalConferenceLabels,
-  newInformalConferenceReviewLabels,
 } from '../content/InformalConference';
-import { showNewHlrContent } from '../utils/helpers';
 
 import { data996 } from '../../shared/props';
 
 const InformalConferenceReview = ({ data, editPage }) => {
-  const showNewContent = showNewHlrContent(data);
-
   // show 'me', 'rep' or 'no' for original content
   // show 'yes' or 'no' for new content
-  const value = showNewContent
-    ? data.informalConferenceChoice
-    : data.informalConference;
-  const title = showNewContent
-    ? newInformalConferenceTitle
-    : informalConferenceTitle;
-
-  const displayValue = showNewContent
-    ? newInformalConferenceReviewLabels[value]
-    : informalConferenceLabels[value];
+  const value = data.informalConferenceChoice;
+  const title = informalConferenceTitle;
+  const displayValue = informalConferenceLabels[value];
 
   return (
     <div className="form-review-panel-page">
@@ -41,7 +28,7 @@ const InformalConferenceReview = ({ data, editPage }) => {
           secondary
           class="edit-page float-right"
           onClick={editPage}
-          label={showNewContent ? newEditButtonLabel : editButtonLabel}
+          label={editButtonLabel}
           text={editButtonText}
           uswds
         />
