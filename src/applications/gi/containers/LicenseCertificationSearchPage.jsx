@@ -40,7 +40,7 @@ const faqs = [
     answer: (
       <>
         <VaLink
-          text="Find out how to get reimbursed for licenses, certifications and prep courses."
+          text="Find out how to get reimbursed for licenses, certifications and prep courses"
           href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
         <br />
@@ -53,7 +53,7 @@ const faqs = [
         <br />
         <br />
         <VaLink
-          text="Get VA Form22-0803 to download."
+          text="Get VA Form22-0803 to download"
           href="../find-forms/about-form-22-0803/"
         />
       </>
