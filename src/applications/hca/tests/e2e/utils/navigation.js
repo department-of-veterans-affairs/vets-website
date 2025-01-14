@@ -89,7 +89,9 @@ export const advanceToHousehold = () => {
   goToNextPage('/household-information/financial-information-use');
 };
 
-export const advanceFromHouseholdToReview = testData => {
+export const advanceFromHouseholdToSubmit = (testData, props = {}) => {
+  const { disclosureAssertionValue = true } = props;
+
   goToNextPage('/insurance-information/medicaid');
   cy.selectRadio('root_isMedicaidEligible', 'N');
 
@@ -104,6 +106,20 @@ export const advanceFromHouseholdToReview = testData => {
   fillVaFacility(testData['view:preferredFacility']);
 
   goToNextPage('review-and-submit');
+
+  // accept the privacy agreement
+  acceptPrivacyAgreement();
+
+  // submit form
+  cy.findByText(/submit/i, { selector: 'button' }).click();
+
+  // check for correct disclosure value
+  cy.wait('@mockSubmit').then(interception => {
+    cy.wrap(JSON.parse(interception.request.body.form))
+      .its('discloseFinancialInformation')
+      .should(`be.${disclosureAssertionValue}`);
+  });
+  cy.location('pathname').should('include', '/confirmation');
 };
 
 export const advanceToHealthInsurance = testData => {
