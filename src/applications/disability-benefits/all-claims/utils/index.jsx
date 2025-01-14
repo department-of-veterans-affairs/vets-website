@@ -17,6 +17,7 @@ import {
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
+  ADD_DISABILITIES_ENHANCEMENT_DATA,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   HOMELESSNESS_TYPES,
@@ -605,6 +606,9 @@ export const isUploadingSTR = formData =>
     false,
   );
 
+export const getAddDisabilitiesEnhancement = formData =>
+  formData[ADD_DISABILITIES_ENHANCEMENT_DATA];
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
@@ -619,14 +623,12 @@ export const DISABILITY_SHARED_CONFIG = {
   addDisabilitiesPrevious: {
     path: 'new-disabilities-previous/add',
     depends: formData =>
-      isClaimingNew(formData) &&
-      !formData['view:showAddDisabilitiesEnhancement'],
+      isClaimingNew(formData) && !getAddDisabilitiesEnhancement(formData),
   },
   addDisabilities: {
     path: 'new-disabilities/add',
     depends: formData =>
-      isClaimingNew(formData) &&
-      formData['view:showAddDisabilitiesEnhancement'],
+      isClaimingNew(formData) && getAddDisabilitiesEnhancement(formData),
   },
 };
 
@@ -884,9 +886,6 @@ export const formatFullName = (fullName = {}) => {
 export const show5103Updates = () =>
   environment.isDev() || environment.isLocalhost() || environment.isStaging();
 
-const showAddDisabilitiesEnhancement = formData =>
-  formData['view:showAddDisabilitiesEnhancement'];
-
 /**
  * // TODO: Remove when allClaimsAddDisabilitiesEnhancement feature flag is removed. This feature flag can only be removed when no more save in progress forms are left on the new-disabilities-previous/add page.
  * @param {Object} formData - Form data from save-in-progress
@@ -897,15 +896,15 @@ export const onFormLoaded = props => {
   const { formData, returnUrl, router } = props;
 
   if (
-    showAddDisabilitiesEnhancement(formData) &&
-    returnUrl === 'new-disabilities-previous/add'
+    getAddDisabilitiesEnhancement(formData) &&
+    returnUrl === '/new-disabilities-previous/add'
   ) {
-    router?.push('new-disabilities/add');
+    router?.push('/new-disabilities/add');
   } else if (
-    !showAddDisabilitiesEnhancement(formData) &&
-    returnUrl === 'new-disabilities/add'
+    !getAddDisabilitiesEnhancement(formData) &&
+    returnUrl === '/new-disabilities/add'
   ) {
-    router?.push('new-disabilities-previous/add');
+    router?.push('/new-disabilities-previous/add');
   } else {
     router?.push(returnUrl);
   }

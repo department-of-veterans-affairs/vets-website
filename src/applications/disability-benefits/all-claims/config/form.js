@@ -171,7 +171,6 @@ const formConfig = {
   },
   version: migrations.length,
   migrations,
-  onFormLoaded,
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
@@ -197,6 +196,7 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
+  onFormLoaded,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
