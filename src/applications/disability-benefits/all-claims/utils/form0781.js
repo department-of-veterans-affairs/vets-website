@@ -4,6 +4,20 @@ import { isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781';
 
 /**
+ * Helper method to determin if a series of veteran selections match ONLY
+ * the condition of type === combat
+ */
+function combatOnlySelection(formData) {
+  const eventTypes = formData?.mentalHealth?.eventTypes || {};
+  // ensure the Vet has only selected the 'combat' event type
+  const combatSelected = eventTypes.combat;
+  const nonCombatSelections = Object.keys(eventTypes)
+    .filter(key => key !== 'combat')
+    .some(key => eventTypes[key]);
+  return combatSelected && !nonCombatSelections;
+}
+
+/**
  * Checks if the modern 0781 flow should be shown if the flipper is active for this veteran
  * All 0781 page-specific flippers should include a check against this top level flipper
  *
@@ -57,6 +71,7 @@ export function isRelatedToMST(formData) {
     formData?.mentalHealth?.eventTypes?.mst === true
   );
 }
+
 /**
  * Checks if
  * 1. the option to complete the online form is selected
@@ -80,3 +95,46 @@ export function isAddingEvent(formData) {
 export const policeReportSelected = index => formData =>
   isAddingEvent(formData) &&
   _.get(`event${index}.reports.police`, formData, false);
+
+/*
+ * @returns
+ *   TRUE
+ *     - IF Vetern should see 0781 pages
+ *       - AND is not seeing the 'Combat Only' version of this page
+ */
+export function showBehaviorIntroPage(formData) {
+  return showForm0781Pages(formData) && !combatOnlySelection(formData);
+}
+
+/*
+ * @returns
+ *   FALSE
+ *     - IF Vetern has ONLY selected "Traumatic Events Related To Comabt"
+ *       - AND has explicitly opted out of providing more info
+ *     - ELSE IF Veteran should not see 0781 pages
+ *   TRUE
+ *     - in all other cases
+ */
+export function showBehaviorIntroCombatPage(formData) {
+  return showForm0781Pages(formData) && combatOnlySelection(formData);
+}
+
+/*
+ * @returns
+ *   FALSE
+ *     - IF Vetern has ONLY selected "Traumatic Events Related To Comabt"
+ *       - AND has explicitly opted out of providing more info
+ *     - ELSE IF Veteran should not see 0781 pages
+ *   TRUE
+ *     - in all other cases
+ */
+export function showBehaviorListPage(formData) {
+  const answerQuestions =
+    _.get('view:answerCombatBehaviorQuestions', formData, 'false') === 'true';
+
+  return (
+    showForm0781Pages(formData) &&
+    ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
+      !combatOnlySelection(formData))
+  );
+}

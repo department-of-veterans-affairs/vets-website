@@ -2,18 +2,25 @@ import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
 import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
 import * as eventType from '../../pages/form0781/traumaticEventTypes';
-import {
-  showForm0781Pages,
-  isCompletingForm0781,
-  isRelatedToMST,
-  isAddingEvent,
-  policeReportSelected,
-} from '../../utils/form0781';
-import * as consentPage from '../../pages/form0781/consentPage';
-import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as eventDetails from '../../pages/form0781/traumaticEventDetails';
 import * as officialReport from '../../pages/form0781/officialReport';
 import * as policeReport from '../../pages/form0781/policeReportLocation';
+import * as consentPage from '../../pages/form0781/consentPage';
+import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
+import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
+import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
+import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
+
+import {
+  isCompletingForm0781,
+  showForm0781Pages,
+  isRelatedToMST,
+  isAddingEvent,
+  policeReportSelected,
+  showBehaviorIntroPage,
+  showBehaviorIntroCombatPage,
+  showBehaviorListPage,
+} from '../../utils/form0781';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -65,6 +72,25 @@ export const form0781PagesConfig = {
     depends: policeReportSelected(1),
     uiSchema: policeReport.uiSchema(1),
     schema: policeReport.schema(1),
+  },
+  // Behavioral Changes Pages
+  behaviorIntroPage: {
+    path: 'additional-forms/mental-health-statement/behavior-changes',
+    depends: formData => showBehaviorIntroPage(formData),
+    uiSchema: behaviorIntroPage.uiSchema,
+    schema: behaviorIntroPage.schema,
+  },
+  behaviorIntroCombatPage: {
+    path: 'additional-forms/mental-health-statement/behavior-changes-combat',
+    depends: formData => showBehaviorIntroCombatPage(formData),
+    uiSchema: behaviorIntroCombatPage.uiSchema,
+    schema: behaviorIntroCombatPage.schema,
+  },
+  behaviorListPage: {
+    path: 'additional-forms/mental-health-statement/behavior-changes-list',
+    depends: formData => showBehaviorListPage(formData),
+    uiSchema: behaviorListPage.uiSchema,
+    schema: behaviorListPage.schema,
   },
   consentPage: {
     path: 'additional-forms/mental-health-statement/consent',
