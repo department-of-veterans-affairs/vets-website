@@ -15,21 +15,33 @@ describe('authenticatedLoader', () => {
     sandbox.restore();
   });
 
-  it('should return null if user is not authenticated', async () => {
+  it('should return an empty object by default if user is not authenticated', async () => {
     hasSessionStub.returns(false);
     const loader = sinon.stub();
-    const wrappedLoader = authenticatedLoader(loader);
+    const wrappedLoader = authenticatedLoader({ loader });
 
     const result = await wrappedLoader();
 
-    expect(result).to.be.null;
+    expect(result).to.be.empty;
+    expect(loader.called).to.be.false;
+  });
+
+  it('should return a fallback if specified and user is not authenticated', async () => {
+    hasSessionStub.returns(false);
+    const loader = sinon.stub();
+    const fallbackValue = { foo: {} };
+    const wrappedLoader = authenticatedLoader({ loader, fallbackValue });
+
+    const result = await wrappedLoader();
+
+    expect(result).to.be.deep.equal(fallbackValue);
     expect(loader.called).to.be.false;
   });
 
   it('should call the loader if user is authenticated', async () => {
     hasSessionStub.returns(true);
     const loader = sinon.stub().resolves('data');
-    const wrappedLoader = authenticatedLoader(loader);
+    const wrappedLoader = authenticatedLoader({ loader });
 
     const result = await wrappedLoader('arg1', 'arg2');
 
@@ -40,7 +52,7 @@ describe('authenticatedLoader', () => {
   it('should call the loader if user session is true', async () => {
     hasSessionStub.returns(true);
     const loader = sinon.stub().resolves('data');
-    const wrappedLoader = authenticatedLoader(loader);
+    const wrappedLoader = authenticatedLoader({ loader });
 
     const result = await wrappedLoader('arg1', 'arg2');
 
@@ -51,7 +63,7 @@ describe('authenticatedLoader', () => {
   it('should call the loader if user session is "true"', async () => {
     hasSessionStub.returns('true');
     const loader = sinon.stub().resolves('data');
-    const wrappedLoader = authenticatedLoader(loader);
+    const wrappedLoader = authenticatedLoader({ loader });
 
     const result = await wrappedLoader('arg1', 'arg2');
 
