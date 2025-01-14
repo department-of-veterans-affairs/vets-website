@@ -156,7 +156,7 @@ describe('ProofOfVeteranStatusNew', () => {
 
       sinon.assert.calledWith(
         apiRequestStub,
-        '/profile/vet-verification-status',
+        '/profile/vet_verification_status',
       );
       await waitFor(() => {
         expect(
