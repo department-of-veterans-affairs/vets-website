@@ -244,6 +244,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                           dataDogActionNames.refillPage
                             .SELECT_SINGLE_MEDICATION_CHECKBOX
                         }
+                        data-dd-privacy="mask"
                         checked={
                           selectedRefillList.find(
                             item =>

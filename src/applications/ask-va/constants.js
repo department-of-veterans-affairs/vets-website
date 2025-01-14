@@ -84,6 +84,8 @@ export const requireSignInCategories = [
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
 ];
+export const TopicEducationBenefitsAndWorkStudy =
+  'Education benefits and work study';
 
 export const requireSignInTopics = ['Compensation', CategoryEducation];
 

@@ -19,7 +19,7 @@ export default function getEligibilityMessage({
       directReason === ELIGIBILITY_REASONS.noRecentVisit) ||
     requestReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
-    title = 'You can’t schedule an appointment online at this facility';
+    title = 'You can’t schedule an appointment online';
     const contact = facilityDetails?.telecom?.find(
       tele => tele.system === 'phone',
     )?.value;
