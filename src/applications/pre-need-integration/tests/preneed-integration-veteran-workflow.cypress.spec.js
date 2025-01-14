@@ -51,7 +51,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.fillServicePeriods(veteran.serviceRecords);
 
-    // Benefit Selection Page
+    // Benefit Selection Pages
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillBenefitSelection(
       claimant.desiredCemetery,

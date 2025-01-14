@@ -13,7 +13,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     // Preparer Information
     preneedHelpers.fillPreparerInfo(applicant);
 
-    // Applicant Information Page
+    // Applicant Information and Applicant Details Page
     preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillApplicantInfo(
       claimant.name,
@@ -21,16 +21,21 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       claimant.dateOfBirth,
       claimant.relationshipToVet,
     );
+
+    // Applicant Details page
     preneedHelpers.fillApplicantContactInfo(
       applicant.mailingAddress,
       applicant.applicantPhoneNumber,
       applicant.applicantEmail,
     );
 
+    // Are you the applicant's sponsor? page
     cy.selectRadio('root_application_applicant_isSponsor', applicant.isSponsor);
+    cy.axeCheck();
     preneedHelpers.clickContinue();
 
     // Veteran/Sponsor Information Page
+    // Ensuring all contact information autocompletes when indicating that the preparer is the applicant's sponsor
     preneedHelpers.validateProgressBar('3');
     cy.get('#root_application_veteran_currentName_first').should(
       'have.value',
@@ -93,20 +98,23 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       'have.value',
       applicant.applicantEmail,
     );
+    cy.axeCheck();
     preneedHelpers.clickContinue();
 
+    // Sponsor Demographics pages
     preneedHelpers.fillVeteranDemographics(veteran);
 
+    // Sponsor Military Details
     preneedHelpers.fillMilitaryHistory(
       veteran.militaryStatus,
       veteran.militaryServiceNumber,
       veteran.vaClaimNumber,
     );
 
-    // Previous Names Page
+    // Previous Names Pages
     preneedHelpers.fillPreviousName(veteran);
 
-    // Military History Page
+    // Military History Pages
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillServicePeriods(veteran.serviceRecords);
 
@@ -119,10 +127,11 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
 
     // Supporting Documents Page
+    preneedHelpers.validateProgressBar('7');
     cy.get('label[for="root_application_preneedAttachments"]').should(
       'be.visible',
     );
-    preneedHelpers.validateProgressBar('7');
+    cy.axeCheck();
     preneedHelpers.clickContinue();
 
     // Review/Submit Page

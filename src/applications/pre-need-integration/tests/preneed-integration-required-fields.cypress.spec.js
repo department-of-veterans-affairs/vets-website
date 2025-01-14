@@ -65,13 +65,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant Information Page 1
     preneedHelpers.validateProgressBar('2');
-
     errorCheck(requiredHelpers.applicantRelationshipToVetErrors);
-
     cy.get('#root_application_claimant_relationshipToVet').select(
       claimant.relationshipToVet,
     );
-
     preneedHelpers.clickContinue();
 
     // Applicant Information Page 2
@@ -116,9 +113,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Is Sponsor Deceased page
     errorCheck(requiredHelpers.veteranDeceasedErrors);
     preneedHelpers.fillSponsorDeceased(veteran.isDeceased, veteran.dateOfDeath);
-
-    // Sponsor Address
-    preneedHelpers.clickContinue();
 
     // Applicant Information Page 4
     errorCheck(requiredHelpers.veteranDemographicsErrors1);
@@ -192,6 +186,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Service Records Page 1
     preneedHelpers.clickContinue();
     veteran.serviceRecords.forEach((tour, index) => {
+      // Trigger Sponsor's Service Branch error message and check for it
       cy.get('.form-panel .usa-button-primary').click({
         waitForAnimations: true,
       });
@@ -202,6 +197,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         serviceLabels[tour.serviceBranch],
       );
       preneedHelpers.clickContinue();
+      // Trigger Additional Service Peridos error message and check for it
       cy.get('.form-panel .usa-button-primary').click({
         waitForAnimations: true,
       });
@@ -247,7 +243,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         cy.get('.usa-button-secondary.va-growable-add-btn').click();
       }
     });
-
     preneedHelpers.clickContinue();
 
     // Benefit Selection Page 2

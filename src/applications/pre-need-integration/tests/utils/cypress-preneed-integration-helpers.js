@@ -94,8 +94,8 @@ function fillPreparerInfo(preparer) {
     );
     cy.axeCheck();
     clickContinue();
-    // Preparer Mailing address
 
+    // Preparer Mailing address
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer.mailingAddress,
@@ -114,16 +114,17 @@ function fillPreparerInfo(preparer) {
     );
     cy.axeCheck();
     clickContinue();
+
     // Address validation page
+    cy.axeCheck();
     clickContinue();
   }
 }
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
 function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
-  validateProgressBar('2');
-
   cy.get('#root_application_claimant_relationshipToVet').select(relationship);
+  cy.axeCheck();
   clickContinue();
 
   cy.fillName('root_application_claimant_name', name);
@@ -135,6 +136,7 @@ function fillApplicantInfo(name, ssn, dob, relationship, city, state) {
     cy.fill('input[name="root_application_veteran_cityOfBirth"]', city);
     cy.fill('input[name="root_application_veteran_stateOfBirth"]', state);
   }
+  cy.axeCheck();
   clickContinue();
 }
 
@@ -147,6 +149,7 @@ function fillApplicantContactInfo(address, phone, email) {
   clickContinue();
 }
 
+// Checks if sponsor is deceased and if so fills in the date of death
 function fillSponsorDeceased(deceased, dod) {
   cy.selectRadio('root_application_veteran_isDeceased', deceased);
   cy.axeCheck();
@@ -158,6 +161,8 @@ function fillSponsorDeceased(deceased, dod) {
   }
 }
 
+// Selects Demographics radio buttons, coninues to next page and selects race radio/checkboxes
+// Optionally fills in the Other text box if that checkbox is selected
 function fillVeteranDemographics(veteran) {
   cy.selectRadio('root_application_veteran_gender', veteran.gender);
   cy.selectRadio(
@@ -178,6 +183,7 @@ function fillVeteranDemographics(veteran) {
   clickContinue();
 }
 
+// Selects Military Status drop-down and fills Military Service and VA Claim number text fields
 function fillMilitaryHistory(status, serviceNumber, claimNumber) {
   cy.selectVaSelect('root_application_veteran_militaryStatus', status);
   cy.fill(
@@ -186,6 +192,19 @@ function fillMilitaryHistory(status, serviceNumber, claimNumber) {
   );
   cy.fill('input[name="root_application_veteran_vaClaimNumber"]', claimNumber);
   cy.axeCheck();
+  clickContinue();
+}
+
+// Fills in previous name information if the veteran has it, performs axe check, continues to next page
+function fillPreviousName(veteran) {
+  if (veteran.serviceName.first) {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+    cy.axeCheck();
+    clickContinue();
+    cy.fillName('root_application_veteran_serviceName', veteran.serviceName);
+  } else {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
+  }
   cy.axeCheck();
   clickContinue();
 }
@@ -217,32 +236,18 @@ function fillServicePeriods(serviceRecord) {
   clickContinue();
 }
 
-// Fills in previous name information if the veteran has it, performs axe check, continues to next page
-function fillPreviousName(veteran) {
-  if (veteran.serviceName.first) {
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-    cy.axeCheck();
-    clickContinue();
-    cy.fillName('root_application_veteran_serviceName', veteran.serviceName);
-  } else {
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
-  }
-  cy.axeCheck();
-  clickContinue();
-}
-
-// Fills both benefit selection pages, performs axe checks on each, continues to next page
+// Fills both previous name pages and the desired cemetery page, performs axe checks on each, continues to next page
 function fillBenefitSelection(
   desiredCemetery,
   hasCurrentlyBuried,
   currentlyBuriedPersons,
 ) {
-  // Page 1
+  // Previous Name Page 1
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
 
-  // Page 2
+  // Previous Name Page 2
   if (hasCurrentlyBuried === '1') {
     if (currentlyBuriedPersons.length) {
       currentlyBuriedPersons.forEach((person, index) => {
@@ -262,7 +267,7 @@ function fillBenefitSelection(
     clickContinue();
   }
 
-  // Page 3
+  // Desired Cemetery Page
   autoSuggestFirstResult(
     '#root_application_claimant_desiredCemetery',
     cemeteries.data.find(({ id }) => id === desiredCemetery).attributes.name,
@@ -295,16 +300,16 @@ function submitForm() {
 }
 
 module.exports = {
+  interceptSetup,
+  validateProgressBar,
   clickContinue,
   autoSuggestFirstResult,
-  interceptSetup,
   visitIntro,
   fillPreparerInfo,
+  fillApplicantInfo,
   fillApplicantContactInfo,
   fillSponsorDeceased,
   fillVeteranDemographics,
-  validateProgressBar,
-  fillApplicantInfo,
   fillMilitaryHistory,
   fillPreviousName,
   fillServicePeriods,

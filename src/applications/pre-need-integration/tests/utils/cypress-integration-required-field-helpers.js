@@ -42,20 +42,20 @@ const burialBenefitsErrors = ['hasCurrentlyBuried'];
 const preferredCemeteryErrors = ['claimant_desiredCemetery'];
 
 module.exports = {
+  preparerInfoErrors1,
+  preparerInfoErrors2,
+  preparerInfoErrors3,
   applicantRelationshipToVetErrors,
   applicantDetailsErrors,
+  applicantContactInfoErrors,
   veteranDetailsErrors1,
   veteranDetailsErrors2,
+  veteranDeceasedErrors,
   veteranDemographicsErrors1,
   veteranDemographicsErrors2,
   veteranDemographicsErrors3,
-  veteranDeceasedErrors,
   previousNameErrors1,
   previousNameErrors2,
   burialBenefitsErrors,
   preferredCemeteryErrors,
-  applicantContactInfoErrors,
-  preparerInfoErrors1,
-  preparerInfoErrors2,
-  preparerInfoErrors3,
 };
