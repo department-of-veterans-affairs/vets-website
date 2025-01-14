@@ -91,7 +91,7 @@ export function showBehaviorIntroPage(formData) {
  *     - in all other cases
  */
 export function showBehaviorIntroCombatPage(formData) {
-  return showForm0781Pages(formData) && combatOnlySelection(formData);
+  return isCompletingForm0781(formData) && combatOnlySelection(formData);
 }
 
 /*
@@ -108,7 +108,7 @@ export function showBehaviorListPage(formData) {
     _.get('view:answerCombatBehaviorQuestions', formData, 'false') === 'true';
 
   return (
-    showForm0781Pages(formData) &&
+    isCompletingForm0781(formData) &&
     ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
       !combatOnlySelection(formData))
   );

@@ -63,11 +63,13 @@ describe('showForm0781Pages', () => {
   });
 });
 
+// Flipper is on AND user is claiming a new condition AND user opts into completing online form
 describe('showBehaviorIntroCombatPage', () => {
   describe('when a user has selected ONLY combat related events', () => {
     it('should should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
@@ -87,6 +89,7 @@ describe('showBehaviorIntroCombatPage', () => {
     it('should should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
@@ -103,9 +106,10 @@ describe('showBehaviorIntroCombatPage', () => {
   });
 
   describe('when a user has not selected combat related events', () => {
-    it('should should return false', () => {
+    it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
@@ -124,9 +128,10 @@ describe('showBehaviorIntroCombatPage', () => {
 
 describe('showBehaviorIntroPage', () => {
   describe('when a user has not selected ONLY combat related events', () => {
-    it('should should return true', () => {
+    it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
@@ -145,6 +150,7 @@ describe('showBehaviorIntroPage', () => {
     it('should should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
@@ -165,6 +171,7 @@ describe('showBehaviorListPage', () => {
     it('should should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         'view:answerCombatBehaviorQuestions': 'true',
         mentalHealth: {
           conditions: {
@@ -184,6 +191,7 @@ describe('showBehaviorListPage', () => {
     it('should should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         'view:answerCombatBehaviorQuestions': 'false',
         mentalHealth: {
           conditions: {
@@ -203,6 +211,7 @@ describe('showBehaviorListPage', () => {
     it('should should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice': 'optForOnlineForm0781',
         mentalHealth: {
           conditions: {
             someCondition: true,
