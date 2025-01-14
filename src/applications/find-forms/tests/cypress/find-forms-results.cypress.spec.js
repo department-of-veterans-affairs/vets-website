@@ -20,7 +20,7 @@ describe('functionality of Find Forms', () => {
 
     cy.get(s.FINDFORM_INPUT_ROOT)
       .shadow()
-      .find('button')
+      .find(s.FINDFORM_SEARCH)
       .should('exist')
       .click();
 
