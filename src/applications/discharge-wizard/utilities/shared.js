@@ -22,3 +22,20 @@ export const determineErrorMessage = shortName => {
 export const determineLabel = shortName => {
   return labelTextMap[shortName] ? labelTextMap[shortName] : '';
 };
+
+export const isValidYear = value => {
+  return value < new Date().getFullYear() && value?.match(/^(19|20)\d{2}$/);
+};
+
+export const determineInputErrorMessage = formValue => {
+  if (!formValue || formValue?.length < 4 || formValue.length > 4) {
+    return 'Must be four digits.';
+  }
+  if (formValue > new Date().getFullYear()) {
+    return 'Year can not be in the future.';
+  }
+  if (!isValidYear(formValue)) {
+    return 'Must be valid year.';
+  }
+  return '';
+};

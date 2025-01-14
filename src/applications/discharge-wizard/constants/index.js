@@ -116,7 +116,7 @@ export const forkableQuestions = [
 
 export const errorTextMap = Object.freeze({
   SERVICE_BRANCH: 'Select a branch.',
-  DISCHARGE_YEAR: 'Select a year.',
+  DISCHARGE_YEAR: 'Must be four digits.',
   DISCHARGE_MONTH: 'Select a month.',
   REASON: 'Select a reason.',
 });
