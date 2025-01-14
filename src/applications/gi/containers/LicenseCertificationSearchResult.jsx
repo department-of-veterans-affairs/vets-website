@@ -40,7 +40,10 @@ function LicenseCertificationSearchResult({
               <h2 className="vads-u-margin-top--0">{eduLacTypeNm}</h2>
             </div>
             <div className="row">
-              <LicenseCertificationAdminInfo institution={institution} />
+              <LicenseCertificationAdminInfo
+                institution={institution}
+                type={eduLacTypeNm}
+              />
             </div>
             <div className="row">
               <LicenseCertificationTestInfo tests={tests} />
