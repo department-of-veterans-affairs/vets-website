@@ -6,7 +6,7 @@ import { usePrevious } from 'platform/utilities/react-hooks';
 import { selectFeatureRecentLocationsFilter } from '../../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -45,30 +45,6 @@ export default function VAFacilityPageV2() {
     selectFeatureRecentLocationsFilter(state),
   );
 
-  const sortOptions = useMemo(
-    () => {
-      const options = [
-        {
-          value: 'distanceFromResidentialAddress',
-          label: 'By your home address',
-        },
-        {
-          value: 'distanceFromCurrentLocation',
-          label: 'By your current location',
-        },
-        { value: 'alphabetical', label: 'Alphabetically' },
-      ];
-      if (featureRecentLocationsFilter) {
-        options.push({
-          value: 'recentLocations',
-          label: 'By recent locations',
-        });
-      }
-      return options;
-    },
-    [featureRecentLocationsFilter],
-  );
-
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -91,7 +67,32 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
     fetchRecentLocationStatus,
+    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
+
+  const sortOptions = useMemo(
+    () => {
+      const options = [
+        {
+          value: 'distanceFromResidentialAddress',
+          label: 'By your home address',
+        },
+        {
+          value: 'distanceFromCurrentLocation',
+          label: 'By your current location',
+        },
+        { value: 'alphabetical', label: 'Alphabetically' },
+      ];
+      if (featureRecentLocationsFilter && recentLocations?.length) {
+        options.push({
+          value: 'recentLocations',
+          label: 'By recent locations',
+        });
+      }
+      return options;
+    },
+    [featureRecentLocationsFilter, recentLocations],
+  );
 
   const uiSchema = {
     vaFacility: {
@@ -108,6 +109,13 @@ export default function VAFacilityPageV2() {
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted ||
     fetchRecentLocationStatus === FETCH_STATUS.loading;
+  const isRecentLocationSort =
+    sortMethod === FACILITY_SORT_METHODS.recentLocations;
+
+  const disableButton = isRecentLocationSort
+    ? schema?.properties?.vaFacility?.enum?.length < 0
+    : schema?.properties?.vaFacility?.enum?.length === 1 &&
+      !canScheduleAtChosenFacility;
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
@@ -190,7 +198,7 @@ export default function VAFacilityPageV2() {
     );
   }
 
-  if (noValidVAFacilities) {
+  if (noValidVAFacilities && !isRecentLocationSort) {
     return (
       <div>
         {pageHeader}
@@ -215,7 +223,12 @@ export default function VAFacilityPageV2() {
     );
   }
 
-  if (singleValidVALocation && !canScheduleAtChosenFacility && !!eligibility) {
+  if (
+    singleValidVALocation &&
+    !canScheduleAtChosenFacility &&
+    !!eligibility &&
+    !isRecentLocationSort
+  ) {
     return (
       <div>
         {pageHeader}
@@ -240,7 +253,7 @@ export default function VAFacilityPageV2() {
     );
   }
 
-  if (singleValidVALocation) {
+  if (singleValidVALocation && !isRecentLocationSort) {
     return (
       <div>
         {pageHeader}
@@ -311,10 +324,7 @@ export default function VAFacilityPageV2() {
                 dispatch(routeToPreviousAppointmentPage(history, pageKey))
               }
               disabled={
-                loadingFacilities ||
-                loadingEligibility ||
-                (schema.properties.vaFacility.enum?.length === 1 &&
-                  !canScheduleAtChosenFacility)
+                loadingFacilities || loadingEligibility || disableButton
               }
             />
           </SchemaForm>
