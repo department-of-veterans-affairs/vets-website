@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import * as api from '~/platform/utilities/api';
 import sinon from 'sinon';
-import axios from 'axios';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 import MilitaryInformation from '../../../components/military-information/MilitaryInformation';
 
@@ -64,7 +64,7 @@ describe('MilitaryInformation', () => {
   let apiRequestStub;
 
   beforeEach(() => {
-    apiRequestStub = sinon.stub(axios, 'get');
+    apiRequestStub = sinon.stub(api, 'apiRequest');
   });
 
   afterEach(() => {
