@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -76,7 +77,7 @@ const DebtLettersDownload = () => {
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at{' '}
             <span className="no-wrap">
-              <va-telephone contact="8008270648" />
+              <va-telephone contact={CONTACTS.DMC} />
             </span>{' '}
             (or{' '}
             <span className="no-wrap">

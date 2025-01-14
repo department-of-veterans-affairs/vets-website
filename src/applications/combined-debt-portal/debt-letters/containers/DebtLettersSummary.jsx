@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -146,7 +147,7 @@ const DebtLettersSummary = () => {
               think your debt was created in an error, you can dispute it.
               Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
               or call the Debt Management Center at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone contact="711" tty="true" />
               ). For international callers, use{' '}
               <va-telephone contact="6127136415" />. We’re here Monday through
