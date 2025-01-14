@@ -422,8 +422,6 @@ class SaveInProgressIntro extends React.Component {
   };
 
   getAlert = savedForm => {
-    let alert;
-    let includesFormControls = false;
     const {
       alertTitle,
       formId,
@@ -435,48 +433,76 @@ class SaveInProgressIntro extends React.Component {
       formConfig,
       ariaLabel = null,
       ariaDescribedby = null,
-      user,
+      user: { profile, login },
     } = this.props;
-    const { profile, login } = user;
-    const prefillAvailable = !!(
-      profile && profile.prefillsAvailable.includes(formId)
-    );
 
-    // e.g. appType = 'application'
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const prefillAvailable = !!profile?.prefillsAvailable?.includes(formId);
 
-    if (login.currentlyLoggedIn) {
-      const data = this.getLoggedInAlertData({
+    if (login?.currentlyLoggedIn) {
+      return this.getLoggedInAlert(
         savedForm,
         formConfig,
         appType,
         prefillAvailable,
         verifiedPrefillAlert,
-      });
-      alert = data.alert;
-      includesFormControls = data.includesFormControls;
-    } else if (renderSignInMessage) {
-      alert = renderSignInMessage(prefillEnabled);
-    } else if (prefillEnabled && !verifyRequiredPrefill) {
-      alert = this.getAlertForPrefillEnabled({
-        ariaLabel,
-        ariaDescribedby,
-        appType,
-        alertTitle,
-        formConfig,
-      });
-    } else if (prefillEnabled && unverifiedPrefillAlert) {
-      alert = unverifiedPrefillAlert;
-    } else {
-      alert = (
+      );
+    }
+
+    if (renderSignInMessage) {
+      return {
+        alert: renderSignInMessage(prefillEnabled),
+        includesFormControls: false,
+      };
+    }
+
+    if (prefillEnabled) {
+      if (!verifyRequiredPrefill) {
+        return {
+          alert: this.getAlertForPrefillEnabled({
+            ariaLabel,
+            ariaDescribedby,
+            appType,
+            alertTitle,
+            formConfig,
+          }),
+          includesFormControls: false,
+        };
+      }
+
+      if (unverifiedPrefillAlert) {
+        return { alert: unverifiedPrefillAlert, includesFormControls: false };
+      }
+    }
+
+    return {
+      alert: (
         <DefaultAlert
           appType={appType}
           openLoginModal={this.openLoginModal}
           ariaLabel={ariaLabel}
           ariaDescribedby={ariaDescribedby}
         />
-      );
-    }
+      ),
+      includesFormControls: false,
+    };
+  };
+
+  getLoggedInAlert = (
+    savedForm,
+    formConfig,
+    appType,
+    prefillAvailable,
+    verifiedPrefillAlert,
+  ) => {
+    const { alert, includesFormControls } = this.getLoggedInAlertData({
+      savedForm,
+      formConfig,
+      appType,
+      prefillAvailable,
+      verifiedPrefillAlert,
+    });
+
     return { alert, includesFormControls };
   };
 
