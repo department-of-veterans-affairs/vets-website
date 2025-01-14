@@ -41,7 +41,7 @@ const formatAppointmentsContentToText = content => {
 };
 
 // Main function
-export const parseAppointments = appointments => {
+export const parseAppointments = (appointments, index = 8) => {
   // Filter appointments into upcoming and past
   const upcomingAppointments = appointments.filter(
     appointment => appointment.isUpcoming,
@@ -61,7 +61,7 @@ export const parseAppointments = appointments => {
   const formattedPastContent = formatAppointmentsContentToText(pastContent);
 
   return `
-8) Appointments
+${index}) Appointments
 
 'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
 

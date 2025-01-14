@@ -113,6 +113,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_10_7959A]: `${tryGetAppUrl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10_7959C]: `${tryGetAppUrl('10-7959C')}/`,
     [VA_FORM_IDS.FORM_10_7959F_1]: `${tryGetAppUrl('10-7959f-1-FMP')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_2]: `${tryGetAppUrl('fmp-cover-sheet')}/`,
     [VA_FORM_IDS.FORM_10182]: `${tryGetAppUrl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${tryGetAppUrl('995-supplemental-claim')}/`,
     [VA_FORM_IDS.FORM_20_0996]: `${tryGetAppUrl('0996-higher-level-review')}/`,
@@ -422,6 +423,13 @@ export const MY_VA_SIP_FORMS = [
     title: `Foreign Medical Program (FMP) Registration Form (10-7959f-1)`,
     description: '',
     trackingPrefix: '10-7959f-1-FMP-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959F_2,
+    benefit: `Foreign Medical Program (FMP) cover sheet`,
+    title: `Foreign Medical Program (FMP) cover sheet (10-7959f-2)`,
+    description: '',
+    trackingPrefix: 'fmp-cover-sheet-',
   },
   {
     id: VA_FORM_IDS.FORM_10_7959C,

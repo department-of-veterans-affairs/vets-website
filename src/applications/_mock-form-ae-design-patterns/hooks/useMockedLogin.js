@@ -1,37 +1,52 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { initializeProfile } from 'platform/user/profile/actions';
 
 import { useLocalStorage } from './useLocalStorage';
 
 export const useMockedLogin = () => {
-  const [, setHasSession] = useLocalStorage('hasSession', '');
+  const [
+    localHasSession,
+    setLocalHasSession,
+    clearLocalHasSession,
+  ] = useLocalStorage('hasSession', '');
+
+  const loggedInFromState = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
+
+  const loggedIn = useMemo(
+    () => localHasSession === 'true' || loggedInFromState,
+    [localHasSession, loggedInFromState],
+  );
+
   const dispatch = useDispatch();
 
   const logIn = () => {
-    setHasSession('true');
-    dispatch(updateLoggedInStatus(true));
+    setLocalHasSession('true');
+    dispatch(initializeProfile());
   };
 
   const logOut = () => {
     teardownProfileSession();
     dispatch(updateLoggedInStatus(false));
-    setHasSession('');
+    clearLocalHasSession();
   };
 
   const useLoggedInQuery = location => {
     useEffect(
       () => {
         if (location?.query?.loggedIn === 'true') {
-          setHasSession('true');
-          dispatch(updateLoggedInStatus(true));
+          setLocalHasSession('true');
+          dispatch(initializeProfile());
         }
 
         if (location?.query?.loggedIn === 'false') {
           teardownProfileSession();
           dispatch(updateLoggedInStatus(false));
-          setHasSession('');
+          clearLocalHasSession();
         }
 
         // having the pollTimeout present triggers some api calls to be made locally and in codespaces
@@ -43,5 +58,5 @@ export const useMockedLogin = () => {
     );
   };
 
-  return { logIn, logOut, useLoggedInQuery };
+  return { logIn, logOut, useLoggedInQuery, loggedIn };
 };

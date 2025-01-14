@@ -36,6 +36,12 @@ describe(`${appName} -- selectGreetingName`, () => {
     expect(result).to.eq('Robert');
   });
 
+  it('capitalizes first name', () => {
+    state = stateFn({ preferredName: null, first: 'KEVIN' });
+    result = selectGreetingName(state);
+    expect(result).to.eq('Kevin');
+  });
+
   it('returns null, when preferredName nor first name are present', () => {
     state = stateFn({ preferredName: null, first: null });
     result = selectGreetingName(state);

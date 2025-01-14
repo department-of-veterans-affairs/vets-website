@@ -6,7 +6,6 @@ import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 
@@ -33,35 +32,7 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  const pdfDataOld = {
-    title: `Veteran status card for ${formatFullName({
-      first,
-      middle,
-      last,
-      suffix,
-    })}`,
-    details: {
-      fullName: formatFullName({
-        first,
-        middle,
-        last,
-        suffix,
-      }),
-      serviceHistory: serviceHistory.map(item => {
-        return {
-          ...item,
-          branchOfService: getServiceBranchDisplayName(item.branchOfService),
-        };
-      }),
-      totalDisabilityRating,
-      edipi,
-      image: {
-        title: 'V-A logo',
-        url: '/img/design/logo/logo-black-and-white.png',
-      },
-    },
-  };
-  const pdfDataNew = {
+  const pdfData = {
     title: `Veteran status card for ${formatFullName({
       first,
       middle,
@@ -98,17 +69,6 @@ const ProofOfVeteranStatus = ({
     },
   };
 
-  const {
-    TOGGLE_NAMES,
-    useToggleValue,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-
-  const isLoadingFeatureFlags = useToggleLoadingValue();
-  const showNewPdf = useToggleValue(
-    TOGGLE_NAMES.veteranStatusCardUseLighthouse,
-  );
-
   useEffect(
     () => {
       if (errors?.length > 0) {
@@ -123,11 +83,9 @@ const ProofOfVeteranStatus = ({
 
     try {
       await generatePdf(
-        isLoadingFeatureFlags || !showNewPdf
-          ? 'veteranStatus'
-          : 'veteranStatusNew',
+        'veteranStatus',
         'Veteran status card',
-        isLoadingFeatureFlags || !showNewPdf ? pdfDataOld : pdfDataNew,
+        pdfData,
         !isMobile,
       );
     } catch (error) {
@@ -164,10 +122,6 @@ const ProofOfVeteranStatus = ({
       </>
     );
   });
-
-  if (isLoadingFeatureFlags) {
-    return null;
-  }
 
   return (
     <>

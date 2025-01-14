@@ -113,7 +113,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /You can.t schedule an appointment online/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 
@@ -170,7 +170,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /You can.t schedule an appointment online/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 

@@ -326,22 +326,19 @@ class MedicationsListPage {
       .and('be.visible');
   };
 
-  verifyInformationBasedOnStatusActiveRefillInProcess = () => {
+  verifyInformationBasedOnStatusActiveRefillInProcess = text => {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'We expect to fill it on');
+      .and('contain', text);
   };
 
-  verifyInformationBasedOnStatusNonVAPrescription = () => {
+  verifyInformationBasedOnStatusNonVAPrescription = text => {
     cy.get('[data-testid="rx-last-filled-info"]').should('be.visible');
 
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This isn’t a prescription that you filled through a VA pharmacy. You can’t manage this medication in this online tool.',
-      );
+      .and('contain', text);
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
@@ -787,14 +784,8 @@ class MedicationsListPage {
   };
 
   verifyFilterCollapsedOnListPage = () => {
-    cy.get('[data-testid="filter-button"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('not.exist');
-    cy.get('[data-testid="filter-option"]')
-      .shadow()
-      .find('[class="usa-legend"]', { force: true })
-      .should('not.exist');
+    cy.get('[data-testid="filter-button"]').should('not.be.visible');
+    cy.get('[data-testid="filter-option"]').should('not.be.visible');
   };
 
   visitMedicationsListPageURL = medication => {
@@ -803,8 +794,8 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
-    cy.visit(medicationsUrls.MEDICATIONS_URL);
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 
   verifyEmptyMedicationsListAlertOnListPage = text => {

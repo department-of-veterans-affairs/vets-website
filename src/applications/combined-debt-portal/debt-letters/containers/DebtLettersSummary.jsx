@@ -25,13 +25,12 @@ const renderAlert = (alertType, statements) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -41,6 +40,7 @@ const renderAlert = (alertType, statements) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
     </va-alert>
   );
 };
@@ -58,7 +58,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -189,6 +189,11 @@ const DebtLettersSummary = () => {
         >
           {title}
         </h1>
+        <p className="va-introtext">
+          Check the details of debt you might have from VA education, disability
+          compensation, or pension programs. Find out how to pay your debt and
+          what to do if you need financial assistance.
+        </p>
         <p>
           Please note that payments may take up to 4 business days to reflect
           after processing.
