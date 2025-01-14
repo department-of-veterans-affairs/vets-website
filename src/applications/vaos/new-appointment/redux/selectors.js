@@ -236,6 +236,10 @@ export function selectSingleSupportedVALocation(state) {
   return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 
+export function selectRecentLocationsStatus(state) {
+  return getNewAppointment(state).fetchRecentLocationStatus;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -271,6 +275,7 @@ export function getFacilityPageV2Info(state) {
     sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    fetchRecentLocationStatus: selectRecentLocationsStatus(state),
   };
 }
 
@@ -409,4 +414,14 @@ export function selectFacilitiesRadioWidget(state) {
 
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
+}
+
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
+}
+export function selectIsRecentLocationsFetched(state) {
+  return (
+    getNewAppointment(state).fetchRecentLocationStatus ===
+    FETCH_STATUS.succeeded
+  );
 }

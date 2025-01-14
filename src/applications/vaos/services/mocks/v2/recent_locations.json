@@ -1,0 +1,279 @@
+{
+  "data": [
+    {
+      "id": "983",
+      "type": "facilities",
+      "attributes": {
+        "id": "983",
+        "vista_site": "983",
+        "vast_parent": "983",
+        "type": "va_facilities",
+        "name": "Cheyenne VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": {
+          "time_zone_id": "America/Denver"
+        },
+        "lat": 41.148179,
+        "long": -104.786159,
+        "website": "https://www.denver.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "307-778-7550",
+          "fax": "307-778-7381",
+          "pharmacy": "866-420-6337",
+          "after_hours": "307-778-7550",
+          "patient_advocate": "307-778-7550 x7517",
+          "mental_health_clinic": "307-778-7349",
+          "enrollment_coordinator": "307-778-7550 x7579"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "2360 East Pershing Boulevard"
+          ],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postal_code": "82001-5356"
+        },
+        "mobile": false,
+        "health_service": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "EmergencyCare",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "UrgentCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operating_status": {
+          "code": "NORMAL"
+        }
+      }
+    },
+    {
+      "id": "984",
+      "type": "facilities",
+      "attributes": {
+        "id": "984",
+        "vista_site": "984",
+        "vast_parent": "984",
+        "type": "va_health_facility",
+        "name": "Dayton VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": {
+          "time_zone_id": "America/New_York"
+        },
+        "lat": "39.7424427",
+        "long": "-84.2651895",
+        "website": "https://www.dayton.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "937-268-6511"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "4100 West Third Street"
+          ],
+          "city": "Dayton",
+          "state": "OH",
+          "postal_code": "45428-9000"
+        },
+        "mobile": null,
+        "health_service": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "Dermatology",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operating_status": null
+      }
+    },
+    {
+      "id": "983GC",
+      "type": "facilities",
+      "attributes": {
+        "id": "983GC",
+        "vista_site": "983",
+        "vast_parent": "983",
+        "type": "va_facilities",
+        "name": "Fort Collins VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": {
+          "time_zone_id": "America/Denver"
+        },
+        "lat": 40.553875,
+        "long": -105.08795,
+        "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+        "phone": {
+          "main": "970-224-1550"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "line": [
+            "2509 Research Boulevard"
+          ],
+          "city": "Fort Collins",
+          "state": "CO",
+          "postal_code": "80526-8108"
+        },
+        "mobile": null,
+        "health_service": [
+          "Audiology",
+          "EmergencyCare",
+          "MentalHealthCare",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operating_status": null
+      }
+    },
+    {
+      "id": "984GA",
+      "type": "facilities",
+      "attributes": {
+        "id": "984GA",
+        "vista_site": "984",
+        "vast_parent": "984",
+        "type": "va_health_facility",
+        "name": "Middletown VA Clinic",
+        "classification": "Multi-Specialty CBOC",
+        "timezone": {
+          "time_zone_id": "America/New_York"
+        },
+        "lat": 39.50603,
+        "long": -84.316475,
+        "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+        "phone": {
+          "main": "513-423-8387"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "4337 North Union Road"
+          ],
+          "city": "Middletown",
+          "state": "OH",
+          "postal_code": "45005-5211"
+        },
+        "mobile": null,
+        "health_service": [
+          "Audiology",
+          "MentalHealthCare",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare"
+        ],
+        "operating_status": null
+      }
+    },
+    {
+      "id": "983GB",
+      "type": "facilities",
+      "attributes": {
+        "id": "983GB",
+        "vista_site": "983",
+        "vast_parent": "983",
+        "type": "va_facilities",
+        "name": "Sidney VA Clinic",
+        "classification": "Other Outpatient Services (OOS)",
+        "timezone": {
+          "time_zone_id": "Pacific/Honolulu"
+        },
+        "lat": 41.142464,
+        "long": -102.97669,
+        "website": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp",
+        "phone": {
+          "main": "308-254-6085"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "1116 10th Avenue"
+          ],
+          "city": "Sidney",
+          "state": "NE",
+          "postal_code": "69162-2001"
+        },
+        "mobile": null,
+        "health_service": [
+          "EmergencyCare",
+          "MentalHealthCare",
+          "PrimaryCare"
+        ],
+        "operating_status": null
+      }
+    },
+    {
+      "id": "983GD",
+      "type": "facilities",
+      "attributes": {
+        "id": "983GD",
+        "vista_site": "983",
+        "vast_parent": "983",
+        "type": "va_health_facility",
+        "name": "Loveland VA Clinic",
+        "classification": "Primary Care CBOC",
+        "timezone": {
+          "time_zone_id": "America/Denver"
+        },
+        "lat": 40.412647,
+        "long": -105.003815,
+        "website": "https://www.cheyenne.va.gov/locations/Loveland.asp",
+        "phone": {
+          "main": "970-962-4900"
+        },
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "5200 Hahns Peak Drive"
+          ],
+          "city": "Loveland",
+          "state": "CO",
+          "postal_code": "80538-8852"
+        },
+        "mobile": null,
+        "health_service": [
+          "Audiology",
+          "EmergencyCare",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "WomensHealth"
+        ],
+        "operating_status": null
+      }
+    }
+  ]
+}

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
+import { selectFeatureRecentLocationsFilter } from '../../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -38,14 +39,35 @@ const initialSchema = {
 
 const pageKey = 'vaFacilityV2';
 
-const sortOptions = [
-  { value: 'distanceFromResidentialAddress', label: 'By your home address' },
-  { value: 'distanceFromCurrentLocation', label: 'By your current location' },
-  { value: 'alphabetical', label: 'Alphabetically' },
-];
-
 export default function VAFacilityPageV2() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const featureRecentLocationsFilter = useSelector(state =>
+    selectFeatureRecentLocationsFilter(state),
+  );
+
+  const sortOptions = useMemo(
+    () => {
+      const options = [
+        {
+          value: 'distanceFromResidentialAddress',
+          label: 'By your home address',
+        },
+        {
+          value: 'distanceFromCurrentLocation',
+          label: 'By your current location',
+        },
+        { value: 'alphabetical', label: 'Alphabetically' },
+      ];
+      if (featureRecentLocationsFilter) {
+        options.push({
+          value: 'recentLocations',
+          label: 'By recent locations',
+        });
+      }
+      return options;
+    },
+    [featureRecentLocationsFilter],
+  );
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -68,6 +90,7 @@ export default function VAFacilityPageV2() {
     singleValidVALocation,
     sortMethod,
     typeOfCare,
+    fetchRecentLocationStatus,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
 
   const uiSchema = {
@@ -83,7 +106,8 @@ export default function VAFacilityPageV2() {
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
-    childFacilitiesStatus === FETCH_STATUS.notStarted;
+    childFacilitiesStatus === FETCH_STATUS.notStarted ||
+    fetchRecentLocationStatus === FETCH_STATUS.loading;
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
