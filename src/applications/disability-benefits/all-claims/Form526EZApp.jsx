@@ -152,21 +152,23 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      const isUpdated = toggles[ADD_DISABILITIES_ENHANCEMENT_TOGGLE] || false;
+      if (formData) {
+        const isUpdated = toggles[ADD_DISABILITIES_ENHANCEMENT_TOGGLE] || false;
 
-      if (
-        !toggles.loading &&
-        (typeof getAddDisabilitiesEnhancement(formData) === 'undefined' ||
-          getAddDisabilitiesEnhancement(formData) !== isUpdated)
-      ) {
-        setFormData({
-          ...formData,
-          [ADD_DISABILITIES_ENHANCEMENT_DATA]: isUpdated,
-        });
+        if (
+          !toggles.loading &&
+          (typeof getAddDisabilitiesEnhancement(formData) === 'undefined' ||
+            getAddDisabilitiesEnhancement(formData) !== isUpdated)
+        ) {
+          setFormData({
+            ...formData,
+            [ADD_DISABILITIES_ENHANCEMENT_DATA]: isUpdated,
+          });
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, getAddDisabilitiesEnhancement(formData)],
+    [toggles, formData],
   );
 
   useEffect(
