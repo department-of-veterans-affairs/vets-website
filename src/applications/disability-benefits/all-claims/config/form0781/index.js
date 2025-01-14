@@ -11,15 +11,9 @@ import {
 } from '../../utils/form0781';
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
-import { mentalHealthSupportPageTitle } from '../../content/mentalHealthSupport';
-import { eventsPageTitle } from '../../content/traumaticEventsIntro';
-import { eventTypesPageTitle } from '../../content/traumaticEventTypes';
 import * as eventDetails from '../../pages/form0781/traumaticEventDetails';
 import * as officialReport from '../../pages/form0781/officialReport';
 import * as policeReport from '../../pages/form0781/policeReportLocation';
-import { officialReportPageTitle } from '../../content/officialReport';
-import { eventDetailsPageTitle } from '../../content/traumaticEventDetails';
-import { policeReportLocationPageTitle } from '../../content/policeReportLocation';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -34,21 +28,18 @@ export const form0781PagesConfig = {
     schema: workflowChoicePage.schema,
   },
   mentalHealthSupport: {
-    title: mentalHealthSupportPageTitle,
     path: 'additional-forms/mental-health-statement/support',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: mentalHealthSupport.uiSchema,
     schema: mentalHealthSupport.schema,
   },
   eventsIntro: {
-    title: eventsPageTitle,
     path: 'additional-forms/mental-health-statement/events',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: traumaticEventsIntro.uiSchema,
     schema: traumaticEventsIntro.schema,
   },
   eventType: {
-    title: eventTypesPageTitle,
     path: 'additional-forms/mental-health-statement/events-type',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventType.uiSchema,
@@ -58,21 +49,18 @@ export const form0781PagesConfig = {
   // Note: event indexing is temporarily hardcoded as 1 for this first event
   // until the Event list page and List & Loop functionality are implemented
   eventDetails: {
-    title: eventDetailsPageTitle,
     path: `additional-forms/mental-health-statement/event-1-details`,
     depends: formData => isAddingEvent(formData),
     uiSchema: eventDetails.uiSchema(1),
     schema: eventDetails.schema(1),
   },
   officialReport: {
-    title: officialReportPageTitle,
     path: `additional-forms/mental-health-statement/event-1-report`,
     depends: formData => isAddingEvent(formData),
     uiSchema: officialReport.uiSchema(1),
     schema: officialReport.schema(1),
   },
   policeReport: {
-    title: policeReportLocationPageTitle,
     path: `additional-forms/mental-health-statement/event-1-police-report`,
     depends: policeReportSelected(1),
     uiSchema: policeReport.uiSchema(1),
