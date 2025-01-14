@@ -598,11 +598,31 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
 };
 
 export function capitalizeFirstLetter(string) {
-  if (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  if (!string) return null;
 
-  return null;
+  return string
+    .split(' ')
+    .map(word => {
+      if (
+        word === 'NW' ||
+        word === 'SW' ||
+        word === 'NE' ||
+        word === 'SE' ||
+        word === 'of' ||
+        word === 'and'
+      ) {
+        return word;
+      }
+      if (word === 'OF') {
+        return 'of';
+      }
+      if (word === 'AND') {
+        return 'and';
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
 }
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {

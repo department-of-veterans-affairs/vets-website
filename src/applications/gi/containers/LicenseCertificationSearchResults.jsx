@@ -129,7 +129,7 @@ function LicenseCertificationSearchResults({
                     }`}
                   </p>
                   <p className="lc-filter-option">
-                    <strong>License/Certification Name: </strong>{' '}
+                    <strong>License/Certification name: </strong>{' '}
                     {`"${nameParam}"`}
                   </p>
                 </div>

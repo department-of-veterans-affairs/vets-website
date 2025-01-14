@@ -3,26 +3,29 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
 function LicenseCertificationAdminInfo({ institution }) {
   const { name, mailingAddress } = institution;
+
   return (
     <div>
-      <h3 className="vads-u-margin-top--1p5">Admin Info</h3>
+      <h3 className="vads-u-margin-top--1p5">Admin info</h3>
       <div className="name-wrapper vads-u-display--flex vads-u-align-items--center">
         <VaIcon
           className="vads-u-padding-right--1"
           icon="location_city"
           size={3}
         />
-        <p>{name}</p>
+        <p>{capitalizeFirstLetter(name)}</p>
       </div>
       <p>The following is the headquarters address.</p>
 
       <p className="va-address-block">
-        {mailingAddress.address1}
+        {capitalizeFirstLetter(mailingAddress.address1)}
         <br />
-        {mailingAddress.city}, {mailingAddress.state} {mailingAddress.zip}
+        {capitalizeFirstLetter(mailingAddress.city)}, {mailingAddress.state}{' '}
+        {mailingAddress.zip}
         <br />
       </p>
       <p className="vads-u-padding-top--1p5 vads-u-margin-bottom--1">

@@ -4,6 +4,7 @@ import { formatCurrency } from '../utils/helpers';
 function LcTestInfo({ tests }) {
   return (
     <>
+      <h3>Test info</h3>
       <div className="table-wrapper">
         <va-table table-type="borderless" stacked>
           <va-table-row slot="headers">
