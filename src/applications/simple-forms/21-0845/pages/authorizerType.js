@@ -17,7 +17,8 @@ export default {
       errorMessages: {
         required: 'You must provide a response',
       },
-      labelHeaderLevel: '3',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
     }),
     'view:note': {
       'ui:description': () => (
