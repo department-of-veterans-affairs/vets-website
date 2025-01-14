@@ -46,15 +46,14 @@ export const FrontendServerConfiguration = ({
   const [startError, setStartError] = useState(null);
   const filteredManifests = useMemo(
     () => {
+      const searchLower = searchQuery.toLowerCase();
       return manifests
         .filter(
           manifest =>
-            manifest.appName
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            manifest.entryName
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()),
+            manifest.appName.toLowerCase().includes(searchLower) ||
+            manifest.entryName.toLowerCase().includes(searchLower) ||
+            (manifest.rootUrl &&
+              manifest.rootUrl.toLowerCase().includes(searchLower)),
         )
         .sort((a, b) => {
           const aSelected = selectedManifests.some(
@@ -63,10 +62,8 @@ export const FrontendServerConfiguration = ({
           const bSelected = selectedManifests.some(
             m => m.entryName === b.entryName,
           );
-          // Sort selected items to top
           if (aSelected && !bSelected) return -1;
           if (!aSelected && bSelected) return 1;
-          // If both selected or both unselected, sort by name
           return a.appName.localeCompare(b.appName);
         });
     },
