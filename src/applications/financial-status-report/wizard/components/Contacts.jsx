@@ -4,7 +4,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 
 const ContactDMC = () => (
   <>
-    Call us at <VaTelephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+    Call us at <va-telephone contact={CONTACTS.DMC} /> (or{' '}
     <VaTelephone
       contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
       international

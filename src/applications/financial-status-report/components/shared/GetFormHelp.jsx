@@ -20,7 +20,7 @@ const GetFormHelp = () => {
       </p>
       <p>
         If you have questions about your benefit overpayments, call us at{' '}
-        <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
+        <va-telephone contact={CONTACTS.DMC} /> (or{' '}
         <va-telephone
           contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
           international
