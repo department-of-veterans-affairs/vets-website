@@ -267,7 +267,7 @@ describe('showBehaviorIntroPage', () => {
 });
 
 describe('showBehaviorListPage', () => {
-  describe('when a user has selected ONLY combat related events and opted in', () => {
+  describe('when a user has selected ONLY combat related events', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
@@ -285,27 +285,6 @@ describe('showBehaviorListPage', () => {
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);
-    });
-  });
-
-  describe('when a user has selected ONLY combat related events and opted OUT', () => {
-    it('should return false', () => {
-      const formData = {
-        syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
-          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        'view:answerCombatBehaviorQuestions': 'false',
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
-        },
-      };
-      expect(showBehaviorListPage(formData)).to.eq(false);
     });
   });
 
