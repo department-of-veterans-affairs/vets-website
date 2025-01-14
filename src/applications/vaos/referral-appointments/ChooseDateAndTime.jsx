@@ -1,60 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
-import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
+import { setFormCurrentPage } from './redux/actions';
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { getProviderInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
+import { useGetProviderById } from './hooks/useGetProviderById';
 
 export const ChooseDateAndTime = props => {
   const { currentReferral } = props;
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { provider, providerFetchStatus } = useSelector(
-    state => getProviderInfo(state),
-    shallowEqual,
+  const { provider, loading, failed } = useGetProviderById(
+    currentReferral.providerId,
   );
+
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
 
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (
-        providerFetchStatus === FETCH_STATUS.notStarted ||
-        futureStatus === FETCH_STATUS.notStarted
-      ) {
-        if (providerFetchStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchProviderDetails(currentReferral.providerId));
-        }
-        if (futureStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchFutureAppointments({ includeRequests: false }));
-        }
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
       } else if (
-        providerFetchStatus === FETCH_STATUS.succeeded &&
-        futureStatus === FETCH_STATUS.succeeded
+        futureStatus === FETCH_STATUS.succeeded &&
+        !loading &&
+        provider
       ) {
-        setLoading(false);
         scrollAndFocus('h1');
-      } else if (
-        providerFetchStatus === FETCH_STATUS.failed ||
-        futureStatus === FETCH_STATUS.failed
-      ) {
-        setLoading(false);
-        setFailed(true);
+      } else if (futureStatus === FETCH_STATUS.failed || failed) {
         scrollAndFocus('h1');
       }
     },
-    [currentReferral.providerId, dispatch, providerFetchStatus, futureStatus],
+    [
+      currentReferral.providerId,
+      dispatch,
+      failed,
+      futureStatus,
+      loading,
+      provider,
+    ],
   );
   useEffect(
     () => {
