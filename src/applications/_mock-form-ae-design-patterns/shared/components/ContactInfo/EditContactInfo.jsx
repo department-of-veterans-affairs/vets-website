@@ -102,6 +102,9 @@ export const BuildPageBase = ({
 };
 
 BuildPageBase.propTypes = {
+  router: PropTypes.shape({
+    location: PropTypes.object,
+  }).isRequired,
   contactPath: PropTypes.string,
   editContactInfoHeadingLevel: PropTypes.string,
   field: PropTypes.string,

@@ -19,9 +19,7 @@ export const PatternConfigProviderBase = ({ children, router }) => {
 
   useEffect(
     () => {
-      if (formConfig) {
-        dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
-      }
+      dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
     },
     [dispatch, formConfig],
   );
