@@ -35,7 +35,7 @@ export const determineInputErrorMessage = formValue => {
     return 'Year can not be in the future.';
   }
   if (!isValidYear(formValue)) {
-    return 'Must be valid year.';
+    return 'Must be a valid year.';
   }
   return '';
 };

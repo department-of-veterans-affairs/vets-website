@@ -128,7 +128,7 @@ describe('Discharge Wizard helpers', () => {
 
     const oldDischargYearLabel = answerReviewLabel(
       SHORT_NAME_MAP.DISCHARGE_YEAR,
-      { [SHORT_NAME_MAP.DISCHARGE_YEAR]: 'Before 1992' },
+      { [SHORT_NAME_MAP.DISCHARGE_YEAR]: '1990' },
     );
 
     const notSureCourtMartialLabel = answerReviewLabel(
