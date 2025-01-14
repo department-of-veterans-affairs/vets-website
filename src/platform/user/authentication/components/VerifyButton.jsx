@@ -1,39 +1,64 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
+import { loginHandler } from './LoginButton';
 
-export const verifyHandler = ({ policy, useOAuth, queryParams }) => {
-  verify({
-    policy,
-    useOAuth,
-    acr: defaultWebOAuthOptions.acrVerify[policy],
-    queryParams,
-  });
+/**
+ * Handles the verification and login process.
+ * @param {Object} params - The parameters for verification.
+ * @param {string} params.policy - The authentication policy.
+ * @param {Object} params.queryParams - Query parameters for the request.
+ */
 
-  if (useOAuth) {
+export const verifyHandler = async ({ policy, queryParams }) => {
+  try {
+    const isUnauthenticatedFlow =
+      queryParams?.operation === 'unauthenticated_verify_page';
+
+    if (isUnauthenticatedFlow) {
+      const redirectUrl = `${window.location.origin}/`;
+
+      // Use loginHandler for unauthenticated login flow
+      loginHandler(policy, true, redirectUrl); // Passing `true` to ensure OAuth is used
+      return;
+    }
+
+    const acr = defaultWebOAuthOptions.acrVerify[policy];
+
+    await verify({
+      policy,
+      useOAuth: true,
+      acr,
+      queryParams,
+    });
+
     updateStateAndVerifier(policy);
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('Error during verification flow:', error);
+    }
   }
 };
 
 /**
- *
- * @returns The updated design of the ID.me identity-verification button
+ * @returns ID.me Verification Button
  */
 export const VerifyIdmeButton = ({ queryParams }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
+
+  const handleClick = async () => {
+    await verifyHandler({ policy, queryParams });
+  };
 
   return (
     <button
       type="button"
       className="usa-button idme-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
+      onClick={handleClick}
     >
       <span>
         <svg viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,18 +80,20 @@ export const VerifyIdmeButton = ({ queryParams }) => {
 };
 
 /**
- *
- * @returns The updated design of the Login.gov identity-verification buttion
+ * @returns Login.gov Verification Button
  */
 export const VerifyLogingovButton = ({ queryParams }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
+
+  const handleClick = async () => {
+    await verifyHandler({ policy, queryParams });
+  };
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
+      onClick={handleClick}
     >
       <div>Verify with {image}</div>
     </button>
@@ -74,31 +101,37 @@ export const VerifyLogingovButton = ({ queryParams }) => {
 };
 
 /**
- *
- * @param {Object} config - The configuration
- * @param {String} config.csp - The credential service provider to verify with: `logingov` or `idme`
- * @param {String} config.onClick - Used for unit-testing: DO NOT OVERWRITE
- * @returns A button with just the Login.gov or ID.me logo that is used to start the identity-verification process
+ * Generic Verify Button
+ * @param {Object} csp - Credential Service Provider.
  */
-export const VerifyButton = ({ csp, onClick = verifyHandler, queryParams }) => {
-  const { image } = SERVICE_PROVIDERS[csp];
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
-  const className = `usa-button ${csp}-verify-buttons`;
+export const VerifyButton = ({ csp, queryParams }) => {
+  const { image, policy } = SERVICE_PROVIDERS[csp];
+
+  const handleClick = async () => {
+    await verifyHandler({ policy, queryParams });
+  };
+
   return (
     <button
-      key={csp}
       type="button"
-      className={className}
-      onClick={() => onClick({ policy: csp, useOAuth, queryParams })}
+      className={`usa-button ${csp}-verify-button`}
+      onClick={handleClick}
     >
-      <span className="sr-only">Verify with</span>
-      {image}
+      Verify with {image}
     </button>
   );
+};
+
+// PropTypes
+VerifyIdmeButton.propTypes = {
+  queryParams: PropTypes.object,
+};
+
+VerifyLogingovButton.propTypes = {
+  queryParams: PropTypes.object,
 };
 
 VerifyButton.propTypes = {
   csp: PropTypes.string.isRequired,
   queryParams: PropTypes.object,
-  onClick: PropTypes.func,
 };

@@ -105,6 +105,7 @@ export async function createOAuthRequest({
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
     ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
+
   const { oAuthOptions } =
     config ??
     (externalApplicationsConfig[application] ||
@@ -122,6 +123,7 @@ export async function createOAuthRequest({
     Web - Generate state & codeVerifier if default oAuth
   */
   const { state, codeVerifier } = isDefaultOAuth && saveStateAndVerifier(type);
+
   /*
     Mobile - Use passed code_challenge
     Web - Generate code_challenge
@@ -132,6 +134,7 @@ export async function createOAuthRequest({
       : await pkceChallengeFromVerifier(codeVerifier);
 
   const usedClientId = clientId || oAuthOptions.clientId;
+
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
@@ -150,6 +153,9 @@ export async function createOAuthRequest({
       passedQueryParams.scope && {
         [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
       }),
+    ...(passedQueryParams.redirect && {
+      [OAUTH_ALLOWED_PARAMS.REDIRECT]: passedQueryParams.redirect, // Include redirect parameter
+    }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
@@ -160,6 +166,7 @@ export async function createOAuthRequest({
 
   sessionStorage.setItem('ci', usedClientId);
   recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+
   return url.toString();
 }
 

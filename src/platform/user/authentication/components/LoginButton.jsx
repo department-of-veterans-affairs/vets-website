@@ -3,10 +3,20 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { SERVICE_PROVIDERS } from '../constants';
 
-export function loginHandler(loginType, isOAuth) {
-  const isOAuthAttempt = isOAuth && '-oauth';
-  recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
-  authUtilities.login({ policy: loginType });
+export function loginHandler(
+  loginType,
+  isOAuth = false,
+  additionalQueryParams = {},
+) {
+  const isOAuthAttempt = isOAuth ? '-oauth' : '';
+  recordEvent({
+    event: `login-attempted-${loginType}${isOAuthAttempt}`,
+  });
+
+  authUtilities.login({
+    policy: loginType,
+    queryParams: { oauth: isOAuth, ...additionalQueryParams },
+  });
 }
 
 export default function LoginButton({
