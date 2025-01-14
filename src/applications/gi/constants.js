@@ -444,6 +444,7 @@ export const yellowRibbonDegreeLevelTypeHash = {
   'AAS in Accounting': ['Associates'],
   'AAS/BS - Undergraduate': ['Associates', 'Undergraduate'],
   'AOS - Undergraduate': ['Undergraduate'],
+  ALL: ['All'],
   All: ['All'],
   'All (Arts & Science)': ['All'],
   'All (Bachelor of Arts)': ['All'],

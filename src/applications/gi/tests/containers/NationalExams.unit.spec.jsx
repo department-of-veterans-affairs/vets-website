@@ -210,7 +210,7 @@ describe('NationalExamsList', () => {
     expect(loadingIndicator.exists()).to.be.true;
     expect(loadingIndicator.prop('label')).to.equal('Loading');
     expect(loadingIndicator.prop('message')).to.equal(
-      'Loading your National Exams...',
+      'Loading your National exams...',
     );
     wrapper.unmount();
   });
@@ -264,7 +264,7 @@ describe('NationalExamsList', () => {
     expect(alert.exists()).to.be.true;
     expect(alert.prop('status')).to.equal('error');
     expect(alert.find('h2[slot="headline"]').text()).to.equal(
-      'We can’t load the National Exams list right now',
+      'We can’t load the National exams list right now',
     );
     expect(alert.find('p').text()).to.include(
       'We’re sorry. There’s a problem with our system. Try again later.',

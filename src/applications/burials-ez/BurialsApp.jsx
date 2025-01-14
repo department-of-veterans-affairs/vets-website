@@ -17,7 +17,7 @@ export default function BurialsApp({ location, children }) {
 
   // Conditional to use new Burial module path in vets-api if enabled
   formConfig.submitUrl = burialModuleEnabled
-    ? '/burials/v0/burial_claims'
+    ? '/burials/v0/claims'
     : '/v0/burial_claims';
 
   useBrowserMonitoring();

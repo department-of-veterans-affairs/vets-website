@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   VaIcon,
   VaLink,
@@ -55,58 +56,37 @@ const NationalExamDetails = () => {
   }, []);
 
   // Remove this once the table width is updated in the component
-  useEffect(
+
+  useLayoutEffect(
+    // eslint-disable-next-line consistent-return
     () => {
-      setTimeout(() => {
-        const vaTableInner = document.querySelector(
-          '.exams-table va-table-inner',
-        );
-        if (vaTableInner?.shadowRoot) {
-          const { shadowRoot } = vaTableInner;
-          const usaTable = shadowRoot.querySelector('.usa-table');
-          if (usaTable) {
-            usaTable.style.width = '100%';
+      if (!error) {
+        const observer = new MutationObserver(() => {
+          const vaTableInner = document.querySelector(
+            '.exams-table va-table-inner',
+          );
+          if (vaTableInner?.shadowRoot) {
+            const { shadowRoot } = vaTableInner;
+            const usaTable = shadowRoot.querySelector('.usa-table');
+            if (usaTable) {
+              usaTable.style.width = '100%';
+            }
           }
-        }
-      }, 0);
-
-      const observer = new MutationObserver(() => {
-        const vaTableInner = document.querySelector(
-          '.exams-table va-table-inner',
-        );
-        if (vaTableInner?.shadowRoot) {
-          const { shadowRoot } = vaTableInner;
-          const usaTable = shadowRoot.querySelector('.usa-table');
-          if (usaTable) {
-            usaTable.style.width = '100%';
-          }
-        }
-      });
-
-      const vaTable = document.querySelector('.exams-table va-table');
-      if (vaTable) {
-        observer.observe(vaTable, {
-          attributes: true,
-          childList: true,
-          subtree: true,
         });
+
+        const vaTable = document.querySelector('.exams-table va-table');
+        if (vaTable) {
+          observer.observe(vaTable, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+          });
+        }
+        return () => observer.disconnect();
       }
-
-      return () => observer.disconnect();
     },
-    [examDetails],
+    [examDetails, error],
   );
-
-  if (loadingDetails || !examDetails) {
-    return (
-      <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <va-loading-indicator
-          label="Loading"
-          message="Loading your National Exam Details..."
-        />
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -117,12 +97,23 @@ const NationalExamDetails = () => {
           data-e2e-id="alert-box"
         >
           <h2 slot="headline">
-            We can’t load the National Exam Details right now
+            We can’t load the National exam details right now
           </h2>
           <p>
             We’re sorry. There’s a problem with our system. Try again later.
           </p>
         </VaAlert>
+      </div>
+    );
+  }
+
+  if (loadingDetails || !examDetails) {
+    return (
+      <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your National exam details..."
+        />
       </div>
     );
   }
@@ -141,11 +132,10 @@ const NationalExamDetails = () => {
 
           <span>{institution?.name}</span>
         </span>
-        <span className="vads-u-display--flex vads-u-align-items--center">
+        {/* <span className="vads-u-display--flex vads-u-align-items--center">
           <VaIcon icon="public" size={3} />
-          {/* If your API includes a "web_address", display it */}
-          {/* <span>{institution?.web_address}</span> */}
-        </span>
+          <span>{institution?.web_address}</span>
+        </span> */}
       </div>
 
       <div className="address-container vads-u-margin-bottom--3">
@@ -170,7 +160,7 @@ const NationalExamDetails = () => {
         <div className="vads-u-margin-bottom--4">
           <VaLink
             href="https://www.va.gov/find-forms/about-form-22-0810/"
-            text="Get link to VA Form 22-0810 to print"
+            text="Get link to VA Form 22-0810 to download"
           />
         </div>
       </div>
@@ -206,6 +196,32 @@ const NationalExamDetails = () => {
       </div>
     </div>
   );
+};
+
+NationalExamDetails.propTypes = {
+  examDetails: PropTypes.shape({
+    name: PropTypes.string,
+    tests: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        beginDate: PropTypes.string,
+        endDate: PropTypes.string,
+        fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      }),
+    ),
+    institution: PropTypes.shape({
+      name: PropTypes.string,
+      physicalAddress: PropTypes.shape({
+        address1: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        zip: PropTypes.string,
+        country: PropTypes.string,
+      }),
+    }),
+  }),
+  loadingDetails: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default NationalExamDetails;
