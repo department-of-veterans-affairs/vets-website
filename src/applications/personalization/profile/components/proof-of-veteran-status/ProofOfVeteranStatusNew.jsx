@@ -102,7 +102,7 @@ const ProofOfVeteranStatusNew = ({
 
     const fetchVerificationStatus = async () => {
       try {
-        const path = '/profile/vet-verification-status';
+        const path = '/profile/vet_verification_status';
         const response = await apiRequest(path);
         if (isMounted) {
           setData(response.data);
