@@ -54,7 +54,7 @@ describe('NationalExamDetails', () => {
     const wrapper = mountComponent();
     expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
-      'Loading your National Exam Details...',
+      'Loading your national exam details...',
     );
     wrapper.unmount();
   });
@@ -80,7 +80,7 @@ describe('NationalExamDetails', () => {
     expect(alert.exists()).to.be.true;
     expect(alert.prop('status')).to.equal('error');
     expect(alert.find('h2[slot="headline"]').text()).to.equal(
-      'We can’t load the National Exam Details right now',
+      'We can’t load the national exam details right now',
     );
     expect(alert.find('p').text()).to.include(
       'We’re sorry. There’s a problem with our system. Try again later.',
@@ -129,13 +129,13 @@ describe('NationalExamDetails', () => {
     expect(institutionSpan.exists()).to.be.true;
     const addressBlock = wrapper.find('.va-address-block');
     expect(addressBlock.text()).to.contain('123 Main St');
-    expect(addressBlock.text()).to.contain('Anytown,VA12345');
+    expect(addressBlock.text()).to.contain('Anytown,VA 12345');
     const formLink = wrapper.find(
       'va-link[href="https://www.va.gov/find-forms/about-form-22-0810/"]',
     );
     expect(formLink.exists()).to.be.true;
     expect(formLink.prop('text')).to.equal(
-      'Get link to VA Form 22-0810 to print',
+      'Get link to VA Form 22-0810 to download',
     );
 
     const tableRows = wrapper.find('va-table-row');
@@ -161,7 +161,7 @@ describe('NationalExamDetails', () => {
     const wrapper = mountComponent();
     expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
-      'Loading your National Exam Details...',
+      'Loading your national exam details...',
     );
     wrapper.unmount();
   });
