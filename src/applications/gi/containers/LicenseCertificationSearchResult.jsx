@@ -34,7 +34,7 @@ function LicenseCertificationSearchResult({
       {!fetchingLcResult &&
       institution &&
       tests && ( // better check for empty resultInfo
-          <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+          <section className="lc-result-details vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className="mobile-lg:vads-u-text-align--left">{lacNm}</h1>
               <h2 className="vads-u-margin-top--0">{eduLacTypeNm}</h2>
