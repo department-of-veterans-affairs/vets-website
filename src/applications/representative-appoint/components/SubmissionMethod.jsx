@@ -21,7 +21,7 @@ const SubmissionMethod = props => {
   };
   const handleGoForward = () => {
     if (!formData?.representativeSubmissionMethod) {
-      setError('You must select a submission method');
+      setError('Choose how to submit your request by selecting an option');
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
       goToPath('/representative-organization?review=true');
