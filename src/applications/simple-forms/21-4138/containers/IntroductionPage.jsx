@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import {
+  VaAlertSignIn,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import { TITLE, SUBTITLE } from '../config/constants';
 
 const IntroductionPage = props => {
   const { route } = props;
+  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
 
@@ -42,7 +48,7 @@ const IntroductionPage = props => {
     authStartFormText: 'Start your statement',
     unauthStartText: 'Sign in or create an account',
     displayNonVeteranMessaging: true,
-    hideSipIntro: userLoggedIn && !userIdVerified,
+    hideSipIntro: true,
   };
 
   const ombInfo = {
@@ -51,15 +57,26 @@ const IntroductionPage = props => {
     expDate: '6/30/2024',
   };
 
+  const customSipComponent = (
+    <VaAlertSignIn variant="signInRequired" disable-analytics visible>
+      <span slot="SignInButton">
+        <VaButton
+          text={content.unauthStartText}
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+          uswds
+        />
+      </span>
+    </VaAlertSignIn>
+  );
+
   return (
     <IntroductionPageView
-      devOnly={{
-        forceShowFormControls: true,
-      }}
-      route={route}
-      content={content}
-      ombInfo={ombInfo}
+      additionalChildContent={customSipComponent}
       childContent={childContent}
+      content={content}
+      devOnly={{ forceShowFormControls: true }}
+      ombInfo={ombInfo}
+      route={route}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
     />
