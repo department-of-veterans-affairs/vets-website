@@ -26,16 +26,3 @@ export const determineLabel = shortName => {
 export const isValidYear = value => {
   return value < new Date().getFullYear() && value?.match(/^(19|20)\d{2}$/);
 };
-
-export const determineInputErrorMessage = formValue => {
-  if (!formValue || formValue?.length !== 4) {
-    return 'Must be four digits.';
-  }
-  if (formValue > new Date().getFullYear()) {
-    return 'Year cannot be in the future.';
-  }
-  if (!isValidYear(formValue)) {
-    return 'Must be a valid year.';
-  }
-  return '';
-};

@@ -21,7 +21,7 @@ import {
   updateAnswerChanged,
 } from '../../../actions';
 import {
-  determineInputErrorMessage,
+  determineErrorMessage,
   determineLabel,
   isValidYear,
 } from '../../../utilities/shared';
@@ -134,7 +134,7 @@ const YearInput = ({
         inputmode="numeric"
         onInput={e => onValueChange(e.target.value)}
         label={determineLabel(shortName)}
-        error={formError ? determineInputErrorMessage(formValue) : null}
+        error={formError ? determineErrorMessage(shortName) : null}
         data-testid={testId}
         id="duw-input"
         required
