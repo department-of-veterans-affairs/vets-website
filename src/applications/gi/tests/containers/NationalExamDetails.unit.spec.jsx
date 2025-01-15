@@ -129,7 +129,7 @@ describe('NationalExamDetails', () => {
     expect(institutionSpan.exists()).to.be.true;
     const addressBlock = wrapper.find('.va-address-block');
     expect(addressBlock.text()).to.contain('123 Main St');
-    expect(addressBlock.text()).to.contain('Anytown,VA 12345');
+    expect(addressBlock.text()).to.contain('Anytown, VA 12345');
     const formLink = wrapper.find(
       'va-link[href="https://www.va.gov/find-forms/about-form-22-0810/"]',
     );

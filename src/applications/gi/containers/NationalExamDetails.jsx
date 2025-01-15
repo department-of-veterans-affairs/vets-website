@@ -8,6 +8,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchNationalExamDetails } from '../actions';
+import { formatNationalExamName, formatAddress } from '../utils/helpers';
 
 const NationalExamDetails = () => {
   const dispatch = useDispatch();
@@ -122,7 +123,9 @@ const NationalExamDetails = () => {
 
   return (
     <div className="exam-details-container row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <h1 className="vads-u-margin-bottom--3">{name}</h1>
+      <h1 className="vads-u-margin-bottom--3">
+        {formatNationalExamName(name)}
+      </h1>
       <h3 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
         Admin Info
       </h3>
@@ -141,9 +144,9 @@ const NationalExamDetails = () => {
       <div className="address-container vads-u-margin-bottom--3">
         The following is the headquarters address.
         <p className="va-address-block vads-u-margin-top--1">
-          {institution?.physicalAddress?.address1}
+          {formatAddress(institution?.physicalAddress?.address1)}
           <br />
-          {institution.physicalAddress?.city},
+          {formatAddress(institution.physicalAddress?.city)},{' '}
           {institution.physicalAddress?.state}{' '}
           {institution.physicalAddress?.zip}
         </p>
