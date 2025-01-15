@@ -208,7 +208,7 @@ class FormPage extends React.Component {
 
   goBack = () => {
     goBack({
-      formData: this.formData(),
+      formData: this.props.form.data,
       index: this.props.params?.index,
       location: this.props.location,
       onNavBack: this.props.route.pageConfig?.onNavBack,

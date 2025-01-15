@@ -33,19 +33,20 @@ export const BackLinkImpl = ({
         return;
       }
       try {
+        let path;
         const route = getRoute(routes, location);
-
-        let path = getPreviousPagePath(
-          route.pageList,
-          form.data,
-          location.pathname,
-        );
 
         if (typeof route.pageConfig?.onNavBack === 'function') {
           // if onNavBack is defined, then the consumer is doing
           // something custom and we can't determine the path,
           // possibly including side effects like setting data
           path = 'customOnNavBack';
+        } else {
+          path = getPreviousPagePath(
+            route.pageList,
+            form.data,
+            location.pathname,
+          );
         }
 
         setLink(path);
@@ -88,9 +89,7 @@ export const BackLinkImpl = ({
       aria-label="Previous page"
     >
       <a
-        href={link !== 'customOnNavBack' ? link : undefined}
-        role={link === 'customOnNavBack' ? 'button' : undefined}
-        tabIndex={link === 'customOnNavBack' ? 0 : undefined}
+        href={link === 'customOnNavBack' ? '#' : link}
         onClick={onClick}
         className="vads-u-padding--1"
       >
@@ -111,6 +110,14 @@ const mapDispatchToProps = {
   setData: setDataAction,
 };
 
+BackLinkImpl.propTypes = {
+  form: PropTypes.object,
+  location: PropTypes.object,
+  router: PropTypes.object,
+  routes: PropTypes.array,
+  setData: PropTypes.func,
+};
+
 const BackLink = withRouter(
   connect(
     mapStateToProps,
@@ -119,11 +126,3 @@ const BackLink = withRouter(
 );
 
 export default BackLink;
-
-BackLinkImpl.propTypes = {
-  form: PropTypes.object,
-  location: PropTypes.object,
-  router: PropTypes.object,
-  routes: PropTypes.array,
-  setData: PropTypes.func,
-};
