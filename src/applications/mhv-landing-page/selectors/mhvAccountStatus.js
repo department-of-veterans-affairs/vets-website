@@ -1,4 +1,4 @@
-const userActionErrorCodes = ['801', '805', '806', '807'];
+const userActionErrorCodes = [801, 805, 806, 807];
 
 export const mhvAccountStatusLoading = state => {
   return state?.myHealth?.accountStatus?.loading;

@@ -107,9 +107,7 @@ export default function VARequestLayout({ data: appointment }) {
           </div>
         </Section>
         <Section heading="Phone">
-          {facilityPhone && (
-            <FacilityPhone heading="Phone:" contact={facilityPhone} icon />
-          )}
+          {facilityPhone && <FacilityPhone contact={facilityPhone} icon />}
           {!facilityPhone && <>Not available</>}
         </Section>
         <Details

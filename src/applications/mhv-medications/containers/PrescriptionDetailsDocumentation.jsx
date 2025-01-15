@@ -256,7 +256,7 @@ const PrescriptionDetailsDocumentation = () => {
         introContent()
       )}
       {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
-      <article className={!htmlContent ? 'vads-u-padding--0' : ''}>
+      <article className="vads-u-padding-bottom--0">
         <div ref={contentRef} />
       </article>
     </>
