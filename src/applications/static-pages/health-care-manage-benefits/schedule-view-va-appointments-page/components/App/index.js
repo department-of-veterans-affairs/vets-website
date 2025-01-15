@@ -10,7 +10,7 @@ export const App = () => (
     <CallToActionWidget
       appId="view-appointments"
       setFocus={false}
-      headerLevel={2}
+      headerLevel="2"
     />
     <p data-testid="view-appointments">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
