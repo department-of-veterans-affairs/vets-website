@@ -87,13 +87,14 @@ export const FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED =
   'FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED';
 
 export const fetchNationalExamDetails = id => {
-  const url = `http://localhost:3000/v1/gi/lcpe/exams/${id}`;
-  // const url = `${api.url}/lce?type=${type}`;
+  const url = `${api.url}/lcpe/exams/${id}`;
   return async dispatch => {
-    dispatch({ type: FETCH_NATIONAL_EXAM_DETAILS_STARTED });
+    dispatch({
+      type: FETCH_NATIONAL_EXAM_DETAILS_STARTED,
+    });
 
     try {
-      const res = await fetch(url, apiV0.settings);
+      const res = await fetch(url, api.settings);
       if (!res.ok) {
         throw new Error(res.statusText);
       }
@@ -112,18 +113,22 @@ export const fetchNationalExamDetails = id => {
 };
 
 export const fetchNationalExams = () => {
-  const url = `http://localhost:3000/v1/gi/lcpe/exams`;
-  // const url = `${api.url}/lce?type=${type}`;
+  const url = `${api.url}/lcpe/exams`;
   return async dispatch => {
-    dispatch({ type: FETCH_NATIONAL_EXAMS_STARTED });
+    dispatch({
+      type: FETCH_NATIONAL_EXAMS_STARTED,
+    });
 
     try {
-      const res = await fetch(url, apiV0.settings);
+      const res = await fetch(url, api.settings);
       if (!res.ok) {
         throw new Error(res.statusText);
       }
       const { exams } = await res.json();
-      dispatch({ type: FETCH_NATIONAL_EXAMS_SUCCEEDED, payload: exams });
+      dispatch({
+        type: FETCH_NATIONAL_EXAMS_SUCCEEDED,
+        payload: exams,
+      });
     } catch (err) {
       dispatch({
         type: FETCH_NATIONAL_EXAMS_FAILED,
