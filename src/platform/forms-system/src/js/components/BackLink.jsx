@@ -25,7 +25,7 @@ export const BackLinkImpl = ({
   form, // from connect
   setData, // from connect
 }) => {
-  const [link, setLink] = useState(null);
+  const [href, setHref] = useState(null);
 
   useEffect(
     () => {
@@ -33,26 +33,26 @@ export const BackLinkImpl = ({
         return;
       }
       try {
-        let path;
+        let newHref;
         const route = getRoute(routes, location);
 
         if (typeof route.pageConfig?.onNavBack === 'function') {
           // if onNavBack is defined, then the consumer is doing
-          // something custom and we can't determine the path,
+          // something custom and we can't determine the newHref,
           // possibly including side effects like setting data
-          path = 'customOnNavBack';
+          newHref = '#';
         } else {
-          path = getPreviousPagePath(
+          newHref = getPreviousPagePath(
             route.pageList,
             form.data,
             location.pathname,
           );
         }
 
-        setLink(path);
+        setHref(newHref);
       } catch (e) {
         // possible if we're already on first page
-        setLink(null);
+        setHref(null);
       }
     },
     [location, form.data, routes, form, setData],
@@ -61,25 +61,20 @@ export const BackLinkImpl = ({
   function onClick(e) {
     e.preventDefault();
 
-    if (link === 'customOnNavBack') {
-      const route = getRoute(routes, location);
+    const route = getRoute(routes, location);
 
-      goBack({
-        formData: form.data,
-        index: router.params?.index ? Number(router.params.index) : undefined,
-        location,
-        onNavBack: route?.pageConfig?.onNavBack,
-        pageList: route?.pageList,
-        router,
-        setData,
-      });
-      return;
-    }
-
-    router.push(link);
+    goBack({
+      formData: form.data,
+      index: router.params?.index ? Number(router.params.index) : undefined,
+      location,
+      onNavBack: route?.pageConfig?.onNavBack,
+      pageList: route?.pageList,
+      router,
+      setData,
+    });
   }
 
-  if (!link) {
+  if (!href) {
     return null;
   }
 
@@ -88,11 +83,7 @@ export const BackLinkImpl = ({
       className="vads-u-margin-top--2 vads-u-margin-bottom--4"
       aria-label="Previous page"
     >
-      <a
-        href={link === 'customOnNavBack' ? '#' : link}
-        onClick={onClick}
-        className="vads-u-padding--1"
-      >
+      <a href={href} onClick={onClick} className="vads-u-padding--1">
         <va-icon icon="navigate_before" size={3} />
         Back
       </a>
