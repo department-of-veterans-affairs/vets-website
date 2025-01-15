@@ -4,8 +4,8 @@ import {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
 } from '../../src/js/routing';
+import { createRoutes } from '../../src/js/routing/createRoutes';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
