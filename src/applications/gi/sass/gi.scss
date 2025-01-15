@@ -310,26 +310,71 @@
   padding-left: 0;
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
 
-.lc-clear {
-  border: 1px solid $color-gray-dark;
-  border-left: none;
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
 }
 
-.lc-card-subheader {
-  text-transform: capitalize;
-}
+.lc-result-cards-wrapper {
+  list-style: none;
+  padding-left: 0;
 
-.license-alert {
-  max-width: 30rem;
-}
-
-.reset-search {
-  background-color: $color-white;
-  color: $color-primary;
+  .back-link {
+    @media (max-width: $mobile-lg) {
+      display: none;
+    }
+  }
 }
 
 .inst-remove-btn::part(button) {
@@ -380,9 +425,6 @@
 }
 
 .national-exams-container {
-  .va-link {
-    font-size: 18px !important;
-  }
   .national-exams-description {
     font-size: 20px;
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
