@@ -45,6 +45,14 @@ const createScreen = (
   );
 };
 
+const getVaButtonByText = (text, container) => {
+  return $(`va-button[text="${text}"]`, container);
+};
+
+const getAllVaButtonsByText = (text, container) => {
+  return $$(`va-button[text="${text}"]`, container);
+};
+
 const simulateInputChange = (selector, value) => {
   const vaTextInput = selector;
   vaTextInput.value = value;
@@ -59,7 +67,6 @@ const simulateInputChange = (selector, value) => {
 const addAConditionWithMouse = async (
   getAllByRole,
   getByTestId,
-  getByText,
   searchTerm,
   searchResult,
 ) => {
@@ -72,7 +79,7 @@ const addAConditionWithMouse = async (
     for (const result of listResults) {
       if (result.textContent === searchResult) {
         fireEvent.click(result);
-        const saveButton = getByText('Save');
+        const saveButton = getVaButtonByText('Save');
         fireEvent.click(saveButton);
       }
     }
@@ -104,7 +111,7 @@ const addAConditionWithKeyboard = async (
     }
   });
 
-  const saveButton = getByText('Save');
+  const saveButton = getVaButtonByText('Save');
   fireEvent.click(saveButton);
 };
 
@@ -165,13 +172,13 @@ describe('Add Disabilities Page', () => {
     });
 
     it('should render "Your new conditions" subheading, AutoComplete, save button, and add another condition button', () => {
-      const { getByRole, getByTestId, getByText } = createScreen();
+      const { container, getByRole, getByTestId, getByText } = createScreen();
 
       const newConditionsSubHeading = getByRole('heading', {
         name: 'Your new conditions',
       });
       const input = getByTestId('autocomplete-input');
-      const saveButton = getByText('Save');
+      const saveButton = getVaButtonByText('Save', container);
       const addAnotherConditionButton = getByText('Add another condition');
 
       expect(newConditionsSubHeading).to.be.visible;
@@ -181,9 +188,9 @@ describe('Add Disabilities Page', () => {
     });
 
     it('should render with no saved conditions by default', () => {
-      const { queryByText } = createScreen();
+      const { container } = createScreen();
 
-      const savedConditionEditButton = queryByText('Edit');
+      const savedConditionEditButton = getVaButtonByText('Edit', container);
 
       expect(savedConditionEditButton).to.not.exist;
     });
@@ -226,7 +233,7 @@ describe('Add Disabilities Page', () => {
       ]);
 
       const savedCondition = getByText('asthma');
-      const savedConditionEditButton = $('va-button[text="Edit"]', container);
+      const savedConditionEditButton = getVaButtonByText('Edit', container);
 
       expect(savedCondition).to.be.visible;
       expect(savedConditionEditButton).to.be.visible;
@@ -295,13 +302,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         `Enter your condition as "${searchTerm}"`,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchTerm);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -325,13 +331,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         searchResult,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -354,13 +359,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         searchResult,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -372,7 +376,6 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         newSearchTerm,
         newSearchResult,
       );
@@ -400,16 +403,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm1,
         searchResult1,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton1 = $(
-          'va-button[text="Edit"]',
-          container,
-        );
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
         const savedCondition1 = getByText(searchResult1);
 
         expect(savedConditionEditButton1).to.be.visible;
@@ -422,14 +421,13 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm2,
         searchResult2,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton2 = $$(
-          'va-button[text="Edit"]',
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
           container,
         )[1];
         let savedCondition2 = getByText(searchResult2);
@@ -438,7 +436,7 @@ describe('Add Disabilities Page', () => {
         expect(savedCondition2).to.be.visible;
 
         fireEvent.click(savedConditionEditButton2);
-        const removeButton = getByText('Remove');
+        const removeButton = getVaButtonByText('Remove', container);
         fireEvent.click(removeButton);
 
         savedCondition2 = queryByText(searchResult2);
@@ -491,7 +489,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchTerm);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -521,7 +519,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -550,7 +548,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = $('va-button[text="Edit"]', container);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -596,10 +594,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton1 = $(
-          'va-button[text="Edit"]',
-          container,
-        );
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
         const savedCondition1 = getByText(searchResult1);
 
         expect(savedConditionEditButton1).to.be.visible;
@@ -618,8 +613,8 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton2 = $$(
-          'va-button[text="Edit"]',
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
           container,
         )[1];
         let savedCondition2 = getByText(searchResult2);
@@ -628,7 +623,7 @@ describe('Add Disabilities Page', () => {
         expect(savedCondition2).to.be.visible;
 
         userEvent.type(savedConditionEditButton2, '{enter}');
-        const removeButton = getByText('Remove');
+        const removeButton = getVaButtonByText('Remove', container);
         userEvent.type(removeButton, '{enter}');
 
         savedCondition2 = queryByText(searchResult2);
