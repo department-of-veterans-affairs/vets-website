@@ -4,7 +4,6 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
@@ -20,18 +19,7 @@ const CategorySelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const onModalNo = () => {
-    isLoading(true);
-    onChange({
-      ...formData,
-      selectCategory: undefined,
-      allowAttachments: undefined,
-    });
-    setShowModal({ show: false, selected: '' });
-    setTimeout(() => isLoading(false), 200);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const showError = data => {
     if (data.selectCategory) {
@@ -43,10 +31,12 @@ const CategorySelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
+    const selected = apiData.find(
+      category => category.attributes.name === selectedValue,
+    );
     localStorage.removeItem('askVAFiles');
     if (selected.attributes.requiresAuthentication && !isLoggedIn) {
-      setShowModal({ show: true, selected: `${selectedValue}` });
+      setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
       onChange({
@@ -123,8 +113,8 @@ const CategorySelectPage = props => {
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
+        onClose={() => setShowModal(false)}
+        show={showModal}
         restrictedItem="category"
       />
     </>
@@ -151,4 +141,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(CategorySelectPage));
+export default connect(mapStateToProps)(CategorySelectPage);
