@@ -25,10 +25,8 @@ export default function RenderErrorContainer({
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. We couldn’t complete the identity verification process.
-          It looks like you selected <strong>“Deny”</strong> when we asked for
-          your permission to share your information with VA.gov. We can’t give
-          you access to all the tools on VA.gov without sharing your information
-          with the site.
+          We can’t give you access to all the tools on VA.gov without sharing
+          your information with the site.
         </p>
       );
       troubleshootingContent = (

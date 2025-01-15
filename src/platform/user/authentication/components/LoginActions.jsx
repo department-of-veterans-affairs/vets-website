@@ -76,13 +76,29 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through September 30, 2025
+                    {mhvButtonDeprecated
+                      ? "We'll remove this optionm after September 30, 2025"
+                      : 'Available through September 30, 2025'}
                   </span>
                 </h3>
-                <p>
-                  You’ll still be able to use your <strong>DS Logon</strong>{' '}
-                  account on Defense Department websites after this date.
-                </p>
+                {mhvButtonDeprecated ? (
+                  <div>
+                    <p className="vads-u-margin--0">
+                      You'll still be able to use the{' '}
+                      <strong>My HealtheVet</strong> website after this date.
+                    </p>
+                    <p className="vads-u-margin-top--0">
+                      You'll just need to start signing in with a{' '}
+                      <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+                      account.
+                    </p>
+                  </div>
+                ) : (
+                  <p>
+                    You’ll still be able to use your <strong>DS Logon</strong>{' '}
+                    account on Defense Department websites after this date.
+                  </p>
+                )}
                 <LoginButton
                   csp="dslogon"
                   useOAuth={useOAuth}
@@ -90,6 +106,21 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   actionLocation={actionLocation}
                 />
               </>
+            )}
+            {mhvButtonDeprecated && (
+              <div>
+                <h3 id="mhvH3" className="vads-u-margin-top--3">
+                  My HealtheVet sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available.
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  label="Learn how to access your benefits and set up your new account"
+                  href="/"
+                />
+              </div>
             )}
           </div>
         )}

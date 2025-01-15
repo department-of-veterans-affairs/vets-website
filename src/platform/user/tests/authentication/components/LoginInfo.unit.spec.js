@@ -28,6 +28,6 @@ describe('LoginInfo', () => {
     });
 
     const links = container.querySelectorAll('a');
-    expect(links.length).to.eq(5);
+    expect(links.length).to.eq(6);
   });
 });
