@@ -11,6 +11,7 @@ import {
   // fileInputUI,
   fileInputMultipleUI,
   fileInputSchema,
+  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadBlurbCustom } from '../../shared/components/fileUploads/attachments';
 import { nameWording } from '../../shared/utilities';
@@ -174,7 +175,7 @@ export const medicalClaimUploadSchema = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      medicalUpload: fileInputSchema,
+      medicalUpload: fileInputMultipleSchema,
     },
   },
 };

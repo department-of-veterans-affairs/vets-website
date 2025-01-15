@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
-let file = null;
+const file = [];
 
 /**
  * Usage uiSchema:
@@ -52,7 +52,8 @@ const VaFileInputMultipleField = props => {
         size,
         warnings,
       } = uploadedFile;
-      file = uploadedFile.file;
+      file.push(uploadedFile.file);
+      debugger;
       setUploadInProgress(false);
       props.childrenProps.onChange({
         confirmationCode,
@@ -67,15 +68,15 @@ const VaFileInputMultipleField = props => {
   const handleVaChange = e => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
-      file = null;
+      // file = null;
       setUploadInProgress(false);
-      props.childrenProps.onChange({});
+      props.childrenProps.onChange(file);
       return;
     }
 
     if (
-      file?.lastModified === fileFromEvent.lastModified &&
-      file?.size === fileFromEvent.size
+      file?.slice(-1).lastModified === fileFromEvent.lastModified &&
+      file?.slice(-1).size === fileFromEvent.size
     ) {
       // This guard clause protects against infinite looping/updating if the localFile and fileFromEvent are identical
       return;

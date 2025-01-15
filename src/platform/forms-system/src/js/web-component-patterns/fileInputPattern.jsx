@@ -10,9 +10,10 @@ export const filePresenceValidation = (
   _schema,
   errorMessages,
 ) => {
-  if (
-    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
-  ) {
+  const currentFile = Array.isArray(uploadedFile)
+    ? uploadedFile.slice(-1) // for VaFileInputMultiple
+    : uploadedFile;
+  if (!(currentFile.confirmationCode && currentFile.name && currentFile.size)) {
     errors.addError(errorMessages.required);
   }
 };

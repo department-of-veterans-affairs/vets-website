@@ -235,6 +235,7 @@ export function removeHiddenData(schema, data) {
   }
 
   if (schema.type === 'array') {
+    debugger;
     const newItems = data.map((item, index) =>
       removeHiddenData(schema.items[index], item),
     );
