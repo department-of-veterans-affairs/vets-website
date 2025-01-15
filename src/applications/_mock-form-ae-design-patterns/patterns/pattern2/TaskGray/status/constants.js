@@ -1,3 +1,5 @@
+// comment to test eslint error trigger
+
 export const DOCUMENT_TYPES = [
   'Discharge or separation papers (DD214)',
   'Annual retirement points',
