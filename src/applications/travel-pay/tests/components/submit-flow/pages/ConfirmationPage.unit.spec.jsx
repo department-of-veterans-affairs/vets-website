@@ -4,9 +4,23 @@ import { render } from '@testing-library/react';
 
 import ConfirmationPage from '../../../../components/submit-flow/pages/ConfirmationPage';
 
-it('should render', () => {
+it('should render with expected content', () => {
   const screen = render(<ConfirmationPage />);
 
   expect(screen.getByText('We’re processing your travel reimbursement claim'))
     .to.exist;
+
+  expect(
+    screen.container.querySelector(
+      '[href="/my-health/travel-pay/claims/"]',
+      '[text="Check your travel reimbursement claim status"]',
+    ),
+  ).to.exist;
+
+  expect(
+    screen.container.querySelector(
+      '[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
+      '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
+    ),
+  ).to.exist;
 });
