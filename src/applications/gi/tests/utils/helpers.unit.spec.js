@@ -31,6 +31,7 @@ import {
   deriveEligibleStudents,
   capitalizeFirstLetter,
   getAbbreviationsAsArray,
+  formatNationalExamName,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -710,6 +711,69 @@ describe('GIBCT helpers:', () => {
 
     it('should return an empty array when the value is not found in the mapping', () => {
       expect(getAbbreviationsAsArray('XYZ')).to.deep.equal([]);
+    });
+  });
+
+  describe('formatNationalExamName', () => {
+    it('should return an empty string when name is null', () => {
+      expect(formatNationalExamName(null)).to.equal('');
+    });
+
+    it('should return an empty string when name is undefined', () => {
+      expect(formatNationalExamName(undefined)).to.equal('');
+    });
+
+    it('should return an empty string when name is an empty string', () => {
+      expect(formatNationalExamName('')).to.equal('');
+    });
+
+    it('should return an empty string when name is only whitespace', () => {
+      expect(formatNationalExamName('   ')).to.equal('');
+    });
+
+    it('should return "DSST-DANTES" unchanged', () => {
+      expect(formatNationalExamName('DSST-DANTES')).to.equal('DSST-DANTES');
+    });
+
+    it('should format "MAT-MILLER ANALOGIES TEST" to "MAT-MILLER analogies test"', () => {
+      expect(formatNationalExamName('MAT-MILLER ANALOGIES TEST')).to.equal(
+        'MAT-MILLER analogies test',
+      );
+    });
+
+    it('should return "ECE (4 hours)" unchanged', () => {
+      expect(formatNationalExamName('ECE (4 hours)')).to.equal('ECE (4 hours)');
+    });
+
+    it('should return "ECE (6 hours)" unchanged', () => {
+      expect(formatNationalExamName('ECE (6 hours)')).to.equal('ECE (6 hours)');
+    });
+
+    it('should format "ECE 8 HOURS NURSING" to "ECE (8 hours) nursing"', () => {
+      expect(formatNationalExamName('ECE 8 HOURS NURSING')).to.equal(
+        'ECE (8 hours) nursing',
+      );
+    });
+
+    it('should format "DANTES SPONSORED CLEP EXAMS" to "DANTES sponsored clep exams"', () => {
+      expect(formatNationalExamName('DANTES SPONSORED CLEP EXAMS')).to.equal(
+        'DANTES sponsored clep exams',
+      );
+    });
+
+    it('should properly split on dash and lowercase the right side', () => {
+      expect(formatNationalExamName('AP-ADVANCED PLACEMENT EXAMS')).to.equal(
+        'AP-advanced placement exams',
+      );
+      expect(
+        formatNationalExamName('CLEP-COLLEGE LEVEL EXAMINATION PROGRAM'),
+      ).to.equal('CLEP-college level examination program');
+    });
+
+    it('should return the original name if no other condition is met', () => {
+      expect(formatNationalExamName('ACT')).to.equal('ACT');
+      expect(formatNationalExamName('MCAT')).to.equal('MCAT');
+      expect(formatNationalExamName('TOEFL')).to.equal('TOEFL');
     });
   });
 });

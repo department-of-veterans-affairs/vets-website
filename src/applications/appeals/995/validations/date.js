@@ -55,6 +55,10 @@ export const isValidDate = dateString => {
 };
 
 export const validateYMDate = (errors, rawDateString = '') => {
+  if (!rawDateString || rawDateString.length < 7) {
+    return; // VA date is not required
+  }
+
   // Add "-01" (day) to the YYYY-MM date for processing
   const date = createDateObject(`${rawDateString}-01`);
   const error = errorMessages.evidence;

@@ -22,7 +22,7 @@ export const authorizationAlertContent = onAnchorClick => (
     <p className="vads-u-margin-bottom--0">
       Or, go back a page and select <strong>No</strong> where we ask about
       non-VA medical records. Then you can upload your records or submit a
-      21-4142 and 21-4142a after submitting this form.Go back to upload records
+      21-4142 and 21-4142a after submitting this form.
     </p>
     <Link to={`/${EVIDENCE_PRIVATE_REQUEST}`}>Go back to upload records</Link>
   </>
