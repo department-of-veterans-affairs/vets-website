@@ -76,7 +76,7 @@ export default function getEligibilityMessage({
     directReason === ELIGIBILITY_REASONS.error ||
     requestReason === ELIGIBILITY_REASONS.error
   ) {
-    title = 'You can’t schedule this appointment online right now';
+    title = 'You can’t schedule an appointment online right now';
     content =
       'We’re sorry. There’s a problem with our system. Try again later.';
     status = 'error';
