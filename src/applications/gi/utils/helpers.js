@@ -600,19 +600,15 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
 export function capitalizeFirstLetter(string) {
   if (!string) return null;
 
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and'];
+
   return string
     .split(' ')
     .map(word => {
-      if (
-        word === 'NW' ||
-        word === 'SW' ||
-        word === 'NE' ||
-        word === 'SE' ||
-        word === 'of' ||
-        word === 'and'
-      ) {
+      if (exceptions.includes(word)) {
         return word;
       }
+
       if (word === 'OF') {
         return 'of';
       }
