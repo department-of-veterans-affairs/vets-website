@@ -6,6 +6,15 @@ describe('Claim Letters Page', () => {
       'claimLetters',
     );
 
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'cst_include_ddl_boa_letters', value: true },
+          { name: 'claim_letters_access', value: true },
+        ],
+      },
+    });
+
     cy.login();
   });
 
