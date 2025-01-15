@@ -13,7 +13,7 @@ import {
 export default {
   uiSchema: {
     'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
-    'ui:description': workflowChoicePageDescription,
+    'ui:description': ({ formData }) => workflowChoicePageDescription(formData),
     'view:mentalHealthWorkflowChoice': radioUI({
       title: form0781WorkflowChoiceDescription,
       labelHeaderLevel: '4',

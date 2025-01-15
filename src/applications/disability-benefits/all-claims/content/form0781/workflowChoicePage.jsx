@@ -7,22 +7,44 @@ export const workflowChoicePageTitle = (
   </div>
 );
 
-export const workflowChoicePageDescription = (
-  <>
-    <p>
-      You selected these mental health conditions: <b>PTSD, Depression</b>.
-    </p>
-    <p>
-      You can complete VA Form 21-0781 to provide more information about your
-      mental health conditions. It should take about 45 minutes.
-    </p>
-    <p>
-      We encourage you to complete this form to support your disability claim.
-      This form is optional and you can respond to only the questions you’re
-      comfortable answering.
-    </p>
-  </>
-);
+const conditionSelections = formData => {
+  const conditions = formData?.mentalHealth?.conditions;
+
+  // The none key is set to true when the user checks the box to claim no mental health conditions
+  // These checkboxes are generated dynamically in src/applications/disability-benefits/all-claims/pages/mentalHealth/mentalHealthConditions.js
+  if (conditions?.none === false) {
+    const selectedConditions = Object.keys(conditions).filter(
+      key => conditions[key] === true,
+    );
+
+    return (
+      <p>
+        You selected these new mental health conditions for your disability
+        claim:
+        <strong>{selectedConditions.join(', ')}</strong>.
+      </p>
+    );
+  }
+
+  return <></>;
+};
+
+export const workflowChoicePageDescription = formData => {
+  return (
+    <>
+      {conditionSelections(formData)}
+      <p>
+        You can complete VA Form 21-0781 to provide more information about your
+        mental health conditions. It should take about 45 minutes.
+      </p>
+      <p>
+        We encourage you to complete this form to support your disability claim.
+        This form is optional and you can respond to only the questions you’re
+        comfortable answering.
+      </p>
+    </>
+  );
+};
 
 export const form0781WorkflowChoiceDescription =
   'Do you want to provide more information about your mental health conditions?';

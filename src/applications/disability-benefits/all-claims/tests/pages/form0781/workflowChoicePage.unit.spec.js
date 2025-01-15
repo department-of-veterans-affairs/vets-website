@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import Sinon from 'sinon';
 import {
@@ -22,6 +22,83 @@ describe('Form 0781 workflow choice page', () => {
 
   it('should define a schema object', () => {
     expect(schema).to.be.an('object');
+  });
+
+  describe('Page Content', () => {
+    // These conditions are selected by the user on the all-claims/pages/mentalHealth/mentalHealthConditions.js page
+    it('lists a single condition claimed on the mental health screener page', () => {
+      const { getByText } = render(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={{}}
+          data={{
+            mentalHealth: {
+              conditions: {
+                anemia: true,
+                none: false,
+              },
+            },
+          }}
+        />,
+      );
+
+      const conditionsParagraph = getByText(
+        /You selected these new mental health conditions for your disability claim:/i,
+      );
+
+      // Conditions embedded in strong tag; will not match on getByText above
+      within(conditionsParagraph).getByText('anemia');
+    });
+  });
+
+  it('lists multiple conditions claimed on the mental health screener page', () => {
+    const { getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={{}}
+        data={{
+          mentalHealth: {
+            conditions: {
+              anemia: true,
+              ptsd: true,
+              depression: true,
+              none: false,
+            },
+          },
+        }}
+      />,
+    );
+
+    const conditionsParagraph = getByText(
+      /You selected these new mental health conditions for your disability claim:/i,
+    );
+
+    within(conditionsParagraph).getByText('anemia, ptsd, depression');
+  });
+
+  it('Does not display mental health conditions if the none checkbox was selected', () => {
+    const { queryByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={{}}
+        data={{
+          mentalHealth: {
+            conditions: {
+              none: true,
+            },
+          },
+        }}
+      />,
+    );
+
+    expect(
+      queryByText(
+        /You selected these new mental health conditions for your disability claim:/i,
+      ),
+    ).not.to.exist;
   });
 
   it('Displays a radio button selection of choices on filling out 0781', () => {
