@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function FacilityPhone({
-  contact,
+  contact = '800-698-2411',
   extension,
-  className = 'vads-u-font-weight--bold',
+  className = '',
   level,
   icon,
-  heading = 'Main phone:',
+  heading = 'Phone: ',
 }) {
   if (!contact) {
     return null;
@@ -26,6 +26,13 @@ export default function FacilityPhone({
   const isClinic = !!heading.includes('Clinic');
   const Heading = `h${level}`;
 
+  let dataTestId = 'facility-telephone';
+  if (number === '800-698-2411') {
+    dataTestId = 'main-telephone';
+  } else if (isClinic) {
+    dataTestId = 'clinic-telephone';
+  }
+
   return (
     <>
       {!!icon === false &&
@@ -37,12 +44,13 @@ export default function FacilityPhone({
           </>
         )}
       {typeof icon === 'undefined' &&
-        typeof level === 'undefined' &&
-        `${heading} `}
+        typeof level === 'undefined' && (
+          <span className={className}>{heading}</span>
+        )}
       <VaTelephone
         contact={number}
         extension={numberExtension}
-        data-testid={!isClinic ? 'facility-telephone' : 'clinic-telephone'}
+        data-testid={dataTestId}
       />
       {!isClinic && (
         <span>

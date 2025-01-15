@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
@@ -17,8 +17,8 @@ const {
 
 const pageTitle = 'Who’s submitting this authorization?';
 
-const expectedNumberOfFields = 2;
-testNumberOfFields(
+const expectedNumberOfFields = 1;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -27,7 +27,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

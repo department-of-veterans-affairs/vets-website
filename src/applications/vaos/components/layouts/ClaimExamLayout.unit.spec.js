@@ -343,13 +343,12 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
-
       expect(screen.getByText(/Location:/i));
       expect(screen.getByText(/CHEYENNE/));
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Phone:/i));
+      expect(screen.getAllByText(/Clinic phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
@@ -478,7 +477,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Phone/i));
+      expect(screen.getByText(/Clinic phone/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
@@ -583,7 +582,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Phone:/i));
+      expect(screen.getByText(/Clinic phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;

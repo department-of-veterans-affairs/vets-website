@@ -3,6 +3,7 @@ import Downshift from 'downshift';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function LicenseCertificationKeywordSearch({
   inputValue,
@@ -56,6 +57,16 @@ export default function LicenseCertificationKeywordSearch({
             >
               License/Certification Name
             </label>
+            <div className="additional-info-wrapper">
+              <VaAdditionalInfo
+                trigger="Tips to improve search results"
+                disableBorder={false}
+              >
+                Using more specific keywords can help narrow down your search
+                results. For example, searching for "Microsoft Azure" will give
+                you more targeted results than searching for only "Microsoft."
+              </VaAdditionalInfo>
+            </div>
             <div className="vads-u-display--flex input-container">
               <input
                 style={
