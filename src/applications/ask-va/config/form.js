@@ -1,11 +1,8 @@
 import {
-  CategoryEducation,
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
   requiredForSubtopicPage,
-  TopicEducationBenefitsAndWorkStudy,
-  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
 import manifest from '../manifest.json';
@@ -60,6 +57,7 @@ import {
   aboutSomeoneElseRelationshipVeteranCondition,
   aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition,
   generalQuestionCondition,
+  whoIsYourQuestionAboutCondition,
 } from './helpers';
 import prefillTransformer from './prefill-transformer';
 
@@ -157,14 +155,8 @@ const formConfig = {
           CustomPageReview: CustomPageReviewField,
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
-          // Hidden - EDU Question are always 'General Question' unless topic is VR&E
-          depends: form => {
-            if (form.selectCategory !== CategoryEducation) {
-              return form.selectTopic !== TopicEducationBenefitsAndWorkStudy;
-            }
-            return (
-              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
-            );
+          depends: formData => {
+            return whoIsYourQuestionAboutCondition(formData);
           },
         },
         relationshipToVeteran: {

@@ -92,6 +92,7 @@ export const form0781PagesConfig = {
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
   },
+  // Conclusion Pages
   consentPage: {
     path: 'additional-forms/mental-health-statement/consent',
     depends: formData => isRelatedToMST(formData),
