@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 export const headingPrefix = 'Sign in with a verified account';
@@ -11,11 +13,30 @@ export const headingPrefix = 'Sign in with a verified account';
  * @property {*} recordEvent the function to record the event
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({ headerLevel }) => {
+const UnauthenticatedAlert = ({
+  headerLevel = 2,
+  recordEvent = recordEventFn,
+  serviceDescription,
+}) => {
   const dispatch = useDispatch();
   const handleSignIn = () => {
     dispatch(toggleLoginModal(true, 'mhv-signin-cta', true));
   };
+  const headline = serviceDescription
+    ? `${headingPrefix} to ${serviceDescription}`
+    : headingPrefix;
+
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': `va-alert-sign-in`,
+      });
+    },
+    [headline, recordEvent],
+  );
 
   return (
     <div data-testid="mhv-unauthenticated-alert">

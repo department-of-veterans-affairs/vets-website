@@ -1,11 +1,11 @@
-// Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-// Relative imports.
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
-export const App = ({ loggedIn, toggleLoginModal }) => {
+export const App = () => {
+  const dispatch = useDispatch();
+  const loggedIn = useSelector(state => state?.user?.login?.currentlyLoggedIn);
+
   if (loggedIn) {
     return (
       <va-alert status="info" visible>
@@ -30,7 +30,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     <va-alert-sign-in visible variant="signInRequired" heading-level={3}>
       <span slot="SignInButton">
         <va-button
-          onClick={() => toggleLoginModal(true)}
+          onClick={() => dispatch(toggleLoginModal(true))}
           text="Sign in or create an account"
         />
       </span>
@@ -38,22 +38,4 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   );
 };
 
-App.propTypes = {
-  // From mapDispatchToProps.
-  toggleLoginModal: PropTypes.func.isRequired,
-  // From mapStateToProps.
-  loggedIn: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default App;
