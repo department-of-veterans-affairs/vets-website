@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
-import {
-  getPeriodsToVerify,
-  getPeriodsToVerifyDGIB,
-  isVerificationEndDateValid,
-} from '../helpers';
+import { getPeriodsToVerify, getPeriodsToVerifyDGIB } from '../helpers';
 import Alert from './Alert';
 
 const PeriodsToVerify = ({
@@ -24,9 +20,7 @@ const PeriodsToVerify = ({
   const { error } = verifyEnrollment;
   const idRef = useRef();
   const showEnrollmentVerifications = enrollmentVerifications?.some(
-    verification =>
-      !verification.verificationMethod &&
-      isVerificationEndDateValid(verification.verificationEndDate),
+    verification => !verification.verificationMethod,
   );
   useEffect(
     () => {

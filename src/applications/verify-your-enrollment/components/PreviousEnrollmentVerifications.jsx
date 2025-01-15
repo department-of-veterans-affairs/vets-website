@@ -108,7 +108,7 @@ const PreviousEnrollmentVerifications = ({
       }
       if (month.length === 1) {
         const tempSingleEnrollment = claimantId
-          ? getSignlePreviousEnrollmentsDGIB(month[0])
+          ? getSignlePreviousEnrollmentsDGIB(month[0], enrollmentVerifications)
           : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }
