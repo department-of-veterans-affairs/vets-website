@@ -142,8 +142,7 @@ const formConfig = {
           path: 'representative-submission-method',
           CustomPage: RepresentativeSubmissionMethod,
           depends: formData =>
-            formData.v2IsEnabled &&
-            selectedAccreditedOrganizationId.pageDepends(formData),
+            representativeSubmissionMethod.pageDepends(formData),
           uiSchema: representativeSubmissionMethod.uiSchema,
           schema: representativeSubmissionMethod.schema,
         },
