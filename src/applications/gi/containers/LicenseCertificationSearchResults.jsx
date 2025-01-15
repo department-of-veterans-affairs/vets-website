@@ -62,6 +62,10 @@ function LicenseCertificationSearchResults({
     [lcResults],
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handlePageChange = page => {
     setCurrentPage(page);
   };
