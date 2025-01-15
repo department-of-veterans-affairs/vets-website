@@ -131,7 +131,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 {prescription.prescriptionName}
               </Link>
               <div className="renew-card-details">
-                <p>
+                <p data-dd-privacy="mask">
                   {`Prescription number: ${prescription.prescriptionNumber}`}
                 </p>
                 <p data-testid={`renew-last-filled-${idx}`}>
