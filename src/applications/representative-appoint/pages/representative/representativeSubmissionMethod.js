@@ -22,7 +22,7 @@ export const schema = {
 };
 
 export const pageDepends = () => {
-  // need to update this when we have a way of verifying
+  // temporarily hardcoding these values
   const userCanSubmitDigitally = true;
   const representativeAcceptsDigitalSubmission = true;
 
