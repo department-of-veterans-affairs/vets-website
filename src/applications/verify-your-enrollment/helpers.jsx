@@ -677,10 +677,10 @@ export const getSignlePreviousEnrollmentsDGIB = (
   return (
     <div className="vye-top-border" key={myUUID}>
       {isVerificationDateValid(
-        enrollment?.verificationBeginDate,
+        enrollment?.verificationEndDate,
         enrollmentData,
       ) &&
-        isVerificationEndDateValid(enrollment?.verificationBeginDate) && (
+        isVerificationEndDateValid(enrollment?.verificationEndDate) && (
           <>
             <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
               <span className="vads-u-display--inline-block ">
