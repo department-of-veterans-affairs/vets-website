@@ -238,11 +238,11 @@ const NextStepsV2 = ({ formData }) => {
         <>
           <p>You should complete and file your claims as soon as possible.</p>
           <p>
-            You should complete and file your claims as soon as possible. If you
-            complete and file your claim before the intent to file expires and
-            we approve your claim, you may be able to get retroactive payments.
-            Retroactive payments are payments for the time between when we
-            processed your intent to file and when we approved your claim.
+            If you complete and file your claim before the intent to file
+            expires and we approve your claim, you may be able to get
+            retroactive payments. Retroactive payments are payments for the time
+            between when we processed your intent to file and when we approved
+            your claim.
           </p>
         </>
       )}
