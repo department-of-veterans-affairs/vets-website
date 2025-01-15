@@ -28,11 +28,11 @@ export const isValidYear = value => {
 };
 
 export const determineInputErrorMessage = formValue => {
-  if (!formValue || formValue?.length < 4 || formValue.length > 4) {
+  if (!formValue || formValue?.length !== 4) {
     return 'Must be four digits.';
   }
   if (formValue > new Date().getFullYear()) {
-    return 'Year can not be in the future.';
+    return 'Year cannot be in the future.';
   }
   if (!isValidYear(formValue)) {
     return 'Must be a valid year.';

@@ -165,10 +165,10 @@ const YearInput = ({
 };
 
 YearInput.propTypes = {
+  H1: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
-  H1: PropTypes.string.isRequired,
   questionFlowChanged: PropTypes.bool.isRequired,
   questionSelectedToEdit: PropTypes.string.isRequired,
   routeMap: PropTypes.array.isRequired,
