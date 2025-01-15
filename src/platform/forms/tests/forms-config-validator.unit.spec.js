@@ -67,6 +67,7 @@ const formConfigKeys = [
   'CustomTopContent',
   'defaultDefinitions',
   'dev',
+  'disableSave',
   'downtime',
   'errorText',
   'footerContent',
