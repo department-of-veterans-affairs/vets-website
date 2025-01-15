@@ -3,11 +3,8 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
-import { INITIAL_SORT_STATE } from '../../constants';
-import {
-  SearchResults,
-  MAX_PAGE_LIST_LENGTH,
-} from '../../containers/SearchResults';
+import { INITIAL_SORT_STATE, MAX_PAGE_LIST_LENGTH } from '../../constants';
+import { SearchResults } from '../../containers/SearchResults';
 
 describe('Find VA Forms <SearchResults>', () => {
   const results = times(MAX_PAGE_LIST_LENGTH + 1, () => ({

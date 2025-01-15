@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import PdfModal from '../../components/PdfModal';
+import PdfModal from '../components/PdfModal';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
 const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
@@ -44,6 +44,7 @@ const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
 };
 
 DownloadPDFModal.propTypes = {
+  clickedId: PropTypes.string,
   formNumber: PropTypes.string,
   removeNode: PropTypes.func,
   url: PropTypes.string,

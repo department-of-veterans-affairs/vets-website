@@ -1,6 +1,6 @@
 import chunk from 'lodash/chunk';
-import { FAF_SORT_OPTIONS } from '../../constants';
 import stub from '../../constants/stub.json';
+import { FAF_SORT_OPTIONS } from '../../constants';
 import { SELECTORS as s } from './helpers';
 
 describe('functionality of Find Forms', () => {

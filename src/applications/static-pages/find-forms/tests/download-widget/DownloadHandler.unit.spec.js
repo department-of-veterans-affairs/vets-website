@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import DownloadHandler from '../../widgets/createFindVaFormsPDFDownloadHelper/DownloadHandler';
+import DownloadHandler from '../../download-widget/DownloadHandler';
 
 describe('DownloadHandler', () => {
   const insertSpy = sinon.spy();

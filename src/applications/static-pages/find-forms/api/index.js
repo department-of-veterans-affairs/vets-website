@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import { apiRequest } from '~/platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import STUBBED_RESPONSE from '../constants/stub.json';
 
 export const fetchFormsApi = async (query, options = {}) => {

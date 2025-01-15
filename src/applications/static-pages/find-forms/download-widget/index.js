@@ -1,16 +1,6 @@
-import * as Sentry from '@sentry/browser';
-import { fetchFormsApi } from '../../api';
+import { fetchFormsApi } from '../api';
+import { sentryLogger } from './sentryLogger';
 import DownloadHandler from './DownloadHandler';
-
-// HOF for reusable situations in Component.
-export function sentryLogger(form, formNumber, downloadUrl, message) {
-  return Sentry.withScope(scope => {
-    scope.setExtra('form API response', form);
-    scope.setExtra('form number', formNumber);
-    scope.setExtra('download link (invalid)', downloadUrl);
-    Sentry.captureMessage(message);
-  });
-}
 
 export async function onDownloadLinkClick(event, reduxStore) {
   // This function purpose is to determine if the PDF is valid on click.

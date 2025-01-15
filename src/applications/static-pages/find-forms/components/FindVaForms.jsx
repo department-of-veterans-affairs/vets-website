@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
 
