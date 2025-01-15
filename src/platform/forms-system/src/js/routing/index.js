@@ -70,3 +70,17 @@ export function goBack({
 
   router.push(path);
 }
+
+export function getRoute(routes, location) {
+  try {
+    return routes.find(r => {
+      if (r.path.includes(':index')) {
+        const regex = new RegExp(r.path.replace(':index', '\\d+'));
+        return regex.test(location.pathname);
+      }
+      return `/${r.path}` === location.pathname;
+    });
+  } catch (e) {
+    return null;
+  }
+}
