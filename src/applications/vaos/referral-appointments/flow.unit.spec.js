@@ -1,35 +1,31 @@
 import { expect } from 'chai';
-import { getReferralBreadcumb } from './flow';
+import { getReferralUrlLabel } from './flow';
 
 describe('Referral Appointments Flow', () => {
-  describe('getReferralBreadcumb', () => {
-    it('should return the correct breadcrumb information', () => {
-      const location = { href: '/schedule-referral' };
-      const currentPage = 'scheduleReferral';
-      const referralId = '123';
+  describe('getReferralUrlLabel', () => {
+    it('should return the correct label', () => {
+      const location = { pathname: '/schedule-referral' };
       const categoryOfCare = 'Primary Care';
-      const breadcrumb = getReferralBreadcumb(
-        location,
-        currentPage,
-        referralId,
-        categoryOfCare,
-      );
-      expect(breadcrumb).to.deep.equal({
-        href: '/schedule-referral',
-        label: 'Referral for Primary Care',
-        useBackBreadcrumb: false,
+      const breadcrumb = getReferralUrlLabel(location, categoryOfCare);
+      expect(breadcrumb).to.equal('Referral for Primary Care');
+    });
+
+    describe('when the location is a subpage of /schedule-referral/*', () => {
+      it('should return "Back to appointments" for "/schedule-referral/complete"', () => {
+        const location = { pathname: '/schedule-referral/complete' };
+        const breadcrumb = getReferralUrlLabel(location);
+        expect(breadcrumb).to.equal('Back to appointments');
+      });
+      it('should return "Back" for all pages that match /schedule-referral/*', () => {
+        const location = { pathname: '/schedule-referral/date-time' };
+        const breadcrumb = getReferralUrlLabel(location);
+        expect(breadcrumb).to.equal('Back');
       });
     });
 
-    it('should return null if the current page is not found in the flow', () => {
-      const location = { href: '/non-existent-url' };
-      const currentPage = 'nonExistentPage';
-      const referralId = '123';
-      const breadcrumb = getReferralBreadcumb(
-        location,
-        currentPage,
-        referralId,
-      );
+    it('should return null if the current location is not in the flow', () => {
+      const location = { pathname: '/non-existent-url' };
+      const breadcrumb = getReferralUrlLabel(location);
       expect(breadcrumb).to.be.null;
     });
   });

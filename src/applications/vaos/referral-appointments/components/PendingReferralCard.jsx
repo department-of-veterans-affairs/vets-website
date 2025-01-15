@@ -12,7 +12,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.CategoryOfCare;
 
-  const link = `schedule-referral/?id=${referral.UUID}`;
+  const link = `schedule-referral?id=${referral.UUID}`;
 
   const appointmentString =
     referral.numberOfAppointments === 1

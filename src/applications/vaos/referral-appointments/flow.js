@@ -4,64 +4,51 @@ import { startReferralTimer } from './utils/timer';
  * Function to get referral page flow.
  *
  * @export
- * @param {string} referralId - The referral unique identifier
  * @returns {object} Referral appointment workflow object
  */
-export default function getPageFlow(referralId) {
+export default function getPageFlow() {
   return {
     appointments: {
       url: '/',
       label: 'Appointments',
       next: 'scheduleReferral',
       previous: '',
-      breadcrumbText: 'Appointments',
-      useBackBreadcrumb: false,
     },
     referralsAndRequests: {
       url: '/referrals-requests',
-      label: 'Active referrals',
+      label: 'Requests and referrals',
       next: 'scheduleReferral',
       previous: 'appointments',
-      breadcrumbText: 'Requests and referrals',
-      useBackBreadcrumb: false,
     },
     scheduleReferral: {
-      url: `/schedule-referral?id=${referralId}`,
-      label: 'Referral for',
+      url: `/schedule-referral`,
+      label: 'Referral for {{ categoryOfCare }}',
       next: 'scheduleAppointment',
       previous: 'referralsAndRequests',
-      breadcrumbText: 'Referral for {{ categoryOfCare }}',
-      useBackBreadcrumb: false,
     },
     scheduleAppointment: {
-      url: `/schedule-referral/date-time?id=${referralId}`,
+      url: `/schedule-referral/date-time`,
       label: 'Schedule an appointment with your provider',
       next: 'reviewAndConfirm',
       previous: 'scheduleReferral',
-      breadcrumbText: 'Back',
-      useBackBreadcrumb: true,
     },
     reviewAndConfirm: {
-      url: `/schedule-referral/review?id=${referralId}`,
+      url: `/schedule-referral/review`,
       label: 'Review your appointment details',
       next: 'complete',
       previous: 'scheduleAppointment',
-      breadcrumbText: 'Back',
-      useBackBreadcrumb: true,
     },
     complete: {
-      url: `/schedule-referral/complete?id=${referralId}&confirmMsg=true`,
+      url: `/schedule-referral/complete`,
       label: 'Your appointment is scheduled',
       next: '',
-      previous: 'reviewAndConfirm',
-      breadcrumbText: 'Back to appointments',
-      useBackBreadcrumb: true,
+      previous: 'appointments',
     },
   };
 }
 
 export function routeToPageInFlow(history, current, action, referralId) {
-  const pageFlow = getPageFlow(referralId);
+  const pageFlow = getPageFlow();
   // if there is no current page meaning there was an error fetching referral data
   // then we are on an error state in the form and back should go back to appointments.
   const nextPageString = current
@@ -72,8 +59,21 @@ export function routeToPageInFlow(history, current, action, referralId) {
     startReferralTimer(referralId);
   }
 
-  if (nextPage?.url) {
-    history.push(nextPage.url);
+  const params = new URLSearchParams();
+  if (referralId && current !== 'complete') {
+    params.append('id', referralId);
+  }
+  if (current === 'reviewAndConfirm' && action === 'next') {
+    params.append('confirmMsg', 'true');
+  }
+
+  let nextPageUrl = nextPage?.url;
+
+  if (nextPageUrl) {
+    if (params.size) {
+      nextPageUrl += `?${params.toString()}`;
+    }
+    history.push(nextPageUrl);
   } else if (nextPage) {
     throw new Error(`Tried to route to a page without a url: ${nextPage}`);
   } else {
@@ -101,9 +101,16 @@ export function routeToNextReferralPage(history, current, referralId = null) {
 }
 
 export function routeToCCPage(history, page, referralId = null) {
-  const pageFlow = getPageFlow(referralId);
+  const pageFlow = getPageFlow();
   const nextPage = pageFlow[page];
-  return history.push(nextPage.url);
+  let nextPageUrl = nextPage.url;
+
+  if (referralId) {
+    const params = new URLSearchParams();
+    params.append('id', referralId);
+    nextPageUrl += `?${params.toString()}`;
+  }
+  return history.push(nextPageUrl);
 }
 
 /* Function to get label from the flow
@@ -111,12 +118,12 @@ export function routeToCCPage(history, page, referralId = null) {
  * flow URL
  *
  * @export
- * @param {object} state 
  * @param {string} location - the pathname
+ * @param {string} categoryOfCare - the category of care
  * @returns {string} the label string
  */
 
-export function getReferralUrlLabel(state, location) {
+export function getReferralUrlLabel(location, categoryOfCare = '') {
   const _flow = getPageFlow();
   const home = '/';
   const results = Object.values(_flow).filter(
@@ -124,40 +131,12 @@ export function getReferralUrlLabel(state, location) {
   );
 
   if (results && results.length) {
-    return results[0].label;
+    const [result] = results;
+    const { url, label } = result;
+    if (url.startsWith('/schedule-referral/')) {
+      return url.endsWith('complete') ? 'Back to appointments' : 'Back';
+    }
+    return label.replace('{{ categoryOfCare }}', categoryOfCare);
   }
   return null;
 }
-
-/**
- * Generates the breadcrumb information for a referral appointment flow.
- *
- * @param {object} location - The location object containing the current URL.
- * @param {string} currentPage - The current page identifier in the referral flow.
- * @param {string} referralId - The unique identifier for the referral.
- * @param {string} [categoryOfCare=''] - The category of care for the referral.
- * @returns {Object|null} The breadcrumb information including href, label, and useBackBreadcrumb flag, or null if the current page is not found in the flow.
- */
-export const getReferralBreadcumb = (
-  location,
-  currentPage,
-  referralId,
-  categoryOfCare = '',
-) => {
-  const _flow = getPageFlow(referralId);
-  const result = _flow[currentPage];
-
-  if (!result) {
-    return null;
-  }
-  const { useBackBreadcrumb } = result;
-
-  return {
-    href: useBackBreadcrumb ? '#' : location.href,
-    label: result.breadcrumbText.replace(
-      '{{ categoryOfCare }}',
-      categoryOfCare,
-    ),
-    useBackBreadcrumb,
-  };
-};

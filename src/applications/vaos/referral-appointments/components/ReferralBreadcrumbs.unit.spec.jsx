@@ -24,12 +24,8 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     sandbox.restore();
   });
 
-  it('should render breadcrumbs correctly', () => {
-    sandbox.stub(flow, 'getReferralBreadcumb').returns({
-      useBackBreadcrumb: false,
-      label: 'Label',
-      href: '/test',
-    });
+  it('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
+    sandbox.stub(flow, 'getReferralUrlLabel').returns('Label');
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
@@ -42,12 +38,9 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     expect(crumb).to.equal('Label');
   });
 
-  it('should render back link correctly', () => {
-    sandbox.stub(flow, 'getReferralBreadcumb').returns({
-      useBackBreadcrumb: true,
-      label: 'Custom Label',
-      href: '/test',
-    });
+  it('should render back link correctly when breadcrumb starts with "Back"', () => {
+    sandbox.stub(flow, 'getReferralUrlLabel').returns('Back to previous page');
+
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
@@ -57,7 +50,24 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     expect(navigation).to.exist;
     const backLink = screen.getByTestId('back-link');
     expect(backLink).to.exist;
-    expect(backLink).to.have.attribute('href', '/test');
-    expect(backLink).to.have.attribute('text', 'Custom Label');
+    expect(backLink).to.have.attribute('href', '#');
+    expect(backLink).to.have.attribute('text', 'Back to previous page');
+  });
+
+  it('should call routeToPreviousReferralPage when back link is clicked', () => {
+    const routeToPreviousReferralPage = sandbox.stub(
+      flow,
+      'routeToPreviousReferralPage',
+    );
+    sandbox.stub(flow, 'getReferralUrlLabel').returns('Back to previous page');
+
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
+      store,
+    });
+
+    const backLink = screen.getByTestId('back-link');
+    backLink.click();
+    expect(routeToPreviousReferralPage.called).to.be.true;
   });
 });
