@@ -21,10 +21,23 @@ export const schema = {
   },
 };
 
-export const pageDepends = () => {
+export const pageDepends = formData => {
+  const { v2IsEnabled } = formData;
   // temporarily hardcoding these values
+  const repHasMultipleOrganizations =
+    !!formData['view:selectedRepresentative'] &&
+    ['representative', 'veteran_service_officer'].includes(
+      formData['view:selectedRepresentative'].attributes?.individualType,
+    ) &&
+    formData['view:selectedRepresentative'].attributes?.accreditedOrganizations
+      ?.data?.length > 1;
   const userCanSubmitDigitally = true;
   const representativeAcceptsDigitalSubmission = true;
 
-  return userCanSubmitDigitally && representativeAcceptsDigitalSubmission;
+  return (
+    v2IsEnabled &&
+    repHasMultipleOrganizations &&
+    userCanSubmitDigitally &&
+    representativeAcceptsDigitalSubmission
+  );
 };
