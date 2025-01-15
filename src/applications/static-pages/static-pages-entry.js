@@ -49,8 +49,8 @@ import createAppointARepLandingContent from './representative-appoint';
 import createRepresentativeStatus from './representative-status';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-forms/createFindVaForms';
-import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+} from './find-forms/createFindVaForms';
+import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
 import createHCAPerformanceWarning from './hca-performance-warning';
 import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
