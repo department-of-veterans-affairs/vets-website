@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import ChapterAnalyzer from './ChapterAnalyzer';
 import { FormDataViewer } from './FormDataViewer';
 
@@ -67,6 +68,10 @@ const FormTabBase = props => {
       <FormDataViewer data={formData || {}} />
     </div>
   );
+};
+
+FormTabBase.propTypes = {
+  router: PropTypes.object.isRequired,
 };
 
 export const FormTab = withRouter(FormTabBase);
