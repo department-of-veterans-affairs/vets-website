@@ -299,10 +299,7 @@ describe('Confirmation page V2', () => {
       benefitSelection: {
         compensation: true,
         pension: true,
-        // survivor: true,
       },
-      // 'view:activePensionITF': responseExisting.pensionIntent,
-      // 'view:activeCompensationITF': responseExisting.compensationIntent
     };
     const placeholders = getNextStepsActionsPlaceholders(formData);
     expect(placeholders.actionsNew).to.deep.equal(['compensation', 'pension']);
@@ -313,9 +310,7 @@ describe('Confirmation page V2', () => {
     const formData = {
       benefitSelection: {
         pension: true,
-        // survivor: true,
       },
-      // 'view:activePensionITF': responseExisting.pensionIntent,
       'view:activeCompensationITF': responseExisting.compensationIntent,
     };
     const placeholders = getNextStepsActionsPlaceholders(formData);

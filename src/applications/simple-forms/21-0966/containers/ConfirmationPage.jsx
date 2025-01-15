@@ -367,7 +367,7 @@ export const ConfirmationPage = props => {
                 item2Content={
                   <p>
                     After we review your form, we’ll confirm next steps. Then
-                    you’ll have (1) year to file your claim.
+                    you’ll have 1 year to file your claim.
                   </p>
                 }
                 item1Actions={<></>}
