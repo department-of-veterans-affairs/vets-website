@@ -10,29 +10,6 @@ export const fillIdentityForm = testData => {
   cy.location('pathname').should('include', '/check-your-personal-information');
 };
 
-export const fillGulfWarDateRange = testData => {
-  const { 'view:gulfWarServiceDates': gulfWarServiceDates } = testData;
-  const { gulfWarStartDate, gulfWarEndDate } = gulfWarServiceDates;
-  cy.fillDate(
-    'root_view:gulfWarServiceDates_gulfWarStartDate',
-    gulfWarStartDate,
-  );
-  cy.fillDate('root_view:gulfWarServiceDates_gulfWarEndDate', gulfWarEndDate);
-};
-
-export const fillToxicExposureDateRange = testData => {
-  const { 'view:toxicExposureDates': toxicExposureDates } = testData;
-  const { toxicExposureStartDate, toxicExposureEndDate } = toxicExposureDates;
-  cy.fillDate(
-    'root_view:toxicExposureDates_toxicExposureStartDate',
-    toxicExposureStartDate,
-  );
-  cy.fillDate(
-    'root_view:toxicExposureDates_toxicExposureEndDate',
-    toxicExposureEndDate,
-  );
-};
-
 export const fillVeteranIncome = testData => {
   cy.fill(
     '[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
