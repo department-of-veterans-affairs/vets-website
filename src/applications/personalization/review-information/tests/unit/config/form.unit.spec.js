@@ -65,7 +65,7 @@ describe('formConfig', () => {
       const originalLocation = window.location;
 
       contactInfoPage.onNavBack();
-      expect(window.location).to.include('/my-va/');
+      expect(window.location).to.equal('https://dev.va.gov/my-va/');
 
       global.window.location = originalLocation;
     });
