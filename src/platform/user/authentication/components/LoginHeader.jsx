@@ -10,9 +10,13 @@ export default function LoginHeader({ loggedOut }) {
   const displayLogoutAlert = loggedOut && !isSessionExpired;
   return (
     <>
+      <va-alert visible status="info">
+        <div className="row">
+          {displayLogoutAlert && <LogoutAlert />}
+          <SessionTimeoutAlert />
+        </div>
+      </va-alert>
       <div className="row">
-        {displayLogoutAlert && <LogoutAlert />}
-        <SessionTimeoutAlert />
         <div className="columns small-12">
           <h1 id="signin-signup-modal-title" className="vads-u-margin-top--1">
             Sign in or create an account
