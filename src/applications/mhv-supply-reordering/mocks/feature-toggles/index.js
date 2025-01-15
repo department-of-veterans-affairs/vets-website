@@ -29,5 +29,5 @@ const generateFeatureToggles = ({
 };
 
 module.exports = {
-  'GET /v0/feature_toggles': generateFeatureToggles(),
+  'GET /v0/feature_toggles(.*)': generateFeatureToggles(),
 };

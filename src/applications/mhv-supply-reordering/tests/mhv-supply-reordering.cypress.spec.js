@@ -10,7 +10,6 @@ import userResponse from '../mocks/user';
 const userData = userResponse['GET /v0/user'];
 
 // example testConfig: https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/testing/e2e/cypress/support/form-tester#sample-code
-
 // dataSets - sample data to be entered into the form, located: ./fixtures/data/*.json
 
 const testConfig = createTestConfig(
@@ -30,7 +29,11 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       // use mocker-api HTTP API endpoint mocks in cypress specs
       Object.entries(mockApiResponses).forEach(([request, response]) => {
-        cy.intercept(request, response);
+        // account for the difference in how mocker-api and cypress handle wildcards
+        const cyRequest = request.endsWith('(.*)')
+          ? request.replace('(.*)', '*')
+          : request;
+        cy.intercept(cyRequest, response);
       });
       cy.login(userData);
     },

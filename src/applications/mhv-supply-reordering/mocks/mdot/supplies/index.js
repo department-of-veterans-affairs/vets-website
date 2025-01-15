@@ -20,9 +20,21 @@ const partialOrder = [
   },
 ];
 
+// eslint-disable-next-line no-unused-vars
+const createOrder = (request, response) => {
+  const { order } = request.body;
+  const responseBody = order.map(({ productId }, i) => ({
+    status: 'Order Processed',
+    orderId: `${1000 + i}`,
+    productId,
+  }));
+  return response.json(responseBody);
+};
+
 module.exports = {
   'POST /v0/mdot/supplies': ok,
   // 'POST /v0/mdot/supplies': partialOrder,
+  // 'POST /v0/mdot/supplies': createOrder,
   // 'POST /v0/mdot/supplies': (_, res) => res.status(422),
   // 'POST /v0/mdot/supplies': (_, res) => res.status(500),
 };
