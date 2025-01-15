@@ -1,15 +1,27 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
+import { isMinimalHeaderApplicable } from '../helpers';
 
 export const Title = ({
   title,
   description,
-  headerLevel = 3,
+  headerLevel,
   headerStyleLevel,
   classNames,
 }) => {
+  const isMinimalHeader = isMinimalHeaderApplicable();
+  headerLevel = headerLevel || (isMinimalHeader ? 1 : 3);
   const CustomHeader = `h${headerLevel}`;
+
+  if (isMinimalHeader) {
+    // Arbitrary decision with design
+    // h1 styling is a bit too large when directly next to other field content
+    // so we'll bump the style down to h2
+    headerStyleLevel = headerStyleLevel || 2;
+  }
+
   const style = headerStyleLevel
     ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
         headerStyleLevel,

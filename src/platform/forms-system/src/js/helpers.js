@@ -807,3 +807,15 @@ export function getUrlPathIndex(url) {
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
 }
+
+export function isMinimalHeaderApplicable() {
+  const isApplicable = sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE');
+  if (isApplicable !== 'true') {
+    return false;
+  }
+
+  let excludePaths = sessionStorage.getItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  excludePaths = excludePaths ? JSON.parse(excludePaths) : [];
+  const isExcludedPath = excludePaths.includes(window?.location?.pathname);
+  return isApplicable && !isExcludedPath;
+}
