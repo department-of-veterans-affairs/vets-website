@@ -72,7 +72,10 @@ export default function getEligibilityMessage({
         <p>Or you can go back and choose a different facility.</p>
       </>
     );
-  } else if (requestReason === ELIGIBILITY_REASONS.error) {
+  } else if (
+    directReason === ELIGIBILITY_REASONS.error ||
+    requestReason === ELIGIBILITY_REASONS.error
+  ) {
     title = 'You can’t schedule this appointment online right now';
     content =
       'We’re sorry. There’s a problem with our system. Try again later.';
