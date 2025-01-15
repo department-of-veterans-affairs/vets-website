@@ -505,16 +505,22 @@ export function fetchSearchByLocationCoords(
   description,
 ) {
   const [longitude, latitude] = coordinates;
-
-  const params = {
-    latitude,
-    longitude,
-    distance,
-    description,
-  };
-
-  if (filters) params.push(...rubyifyKeys(buildSearchFilters(filters)));
-  if (version) params.version = version;
+  const params = filters
+    ? {
+        latitude,
+        longitude,
+        distance,
+        ...rubyifyKeys(filters && buildSearchFilters(filters)),
+      }
+    : {
+        latitude,
+        longitude,
+        distance,
+        description,
+      };
+  if (version) {
+    params.version = version;
+  }
   const url = appendQuery(`${api.url}/institutions/search`, params);
   return dispatch => {
     dispatch({
@@ -582,6 +588,7 @@ export function fetchSearchByLocationResults(
       .send()
       .then(({ body: { features } }) => {
         dispatch({ type: GEOCODE_SUCCEEDED, payload: features });
+
         dispatch(
           fetchSearchByLocationCoords(
             location,
