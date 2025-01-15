@@ -1,8 +1,8 @@
 // components/servers/FrontendServer.jsx
 import React, { useState } from 'react';
-import ServerControls from './ServerControls';
-import ProcessOutput from './ProcessOutput';
-import { FrontendServerConfiguration } from './FrontendServerConfiguration';
+import { ServerProcessControls } from './ServerProcessControls';
+import { ServerProcessConsole } from './ServerProcessConsole';
+import { FrontendServerConfigurator } from './FrontendServerConfigurator';
 import { useProcessManager } from '../../../context/processManager';
 import { FRONTEND_PROCESS_NAME } from '../../../constants';
 
@@ -28,7 +28,7 @@ export const FrontendServerColumn = () => {
 
   return (
     <div className="vads-l-col--12">
-      <ServerControls
+      <ServerProcessControls
         processName={processName}
         displayName="Frontend Dev Server"
         isRunning={!!processes[processName]}
@@ -41,12 +41,12 @@ export const FrontendServerColumn = () => {
         stopPort={3001}
       />
 
-      <ProcessOutput
+      <ServerProcessConsole
         output={output[processName] || []}
         processName={processName}
       />
 
-      <FrontendServerConfiguration
+      <FrontendServerConfigurator
         onClose={handleStarterClose}
         onStart={async manifestsToStart => {
           setStarting(true);

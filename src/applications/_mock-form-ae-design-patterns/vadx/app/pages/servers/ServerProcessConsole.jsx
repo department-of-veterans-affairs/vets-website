@@ -1,8 +1,7 @@
-// components/servers/ProcessOutput.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { OutputLineItem } from './OutputLineItem';
+import { ServerProcessLine } from './ServerProcessLine';
 import { FRONTEND_PROCESS_NAME } from '../../../constants';
 
 const getStatusOfProcess = (output, processName) => {
@@ -36,7 +35,7 @@ const getStatusOfProcess = (output, processName) => {
   return 'unknown';
 };
 
-const ProcessOutput = ({ output, processName }) => {
+export const ServerProcessConsole = ({ output, processName }) => {
   return (
     <div className="vads-u-padding--1 vads-u-border--1px vads-u-margin--0p5">
       <h3 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--0p25">
@@ -55,7 +54,7 @@ const ProcessOutput = ({ output, processName }) => {
           {output?.flatMap((msg, index) => {
             if (msg.type === 'cache') {
               return msg.data.map((line, cacheIndex) => (
-                <OutputLineItem
+                <ServerProcessLine
                   line={line}
                   key={`${processName}-cache-${index}-${cacheIndex}`}
                 />
@@ -67,7 +66,7 @@ const ProcessOutput = ({ output, processName }) => {
                 timeout={200}
                 classNames="fade"
               >
-                <OutputLineItem
+                <ServerProcessLine
                   line={`[${msg.friendlyDate}] ${msg.data}`}
                   key={`${processName}-${index}`}
                 />
@@ -80,9 +79,7 @@ const ProcessOutput = ({ output, processName }) => {
   );
 };
 
-ProcessOutput.propTypes = {
+ServerProcessConsole.propTypes = {
   output: PropTypes.array.isRequired,
   processName: PropTypes.string.isRequired,
 };
-
-export default ProcessOutput;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const OutputLineItem = ({ line }) => {
+export const ServerProcessLine = ({ line }) => {
   return (
     <div
       className="vads-u-margin-bottom--0p25"
@@ -16,6 +16,6 @@ export const OutputLineItem = ({ line }) => {
   );
 };
 
-OutputLineItem.propTypes = {
+ServerProcessLine.propTypes = {
   line: PropTypes.string.isRequired,
 };

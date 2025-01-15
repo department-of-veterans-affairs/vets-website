@@ -2,7 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ServerControls = ({ processName, displayName, isRunning, onStart }) => {
+export const ServerProcessControls = ({
+  processName,
+  displayName,
+  isRunning,
+  onStart,
+}) => {
   return (
     <div className="vads-l-row vads-u-align-items--center">
       <h2 className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--bold">
@@ -45,7 +50,7 @@ const ServerControls = ({ processName, displayName, isRunning, onStart }) => {
   );
 };
 
-ServerControls.propTypes = {
+ServerProcessControls.propTypes = {
   displayName: PropTypes.string.isRequired,
   isRunning: PropTypes.bool.isRequired,
   processName: PropTypes.string.isRequired,
@@ -54,5 +59,3 @@ ServerControls.propTypes = {
   onStart: PropTypes.func.isRequired,
   onStop: PropTypes.func.isRequired,
 };
-
-export default ServerControls;

@@ -34,7 +34,7 @@ const scrollableCheckboxStyles = {
   backgroundColor: '#f9f9f9',
 };
 
-export const FrontendServerConfiguration = ({
+export const FrontendServerConfigurator = ({
   onClose,
   onStart,
   visible,
@@ -199,7 +199,7 @@ export const FrontendServerConfiguration = ({
   ) : null;
 };
 
-FrontendServerConfiguration.propTypes = {
+FrontendServerConfigurator.propTypes = {
   starting: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
