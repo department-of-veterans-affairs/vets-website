@@ -137,11 +137,9 @@ describe('VAOS ChoseDateAndTime component', () => {
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves(confirmedV2);
-    sandbox.stub(flow, 'getReferralBreadcumb').returns({
-      useBackBreadcrumb: true,
-      label: 'Schedule an appointment with your provider',
-      href: '#',
-    });
+    sandbox
+      .stub(flow, 'getReferralUrlLabel')
+      .returns('Schedule an appointment with your provider');
   });
   afterEach(() => {
     sandbox.restore();
