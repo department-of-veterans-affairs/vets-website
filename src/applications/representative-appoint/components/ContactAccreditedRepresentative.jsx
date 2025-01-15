@@ -43,6 +43,7 @@ const ContactAccreditedRepresentative = props => {
     if (isReviewPage) {
       if (submissionMethodRequired) {
         goToPath('/representative-submission-method?review=true');
+        return;
       }
       if (orgSelectionRequired) {
         goToPath('/representative-organization?review=true');
