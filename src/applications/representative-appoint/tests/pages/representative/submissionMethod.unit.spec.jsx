@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { SubmissionMethod } from '../../../components/SubmissionMethod';
 import * as reviewPageHook from '../../../hooks/useReviewPage';
@@ -39,6 +39,25 @@ describe('<SubmissionMethod>', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+
+  it('displays an error', async () => {
+    const { props, mockStore } = getProps();
+
+    const { container } = renderContainer(props, mockStore);
+
+    const radioSelector = container.querySelector('va-radio');
+
+    const continueButton = container.querySelector('.usa-button-primary');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(() => {
+      expect(radioSelector).to.have.attr(
+        'error',
+        'Choose how to submit your request by selecting an option',
+      );
+    });
   });
 
   context('non-review mode', () => {
