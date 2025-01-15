@@ -1,13 +1,9 @@
-import featureToggleEnabled from './fixtures/mocks/claim-letters/feature-toggle-enabled.json';
 import claimLetters from './fixtures/mocks/claim-letters/list.json';
 
 describe('Claim Letters Page', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
       'claimLetters',
-    );
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
-      'featureToggleEnabled',
     );
 
     cy.login();
