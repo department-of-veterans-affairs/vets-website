@@ -14,8 +14,8 @@ const disabilityBenefitsUrls = {
 };
 
 export const CTA_WIDGET_TYPES = {
-  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
-  CHANGE_ADDRESS: 'change-address',
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents', // might be able to remove
+  CHANGE_ADDRESS: 'change-address', // checked
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   COMBINED_DEBT_PORTAL: 'combined-debt-portal',
   DIRECT_DEPOSIT: 'direct-deposit',
@@ -23,7 +23,7 @@ export const CTA_WIDGET_TYPES = {
   DISABILITY_RATINGS: 'disability-ratings',
   EDUCATION_LETTERS: 'education-letters',
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
-  GI_BILL_BENEFITS: 'gi-bill-benefits',
+  GI_BILL_BENEFITS: 'gi-bill-benefits', // might be able to remove
   HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
@@ -64,6 +64,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'change your address',
   },
@@ -89,6 +90,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'manage your VA debt',
   },
@@ -101,6 +103,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'change your direct deposit information online',
   },
@@ -239,6 +242,7 @@ export const ctaWidgetsLookup = {
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
     isHealthTool: true,
+    headerLevel: 3,
     mhvToolName: 'Secure Messaging',
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
