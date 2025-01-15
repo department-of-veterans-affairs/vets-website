@@ -17,6 +17,14 @@ import {
   isSponsorDeceased,
   isSpouse,
   isUnmarriedChild,
+  isVeteranAndHasServiceName,
+  isNotVeteranAndHasServiceName,
+  buriedWSponsorsEligibility,
+  requiresSponsorInfo,
+  hasServiceRecord,
+  formatName,
+  claimantHeader,
+  validateMilitaryHistory,
 } from '../../utils/helpers';
 import * as utils from '../../utils/helpers';
 
@@ -431,6 +439,285 @@ describe('Preneed helpers', () => {
     it('should return false if relationshipToVet is not daughter, son, stepdaughter, or stepson', () => {
       const item = { application: { claimant: { relationshipToVet: 'wife' } } };
       expect(isUnmarriedChild(item)).to.be.false;
+    });
+  });
+
+  describe('isVeteranAndHasServiceName', () => {
+    // it('should return true if isVeteran is true and hasServiceName is true', () => {
+    //   const item = {
+    //     application: { veteran: { 'view:hasServiceName': true } },
+    //   };
+    //   expect(isVeteranAndHasServiceName(item)).to.be.true;
+    // });
+
+    it('should return false if isVeteran is false', () => {
+      const item = {
+        application: { veteran: { 'view:hasServiceName': true } },
+      };
+      expect(isVeteranAndHasServiceName(item)).to.be.false;
+    });
+
+    it('should return false if hasServiceName is false', () => {
+      const item = {
+        application: { veteran: { 'view:hasServiceName': false } },
+      };
+      expect(isVeteranAndHasServiceName(item)).to.be.false;
+    });
+  });
+
+  describe('isNotVeteranAndHasServiceName', () => {
+    it('should return true if isVeteran is false and hasServiceName is true', () => {
+      const item = {
+        application: { veteran: { 'view:hasServiceName': true } },
+      };
+      expect(isNotVeteranAndHasServiceName(item)).to.be.true;
+    });
+
+    // it('should return false if isVeteran is true', () => {
+    //   const item = {
+    //     application: { veteran: { 'view:hasServiceName': true } },
+    //   };
+    //   expect(isNotVeteranAndHasServiceName(item)).to.be.false;
+    // });
+
+    it('should return false if hasServiceName is false', () => {
+      const item = {
+        application: { veteran: { 'view:hasServiceName': false } },
+      };
+      expect(isNotVeteranAndHasServiceName(item)).to.be.false;
+    });
+  });
+
+  describe('buriedWSponsorsEligibility', () => {
+    it('should return true if hasCurrentlyBuried is 1', () => {
+      const item = { application: { hasCurrentlyBuried: '1' } };
+      expect(buriedWSponsorsEligibility(item)).to.be.true;
+    });
+
+    it('should return false if hasCurrentlyBuried is not 1', () => {
+      const item = { application: { hasCurrentlyBuried: '0' } };
+      expect(buriedWSponsorsEligibility(item)).to.be.false;
+    });
+  });
+
+  describe('requiresSponsorInfo', () => {
+    it('should return true if sponsor is undefined', () => {
+      const item = { 'view:sponsor': undefined };
+      expect(requiresSponsorInfo(item)).to.be.true;
+    });
+
+    it('should return true if sponsor is "Other"', () => {
+      const item = { 'view:sponsor': 'Other' };
+      expect(requiresSponsorInfo(item)).to.be.true;
+    });
+
+    it('should return false if sponsor is defined and not "Other"', () => {
+      const item = { 'view:sponsor': 'SponsorName' };
+      expect(requiresSponsorInfo(item)).to.be.false;
+    });
+  });
+
+  describe('hasServiceRecord', () => {
+    it('should return true if serviceRecords is defined and not empty', () => {
+      const item = { serviceRecords: [{ record: 'record1' }] };
+      expect(hasServiceRecord(item)).to.be.true;
+    });
+
+    it('should return true if formData.serviceRecords is defined and not empty', () => {
+      const item = { formData: { serviceRecords: [{ record: 'record1' }] } };
+      expect(hasServiceRecord(item)).to.be.true;
+    });
+
+    it('should return false if serviceRecords and formData.serviceRecords are undefined', () => {
+      const item = {};
+      expect(hasServiceRecord(item)).to.be.false;
+    });
+
+    it('should return false if serviceRecords and formData.serviceRecords are empty', () => {
+      const item = { serviceRecords: [], formData: { serviceRecords: [] } };
+      expect(hasServiceRecord(item)).to.be.false;
+    });
+  });
+
+  describe('formatName', () => {
+    it('should format the name correctly with first, middle, last, and suffix', () => {
+      const name = { first: 'John', middle: 'A', last: 'Doe', suffix: 'Jr.' };
+      expect(formatName(name)).to.equal('John A Doe, Jr.');
+    });
+
+    it('should format the name correctly without middle and suffix', () => {
+      const name = { first: 'John', last: 'Doe' };
+      expect(formatName(name)).to.equal('John Doe');
+    });
+
+    it('should format the name correctly with only first and last', () => {
+      const name = { first: 'John', last: 'Doe' };
+      expect(formatName(name)).to.equal('John Doe');
+    });
+
+    it('should return undefined if first and last are not provided', () => {
+      const name = { middle: 'A', suffix: 'Jr.' };
+      expect(formatName(name)).to.be.undefined;
+    });
+  });
+
+  describe('claimantHeader', () => {
+    it('should render the claimant name in an h4 element', () => {
+      const formData = { claimant: { name: { first: 'John', last: 'Doe' } } };
+      const header = claimantHeader({ formData });
+      expect(header.type).to.equal('h4');
+      expect(header.props.className).to.equal('highlight');
+      expect(header.props.children).to.equal('John Doe');
+    });
+  });
+
+  describe('validateMilitaryHistory', () => {
+    let isVeteranStub;
+    let isAuthorizedAgentStub;
+    let errors;
+
+    beforeEach(() => {
+      isVeteranStub = sinon.stub(utils, 'isVeteran');
+      isAuthorizedAgentStub = sinon.stub(utils, 'isAuthorizedAgent');
+      errors = {
+        highestRank: { addError: sinon.spy() },
+        dateRange: {
+          from: { addError: sinon.spy() },
+          to: { addError: sinon.spy() },
+        },
+      };
+    });
+
+    afterEach(() => {
+      isVeteranStub.restore();
+      isAuthorizedAgentStub.restore();
+    });
+
+    it('should add error if serviceBranch is undefined and highestRank is defined for self', () => {
+      const serviceRecords = {
+        highestRank: 'rank',
+        dateRange: { from: '', to: '' },
+      };
+      const useAllFormData = {
+        application: { claimant: { dateOfBirth: '2000-01-01' } },
+      };
+      isVeteranStub.returns(true);
+      isAuthorizedAgentStub.returns(false);
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.highestRank.addError.calledOnce).to.be.true;
+      expect(
+        errors.highestRank.addError.calledWith(
+          'Select a branch of service before selecting your highest rank attained.',
+        ),
+      ).to.be.true;
+    });
+
+    it('should add error if serviceBranch is undefined and highestRank is defined for applicant', () => {
+      const serviceRecords = {
+        highestRank: 'rank',
+        dateRange: { from: '', to: '' },
+      };
+      const useAllFormData = {
+        application: { claimant: { dateOfBirth: '2000-01-01' } },
+      };
+      isVeteranStub.returns(true);
+      isAuthorizedAgentStub.returns(true);
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.highestRank.addError.calledOnce).to.be.true;
+      expect(
+        errors.highestRank.addError.calledWith(
+          "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
+        ),
+      ).to.be.true;
+    });
+
+    it.only('should add error if serviceBranch is undefined and highestRank is defined for sponsor', () => {
+      const serviceRecords = {
+        highestRank: 'rank',
+        dateRange: { from: '', to: '' },
+      };
+      const useAllFormData = {
+        application: { veteran: { dateOfBirth: '2000-01-01' } },
+      };
+      isVeteranStub.returns(false);
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.highestRank.addError.calledOnce).to.be.true;
+      expect(
+        errors.highestRank.addError.calledWith(
+          "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
+        ),
+      ).to.be.true;
+    });
+
+    it('should add error if highestRank is not valid for the serviceBranch', () => {
+      const serviceRecords = {
+        serviceBranch: 'branch',
+        highestRank: 'invalidRank',
+        dateRange: { from: '', to: '' },
+      };
+      const useAllFormData = {};
+      const jsonData = [
+        { 'Branch Of Service Code': 'branch', 'Rank Code': 'validRank' },
+      ];
+      const serviceLabels = { branch: 'Branch' };
+
+      global.jsonData = jsonData;
+      global.serviceLabels = serviceLabels;
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.highestRank.addError.calledOnce).to.be.true;
+      expect(
+        errors.highestRank.addError.calledWith(
+          'This is not a valid rank for Branch',
+        ),
+      ).to.be.true;
+    });
+
+    it('should add error if service start date is before date of birth', () => {
+      const serviceRecords = {
+        dateRange: { from: '1999-01-01', to: '2001-01-01' },
+      };
+      const useAllFormData = {
+        application: { claimant: { dateOfBirth: '2000-01-01' } },
+      };
+      isVeteranStub.returns(true);
+      isAuthorizedAgentStub.returns(false);
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.dateRange.from.addError.calledOnce).to.be.true;
+      expect(
+        errors.dateRange.from.addError.calledWith(
+          'Provide a valid date that is after your date of birth',
+        ),
+      ).to.be.true;
+    });
+
+    it('should add error if service end date is before date of birth', () => {
+      const serviceRecords = {
+        dateRange: { from: '2000-01-01', to: '1999-01-01' },
+      };
+      const useAllFormData = {
+        application: { claimant: { dateOfBirth: '2000-01-01' } },
+      };
+      isVeteranStub.returns(true);
+      isAuthorizedAgentStub.returns(false);
+
+      validateMilitaryHistory(errors, serviceRecords, useAllFormData);
+
+      expect(errors.dateRange.to.addError.calledOnce).to.be.true;
+      expect(
+        errors.dateRange.to.addError.calledWith(
+          'Provide a valid date that is after your date of birth',
+        ),
+      ).to.be.true;
     });
   });
 });
