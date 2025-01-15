@@ -6,7 +6,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from 'platform/utilities/ui';
 import { useReviewPage } from '../hooks/useReviewPage';
 
-const SubmissionMethod = props => {
+const RepresentativeSubmissionMethod = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
   const [error, setError] = useState(null);
 
@@ -73,7 +73,7 @@ const SubmissionMethod = props => {
   );
 };
 
-SubmissionMethod.propTypes = {
+RepresentativeSubmissionMethod.propTypes = {
   formData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
@@ -87,9 +87,9 @@ function mapStateToProps(state) {
   };
 }
 
-export { SubmissionMethod }; // Named export for testing
+export { RepresentativeSubmissionMethod }; // Named export for testing
 
 export default connect(
   mapStateToProps,
   null,
-)(SubmissionMethod);
+)(RepresentativeSubmissionMethod);

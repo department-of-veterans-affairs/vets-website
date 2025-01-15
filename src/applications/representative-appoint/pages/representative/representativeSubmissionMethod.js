@@ -1,9 +1,9 @@
-import SubmissionMethod from '../../components/SubmissionMethod';
+import RepresentativeSubmissionMethod from '../../components/RepresentativeSubmissionMethod';
 
 export const uiSchema = {
   representativeSubmissionMethod: {
     'ui:title': "Select how you'd like to submit your request",
-    'ui:widget': SubmissionMethod,
+    'ui:widget': RepresentativeSubmissionMethod,
     'ui:options': {
       hideLabelText: true,
       hideOnReview: true,

@@ -3,10 +3,10 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { SubmissionMethod } from '../../../components/SubmissionMethod';
+import { RepresentativeSubmissionMethod } from '../../../components/RepresentativeSubmissionMethod';
 import * as reviewPageHook from '../../../hooks/useReviewPage';
 
-describe('<SubmissionMethod>', () => {
+describe('<RepresentativeSubmissionMethod>', () => {
   const getProps = () => {
     return {
       props: {
@@ -25,7 +25,7 @@ describe('<SubmissionMethod>', () => {
   const renderContainer = (props, mockStore) => {
     return render(
       <Provider store={mockStore}>
-        <SubmissionMethod {...props} />
+        <RepresentativeSubmissionMethod {...props} />
       </Provider>,
     );
   };
@@ -35,7 +35,7 @@ describe('<SubmissionMethod>', () => {
 
     const { container } = render(
       <Provider store={mockStore}>
-        <SubmissionMethod {...props} />
+        <RepresentativeSubmissionMethod {...props} />
       </Provider>,
     );
     expect(container).to.exist;
@@ -89,7 +89,7 @@ describe('<SubmissionMethod>', () => {
 
       const { getByText } = render(
         <Provider store={mockStore}>
-          <SubmissionMethod {...props} />
+          <RepresentativeSubmissionMethod {...props} />
         </Provider>,
       );
 
@@ -141,7 +141,7 @@ describe('<SubmissionMethod>', () => {
 
       const { getByText } = render(
         <Provider store={mockStore}>
-          <SubmissionMethod {...props} />
+          <RepresentativeSubmissionMethod {...props} />
         </Provider>,
       );
 

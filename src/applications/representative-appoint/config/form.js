@@ -41,7 +41,7 @@ import SelectAccreditedRepresentative from '../components/SelectAccreditedRepres
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
 import SelectOrganization from '../components/SelectOrganization';
-import SubmissionMethod from '../components/SubmissionMethod';
+import RepresentativeSubmissionMethod from '../components/RepresentativeSubmissionMethod';
 
 import SubmissionError from '../components/SubmissionError';
 
@@ -137,10 +137,10 @@ const formConfig = {
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
         },
-        representativeSubmissionMethod: {
+        RepresentativeSubmissionMethod: {
           title: 'Representative Submission Method',
           path: 'representative-submission-method',
-          CustomPage: SubmissionMethod,
+          CustomPage: RepresentativeSubmissionMethod,
           depends: formData =>
             formData.v2IsEnabled &&
             selectedAccreditedOrganizationId.pageDepends(formData),
