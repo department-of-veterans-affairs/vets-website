@@ -2,9 +2,22 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { stringifyUrlParams } from '../helpers';
-import { getPreviousPagePath } from '../routing';
+import { getPreviousPagePath, goBack } from '../routing';
 import { setData as setDataAction } from '../actions';
+
+function getRoute(routes, location) {
+  try {
+    return routes.find(r => {
+      if (r.path.includes(':index')) {
+        const regex = new RegExp(r.path.replace(':index', '\\d+'));
+        return regex.test(location.pathname);
+      }
+      return `/${r.path}` === location.pathname;
+    });
+  } catch (e) {
+    return null;
+  }
+}
 
 /**
  * Equivalent to back button on the back/continue pair,
@@ -24,9 +37,7 @@ const BackLink = ({ router, routes, location, form, setData }) => {
         return;
       }
       try {
-        const route = routes.find(r => {
-          return `/${r.path}` === location.pathname;
-        });
+        const route = getRoute(routes, location);
 
         let path = getPreviousPagePath(
           route.pageList,
@@ -35,20 +46,10 @@ const BackLink = ({ router, routes, location, form, setData }) => {
         );
 
         if (typeof route.pageConfig?.onNavBack === 'function') {
-          route.pageConfig.onNavBack({
-            formData: form.data,
-            goPath: customPath => {
-              path = customPath;
-            },
-            goPreviousPath: urlParams => {
-              const urlParamsString = stringifyUrlParams(urlParams);
-              path += urlParamsString || '';
-            },
-            pageList: route.pageList,
-            pathname: location.pathname,
-            setFormData: setData,
-            urlParams: location.query,
-          });
+          // if onNavBack is defined, then the consumer is doing
+          // something custom and we can't determine the path,
+          // possibly including side effects like setting data
+          path = 'customOnNavBack';
         }
 
         setLink(path);
@@ -62,6 +63,22 @@ const BackLink = ({ router, routes, location, form, setData }) => {
 
   function onClick(e) {
     e.preventDefault();
+
+    if (link === 'customOnNavBack') {
+      const route = getRoute(routes, location);
+
+      goBack({
+        formData: form.data,
+        index: router.params?.index ? Number(router.params.index) : undefined,
+        location,
+        onNavBack: route?.pageConfig?.onNavBack,
+        pageList: route?.pageList,
+        router,
+        setData,
+      });
+      return;
+    }
+
     router.push(link);
   }
 
@@ -74,7 +91,13 @@ const BackLink = ({ router, routes, location, form, setData }) => {
       className="vads-u-margin-top--2 vads-u-margin-bottom--4"
       aria-label="Previous page"
     >
-      <a href={link} onClick={onClick} className="vads-u-padding--1">
+      <a
+        href={link !== 'customOnNavBack' ? link : undefined}
+        role={link === 'customOnNavBack' ? 'button' : undefined}
+        tabIndex={link === 'customOnNavBack' ? 0 : undefined}
+        onClick={onClick}
+        className="vads-u-padding--1"
+      >
         <va-icon icon="navigate_before" size={3} />
         Back
       </a>
