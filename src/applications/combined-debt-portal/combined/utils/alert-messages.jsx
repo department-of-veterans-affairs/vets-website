@@ -22,7 +22,7 @@ const alertMessage = (alertType, appType) => {
           <ul>
             <li>
               <strong>For benefit debts</strong>, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </li>
@@ -96,7 +96,7 @@ const alertMessage = (alertType, appType) => {
             <p>
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
