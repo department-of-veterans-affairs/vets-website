@@ -5,7 +5,18 @@ import { render } from '@testing-library/react';
 import ConfirmationPage from '../../../../components/submit-flow/pages/ConfirmationPage';
 
 it('should render with expected content', () => {
-  const screen = render(<ConfirmationPage />);
+  const screen = render(
+    <ConfirmationPage
+      appointment={{
+        vaos: {
+          apiData: {
+            location: { attributes: { name: 'VA location name' } },
+            start: '2025-01-15T21:39:27.698Z',
+          },
+        },
+      }}
+    />,
+  );
 
   expect(screen.getByText('We’re processing your travel reimbursement claim'))
     .to.exist;
