@@ -1,4 +1,7 @@
-const ok = [
+// eslint-disable-next-line no-unused-vars
+const { unprocessableEntity, internalServerError } = require('../../errors');
+
+const accepted = [
   {
     status: 'Order Processed',
     orderId: '12345',
@@ -32,9 +35,9 @@ const createOrder = (request, response) => {
 };
 
 module.exports = {
-  'POST /v0/mdot/supplies': ok,
+  'POST /v0/mdot/supplies': (_, res) => res.status(202).json(accepted),
   // 'POST /v0/mdot/supplies': partialOrder,
   // 'POST /v0/mdot/supplies': createOrder,
-  // 'POST /v0/mdot/supplies': (_, res) => res.status(422),
-  // 'POST /v0/mdot/supplies': (_, res) => res.status(500),
+  // 'POST /v0/mdot/supplies': (_, res) => res.status(422).json(unprocessableEntity),
+  // 'POST /v0/mdot/supplies': (_, res) => res.status(500).json(internalServerError),
 };
