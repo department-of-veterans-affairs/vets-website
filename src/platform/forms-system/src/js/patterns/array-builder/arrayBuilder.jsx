@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
+  focusByOrder,
+  scrollTo,
+  scrollToTop,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
+import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
   onNavBackKeepUrlParams,
@@ -12,6 +18,7 @@ import {
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
+import { isMinimalHeaderApplicable } from '../../helpers';
 
 /**
  * @typedef {Object} ArrayBuilderPages
@@ -490,6 +497,29 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   }
 
+  function defaultItemPageScrollAndFocusTarget() {
+    const minimalHeader = isMinimalHeaderApplicable();
+    const radioHeader = document.querySelector('va-radio[label-header-level]');
+    const checkboxGroupHeader = document.querySelector(
+      'va-checkbox-group[label-header-level]',
+    );
+    const headerLevel = minimalHeader ? 'h1' : 'h3';
+
+    if (minimalHeader) {
+      scrollTo('header-minimal');
+    } else {
+      scrollToTop('topScrollElement');
+    }
+
+    if (radioHeader) {
+      waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);
+    } else if (checkboxGroupHeader) {
+      waitForRenderThenFocus(headerLevel, checkboxGroupHeader.shadowRoot);
+    } else {
+      focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
+    }
+  }
+
   pageBuilder.summaryPage = pageConfig => {
     let requiredOpts = ['title', 'path'];
     if (usesYesNo) {
@@ -521,7 +551,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget: 'form.rjsf h1, form.rjsf h3',
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
@@ -559,7 +589,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget || defaultItemPageScrollAndFocusTarget,
       onNavBack,
       onNavForward,
       ...pageConfig,
