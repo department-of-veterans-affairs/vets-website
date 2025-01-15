@@ -19,6 +19,7 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     dataSets: ['minimal-test'],
     pageHooks: {
+      // equivalent default for afterHook: cy.findByText(/^Continue$/).click();
       introduction: ({ afterHook }) => {
         afterHook(() => cy.findByText(/^Start a new order$/).click());
       },
@@ -27,11 +28,9 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
+      // use mocker-api HTTP API endpoint mocks in cypress specs
       Object.entries(mockApiResponses).forEach(([request, response]) => {
-        cy.intercept(
-          request, // .endsWith('(.*)') ? request.replace('(.*)', '*') : request, // account for the difference in how mocker-api and cypress handle wildcards
-          response,
-        );
+        cy.intercept(request, response);
       });
       cy.login(userData);
     },
