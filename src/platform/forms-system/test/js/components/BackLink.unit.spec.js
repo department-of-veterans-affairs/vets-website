@@ -128,15 +128,13 @@ describe('BackLink', () => {
     const location = LOCATION_STATEMENT_TYPE;
     const pageList = DEFAULT_PAGE_LIST;
 
-    const { container, routerPush, getByText } = setupBackLink({
+    const { container, routerPush } = setupBackLink({
       pageConfig,
       location,
       pageList,
       formData: {},
     });
-    const link = container.querySelector('a');
-
-    getByText('Back');
+    const link = container.querySelector('va-link');
     expect(link).to.have.attribute('href', '/introduction');
     fireEvent.click(link);
     expect(routerPush.calledWith('/introduction')).to.be.true;
@@ -153,7 +151,7 @@ describe('BackLink', () => {
       pageList,
       formData: {},
     });
-    const link = container.querySelector('a');
+    const link = container.querySelector('va-link');
     expect(link).to.not.exist;
   });
 
@@ -166,16 +164,14 @@ describe('BackLink', () => {
     const location = LOCATION_STATEMENT_TYPE;
     const pageList = DEFAULT_PAGE_LIST;
 
-    const { container, getByText } = setupBackLink({
+    const { container } = setupBackLink({
       pageConfig,
       location,
       pageList,
       formData: {},
     });
-    const link = container.querySelector('a');
-    getByText('Back');
-    expect(link).to.not.have.attribute('href');
-    expect(link).to.have.attribute('role', 'button');
+    const link = container.querySelector('va-link');
+    expect(link).to.have.attribute('href', '#');
     fireEvent.click(link);
     expect(customOnNavBack.called).to.be.true;
   });
