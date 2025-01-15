@@ -161,6 +161,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
+      internalUrl: '/my-health/medical-records/download',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -200,6 +201,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+      internalUrl: '/my-health/medical-records/labs-and-tests',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -238,6 +240,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.MESSAGING,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
+      internalUrl: '/my-health/secure-messages/inbox/',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
@@ -255,11 +258,12 @@ export const ctaWidgetsLookup = {
         authenticatedWithSSOe,
         'web/myhealthevet/refill-prescriptions',
       ),
+      internalUrl: '/my-health/medications/refill',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
       MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel),
-    isHealthTool: true,
+    isHealthTool: () => true,
     mhvToolName: 'Prescription Refill and Tracking',
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
@@ -269,6 +273,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments/schedule/type-of-care',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
@@ -318,6 +323,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
