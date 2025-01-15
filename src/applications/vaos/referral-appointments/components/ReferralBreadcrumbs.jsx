@@ -23,7 +23,7 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
     [location, categoryOfCare],
   );
 
-  const isBackLink = breadcrumb.startsWith('Back');
+  const isBackLink = breadcrumb?.startsWith('Back');
 
   return isBackLink ? (
     <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
