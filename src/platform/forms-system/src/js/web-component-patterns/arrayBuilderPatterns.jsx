@@ -5,6 +5,7 @@ import {
   getArrayUrlSearchParams,
   maxItemsHint,
 } from '../patterns/array-builder/helpers';
+import { isMinimalHeaderApplicable } from '../helpers';
 
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
@@ -84,6 +85,9 @@ export const withEditTitle = (title, lowerCase = true) => {
  *   title: string,
  *   nounSingular: string,
  *   lowerCase?: boolean,
+ *   hasMultipleItemPages?: boolean,
+ *   headerLevel?: number | string,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -93,11 +97,17 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
+  headerLevel,
 }) => {
-  return titleUI(
-    withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
-  );
+  return titleUI({
+    title: withEditTitle(title, lowerCase),
+    description: withAlertOrDescription({
+      description,
+      nounSingular,
+      hasMultipleItemPages,
+    }),
+    headerLevel,
+  });
 };
 
 /**
@@ -125,12 +135,25 @@ export const arrayBuilderItemFirstPageTitleUI = ({
  *
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemSubsequentPageTitleUI = (
-  title,
-  description,
-  lowerCase = true,
-) => {
-  return titleUI(withEditTitle(title, lowerCase), description);
+export const arrayBuilderItemSubsequentPageTitleUI = (...args) => {
+  let title;
+  let description;
+  let lowerCase;
+  let headerLevel;
+
+  if (args.length === 1 && typeof args[0] === 'object' && args[0].title) {
+    // support args as a single object
+    [{ title, description, lowerCase, headerLevel }] = args;
+  } else {
+    // support args as multiple arguments
+    [title, description, lowerCase, headerLevel] = args;
+  }
+
+  return titleUI({
+    title: withEditTitle(title, lowerCase),
+    description,
+    headerLevel,
+  });
 };
 
 /**
@@ -221,13 +244,33 @@ export const arrayBuilderYesNoUI = (
       classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
+
+        const isMinimalHeader = isMinimalHeaderApplicable();
+
+        let defaultLabelHeaderLevel = 3;
+        let defaultLabelHeaderLevelStyle = null; // use default style
+        let defaultMoreLabelHeaderLevel = 4;
+        let defaultMoreLabelHeaderLevelStyle = null; // use default style
+
+        if (isMinimalHeader) {
+          defaultLabelHeaderLevel = 1;
+          defaultLabelHeaderLevelStyle = 2;
+          defaultMoreLabelHeaderLevel = 2;
+          defaultMoreLabelHeaderLevelStyle = 3;
+        }
+
         return arrayData?.length
           ? {
               'ui:title':
                 yesNoOptionsMore?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
+                labelHeaderLevel:
+                  yesNoOptionsMore?.labelHeaderLevel ||
+                  defaultMoreLabelHeaderLevel,
+                labelHeaderLevelStyle:
+                  yesNoOptionsMore?.labelHeaderLevelStyle ||
+                  defaultMoreLabelHeaderLevelStyle,
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -255,7 +298,11 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
+                labelHeaderLevel:
+                  yesNoOptions?.labelHeaderLevel || defaultLabelHeaderLevel,
+                labelHeaderLevelStyle:
+                  yesNoOptions?.labelHeaderLevelStyle ||
+                  defaultLabelHeaderLevelStyle,
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,
