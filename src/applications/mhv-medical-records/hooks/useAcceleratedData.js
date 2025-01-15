@@ -1,11 +1,13 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMemo, useEffect } from 'react';
 
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+
 const useAcceleratedData = () => {
   const dispatch = useDispatch();
+
   const isAcceleratedDeliveryEnabled = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled],
@@ -25,13 +27,25 @@ const useAcceleratedData = () => {
 
   useEffect(
     () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
+      // TECH DEBT: Do not trigger the connection when running unit tests because
+      // the connection is not mocked and will cause the test to fail
+      if (!window.Mocha) {
+        // use Drupal based Cerner facility data
+        connectDrupalSourceOfTruthCerner(dispatch);
+      }
     },
     [dispatch],
   );
-
   const isCerner = useSelector(selectIsCernerPatient);
+
+  const { featureToggles, drupalStaticData } = useSelector(state => state);
+  const isLoading = useMemo(
+    () => {
+      return featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
+    },
+    [drupalStaticData, featureToggles],
+  );
+
   const isAcceleratingAllergies = useMemo(
     () => {
       return (
@@ -52,7 +66,14 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
   );
 
+  const isAccelerating = useMemo(
+    () => isAcceleratingAllergies || isAcceleratingVitals,
+    [isAcceleratingAllergies, isAcceleratingVitals],
+  );
+
   return {
+    isLoading,
+    isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
   };

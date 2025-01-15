@@ -13,21 +13,12 @@ export default function TravelReimbursementSection({ appointment }) {
   if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);
+  if (!claimData.metadata.success) return null;
 
   const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
     appointment.start,
   );
   const heading = 'Travel reimbursement';
-
-  if (claimData.metadata.status !== 200) {
-    return (
-      <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
-          We’re sorry. Something went wrong on our end. Please try again later.
-        </p>
-      </Section>
-    );
-  }
 
   if (
     (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
@@ -87,7 +78,7 @@ export default function TravelReimbursementSection({ appointment }) {
         <p className="vads-u-margin-y--0p5">
           <va-link
             data-testid="view-claim-link"
-            href={`/my-health/travel-claim-status/${claimData.claim.id}`}
+            href={`/my-health/travel-pay/claims/${claimData.claim.id}`}
             text="Check your claim status"
           />
         </p>

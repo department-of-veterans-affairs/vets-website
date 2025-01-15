@@ -16,30 +16,6 @@ h1:focus {
   list-style: none;
 }
 
-.on-this-page-links {
-  display: block;
-  border: 1px solid var(--vads-color-base-light);
-  border-radius: 4px;
-  padding: 1em;
-  dl {
-    margin: 0;
-  }
-}
-
-@media (min-width: $medium-screen) {
-  .on-this-page-links {
-    border: none;
-    padding: 1em 1em 1em 0;
-  }
-}
-
-.on-this-page-links dd a {
-  max-width: 285px;
-  i {
-    font-size: 0.75em;
-  }
-}
-
 .vads-u-width--fit {
   width: fit-content;
   white-space: nowrap;
@@ -65,4 +41,10 @@ h1:focus {
   @media (min-width: $medium-screen) {
     margin-left: 40px;
   }
+}
+
+.cdp-link-icon--active {
+  vertical-align: baseline;
+  position: relative;
+  top: 3px;
 }

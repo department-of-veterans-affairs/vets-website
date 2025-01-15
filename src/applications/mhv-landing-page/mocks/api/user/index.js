@@ -18,6 +18,7 @@ const defaultUser = {
         first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
+        preferred_Name: 'Ginny',
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
@@ -75,6 +76,8 @@ const generateUser = ({
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
+  firstName = 'Gina',
+  preferredName = 'Ginny',
 } = {}) => {
   return {
     ...defaultUser,
@@ -89,6 +92,8 @@ const generateUser = ({
         },
         profile: {
           ...defaultUser.data.attributes.profile,
+          first_name: firstName,
+          preferred_Name: preferredName,
           loa: { current: loa },
           sign_in: {
             service_name: serviceName,
@@ -107,6 +112,7 @@ const CSP_IDS = {
 };
 
 const USER_MOCKS = Object.freeze({
+  ALL_CAPS_NAME: generateUser({ firstName: 'KEVIN', preferredName: '' }),
   UNREGISTERED: generateUser({ vaPatient: false }),
   UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
   LOGIN_GOV_UNVERIFIED: generateUser({

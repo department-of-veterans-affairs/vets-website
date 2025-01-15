@@ -9,11 +9,10 @@ import { VaSelect } from '@department-of-veterans-affairs/web-components/react-b
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
-import BenefitCard from '../components/BenefitCard';
-import NoResultsBanner from '../components/NoResultsBanner';
 import GetFormHelp from '../components/GetFormHelp';
-import SaveResultsModal from '../components/SaveResultsModal';
+import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
+import Benfits from './components/Benefits';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -22,13 +21,12 @@ export class ConfirmationPage extends React.Component {
     this.state = {
       hasResults: false,
       resultsCount: 0,
-      benefitIds: [],
+      benefitIds: {},
       sortValue: 'alphabetical',
       filterValue: 'All',
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
-      showMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -36,32 +34,19 @@ export class ConfirmationPage extends React.Component {
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
     this.handleResultsData = this.handleResultsData.bind(this);
-    this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
   }
 
   componentDidMount() {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-    // Update query string based on results.
-    if (this.props.results.data && this.props.results.data.length > 0) {
-      this.handleResultsData();
-    } else if (
-      this.props.location.query &&
-      Object.keys(this.props.location.query).length > 0
-    ) {
-      // Display results based on query string.
-      const { benefits } = this.props.location.query;
-      const benefitIds = benefits.split(',');
-
-      this.props.displayResults(benefitIds);
-    }
-
-    const now = new Date().getTime();
-
-    this.props.setSubmission('status', false);
-    this.props.setSubmission('hasAttemptedSubmit', false);
-    this.props.setSubmission('timestamp', now);
+    this.initializePage();
+    this.handleResults();
+    this.resetSubmissionStatus();
+    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.setState({ benefitsList: sortedBenefitsList });
   }
 
   componentDidUpdate(prevProps) {
@@ -74,24 +59,23 @@ export class ConfirmationPage extends React.Component {
     }
   }
 
-  handleClick = e => {
+  handleResults() {
+    const { results, location, displayResults } = this.props;
+
+    if (results.data && results.data.length > 0) {
+      this.handleResultsData();
+    } else if (location.query && Object.keys(location.query).length > 0) {
+      this.displayResultsFromQuery(location.query, displayResults);
+    }
+  }
+
+  handleBackClick = e => {
     e.preventDefault();
 
-    this.props.router.goBack();
+    if (window.history.length > 2) {
+      this.props.router.goBack();
+    }
   };
-
-  createFilterText() {
-    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    return (
-      <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
-        <b>{this.state.filterValue} results</b>, sorted{' '}
-        {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically by benefit name'
-          : `alphabetically by benefit ${this.state.sortValue}`}
-      </>
-    );
-  }
 
   handleResultsData() {
     const benefits = this.props.results.data.map(r => r.id).join(',');
@@ -109,7 +93,7 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      category: 'type',
+      category: 'category',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
@@ -189,6 +173,45 @@ export class ConfirmationPage extends React.Component {
     }, sortingCallback);
   };
 
+  displayResultsFromQuery = (query, displayResults) => {
+    const { benefits } = query;
+
+    if (benefits) {
+      const benefitIds = benefits.split(',');
+      displayResults(benefitIds);
+    }
+  };
+
+  initializePage = () => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  };
+
+  createFilterText() {
+    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const count =
+      this.props.location.query.allBenefits === 'true'
+        ? this.state.benefitsList.length
+        : this.state.resultsCount;
+    return (
+      <>
+        Showing {count} {resultsText}, filtered to show{' '}
+        <b>{this.state.filterValue} results</b>, sorted{' '}
+        {this.state.sortValue === 'alphabetical'
+          ? 'alphabetically by benefit name'
+          : `alphabetically by benefit ${this.state.sortValue}`}
+      </>
+    );
+  }
+
+  resetSubmissionStatus() {
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+  }
+
   applyInitialSort() {
     const hasResults = !!this.props.results.data;
     const resultsCount = hasResults ? this.props.results.data.length : 0;
@@ -216,11 +239,6 @@ export class ConfirmationPage extends React.Component {
     );
   }
 
-  toggleMobileFiltersClass() {
-    const currentState = this.state.showMobileFilters;
-    this.setState({ showMobileFilters: !currentState });
-  }
-
   filterAndSort() {
     this.filterBenefits(this.sortBenefits);
     focusElement('#filter-text');
@@ -231,69 +249,73 @@ export class ConfirmationPage extends React.Component {
       <div>
         <article>
           <div role="heading" aria-level="2">
-            <p>
-              Based on your answers, we’ve suggested some benefits for you to
-              explore.
-              <br />
-              Remember to check your eligibility before you apply.
-            </p>
+            {this.props.location.query.allBenefits ? (
+              <>
+                <p>
+                  Below are all of the benefits that this tool can recommend.
+                  Remember to check your eligibility before you apply.
+                </p>
+                <p>
+                  These aren’t your personalized benefit recommendations, but
+                  you can go back to your recommendations if you’d like.
+                </p>
+                <p>
+                  We're also planning to add more benefits and resources to this
+                  tool. Check back soon to find more benefits you may want to
+                  apply for.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Based on your answers, we’ve suggested some benefits for you
+                  to explore. Remember to check your eligibility before you
+                  apply.
+                </p>
+              </>
+            )}
           </div>
         </article>
-
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
           visible
         >
-          <h2>Resources for transitioning service members</h2>
-          <span>
-            You may be eligible for some VA benefits if you're currently serving
-            on
-          </span>
-          <br />
-          <span>active duty, in the National Guard, or in the Reserves.</span>
-          <br />
-          <span>
+          <h2>Benefits for transitioning service members</h2>
+          <p>
+            We can help guide you as you transition from active-duty service or
+            from service in the Guard or Reserve. You’ll need to act quickly to
+            take advantage of certain time-sensitive benefits.
+            <br />
             <va-link
               href="https://www.va.gov/service-member-benefits/"
               external
-              text="Visit this page"
+              text="Learn more about VA benefits for service members"
               type="secondary"
-              label="visit this page"
+              label="Learn more about VA benefits for service members"
             />
-            to find out which benefits
-          </span>
-          <br />
-          <span>you may qualify for&mdash;and when to apply.</span>
+          </p>
         </va-alert>
 
-        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
+        <h2 className="vads-u-font-size--h3">
+          {this.props.location.query.allBenefits
+            ? 'All benefits'
+            : 'Recommended benefits for you'}
+        </h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <SaveResultsModal />
-            </div>
-            <div
-              className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-              id="filters-section-mobile-toggle"
-            >
-              <va-link-action
-                text="Filter and sort"
-                type="secondary"
-                onClick={() => this.toggleMobileFiltersClass()}
-                omKeyDown={() => this.toggleMobileFiltersClass()}
-                role="button"
-              />
-            </div>
+            {!this.props.location.query.allBenefits && (
+              <div className="vads-l-col--12">
+                <CopyResultsModal />
+              </div>
+            )}
             <div
               id="filters-section-desktop"
               className={classNames({
                 'vads-l-col--12': true,
                 'medium-screen:vads-l-col--4': true,
                 'large-screen:vads-l-col--3': true,
-                'show-filters-section-mobile': this.state.showMobileFilters,
-                'hide-filters-section-mobile': !this.state.showMobileFilters,
               })}
             >
               <span>
@@ -315,7 +337,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers and Employment
+                  Careers and employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability
@@ -324,22 +346,19 @@ export class ConfirmationPage extends React.Component {
                   Education
                 </option>
                 <option key="Health Care" value="Health Care">
-                  Health Care
+                  Health care
                 </option>
                 <option key="Housing" value="Housing">
-                  Housing Assistance
+                  Housing assistance
                 </option>
                 <option key="Life Insurance" value="Life Insurance">
-                  Life Insurance
+                  Life insurance
                 </option>
-                <option key="Loan Guaranty" value="Loan Guaranty">
-                  Loan Guaranty
+                <option key="Support" value="Support">
+                  More support
                 </option>
                 <option key="Pension" value="Pension">
                   Pension
-                </option>
-                <option key="Support" value="Support">
-                  More Support
                 </option>
               </VaSelect>
               <br />
@@ -368,95 +387,60 @@ export class ConfirmationPage extends React.Component {
                 text="Update Results"
                 onClick={this.filterAndSort}
               />
+              {!this.props.location.query.allBenefits && (
+                <div className="all-benefits">
+                  <span>
+                    If you'd like to explore all of the benefits that this tool
+                    can recommend, select the link below.
+                  </span>
+                  <va-link
+                    href="/discover-your-benefits/confirmation?allBenefits=true"
+                    external
+                    message-aria-describedby="Show every benefit in this tool"
+                    text="Show every benefit&#10;in this tool"
+                    data-testid="show-all-benefits"
+                    type="secondary"
+                    className=""
+                  />
+                </div>
+              )}
             </div>
             <div
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              {this.state.hasResults && (
+              {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
-              <p>
-                <va-link
-                  data-testid="back-link"
-                  href="#"
-                  onClick={this.handleClick}
-                  text="Go back and review your entries"
-                />
-              </p>
-
-              <div>
-                {this.props.results.isLoading && (
-                  <va-loading-indicator
-                    label="Loading"
-                    message="Loading results..."
-                  />
+              {!this.props.location.query.allBenefits &&
+                window.history.length > 2 && (
+                  <>
+                    <p>
+                      <va-link
+                        data-testid="back-link"
+                        href="#"
+                        onClick={this.handleBackClick}
+                        text="Go back and review your entries"
+                      />
+                    </p>
+                    <p className="start-over-link-container">
+                      <va-link
+                        data-testid="start-over-link"
+                        href="/discover-your-benefits/goals"
+                        text="Start over"
+                      />
+                    </p>
+                  </>
                 )}
 
-                {!this.props.results.isLoading &&
-                  this.state &&
-                  this.state.benefits.length > 0 && (
-                    <ul className="benefit-list">
-                      {this.state &&
-                        this.state.benefits.map(benefit => (
-                          <li key={benefit.id}>
-                            <BenefitCard
-                              benefit={benefit}
-                              className="vads-u-margin-bottom--2"
-                            />
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-
-                {!this.props.results.isLoading &&
-                  this.state &&
-                  this.state.benefits.length === 0 && (
-                    <NoResultsBanner
-                      data={this.props.results.data}
-                      handleClick={this.handleClick}
-                    />
-                  )}
-              </div>
-              {this.state.benefitsList.length > 0 ? (
-                <va-accordion>
-                  <va-accordion-item
-                    header="Benefits that I may not qualify for"
-                    id="show"
-                  >
-                    <ul className="benefit-list">
-                      {this.state.benefitsList.map(
-                        benefit =>
-                          !this.state.benefitIds[benefit.id] && (
-                            <li key={benefit.id}>
-                              <BenefitCard
-                                benefit={benefit}
-                                className="vads-u-margin-bottom--2"
-                              />
-                            </li>
-                          ),
-                      )}
-                    </ul>
-                  </va-accordion-item>
-                </va-accordion>
-              ) : (
-                <va-banner headline="No Results Found" type="warning" visible>
-                  <p>
-                    We're unable to recomend benefits based on your responses.
-                    You can adjust your filters or{' '}
-                    <va-link
-                      data-testid="back-link-banner"
-                      href="#"
-                      onClick={this.handleClick}
-                      text="Go back and review your entries"
-                    />
-                  </p>
-                  <p>
-                    We're adding more benefits, so we encourage you to try again
-                    in the future.
-                  </p>
-                </va-banner>
-              )}
+              <Benfits
+                results={this.props.results}
+                benefits={this.state.benefits}
+                benefitsList={this.state.benefitsList}
+                handleBackClick={this.handleBackClick}
+                benefitIds={this.state.benefitIds}
+                queryString={this.props.location.query}
+              />
             </div>
           </div>
         </div>
@@ -487,6 +471,7 @@ function mapStateToProps(state) {
 }
 
 ConfirmationPage.propTypes = {
+  benefitIds: PropTypes.object,
   displayResults: PropTypes.func,
   formConfig: PropTypes.object,
   location: PropTypes.shape({

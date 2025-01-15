@@ -46,9 +46,10 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            profileUseExperimental: true,
-            coeAccess: true,
             aedpVADX: true,
+            aedpPrefill: true,
+            coeAccess: true,
+            profileUseExperimental: true,
           }),
         ),
       secondsOfDelay,
@@ -128,7 +129,7 @@ const responses = {
     );
   },
   'POST /v0/profile/addresses': (req, res) => {
-    return res.json(updateMemDb(req, address.homeAddressUpdateReceived));
+    return res.json(updateMemDb(req));
   },
   'DELETE /v0/profile/addresses': (_req, res) => {
     const secondsOfDelay = 1;

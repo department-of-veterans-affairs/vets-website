@@ -1,6 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./record-list";
-@import "./vaccine-details";
 @import "./breadcrumbs";
 @import "./vitals";
 @import "./navigation";
@@ -142,6 +141,11 @@ va-loading-indicator {
 
 #new-records-indicator va-loading-indicator {
   margin: initial;
+}
+
+#generating-ccd-indicator va-loading-indicator,
+#generating-sei-indicator va-loading-indicator {
+  margin: 0px;
 }
 
 .initial-fhir-load {

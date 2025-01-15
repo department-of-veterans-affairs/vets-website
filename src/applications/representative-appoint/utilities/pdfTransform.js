@@ -1,7 +1,18 @@
 import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
-  const authorizeRecords = formData.authorizeMedicalSelectCheckbox || {};
+  const medicalAuthorization = formData.authorizationRadio;
+  let authorizeRecords;
+  if (
+    medicalAuthorization ===
+      'Yes, they can access all of these types of records' ||
+    medicalAuthorization ===
+      "No, they can't access any of these types of records"
+  ) {
+    authorizeRecords = {};
+  } else {
+    authorizeRecords = formData.authorizeMedicalSelectCheckbox || {};
+  }
 
   const conditionsMap = {
     alcoholRecords: 'ALCOHOLISM',
@@ -30,7 +41,7 @@ export function pdfTransform(formData) {
     veteranDateOfBirth: dateOfBirth,
     serviceNumber,
     veteranHomeAddress: homeAddress,
-    'Primary phone': phone,
+    primaryPhone: phone,
     veteranEmail: email,
     'view:selectedRepresentative': selectedRep,
     applicantName,
@@ -67,7 +78,7 @@ export function pdfTransform(formData) {
     vaFileNumber,
     dateOfBirth,
     serviceNumber,
-    serviceBranch,
+    serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,
     address: createAddress(homeAddress),
     phone,
     email,
@@ -105,7 +116,7 @@ export function pdfTransform(formData) {
       representative.organizationId = formData.selectedAccreditedOrganizationId;
     } else {
       representative.organizationId =
-        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id;
+        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id || null;
     }
   }
 
@@ -117,8 +128,8 @@ export function pdfTransform(formData) {
     consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
     consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
     consentTeamMembers: authorizeNamesTextArea
-      .split(',')
-      .map(item => item.trim()),
+      ? authorizeNamesTextArea.split(',').map(item => item.trim())
+      : null,
     representative,
     ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
   };

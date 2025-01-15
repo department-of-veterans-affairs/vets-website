@@ -82,6 +82,7 @@ export const Locators = {
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
+  FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -189,7 +190,6 @@ export const Locators = {
     EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
-    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
@@ -239,6 +239,8 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+    FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
     CL_ALL: '[data-testid*="select-all"]',
@@ -251,7 +253,8 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    RECIPIENTS: `select#options`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
@@ -293,6 +296,12 @@ export const Alerts = {
     ACTIVE: `Maintenance on My HealtheVet`,
     UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
+  DATE_FILTER: {
+    EMPTY_START_DATE: `Error Please enter a start date.`,
+    EMPTY_END_DATE: `Error Please enter an end date.`,
+    INVALID_START_DATE: `Start date must be on or before end date.`,
+    INVALID_END_DATE: `End date must be on or after start date.`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
@@ -305,8 +314,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
-  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
+  VIRUS_ATTCH: `Our file scanner found a problem with your attachment. To send your message, remove this attachment.`,
+  VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
 };
@@ -323,6 +332,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
@@ -377,6 +387,21 @@ export const Data = {
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
     LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+  },
+  FAQ_LINK: {
+    URL: {
+      SEND: `/find-locations/`,
+      EMRG: `tel:911`,
+      SETTINGS: `/mhv-portal-web/preferences`,
+      PAY: `/health-care/pay-copay-bill/dispute-charges/`,
+    },
+    TEXT: {
+      SEND: `Find your nearest VA health facility`,
+      EMRG_BTN: `Connect with the Veterans Crisis Line`,
+      EMRG: `911`,
+      SETTINGS: `My HealtheVet (opens in new tab)`,
+      PAY: `Learn how to dispute your VA copay charges`,
+    },
   },
 };
 export const Assertions = {

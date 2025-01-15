@@ -2,11 +2,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
-import createSituationUpdatesBanner, {
-  BannerContainer,
-} from '../createSituationUpdatesBanner';
-import widgetTypes from '../../widgetTypes';
+import widgetTypes from 'platform/site-wide/widgetTypes';
+import { BannerContainer } from '../bannerContainer';
+import createSituationUpdatesBanner from '../createSituationUpdatesBanner';
 
 describe('createSituationUpdatesBanner', () => {
   let sandbox;

@@ -513,7 +513,13 @@ export function makeAuthRequest(
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation';
+  if (claim?.attributes?.claimType) {
+    const { claimType } = claim.attributes;
+    return claimType === 'Death'
+      ? 'expenses related to death or burial'
+      : claimType;
+  }
+  return 'Disability Compensation';
 }
 
 export const mockData = {
@@ -1209,7 +1215,7 @@ export function setPageFocus(lastPage, loading) {
 }
 // Used to get the oldest document date
 // Logic used in getTrackedItemDateFromStatus()
-const getOldestDocumentDate = item => {
+export const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };

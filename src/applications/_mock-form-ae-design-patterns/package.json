@@ -1,0 +1,31 @@
+{
+    "name": "@department-of-veterans-affairs/applications-mock-form-ae-design-patterns",
+    "version": "1.0.0",
+    "scripts": {
+        "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES",
+        "vadx": "node vadx/server/index.js --entry='mock-form-ae-design-patterns'",
+        "vadx:dev": "nodemon vadx/server/index.js"
+    },
+    "licence": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "@testing-library/dom": "^7.26.6",
+        "@testing-library/react": "^11.1.2",
+        "chai": "^4.3.4",
+        "mockdate": "^3.0.5",
+        "mocker-api": "^2.9.0",
+        "nodemon": "^3.1.7",
+        "sinon": "^3.2.1"
+    },
+    "peerDependencies": {
+        "lodash": "*",
+        "prop-types": "*",
+        "react": "*",
+        "react-redux": "*",
+        "react-router": "*",
+        "react-router-dom": "*",
+        "redux": "*",
+        "redux-mock-store": "*"
+    },
+    "private": true
+}

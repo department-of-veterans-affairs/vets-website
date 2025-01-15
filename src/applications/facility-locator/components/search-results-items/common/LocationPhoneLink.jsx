@@ -15,8 +15,13 @@ export const renderPhoneNumber = (
     return null;
   }
 
-  const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
-
+  const {
+    extension,
+    contact,
+    processed,
+    international,
+    countryCode,
+  } = parsePhoneNumber(phone);
   // The Telephone component will throw an error if passed an invalid phone number.
   // Since we can't use try/catch or componentDidCatch here, we'll just do this:
   if (contact.length !== 10) {
@@ -30,17 +35,23 @@ export const renderPhoneNumber = (
       {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
-      <va-telephone
-        className={
-          subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
-        }
-        contact={contact}
-        extension={extension}
-        aria-describedby={phoneNumberId}
-        message-aria-describedby={title}
-      >
-        {formattedPhoneNumber}
-      </va-telephone>
+      {processed ? (
+        <va-telephone
+          className={
+            subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
+          }
+          contact={contact}
+          extension={extension}
+          message-aria-describedby={title}
+          country-code={countryCode}
+          international={international}
+        />
+      ) : (
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+        <a href={`tel:${contact}`} aria-describedby={phoneNumberId}>
+          {contact}
+        </a>
+      )}
     </p>
   );
 };

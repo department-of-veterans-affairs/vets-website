@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
-// import VitalsListPage from './pages/VitalsListPage';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitals from '../../fixtures/vitals/sample-lighthouse.json';
+import Vitals from '../pages/Vitals';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -9,18 +9,18 @@ describe('Medical Records View Vitals', () => {
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
+      isAcceleratingEnabled: false,
       isAcceleratingVitals: false,
     });
-    cy.visit('my-health/medical-records');
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.intercept('GET', '/my_health/v1/medical_records/vitals*', req => {
-      // check the correct param was used
-      expect(req.url).to.not.contain('use_oh_data_path=1');
-      req.reply(vitals);
-    }).as('vitals-list');
+
+    Vitals.setIntercepts({ vitalData: vitalsData, useOhData: false });
   });
 
-  it('Visits View Vitals List', () => {
+  it('Visits View Vital List', () => {
+    site.loadPage();
+
+    cy.injectAxeThenAxeCheck();
+
     // check for MY Va Health links
     cy.get('[data-testid="labs-and-tests-landing-page-link"]').should(
       'be.visible',
@@ -31,12 +31,6 @@ describe('Medical Records View Vitals', () => {
 
     cy.get('[data-testid="allergies-landing-page-link"]').should('be.visible');
 
-    cy.get('[data-testid="vitals-landing-page-link"]')
-      .should('be.visible')
-      .click();
-
-    // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
+    cy.get('[data-testid="vitals-landing-page-link"]').should('be.visible');
   });
 });

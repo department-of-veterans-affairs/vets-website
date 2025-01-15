@@ -35,8 +35,8 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/federalemployerOJTandApprenticeshipProgramApprovalInformation.asp"
-        hrefText="Federal on-the-job training/apprenticeship approval"
-        pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship programs."
+        hrefText="Federal on-the-job training/apprenticeship approvals"
+        pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
@@ -50,7 +50,7 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
-        hrefText="Covered educational institutions"
+        hrefText="Covered Educational Institutions"
         pText="Educational institutions that have enrolled 20 or more individuals using educational assistance under Title 38, United States Code, during the previous calendar year."
       />
       <LiSpanAndVaLinkAndPTag

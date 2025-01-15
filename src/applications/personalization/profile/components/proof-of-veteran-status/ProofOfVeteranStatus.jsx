@@ -58,6 +58,14 @@ const ProofOfVeteranStatus = ({
         title: 'V-A logo',
         url: '/img/design/logo/logo-black-and-white.png',
       },
+      seal: {
+        title: 'V-A Seal',
+        url: '/img/design/logo/seal-black-and-white.png',
+      },
+      scissors: {
+        title: 'Scissors icon',
+        url: '/img/scissors-black.png',
+      },
     },
   };
 

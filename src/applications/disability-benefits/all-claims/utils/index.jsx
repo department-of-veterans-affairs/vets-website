@@ -5,7 +5,7 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
@@ -16,7 +16,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
@@ -394,6 +393,11 @@ export const hasNewPtsdDisability = formData =>
     isDisabilityPtsd(disability.condition),
   );
 
+// NOTE: this will need to be updated or removed when we have a usecase for the
+// Additional Forms chapter beyond the new 0781 flow
+export const showAdditionalFormsChapter = formData =>
+  formData?.syncModern0781Flow === true;
+
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false);
@@ -739,6 +743,17 @@ export const truncateDescriptions = data =>
   );
 
 /**
+ * Creates consistent form title tag
+ * @param {string} titleTag
+ * @returns {string} markup with h3 tag and consistent styling
+ */
+export const formTitleTag = titleTag => (
+  <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+    {`${titleTag} `}
+  </h3>
+);
+
+/**
  * Creates consistent form title
  * @param {string} title
  * @returns {string} markup with h3 tag and consistent styling
@@ -851,3 +866,11 @@ export const formatFullName = (fullName = {}) => {
 
   return res.trim();
 };
+
+/**
+ * Uses an environment check to determine if changes should be visible. For now it
+ * should display on staging or below environments
+ * @returns true if the updates should be used, false otherwise
+ */
+export const show5103Updates = () =>
+  environment.isDev() || environment.isLocalhost() || environment.isStaging();

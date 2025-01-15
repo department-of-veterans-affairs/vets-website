@@ -26,10 +26,10 @@ describe('Medications List Page Pagination', () => {
     listPage.clickGotoMedicationsLink();
     // cy.get('[href="/my-health/medications/"]').click();
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, threadLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(11, 20, threadLength);
     site.loadVAPaginationPreviousPrescriptions(1, mockRxPageOne, 20);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, threadLength);
   });
 });

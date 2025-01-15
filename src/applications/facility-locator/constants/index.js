@@ -69,6 +69,42 @@ export const OperatingStatus = {
   LIMITED: 'LIMITED',
   CLOSED: 'CLOSED',
   NOTICE: 'NOTICE',
+  TEMPORARY_CLOSURE: 'TEMPORARY_CLOSURE',
+  TEMPORARY_LOCATION: 'TEMPORARY_LOCATION',
+  VIRTUAL_CARE: 'VIRTUAL_CARE',
+  COMING_SOON: 'COMING_SOON',
+};
+
+// Used in multiple places, so export it here
+export const OperatingStatusDisplay = {
+  [OperatingStatus.CLOSED]: {
+    operationStatusTitle: 'Facility Closed',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.LIMITED]: {
+    operationStatusTitle: 'Limited services and hours',
+    alertClass: 'info',
+  },
+  [OperatingStatus.NOTICE]: {
+    operationStatusTitle: 'Facility notice',
+    alertClass: 'info',
+  },
+  [OperatingStatus.COMING_SOON]: {
+    operationStatusTitle: 'Coming soon',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_CLOSURE]: {
+    operationStatusTitle: 'Temporary facility closure',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_LOCATION]: {
+    operationStatusTitle: 'Temporary location',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.VIRTUAL_CARE]: {
+    operationStatusTitle: 'Virtual care only',
+    alertClass: 'warning',
+  },
 };
 
 /**
@@ -117,18 +153,6 @@ export const MapboxInit = {
     lat: 40.17887331434698,
   },
 };
-
-/**
- * Mapbox api request countries
- */
-
-export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
-
-/**
- * Mapbox api request types
- */
-
-export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
 
 /**
  * Max search area in miles

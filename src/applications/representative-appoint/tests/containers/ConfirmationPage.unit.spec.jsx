@@ -37,13 +37,13 @@ describe('ConfirmationPage', () => {
     selectedAccreditedOrganizationId: '1',
     applicantName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
     veteranFullName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
@@ -74,7 +74,7 @@ describe('ConfirmationPage', () => {
     const checkbox = container.querySelector('va-checkbox');
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      "I've downloaded, printed, and signed my form",
+      'I’ve downloaded, printed, and signed my form',
     );
 
     const button = container.querySelector('va-button');
