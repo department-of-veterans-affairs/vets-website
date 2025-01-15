@@ -2,22 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { getPreviousPagePath, goBack } from '../routing';
+import { getPreviousPagePath, goBack, getRoute } from '../routing';
 import { setData as setDataAction } from '../actions';
-
-function getRoute(routes, location) {
-  try {
-    return routes.find(r => {
-      if (r.path.includes(':index')) {
-        const regex = new RegExp(r.path.replace(':index', '\\d+'));
-        return regex.test(location.pathname);
-      }
-      return `/${r.path}` === location.pathname;
-    });
-  } catch (e) {
-    return null;
-  }
-}
 
 /**
  * Equivalent to back button on the back/continue pair,
@@ -27,8 +13,18 @@ function getRoute(routes, location) {
  * ```jsx
  * <BackLink />
  * ```
+ *
+ * BackLink vs BackLinkImpl
+ * BackLink is what you should use as a consumer
+ * BackLinkImpl is for testing so we can pass in props directly
  */
-const BackLink = ({ router, routes, location, form, setData }) => {
+export const BackLinkImpl = ({
+  router, // from withRouter
+  routes, // from withRouter
+  location, // from withRouter
+  form, // from connect
+  setData, // from connect
+}) => {
   const [link, setLink] = useState(null);
 
   useEffect(
@@ -115,14 +111,16 @@ const mapDispatchToProps = {
   setData: setDataAction,
 };
 
-export default withRouter(
+const BackLink = withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(BackLink),
+  )(BackLinkImpl),
 );
 
-BackLink.propTypes = {
+export default BackLink;
+
+BackLinkImpl.propTypes = {
   form: PropTypes.object,
   location: PropTypes.object,
   router: PropTypes.object,
