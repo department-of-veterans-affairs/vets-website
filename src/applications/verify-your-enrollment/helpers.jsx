@@ -556,13 +556,10 @@ export const getGroupedPreviousEnrollments = month => {
   );
 };
 export const getGroupedPreviousEnrollmentsDGIB = enrollment => {
-  const {
-    verificationBeginDate,
-    verificationEndDate,
-    verificationMethod,
-  } = enrollment[0];
+  const verificationBeginDate = enrollment[0]?.verificationBeginDate;
+  const verificationEndDate = enrollment[0]?.verificationEndDate;
+  const verificationMethod = enrollment[0]?.verificationMethod;
   const myUUID = uuidv4();
-
   return (
     <div className="vye-top-border" key={myUUID}>
       {verificationMethod && isVerificationEndDateValid(verificationEndDate) ? (
