@@ -284,7 +284,7 @@ export const pageHooks = cy => ({
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
 
-          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
+          cy.get('va-button[text="Remove"]').should('be.visible');
         }
 
         // click on input and type search text
@@ -320,7 +320,7 @@ export const pageHooks = cy => ({
         }
 
         // click save
-        cy.findByText(/save/i, { selector: 'button' }).click();
+        cy.get('va-button[text="Save"]').click();
       });
     });
   },
