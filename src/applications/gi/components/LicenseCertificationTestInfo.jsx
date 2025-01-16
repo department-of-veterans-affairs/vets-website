@@ -8,8 +8,6 @@ function LcTestInfo({ tests }) {
   useLayoutEffect(
     // eslint-disable-next-line consistent-return
     () => {
-      // error check required at this point?
-      // if (!error) {
       const observer = new MutationObserver(() => {
         const vaTableInner = document.querySelector(
           '.table-wrapper va-table-inner',
@@ -31,7 +29,6 @@ function LcTestInfo({ tests }) {
         });
       }
       return () => observer.disconnect();
-      // }
     },
     [tests],
   );
@@ -39,10 +36,13 @@ function LcTestInfo({ tests }) {
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(tests.length / itemsPerPage);
-  const currentResults = tests.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  const currentResults =
+    tests.length > itemsPerPage
+      ? tests.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage,
+        )
+      : tests;
 
   const handlePageChange = page => {
     setCurrentPage(page);
@@ -67,15 +67,14 @@ function LcTestInfo({ tests }) {
               );
             })}
         </va-table>
-        {/* {tests.length > currentResults.length && ( */}
-        <VaPagination
-          onPageSelect={e => handlePageChange(e.detail.page)}
-          page={currentPage}
-          pages={totalPages}
-          maxPageListLength={itemsPerPage}
-          // showLastPage
-        />
-        {/* )} */}
+        {tests.length > itemsPerPage && (
+          <VaPagination
+            onPageSelect={e => handlePageChange(e.detail.page)}
+            page={currentPage}
+            pages={totalPages}
+            maxPageListLength={itemsPerPage}
+          />
+        )}
       </div>
     </>
   );

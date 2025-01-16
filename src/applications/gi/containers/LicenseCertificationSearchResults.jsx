@@ -62,6 +62,7 @@ function LicenseCertificationSearchResults({
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
   const handleRouteChange = id => event => {
@@ -95,7 +96,7 @@ function LicenseCertificationSearchResults({
                   Search Results
                 </h1>
 
-                <div className="result-info-wrapper">
+                <div className="lc-result-info-wrapper">
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
                     <p className="vads-u-color--gray-dark vads-u-margin--0">
                       Showing{' '}
@@ -108,7 +109,7 @@ function LicenseCertificationSearchResults({
                     </p>
                     <va-link
                       href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
-                      className="back-link"
+                      class="back-link"
                       back
                       text="Back to search"
                       onClick={handlePreviousRouteChange}
@@ -168,7 +169,7 @@ function LicenseCertificationSearchResults({
                   </p>
                 )}
               </div>
-              {filteredResults.length > 0 && (
+              {filteredResults.length > itemsPerPage && (
                 <VaPagination
                   page={currentPage}
                   pages={totalPages}

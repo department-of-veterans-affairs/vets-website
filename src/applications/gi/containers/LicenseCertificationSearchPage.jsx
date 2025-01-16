@@ -88,13 +88,6 @@ function LicenseCertificationSearchPage({
     message: '',
   });
 
-  const handleUpdateQueryParam = () => updateQueryParam(history, location);
-
-  const handleReset = callback => {
-    history.replace('/lc-search');
-    callback?.();
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -107,6 +100,27 @@ function LicenseCertificationSearchPage({
     },
     [hasFetchedOnce, dispatchFetchLicenseCertificationResults],
   );
+
+  const handleFaqClick = index => {
+    const element = document.getElementById(`faq-${index}`);
+    element?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
+  const handleKeyDown = (event, index) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      handleFaqClick(index);
+    }
+  };
+
+  const handleUpdateQueryParam = () => updateQueryParam(history, location);
+
+  const handleReset = callback => {
+    history.replace('/lc-search');
+    callback?.();
+  };
 
   const handleShowModal = (changedField, message, callback) => {
     return setModal({
@@ -134,12 +148,7 @@ function LicenseCertificationSearchPage({
 
   return (
     <div className="lc-page-wrapper">
-      {fetchingLc && (
-        <va-loading-indicator
-          // data-testid="loading-indicator"
-          message="Loading..."
-        />
-      )}
+      {fetchingLc && <va-loading-indicator message="Loading..." />}
       {!fetchingLc &&
         hasFetchedOnce &&
         lcResults.length !== 0 && (
@@ -179,7 +188,13 @@ function LicenseCertificationSearchPage({
               <va-accordion open-single>
                 {faqs.map((faq, index) => {
                   return (
-                    <va-accordion-item header={faq.question} key={index}>
+                    <va-accordion-item
+                      id={`faq-${index}`}
+                      header={faq.question}
+                      key={index}
+                      onClick={() => handleFaqClick(index)}
+                      onKeyDown={e => handleKeyDown(e, index)}
+                    >
                       {faq.answer}
                     </va-accordion-item>
                   );
@@ -194,7 +209,6 @@ function LicenseCertificationSearchPage({
               modalTitle={`Are you sure you want to change the ${
                 modal.changedField
               } field?`}
-              // initialFocusSelector={initialFocusSelector}
               onCloseEvent={toggleModal}
               onPrimaryButtonClick={() => {
                 modal.callback();
@@ -203,7 +217,6 @@ function LicenseCertificationSearchPage({
               primaryButtonText="Continue to change"
               onSecondaryButtonClick={toggleModal}
               secondaryButtonText="Go Back"
-              // status={status}
               visible={modal.visible}
             >
               <p>{modal.message}</p>
@@ -219,14 +232,12 @@ LicenseCertificationSearchPage.propTypes = {
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
   lcResults: PropTypes.array,
-  // error: Proptypes // verify error Proptypes
 };
 
 const mapStateToProps = state => ({
   lcResults: state.licenseCertificationSearch.lcResults,
   fetchingLc: state.licenseCertificationSearch.fetchingLc,
   hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
-  // error: // create error state in redux store
 });
 
 const mapDispatchToProps = {

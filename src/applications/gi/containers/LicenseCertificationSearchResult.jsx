@@ -26,15 +26,10 @@ function LicenseCertificationSearchResult({
 
   return (
     <div>
-      {fetchingLcResult && (
-        <va-loading-indicator
-          // data-testid="loading-indicator"
-          message="Loading..."
-        />
-      )}
+      {fetchingLcResult && <va-loading-indicator message="Loading..." />}
       {!fetchingLcResult &&
-      institution &&
-      tests && ( // better check for empty resultInfo
+        institution &&
+        tests && (
           <section className="lc-result-details vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className="mobile-lg:vads-u-text-align--left">{lacNm}</h1>
