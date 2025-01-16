@@ -38,7 +38,7 @@ describe('Search by program', () => {
     store = mockStore({
       search: {
         query: {
-          distance: '25',
+          distance: '',
           location: '',
           streetAddress: { searchString: '' },
         },
@@ -53,6 +53,7 @@ describe('Search by program', () => {
     expect(container.querySelectorAll('va-text-input[error]').length).to.equal(
       2,
     );
+    expect(container.querySelectorAll('va-select[error]').length).to.equal(1);
   });
 
   it('Shows failed attempt to locate user - user not sharing location', () => {

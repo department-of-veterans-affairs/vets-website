@@ -96,6 +96,8 @@ const SearchByProgram = () => {
           name="program-distance"
           onVaSelect={e => setDistance(e.target.value)}
           value={distance}
+          required
+          error={searchDirty && !distance ? 'Please select an option' : null}
         >
           {distanceDropdownOptions.map(option => (
             <option value={option.value} key={option.value}>
