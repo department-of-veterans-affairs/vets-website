@@ -4,6 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
@@ -141,4 +142,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CategorySelectPage);
+export default connect(mapStateToProps)(withRouter(CategorySelectPage));
