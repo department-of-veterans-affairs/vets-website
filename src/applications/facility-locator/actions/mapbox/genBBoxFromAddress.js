@@ -1,11 +1,10 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../../components/MapboxClient';
 import {
-  BOUNDING_RADIUS,
-  EXPANDED_BOUNDING_RADIUS,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-} from '../../constants';
+  mapboxClient,
+} from 'platform/utilities/facilities-and-mapbox';
+import { BOUNDING_RADIUS, EXPANDED_BOUNDING_RADIUS } from '../../constants';
 import {
   GEOCODE_STARTED,
   SEARCH_FAILED,
@@ -92,7 +91,9 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
           ];
         }
         const radius = radiusFromBoundingBox(
-          features,
+          features?.[0]?.bbox
+            ? features
+            : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
         );
         dispatch({

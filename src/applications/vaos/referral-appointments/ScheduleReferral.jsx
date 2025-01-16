@@ -5,27 +5,32 @@ import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { setFormCurrentPage } from './redux/actions';
+import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
+import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
+  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
+      dispatch(setInitReferralFlow());
+      sessionStorage.removeItem(selectedSlotKey);
     },
-    [location, dispatch],
+    [location, dispatch, selectedSlotKey],
   );
-
   const appointmentCountString =
     currentReferral.numberOfAppointments === 1
       ? '1 appointment'
       : `${currentReferral.numberOfAppointments} appointments`;
   return (
-    <ReferralLayout hasEyebrow>
+    <ReferralLayout
+      hasEyebrow
+      heading={`Referral for ${currentReferral.CategoryOfCare}`}
+    >
       <div>
-        <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
           {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>
@@ -45,7 +50,7 @@ export default function ScheduleReferral(props) {
           id={currentReferral.UUID}
         />
         <h2>Details about your referral</h2>
-        <p>
+        <p data-testid="referral-details">
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
           ${format(
@@ -69,7 +74,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.ReferralNumber}
         </p>
         <va-additional-info
-          data-testid="help-text"
+          data-testid="additional-appointment-help-text"
           uswds
           trigger="If you were approved for more than one appointment"
           class="vads-u-margin-bottom--2"
@@ -86,7 +91,7 @@ export default function ScheduleReferral(props) {
           Contact your referring VA facility if you have questions about your
           referral or how to schedule your appointment.
         </p>
-        <p>
+        <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
           {currentReferral.ReferringFacilityInfo.FacilityName}
           <br />

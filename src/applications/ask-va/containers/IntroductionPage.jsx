@@ -3,11 +3,11 @@ import {
   VaButton,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
   isLoggedIn,
+  isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -16,7 +16,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { envUrl } from '../constants';
 import {
@@ -27,20 +27,30 @@ import {
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route, toggleLoginModal, loggedIn } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const showSignInModal = () => {
+    toggleLoginModal(true);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('showSignInModal') === 'true' &&
+      !loggedIn &&
+      !showLoadingIndicator
+    ) {
+      showSignInModal();
+    }
+  });
 
   const getStartPage = () => {
     const data = formData || {};
     if (pathname) return getNextPagePath(pageList, data, pathname);
     return pageList[1].path;
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true, 'askVA');
   };
 
   useEffect(
@@ -232,29 +242,18 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <SaveInProgressIntro
-        prefillEnabled={formConfig.prefillEnabled}
-        pageList={pageList}
-        startText="Ask a new question"
-      />
-      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
-        <va-accordion
-          disable-analytics={{
-            value: 'false',
-          }}
-          open-single
-          section-heading={{
-            value: 'null',
-          }}
-          uswds={{
-            value: 'true',
-          }}
-        >
-          <va-accordion-item header="When to use Ask VA" id="first">
+      <p>This form takes about 2 to 15 minutes to complete.</p>
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+        <va-additional-info trigger="When to use Ask VA">
+          <div>
             <p>
               You can use Ask VA to ask a question online. You can ask about
               education, disability compensation, health care and many other
               topics.
+            </p>
+            <p>
+              We will review your information and reply back in up to{' '}
+              <span className="vads-u-font-weight--bold">7 business days</span>.
             </p>
             <p>
               If you need help now, use one of these urgent communication
@@ -278,10 +277,18 @@ const IntroductionPage = props => {
                 or go to the nearest emergency room.
               </li>
             </ul>
-          </va-accordion-item>
-        </va-accordion>
+          </div>
+        </va-additional-info>
       </div>
-
+      <SaveInProgressIntro
+        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
+        formConfig={formConfig}
+        messages={route.formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+        className="vads-u-margin--0"
+      />
       <DashboardCards />
     </>
   );
@@ -291,9 +298,23 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={subTitle} />
-      {loggedIn && authenticatedUI}
-      {!loggedIn && unAuthenticatedUI}
+      <div className="schemaform-title vads-u-margin-bottom--2">
+        <h1 className="vads-u-margin-bottom--2p5" data-testid="form-title">
+          {formConfig.title}
+        </h1>
+        {subTitle && (
+          <div className="schemaform-subtitle" data-testid="form-subtitle">
+            {subTitle}
+          </div>
+        )}
+      </div>
+      {showLoadingIndicator && <va-loading-indicator set-focus />}
+      {!showLoadingIndicator && (
+        <>
+          {loggedIn && authenticatedUI}
+          {!loggedIn && unAuthenticatedUI}
+        </>
+      )}
     </div>
   );
 };
@@ -324,6 +345,7 @@ IntroductionPage.propTypes = {
     pathname: PropTypes.string,
     pageList: PropTypes.array,
   }),
+  showLoadingIndicator: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -331,6 +353,7 @@ function mapStateToProps(state) {
     formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
+    showLoadingIndicator: isProfileLoading(state),
   };
 }
 
@@ -342,4 +365,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionPage);
+)(withRouter(IntroductionPage));

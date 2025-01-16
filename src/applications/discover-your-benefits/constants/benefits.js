@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -28,7 +27,6 @@ export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',
   RETIREMENT: 'RETIREMENT',
-  FUTURE: 'FUTURE',
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
@@ -38,7 +36,6 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
@@ -176,7 +173,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'DOD SkillBridge program',
@@ -273,22 +270,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
-    },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
   },
@@ -309,22 +290,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
-    },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
     },
     learnMoreURL:
       'https://www.va.gov/careers-employment/veteran-owned-business-support/',
@@ -439,10 +404,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.STARTED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
@@ -577,7 +539,7 @@ export const BENEFITS_LIST = [
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Note: You must already have a VA service-connected disability rating to be approved for Veterans Affairs Life Insurance (VALife). VALife provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -602,7 +564,7 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL:
       'https://www.va.gov/life-insurance/options-eligibility/valife',
-    applyNowURL: '',
+    applyNowURL: 'https://insurance.va.gov/VALIFE/Fiduciary/',
   },
   {
     name: 'Disability compensation',
@@ -610,7 +572,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -631,10 +593,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.STARTED,
-        disabilityTypes.NOT_APPLIED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
@@ -646,7 +605,7 @@ export const BENEFITS_LIST = [
     category: categories.HOUSING,
     id: 'COE',
     description:
-      'VA housing assistance can help Veterans, service members, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, improve, or keep your current home. Find out how to apply for and manage the Veterans housing assistance benefits you’ve earned.',
+      'VA-backed home loans can help Veterans, service members, and their survivors to buy, build, improve, or refinance a home. In most cases, you’ll still need to find a private lender and have sufficient income and credit for the amount you want to borrow. But a VA-backed home loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -672,8 +631,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/housing-assistance/home-loans/loan-types/',
+    learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
     applyNowURL:
       'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
   },
@@ -717,7 +675,7 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -742,12 +700,12 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'TGI',
     description:
-      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
+      'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
@@ -758,7 +716,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
     applyNowURL: '',
   },
   {
@@ -766,7 +724,7 @@ export const BENEFITS_LIST = [
     category: categories.MORE_SUPPORT,
     id: 'DCU',
     description:
-      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
+      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],

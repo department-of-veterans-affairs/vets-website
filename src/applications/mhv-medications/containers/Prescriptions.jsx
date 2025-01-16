@@ -55,13 +55,14 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import { pageType } from '../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 
 const Prescriptions = () => {
@@ -89,6 +90,7 @@ const Prescriptions = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -141,7 +143,12 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
     dispatch(
-      getPaginatedFilteredList(1, filterOptions[filterBy]?.url, sortBy),
+      getPaginatedFilteredList(
+        1,
+        filterOptions[filterBy]?.url,
+        sortBy,
+        showGroupingContent ? 10 : 20,
+      ),
     ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
@@ -240,6 +247,7 @@ const Prescriptions = () => {
           getPrescriptionsPaginatedSortedList(
             page ?? 1,
             rxListSortingOptions[sortOption].API_ENDPOINT,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
         if (!selectedSortOption) updateSortOption(sortOption);
@@ -315,6 +323,7 @@ const Prescriptions = () => {
             storedPageNumber,
             filterOptions[storedFilterOption]?.url,
             sortEndpoint,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
       }
@@ -636,7 +645,7 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert className="vads-u-margin-top--2" />
+            <CernerFacilityAlert />
           </>
         ) : (
           <>
@@ -671,6 +680,10 @@ const Prescriptions = () => {
                         className="vads-c-action-link--green vads-u-margin--0"
                         to={medicationsUrls.subdirectories.REFILL}
                         data-testid="prescriptions-nav-link-to-refill"
+                        data-dd-action-name={
+                          dataDogActionNames.medicationsListPage
+                            .START_REFILL_REQUEST
+                        }
                       >
                         Start a refill request
                       </Link>

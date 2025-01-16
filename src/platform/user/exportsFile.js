@@ -98,7 +98,7 @@ export {
 
 export {
   defaultSignInProviders,
-  defaultSignUpProviders,
+  legacySignInProviders,
   defaultMobileQueryParams,
   defaultMobileOAuthOptions,
   defaultWebOAuthOptions,

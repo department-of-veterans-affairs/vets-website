@@ -1,6 +1,6 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -41,9 +41,11 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
+import deathCertificateV2 from './chapters/05-additional-information/deathCertificateV2';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
+import { showUploadDocuments } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
@@ -66,7 +68,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  formId: VA_FORM_IDS.FORM_21P_530V2,
+  formId: VA_FORM_IDS.FORM_21P_530EZ,
   saveInProgress: {
     messages: {
       inProgress:
@@ -383,8 +385,19 @@ const formConfig = {
             <h4 className="vads-u-font-size--h3">Death certificate</h4>
           ),
           path: 'additional-information/death-certificate',
+          depends: () => !showUploadDocuments(),
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
+        },
+        deathCertificateV2: {
+          title: 'Death certificate',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Death certificate</h4>
+          ),
+          path: 'additional-information/upload-death-certificate',
+          depends: () => showUploadDocuments(),
+          uiSchema: deathCertificateV2.uiSchema,
+          schema: deathCertificateV2.schema,
         },
         transportationReceipts: {
           title: 'Transportation receipts',

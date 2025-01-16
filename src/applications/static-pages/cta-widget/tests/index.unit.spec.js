@@ -4,8 +4,10 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { render, fireEvent } from '@testing-library/react';
 // Relative imports.
-
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
@@ -115,43 +117,45 @@ describe('<CallToActionWidget>', () => {
   });
   it('should show sign in state', () => {
     const { props, mockStore } = getData();
-    const tree = mount(
+    const { container } = render(
       <Provider store={mockStore}>
-        <CallToActionWidget
-          {...props}
-          featureToggles={{ loading: false }}
-          ariaLabel="test aria-label"
-          ariaDescribedby="test-id"
-        />
+        <CallToActionWidget {...props} featureToggles={{ loading: false }} />
       </Provider>,
     );
 
-    const signIn = tree.find('SignIn');
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(signIn.exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
-    expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
-    expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
-    tree.unmount();
+    const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
+
+    expect(vaAlertSignIn).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
 
   it('should show direct deposit sign in state', () => {
     const { props, mockStore } = getData();
-    const tree = mount(
+    const { container } = render(
       <Provider store={mockStore}>
         <CallToActionWidget
           {...props}
-          featureToggles={{
-            loading: false,
-          }}
+          featureToggles={{ loading: false }}
           appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
-          ariaLabel="test aria-label"
-          ariaDescribedby="test-id"
         />
       </Provider>,
     );
-    expect(tree.find('Unauthed').exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
+    const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
+
+    expect(vaAlertSignIn).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
     const derivedUrl = ctaWidgetsLookup[
@@ -159,34 +163,59 @@ describe('<CallToActionWidget>', () => {
     ].deriveToolUrlDetails()?.url;
     expect(authReturnUrl.includes(derivedUrl)).to.be.true;
     sessionStorage.clear();
+  });
 
-    tree.unmount();
+  it('should show the ChangeAddress cta', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          featureToggles={{ loading: false }}
+          appId={CTA_WIDGET_TYPES.CHANGE_ADDRESS}
+        />
+      </Provider>,
+    );
+    const vaAlertSignIn = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
+
+    expect(vaAlertSignIn).to.exist;
+    expect(signInButton).to.exist;
+    expect(signInButton.getAttribute('text')).to.eql(
+      'Sign in or create an account',
+    );
+    expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
+    expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
   });
 
   it('should show verify link', () => {
-    const tree = mount(
-      <CallToActionWidget
-        appId="test"
-        isLoggedIn
-        profile={{
-          loading: false,
-          verified: false,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: false,
-        }}
-      />,
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          appId="test"
+          {...props}
+          isLoggedIn
+          featureToggles={{ loading: false }}
+          serviceName={CSP_IDS.ID_ME}
+        />
+      </Provider>,
     );
 
-    expect(tree.find('Verify').exists()).to.be.true;
-    expect(tree.find('h3').exists()).to.be.true;
-    tree.unmount();
+    const vaAlertSignIn = $('va-alert-sign-in', container);
+
+    expect(vaAlertSignIn).to.exist;
+    expect($('.idme-verify-button', container)).to.exist;
+    expect($('.logingov-verify-button', container)).to.not.exist;
+    expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyIdMe');
   });
+
   it('should show link and description', () => {
     const tree = mount(
       <CallToActionWidget
@@ -206,7 +235,6 @@ describe('<CallToActionWidget>', () => {
         }}
       />,
     );
-
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
     expect(tree.find('SignIn').exists()).to.be.false;
     expect(tree.find('Verify').exists()).to.be.false;
@@ -217,6 +245,7 @@ describe('<CallToActionWidget>', () => {
     );
     tree.unmount();
   });
+
   describe('health tools', () => {
     it('should fetch MHV account on mount', () => {
       const fetchMHVAccount = sinon.spy();
@@ -310,31 +339,114 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show mvi not authorized error', () => {
-      const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={d => d}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.RX}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: false,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'good',
-            accountLevel: 'Premium',
-          }}
-          mviStatus="NOT_AUTHORIZED"
-          featureToggles={{
-            loading: false,
-          }}
-        />,
+    it('should show mvi not authorized/verify error for ID.me service', () => {
+      const { props, mockStore } = getData();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            headingLevel={2}
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
       );
 
-      expect(tree.find('NotAuthorized').exists()).to.be.true;
-      tree.unmount();
+      const vaAlertSignIn = $('va-alert-sign-in', container);
+
+      expect(vaAlertSignIn).to.exist;
+      expect($('.idme-verify-button', container)).to.exist;
+      expect($('.logingov-verify-button', container)).to.not.exist;
+      expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyIdMe');
+    });
+
+    it('should show verify alert for Login.gov service', () => {
+      const { props, mockStore } = getData();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            headingLevel={2}
+            serviceName={CSP_IDS.LOGIN_GOV}
+          />
+        </Provider>,
+      );
+
+      const vaAlertSignIn = $('va-alert-sign-in', container);
+
+      expect(vaAlertSignIn).to.exist;
+      expect($('.idme-verify-button', container)).to.not.exist;
+      expect($('.logingov-verify-button', container)).to.exist;
+      expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyLoginGov');
+    });
+
+    it('should show verify SignInOtherAccount alert for MHV Basic Account', () => {
+      const { props, mockStore } = getData();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.RX}
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: false,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="NOT_AUTHORIZED"
+            featureToggles={{
+              loading: false,
+            }}
+            serviceName={CSP_IDS.MHV}
+          />
+        </Provider>,
+      );
+
+      const vaAlertSignIn = $('va-alert-sign-in', container);
+
+      expect(vaAlertSignIn).to.exist;
+      expect($('.idme-verify-buttons', container)).to.exist;
+      expect($('.logingov-verify-buttons', container)).to.exist;
+      expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInEither');
     });
 
     it('should show mvi not found error', () => {
@@ -429,30 +541,37 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('should show direct deposit component when verified with multifactor', () => {
-      const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={d => d}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'good',
-            accountLevel: 'Premium',
-          }}
-          mviStatus="GOOD"
-          featureToggles={{
-            loading: false,
-          }}
-        />,
+      const { mockStore } = getData();
+      const { container } = render(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+            profile={{ loading: false, verified: true, multifactor: true }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="GOOD"
+            featureToggles={{ loading: false }}
+          />
+          ,
+        </Provider>,
       );
 
-      expect(tree.find('DirectDeposit').exists()).to.be.true;
-      tree.unmount();
+      const vaAlertSignIn = $('va-alert-sign-in', container);
+      const signInButton = $('va-button', container);
+
+      expect(vaAlertSignIn).to.exist;
+      expect(signInButton).to.exist;
+      expect(signInButton.getAttribute('text')).to.eql(
+        'Sign in or create an account',
+      );
+      fireEvent.click(signInButton);
+      expect(vaAlertSignIn.getAttribute('heading-level')).to.eql('3');
+      expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
     });
 
     describe('account state errors', () => {
@@ -470,19 +589,26 @@ describe('<CallToActionWidget>', () => {
       };
 
       it('should show verify message', () => {
-        const tree = mount(
-          <CallToActionWidget
-            {...defaultProps}
-            mhvAccount={{
-              loading: false,
-              accountState: 'needs_identity_verification',
-              accountLevel: 'Basic',
-            }}
-          />,
+        const { mockStore } = getData();
+        const { container } = render(
+          <Provider store={mockStore}>
+            <CallToActionWidget
+              {...defaultProps}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+              serviceName={CSP_IDS.ID_ME}
+            />
+          </Provider>,
         );
 
-        expect(tree.find('Verify').exists()).to.be.true;
-        tree.unmount();
+        const vaAlertSignIn = $('va-alert-sign-in', container);
+
+        expect(vaAlertSignIn).to.exist;
+        expect($('.idme-verify-button', container)).to.exist;
+        expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyIdMe');
       });
 
       it('should show needs ssn message', () => {
@@ -585,22 +711,29 @@ describe('<CallToActionWidget>', () => {
         const ssoeProps = { ...defaultProps, authenticatedWithSSOe: true };
 
         it('should show verify message', () => {
-          const tree = mount(
-            <CallToActionWidget
-              {...ssoeProps}
-              profile={{
-                verified: false,
-              }}
-              mhvAccount={{
-                loading: false,
-                accountState: 'needs_identity_verification',
-                accountLevel: 'Basic',
-              }}
-            />,
+          const { mockStore } = getData();
+          const { container } = render(
+            <Provider store={mockStore}>
+              <CallToActionWidget
+                {...ssoeProps}
+                profile={{
+                  verified: false,
+                }}
+                mhvAccount={{
+                  loading: false,
+                  accountState: 'needs_identity_verification',
+                  accountLevel: 'Basic',
+                }}
+                serviceName={CSP_IDS.ID_ME}
+              />
+            </Provider>,
           );
 
-          expect(tree.find('Verify').exists()).to.be.true;
-          tree.unmount();
+          const vaAlertSignIn = $('va-alert-sign-in', container);
+
+          expect(vaAlertSignIn).to.exist;
+          expect($('.idme-verify-button', container)).to.exist;
+          expect(vaAlertSignIn.getAttribute('variant')).to.eql('verifyIdMe');
         });
 
         it('should show deactivated message', () => {
@@ -615,7 +748,6 @@ describe('<CallToActionWidget>', () => {
               }}
             />,
           );
-
           expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
           tree.unmount();
         });
@@ -815,34 +947,35 @@ describe('<CallToActionWidget>', () => {
       haCpapSuppliesCta = false,
       verified = false,
     } = {}) => {
+      const { mockStore } = getData();
       return mount(
-        <CallToActionWidget
-          isLoggedIn={isLoggedIn}
-          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
-          profile={{
-            loading: false,
-            verified,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            [featureFlagNames.haCpapSuppliesCta]: haCpapSuppliesCta,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            isLoggedIn={isLoggedIn}
+            appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+            profile={{
+              loading: false,
+              verified,
+            }}
+            mhvAccount={{}}
+            mviStatus="OK"
+            featureToggles={{
+              loading: false,
+              [featureFlagNames.haCpapSuppliesCta]: haCpapSuppliesCta,
+            }}
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
       );
     };
-
     describe('enabled', () => {
       it('promps to sign in w/ h4 when enabled and user signed out', () => {
         const tree = setup({ haCpapSuppliesCta: true });
-        expect(tree.find('h3').exists()).to.be.true;
         expect(tree.find('SignIn').exists()).to.be.true;
       });
 
       it('promps to verify w/ h4 when enabled and user is unverified', () => {
         const tree = setup({ haCpapSuppliesCta: true, isLoggedIn: true });
-        expect(tree.find('h3').exists()).to.be.true;
         expect(tree.find('Verify').exists()).to.be.true;
       });
 
@@ -857,7 +990,6 @@ describe('<CallToActionWidget>', () => {
           isLoggedIn: true,
           verified: true,
         });
-
         const result = tree.find('a');
         expect(result.props().href).to.contain(url);
         expect(result.props().target).to.equal('_self');

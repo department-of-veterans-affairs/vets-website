@@ -1,8 +1,52 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { useParams, Link } from 'react-router-dom-v5-compat';
+import React, { useState } from 'react';
+import { Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
-import usePOARequests from '../hooks/usePOARequests';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import api from '../utilities/api';
+
+const DECISION_TYPES = {
+  ACCEPTANCE: 'acceptance',
+  DECLINATION: 'declination',
+};
+
+const DECLINATION_OPTIONS = {
+  DECLINATION_HEALTH_RECORDS_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      "I decline the request, because the claimant didn't provide access to health records",
+  },
+  DECLINATION_ADDRESS_CHANGE_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      "I decline the request, because the claimant didn't allow me to change their address",
+  },
+  DECLINATION_BOTH_WITHHELD: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      'I decline the request, because the claimant did not provide access to change address and to health records',
+  },
+  DECLINATION_NOT_ACCEPTING_CLIENTS: {
+    type: DECISION_TYPES.DECLINATION,
+    reason:
+      'I decline the request, because the VSO is not currently accepting new clients',
+  },
+  DECLINATION_OTHER: {
+    type: DECISION_TYPES.DECLINATION,
+    reason: 'I decline for another reason',
+  },
+};
+
+const DECISION_OPTIONS = {
+  ACCEPTANCE: {
+    type: DECISION_TYPES.ACCEPTANCE,
+    reason: null,
+  },
+  ...DECLINATION_OPTIONS,
+};
 
 const checkAuthorizations = (
   isTreatmentDisclosureAuthorized,
@@ -21,18 +65,23 @@ const checkAuthorizations = (
 };
 
 const POARequestDetailsPage = () => {
-  const { poaRequests } = usePOARequests();
-  const { id } = useParams();
-
-  const poaRequest = poaRequests.find(r => r.id === Number(id))?.attributes;
-
+  const poaRequest = useLoaderData().attributes;
+  const [error, setError] = useState(false);
+  const handleChange = e => {
+    e.preventDefault();
+    const radioValue = e.detail?.value;
+    if (radioValue) {
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
   return (
     <section className="poa-request-details">
       <h1>
         <span data-testid="poa-request-details-header">POA request:</span>
         {poaRequest?.claimant?.firstName} {poaRequest?.claimant?.lastName}
       </h1>
-
       <span
         className="poa-request-details__divider"
         aria-hidden="true"
@@ -40,7 +89,6 @@ const POARequestDetailsPage = () => {
       />
 
       <h2>Veteran information</h2>
-
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">Name</p>
@@ -60,7 +108,6 @@ const POARequestDetailsPage = () => {
       </ul>
 
       <h2>POA request information</h2>
-
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">POA submission date</p>
@@ -163,10 +210,77 @@ const POARequestDetailsPage = () => {
         </li>
       </ul>
       <Link to="/poa-requests/">Back to power of attorney list</Link>
+
+      <Form
+        method="post"
+        action="decision"
+        className={
+          error
+            ? `poa-request-details__form poa-request-details__form--error`
+            : `poa-request-details__form`
+        }
+      >
+        <VaRadio
+          header-aria-describedby={null}
+          hint=""
+          label="Do you accept or decline this POA request?"
+          label-header-level="4"
+          class="poa-request-details__form-label"
+          onVaValueChange={handleChange}
+          required
+        >
+          <VaRadioOption
+            label="I accept the request"
+            value="ACCEPTANCE"
+            name="decision"
+          />
+
+          {Object.entries(DECLINATION_OPTIONS).map(([value, decision]) => (
+            <VaRadioOption
+              key={value}
+              label={decision.reason}
+              value={value}
+              name="decision"
+            />
+          ))}
+        </VaRadio>
+
+        <va-alert
+          status="info"
+          class="poa-request-details__form-alert"
+          visible
+          aria-live="polite"
+          slim
+        >
+          <p className="vads-u-margin-y--0">
+            We will send the claimant an email letting them know your decision.
+          </p>
+        </va-alert>
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+        <button
+          type="submit"
+          className="usa-button poa-request-details__form-submit"
+        >
+          Submit decision
+        </button>
+      </Form>
     </section>
   );
 };
-POARequestDetailsPage.propTypes = {
-  usePOARequests: PropTypes.func.isRequired,
+
+POARequestDetailsPage.loader = ({ params, request }) => {
+  return api.getPOARequest(params.id, {
+    signal: request.signal,
+  });
 };
+
+POARequestDetailsPage.createDecisionAction = async ({ request, params }) => {
+  const key = (await request.formData()).get('decision');
+  const decision = DECISION_OPTIONS[key];
+
+  await api.createPOARequestDecision(params.id, decision);
+
+  return redirect('..');
+};
+
 export default POARequestDetailsPage;

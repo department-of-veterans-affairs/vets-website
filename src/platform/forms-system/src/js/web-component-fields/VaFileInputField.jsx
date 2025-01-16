@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
+import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
+
+let file = null;
 
 /**
  * Usage uiSchema:
@@ -38,66 +39,75 @@ import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
-  const [file, setFile] = useState(null);
-  const formData = useSelector(state => state.form.data);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
+  const [error, setError] = useState(mappedProps.error);
 
-  const onFileUploaded = useCallback(
-    uploadedFile => {
-      if (uploadedFile.confirmationCode) {
-        props.childrenProps.onChange(uploadedFile);
-      }
-    },
-    [props.childrenProps],
-  );
-
-  const handleVaChangeBug = event => {
-    let newFile = event.detail.files[0];
-
-    // if the user is deleting the file, the files will be the same
-    if (areFilesEqual(file, newFile) || !newFile) {
-      newFile = null;
-      dispatch(
-        setData({
-          ...formData,
-          uploadedFile: {
-            confirmationCode: null,
-            isEncrypted: null,
-            name: null,
-            size: null,
-            warnings: null,
-          },
-        }),
-      );
+  const onFileUploaded = async uploadedFile => {
+    if (uploadedFile.file) {
+      const {
+        confirmationCode,
+        isEncrypted,
+        name,
+        size,
+        warnings,
+        errorMessage,
+      } = uploadedFile;
+      setError(errorMessage);
+      file = uploadedFile.file;
+      props.childrenProps.onChange({
+        confirmationCode,
+        isEncrypted,
+        name,
+        size,
+        warnings,
+      });
     }
-
-    setFile(newFile);
-
-    return newFile;
   };
 
-  const handleVaChange = useCallback(
-    e => {
-      const newFile = handleVaChangeBug(e);
+  const handleVaChange = e => {
+    const fileFromEvent = e.detail.files[0];
+    if (!fileFromEvent) {
+      file = null;
+      setError(mappedProps.error);
+      props.childrenProps.onChange({});
+      return;
+    }
 
-      if (!newFile) {
-        return;
-      }
+    if (
+      file?.lastModified === fileFromEvent.lastModified &&
+      file?.size === fileFromEvent.size
+    ) {
+      // This guard clause protects against infinite looping/updating if the localFile and fileFromEvent are identical
+      return;
+    }
 
-      if (!props.onVaChange) {
-        dispatch(
-          uploadScannedForm(fileUploadUrl, formNumber, newFile, onFileUploaded),
-        );
-        return;
-      }
+    const { maxFileSize } = props.uiOptions;
+    if (fileFromEvent.size > maxFileSize) {
+      const fileSizeString = getFileSize(maxFileSize);
+      setError(`File size cannot be greater than ${fileSizeString}`);
+      return;
+    }
 
-      props.onVaChange();
-    },
-    [file, dispatch, onFileUploaded, props.onVaChange],
+    dispatch(
+      uploadScannedForm(
+        fileUploadUrl,
+        formNumber,
+        fileFromEvent,
+        onFileUploaded,
+        () => setError(null),
+      ),
+    );
+  };
+
+  return (
+    <VaFileInput
+      {...mappedProps}
+      error={error}
+      value={file}
+      onVaChange={handleVaChange}
+    />
   );
-
-  return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
 };
 
 VaFileInputField.propTypes = {

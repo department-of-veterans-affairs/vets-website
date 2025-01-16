@@ -1,42 +1,30 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
-import CallToActionAlert from '../CallToActionAlert';
+import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-const SignIn = ({
-  serviceDescription,
-  primaryButtonHandler,
-  headerLevel,
-  ariaLabel = null,
-  ariaDescribedby = null,
-}) => {
-  const content = {
-    heading: `Sign in to ${serviceDescription}`,
-    headerLevel,
-    alertText: (
-      <p>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </p>
-    ),
-    primaryButtonText: 'Sign in or create an account',
-    primaryButtonHandler,
-    status: 'continue',
-    ariaLabel,
-    ariaDescribedby,
-  };
+const SignIn = ({ headerLevel = 3 }) => {
+  const dispatch = useDispatch();
 
-  return <CallToActionAlert {...content} />;
+  return (
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={headerLevel}>
+      <span slot="SignInButton">
+        <va-button
+          text="Sign in or create an account"
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+        />
+      </span>
+    </VaAlertSignIn>
+  );
 };
 
 SignIn.propTypes = {
-  serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
-  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ariaLabel: PropTypes.string,
+  serviceDescription: PropTypes.string.isRequired,
   ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default SignIn;

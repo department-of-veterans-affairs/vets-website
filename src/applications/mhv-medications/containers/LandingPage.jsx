@@ -23,6 +23,7 @@ import {
 import {
   selectAllergiesFlag,
   selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -59,6 +60,7 @@ const LandingPage = () => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -102,6 +104,7 @@ const LandingPage = () => {
           getPrescriptionsPaginatedSortedList(
             1,
             rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+            showGroupingFlag ? 10 : 20,
           ),
         )
           .then(() => setIsPrescriptionsLoading(false))
@@ -122,6 +125,7 @@ const LandingPage = () => {
             1,
             filterOptions.ALL_MEDICATIONS.url,
             sortEndpoint,
+            showGroupingFlag ? 10 : 20,
           ),
         )
           .then(() => setIsPrescriptionsLoading(false))
@@ -660,7 +664,6 @@ const LandingPage = () => {
             </section>
           </section>
         </div>
-        <va-back-to-top />
       </>
     );
   };

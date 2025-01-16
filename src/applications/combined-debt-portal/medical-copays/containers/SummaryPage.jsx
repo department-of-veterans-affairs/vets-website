@@ -8,7 +8,6 @@ import {
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
-import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
@@ -30,13 +29,12 @@ const renderAlert = (alertType, debts) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -46,6 +44,7 @@ const renderAlert = (alertType, debts) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
     </va-alert>
   );
 };
@@ -63,7 +62,7 @@ const renderOtherVA = (debtLength, debtError) => {
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h3>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -157,7 +156,6 @@ const OverviewPage = () => {
           of your facilities. Find out how to make payments or request financial
           help.
         </p>
-        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

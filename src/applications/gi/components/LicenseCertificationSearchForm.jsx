@@ -1,196 +1,240 @@
 import React, { useEffect, useState } from 'react';
-import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Dropdown from './Dropdown';
-import { handleUpdateLcFilterDropdowns } from '../utils/helpers';
-import LcKeywordSearch from './LcKeywordSearch';
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
-
-export const dropdownSchema = [
-  {
-    label: 'category',
-    options: [
-      { optionValue: 'all', optionLabel: 'All' },
-      { optionValue: 'license', optionLabel: 'License' },
-      {
-        optionValue: 'certification',
-        optionLabel: 'Certification',
-      },
-      {
-        optionValue: 'prep',
-        optionLabel: 'Prep Course',
-      },
-    ],
-    alt: 'category type',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-  {
-    label: 'state',
-    options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
-    alt: 'state',
-    current: { optionValue: 'all', optionLabel: 'All' },
-  },
-];
-
-const filterSuggestions = (suggestions, value, filters) => {
-  const { type } = filters; // destructure state once it's added to the response
-
-  if (!value) {
-    return [];
-  }
-
-  return suggestions.filter(suggestion => {
-    if (type !== suggestion.type && type !== 'all') return false;
-    // TODO add logic to account for state
-
-    return suggestion.name.toLowerCase().includes(value.toLowerCase());
-  });
-};
-
-const resetStateDropdown = dropdowns => {
-  return dropdowns.map(dropdown => {
-    return dropdown.label === 'state'
-      ? {
-          ...dropdown,
-          current: dropdown.options.find(
-            option => option.optionValue === 'all',
-          ),
-        }
-      : dropdown;
-  });
-};
+import {
+  capitalizeFirstLetter,
+  categoryCheck,
+  checkAlert,
+  filterLcResults,
+  mappedStates,
+  showLcParams,
+  showMultipleNames,
+  updateDropdowns,
+} from '../utils/helpers';
+import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
+import LicenseCertificationAlert from './LicenseCertificationAlert';
 
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
+  handleShowModal,
+  location,
+  handleReset,
 }) {
-  const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const [name, setName] = useState('');
+  const [dropdowns, setDropdowns] = useState(updateDropdowns());
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
-  const [showStateAlert, setShowStateAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [name, setName] = useState('');
+  const [multipleOptions, setMultipleOptions] = useState(null);
 
+  const { nameParam, categoryParam, stateParam } = showLcParams(location);
+
+  const [categoryDropdown, locationDropdown] = dropdowns;
+
+  // If available, use url query params to assign initial dropdown values
   useEffect(
     () => {
-      const newSuggestions = filterSuggestions(suggestions, name, {
-        type: dropdowns[0].current.optionValue,
+      setDropdowns(updateDropdowns(categoryParam, stateParam));
+      setName(nameParam);
+    },
+    [categoryParam, stateParam],
+  );
+
+  // Filter suggestions based on query string
+  useEffect(
+    () => {
+      const newSuggestions = filterLcResults(suggestions, name, {
+        type: categoryDropdown.current.optionValue,
+        state: locationDropdown.current.optionValue,
       });
 
       if (name.trim() !== '') {
         newSuggestions.unshift({
-          name,
-          link: 'lce/',
+          lacNm: name,
           type: 'all',
         });
       }
-
       setFilteredSuggestions(newSuggestions);
     },
     [name, suggestions, dropdowns],
   );
 
-  const handleReset = () => {
-    setDropdowns(dropdownSchema);
-    setName('');
-  };
-
   const handleChange = e => {
-    const newDropdowns = handleUpdateLcFilterDropdowns(dropdowns, e.target);
+    const multiples =
+      multipleOptions ?? showMultipleNames(filteredSuggestions, name);
 
-    if (newDropdowns[0].current.optionValue === 'certification') {
-      setDropdowns(resetStateDropdown);
+    let allowContinue = false;
+
+    // check if selection combo should enable the modal
+    if (name) {
+      if (
+        e.target.id === 'state' &&
+        categoryCheck(categoryDropdown.current.optionValue)
+      ) {
+        if (
+          multiples.length === 2 &&
+          locationDropdown.options.length - 1 === mappedStates.length
+        ) {
+          return handleShowModal(
+            e.target.id,
+            `The ${name} ${
+              categoryDropdown.current.optionValue
+            } is specific to the state of ${
+              locationDropdown.current.optionLabel
+            }, if you modify the state you will not get results you are looking for.`,
+            () => {
+              setDropdowns(
+                updateDropdowns(categoryDropdown.current.optionValue, 'all'),
+              );
+              setShowAlert(false);
+              setName('');
+              setMultipleOptions(null);
+            },
+          );
+        }
+        allowContinue = true;
+      }
+
+      if (categoryDropdown.current.optionValue !== 'all' && !allowContinue) {
+        return handleShowModal(
+          e.target.id,
+          'Your current selection will be lost, if you choose continue to change, you will have to start over',
+          () => {
+            setDropdowns(updateDropdowns());
+            setShowAlert(false);
+            setName('');
+            setMultipleOptions(null);
+          },
+        );
+      }
     }
 
-    setDropdowns(current => {
-      // update url params
-      return handleUpdateLcFilterDropdowns(current, e.target);
-    });
-  };
+    allowContinue = true;
 
-  const onUpdateAutocompleteSearchTerm = value => {
-    setName(value); // update url params
+    let newDropdowns;
+
+    if (e.target.id === 'category') {
+      newDropdowns = updateDropdowns(
+        e.target.value,
+        locationDropdown.current.optionValue,
+      );
+      setShowAlert(
+        checkAlert(
+          e.target.value,
+          multiples,
+          locationDropdown.current.optionValue,
+          locationDropdown.current.optionValue,
+        ),
+      );
+    } else {
+      newDropdowns = updateDropdowns(
+        categoryDropdown.current.optionValue,
+        e.target.value,
+        multiples,
+      );
+    }
+
+    if (allowContinue) {
+      setDropdowns(newDropdowns);
+    }
+
+    return newDropdowns;
   };
 
   const onSelection = selection => {
-    const { type, state } = selection; // TODO ensure state is added to response object coming from BE
+    const { selected } = selection;
 
-    const updateDropdowns = dropdowns.map(dropdown => {
-      if (dropdown.label === 'state') {
-        return {
-          ...dropdown,
-          current: dropdown.options.find(option => {
-            return option.optionValue === state;
-          }),
-        };
+    if (selected !== filteredSuggestions[0]) {
+      const { eduLacTypeNm: type, state, lacNm: _name } = selected;
+      const multiples = showMultipleNames(filteredSuggestions, _name);
+
+      if (multiples.length > 1) {
+        setMultipleOptions(multiples);
       }
 
-      return {
-        ...dropdown,
-        current: dropdown.options.find(option => {
-          return option.optionValue === type;
-        }),
-      };
-    });
+      const _state = type === 'Certification' ? 'all' : state;
 
-    if (type === 'license' && dropdowns[1].current.optionValue !== state) {
-      setShowStateAlert(true);
+      const newDropdowns =
+        multiples.length > 1
+          ? updateDropdowns(type, 'all', multiples)
+          : updateDropdowns(type, _state);
+
+      setShowAlert(
+        checkAlert(
+          type,
+          multiples,
+          locationDropdown.current.optionValue,
+          _state,
+        ),
+      );
+
+      setName(_name);
+      setDropdowns(newDropdowns);
     }
-
-    setDropdowns(updateDropdowns);
   };
 
   const handleClearInput = () => {
-    onUpdateAutocompleteSearchTerm('');
-    setShowStateAlert(false);
+    setName('');
+    setShowAlert(false);
+    setMultipleOptions(null);
+    setDropdowns(
+      updateDropdowns(
+        categoryDropdown.current.optionValue,
+        locationDropdown.current.optionValue,
+      ),
+    );
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setName(value);
   };
 
   return (
     <form>
       <Dropdown
         disabled={false}
-        label={capitalizeFirstLetter(dropdowns[0].label)}
+        label={capitalizeFirstLetter(categoryDropdown.label)}
         visible
-        name={dropdowns[0].label}
-        options={dropdowns[0].options}
-        value={dropdowns[0].current.optionValue}
+        name={categoryDropdown.label}
+        options={categoryDropdown.options}
+        value={categoryDropdown.current.optionValue}
         onChange={handleChange}
-        alt={dropdowns[0].alt}
-        selectClassName="lc-dropdown-filter"
-        required={dropdowns[0].label === 'category'}
+        alt={categoryDropdown.alt}
+        selectClassName="dropdown-filter"
+        required={categoryDropdown.label === 'category'}
       />
 
       <Dropdown
-        disabled={dropdowns[0].current.optionLabel === 'Certification'}
-        label={`${capitalizeFirstLetter(dropdowns[1].label)}`}
+        disabled={categoryDropdown.current.optionValue === 'Certification'}
+        label={`${capitalizeFirstLetter(locationDropdown.label)}`}
         visible
-        name={dropdowns[1].label}
-        options={dropdowns[1].options}
-        value={dropdowns[1].current.optionValue}
+        name={locationDropdown.label}
+        options={locationDropdown.options}
+        value={locationDropdown.current.optionValue ?? 'all'}
         onChange={handleChange}
-        alt={dropdowns[1].alt}
-        selectClassName="lc-dropdown-filter"
-        required={dropdowns[1].label === 'category'}
+        alt={locationDropdown.alt}
+        selectClassName="dropdown-filter"
+        required={locationDropdown.label === 'category'}
       >
-        {showStateAlert && name.length > 0 ? (
-          <va-alert
-            className="license-alert"
-            // slim={true}
-            // disable-analytics={true}
-            visible={dropdowns[0].current.optionLabel === 'License'}
-            // close-btn-aria-label={closeBtnAriaLabel}
-            closeable={false}
-            fullWidth={false}
-            style={{ maxWidth: '30rem' }}
-          >
-            The state of {dropdowns[1].current.optionLabel} has been selected
-            becuase the {name} license is specific to it.
-          </va-alert>
+        {showAlert ? (
+          <LicenseCertificationAlert
+            changeStateAlert={
+              categoryCheck(categoryDropdown.current.optionValue) &&
+              !multipleOptions
+            }
+            changeDropdownsAlert={
+              categoryCheck(categoryDropdown.current.optionValue) &&
+              multipleOptions?.length > 1
+            }
+            changeStateToAllAlert={
+              categoryDropdown.current.optionValue === 'Certification'
+            }
+            visible={showAlert}
+            name={name}
+            state={locationDropdown.current.optionLabel}
+            type={categoryDropdown.current.optionValue}
+          />
         ) : (
           <>
             (Note: Certifications are nationwide. Selecting a state from this
@@ -199,24 +243,39 @@ export default function LicenseCertificationSearchForm({
         )}
       </Dropdown>
       <div>
-        <LcKeywordSearch
+        <LicenseCertificationKeywordSearch
           inputValue={name}
           suggestions={filteredSuggestions}
-          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
           onSelection={onSelection}
           handleClearInput={handleClearInput}
+          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
         />
       </div>
 
-      <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
-        <va-button
+      <div className="button-wrapper row">
+        <VaButton
+          className="va-button"
           text="Submit"
-          onClick={() => handleSearch(name, dropdowns[0].current.optionValue)}
+          onClick={() =>
+            handleSearch(
+              categoryDropdown.current.optionValue,
+              name,
+              locationDropdown.current.optionValue,
+            )
+          }
         />
-        <va-button
+        <VaButton
           text="Reset Search"
-          className="usa-button-secondary reset-search"
-          onClick={handleReset}
+          // className="reset-search"
+          secondary
+          onClick={() =>
+            handleReset(() => {
+              setDropdowns(updateDropdowns());
+              setName('');
+              setShowAlert(false);
+              setMultipleOptions(null);
+            })
+          }
         />
       </div>
     </form>

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import NeedHelp from '../components/NeedHelp';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
+
+import GetFormHelp from '../components/GetFormHelp';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
@@ -21,6 +23,11 @@ export default function ConfirmationPage({ router }) {
     entityType:
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
+
+  useEffect(() => {
+    scrollTo('topScrollElement');
+  }, []);
+
   const handlers = {
     onChangeSignedFormCheckbox: () => {
       setSignedForm(prevState => !prevState);
@@ -67,13 +74,17 @@ export default function ConfirmationPage({ router }) {
             ? "Please confirm that you've downloaded, printed, and signed your form."
             : null
         }
-        label="I've downloaded, printed, and signed my form"
+        label="I’ve downloaded, printed, and signed my form"
         name="signedForm"
         required
         onVaChange={handlers.onChangeSignedFormCheckbox}
       />
       <va-button continue onClick={handlers.onClickContinueButton} />
-      <NeedHelp />
+
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </>
   );
 }

@@ -151,6 +151,7 @@
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-import-ignore": "^1.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
     "browserify-zlib": "^0.2.0",
@@ -261,8 +262,8 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^48.1.1",
-    "@department-of-veterans-affairs/css-library": "^0.16.0",
+    "@department-of-veterans-affairs/component-library": "^48.3.0",
+    "@department-of-veterans-affairs/css-library": "^0.16.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -278,6 +279,7 @@
     "date-fns-tz": "^2.0.0",
     "dompurify": "^3.1.6",
     "dotenv": "^10.0.0",
+    "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
@@ -333,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d100b223e002a2a4eea12544a9b9d539b0d2242f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#75b0a0dd78b479e230867e89989bf3e8262d850c",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
@@ -399,10 +401,14 @@
       "src/applications/check-in",
       "src/applications/vaos",
       "src/applications/claims-status",
-      "src/applications/accredited-representative-portal/accreditation/21a"
+      "src/applications/accredited-representative-portal/accreditation/21a",
+      "src/applications/accredited-representative-portal",
+      "src/applications/_mock-form-ae-design-patterns"
     ],
     "nohoist": [
-      "**/applications/accredited-representative-portal/accreditation/21a/react-router",
+      "**/applications-accredited-representative-portal/accreditation/21a/react-router",
+      "**/applications-accredited-representative-portal/accreditation/21a/history",
+      "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
       "**/applications-claims-status/@department-of-veterans-affairs/component-library",
