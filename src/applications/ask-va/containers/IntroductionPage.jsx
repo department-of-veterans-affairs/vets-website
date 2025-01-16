@@ -7,6 +7,7 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
   isLoggedIn,
+  isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -15,7 +16,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { envUrl } from '../constants';
 import {
@@ -26,20 +27,30 @@ import {
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route, toggleLoginModal, loggedIn } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'askVa', true);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('showSignInModal') === 'true' &&
+      !loggedIn &&
+      !showLoadingIndicator
+    ) {
+      showSignInModal();
+    }
+  });
 
   const getStartPage = () => {
     const data = formData || {};
     if (pathname) return getNextPagePath(pageList, data, pathname);
     return pageList[1].path;
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true, 'askVA', true);
   };
 
   useEffect(
@@ -272,7 +283,6 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {/* <FormTitle title={formConfig.title} subTitle={subTitle} /> */}
       <div className="schemaform-title vads-u-margin-bottom--2">
         <h1 className="vads-u-margin-bottom--2p5" data-testid="form-title">
           {formConfig.title}
@@ -283,8 +293,13 @@ const IntroductionPage = props => {
           </div>
         )}
       </div>
-      {loggedIn && authenticatedUI}
-      {!loggedIn && unAuthenticatedUI}
+      {showLoadingIndicator && <va-loading-indicator set-focus />}
+      {!showLoadingIndicator && (
+        <>
+          {loggedIn && authenticatedUI}
+          {!loggedIn && unAuthenticatedUI}
+        </>
+      )}
     </div>
   );
 };
@@ -315,6 +330,7 @@ IntroductionPage.propTypes = {
     pathname: PropTypes.string,
     pageList: PropTypes.array,
   }),
+  showLoadingIndicator: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -322,6 +338,7 @@ function mapStateToProps(state) {
     formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
+    showLoadingIndicator: isProfileLoading(state),
   };
 }
 
@@ -333,4 +350,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionPage);
+)(withRouter(IntroductionPage));

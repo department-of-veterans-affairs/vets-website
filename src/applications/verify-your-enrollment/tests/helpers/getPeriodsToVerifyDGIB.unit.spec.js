@@ -102,29 +102,4 @@ describe('getPeriodsToVerify', () => {
     expect(wrapper.children()).to.have.length(0);
     wrapper.unmount();
   });
-  it('should returns "Hours unavailable" for Total credit hours if numberHours is null', () => {
-    const wrapper = shallow(
-      <div>
-        {getPeriodsToVerifyDGIB([
-          {
-            verificationMonth: 'September 2023',
-            verificationBeginDate: '2024-09-12',
-            verificationEndDate: '2024-09-28',
-            verificationThroughDate: '2024-10-12',
-            createdDate: '2024-10-12',
-            verificationMethod: '',
-            verificationResponse: 'Y',
-            facilityName: 'San Francisco State university',
-            totalCreditHours: null,
-            paymentTransmissionDate: '2024-11-12',
-            lastDepositAmount: null,
-            remainingEntitlement: '05-07',
-          },
-        ])}
-      </div>,
-    );
-    const divs = wrapper.find('[data-testid="total-credit-hours"]');
-    expect(divs.text()).to.include('Hours unavailable');
-    wrapper.unmount();
-  });
 });

@@ -1,5 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
+import * as api from '~/platform/utilities/api';
+import { waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatusNew from './ProofOfVeteranStatusNew';
 
@@ -43,8 +46,17 @@ const nonEligibility = {
   ],
 };
 
-function createBasicInitialState(serviceHistory, eligibility) {
+function createBasicInitialState(
+  serviceHistory,
+  eligibility,
+  enableToggle = false,
+) {
   return {
+    featureToggles: {
+      loading: false,
+      // eslint-disable-next-line camelcase
+      veteran_status_card_use_lighthouse_frontend: enableToggle,
+    },
     user: {
       profile: {
         veteranStatus: {
@@ -108,6 +120,121 @@ describe('ProofOfVeteranStatusNew', () => {
       expect(
         view.queryByText(/Get proof of Veteran Status on your mobile device/i),
       ).to.exist;
+    });
+  });
+
+  describe('should fetch verification status on render', () => {
+    let apiRequestStub;
+    const initialState = createBasicInitialState(
+      [eligibleServiceHistoryItem],
+      confirmedEligibility,
+      true,
+    );
+
+    beforeEach(() => {
+      apiRequestStub = sinon.stub(api, 'apiRequest');
+    });
+
+    afterEach(() => {
+      apiRequestStub.restore();
+    });
+
+    it('displays the card successfully', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: { veteranStatus: 'confirmed' },
+        },
+      };
+
+      apiRequestStub.resolves(mockData);
+
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      sinon.assert.calledWith(
+        apiRequestStub,
+        '/profile/vet_verification_status',
+      );
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran status on your mobile device/i,
+          ),
+        ).to.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.not.exist;
+      });
+    });
+
+    it('displays the returned not confirmed message', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: {
+            veteranStatus: 'not confirmed',
+            notConfirmedReason: 'PERSON_NOT_FOUND',
+            message: problematicEligibility.message,
+          },
+        },
+      };
+
+      apiRequestStub.resolves(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran Status on your mobile device/i,
+          ),
+        ).to.not.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('handles empty API response', async () => {
+      const mockData = {
+        data: {},
+      };
+      apiRequestStub.resolves(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('handles API error', async () => {
+      apiRequestStub.rejects(new Error('API Error'));
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.getByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
     });
   });
 
