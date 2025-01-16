@@ -118,6 +118,8 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         fetchSvcsInProgress: false,
         fetchSvcsError: action.error || true,
+        facilityType: '', // resets facility type to the Choose a facility
+        isValid: true,
       };
     case SEARCH_FAILED:
       return {

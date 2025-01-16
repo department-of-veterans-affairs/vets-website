@@ -56,6 +56,8 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      // Since the facility type may cause an error (PPMS), reset it if the type is changed
+      fetchSvcsError: null,
     });
   };
 

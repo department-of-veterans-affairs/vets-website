@@ -50,6 +50,7 @@ import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
 import ControlResultsHolder from '../components/ControlResultsHolder';
 import EmergencyCareAlert from '../components/EmergencyCareAlert';
+import PpmsServiceError from '../components/PpmsServiceError';
 
 let lastZoom = 3;
 
@@ -447,12 +448,14 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        {/* a HOC that either returns a div or fragment */}
+        {/* Listens for the query error. If present it displays */}
+        <PpmsServiceError />
         <div
           className={
             isSmallDesktop ? 'desktop-vertical-and-map-holder' : undefined
           }
         >
+          {/* a HOC that either returns a div or fragment */}
           <ControlResultsHolder isSmallDesktop={isSmallDesktop}>
             <SearchControls
               geolocateUser={props.geolocateUser}
