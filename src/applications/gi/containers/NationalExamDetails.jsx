@@ -19,15 +19,6 @@ const NationalExamDetails = () => {
   );
   useEffect(
     () => {
-      if (examDetails) {
-        console.table(examDetails.institution.physicalAddress); // eslint-disable-line no-console
-        console.table(examDetails.tests); // eslint-disable-line no-console
-      }
-    },
-    [examDetails],
-  );
-  useEffect(
-    () => {
       window.scrollTo(0, 0);
       dispatch(fetchNationalExamDetails(examId));
     },
@@ -142,10 +133,10 @@ const NationalExamDetails = () => {
 
           <span>{toTitleCase(institution?.name)}</span>
         </span>
-        {/* <span className="vads-u-display--flex vads-u-align-items--center">
-          <VaIcon icon="public" size={3} />
-          <span>{institution?.web_address}</span>
-        </span> */}
+        <span className="vads-u-display--flex vads-u-align-items--center">
+          <va-icon icon="public" size={3} />
+          <span>{institution?.webAddress}</span>
+        </span>
       </div>
 
       <div className="address-container vads-u-margin-bottom--3">
