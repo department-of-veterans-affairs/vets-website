@@ -5,13 +5,18 @@ export const arrayBuilderOptions = {
   nounPlural: 'children',
   required: true,
   isItemIncomplete: item => {
+    let isBirthLocationIncomplete = !item?.birthLocation?.location?.postalCode;
+    if (!item?.birthLocation?.outsideUsa) {
+      isBirthLocationIncomplete =
+        !item?.birthLocation?.location?.postalCode ||
+        !item?.birthLocation?.location?.state;
+    }
     return (
       !item?.fullName?.first ||
       !item?.fullName?.last ||
       !item?.birthDate ||
       !item?.ssn ||
-      !item?.birthLocation?.location?.state ||
-      !item?.birthLocation?.location?.postalCode ||
+      isBirthLocationIncomplete ||
       !item?.relationshipToChild ||
       typeof item?.doesChildLiveWithYou === 'undefined' ||
       typeof item?.hasChildEverBeenMarried === 'undefined' ||

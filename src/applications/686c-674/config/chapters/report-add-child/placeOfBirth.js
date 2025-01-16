@@ -7,6 +7,14 @@ import {
   generateHelpText,
 } from '../../helpers';
 
+function stateRequired(formData, rawIndex) {
+  const index = parseInt(rawIndex, 10);
+  if (Number.isFinite(index)) {
+    return !formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa;
+  }
+  return !formData?.birthLocation?.outsideUsa;
+}
+
 export const placeOfBirth = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Where was this child born?'),
@@ -23,24 +31,20 @@ export const placeOfBirth = {
         state: {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
-          'ui:required': formData => {
-            return !formData?.birthLocation?.outsideUsa;
-          },
+          'ui:required': stateRequired,
           'ui:errorMessages': {
             required: 'Select a state',
           },
           'ui:options': {
-            hideIf: formData => {
-              return formData?.birthLocation?.outsideUsa;
+            hideIf: (formData, index) => {
+              return !stateRequired(formData, index);
             },
           },
         },
         postalCode: {
           'ui:title': 'Postal Code',
           'ui:webComponentField': VaTextInputField,
-          'ui:required': formData => {
-            return !formData?.birthLocation?.outsideUsa;
-          },
+          'ui:required': () => true,
           'ui:errorMessages': {
             required: 'Enter a postal code',
           },
