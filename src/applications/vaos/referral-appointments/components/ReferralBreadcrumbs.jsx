@@ -44,7 +44,7 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
       </nav>
     </div>
   ) : (
-    <Breadcrumbs urlLabel={breadcrumb} />
+    <Breadcrumbs labelOverride={breadcrumb} />
   );
 }
 
