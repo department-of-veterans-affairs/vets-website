@@ -310,46 +310,116 @@
   padding-left: 0;
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
 
-.lc-clear {
-  border: 1px solid $color-gray-dark;
-  border-left: none;
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
 }
 
-.lc-card-subheader {
-  text-transform: capitalize;
-}
+.lc-result-cards-wrapper {
+  list-style: none;
+  padding-left: 0;
 
-.license-alert {
-  max-width: 30rem;
-}
-
-.reset-search {
-  background-color: $color-white;
-  color: $color-primary;
+  .back-link {
+    @media (max-width: $mobile-lg) {
+      display: none;
+    }
+  }
 }
 
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
 
-.search-container {
-  va-text-input::part(input) {
-    width: 100%;
-    min-width: 576px;
+.programs-list-container {
+  .abbreviations {
+    font-family: var(--font-source-sans);
   }
-
-  @media (max-width: 1024px) {
-    va-text-input::part(input) {
-      min-width: 420px;
+  .list-style {
+    list-style: disc;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    .reset-search {
+      white-space: nowrap;
     }
-  }
-  @media (max-width: 480px) {
-    va-text-input::part(input) {
-      min-width: 100%;
+    @media (max-width: $small-screen) {
+      flex-direction: column;
+      .search-input {
+        width: 100%;
+      }
+      .search-btn {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .reset-search {
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    @media (min-width: $small-screen) {
+      va-text-input::part(input) {
+        min-width: 400px;
+      }
+    }
+    @media (min-width: $medium-screen) {
+      va-text-input::part(input) {
+        min-width: 576px;
+      }
     }
   }
 }
@@ -362,11 +432,18 @@
     font-weight: 400;
     line-height: 34px;
   }
-  .provider-info-container > span {
-    gap: 1rem;
-  }
-  va-accordion-item {
-    margin-bottom: 20px;
+}
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"] {
+      border-bottom: 1px solid $color-primary !important;
+    }
+    @media screen and (max-width: $small-screen) {
+      height: 94px;
+      padding: 0 4px;
+      text-align: left;
+    }
   }
 }
 
@@ -395,19 +472,30 @@
   }
   .degree-level-results {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 20px;
-    .degree-level-card {
-      flex: 1 1 calc(33.33% - 30px);
-      max-width: calc(33.33% - 10px);
-      box-sizing: border-box;
+    list-style: none;
+    padding: 0;
+    .degree-item {
       margin: 0;
+      height: auto;
+      display: flex;
+      width: 100%;
+      max-width: 305px;
+      .degree-level-card {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+      }
     }
   }
   @media screen and (max-width: $medium-screen) {
     .degree-level-results {
-      .degree-level-card {
-        flex: 1 1 100%;
+      flex-direction: column;
+      .degree-item {
+        width: 100%;
         max-width: 100%;
       }
     }

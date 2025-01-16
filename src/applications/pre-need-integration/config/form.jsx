@@ -7,12 +7,9 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { fileUploadUi } from '../utils/upload';
-import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
-import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
-import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
@@ -41,6 +38,12 @@ import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
+import {
+  servicePeriodsPagesVeteran,
+  servicePeriodsPagesNonVeteran,
+  servicePeriodsPagesPreparerVeteran,
+  servicePeriodsPagesPreparerNonVeteran,
+} from './pages/servicePeriodsPages';
 
 import transformForSubmit from './transformForSubmit';
 import prefillTransformer from './prefill-transformer';
@@ -442,7 +445,7 @@ const formConfig = {
         },
       },
     },
-    militaryHistory: {
+    militaryName: {
       title: formData =>
         isVeteran(formData)
           ? 'Applicant military history'
@@ -464,24 +467,21 @@ const formConfig = {
           uiSchema: militaryDetailsPreparer.uiSchema,
           schema: militaryDetailsPreparer.schema,
         },
-        // Two sets of military history pages dependent on
-        // whether the applicant is the veteran or not.
-        // If not, "Sponsor’s" precedes all the field labels.
-        applicantMilitaryHistorySelf: {
-          title: 'Your service period(s)',
-          path: 'applicant-military-history',
+        sponsorMilitaryDetailsSelf: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
           depends: formData =>
-            isVeteran(formData) && !isAuthorizedAgent(formData),
-          uiSchema: applicantMilitaryHistorySelf.uiSchema,
-          schema: applicantMilitaryHistorySelf.schema,
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+          schema: sponsorMilitaryDetailsSelf.schema,
         },
-        applicantMilitaryHistoryPreparer: {
-          title: "Applicant's service period(s)",
-          path: 'applicant-military-history-preparer',
+        sponsorMilitaryDetailsPreparer: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details-preparer',
           depends: formData =>
-            isVeteran(formData) && isAuthorizedAgent(formData),
-          uiSchema: applicantMilitaryHistoryPreparer.uiSchema,
-          schema: applicantMilitaryHistoryPreparer.schema,
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+          schema: sponsorMilitaryDetailsPreparer.schema,
         },
         applicantMilitaryNameSelf: {
           path: 'applicant-military-name',
@@ -518,29 +518,6 @@ const formConfig = {
           uiSchema: applicantMilitaryNameInformationPreparer.uiSchema,
           schema: applicantMilitaryNameInformationPreparer.schema,
         },
-        sponsorMilitaryDetailsSelf: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details',
-          depends: formData =>
-            !isVeteran(formData) && !isAuthorizedAgent(formData),
-          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
-          schema: sponsorMilitaryDetailsSelf.schema,
-        },
-        sponsorMilitaryDetailsPreparer: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details-preparer',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
-          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
-          schema: sponsorMilitaryDetailsPreparer.schema,
-        },
-        sponsorMilitaryHistory: {
-          path: 'sponsor-military-history',
-          title: 'Sponsor’s service period(s)',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryHistory.uiSchema,
-          schema: sponsorMilitaryHistory.schema,
-        },
         sponsorMilitaryName: {
           path: 'sponsor-military-name',
           depends: formData =>
@@ -567,6 +544,22 @@ const formConfig = {
           schema: sponsorMilitaryNameInformation.schema,
         },
       },
+    },
+    militaryHistoryVeteran: {
+      title: 'Applicant service period(s)',
+      pages: servicePeriodsPagesVeteran,
+    },
+    militaryHistoryPreparerVeteran: {
+      title: 'Applicant’s service period(s)',
+      pages: servicePeriodsPagesPreparerVeteran,
+    },
+    militaryHistoryNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesNonVeteran,
+    },
+    militaryHistoryPreparerNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesPreparerNonVeteran,
     },
     burialBenefits: {
       title: 'Burial benefits',
