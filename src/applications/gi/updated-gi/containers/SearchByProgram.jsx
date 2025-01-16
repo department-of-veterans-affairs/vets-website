@@ -47,7 +47,7 @@ const SearchByProgram = () => {
     dispatch(
       fetchSearchByLocationResults(location, distance, null, null, description),
     );
-    // Go to program results page...
+    // Show program results...
   };
 
   useEffect(
@@ -58,7 +58,7 @@ const SearchByProgram = () => {
         focusLocationInput();
       }
     },
-    [search.query.streetAddress.searchString],
+    [search],
   );
 
   return (
@@ -104,7 +104,7 @@ const SearchByProgram = () => {
           onVaSelect={e => setDistance(e.target.value)}
           value={distance}
           required
-          error={searchDirty && !distance ? 'Please select an option' : null}
+          error={searchDirty && !distance ? 'Please select a distance' : null}
         >
           {distanceDropdownOptions.map(option => (
             <option value={option.value} key={option.value}>
