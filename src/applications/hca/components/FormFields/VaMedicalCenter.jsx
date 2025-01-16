@@ -135,6 +135,7 @@ const VaMedicalCenter = props => {
             }
             setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
             isLoading(false);
+            hasError(false);
           })
           .catch(err => {
             isLoading(false);
@@ -179,16 +180,13 @@ const VaMedicalCenter = props => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="server-error-message vads-u-margin-top--4">
-        <ServerErrorAlert />
-      </div>
-    );
-  }
-
   return (
     <>
+      {error && (
+        <div className="server-error-message vads-u-margin-top--4">
+          <ServerErrorAlert />
+        </div>
+      )}
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
