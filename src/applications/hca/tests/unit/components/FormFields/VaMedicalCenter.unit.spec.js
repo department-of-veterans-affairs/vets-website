@@ -124,6 +124,10 @@ describe('hca <VaMedicalCenter>', () => {
       expect(components.stateReviewField).to.contain.text('New York');
       expect(components.facilityReviewField).to.contain.text(mockData[1].name);
     });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
+    });
   });
 
   it('should correctly handle errors when the facility API call fails and then succeeds', async () => {
@@ -166,6 +170,10 @@ describe('hca <VaMedicalCenter>', () => {
       expect(facilityField).to.exist;
       expect(vaAlert).to.not.exist;
     });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(2);
+    });
   });
 
   it('should render an alphabetized option list when facility API call succeeds', async () => {
@@ -181,6 +189,10 @@ describe('hca <VaMedicalCenter>', () => {
       expect(facilityOptions).to.have.lengthOf(mockData.length);
       expect(facilityOptions[0]).to.have.attr('value', mockData[1].uniqueId);
       expect(facilityOptions[1]).to.have.attr('value', mockData[0].uniqueId);
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 
@@ -206,6 +218,10 @@ describe('hca <VaMedicalCenter>', () => {
       const { facilityField } = selectors();
       fireEvent.blur(facilityField);
       expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 
@@ -252,6 +268,10 @@ describe('hca <VaMedicalCenter>', () => {
       expect(vaAlert).to.not.exist;
       expect(stateField).to.not.have.attr('error');
       expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 });
