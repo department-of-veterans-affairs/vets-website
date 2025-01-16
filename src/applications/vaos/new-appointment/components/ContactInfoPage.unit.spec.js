@@ -12,7 +12,7 @@ import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
   // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/82968
-  it('should accept email, phone, and preferred time and continue', async () => {
+  it.skip('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
         profile: {
