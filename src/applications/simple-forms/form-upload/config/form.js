@@ -1,6 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import manifest from '../manifest.json';
+import { buildManifest } from '../manifest-helpers';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -33,10 +33,12 @@ const mockData = testData.data;
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
+  const manifest = buildManifest(formNumber);
 
   return {
     rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber}/`,
+    // urlPrefix: `/${formNumber}/`,
+    urlPrefix: '/',
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
     dev: {
       collapsibleNavLinks: true,

@@ -5,10 +5,14 @@ import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
-import manifest from './manifest.json';
+import { buildManifest } from './manifest-helpers';
 
-startApp({
-  url: manifest.rootUrl,
-  reducer,
-  routes,
+const formUploadForms = ['21-0779', '21-509'];
+
+formUploadForms.forEach(formNumber => {
+  startApp({
+    url: buildManifest(formNumber).rootUrl,
+    reducer,
+    routes,
+  });
 });
