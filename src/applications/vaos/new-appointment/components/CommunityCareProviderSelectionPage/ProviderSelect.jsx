@@ -32,6 +32,7 @@ export default function SelectedProvider({
             recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
           }}
           uswds
+          data-testid="choose-a-provider-button"
         />
       )}
       {providerSelected && (
