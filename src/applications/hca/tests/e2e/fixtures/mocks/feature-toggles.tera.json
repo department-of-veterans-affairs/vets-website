@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "hca_tera_branching_enabled",
+        "value": true
+      }
+    ]
+  }
+}

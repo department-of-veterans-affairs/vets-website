@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -628,7 +628,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date received: 01/XX/2010')
+            .and('contain', 'Date received: 01/2010')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });

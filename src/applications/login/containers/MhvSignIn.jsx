@@ -18,20 +18,21 @@ export default function MhvSignIn() {
   };
 
   const handleButtonClick = () => {
-    apiRequest('/v0/test_account_user_email', {
+    apiRequest('/test_account_user_email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
     });
     login({
       policy: 'mhv',
-      queryParams: { operation: 'prod-test-acct' },
+      queryParams: { operation: 'myhealthevet_test_account' },
     });
   };
 
   const notDisable = isValidEmail || email.length === 0;
 
   return (
-    <section className="container row login">
+    <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">
         <h1 id="signin-signup-modal-title">
           Access My HealtheVet test account

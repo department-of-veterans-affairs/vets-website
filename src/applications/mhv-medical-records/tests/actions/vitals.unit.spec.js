@@ -8,6 +8,8 @@ import {
   clearVitalDetails,
   getVitalDetails,
   getVitals,
+  setVitalsList,
+  reloadRecords,
 } from '../../actions/vitals';
 
 describe('Get vitals action', () => {
@@ -74,12 +76,33 @@ describe('Get vital details action', () => {
   });
 });
 
+describe('set vitals list action', () => {
+  it('should dispatch a get action', () => {
+    const dispatch = sinon.spy();
+    return setVitalsList('vitalType')(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vitals.GET);
+      expect(dispatch.firstCall.args[0].vitalType).to.equal('vitalType');
+    });
+  });
+});
+
 describe('Clear vital details action', () => {
   it('should dispatch a clear details action', () => {
     const dispatch = sinon.spy();
     return clearVitalDetails()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vitals.CLEAR_DETAIL,
+      );
+    });
+  });
+});
+
+describe('reload records action', () => {
+  it('should dispatch a get action', () => {
+    const dispatch = sinon.spy();
+    return reloadRecords()(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vitals.COPY_UPDATED_LIST,
       );
     });
   });

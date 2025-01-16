@@ -20,7 +20,7 @@ import { createPayload, parseResponse } from '../../shared/utils/upload';
 export const fileUploadUi = content => ({
   ...fileUiSchema(content.label, {
     itemDescription: content.description,
-    fileUploadUrl: `${environment.API_URL}/${EVIDENCE_UPLOAD_API.join('')}`,
+    fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
@@ -40,10 +40,9 @@ export const fileUploadUi = content => ({
     attachmentName: false,
     updateUiSchema: formData => ({
       'ui:options': {
-        fileUploadUrl: `${environment.API_URL}/${(formData[NEW_API]
-          ? EVIDENCE_UPLOAD_API_NEW
-          : EVIDENCE_UPLOAD_API
-        ).join('')}`,
+        fileUploadUrl: `${environment.API_URL}${
+          formData[NEW_API] ? EVIDENCE_UPLOAD_API_NEW : EVIDENCE_UPLOAD_API
+        }`,
       },
     }),
   }),

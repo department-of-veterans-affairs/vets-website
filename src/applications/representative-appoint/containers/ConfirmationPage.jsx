@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import NeedHelp from '../components/NeedHelp';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
+
+import GetFormHelp from '../components/GetFormHelp';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
@@ -79,7 +80,11 @@ export default function ConfirmationPage({ router }) {
         onVaChange={handlers.onChangeSignedFormCheckbox}
       />
       <va-button continue onClick={handlers.onClickContinueButton} />
-      <NeedHelp />
+
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </>
   );
 }

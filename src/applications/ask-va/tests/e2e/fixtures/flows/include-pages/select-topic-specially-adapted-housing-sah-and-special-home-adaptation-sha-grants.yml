@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants
+  - action: click
+    target: call-to-action

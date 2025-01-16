@@ -33,7 +33,7 @@ export default function convertCountryCode(savedData) {
     },
   ];
 
-  // If they've got a 3-letter country code, try to match it to the list of PCIU countries
+  // If they've got a 3-letter country code, try to match it to the list of form data countries
   let earliestReturnUrl = '';
   let { formData: newData } = savedData;
   addressPaths.forEach(({ path, returnUrl }) => {
