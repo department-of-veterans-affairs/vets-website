@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { validateAddress } from 'platform/user/profile/vap-svc/actions';
 import set from 'platform/utilities/data/set';
-import AddressConfirmation from './addressConfirmation';
+import AddressConfirmation from '../../components/AddressConfirmation';
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
 import { shouldShowSuggestedAddress } from '../../utils/helpers';
 
