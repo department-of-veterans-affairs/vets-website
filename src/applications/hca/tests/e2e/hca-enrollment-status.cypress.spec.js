@@ -1,12 +1,12 @@
 import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import {
-  HCA_ENROLLMENT_STATUSES,
   HCA_APPLY_ALLOWED_STATUSES,
+  HCA_ENROLLMENT_STATUSES,
 } from '../../utils/constants';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUser from './fixtures/mocks/user.json';
 
 Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
   describe(`HCA-Enrollment-Status: ${status}`, () => {
@@ -34,10 +34,7 @@ Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
           },
         },
       }).as('mockDisabilityRating');
-      cy.intercept('/v0/in_progress_forms/1010ez', {
-        statusCode: 200,
-        body: mockPrefill,
-      }).as('mockSip');
+      cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
       cy.intercept('POST', '/v0/health_care_applications', {
         statusCode: 200,
         body: {
@@ -93,10 +90,7 @@ describe('HCA-Enrollment-Status: Server Error', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
