@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": "12345",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "MDOT",
+      "createdAt": "",
+      "updatedAt": "",
+      "metadata": {}
+    }
+  }
+}

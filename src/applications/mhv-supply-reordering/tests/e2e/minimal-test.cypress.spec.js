@@ -1,5 +1,5 @@
 import { appName, rootUrl } from '../../manifest.json';
-import { initializeApi, user } from './utils';
+import { initializeApi, userMock } from './setup';
 
 let heading;
 
@@ -7,7 +7,7 @@ describe(`${appName} -- minimal test`, () => {
   before(() => initializeApi());
   beforeEach(() => {
     cy.viewportPreset('va-top-mobile-1');
-    cy.login(user);
+    cy.login(userMock);
     cy.visit(rootUrl);
   });
 
@@ -19,11 +19,13 @@ describe(`${appName} -- minimal test`, () => {
       name: /^Order medical supplies$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
-    cy.findByText(/^Start a new order$/).click();
+    cy.findByText(/^Start a new order$/).click({ waitForAnimations: true });
 
     // choose supplies
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('checkbox', { name: 'root_chosenSupplies_6584' }).check();
+    cy.get('va-checkbox', { name: 'root_chosenSupplies_6584' })
+      .shadow()
+      .check({ waitForAnimations: true });
     cy.findByText(/^Continue$/).click();
 
     // contact information
@@ -32,7 +34,7 @@ describe(`${appName} -- minimal test`, () => {
 
     // review
     cy.injectAxeThenAxeCheck();
-    cy.findByText(/^Submit$/).click();
+    cy.findByText(/^Submit order$/).click();
 
     // confirmation
     cy.injectAxeThenAxeCheck();
