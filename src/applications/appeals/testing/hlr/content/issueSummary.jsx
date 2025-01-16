@@ -17,7 +17,6 @@ export const SummaryTitle = ({ formData }) => {
       </h3>
       {ShowIssuesList({ issues })}
       <p>
-        If an issue is missing, please{' '}
         <Link
           to={{
             pathname: CONTESTABLE_ISSUES_PATH,
