@@ -65,7 +65,7 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
 });
 
 export const ptsdQuestionsPreview = (
-  <VaAdditionalInfo trigger="We'll ask you questions about these topics">
+  <VaAdditionalInfo trigger="We’ll ask you questions about these topics">
     <ul>
       <li>
         Traumatic events during your military service that are related to your
