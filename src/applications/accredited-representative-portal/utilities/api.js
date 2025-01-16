@@ -40,6 +40,16 @@ const api = {
   getUser: wrapApiRequest(() => {
     return ['/user'];
   }),
+
+  createPOARequestDecision: wrapApiRequest((id, decision) => {
+    return [
+      `/power_of_attorney_requests/${id}/decision`,
+      {
+        body: JSON.stringify({ decision }),
+        method: 'POST',
+      },
+    ];
+  }),
 };
 
 export default api;
