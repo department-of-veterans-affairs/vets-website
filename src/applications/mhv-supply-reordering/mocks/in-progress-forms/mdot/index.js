@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const { internalServerError, unprocessableEntity } = require('../../errors'); // prettier-ignore
+const { internalServerError, unprocessableEntity } = require('../../errors');
 const { supplies } = require('./supplies');
 // const supplies = [];
 
@@ -73,7 +73,7 @@ const notFound = {
 module.exports = {
   // `GET /v0/in_progress_forms/${VA_FORM_IDS.FORM_VA_2346A}`: getOk,
   'GET /v0/in_progress_forms/MDOT': getOk,
-  'OPTIONS /v0/in_progress_forms/MDOT': 'OK',
+  // 'OPTIONS /v0/in_progress_forms/MDOT': 'OK',
   'PUT /v0/in_progress_forms/MDOT': putOk,
   // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(404).json(notFound),
   // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(422).json(unprocessableEntity),

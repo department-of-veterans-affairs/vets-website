@@ -3,8 +3,8 @@ const unauthenticated = {
     {
       title: 'Not authorized',
       detail: 'Not authorized',
-      code: 401,
-      status: 401,
+      code: '401',
+      status: '401',
     },
   ],
 };
@@ -14,8 +14,8 @@ const notFound = {
     {
       title: 'Not found',
       detail: 'Not found',
-      code: 404,
-      status: 404,
+      code: '404',
+      status: '404',
     },
   ],
 };
@@ -25,8 +25,8 @@ const unprocessableEntity = {
     {
       title: 'Unprocessable entity',
       detail: 'Unprocessable entity',
-      code: 422,
-      status: 422,
+      code: '422',
+      status: '422',
     },
   ],
 };
@@ -36,8 +36,8 @@ const internalServerError = {
     {
       title: 'Internal server error',
       detail: 'Internal server error',
-      code: 500,
-      status: 500,
+      code: '500',
+      status: '500',
     },
   ],
 };
@@ -47,8 +47,8 @@ const badGateway = {
     {
       title: 'Bad gateway',
       detail: 'Bad gateway',
-      code: 502,
-      status: 502,
+      code: '502',
+      status: '502',
     },
   ],
 };
