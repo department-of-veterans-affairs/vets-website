@@ -26,6 +26,10 @@ const SearchByProgram = () => {
   const [programName, setProgramName] = useState(null);
   const [searchDirty, setSearchDirty] = useState(false);
 
+  const focusLocationInput = () => {
+    locationRef?.current?.shadowRoot?.querySelector('input').focus();
+  };
+
   const handleLocateUser = e => {
     e.preventDefault();
     recordEvent({
@@ -51,7 +55,7 @@ const SearchByProgram = () => {
       const { searchString } = search.query.streetAddress;
       if (searchString) {
         setLocation(searchString);
-        locationRef?.current?.shadowRoot?.querySelector('input').focus();
+        focusLocationInput();
       }
     },
     [search.query.streetAddress.searchString],
@@ -59,7 +63,10 @@ const SearchByProgram = () => {
 
   return (
     <div className="vads-u-display--flex mobile:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-justify-content--space-between mobile:vads-u-align-items--flex-start medium-screen:vads-u-align-items--flex-end">
-      <UseMyLocationModal geocodeError={search.geocodeError} />
+      <UseMyLocationModal
+        geocodeError={search.geocodeError}
+        focusLocationInput={focusLocationInput}
+      />
       <VaTextInput
         className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5 mobile:vads-u-margin-top--neg2p5"
         name="program-name"

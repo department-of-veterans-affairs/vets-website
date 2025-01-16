@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { clearGeocodeError } from '../../../actions';
 
-export const UseMyLocationModal = ({ geocodeError }) => {
+export const UseMyLocationModal = ({ geocodeError, focusLocationInput }) => {
   const dispatch = useDispatch();
+
   return (
     <VaModal
       modalTitle={
@@ -12,7 +13,10 @@ export const UseMyLocationModal = ({ geocodeError }) => {
           ? 'We need to use your location'
           : "We couldn't locate you"
       }
-      onCloseEvent={() => dispatch(clearGeocodeError())}
+      onCloseEvent={() => {
+        focusLocationInput();
+        dispatch(clearGeocodeError());
+      }}
       status="warning"
       visible={geocodeError > 0}
     >

@@ -1,9 +1,12 @@
 import React from 'react';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import configureStore from 'redux-mock-store';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
+import SearchByProgram from '../../containers/SearchByProgram';
 import { UseMyLocationModal } from '../../components/school-and-employers/UseMyLocationModal';
 
 const defaultStore = createCommonStore();
@@ -34,9 +37,22 @@ describe('Use my location modal', () => {
     ).to.exist;
   });
   it('Should close', async () => {
+    const middlewares = [thunk];
+    const mockStore = configureStore(middlewares);
+    const store = mockStore({
+      search: {
+        query: {
+          distance: '',
+          location: '',
+          streetAddress: { searchString: '' },
+        },
+      },
+    });
     const { container } = render(
-      <Provider store={defaultStore}>
-        <UseMyLocationModal geocodeError={1} />
+      <Provider store={store}>
+        <SearchByProgram>
+          <UseMyLocationModal geocodeError={1} />
+        </SearchByProgram>
       </Provider>,
     );
     const event = new CustomEvent('closeEvent');
