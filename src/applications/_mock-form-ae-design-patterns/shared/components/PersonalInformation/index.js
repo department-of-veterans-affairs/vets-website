@@ -10,8 +10,9 @@ import { PersonalInformation } from './PersonalInformation';
  */
 
 export const defaultConfig = {
+  key: 'personalInfoPage',
   title: 'Personal Information',
-  path: '/personal-information',
+  path: 'personal-information',
   personalInfoConfig: {},
   dataAdapter: {},
 };
@@ -24,13 +25,14 @@ export const defaultConfig = {
  * @property {DataAdapter} dataAdapter - Data adapter configuration object for the PersonalInformation component
  */
 const personalInformationPage = ({
+  key = defaultConfig.key,
   title = defaultConfig.title,
   path = defaultConfig.path,
   personalInfoConfig = defaultConfig.personalInfoConfig,
   dataAdapter = defaultConfig.dataAdapter,
 } = defaultConfig) => {
   return {
-    personalInfoPage: {
+    [key]: {
       title,
       path,
       uiSchema: {},

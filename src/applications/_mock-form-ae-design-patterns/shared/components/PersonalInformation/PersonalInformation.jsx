@@ -85,13 +85,17 @@ export const PersonalInformation = ({
   const { note, header, footer } = getChildrenByType(children);
 
   if (missingData.length > 0) {
-    return finalConfig.errorMessage ? (
+    let message;
+    const { errorMessage } = finalConfig;
+    // check if the error message is a function
+    if (typeof errorMessage === 'function') {
+      message = errorMessage({ missingFields: missingData });
+    }
+    return errorMessage ? (
       <va-alert status="error">
         <h2 slot="headline">We need more information</h2>
 
-        <div className="vads-u-margin-y--0">
-          {finalConfig.errorMessage({ missingFields: missingData })}
-        </div>
+        <div className="vads-u-margin-y--0">{message || errorMessage}</div>
       </va-alert>
     ) : null;
   }
