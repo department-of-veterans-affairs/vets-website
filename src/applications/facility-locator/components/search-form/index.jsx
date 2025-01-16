@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   VaModal,
   VaSelect,
@@ -12,21 +15,23 @@ import {
   facilityTypesOptions,
   emergencyCareServices,
   nonPPMSfacilityTypeOptions,
-} from '../config';
-import { LocationType } from '../constants';
-import ServiceTypeAhead from './ServiceTypeAhead';
-import { setFocus } from '../utils/helpers';
-import { SearchControlsTypes } from '../types';
+} from '../../config';
+import { LocationType } from '../../constants';
+import { setFocus } from '../../utils/helpers';
+import { SearchFormTypes } from '../../types';
 import ServicesLoadingOrShow from './ServicesLoadingOrShow';
+import ServiceTypeAhead from './ServiceTypeAhead';
+import VAMCAutoSuggest from './VAMCAutoSuggest';
 
-const SearchControls = props => {
+const SearchForm = props => {
   const {
+    clearGeocodeError,
+    clearSearchText,
     currentQuery,
+    geolocateUser,
     onChange,
     onSubmit,
-    clearSearchText,
-    geolocateUser,
-    clearGeocodeError,
+    vamcAutoSuggestEnabled,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -317,6 +322,18 @@ const SearchControls = props => {
     );
   };
 
+  const determineServiceTypeInput = () => {
+    if (
+      currentQuery.facilityType === LocationType.HEALTH &&
+      true
+      // vamcAutoSuggestEnabled
+    ) {
+      return <VAMCAutoSuggest />;
+    }
+
+    return renderServiceTypeDropdown();
+  };
+
   // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
@@ -387,7 +404,7 @@ const SearchControls = props => {
         <div className="columns vads-u-margin--0 vads-u-padding--0">
           {renderLocationInputField()}
           {renderFacilityTypeDropdown()}
-          {renderServiceTypeDropdown()}
+          {determineServiceTypeInput()}
           <va-button id="facility-search" submit="prevent" text="Search" />
         </div>
       </form>
@@ -395,6 +412,12 @@ const SearchControls = props => {
   );
 };
 
-SearchControls.propTypes = SearchControlsTypes;
+SearchForm.propTypes = SearchFormTypes;
 
-export default SearchControls;
+const mapStateToProps = state => ({
+  vamcAutoSuggestEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilitiesAutoSuggestVAMCServicesEnabled
+  ],
+});
+
+export default connect(mapStateToProps)(SearchForm);

@@ -72,6 +72,7 @@
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
+  "facilitiesAutoSuggestVAMCServicesEnabled": "facilities_autosuggest_vamc_services_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
   "facilityLocatorLatLongOnly": "facility_locator_lat_long_only",

@@ -29,7 +29,7 @@ import {
 import NoResultsMessage from '../components/NoResultsMessage';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
-import SearchControls from '../components/SearchControls';
+import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { FacilitiesMapTypes } from '../types';
 
@@ -457,7 +457,7 @@ const FacilitiesMap = props => {
         >
           {/* a HOC that either returns a div or fragment */}
           <ControlResultsHolder isSmallDesktop={isSmallDesktop}>
-            <SearchControls
+            <SearchForm
               geolocateUser={props.geolocateUser}
               clearGeocodeError={props.clearGeocodeError}
               currentQuery={currentQuery}

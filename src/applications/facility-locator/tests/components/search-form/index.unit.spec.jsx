@@ -2,15 +2,15 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import SearchControls from '../../components/SearchControls';
-import { benefitsServices } from '../../config';
+import SearchForm from '../../../components/search-form';
+import { benefitsServices } from '../../../config';
 
-describe('SearchControls', () => {
+describe('SearchForm', () => {
   it('Should render search controls with Choose a facility type by default', () => {
     const query = {
       facilityType: null,
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     expect(wrapper.render().find('.facility-type-dropdown-val-none')).to.exist;
     wrapper.unmount();
   });
@@ -19,7 +19,7 @@ describe('SearchControls', () => {
     const query = {
       facilityType: 'benefits',
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     expect(
       wrapper
         .render()
@@ -33,7 +33,7 @@ describe('SearchControls', () => {
     const query = {
       facilityType: 'benefits',
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     const servicesList = wrapper.find('#service-type-dropdown').find('option');
     const benefits = Object.values(benefitsServices);
     servicesList.forEach((val, idx) =>
@@ -46,7 +46,7 @@ describe('SearchControls', () => {
     const query = {
       geocodeError: 1,
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
     expect(modal.prop('modalTitle')).to.equal('We need to use your location');
@@ -65,7 +65,7 @@ describe('SearchControls', () => {
     const query = {
       geocodeError: 2,
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
     expect(modal.prop('modalTitle')).to.equal("We couldn't locate you");
@@ -84,7 +84,7 @@ describe('SearchControls', () => {
     const query = {
       geocodeError: 0,
     };
-    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    const wrapper = shallow(<SearchForm currentQuery={query} />);
     expect(wrapper.find('ForwardRef(VaModal)').prop('visible')).to.be.false;
     wrapper.unmount();
   });

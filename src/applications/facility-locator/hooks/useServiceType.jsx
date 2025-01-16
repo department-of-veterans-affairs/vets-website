@@ -14,10 +14,13 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
   if (includes) {
     return hsdatum[index]?.toLowerCase().includes(term) ? 1 : -1;
   }
+
   const returnMatch = hsdatum[index]?.toLowerCase().search(term);
+
   if (returnMatch === undefined) {
     return -1;
   }
+
   return returnMatch;
 };
 
@@ -28,6 +31,7 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
  */
 const matchHelper = (term, hsdatum) => {
   const regexTerm = new RegExp(term, 'i');
+
   const returnMatcher = {
     nameMatch: termMatcher(regexTerm, hsdatum, 0),
     akaMatch: termMatcher(regexTerm, hsdatum, 1),
@@ -55,6 +59,7 @@ const matchHelper = (term, hsdatum) => {
     returnMatcher.secondaryMatch = 1;
     returnMatcher.priorityMatch = 0;
   }
+
   return returnMatcher;
 };
 
@@ -89,7 +94,9 @@ export default function useServiceType() {
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
       if (!selector || selector.loading) return [];
+
       if (term?.length < 3) return [];
+
       if (selector.data) {
         const selectorFiltered = selector.data
           .map(hsdatum => {
@@ -102,6 +109,7 @@ export default function useServiceType() {
           .filter(v => v);
 
         selectorFiltered.sort(prioritySort);
+
         if (facilityType) {
           return selectorFiltered.filter(
             hsdatum =>
@@ -111,11 +119,14 @@ export default function useServiceType() {
               (hsdatum.hsdatum[9] && facilityType === 'tricare'),
           );
         }
+
         return selectorFiltered;
       }
+
       return [];
     },
     [selector],
   );
+
   return { isServiceTypeFilterLoading: selector.isLoading, serviceTypeFilter };
 }
