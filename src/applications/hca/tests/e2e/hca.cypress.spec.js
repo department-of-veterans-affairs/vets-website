@@ -1,12 +1,11 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import mockFacilities from './fixtures/mocks/facilities.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockFacilities from './fixtures/mocks/mockFacilitiesV1.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
@@ -139,10 +138,11 @@ const testConfig = createTestConfig(
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2016-05-16',
       });
-      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-        statusCode: 404,
-        body: mockEnrollmentStatus,
-      });
+      cy.intercept(
+        'GET',
+        '/v0/health_care_applications/enrollment_status*',
+        mockEnrollmentStatus,
+      );
       cy.intercept(
         'GET',
         '/v0/health_care_applications/facilities?*',
