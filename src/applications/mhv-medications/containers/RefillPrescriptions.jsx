@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   VaButton,

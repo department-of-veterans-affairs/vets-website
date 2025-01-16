@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';

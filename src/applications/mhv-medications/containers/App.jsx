@@ -16,7 +16,7 @@ import {
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
