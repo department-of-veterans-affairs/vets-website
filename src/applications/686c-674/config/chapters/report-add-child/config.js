@@ -9,13 +9,13 @@ export const arrayBuilderOptions = {
       !item?.fullName?.first ||
       !item?.fullName?.last ||
       !item?.birthDate ||
-      !item.ssn ||
-      !item.birthLocation.location.state ||
-      !item.birthLocation.location.postalCode ||
-      !item.relationshipToChild ||
-      typeof item.doesChildLiveWithYou === 'undefined' ||
-      typeof item.hasChildEverBeenMarried === 'undefined' ||
-      typeof item.incomeInLastYear === 'undefined'
+      !item?.ssn ||
+      !item?.birthLocation?.location?.state ||
+      !item?.birthLocation?.location?.postalCode ||
+      !item?.relationshipToChild ||
+      typeof item?.doesChildLiveWithYou === 'undefined' ||
+      typeof item?.hasChildEverBeenMarried === 'undefined' ||
+      typeof item?.incomeInLastYear === 'undefined'
     );
   },
   maxItems: 10,
