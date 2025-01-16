@@ -28,6 +28,7 @@ export const BuildPage = ({
   goToPath,
   contactPath,
   editContactInfoHeadingLevel,
+  disableDraft,
 }) => {
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
@@ -86,7 +87,7 @@ export const BuildPage = ({
           {title}
         </Heading>
         <ProfileInformationFieldController
-          disableDraft
+          disableDraft={disableDraft}
           forceEditView
           fieldName={FIELD_NAMES[field]}
           isDeleteDisabled

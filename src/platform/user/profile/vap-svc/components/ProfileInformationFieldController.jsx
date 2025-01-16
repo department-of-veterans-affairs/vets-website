@@ -306,6 +306,7 @@ class ProfileInformationFieldController extends React.Component {
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
+      disableDraft,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -410,7 +411,7 @@ class ProfileInformationFieldController extends React.Component {
           forceEditView={forceEditView}
           cancelButtonText={this.props?.cancelButtonText}
           saveButtonText={this.props?.saveButtonText}
-          disableDraft
+          disableDraft={disableDraft}
         />
       );
     }
@@ -517,6 +518,7 @@ ProfileInformationFieldController.propTypes = {
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
   data: PropTypes.object,
+  disableDraft: PropTypes.bool,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,
   isDeleteDisabled: PropTypes.bool,
