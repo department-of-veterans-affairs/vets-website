@@ -7,21 +7,20 @@ export const workflowChoicePageTitle = (
   </div>
 );
 
+// Lists new conditions the veteran has claimed
 const conditionSelections = formData => {
-  const conditions = formData?.mentalHealth?.conditions;
+  const conditions = formData?.newDisabilities?.map(
+    disability =>
+      // Capitalize condition
+      disability.condition.charAt(0).toUpperCase() +
+      disability.condition.slice(1),
+  );
 
-  // The none key is set to true when the user checks the box to claim no mental health conditions
-  // These checkboxes are generated dynamically in src/applications/disability-benefits/all-claims/pages/mentalHealth/mentalHealthConditions.js
-  if (conditions?.none === false) {
-    const selectedConditions = Object.keys(conditions).filter(
-      key => conditions[key] === true,
-    );
-
+  if (conditions?.length) {
     return (
       <p>
-        You selected these new mental health conditions for your disability
-        claim:
-        <strong>{selectedConditions.join(', ')}</strong>.
+        You selected these new conditions for your disability claim:
+        <strong>{conditions.join(', ')}</strong>.
       </p>
     );
   }

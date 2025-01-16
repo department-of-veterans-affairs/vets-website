@@ -25,78 +25,79 @@ describe('Form 0781 workflow choice page', () => {
   });
 
   describe('Page Content', () => {
-    // These conditions are selected by the user on the all-claims/pages/mentalHealth/mentalHealthConditions.js page
-    it('lists a single condition claimed on the mental health screener page', () => {
+    // These conditions are selected by the user on the src/applications/disability-benefits/all-claims/pages/addDisabilities.js page
+    it('lists a single new condition claimed by the user', () => {
       const { getByText } = render(
         <DefinitionTester
           schema={schema}
           uiSchema={uiSchema}
           definitions={{}}
           data={{
-            mentalHealth: {
-              conditions: {
-                anemia: true,
-                none: false,
+            newDisabilities: [
+              {
+                condition: 'ankle replacement (ankle arthroplasty), bilateral',
               },
-            },
+            ],
           }}
         />,
       );
 
       const conditionsParagraph = getByText(
-        /You selected these new mental health conditions for your disability claim:/i,
+        /You selected these new conditions for your disability claim:/i,
       );
 
-      // Conditions embedded in strong tag; will not match on getByText above
-      within(conditionsParagraph).getByText('anemia');
+      // Conditions are embedded in a strong tag; will not match in getByText above directly
+      within(conditionsParagraph).getByText(
+        'Ankle replacement (ankle arthroplasty), bilateral',
+      );
     });
   });
 
-  it('lists multiple conditions claimed on the mental health screener page', () => {
+  it('lists multiple new conditions claimed by the user', () => {
     const { getByText } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={{}}
         data={{
-          mentalHealth: {
-            conditions: {
-              anemia: true,
-              ptsd: true,
-              depression: true,
-              none: false,
+          newDisabilities: [
+            {
+              condition: 'ankle replacement (ankle arthroplasty), bilateral',
             },
-          },
+            {
+              condition: 'somatic symptom disorder (SSD)',
+            },
+            {
+              condition: 'varicocele, left',
+            },
+          ],
         }}
       />,
     );
 
     const conditionsParagraph = getByText(
-      /You selected these new mental health conditions for your disability claim:/i,
+      /You selected these new conditions for your disability claim:/i,
     );
 
-    within(conditionsParagraph).getByText('anemia, ptsd, depression');
+    within(conditionsParagraph).getByText(
+      'Ankle replacement (ankle arthroplasty), bilateral, Somatic symptom disorder (SSD), Varicocele, left',
+    );
   });
 
-  it('Does not display mental health conditions if the none checkbox was selected', () => {
+  // This situation shouldn't occur but we should be defensive
+  it('does not display a conditions list if no new conditions exist', () => {
     const { queryByText } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={{}}
-        data={{
-          mentalHealth: {
-            conditions: {
-              none: true,
-            },
-          },
-        }}
+        data={{}}
       />,
     );
 
     expect(
       queryByText(
-        /You selected these new mental health conditions for your disability claim:/i,
+        /You selected these new conditions for your disability claim:/i,
       ),
     ).not.to.exist;
   });
