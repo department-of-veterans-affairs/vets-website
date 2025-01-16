@@ -13,14 +13,14 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
   const currentPage = useSelector(selectCurrentPage);
 
   const [breadcrumb, setBreadcrumb] = useState(
-    getReferralUrlLabel(location, categoryOfCare),
+    getReferralUrlLabel(currentPage, categoryOfCare),
   );
 
   useEffect(
     () => {
-      setBreadcrumb(() => getReferralUrlLabel(location, categoryOfCare));
+      setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
     },
-    [location, categoryOfCare],
+    [location, categoryOfCare, currentPage],
   );
 
   const isBackLink = breadcrumb?.startsWith('Back');
