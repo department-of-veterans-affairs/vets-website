@@ -23,10 +23,11 @@ describe(`${appName} -- minimal test`, () => {
 
     // choose supplies
     cy.injectAxeThenAxeCheck();
-    cy.get('va-checkbox', { name: 'root_chosenSupplies_6584' })
-      .shadow()
-      .check({ waitForAnimations: true });
-    cy.findByText(/^Continue$/).click();
+    // cy.get('va-checkbox[name="root_chosenSupplies_6584"]')
+    //   .shadow()
+    //   .check({ waitForAnimations: true });
+    // cy.findByText(/^Continue$/).click();
+    cy.selectVaCheckbox('root_chosenSupplies_6584', true);
 
     // contact information
     cy.injectAxeThenAxeCheck();
