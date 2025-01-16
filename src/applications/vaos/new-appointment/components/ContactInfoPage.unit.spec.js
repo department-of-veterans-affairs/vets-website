@@ -40,7 +40,7 @@ describe('VAOS Page: ContactInfoPage', () => {
 
     // it should display page heading and description
     await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
+      expect(screen.getByText(/How should we contact you\?/i)).to.be.ok;
     });
     expect(
       screen.getByText(
@@ -50,7 +50,7 @@ describe('VAOS Page: ContactInfoPage', () => {
 
     expect(
       screen.getByText(
-        /Want to update your contact information for more VA benefits and services\?/,
+        /You can update your contact information for most of your benefits and services in your VA.gov profile./,
       ),
     ).to.be.ok;
     const button = await screen.findByText(/^Continue/);

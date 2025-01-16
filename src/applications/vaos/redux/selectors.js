@@ -1,11 +1,19 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import {
+  selectIsCernerOnlyPatient,
+  selectPatientFacilities,
+} from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
-import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { createSelector } from 'reselect';
+import {
+  isPendingOrCancelledRequest,
+  sortByCreatedDateDescending,
+} from '../services/appointment';
 import { getRealFacilityId } from '../utils/appointment';
 
 export const selectRegisteredCernerFacilityIds = state => {
@@ -111,3 +119,21 @@ export const selectFeatureTravelPayViewClaimDetails = state =>
 
 export const selectFeatureTravelPaySubmitMileageExpense = state =>
   toggleValues(state).travelPaySubmitMileageExpense;
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(isPendingOrCancelledRequest)
+      .sort(sortByCreatedDateDescending) || null,
+);
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}

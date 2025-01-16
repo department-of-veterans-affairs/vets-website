@@ -13,6 +13,14 @@ describe('Unauthenticated', () => {
       cy.intercept('POST', '/representation_management/v0/pdf_generator2122a', {
         statusCode: 200,
       }).as('pdfGeneration');
+
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
@@ -41,7 +49,7 @@ describe('Unauthenticated', () => {
 
       cy.contains('John Adams').should('be.visible');
 
-      cy.contains('button', 'Select this representative')
+      cy.contains('button', 'Select John Adams')
         .first()
         .click();
 
@@ -61,7 +69,7 @@ describe('Unauthenticated', () => {
       cy.injectAxeThenAxeCheck();
 
       cy.get('input[name="root_applicantName_first"]').type('Adam');
-      cy.get('input[name="root_applicantName_middle"]').type('James');
+      cy.get('input[name="root_applicantName_middle"]').type('J');
       cy.get('input[name="root_applicantName_last"]').type('Friedman');
 
       cy.get('va-select.usa-form-group--month-select')
@@ -106,7 +114,7 @@ describe('Unauthenticated', () => {
       // VETERAN_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
       cy.get('input[name="root_veteranFullName_first"]').type('John');
-      cy.get('input[name="root_veteranFullName_middle"]').type('Edmund');
+      cy.get('input[name="root_veteranFullName_middle"]').type('E');
       cy.get('input[name="root_veteranFullName_last"]').type('Doe');
 
       cy.get('va-select.usa-form-group--month-select')
@@ -147,7 +155,7 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_Primary phone"]').type('5467364732');
+      cy.get('input[name="root_primaryPhone"]').type('5467364732');
 
       h.clickContinue();
 

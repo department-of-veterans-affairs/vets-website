@@ -15,6 +15,7 @@ const AlertNoSuppliesForReorder = ({ reorderDate }) => {
     <va-alert
       status="warning"
       data-testid="reorder-alert--no-supplies-for-reorder"
+      class="vads-u-margin-bottom--5"
     >
       <h3 slot="headline">You can’t reorder your items at this time</h3>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -34,7 +35,7 @@ const AlertNoSuppliesForReorder = ({ reorderDate }) => {
 };
 
 AlertNoSuppliesForReorder.propTypes = {
-  reorderDate: PropTypes.string.isRequired,
+  reorderDate: PropTypes.string,
 };
 
 export default AlertNoSuppliesForReorder;

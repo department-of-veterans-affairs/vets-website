@@ -51,7 +51,7 @@ export const ChooseDateAndTime = props => {
       ) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h2');
+        scrollAndFocus('h1');
       }
     },
     [currentReferral.providerId, dispatch, providerFetchStatus, futureStatus],
@@ -71,19 +71,12 @@ export const ChooseDateAndTime = props => {
     );
   }
 
-  if (failed) {
-    return (
-      <va-alert data-testid="error" status="error">
-        <h2>We’re sorry. We’ve run into a problem</h2>
-        <p>
-          We’re having trouble getting your upcoming appointments. Please try
-          again later.
-        </p>
-      </va-alert>
-    );
-  }
   return (
-    <ReferralLayout hasEyebrow>
+    <ReferralLayout
+      hasEyebrow
+      apiFailure={failed}
+      heading="Schedule an appointment with your provider"
+    >
       <DateAndTimeContent
         provider={provider}
         currentReferral={currentReferral}

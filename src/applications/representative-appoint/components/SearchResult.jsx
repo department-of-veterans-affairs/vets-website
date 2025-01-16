@@ -145,7 +145,7 @@ const SearchResult = ({
           ) : (
             <VaButton
               data-testid={`rep-select-${id}`}
-              text="Select this representative"
+              text={`Select ${representativeName}`}
               secondary
               onClick={() => handleSelectRepresentative(representative.data)}
             />
@@ -166,6 +166,8 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
+  handleSelectRepresentative: PropTypes.func,
+  loadingPOA: PropTypes.bool,
   location: PropTypes.object,
   phone: PropTypes.string,
   query: PropTypes.shape({

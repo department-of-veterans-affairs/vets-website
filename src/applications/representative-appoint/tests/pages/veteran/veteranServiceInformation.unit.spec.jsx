@@ -16,6 +16,7 @@ describe('Veteran Service Information page', () => {
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
+    form: { data: {} },
   });
 
   it('should render', () => {
