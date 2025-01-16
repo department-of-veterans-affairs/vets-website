@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NewTabAnchor from './NewTabAnchor';
 
 function buildAddressArray(location) {
   // Community Care appointment address format
@@ -47,13 +46,12 @@ export default function FacilityDirectionsLink({ location, icon }) {
 
   return (
     <span>
-      <NewTabAnchor
+      <a
         href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-        renderAriaLabel={false}
       >
         {icon && <va-icon icon="directions" size="3" />}
         Directions
-      </NewTabAnchor>
+      </a>
     </span>
   );
 }

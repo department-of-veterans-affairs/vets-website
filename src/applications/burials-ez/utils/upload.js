@@ -19,7 +19,7 @@ function createPayload(file, _formId, password) {
   return payload;
 }
 
-export const burialUploadUI = content => {
+export const burialUploadUI = (content, options = {}) => {
   const findAndFocusLastSelect = () => {
     const lastSelect = [...document.querySelectorAll('select')].slice(-1);
     if (lastSelect.length) {
@@ -30,8 +30,6 @@ export const burialUploadUI = content => {
   const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content, {
-    // title: content.label,
-    // itemDescription: content.description,
     fileUploadUrl: uploadUrl,
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
@@ -56,6 +54,6 @@ export const burialUploadUI = content => {
       'ui:disabled': false,
       'ui:webComponentField': VaSelectField,
     }),
-    uswds: true,
+    ...options,
   });
 };

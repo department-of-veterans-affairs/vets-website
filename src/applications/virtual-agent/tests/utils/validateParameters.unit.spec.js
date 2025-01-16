@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 
 import validateParameters from '../../utils/validateParameters';
 import { ERROR } from '../../utils/loadingStatus';
+import * as logging from '../../utils/logging';
 
 describe('validateParameters', () => {
   let sandbox;
@@ -57,6 +58,7 @@ describe('validateParameters', () => {
         Sentry,
         Sentry.captureException.name,
       );
+      const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
         csrfToken: null,
@@ -74,6 +76,15 @@ describe('validateParameters', () => {
           ),
         ),
       );
+
+      expect(logErrorToDatadogStub.calledOnce).to.be.true;
+      expect(
+        logErrorToDatadogStub.calledWith(
+          new TypeError(
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":null}',
+          ),
+        ),
+      );
     });
     it('should capture exception when apiSession is missing', () => {
       const setParamLoadingStatusFn = sandbox.spy();
@@ -81,6 +92,7 @@ describe('validateParameters', () => {
         Sentry,
         Sentry.captureException.name,
       );
+      const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
         csrfToken,
@@ -98,6 +110,15 @@ describe('validateParameters', () => {
           ),
         ),
       );
+
+      expect(logErrorToDatadogStub.calledOnce).to.be.true;
+      expect(
+        logErrorToDatadogStub.calledWith(
+          new TypeError(
+            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
+          ),
+        ),
+      );
     });
     it('should capture exception when userFirstName is not a string', () => {
       const setParamLoadingStatusFn = sandbox.spy();
@@ -105,6 +126,8 @@ describe('validateParameters', () => {
         Sentry,
         Sentry.captureException.name,
       );
+
+      const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
         csrfToken,
@@ -122,6 +145,15 @@ describe('validateParameters', () => {
           ),
         ),
       );
+
+      expect(logErrorToDatadogStub.calledOnce).to.be.true;
+      expect(
+        logErrorToDatadogStub.calledWith(
+          new TypeError(
+            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
+          ),
+        ),
+      );
     });
     it('should capture exception when userUuid is not a string', () => {
       const setParamLoadingStatusFn = sandbox.spy();
@@ -129,6 +161,8 @@ describe('validateParameters', () => {
         Sentry,
         Sentry.captureException.name,
       );
+
+      const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
         csrfToken,
@@ -141,6 +175,15 @@ describe('validateParameters', () => {
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(
         captureExceptionStub.calledWith(
+          new TypeError(
+            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
+          ),
+        ),
+      );
+
+      expect(logErrorToDatadogStub.calledOnce).to.be.true;
+      expect(
+        logErrorToDatadogStub.calledWith(
           new TypeError(
             'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
           ),

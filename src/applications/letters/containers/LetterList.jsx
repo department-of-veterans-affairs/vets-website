@@ -59,7 +59,7 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            letterTitle={letterTitle}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
@@ -95,7 +95,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content" aria-live="polite">
+      <div className="step-content">
         <p>
           To see an explanation about each letter, click on the (+) to expand
           the box. After you expand the box, you’ll be given the option to

@@ -1,8 +1,5 @@
 import React from 'react';
 
-// When all files shown on `MissingFileOverview` are uploaded, go here next:
-export const UPLOADS_COMPLETE_PATH = 'form-signature';
-
 /* List of required files - not enforced by the form because we want
 users to be able to opt into mailing these documents. This object 
 performs double duty by also providing a map to presentable names. */
@@ -28,6 +25,8 @@ export const officeAddress = (
     P.O. Box 469063
     <br />
     Denver, CO 80246-9063
+    <br />
+    United States of America
   </>
 );
 export const officeFaxNum = '3033317808';

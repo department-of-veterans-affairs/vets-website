@@ -9,8 +9,8 @@ import {
   transformedMaximalData,
 } from './fixtures/data/transformedData';
 
-import minimalData from './fixtures/data/minimal.json';
-import maximalData from './fixtures/data/maximal.json';
+import minimalData from './fixtures/data/minimal-test.json';
+import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
   it('should transform minimal data correctly', () => {

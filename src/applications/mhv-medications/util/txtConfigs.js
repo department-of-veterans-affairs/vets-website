@@ -77,7 +77,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     result += `
 ${rx.prescriptionName}
 
-Last filled on: ${dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+Last filled on: ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
 
 Status: ${validateField(rx.dispStatus)}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
@@ -256,11 +256,7 @@ Filled by pharmacy on: ${
       entry?.dispensedDate ? dateFormat(entry.dispensedDate) : 'None noted'
     }
 
-Shipped on: ${
-      entry?.trackingList?.[0]?.completeDateTime
-        ? dateFormat(entry.trackingList[0].completeDateTime)
-        : 'None noted'
-    }
+Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
 
 Description: ${description}
 

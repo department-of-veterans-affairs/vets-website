@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
-import { normalizedForm } from '../../../_config/formConfig';
+import { normalizedForm } from '../../../config/formConfig';
 import {
   DIGITAL_FORMS_FILENAME,
   FORM_LOADING_SUCCEEDED,

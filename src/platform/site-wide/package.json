@@ -62,7 +62,6 @@
       "libxmljs": "*",
       "append-query": "*",
       "reselect": "*",
-      "@department-of-veterans-affairs/formation": "*",
       "core-js": "*"
     },
     "license": "MIT",

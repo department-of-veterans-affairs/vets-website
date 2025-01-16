@@ -16,8 +16,10 @@ import {
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
@@ -28,11 +30,15 @@ import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
 import submitTransformer from '../config/submit-transformer';
 import { URL, envUrl } from '../constants';
+import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
+
+// Toggle this when testing locally to get successful confirmation page inquiry
+const mockTestingFlag = false;
 
 const { scroller } = Scroll;
 
@@ -88,18 +94,40 @@ const ReviewPage = props => {
       },
     };
 
+    if (mockTestingFlag) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setIsDisabled(false);
+          resolve(mockSubmitResponse);
+          const inquiryNumber = 'A-20230622-306458';
+          const contactPreference = props.formData.contactPreference || 'Email';
+          localStorage.removeItem('askVAFiles');
+          props.router.push({
+            pathname: '/confirmation',
+            state: { contactPreference, inquiryNumber },
+          });
+        }, 500);
+      });
+    }
+
     return apiRequest(url, options)
-      .then(() => {
+      .then(response => {
         setIsDisabled(false);
-        // clear localStorage after post
+        const { inquiryNumber } = response;
+        const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
-        props.goForward('/confirmation');
+        props.router.push({
+          pathname: '/confirmation',
+          state: { contactPreference, inquiryNumber },
+        });
       })
-      .catch(() => {
+      .catch(error => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // need an error page or message/alert
-        props.goForward('/confirmation');
+        // TODO - need error modal instead of forwarding to confirmation per final design
+        // Temporary alert dialog for testing
+        alert(error.error);
       });
   };
 
@@ -479,6 +507,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+ReviewPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  loggedIn: PropTypes.bool,
+};
+
 const mapDispatchToProps = {
   setData,
   setEditMode,
@@ -489,4 +527,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewPage);
+)(withRouter(ReviewPage));
