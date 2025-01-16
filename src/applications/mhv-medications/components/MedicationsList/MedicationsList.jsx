@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
+import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
@@ -13,10 +14,10 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectFilterFlag } from '../../util/selectors';
+import { selectFilterFlag, selectGroupingFlag } from '../../util/selectors';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
-const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
   const {
@@ -35,6 +36,9 @@ const MedicationsList = props => {
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
+
+  const perPage = showGroupingFlag ? 10 : 20;
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
@@ -129,6 +133,11 @@ const MedicationsList = props => {
           )}
       </div>
       <VaPagination
+        onClick={() => {
+          datadogRum.addAction(
+            dataDogActionNames.medicationsListPage.PAGINATION,
+          );
+        }}
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"
         className="pagination vads-u-justify-content--center no-print"

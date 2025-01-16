@@ -5,7 +5,10 @@ import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
-
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
@@ -14,13 +17,12 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   const headline = 'Verify your identity';
   const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
-  const verifyIdentityUrl = {
-    [CSP_IDS.LOGIN_GOV]:
-      '/resources/how-to-verify-your-identity-for-your-logingov-account/',
-    [CSP_IDS.ID_ME]:
-      '/resources/how-to-verify-your-identity-for-your-idme-account/',
-  };
-  const learnHowToVerifyIdentityUrl = verifyIdentityUrl[cspId];
+  const verifyServiceButton =
+    cspId === CSP_IDS.LOGIN_GOV ? (
+      <VerifyLogingovButton />
+    ) : (
+      <VerifyIdmeButton />
+    );
 
   useEffect(
     () => {
@@ -39,8 +41,8 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--2">
-          We need you to verify your identity for your
-          <strong> {serviceProviderLabel}</strong> account. This step helps us
+          We need you to verify your identity for your{' '}
+          <strong>{serviceProviderLabel}</strong> account. This step helps us
           protect all Veterans’ information and prevent scammers from stealing
           your benefits.
         </p>
@@ -48,16 +50,11 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
           This one-time process often takes about 10 minutes. You’ll need to
           provide certain personal information and identification.
         </p>
-        <p>
-          <a href="/verify" className="vads-c-action-link--green">
-            Verify your identity with {serviceProviderLabel}
-          </a>
-        </p>
-        <p>
-          <a href={learnHowToVerifyIdentityUrl}>
-            Learn more about verifying your identity
-          </a>
-        </p>
+        <p>{verifyServiceButton}</p>
+        <va-link
+          href="/resources/verifying-your-identity-on-vagov/"
+          text="Learn more about verifying your identity"
+        />
       </div>
     </VaAlert>
   );

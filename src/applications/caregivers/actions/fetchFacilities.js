@@ -3,42 +3,27 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import content from '../locales/en/content.json';
 
-const joinAddressParts = (...parts) => {
-  return parts.filter(part => part != null).join(', ');
-};
-
-const formatQueryParams = ({
-  lat,
-  long,
-  radius,
-  page,
-  perPage,
-  facilityIds,
-}) => {
-  const formatFacilityIdParams = () => {
-    let facilityIdParams = '';
-    if (facilityIds.length > 0) {
-      facilityIdParams = `facilityIds=${facilityIds.join(',')}`;
-    }
-
-    return facilityIdParams;
+const formatAddress = address => {
+  const joinAddressParts = (...parts) => {
+    const [city, state, zip] = parts;
+    const stateZip = state && zip ? `${state} ${zip}` : state || zip;
+    return [city, stateZip].filter(Boolean).join(', ');
   };
 
-  const params = [
-    lat ? `lat=${lat}` : null,
-    long ? `long=${long}` : null,
-    radius ? `radius=${radius}` : null,
-    page ? `page=${page}` : null,
-    perPage ? `per_page=${perPage}` : null,
-    formatFacilityIdParams() || null,
-  ];
+  return {
+    address1: address.address1,
+    address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
+    address3: joinAddressParts(address?.city, address?.state, address?.zip),
+  };
+};
 
-  let filteredParams = params.filter(Boolean);
-  if (filteredParams.length > 0) {
-    filteredParams = `&${filteredParams.join('&')}`;
+const formatFacilityIds = facilityIds => {
+  let facilityIdList = '';
+  if (facilityIds.length > 0) {
+    facilityIdList = `${facilityIds.join(',')}`;
   }
 
-  return filteredParams;
+  return facilityIdList;
 };
 
 export const fetchFacilities = async ({
@@ -48,22 +33,27 @@ export const fetchFacilities = async ({
   page = null,
   perPage = null,
   facilityIds = [],
+  type = 'health',
 }) => {
-  const baseUrl = `${
+  const url = `${
     environment.API_URL
-  }/v0/caregivers_assistance_claims/facilities?type=health`;
+  }/v0/caregivers_assistance_claims/facilities`;
 
-  const queryParams = formatQueryParams({
+  const body = {
+    type,
     lat,
     long,
     radius,
     page,
     perPage,
-    facilityIds,
-  });
+    facilityIds: formatFacilityIds(facilityIds),
+  };
 
-  const requestUrl = `${baseUrl}${queryParams}`;
-  const fetchRequest = apiRequest(requestUrl);
+  const fetchRequest = apiRequest(url, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   return fetchRequest
     .then(response => {
@@ -75,25 +65,13 @@ export const fetchFacilities = async ({
       }
       const facilities = response.data.map(facility => {
         const attributes = facility?.attributes;
-        const { physical } = attributes?.address;
-
-        // Create a new address object without modifying the original facility
-        const newPhysicalAddress = {
-          address1: physical.address1,
-          address2: joinAddressParts(physical?.address2, physical?.address3),
-          address3: joinAddressParts(
-            physical.city,
-            physical.state,
-            physical.zip,
-          ),
-        };
 
         // Return a new facility object with the updated address
         return {
           ...attributes,
           id: facility.id,
           address: {
-            physical: newPhysicalAddress,
+            physical: formatAddress(attributes?.address.physical),
           },
         };
       });

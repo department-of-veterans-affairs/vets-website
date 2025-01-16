@@ -93,6 +93,9 @@ const MedicationsListFilter = props => {
         data-testid="rx-filter"
         ref={ref}
         level={3}
+        data-dd-action-name={
+          dataDogActionNames.medicationsListPage.FILTER_LIST_ACCORDION
+        }
         uswds
       >
         <span slot="icon">

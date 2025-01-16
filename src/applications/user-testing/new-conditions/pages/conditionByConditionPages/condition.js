@@ -82,12 +82,12 @@ const conditionPage = {
       }),
     ),
     condition: {
-      'ui:title': 'Enter your condition',
       'ui:field': data => (
         <Autocomplete
           availableResults={conditionOptions}
           debounceDelay={200}
           id={data.idSchema.$id}
+          label="Enter your condition"
           formData={data.formData}
           onChange={data.onChange}
         />
@@ -98,6 +98,7 @@ const conditionPage = {
       'ui:validations': [validateCondition],
       'ui:options': {
         useAllFormData: true,
+        hideLabelText: true,
       },
     },
   },

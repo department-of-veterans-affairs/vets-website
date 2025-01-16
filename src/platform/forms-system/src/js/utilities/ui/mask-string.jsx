@@ -33,3 +33,20 @@ export default function mask(string, unmaskedLength) {
     </span>
   );
 }
+
+/**
+ * Format a number with spaces between digits for screen readers while maintaining
+ * visual display without spaces.
+ *
+ * @param {string|number} number - The number to format
+ * @returns {ReactElement} - Formatted number with screen reader spacing
+ */
+export const formatNumberForScreenReader = number => {
+  if (!number && number !== 0) return null;
+
+  const numberString = number.toString();
+  const visualDisplay = numberString;
+  const screenReaderText = numberString.split('').join(' ');
+
+  return srSubstitute(visualDisplay, screenReaderText);
+};

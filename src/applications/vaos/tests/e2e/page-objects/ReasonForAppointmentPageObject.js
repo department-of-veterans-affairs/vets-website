@@ -16,13 +16,7 @@ export class ReasonForAppointmentPageObject extends PageObject {
   }
 
   selectReasonForAppointment() {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .findByText(/Routine or follow-up visit/i)
-      .click();
-
-    return this;
+    return super.selectRadioButtonShadow(/Routine or follow-up visit/i);
   }
 
   typeAdditionalText({ content }) {

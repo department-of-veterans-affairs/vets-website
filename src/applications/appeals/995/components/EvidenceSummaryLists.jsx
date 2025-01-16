@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
+import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
+import {
+  authorizationLabel,
+  authorizationError,
+  authorizationEdit,
+} from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import { content as vaContent } from '../content/evidenceVaRecords';
 import { parseDate } from '../../shared/utils/dates';
@@ -12,7 +18,10 @@ import { parseDate } from '../../shared/utils/dates';
 import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_AUTHORIZATION,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_UPLOAD_PATH,
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
@@ -54,7 +63,7 @@ const confirmationPageLabel = showListOnly =>
         'vads-u-color--gray',
         'vads-u-font-size--sm',
       ].join(' ')
-    : '';
+    : 'vads-u-font-weight--bold';
 
 const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
@@ -65,7 +74,7 @@ const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
  * Build VA evidence list
  * @param {Object[]} list - VA evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -73,17 +82,23 @@ const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
  */
 export const VaContent = ({
   list = [],
+  isOnReviewPage,
   reviewMode = false,
   handlers = {},
   testing,
   showScNewForm,
   showListOnly = false,
-}) =>
-  list?.length ? (
+}) => {
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  return (
     <>
-      <div className={`va-title ${confirmationPageLabel(showListOnly)}`}>
+      <Header className={`va-title ${confirmationPageLabel(showListOnly)}`}>
         {content.vaTitle}
-      </div>
+      </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
@@ -120,7 +135,9 @@ export const VaContent = ({
           return (
             <li
               key={locationAndName + index}
-              className={listClassNames(!showListOnly)}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
@@ -177,7 +194,6 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
-                      uswds
                     />
                   </div>
                 )}
@@ -187,10 +203,12 @@ export const VaContent = ({
         })}
       </ul>
     </>
-  ) : null;
+  );
+};
 
 VaContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
@@ -203,7 +221,7 @@ VaContent.propTypes = {
  * @param {Object[]} list - Private medical evidence array
  * @param {String} limitContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -212,18 +230,131 @@ VaContent.propTypes = {
 export const PrivateContent = ({
   list = [],
   limitedConsent = '',
+  isOnReviewPage,
   reviewMode = false,
   handlers = {},
+  privacyAgreementAccepted,
   testing,
   showListOnly = false,
-}) =>
-  list?.length ? (
-    <>
-      <div className={`private-title ${confirmationPageLabel(showListOnly)}`}>
-        {content.privateTitle}
+  showScNewForm = false,
+  showLimitedConsentYN = false,
+}) => {
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  const showAddress = (
+    { street, street2, city, state, postalCode, country },
+    errors,
+  ) => (
+    <div
+      className="vads-u-margin-bottom--1 facility-address dd-privacy-hidden"
+      data-dd-action-name="Non-VA facility address"
+    >
+      <div>{street}</div>
+      {street2 && <div>{street2}</div>}
+      <div>
+        {city}, {state} {postalCode}
       </div>
+      {country !== 'USA' && <div>{country}</div>}
+      {errors.address}
+    </div>
+  );
+
+  return (
+    <>
+      <Header
+        className={`private-title ${confirmationPageLabel(showListOnly)}`}
+      >
+        {content.privateTitle}
+      </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
+        {showScNewForm && (
+          <li className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-authorization ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {title4142WithId}
+            </div>
+            <div>
+              {privacyAgreementAccepted ? (
+                authorizationLabel
+              ) : (
+                // including non-empty error attribute for focus management
+                <span className="usa-input-error-message" error="error">
+                  {authorizationError}
+                </span>
+              )}
+            </div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-private-authorization"
+                  className="edit-item"
+                  to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
+                  aria-label={authorizationEdit}
+                  data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
+        {showScNewForm && (
+          <li className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-limitation-yn ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.title}
+            </div>
+            <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation-y-n"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH1}`}
+                  aria-label={`${content.edit} ${limitContent.nameYn} `}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
+        {showLimitedConsentYN && (
+          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.textAreaTitle}
+            </div>
+            <div>{limitedConsent}</div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH2}`}
+                  aria-label={`${content.edit} ${limitContent.name}`}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -255,7 +386,9 @@ export const PrivateContent = ({
           return (
             <li
               key={providerFacilityName + index}
-              className={listClassNames(!showListOnly)}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
@@ -266,6 +399,11 @@ export const PrivateContent = ({
                     {providerFacilityName}
                   </strong>
                 )}
+                {showListOnly ? (
+                  showAddress(providerFacilityAddress, errors)
+                ) : (
+                  <div>{errors.address}</div>
+                )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="Non-VA facility treated issues"
@@ -275,7 +413,7 @@ export const PrivateContent = ({
                 <div>{errors.address}</div>
                 {errors.dates || (
                   <div
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden vads-u-margin-bottom--1p5"
                     data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
@@ -300,7 +438,6 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
-                      uswds
                     />
                   </div>
                 )}
@@ -308,50 +445,58 @@ export const PrivateContent = ({
             </li>
           );
         })}
-        <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-          <div
-            className={`private-limitation ${confirmationPageLabel(
-              showListOnly,
-            )}`}
-          >
-            {limitContent.title}
-          </div>
-          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
-          {!reviewMode && (
-            <div className="vads-u-margin-top--1p5">
-              <Link
-                id="edit-limitation"
-                className="edit-item"
-                to={`/${EVIDENCE_LIMITATION_PATH}`}
-                aria-label={`${content.edit} ${limitContent.name} `}
-                data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-              >
-                {content.edit}
-              </Link>
-              {limitedConsent.length ? (
-                <va-button
-                  data-type={LIMITATION_KEY}
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${limitContent.name}`}
-                  text={content.remove}
-                  secondary
-                  uswds
-                />
-              ) : null}
-            </div>
-          )}
-        </li>
+        {!showScNewForm && (
+          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
+            <strong
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.title}
+            </strong>
+
+            <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
+
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH}`}
+                  aria-label={`${content.edit} ${limitContent.name}`}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
+                >
+                  {content.edit}
+                </Link>
+                {limitedConsent.length ? (
+                  <va-button
+                    data-type={LIMITATION_KEY}
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${limitContent.name}`}
+                    text={content.remove}
+                    secondary
+                  />
+                ) : null}
+              </div>
+            )}
+          </li>
+        )}
       </ul>
     </>
-  ) : null;
+  );
+};
 
 PrivateContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   limitedConsent: PropTypes.string,
   list: PropTypes.array,
+  privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
+  showLimitedConsentYN: PropTypes.bool,
   showListOnly: PropTypes.bool,
+  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };
 
@@ -359,7 +504,7 @@ PrivateContent.propTypes = {
  * Build uploaded evidence list
  * @param {Object[]} list - Uploaded evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -367,16 +512,22 @@ PrivateContent.propTypes = {
  */
 export const UploadContent = ({
   list = [],
+  isOnReviewPage,
   reviewMode = false,
   handlers = {},
   testing,
   showListOnly = false,
-}) =>
-  list?.length ? (
+}) => {
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  return (
     <>
-      <div className={`upload-title ${confirmationPageLabel(showListOnly)}`}>
+      <Header className={`upload-title ${confirmationPageLabel(showListOnly)}`}>
         {content.otherTitle}
-      </div>
+      </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((upload, index) => {
@@ -424,7 +575,6 @@ export const UploadContent = ({
                     label={`${content.delete} ${upload.name}`}
                     text={content.delete}
                     secondary
-                    uswds
                   />
                 </div>
               )}
@@ -433,10 +583,12 @@ export const UploadContent = ({
         })}
       </ul>
     </>
-  ) : null;
+  );
+};
 
 UploadContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,

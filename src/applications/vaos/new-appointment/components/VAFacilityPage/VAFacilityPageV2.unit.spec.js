@@ -690,7 +690,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       await cleanup();
 
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, /optometry/i);
+      await setTypeOfEyeCare(store, '408'); // Optometry
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1183,18 +1183,16 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, /optometry/i);
+      await setTypeOfEyeCare(store, '408'); // Optometry
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findByText(
-        /You can.t schedule an appointment online at this facility/i,
-      );
+      await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
-      await setTypeOfEyeCare(store, /Ophthalmology/i);
+      await setTypeOfEyeCare(store, '407'); // Ophthalmology
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });

@@ -13,7 +13,6 @@ import {
   createDetailItem,
   createHeading,
   createSubHeading,
-  getTestResultBlockHeight,
   registerVaGovFonts,
   generateFinalHeaderContent,
   generateFooterContent,
@@ -25,8 +24,11 @@ const config = {
   margins: {
     top: 40,
     bottom: 40,
-    left: 20,
-    right: 20,
+    left: 30,
+    right: 30,
+  },
+  indents: {
+    one: 45,
   },
   headings: {
     H1: {
@@ -54,10 +56,6 @@ const config = {
     font: 'Bitter-Regular',
     size: 12,
   },
-  tocHeading: {
-    font: 'Bitter-Bold',
-    size: 14,
-  },
   text: {
     boldFont: 'SourceSansPro-Bold',
     monospaceFont: 'RobotoMono-Regular',
@@ -67,14 +65,14 @@ const config = {
 };
 
 const generateTitleSection = (doc, parent, data) => {
-  const subTitleOptions = { lineGap: 6 };
+  const subTitleOptions = { lineGap: 3 };
 
   const titleSection = doc.struct('Sect', {
     title: 'Title',
   });
   titleSection.add(
     createHeading(doc, 'H1', config, 'VA medical records', {
-      x: 20,
+      x: config.margins.left,
       paragraphGap: 12,
     }),
   );
@@ -86,7 +84,7 @@ const generateTitleSection = (doc, parent, data) => {
         .fontSize(config.text.size)
         .text(
           'This report contains information from your VA medical records.',
-          20,
+          config.margins.left,
           doc.y,
         );
     }),
@@ -99,7 +97,7 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Note: ', 20, doc.y, {
+        .text('Note: ', config.margins.left, doc.y, {
           continued: true,
         });
       doc
@@ -107,7 +105,7 @@ const generateTitleSection = (doc, parent, data) => {
         .fontSize(config.text.size)
         .text(
           "This report doesn't include information you entered yourself. To find information you entered yourself, download a self-entered health information report.",
-          20,
+          config.margins.left,
           doc.y,
           {
             paragraphOptions: { lineGap: 20 },
@@ -124,7 +122,12 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(`Name: ${data.name}`, 20, doc.y, subTitleOptions);
+        .text(
+          `Name: ${data.name}`,
+          config.margins.left,
+          doc.y,
+          subTitleOptions,
+        );
     }),
   );
   titleSection.add(
@@ -132,7 +135,12 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(`Date of birth: ${data.dob}`, 20, doc.y, subTitleOptions);
+        .text(
+          `Date of birth: ${data.dob}`,
+          config.margins.left,
+          doc.y,
+          subTitleOptions,
+        );
     }),
   );
   titleSection.add(
@@ -140,11 +148,11 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.lastUpdated, 20, doc.y, { lineGap: 20 });
+        .text(data.lastUpdated, config.margins.left, doc.y, { lineGap: 20 });
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
   titleSection.end();
 };
 
@@ -154,16 +162,21 @@ const generateDateRangeParagraph = (section, doc, data) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Date range: ', 20, doc.y, {
+        .text('Date range: ', config.margins.left, doc.y, {
           continued: true,
         });
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(`${data.fromDate} to ${data.toDate}`, 20, doc.y, {
-          paragraphOptions: { lineGap: 20 },
-          continued: false,
-        });
+        .text(
+          `${data.fromDate} to ${data.toDate}`,
+          config.margins.left,
+          doc.y,
+          {
+            paragraphOptions: { lineGap: 20 },
+            continued: false,
+          },
+        );
     }),
   );
   doc.moveDown();
@@ -198,34 +211,19 @@ const getUnavailableRecordSets = recordSets => {
 const generateInfoForAvailableRecords = (infoSection, doc, data) => {
   infoSection.add(
     createHeading(doc, 'H2', config, 'Records in this report', {
-      x: 20,
+      x: config.margins.left,
       paragraphGap: 12,
     }),
   );
 
   generateDateRangeParagraph(infoSection, doc, data);
 
-  infoSection.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(
-          'This report contains information from your VA medical records.',
-          20,
-          doc.y,
-        );
-    }),
-  );
-
-  doc.moveDown();
-
   const listOptions = {
     lineGap: -2,
     paragraphGap: 6,
     listType: 'bullet',
     bulletRadius: 2,
-    bulletIndent: 20,
+    bulletIndent: config.margins.left,
     x: 6,
   };
   infoSection.add(
@@ -248,7 +246,7 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
 
   infoSection.add(
     createHeading(doc, 'H2', config, 'Records not in this report', {
-      x: 20,
+      x: config.margins.left,
       paragraphGap: 12,
     }),
   );
@@ -260,7 +258,7 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
         .fontSize(config.text.size)
         .text(
           "You don't have any VA medical records in these categories you selected for this report:",
-          20,
+          config.margins.left,
           doc.y,
         );
     }),
@@ -273,7 +271,7 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
     paragraphGap: 6,
     listType: 'bullet',
     bulletRadius: 2,
-    bulletIndent: 20,
+    bulletIndent: config.margins.left,
     x: 6,
   };
   infoSection.add(
@@ -299,7 +297,7 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
         .fontSize(config.text.size)
         .text(
           'If you think you should have records in these categories, contact your VA health facility.',
-          20,
+          config.margins.left,
           doc.y,
         );
     }),
@@ -319,7 +317,7 @@ const generateInfoSection = (doc, parent, data) => {
   }
 
   // Add horizontal rule
-  addHorizontalRule(doc, 30, 1.5, 1.5);
+  addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
 
   infoSection.end();
 };
@@ -340,7 +338,7 @@ const validate = data => {
 
 const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
   const headOptions = {
-    x: 20,
+    x: config.margins.left,
     paragraphGap: recordSet.titleParagraphGap ?? 10,
   };
   const subHeadOptions = { paragraphGap: 0 };
@@ -361,7 +359,7 @@ const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
 
   if (recordSet.titleMoveDownAmount) {
     doc.moveDown(recordSet.titleMoveDownAmount);
-  } else doc.moveDown();
+  } else doc.moveDown(0.75);
   introduction.end();
 };
 
@@ -371,11 +369,11 @@ const generateRecordTitle = (doc, parent, record) => {
   });
   parent.add(title);
 
-  const headOptions = { x: 20, paragraphGap: 0 };
+  const headOptions = { x: config.margins.left, paragraphGap: 0 };
   title.add(createHeading(doc, 'H3', config, record.title, headOptions));
 
   if (record.titleMoveDownAmount) doc.moveDown(record.titleMoveDownAmount);
-  else doc.moveDown();
+  else doc.moveDown(0.75);
   title.end();
 };
 
@@ -387,10 +385,10 @@ const generateDetailsContentSets = async (doc, parent, data) => {
 
   for (const detail of data.details) {
     if (detail.header) {
-      const headOptions = { x: 30, paragraphGap: 12 };
+      const headOptions = { x: config.indents.one, paragraphGap: 12 };
       details.add(createHeading(doc, 'H4', config, detail.header, headOptions));
     }
-    const itemIndent = 30;
+    const itemIndent = config.indents.one;
     for (const item of detail.items) {
       let structs;
 
@@ -417,14 +415,19 @@ const generateDetailsContent = async (doc, parent, data) => {
   });
   parent.add(details);
   if (data.details.header) {
-    const headOptions = { x: 30, paragraphGap: 12 };
+    const headOptions = { x: config.indents.one, paragraphGap: 12 };
     details.add(
       createHeading(doc, 'H4', config, data.details.header, headOptions),
     );
   }
-  const itemIndent = data.details.header ? 40 : 30;
+  const itemIndent = config.indents.one;
   for (const item of data.details.items) {
-    const structs = await createDetailItem(doc, config, itemIndent, item);
+    const structs = await createDetailItem(
+      doc,
+      config,
+      item.indent ?? itemIndent,
+      item,
+    );
     for (const struct of structs) {
       details.add(struct);
     }
@@ -433,22 +436,16 @@ const generateDetailsContent = async (doc, parent, data) => {
   details.end();
 };
 
-const generateResultItemContent = async (
-  item,
-  doc,
-  results,
-  hasHorizontalRule,
-  hasH2,
-) => {
+const generateResultItemContent = async (item, doc, results) => {
   const headingOptions = {
     paragraphGap: item.headerGap ?? 10,
-    x: item.headerIndent || (hasH2 ? 40 : 20),
+    x: item.headerIndent || config.indents.one,
   };
   if (item.header) {
     results.add(
       await createHeading(
         doc,
-        item.headerType || (hasH2 ? 'H5' : 'H3'),
+        item.headerType || 'H3',
         config,
         item.header,
         headingOptions,
@@ -457,8 +454,7 @@ const generateResultItemContent = async (
   }
 
   for (const resultItem of item.items) {
-    let indent = item.header ? 50 : 40;
-    if (!hasH2) indent = 30;
+    let indent = config.indents.one;
     if (item.itemsIndent) indent = item.itemsIndent;
 
     let structs;
@@ -473,10 +469,7 @@ const generateResultItemContent = async (
     }
   }
 
-  if (hasHorizontalRule) {
-    addHorizontalRule(doc, 30, 1.5, 1.5);
-  }
-  if (item.spaceResults) doc.moveDown(item.spaceResults);
+  doc.moveDown(1);
 };
 
 export const generateResultsContent = async (doc, parent, data) => {
@@ -487,7 +480,7 @@ export const generateResultsContent = async (doc, parent, data) => {
   if (data.results.header) {
     const headingOptions = {
       paragraphGap: 12,
-      x: data.results.headerIndent || 30,
+      x: data.results.headerIndent || config.indents.one,
     };
     results.add(
       createHeading(
@@ -503,7 +496,7 @@ export const generateResultsContent = async (doc, parent, data) => {
   if (data.results.preface) {
     const prefaceOptions = {
       paragraphGap: 12,
-      x: data.results.prefaceIndent || 30,
+      x: data.results.prefaceIndent || config.indents.one,
     };
     if (Array.isArray(data.results.preface)) {
       data.results.preface.forEach(item => {
@@ -528,34 +521,11 @@ export const generateResultsContent = async (doc, parent, data) => {
     }
   }
 
-  const hasHorizontalRule = data.results.sectionSeparators !== false;
-  const hasH2 = !!data.results.header;
   if (data.results.items.length === 1) {
-    await generateResultItemContent(
-      data.results.items[0],
-      doc,
-      results,
-      hasHorizontalRule,
-      hasH2,
-    );
+    await generateResultItemContent(data.results.items[0], doc, results);
   } else {
     for (const item of data.results.items) {
-      // Insert a pagebreak if the next block will not fit on the current page,
-      // taking the footer height into account.
-      const blockHeight = getTestResultBlockHeight(
-        doc,
-        item,
-        hasHorizontalRule,
-      );
-      if (doc.y + blockHeight > 740) await doc.addPage();
-
-      await generateResultItemContent(
-        item,
-        doc,
-        results,
-        hasHorizontalRule,
-        hasH2,
-      );
+      await generateResultItemContent(item, doc, results);
     }
   }
   doc.moveDown();
@@ -564,7 +534,6 @@ export const generateResultsContent = async (doc, parent, data) => {
 
 const generate = async data => {
   validate(data);
-  const tocPageData = {};
   const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);
@@ -585,12 +554,8 @@ const generate = async data => {
 
   for (const recordSet of getAvailableRecordSets(data.recordSets)) {
     doc.addPage({ margins: config.margins });
-    const startPage = doc.bufferedPageRange().count;
-    tocPageData[recordSet.type] = { startPage };
-    generateInitialHeaderContent(doc, wrapper, data, config, {
-      headerBannerOnly: true,
-    });
     generateRecordSetIntroduction(doc, wrapper, recordSet);
+
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
         if (record.title) generateRecordTitle(doc, wrapper, record);
@@ -613,11 +578,12 @@ const generate = async data => {
         await generateResultsContent(doc, wrapper, record);
       }
     }
-    const endPage = doc.bufferedPageRange().count;
-    tocPageData[recordSet.type].endPage = endPage;
-  }
 
-  // await generateTableOfContents(doc, wrapper, data, tocPageData);
+    if (doc.y > doc.page.height - doc.page.margins.bottom) {
+      await doc.addPage();
+    }
+    addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
+  }
 
   doc.font(config.text.font).fontSize(config.text.size);
   await generateFinalHeaderContent(doc, data, config);

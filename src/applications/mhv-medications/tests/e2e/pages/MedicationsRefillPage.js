@@ -5,13 +5,13 @@ import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
-    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
   loadRefillPageForApiCallFailure = () => {
@@ -434,11 +434,7 @@ class MedicationsRefillPage {
   };
 
   clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',

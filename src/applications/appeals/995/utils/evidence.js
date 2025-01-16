@@ -14,6 +14,10 @@ export const hasPrivateLimitation = formData =>
   showScNewForm(formData) &&
   hasPrivateEvidence(formData) &&
   formData?.[EVIDENCE_LIMIT] !== false;
+export const hasNewPrivateLimitation = formData =>
+  showScNewForm(formData) && hasPrivateEvidence(formData);
+export const hasOriginalPrivateLimitation = formData =>
+  !showScNewForm(formData) && hasPrivateEvidence(formData);
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
 export const getVAEvidence = formData =>
@@ -108,6 +112,6 @@ export const onFormLoaded = props => {
       return location;
     });
   }
-  router.push(returnUrl);
+  router?.push(returnUrl);
   // return formData; // for testing only
 };

@@ -228,6 +228,8 @@ export const pageTitles = {
     'Lab And Test Results - Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE:
+    'Lab And Test Results Images - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
@@ -388,7 +390,6 @@ export const Paths = {
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
-  DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
@@ -433,11 +434,6 @@ export const Breadcrumbs = {
     label: 'Medical records settings',
     isRouterLink: true,
   },
-  DOWNLOAD_ALL: {
-    href: Paths.DOWNLOAD_ALL,
-    label: 'Download all medical records',
-    isRouterLink: true,
-  },
   DOWNLOAD: {
     href: Paths.DOWNLOAD,
     label: 'Download medical records reports',
@@ -471,6 +467,22 @@ export const Breadcrumbs = {
   },
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
+
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 3,
+  LAST6: 6,
+  LAST12: 12,
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom' },
+];
 
 export const CernerAlertContent = {
   MR_LANDING_PAGE: {
