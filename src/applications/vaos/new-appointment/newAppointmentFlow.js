@@ -14,7 +14,7 @@ import {
   selectSingleSupportedVALocation,
   selectCommunityCareSupportedSites,
   selectEligibility,
-  getFacilityPageV2Info,
+  // getFacilityPageV2Info,
 } from './redux/selectors';
 import {
   FACILITY_TYPES,
@@ -22,7 +22,7 @@ import {
   GA_PREFIX,
   TYPES_OF_CARE,
   COVID_VACCINE_ID,
-  OH_ENABLED_TYPES_OF_CARE,
+  // OH_ENABLED_TYPES_OF_CARE,
 } from '../utils/constants';
 import {
   getSiteIdFromFacilityId,
@@ -87,29 +87,33 @@ async function vaFacilityNext(state, dispatch) {
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
   const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
   const featureOHRequest = selectFeatureOHRequest(state);
-  const { typeOfCare } = getFacilityPageV2Info(state);
-  const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2);
+  // const { typeOfCare } = getFacilityPageV2Info(state);
+  // const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2);
 
-  // Is a OH facility
-  if (isCerner) {
-    // OH direct schedule and requests are enabled via feature flags and the
-    // typeOfCare is enabled
-    //
-    // THEN display provider select page
-    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
-      return 'selectProvider';
-    }
+  // // Is a OH facility
+  // if (isCerner) {
+  //   // OH direct schedule and requests are enabled via feature flags and the
+  //   // typeOfCare is enabled
+  //   //
+  //   // THEN display provider select page
+  //   if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+  //     return 'selectProvider';
+  //   }
 
-    // A OH facility and OH direct schedule and requests are disabled via feature flags,
-    // OR OH direct schedule and requests are enabled but the type of care is NOT enabled
-    //
-    // THEN will display the how to schedule screen
-    if (
-      (!featureOHDirectSchedule && !featureOHRequest) ||
-      (featureOHDirectSchedule && featureOHRequest && !typeOfCareEnabled)
-    ) {
-      return 'scheduleCerner';
-    }
+  //   // A OH facility and OH direct schedule and requests are disabled via feature flags,
+  //   // OR OH direct schedule and requests are enabled but the type of care is NOT enabled
+  //   //
+  //   // THEN will display the how to schedule screen
+  //   if (
+  //     (!featureOHDirectSchedule && !featureOHRequest) ||
+  //     (featureOHDirectSchedule && featureOHRequest && !typeOfCareEnabled)
+  //   ) {
+  //     return 'scheduleCerner';
+  //   }
+  // }
+
+  if (isCerner && !featureOHDirectSchedule && !featureOHRequest) {
+    return 'scheduleCerner';
   }
 
   // Fetch eligibility if we haven't already
