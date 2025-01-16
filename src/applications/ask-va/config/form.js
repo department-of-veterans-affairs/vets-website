@@ -1,12 +1,8 @@
 import {
-  CategoryEducation,
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
-  relationshipOptionsMyself,
-  relationshipOptionsSomeoneElse,
   requiredForSubtopicPage,
-  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
 import manifest from '../manifest.json';
@@ -50,6 +46,19 @@ import TopicSelectPage from '../containers/TopicSelectPage';
 import WhoIsYourQuestionAboutCustomPage from '../containers/WhoIsYourQuestionAboutCustomPage';
 
 import CustomPageReviewField from '../components/CustomPageReviewField';
+import {
+  aboutMyselfRelationshipFamilyMemberCondition,
+  aboutMyselfRelationshipVeteranCondition,
+  aboutSomeoneElseRelationshipConnectedThroughWorkCondition,
+  aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition,
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition,
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition,
+  aboutSomeoneElseRelationshipFamilyMemberCondition,
+  aboutSomeoneElseRelationshipVeteranCondition,
+  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition,
+  generalQuestionCondition,
+  whoIsYourQuestionAboutCondition,
+} from './helpers';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
@@ -146,14 +155,8 @@ const formConfig = {
           CustomPageReview: CustomPageReviewField,
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
-          // Hidden - EDU Question are always 'General Question' unless topic is VR&E
-          depends: form => {
-            if (form.selectCategory !== CategoryEducation) {
-              return form.selectTopic !== 'Education benefits and work study';
-            }
-            return (
-              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
-            );
+          depends: formData => {
+            return whoIsYourQuestionAboutCondition(formData);
           },
         },
         relationshipToVeteran: {
@@ -175,56 +178,35 @@ const formConfig = {
     aboutMyselfRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData => {
-        return (
-          formData.whoIsYourQuestionAbout ===
-            whoIsYourQuestionAboutLabels.MYSELF &&
-          formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
-        );
-      },
+      depends: formData => aboutMyselfRelationshipVeteranCondition(formData),
       pages: { ...aboutMyselfRelationshipVeteranPages },
     },
     aboutMyselfRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData => {
-        return (
-          formData.whoIsYourQuestionAbout ===
-            whoIsYourQuestionAboutLabels.MYSELF &&
-          formData.relationshipToVeteran ===
-            relationshipOptionsMyself.FAMILY_MEMBER
-        );
-      },
+      depends: formData =>
+        aboutMyselfRelationshipFamilyMemberCondition(formData),
       pages: { ...aboutMyselfRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN &&
-        formData.selectCategory !== CategoryEducation,
+        aboutSomeoneElseRelationshipVeteranCondition(formData),
       pages: { ...aboutSomeoneElseRelationshipVeteranPages },
     },
     aboutSomeoneElseRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-        formData.relationshipToVeteran ===
-          relationshipOptionsMyself.FAMILY_MEMBER &&
-        formData.selectCategory !== CategoryEducation,
+        aboutSomeoneElseRelationshipFamilyMemberCondition(formData),
       pages: { ...aboutSomeoneElseRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipFamilyMemberAboutVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
+        aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition(formData),
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
       },
@@ -233,10 +215,9 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran ===
-          relationshipOptionsMyself.FAMILY_MEMBER,
+        aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition(
+          formData,
+        ),
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
       },
@@ -245,20 +226,16 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.selectCategory !== CategoryEducation &&
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-        formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK,
+        aboutSomeoneElseRelationshipConnectedThroughWorkCondition(formData),
       pages: { ...aboutSomeoneElseRelationshipConnectedThroughWorkPages },
     },
     aboutSomeoneElseRelationshipConnectedThroughWorkEducation: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.selectCategory === CategoryEducation &&
-        formData.relationshipToVeteran ===
-          relationshipOptionsSomeoneElse.WORK &&
-        formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31,
+        aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition(
+          formData,
+        ),
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -267,9 +244,9 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.relationshipToVeteran !==
-          relationshipOptionsSomeoneElse.WORK &&
-        formData.selectCategory === CategoryEducation,
+        aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition(
+          formData,
+        ),
       pages: {
         ...aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
       },
@@ -277,6 +254,7 @@ const formConfig = {
     generalQuestion: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
+      depends: formData => generalQuestionCondition(formData),
       pages: { ...generalQuestionPages },
     },
     yourQuestionPart2: {

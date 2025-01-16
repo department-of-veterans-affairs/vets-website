@@ -13,7 +13,7 @@ describe('Pre-need Integration Preparer military name information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryNameInformationPreparer;
+  } = formConfig.chapters.militaryName.pages.applicantMilitaryNameInformationPreparer;
 
   it('should render', () => {
     const form = mount(

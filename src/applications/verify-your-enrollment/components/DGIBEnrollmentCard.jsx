@@ -47,7 +47,7 @@ const DGIBEnrollmentCard = ({
       }
       return (
         <div key={index}>
-          {isVerificationEndDateValid(enrollment[0].verificationEndDate) &&
+          {isVerificationEndDateValid(enrollment.verificationEndDate) &&
             !enrollment[0].verificationMethod && (
               <>
                 <div className="vads-u-margin-top--3">

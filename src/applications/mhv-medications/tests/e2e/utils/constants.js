@@ -12,6 +12,21 @@ export const Data = {
     'Showing 1 - 10 of 29 recently requested medications, alphabetically by status',
   ACTIVE_REFILL_IN_PROCESS: 'We expect to fill this prescription on',
   ACTIVE_NON_VA: 'You can’t manage this medication in this online tool.',
+  PREVIOUS_PRESCRIPTION_PAGINATION:
+    'Showing 1 to 2 of 26 prescriptions, from newest to oldest',
+  PREVIOUS_PRESCRIPTION_PAGINATION_SECOND:
+    'Showing 3 to 4 of 26 prescriptions, from newest to oldest',
+  PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
+    'Showing 5 to 6 of 26 prescriptions, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
+  FILL_DATE_FIELD: 'Filled by pharmacy on',
+  IMAGE_FIELD: 'Image',
+  MED_DESCRIPTION: 'Medication description',
+  LAST_FILLED_DATE: 'Last filled on March 18, 2024',
+  REFILL_LINK_TEXT: 'Request a refill',
+  ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
+  SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
+  SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
 };
 export const Paths = {
   LANDING_LIST:
@@ -41,4 +56,5 @@ export const Paths = {
 export const Alerts = {
   EMPTY_MED_LIST: 'You don’t have any VA prescriptions or medication records',
   NO_FILTER_RESULTS: 'We didn’t find any matches for this filter',
+  NO_ACCESS_TO_MEDICATIONS_ERROR: 'We can’t access your medications right now',
 };
