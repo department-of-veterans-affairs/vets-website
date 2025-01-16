@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ADDRESS_DATA from 'platform/forms/address/data';
-import {
-  VaCard,
-  VaLink,
-  VaLinkAction,
-  VaLoadingIndicator,
-  VaPagination,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { fetchLicenseCertificationResults } from '../actions';
 import {
@@ -87,7 +81,7 @@ function LicenseCertificationSearchResults({
   return (
     <div>
       {fetchingLc && (
-        <VaLoadingIndicator
+        <va-loading-indicator
           // data-testid="loading-indicator"
           message="Loading..."
         />
@@ -112,7 +106,7 @@ function LicenseCertificationSearchResults({
                         itemsPerPage,
                       )} of ${filteredResults.length} results for:`}
                     </p>
-                    <VaLink
+                    <va-link
                       href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
                       className="back-link"
                       back
@@ -144,7 +138,7 @@ function LicenseCertificationSearchResults({
                     {currentResults.map((result, index) => {
                       return (
                         <li className="vads-u-padding-bottom--2" key={index}>
-                          <VaCard class="vads-u-background-color--gray-lightest vads-u-border--0">
+                          <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
                             <h3 className="vads-u-margin--0">{result.lacNm}</h3>
                             <h4 className="lc-card-subheader vads-u-margin-top--1p5">
                               {result.eduLacTypeNm}
@@ -154,7 +148,7 @@ function LicenseCertificationSearchResults({
                                 {ADDRESS_DATA.states[result.state]}
                               </p>
                             )}
-                            <VaLinkAction
+                            <va-link-action
                               href={`/lc-search/results/${result.enrichedId}`}
                               text={`View test amount details for ${
                                 result.lacNm
@@ -162,7 +156,7 @@ function LicenseCertificationSearchResults({
                               type="secondary"
                               onClick={handleRouteChange(result.enrichedId)}
                             />
-                          </VaCard>
+                          </va-card>
                         </li>
                       );
                     })}

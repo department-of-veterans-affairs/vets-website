@@ -1,7 +1,3 @@
-import {
-  VaIcon,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import { capitalizeFirstLetter } from '../utils/helpers';
 
@@ -14,8 +10,8 @@ function LicenseCertificationAdminInfo({ institution, type }) {
         Admin info
       </h3>
       <div className="name-wrapper vads-u-display--flex vads-u-align-items--center">
-        <VaIcon
-          className="vads-u-padding-right--1"
+        <va-icon
+          class="vads-u-padding-right--1"
           icon="location_city"
           size={3}
         />
@@ -45,7 +41,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
         Processing Office for your region listed in the form.
       </p>
       <p>
-        <VaLink
+        <va-link
           text="Get VA Form22-0803 to download"
           href="../../../find-forms/about-form-22-0803/"
         />

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchLcResult } from '../actions';
 import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
 import LicenseCertificationTestInfo from '../components/LicenseCertificationTestInfo';
@@ -28,7 +27,7 @@ function LicenseCertificationSearchResult({
   return (
     <div>
       {fetchingLcResult && (
-        <VaLoadingIndicator
+        <va-loading-indicator
           // data-testid="loading-indicator"
           message="Loading..."
         />
