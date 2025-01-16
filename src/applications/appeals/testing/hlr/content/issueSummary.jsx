@@ -26,7 +26,6 @@ export const SummaryTitle = ({ formData }) => {
         >
           Go back to add more issues
         </Link>
-        .
       </p>
     </>
   );
