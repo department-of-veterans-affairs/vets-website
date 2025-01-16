@@ -53,6 +53,7 @@ describe('hca IntroductionPage', () => {
             loa: { current: loaState },
             savedForms: [],
             prefillsAvailable: [],
+            signIn: { serviceName: 'idme' },
           },
         },
         scheduledDowntime: {
@@ -89,7 +90,7 @@ describe('hca IntroductionPage', () => {
       </Provider>,
     );
     const selector = container.querySelector(
-      '[data-testid="hca-identity-alert"]',
+      'va-alert-sign-in[variant="verifyIdMe"]',
     );
     expect(selector).to.exist;
   });

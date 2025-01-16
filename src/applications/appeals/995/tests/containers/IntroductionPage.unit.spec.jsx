@@ -106,11 +106,7 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     // This SIP alert is _after_ the process list
-    expect($$('va-alert[status="info"]', container).length).to.eq(1);
-    expect($$('va-alert[status="info"]', container)[0].textContent).to.include(
-      'Sign in now',
-    );
-    expect($('va-alert[status="warning"]', container)).to.not.exist;
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render verify identity alert', () => {

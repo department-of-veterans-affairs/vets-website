@@ -168,10 +168,7 @@ describe('<NeedsMissingInfoAlert>', () => {
         <ShowAlertOrSip {...props} />
       </Provider>,
     );
-    expect($('va-alert', container)).to.exist;
-    expect($('h2', container).textContent).to.contain(
-      'Sign in now to save your work in progress',
-    );
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
     expect($('va-button', container).text).to.eq(
       'Sign in to start your application',
     );

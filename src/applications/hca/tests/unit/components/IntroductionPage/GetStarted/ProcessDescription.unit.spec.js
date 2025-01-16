@@ -67,14 +67,10 @@ describe('hca <ProcessDescription>', () => {
         <ProcessDescription {...props} />
       </Provider>,
     );
-    const alerts = {
-      saveTime: container.querySelector('[data-testid="hca-save-time-alert"]'),
-      checkStatus: container.querySelector(
-        '[data-testid="hca-check-status-alert"]',
-      ),
-    };
-    expect(alerts.saveTime).to.exist;
-    expect(alerts.checkStatus).to.exist;
+
+    expect(
+      container.querySelector('va-alert-sign-in[variant="signInOptional"]'),
+    ).to.exist;
   });
 
   it('should render `Start` buttons when user is logged in', () => {
