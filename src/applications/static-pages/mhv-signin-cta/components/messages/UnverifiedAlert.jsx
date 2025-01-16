@@ -12,7 +12,7 @@ export const mhvHeadingPrefix = 'You need to sign in with a different account';
  * @property {number} headerLevel the heading level
  */
 const UnverifiedAlert = ({
-  headerLevel,
+  headerLevel = 2,
   serviceDescription,
   recordEvent = recordEventFn,
 }) => {
@@ -31,7 +31,11 @@ const UnverifiedAlert = ({
     },
     [headline, recordEvent],
   );
-  return <VerifyAlert headingLevel={headerLevel} />;
+  return (
+    <div data-testid="mhv-unverified-alert">
+      <VerifyAlert headingLevel={headerLevel} />
+    </div>
+  );
 };
 
 UnverifiedAlert.propTypes = {

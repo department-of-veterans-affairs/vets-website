@@ -13,7 +13,7 @@ describe('Unauthenticated Alert component', () => {
     dispatch: () => {},
   };
 
-  it('renders without service description', () => {
+  it('renders', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <UnauthenticatedAlert />
@@ -37,9 +37,8 @@ describe('Unauthenticated Alert component', () => {
         <UnauthenticatedAlert headerLevel={3} />
       </Provider>,
     );
-    expect(
-      $('va-alert-sign-in', container).getAttribute('heading-level'),
-    ).to.eql('3');
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert.getAttribute('heading-level')).to.eql('3');
   });
 
   it('reports analytics', async () => {
