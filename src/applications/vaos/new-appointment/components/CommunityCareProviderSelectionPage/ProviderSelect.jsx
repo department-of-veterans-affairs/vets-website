@@ -1,4 +1,3 @@
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -25,13 +24,14 @@ export default function SelectedProvider({
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!providerSelected && (
-        <VaButton
-          text="Choose a provider"
+        <va-button
           secondary
+          text="Choose a provider"
           onClick={() => {
             setShowProvidersList(true);
             recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
           }}
+          uswds
         />
       )}
       {providerSelected && (
@@ -47,22 +47,26 @@ export default function SelectedProvider({
             {formData.address?.city}, {formData.address?.state}
           </span>
           <span>{`${formData[sortMethod]} miles`}</span>
-          <div className="vads-u-margin-top--2">
-            <VaButton
-              className="vads-u-margin-top--1 vads-u-padding-right--1p5"
-              text="Change provider"
-              secondary
-              onClick={() => {
-                setProvidersListLength(initialProviderDisplayCount);
-                setShowProvidersList(true);
-              }}
-            />
-            <VaButton
-              className="vads-u-margin-top--1"
-              text="Remove"
-              secondary
-              onClick={() => setShowRemoveProviderModal(true)}
-            />
+          <div className="vads-u-margin-top--2 vads-l-row">
+            <div className="vads-u-margin-top--1 vads-u-padding-right--1p5">
+              <va-button
+                secondary
+                text="Change provider"
+                onClick={() => {
+                  setProvidersListLength(initialProviderDisplayCount);
+                  setShowProvidersList(true);
+                }}
+                uswds
+              />
+            </div>
+            <div className="vads-u-margin-top--1">
+              <va-button
+                secondary
+                text="Remove"
+                onClick={() => setShowRemoveProviderModal(true)}
+                uswds
+              />
+            </div>
           </div>
         </section>
       )}
