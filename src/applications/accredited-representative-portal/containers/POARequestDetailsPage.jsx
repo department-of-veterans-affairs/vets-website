@@ -8,7 +8,7 @@ import {
   expiresSoon,
   formatStatus,
   resolutionDate,
-} from '../components/POARequestCard';
+} from '../utilities/poaRequests';
 import api from '../utilities/api';
 
 const DECISION_TYPES = {
@@ -115,27 +115,16 @@ const POARequestDetailsPage = () => {
     poaRequest.resolution?.type ||
     'Pending';
 
-  const relationship =
-    poaRequest?.power_of_attorney_form.claimant?.relationship || 'Self';
-  const city =
-    poaRequest?.power_of_attorney_form.claimant?.address.city ||
-    poaRequest?.power_of_attorney_form.veteran.address.city;
-  const state =
-    poaRequest?.power_of_attorney_form.claimant?.address.state_code ||
-    poaRequest?.power_of_attorney_form.veteran.address.state_code;
-  const zipCode =
-    poaRequest?.power_of_attorney_form.claimant?.address.zip_code ||
-    poaRequest?.power_of_attorney_form.veteran.address.zip_code;
-  const phone =
-    poaRequest?.power_of_attorney_form.claimant?.phone ||
-    poaRequest?.power_of_attorney_form.veteran.phone;
-  const email =
-    poaRequest?.power_of_attorney_form.claimant?.email ||
-    poaRequest?.power_of_attorney_form.veteran.email;
+  const relationship = poaRequest?.power_of_attorney_form.claimant.relationship;
+  const city = poaRequest?.power_of_attorney_form.claimant.address.city;
+  const state = poaRequest?.power_of_attorney_form.claimant.address.state_code;
+  const zipCode = poaRequest?.power_of_attorney_form.claimant.address.zip_code;
+  const phone = poaRequest?.power_of_attorney_form.claimant.phone;
+  const email = poaRequest.power_of_attorney_form.claimant.emaill;
   const claimantFirstName =
-    poaRequest?.power_of_attorney_form?.claimant?.name?.first;
+    poaRequest?.power_of_attorney_form.claimant.name.first;
   const claimantLastName =
-    poaRequest?.power_of_attorney_form?.claimant?.name?.last;
+    poaRequest?.power_of_attorney_form.claimant.name.last;
   const recordDisclosureLimitations =
     poaRequest.power_of_attorney_form.authorizations
       .record_disclosure_limitations;

@@ -89,7 +89,7 @@ const POARequestSearchPage = () => {
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
           >
-            Pending requests
+            Pending
           </StatusTabLink>
           <StatusTabLink
             tabStatus={STATUSES.COMPLETED}
