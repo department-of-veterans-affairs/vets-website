@@ -33,12 +33,6 @@ const IntroductionPage = props => {
         </a>
       </p>
       <h2>Start your form</h2>
-      <p>
-        <b>Note:</b> You’ll need to sign in with a verified <b>Login.gov</b> or{' '}
-        <b>ID.me</b> account or a Premium <b>DS Logon</b> or{' '}
-        <b>My HealtheVet</b> account. If you don’t have any of those accounts,
-        you can create a free <b>Login.gov</b> or <b>ID.me</b> account now.
-      </p>
     </>
   );
 

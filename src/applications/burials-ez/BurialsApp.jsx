@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,12 +7,32 @@ import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
-export default function BurialsEntry({ location, children }) {
-  const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
-    state => state?.featureToggles,
-  );
+export default function BurialsApp({ location, children }) {
+  const {
+    loading: isLoadingFeatures,
+    burialFormEnabled,
+    burialDocumentUploadUpdate,
+    burialModuleEnabled,
+  } = useSelector(state => state?.featureToggles);
+
+  // Conditional to use new Burial module path in vets-api if enabled
+  formConfig.submitUrl = burialModuleEnabled
+    ? '/burials/v0/claims'
+    : '/v0/burial_claims';
 
   useBrowserMonitoring();
+
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showUploadDocuments',
+          !!burialDocumentUploadUpdate,
+        );
+      }
+    },
+    [isLoadingFeatures, burialDocumentUploadUpdate],
+  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
@@ -33,7 +53,7 @@ export default function BurialsEntry({ location, children }) {
   );
 }
 
-BurialsEntry.propTypes = {
+BurialsApp.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
 };

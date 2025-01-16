@@ -6,11 +6,10 @@ import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/c
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 
-import { personalInformationPage } from 'applications/_mock-form-ae-design-patterns/shared/components/PersonalInformation';
-
 // page level imports
 import IntroductionPage from '../IntroductionPage';
-import profileContactInfo from './profileContactInfo';
+import personalInfo from './personalInfo';
+import { contactInfo } from './contactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -60,21 +59,8 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        ...personalInformationPage({
-          title: 'Personal information',
-          path: 'personal-information',
-        }),
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo3',
-          contactPath: 'veteran-information',
-          contactInfoRequiredKeys: [
-            'mailingAddress',
-            'email',
-            'homePhone',
-            'mobilePhone',
-          ],
-          included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
-        }),
+        ...personalInfo,
+        ...contactInfo,
         taskCompletePagePattern2,
       },
     },

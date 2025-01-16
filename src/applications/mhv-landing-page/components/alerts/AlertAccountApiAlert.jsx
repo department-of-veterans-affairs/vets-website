@@ -66,13 +66,20 @@ const AlertAccountApiAlert = ({
             page. Or check back later.
           </p>
 
-          <p>
-            If the problem persists, call the My HealtheVet helpdesk at
-            877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
-            to 8 p.m. ET. Tell the representative that you received{' '}
-            <b>error code {errorCode}</b>.
-          </p>
-
+          {errorCode > 0 ? (
+            <p>
+              If the problem persists, call the My HealtheVet helpdesk at
+              877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00
+              a.m. to 8 p.m. ET. Tell the representative that you received{' '}
+              <b>error code {errorCode}</b>.
+            </p>
+          ) : (
+            <p>
+              If the problem persists, call the My HealtheVet helpdesk at
+              877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00
+              a.m. to 8 p.m. ET.
+            </p>
+          )}
           <p>
             If you need to contact your care team now, call your VA health
             facility.
@@ -89,13 +96,13 @@ const AlertAccountApiAlert = ({
 
 AlertAccountApiAlert.defaultProps = {
   title: 'Error code 000: Contact the My HealtheVet help desk',
-  errorCode: 'unknown',
+  errorCode: 0,
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',
 };
 
 AlertAccountApiAlert.propTypes = {
-  errorCode: PropTypes.string,
+  errorCode: PropTypes.number,
   title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
