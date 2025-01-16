@@ -156,7 +156,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   #search-results-title {
     width: calc(100% - 8px);
-    margin-left: 4px;
+    margin: 4px;
   }
 
   .map-and-message-container {
@@ -329,7 +329,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       #facility-search {
         margin-top: 24 px;
-
         @media screen and (min-width: $small-desktop-screen) {
           width: 100%;
           max-width: none;

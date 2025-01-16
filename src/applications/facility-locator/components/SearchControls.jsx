@@ -8,7 +8,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
-  benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
@@ -18,6 +17,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import ServicesLoadingOrShow from './ServicesLoadingOrShow';
 
 const SearchControls = props => {
   const {
@@ -56,6 +56,8 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      // Since the facility type may cause an error (PPMS), reset it if the type is changed
+      fetchSvcsError: null,
     });
   };
 
@@ -277,21 +279,20 @@ const SearchControls = props => {
       case LocationType.EMERGENCY_CARE:
         services = emergencyCareServices;
         break;
-      case LocationType.BENEFITS:
-        services = benefitsServices;
-        break;
       case LocationType.CC_PROVIDER:
         return (
-          <div id="service-typeahead-container" className="typeahead">
-            <ServiceTypeAhead
-              handleServiceTypeChange={handleServiceTypeChange}
-              initialSelectedServiceType={serviceType}
-              showError={showError}
-            />
-          </div>
+          <ServicesLoadingOrShow serviceType="ppms_services">
+            <div id="service-typeahead-container" className="typeahead">
+              <ServiceTypeAhead
+                handleServiceTypeChange={handleServiceTypeChange}
+                initialSelectedServiceType={serviceType}
+                showError={showError}
+              />
+            </div>
+          </ServicesLoadingOrShow>
         );
       default:
-        services = {};
+        return null;
     }
 
     // Create option elements for each VA service type.

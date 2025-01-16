@@ -63,29 +63,23 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Vet Centers');
-  cy.get('.service-type-dropdown-container')
-    .find('select')
-    .should('not.have', 'disabled');
+
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA cemeteries');
-  cy.get('.service-type-dropdown-container')
-    .find('select')
-    .should('not.have', 'disabled');
+
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA benefits');
-  cy.get('.service-type-dropdown-container') // remember to remove when we allow selection again for VA Benefits
-    .find('select')
-    .should('have.attr', 'disabled');
 
   // CCP care have services available
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('Community providers (in VA’s network)');
+  cy.get('#service-type-loading').should('exist');
   cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
