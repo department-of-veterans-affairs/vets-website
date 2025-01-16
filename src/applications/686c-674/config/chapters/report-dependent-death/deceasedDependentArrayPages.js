@@ -65,9 +65,9 @@ export const deceasedDependentOptions = {
       return 'Unknown'; // Default if `dependentType` is null for some reason
     },
     cardDescription: item => {
-      return `${capitalize(item?.fullName?.first)} ${capitalize(
-        item?.fullName?.last,
-      )}`;
+      const firstName = capitalize(item?.fullName?.first || '');
+      const lastName = capitalize(item?.fullName?.last || '');
+      return `${firstName} ${lastName}`.trim();
     },
     summaryTitle: 'Review your dependents who have died',
   },
