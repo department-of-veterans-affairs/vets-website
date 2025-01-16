@@ -78,9 +78,10 @@ class StatusPage extends React.Component {
             <VaNeedHelp>
               <div slot="content">
                 <p className="vads-u-margin-top--0">
-                  Call us at <VaTelephone contact="8008271000" />. We're here
-                  Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-                  hearing loss, call <VaTelephone contact="711" tty="true" />.
+                  Call 888-GI-BILL-1 (<VaTelephone contact="8884424551" />
+                  ). We're here from Monday through Friday, 8:00 a.m to 7:00 p.m
+                  ET. If you have hearing loss, call{' '}
+                  <VaTelephone contact="711" tty="true" />.
                 </p>
               </div>
             </VaNeedHelp>

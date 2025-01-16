@@ -104,7 +104,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
           value={
             enrollmentData?.dateOfBirth
               ? formatDateParsedZoneLong(enrollmentData.dateOfBirth)
-              : 'Not provided'
+              : 'Unavailable'
           }
           additionalClass="section-line"
         />

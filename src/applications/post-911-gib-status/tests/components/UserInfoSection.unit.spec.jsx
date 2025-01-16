@@ -146,7 +146,7 @@ describe('<UserInfoSection>', () => {
       expect(dobInfoPair.props.value).to.equal('November 12, 1995');
     });
 
-    it('should display "Not provided" if dateOfBirth is missing', () => {
+    it('should display "Unavailable" if dateOfBirth is missing', () => {
       // Create a copy of props but remove dateOfBirth
       const noDobProps = _.merge({}, props, {
         enrollmentData: {
@@ -158,7 +158,7 @@ describe('<UserInfoSection>', () => {
         .everySubTree('InfoPair')
         .find(pair => pair.props.label === 'Date of birth');
       expect(dobInfoPair).to.exist;
-      expect(dobInfoPair.props.value).to.equal('Not provided');
+      expect(dobInfoPair.props.value).to.equal('Unavailable');
     });
   });
 });
