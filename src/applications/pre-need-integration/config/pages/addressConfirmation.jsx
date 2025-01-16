@@ -1,15 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function AddressConfirmation(/* { formData } */) {
-  const formDataUserAddress = {
-    street: '123 Test Street',
-    city: 'City',
-    state: 'MC',
-    postalCode: '28226',
-    country: 'USA',
-  };
-
+function AddressConfirmation({ subHeader, userAddress }) {
   // Helper function to conditionally return a line with a break
   const renderLine = content => {
     return content ? (
@@ -22,14 +14,13 @@ function AddressConfirmation(/* { formData } */) {
 
   // For city/state/postalCode line, we build it conditionally:
   const cityStatePostal = [
-    formDataUserAddress?.city,
-    formDataUserAddress?.city &&
-    (formDataUserAddress?.state || formDataUserAddress?.postalCode)
+    userAddress?.city,
+    userAddress?.city && (userAddress?.state || userAddress?.postalCode)
       ? ','
       : '',
-    formDataUserAddress?.state,
-    formDataUserAddress?.state && formDataUserAddress?.postalCode ? ' ' : '',
-    formDataUserAddress?.postalCode,
+    userAddress?.state,
+    userAddress?.state && userAddress?.postalCode ? ' ' : '',
+    userAddress?.postalCode,
   ]
     .join('')
     .trim();
@@ -50,15 +41,15 @@ function AddressConfirmation(/* { formData } */) {
         </React.Fragment>
       </va-alert>
       <h3 className="vads-u-font-size--h5" style={{ paddingTop: '2em' }}>
-        Check your mailing address
+        {subHeader}
       </h3>
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
-        <p className="va-address-block">
-          {renderLine(formDataUserAddress?.street)}
-          {renderLine(formDataUserAddress?.street2)}
+        <p>
+          {renderLine(userAddress?.street)}
+          {renderLine(userAddress?.street2)}
           {cityStatePostal && renderLine(cityStatePostal)}
-          {renderLine(formDataUserAddress?.country)}
+          {renderLine(userAddress?.country)}
         </p>
       </div>
       <p>
