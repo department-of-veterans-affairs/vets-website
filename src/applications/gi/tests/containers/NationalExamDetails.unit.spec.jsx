@@ -129,7 +129,7 @@ describe('NationalExamDetails', () => {
     expect(institutionSpan.exists()).to.be.true;
     const addressBlock = wrapper.find('.va-address-block');
     expect(addressBlock.text()).to.contain('123 Main St');
-    expect(addressBlock.text()).to.contain('Anytown,VA 12345');
+    expect(addressBlock.text()).to.contain('Anytown, VA 12345');
     const formLink = wrapper.find(
       'va-link[href="https://www.va.gov/find-forms/about-form-22-0810/"]',
     );
@@ -143,9 +143,8 @@ describe('NationalExamDetails', () => {
 
     const testRow = tableRows.at(1);
     expect(testRow.text()).to.contain('Test A');
-    expect(testRow.text()).to.contain('2020-01-01 - 2020-12-31');
+    expect(testRow.text()).to.contain('01/01/20 - 12/31/20');
     expect(testRow.text()).to.contain('$100');
-
     wrapper.unmount();
   });
 
