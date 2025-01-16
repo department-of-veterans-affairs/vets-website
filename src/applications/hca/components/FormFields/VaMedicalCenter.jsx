@@ -152,7 +152,6 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [localDataFacilityState],
   );
 
