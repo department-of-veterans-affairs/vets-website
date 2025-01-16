@@ -50,10 +50,9 @@ export const veteranMarriageHistoryOptions = {
     (item?.startLocation?.outsideUsa === true &&
       !item?.startLocation?.location?.country) ||
     (item?.endLocation?.outsideUsa === false &&
-      !item?.endLocation?.location?.state)(
-      item?.endLocation?.outsideUsa === true &&
-        !item?.endLocation?.location?.country,
-    ),
+      !item?.endLocation?.location?.state) ||
+    (item?.endLocation?.outsideUsa === true &&
+      !item?.endLocation?.location?.country),
   maxItems: 20,
   text: {
     getItemName: item =>
