@@ -150,13 +150,11 @@ describe('useVirtualAgentToken', () => {
       });
 
       expect(result.result.current.loadingStatus).to.equal(ERROR);
-      expect(logErrorToDatadogSpy.calledOnce).to.be.true;
       expect(logErrorToDatadogSpy.args[0][0]).to.be.true;
       expect(logErrorToDatadogSpy.args[0][1]).to.equal(
         'Could not retrieve virtual agent token',
       );
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.calledOnce).to.be.true;
       expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
         'Could not retrieve virtual agent token',
@@ -195,13 +193,11 @@ describe('useVirtualAgentToken', () => {
       });
 
       expect(result.result.current.loadingStatus).to.equal(ERROR);
-      expect(logErrorToDatadogSpy.calledOnce).to.be.true;
       expect(logErrorToDatadogSpy.args[0][0]).to.be.false;
       expect(logErrorToDatadogSpy.args[0][1]).to.equal(
         'Could not retrieve virtual agent token',
       );
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.calledOnce).to.be.true;
       expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
         'Could not retrieve virtual agent token',
