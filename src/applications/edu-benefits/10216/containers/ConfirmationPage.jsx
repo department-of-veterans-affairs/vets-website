@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import formConfig from '../config/form';
-import { GetFormHelp } from '../components/GetFormHelp';
 import Alert from '../components/Alert';
+import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
@@ -86,17 +85,13 @@ export const ConfirmationPage = props => {
 
   return (
     <ConfirmationView
-      formConfig={formConfig}
+      formConfig={props.route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
     >
       {childContent}
-      <va-need-help class="vads-u-margin-top--8">
-        <div slot="content">
-          <GetFormHelp />
-        </div>
-      </va-need-help>
+      <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>
   );
 };
@@ -119,6 +114,9 @@ ConfirmationPage.propTypes = {
   isAccredited: PropTypes.bool,
   name: PropTypes.string,
   route: PropTypes.object,
+  router: PropTypes.shape({
+    goBack: PropTypes.func,
+  }),
 };
 
 function mapStateToProps(state) {

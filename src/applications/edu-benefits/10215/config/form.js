@@ -1,9 +1,16 @@
 import React from 'react';
+
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import FormFooter from 'platform/forms/components/FormFooter';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
+
+// Components
+import GetFormHelp from '../components/GetFormHelp';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -16,7 +23,7 @@ import {
   ProgramSummary,
 } from '../pages';
 
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',
@@ -46,6 +53,9 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  customText: {
+    submitButtonText: 'Continue',
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for new form benefits.',
     noAuth:
@@ -58,6 +68,8 @@ const formConfig = {
       22-10215)
     </p>
   ),
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
   },

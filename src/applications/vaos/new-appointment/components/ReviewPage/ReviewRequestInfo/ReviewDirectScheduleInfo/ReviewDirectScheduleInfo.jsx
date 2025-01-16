@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FLOW_TYPES } from '../../../../../utils/constants';
 import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
 import ContactDetailSection from '../ContactDetailSection';
 import AppointmentDate from '../../AppointmentDate';
-import Description from './Description';
 import TypeOfAppointmentSection from '../TypeOfAppointmentSection';
-import State from '../../../../../components/State';
+import FacilitySection from '../VAAppointmentSection/FacilitySection';
 
 export default function ReviewDirectScheduleInfo({
   data,
@@ -16,19 +14,19 @@ export default function ReviewDirectScheduleInfo({
 }) {
   return (
     <div>
-      <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
-      <Description data={data} flowType={FLOW_TYPES.DIRECT} />
+      <h1 className="vaos-review__header vaos__dynamic-font-size--h2">
+        {pageTitle}
+      </h1>
       <TypeOfAppointmentSection data={data} />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <FacilitySection facility={facility} clinic={clinic} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.selectedDates}
         facilityId={data.vaFacility}
+        level={2}
+        directSchedule
       />
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
-      {facility.name}
-      <br />
-      {facility.address?.city}, <State state={facility.address?.state} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

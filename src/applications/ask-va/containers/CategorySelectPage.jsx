@@ -10,7 +10,7 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, getApiUrl } from '../constants';
+import { URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
   const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
@@ -20,18 +20,7 @@ const CategorySelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const onModalNo = () => {
-    isLoading(true);
-    onChange({
-      ...formData,
-      selectCategory: undefined,
-      allowAttachments: undefined,
-    });
-    setShowModal({ show: false, selected: '' });
-    setTimeout(() => isLoading(false), 200);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const showError = data => {
     if (data.selectCategory) {
@@ -43,10 +32,12 @@ const CategorySelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
+    const selected = apiData.find(
+      category => category.attributes.name === selectedValue,
+    );
     localStorage.removeItem('askVAFiles');
     if (selected.attributes.requiresAuthentication && !isLoggedIn) {
-      setShowModal({ show: true, selected: `${selectedValue}` });
+      setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
       onChange({
@@ -99,7 +90,6 @@ const CategorySelectPage = props => {
           id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
-          messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
           value={formData.selectCategory}
           onVaSelect={handleChange}
           required
@@ -124,8 +114,8 @@ const CategorySelectPage = props => {
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
+        onClose={() => setShowModal(false)}
+        show={showModal}
         restrictedItem="category"
       />
     </>

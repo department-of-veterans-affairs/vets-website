@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-tera.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import featureToggles from './fixtures/mocks/feature-toggles.tera.json';
 import { goToNextPage } from './utils';
 
 const { data: testData } = maxTestData;
@@ -13,10 +13,9 @@ const APIs = {
 describe('HCA-TERA-Branching', () => {
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+      'mockEnrollmentStatus',
+    );
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockFeatures']);
   };
@@ -42,7 +41,7 @@ describe('HCA-TERA-Branching', () => {
 
     cy.get('#root_ssn').type(testData.veteranSocialSecurityNumber);
 
-    goToNextPage('/veteran-information/personal-information');
+    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

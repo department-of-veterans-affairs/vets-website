@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Property titles and taxes for homes sold by VA
+  - action: click
+    target: call-to-action

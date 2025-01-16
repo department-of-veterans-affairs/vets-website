@@ -143,12 +143,9 @@ describe('VAOS request schedule flow - Audiology', () => {
 
         ReviewPageObject.assertUrl()
           .assertHeading({
-            name: /Review your appointment details/i,
+            name: /Review and confirm your appointment details/i,
           })
-          .assertHeading({
-            level: 2,
-            name: /You.re scheduling an ophthalmology appointment/i,
-          })
+          .assertText({ text: /ophthalmology/i })
           .clickConfirmButton();
 
         ConfirmationPageObject.assertUrl().assertText({

@@ -91,3 +91,18 @@ va-radio::part(legend) {
 #root_reasonAdditionalInfo-label {
   margin-top: 16px;
 }
+
+.schemaform-required-span,
+body {
+  font-size: 1.06rem; // same as 16.96px
+}
+
+.vaos__dynamic-font-size--h2 {
+  font-size: var(--font-size-h2);
+}
+
+@media (max-width: 481px) {
+  .vaos__dynamic-font-size--h2 {
+    font-size: 24px;
+  }
+}
