@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -11,6 +11,7 @@ import { UseMyLocation } from '../components/school-and-employers/UseMyLocation'
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
 
 const SearchByProgram = () => {
+  const locationRef = useRef(null);
   const distanceDropdownOptions = [
     { value: '5', label: 'within 5 miles' },
     { value: '15', label: 'within 15 miles' },
@@ -45,6 +46,17 @@ const SearchByProgram = () => {
     // Go to program results page...
   };
 
+  useEffect(
+    () => {
+      const { searchString } = search.query.streetAddress;
+      if (searchString) {
+        setLocation(searchString);
+        locationRef?.current?.shadowRoot?.querySelector('input').focus();
+      }
+    },
+    [search.query.streetAddress.searchString],
+  );
+
   return (
     <div className="vads-u-display--flex mobile:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-justify-content--space-between mobile:vads-u-align-items--flex-start medium-screen:vads-u-align-items--flex-end">
       <UseMyLocationModal geocodeError={search.geocodeError} />
@@ -61,6 +73,7 @@ const SearchByProgram = () => {
         onInput={e => setProgramName(e.target.value)}
       />
       <VaTextInput
+        ref={locationRef}
         className="tablet:vads-u-flex--3 mobile:vads-u-width--full vads-u-margin-right--2p5"
         name="program-location"
         type="text"
