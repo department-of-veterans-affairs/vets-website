@@ -19,7 +19,8 @@ const conditionSelections = formData => {
   if (conditions?.length) {
     return (
       <p>
-        You selected these new conditions for your disability claim:
+        {/* Leave space ahead of conditions list */}
+        You selected these new conditions for your disability claim:{' '}
         <strong>{conditions.join(', ')}</strong>.
       </p>
     );

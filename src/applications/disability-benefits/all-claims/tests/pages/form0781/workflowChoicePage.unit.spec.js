@@ -43,7 +43,7 @@ describe('Form 0781 workflow choice page', () => {
       );
 
       const conditionsParagraph = getByText(
-        /You selected these new conditions for your disability claim:/i,
+        /You selected these new conditions for your disability claim:\s/i,
       );
 
       // Conditions are embedded in a strong tag; will not match in getByText above directly
@@ -76,7 +76,7 @@ describe('Form 0781 workflow choice page', () => {
     );
 
     const conditionsParagraph = getByText(
-      /You selected these new conditions for your disability claim:/i,
+      /You selected these new conditions for your disability claim:\s/i,
     );
 
     within(conditionsParagraph).getByText(
@@ -97,7 +97,7 @@ describe('Form 0781 workflow choice page', () => {
 
     expect(
       queryByText(
-        /You selected these new conditions for your disability claim:/i,
+        /You selected these new conditions for your disability claim:\s/i,
       ),
     ).not.to.exist;
   });
