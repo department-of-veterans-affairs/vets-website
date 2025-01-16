@@ -2,23 +2,30 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  VaIcon,
-  VaLink,
-  VaAlert,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import moment from 'moment';
 import { fetchNationalExamDetails } from '../actions';
-import { formatNationalExamName, formatAddress } from '../utils/helpers';
+import {
+  formatNationalExamName,
+  formatAddress,
+  toTitleCase,
+} from '../utils/helpers';
 
 const NationalExamDetails = () => {
   const dispatch = useDispatch();
   const { examId } = useParams();
   const [isMobile, setIsMobile] = useState(false);
-
   const { examDetails, loadingDetails, error } = useSelector(
     state => state.nationalExams,
   );
-
+  useEffect(
+    () => {
+      if (examDetails) {
+        console.table(examDetails.institution.physicalAddress); // eslint-disable-line no-console
+        console.table(examDetails.tests); // eslint-disable-line no-console
+      }
+    },
+    [examDetails],
+  );
   useEffect(
     () => {
       window.scrollTo(0, 0);
@@ -92,7 +99,7 @@ const NationalExamDetails = () => {
   if (error) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <VaAlert
+        <va-alert
           style={{ marginTop: '8px', marginBottom: '32px' }}
           status="error"
           data-e2e-id="alert-box"
@@ -103,7 +110,7 @@ const NationalExamDetails = () => {
           <p>
             We’re sorry. There’s a problem with our system. Try again later.
           </p>
-        </VaAlert>
+        </va-alert>
       </div>
     );
   }
@@ -131,9 +138,9 @@ const NationalExamDetails = () => {
       </h3>
       <div className="provider-info-container vads-u-margin-top--0p5 vads-u-margin-bottom--3">
         <span className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
-          <VaIcon icon="location_city" size={3} />
+          <va-icon icon="location_city" size={3} />
 
-          <span>{institution?.name}</span>
+          <span>{toTitleCase(institution?.name)}</span>
         </span>
         {/* <span className="vads-u-display--flex vads-u-align-items--center">
           <VaIcon icon="public" size={3} />
@@ -159,7 +166,7 @@ const NationalExamDetails = () => {
           for your region listed in the form.
         </p>
         <div className="vads-u-margin-bottom--4">
-          <VaLink
+          <va-link
             href="https://www.va.gov/find-forms/about-form-22-0810/"
             text="Get link to VA Form 22-0810 to download"
           />
@@ -180,8 +187,9 @@ const NationalExamDetails = () => {
             return (
               <va-table-row key={i}>
                 <span>{test.name}</span>
-                <span>
-                  {test.beginDate} - {test.endDate}
+                <span className="table-width">
+                  {moment(test.beginDate).format('MM/DD/YY')} -{' '}
+                  {moment(test.endDate).format('MM/DD/YY')}
                 </span>
                 <span>
                   {Number(test.fee).toLocaleString('en-US', {

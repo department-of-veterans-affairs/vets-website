@@ -33,6 +33,7 @@ import {
   getAbbreviationsAsArray,
   formatNationalExamName,
   formatAddress,
+  toTitleCase,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -824,7 +825,7 @@ describe('GIBCT helpers:', () => {
 
     it('should handle mixed case and special characters', () => {
       expect(formatAddress('a1b2c3 d4E5F6')).to.equal('A1b2c3 D4e5f6');
-      expect(formatAddress('PO BOX 123')).to.equal('Po Box 123');
+      expect(formatAddress('PO BOX 123')).to.equal('PO Box 123');
       expect(formatAddress('UNIT 4567-A')).to.equal('Unit 4567-A');
     });
 
@@ -834,7 +835,7 @@ describe('GIBCT helpers:', () => {
       );
       expect(formatAddress('456 NW-7th Ave')).to.equal('456 NW-7th Ave');
       expect(formatAddress('789 nw-elm street')).to.equal('789 NW-Elm Street');
-      expect(formatAddress('PO-BOX-123')).to.equal('Po-Box-123');
+      expect(formatAddress('PO-BOX-123')).to.equal('PO-Box-123');
       expect(formatAddress('NW-WEST'));
       expect(formatAddress('NW-WEST Road')).to.equal('NW-West Road');
     });
@@ -843,7 +844,7 @@ describe('GIBCT helpers:', () => {
       expect(formatAddress('Main')).to.equal('Main');
       expect(formatAddress('nw')).to.equal('NW');
       expect(formatAddress('NW')).to.equal('NW');
-      expect(formatAddress('PO')).to.equal('Po');
+      expect(formatAddress('PO')).to.equal('PO');
     });
 
     it('should handle addresses with numbers and letters', () => {
@@ -869,6 +870,75 @@ describe('GIBCT helpers:', () => {
       expect(formatAddress('\t742 Evergreen Terrace\n')).to.equal(
         '742 Evergreen Terrace',
       );
+    });
+  });
+  describe('toTitleCase', () => {
+    it('should return an empty string when input is null,undefined, or an empty string', () => {
+      expect(toTitleCase(null)).to.equal('');
+      expect(toTitleCase(undefined)).to.equal('');
+      expect(toTitleCase('')).to.equal('');
+    });
+
+    it('should return an empty string when input is only whitespace', () => {
+      expect(toTitleCase('   ')).to.equal('');
+      expect(toTitleCase('\t\n')).to.equal('');
+    });
+
+    it('should capitalize a single lowercase word', () => {
+      expect(toTitleCase('hello')).to.equal('Hello');
+    });
+
+    it('should capitalize a single uppercase word', () => {
+      expect(toTitleCase('HELLO')).to.equal('Hello');
+    });
+
+    it('should capitalize a single mixed-case word', () => {
+      expect(toTitleCase('hElLo')).to.equal('Hello');
+    });
+
+    it('should capitalize multiple words separated by spaces', () => {
+      expect(toTitleCase('hello world')).to.equal('Hello World');
+      expect(toTitleCase('javaScript is awesome')).to.equal(
+        'Javascript Is Awesome',
+      );
+    });
+
+    it('should handle words with hyphens correctly', () => {
+      expect(toTitleCase('state-of-the-art')).to.equal('State-Of-The-Art');
+      expect(toTitleCase('well-known fact')).to.equal('Well-Known Fact');
+      expect(toTitleCase('mother-in-law')).to.equal('Mother-In-Law');
+    });
+
+    it('should handle multiple hyphenated words in a sentence', () => {
+      expect(
+        toTitleCase('the state-of-the-art technology is well-known'),
+      ).to.equal('The State-Of-The-Art Technology Is Well-Known');
+    });
+
+    it('should handle words with numbers correctly', () => {
+      expect(toTitleCase('version2 update')).to.equal('Version2 Update');
+      expect(toTitleCase('room 101')).to.equal('Room 101');
+    });
+
+    it('should handle words with special characters correctly', () => {
+      expect(toTitleCase('@hello world!')).to.equal('@hello World!');
+      expect(toTitleCase('good-morning, everyone')).to.equal(
+        'Good-Morning, Everyone',
+      );
+    });
+
+    it('should handle multiple spaces between words', () => {
+      expect(toTitleCase('1600  Pennsylvania Ave')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(toTitleCase('742   Evergreen Terrace')).to.equal(
+        '742 Evergreen Terrace',
+      );
+    });
+
+    it('should trim leading and trailing whitespace and capitalize correctly', () => {
+      expect(toTitleCase('   123 main street   ')).to.equal('123 Main Street');
+      expect(toTitleCase('\t456 elm avenue\n')).to.equal('456 Elm Avenue');
     });
   });
 });

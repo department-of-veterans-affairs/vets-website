@@ -885,7 +885,7 @@ export const formatAddress = str => {
     return str;
   }
 
-  const exceptionsList = ['NW', 'NE', 'SW', 'SE'];
+  const exceptionsList = ['NW', 'NE', 'SW', 'SE', 'PO'];
   const exceptions = exceptionsList.map(item => item.toUpperCase());
 
   return str
@@ -924,4 +924,27 @@ export const formatAddress = str => {
       return formattedSubWords.join('-');
     })
     .join(' ');
+};
+
+export const toTitleCase = str => {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const trimmedStr = str.trim();
+
+  if (!trimmedStr) {
+    return '';
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  const titled = words.map(word => {
+    const parts = word.split('-').map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    });
+    return parts.join('-');
+  });
+
+  return titled.join(' ');
 };

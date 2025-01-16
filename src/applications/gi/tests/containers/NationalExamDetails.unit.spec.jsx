@@ -143,9 +143,8 @@ describe('NationalExamDetails', () => {
 
     const testRow = tableRows.at(1);
     expect(testRow.text()).to.contain('Test A');
-    expect(testRow.text()).to.contain('2020-01-01 - 2020-12-31');
+    expect(testRow.text()).to.contain('01/01/20 - 12/31/20');
     expect(testRow.text()).to.contain('$100');
-
     wrapper.unmount();
   });
 
