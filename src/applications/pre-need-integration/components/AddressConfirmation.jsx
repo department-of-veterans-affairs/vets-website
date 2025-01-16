@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { countries } from 'platform/forms/address';
 
 function AddressConfirmation({ subHeader, userAddress }) {
   // Helper function to conditionally return a line with a break
@@ -16,14 +17,18 @@ function AddressConfirmation({ subHeader, userAddress }) {
   const cityStatePostal = [
     userAddress?.city,
     userAddress?.city && (userAddress?.state || userAddress?.postalCode)
-      ? ','
-      : '',
+      ? ', '
+      : ' ',
     userAddress?.state,
     userAddress?.state && userAddress?.postalCode ? ' ' : '',
     userAddress?.postalCode,
   ]
     .join('')
     .trim();
+
+  const getCountry = countryCode => {
+    return countries.find(c => c.value === countryCode).label || countryCode;
+  };
 
   return (
     <>
@@ -49,7 +54,8 @@ function AddressConfirmation({ subHeader, userAddress }) {
           {renderLine(userAddress?.street)}
           {renderLine(userAddress?.street2)}
           {cityStatePostal && renderLine(cityStatePostal)}
-          {renderLine(userAddress?.country)}
+          {userAddress?.country !== 'USA' &&
+            renderLine(getCountry(userAddress?.country))}
         </p>
       </div>
       <p>
