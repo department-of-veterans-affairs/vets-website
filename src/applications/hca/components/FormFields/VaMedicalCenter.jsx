@@ -153,7 +153,7 @@ const VaMedicalCenter = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [localDataFacilityState, previousFacilityState],
+    [localDataFacilityState],
   );
 
   // render the static facility name on review page

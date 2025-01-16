@@ -126,72 +126,45 @@ describe('hca <VaMedicalCenter>', () => {
     });
   });
 
-  context('facilities api returns an error response', () => {
-    it('should correctly handle errors when the facility API call fails', async () => {
-      const errorResponse = { status: 503, error: 'error' };
-      apiRequestStub.rejects(errorResponse);
+  it('should correctly handle errors when the facility API call fails and then succeeds', async () => {
+    const errorResponse = { status: 503, error: 'error' };
 
-      const { mockStore, props } = getData({
-        formData: { 'view:facilityState': 'NY' },
-      });
-      const spy = sinon.spy(Sentry, 'withScope');
-      const { selectors } = subject({ mockStore, props });
+    apiRequestStub.onFirstCall().rejects(errorResponse);
+    apiRequestStub.onSecondCall().resolves(mockData);
 
-      await waitFor(() => {
-        const { stateField, facilityField, vaAlert } = selectors();
-        expect(stateField).to.exist;
-        expect(facilityField).to.exist;
-        expect(vaAlert).to.exist;
-      });
+    const { mockStore, props } = getData({
+      formData: { 'view:facilityState': 'NY' },
+    });
+    const spy = sinon.spy(Sentry, 'withScope');
+    const { selectors } = subject({ mockStore, props });
 
-      await waitFor(() => {
-        expect(spy.called).to.be.true;
-        spy.restore();
+    await waitFor(() => {
+      const { stateField, facilityField, vaAlert } = selectors();
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
+      expect(vaAlert).to.exist;
+    });
+
+    await waitFor(() => {
+      expect(spy.called).to.be.true;
+      spy.restore();
+    });
+
+    await waitFor(() => {
+      selectors().stateField.__events.vaSelect({
+        target: {
+          value: 'OH',
+          name: 'root_view:preferredFacility_view:facilityState',
+        },
       });
     });
 
-    it('should correctly handle errors when the facility API call fails and then succeeds', async () => {
-      const errorResponse = { status: 503, error: 'error' };
-
-      apiRequestStub.onCall(0).rejects(errorResponse);
-      apiRequestStub.onCall(1).rejects(errorResponse);
-      apiRequestStub.onCall(2).resolves(mockData);
-      apiRequestStub.onCall(3).resolves(mockData);
-
-      const { mockStore, props } = getData({
-        formData: { 'view:facilityState': 'NY' },
-      });
-      const spy = sinon.spy(Sentry, 'withScope');
-      const { selectors } = subject({ mockStore, props });
-
-      await waitFor(() => {
-        const { stateField, facilityField, vaAlert } = selectors();
-        expect(stateField).to.exist;
-        expect(facilityField).to.exist;
-        expect(vaAlert).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(spy.called).to.be.true;
-        spy.restore();
-      });
-
-      await waitFor(() => {
-        selectors().stateField.__events.vaSelect({
-          target: {
-            value: 'OH',
-            name: 'root_view:preferredFacility_view:facilityState',
-          },
-        });
-      });
-
-      await waitFor(() => {
-        const { stateField, facilityField, vaAlert } = selectors();
-        expect(selectors().vaLoadingIndicator).to.not.exist;
-        expect(stateField).to.exist;
-        expect(facilityField).to.exist;
-        expect(vaAlert).to.not.exist;
-      });
+    await waitFor(() => {
+      const { stateField, facilityField, vaAlert } = selectors();
+      expect(selectors().vaLoadingIndicator).to.not.exist;
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
+      expect(vaAlert).to.not.exist;
     });
   });
 
