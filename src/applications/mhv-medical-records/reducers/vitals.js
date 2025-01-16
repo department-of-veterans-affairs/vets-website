@@ -48,11 +48,11 @@ const getUnit = (type, unit) => {
 
 export const getMeasurement = (record, type) => {
   if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
-    const systolic = record.component.find(
-      item => item.code.coding[0].code === loincCodes.SYSTOLIC,
+    const systolic = record.component.find(item =>
+      item.code.coding.some(coding => coding.code === loincCodes.SYSTOLIC),
     );
-    const diastolic = record.component.find(
-      item => item.code.coding[0].code === loincCodes.DIASTOLIC,
+    const diastolic = record.component.find(item =>
+      item.code.coding.some(coding => coding.code === loincCodes.DIASTOLIC),
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }

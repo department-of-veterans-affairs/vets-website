@@ -194,21 +194,21 @@ describe('getMeasurement', () => {
         code: 'beats per minute',
       },
     };
-    const type = 'Heart rate';
+    const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.equal('72 beats per minute');
   });
 
   it('should return the correct measurement for a given type when there are multiple codes', () => {
-    const record = require('../fixtures/vitalOhBloodPressure.json');
-    const type = 'Blood Pressure';
+    const record = require('../fixtures/vitalOhBloodPressure.json').resource;
+    const type = 'BLOOD_PRESSURE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.equal('125/79');
   });
 
   it('should return EMPTY_FIELD if the record is empty', () => {
     const record = {};
-    const type = 'Heart rate';
+    const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
   });
@@ -217,7 +217,7 @@ describe('getMeasurement', () => {
     const record = {
       component: [],
     };
-    const type = 'Heart rate';
+    const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
   });
