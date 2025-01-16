@@ -28,6 +28,7 @@ const profileContactInfoPage = profileContactInfo({
   contactInfoUiSchema: {},
   contactSectionHeadingLevel: 'h2',
   editContactInfoHeadingLevel: 'h2',
+  disableDraft: true,
 });
 
 content.title = '';

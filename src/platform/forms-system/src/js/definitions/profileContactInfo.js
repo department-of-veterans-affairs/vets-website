@@ -92,6 +92,7 @@ const profileContactInfo = ({
   disableMockContactInfo = false,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
+  disableDraft = null,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -110,6 +111,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          disableDraft,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -131,6 +133,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          disableDraft,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -152,6 +155,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          disableDraft,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -171,6 +175,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          disableDraft,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -194,6 +199,7 @@ const profileContactInfo = ({
           disableMockContactInfo,
           contactSectionHeadingLevel,
           editContactInfoHeadingLevel,
+          disableDraft,
         }),
       CustomPageReview: props =>
         ContactInfoReview({

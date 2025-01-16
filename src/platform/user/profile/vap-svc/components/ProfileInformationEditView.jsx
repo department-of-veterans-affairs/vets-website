@@ -143,6 +143,7 @@ export class ProfileInformationEditView extends Component {
   onSubmit = () => {
     const {
       convertCleanDataToPayload,
+      disableDraft,
       fieldName,
       analyticsSectionName,
       apiRoute,
@@ -158,6 +159,7 @@ export class ProfileInformationEditView extends Component {
     if (convertCleanDataToPayload) {
       payload = convertCleanDataToPayload(payload, fieldName);
     }
+    payload.disableDraft = disableDraft;
 
     // for personal info fields we are using a different request flow
     if (Object.values(PERSONAL_INFO_FIELD_NAMES).includes(fieldName)) {
@@ -370,6 +372,7 @@ ProfileInformationEditView.propTypes = {
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
+  disableDraft: PropTypes.bool,
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,

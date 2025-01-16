@@ -86,6 +86,7 @@ export const BuildPage = ({
           {title}
         </Heading>
         <ProfileInformationFieldController
+          disableDraft
           forceEditView
           fieldName={FIELD_NAMES[field]}
           isDeleteDisabled
@@ -101,6 +102,7 @@ export const BuildPage = ({
 BuildPage.propTypes = {
   contactPath: PropTypes.string,
   editContactInfoHeadingLevel: PropTypes.string,
+  disableDraft: PropTypes.bool,
   field: PropTypes.string,
   goToPath: PropTypes.func,
   id: PropTypes.string,

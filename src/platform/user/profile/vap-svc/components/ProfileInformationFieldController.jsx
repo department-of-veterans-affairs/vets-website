@@ -410,6 +410,7 @@ class ProfileInformationFieldController extends React.Component {
           forceEditView={forceEditView}
           cancelButtonText={this.props?.cancelButtonText}
           saveButtonText={this.props?.saveButtonText}
+          disableDraft
         />
       );
     }
