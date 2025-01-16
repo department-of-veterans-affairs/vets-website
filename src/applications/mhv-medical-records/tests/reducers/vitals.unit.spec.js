@@ -199,6 +199,13 @@ describe('getMeasurement', () => {
     expect(measurement).to.equal('72 beats per minute');
   });
 
+  it('should return the correct measurement for a given type when there are multiple codes', () => {
+    const record = require('../fixtures/vitalOhBloodPressure.json');
+    const type = 'Blood Pressure';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('125/79');
+  });
+
   it('should return EMPTY_FIELD if the record is empty', () => {
     const record = {};
     const type = 'Heart rate';
