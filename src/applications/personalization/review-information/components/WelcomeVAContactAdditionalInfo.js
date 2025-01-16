@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WelcomeVAContactAdditionalInfo = (
-  <>
+  <div>
     <va-additional-info
       trigger="Which benefits and services does VA use this contact information for?"
       uswds
@@ -38,7 +38,7 @@ const WelcomeVAContactAdditionalInfo = (
         </p>
       </div>
     </va-additional-info>
-  </>
+  </div>
 );
 
 export default WelcomeVAContactAdditionalInfo;

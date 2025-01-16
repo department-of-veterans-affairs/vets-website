@@ -56,19 +56,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
 
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
-    <h3 className="vads-u-margin-bottom--3">Upload your file</h3>
-    <p className="vads-u-margin-top--0">
-      You’ll need to scan your document onto the device you’re using to submit
-      this application, such as your computer, tablet, or mobile phone. You can
-      upload your document from there.
+    <h3 className="vads-u-margin-bottom--3">Your file</h3>
+    <p>
+      <span className="vads-u-font-weight--bold">Note:</span> After you upload
+      your file, you’ll need to continue to the next screen to submit it. If you
+      leave before you submit it, you’ll need to upload it again.
     </p>
-    <div>
-      <p>Guidelines for uploading a file:</p>
-      <ul>
-        <li>You can upload a .pdf, .jpeg, or .png file</li>
-        <li>Your file should be no larger than 25MB</li>
-      </ul>
-    </div>
   </>,
 );
 
