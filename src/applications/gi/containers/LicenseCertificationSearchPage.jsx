@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  VaAccordion,
-  VaAccordionItem,
-  VaLink,
-  VaLoadingIndicator,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
@@ -39,7 +33,7 @@ const faqs = [
       'How do I get reimbursed for the licenses, certifications, and prep courses?',
     answer: (
       <>
-        <VaLink
+        <va-link
           text="Find out how to get reimbursed for licenses, certifications and prep courses"
           href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
@@ -52,7 +46,7 @@ const faqs = [
         </p>
         <br />
         <br />
-        <VaLink
+        <va-link
           text="Get VA Form22-0803 to download"
           href="../find-forms/about-form-22-0803/"
         />
@@ -141,7 +135,7 @@ function LicenseCertificationSearchPage({
   return (
     <div className="lc-page-wrapper">
       {fetchingLc && (
-        <VaLoadingIndicator
+        <va-loading-indicator
           // data-testid="loading-indicator"
           message="Loading..."
         />
@@ -179,16 +173,18 @@ function LicenseCertificationSearchPage({
               />
             </div>
             <div className="row">
-              <h2 className="vads-u-margin-y--0">FAQs</h2>
-              <VaAccordion>
+              <h2 className="vads-u-margin-y--0 vads-u-padding-bottom--2">
+                FAQs
+              </h2>
+              <va-accordion open-single>
                 {faqs.map((faq, index) => {
                   return (
-                    <VaAccordionItem header={faq.question} key={index}>
+                    <va-accordion-item header={faq.question} key={index}>
                       {faq.answer}
-                    </VaAccordionItem>
+                    </va-accordion-item>
                   );
                 })}
-              </VaAccordion>
+              </va-accordion>
             </div>
             <VaModal
               forcedModal={false}
