@@ -8,7 +8,7 @@ import preventMaxSelections from '../../shared/tests/cypress.max-selections';
 
 preventMaxSelections({
   baseUrl: SC_BASE_URL,
-  contestableApi: `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
+  contestableApi: `${CONTESTABLE_ISSUES_API}/compensation`,
   formId: '20-0995',
   data: mockData.data,
   inProgressVersion: 1,

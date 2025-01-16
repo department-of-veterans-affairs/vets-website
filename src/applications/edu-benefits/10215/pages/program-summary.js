@@ -3,7 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',

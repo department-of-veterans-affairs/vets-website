@@ -15,10 +15,8 @@ const FileUpload = props => {
     acceptFileTypes = '.pdf,.jpeg,.png,.jpg',
     buttonText = 'Upload file',
     error,
-    label = 'Select files to upload',
-    header = 'Select files to upload',
+    label = 'Select optional files to upload',
     hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
-    showDescription = true,
     // success = null,
   } = props;
 
@@ -107,24 +105,7 @@ const FileUpload = props => {
 
   return (
     <div>
-      <h3 className="site-preview-heading" data-testid="file-upload-header">
-        {header}
-      </h3>
       <div className="usa-form-group">
-        {showDescription ? (
-          <p>
-            You’ll need to scan your document onto your device to submit this
-            application, such as your computer, tablet, or mobile phone. You can
-            upload your document from there.
-          </p>
-        ) : null}
-        <div>
-          <p>Guidelines to upload a file:</p>
-          <ul>
-            <li>You can upload a .pdf, .jpeg, or.png file</li>
-            <li>Your file should be no larger than 25MB</li>
-          </ul>
-        </div>
         <VaFileInput
           className="vads-u-margin-y--neg1"
           accept={acceptFileTypes}

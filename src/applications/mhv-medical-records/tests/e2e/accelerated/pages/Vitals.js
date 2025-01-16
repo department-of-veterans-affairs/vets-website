@@ -12,6 +12,8 @@ class Vitals {
       // check the correct param was used
       if (useOhData) {
         expect(req.url).to.contain('use_oh_data_path=1');
+        expect(req.url).to.contain('from=');
+        expect(req.url).to.contain('to=');
       } else {
         expect(req.url).to.not.contain('use_oh_data_path=1');
       }
@@ -42,6 +44,10 @@ class Vitals {
     cy.get('[data-testid="vitals-landing-page-link"]')
       .should('be.visible')
       .click();
+  };
+
+  checkUrl = ({ timeFrame }) => {
+    cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
   selectMonthAndYear = ({ month, year, submit = true }) => {

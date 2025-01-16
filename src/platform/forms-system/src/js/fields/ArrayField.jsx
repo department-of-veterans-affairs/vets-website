@@ -10,6 +10,7 @@ import {
 import {
   VaCard,
   VaModal,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { Element } from 'platform/utilities/scroll';
@@ -457,31 +458,29 @@ export default class ArrayField extends React.Component {
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
-                              <button
-                                type="button"
+                              <VaButton
                                 className="float-left"
-                                aria-label={`${updateText} ${ariaItemName}`}
+                                label={`${updateText} ${ariaItemName} ${index +
+                                  1}`}
                                 onClick={() => this.handleUpdate(index)}
-                              >
-                                {updateText}
-                              </button>
+                                text={updateText}
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
                             {multipleRows && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${ariaItemName}`}
+                              <VaButton
+                                secondary
+                                className="float-right"
+                                label={`Remove ${ariaItemName} ${index + 1}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
                                     uiOptions.confirmRemove,
                                   )
                                 }
-                              >
-                                Remove
-                              </button>
+                                text="Remove"
+                              />
                             )}
                           </div>
                         </div>
@@ -537,14 +536,12 @@ export default class ArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName}`}
+                  <VaButton
+                    secondary
+                    label={`Edit ${ariaItemName} ${index + 1}`}
                     onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
+                    text="Edit"
+                  />
                 </div>
               </CardOrDiv>
             );
