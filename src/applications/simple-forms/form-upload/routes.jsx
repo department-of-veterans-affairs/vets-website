@@ -7,12 +7,14 @@ const formUploadForms = ['21-0779', '21-509'];
 
 const config = formConfig();
 
-const routes = formUploadForms.map(formId => {
+const routes = formUploadForms.map(() => {
   return {
-    path: `/${formId}`,
+    path: '/',
     component: App,
     indexRoute: {
-      onEnter: (nextState, replace) => replace(`/${formId}/introduction`),
+      onEnter: (nextState, replace) => {
+        return replace('/introduction');
+      },
     },
     childRoutes: createRoutesWithSaveInProgress(config),
   };

@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -35,8 +34,8 @@ const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
 
   return {
-    rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber}/`,
+    rootUrl: `/find-forms/about-form-${formNumber}/form-upload`,
+    urlPrefix: `/`,
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
     dev: {
       collapsibleNavLinks: true,

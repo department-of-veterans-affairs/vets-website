@@ -5,10 +5,10 @@ import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
-import manifest from './manifest.json';
+import { getFormNumber } from './helpers';
 
 startApp({
-  url: manifest.rootUrl,
+  url: `/find-forms/about-form-${getFormNumber()}/form-upload`,
   reducer,
   routes,
 });
