@@ -126,7 +126,7 @@ const formConfig = {
   ...minimalFlowProps,
   chapters: {
     statementTypeChapter: {
-      title: 'What kind of statement do you want to submit?',
+      title: 'What would you like to do?',
       hideFormNavProgress: true,
       hideOnReviewPage: true,
       pages: {
