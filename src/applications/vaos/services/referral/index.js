@@ -18,6 +18,16 @@ export async function getPatientReferralById(referralId) {
   return response.data;
 }
 
+export async function getProviderById(referralId) {
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/providerDetails/${referralId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
+}
+
 export async function postDraftReferralAppointment(referralId) {
   const response = await apiRequestWithUrl(
     `/vaos/v2/epsApi/providerDetails/${referralId}`,

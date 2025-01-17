@@ -2,6 +2,105 @@
 const dateFns = require('date-fns');
 const dateFnsTz = require('date-fns-tz');
 
+const providers = {
+  '0': {
+    id: '0',
+    providerName: 'Dr. Perpetually Unavailable',
+    typeOfCare: 'Physical Therapy',
+    orgName: 'Ethereal Adjunct of Deferred Care',
+    orgAddress: {
+      street1: '421 Promethean Circuit',
+      street2: 'Suite 300',
+      street3: '',
+      city: 'Portland',
+      state: 'Oregon',
+      zip: '97214',
+    },
+    orgPhone: '555-687-6736',
+    driveTime: '1 hour drive',
+    driveDistance: '100 miles',
+    location: 'Hypothetical Adjunct Node, Sublime Care Complex',
+  },
+  '111': {
+    id: '111',
+    providerName: 'Dr. Bones',
+    typeOfCare: 'Physical Therapy',
+    orgName: 'Stronger Bone Technologies',
+    orgAddress: {
+      street1: '111 Lori Ln.',
+      street2: '',
+      street3: '',
+      city: 'New York',
+      state: 'New York',
+      zip: '10016',
+    },
+    orgPhone: '555-600-8043',
+    driveTime: '7 minute drive',
+    driveDistance: '8 miles',
+    location: 'Stronger bone technologies bldg 2',
+  },
+  '222': {
+    id: '222',
+    providerName: 'Dr. Peetee',
+    typeOfCare: 'Physical Therapy',
+    orgName: 'Physical Therapy Solutions',
+    orgAddress: {
+      street1: '222 John Dr.',
+      street2: '',
+      street3: '',
+      city: 'New York',
+      state: 'New York',
+      zip: '10016',
+    },
+    orgPhone: '555-867-5309',
+    driveTime: '3 minute drive',
+    driveDistance: '20 miles',
+    location: 'Physical Therapy Solutions World Headquarters',
+  },
+  '333': {
+    id: '333',
+    providerName: 'Dr. Smith',
+    typeOfCare: 'Mental Health',
+    orgName: 'Smith Mental Health Clinic',
+    orgAddress: {
+      street1: '333 Main St.',
+      street2: '',
+      street3: '',
+      city: 'New York',
+      state: 'New York',
+      zip: '10016',
+    },
+    orgPhone: '555-555-5555',
+    driveTime: '5 minute drive',
+    driveDistance: '5 miles',
+    location: 'Smith Mental Health Clinic',
+  },
+};
+
+/**
+ * Creates a provider object with a configurable number of slots an hour apart.
+ *
+ * @param {Number} numberOfSlots How many slots to create
+ * @param {String} providerId The ID for the provider
+ * @returns {Object} Provider object
+ */
+const createProviderDetails = (numberOfSlots, providerId = '111') => {
+  const provider = providers[providerId];
+  provider.slots = [];
+  const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
+  let hourFromNow = 12;
+  for (let i = 0; i < numberOfSlots; i++) {
+    const startTime = dateFns.addHours(tomorrow, hourFromNow);
+    provider.slots.push({
+      end: dateFns.addMinutes(startTime, 30).toISOString(),
+      id: i.toString(),
+      start: startTime.toISOString(),
+    });
+    hourFromNow++;
+  }
+  return { ...provider };
+};
+
 const draftAppointments = {
   '0': {
     appointment: {
@@ -390,6 +489,7 @@ const hasConflict = (selectedDate, appointmentsByMonth, facilityTimeZone) => {
 
 module.exports = {
   createDraftAppointmentInfo,
+  createProviderDetails,
   draftAppointments,
   getSlotByDate,
   getSlotById,

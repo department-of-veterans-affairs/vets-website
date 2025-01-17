@@ -37,7 +37,7 @@ const ReviewAndConfirm = props => {
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const slotDetails = getSlotById(
-    draftAppointmentInfo.slots.slots,
+    draftAppointmentInfo.slots?.slots,
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(

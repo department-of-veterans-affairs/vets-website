@@ -90,6 +90,8 @@ function ccAppointmentReducer(state = initialState, action) {
     case SET_INIT_REFERRAL_FLOW:
       return {
         ...state,
+        provider: {},
+        providerFetchStatus: FETCH_STATUS.notStarted,
         draftAppointmentInfo: {},
         draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
         selectedSlot: '',
