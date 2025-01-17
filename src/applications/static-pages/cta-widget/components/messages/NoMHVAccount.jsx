@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
 import CallToActionAlert from '../CallToActionAlert';
 
 const NoMHVAccount = ({
   serviceDescription,
   primaryButtonHandler,
   secondaryButtonHandler,
+  recordEventFn,
 }) => {
+  const heading = `Please create a My HealtheVet account to ${serviceDescription}`;
+  useEffect(
+    () => {
+      recordEventFn({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': heading,
+        'alert-box-status': 'warning',
+      });
+    },
+    [heading, recordEventFn],
+  );
   const content = {
-    heading: `Please create a My HealtheVet account to ${serviceDescription}`,
+    heading,
     alertText: (
       <>
         <p>
@@ -32,6 +46,10 @@ const NoMHVAccount = ({
   };
 
   return <CallToActionAlert {...content} />;
+};
+
+NoMHVAccount.defaultProps = {
+  recordEventFn: recordEvent,
 };
 
 NoMHVAccount.propTypes = {
