@@ -82,6 +82,12 @@ const routes = [
             path: 'poa-requests/:id',
             element: <POARequestDetailsPage />,
             loader: POARequestDetailsPage.loader,
+            children: [
+              {
+                path: 'decision',
+                action: POARequestDetailsPage.createDecisionAction,
+              },
+            ],
           },
         ],
       }),
