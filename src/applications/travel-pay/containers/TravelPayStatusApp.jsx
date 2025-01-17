@@ -18,12 +18,14 @@ import { focusElement } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 import { scrollTo } from 'platform/utilities/ui/scroll';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
+import ErrorAlert from '../components/alerts/ErrorAlert';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -312,7 +314,7 @@ export default function App({ children }) {
               />
             </>
           )}
-          {error && <p>Error fetching travel claims.</p>}
+          {error && <ErrorAlert errorStatus={error.errors[0].status} />}
           {userLoggedIn &&
             !isLoading &&
             travelClaims.length > 0 && (
