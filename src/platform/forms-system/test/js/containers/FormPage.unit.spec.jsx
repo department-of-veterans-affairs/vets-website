@@ -840,7 +840,7 @@ describe('Schemaform <FormPage>', () => {
             pageKey: 'firstPage',
           },
           {
-            path: '/testing',
+            path: '/testing/:index',
             pageKey: 'testPage',
           },
           {
@@ -869,10 +869,12 @@ describe('Schemaform <FormPage>', () => {
             CustomPage,
             showPagePerItem: true,
             arrayPath: 'arrayProp',
+            schema: { properties: { arrayProp: { items: {} } } },
+            uiSchema: { arrayProp: { items: {} } },
           },
         },
         data: {
-          arrayProp: [{}],
+          arrayProp: [{ item: 1 }, { item: 2 }],
           someOtherProp: 'asdf',
         },
         ...obj,
@@ -913,16 +915,52 @@ describe('Schemaform <FormPage>', () => {
               title: '',
               showPagePerItem: true,
               arrayPath: 'arrayProp',
+              customPageUsesPagePerItemData: false,
             },
           })}
-          location={location}
-          params={{ index: 0 }}
+          location={{ pathname: '/testing/1' }}
+          params={{ index: 1 }}
         />,
       );
 
-      expect(
-        tree.everySubTree('CustomPage')[0].getRenderOutput().props.data,
-      ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
+      const { props } = tree.everySubTree('CustomPage')[0].getRenderOutput();
+      expect(props.data).to.deep.equal({
+        arrayProp: [{ item: 1 }, { item: 2 }],
+        someOtherProp: 'asdf',
+      });
+      expect(props.fullData).to.deep.equal({
+        arrayProp: [{ item: 1 }, { item: 2 }],
+        someOtherProp: 'asdf',
+      });
+    });
+
+    it('should return the scoped form data to the CustomPage when customPageUsesPagePerItemData && showPagePerIndex is true', () => {
+      const CustomPage = () => <div />;
+      const tree = SkinDeep.shallowRender(
+        <FormPage
+          form={makeBypassArrayForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)({
+            pageConfig: {
+              pageKey: 'testPage',
+              CustomPage,
+              errorMessages: {},
+              title: '',
+              showPagePerItem: true,
+              arrayPath: 'arrayProp',
+              customPageUsesPagePerItemData: true, // set by array builder
+            },
+          })}
+          location={{ pathname: '/testing/1' }}
+          params={{ index: 1 }}
+        />,
+      );
+
+      const { props } = tree.everySubTree('CustomPage')[0].getRenderOutput();
+      expect(props.data).to.deep.equal({ item: 2 });
+      expect(props.fullData).to.deep.equal({
+        arrayProp: [{ item: 1 }, { item: 2 }],
+        someOtherProp: 'asdf',
+      });
     });
 
     it('should focus on ".nav-header > h2" when useCustomScrollAndFocus is not set in form config', async () => {
