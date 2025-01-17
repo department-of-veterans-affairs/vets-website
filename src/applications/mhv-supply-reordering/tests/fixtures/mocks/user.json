@@ -19,8 +19,8 @@
         "is_veteran": true,
         "served_in_military": true
       },
-      "in_progress_forms": [],
-      "prefills_available": [],
+      "in_progress_forms": ["MDOT"],
+      "prefills_available": ["MDOT"],
       "services": [
         "facilities",
         "hca",
