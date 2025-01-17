@@ -189,7 +189,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert className="vads-u-margin-top--2" />
+            <CernerFacilityAlert />
           </>
         ) : (
           <>
