@@ -339,19 +339,22 @@ const responses = {
       data: singleReferral ?? {},
     });
   },
-  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
+  'POST /vaos/v2/epsApi/providerDetails/:referralId': (req, res) => {
     // Provider 3 throws error
-    if (req.params.providerId === '3') {
+    if (req.params.referralId === '3') {
       return res.status(500).json({ error: true });
     }
     // Provider 0 has no available slots
-    if (req.params.providerId === '0') {
+    if (req.params.referralId === '0') {
       return res.json({
-        data: providerUtils.createProviderDetails(0, req.params.providerId),
+        data: providerUtils.createDraftAppointmentInfo(
+          0,
+          req.params.referralId,
+        ),
       });
     }
     return res.json({
-      data: providerUtils.createProviderDetails(5, req.params.providerId),
+      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
     });
   },
   // Required v0 APIs

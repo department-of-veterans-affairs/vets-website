@@ -1,16 +1,18 @@
 import { captureError } from '../../utils/error';
 import {
-  getProviderById,
+  postDraftReferralAppointment,
   getPatientReferrals,
   getPatientReferralById,
 } from '../../services/referral';
 import { filterReferrals } from '../utils/referrals';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
-export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
-export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
-  'FETCH_PROVIDER_DETAILS_SUCCEEDED';
-export const FETCH_PROVIDER_DETAILS_FAILED = 'FETCH_PROVIDER_DETAILS_FAILED';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED';
 export const FETCH_REFERRALS = 'FETCH_REFERRALS';
 export const FETCH_REFERRALS_SUCCEEDED = 'FETCH_REFERRALS_SUCCEEDED';
 export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
@@ -27,22 +29,22 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function fetchProviderDetails(id) {
+export function createDraftReferralAppointment(referralId) {
   return async dispatch => {
     try {
       dispatch({
-        type: FETCH_PROVIDER_DETAILS,
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
-      const providerDetails = await getProviderById(id);
+      const providerDetails = await postDraftReferralAppointment(referralId);
 
       dispatch({
-        type: FETCH_PROVIDER_DETAILS_SUCCEEDED,
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
         data: providerDetails,
       });
       return providerDetails;
     } catch (error) {
       dispatch({
-        type: FETCH_PROVIDER_DETAILS_FAILED,
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
       });
       return captureError(error);
     }

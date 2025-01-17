@@ -7,9 +7,9 @@ import {
 } from '../tests/mocks/setup';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import { createReferral } from './utils/referrals';
-import { createProviderDetails } from './utils/provider';
+import { createDraftAppointmentInfo } from './utils/provider';
 import confirmedV2 from '../services/mocks/v2/confirmed.json';
-import * as getProviderByIdModule from '../services/referral';
+import * as postDraftReferralAppointmentModule from '../services/referral';
 import * as fetchAppointmentsModule from '../services/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
@@ -94,8 +94,8 @@ describe('VAOS ChoseDateAndTime component', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      selectedProvider: createProviderDetails(1),
-      providerFetchStatus: FETCH_STATUS.succeeded,
+      draftAppointmentInfo: createDraftAppointmentInfo(1),
+      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
     },
     appointments: {
       confirmed,
@@ -107,8 +107,8 @@ describe('VAOS ChoseDateAndTime component', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      selectedProvider: [],
-      providerFetchStatus: FETCH_STATUS.notStarted,
+      draftAppointmentInfo: {},
+      draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
     },
     appointments: {
       confirmed: [],
@@ -120,8 +120,8 @@ describe('VAOS ChoseDateAndTime component', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      selectedProvider: [],
-      providerFetchStatus: FETCH_STATUS.failed,
+      draftAppointmentInfo: {},
+      draftAppointmentCreateStatus: FETCH_STATUS.failed,
     },
     appointments: {
       confirmed,
@@ -131,8 +131,8 @@ describe('VAOS ChoseDateAndTime component', () => {
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
     sandbox
-      .stub(getProviderByIdModule, 'getProviderById')
-      .resolves({ data: createProviderDetails(1) });
+      .stub(postDraftReferralAppointmentModule, 'postDraftReferralAppointment')
+      .resolves({ data: createDraftAppointmentInfo(1) });
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves(confirmedV2);
@@ -149,7 +149,9 @@ describe('VAOS ChoseDateAndTime component', () => {
         store: createTestStore(initialFullState),
       },
     );
-    sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
+    sandbox.assert.notCalled(
+      postDraftReferralAppointmentModule.postDraftReferralAppointment,
+    );
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });
   it('should call API for provider or appointment data if not in store', async () => {
@@ -162,7 +164,9 @@ describe('VAOS ChoseDateAndTime component', () => {
       },
     );
     expect(await screen.getByTestId('loading')).to.exist;
-    sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+    sandbox.assert.calledOnce(
+      postDraftReferralAppointmentModule.postDraftReferralAppointment,
+    );
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {

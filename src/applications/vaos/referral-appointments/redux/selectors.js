@@ -1,10 +1,10 @@
 export const selectCurrentPage = state => state.referral.currentPage;
 export const getSelectedSlot = state => state.referral.selectedSlot;
 
-export function getProviderInfo(state) {
+export function getDraftAppointmentInfo(state) {
   return {
-    provider: state.referral.selectedProvider,
-    providerFetchStatus: state.referral.providerFetchStatus,
+    draftAppointmentInfo: state.referral.draftAppointmentInfo,
+    draftAppointmentCreateStatus: state.referral.draftAppointmentCreateStatus,
   };
 }
 
