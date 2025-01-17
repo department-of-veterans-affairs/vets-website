@@ -4,6 +4,7 @@ import { enUS } from 'date-fns/locale';
 import React from 'react';
 
 import {
+  CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
   CategoryHealthCare,
@@ -16,6 +17,7 @@ import {
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
@@ -708,7 +710,7 @@ export const convertDateForInquirySubheader = dateString => {
   }
 
   // Ensure the date is valid
-  if (isNaN(utcDate.getTime())) {
+  if (Number.isNaN(utcDate.getTime())) {
     return 'Invalid Date';
   }
 
@@ -754,6 +756,29 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const isEducationNonVRE = formData =>
+  formData.selectCategory === CategoryEducation &&
+  formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31;
+
+export const isOutsideUSEducation = formData =>
+  formData.selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+  formData.selectTopic === TopicEducationBenefitsAndWorkStudy;
+
+// Who is your question about? rules:
+// CATEGORY = EDUCATION BENEFITS AND WORK STUDY
+// AND
+// TOPIC =/ VETERAN READINESS & EMPLOYMENT
+//
+// ALSO HIDDEN IF:
+// CATEGORY =  BENEFITS ISSUES OUTSIDE THE US
+// AND
+// TOPIC = EDUCATION BENEFITS AND WORK STUDY
+//
+// BECAUSE 'EDU' QUESTIONS ARE SENT AS "GENERAL QUESTIONS" TO CRM. BUT SHOULD CONTINUE DOWN THE 'SOMEONE ELSE' FLOW.
+export const whoIsYourQuestionAboutCondition = formData => {
+  return !(isEducationNonVRE(formData) || isOutsideUSEducation(formData));
 };
 
 export const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -832,16 +857,14 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formDat
 export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
     formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-    formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
   );
 };
 
 export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
     formData.relationshipToVeteran !== relationshipOptionsSomeoneElse.WORK &&
-    formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
   );
 };
 
