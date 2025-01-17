@@ -31,7 +31,11 @@ const childContent = (
       <li>
         <Link to="/example-radio">Example with radio</Link>
       </li>
-      <li>Example with multiple responses list & loop (TBD)</li>
+      <li>
+        <Link to="/employers-summary">
+          Example with multiple responses list & loop
+        </Link>
+      </li>
     </ul>
     <h2>Reference links</h2>
     <ul>
@@ -90,6 +94,15 @@ const childContent = (
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/pages/exampleRadio.js"
         >
           Page - Example Radio
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/pages/employers.js"
+        >
+          Page - Example multiple response list & loop
         </a>
       </li>
     </ul>
