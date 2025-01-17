@@ -19,7 +19,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
     addChildIntro: pages.introPage({
       depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
       title: 'Add child',
-      path: '686-report-add-child/introduction',
+      path: '686-report-add-child',
       uiSchema: intro.uiSchema,
       schema: intro.schema,
     }),
