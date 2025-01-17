@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import * as addressPatterns from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
-import { normalizedForm } from '../../../_config/formConfig';
+import { normalizedForm } from '../../../config/formConfig';
 
 const {
   addressPages,

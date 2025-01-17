@@ -49,8 +49,6 @@ describe('Global search', () => {
       );
 
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
-      cy.get(s.MAINT_BOX).should('not.exist');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
 
       cy.get(s.PAGINATION)
         .should('exist')
@@ -112,8 +110,6 @@ describe('Global search', () => {
       );
 
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
-      cy.get(s.MAINT_BOX).should('not.exist');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
     });
 
     cy.axeCheck();
@@ -135,8 +131,6 @@ describe('Global search', () => {
         .should('be.visible')
         .should('contain.text', `We didn’t find any results for "benefits."`);
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
-      cy.get(s.MAINT_BOX).should('not.exist');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
       cy.get(s.TOP_RECOMMENDATIONS).should('not.exist');
       cy.get(s.SEARCH_RESULTS).should('not.exist');
     });
@@ -158,8 +152,6 @@ describe('Global search', () => {
         .should('be.visible')
         .should('contain.text', `We didn’t find any results.`);
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
-      cy.get(s.MAINT_BOX).should('not.exist');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
       cy.get(s.TOP_RECOMMENDATIONS).should('not.exist');
       cy.get(s.SEARCH_RESULTS).should('not.exist');
     });

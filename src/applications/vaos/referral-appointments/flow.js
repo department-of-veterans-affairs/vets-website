@@ -4,7 +4,7 @@ import { startReferralTimer } from './utils/timer';
  * Function to get referral page flow.
  *
  * @export
- * @param {boolean} state - New COVID appointment state
+ * @param {string} referralId - The referral unique identifier
  * @returns {object} Referral appointment workflow object
  */
 export default function getPageFlow(referralId) {
@@ -40,7 +40,7 @@ export default function getPageFlow(referralId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: 'appointments/[ID]?confirmMsg=true',
+      url: `/schedule-referral/complete?id=${referralId}&confirmMsg=true`,
       label: 'Your appointment is scheduled',
       next: '',
       previous: 'reviewAndConfirm',
@@ -50,7 +50,11 @@ export default function getPageFlow(referralId) {
 
 export function routeToPageInFlow(history, current, action, referralId) {
   const pageFlow = getPageFlow(referralId);
-  const nextPageString = pageFlow[current][action];
+  // if there is no current page meaning there was an error fetching referral data
+  // then we are on an error state in the form and back should go back to appointments.
+  const nextPageString = current
+    ? pageFlow[current][action]
+    : 'referralsAndRequests';
   const nextPage = pageFlow[nextPageString];
   if (action === 'next' && nextPageString === 'scheduleReferral') {
     startReferralTimer(referralId);

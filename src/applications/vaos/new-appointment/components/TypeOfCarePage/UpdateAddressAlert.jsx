@@ -18,7 +18,7 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
         time for your address update to process through our system.
         <br />
         <NewTabAnchor
-          href="http://va.gov/profile/contact-information"
+          href="/profile/contact-information"
           onClick={() => onClickUpdateAddress(headline)}
           renderAriaLabel={false}
         >

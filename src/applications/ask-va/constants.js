@@ -63,12 +63,15 @@ export const branchesOfService = [
 
 // Categories
 export const CategoryEducation = 'Education benefits and work study';
+export const CategoryHealthCare = 'Health care';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
 export const CategoryGuardianshipCustodianshipFiduciaryIssues =
   'Guardianship, custodianship, or fiduciary issues';
 export const CategoryHousingAssistanceAndHomeLoans =
   'Housing assistance and home loans';
+export const CategoryBenefitsIssuesOutsidetheUS =
+  'Benefits issues outside the U.S.';
 
 // Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
@@ -76,15 +79,8 @@ export const TopicVeteranReadinessAndEmploymentChapter31 =
 export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const TopicAppraisals = 'Appraisals';
-export const requireSignInCategories = [
-  CategoryEducation,
-  'Education benefits and work study',
-  'Disability compensation',
-  'Debt for benefit overpayments and health care copay bills',
-  'Benefits issues outside the U.S.',
-];
-
-export const requireSignInTopics = ['Compensation', CategoryEducation];
+export const TopicEducationBenefitsAndWorkStudy =
+  'Education benefits and work study';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -118,7 +114,12 @@ export const branchOfServiceRuleforCategories = [
 export const hasPrefillInformation = form => {
   const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
 
-  return !!(first && last && dateOfBirth && socialOrServiceNum);
+  return !!(
+    first &&
+    last &&
+    dateOfBirth &&
+    (socialOrServiceNum.ssn || socialOrServiceNum.serviceNumber)
+  );
 };
 
 // Response Page headers
@@ -513,9 +514,10 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select state',
   },
   SCHOOL_STATE_OR_RESIDENCY: {
-    TITLE: 'School information',
+    TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
-    QUESTION_1: 'Please provide one of the following',
+    QUESTION_1:
+      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,

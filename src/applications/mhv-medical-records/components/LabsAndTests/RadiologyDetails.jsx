@@ -36,8 +36,8 @@ import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
   fetchImageRequestStatus,
   fetchBbmiNotificationStatus,
+  requestImages,
 } from '../../actions/images';
-import { requestImagingStudy } from '../../api/MrApi';
 import useAlerts from '../../hooks/use-alerts';
 
 const RadiologyDetails = props => {
@@ -67,13 +67,16 @@ const RadiologyDetails = props => {
   // State to manage the dynamic backoff polling interval
   const [pollInterval, setPollInterval] = useState(2000);
 
+  const [processingRequest, setProcessingRequest] = useState(false);
+
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
-  const studyJobs = useSelector(state => state.mr.images.imageStatus);
-  const notificationStatus = useSelector(
-    state => state.mr.images.notificationStatus,
-  );
+  const {
+    imageStatus: studyJobs,
+    notificationStatus,
+    imageRequestApiFailed,
+  } = useSelector(state => state.mr.images);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -117,11 +120,22 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
+      if (imageRequestApiFailed) {
+        setProcessingRequest(false);
+      }
+    },
+    [imageRequestApiFailed],
+  );
+
+  useEffect(
+    () => {
       let timeoutId;
       if (
         studyJob?.status === studyJobStatus.NEW ||
         studyJob?.status === studyJobStatus.PROCESSING
       ) {
+        setProcessingRequest(false);
+
         timeoutId = setTimeout(() => {
           dispatch(fetchImageRequestStatus());
           // Increase the polling interval by 5% on each iteration, capped at 30 seconds
@@ -179,9 +193,8 @@ ${record.results}`;
   };
 
   const makeImageRequest = async () => {
-    await requestImagingStudy(radiologyDetails.studyId);
-    // After requesting the study, update the status.
-    dispatch(fetchImageRequestStatus());
+    setProcessingRequest(true);
+    dispatch(requestImages(radiologyDetails.studyId));
     setIsImageRequested(true);
   };
 
@@ -232,35 +245,35 @@ ${record.results}`;
     </>
   );
 
-  const imageAlertProcessing = imageRequest => (
-    <>
-      {requestNote()}
-      <va-alert
-        status="info"
-        visible
-        aria-live="polite"
-        data-testid="image-request-progress-alert"
-      >
-        <h3
-          aria-describedby="in-progress-description"
-          ref={processingAlertHeadingRef}
+  const imageAlertProcessing = imageRequest => {
+    const percent =
+      imageRequest.status === studyJobStatus.NEW
+        ? 0
+        : imageRequest.percentComplete;
+    return (
+      <>
+        {requestNote()}
+        <va-alert
+          status="info"
+          visible
+          aria-live="polite"
+          data-testid="image-request-progress-alert"
         >
-          Image request
-        </h3>
-        <p id="in-progress-description" className="sr-only">
-          in progress{' '}
-        </p>
-        <p>{imageRequest.percentComplete}% complete</p>
-        <va-progress-bar
-          percent={
-            imageRequest.status === studyJobStatus.NEW
-              ? 0
-              : imageRequest.percentComplete
-          }
-        />
-      </va-alert>
-    </>
-  );
+          <h3
+            aria-describedby="in-progress-description"
+            ref={processingAlertHeadingRef}
+          >
+            Image request
+          </h3>
+          <p id="in-progress-description" className="sr-only">
+            in progress{' '}
+          </p>
+          <p>{percent}% complete</p>
+          <va-progress-bar percent={percent} />
+        </va-alert>
+      </>
+    );
+  };
 
   const imageAlertComplete = () => {
     const endDateParts = formatDateAndTime(
@@ -324,6 +337,16 @@ ${record.results}`;
 
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
+      if (processingRequest) {
+        return (
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        );
+      }
+
       if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
         return imageAlert(ERROR_TRY_LATER);
       }
@@ -336,7 +359,8 @@ ${record.results}`;
             studyJob?.status === studyJobStatus.PROCESSING) &&
             imageAlertProcessing(studyJob)}
           {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
-          {studyJob?.status === studyJobStatus.ERROR &&
+          {(imageRequestApiFailed ||
+            studyJob?.status === studyJobStatus.ERROR) &&
             imageAlertError(studyJob)}
           {notificationContent()}
         </>
