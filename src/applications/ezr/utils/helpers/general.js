@@ -66,3 +66,15 @@ export function parseVeteranGender(birthsex) {
 export function replaceStrValues(src, val, char = '%s') {
   return src && val ? src.toString().replace(char, val) : '';
 }
+
+export const formatNumber = value => {
+  const str = (+value).toString();
+  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
+};
+
+export const formatCurrency = value => {
+  if (isNaN(value)) {
+    return value;
+  }
+  return `$${formatNumber(Math.round(+value))}`;
+};
