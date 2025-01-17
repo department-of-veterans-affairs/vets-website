@@ -5,6 +5,7 @@ export default function MhvAccess() {
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">
+        <title>Access the My HealtheVet sign-in option</title>
         <h1 id="signin-signup-modal-title">
           Access the My HealtheVet sign-in option
         </h1>
