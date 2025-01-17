@@ -29,6 +29,7 @@ import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
+import ProviderSelectPage from './components/ProviderSelectPage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
@@ -117,6 +118,9 @@ export function NewAppointment() {
           </Route>
           <Route path={`${match.url}/location`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/provider`}>
+            <ProviderSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route
             path={`${match.url}/how-to-schedule`}
