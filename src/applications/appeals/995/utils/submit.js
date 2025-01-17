@@ -22,7 +22,7 @@ import {
   fixDateFormat,
   replaceSubmittedData,
 } from '../../shared/utils/replace';
-import { removeEmptyEntries } from '../../shared/utils/submit';
+import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 /**
  * @typedef ClaimantData
@@ -69,8 +69,8 @@ export const getAddress = formData => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-  const countryCodeISO2 = truncate(
-    'countryCodeIso2',
+  const countryCodeISO2 = getIso2Country(veteran.address).substring(
+    0,
     MAX_LENGTH.ADDRESS_COUNTRY,
   );
   // international postal code can be undefined/null
@@ -132,14 +132,36 @@ export const getPhone = formData => {
     : {};
 };
 
+export const TEMP_DATE = '2006-06-06';
+/**
+ * @typedef VALocation
+ * @type {Object}
+ * @property {String} locationAndName - VA or private medical records name
+ * @property {Array<String>} issues - list of selected issues
+ * @property {String} treatmentDate - YYYY-MM (new form)
+ * @property {Boolean} noDate - no date provided (new form)
+ * @property {Object} evidenceDates - date range (current form)
+ * @property {String} evidenceDates.from - YYYY-MM-DD
+ * @property {String} evidenceDates.to - YYYY-MM-DD
+ */
+/**
+ * Get treatment date and noData boolean, then return a full date (YYYY-MM-DD)
+ * with DD set to 01 for date comparisons; Currently, if the treatment date
+ * appears to be invalid, or noDate is set, we return a made up date until we
+ * know what Lighthouse's final API looks like
+ * @param {VALocation} location
+ * @returns {String} YYYY-MM-DD (including day for date comparisons)
+ */
+export const getTreatmentDate = ({ treatmentDate = '', noDate } = {}) => {
+  // return a made up date until we know what the final API looks like
+  return !noDate && treatmentDate.length === 7
+    ? fixDateFormat(`${treatmentDate}-01`)
+    : TEMP_DATE; // change this once we know the final API
+};
+
 export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
   !!list.find(location => {
-    const {
-      locationAndName,
-      evidenceDates,
-      treatmentDate,
-    } = location.attributes;
-
+    const { locationAndName, evidenceDates } = location.attributes;
     return (
       buildVaLocationString(
         {
@@ -150,7 +172,7 @@ export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
                 from: evidenceDates?.[0]?.startDate,
                 to: evidenceDates?.[0]?.endDate,
               },
-          treatmentDate: newForm ? treatmentDate : '',
+          treatmentDate: newForm ? getTreatmentDate(location.attributes) : '',
         },
         ',',
         { includeIssues: false },
@@ -164,7 +186,7 @@ export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
                 from: currentLocation.evidenceDates?.from,
                 to: currentLocation.evidenceDates?.to,
               },
-          treatmentDate: newForm ? currentLocation.treatmentDate : '',
+          treatmentDate: newForm ? getTreatmentDate(currentLocation) : '',
         },
         ',',
         { includeIssues: false },
@@ -254,19 +276,20 @@ export const getEvidence = formData => {
           // Temporary transformation of `treatmentDate` (YYYY-MM) to
           // `evidenceDates` range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
           const from = showNewFormContent
-            ? `${location.treatmentDate}-01`
+            ? getTreatmentDate(location)
             : location.evidenceDates?.from;
           const to = showNewFormContent
-            ? `${location.treatmentDate}-01`
+            ? getTreatmentDate(location)
             : location.evidenceDates?.to;
           list.push({
             type: 'retrievalEvidence',
             attributes: {
-              // we're not including the issues here - it's only in the form to make
-              // the UX consistent with the private records location pages
+              // We're not including the issues here - it's only in the form to
+              // make the UX consistent with the private records location pages
               locationAndName: location.locationAndName,
               // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one
+              // providing one; with the new form, these dates will not be
+              // required. Leaving this as is until LH provides the new API
               evidenceDates: [
                 {
                   startDate: fixDateFormat(from),

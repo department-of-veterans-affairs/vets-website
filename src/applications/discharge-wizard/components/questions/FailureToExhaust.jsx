@@ -1,84 +1,104 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { Element } from 'platform/utilities/scroll';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updateFailureToExhaust } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const FailureToExhaust = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setFailureToExhaust,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '11_failureToExhaust';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.FAILURE_TO_EXHAUST;
+  const H1 = QUESTION_MAP[shortName];
+  const failureToExhaust = formResponses[shortName];
+  const {
+    FAILURE_TO_EXHAUST_BCMR_YES,
+    FAILURE_TO_EXHAUST_BCMR_NO,
+    FAILURE_TO_EXHAUST_BCNR_YES,
+    FAILURE_TO_EXHAUST_BCNR_NO,
+  } = RESPONSES;
+  const hint =
+    'Note: "Failure to exhaust other remedies" often means you applied to the wrong board.';
+  let failureToExhaustOptions;
 
-  if (!formValues) {
-    return null;
+  if (
+    [RESPONSES.NAVY, RESPONSES.MARINE_CORPS].includes(
+      formResponses.SERVICE_BRANCH,
+    )
+  ) {
+    failureToExhaustOptions = [
+      FAILURE_TO_EXHAUST_BCNR_YES,
+      FAILURE_TO_EXHAUST_BCNR_NO,
+    ];
+  } else {
+    failureToExhaustOptions = [
+      FAILURE_TO_EXHAUST_BCMR_YES,
+      FAILURE_TO_EXHAUST_BCMR_NO,
+    ];
   }
 
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  let boardLabel = 'BCMR';
-  if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
-    boardLabel = 'BCNR';
-  }
-
-  const options = [
-    {
-      label: `Yes, the ${boardLabel} denied my application due to “failure to exhaust other remedies.”`,
-      value: '1',
+  useEffect(
+    () => {
+      pageSetup(H1);
     },
-    {
-      label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the evidence in my application.`,
-      value: '2',
-    },
-  ];
+    [H1],
+  );
 
-  const radioButtonProps = {
-    name: key,
-    label:
-      'Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.',
-    'label-header-level': '2',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={failureToExhaust}
+      H1={H1}
+      hint={hint}
+      responses={failureToExhaustOptions}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-failure_to_exhaust"
+      valueSetter={setFailureToExhaust}
+    />
   );
 };
 
 FailureToExhaust.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setFailureToExhaust: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default FailureToExhaust;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setFailureToExhaust: updateFailureToExhaust,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FailureToExhaust);

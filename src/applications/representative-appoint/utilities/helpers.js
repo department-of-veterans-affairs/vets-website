@@ -115,6 +115,14 @@ export const getRepType = entity => {
   return 'VSO Representative';
 };
 
+export const getFormNumberFromEntity = entity => {
+  const repType = getRepType(entity);
+
+  return ['Organization', 'VSO Representative'].includes(repType)
+    ? '21-22'
+    : '21-22a';
+};
+
 export const getFormNumber = formData => {
   const entity = formData['view:selectedRepresentative'];
   const entityType = entity?.type;
@@ -140,16 +148,21 @@ export const getFormName = formData => {
   return "Appointment of Individual As Claimant's Representative";
 };
 
-export const isVSORepresentative = formData => {
-  const rep = formData['view:selectedRepresentative'];
-
-  if (rep.attributes?.accreditedOrganizations?.data?.length > 0) {
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const isVSORepresentative = rep => {
+  if (rep?.attributes?.accreditedOrganizations?.data?.length > 0) {
     return true;
   }
+
   return false;
 };
 
-export const isAttorneyOrClaimsAgent = formData =>
+/**
+ * If the representative is a claims agent or attorney, user will fill out 21-22A
+ */
+export const formIs2122A = formData =>
   ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
     formData?.['view:selectedRepresentative']?.attributes?.individualType,
   ) || null;
@@ -162,7 +175,7 @@ export const getOrgName = formData => {
     return formData['view:selectedRepresentative']?.attributes?.name;
   }
 
-  if (isAttorneyOrClaimsAgent(formData)) {
+  if (formIs2122A(formData)) {
     return null;
   }
 
@@ -190,7 +203,8 @@ export const getRepresentativeName = formData => {
   if (isOrg(formData)) {
     return formData['view:selectedRepresentative']?.attributes?.name;
   }
-  return isVSORepresentative(formData)
+
+  return isVSORepresentative(formData['view:selectedRepresentative'])
     ? formData.selectedAccreditedOrganizationName
     : rep.attributes.fullName;
 };

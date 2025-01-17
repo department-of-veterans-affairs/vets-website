@@ -11,6 +11,7 @@ import {
   getPhone,
   addAreaOfDisagreement,
   getTimeZone,
+  getIso2Country,
 } from '../../utils/submit';
 
 const text =
@@ -293,5 +294,38 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getIso2Country', () => {
+  it('should return an empty string for invalid inputs', () => {
+    expect(getIso2Country(undefined)).to.eq('');
+    expect(getIso2Country()).to.eq('');
+    expect(getIso2Country(null)).to.eq('');
+    expect(getIso2Country({ countryCodeIso2: 123 })).to.eq('');
+  });
+
+  it('should return provided iso2 country', () => {
+    expect(getIso2Country({ countryCodeIso2: 'US' })).to.eq('US');
+  });
+  it('should return iso2 country based on iso3 value', () => {
+    // Antarctica
+    expect(getIso2Country({ countryCodeIso3: 'ATA' })).to.eq('AQ');
+  });
+  it('should return iso2 country based on country name', () => {
+    expect(getIso2Country({ countryName: 'Barbados' })).to.eq('BB');
+  });
+
+  it('should return "US" if the iso3 value is "USA"', () => {
+    expect(getIso2Country({ countryCodeIso3: 'USA' })).to.eq('US');
+  });
+  it('should return "US" for domestic address types', () => {
+    expect(getIso2Country({ addressType: 'DOMESTIC' })).to.eq('US');
+  });
+  it('should return "US" for military address types', () => {
+    expect(getIso2Country({ addressType: 'MILITARY' })).to.eq('US');
+  });
+  it('should return "US" for overseas military address types', () => {
+    expect(getIso2Country({ addressType: 'OVERSEAS MILITARY' })).to.eq('US');
   });
 });

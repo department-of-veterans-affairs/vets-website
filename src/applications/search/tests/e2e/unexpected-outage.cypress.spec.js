@@ -16,19 +16,6 @@ describe('Unexpected outage from Search.gov', () => {
     });
   };
 
-  const disableToggle = () => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          {
-            name: 'search_gov_maintenance',
-            value: false,
-          },
-        ],
-      },
-    });
-  };
-
   const mockResultsEmpty = () => {
     cy.intercept('GET', '/v0/search?query=benefits', {
       body: zeroResultsStub,
@@ -66,12 +53,11 @@ describe('Unexpected outage from Search.gov', () => {
     });
   };
 
-  const verifyMaintanenceBanner = () => {
+  const verifyOutageBanner = () => {
     cy.get(s.APP).within(() => {
       cy.get(s.OUTAGE_BOX)
         .should('exist')
         .and('contain', 'We’re working on Search VA.gov right now.');
-      cy.get(s.ERROR_ALERT_BOX).should('not.exist');
     });
   };
 
@@ -87,7 +73,12 @@ describe('Unexpected outage from Search.gov', () => {
       cy.get(s.ERROR_ALERT_BOX)
         .should('exist')
         .and('contain', 'Something went wrong on our end,');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
+    });
+  };
+
+  const verifySearchFailureBannerIsNotVisible = () => {
+    cy.get(s.APP).within(() => {
+      cy.get(s.ERROR_ALERT_BOX).should('not.exist');
     });
   };
 
@@ -96,7 +87,8 @@ describe('Unexpected outage from Search.gov', () => {
     mockResults();
     cy.visit('/search?query=benefits');
     cy.injectAxeThenAxeCheck();
-    verifyMaintanenceBanner();
+    verifyOutageBanner();
+    verifySearchFailureBannerIsNotVisible();
     checkForResults();
   });
 
@@ -105,24 +97,17 @@ describe('Unexpected outage from Search.gov', () => {
     mockResultsEmpty();
     cy.visit('/search?query=benefits');
     cy.injectAxeThenAxeCheck();
-    verifyMaintanenceBanner();
+    verifyOutageBanner();
+    verifySearchFailureBannerIsNotVisible();
     verifyNoResults();
   });
 
-  it('should show the outage banner and no results when the toggle is on and the search call fails', () => {
+  it('should show an error message, the outage banner and no results when the toggle is on and the search call fails', () => {
     enableToggle();
     mockResultsFailure();
     cy.visit('/search?query=benefits');
     cy.injectAxeThenAxeCheck();
-    verifyMaintanenceBanner();
-    verifyNoResults();
-  });
-
-  it('should show an error message and no results when the API encounters an error', () => {
-    disableToggle();
-    mockResultsFailure();
-    cy.visit('/search?query=benefits');
-    cy.injectAxeThenAxeCheck();
+    verifyOutageBanner();
     verifySearchFailureBanner();
     verifyNoResults();
   });

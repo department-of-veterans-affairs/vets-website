@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { pageFocusScroll } from './helpers';
+import { pageFocusScroll, pageFocusScrollNoProgressBar } from './helpers';
 import getHelp from '../../shared/components/GetFormHelp';
 import { AUTHORIZER_TYPES, INFORMATION_SCOPES } from '../definitions/constants';
 // pages
@@ -104,7 +104,7 @@ const formConfig = {
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget: pageFocusScrollNoProgressBar(),
           pageClass: 'authorizer-type',
         },
       },
