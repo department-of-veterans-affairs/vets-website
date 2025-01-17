@@ -19,7 +19,7 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   marriageEnums,
-  spouseFormerMarriageLabels,
+  veteranFormerMarriageLabels,
   customLocationSchema,
   generateHelpText,
 } from '../../helpers';
@@ -125,7 +125,7 @@ export const vetFormerMarriageEndReasonPage = {
       ...radioUI({
         title: 'How did your marriage end?',
         required: () => true,
-        labels: spouseFormerMarriageLabels,
+        labels: veteranFormerMarriageLabels,
       }),
     },
     reasonMarriageEndedOther: {
@@ -162,7 +162,7 @@ export const vetFormerMarriageStartDatePage = {
       return 'Your former marriage';
     }),
     startDate: {
-      ...currentOrPastDateUI('When did they get married?'),
+      ...currentOrPastDateUI('When did you get married?'),
       'ui:required': () => true,
     },
   },
@@ -180,8 +180,26 @@ export const vetFormerMarriageEndDatePage = {
       return 'Your former marriage';
     }),
     endDate: {
-      ...currentOrPastDateUI('When did their marriage end?'),
+      ...currentOrPastDateUI('When did your marriage end?'),
       'ui:required': () => true,
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const { startDate, endDate } = formData;
+
+            if (!startDate || !endDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end < start) {
+              errors.addError(
+                'Marriage end date must be the on or after the marriage start date',
+              );
+            }
+          },
+        },
+      ],
     },
   },
   schema: {
@@ -198,7 +216,7 @@ export const vetFormerMarriageStartLocationPage = {
       return 'Your former marriage';
     }),
     startLocation: {
-      'ui:title': 'Where did they get married?',
+      'ui:title': 'Where did you get married?',
       'ui:options': {
         labelHeaderLevel: '4',
       },

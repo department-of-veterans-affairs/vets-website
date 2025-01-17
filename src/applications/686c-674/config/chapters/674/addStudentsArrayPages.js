@@ -714,7 +714,7 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: textUI('All other assets'),
-      totalValue: textUI('All other assets'),
+      totalValue: textUI('Total value'),
     },
   },
   schema: {

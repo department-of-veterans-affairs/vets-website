@@ -132,7 +132,6 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEndedOther: {
       ...textUI('Briefly describe how their marriage ended'),
       'ui:required': (formData, index) => {
-        // See above comment
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
           formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
@@ -183,6 +182,24 @@ export const formerMarriageEndDatePage = {
     endDate: {
       ...currentOrPastDateUI('When did their marriage end?'),
       'ui:required': () => true,
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const { startDate, endDate } = formData;
+
+            if (!startDate || !endDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end < start) {
+              errors.addError(
+                'Marriage end date must be the on or after the marriage start date',
+              );
+            }
+          },
+        },
+      ],
     },
   },
   schema: {
@@ -221,7 +238,6 @@ export const formerMarriageStartLocationPage = {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
           'ui:required': (formData, index) => {
-            // See above comment
             const isEditMode = formData?.startLocation?.outsideUsa;
             const isAddMode =
               formData?.spouseMarriageHistory?.[index]?.startLocation
@@ -231,7 +247,6 @@ export const formerMarriageStartLocationPage = {
           },
           'ui:options': {
             hideIf: (formData, index) =>
-              // See above comment
               formData?.startLocation?.outsideUsa ||
               formData?.spouseMarriageHistory?.[index]?.startLocation
                 ?.outsideUsa,
@@ -282,7 +297,6 @@ export const formerMarriageEndLocationPage = {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
           'ui:required': (formData, index) => {
-            // See above comment
             const isEditMode = formData?.endLocation?.outsideUsa;
             const isAddMode =
               formData?.spouseMarriageHistory?.[index]?.endLocation?.outsideUsa;
@@ -291,7 +305,6 @@ export const formerMarriageEndLocationPage = {
           },
           'ui:options': {
             hideIf: (formData, index) =>
-              // See above comment
               formData?.endLocation?.outsideUsa ||
               formData?.spouseMarriageHistory?.[index]?.endLocation?.outsideUsa,
           },
