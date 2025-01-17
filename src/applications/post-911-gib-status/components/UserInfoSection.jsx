@@ -101,7 +101,11 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
         <InfoPair
           label="Date of birth"
           name="dateOfBirth"
-          value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
+          value={
+            enrollmentData?.dateOfBirth
+              ? formatDateParsedZoneLong(enrollmentData.dateOfBirth)
+              : 'Unavailable'
+          }
           additionalClass="section-line"
         />
         <InfoPair
