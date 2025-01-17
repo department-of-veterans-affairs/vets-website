@@ -77,7 +77,7 @@ export default function CCRequest() {
 
   return (
     <div className="vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
       <p>
         You can select up to 3 preferred timeframes. We'll schedule your
         appointment or call to schedule with you.

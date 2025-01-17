@@ -15,6 +15,7 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
+import { NEW_API } from '../constants/apis';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -42,7 +43,6 @@ export const Form0996App = ({
   router,
   getContestableIssues,
   contestableIssues,
-  legacyCount,
   toggles,
 }) => {
   const { pathname } = location || {};
@@ -80,14 +80,16 @@ export const Form0996App = ({
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              [NEW_API]: toggles[NEW_API],
+            });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
-            (issuesNeedUpdating(
+            issuesNeedUpdating(
               contestableIssues?.issues,
               formData?.contestedIssues,
-            ) ||
-              contestableIssues.legacyCount !== formData.legacyCount)
+            )
           ) {
             /** Update dynamic data:
              * user changed address, phone, email
@@ -99,7 +101,6 @@ export const Form0996App = ({
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),
-              legacyCount: contestableIssues?.legacyCount,
             });
           } else if (
             areaOfDisagreement?.length !==
@@ -130,32 +131,30 @@ export const Form0996App = ({
       getContestableIssues,
       hasSupportedBenefitType,
       isLoadingIssues,
-      legacyCount,
       loggedIn,
+      pathname,
       setFormData,
       subTaskBenefitType,
-      pathname,
+      toggles,
     ],
   );
 
   useEffect(
     () => {
-      const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
+      const isUpdatedApi = toggles[NEW_API] || false;
       if (
         !toggles.loading &&
-        (typeof formData.hlrUpdatedContent === 'undefined' ||
-          formData.hlrUpdatedContent !== isUpdated)
+        (typeof formData[NEW_API] === 'undefined' ||
+          formData[NEW_API] !== isUpdatedApi)
       ) {
         setFormData({
           ...formData,
-          hlrUpdatedContent: isUpdated,
+          [NEW_API]: toggles[NEW_API],
         });
-        // temp storage, used for homelessness page focus management
-        sessionStorage.setItem('hlrUpdated', isUpdated);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData.hlrUpdatedContent],
+    [toggles, formData[NEW_API]],
   );
 
   let content = (
@@ -201,10 +200,8 @@ Form0996App.propTypes = {
   contestableIssues: PropTypes.shape({
     status: PropTypes.string,
     issues: PropTypes.array,
-    legacyCount: PropTypes.number,
   }),
   formData: data996,
-  legacyCount: PropTypes.number,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -217,7 +214,7 @@ Form0996App.propTypes = {
   }),
   savedForms: PropTypes.array,
   toggles: PropTypes.shape({
-    hlrUpdateedContnet: PropTypes.bool, // Don't fix typo :(
+    [NEW_API]: PropTypes.bool,
     loading: PropTypes.bool,
   }),
 };
@@ -228,7 +225,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
-  legacyCount: state.legacyCount || 0,
   toggles: state.featureToggles,
 });
 

@@ -38,10 +38,16 @@ export const getLabOrTest = id => {
   });
 };
 
+/**
+ * Pull the list of CVIX radiology reports, to be merged with VIA radiology reports.
+ */
 export const getImagingStudies = () => {
   return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
 };
 
+/**
+ * Request to download a particular study from CVIX.
+ */
 export const requestImagingStudy = studyId => {
   return apiRequest(
     `${apiBasePath}/medical_records/imaging/${studyId}/request`,
@@ -49,6 +55,9 @@ export const requestImagingStudy = studyId => {
   );
 };
 
+/**
+ * Get a list of available images for a given study.
+ */
 export const getImageList = studyId => {
   return apiRequest(
     `${apiBasePath}/medical_records/imaging/${studyId}/images`,
@@ -198,6 +207,9 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+/**
+ * Get the statuses of all available CVIX studies.
+ */
 export const getImageRequestStatus = () => {
   return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
     headers,

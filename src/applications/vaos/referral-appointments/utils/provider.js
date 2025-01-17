@@ -4,6 +4,7 @@ const dateFnsTz = require('date-fns-tz');
 
 const providers = {
   '0': {
+    id: '0',
     providerName: 'Dr. Perpetually Unavailable',
     typeOfCare: 'Physical Therapy',
     orgName: 'Ethereal Adjunct of Deferred Care',
@@ -21,6 +22,7 @@ const providers = {
     location: 'Hypothetical Adjunct Node, Sublime Care Complex',
   },
   '111': {
+    id: '111',
     providerName: 'Dr. Bones',
     typeOfCare: 'Physical Therapy',
     orgName: 'Stronger Bone Technologies',
@@ -38,6 +40,7 @@ const providers = {
     location: 'Stronger bone technologies bldg 2',
   },
   '222': {
+    id: '222',
     providerName: 'Dr. Peetee',
     typeOfCare: 'Physical Therapy',
     orgName: 'Physical Therapy Solutions',
@@ -53,6 +56,24 @@ const providers = {
     driveTime: '3 minute drive',
     driveDistance: '20 miles',
     location: 'Physical Therapy Solutions World Headquarters',
+  },
+  '333': {
+    id: '333',
+    providerName: 'Dr. Smith',
+    typeOfCare: 'Mental Health',
+    orgName: 'Smith Mental Health Clinic',
+    orgAddress: {
+      street1: '333 Main St.',
+      street2: '',
+      street3: '',
+      city: 'New York',
+      state: 'New York',
+      zip: '10016',
+    },
+    orgPhone: '555-555-5555',
+    driveTime: '5 minute drive',
+    driveDistance: '5 miles',
+    location: 'Smith Mental Health Clinic',
   },
 };
 

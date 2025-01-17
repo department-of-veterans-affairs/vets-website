@@ -74,11 +74,23 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     }
   }
 
+  const item1Header = 'We’ll confirm when we receive your form';
   const item1Content =
-    "This can take up to 10 days. When we receive your form, we'll update the status on My VA.";
+    "This can take up to 10 days. When we receive your form, we'll send you an email.";
   const item2Content =
-    "If we need more information after reviewing your form, we'll contact you by phone, email, or mail.";
+    "If we have questions or need more information after reviewing your form, we'll contact you by phone, email, or mail.";
 
+  const confirmationNumber = response?.confirmationNumber;
+  const submissionAlertContent = (
+    <>
+      <p>Your submission is in progress.</p>
+      <p>
+        It can take up to 10 days for us to receive your form.
+        {confirmationNumber &&
+          ` Your confirmation number is ${confirmationNumber}.`}
+      </p>
+    </>
+  );
   const submissionInformation = (
     <div className="inset">
       <h2 className="vads-u-margin-top--0">Your submission information</h2>
@@ -92,7 +104,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </li>
         <li>
           <h3>Confirmation number</h3>
-          <span>{response?.confirmationNumber}</span>
+          <span>{confirmationNumber}</span>
         </li>
         <li>
           <h3>Date submitted</h3>
@@ -262,35 +274,51 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     </>
   );
 
+  const askQuestions = (
+    <>
+      <h2>How to contact us if you have questions</h2>
+      <p>
+        Call us at <va-telephone contact="8008271000" international /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        Or you can ask us a question online through Ask VA. Select the category
+        and topic for the VA benefit this form is related to.
+      </p>
+      <va-link
+        text="Contact us online through Ask VA"
+        label="Contact us online through Ask VA"
+        href="https://ask.va.gov/"
+      />
+    </>
+  );
+
   if (burialsConfirmationPage) {
     return (
       <ConfirmationView
         submitDate={form?.submission?.timestamp}
-        confirmationNumber={response?.confirmationNumber}
+        confirmationNumber={confirmationNumber}
         formConfig={route?.formConfig}
         pdfUrl={response?.pdfUrl}
       >
-        {isLoggedIn ? (
-          <ConfirmationView.SubmissionAlert />
-        ) : (
-          <ConfirmationView.SubmissionAlert actions={<p />} />
-        )}
+        {/* actions={<p />} removes the link to myVA */}
+        <ConfirmationView.SubmissionAlert
+          content={submissionAlertContent}
+          actions={<p />}
+        />
         {submissionInformation}
         <ConfirmationView.PrintThisPage />
         <br />
-        {isLoggedIn ? (
-          <ConfirmationView.WhatsNextProcessList
-            item1Content={item1Content}
-            item2Content={item2Content}
-          />
-        ) : (
-          <ConfirmationView.WhatsNextProcessList
-            item1Content={item1Content}
-            item1Actions={<p />}
-            item2Content={item2Content}
-          />
-        )}
+        {/* item1Actions={<p />} removes the link to myVA */}
+        <ConfirmationView.WhatsNextProcessList
+          item1Header={item1Header}
+          item1Content={item1Content}
+          item1Actions={<p />}
+          item2Content={item2Content}
+        />
         {submitAdditionalDocuments}
+        {askQuestions}
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
       </ConfirmationView>

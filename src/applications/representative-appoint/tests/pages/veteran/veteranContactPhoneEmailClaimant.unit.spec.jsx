@@ -16,6 +16,7 @@ describe('Veteran Contact Phone Email Claimant page', () => {
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
+    form: { data: {} },
   });
 
   it('should render', () => {
