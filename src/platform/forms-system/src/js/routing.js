@@ -5,7 +5,6 @@ import {
   createPageList,
 } from './helpers';
 import validateConfig from './validate-config';
-
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';
 import ConfirmationPageWrapper from './containers/ConfirmationPageWrapper';

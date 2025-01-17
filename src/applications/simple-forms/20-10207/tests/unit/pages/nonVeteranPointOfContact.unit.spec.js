@@ -12,7 +12,6 @@ const {
 } = formConfig.chapters.contactInformationChapter.pages.nonVeteranPointOfContactPage;
 
 const pageTitle = "Claimant's point of contact";
-
 const data = {};
 
 const expectedNumberOfWebComponentFields = 3;
