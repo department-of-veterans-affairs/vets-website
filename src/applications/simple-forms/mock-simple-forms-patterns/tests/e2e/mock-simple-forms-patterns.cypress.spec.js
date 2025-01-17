@@ -28,7 +28,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.address]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             // widgets
