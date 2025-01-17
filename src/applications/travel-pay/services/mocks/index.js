@@ -17,6 +17,42 @@ const responses = {
     },
   },
   'GET /travel_pay/v0/claims': travelClaims,
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(503).json({
+  //     errors: [
+  //       {
+  //         title: 'Server error',
+  //         status: 503,
+  //         detail: 'An unknown server error has occured.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(400).json({
+  //     errors: [
+  //       {
+  //         title: 'Bad request',
+  //         status: 400,
+  //         detail: 'There is not an ICN in the auth token.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'The user is not a Veteran.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
   'GET /travel_pay/v0/claims/:id': (req, res) => {
     return res.json({
       id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
