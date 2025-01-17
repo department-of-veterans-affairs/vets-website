@@ -93,29 +93,24 @@ function LicenseCertificationSearchResults({
           hasFetchedOnce && (
             <>
               <div className="row">
-                <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
-                  Licenses, Certifications, and Prep courses Search Results
+                <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
+                  Search Results
                 </h1>
 
                 <div className="result-info-wrapper">
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                    <p className="vads-u-color--gray-dark lc-filter-options">
+                    <p className="vads-u-color--gray-dark vads-u-margin--0">
                       Showing{' '}
                       {filteredResults.length === 0 && ' 0 results for:'}
-                      {filteredResults.length !== 0 &&
-                        `${
-                          filteredResults.length > itemsPerPage
-                            ? `${formatResultCount(
-                                filteredResults,
-                                currentPage,
-                                itemsPerPage,
-                              )} of ${filteredResults.length} results for: `
-                            : `${filteredResults.length}
-                          of ${filteredResults.length} results for: `
-                        }`}
+                      {`${formatResultCount(
+                        filteredResults,
+                        currentPage,
+                        itemsPerPage,
+                      )} of ${filteredResults.length} results for:`}
                     </p>
                     <VaLink
                       href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
+                      className="back-link"
                       back
                       text="Back to search"
                       onClick={handlePreviousRouteChange}
@@ -141,15 +136,20 @@ function LicenseCertificationSearchResults({
               </div>
               <div className="row">
                 {filteredResults.length > 0 ? (
-                  <ul className="remove-bullets">
+                  <ul className="lc-result-cards-wrapper">
                     {currentResults.map((result, index) => {
                       return (
                         <li className="vads-u-padding-bottom--2" key={index}>
                           <VaCard class="vads-u-background-color--gray-lightest vads-u-border--0">
                             <h3 className="vads-u-margin--0">{result.lacNm}</h3>
-                            <h4 className="lc-card-subheader vads-u-margin-y--1p5">
+                            <h4 className="lc-card-subheader vads-u-margin-top--1p5">
                               {result.eduLacTypeNm}
                             </h4>
+                            {result.eduLacTypeNm !== 'Certification' && (
+                              <p className="state vads-u-margin-y--1">
+                                {ADDRESS_DATA.states[result.state]}
+                              </p>
+                            )}
                             <VaLinkAction
                               href={`/lc-search/results/${result.enrichedId}`}
                               text={`View test amount details for ${

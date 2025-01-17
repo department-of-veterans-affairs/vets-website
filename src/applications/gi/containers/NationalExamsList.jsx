@@ -4,12 +4,10 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
-  VaCard,
   VaLinkAction,
-  VaAlert,
-  VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchNationalExams } from '../actions';
+import { formatNationalExamName } from '../utils/helpers';
 
 const NationalExamsList = () => {
   const dispatch = useDispatch();
@@ -65,7 +63,7 @@ const NationalExamsList = () => {
         actual amount of the fee charged for the test. The amount covered by VA
         may differ from the actual cost of the exam.
       </p>
-      <VaLink
+      <va-link
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
         text="Find out how to get reimbursed for national tests"
         style={{ fontSize: '18px' }}
@@ -77,18 +75,18 @@ const NationalExamsList = () => {
     return (
       <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
         <NationalExamsInfo />
-        <VaAlert
-          style={{ marginTop: '8px', marginBottom: '32px' }}
+        <va-alert
+          style={{ marginTop: '18px', marginBottom: '32px' }}
           status="error"
           data-e2e-id="alert-box"
         >
           <h2 slot="headline">
-            We can’t load the National Exams list right now
+            We can’t load the national exams list right now
           </h2>
           <p>
             We’re sorry. There’s a problem with our system. Try again later.
           </p>
-        </VaAlert>
+        </va-alert>
       </div>
     );
   }
@@ -98,7 +96,7 @@ const NationalExamsList = () => {
         <NationalExamsInfo />
         <va-loading-indicator
           label="Loading"
-          message="Loading your National Exams..."
+          message="Loading your national exams..."
         />
       </div>
     );
@@ -121,18 +119,22 @@ const NationalExamsList = () => {
       <ul className="remove-bullets" role="list">
         {currentExams.map(exam => (
           <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
-            <VaCard background>
-              <h3 className="vads-u-margin--0">{exam.name}</h3>
+            <va-card background>
+              <h3 className="vads-u-margin--0">
+                {formatNationalExamName(exam.name)}
+              </h3>
               <VaLinkAction
                 href={`national-exams/${exam.enrichedId}`}
-                text={`View test amount details for ${exam.name}`}
+                text={`View test amount details for ${formatNationalExamName(
+                  exam.name,
+                )}`}
                 type="secondary"
-                message-aria-describedby={`View test amount details for ${
-                  exam.name
-                }`}
+                message-aria-describedby={`View test amount details for ${formatNationalExamName(
+                  exam.name,
+                )}`}
                 onClick={handleRouteChange(exam.enrichedId)}
               />
-            </VaCard>
+            </va-card>
           </li>
         ))}
       </ul>

@@ -326,10 +326,7 @@ const PrescriptionDetails = () => {
   const content = () => {
     if (prescription || prescriptionsApiError) {
       return (
-        // TODO: clean after grouping flag is gone
-        <div
-          className={`${showGroupingContent ? 'vads-u-margin-bottom--4' : ''}`}
-        >
+        <div>
           <div className="no-print">
             <h1
               aria-describedby="last-filled"

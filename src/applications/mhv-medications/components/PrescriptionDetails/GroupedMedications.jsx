@@ -69,7 +69,7 @@ const GroupedMedications = props => {
                 className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
                 key={rx.prescriptionId}
               >
-                <dt className="vads-u-margin-top--3">
+                <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
                   <h4>Prescription number: {rx.prescriptionNumber}</h4>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
