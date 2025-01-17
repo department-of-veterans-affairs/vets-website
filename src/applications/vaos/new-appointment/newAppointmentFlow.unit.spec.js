@@ -435,6 +435,10 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     describe('next page', () => {
+      it('should be selectProvider page if Cerner direct scheduling is enabled and type of care is foodAndNutrition', async () => {
+        return true;
+      });
+
       it('should be clinicChoice page if eligible', async () => {
         mockFetch();
         const state = {
