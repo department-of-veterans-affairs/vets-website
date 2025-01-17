@@ -18,18 +18,19 @@ const printCoverage = coverageResults => {
   });
 
   // Add each app coverage result to the table
-  Object.values(coverageResults).forEach(cov => {
-    const appLocation =
-      cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
-    coverageTable.push({
-      [appLocation]: [
-        `${cov.lines.pct}%`,
-        `${cov.functions.pct}%`,
-        `${cov.statements.pct}%`,
-        `${cov.branches.pct}%`,
-      ],
-    });
-  });
+  console.log(Object.values(coverageResults));
+  // Object.values(coverageResults).forEach(cov => {
+  //   const appLocation =
+  //     cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
+  //   coverageTable.push({
+  //     [appLocation]: [
+  //       `${cov.lines.pct}%`,
+  //       `${cov.functions.pct}%`,
+  //       `${cov.statements.pct}%`,
+  //       `${cov.branches.pct}%`,
+  //     ],
+  //   });
+  // });
 
   console.log(coverageTable.toString());
 };
@@ -97,10 +98,11 @@ const logCoverage = coverageResults => {
   const data = JSON.stringify(coverageResults, null, 4);
   console.log(data);
   // write coverageResults string to file
-  const outputFile = path.join(
-    __dirname,
-    '../qa-standards-dashboard-data/coverage/test-coverage-report.json',
-  );
+  // const outputFile = path.join(
+  //   __dirname,
+  //   '../qa-standards-dashboard-data/coverage/test-coverage-report.json',
+  // );
+  const outputFile = 'coverage-report.json';
   fs.writeFile(outputFile, data, err => {
     if (err) {
       throw err;
