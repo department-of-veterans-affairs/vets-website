@@ -35,6 +35,25 @@ const mockApi = {
   getUser() {
     return apiFetch(user);
   },
+
+  createPOARequestDecision(id, { type }) {
+    const poaRequest = poaRequests.find(r => r.id === +id).attributes;
+
+    switch (type) {
+      case 'acceptance':
+        poaRequest.status = 'Accepted';
+        break;
+      case 'declination':
+        poaRequest.status = 'Declined';
+        break;
+      default:
+        throw new Error(`Unexpected decision type: ${type}`);
+    }
+
+    poaRequest.acceptedOrDeclinedAt = new Date().toISOString();
+
+    return apiFetch({});
+  },
 };
 
 // Convenience runtime toggle between use of mock data and real data.
@@ -50,8 +69,12 @@ export function configure() {
   }
 
   if (search.has('useMockData')) {
-    api.getPOARequest = mockApi.getPOARequest;
-    api.getPOARequests = mockApi.getPOARequests;
+    Object.values(mockApi).forEach(method => {
+      if (typeof method !== 'function') return;
+      if (method.name === 'getUser') return;
+
+      api[method.name] = method;
+    });
   }
 }
 

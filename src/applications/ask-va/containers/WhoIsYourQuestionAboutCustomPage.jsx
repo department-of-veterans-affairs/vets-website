@@ -22,11 +22,6 @@ const WhoIsYourQuestionAboutCustomPage = props => {
     });
   };
 
-  const onModalNo = () => {
-    onChange({ ...formData, whoIsYourQuestionAbout: undefined });
-    setShowModal(false);
-  };
-
   const showError = data => {
     if (data.whoIsYourQuestionAbout) {
       goForward(data);
@@ -80,7 +75,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
+        onClose={() => setShowModal(false)}
         show={showModal}
         restrictedItem="question"
       />
