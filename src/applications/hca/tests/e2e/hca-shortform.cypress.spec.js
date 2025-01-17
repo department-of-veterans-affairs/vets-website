@@ -244,7 +244,9 @@ describe('HCA-Shortform-UnAuthenticated', () => {
   it('works with self disclosure of va compensation type of High Disability', () => {
     cy.visit(manifest.rootUrl);
 
-    cy.get('.schemaform-start-button')
+    cy.get('va-alert-sign-in')
+      .shadow()
+      .get('va-link')
       .first()
       .click();
 

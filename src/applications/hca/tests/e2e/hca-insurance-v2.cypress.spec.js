@@ -24,7 +24,9 @@ describe('HCA-Health-Insurance-Information', () => {
     cy.wait(['@mockFeatures']);
   };
   const advanceToHealthInsurance = () => {
-    cy.get('.schemaform-start-button')
+    cy.get('va-alert-sign-in')
+      .shadow()
+      .get('va-link')
       .first()
       .click();
     cy.location('pathname').should('include', '/id-form');

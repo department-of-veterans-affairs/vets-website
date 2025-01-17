@@ -21,7 +21,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.schemaform-start-button')
+          cy.get('va-alert-sign-in')
+            .shadow()
+            .get('va-link')
             .first()
             .click();
         });
