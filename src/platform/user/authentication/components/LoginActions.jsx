@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
@@ -6,6 +7,9 @@ import LoginButton from './LoginButton';
 import LoginNote from './LoginNote';
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
+  const mhvButtonDeprecated = useSelector(
+    state => state?.featureToggles?.mhvCredentialButtonDisabled,
+  );
   const [useOAuth, setOAuth] = useState();
   const { OAuth } = getQueryParams();
   const {
@@ -25,6 +29,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;
+  const mhvButtonShouldDisplay = mhvButtonDeprecated;
 
   return (
     <div className="row">
@@ -41,7 +46,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>
-            {mhv && (
+            {!mhvButtonShouldDisplay && (
               <>
                 <h3 id="mhvH3">
                   My HealtheVet sign-in option

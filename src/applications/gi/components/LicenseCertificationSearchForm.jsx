@@ -1,119 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Dropdown from './Dropdown';
 import {
   capitalizeFirstLetter,
+  categoryCheck,
+  checkAlert,
   filterLcResults,
+  mappedStates,
   showLcParams,
+  showMultipleNames,
+  updateDropdowns,
 } from '../utils/helpers';
 import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 import LicenseCertificationAlert from './LicenseCertificationAlert';
-
-const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
-
-export const updateDropdowns = (
-  category = 'all',
-  location = 'all',
-  multiples = [],
-) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'license', optionLabel: 'License' },
-        {
-          optionValue: 'certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'prep',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
-              ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
-
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
-      };
-    }
-
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
-    }
-
-    return dropdown;
-  });
-};
-
-export const showMultipleNames = (suggestions, name) => {
-  return suggestions.filter(suggestion => suggestion.name === name);
-};
-
-export const categoryCheck = type => {
-  if (type === 'license') {
-    return true;
-  }
-  if (type === 'prep') return true;
-
-  return false;
-};
-
-export const checkAlert = (
-  type,
-  filteredStates,
-  currentLocation,
-  newLocation,
-) => {
-  if (filteredStates.length > 1) {
-    return true;
-  }
-
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'certification' && currentLocation !== 'all') {
-    if (!currentLocation) {
-      return false;
-    }
-    return true;
-  }
-
-  return false;
-};
 
 export default function LicenseCertificationSearchForm({
   suggestions,
@@ -132,7 +32,7 @@ export default function LicenseCertificationSearchForm({
 
   const [categoryDropdown, locationDropdown] = dropdowns;
 
-  // Use params if present to assign initial dropdown values
+  // If available, use url query params to assign initial dropdown values
   useEffect(
     () => {
       setDropdowns(updateDropdowns(categoryParam, stateParam));
@@ -151,8 +51,7 @@ export default function LicenseCertificationSearchForm({
 
       if (name.trim() !== '') {
         newSuggestions.unshift({
-          name,
-          link: 'lce/',
+          lacNm: name,
           type: 'all',
         });
       }
@@ -161,25 +60,13 @@ export default function LicenseCertificationSearchForm({
     [name, suggestions, dropdowns],
   );
 
-  // Set state value to all whenever cert is selected
-  useEffect(
-    () => {
-      if (
-        categoryDropdown.current.optionValue === 'certification' &&
-        locationDropdown.current.optionValue !== 'all'
-      ) {
-        setDropdowns(updateDropdowns('certification', 'all'));
-      }
-    },
-    [dropdowns],
-  );
-
   const handleChange = e => {
     const multiples =
-      multipleOptions || showMultipleNames(filteredSuggestions, name);
+      multipleOptions ?? showMultipleNames(filteredSuggestions, name);
 
     let allowContinue = false;
 
+    // check if selection combo should enable the modal
     if (name) {
       if (
         e.target.id === 'state' &&
@@ -202,6 +89,7 @@ export default function LicenseCertificationSearchForm({
               );
               setShowAlert(false);
               setName('');
+              setMultipleOptions(null);
             },
           );
         }
@@ -216,6 +104,7 @@ export default function LicenseCertificationSearchForm({
             setDropdowns(updateDropdowns());
             setShowAlert(false);
             setName('');
+            setMultipleOptions(null);
           },
         );
       }
@@ -254,25 +143,29 @@ export default function LicenseCertificationSearchForm({
   };
 
   const onSelection = selection => {
-    if (selection.selected !== filteredSuggestions[0]) {
-      const { type, state, name: _name } = selection;
+    const { selected } = selection;
+
+    if (selected !== filteredSuggestions[0]) {
+      const { eduLacTypeNm: type, state, lacNm: _name } = selected;
       const multiples = showMultipleNames(filteredSuggestions, _name);
 
       if (multiples.length > 1) {
         setMultipleOptions(multiples);
       }
 
+      const _state = type === 'Certification' ? 'all' : state;
+
       const newDropdowns =
         multiples.length > 1
           ? updateDropdowns(type, 'all', multiples)
-          : updateDropdowns(type, state);
+          : updateDropdowns(type, _state);
 
       setShowAlert(
         checkAlert(
           type,
           multiples,
           locationDropdown.current.optionValue,
-          state,
+          _state,
         ),
       );
 
@@ -283,8 +176,14 @@ export default function LicenseCertificationSearchForm({
 
   const handleClearInput = () => {
     setName('');
-    setDropdowns(updateDropdowns(categoryDropdown.current.optionValue));
     setShowAlert(false);
+    setMultipleOptions(null);
+    setDropdowns(
+      updateDropdowns(
+        categoryDropdown.current.optionValue,
+        locationDropdown.current.optionValue,
+      ),
+    );
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
@@ -302,12 +201,12 @@ export default function LicenseCertificationSearchForm({
         value={categoryDropdown.current.optionValue}
         onChange={handleChange}
         alt={categoryDropdown.alt}
-        selectClassName="lc-dropdown-filter"
+        selectClassName="dropdown-filter"
         required={categoryDropdown.label === 'category'}
       />
 
       <Dropdown
-        disabled={categoryDropdown.current.optionValue === 'certification'}
+        disabled={categoryDropdown.current.optionValue === 'Certification'}
         label={`${capitalizeFirstLetter(locationDropdown.label)}`}
         visible
         name={locationDropdown.label}
@@ -315,7 +214,7 @@ export default function LicenseCertificationSearchForm({
         value={locationDropdown.current.optionValue ?? 'all'}
         onChange={handleChange}
         alt={locationDropdown.alt}
-        selectClassName="lc-dropdown-filter"
+        selectClassName="dropdown-filter"
         required={locationDropdown.label === 'category'}
       >
         {showAlert ? (
@@ -329,7 +228,7 @@ export default function LicenseCertificationSearchForm({
               multipleOptions?.length > 1
             }
             changeStateToAllAlert={
-              categoryDropdown.current.optionValue === 'certification'
+              categoryDropdown.current.optionValue === 'Certification'
             }
             visible={showAlert}
             name={name}
@@ -353,8 +252,9 @@ export default function LicenseCertificationSearchForm({
         />
       </div>
 
-      <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
-        <va-button
+      <div className="button-wrapper row">
+        <VaButton
+          className="va-button"
           text="Submit"
           onClick={() =>
             handleSearch(
@@ -364,14 +264,16 @@ export default function LicenseCertificationSearchForm({
             )
           }
         />
-        <va-button
+        <VaButton
           text="Reset Search"
-          className="usa-button-secondary reset-search"
+          // className="reset-search"
+          secondary
           onClick={() =>
             handleReset(() => {
               setDropdowns(updateDropdowns());
               setName('');
               setShowAlert(false);
+              setMultipleOptions(null);
             })
           }
         />
