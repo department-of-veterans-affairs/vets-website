@@ -80,6 +80,7 @@
 }
 
 /* OCTO Identity */
+$idme-background-green: #08833D;
 .login,
 .verify {
   background: var(--vads-color-white);
@@ -112,7 +113,7 @@
     }
 
     &.idme-button {
-      background: var(--vads-color-success-dark);
+      background: $idme-background-green;
 
       &:hover {
         background: var(

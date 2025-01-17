@@ -11,7 +11,7 @@ export default function MhvAccess() {
         </h1>
         <p className="vads-u-measure--5">
           Get temporary access to the My HealtheVet sign-in option if you
-          weren't able to create a new Login.gov or ID.me account yet.
+          weren't about to create a new Login.gov or ID.me account yet
         </p>
 
         <p>This sign-in process may change in the future.</p>
