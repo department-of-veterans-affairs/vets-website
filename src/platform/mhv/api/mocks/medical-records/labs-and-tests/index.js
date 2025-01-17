@@ -2886,71 +2886,49 @@ const all = {
     },
     {
       fullUrl:
-        'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
+        'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/12321',
       resource: {
+        physician: 'Gregory House, M.D.',
         resourceType: 'DiagnosticReport',
-        id: '625882',
+        id: '1234562786',
         meta: {
-          versionId: '1',
-          lastUpdated: '2024-05-21T15:39:30.126-04:00',
-          source: '#byyVtiRCKRE6yvwG',
           profile: [
-            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chReport',
+            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.SPlabReport',
           ],
+        },
+        text: {
+          status: 'generated',
+          div:
+            '<div xmlns="http://www.w3.org/1999/xhtml"><h2><span title="Codes:{http://loinc.org 11526-1}">LR SURGICAL PATHOLOGY REPORT</span> (<span title="Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 LAB}">Laboratory</span>, <span title="Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 SP}">Surgical Pathology</span>) </h2><table class="grid"><tr><td>Subject</td><td><b>MTPZEROTWO DAYTSHR </b> male, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/1 (use: usual))</td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Identifier:</td><td> <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabReportTO.SP;7009190 (use: usual)</td></tr></table><p><b>Report Details</b></p></div>',
         },
         contained: [
           {
             resourceType: 'Specimen',
-            id: 'Specimen-0',
+            id: 'ex-MHV-specimen-6',
             meta: {
               profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chSpecimen',
+                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.LabSpecimen',
               ],
+            },
+            type: {
+              text: 'LEFT FINGER',
+            },
+            accessionIdentifier: {
+              use: 'usual',
+              system: 'urn:oid:2.16.840.1.113883.4.349.4.989',
+              value: 'SP 99 1804',
             },
             status: 'available',
-            type: {
-              coding: [
-                {
-                  system: 'http://terminology.hl7.org/CodeSystem/v2-0487',
-                  code: 'SER',
-                  display: 'Serum',
-                },
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/61',
-                  version: '5.2',
-                  code: '72',
-                  display: 'SERUM',
-                },
-              ],
-              text: 'Nasal cavity structure (body structure)',
-            },
-            request: [
-              {
-                reference: '#ServiceRequest-1',
-              },
-            ],
             collection: {
-              collectedDateTime: '2024-12-12T09:00:00-05:00',
+              collectedDateTime: '2024-08-27T12:54:00-0500',
+              bodySite: {
+                text: 'LEFT FINGER',
+              },
             },
-          },
-          {
-            resourceType: 'Practitioner',
-            id: 'Provider-1',
-            identifier: [
-              {
-                system: 'http://va.gov/terminology/vistaDefinedTerms/4',
-                value: '35457-VA552',
-              },
-            ],
-            name: [
-              {
-                text: 'Gregory House, M.D.',
-              },
-            ],
           },
           {
             resourceType: 'Organization',
-            id: 'Organization-552',
+            id: 'ex-MHV-organization-989',
             meta: {
               profile: [
                 'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization',
@@ -2959,131 +2937,23 @@ const all = {
             identifier: [
               {
                 use: 'usual',
-                type: {
-                  text: 'FI',
-                },
                 system: 'urn:oid:2.16.840.1.113883.4.349',
-                value: '552',
+                value: 'LabSiteTO.989',
+              },
+              {
+                system: 'http://hl7.org/fhir/sid/us-npi',
+                value: '1234',
               },
             ],
             active: true,
             name: 'DAYTON, OH VAMC',
-            address: [
-              {
-                line: ['4100 W. THIRD STREET'],
-                city: 'DAYTON',
-                state: 'OH',
-                postalCode: '45428',
-                country: 'USA',
-              },
-            ],
-          },
-          {
-            resourceType: 'Organization',
-            id: 'OrgPerformer-989',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349',
-                value: '989',
-              },
-            ],
-            active: true,
-            name: 'Washington DC VAMC',
-          },
-          {
-            resourceType: 'ServiceRequest',
-            id: 'ServiceRequest-1',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chOrder',
-              ],
-            },
-            status: 'unknown',
-            intent: 'order',
-            category: [
-              {
-                coding: [
-                  {
-                    system: 'http://snomed.info/sct',
-                    code: '108252007',
-                    display: 'Laboratory procedure',
-                  },
-                ],
-              },
-            ],
-            code: {
-              coding: [
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/64',
-                  code: '89042.0000',
-                },
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/60',
-                  code: '5150',
-                  display: 'T-TRANSGLUTAMINASE IGA',
-                },
-              ],
-              text: 'Surgical Pathology',
-            },
-            subject: {
-              reference: 'Patient/4130',
-            },
-            requester: {
-              reference: '#Provider-1',
-            },
-            performer: [
-              {
-                reference: '#Organization-552',
-              },
-            ],
-          },
-          {
-            resourceType: 'Observation',
-            id: '12400',
-            status: 'Final',
-            code: {
-              text: 'COVID-19 CEPHEID',
-            },
-            valueQuantity: {
-              value: 'Not Detected',
-              unit: '',
-            },
-            performer: [
-              {
-                reference: '#OrgPerformer-989',
-              },
-            ],
-            referenceRange: [
-              {
-                text: 'Not Detected',
-              },
-            ],
-          },
-        ],
-        extension: [
-          {
-            url:
-              'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes',
-            valueString:
-              'The Abbott BinaxNOW COVID-19 Ag Card Test is a rapid lateral flow immunoassay for the qualitative detection of nucleocapsid protein antigen from SARS-CoV-2. It does not differentiate between SARS-CoV and SARS-CoV-2. This test panel was approved for use under FDA Emergency Use Authorization only. These results must be accompanied with the following Facts Sheets: --For Health Care Providers: https://www.fda.gov/media/141568/download --For Patients: https://www.fda.gov/media/141569/download',
           },
         ],
         identifier: [
           {
             use: 'usual',
-            system: 'urn:fdc:TEST.DAYTON.MED.VA.GOV:LR',
-            value: '3741350004',
-          },
-        ],
-        basedOn: [
-          {
-            reference: '#ServiceRequest-1',
+            system: 'urn:oid:2.16.840.1.113883.4.349.4.989',
+            value: 'LabReportTO.SP;7009190',
           },
         ],
         status: 'final',
@@ -3100,48 +2970,45 @@ const all = {
             coding: [
               {
                 system: 'http://terminology.hl7.org/CodeSystem/v2-0074',
-                code: 'CH',
+                code: 'SP',
               },
             ],
-          },
-          {
-            coding: [
-              {
-                system: 'http://loinc.org',
-                version: '2.76',
-                code: '10362-2',
-              },
-            ],
-            text: 'ENDOMYSIUM AB.IGA:PRTHR:PT:SER:ORD:',
+            text: 'Chemistry and hematology',
           },
         ],
         code: {
-          text: 'CH',
+          coding: [
+            {
+              system: 'http://loinc.org',
+              code: '11526-1',
+            },
+          ],
+          text: 'Surgical Pathology',
         },
         subject: {
-          reference: 'Patient/4130',
+          reference: 'Patient/ex-MHV-patient-1',
         },
-        effectiveDateTime: '2024-04-13T15:40:00-0500',
-        issued: '2024-12-12T09:00:00-05:00',
+        effectiveDateTime: '2024-04-13T12:54:00-0500',
+        issued: '1999-08-11T16:09:00Z',
         performer: [
           {
-            reference: '#OrgPerformer-989',
+            reference: '#ex-MHV-organization-989',
           },
         ],
         specimen: [
           {
-            reference: '#Specimen-0',
+            reference: '#ex-MHV-specimen-6',
           },
         ],
-        result: [
+        presentedForm: [
           {
-            reference: '#12400',
+            contentType: 'text/plain',
+            data:
+              'RGF0ZSBTcGVjIHRha2VuOiBEZWMgMjEsIDIwMjEgMTI6NTQgUGF0aG9sb2dpc3Q6IENIRVJZTCBKQU1FUwpEYXRlIFNwZWMgcmVjJ2Q6IERlYyAyMSwgMjAyMSAxMjo1NSBUZWNoOiBDSEVSWUwgSkFNRVMKRGF0ZSBjb21wbGV0ZWQ6IERlYyAyMSwgMjAyMSBBY2Nlc3Npb24gIzogQ1kgMTQgOTk5OTk4ClN1Ym1pdHRlZCBieTogR1JFR09SWSBIT1VTRSwgTS5ELiBQcmFjdGl0aW9uZXI6IFNBTkRSQSBERU5UT04KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpTcGVjaW1lbjoKRkxVSUQKREVTQ1JJUFRJT046ClRoaXMgaXMgdGhlIE5hdGlvbmFsIHBhY2thZ2UgLSB0ZXN0aW5nIGZvciBNSFYuCk1JQ1JPU0NPUElDIEVYQU0gKERhdGUgU3BlYyB0YWtlbjogRGVjIDIxLCAyMDIxIDEyOjU0KQpOb3JtYWwgZmx1aWQgLSBURVNUIE9OTFkKPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tClBlcmZvcm1pbmcgTGFib3JhdG9yeToKQ3l0b2xvZ3kgUmVwb3J0IFBlcmZvcm1lZCBCeToKV0FTSElOR1RJT04gREMgVkFNQw==',
           },
         ],
       },
-      search: {
-        mode: 'match',
-      },
+      search: { mode: 'match' },
     },
     {
       fullUrl:
