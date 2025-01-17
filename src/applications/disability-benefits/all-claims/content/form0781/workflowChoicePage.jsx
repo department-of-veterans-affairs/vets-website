@@ -34,13 +34,22 @@ export const workflowChoicePageDescription = formData => {
     <>
       {conditionSelections(formData)}
       <p>
-        You can complete VA Form 21-0781 to provide more information about your
-        mental health conditions. It should take about 45 minutes.
+        If any of these are diagnosed mental health conditions related to a
+        traumatic event you experienced during military service, you can
+        complete an additional form to provide more information to support your
+        claim (VA Form 21-0781).
       </p>
       <p>
-        We encourage you to complete this form to support your disability claim.
-        This form is optional and you can respond to only the questions you’re
-        comfortable answering.
+        This additional form is optional. In this additional form, we ask you
+        about the traumatic events you experienced and any behavioral changes
+        that you experienced afterwards.
+      </p>
+      <p>
+        We encourage you to complete this form if it applies to you. The
+        information you provide supports your claim for these conditions. In
+        this form, you can also choose to only provide responses for the
+        questions you’re comfortable answering. Completing this additional form
+        should take about 45 minutes.
       </p>
     </>
   );
@@ -57,9 +66,9 @@ export const form0781WorkflowChoices = {
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
-    'Yes, I want to complete VA Form 21-0781 online right now',
+    'Yes, I want to complete VA Form 21-0781 online',
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
-    'Yes, but I’ve already completed the PDF version of VA Form 21-0781 and I want to submit it with my claim',
+    'Yes, but I’ve already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim',
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
     'No, I don’t want to complete VA Form 21-0781 (opt out)',
 });
