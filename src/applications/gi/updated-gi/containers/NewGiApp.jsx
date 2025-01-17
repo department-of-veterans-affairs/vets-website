@@ -10,7 +10,6 @@ const NewGiApp = ({ children }) => {
     <div className="row gi-bill-container">
       <GiBillBreadcrumbs />
       <div className="vads-u-margin-left--neg1">
-        <h1 data-testid="comparison-tool-title">GI Bill® Comparison Tool</h1>
         {children}
         <AboutThisTool />
         <InfoDisclaimer />

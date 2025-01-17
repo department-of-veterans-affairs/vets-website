@@ -24,7 +24,7 @@ describe('prefillTransformer', () => {
         postalCode: '75014',
       });
       expect(result.veteranEmail).to.eql('test2@test1.net');
-      expect(result['Primary phone']).to.eql('4445551212');
+      expect(result.primaryPhone).to.eql('4445551212');
       expect(result['Branch of Service']).to.eql('Army');
     });
 
@@ -91,7 +91,7 @@ describe('prefillTransformer', () => {
         veteranFullName: 'test',
         veteranDateOfBirth: 'test',
         veteranEmail: 'test',
-        'Primary phone': 'test',
+        primaryPhone: 'test',
         veteranHomeAddress: {
           city: 'test',
           country: 'test',
@@ -108,7 +108,7 @@ describe('prefillTransformer', () => {
       expect(result.veteranFullName).to.be.undefined;
       expect(result.veteranDateOfBirth).to.be.undefined;
       expect(result.veteranEmail).to.be.undefined;
-      expect(result['Primary phone']).to.be.undefined;
+      expect(result.primaryPhone).to.be.undefined;
       expect(result.veteranHomeAddress).to.eql({
         city: undefined,
         country: undefined,
@@ -118,6 +118,42 @@ describe('prefillTransformer', () => {
       });
       expect(result['Branch of Service']).to.be.undefined;
       expect(result.veteranSocialSecurityNumber).to.be.undefined;
+    });
+  });
+
+  context('when the user does not have an ICN', () => {
+    it('sets userIsDigitalSubmitEligible to false', () => {
+      const data = {
+        ...prefill,
+        identityValidation: { hasIcn: false, hasParticipantId: true },
+      };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.false;
+    });
+  });
+
+  context('when the user does not have a participant id', () => {
+    it('sets userIsDigitalSubmitEligible to false', () => {
+      const data = {
+        ...prefill,
+        identityValidation: { hasIcn: true, hasParticipantId: false },
+      };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.false;
+    });
+  });
+
+  context('when the user has an ICN and a participant id', () => {
+    it('sets userIsDigitalSubmitEligible to true', () => {
+      const data = { ...prefill };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.true;
     });
   });
 });

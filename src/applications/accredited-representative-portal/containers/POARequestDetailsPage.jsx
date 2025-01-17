@@ -261,7 +261,7 @@ const POARequestDetailsPage = () => {
           type="submit"
           className="usa-button poa-request-details__form-submit"
         >
-          Submit Decision
+          Submit decision
         </button>
       </Form>
     </section>

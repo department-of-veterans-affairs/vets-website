@@ -178,7 +178,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
   0,
-  'Applicant - relationship to sponsor',
+  'Applicant - relationship to the sponsor',
   { ...mockData.data },
 );
 

@@ -32,6 +32,12 @@ export const getVitals = (
   }
 };
 
+/**
+ * Updates the list of vitals with the selected vital type, **will** make an API call to populate the data
+ *
+ * @param {string} vitalType a valid vital type
+ * @param {array} vitalList the list of vitals to check if it's empty
+ */
 export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
   try {
     if (!isArrayAndHasItems(vitalList)) {
@@ -42,6 +48,15 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;
   }
+};
+
+/**
+ * Updates the list of vitals with the selected vital type, **will not** make an API call to populate the data
+ *
+ * @param {string} vitalType a valid vital type
+ */
+export const setVitalsList = vitalType => async dispatch => {
+  dispatch({ type: Actions.Vitals.GET, vitalType });
 };
 
 export const clearVitalDetails = () => async dispatch => {
