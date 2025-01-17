@@ -191,44 +191,42 @@ describe('SearchResult Component', () => {
 
   context('when v2 is not enabled', () => {
     it('does not display submission methods', () => {
-      it('does not display submission methods', () => {
-        const representative = {
-          data: {
-            id: 1,
-            type: 'individual',
-            attributes: {
-              addressLine1: '123 Main St',
-              city: '',
-              stateCode: '',
-              zipCode: '',
-              fullName: 'Robert Smith',
-              individualType: 'representative',
-            },
+      const representative = {
+        data: {
+          id: 1,
+          type: 'individual',
+          attributes: {
+            addressLine1: '123 Main St',
+            city: '',
+            stateCode: '',
+            zipCode: '',
+            fullName: 'Robert Smith',
+            individualType: 'representative',
           },
-        };
+        },
+      };
 
-        const useV2FeatureVisibilityStub = sinon
-          .stub(useV2FeatureToggle, 'default')
-          .returns(false);
+      const useV2FeatureVisibilityStub = sinon
+        .stub(useV2FeatureToggle, 'default')
+        .returns(false);
 
-        const { container } = render(
-          <SearchResult
-            representative={representative}
-            query={{}}
-            handleSelectRepresentative={() => {}}
-            loadingPOA={false}
-            userIsDigitalSubmitEligible
-          />,
-        );
+      const { container } = render(
+        <SearchResult
+          representative={representative}
+          query={{}}
+          handleSelectRepresentative={() => {}}
+          loadingPOA={false}
+          userIsDigitalSubmitEligible
+        />,
+      );
 
-        const submissionMethods = container.querySelector(
-          '[data-testid="submission-methods"]',
-        );
+      const submissionMethods = container.querySelector(
+        '[data-testid="submission-methods"]',
+      );
 
-        expect(submissionMethods).not.to.exist;
+      expect(submissionMethods).not.to.exist;
 
-        useV2FeatureVisibilityStub.restore();
-      });
+      useV2FeatureVisibilityStub.restore();
     });
   });
 });
