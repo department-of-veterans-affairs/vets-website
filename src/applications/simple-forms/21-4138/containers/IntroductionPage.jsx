@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import {
+  VaAlertSignIn,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
+import { TITLE, SUBTITLE } from '../config/constants';
 
 const IntroductionPage = props => {
   const { route } = props;
+  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
 
@@ -16,7 +22,7 @@ const IntroductionPage = props => {
         Use this form to provide additional information to support an existing
         claim.
       </p>
-      <h2>What to know before filling out this form</h2>
+      <h2>What to know before you fill out this form</h2>
       <p>
         If you want to submit more than one statement, you’ll need to use a new
         form for each statement.
@@ -40,10 +46,9 @@ const IntroductionPage = props => {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
     authStartFormText: 'Start your statement',
-    unauthStartText: 'Sign in to start your statement',
+    unauthStartText: 'Sign in or create an account',
     displayNonVeteranMessaging: true,
-    hideSipIntro: userLoggedIn && !userIdVerified,
-    customLink: PrimaryActionLink,
+    hideSipIntro: true,
   };
 
   const ombInfo = {
@@ -52,15 +57,26 @@ const IntroductionPage = props => {
     expDate: '6/30/2024',
   };
 
+  const customSipComponent = (
+    <VaAlertSignIn variant="signInRequired" disable-analytics visible>
+      <span slot="SignInButton">
+        <VaButton
+          text={content.unauthStartText}
+          onClick={() => dispatch(toggleLoginModal(true, '', true))}
+          uswds
+        />
+      </span>
+    </VaAlertSignIn>
+  );
+
   return (
     <IntroductionPageView
-      devOnly={{
-        forceShowFormControls: true,
-      }}
-      route={route}
-      content={content}
-      ombInfo={ombInfo}
+      additionalChildContent={customSipComponent}
       childContent={childContent}
+      content={content}
+      devOnly={{ forceShowFormControls: true }}
+      ombInfo={ombInfo}
+      route={route}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
     />
