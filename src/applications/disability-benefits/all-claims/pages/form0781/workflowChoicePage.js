@@ -4,7 +4,7 @@ import {
   form0781WorkflowChoiceDescription,
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
-  ptsdQuestionsPreview,
+  traumaticEventsExamples,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
 } from '../../content/form0781/workflowChoicePage';
@@ -23,8 +23,8 @@ export default {
       labels: form0781WorkflowChoiceLabels,
       enableAnalytics: true,
     }),
-    'view:ptsdQuestionsPreview': {
-      'ui:description': ptsdQuestionsPreview,
+    'view:traumaticEventsInfo': {
+      'ui:description': traumaticEventsExamples,
     },
   },
 
@@ -38,7 +38,7 @@ export default {
           key => form0781WorkflowChoices[key],
         ),
       },
-      'view:ptsdQuestionsPreview': {
+      'view:traumaticEventsInfo': {
         type: 'object',
         properties: {},
       },

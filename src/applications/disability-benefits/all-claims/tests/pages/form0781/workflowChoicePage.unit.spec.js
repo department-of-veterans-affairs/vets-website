@@ -102,7 +102,7 @@ describe('Form 0781 workflow choice page', () => {
     ).not.to.exist;
   });
 
-  it('Displays a radio button selection of choices on filling out 0781', () => {
+  it('Displays a selection of choices on filling out 0781 and incplues examples', () => {
     const onSubmit = Sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
@@ -152,6 +152,12 @@ describe('Form 0781 workflow choice page', () => {
         container,
       ),
     ).to.exist;
+
+    const addlInfo = container.querySelector('va-accordion-item');
+    const headline = addlInfo.querySelector('h3[slot="headline"]');
+    expect(headline).to.have.text(
+      'Examples of mental health conditions and traumatic events',
+    );
   });
 
   it('should prevent continuing if a selection is not made', () => {
