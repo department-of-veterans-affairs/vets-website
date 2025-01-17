@@ -8,8 +8,8 @@ import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patt
 
 // page level imports
 import IntroductionPage from '../IntroductionPage';
-import profileContactInfo from './profileContactInfo';
 import veteranInfo from './veteranInfo';
+import { contactInfo } from './contactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -65,17 +65,7 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo3',
-          contactPath: 'veteran-information',
-          contactInfoRequiredKeys: [
-            'mailingAddress',
-            'email',
-            'homePhone',
-            'mobilePhone',
-          ],
-          included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
-        }),
+        ...contactInfo,
         taskCompletePagePattern2,
       },
     },

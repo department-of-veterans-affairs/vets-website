@@ -404,10 +404,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.STARTED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
@@ -596,10 +593,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.STARTED,
-        disabilityTypes.NOT_APPLIED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
