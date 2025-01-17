@@ -510,18 +510,19 @@ export function fetchSearchByLocationCoords(
   description,
 ) {
   const [longitude, latitude] = coordinates;
-  const params = filters
+  // If description - search by program, else search by location w/ filters
+  const params = description
     ? {
         latitude,
         longitude,
         distance,
-        ...rubyifyKeys(filters && buildSearchFilters(filters)),
+        description,
       }
     : {
         latitude,
         longitude,
         distance,
-        description,
+        ...rubyifyKeys(filters && buildSearchFilters(filters)),
       };
   if (version) {
     params.version = version;
