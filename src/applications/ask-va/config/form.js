@@ -11,12 +11,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 // Category and Topic pages
-import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
-import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
-import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 
 // Your Question
-import whoIsYourQuestionAboutPage from './chapters/yourQuestion/whoIsYourQuestionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Your Personal Information - Authenticated
@@ -118,28 +114,40 @@ const formConfig = {
           title: CHAPTER_1.PAGE_1.TITLE,
           CustomPage: CategorySelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectCategoryPage.uiSchema,
-          schema: selectCategoryPage.schema,
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         selectTopic: {
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
           CustomPage: TopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectTopicPage.uiSchema,
-          schema: selectTopicPage.schema,
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         selectSubtopic: {
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
           CustomPage: SubTopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectSubtopicPage.uiSchema,
-          schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
       },
     },
@@ -153,11 +161,15 @@ const formConfig = {
           title: CHAPTER_2.PAGE_1.TITLE,
           CustomPage: WhoIsYourQuestionAboutCustomPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: whoIsYourQuestionAboutPage.uiSchema,
-          schema: whoIsYourQuestionAboutPage.schema,
           depends: formData => {
             return whoIsYourQuestionAboutCondition(formData);
           },
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,

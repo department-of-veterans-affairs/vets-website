@@ -8,6 +8,10 @@ import {
   dishonorableDischarge,
   unknownDischarge,
 } from '../../../mocks/endpoints/service-history';
+import {
+  confirmed,
+  notConfirmed,
+} from '../../../mocks/endpoints/vet-verification-status';
 import MilitaryInformation from '../military-information/MilitaryInformation';
 
 describe('Proof of Veteran status', () => {
@@ -16,6 +20,7 @@ describe('Proof of Veteran status', () => {
     cy.intercept('GET', '/v0/user', loa3User72);
     cy.intercept('GET', '/v0/profile/full_name', fullName.success);
     cy.intercept('GET', '/v0/profile/service_history', airForce);
+    cy.intercept('GET', '/v0/profile/vet_verification_status', confirmed);
   });
 
   it('Should display the Proof of Veteran Status component', () => {
@@ -31,6 +36,7 @@ const login = ({ dischargeCode }) => {
   cy.intercept('GET', '/v0/user', loa3User72);
   cy.intercept('GET', '/v0/profile/full_name', fullName.success);
   cy.intercept('GET', '/v0/profile/service_history', dischargeCode);
+  cy.intercept('GET', '/v0/profile/vet_verification_status', notConfirmed);
 };
 
 describe('Veteran is not eligible', () => {
