@@ -29,7 +29,7 @@ const ReviewAndConfirm = props => {
   const { provider, loading, failed } = useGetProviderById(
     currentReferral.providerId,
   );
-  const slotDetails = getSlotById(provider.slots, selectedSlot);
+
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
@@ -59,12 +59,12 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [loading, failed, provider, dispatch],
+    [loading, failed, provider],
   );
 
   useEffect(
     () => {
-      if (!selectedSlot && savedSelectedSlot && provider.slots) {
+      if (!selectedSlot && savedSelectedSlot && provider?.slots) {
         const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
@@ -72,7 +72,7 @@ const ReviewAndConfirm = props => {
         dispatch(setSelectedSlot(savedSlot.id));
       }
     },
-    [dispatch, savedSelectedSlot, provider.slots, history, selectedSlot],
+    [dispatch, savedSelectedSlot, provider?.slots, history, selectedSlot],
   );
 
   const handleGoBack = e => {
@@ -91,6 +91,9 @@ const ReviewAndConfirm = props => {
       </div>
     );
   }
+
+  const slotDetails = getSlotById(provider.slots, selectedSlot);
+
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
