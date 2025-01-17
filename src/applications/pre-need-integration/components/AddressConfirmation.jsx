@@ -62,7 +62,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
         If the address is correct, you can continue. If you need to edit the
         address, you can go back.
       </p>
-      <va-additional-info trigger="Why we can't confirm the address you entered">
+      <va-additional-info trigger="Why we can’t confirm the address you entered">
         <p>
           The address you entered may not be in the U.S. Postal Service’s
           system. Or, you may have entered an error or other incorrect
