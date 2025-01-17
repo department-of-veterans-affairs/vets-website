@@ -488,7 +488,6 @@ export const aboutSomeoneElseRelationshipVeteranPages = flowPages(
 
 const aboutSomeoneElseRelationshipFamilyMember = [
   'isQuestionAboutVeteranOrSomeoneElse',
-  'aboutTheVeteran', // Needed for list, should not render
 ];
 export const aboutSomeoneElseRelationshipFamilyMemberPages = flowPages(
   ch3Pages,

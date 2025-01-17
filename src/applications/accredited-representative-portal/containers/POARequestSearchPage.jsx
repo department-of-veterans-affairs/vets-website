@@ -29,8 +29,8 @@ const SearchResults = ({ poaRequests }) => {
       className="poa-request__list"
       sort-column={1}
     >
-      {poaRequests.map(({ id, attributes: poaRequest }) => {
-        return <POARequestCard poaRequest={poaRequest} key={id} id={id} />;
+      {poaRequests.map((request, index) => {
+        return <POARequestCard poaRequest={request} key={index} />;
       })}
     </ul>
   );
@@ -78,7 +78,6 @@ const DigitalSubmissionAlert = () => (
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
@@ -90,7 +89,7 @@ const POARequestSearchPage = () => {
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
           >
-            Pending requests
+            Pending
           </StatusTabLink>
           <StatusTabLink
             tabStatus={STATUSES.COMPLETED}
