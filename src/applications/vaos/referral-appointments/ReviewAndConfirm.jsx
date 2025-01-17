@@ -28,6 +28,14 @@ const ReviewAndConfirm = props => {
   const selectedSlot = useSelector(state => getSelectedSlot(state));
   const { provider, loading, failed } = useGetProviderById(
     currentReferral.providerId,
+    {
+      onError: () => {
+        scrollAndFocus('h2');
+      },
+      onSuccess: () => {
+        scrollAndFocus('h1');
+      },
+    },
   );
 
   const facilityTimeZone = getTimezoneByFacilityId(
@@ -49,17 +57,6 @@ const ReviewAndConfirm = props => {
       }
     },
     [currentReferral.UUID, history, savedSelectedSlot, selectedSlot],
-  );
-
-  useEffect(
-    () => {
-      if (!loading && provider) {
-        scrollAndFocus('h1');
-      } else if (failed) {
-        scrollAndFocus('h2');
-      }
-    },
-    [loading, failed, provider],
   );
 
   useEffect(
