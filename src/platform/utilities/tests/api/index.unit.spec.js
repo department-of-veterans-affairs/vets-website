@@ -56,13 +56,7 @@ describe('test wrapper', () => {
 
       sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
 
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: '/some-other-page',
-          assign: sinon.stub(),
-        },
-        writable: true,
-      });
+      global.window.location.pathname = '/some-other-page';
 
       try {
         await apiRequest(
@@ -74,8 +68,8 @@ describe('test wrapper', () => {
         );
       } catch (error) {
         expect(mockEnv.isProduction.called).to.be.true;
-        expect(window.location).to.eql(
-          '/?next=loginModal&status=session_expired',
+        expect(window.location.search).to.eql(
+          '?next=loginModal&status=session_expired',
         );
       }
     });
