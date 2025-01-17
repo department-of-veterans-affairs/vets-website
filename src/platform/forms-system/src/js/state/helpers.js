@@ -261,6 +261,7 @@ export function updateSchemaFromUiSchema(
   formData,
   index = null,
   path = [],
+  fullData,
 ) {
   if (!uiSchema) {
     return schema;
@@ -277,6 +278,7 @@ export function updateSchemaFromUiSchema(
           formData,
           index,
           path.concat(next),
+          fullData || formData,
         );
 
         if (current.properties[next] !== nextProp) {
@@ -303,6 +305,7 @@ export function updateSchemaFromUiSchema(
         formData,
         idx,
         path.concat(idx),
+        fullData || formData,
       ),
     );
 
@@ -324,6 +327,7 @@ export function updateSchemaFromUiSchema(
       uiSchema,
       index,
       path,
+      fullData || formData,
     );
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
@@ -348,6 +352,7 @@ export function updateSchemaFromUiSchema(
       uiSchema,
       index,
       path,
+      fullData || formData,
     );
 
     if (newSchema !== currentSchema) {
@@ -419,7 +424,7 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
  * @param {Object} formData - The form data to based uiSchema updates on
  * @returns {UISchemaOptions} The new uiSchema object
  */
-export function updateUiSchema(schema, uiSchema, formData) {
+export function updateUiSchema(schema, uiSchema, formData, fullData) {
   if (!uiSchema) {
     return uiSchema;
   }
@@ -435,6 +440,7 @@ export function updateUiSchema(schema, uiSchema, formData) {
           schema.properties[key],
           modifiedUiSchema[key],
           formData,
+          fullData || formData,
         );
 
         if (modifiedUiSchema[key] !== nextProp) {
@@ -463,7 +469,7 @@ export function updateUiSchema(schema, uiSchema, formData) {
     return currentUiSchema;
   }
 
-  const newProps = uiSchemaUpdater(formData);
+  const newProps = uiSchemaUpdater(formData, fullData || formData);
   return mergeUiSchemasIfDifferent(currentUiSchema, newProps);
 }
 
@@ -614,6 +620,8 @@ export function updateSchemasAndData(
   uiSchema,
   formData,
   preserveHiddenData = false,
+  fullData,
+  index,
 ) {
   let newSchema = updateItemsSchema(schema, formData);
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
@@ -622,8 +630,20 @@ export function updateSchemasAndData(
   newSchema = setHiddenFields(newSchema, uiSchema, formData);
 
   // Update the uiSchema and  schema with any general updates based on the new data
-  const newUiSchema = updateUiSchema(newSchema, uiSchema, formData);
-  newSchema = updateSchemaFromUiSchema(newSchema, newUiSchema, formData);
+  const newUiSchema = updateUiSchema(
+    newSchema,
+    uiSchema,
+    formData,
+    fullData || formData,
+  );
+  newSchema = updateSchemaFromUiSchema(
+    newSchema,
+    newUiSchema,
+    formData,
+    index,
+    [], // path
+    fullData || formData,
+  );
 
   if (!preserveHiddenData) {
     // Remove any data that’s now hidden in the schema

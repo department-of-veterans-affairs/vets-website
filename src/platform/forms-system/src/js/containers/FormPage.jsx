@@ -349,6 +349,7 @@ class FormPage extends React.Component {
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
             data={data}
+            fullData={form.data}
             pagePerItemIndex={params ? params.index : undefined}
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}
