@@ -112,6 +112,10 @@ async function vaFacilityNext(state, dispatch) {
   //   }
   // }
 
+  if (isCerner && featureOHDirectSchedule) {
+    return 'selectProvider';
+  }
+
   if (isCerner && !featureOHDirectSchedule && !featureOHRequest) {
     return 'scheduleCerner';
   }
@@ -291,7 +295,7 @@ const flow = {
   selectProvider: {
     url: '/new-appointment/provider',
     label: 'Which provider do you want to schedule with?',
-    next: 'selectProvider',
+    next: null,
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
