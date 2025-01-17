@@ -8,7 +8,7 @@ import {
   isCompletingForm0781,
   isRelatedToMST,
 } from '../../utils/form0781';
-import { form0781WorkflowChoices } from '../../content/form0781';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
 describe('showForm0781Pages', () => {
   describe('when the flipper is on and a user is claiming a new condition', () => {
