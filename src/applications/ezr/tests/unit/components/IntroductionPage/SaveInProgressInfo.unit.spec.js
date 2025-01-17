@@ -65,7 +65,7 @@ describe('ezr <SaveInProgressInfo>', () => {
 
   describe('when the component renders', () => {
     context('when the user is not logged in', () => {
-      it('should render `va-alert` with `sign in` button', () => {
+      it('should render `va-alert-sign-in` with `sign in` button', () => {
         const { props, mockStore } = getData({
           showLoader: false,
           loggedIn: false,
@@ -77,7 +77,7 @@ describe('ezr <SaveInProgressInfo>', () => {
           </Provider>,
         );
         const selectors = {
-          alert: container.querySelector('[data-testid="ezr-login-alert"]'),
+          alert: container.querySelector('va-alert-sign-in'),
           button: container.querySelector('va-button'),
         };
         expect(selectors.alert).to.exist;

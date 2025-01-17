@@ -11,9 +11,9 @@ export const HowToVerifyLink = () => (
   </p>
 );
 
-const IdentityNotVerified = () => {
+const IdentityNotVerified = ({ dataTestId }) => {
   return (
-    <div className="vads-u-margin-y--2">
+    <div className="vads-u-margin-y--2" data-testId={dataTestId}>
       <VerifyAlert headingLevel={2} />
     </div>
   );

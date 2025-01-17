@@ -8,7 +8,12 @@ import content from '../../../locales/en/content.json';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
 describe('ezr IntroductionPage', () => {
-  const getData = ({ showLoader, loggedIn = false, userLOA = null }) => ({
+  const getData = ({
+    showLoader,
+    loggedIn = false,
+    userLOA = null,
+    serviceName = null,
+  }) => ({
     props: {
       route: {
         formConfig,
@@ -39,6 +44,7 @@ describe('ezr IntroductionPage', () => {
             loa: { current: userLOA },
             savedForms: [],
             prefillsAvailable: [],
+            signIn: { serviceName },
           },
         },
         scheduledDowntime: {
@@ -67,7 +73,9 @@ describe('ezr IntroductionPage', () => {
       );
       const selectors = {
         title: container.querySelector('[data-testid="form-title"]'),
-        sipInfo: container.querySelector('[data-testid="ezr-login-alert"]'),
+        sipInfo: container.querySelector(
+          'va-alert-sign-in[variant="signInOptional"]',
+        ),
         ombInfo: container.querySelector('va-omb-info'),
       };
       expect(selectors.title).to.exist;
@@ -103,6 +111,7 @@ describe('ezr IntroductionPage', () => {
       showLoader: false,
       loggedIn: true,
       userLOA: 1,
+      serviceName: 'idme',
     });
 
     it('should render the page content, identity alert & omb info', () => {
@@ -113,7 +122,9 @@ describe('ezr IntroductionPage', () => {
       );
       const selectors = {
         title: container.querySelector('[data-testid="form-title"]'),
-        sipInfo: container.querySelector('[data-testid="ezr-identity-alert"]'),
+        sipInfo: container.querySelector(
+          'va-alert-sign-in[variant="verifyIdMe"]',
+        ),
         ombInfo: container.querySelector('va-omb-info'),
       };
       expect(selectors.title).to.exist;
