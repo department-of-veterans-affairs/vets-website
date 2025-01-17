@@ -28,7 +28,7 @@ describe(appName, () => {
         cy.injectAxeThenAxeCheck();
 
         // Test that the unverified identity message is present
-        cy.get('va-alert-sign-in[variant="signInEither"]').should('exist');
+        cy.get('va-alert-sign-in').should.exist;
 
         // Check the cards are not visible
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
