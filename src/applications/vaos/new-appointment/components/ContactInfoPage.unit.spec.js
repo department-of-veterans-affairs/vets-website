@@ -53,10 +53,11 @@ describe('VAOS Page: ContactInfoPage', () => {
         /You can update your contact information for most of your benefits and services in your VA.gov profile./,
       ),
     ).to.be.ok;
-    const button = await screen.findByText(/^Continue/);
+    userEvent.click(screen.getByText(/^Continue/));
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
 
-    userEvent.click(button);
-    expect(screen.history.push.called).to.be.true;
     expect(window.dataLayer).to.deep.include({
       event: 'vaos-contact-info-email-not-populated',
     });
