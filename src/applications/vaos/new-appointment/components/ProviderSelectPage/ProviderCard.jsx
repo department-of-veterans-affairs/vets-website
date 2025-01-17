@@ -11,7 +11,10 @@ export default function ProviderCard({ provider }) {
         Your last appointment was on {provider.lastAppointment}
       </p>
       <va-link active href="#" text="Choose your preferred date and time" />
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <hr
+        aria-hidden="true"
+        className="vads-u-margin-bottom--2 vads-u-margin-top--2"
+      />
     </div>
   );
 }
