@@ -10,7 +10,7 @@ import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
-  includeHouseholdInformation,
+  // includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
   isSigiEnabled,
@@ -22,7 +22,7 @@ import {
   includeAgentOrangeExposureDates,
   includeOtherExposureDates,
   includeOtherExposureDetails,
-  showFinancialStatusAlert,
+  // showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
@@ -60,13 +60,13 @@ import spouseAdditionalInformation from './chapters/householdInformation/spouseA
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
 import spouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import dependentSummary from './chapters/householdInformation/dependentSummary';
-import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
-import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
-import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+// import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
+// import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
+// import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
-import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
+// import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -91,6 +91,7 @@ import InsurancePolicyInformationPage from '../components/FormPages/InsurancePol
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
 import postSept11Service from './chapters/militaryService/postSept11Service';
 import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
+import financialInformationPages from './chapters/householdInformation/financialInformation';
 
 // declare shared paths for custom form page navigation
 const {
@@ -214,15 +215,15 @@ const formConfig = {
          * having an empty/inactive "Household Info" accordion on the review page
          * when the user does not need to fill out household financial info
          */
-        financialStatusConfirmation: {
-          path: 'household-information/financial-information-status',
-          title: 'Financial information status',
-          depends: showFinancialStatusAlert,
-          CustomPage: FinancialConfirmationPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: VIEW_FIELD_SCHEMA,
-        },
+        // financialStatusConfirmation: {
+        //   path: 'household-information/financial-information-status',
+        //   title: 'Financial information status',
+        //   depends: showFinancialStatusAlert,
+        //   CustomPage: FinancialConfirmationPage,
+        //   CustomPageReview: null,
+        //   uiSchema: {},
+        //   schema: VIEW_FIELD_SCHEMA,
+        // },
       },
     },
     militaryService: {
@@ -327,7 +328,7 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: includeHouseholdInformation,
+          // depends: includeHouseholdInformation,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
@@ -367,7 +368,7 @@ const formConfig = {
           title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
-          depends: includeHouseholdInformation,
+          // depends: includeHouseholdInformation,
           uiSchema: dependentSummary.uiSchema,
           schema: dependentSummary.schema,
         },
@@ -380,30 +381,43 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        veteranAnnualIncome: {
-          path: 'household-information/veteran-annual-income',
-          title: 'Your annual income',
-          initialData: {},
-          depends: includeHouseholdInformation,
-          uiSchema: veteranAnnualIncome.uiSchema,
-          schema: veteranAnnualIncome.schema,
+        // veteranAnnualIncome: {
+        //   path: 'household-information/veteran-annual-income',
+        //   title: 'Your annual income',
+        //   initialData: {},
+        //   depends: includeHouseholdInformation,
+        //   uiSchema: veteranAnnualIncome.uiSchema,
+        //   schema: veteranAnnualIncome.schema,
+        // },
+        financialInformationSummary: {
+          ...financialInformationPages.financialInformationSummary,
         },
-        spouseAnnualIncome: {
-          path: 'household-information/spouse-annual-income',
-          title: 'Spouse\u2019s annual income',
-          initialData: {},
-          depends: includeSpousalInformation,
-          uiSchema: spouseAnnualIncome.uiSchema,
-          schema: spouseAnnualIncome.schema,
+        veteranAnnualIncome: {
+          ...financialInformationPages.veteranFinancialInformation,
         },
         deductibleExpenses: {
-          path: 'household-information/deductible-expenses',
-          title: 'Deductible expenses',
-          initialData: {},
-          depends: includeHouseholdInformation,
-          uiSchema: deductibleExpenses.uiSchema,
-          schema: deductibleExpenses.schema,
+          ...financialInformationPages.veteranDeductibleInformation,
         },
+        spouseAnnualIncome: {
+          ...financialInformationPages.spouseFinancialInformation,
+          // depends: includeSpousalInformation,
+        },
+        // spouseAnnualIncome: {
+        //   path: 'household-information/spouse-annual-income',
+        //   title: 'Spouse\u2019s annual income',
+        //   initialData: {},
+        //   depends: includeSpousalInformation,
+        //   uiSchema: spouseAnnualIncome.uiSchema,
+        //   schema: spouseAnnualIncome.schema,
+        // },
+        // deductibleExpenses: {
+        //   path: 'household-information/deductible-expenses',
+        //   title: 'Deductible expenses',
+        //   initialData: {},
+        //   // depends: includeHouseholdInformation,
+        //   uiSchema: deductibleExpenses.uiSchema,
+        //   schema: deductibleExpenses.schema,
+        // },
       },
     },
     insuranceInformation: {

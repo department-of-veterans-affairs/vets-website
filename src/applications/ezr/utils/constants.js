@@ -141,3 +141,66 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
 };
+
+export const VETERAN_PREFILL_DATA_ACTIONS = {
+  FETCH_VETERAN_PREFILL_DATA_STARTED: 'FETCH_VETERAN_PREFILL_DATA_STARTED',
+  FETCH_VETERAN_PREFILL_DATA_SUCCEEDED: 'FETCH_VETERAN_PREFILL_DATA_SUCCEEDED',
+  FETCH_VETERAN_PREFILL_DATA_FAILED: 'FETCH_VETERAN_PREFILL_DATA_FAILED',
+};
+
+export const VETERAN_PREFILL_DATA_INIT_STATE = {
+  hasServerError: false,
+  veteranPrefillData: null,
+  loading: false,
+};
+
+// declare mock response for veteran prefill data from vets-api to use for simulated testing
+export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
+  veteranIncome: {
+    otherIncome: '6405',
+    grossIncome: '49728',
+    netIncome: '3962',
+  },
+  spouseIncome: {
+    otherIncome: '1376',
+    grossIncome: '38911',
+    netIncome: '743',
+  },
+  providers: [
+    {
+      insuranceName: 'Insurance1',
+      insurancePolicyHolderName: 'Test Testerson',
+      insurancePolicyNumber: '6476334672674',
+    },
+  ],
+  medicareClaimNumber: '5465477564',
+  isEnrolledMedicarePartA: true,
+  medicarePartAEffectiveDate: '1997-03-04',
+  isMedicaidEligible: false,
+  dependents: [
+    {
+      fullName: {
+        first: 'Jeffery',
+        middle: 'Joseph',
+        last: 'Payne',
+      },
+      socialSecurityNumber: '643545355',
+      becameDependent: '1991-05-06',
+      dependentRelation: 'Son',
+      disabledBefore18: false,
+      attendedSchoolLastYear: true,
+      cohabitedLastYear: true,
+      dateOfBirth: '1991-05-06',
+    },
+  ],
+  spouseFullName: {
+    first: 'Nancy',
+    middle: 'Heather',
+    last: 'Payne',
+  },
+  dateOfMarriage: '1989-09-16',
+  cohabitedLastYear: true,
+  spouseDateOfBirth: '1970-02-21',
+  spouseSocialSecurityNumber: '865767654',
+  spouseIncomeYear: '2024',
+};

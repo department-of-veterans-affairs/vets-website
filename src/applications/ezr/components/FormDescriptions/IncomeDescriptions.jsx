@@ -1,24 +1,30 @@
 import React from 'react';
+// import { useSelector } from 'react-redux';
 
-export const GrossIncomeDescription = (
-  <va-additional-info
-    trigger="What we consider gross annual income"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
-    uswds
-  >
-    <div>
-      <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-        Gross income includes these types of income from a job:
-      </p>
-      <ul className="vads-u-margin-bottom--0">
-        <li>Wages</li>
-        <li>Bonuses</li>
-        <li>Tips</li>
-        <li>Severance pay</li>
-      </ul>
-    </div>
-  </va-additional-info>
-);
+export const GrossIncomeDescription = () => {
+  // const data = useSelector(state => state);
+  // console.log('state data', data);
+
+  return (
+    <va-additional-info
+      trigger="What we consider gross annual income"
+      class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
+      uswds
+    >
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+          Gross income includes these types of income from a job:
+        </p>
+        <ul className="vads-u-margin-bottom--0">
+          <li>Wages</li>
+          <li>Bonuses</li>
+          <li>Tips</li>
+          <li>Severance pay</li>
+        </ul>
+      </div>
+    </va-additional-info>
+  );
+};
 
 export const OtherIncomeDescription = (
   <va-additional-info
