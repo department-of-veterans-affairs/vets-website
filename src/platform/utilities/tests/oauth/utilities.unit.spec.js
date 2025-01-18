@@ -771,7 +771,7 @@ describe('OAuth - Utilities', () => {
       });
 
       it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
-        global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile`;
+        global.window.location.search = `?oauth=true&client_id=vamobile`;
         const acrType = { idme: 'loa3', logingov: 'ial2' };
         const url = await signupOrVerify({
           policy,

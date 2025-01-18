@@ -29,7 +29,7 @@ describe('TransitionModal', () => {
   it('should forward as a primary action', () => {
     const wrapper = shallow(<TransitionModal {...props} />);
     wrapper.prop('primaryButton').action();
-    expect(window.location).equal('/transfer-account');
+    expect(window.location.pathname).equal('/transfer-account');
     wrapper.unmount();
   });
 
