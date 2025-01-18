@@ -1,7 +1,7 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
 import { isClaimingNew } from '.';
-import { form0781WorkflowChoices } from '../content/form0781';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 
 /**
  * Helper method to determin if a series of veteran selections match ONLY
@@ -37,6 +37,14 @@ export function showForm0781Pages(formData) {
     Object.entries(conditions).some(
       ([key, value]) => key !== 'none' && value === true,
     )
+  );
+}
+
+export function showManualUpload0781Page(formData) {
+  return (
+    showForm0781Pages(formData) &&
+    formData['view:mentalHealthWorkflowChoice'] ===
+      form0781WorkflowChoices.SUBMIT_PAPER_FORM
   );
 }
 

@@ -1,4 +1,5 @@
-import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
+import workflowChoicePage from '../../pages/form0781/workflowChoicePage';
+import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
 import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
 import * as eventType from '../../pages/form0781/traumaticEventTypes';
@@ -12,8 +13,9 @@ import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroComb
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 
 import {
-  isCompletingForm0781,
   showForm0781Pages,
+  showManualUpload0781Page,
+  isCompletingForm0781,
   isRelatedToMST,
   isAddingEvent,
   policeReportSelected,
@@ -33,6 +35,13 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
+  },
+  manualUploadPage: {
+    path:
+      'disability/file-disability-claim-form-21-526ez/additional-forms/mental-health-statement/upload',
+    uiSchema: manualUploadPage.uiSchema,
+    depends: formData => showManualUpload0781Page(formData),
+    schema: manualUploadPage.schema,
   },
   mentalHealthSupport: {
     path: 'additional-forms/mental-health-statement/support',
