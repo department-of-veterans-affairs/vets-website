@@ -118,6 +118,8 @@ export default function FacilitiesRadioWidget({
       {!requestingLocationFailed &&
         displayedOptions.map((option, i) => {
           const { name, address, legacyVAR } = option?.label;
+          const recentFacilityState = option?.label?.physical_address?.state;
+          const recentFacilityCity = option?.label?.physical_address?.city;
           const checked = option.value === value;
           let distance;
 
@@ -148,7 +150,8 @@ export default function FacilitiesRadioWidget({
                   {name}
                 </span>
                 <span className="vads-u-display--block">
-                  {address?.city}, <State state={address?.state} />
+                  {address?.city || recentFacilityCity},{' '}
+                  <State state={address?.state || recentFacilityState} />
                 </span>
                 {!!distance && (
                   <span className="vads-u-display--block">

@@ -11,6 +11,7 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+const recentLocations = require('./v2/recent_locations.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -319,6 +320,9 @@ const responses = {
   },
   'GET /vaos/v2/relationships': (req, res) => {
     return res.json(patientProviderRelationships);
+  },
+  'GET /vaos/v2/locations/recent_facilities': (req, res) => {
+    return res.json(recentLocations);
   },
 
   // EPS api

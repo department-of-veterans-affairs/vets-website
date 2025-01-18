@@ -165,3 +165,10 @@ export async function getCommunityCareFacilities({
     `/facilities_api/v2/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&trim=true`,
   ).then(parseApiList);
 }
+
+export async function getPatientRecentLocations(typeOfCare) {
+  const resp = await apiRequestWithUrl(
+    `/vaos/v2/locations/recent_facilities?clinical_service_id=${typeOfCare}`,
+  );
+  return parseApiList(resp);
+}
