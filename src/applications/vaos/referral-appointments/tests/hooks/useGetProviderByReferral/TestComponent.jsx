@@ -3,8 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useGetProviderById } from '../../../hooks/useGetProviderById';
 
-export default function TestComponent({ providerId }) {
-  const { provider, loading, failed } = useGetProviderById(providerId);
+export default function TestComponent({ providerId, onSuccess, onError }) {
+  const { provider, loading, failed } = useGetProviderById(providerId, {
+    onSuccess,
+    onError,
+  });
   return (
     <div data-testid="test-component">
       <p>Test component</p>
@@ -18,4 +21,6 @@ export default function TestComponent({ providerId }) {
 
 TestComponent.propTypes = {
   providerId: PropTypes.string,
+  onError: PropTypes.func,
+  onSuccess: PropTypes.func,
 };

@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { getProviderInfo, getSelectedSlot } from './redux/selectors';
-import { FETCH_STATUS } from '../utils/constants';
-import {
-  fetchProviderDetails,
-  setFormCurrentPage,
-  setSelectedSlot,
-} from './redux/actions';
+import { getSelectedSlot } from './redux/selectors';
+import { setFormCurrentPage, setSelectedSlot } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
 import {
   routeToPreviousReferralPage,
@@ -24,19 +19,25 @@ import {
   getTimezoneByFacilityId,
 } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
+import { useGetProviderById } from './hooks/useGetProviderById';
 
 const ReviewAndConfirm = props => {
   const { currentReferral } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));
-  const { provider, providerFetchStatus } = useSelector(
-    state => getProviderInfo(state),
-    shallowEqual,
+  const { provider, loading, failed } = useGetProviderById(
+    currentReferral.providerId,
+    {
+      onError: () => {
+        scrollAndFocus('h2');
+      },
+      onSuccess: () => {
+        scrollAndFocus('h1');
+      },
+    },
   );
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
-  const slotDetails = getSlotById(provider.slots, selectedSlot);
+
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
@@ -60,27 +61,7 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (providerFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchProviderDetails(currentReferral.providerId));
-      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
-        setLoading(false);
-        scrollAndFocus('h1');
-      } else if (providerFetchStatus === FETCH_STATUS.failed) {
-        setLoading(false);
-        setFailed(true);
-        scrollAndFocus('h2');
-      }
-    },
-    [currentReferral.providerId, dispatch, providerFetchStatus],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !selectedSlot &&
-        savedSelectedSlot &&
-        providerFetchStatus === FETCH_STATUS.succeeded
-      ) {
+      if (!selectedSlot && savedSelectedSlot && provider?.slots) {
         const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
@@ -88,14 +69,7 @@ const ReviewAndConfirm = props => {
         dispatch(setSelectedSlot(savedSlot.id));
       }
     },
-    [
-      dispatch,
-      savedSelectedSlot,
-      provider.slots,
-      history,
-      providerFetchStatus,
-      selectedSlot,
-    ],
+    [dispatch, savedSelectedSlot, provider?.slots, history, selectedSlot],
   );
 
   const handleGoBack = e => {
@@ -114,6 +88,9 @@ const ReviewAndConfirm = props => {
       </div>
     );
   }
+
+  const slotDetails = getSlotById(provider.slots, selectedSlot);
+
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (

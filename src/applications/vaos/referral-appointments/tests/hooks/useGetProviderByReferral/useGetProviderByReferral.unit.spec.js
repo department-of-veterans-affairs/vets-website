@@ -23,9 +23,10 @@ describe('Community Care Referrals', () => {
         providerFetchStatus: FETCH_STATUS.succeeded,
       },
     };
+    let stubGetProviderById;
     beforeEach(() => {
       global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-      sandbox
+      stubGetProviderById = sandbox
         .stub(getProviderByIdModule, 'getProviderById')
         .resolves(providerDetails);
     });
@@ -114,6 +115,47 @@ describe('Community Care Referrals', () => {
         },
       );
       expect(getByTestId('fail-status')).to.contain.text('fail status: true');
+    });
+    it('should call onSuccess callback if provider is fetched', async () => {
+      const onSuccess = sandbox.spy();
+      renderWithStoreAndRouter(
+        <TestComponent providerId={providerDetails.id} onSuccess={onSuccess} />,
+        {
+          store: createTestStore({
+            ...initialState,
+            referral: {
+              selectedProvider: {},
+              providerFetchStatus: FETCH_STATUS.notStarted,
+            },
+          }),
+        },
+      );
+      await waitFor(() => {
+        sandbox.assert.calledOnce(onSuccess);
+      });
+    });
+    it('should call onError callback if provider fetch fails', async () => {
+      const onError = sandbox.spy();
+      stubGetProviderById.rejects('Network error');
+      const { getByTestId } = renderWithStoreAndRouter(
+        <TestComponent providerId={providerDetails.id} onError={onError} />,
+        {
+          store: createTestStore({
+            ...initialState,
+            referral: {
+              selectedProvider: {},
+              providerFetchStatus: FETCH_STATUS.notStarted,
+            },
+          }),
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('loading')).to.contain.text('loading: true');
+      });
+      sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      await waitFor(() => {
+        sandbox.assert.calledOnce(onError);
+      });
     });
   });
 });

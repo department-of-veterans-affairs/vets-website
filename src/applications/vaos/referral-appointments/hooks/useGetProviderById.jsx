@@ -5,7 +5,7 @@ import { fetchProviderDetails, setInitReferralFlow } from '../redux/actions';
 import { getProviderInfo } from '../redux/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 
-function useGetProviderById(providerId) {
+function useGetProviderById(providerId, { onSuccess, onError } = {}) {
   const dispatch = useDispatch();
   const { provider, providerFetchStatus } = useSelector(
     state => getProviderInfo(state),
@@ -17,6 +17,17 @@ function useGetProviderById(providerId) {
     providerFetchStatus === FETCH_STATUS.loading ||
     providerFetchStatus === FETCH_STATUS.notStarted;
   const failed = providerFetchStatus === FETCH_STATUS.failed;
+
+  useEffect(
+    () => {
+      if (!loading && provider?.id) {
+        onSuccess?.(provider);
+      } else if (failed) {
+        onError?.();
+      }
+    },
+    [loading, failed, provider, onSuccess, onError],
+  );
 
   useEffect(
     () => {
