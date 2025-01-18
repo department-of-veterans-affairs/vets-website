@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
 import { parseISO } from 'date-fns';
+
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
 import formConfig from '../../../config/form';
 
 import { transform } from '../../../config/submit';
@@ -307,5 +310,73 @@ describe('Pensions formConfig', () => {
         homeAcreageValue: 20000,
       }),
     );
+  });
+});
+
+describe('Pensions form config', () => {
+  // TODO: Handle array/multipage items (currently overwriting them onto one value)
+  const configSchema = Object.fromEntries(
+    Object.entries(
+      Object.keys(formConfig.chapters)
+        .map(chapter => {
+          const { pages } = formConfig.chapters[chapter];
+          return Object.keys(pages).map(page => pages[page].schema.properties);
+        })
+        .flat()
+        .reduce(
+          (totalSchema, pageProperties) => ({
+            ...totalSchema,
+            ...pageProperties,
+          }),
+          {},
+        ),
+    ).filter(([key, _]) => !key.includes('view:')),
+  );
+  const jsonSchema = fullSchemaPensions.properties;
+
+  // TODO: Check why these keys don't match. Make them match if possible.
+  const knownMismatches = [
+    'dayPhone',
+    'fdcWarning',
+    'liveWithSpouse',
+    'noFDCWarning',
+    'nightPhone',
+    'reasonForNotLivingWithSpouse',
+    'statementOfTruthCertified',
+    'statementOfTruthSignature',
+  ];
+  const configKeys = Object.keys(configSchema)
+    .sort()
+    .filter(key => !knownMismatches.includes(key));
+  const jsonKeys = Object.keys(jsonSchema)
+    .sort()
+    .filter(key => !knownMismatches.includes(key));
+
+  it('contains the same keys as vets-json-schema', () => {
+    expect(configKeys).deep.equal(jsonKeys);
+  });
+
+  // TODO: Figure out setting up a ref comparison
+  const refKeys = jsonKeys.filter(key => jsonSchema[key].$ref);
+
+  // TODO: Compare array values
+  const arrayKeys = jsonKeys.filter(key => jsonSchema[key].type === 'array');
+
+  // TODO: Figure out why this doesn't match
+  const knownMismatchValueKeys = ['email'];
+
+  const configKeysWithoutKnownErrors = configKeys.filter(
+    key =>
+      !refKeys.includes(key) &&
+      !arrayKeys.includes(key) &&
+      !knownMismatchValueKeys.includes(key),
+  );
+
+  configKeysWithoutKnownErrors.forEach(key => {
+    it(`matches schema for ${key}`, () => {
+      const configValue = configSchema[key];
+      const schemaValue = jsonSchema[key];
+      expect(configValue).deep.equal(schemaValue);
+    });
   });
 });
