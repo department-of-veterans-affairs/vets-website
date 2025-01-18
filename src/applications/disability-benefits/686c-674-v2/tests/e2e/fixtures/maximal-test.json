@@ -1,0 +1,302 @@
+{
+    "householdIncome": false,
+    "view:completedChildStoppedAttendingSchool": false,
+    "view:completedMarriedChild": false,
+    "view:completedDependent": false,
+    "view:completedHouseholdChild": false,
+    "reportDivorce": {
+      "spouseIncome": true,
+      "date": "2020-01-15",
+      "divorceLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "CT"
+        }
+      },
+      "reasonMarriageEnded": "Other",
+      "explanationOfOther": "Other longer explanation of how the marriage could have ended",
+      "fullName": {
+        "first": "DivorcedSpouse",
+        "last": "Doe"
+      },
+      "birthDate": "1991-03-19"
+    },
+    "view:completedStudent": false,
+    "view:selectable686Options": {
+      "addSpouse": true,
+      "addChild": false,
+      "report674": true,
+      "addDisabledChild": false,
+      "reportDivorce": true,
+      "reportDeath": true,
+      "reportStepchildNotInHousehold": true,
+      "reportMarriageOfChildUnder18": true,
+      "reportChild18OrOlderIsNotAttendingSchool": true
+    },
+    "childrenToAdd": [],
+    "view:additionalEvidenceDescription": {},
+    "spouseEvidenceDocumentType": "61",
+    "view:completedVeteranFormerMarriage": false,
+    "view:completedSpouseFormerMarriage": false,
+    "doesLiveWithSpouse": {
+      "spouseIncome": false,
+      "currentSpouseReasonForSeparation": "OTHER",
+      "other": "The reason I live separately from my spouse is because we own several properties throughout the world",
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "street2": "Suite 6",
+        "city": "Fakesville",
+        "state": "GA",
+        "postalCode": "12345"
+      },
+      "spouseDoesLiveWithVeteran": false
+    },
+    "currentMarriageInformation": {
+      "type": "OTHER",
+      "typeOther": "We were married by a captain of a ship",
+      "view:marriageTypeInformation": {},
+      "outsideUsa": true,
+      "location": {
+        "city": "Fakesville"
+      },
+      "date": "2024-01-19"
+    },
+    "spouseInformation": {
+      "vaFileNumber": "003334455",
+      "serviceNumber": "12345678",
+      "ssn": "333556678",
+      "birthDate": "1995-02-19",
+      "isVeteran": true,
+      "fullName": {
+        "first": "Spouse",
+        "middle": "H",
+        "last": "Doe"
+      }
+    },
+    "veteranContactInformation": {
+      "phoneNumber": "8005556666",
+      "internationalPhoneNumber": "+37060112345",
+      "emailAddress": "nope@nope.org",
+      "electronicCorrespondence": true,
+      "veteranAddress": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "street2": "Apartment 22",
+        "street3": "Building 8",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      }
+    },
+    "view:addOrRemoveDependents": {
+      "add": true,
+      "remove": true
+    },
+    "spouseMarriageHistory": [
+      {
+        "endLocation": {
+          "location": {
+            "city": "City of Make believe",
+            "state": "AZ"
+          }
+        },
+        "startLocation": {
+          "location": {
+            "city": "Fakesville",
+            "state": "KY"
+          }
+        },
+        "endDate": "2018-01-25",
+        "startDate": "2016-04-19",
+        "reasonMarriageEnded": "Other",
+        "reasonMarriageEndedOther": "other way",
+        "fullName": {
+          "first": "ExSpouse",
+          "middle": "C",
+          "last": "Doe"
+        }
+      }
+    ],
+    "veteranMarriageHistory": [
+      {
+        "endLocation": {
+          "outsideUsa": true,
+          "location": {
+            "city": "Fakesville"
+          }
+        },
+        "startLocation": {
+          "location": {
+            "city": "Fakesville",
+            "state": "LA"
+          }
+        },
+        "endDate": "2016-11-19",
+        "startDate": "2015-08-03",
+        "reasonMarriageEnded": "Other",
+        "reasonMarriageEndedOther": "other way",
+        "fullName": {
+          "first": "MyExSpouse",
+          "middle": "J",
+          "last": "Doe"
+        }
+      }
+    ],
+    "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+    "studentInformation": [
+      {
+        "remarks": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+        "studentNetworthInformation": {
+          "savings": "6000",
+          "securities": "3455",
+          "realEstate": "43332",
+          "otherAssets": "3433",
+          "totalValue": "23455"
+        },
+        "studentExpectedEarningsNextYear": {
+          "earningsFromAllEmployment": "1",
+          "annualSocialSecurityPayments": "1",
+          "otherAnnuitiesIncome": "1",
+          "allOtherIncome": "1"
+        },
+        "studentEarningsFromSchoolYear": {
+          "earningsFromAllEmployment": "2000.00",
+          "annualSocialSecurityPayments": "$4000",
+          "otherAnnuitiesIncome": "2000.86",
+          "allOtherIncome": "100"
+        },
+        "claimsOrReceivesPension": true,
+        "schoolInformation": {
+          "lastTermSchoolInformation": {
+            "termBegin": "2000-03-12",
+            "dateTermEnded": "2000-04-23"
+          },
+          "studentDidAttendSchoolLastTerm": true,
+          "currentTermDates": {
+            "officialSchoolStartDate": "2024-10-19",
+            "expectedStudentStartDate": "2024-10-19",
+            "expectedGraduationDate": "2024-11-01"
+          },
+          "isSchoolAccredited": true,
+          "view:accredited": {},
+          "dateFullTimeEnded": "2020-06-04",
+          "studentIsEnrolledFullTime": false,
+          "name": "Quest for Knowledge Trade programs"
+        },
+        "benefitPaymentDate": "2021-06-19",
+        "typeOfProgramOrBenefit": {
+          "ch35": true,
+          "fry": true,
+          "feca": true,
+          "other": true
+        },
+        "tuitionIsPaidByGovAgency": true,
+        "view:programExamples": {},
+        "wasMarried": false,
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "123 Fake St.",
+          "city": "Fakesville",
+          "state": "AL",
+          "postalCode": "12345"
+        },
+        "studentIncome": false,
+        "ssn": "333445568",
+        "isParent": true,
+        "fullName": {
+          "first": "Student",
+          "last": "Doe"
+        },
+        "birthDate": "2001-04-12"
+      }
+    ],
+    "stepChildren": [
+      {
+        "supportingStepchild": false,
+        "whoDoesTheStepchildLiveWith": {
+          "first": "Parent",
+          "last": "Doe"
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "123 Fake St.",
+          "city": "Fakesville",
+          "state": "HI",
+          "postalCode": "12345"
+        },
+        "fullName": {
+          "first": "Stepchild",
+          "last": "Doe"
+        },
+        "ssn": "333567895",
+        "birthDate": "2001-08-04"
+      }
+    ],
+    "deaths": [
+      {
+        "deceasedDependentIncome": false,
+        "dependentDeathLocation": {
+          "location": {
+            "city": "Fakesville",
+            "state": "AR"
+          }
+        },
+        "dependentDeathDate": "2024-01-19",
+        "childStatus": {
+          "childUnder18": false,
+          "stepChild": false,
+          "adopted": false,
+          "disabled": true,
+          "childOver18InSchool": false
+        },
+        "dependentType": "child",
+        "fullName": {
+          "first": "John",
+          "last": "Doe"
+        },
+        "ssn": "333446666",
+        "birthDate": "1991-01-21"
+      }
+    ],
+    "childMarriage": [
+      {
+        "dependentIncome": false,
+        "dateMarried": "2020-01-19",
+        "fullName": {
+          "first": "Child",
+          "middle": "C",
+          "last": "Doe"
+        },
+        "ssn": "333445555",
+        "birthDate": "2001-03-12"
+      }
+    ],
+    "childStoppedAttendingSchool": [
+      {
+        "dependentIncome": false,
+        "dateChildLeftSchool": "2020-05-19",
+        "fullName": {
+          "first": "Jane",
+          "last": "Doe"
+        },
+        "ssn": "333445555",
+        "birthDate": "1991-04-19"
+      }
+    ]
+  }
