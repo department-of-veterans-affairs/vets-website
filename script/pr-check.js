@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 const { Octokit } = require('@octokit/rest');
-const { isEmpty, sortBy, uniqBy } = require('lodash');
+const { isEmpty, sortBy, uniqBy, escapeRegExp } = require('lodash');
 
 const {
   BOT_NAME, // Name of the bot for the auth token we are using
@@ -147,7 +147,7 @@ function identifyAdditions(diffLines) {
  */
 function findPattern(arr) {
   return Promise.resolve(
-    arr.filter(({ line }) => new RegExp(CODE_PATTERN).test(line)),
+    arr.filter(({ line }) => new RegExp(escapeRegExp(CODE_PATTERN)).test(line)),
   ).then(
     matchList =>
       isEmpty(matchList)
