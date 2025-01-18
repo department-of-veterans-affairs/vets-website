@@ -43,8 +43,12 @@ export function initGetText({
   return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return typeof keyVal === 'function' ? keyVal(itemData, index) : keyVal;
+      // pass in full form data into getItemName & cardDescription functions
+      return typeof keyVal === 'function'
+        ? keyVal(itemData, index, formData)
+        : keyVal;
     }
+
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,

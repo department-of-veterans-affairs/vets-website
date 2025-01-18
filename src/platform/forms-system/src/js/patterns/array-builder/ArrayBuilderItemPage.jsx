@@ -40,8 +40,10 @@ export default function ArrayBuilderItemPage({
       schema: props.schema,
       uiSchema: props.uiSchema,
       data: props.data,
+      fullData: props.fullData,
       onChange: props.onChange,
       onSubmit: props.onSubmit,
+      index: props.index,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
@@ -143,9 +145,11 @@ export default function ArrayBuilderItemPage({
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    fullData: PropTypes.object,
     getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
+    index: PropTypes.number,
     onChange: PropTypes.func,
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
