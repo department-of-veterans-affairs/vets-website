@@ -11,15 +11,18 @@ function getAppManifests() {
     .map(file => {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
+      const manifestArray = Array.isArray(manifest) ? manifest : [manifest];
 
-      return {
-        ...manifest,
-        filePath: file,
-        entryFile: path.resolve(
-          root,
-          path.join(path.dirname(file), manifest.entryFile),
-        ),
-      };
+      return manifestArray.map(singleManifest => {
+        return {
+          ...singleManifest,
+          filePath: file,
+          entryFile: path.resolve(
+            root,
+            path.join(path.dirname(file), singleManifest.entryFile),
+          ),
+        };
+      });
     });
 }
 
