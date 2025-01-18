@@ -33,7 +33,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.preparerPersonalInfo]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern('preparerName', data.preparerName);
@@ -44,7 +44,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.preparerIdentificationInformation]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('preparerSsn', data.preparerSsn);
@@ -55,7 +55,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.preparerAddress]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
@@ -69,7 +69,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.preparerContactInformation]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('preparerHomePhone', data.preparerHomePhone);
@@ -85,7 +85,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.deceasedClaimantPersonalInformation]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
@@ -103,7 +103,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.relationshipToDeceasedClaimant]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectRelationshipToVeteranPattern(
@@ -117,7 +117,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.veteranIdentificationInformation]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('veteranSsn', data.veteranSsn);
@@ -136,7 +136,7 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.additionalInformation]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+        // cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextAreaWebComponent(

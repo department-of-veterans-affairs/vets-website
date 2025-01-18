@@ -53,6 +53,7 @@ export const SERVICE_PROVIDERS = {
     image: <LoginGovSVG />,
     policy: 'logingov',
     className: `logingov-button`,
+    variant: 'verifyLoginGov',
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
@@ -61,6 +62,7 @@ export const SERVICE_PROVIDERS = {
     altImage: <IDMeSVG toggleWhite />,
     policy: 'idme',
     className: 'idme-button',
+    variant: 'verifyIdMe',
   },
   [CSP_IDS.DS_LOGON]: {
     label: 'DS Logon',

@@ -130,55 +130,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     tree.unmount();
   });
-  it('calls signInHelpList function when provided', () => {
-    const signInHelpListMock = () =>
-      React.createElement('div', null, 'Mock Component');
-    const testFormConfig = {
-      prefillEnabled: true,
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your personal records request (20-10206) is in progress.',
-          expired:
-            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
-          saved: 'Your Personal records request has been saved.',
-        },
-      },
-      signInHelpList: signInHelpListMock,
-      customText: {
-        appType: 'testApp',
-      },
-    };
-    const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="20-10206"
-        user={testUser}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={testFormConfig}
-        prefillEnabled
-        headingLevel={1}
-      />,
-    );
-
-    expect(container.textContent).to.include('Mock Component');
-  });
   it('renders correctly when signInHelpList not provided', () => {
     const testFormConfig = {
       prefillEnabled: true,
@@ -346,18 +297,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect($('va-alert', container).textContent).to.contain(
-      'We can fill in some of your information for you to save you time.',
+    expect($('va-alert-sign-in', container).getAttribute('variant')).to.eql(
+      'signInOptional',
     );
     expect($('va-button', container).getAttribute('text')).to.contain(
       'Sign in to start your application',
     );
-    expect($('a', container).textContent).to.contain(
-      'Start your application without signing in',
-    );
-    expect(container.textContent).to.include(
-      'lose any information you already',
-    );
+    expect(
+      $('va-alert-sign-in', container).getAttribute('no-sign-in-link'),
+    ).to.eql('/');
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -456,7 +404,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const tree = shallow(
+    const { container } = render(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -470,10 +418,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
+    const signInAlert = container.querySelector('va-alert-sign-in');
 
-    expect(tree.find('va-alert').text()).to.contain('1 year');
-    expect(tree.find('va-alert').text()).to.not.contain('60 days');
-    tree.unmount();
+    expect(signInAlert.getAttribute('time-limit')).to.eql('1 year');
+    expect(signInAlert.getAttribute('time-limit')).to.not.eql('60 days');
   });
 
   it('should render loading indicator while profile is loading', () => {

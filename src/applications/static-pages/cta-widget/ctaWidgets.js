@@ -14,8 +14,8 @@ const disabilityBenefitsUrls = {
 };
 
 export const CTA_WIDGET_TYPES = {
-  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
-  CHANGE_ADDRESS: 'change-address',
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents', // might be able to remove
+  CHANGE_ADDRESS: 'change-address', // checked
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   COMBINED_DEBT_PORTAL: 'combined-debt-portal',
   DIRECT_DEPOSIT: 'direct-deposit',
@@ -23,7 +23,7 @@ export const CTA_WIDGET_TYPES = {
   DISABILITY_RATINGS: 'disability-ratings',
   EDUCATION_LETTERS: 'education-letters',
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
-  GI_BILL_BENEFITS: 'gi-bill-benefits',
+  GI_BILL_BENEFITS: 'gi-bill-benefits', // might be able to remove
   HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
@@ -64,6 +64,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'change your address',
   },
@@ -89,6 +90,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'manage your VA debt',
   },
@@ -101,6 +103,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
+    headerLevel: 3,
     requiredServices: null,
     serviceDescription: 'change your direct deposit information online',
   },
@@ -158,6 +161,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
+      internalUrl: '/my-health/medical-records/download',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -197,6 +201,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+      internalUrl: '/my-health/medical-records/labs-and-tests',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -235,10 +240,12 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.MESSAGING,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
+      internalUrl: '/my-health/secure-messages/inbox/',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
     isHealthTool: true,
+    headerLevel: 3,
     mhvToolName: 'Secure Messaging',
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
@@ -251,11 +258,12 @@ export const ctaWidgetsLookup = {
         authenticatedWithSSOe,
         'web/myhealthevet/refill-prescriptions',
       ),
+      internalUrl: '/my-health/medications/refill',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
       MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel),
-    isHealthTool: true,
+    isHealthTool: () => true,
     mhvToolName: 'Prescription Refill and Tracking',
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
@@ -265,6 +273,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments/schedule/type-of-care',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
@@ -314,6 +323,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',

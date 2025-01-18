@@ -5,7 +5,7 @@ import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 export const UnauthContent = () => (
   <>
-    <CallToActionWidget appId="messaging" setFocus={false} headerLevel={2} />
+    <CallToActionWidget appId="messaging" setFocus={false} headerLevel={3} />
     <h2>How can VA secure messaging help me manage my health care?</h2>
     <p>
       This web- and mobile-based service protects your sensitive information so

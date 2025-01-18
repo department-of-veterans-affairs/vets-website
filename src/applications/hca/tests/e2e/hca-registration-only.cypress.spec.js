@@ -106,7 +106,9 @@ describe('HCA-Registration-Only-Guest-User', () => {
     cy.wait(['@mockFeatures']);
   };
   const advanceToVaBenefits = ({ vaCompensationType }) => {
-    cy.get('.schemaform-start-button')
+    cy.get('va-alert-sign-in')
+      .shadow()
+      .get('va-link')
       .first()
       .click();
     cy.location('pathname').should('include', '/id-form');

@@ -14,7 +14,9 @@ describe('Feedback Tool Test', () => {
     cy.get('.schemaform-title').should('be.visible', {
       timeout: Timeouts.slow,
     });
-    cy.get('.schemaform-start-button')
+    cy.get('va-alert-sign-in')
+      .shadow()
+      .get('va-link')
       .first()
       .click();
 

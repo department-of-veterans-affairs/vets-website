@@ -26,6 +26,7 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
 
   return (
     <IdentityNotVerified
+      dataTestId="verify-identity-alert-headline"
       headline={headline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo

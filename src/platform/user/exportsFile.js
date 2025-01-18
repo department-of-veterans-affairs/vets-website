@@ -52,6 +52,9 @@ export {
   VerifyButton,
 } from './authentication/components/VerifyButton';
 export {
+  default as VerifyAlert,
+} from './authentication/components/VerifyAlert';
+export {
   default as CreateAccountLink,
 } from './authentication/components/CreateAccountLink';
 export {

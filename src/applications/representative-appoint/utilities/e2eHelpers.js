@@ -1,11 +1,13 @@
 export const ROOT = '/get-help-from-accredited-representative/appoint-rep';
 export const START_LINK = 'introduction';
 
-export const clickStartUnauth = () =>
-  cy
-    .get('.schemaform-start-button')
-    .should('be.visible')
-    .click();
+export const clickStartUnauth = () => cy;
+cy.get('va-alert-sign-in')
+  .shadow()
+  .get('va-link')
+  .first()
+  .should('be.visible')
+  .click();
 
 export const clickStartAuth = () =>
   cy

@@ -145,7 +145,10 @@ export const DirectDeposit = () => {
   if (!isIdentityVerified) {
     return (
       <Wrapper>
-        <VerifyIdentity useOAuth={useOAuth} />
+        <VerifyIdentity
+          useOAuth={useOAuth}
+          dataTestId="direct-deposit-mfa-message"
+        />
       </Wrapper>
     );
   }

@@ -24,7 +24,9 @@ describe('HCA-TERA-Branching', () => {
     entryDate = testData.lastEntryDate,
     dischargeDate = testData.lastDischargeDate,
   }) => {
-    cy.get('.schemaform-start-button')
+    cy.get('va-alert-sign-in')
+      .shadow()
+      .get('va-link')
       .first()
       .click();
     cy.location('pathname').should('include', '/id-form');

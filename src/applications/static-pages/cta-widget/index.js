@@ -169,14 +169,8 @@ export class CallToActionWidget extends Component {
       return (
         <SignIn
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={
-            this._requiresVerification
-              ? this.openForcedLoginModal
-              : this.openLoginModal
-          }
+          requiresVerification={this._requiresVerification}
           headerLevel={this._headerLevel}
-          ariaLabel={this.props.ariaLabel}
-          ariaDescribedby={this.props.ariaDescribedby}
         />
       );
     }

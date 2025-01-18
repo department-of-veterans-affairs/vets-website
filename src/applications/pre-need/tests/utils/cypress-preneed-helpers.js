@@ -54,7 +54,9 @@ function visitIntro() {
   );
   cy.get('.schemaform-title', { timeout: Timeouts.slow }).should('be.visible');
   cy.injectAxeThenAxeCheck();
-  cy.get('.schemaform-start-button')
+  cy.get('va-alert-sign-in')
+    .shadow()
+    .get('va-link')
     .first()
     .click();
   cy.url().should('not.contain', '/introduction');

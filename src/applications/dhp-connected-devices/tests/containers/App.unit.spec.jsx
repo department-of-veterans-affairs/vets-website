@@ -1,30 +1,25 @@
 import { expect } from 'chai';
 import React from 'react';
-import { render } from 'enzyme';
-import { Provider } from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from '../../containers/App';
 
-function getStore(loading = false, currentlyLoggedIn = false) {
-  return {
-    getState: () => ({
-      user: {
-        login: {
-          currentlyLoggedIn,
-        },
-        profile: {
-          loading,
-          loa: {
-            current: 1,
-          },
-          userFullName: {
-            first: null,
-          },
-        },
+const getStore = (loading = false, currentlyLoggedIn = false) => ({
+  user: {
+    login: {
+      currentlyLoggedIn,
+    },
+    profile: {
+      loading,
+      loa: {
+        current: 1,
       },
-    }),
-  };
-}
+      userFullName: {
+        first: null,
+      },
+    },
+  },
+});
 
 describe('App', () => {
   it('renders the shared page content', () => {
@@ -37,46 +32,29 @@ describe('App', () => {
   });
 
   it('renders the the loading indicator when page is loading', () => {
-    const mockStore = getStore(true, true);
-    const wrapper = render(
-      <Provider store={mockStore}>
-        <App />
-      </Provider>,
-    );
+    const { container } = renderInReduxProvider(<App />, {
+      initialState: getStore(true, true),
+    });
 
-    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect($('va-loading-indicator', container)).to.exist;
   });
 
   it('renders the authenticated page content when a user is logged in', () => {
-    const mockStore = getStore(false, true);
-    const wrapper = render(
-      <Provider store={mockStore}>
-        <App />
-      </Provider>,
-    );
+    const wrapper = renderInReduxProvider(<App />, {
+      initialState: getStore(false, true),
+    });
 
-    expect(
-      wrapper
-        .find('h2')
-        .first()
-        .text(),
-    ).to.eq('Your connected devices');
+    expect(wrapper.getByText('Your connected devices')).to.exist;
   });
 
   it('renders the un-authenticated page content when a user is logged out', () => {
-    const mockStore = getStore(false, false);
-    const wrapper = render(
-      <Provider store={mockStore}>
-        <App />
-      </Provider>,
-    );
+    const { container } = renderInReduxProvider(<App />, {
+      initialState: getStore(false, false),
+    });
 
-    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
-    expect(
-      wrapper
-        .find('h3')
-        .first()
-        .text(),
-    ).to.eq('Please sign in to connect a device');
+    expect($('va-loading-indicator', container)).to.not.exist;
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'Sign in or create an account',
+    );
   });
 });

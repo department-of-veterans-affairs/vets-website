@@ -19,28 +19,11 @@ const LandingPageUnauth = () => {
         Send and receive messages with your care team and get replies within 3
         business days.
       </p>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-      >
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          Sign in to access your messages
-        </h2>
-        <div>
-          <p className="vads-u-margin-top--0">
-            Sign in with your
-            <strong> Login.gov</strong>, <strong>ID.me</strong>, or{' '}
-            <strong>My HealtheVet</strong> account. If you don’t have any of
-            these accounts, you can create a free account now.
-          </p>
-          <va-button
-            onClick={handleSignIn}
-            primary-alternate
-            text="Sign in or create account"
-          />
-        </div>
-      </va-alert>
+      <va-alert-sign-in variant="signInRequired" heading-level={2} visible>
+        <span slot="SignInButton">
+          <va-button onClick={handleSignIn} text="Sign in or create account" />
+        </span>
+      </va-alert-sign-in>
       <h2>To send messages, you must be a VA patient</h2>
       <p>
         And your VA provider must agree to communicate with you through secure

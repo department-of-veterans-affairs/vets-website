@@ -42,6 +42,7 @@ const getData = ({
           claims: {
             coe: canApply,
           },
+          signIn: { serviceName: loggedIn ? 'idme' : null },
         },
       },
       form: {
@@ -106,9 +107,10 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />,
       </Provider>,
     );
-    expect($('h2', container).textContent).to.contain(
-      'verify your identity to access',
+    expect($('va-alert-sign-in', container).getAttribute('variant')).to.eql(
+      'verifyIdMe',
     );
+    expect($('.idme-verify-button', container)).to.exist;
   });
 
   it('prompts the vet to inquire about their EDIPI if they are missing one', () => {
