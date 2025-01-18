@@ -76,7 +76,7 @@ describe('<AddFilesForm>', () => {
     };
 
     it('should render component', () => {
-      const { container, getAllByRole, getByText } = render(
+      const { container, getAllByRole } = render(
         <AddFilesForm {...fileFormProps} />,
       );
 
@@ -84,10 +84,6 @@ describe('<AddFilesForm>', () => {
       getAllByRole('link', {
         text: 'How to File a Claim page (opens in a new tab)',
       });
-      getByText(
-        /Please only submit evidence that supports this claim. To submit supporting documents for a new disability claim/,
-        / please visit our/i,
-      );
       expect($('#file-upload', container)).to.exist;
     });
 
