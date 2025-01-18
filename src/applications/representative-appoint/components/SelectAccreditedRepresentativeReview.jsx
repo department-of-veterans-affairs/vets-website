@@ -97,7 +97,7 @@ const SelectedAccreditedRepresentativeReview = props => {
           <va-button
             text="Edit"
             label="Edit Accredited Representative Information"
-            onClick={() => goToPath('/representative-select?review=true')}
+            onClick={() => goToPath('/representative-select')}
             secondary
             uswds
           />
