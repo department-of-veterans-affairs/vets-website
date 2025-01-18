@@ -75,6 +75,7 @@ import {
   mentalHealthChanges,
   mentalHealthConditions,
   militaryHistory,
+  newConditionsPages,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
@@ -178,6 +179,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: !window.Cypress,
+  },
   formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -199,6 +204,7 @@ const formConfig = {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
+        ...newConditionsPages,
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',

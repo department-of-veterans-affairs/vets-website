@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
@@ -13,6 +13,7 @@ import {
 import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
@@ -86,6 +87,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -93,10 +95,12 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
   showWizard,
   user,
 }) => {
+  const dispatch = useDispatch();
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -149,6 +153,22 @@ export const Form526Entry = ({
     [inProgressFormId, location, profile, showSubforms, wizardStatus],
   );
 
+  // Set the feature flag in the formData so when turned on it shows the newConditions multi-page list and loop
+  useEffect(
+    () => {
+      if (showAddDisabilitiesEnhancement) {
+        dispatch(
+          setFormData({
+            ...formData,
+            'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
+          }),
+        );
+      }
+    },
+    [showAddDisabilitiesEnhancement],
+  );
+
+  // Set the feature flag in the session storage so when turned on the addDisabilities page uses the Autocomplete instead of the Combobox (cannot use formData in this case)
   useEffect(
     () => {
       window.sessionStorage.setItem(
@@ -175,7 +195,7 @@ export const Form526Entry = ({
 
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
-  if (!loggedIn && !isIntroPage(location)) {
+  if (!loggedIn && !isIntroPage(location) && !showAddDisabilitiesEnhancement) {
     router.push('/introduction');
     return wrapWithBreadcrumb(title, showLoading());
   }
@@ -268,6 +288,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  formData: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -282,6 +303,7 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
@@ -291,6 +313,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  formData: state.form.data,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
@@ -302,4 +325,11 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = dispatch => ({
+  setFormData: data => dispatch(setData(data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

@@ -48,6 +48,7 @@ import * as mentalHealthChanges from './mentalHealthChanges';
 import * as mentalHealthConditions from './mentalHealth/mentalHealthConditions';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
+import newConditionsPages from './newConditionsPages';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
@@ -167,6 +168,7 @@ export {
   mentalHealthConditions,
   militaryDutyImpact,
   militaryHistory,
+  newConditionsPages,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,
