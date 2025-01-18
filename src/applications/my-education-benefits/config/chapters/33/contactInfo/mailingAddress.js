@@ -137,11 +137,37 @@ const mailingAddress33 = {
           'ui:title': 'Street address line 2',
           'ui:validations': [
             (errors, field) => {
-              if (field?.length > 40) {
+              // If field is provided and contains only whitespace
+              if (field && isOnlyWhitespace(field)) {
+                errors.addError('Please enter a valid street address line 2');
+              } else if (field?.length > 40) {
                 errors.addError('maximum of 40 characters');
               }
             },
           ],
+          'ui:options': {
+            updateSchema: (formData, schema) => {
+              const addressData = get(
+                ['view:mailingAddress', 'address'],
+                formData,
+              );
+
+              // Make sure street2 is treated as a string (even if it's null or undefined)
+              if (addressData.street2 == null) {
+                addressData.street2 = ''; // Set to empty string to avoid validation errors
+              }
+
+              // If no value is provided, skip validation
+              if (!addressData.street2) {
+                return {
+                  ...schema,
+                  minLength: 0,
+                };
+              }
+
+              return schema;
+            },
+          },
         },
         city: {
           'ui:errorMessages': {
