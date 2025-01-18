@@ -1000,14 +1000,28 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      if (formData?.mailingAddressInput?.livesOnMilitaryBase) {
+                      const livesOnBase =
+                        formData?.mailingAddressInput?.livesOnMilitaryBase;
+
+                      if (livesOnBase) {
+                        // Start with APO/FPO
+                        const baseEnum = ['APO', 'FPO'];
+
+                        // Conditionally add DPO if feature flag is on
+                        if (formData?.mebDpoAddressOptionEnabled) {
+                          baseEnum.push('DPO');
+                        }
+
                         return {
                           type: 'string',
-                          title: 'APO/FPO',
-                          enum: ['APO', 'FPO'],
+                          title: formData?.mebDpoAddressOptionEnabled
+                            ? 'APO/FPO/DPO'
+                            : 'APO/FPO',
+                          enum: baseEnum,
                         };
                       }
 
+                      // Otherwise, a normal City text field
                       return {
                         type: 'string',
                         title: 'City',
