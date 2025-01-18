@@ -1,54 +1,33 @@
-const fs = require('fs');
 /* eslint-disable no-console */
-async function mergeCoverageReports(files) {
-  const merged = {
-    total: {
-      lines: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      functions: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      statements: { total: 0, covered: 0, skipped: 0, pct: 0 },
-      branches: { total: 0, covered: 0, skipped: 0, pct: 0 },
-    },
-  };
+/* eslint-disable no-param-reassign */
 
-  for (const file of files) {
+const fs = require('fs');
+
+function mergeJsonFiles(fileNames, outputFile) {
+  const mergedData = {};
+
+  fileNames.forEach(file => {
     try {
-      const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const fileData = fs.readFileSync(file, 'utf8');
+      const parsedData = JSON.parse(fileData);
 
-      ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-        merged.total[key].total += data.total[key].total;
-        merged.total[key].covered += data.total[key].covered;
-        merged.total[key].skipped += data.total[key].skipped;
-        merged.total[key].pct =
-          (merged.total[key].covered / merged.total[key].total) * 100;
-      });
-
-      Object.keys(data).forEach(appKey => {
-        if (appKey !== 'total') {
-          merged[appKey] = data[appKey];
+      Object.entries(parsedData).forEach(([key, value]) => {
+        if (mergedData[key]) {
+          console.warn(`Duplicate key detected: "${key}". Overwriting data.`);
         }
+        mergedData[key] = value;
       });
     } catch (err) {
-      console.error(`Error reading ${file}: ${err}`);
+      console.error(`Error processing file: ${file} - ${err.message}`);
     }
-  }
-
-  ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-    merged.total[key].pct = (
-      (merged.total[key].covered / merged.total[key].total) *
-      100
-    ).toFixed(2);
   });
 
-  return merged;
+  fs.writeFileSync(outputFile, JSON.stringify(mergedData, null, 2));
+  console.log(`Merged JSON written to: ${outputFile}`);
 }
 
-const files = process.argv.slice(2);
-mergeCoverageReports(files).then(merged => {
-  console.log(JSON.stringify(merged, null, 2));
+const coverageResultsFiles = process.argv.slice(2);
 
-  fs.writeFileSync(
-    'merged-coverage-report.json',
-    JSON.stringify(merged, null, 2),
-    'utf8',
-  );
-});
+const outputFileName = 'merged-coverage-report.json';
+
+mergeJsonFiles(coverageResultsFiles, outputFileName);
