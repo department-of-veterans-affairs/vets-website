@@ -35,8 +35,8 @@ const phoneUI = options => {
       ...uiOptions,
     },
     'ui:errorMessages': {
-      required: 'Please enter a 10-digit phone number (with or without dashes)',
-      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
+      required: 'Enter a 10-digit phone number (with or without dashes)',
+      pattern: 'Enter a 10-digit phone number (with or without dashes)',
     },
   };
 };
@@ -75,9 +75,9 @@ const internationalPhoneUI = options => {
       ...uiOptions,
     },
     'ui:errorMessages': {
-      required: 'Enter up to a 15-digit phone number (with or without dashes)',
+      required: 'Enter a phone number with up to 15 digits',
       pattern:
-        'Enter a valid international phone number up to 15-digits (with or without dashes)',
+        'Enter a phone number with up to 15 digits',
     },
   };
 };
