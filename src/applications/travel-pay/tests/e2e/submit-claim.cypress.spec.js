@@ -16,33 +16,72 @@ describe('Submit Mileage Only Claims', () => {
     cy.get('h1').should('include.text', 'File a travel reimbursement claim');
   });
 
-  it('should navigate through the flow', () => {
+  it('should handle validation and answering "No" and navigate through the flow', () => {
     cy.get('va-link-action[text="File a mileage only claim"]')
       .first()
       .click();
 
-    // Mileage question should be first
-    cy.get('h1').should('include.text', 'Mileage page');
+    // Test that a No answer sends user to "Can't file this type..." page
+    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
 
-    // Click the "Continue" button
+    // Answer "No" and continue
+    cy.get('va-radio-option[label="No"]')
+      .first()
+      .click();
+
     cy.selectVaButtonPairPrimary();
 
-    // Then navigate to the Vehicle question
-    cy.get('h1').should('include.text', 'Vehicle page');
+    cy.get('h1').should(
+      'include.text',
+      `We can’t file this type of travel reimbursement claim`,
+    );
 
-    // Click the "Continue" button
+    cy.get('va-button[text="Back"]')
+      .first()
+      .click();
+
+    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
+
+    // Answer "Yes" and continue through the rest of the flow
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
     cy.selectVaButtonPairPrimary();
 
-    // Then navigate to the Address question
-    cy.get('h1').should('include.text', 'Address page');
+    // Test that not selecting any answer triggers an error
+    cy.get('h1').should('include.text', 'Did you travel in your own vehicle?');
 
-    // Click the "Continue" button
     cy.selectVaButtonPairPrimary();
 
-    // Then navigate to the Review page
+    cy.get('.usa-error-message').should(
+      'include.text',
+      'You must make a selection to continue.',
+    );
+
+    // Answer "Yes" and continue through the rest of the flow
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
+    cy.selectVaButtonPairPrimary();
+
+    // Address question
+    cy.get('h1').should(
+      'include.text',
+      'Did you travel from your home address?',
+    );
+
+    // Answer "yes" and continue
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
+    cy.selectVaButtonPairPrimary();
+
+    // Review page
     cy.get('h1').should('include.text', 'Review your travel claim');
 
-    // Click the "Submit" button
     cy.get('va-button[text="Submit"]')
       .first()
       .click();

@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import {
+  selectVAPMailingAddress,
+  selectVAPResidentialAddress,
+  isProfileLoading,
+  isLoggedIn,
+} from 'platform/user/selectors';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -15,12 +23,18 @@ import UnsupportedClaimTypePage from '../components/submit-flow/pages/Unsupporte
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { appointment1 } from '../services/mocks/appointments';
 
-const SubmitFlowWrapper = () => {
+const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   // TODO: Placeholders until backend integration is complete
   // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
+
+  const [yesNo, setYesNo] = useState({
+    mileage: '',
+    vehicle: '',
+    address: '',
+  });
 
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
@@ -61,15 +75,41 @@ const SubmitFlowWrapper = () => {
     },
     {
       page: 'mileage',
-      component: <MileagePage handlers={handlers} />,
+      component: (
+        <MileagePage
+          appointment={appointment}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+        />
+      ),
     },
     {
       page: 'vehicle',
-      component: <VehiclePage handlers={handlers} />,
+      component: (
+        <VehiclePage
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
     },
     {
       page: 'address',
-      component: <AddressPage handlers={handlers} />,
+      component: (
+        <AddressPage
+          address={homeAddress || mailingAddress}
+          yesNo={yesNo}
+          setYesNo={setYesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
     },
     {
       page: 'review',
@@ -80,6 +120,9 @@ const SubmitFlowWrapper = () => {
       component: <ConfirmationPage />,
     },
   ];
+
+  const profileLoading = useSelector(state => isProfileLoading(state));
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const {
     useToggleValue,
@@ -92,7 +135,7 @@ const SubmitFlowWrapper = () => {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
-  if (toggleIsLoading) {
+  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -131,4 +174,16 @@ const SubmitFlowWrapper = () => {
   );
 };
 
-export default SubmitFlowWrapper;
+SubmitFlowWrapper.propTypes = {
+  homeAddress: PropTypes.object,
+  mailingAddress: PropTypes.object,
+};
+
+function mapStateToProps(state) {
+  return {
+    homeAddress: selectVAPResidentialAddress(state),
+    mailingAddress: selectVAPMailingAddress(state),
+  };
+}
+
+export default connect(mapStateToProps)(SubmitFlowWrapper);
