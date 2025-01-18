@@ -1389,3 +1389,14 @@ export const formatSuggestedAddress = address => {
   }
   return '';
 };
+
+export const shouldShowSuggestedAddress = (suggestedAddress, userAddress) => {
+  if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
+  return !(
+    userAddress.street === suggestedAddress.addressLine1 &&
+    userAddress.city === suggestedAddress.city &&
+    userAddress.state === suggestedAddress.stateCode &&
+    userAddress.postalCode === suggestedAddress.zipCode &&
+    userAddress.country === suggestedAddress.countryCodeIso3
+  );
+};
