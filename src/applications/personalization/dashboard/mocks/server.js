@@ -26,6 +26,7 @@ const responses = {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
       veteranOnboardingBetaFlow: false,
+      myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
     },
     true,
@@ -59,6 +60,15 @@ const responses = {
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/my_va/submission_statuses': createApplications(),
+  'POST /v0/my_va/submission_pdf_urls': (_req, res) => {
+    // return res.status(500).json({
+    //   error: 'bad request',
+    // });
+    return res.status(200).json({
+      url:
+        'https://dsva-vagov-local-vff-simple-forms.s3.us-gov-west-1.amazonaws.com/submission/form_21-10210_vagov_123fake-submission-id-567.pdf',
+    });
+  },
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',
