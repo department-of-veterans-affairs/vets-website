@@ -9,7 +9,7 @@ import {
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
-  const regex = /\/(\d{2}-\d{3,4})/;
+  const regex = /(\d{2}-\d{3,4})/;
   return path.match(regex)?.[1] || '';
 };
 
