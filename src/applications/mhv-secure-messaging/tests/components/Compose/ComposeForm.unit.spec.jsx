@@ -352,6 +352,31 @@ describe('Compose form component', () => {
       );
   });
 
+  it('displays error states on message body field when send button is clicked and message body only has signature', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        triageTeams: { triageTeams },
+        categories: { categories },
+        preferences: signatureReducers.signatureEnabled,
+      },
+      featureToggles: {},
+    };
+    const screen = setup(customState, Paths.COMPOSE, {
+      draft: { ...draftMessage, body: '\n\nName\nTitle' },
+    });
+
+    const sendButton = screen.getByTestId('send-button');
+
+    fireEvent.click(sendButton);
+
+    const messageInput = await screen.getByTestId('message-body-field');
+    const messageInputError = messageInput[getProps(messageInput)].error;
+
+    expect(messageInputError).to.equal('Message body cannot be blank.');
+  });
+
   it('displays an error on attempt to save a draft with attachments', async () => {
     const customProps = {
       ...draftMessage,
