@@ -38,7 +38,7 @@ const formatMissingIdentifiers = missingIdentifiers => {
   return readableList(readableIdentifiers);
 };
 
-const okMessageToDisplayText = missingIdentifiers => {
+const missingIdentifiersMessageContent = missingIdentifiers => {
   if (!missingIdentifiers) return '';
 
   const OK_IF_NOT_KNOWN = ['participantId', 'birlsId', 'edipi'];
@@ -74,7 +74,9 @@ const displayContent = (title, form526RequiredIdentifiers) => {
   const missingIdentifiers = filterMissingIdentifiers(
     form526RequiredIdentifiers,
   );
-  const itsOkDisplayMessage = okMessageToDisplayText(missingIdentifiers);
+  const itsOkDisplayMessage = missingIdentifiersMessageContent(
+    missingIdentifiers,
+  );
 
   recordEvent({
     event: 'visible-alert-box',

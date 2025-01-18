@@ -155,12 +155,34 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       },
     };
 
-    it('returns the missing edipi and birls OK message', () => {
+    it('returns the missing edipi and birlsId OK message', () => {
       const tree = render(<Missing526Identifiers {...props} />);
       const messageParagraph = tree.container.querySelector('p');
 
       expect(messageParagraph.textContent).match(
         /It's OK if you don't know your BIRLS ID or EDIPI./,
+      );
+    });
+  });
+
+  describe('edipi and participant ID Missing', () => {
+    const props = {
+      title: 'File for disability compensation',
+      form526RequiredIdentifiers: {
+        participantId: false,
+        birlsId: true,
+        ssn: true,
+        birthDate: true,
+        edipi: false,
+      },
+    };
+
+    it('returns the missing edipi and participant ID OK message', () => {
+      const tree = render(<Missing526Identifiers {...props} />);
+      const messageParagraph = tree.container.querySelector('p');
+
+      expect(messageParagraph.textContent).match(
+        /It's OK if you don't know your Participant ID or EDIPI./,
       );
     });
   });
