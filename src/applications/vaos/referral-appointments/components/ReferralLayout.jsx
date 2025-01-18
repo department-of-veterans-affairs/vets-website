@@ -1,68 +1,28 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useSelector } from 'react-redux';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
-import { selectCurrentPage } from '../redux/selectors';
-import { routeToPreviousReferralPage } from '../flow';
 import ErrorAlert from './ErrorAlert';
-
-const getBackLinkText = currentPage => {
-  switch (currentPage) {
-    case 'referralsAndRequests':
-    case 'scheduleReferral':
-      return 'Appointments';
-    case 'complete':
-      return 'Back to Appointments';
-    default:
-      return 'Back';
-  }
-};
-
-function BreadCrumbNav() {
-  const history = useHistory();
-  const currentPage = useSelector(selectCurrentPage);
-
-  const text = getBackLinkText(currentPage);
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-  const id = params.get('id');
-  return (
-    <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
-      <nav aria-label="backlink" className="vads-u-padding-y--2 ">
-        <VaLink
-          back
-          aria-label="Back link"
-          href="#"
-          text={text}
-          onClick={e => {
-            e.preventDefault();
-            routeToPreviousReferralPage(history, currentPage, id);
-          }}
-        />
-      </nav>
-    </div>
-  );
-}
+import ReferralBreadcrumbs from './ReferralBreadcrumbs';
 
 export default function ReferralLayout({
   children,
   hasEyebrow,
   apiFailure,
   heading,
+  categoryOfCare = '',
 }) {
   const location = useLocation();
 
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <BreadCrumbNav />
+        <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
             appTitle="VA online scheduling tool"
@@ -99,6 +59,7 @@ export default function ReferralLayout({
 
 ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
+  categoryOfCare: PropTypes.string,
   children: PropTypes.node,
   hasEyebrow: PropTypes.bool,
   heading: PropTypes.string,
