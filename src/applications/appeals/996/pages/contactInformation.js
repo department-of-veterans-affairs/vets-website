@@ -1,6 +1,5 @@
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import set from 'platform/utilities/data/set';
-
 import { CONTACT_INFO_PATH } from '../constants';
 import { contactInfoValidation } from '../../shared/validations/contactInfo';
 

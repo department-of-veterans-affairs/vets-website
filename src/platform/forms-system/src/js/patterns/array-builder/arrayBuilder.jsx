@@ -146,6 +146,7 @@ function determineYesNoField(uiSchema) {
 
 export function getPageAfterPageKey(pageList, pageKey) {
   let nextPage;
+
   for (let i = 0; i < pageList.length; i += 1) {
     if (pageList[i].pageKey === pageKey) {
       nextPage = pageList[i + 1];
