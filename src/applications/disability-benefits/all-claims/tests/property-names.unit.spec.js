@@ -60,6 +60,9 @@ describe('Root property names', () => {
       'view:hasEvidence',
       'view:selectableEvidenceTypes',
       'view:evidenceTypeHelp',
+      // TODO: Remove the 2 below when allClaimsAddDisabilitiesEnhancement feature flag is removed
+      'newDisabilities',
+      'view:newDisabilityErrors',
     ];
 
     Object.keys(pages).forEach(pageName => {

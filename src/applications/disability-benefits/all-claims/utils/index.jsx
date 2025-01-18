@@ -17,6 +17,7 @@ import {
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
+  ADD_DISABILITIES_ENHANCEMENT_DATA,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   HOMELESSNESS_TYPES,
@@ -605,6 +606,9 @@ export const isUploadingSTR = formData =>
     false,
   );
 
+export const getAddDisabilitiesEnhancement = formData =>
+  formData[ADD_DISABILITIES_ENHANCEMENT_DATA];
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
@@ -615,9 +619,16 @@ export const DISABILITY_SHARED_CONFIG = {
     path: 'disabilities/rated-disabilities',
     depends: formData => isClaimingIncrease(formData),
   },
+  // TODO: Remove this page when allClaimsAddDisabilitiesEnhancement feature flag is removed
+  addDisabilitiesPrevious: {
+    path: 'new-disabilities-previous/add',
+    depends: formData =>
+      isClaimingNew(formData) && !getAddDisabilitiesEnhancement(formData),
+  },
   addDisabilities: {
     path: 'new-disabilities/add',
-    depends: isClaimingNew,
+    depends: formData =>
+      isClaimingNew(formData) && getAddDisabilitiesEnhancement(formData),
   },
 };
 
@@ -863,3 +874,27 @@ export const formatFullName = (fullName = {}) => {
  */
 export const show5103Updates = () =>
   environment.isDev() || environment.isLocalhost() || environment.isStaging();
+
+/**
+ * // TODO: Remove when allClaimsAddDisabilitiesEnhancement feature flag is removed. This feature flag can only be removed when no more save in progress forms are left on the new-disabilities-previous/add page.
+ * @param {Object} formData - Form data from save-in-progress
+ * @param {String} returnUrl - URL of last saved page
+ * @param {Object} router - React router
+ */
+export const onFormLoaded = props => {
+  const { formData, returnUrl, router } = props;
+
+  if (
+    getAddDisabilitiesEnhancement(formData) &&
+    returnUrl === '/new-disabilities-previous/add'
+  ) {
+    router?.push('/new-disabilities/add');
+  } else if (
+    !getAddDisabilitiesEnhancement(formData) &&
+    returnUrl === '/new-disabilities/add'
+  ) {
+    router?.push('/new-disabilities-previous/add');
+  } else {
+    router?.push(returnUrl);
+  }
+};

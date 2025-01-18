@@ -13,21 +13,23 @@ import {
 import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
+  ADD_DISABILITIES_ENHANCEMENT_DATA,
+  ADD_DISABILITIES_ENHANCEMENT_TOGGLE,
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
-  SHOW_ADD_DISABILITIES_ENHANCEMENT,
   WIZARD_STATUS,
 } from './constants';
 import {
   isBDD,
+  getAddDisabilitiesEnhancement,
   getPageTitle,
   isExpired,
   show526Wizard,
@@ -86,6 +88,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -93,16 +96,14 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
   showWizard,
+  toggles,
   user,
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showAddDisabilitiesEnhancement = useToggleValue(
-    TOGGLE_NAMES.allClaimsAddDisabilitiesEnhancement,
-  );
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -151,12 +152,23 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      window.sessionStorage.setItem(
-        SHOW_ADD_DISABILITIES_ENHANCEMENT,
-        showAddDisabilitiesEnhancement,
-      );
+      if (formData) {
+        const isUpdated = toggles[ADD_DISABILITIES_ENHANCEMENT_TOGGLE] || false;
+
+        if (
+          !toggles.loading &&
+          (typeof getAddDisabilitiesEnhancement(formData) === 'undefined' ||
+            getAddDisabilitiesEnhancement(formData) !== isUpdated)
+        ) {
+          setFormData({
+            ...formData,
+            [ADD_DISABILITIES_ENHANCEMENT_DATA]: isUpdated,
+          });
+        }
+      }
     },
-    [showAddDisabilitiesEnhancement],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData],
   );
 
   useEffect(
@@ -268,6 +280,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  formData: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -282,8 +295,13 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
+  toggles: PropTypes.shape({
+    loading: PropTypes.bool,
+    [ADD_DISABILITIES_ENHANCEMENT_TOGGLE]: PropTypes.bool,
+  }),
   user: PropTypes.shape({
     profile: PropTypes.shape({}),
   }),
@@ -291,6 +309,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  formData: state?.form?.data,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
@@ -300,6 +319,14 @@ const mapStateToProps = state => ({
   showSubforms: showSubform8940And4192(state),
   showWizard: show526Wizard(state),
   user: state.user,
+  toggles: state.featureToggles || {},
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);
