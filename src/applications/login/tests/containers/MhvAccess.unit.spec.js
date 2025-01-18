@@ -7,9 +7,9 @@ import MhvAccess from '../../containers/MhvAccess';
 describe('MhvAccess', () => {
   it('renders main title', () => {
     const screen = renderInReduxProvider(<MhvAccess />);
-    const mainTitle = screen.getByText(
-      /access the my healthevet sign-in option/i,
-    );
+    const mainTitle = screen.getByRole('heading', {
+      name: /access the my healthevet sign-in option/i,
+    });
     expect(mainTitle).to.exist;
   });
 

@@ -21,7 +21,7 @@ describe('Unified Sign-in Page', () => {
         cy.visit('/sign-in/?oauth=false');
         cy.wait('@featureToggles');
         cy.get('body').should('be.visible');
-        cy.get('#mhvH3').should('not.exist');
+        cy.get('#mhvH3').should('be.visible');
         cy.get('#dslogonH3').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
