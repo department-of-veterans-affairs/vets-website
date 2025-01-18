@@ -58,6 +58,7 @@ export default function ReferralAppointments() {
   }
 
   if (!referral && referralFetchStatus !== FETCH_STATUS.failed) {
+    // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
