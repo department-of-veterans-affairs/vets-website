@@ -34,15 +34,23 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .desktop-map-container {
     min-height: 78vh;
     padding-left: 0;
-    width: calc(100% - 305px);
-    display: flex;
-    flex-direction: row;
+    width: 100%;
+    position: relative;
+
+    @media screen and (min-width: $small-desktop-screen) {
+      width: 100%;
+      max-width: 655px;
+      max-height: 1178px;
+      height: 100%;
+    }
   }
 
   .search-result-title {
+    padding: 1px 0px;
+
     :focus {
       @include focus-gold-light-outline(0);
-      outline-offset: 2px;
+      outline-offset: 1px;
       z-index: 3;
     }
   }
@@ -148,12 +156,42 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   #search-results-title {
     width: calc(100% - 8px);
-    margin-left: 4px;
+    margin: 4px;
+  }
+
+  .map-and-message-container {
+    flex-grow: 1;
+  }
+
+  .tablet-results-map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .small-desktop-map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 24px;
+  }
+
+  #mapbox-gl-container {
+    @media screen and (max-width: $medium-screen) {
+      width: 100%;
+      height: 55vh;
+    }
   }
 
   .search-results-container {
     width: 305px;
     max-height: 78vh;
+
+    @media screen and (min-width: $small-desktop-screen) {
+      width: 333px;
+      max-height: 623px;
+    }
+
     overflow-y: auto;
   }
 
@@ -215,7 +253,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .search-controls-container {
-    padding: 24px 16px 0 12px;
+    padding: 24px 12px;
+
+    @media screen and (min-width: $small-desktop-screen) {
+      padding: 32px 16px;
+      width: 333px;
+    }
+
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
 
@@ -227,6 +271,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
 
+      @media (min-width: $small-desktop-screen) {
+        max-width: 333px;
+        width: 100%;
+        flex-direction: row;
+      }
+
       input,
       textarea,
       select,
@@ -235,54 +285,37 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         max-width: none;
         margin-bottom: 24px;
         padding: 0 0.7em;
-
-        @media (min-width: $small-desktop-screen) {
-          max-width: 418px;
-          width: 418px;
-          margin-right: 18px;
-        }
       }
 
       .input-container {
         padding: 0;
       }
 
+      facility-type-dropdown-block {
+        display: block;
+        margin: 0;
+      }
+
       va-select {
         padding-right: 0;
         padding-left: 0;
+        margin-top: 2px;
       }
 
       .service-type-dropdown-container {
         align-self: end;
-      }
-
-      input[type="submit"] {
-        width: 100%;
-        padding: 0 0.625rem;
-        margin-top: 0;
-
-        @media (min-width: $small-desktop-screen) {
-          margin-top: auto;
-          min-width: 4.4rem;
-          width: auto;
+        select {
+          margin-top: 0.5em;
         }
       }
 
-      .typeahead + input[type="submit"] {
-        margin-bottom: 30px;
-      }
-
-      .typeahead:has(.usa-input-error) + input[type="submit"] {
-        margin-bottom: 38px;
+      #service-typeahead-container {
+        height: auto;
       }
 
       #location-input-field {
         display: flex;
         flex-direction: column;
-
-        @media (min-width: $small-desktop-screen) {
-          flex-direction: row;
-        }
       }
 
       .use-my-location-link {
@@ -291,19 +324,19 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
-        margin: 0 0 0 20px;
-
-        @media (max-width: $small-desktop-screen) {
-          margin: 1em 0;
-          text-align: left;
-        }
+        text-align: left;
       }
 
-      #search-controls-bottom-row {
-        @media (min-width: $small-desktop-screen) {
-          display: flex;
-          margin-top: -24px;
-          flex-direction: row;
+      #facility-search {
+        margin-top: 24 px;
+        @media screen and (min-width: $small-desktop-screen) {
+          width: 100%;
+          max-width: none;
+        }
+
+        @media screen and (max-width: $medium-screen) {
+          width: 100%;
+          max-width: none;
         }
       }
     }
@@ -350,12 +383,21 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   .typeahead {
     margin-top: 25px;
   }
-}
 
-// Prevent error message div from colliding with facility-type
-#service-error {
-  @media (min-width: $small-desktop-screen) {
-    right: 0px;
+  .tablet-results-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .usa-input-error {
+    right: unset;
+    width: calc(100% - 1.1875rem);
+  }
+
+  // For this we need to override the design system default
+  // To keep it in line with the other error elements
+  va-select[error]:not([error=""]) {
+    margin-left: 0px !important;
   }
 }
 
@@ -489,11 +531,18 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
-#mapbox-gl-container {
-  max-height: 55vh;
-  height: 55vh;
+.desktop-vertical-and-map-holder {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  column-gap: 24px;
+  min-height: 75vh;
+}
+
+#vertical-oriented-left-controls {
+  display: flex;
+  flex-direction: column;
+  width: 333px;
 }
 
 #search-area-control-container {
@@ -516,9 +565,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .mapboxgl-ctrl-top-center {
-  position: absolute;
   pointer-events: none;
-  margin: 15px 0 0 15px;
+  top: 10px;
+  left: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
 }
 
 .mapboxgl-ctrl-bottom-center {
@@ -539,6 +591,10 @@ button.mapboxgl-ctrl-zoom-out {
   margin-right: 0;
 }
 
+canvas.mapboxgl-canvas {
+  height: 100%;
+}
+
 canvas.mapboxgl-canvas:focus {
   outline: 2px solid var(--vads-color-action-focus-on-light);
   outline-offset: 2px;
@@ -547,18 +603,20 @@ canvas.mapboxgl-canvas:focus {
 .clear-button {
   font-size: 16px;
   display: inline-block;
-  top: -66px;
+  top: -65px;
+  right: 1px;
   position: relative;
   float: right;
-  width: 44px;
-  height: 44px;
-  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  background-color: var(--vads-color-white);
   color: var(--vads-color-black);
   padding: 0;
   margin: 0;
 
   &:hover {
-    background-color: unset;
+    background-color: var(--vads-color-white);
     color: unset;
   }
 }
@@ -568,7 +626,12 @@ canvas.mapboxgl-canvas:focus {
 }
 
 #street-city-state-zip {
+  max-width: 100%;
   padding-right: 36px !important;
+
+  @media screen and (min-width: $small-desktop-screen) {
+    padding-right: 0px !important;
+  }
 }
 
 // Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey

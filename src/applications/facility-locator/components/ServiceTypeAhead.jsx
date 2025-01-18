@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { getProviderSpecialties } from '../actions';
 import MessagePromptDiv from './MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
@@ -23,13 +22,21 @@ class ServiceTypeAhead extends Component {
     this.getServices();
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      !prevProps.currentQuery.specialties &&
+      this.state.services.length === 0
+    ) {
+      this.getServices();
+    }
+  }
+
   getServices = async () => {
-    const services = await this.props.getProviderSpecialties();
     this.setState({
-      services,
+      services: this.props.currentQuery?.fetchSvcsRawData || [],
       defaultSelectedItem:
         this.props.initialSelectedServiceType &&
-        services.find(
+        this.props.currentQuery?.fetchSvcsRawData?.find(
           ({ specialtyCode }) =>
             specialtyCode === this.props.initialSelectedServiceType,
         ),
@@ -67,7 +74,7 @@ class ServiceTypeAhead extends Component {
   };
 
   matchingServices = inputValue => {
-    if (inputValue) {
+    if (inputValue && this.state.services?.length) {
       return this.state.services.filter(specialty =>
         this.shouldShow(inputValue, specialty),
       );
@@ -134,7 +141,10 @@ class ServiceTypeAhead extends Component {
   };
 
   render() {
-    const { defaultSelectedItem } = this.state;
+    const { defaultSelectedItem, services } = this.state;
+    if (!services) {
+      return null;
+    }
     const { showError, currentQuery, handleServiceTypeChange } = this.props;
     return (
       <Downshift
@@ -214,14 +224,14 @@ class ServiceTypeAhead extends Component {
 }
 
 ServiceTypeAhead.propTypes = {
-  getProviderSpecialties: PropTypes.func.isRequired,
-  initialSelectedServiceType: PropTypes.string,
   handleServiceTypeChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  currentQuery: PropTypes.object,
+  initialSelectedServiceType: PropTypes.string,
   showError: PropTypes.bool,
+  onBlur: PropTypes.func,
 };
 
-const mapDispatch = { getProviderSpecialties };
+const mapDispatch = {};
 
 const mapStateToProps = state => {
   return {
