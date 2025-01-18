@@ -16,7 +16,8 @@ const Breadcrumbs = () => (
             label: 'Education and training',
           },
           {
-            href: '/education/apply-for-education-benefits/10282/',
+            href:
+              '/education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282',
             label: 'Apply for the IBM SkillsBuild program',
           },
         ]}
