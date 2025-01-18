@@ -15,6 +15,8 @@ import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
 import prefillTransformer from './prefillTransformer';
+import transformForSubmit from '../utils/transformForSubmit';
+import submit from '../utils/submit';
 
 const blankSchema = { type: 'object', properties: {} };
 
@@ -94,8 +96,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
+  transformForSubmit,
   trackingPrefix: 'mhv-supply-reordering-',
   introduction,
   confirmation,
@@ -106,7 +108,6 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   title,
-  // subTitle,
   customText,
   defaultDefinitions: {},
   chapters,
