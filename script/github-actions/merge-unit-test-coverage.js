@@ -13,7 +13,6 @@ async function mergeCoverageReports(files) {
   for (const file of files) {
     try {
       const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-
       ['lines', 'functions', 'statements', 'branches'].forEach(key => {
         merged.total[key].total += data.total[key].total;
         merged.total[key].covered += data.total[key].covered;
