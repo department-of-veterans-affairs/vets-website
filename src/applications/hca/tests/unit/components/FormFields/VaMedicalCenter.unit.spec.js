@@ -1,13 +1,10 @@
 import React from 'react';
+import * as api from 'platform/utilities/api';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
 import VaMedicalCenter from '../../../../components/FormFields/VaMedicalCenter';
 
 describe('hca <VaMedicalCenter>', () => {
@@ -23,6 +20,7 @@ describe('hca <VaMedicalCenter>', () => {
       name: 'Batavia VA Medical Center',
     },
   ];
+
   const getData = ({
     reviewMode = false,
     submitted = false,
@@ -56,6 +54,7 @@ describe('hca <VaMedicalCenter>', () => {
       },
     },
   });
+
   const subject = ({ mockStore, props }) => {
     const { container } = render(
       <Provider store={mockStore}>
@@ -85,6 +84,16 @@ describe('hca <VaMedicalCenter>', () => {
     return { container, selectors };
   };
 
+  let apiRequestStub;
+
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
   it('should render appropriate components when not in review mode', () => {
     const { mockStore, props } = getData({});
     const { selectors } = subject({ mockStore, props });
@@ -96,7 +105,8 @@ describe('hca <VaMedicalCenter>', () => {
   });
 
   it('should render appropriate components when in review mode', async () => {
-    mockApiRequest(mockData);
+    apiRequestStub.resolves(mockData);
+
     const { mockStore, props } = getData({
       formData: {
         'view:facilityState': 'NY',
@@ -114,15 +124,18 @@ describe('hca <VaMedicalCenter>', () => {
       expect(components.stateReviewField).to.contain.text('New York');
       expect(components.facilityReviewField).to.contain.text(mockData[1].name);
     });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
+    });
   });
 
-  it('should correctly handle errors when the facility API call fails', async () => {
-    mockApiRequest(mockData, false);
-    setFetchJSONResponse(
-      global.fetch.onCall(0),
-      // eslint-disable-next-line prefer-promise-reject-errors
-      Promise.reject({ status: 503, error: 'error' }),
-    );
+  it('should correctly handle errors when the facility API call fails and then succeeds', async () => {
+    const errorResponse = { status: 503, error: 'error' };
+
+    apiRequestStub.onFirstCall().rejects(errorResponse);
+    apiRequestStub.onSecondCall().resolves(mockData);
+
     const { mockStore, props } = getData({
       formData: { 'view:facilityState': 'NY' },
     });
@@ -131,8 +144,8 @@ describe('hca <VaMedicalCenter>', () => {
 
     await waitFor(() => {
       const { stateField, facilityField, vaAlert } = selectors();
-      expect(stateField).to.not.exist;
-      expect(facilityField).to.not.exist;
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
       expect(vaAlert).to.exist;
     });
 
@@ -140,10 +153,31 @@ describe('hca <VaMedicalCenter>', () => {
       expect(spy.called).to.be.true;
       spy.restore();
     });
+
+    await waitFor(() => {
+      selectors().stateField.__events.vaSelect({
+        target: {
+          value: 'OH',
+          name: 'root_view:preferredFacility_view:facilityState',
+        },
+      });
+    });
+
+    await waitFor(() => {
+      const { stateField, facilityField, vaAlert } = selectors();
+      expect(selectors().vaLoadingIndicator).to.not.exist;
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
+      expect(vaAlert).to.not.exist;
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(2);
+    });
   });
 
   it('should render an alphabetized option list when facility API call succeeds', async () => {
-    mockApiRequest(mockData);
+    apiRequestStub.resolves(mockData);
     const { mockStore, props } = getData({
       formData: { 'view:facilityState': 'NY' },
     });
@@ -156,10 +190,14 @@ describe('hca <VaMedicalCenter>', () => {
       expect(facilityOptions[0]).to.have.attr('value', mockData[1].uniqueId);
       expect(facilityOptions[1]).to.have.attr('value', mockData[0].uniqueId);
     });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
+    });
   });
 
   it('should fire the `onChange` spy when the user selects a facility from the list', async () => {
-    mockApiRequest(mockData);
+    apiRequestStub.resolves(mockData);
     const { mockStore, props } = getData({
       formData: { 'view:facilityState': 'NY' },
     });
@@ -180,6 +218,10 @@ describe('hca <VaMedicalCenter>', () => {
       const { facilityField } = selectors();
       fireEvent.blur(facilityField);
       expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 
@@ -211,7 +253,7 @@ describe('hca <VaMedicalCenter>', () => {
   });
 
   it('should correctly behave when the form is submitted with both state and facility selected', async () => {
-    mockApiRequest(mockData);
+    apiRequestStub.resolves(mockData);
     const { mockStore, props } = getData({
       formData: {
         'view:facilityState': 'NY',
@@ -226,6 +268,10 @@ describe('hca <VaMedicalCenter>', () => {
       expect(vaAlert).to.not.exist;
       expect(stateField).to.not.have.attr('error');
       expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 });

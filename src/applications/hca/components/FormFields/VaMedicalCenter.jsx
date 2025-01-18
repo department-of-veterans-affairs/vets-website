@@ -110,14 +110,14 @@ const VaMedicalCenter = props => {
     [localData, onChange],
   );
 
-  const localDataFacilityState = localData['view:facilityState'];
   const previousFacilityState = usePrevious(localData['view:facilityState']);
 
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
       const { 'view:facilityState': facilityState } = localData;
-      if (facilityState) {
+
+      if (facilityState && facilityState !== previousFacilityState) {
         isLoading(true);
         apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
           .then(res => {
@@ -127,14 +127,19 @@ const VaMedicalCenter = props => {
             }));
           })
           .then(data => {
-            if (
-              previousFacilityState &&
-              previousFacilityState !== facilityState
-            ) {
-              setLocalData({ ...localData, vaMedicalFacility: undefined });
-            }
+            setLocalData(prevLocalData => {
+              if (
+                previousFacilityState &&
+                previousFacilityState !== facilityState
+              ) {
+                return { ...prevLocalData, vaMedicalFacility: undefined };
+              }
+              return prevLocalData;
+            });
+
             setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
             isLoading(false);
+            hasError(false);
           })
           .catch(err => {
             isLoading(false);
@@ -151,8 +156,7 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [localDataFacilityState, previousFacilityState],
+    [localData, previousFacilityState],
   );
 
   // render the static facility name on review page
@@ -179,16 +183,13 @@ const VaMedicalCenter = props => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="server-error-message vads-u-margin-top--4">
-        <ServerErrorAlert />
-      </div>
-    );
-  }
-
   return (
     <>
+      {error && (
+        <div className="server-error-message vads-u-margin-top--4">
+          <ServerErrorAlert />
+        </div>
+      )}
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
