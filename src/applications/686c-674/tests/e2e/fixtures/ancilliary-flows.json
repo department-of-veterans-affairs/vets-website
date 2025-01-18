@@ -40,7 +40,7 @@
         "disabled": false,
         "childOver18InSchool": true
       },
-      "dependentType": "child",
+      "dependentType": "CHILD",
       "fullName": {
         "first": "Tom",
         "last": "Riddle"
