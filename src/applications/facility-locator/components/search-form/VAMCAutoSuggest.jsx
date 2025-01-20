@@ -1,45 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaComboBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import useServiceType from '../../hooks/useServiceType';
+import useServiceType, {
+  FACILITY_TYPE_FILTERS,
+} from '../../hooks/useServiceType';
 
 const VAMCAutoSuggest = () => {
   const [serviceType, setServiceType] = useState('');
+  const [matches, setMatches] = useState([]);
+  const comboBoxRef = useRef(null);
+  const serviceFilter = useServiceType().serviceTypeFilter;
 
   useEffect(() => {
-    const comboBox = document?.querySelector('va-combo-box');
+    const comboBox = comboBoxRef.current?.shadowRoot;
     const handleInput = event => {
       setServiceType(event.target.value);
     };
 
-    setTimeout(() => {
-      const input = comboBox.shadowRoot?.querySelector('input');
-      
-      console.log('input: ', input);
-    }, [500])
+    if (comboBox) {
+      comboBox.addEventListener('input', handleInput);
+    }
 
-    const observer = new MutationObserver(() => {
-
-    //   if (input) {
-    //     input.addEventListener('input', handleInput);
-    //     console.log('Input found and event listener attached.');
-
-    //     observer.disconnect();
-    //   }
-    // });
-
-    // observer.observe(comboBox, { childList: true, subtree: true });
-
-    // return () => {
-    //   observer.disconnect();
-
-    //   const input = comboBox.shadowRoot?.querySelector('input');
-
-    //   if (input) {
-    //     input.removeEventListener('input', handleInput);
-    //   }
-    // };
+    return () => comboBox.removeEventListener('input', handleInput);
   }, []);
+
+  useEffect(
+    () => {
+      if (serviceType?.length > 2) {
+        setMatches(
+          serviceFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) || [],
+        );
+      }
+
+      if (serviceType < 3) {
+        setMatches([]);
+      }
+    },
+    [serviceFilter, serviceType],
+  );
+
+  const makeOptionsFromMatches = () => {
+    const seeAll = (
+      <option value="health">See results for all VA health services</option>
+    );
+
+    if (!matches || !matches.length) {
+      return seeAll;
+    }
+
+    console.log('matches: ', matches);
+
+    return [
+      seeAll,
+      ...matches.map(({ hsdatum }) => (
+        <option key={hsdatum[3]} value={hsdatum[3]}>
+          {hsdatum[0]}
+        </option>
+      )),
+    ];
+  };
 
   return (
     <VaComboBox
@@ -49,12 +68,12 @@ const VAMCAutoSuggest = () => {
         // console.log('e: ', e);
         // setServiceType(e);
       }}
-      onKeyDown={e => {
-        // console.log(e);
-      }}
+      ref={comboBoxRef}
       required
       value={serviceType}
-    />
+    >
+      {makeOptionsFromMatches()}
+    </VaComboBox>
   );
 };
 

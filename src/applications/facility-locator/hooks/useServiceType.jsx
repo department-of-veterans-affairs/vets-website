@@ -1,6 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
+import vaHealthServicesData from '../components/search-form/va-healthcare-services.json';
+
+export const FACILITY_TYPE_FILTERS = {
+  VET_CENTER: 'vet_center',
+  VBA: 'vba',
+  VAMC: 'vamc',
+  TRICARE: 'tricare',
+};
 
 /**
  * function termMatcher
@@ -30,7 +38,8 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
  * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
  */
 const matchHelper = (term, hsdatum) => {
-  const regexTerm = new RegExp(term, 'i');
+  const safeRegexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regexTerm = new RegExp(safeRegexTerm, 'i');
 
   const returnMatcher = {
     nameMatch: termMatcher(regexTerm, hsdatum, 0),
@@ -73,10 +82,12 @@ const prioritySort = (a, b) => {
 
 export default function useServiceType() {
   const dispatch = useDispatch();
+  const selector = vaHealthServicesData;
 
-  const selector = useSelector(
-    state => state.drupalStaticData.vaHealthServicesData || [],
-  );
+  // const selector = useSelector(
+  //   state =>
+  //     state.drupalStaticData.vaHealthServicesData || [],
+  // );
 
   useEffect(
     () => {
@@ -101,6 +112,7 @@ export default function useServiceType() {
         const selectorFiltered = selector.data
           .map(hsdatum => {
             const matched = matchHelper(term, hsdatum);
+
             if (matched.priorityMatch || matched.secondaryMatch) {
               return matched;
             }
@@ -113,10 +125,14 @@ export default function useServiceType() {
         if (facilityType) {
           return selectorFiltered.filter(
             hsdatum =>
-              (hsdatum.hsdatum[5] && facilityType === 'vet_center') ||
-              (hsdatum.hsdatum[6] && facilityType === 'vba') ||
-              (hsdatum.hsdatum[8] && facilityType === 'vamc') ||
-              (hsdatum.hsdatum[9] && facilityType === 'tricare'),
+              (hsdatum.hsdatum[5] &&
+                facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
+              (hsdatum.hsdatum[6] &&
+                facilityType === FACILITY_TYPE_FILTERS.VBA) ||
+              (hsdatum.hsdatum[7] &&
+                facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
+              (hsdatum.hsdatum[8] &&
+                facilityType === FACILITY_TYPE_FILTERS.TRICARE),
           );
         }
 
