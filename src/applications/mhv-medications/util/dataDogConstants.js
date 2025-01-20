@@ -34,6 +34,9 @@ export const dataDogActionNames = {
     [NON_ACTIVE_FILTER_KEY]: 'Non-active filter',
     APPLY_FILTER_BUTTON: 'Apply filter button',
     RESET_FILTER_BUTTON: 'Reset filter button',
+    START_REFILL_REQUEST: `Start a refill request - ${pageType.LIST}`,
+    FILTER_LIST_ACCORDION: 'Filter accordion',
+    PAGINATION: 'Pagination',
   },
   landingPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.ABOUT}`,
@@ -66,6 +69,7 @@ export const dataDogActionNames = {
       pageType.DETAILS
     }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
+    FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
   },
   refillPage: {
     GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${

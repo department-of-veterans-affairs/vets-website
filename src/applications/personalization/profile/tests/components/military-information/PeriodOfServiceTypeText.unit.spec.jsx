@@ -1,5 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import * as api from '~/platform/utilities/api';
+import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 
 import MilitaryInformation from '../../../components/military-information/MilitaryInformation';
@@ -58,6 +60,16 @@ function createBasicInitialState(toggles = {}) {
 }
 
 describe('MilitaryInformation - Period of Service Type Text', () => {
+  let apiRequestStub;
+
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest');
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
   describe('when military history exists', () => {
     it('should render periodOfServiceTypeText when present and when periodOfServiceTypeCode is A or V', () => {
       const initialState = createBasicInitialState();

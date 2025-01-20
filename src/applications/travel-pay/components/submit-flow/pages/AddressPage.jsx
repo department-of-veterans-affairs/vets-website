@@ -1,6 +1,7 @@
 import React from 'react';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AddressPage = ({ handlers }) => {
   return (

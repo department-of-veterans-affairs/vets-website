@@ -7,6 +7,7 @@ import VerifiedSuccessStatement from './VerifiedSuccessStatement';
 import {
   getPeriodsToVerify,
   getPeriodsToVerifyDGIB,
+  isVerificationDateValid,
   isVerificationEndDateValid,
 } from '../helpers';
 import Alert from './Alert';
@@ -25,8 +26,10 @@ const PeriodsToVerify = ({
   const idRef = useRef();
   const showEnrollmentVerifications = enrollmentVerifications?.some(
     verification =>
-      !verification.verificationMethod &&
-      isVerificationEndDateValid(verification.verificationEndDate),
+      !isVerificationDateValid(
+        verification.verificationEndDate,
+        enrollmentVerifications,
+      ) && isVerificationEndDateValid(verification.verificationEndDate),
   );
   useEffect(
     () => {
@@ -128,7 +131,6 @@ const PeriodsToVerify = ({
           enrollmentData?.verifications.length !== 0) ||
           (!showEnrollmentVerifications &&
             claimantId &&
-            error &&
             enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">

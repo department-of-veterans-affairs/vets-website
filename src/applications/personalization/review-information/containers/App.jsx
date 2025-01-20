@@ -10,11 +10,15 @@ export const App = ({ location, children, user }) => {
   const serviceRequired = [backendServices.USER_PROFILE];
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
+    <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
+      <RoutedSavableApp
+        formConfig={formConfig}
+        currentLocation={location}
+        skipPrefill
+      >
         {children}
-      </RequiredLoginView>
-    </RoutedSavableApp>
+      </RoutedSavableApp>
+    </RequiredLoginView>
   );
 };
 App.propTypes = {
