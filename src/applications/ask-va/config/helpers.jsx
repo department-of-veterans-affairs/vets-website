@@ -753,3 +753,13 @@ export const getFiles = files => {
     };
   });
 };
+
+export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
+  const sizeMb = fileSize * 0.001;
+
+  return (
+    <a href={fileUrl} download={fileName}>
+      {`${fileName} (${sizeMb.toFixed(2)} MB)`}
+    </a>
+  );
+};

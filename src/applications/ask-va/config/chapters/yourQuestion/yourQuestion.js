@@ -6,7 +6,6 @@ import { CategoryEducation, CHAPTER_2 } from '../../../constants';
 
 export const fileSchema = {
   type: 'array',
-  minItems: 1,
   items: {
     type: 'object',
     properties: {

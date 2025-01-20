@@ -192,8 +192,11 @@ const ch3Pages = {
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-      !form.schoolInfo?.schoolName,
+      (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+        !form.schoolInfo?.schoolName) &&
+      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
+        form.yourRoleEducation ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
