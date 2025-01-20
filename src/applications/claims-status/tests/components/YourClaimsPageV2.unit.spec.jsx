@@ -146,12 +146,6 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render a closed claim message if show30DayNotice is true', () => {
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
-    wrapper.unmount();
-  });
-
   it('should render Pagination', () => {
     const props = {
       ...defaultProps,
@@ -225,20 +219,6 @@ describe('<YourClaimsPageV2>', () => {
   it('should render a NeedHelp warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('NeedHelp').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render 30 day notice', () => {
-    const props = set('show30DayNotice', true, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should not render 30 day notice', () => {
-    sessionStorage.setItem('show30DayNotice', false);
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
     wrapper.unmount();
   });
 

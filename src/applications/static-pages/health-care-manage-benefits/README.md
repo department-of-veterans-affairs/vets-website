@@ -8,4 +8,4 @@ The widgets were created as part of [this epic](https://github.com/department-of
 
 ## How do I implement one?
 
-Go to Drupal and click on a page that you would like to insert one of the widgets into. You can use any of the `widgetType`s found [here](../widgetTypes.js).
+Go to Drupal and click on a page that you would like to insert one of the widgets into. You can use any of the `widgetType`s found [here](https://github.com/department-of-veterans-affairs/vets-website/src/platform/site-wide/widgetTypes.js).

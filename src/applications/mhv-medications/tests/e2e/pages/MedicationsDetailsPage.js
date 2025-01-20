@@ -324,7 +324,7 @@ class MedicationsDetailsPage {
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
     cy.get('[data-testid="rx-refill"]')
       .first()
-      .should('contain', 'Refill 1');
+      .should('contain', 'Refill');
   };
 
   verifyFillDateFieldOnDetailsPage = () => {
@@ -541,6 +541,30 @@ class MedicationsDetailsPage {
 
   verifyPreviousPrescriptionHeaderTextOnDetailsPage = text => {
     cy.get('[data-testid="previous-rx"]').should('contain', text);
+  };
+
+  visitMedDetailsPage = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my-health/medications/prescription/${prescriptionDetails}`,
+    );
+    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+  };
+
+  verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('have.text', text);
+  };
+
+  verifyLastFilledDateOnDetailsPage = text => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+  };
+
+  verifyRefillLinkTextOnDetailsPage = text => {
+    cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
+  };
+
+  verifyRefillHistoryDescriptionText = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
 }
 

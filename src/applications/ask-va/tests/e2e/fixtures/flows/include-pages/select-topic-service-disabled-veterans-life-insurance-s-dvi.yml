@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Service-Disabled Veterans Life Insurance (S-DVI)
+  - action: click
+    target: call-to-action

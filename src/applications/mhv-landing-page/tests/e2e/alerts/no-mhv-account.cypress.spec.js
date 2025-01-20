@@ -46,7 +46,7 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     });
   });
 
-  context('for non-user api errors', () => {
+  context('for non-user api errors with error code', () => {
     beforeEach(() => {
       ApiInitializer.initializeAccountStatus.with500();
       LandingPage.visit({ mhvAccountState: 'NONE' });
@@ -55,6 +55,17 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     it(`shows a 'try again later' alert`, () => {
       cy.injectAxeThenAxeCheck();
       cy.findByText(AlertMhvNoAction.defaultProps.title, {
+        exact: false,
+      }).should.exist;
+
+      // Check the cards and hubs are visible
+      cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+      cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
+    });
+
+    it('should reference a specific error', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.findByText('Tell the representative that you received', {
         exact: false,
       }).should.exist;
 
@@ -86,6 +97,26 @@ describe(`${appName} - MHV Registration Alert - `, () => {
           exact: false,
         },
       ).should.exist;
+    });
+  });
+
+  context('for non-user api errors without error code', () => {
+    beforeEach(() => {
+      ApiInitializer.initializeAccountStatus.with422();
+      LandingPage.visit({ mhvAccountState: 'NONE' });
+    });
+
+    it('should not reference any specific error', () => {
+      'Tell the representative that you received';
+
+      cy.injectAxeThenAxeCheck();
+      cy.findByText('Tell the representative that you received', {
+        exact: false,
+      }).should('not.exist');
+
+      // Check the cards and hubs are visible
+      cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+      cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
     });
   });
 

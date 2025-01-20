@@ -1,9 +1,16 @@
 import React from 'react';
+
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import FormFooter from 'platform/forms/components/FormFooter';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
+
+// Components
+import GetFormHelp from '../components/GetFormHelp';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -61,6 +68,8 @@ const formConfig = {
       22-10215)
     </p>
   ),
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
   },
