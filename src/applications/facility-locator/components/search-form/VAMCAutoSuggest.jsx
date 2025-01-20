@@ -5,7 +5,7 @@ import useServiceType, {
   FACILITY_TYPE_FILTERS,
 } from '../../hooks/useServiceType';
 
-const VAMCAutoSuggest = () => {
+const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   const [serviceType, setServiceType] = useState('');
   const [matches, setMatches] = useState([]);
   const comboBoxRef = useRef(null);
@@ -26,13 +26,11 @@ const VAMCAutoSuggest = () => {
 
   useEffect(
     () => {
-      if (serviceType?.length > 2) {
+      if (serviceType?.length >= 3) {
         setMatches(
           serviceFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) || [],
         );
-      }
-
-      if (serviceType < 3) {
+      } else {
         setMatches([]);
       }
     },
@@ -48,8 +46,6 @@ const VAMCAutoSuggest = () => {
       return seeAll;
     }
 
-    console.log('matches: ', matches);
-
     return [
       seeAll,
       ...matches.map(({ hsdatum }) => (
@@ -64,10 +60,7 @@ const VAMCAutoSuggest = () => {
     <VaComboBox
       label="Service type"
       name="service-type"
-      onVaSelect={e => {
-        // console.log('e: ', e);
-        // setServiceType(e);
-      }}
+      onVaSelect={e => handleServiceTypeChange(e.detail.value)}
       ref={comboBoxRef}
       required
       value={serviceType}
@@ -77,6 +70,8 @@ const VAMCAutoSuggest = () => {
   );
 };
 
-VAMCAutoSuggest.propTypes = {};
+VAMCAutoSuggest.propTypes = {
+  handleServiceTypeChange: PropTypes.func.isRequired,
+};
 
 export default VAMCAutoSuggest;

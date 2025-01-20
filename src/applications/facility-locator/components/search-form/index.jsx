@@ -328,7 +328,9 @@ const SearchForm = props => {
       true
       // vamcAutoSuggestEnabled
     ) {
-      return <VAMCAutoSuggest />;
+      return (
+        <VAMCAutoSuggest handleServiceTypeChange={handleServiceTypeChange} />
+      );
     }
 
     return renderServiceTypeDropdown();
