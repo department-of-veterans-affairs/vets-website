@@ -148,14 +148,12 @@ const ReviewPage = props => {
           state: { contactPreference, inquiryNumber },
         });
       })
-      .catch(() => {
+      .catch(error => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // TODO - need error modal instead of forwarding to confirmation
-        props.router.push({
-          pathname: '/confirmation',
-          state: { inquiryNumber: 'error' },
-        });
+        // TODO - need error modal instead of forwarding to confirmation per final design
+        // Temporary alert dialog for testing
+        alert(error.error);
       });
   };
 
