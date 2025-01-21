@@ -237,7 +237,7 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/we can’t access your Travel claims right now/i))
+      expect(screen.findByText(/we can’t access your travel claims right now/i))
         .to.exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;

@@ -25,7 +25,7 @@ const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
     <>
       <va-alert closealble="false" status="error" role="status" visible>
         <h2 slot="headline">
-          We’re sorry, we can’t access your Travel claims right now
+          We’re sorry, we can’t access your travel claims right now
         </h2>
         <p className="vads-u-margin-top--2">
           We’re sorry. There’s a problem with our system. Check back later or
