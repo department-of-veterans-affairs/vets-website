@@ -166,6 +166,33 @@ export const arrayBuilderItemSubsequentPageTitleUI = (...args) => {
  * }} ArrayBuilderYesNoUIOptions
  */
 
+const getHeaderLevels = (yesNoOptions, yesNoOptionsMore) => {
+  const isMinimalHeader = isMinimalHeaderApplicable();
+
+  let defaultLabelHeaderLevel = 3;
+  let defaultLabelHeaderLevelStyle = null; // use default style
+  let defaultMoreLabelHeaderLevel = 4;
+  let defaultMoreLabelHeaderLevelStyle = null; // use default style
+
+  if (isMinimalHeader) {
+    defaultLabelHeaderLevel = 1;
+    defaultLabelHeaderLevelStyle = 2;
+    defaultMoreLabelHeaderLevel = 2;
+    defaultMoreLabelHeaderLevelStyle = 3;
+  }
+
+  return {
+    labelHeaderLevel: yesNoOptions?.labelHeaderLevel || defaultLabelHeaderLevel,
+    labelHeaderLevelStyle:
+      yesNoOptions?.labelHeaderLevelStyle || defaultLabelHeaderLevelStyle,
+    moreLabelHeaderLevel:
+      yesNoOptionsMore?.labelHeaderLevel || defaultMoreLabelHeaderLevel,
+    moreLabelHeaderLevelStyle:
+      yesNoOptionsMore?.labelHeaderLevelStyle ||
+      defaultMoreLabelHeaderLevelStyle,
+  };
+};
+
 /**
  * @param {{
  *   arrayPath: string,
@@ -244,20 +271,7 @@ export const arrayBuilderYesNoUI = (
       classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
-
-        const isMinimalHeader = isMinimalHeaderApplicable();
-
-        let defaultLabelHeaderLevel = 3;
-        let defaultLabelHeaderLevelStyle = null; // use default style
-        let defaultMoreLabelHeaderLevel = 4;
-        let defaultMoreLabelHeaderLevelStyle = null; // use default style
-
-        if (isMinimalHeader) {
-          defaultLabelHeaderLevel = 1;
-          defaultLabelHeaderLevelStyle = 2;
-          defaultMoreLabelHeaderLevel = 2;
-          defaultMoreLabelHeaderLevelStyle = 3;
-        }
+        const headerLevels = getHeaderLevels(yesNoOptions, yesNoOptionsMore);
 
         return arrayData?.length
           ? {
@@ -265,12 +279,8 @@ export const arrayBuilderYesNoUI = (
                 yesNoOptionsMore?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel:
-                  yesNoOptionsMore?.labelHeaderLevel ||
-                  defaultMoreLabelHeaderLevel,
-                labelHeaderLevelStyle:
-                  yesNoOptionsMore?.labelHeaderLevelStyle ||
-                  defaultMoreLabelHeaderLevelStyle,
+                labelHeaderLevel: headerLevels.moreLabelHeaderLevel,
+                labelHeaderLevelStyle: headerLevels.moreLabelHeaderLevelStyle,
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -298,11 +308,8 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel:
-                  yesNoOptions?.labelHeaderLevel || defaultLabelHeaderLevel,
-                labelHeaderLevelStyle:
-                  yesNoOptions?.labelHeaderLevelStyle ||
-                  defaultLabelHeaderLevelStyle,
+                labelHeaderLevel: headerLevels.labelHeaderLevel,
+                labelHeaderLevelStyle: headerLevels.labelHeaderLevelStyle,
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,
