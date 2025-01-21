@@ -142,25 +142,25 @@ Lab comments: ${entry.labComments}\n`,
             <LabelValue
               label="Type of test"
               value={record.category}
-              testid="chem-hem-category"
+              testId="chem-hem-category"
               data-dd-action-name="[lab and tests - category]"
             />
             <LabelValue
               label="Site or sample tested"
               value={record.sampleTested}
-              testid="chem-hem-sample-tested"
+              testId="chem-hem-sample-tested"
               data-dd-action-name="[lab and tests - site]"
             />
             <LabelValue
               label="Ordered by"
               value={record.orderedBy}
-              testid="chem-hem-ordered-by"
+              testId="chem-hem-ordered-by"
               data-dd-action-name="[lab and tests - ordered by]"
             />
             <LabelValue
               label="Location"
               value={record.collectingLocation}
-              testid="chem-hem-collecting-location"
+              testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
             <LabelValue label="Lab comments" />
