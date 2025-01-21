@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import { getFormNumberFromEntity } from '../utilities/helpers';
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 const SearchResult = ({
   representative,
   query,
   handleSelectRepresentative,
   loadingPOA,
+  userIsDigitalSubmitEligible,
 }) => {
   const { id } = representative.data;
   const {
@@ -25,6 +28,9 @@ const SearchResult = ({
     email,
     accreditedOrganizations,
   } = representative.data.attributes;
+
+  const formNumber = getFormNumberFromEntity(representative.data);
+  const v2IsEnabled = useV2FeatureToggle();
 
   const representativeName = name || fullName;
 
@@ -42,6 +48,13 @@ const SearchResult = ({
     (city ? ` ${city},` : '') +
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
+
+  const submissionTypeContent = v2IsEnabled &&
+    userIsDigitalSubmitEligible && (
+      <p data-testid="submission-methods">
+        Accepts VA Form {formNumber} online, by mail, and in person
+      </p>
+    );
 
   return (
     <va-card class="vads-u-padding--4 vads-u-margin-bottom--4">
@@ -82,7 +95,7 @@ const SearchResult = ({
             </va-additional-info>
           </div>
         )}
-
+        {submissionTypeContent}
         <div className="representative-contact-section vads-u-margin-top--3">
           {addressExists && (
             <div className="address-link vads-u-display--flex">
@@ -181,6 +194,7 @@ SearchResult.propTypes = {
   router: PropTypes.object,
   routes: PropTypes.array,
   stateCode: PropTypes.string,
+  userIsDigitalSubmitEligible: PropTypes.bool,
   zipCode: PropTypes.string,
 };
 

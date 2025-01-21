@@ -3,7 +3,7 @@ export const SELECTORS = {
   WIDGET: '[data-widget-type="find-va-forms"]',
   FINDFORM_INPUT_ROOT: 'va-search-input',
   FINDFORM_INPUT: 'input',
-  FINDFORM_SEARCH: 'button',
+  FINDFORM_SEARCH: 'button[type="submit"]',
   FINDFORM_ERROR_BODY: '[data-e2e-id="find-form-error-body"]',
   FINDFORM_REQUIRED: '[data-e2e-id="find-form-required"]',
   FINDFORM_ERROR_MSG: '[data-e2e-id="find-form-error-message"]',

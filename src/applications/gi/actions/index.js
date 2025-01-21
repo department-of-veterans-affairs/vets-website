@@ -507,15 +507,23 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
   version,
+  description,
 ) {
   const [longitude, latitude] = coordinates;
-
-  const params = {
-    latitude,
-    longitude,
-    distance,
-    ...rubyifyKeys(buildSearchFilters(filters)),
-  };
+  // If description - search by program, else search by location w/ filters
+  const params = description
+    ? {
+        latitude,
+        longitude,
+        distance,
+        description,
+      }
+    : {
+        latitude,
+        longitude,
+        distance,
+        ...rubyifyKeys(filters && buildSearchFilters(filters)),
+      };
   if (version) {
     params.version = version;
   }
@@ -523,7 +531,7 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude, distance },
+      payload: { location, latitude, longitude, distance, description },
     });
 
     return fetch(url, api.settings)
@@ -563,6 +571,7 @@ export function fetchSearchByLocationResults(
   distance,
   filters,
   version,
+  description,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -593,6 +602,7 @@ export function fetchSearchByLocationResults(
             distance,
             filters,
             version,
+            description,
           ),
         );
       })

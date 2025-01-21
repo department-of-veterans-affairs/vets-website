@@ -13,6 +13,7 @@ export const PREV_APPLICATION_YEAR_INPUT = 'duw-prev_application_year';
 export const PREV_APPLICATION_TYPE_INPUT = 'duw-prev_application_type';
 export const FAILURE_TO_EXHAUST_INPUT = 'duw-failure_to_exhaust';
 export const PRIOR_SERVICE_INPUT = 'duw-prior_service';
+export const YEAR = '2024';
 
 export const clickStart = () =>
   cy
@@ -72,3 +73,13 @@ export const clickContinue = () =>
     .eq(1)
     .should('be.visible')
     .click();
+
+export const typeInInput = (selector, value) =>
+  cy
+    .findByTestId(selector)
+    .shadow()
+    .get('input')
+    .first()
+    .click()
+    .clear()
+    .type(value, { force: true });

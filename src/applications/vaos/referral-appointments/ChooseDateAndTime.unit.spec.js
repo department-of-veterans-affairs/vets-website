@@ -11,6 +11,7 @@ import { createProviderDetails } from './utils/provider';
 import confirmedV2 from '../services/mocks/v2/confirmed.json';
 import * as getProviderByIdModule from '../services/referral';
 import * as fetchAppointmentsModule from '../services/appointment';
+import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
 
 describe('VAOS ChoseDateAndTime component', () => {
@@ -136,6 +137,9 @@ describe('VAOS ChoseDateAndTime component', () => {
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves(confirmedV2);
+    sandbox
+      .stub(flow, 'getReferralUrlLabel')
+      .returns('Schedule an appointment with your provider');
   });
   afterEach(() => {
     sandbox.restore();

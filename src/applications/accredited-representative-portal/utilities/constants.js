@@ -13,7 +13,7 @@ import {
 const USIP_PATH = '/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
 
-const baseReturnUrl =
+const BASE_RETURN_URL =
   externalApplicationsConfig[USIP_APPLICATIONS.ARP].externalRedirectUrl;
 
 export const getSignInUrl = ({ returnUrl } = {}) => {
@@ -22,8 +22,12 @@ export const getSignInUrl = ({ returnUrl } = {}) => {
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
 
   if (returnUrl) {
-    const returnUrlPrefix = new URL(returnUrl).href.replace(baseReturnUrl, '');
-    url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrlPrefix);
+    const returnUrlSuffix = new URL(returnUrl).href.replace(
+      BASE_RETURN_URL,
+      '',
+    );
+
+    url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrlSuffix);
   }
 
   return url;
