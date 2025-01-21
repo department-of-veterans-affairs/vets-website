@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
@@ -40,24 +40,17 @@ describe('Schemaform definition phone', () => {
     expect(formDOM.querySelector('label').textContent).to.equal('My phone');
   });
   it('should render minLength phone error', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <DefinitionTester schema={definitions.phone} uiSchema={uiSchema()} />,
     );
 
-    const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
-      target: {
-        value: '1asdf',
-      },
-    });
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
-    });
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '1asdf' } });
 
-    expect(
-      formDOM.querySelector('.usa-input-error-message').textContent,
-    ).to.include(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    );
+    waitFor(() => {
+      screen.getByText(
+        '/Please enter a 10-digit phone number (with or without dashes)/',
+      );
+    });
   });
 });
