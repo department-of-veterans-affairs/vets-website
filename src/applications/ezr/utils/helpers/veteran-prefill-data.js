@@ -35,7 +35,7 @@ export function fetchVeteranPrefillData(dispatch) {
     FETCH_VETERAN_PREFILL_DATA_SUCCEEDED,
     FETCH_VETERAN_PREFILL_DATA_FAILED,
   } = VETERAN_PREFILL_DATA_ACTIONS;
-  const requestUrl = `/form1010_ezrs/enrollment_status`;
+  const requestUrl = `/form1010_ezrs/veteran_prefill_data`;
 
   return apiRequest(requestUrl)
     .then(response =>
