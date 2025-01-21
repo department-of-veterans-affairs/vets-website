@@ -570,6 +570,7 @@ describe('Schemaform formState:', () => {
         };
         const data = { fullName: 'Pat Smith' };
         const fullData = { fullName: 'Pat Smith', otherField: 'other' };
+        const index = 2;
         const updateUiSchemaSpy = sinon.spy();
         const uiSchema = {
           fullName: {
@@ -579,8 +580,12 @@ describe('Schemaform formState:', () => {
             },
           },
         };
-        updateUiSchema(schema, uiSchema, data, fullData);
-        expect(updateUiSchemaSpy.args[0]).to.deep.equal([data, fullData]);
+        updateUiSchema(schema, uiSchema, data, fullData, index);
+        expect(updateUiSchemaSpy.args[0]).to.deep.equal([
+          data,
+          fullData,
+          index,
+        ]);
       });
     });
 

@@ -422,9 +422,11 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
  * @param {SchemaOptions} schema - The schema
  * @param {UISchemaOptions} uiSchema - The uiSchema to update
  * @param {Object} formData - The form data to based uiSchema updates on
+ * @param {Object} fullData - full form data
+ * @param {Number} index -  The index of the current item in an array
  * @returns {UISchemaOptions} The new uiSchema object
  */
-export function updateUiSchema(schema, uiSchema, formData, fullData) {
+export function updateUiSchema(schema, uiSchema, formData, fullData, index) {
   if (!uiSchema) {
     return uiSchema;
   }
@@ -441,6 +443,7 @@ export function updateUiSchema(schema, uiSchema, formData, fullData) {
           modifiedUiSchema[key],
           formData,
           fullData || formData,
+          index,
         );
 
         if (modifiedUiSchema[key] !== nextProp) {
@@ -469,7 +472,7 @@ export function updateUiSchema(schema, uiSchema, formData, fullData) {
     return currentUiSchema;
   }
 
-  const newProps = uiSchemaUpdater(formData, fullData || formData);
+  const newProps = uiSchemaUpdater(formData, fullData || formData, index);
   return mergeUiSchemasIfDifferent(currentUiSchema, newProps);
 }
 
@@ -609,6 +612,8 @@ export function updateItemsSchema(schema, fieldData = null) {
  * @param {Object} formData Flattened data for the entire form
  * @param {boolean} [preserveHiddenData=false] Do not remove hidden data if
  * this is set to `true`
+ * @param {Object} fullData Full data for the entire form
+ * @param {Number} index The index of the current item in an array
  * @returns {{
  *  data: Object,
  *  schema: SchemaOptions,
@@ -635,6 +640,7 @@ export function updateSchemasAndData(
     uiSchema,
     formData,
     fullData || formData,
+    index,
   );
   newSchema = updateSchemaFromUiSchema(
     newSchema,
