@@ -43,11 +43,13 @@ describe('Form 0781 workflow choice page', () => {
       );
 
       const conditionsParagraph = getByText(
-        /You selected these new conditions for your disability claim:\s/i,
+        /You selected these new conditions for your disability claim:/,
       );
 
-      // Conditions are embedded in a strong tag; will not match in getByText above directly
-      within(conditionsParagraph).getByText(
+      const listElement = within(conditionsParagraph.parentElement).getByRole(
+        'list',
+      );
+      within(listElement).getByText(
         'Ankle replacement (ankle arthroplasty), bilateral',
       );
     });
@@ -76,12 +78,20 @@ describe('Form 0781 workflow choice page', () => {
     );
 
     const conditionsParagraph = getByText(
-      /You selected these new conditions for your disability claim:\s/i,
+      /You selected these new conditions for your disability claim:/,
     );
 
-    within(conditionsParagraph).getByText(
-      'Ankle replacement (ankle arthroplasty), bilateral, Somatic symptom disorder (SSD), Varicocele, left',
+    const listElement = within(conditionsParagraph.parentElement).getByRole(
+      'list',
     );
+
+    within(listElement).getByText(
+      'Ankle replacement (ankle arthroplasty), bilateral',
+    );
+
+    within(listElement).getByText('Somatic symptom disorder (SSD)');
+
+    within(listElement).getByText('Varicocele, left');
   });
 
   // This situation shouldn't occur but we should be defensive

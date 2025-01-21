@@ -17,11 +17,14 @@ const conditionSelections = formData => {
 
   if (conditions?.length) {
     return (
-      <p>
-        {/* Leave space ahead of conditions list */}
-        You selected these new conditions for your disability claim:{' '}
-        <strong>{conditions.join(', ')}</strong>.
-      </p>
+      <div>
+        <p>You selected these new conditions for your disability claim:</p>
+        <ul>
+          {conditions.map((condition, index) => (
+            <li key={index}>{condition}</li>
+          ))}
+        </ul>
+      </div>
     );
   }
 
