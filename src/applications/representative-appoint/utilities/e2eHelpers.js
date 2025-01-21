@@ -4,7 +4,7 @@ export const START_LINK = 'introduction';
 export const clickStartUnauth = () => cy;
 cy.get('va-alert-sign-in')
   .shadow()
-  .get('va-link')
+  .find('va-link')
   .first()
   .should('be.visible')
   .click();

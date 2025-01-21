@@ -56,7 +56,7 @@ function visitIntro() {
   cy.injectAxeThenAxeCheck();
   cy.get('va-alert-sign-in')
     .shadow()
-    .get('va-link')
+    .find('va-link')
     .first()
     .click();
   cy.url().should('not.contain', '/introduction');
