@@ -91,7 +91,6 @@ async function vaFacilityNext(state, dispatch) {
   );
 
   if (isCerner) {
-    // if (featureOHDirectSchedule && featureOHRequest) {
     if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
       return 'selectProvider';
     }
