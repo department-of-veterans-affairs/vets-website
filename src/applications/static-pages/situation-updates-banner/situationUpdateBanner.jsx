@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import recordEvent from '~/platform/monitoring/record-event';
 
-// showClose is disabled until we can determine if dangerouslySetInnerHTML can work with the close button
 export default function SituationUpdateBanner({
   id,
   alertType,
   headline,
-  // showClose,
+  showClose,
   content,
   operatingStatusCta = false,
   operatingStatusPage,
   findFacilitiesCta = false,
 }) {
+  const contentRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (contentRef.current) {
+        contentRef.current.innerHTML = DOMPurify.sanitize(content);
+      }
+    },
+    [content],
+  );
+
   return (
     <va-banner
       data-testid="situation-update-banner"
       banner-id={`situation-update-banner-${id}`}
       type={alertType}
       headline={headline}
-      // show-close={showClose}
+      show-close={showClose}
     >
-      {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+      <div ref={contentRef} className="situation-update-content" />
       {operatingStatusCta &&
         operatingStatusPage && (
           <p>
