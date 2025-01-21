@@ -70,8 +70,6 @@ export const CategoryGuardianshipCustodianshipFiduciaryIssues =
   'Guardianship, custodianship, or fiduciary issues';
 export const CategoryHousingAssistanceAndHomeLoans =
   'Housing assistance and home loans';
-export const CategoryBenefitsIssuesOutsidetheUS =
-  'Benefits issues outside the U.S.';
 
 // Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
@@ -79,8 +77,17 @@ export const TopicVeteranReadinessAndEmploymentChapter31 =
 export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const TopicAppraisals = 'Appraisals';
+export const requireSignInCategories = [
+  CategoryEducation,
+  'Education benefits and work study',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
+];
 export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
+
+export const requireSignInTopics = ['Compensation', CategoryEducation];
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -114,12 +121,7 @@ export const branchOfServiceRuleforCategories = [
 export const hasPrefillInformation = form => {
   const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
 
-  return !!(
-    first &&
-    last &&
-    dateOfBirth &&
-    (socialOrServiceNum.ssn || socialOrServiceNum.serviceNumber)
-  );
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
 };
 
 // Response Page headers
