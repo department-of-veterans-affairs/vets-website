@@ -115,6 +115,14 @@ export const getRepType = entity => {
   return 'VSO Representative';
 };
 
+export const getFormNumberFromEntity = entity => {
+  const repType = getRepType(entity);
+
+  return ['Organization', 'VSO Representative'].includes(repType)
+    ? '21-22'
+    : '21-22a';
+};
+
 export const getFormNumber = formData => {
   const entity = formData['view:selectedRepresentative'];
   const entityType = entity?.type;
