@@ -126,9 +126,9 @@ describe('Discharge Wizard helpers', () => {
       formResponses,
     );
 
-    const oldDischargYearLabel = answerReviewLabel(
+    const oldDischargeYearLabel = answerReviewLabel(
       SHORT_NAME_MAP.DISCHARGE_YEAR,
-      { [SHORT_NAME_MAP.DISCHARGE_YEAR]: 'Before 1992' },
+      { [SHORT_NAME_MAP.DISCHARGE_YEAR]: '1990' },
     );
 
     const notSureCourtMartialLabel = answerReviewLabel(
@@ -151,7 +151,7 @@ describe('Discharge Wizard helpers', () => {
 
     expect(serviceBranchLabel).to.equal('I served in the Army.');
     expect(dischargeYearLabel).to.equal('I was discharged in 2022.');
-    expect(oldDischargYearLabel).to.equal('I was discharged before 1992.');
+    expect(oldDischargeYearLabel).to.equal('I was discharged before 1992.');
     expect(notSureCourtMartialLabel).to.equal(
       `I'm not sure if my discharge was the outcome of a general court-martial.`,
     );

@@ -11,29 +11,46 @@ const apiFetch = data => {
 
 const mockApi = {
   getPOARequests({ status }) {
-    const filteredPoaRequests = poaRequests.filter(
-      ({ attributes: poaRequest }) => {
-        switch (status) {
-          case 'completed':
-            return ['Declined', 'Accepted'].includes(poaRequest.status);
-          case 'pending':
-            return poaRequest.status === 'Pending';
-          default:
-            throw new Error(`Unexpected status: ${status}`);
-        }
-      },
-    );
+    const filteredPoaRequests = poaRequests.filter(poaRequest => {
+      switch (status) {
+        case 'completed':
+          return poaRequest.resolution !== null;
+        case 'pending':
+          return poaRequest.resolution === null;
+        default:
+          throw new Error(`Unexpected status: ${status}`);
+      }
+    });
 
     return apiFetch(filteredPoaRequests);
   },
 
   getPOARequest(id) {
-    const poaRequest = poaRequests.find(r => r.id === +id);
+    const poaRequest = poaRequests.find(r => r.id === id);
     return apiFetch(poaRequest);
   },
 
   getUser() {
     return apiFetch(user);
+  },
+
+  createPOARequestDecision(id, { type }) {
+    const poaRequest = poaRequests.find(r => r.id === id);
+
+    switch (type) {
+      case 'acceptance':
+        poaRequest.status = 'Accepted';
+        break;
+      case 'declination':
+        poaRequest.status = 'Declined';
+        break;
+      default:
+        throw new Error(`Unexpected decision type: ${type}`);
+    }
+
+    poaRequest.acceptedOrDeclinedAt = new Date().toISOString();
+
+    return apiFetch({});
   },
 };
 
@@ -50,8 +67,12 @@ export function configure() {
   }
 
   if (search.has('useMockData')) {
-    api.getPOARequest = mockApi.getPOARequest;
-    api.getPOARequests = mockApi.getPOARequests;
+    Object.values(mockApi).forEach(method => {
+      if (typeof method !== 'function') return;
+      if (method.name === 'getUser') return;
+
+      api[method.name] = method;
+    });
   }
 }
 

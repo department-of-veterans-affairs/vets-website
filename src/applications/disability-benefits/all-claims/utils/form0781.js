@@ -71,6 +71,31 @@ export function isRelatedToMST(formData) {
     formData?.mentalHealth?.eventTypes?.mst === true
   );
 }
+
+/**
+ * Checks if
+ * 1. the option to complete the online form is selected
+ * 2. the user is adding an event
+ *
+ * @param {object} formData
+ * @returns {boolean} true if Add an event is selected, false otherwise
+ */
+export function isAddingEvent(formData) {
+  return isCompletingForm0781(formData) && formData['view:addEvent'] === true;
+}
+
+/**
+ * Checks if
+ * 1. the user is adding an event
+ * 2. official police report exists option is selected
+ *
+ * @param {object} formData
+ * @returns {boolean} true if police report is selected, false otherwise
+ */
+export const policeReportSelected = index => formData =>
+  isAddingEvent(formData) &&
+  _.get(`event${index}.reports.police`, formData, false);
+
 /*
  * @returns
  *   TRUE
@@ -78,7 +103,7 @@ export function isRelatedToMST(formData) {
  *       - AND is not seeing the 'Combat Only' version of this page
  */
 export function showBehaviorIntroPage(formData) {
-  return showForm0781Pages(formData) && !combatOnlySelection(formData);
+  return isCompletingForm0781(formData) && !combatOnlySelection(formData);
 }
 
 /*
@@ -91,7 +116,7 @@ export function showBehaviorIntroPage(formData) {
  *     - in all other cases
  */
 export function showBehaviorIntroCombatPage(formData) {
-  return showForm0781Pages(formData) && combatOnlySelection(formData);
+  return isCompletingForm0781(formData) && combatOnlySelection(formData);
 }
 
 /*
@@ -108,7 +133,7 @@ export function showBehaviorListPage(formData) {
     _.get('view:answerCombatBehaviorQuestions', formData, 'false') === 'true';
 
   return (
-    showForm0781Pages(formData) &&
+    isCompletingForm0781(formData) &&
     ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
       !combatOnlySelection(formData))
   );

@@ -2,6 +2,9 @@ import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
 import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
 import * as eventType from '../../pages/form0781/traumaticEventTypes';
+import * as eventDetails from '../../pages/form0781/traumaticEventDetails';
+import * as officialReport from '../../pages/form0781/officialReport';
+import * as policeReport from '../../pages/form0781/policeReportLocation';
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
@@ -12,6 +15,8 @@ import {
   isCompletingForm0781,
   showForm0781Pages,
   isRelatedToMST,
+  isAddingEvent,
+  policeReportSelected,
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
@@ -30,31 +35,43 @@ export const form0781PagesConfig = {
     schema: workflowChoicePage.schema,
   },
   mentalHealthSupport: {
-    title: 'Mental health support',
     path: 'additional-forms/mental-health-statement/support',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: mentalHealthSupport.uiSchema,
     schema: mentalHealthSupport.schema,
   },
   eventsIntro: {
-    title: 'Traumatic events',
     path: 'additional-forms/mental-health-statement/events',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: traumaticEventsIntro.uiSchema,
     schema: traumaticEventsIntro.schema,
   },
   eventType: {
-    title: 'Types of traumatic events',
     path: 'additional-forms/mental-health-statement/events-type',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventType.uiSchema,
     schema: eventType.schema,
   },
-  additionalInformationPage: {
-    path: 'additional-forms/mental-health-statement/additional-information',
-    depends: formData => isCompletingForm0781(formData),
-    uiSchema: additionalInformationPage.uiSchema,
-    schema: additionalInformationPage.schema,
+  // Add event section includes details and 2 report pages
+  // Note: event indexing is temporarily hardcoded as 1 for this first event
+  // until the Event list page and List & Loop functionality are implemented
+  eventDetails: {
+    path: `additional-forms/mental-health-statement/event-1-details`,
+    depends: formData => isAddingEvent(formData),
+    uiSchema: eventDetails.uiSchema(1),
+    schema: eventDetails.schema(1),
+  },
+  officialReport: {
+    path: `additional-forms/mental-health-statement/event-1-report`,
+    depends: formData => isAddingEvent(formData),
+    uiSchema: officialReport.uiSchema(1),
+    schema: officialReport.schema(1),
+  },
+  policeReport: {
+    path: `additional-forms/mental-health-statement/event-1-police-report`,
+    depends: policeReportSelected(1),
+    uiSchema: policeReport.uiSchema(1),
+    schema: policeReport.schema(1),
   },
   // Behavioral Changes Pages
   behaviorIntroPage: {
@@ -75,10 +92,17 @@ export const form0781PagesConfig = {
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
   },
+  // Conclusion Pages
   consentPage: {
     path: 'additional-forms/mental-health-statement/consent',
     depends: formData => isRelatedToMST(formData),
     uiSchema: consentPage.uiSchema,
     schema: consentPage.schema,
+  },
+  additionalInformationPage: {
+    path: 'additional-forms/mental-health-statement/additional-information',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: additionalInformationPage.uiSchema,
+    schema: additionalInformationPage.schema,
   },
 };

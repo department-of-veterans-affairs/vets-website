@@ -11,12 +11,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
-const transformRoutes = (transform, route) => {
-  transform(route);
-
-  const children = route.children || [];
-  children.forEach(childRoute => transformRoutes(transform, childRoute));
-
+const forEachRoute = (callbackFn, route) => {
+  callbackFn(route);
+  route.children?.forEach(childRoute => forEachRoute(callbackFn, childRoute));
   return route;
 };
 
@@ -70,7 +67,7 @@ const routes = [
         index: true,
         element: <LandingPage />,
       },
-      transformRoutes(addSignInRedirection, {
+      forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
         children: [
           {
@@ -82,6 +79,12 @@ const routes = [
             path: 'poa-requests/:id',
             element: <POARequestDetailsPage />,
             loader: POARequestDetailsPage.loader,
+            children: [
+              {
+                path: 'decision',
+                action: POARequestDetailsPage.createDecisionAction,
+              },
+            ],
           },
         ],
       }),
