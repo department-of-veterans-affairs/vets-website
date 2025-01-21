@@ -1,15 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { countries } from 'platform/forms/address';
 
-function AddressConfirmation(/* { formData } */) {
-  const formDataUserAddress = {
-    street: '123 Test Street',
-    city: 'City',
-    state: 'MC',
-    postalCode: '28226',
-    country: 'USA',
-  };
-
+function AddressConfirmation({ subHeader, userAddress }) {
   // Helper function to conditionally return a line with a break
   const renderLine = content => {
     return content ? (
@@ -22,17 +15,20 @@ function AddressConfirmation(/* { formData } */) {
 
   // For city/state/postalCode line, we build it conditionally:
   const cityStatePostal = [
-    formDataUserAddress?.city,
-    formDataUserAddress?.city &&
-    (formDataUserAddress?.state || formDataUserAddress?.postalCode)
-      ? ','
-      : '',
-    formDataUserAddress?.state,
-    formDataUserAddress?.state && formDataUserAddress?.postalCode ? ' ' : '',
-    formDataUserAddress?.postalCode,
+    userAddress?.city,
+    userAddress?.city && (userAddress?.state || userAddress?.postalCode)
+      ? ', '
+      : ' ',
+    userAddress?.state,
+    userAddress?.state && userAddress?.postalCode ? ' ' : '',
+    userAddress?.postalCode,
   ]
     .join('')
     .trim();
+
+  const getCountry = countryCode => {
+    return countries.find(c => c.value === countryCode).label || countryCode;
+  };
 
   return (
     <>
@@ -50,22 +46,23 @@ function AddressConfirmation(/* { formData } */) {
         </React.Fragment>
       </va-alert>
       <h3 className="vads-u-font-size--h5" style={{ paddingTop: '2em' }}>
-        Check your mailing address
+        {subHeader}
       </h3>
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
-        <p className="va-address-block">
-          {renderLine(formDataUserAddress?.street)}
-          {renderLine(formDataUserAddress?.street2)}
+        <p>
+          {renderLine(userAddress?.street)}
+          {renderLine(userAddress?.street2)}
           {cityStatePostal && renderLine(cityStatePostal)}
-          {renderLine(formDataUserAddress?.country)}
+          {userAddress?.country !== 'USA' &&
+            renderLine(getCountry(userAddress?.country))}
         </p>
       </div>
       <p>
         If the address is correct, you can continue. If you need to edit the
         address, you can go back.
       </p>
-      <va-additional-info trigger="Why we can't confirm the address you entered">
+      <va-additional-info trigger="Why we can’t confirm the address you entered">
         <p>
           The address you entered may not be in the U.S. Postal Service’s
           system. Or, you may have entered an error or other incorrect
