@@ -18,7 +18,7 @@ describe('Feedback Tool Test', () => {
       .shadow()
       .get('va-link')
       .first()
-      .click();
+      .click({ waitForAnimations: true });
 
     cy.url().should('not.contain', '/introduction');
     // Applicant relationship
