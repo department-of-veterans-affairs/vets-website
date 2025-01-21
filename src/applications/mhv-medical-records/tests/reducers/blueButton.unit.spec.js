@@ -20,7 +20,7 @@ describe('convertMedication', () => {
       id: '123',
       attributes: {
         prescriptionName: 'Aspirin',
-        dispensedDate: '2021-01-01',
+        sortedDispensedDate: '2021-01-01',
         refillStatus: 'Active',
         refillRemaining: 2,
         prescriptionNumber: 'RX123456',
@@ -347,7 +347,7 @@ describe('blueButtonReducer', () => {
             id: 'med1',
             attributes: {
               prescriptionName: 'Medication1',
-              dispensedDate: '2021-01-01',
+              sortedDispensedDate: '2021-01-01',
             },
           },
         ],
