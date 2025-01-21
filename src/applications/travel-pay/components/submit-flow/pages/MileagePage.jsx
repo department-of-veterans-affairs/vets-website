@@ -8,6 +8,7 @@ import {
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { formatDateTime } from '../../../util/dates';
+import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const MileagePage = ({
   appointment,
@@ -119,7 +120,7 @@ const MileagePage = ({
           But you can file your claim online, within 30 days, through the{' '}
           <va-link
             external
-            href="https://link-to-btsss"
+            href={BTSSS_PORTAL_URL}
             text="Beneficiary Travel Self Service System (BTSSS)"
           />
           . Or you can use VA Form 10-3542 to submit a claim by mail or in
