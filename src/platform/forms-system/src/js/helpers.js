@@ -648,9 +648,13 @@ export function hideFormTitle(formConfig, pathName, formData) {
     return false;
 
   const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const expandedPageList = getActiveExpandedPages(pageList, formData);
-  const page = expandedPageList.find(p => p.path === pathName);
+  let pageList = createPageList(formConfig, formPages);
+  try {
+    pageList = getActiveExpandedPages(pageList, formData);
+  } catch {
+    // If we can't get active expanded pages, just use the default pageList
+  }
+  const page = pageList.find(p => p.path === pathName);
 
   if (pathName === '/confirmation') {
     return formConfig.hideFormTitle ?? false;
