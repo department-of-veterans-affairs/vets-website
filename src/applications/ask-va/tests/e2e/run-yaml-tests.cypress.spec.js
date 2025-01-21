@@ -148,7 +148,9 @@ describe('YAML tests', () => {
 
         // Intercept the user API request and log in
         cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
-        // cy.login();
+        cy.login();
+
+        cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       for (const path of paths) {

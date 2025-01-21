@@ -1,7 +1,7 @@
 steps:
   - action: exists
     target: header
-    value:  Your VA health facility
+    value:  School information
   - action: typeTextInput
     target: CITY_OR_POSTAL_CODE
     value:  austin
@@ -9,6 +9,7 @@ steps:
     target: search
   - action: click
     target: radio
-    value: "vba_349b"
+    value: "25008642 - AUSTIN'S BEAUTY COLLEGE INC TN 37040"
   - action: click
     target: call-to-action
+
