@@ -25,8 +25,10 @@ export default function RenderErrorContainer({
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. We couldn’t complete the identity verification process.
-          We can’t give you access to all the tools on VA.gov without sharing
-          your information with the site.
+          It looks like you selected <strong>“Deny”</strong> when we asked for
+          your permission to share your information with VA.gov. We can’t give
+          you access to all the tools on VA.gov without sharing your information
+          with the site.
         </p>
       );
       troubleshootingContent = (
@@ -34,10 +36,7 @@ export default function RenderErrorContainer({
           <h2>What you can do:</h2>
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
-            the final page of the identity verification process. Or, if you
-            don’t want to verify your identity with Login.gov or ID.me, you can
-            try signing in with your premium DS Logon or premium My HealtheVet
-            username and password.
+            the final page of the identity verification process.
           </p>
           <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
