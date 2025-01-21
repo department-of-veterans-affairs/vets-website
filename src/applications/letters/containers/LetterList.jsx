@@ -136,10 +136,7 @@ export class LetterList extends React.Component {
           available here yet, but if you’re eligible for them, you can get them
           through these links:
         </p>
-        <ul
-          className="vads-u-margin-bottom--9"
-          style={{ listStyleType: 'disc' }}
-        >
+        <ul className="vads-u-margin-bottom--9 bullet-disc">
           <li>
             <a
               href="/education/download-letters/"
