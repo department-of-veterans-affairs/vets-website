@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
-import vaHealthServicesData from '../components/search-form/va-healthcare-services.json';
+import vaHealthServicesData from '../tests/hooks/test-va-healthcare-services.json';
 
 export const FACILITY_TYPE_FILTERS = {
   VET_CENTER: 'vet_center',
@@ -80,13 +80,43 @@ const prioritySort = (a, b) => {
   return 0;
 };
 
+export const filterMatches = (selector, term, facilityType) => {
+  const selectorFiltered = selector.data
+    .map(hsdatum => {
+      const matched = matchHelper(term, hsdatum);
+
+      if (matched.priorityMatch || matched.secondaryMatch) {
+        return matched;
+      }
+      return null;
+    })
+    .filter(v => v);
+
+  console.log('selectorFiltered: ', selectorFiltered);
+
+  selectorFiltered.sort(prioritySort);
+
+  if (facilityType) {
+    return selectorFiltered.filter(
+      hsdatum =>
+        (hsdatum.hsdatum[5] &&
+          facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
+        (hsdatum.hsdatum[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
+        (hsdatum.hsdatum[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
+        (hsdatum.hsdatum[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
+    );
+  }
+
+  return selectorFiltered;
+};
+
 export default function useServiceType() {
   const dispatch = useDispatch();
   const selector = vaHealthServicesData;
+  // console.log('🚀 ~ selector:', selector);
 
   // const selector = useSelector(
-  //   state =>
-  //     state.drupalStaticData.vaHealthServicesData || [],
+  //   state => state.drupalStaticData.vaHealthServicesData || [],
   // );
 
   useEffect(
@@ -96,6 +126,20 @@ export default function useServiceType() {
     [dispatch],
   );
 
+  const allOptions = selector.data.sort((a, b) => {
+    if (a[0] < b[0]) {
+      return -1;
+    }
+
+    if (a[0] > b[0]) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  // console.log('allOptions: ', allOptions);
+
   /**
    * function serviceTypeFilter
    * @param { string } term
@@ -104,39 +148,15 @@ export default function useServiceType() {
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
+      // console.log('term: ', term);
       if (!selector || selector.loading) return [];
 
-      if (term?.length < 3) return [];
+      if (!term?.length) return [];
+
+      // console.log('selector: ', selector);
 
       if (selector.data) {
-        const selectorFiltered = selector.data
-          .map(hsdatum => {
-            const matched = matchHelper(term, hsdatum);
-
-            if (matched.priorityMatch || matched.secondaryMatch) {
-              return matched;
-            }
-            return null;
-          })
-          .filter(v => v);
-
-        selectorFiltered.sort(prioritySort);
-
-        if (facilityType) {
-          return selectorFiltered.filter(
-            hsdatum =>
-              (hsdatum.hsdatum[5] &&
-                facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
-              (hsdatum.hsdatum[6] &&
-                facilityType === FACILITY_TYPE_FILTERS.VBA) ||
-              (hsdatum.hsdatum[7] &&
-                facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
-              (hsdatum.hsdatum[8] &&
-                facilityType === FACILITY_TYPE_FILTERS.TRICARE),
-          );
-        }
-
-        return selectorFiltered;
+        return filterMatches(selector, term, facilityType);
       }
 
       return [];
@@ -144,5 +164,9 @@ export default function useServiceType() {
     [selector],
   );
 
-  return { isServiceTypeFilterLoading: selector.isLoading, serviceTypeFilter };
+  return {
+    allOptions,
+    isServiceTypeFilterLoading: selector.isLoading,
+    serviceTypeFilter,
+  };
 }

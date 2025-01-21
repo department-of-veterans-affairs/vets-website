@@ -6,10 +6,10 @@ import useServiceType, {
 } from '../../hooks/useServiceType';
 
 const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
+  const { allOptions, serviceTypeFilter } = useServiceType();
   const [serviceType, setServiceType] = useState('');
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState(allOptions);
   const comboBoxRef = useRef(null);
-  const serviceFilter = useServiceType().serviceTypeFilter;
 
   useEffect(() => {
     const comboBox = comboBoxRef.current?.shadowRoot;
@@ -26,34 +26,34 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
 
   useEffect(
     () => {
-      if (serviceType?.length >= 3) {
-        setMatches(
-          serviceFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) || [],
-        );
+      if (!serviceType) {
+        setMatches(allOptions);
       } else {
-        setMatches([]);
+        setMatches(
+          serviceTypeFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) ||
+            allOptions,
+        );
       }
     },
-    [serviceFilter, serviceType],
+    [serviceType],
   );
 
   const makeOptionsFromMatches = () => {
     const seeAll = (
-      <option value="health">See results for all VA health services</option>
+      <option key="A" value="health">
+        All VA health services
+      </option>
     );
 
-    if (!matches || !matches.length) {
-      return seeAll;
-    }
-
-    return [
-      seeAll,
-      ...matches.map(({ hsdatum }) => (
-        <option key={hsdatum[3]} value={hsdatum[3]}>
-          {hsdatum[0]}
+    const matchedServices = matches.map((match, index) => {
+      return (
+        <option key={index} value={match[0]}>
+          {match[0]}
         </option>
-      )),
-    ];
+      );
+    });
+
+    return [seeAll, ...matchedServices];
   };
 
   return (
