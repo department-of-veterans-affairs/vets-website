@@ -26,7 +26,7 @@ describe('HCA-Health-Insurance-Information', () => {
   const advanceToHealthInsurance = () => {
     cy.get('va-alert-sign-in')
       .shadow()
-      .get('va-link')
+      .find('va-link')
       .first()
       .click();
     cy.location('pathname').should('include', '/id-form');

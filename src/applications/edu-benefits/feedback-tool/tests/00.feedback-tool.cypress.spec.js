@@ -16,9 +16,9 @@ describe('Feedback Tool Test', () => {
     });
     cy.get('va-alert-sign-in')
       .shadow()
-      .get('va-link')
+      .find('va-link')
       .first()
-      .click({ waitForAnimations: true });
+      .click();
 
     cy.url().should('not.contain', '/introduction');
     // Applicant relationship
