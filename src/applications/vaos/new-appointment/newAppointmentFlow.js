@@ -494,12 +494,6 @@ export default function getNewAppointmentFlow(state) {
         ? 'location'
         : '/new-appointment/va-facility-2',
     },
-    selectProvider: {
-      ...flow.selectProvider,
-      url: featureBreadcrumbUrlUpdate
-        ? 'provider'
-        : '/new-appointment/provider',
-    },
     visitType: {
       ...flow.visitType,
       url: featureBreadcrumbUrlUpdate
