@@ -107,7 +107,7 @@ ${record.results}`;
         header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="microbio-date"
-        data-testid="admission-discharge-name"
+        data-testid="microbio-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - microbio name]"
       >

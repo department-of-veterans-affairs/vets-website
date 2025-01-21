@@ -100,7 +100,7 @@ ${record.results} \n`;
         header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="pathology-name"
-        data-testid="admission-discharge-name"
+        data-testid="pathology-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - pathology name]"
       >

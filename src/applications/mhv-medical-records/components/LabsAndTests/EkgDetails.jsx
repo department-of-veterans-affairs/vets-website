@@ -112,12 +112,12 @@ const EkgDetails = props => {
           value={
             record.facility || 'There is no facility reported at this time'
           }
-          testid="ekg-record-facility"
+          testId="ekg-record-facility"
         />
         <LabelValue
           label="Results"
           value={
-            <p testid="ekg-results">
+            <p testId="ekg-results">
               Your EKG results aren’t available in this tool. To get your EKG
               results, you can request a copy of your complete medical record
               from your VA health facility.
