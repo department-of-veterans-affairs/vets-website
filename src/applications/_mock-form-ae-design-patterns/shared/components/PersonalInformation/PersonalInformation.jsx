@@ -47,7 +47,6 @@ const defaultConfig = {
   vaFileNumber: false,
   dateOfBirth: true,
   gender: false,
-  errorMessage: DefaultErrorMessage,
 };
 
 /**
@@ -56,6 +55,7 @@ const defaultConfig = {
  * @param {PersonalInformationConfig} props.config - Field configuration object
  * @param {DataAdapter} props.dataAdapter - Data adapter object
  * @param {ReactNode} props.children - React children
+ * @param {string | ReactNode} props.errorMessage - Custom error message or ReactNode for missing data
  * @returns {ReactNode} - Rendered component
  */
 export const PersonalInformation = ({
@@ -68,8 +68,11 @@ export const PersonalInformation = ({
   goForward,
   contentBeforeButtons,
   contentAfterButtons,
+  errorMessage,
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
+
+  const finalErrorMessage = errorMessage || DefaultErrorMessage;
 
   const profile = useSelector(selectProfile);
   const adaptedData = adaptFormData(data, dataAdapter);
@@ -85,17 +88,18 @@ export const PersonalInformation = ({
   const { note, header, footer } = getChildrenByType(children);
 
   if (missingData.length > 0) {
-    let message;
-    const { errorMessage } = finalConfig;
+    let messageComponent;
     // check if the error message is a function
-    if (typeof errorMessage === 'function') {
-      message = errorMessage({ missingFields: missingData });
+    if (typeof finalErrorMessage === 'function') {
+      messageComponent = finalErrorMessage({ missingFields: missingData });
     }
-    return errorMessage ? (
+    return finalErrorMessage ? (
       <va-alert status="error" class="vads-u-margin-bottom--4">
         <h2 slot="headline">We need more information</h2>
 
-        <div className="vads-u-margin-y--0">{message || errorMessage}</div>
+        <div className="vads-u-margin-y--0">
+          {messageComponent || finalErrorMessage}
+        </div>
       </va-alert>
     ) : null;
   }
@@ -214,7 +218,6 @@ PersonalInformation.propTypes = {
     showDateOfBirth: PropTypes.bool,
     showGender: PropTypes.bool,
     showName: PropTypes.bool,
-    errorMessage: PropTypes.string,
   }),
   contentAfterButtons: PropTypes.oneOfType([
     PropTypes.node,
@@ -233,6 +236,11 @@ PersonalInformation.propTypes = {
     ssnPath: PropTypes.string,
     vaFileNumberPath: PropTypes.string,
   }),
+  errorMessage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   formData: PropTypes.shape({
     veteran: PropTypes.shape({
       ssnLastFour: PropTypes.string,

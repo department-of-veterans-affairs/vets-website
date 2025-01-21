@@ -12,11 +12,8 @@ describe('DefaultErrorMessage', () => {
 
     expect(getByText(/Your VA account is missing your Social Security number/))
       .to.exist;
-    expect(
-      getByText(
-        /Tell the representative you may be missing Social Security number/,
-      ),
-    ).to.exist;
+    expect(getByText(/Tell us you may be missing your Social Security number/))
+      .to.exist;
   });
 
   it('should render with multiple missing fields', () => {
@@ -31,7 +28,7 @@ describe('DefaultErrorMessage', () => {
     ).to.exist;
     expect(
       getByText(
-        /Tell the representative you may be missing Social Security number and VA file number/,
+        /Tell us you may be missing your Social Security number and VA file number/,
       ),
     ).to.exist;
   });

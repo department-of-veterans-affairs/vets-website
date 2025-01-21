@@ -1,6 +1,7 @@
 import React from 'react';
-import { PersonalInformation } from './PersonalInformation';
 
+import { PersonalInformation } from './PersonalInformation';
+import { DefaultErrorMessage } from './DefaultErrorMessage';
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -15,6 +16,7 @@ export const defaultConfig = {
   path: 'personal-information',
   personalInfoConfig: {},
   dataAdapter: {},
+  errorMessage: DefaultErrorMessage,
 };
 
 /**
@@ -23,6 +25,7 @@ export const defaultConfig = {
  * @property {string} path - The path of the page
  * @property {PersonalInformationConfig} personalInfoConfig - Configuration object for the PersonalInformation component
  * @property {DataAdapter} dataAdapter - Data adapter configuration object for the PersonalInformation component
+ * @property {string|Function} errorMessage - Custom error message or component for missing data
  */
 const personalInformationPage = ({
   key = defaultConfig.key,
@@ -30,6 +33,7 @@ const personalInformationPage = ({
   path = defaultConfig.path,
   personalInfoConfig = defaultConfig.personalInfoConfig,
   dataAdapter = defaultConfig.dataAdapter,
+  errorMessage = defaultConfig.errorMessage,
 } = defaultConfig) => {
   return {
     [key]: {
@@ -45,6 +49,7 @@ const personalInformationPage = ({
           {...props}
           config={personalInfoConfig}
           dataAdapter={dataAdapter}
+          errorMessage={errorMessage}
         />
       ),
       CustomPageReview: null,
