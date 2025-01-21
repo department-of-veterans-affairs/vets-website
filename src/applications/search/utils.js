@@ -25,5 +25,5 @@ export function truncateResponseString(string, maxLength) {
 }
 
 export function removeDoubleBars(string) {
-  return string.replace(' | Veterans Affairs', '').replace(/&amp;/g, '&');
+  return string.replace(' | Veterans Affairs', '');
 }
