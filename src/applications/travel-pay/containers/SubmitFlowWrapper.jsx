@@ -10,8 +10,7 @@ import {
   isProfileLoading,
   isLoggedIn,
 } from 'platform/user/selectors';
-import { focusElement } from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -44,13 +43,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
-      const checkbox = $('va-checkbox');
-      const errorMsg = checkbox.shadowRoot.getElementById(
-        'checkbox-error-message',
-      );
-      scrollTo(errorMsg);
-      // TODO: this works for screenreaders but there is no visual indication of focus for some reason
-      focusElement(errorMsg);
+      scrollToFirstError();
       return;
     }
     // Placeholder until actual submit is hooked up
