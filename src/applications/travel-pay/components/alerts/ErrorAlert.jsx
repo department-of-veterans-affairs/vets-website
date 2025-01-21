@@ -28,9 +28,8 @@ const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
           We’re sorry, we can’t access your travel claims right now
         </h2>
         <p className="vads-u-margin-top--2">
-          We’re sorry. There’s a problem with our system. Check back later or
-          try checking in the Beneficiary Travel Self Service System (BTSSS)
-          portal.
+          There’s a problem with our system. Check back later or try checking in
+          the Beneficiary Travel Self Service System (BTSSS) portal.
           <va-link-action
             text="Go to the BTSSS portal (opens in a new tab)"
             href={BTSSS_PORTAL_URL}
