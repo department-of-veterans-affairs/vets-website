@@ -18,11 +18,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      h.get15YearsPast(),
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, h.get15YearsPast());
     h.clickContinue();
 
     // DISCHARGE_MONTH
@@ -379,11 +375,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -407,11 +399,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      h.get15YearsPast(),
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, h.get15YearsPast());
     h.clickContinue();
 
     // DISCHARGE_MONTH
@@ -442,11 +430,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -525,11 +509,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -610,11 +590,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -699,11 +675,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -789,11 +761,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON
@@ -881,11 +849,7 @@ describe('Review edit flows', () => {
 
     // DISCHARGE_YEAR
     h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-    h.selectDropdown(
-      h.DISCHARGE_YEAR_INPUT,
-      SHORT_NAME_MAP.DISCHARGE_YEAR,
-      '2024',
-    );
+    h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
     h.clickContinue();
 
     // DISCHARGE_REASON

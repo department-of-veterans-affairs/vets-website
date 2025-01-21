@@ -67,8 +67,8 @@ const IntroductionPage = ({ route }) => {
               </li>
               <li>Then we’ll ask you to upload your completed form.</li>
               <li>
-                <b>Note:</b> The upload tool can <b>not</b> check for mistakes
-                in your form. Make sure you review your file before you submit.
+                <b>Note:</b> The upload tool can’t check for mistakes in your
+                form. Make sure you review your file before you submit.
               </li>
             </ul>
           </div>
