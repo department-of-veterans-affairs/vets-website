@@ -18,7 +18,9 @@ describe('Medical Records View Labs And Tests', () => {
         'MMMM D, YYYY',
       ),
     );
-    PathologyDetailsPage.verifySampleTested(record.contained[0].type.text);
+    // record.contained[0].collection.bodySite.text,
+    // pertains to "site or sample tested" IF IT EXISTS
+    PathologyDetailsPage.verifySampleTested('None noted'); // sample from field: (record.contained[0].type.text);
     PathologyDetailsPage.verifyLabLocation('None noted');
     PathologyDetailsPage.verifyReport('None noted');
     PathologyDetailsPage.verifyDateCompleted(
