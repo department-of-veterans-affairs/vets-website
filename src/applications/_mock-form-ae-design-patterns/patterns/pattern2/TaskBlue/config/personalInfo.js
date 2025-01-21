@@ -3,9 +3,9 @@ import { personalInformationPage } from 'applications/_mock-form-ae-design-patte
 const personalInfo = personalInformationPage();
 
 const personalInfoMax = personalInformationPage({
-  key: 'personalInfoPagePartial',
-  title: 'Personal information - Partial',
-  path: 'personal-information-partial',
+  key: 'personalInfoPageMax ',
+  title: 'Personal information - Max',
+  path: 'personal-information-max',
   personalInfoConfig: {
     ssn: true,
     vaFileNumber: true,
@@ -20,8 +20,11 @@ const personalInfoMin = personalInformationPage({
   title: 'Personal information - Min',
   path: 'personal-information-min',
   personalInfoConfig: {
-    ssn: false,
-    name: false,
+    name: true,
+    ssn: true,
+    vaFileNumber: false,
+    dateOfBirth: false,
+    gender: false,
   },
 });
 
@@ -61,8 +64,8 @@ const personalInfoError = personalInformationPage({
 
 export default {
   ...personalInfo,
-  ...personalInfoCustomErrorMessage,
-  ...personalInfoError,
-  ...personalInfoMax,
   ...personalInfoMin,
+  ...personalInfoMax,
+  ...personalInfoError,
+  ...personalInfoCustomErrorMessage,
 };
