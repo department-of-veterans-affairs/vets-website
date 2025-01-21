@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": "",
+    "type": "async_transaction_va_profile_address_transactions",
+    "attributes": {
+      "transactionId": "b07d8b7f-2378-470d-b533-e59c3bf61624",
+      "transactionStatus": "RECEIVED",
+      "type": "AsyncTransaction::VAProfile::AddressTransaction",
+      "metadata": []
+    }
+  }
+}

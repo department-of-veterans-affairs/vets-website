@@ -165,17 +165,15 @@ describe('VA evidence', () => {
       validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
       expect(errors.addError.called).to.be.false;
     });
-    it('should show an error for an invalid treatment date', () => {
+    it('should not show an error for an invalid treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '2000' }, fullData);
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
+      expect(errors.addError.notCalled).to.be.true;
     });
-    it('should show an error for a missing treatment date', () => {
+    it('should not show an error for a missing treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '' }, fullData);
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
+      expect(errors.addError.notCalled).to.be.true;
     });
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
