@@ -161,9 +161,9 @@ export const introductionPageFlow = () => {
   cy.get('va-button[text*="start"]');
   cy.get('va-alert-sign-in')
     .shadow()
-    .get('va-link')
+    .find('va-link')
     .first()
-    .click();
+    .click({ force: true, waitForAnimations: true });
 };
 
 export const fillStatementOfTruthSignature = veteranSignature => {
