@@ -92,7 +92,7 @@ export const PersonalInformation = ({
       message = errorMessage({ missingFields: missingData });
     }
     return errorMessage ? (
-      <va-alert status="error">
+      <va-alert status="error" class="vads-u-margin-bottom--4">
         <h2 slot="headline">We need more information</h2>
 
         <div className="vads-u-margin-y--0">{message || errorMessage}</div>

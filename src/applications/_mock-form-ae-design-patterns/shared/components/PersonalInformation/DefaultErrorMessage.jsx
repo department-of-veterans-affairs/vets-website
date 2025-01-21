@@ -36,10 +36,10 @@ export const DefaultErrorMessage = ({ missingFields = [] }) => {
         online changes to this information. To update this information, call us
         at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
+        ). Tell us you may be missing your {missingFieldsText} and we’ll explain
+        the best way to add that information. We’re here Monday through Friday,
+        between 8:00 a.m. and 9:00 p.m. ET.
       </p>
-
-      <p>Tell the representative you may be missing {missingFieldsText}.</p>
     </>
   );
 };
