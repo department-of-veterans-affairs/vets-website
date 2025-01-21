@@ -1,9 +1,20 @@
+export function decodeChars(string) {
+  return string
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 export function formatResponseString(string, stripAll = false) {
   if (stripAll) {
-    return string.replace(/[\ue000\ue001]/g, '');
+    return decodeChars(string.replace(/[\ue000\ue001]/g, ''));
   }
 
-  return string.replace(/\ue000/g, '<strong>').replace(/\ue001/g, '</strong>');
+  return decodeChars(
+    string.replace(/\ue000/g, '<strong>').replace(/\ue001/g, '</strong>'),
+  );
 }
 
 export function truncateResponseString(string, maxLength) {
