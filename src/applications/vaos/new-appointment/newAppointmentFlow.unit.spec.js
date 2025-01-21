@@ -435,6 +435,84 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     describe('next page', () => {
+      it('should be selectProvider page if Cerner direct scheduling is enabled and type of care is foodAndNutrition', async () => {
+        mockFetch();
+
+        const state = {
+          featureToggles: {
+            ...defaultState.featureToggles,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingOhDirectSchedule: true,
+            vaOnlineSchedulingOhRequest: true,
+          },
+          user: {
+            profile: {
+              facilities: [
+                {
+                  facilityId: '983',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '692',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+          drupalStaticData: {
+            vamcEhrData: {
+              loading: false,
+              data: {
+                ehrDataByVhaId: {
+                  '692': {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                },
+                cernerFacilities: [
+                  {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                ],
+                vistaFacilities: [],
+              },
+            },
+          },
+
+          newAppointment: {
+            data: {
+              vaFacility: '692',
+              typeOfCareId: '123',
+            },
+            facilities: {
+              '123': [
+                {
+                  id: '692',
+                },
+              ],
+            },
+            eligibility: {
+              '692_123': {
+                direct: true,
+              },
+            },
+          },
+        };
+        const dispatch = sinon.spy();
+
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
+          state,
+          dispatch,
+        );
+
+        expect(nextState).to.equal('selectProvider');
+      });
+
       it('should be clinicChoice page if eligible', async () => {
         mockFetch();
         const state = {
