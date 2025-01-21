@@ -654,6 +654,40 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.uiSchema('', false, null, true),
+                'ui:options': {
+                  updateSchema: (formData, addressSchema) => {
+                    const livesOnMilitaryBase =
+                      formData['view:mailingAddress']?.livesOnMilitaryBase;
+                    if (livesOnMilitaryBase) {
+                      return {
+                        ...addressSchema,
+                        properties: {
+                          ...addressSchema.properties,
+                          state: {
+                            ...addressSchema.properties.state,
+                            title: 'AE/AA/AP',
+                            enum: ['AE', 'AA', 'AP'],
+                            enumNames: [
+                              'AE - APO/DPO/FPO',
+                              'AA - APO/DPO/FPO',
+                              'AP - APO/DPO/FPO',
+                            ],
+                          },
+                        },
+                      };
+                    }
+                    return {
+                      ...addressSchema,
+                      properties: {
+                        ...addressSchema.properties,
+                        state: {
+                          ...addressSchema.properties.state,
+                          title: 'State/County/Province',
+                        },
+                      },
+                    };
+                  },
+                },
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
