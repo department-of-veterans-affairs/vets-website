@@ -15,7 +15,7 @@ export default () => {
     },
     {
       text: 'Deleting your account',
-      url: '/resources/creating-an-account-for-vagov/#creating-your-account',
+      url: '/resources/can-i-delete-my-logingov-or-idme-account',
     },
     {
       text: 'Common issues with Login.gov or ID.me',
