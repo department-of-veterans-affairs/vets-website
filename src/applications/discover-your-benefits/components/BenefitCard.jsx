@@ -19,6 +19,8 @@ const BenefitCard = ({ benefit }) => {
           className="link--center"
           aria-label={`${label} (opens in a new tab)`}
           text={text}
+          label={label}
+          type="secondary"
           external
         />
       );
