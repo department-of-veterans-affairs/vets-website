@@ -13,7 +13,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import ReferralLayout from './components/ReferralLayout';
 import AddToCalendarButton from '../components/AddToCalendarButton';
 import { setFormCurrentPage } from './redux/actions';
-import { useGetProviderById } from './hooks/useGetProviderById';
+import { useGetProviderByReferralId } from './hooks/useGetProviderByReferralId';
 import { getReferralSlotKey } from './utils/referrals';
 import {
   getTimezoneAbbrByFacilityId,
@@ -38,7 +38,7 @@ export default function CompleteReferral(props) {
   );
 
   const basePath = useRouteMatch();
-  const { provider, loading, failed } = useGetProviderById(
+  const { provider, loading, failed } = useGetProviderByReferralId(
     currentReferral?.providerId,
   );
 

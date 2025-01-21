@@ -13,7 +13,7 @@ import {
 import { createReferral, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createProviderDetails } from './utils/provider';
-import * as getProviderByIdModule from '../services/referral';
+import * as getProviderByReferralIdModule from '../services/referral';
 
 describe('CompleteReferral', () => {
   const providerDetails = createProviderDetails(1, '111');
@@ -33,7 +33,7 @@ describe('CompleteReferral', () => {
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
     sandbox
-      .stub(getProviderByIdModule, 'getProviderById')
+      .stub(getProviderByReferralIdModule, 'getProviderByReferralId')
       .resolves(providerDetails);
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.setItem(selectedSlotKey, 0);
@@ -110,7 +110,9 @@ describe('CompleteReferral', () => {
       },
     );
 
-    sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
+    sandbox.assert.notCalled(
+      getProviderByReferralIdModule.getProviderByReferralId,
+    );
     expect(history.location.pathname).to.equal('/');
   });
 
@@ -168,7 +170,9 @@ describe('CompleteReferral', () => {
         path: '/complete/UUID',
       },
     );
-    sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
+    sandbox.assert.notCalled(
+      getProviderByReferralIdModule.getProviderByReferralId,
+    );
     expect(history.location.pathname).to.equal('/');
   });
 });

@@ -9,7 +9,7 @@ import {
 } from '../../../../tests/mocks/setup';
 import { createProviderDetails } from '../../../utils/provider';
 import { FETCH_STATUS } from '../../../../utils/constants';
-import * as getProviderByIdModule from '../../../../services/referral';
+import * as getProviderByReferralIdModule from '../../../../services/referral';
 
 import TestComponent from './TestComponent';
 
@@ -26,7 +26,7 @@ describe('Community Care Referrals', () => {
     beforeEach(() => {
       global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
       sandbox
-        .stub(getProviderByIdModule, 'getProviderById')
+        .stub(getProviderByReferralIdModule, 'getProviderByReferralId')
         .resolves(providerDetails);
     });
     afterEach(() => {
@@ -45,7 +45,9 @@ describe('Community Care Referrals', () => {
       expect(getByTestId('fail-status')).contains.text('fail status: false');
       expect(getByTestId('provider-name')).to.be.empty;
       expect(getByTestId('provider-id')).to.be.empty;
-      sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
+      sandbox.assert.notCalled(
+        getProviderByReferralIdModule.getProviderByReferralId,
+      );
     });
     it('should not fetch provider if it exists in redux', async () => {
       const { getByTestId } = renderWithStoreAndRouter(
@@ -63,7 +65,9 @@ describe('Community Care Referrals', () => {
         providerDetails.providerName,
       );
       expect(getByTestId('provider-id')).to.contain.text(providerDetails.id);
-      sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
+      sandbox.assert.notCalled(
+        getProviderByReferralIdModule.getProviderByReferralId,
+      );
     });
     it('should fetch provider if not in redux', async () => {
       const { getByTestId } = renderWithStoreAndRouter(
@@ -81,13 +85,15 @@ describe('Community Care Referrals', () => {
       await waitFor(() => {
         expect(getByTestId('loading')).to.contain.text('loading: true');
       });
-      sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      sandbox.assert.calledOnce(
+        getProviderByReferralIdModule.getProviderByReferralId,
+      );
     });
     it('should fetch new provider if provider in redux is not the one requested', async () => {
       const otherProvider = createProviderDetails(1, '222');
       sandbox.restore();
       sandbox
-        .stub(getProviderByIdModule, 'getProviderById')
+        .stub(getProviderByReferralIdModule, 'getProviderByReferralId')
         .resolves(otherProvider);
       const { getByTestId } = renderWithStoreAndRouter(
         <TestComponent providerId={otherProvider.id} />,
@@ -98,7 +104,9 @@ describe('Community Care Referrals', () => {
       await waitFor(() => {
         expect(getByTestId('loading')).to.contain.text('loading: true');
       });
-      sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      sandbox.assert.calledOnce(
+        getProviderByReferralIdModule.getProviderByReferralId,
+      );
     });
     it('should show the error message if fetch fails', async () => {
       const { getByTestId } = renderWithStoreAndRouter(

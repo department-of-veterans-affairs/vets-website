@@ -1,7 +1,7 @@
 import { captureError } from '../../utils/error';
 import {
   postDraftReferralAppointment,
-  getProviderById,
+  getProviderByReferralId,
   getPatientReferrals,
   getPatientReferralById,
 } from '../../services/referral';
@@ -62,7 +62,7 @@ export function fetchProviderDetails(id) {
       dispatch({
         type: FETCH_PROVIDER_DETAILS,
       });
-      const providerDetails = await getProviderById(id);
+      const providerDetails = await getProviderByReferralId(id);
 
       dispatch({
         type: FETCH_PROVIDER_DETAILS_SUCCEEDED,

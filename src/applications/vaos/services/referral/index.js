@@ -18,7 +18,7 @@ export async function getPatientReferralById(referralId) {
   return response.data;
 }
 
-export async function getProviderById(referralId) {
+export async function getProviderByReferralId(referralId) {
   const response = await apiRequestWithUrl(
     `/vaos/v2/epsApi/providerDetails/${referralId}`,
     {

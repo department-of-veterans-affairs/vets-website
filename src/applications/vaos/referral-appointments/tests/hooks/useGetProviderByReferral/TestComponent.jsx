@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useGetProviderById } from '../../../hooks/useGetProviderById';
+import { useGetProviderByReferralId } from '../../../hooks/useGetProviderByReferralId';
 
 export default function TestComponent({ providerId }) {
-  const { provider, loading, failed } = useGetProviderById(providerId);
+  const { provider, loading, failed } = useGetProviderByReferralId(providerId);
   return (
     <div data-testid="test-component">
       <p>Test component</p>

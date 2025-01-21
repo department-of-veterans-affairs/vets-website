@@ -5,7 +5,7 @@ import { fetchProviderDetails, setInitReferralFlow } from '../redux/actions';
 import { getProviderInfo } from '../redux/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 
-function useGetProviderById(providerId) {
+function useGetProviderByReferralId(providerId) {
   const dispatch = useDispatch();
   const { provider, providerFetchStatus } = useSelector(
     state => getProviderInfo(state),
@@ -50,4 +50,4 @@ function useGetProviderById(providerId) {
   };
 }
 
-export { useGetProviderById };
+export { useGetProviderByReferralId };
