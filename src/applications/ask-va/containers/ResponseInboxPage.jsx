@@ -32,9 +32,6 @@ import {
 import manifest from '../manifest.json';
 import { mockInquiryResponse } from '../utils/mockData';
 
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = mockTestingFlagforAPI;
-
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
   if (messageType === 'ResponseFromVA') return 'Response from VA';
@@ -75,7 +72,7 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (mockTestingFlag) {
+      if (mockTestingFlagforAPI) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
@@ -121,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {

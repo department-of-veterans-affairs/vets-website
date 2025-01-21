@@ -11,9 +11,6 @@ import { CHAPTER_3, URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { convertToLatLng } from '../utils/mapbox';
 import { mockHealthFacilityResponse } from '../utils/mockData';
 
-// Toggle this when testing locally to load health facility search results
-const mockTestingFlag = mockTestingFlagforAPI;
-
 const facilities = { data: [] };
 
 const YourVAHealthFacilityPage = props => {
@@ -36,7 +33,7 @@ const YourVAHealthFacilityPage = props => {
   const getApiData = url => {
     setIsSearching(true);
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {

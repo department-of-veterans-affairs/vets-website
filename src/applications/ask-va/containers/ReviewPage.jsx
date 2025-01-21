@@ -37,9 +37,6 @@ import {
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
 
-// Toggle this when testing locally to get successful confirmation page inquiry
-const mockTestingFlag = mockTestingFlagforAPI;
-
 const { scroller } = Scroll;
 
 const ReviewPage = props => {
@@ -94,7 +91,7 @@ const ReviewPage = props => {
       },
     };
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {

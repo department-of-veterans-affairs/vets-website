@@ -16,9 +16,6 @@ import {
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = mockTestingFlagforAPI;
-
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
   const [error, hasError] = useState(false);
@@ -68,7 +65,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
