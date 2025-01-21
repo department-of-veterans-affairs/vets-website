@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const VehiclePage = ({
   pageIndex,
@@ -13,6 +15,11 @@ const VehiclePage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
+  useEffect(() => {
+    focusElement('h1', {}, 'va-radio');
+    scrollToTop('topScrollElement');
+  }, []);
+
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
@@ -75,7 +82,7 @@ const VehiclePage = ({
           But you can file your claim online, within 30 days, through the{' '}
           <va-link
             external
-            href="https://link-to-btsss"
+            href={BTSSS_PORTAL_URL}
             text="Beneficiary Travel Self Service System (BTSSS)"
           />
           . Or you can use VA Form 10-3542 to submit a claim by mail or in

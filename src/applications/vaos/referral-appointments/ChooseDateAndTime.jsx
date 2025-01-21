@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
+// eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
+// eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
 import { getProviderInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';

@@ -41,12 +41,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       ) : null}
       {variant === 'name-and-zip-code' ? (
         <p>
-          If your name and zip code here don’t match your form, it will cause
-          processing delays.
+          If the name and postal code you enter here don’t match your form, it
+          will cause processing delays.
         </p>
       ) : (
         <p>
-          If the identification information you enter here don’t match your
+          If the identification information you enter here doesn’t match your
           form, it will cause processing delays.
         </p>
       )}

@@ -8,6 +8,7 @@ import {
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const AddressPage = ({
   address,
@@ -17,10 +18,17 @@ const AddressPage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      if (!address) {
+        focusElement('h1');
+      } else {
+        focusElement('h1', {}, 'va-radio');
+      }
+    },
+    [address],
+  );
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -138,7 +146,7 @@ const AddressPage = ({
           But you can file your claim online, within 30 days, through the
           <va-link
             external
-            href="https://link-to-btsss"
+            href={BTSSS_PORTAL_URL}
             text="Beneficiary Travel Self Service System (BTSSS)"
           />
           . Or you can use VA Form 10-3542 to submit a claim by mail or in
