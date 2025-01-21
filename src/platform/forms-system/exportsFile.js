@@ -243,8 +243,9 @@ export {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
 } from './src/js/routing';
+
+export { createRoutes } from './src/js/routing/createRoutes';
 
 export {
   transformErrors,
