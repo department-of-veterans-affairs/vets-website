@@ -514,6 +514,7 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       it('should be clinicChoice page if eligible', async () => {
+        mockFetch();
         const state = {
           ...defaultState,
           newAppointment: {
