@@ -39,6 +39,7 @@ import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
+import { selectGroupingFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -58,6 +59,7 @@ const PrescriptionDetails = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const dispatch = useDispatch();
 
   const prescriptionHeader =
@@ -324,7 +326,7 @@ const PrescriptionDetails = () => {
   const content = () => {
     if (prescription || prescriptionsApiError) {
       return (
-        <>
+        <div>
           <div className="no-print">
             <h1
               aria-describedby="last-filled"
@@ -340,7 +342,11 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--4 vads-u-margin-bottom--3"
+                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:${
+                    showGroupingContent
+                      ? 'vads-u-margin-bottom--3 vads-u-margin-bottom--2'
+                      : 'vads-u-margin-bottom--4 vads-u-margin-bottom--3'
+                  }`}
                   data-testid="rx-last-filled-date"
                 >
                   {filledEnteredDate()}
@@ -361,7 +367,28 @@ const PrescriptionDetails = () => {
                     </p>
                   </ApiErrorNotification>
                 )}
-                <div className="no-print">
+                {/* TODO: clean after grouping flag is gone */}
+                {showGroupingContent && (
+                  <>
+                    {nonVaPrescription ? (
+                      <NonVaPrescription {...prescription} />
+                    ) : (
+                      <VaPrescription {...prescription} />
+                    )}
+                  </>
+                )}
+                {/* TODO: clean after grouping flag is gone */}
+                <div
+                  className={`no-print${
+                    showGroupingContent
+                      ? ' vads-u-margin-top--3 vads-u-margin-bottom--5'
+                      : ''
+                  }`}
+                >
+                  {/* TODO: clean after grouping flag is gone */}
+                  {showGroupingContent && (
+                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  )}
                   <PrintDownload
                     onDownload={handleFileDownload}
                     isSuccess={
@@ -374,12 +401,20 @@ const PrescriptionDetails = () => {
                         PDF_TXT_GENERATE_STATUS.InProgress
                     }
                   />
-                  <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  {/* TODO: clean after grouping flag is gone */}
+                  {!showGroupingContent && (
+                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  )}
                 </div>
-                {nonVaPrescription ? (
-                  <NonVaPrescription {...prescription} />
-                ) : (
-                  <VaPrescription {...prescription} />
+                {/* TODO: clean after grouping flag is gone */}
+                {!showGroupingContent && (
+                  <>
+                    {nonVaPrescription ? (
+                      <NonVaPrescription {...prescription} />
+                    ) : (
+                      <VaPrescription {...prescription} />
+                    )}
+                  </>
                 )}
               </>
             )}
@@ -401,7 +436,7 @@ const PrescriptionDetails = () => {
             />
             <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
-        </>
+        </div>
       );
     }
     return (

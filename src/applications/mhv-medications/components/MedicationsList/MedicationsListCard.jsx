@@ -53,7 +53,7 @@ const MedicationsListCard = ({ rx }) => {
         </Link>
         {rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
-            <p data-testid="rx-number">
+            <p data-testid="rx-number" data-dd-privacy="mask">
               Prescription number: {rx.prescriptionNumber}
             </p>
           )}

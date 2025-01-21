@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
+export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
@@ -41,12 +41,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       ) : null}
       {variant === 'name-and-zip-code' ? (
         <p>
-          If your name and zip code here don’t match your form, it will cause
-          processing delays.
+          If the name and postal code you enter here don’t match your form, it
+          will cause processing delays.
         </p>
       ) : (
         <p>
-          If the identification information you enter here don’t match your
+          If the identification information you enter here doesn’t match your
           form, it will cause processing delays.
         </p>
       )}
@@ -56,19 +56,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
 
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
-    <h3 className="vads-u-margin-bottom--3">Upload your file</h3>
-    <p className="vads-u-margin-top--0">
-      You’ll need to scan your document onto the device you’re using to submit
-      this application, such as your computer, tablet, or mobile phone. You can
-      upload your document from there.
+    <h3 className="vads-u-margin-bottom--3">Your file</h3>
+    <p>
+      <span className="vads-u-font-weight--bold">Note:</span> After you upload
+      your file, you’ll need to continue to the next screen to submit it. If you
+      leave before you submit it, you’ll need to upload it again.
     </p>
-    <div>
-      <p>Guidelines for uploading a file:</p>
-      <ul>
-        <li>You can upload a .pdf, .jpeg, or .png file</li>
-        <li>Your file should be no larger than 25MB</li>
-      </ul>
-    </div>
   </>,
 );
 
@@ -80,8 +73,6 @@ export const SAVE_IN_PROGRESS_CONFIG = {
     saved: 'Your form upload has been saved.',
   },
 };
-
-export const PROGRESS_BAR_LABELS = 'Personal information;File upload;Review';
 
 export const SUBTITLE_0779 =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';

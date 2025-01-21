@@ -62,6 +62,7 @@ const ComposeForm = props => {
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   useEffect(
     () => {
@@ -934,6 +935,8 @@ const ComposeForm = props => {
                     setNavigationError={setNavigationError}
                     editingEnabled
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
 
                   <FileInput
@@ -941,6 +944,8 @@ const ComposeForm = props => {
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
                 </section>
               ))}

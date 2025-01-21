@@ -1,5 +1,5 @@
 import React from 'react';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 
@@ -44,3 +44,14 @@ export const benefitsIntakeFullNameUI = (formatTitle, uiOptions = {}) => {
   });
   return uiSchema;
 };
+
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
+};
+
+export const showUploadDocuments = () =>
+  window.sessionStorage.getItem('showUploadDocuments') === 'true';

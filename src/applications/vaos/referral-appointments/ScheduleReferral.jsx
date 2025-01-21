@@ -26,9 +26,12 @@ export default function ScheduleReferral(props) {
       ? '1 appointment'
       : `${currentReferral.numberOfAppointments} appointments`;
   return (
-    <ReferralLayout hasEyebrow>
+    <ReferralLayout
+      hasEyebrow
+      heading={`Referral for ${currentReferral.CategoryOfCare}`}
+      categoryOfCare={currentReferral?.CategoryOfCare}
+    >
       <div>
-        <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
           {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>

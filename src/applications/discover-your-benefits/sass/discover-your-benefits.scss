@@ -31,6 +31,10 @@
   margin-right: 0;
 }
 
+.discover-your-benefits .usa-width-two-thirds {
+  width: auto !important;
+}
+
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
@@ -84,6 +88,10 @@
   span {
     margin-bottom: 1rem;
   }
+}
+
+.start-over-link-container {
+  margin-bottom: 3rem;
 }
 
 @media (max-width: $small-screen) {

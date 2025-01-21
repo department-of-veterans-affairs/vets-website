@@ -115,7 +115,7 @@ describe('ConfirmationPageV2', () => {
     expect($$('li', container).length).to.eq(21);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(28);
+    expect(items.length).to.eq(30);
     expect(
       items.map(
         (el, index) => el[[3, 4].includes(index) ? 'innerHTML' : 'textContent'],
@@ -140,9 +140,11 @@ describe('ConfirmationPageV2', () => {
       'Test 2',
       'Feb 2, 2002 – Feb 2, 2012',
       'Private Doctor',
+      '123 maincity, AK 90210',
       'Test and Test 2',
       'Jan 1, 2022 – Feb 1, 2022',
       'Private Hospital',
+      '456 maincity, AK 90211',
       'Test 2',
       'Feb 1, 2022 – May 1, 2022',
       'private-medical-records.pdf',
@@ -202,7 +204,7 @@ describe('ConfirmationPageV2', () => {
     expect($$('li', container).length).to.eq(31);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(35);
+    expect(items.length).to.eq(37);
     expect(
       items.map(
         (el, index) =>
@@ -234,9 +236,11 @@ describe('ConfirmationPageV2', () => {
       'Test 2',
       // I don't have a date (not hidden from DataDog)
       'Private Doctor',
+      '123 maincity, AK 90210',
       'Test and Test 2',
       'Jan 1, 2022 – Feb 1, 2022',
       'Private Hospital',
+      '456 maincity, AK 90211',
       'Test 2',
       'Feb 1, 2022 – May 1, 2022',
       'private-medical-records.pdf',

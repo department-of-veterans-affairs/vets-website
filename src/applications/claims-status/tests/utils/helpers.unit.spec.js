@@ -698,6 +698,17 @@ describe('Disability benefits helpers: ', () => {
       expect(getClaimType(claim)).to.equal('Awesome');
     });
 
+    it('should return new text for death claims', () => {
+      const claim = {
+        attributes: {
+          claimType: 'Death',
+        },
+      };
+      expect(getClaimType(claim)).to.equal(
+        'expenses related to death or burial',
+      );
+    });
+
     it('should return the default claim type', () => {
       const claim = {
         attributes: {
@@ -1185,11 +1196,11 @@ describe('Disability benefits helpers: ', () => {
         'Review evidence list (5103 notice)',
       );
     });
-    it('should display Request for Submit buddy statement(s)', () => {
+    it('should display Submit buddy statement(s)', () => {
       const displayName = 'Submit buddy statement(s)';
       const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
-      expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
+      expect(documentRequestPageTitle).to.equal(displayName);
     });
   });
 

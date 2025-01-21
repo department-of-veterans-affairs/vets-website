@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { addStyleToShadowDomOnPages } from '../../utils/helpers';
+import BreadcrumbUsedInForm from '../components/BreadcrumbUsedInForm';
 
 export default function App({ location, children }) {
   useEffect(() => {
@@ -18,6 +19,9 @@ export default function App({ location, children }) {
 
   return (
     <div className="form-22-10215-container">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+        <BreadcrumbUsedInForm />
+      </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -26,9 +30,6 @@ export default function App({ location, children }) {
 }
 
 App.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.object,
   location: PropTypes.object,
 };

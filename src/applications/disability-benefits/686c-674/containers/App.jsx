@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
@@ -15,7 +14,6 @@ function App({
   isLoading,
   vaFileNumber,
   featureToggles,
-  savedForms,
 }) {
   const { TOGGLE_NAMES } = useFeatureToggle();
   useBrowserMonitoring({
@@ -27,24 +25,16 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading || !featureToggles || featureToggles.loading) {
+  if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  const flipperV2 = featureToggles.vaDependentsV2;
-  const hasV1Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686C,
-  );
-  const hasV2Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686CV2,
-  );
-
-  const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
-  if (shouldUseV2) {
+  if (featureToggles.vaDependentsV2) {
     window.location.href =
       '/view-change-dependents/add-remove-form-21-686c-v2/';
     return <></>;
   }
+
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -52,6 +42,7 @@ function App({
       </RoutedSavableApp>
     </article>
   );
+
   // If on intro page, just return
   if (location.pathname === '/introduction') {
     return content;
@@ -64,7 +55,7 @@ function App({
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(`${manifest.rootUrl}`);
+    window.location.replace(`${manifest.rootUrl}`);
     return (
       <va-loading-indicator message="Redirecting to introduction page..." />
     );
@@ -74,12 +65,13 @@ function App({
 }
 
 const mapStateToProps = state => {
+  const { featureToggles, user, vaFileNumber } = state;
   return {
-    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    isLoading: state?.user?.profile?.loading,
-    vaFileNumber: state?.vaFileNumber,
-    featureToggles: state?.featureToggles,
-    savedForms: state?.user?.profile?.savedForms,
+    isLoggedIn: user?.login?.currentlyLoggedIn,
+    isLoading: user?.profile?.loading || featureToggles?.loading,
+    vaFileNumber,
+    featureToggles,
+    savedForms: user?.profile?.savedForms,
   };
 };
 

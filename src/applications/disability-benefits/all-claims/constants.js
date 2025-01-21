@@ -1,7 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { pciuStates: PCIU_STATES } = constants;
+const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
 import {
   VA_FORM_IDS,
@@ -38,10 +38,10 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
@@ -402,4 +402,45 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   radiation: 'Radiation',
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
+});
+
+export const TRAUMATIC_EVENT_TYPES = Object.freeze({
+  combat: 'Traumatic events related to combat',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  nonMst: 'Traumatic events related to other personal interactions',
+  other: 'Other traumatic events',
+});
+
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
+
+export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+  reassignment:
+    'Request for a change in occupational series or duty assignment',
+  absences: 'Increased or decreased use of leave',
+  performance: 'Changes in performance or performance evaluations',
+});
+
+export const BEHAVIOR_CHANGES_HEALTH = Object.freeze({
+  consultations:
+    'Increased or decreased visits to a healthcare professional, counselor, or treatment facility',
+  episodes: 'Episodes of depression, panic attacks, or anxiety',
+  medications: 'Increased or decreased use of prescription medications',
+  selfMedication: 'Increased or decreased use of over-the-counter medications',
+  substances: 'Increased or decreased use of alcohol or drugs',
+  appetite:
+    'Changes in eating habits, such as overeating or undereating, or significant changes in weight',
+  pregnancy: 'Pregnancy tests around the time of the traumatic experiences',
+  screenings: 'Tests for sexually transmitted infections',
+});
+
+export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
+  socialEconomic: 'Economic or social behavioral changes',
+  relationships: 'Changes in or breakup of a significant relationship',
+  misconduct: 'Disciplinary or legal difficulties',
 });

@@ -12,6 +12,7 @@ import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { SearchResultsHeader } from './SearchResultsHeader';
+import { isVSORepresentative } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -70,7 +71,13 @@ const SelectAccreditedRepresentative = props => {
 
   const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
     const selection = formData['view:selectedRepresentative'];
+
+    const repTypeChanged =
+      isVSORepresentative(currentSelectedRep.current) !==
+      isVSORepresentative(newSelection);
     const noSelectionExists = !selection && !selectionMade;
+    const noNewSelection =
+      !newSelection || newSelection === currentSelectedRep.current;
 
     if (noSelectionExists && !invalidQuery) {
       setError(noSelectionError);
@@ -79,8 +86,10 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (!newSelection || newSelection === currentSelectedRep.current) {
+      if (noNewSelection) {
         goToPath('/review-and-submit');
+      } else if (repTypeChanged) {
+        goToPath('/representative-contact');
       } else {
         goToPath('/representative-contact?review=true');
       }
@@ -195,6 +204,7 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
+            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
           />
         ))}
       <p className="vads-u-margin-y--4">

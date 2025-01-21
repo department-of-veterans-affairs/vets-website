@@ -49,10 +49,10 @@ const BenefitCard = ({ benefit }) => {
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
-          <div className="vads-u-display--inline-block vads-u-margin-right--2">
+          <div className="vads-u-margin-right--2">
             {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
-          <div className="vads-u-display--inline-block">
+          <div>
             {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
           </div>
         </div>
