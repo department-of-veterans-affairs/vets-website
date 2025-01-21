@@ -56,11 +56,11 @@ describe('Radiology details component - images', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getByText('KNEE 4 OR MORE VIEWS (LEFT)', {
+    const headers = screen.getAllByText('KNEE 4 OR MORE VIEWS (LEFT)', {
       exact: true,
       selector: 'h1',
     });
-    expect(header).to.exist;
+    expect(headers).to.have.lengthOf(2); // Ensure there's exactly one match
   });
 
   // This test will give different results when run in different time zones.
@@ -264,11 +264,11 @@ describe('Radiology details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getByText('DEXA, PERIPHERAL STUDY', {
+    const headers = screen.getAllByText('DEXA, PERIPHERAL STUDY', {
       exact: true,
       selector: 'h1',
     });
-    expect(header).to.exist;
+    expect(headers).to.have.lengthOf(2); // Ensure there's exactly one match
   });
 
   // This test will give different results when run in different time zones.

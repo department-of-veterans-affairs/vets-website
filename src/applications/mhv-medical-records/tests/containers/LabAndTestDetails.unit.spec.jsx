@@ -189,12 +189,13 @@ describe('LabAndTestDetails radiology', () => {
       path: '/labs-and-tests/ex-MHV-chReport-1',
     });
 
-    expect(
-      screen.getByText('DEXA, PERIPHERAL STUDY', {
+    it('displays radiology label', () => {
+      const elements = screen.getAllByText('DEXA, PERIPHERAL STUDY', {
         exact: true,
         selector: 'h1',
-      }),
-    ).to.exist;
+      });
+      expect(elements).to.have.lengthOf(1); // Ensure there's exactly one match
+    });
   });
 });
 
