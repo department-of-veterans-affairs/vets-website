@@ -21,19 +21,44 @@ import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
 import { APP_TYPE_DEFAULT } from 'platform/forms-system/src/js/constants';
 import SaveInProgressAlert from './SaveInProgressAlert';
 
-const SaveInProgressIntro = props => {
-  const { formConfig, buttonOnly, devOnly, user } = props;
+const SaveInProgressIntro = ({
+  afterButtonContent,
+  ariaDescribedby,
+  ariaLabel,
+  buttonOnly,
+  customLink,
+  devOnly,
+  downtime,
+  formConfig,
+  formData,
+  formId,
+  gaStartEventName,
+  isLoggedIn,
+  messages,
+  migrations,
+  pageList,
+  pathname,
+  prefillEnabled,
+  prefillTransformer,
+  renderSignInMessage,
+  resumeOnly,
+  returnUrl,
+  startMessageOnly,
+  startText,
+  unverifiedPrefillAlert,
+  user,
+  verifiedPrefillAlert,
+  verifyRequiredPrefill,
+}) => {
   const devOnlyForceShowFormControls =
     environment.isLocalhost() &&
     !window.Cypress &&
     devOnly?.forceShowFormControls;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const { profile, login } = user;
-  const savedForm =
-    profile && profile.savedForms.find(f => f.form === props.formId);
+  const savedForm = profile && profile.savedForms.find(f => f.form === formId);
 
   const getStartPage = () => {
-    const { pageList, pathname, formData } = props;
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
@@ -43,51 +68,51 @@ const SaveInProgressIntro = props => {
   const getFormControls = () => {
     const startPage = getStartPage();
     const prefillAvailable = !!(
-      profile && profile.prefillsAvailable.includes(props.formId)
+      profile && profile.prefillsAvailable.includes(formId)
     );
     const isExpired = savedForm
       ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
       : false;
     return (
       <FormStartControls
-        resumeOnly={props.resumeOnly}
+        resumeOnly={resumeOnly}
         isExpired={isExpired}
-        messages={props.messages}
-        startText={props.startText}
+        messages={messages}
+        startText={startText}
         startPage={startPage}
-        formId={props.formId}
-        returnUrl={props.returnUrl}
-        migrations={props.migrations}
-        prefillTransformer={props.prefillTransformer}
-        fetchInProgressForm={props.fetchInProgressForm}
-        removeInProgressForm={props.removeInProgressForm}
+        formId={formId}
+        returnUrl={returnUrl}
+        migrations={migrations}
+        prefillTransformer={prefillTransformer}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
         prefillAvailable={prefillAvailable}
         formSaved={!!savedForm}
-        gaStartEventName={props.gaStartEventName}
-        ariaLabel={props.ariaLabel}
-        ariaDescribedby={props.ariaDescribedby}
-        customStartLink={props.customLink}
+        gaStartEventName={gaStartEventName}
+        ariaLabel={ariaLabel}
+        ariaDescribedby={ariaDescribedby}
+        customStartLink={customLink}
       />
     );
   };
 
   const openLoginModal = () => {
-    props.toggleLoginModal(true, 'cta-form');
+    toggleLoginModal(true, 'cta-form');
   };
 
   const handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
   };
 
-  const renderDowntime = (downtime, children) => {
+  const renderDowntime = children => {
     if (downtime.status === externalServiceStatus.down) {
-      const Message = props.downtime.message || DowntimeMessage;
+      const Message = downtime.message || DowntimeMessage;
 
       return (
         <Message
-          isAfterSteps={props.buttonOnly}
+          isAfterSteps={buttonOnly}
           downtime={downtime}
-          formConfig={props.formConfig}
+          formConfig={formConfig}
           headerLevel={2}
         />
       );
@@ -96,7 +121,7 @@ const SaveInProgressIntro = props => {
     return children;
   };
 
-  const determineIncludesFormControls = () => {
+  const shouldShowFormControls = () => {
     if (savedForm) {
       const expiresAt = fromUnixTime(savedForm.metadata.expiresAt);
       const isExpired = isBefore(expiresAt, new Date());
@@ -109,7 +134,9 @@ const SaveInProgressIntro = props => {
     return false;
   };
 
-  if (profile.loading && !props.resumeOnly) {
+  const formControls = getFormControls();
+
+  if (profile.loading && !resumeOnly) {
     return (
       <div>
         <va-loading-indicator
@@ -119,57 +146,57 @@ const SaveInProgressIntro = props => {
         {devOnlyForceShowFormControls && (
           <>
             <div>dev only:</div>
-            <div>{getFormControls()}</div>
+            <div>{formControls}</div>
           </>
         )}
       </div>
     );
   }
 
-  if (props.resumeOnly && !savedForm) {
+  if (resumeOnly && !savedForm) {
     return null;
   }
 
   const alert = (
     <SaveInProgressAlert
-      ariaDescribedby={props.ariaDescribedby}
-      ariaLabel={props.ariaLabel}
-      formConfig={props.formConfig}
-      formId={props.formId}
-      getFormControls={getFormControls}
+      ariaDescribedby={ariaDescribedby}
+      ariaLabel={ariaLabel}
+      formConfig={formConfig}
+      formId={formId}
+      formControls={formControls}
       getStartPage={getStartPage}
       handleClick={handleClick}
       openLoginModal={openLoginModal}
-      prefillEnabled={props.prefillEnabled}
-      renderSignInMessage={props.renderSignInMessage}
+      prefillEnabled={prefillEnabled}
+      renderSignInMessage={renderSignInMessage}
       savedForm={savedForm}
-      unverifiedPrefillAlert={props.unverifiedPrefillAlert}
+      unverifiedPrefillAlert={unverifiedPrefillAlert}
       user={user}
-      verifiedPrefillAlert={props.verifiedPrefillAlert}
-      verifyRequiredPrefill={props.verifyRequiredPrefill}
+      verifiedPrefillAlert={verifiedPrefillAlert}
+      verifyRequiredPrefill={verifyRequiredPrefill}
     />
   );
 
-  if (props.startMessageOnly && !savedForm) {
+  if (startMessageOnly && !savedForm) {
     return <div>{alert}</div>;
   }
 
-  const includesFormControls = determineIncludesFormControls();
-  const showFormControls = !includesFormControls && login.currentlyLoggedIn;
+  const includeFormControls = shouldShowFormControls();
+  const showFormControls = !includeFormControls && login.currentlyLoggedIn;
 
   const content = (
     <div>
       {!buttonOnly && alert}
       {buttonOnly && !login.currentlyLoggedIn && alert}
-      {showFormControls && getFormControls()}
+      {showFormControls && formControls}
       {!showFormControls &&
         devOnlyForceShowFormControls && (
           <>
             <div>dev only:</div>
-            <div>{getFormControls()}</div>
+            <div>{formControls}</div>
           </>
         )}
-      {!buttonOnly && props.afterButtonContent}
+      {!buttonOnly && afterButtonContent}
       <br />
     </div>
   );
@@ -181,14 +208,14 @@ const SaveInProgressIntro = props => {
   // _unless_ the user has a form saved (so they don't need pre-fill).
 
   if (
-    props.downtime &&
-    (!props.isLoggedIn || (props.downtime.requiredForPrefill && !savedForm))
+    downtime &&
+    (!isLoggedIn || (downtime.requiredForPrefill && !savedForm))
   ) {
     return (
       <DowntimeNotification
-        appTitle={props.formId}
+        appTitle={formId}
         render={renderDowntime}
-        dependencies={props.downtime.dependencies}
+        dependencies={downtime.dependencies}
         customText={formConfig.customText}
       >
         {content}
@@ -220,6 +247,9 @@ SaveInProgressIntro.propTypes = {
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    prefillEnabled: PropTypes.bool.isRequired,
+    savedFormMessages: PropTypes.object.isRequired,
+    hideUnauthedStartLink: PropTypes.bool,
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
