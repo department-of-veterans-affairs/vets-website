@@ -113,7 +113,7 @@ const all = [
   {
     id: 24565276,
     stationNumber: '453',
-    procedureName: 'MRI Left Ankle',
+    procedureName: 'Left Ankle X-Ray',
     event: 'DIGITAL RADIOGRAPHY',
     patientId: 11382904,
     studyIdUrn: '2184acee-280a-493b-91a1-c7914f3eaf98',
