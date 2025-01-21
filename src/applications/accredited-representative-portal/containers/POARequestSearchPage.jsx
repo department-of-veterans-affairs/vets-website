@@ -6,11 +6,12 @@ import {
   Link,
 } from 'react-router-dom';
 
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import api from '../utilities/api';
+import POARequestCard from '../components/POARequestCard';
 
-import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
-import POARequestCard from '../components/POARequestCard/POARequestCard';
-import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
+const SEARCH_PARAMS = {
+  STATUS: 'status',
+};
 
 const STATUSES = {
   PENDING: 'pending',
@@ -32,29 +33,55 @@ const SearchResults = ({ poaRequests }) => {
       className="poa-request__list"
       sort-column={1}
     >
-      {poaRequests.map(({ id, attributes: poaRequest }) => {
-        return <POARequestCard poaRequest={poaRequest} key={id} id={id} />;
+      {poaRequests.map((request, index) => {
+        return <POARequestCard poaRequest={request} key={index} />;
       })}
     </ul>
   );
 };
 
-const StatusTabLink = ({ status, searchStatus, children }) => {
-  const active = status === searchStatus;
+const StatusTabLink = ({ tabStatus, searchStatus, children }) => {
+  const active = tabStatus === searchStatus;
   const classNames = ['poa-request__tab-link'];
   if (active) classNames.push('active');
 
   return (
-    <Link to={`?status=${status}`} className={classNames.join(' ')} role="tab">
+    <Link
+      to={`?status=${tabStatus}`}
+      className={classNames.join(' ')}
+      role="tab"
+    >
       {children}
     </Link>
   );
 };
 
+const DigitalSubmissionAlert = () => (
+  <va-alert data-testid="digital-submission-alert" status="info" visible>
+    <h2 data-testid="digital-submission-alert-heading" slot="headline">
+      Veterans can now digitally submit form 21-22 from VA.gov
+    </h2>
+    <p
+      data-testid="digital-submission-alert-description"
+      className="vads-u-margin-y--0"
+    >
+      Veterans can now{' '}
+      <a href="https://www.va.gov/get-help-from-accredited-representative/find-rep/">
+        find a VSO
+      </a>{' '}
+      and{' '}
+      <a href="https://www.va.gov/find-forms/about-form-21-22a/">
+        sign and submit
+      </a>{' '}
+      a digital version of form 21-22. Digital submissions will immediately
+      populate in the table below.
+    </p>
+  </va-alert>
+);
+
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
@@ -62,11 +89,14 @@ const POARequestSearchPage = () => {
 
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
-          <StatusTabLink status={STATUSES.PENDING} searchStatus={searchStatus}>
+          <StatusTabLink
+            tabStatus={STATUSES.PENDING}
+            searchStatus={searchStatus}
+          >
             Pending
           </StatusTabLink>
           <StatusTabLink
-            status={STATUSES.COMPLETED}
+            tabStatus={STATUSES.COMPLETED}
             searchStatus={searchStatus}
           >
             Completed
@@ -102,32 +132,21 @@ const POARequestSearchPage = () => {
   );
 };
 
-export default POARequestSearchPage;
+POARequestSearchPage.loader = ({ request }) => {
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get(SEARCH_PARAMS.STATUS);
 
-export async function poaRequestsLoader({ request }) {
-  try {
-    const response = await apiRequest('/power_of_attorney_requests', {
-      apiVersion: 'accredited_representative_portal/v0',
-    });
-    return response.data;
-  } catch (error) {
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
-
-    if (!Object.values(STATUSES).includes(status)) {
-      searchParams.set('status', STATUSES.PENDING);
-      throw redirect(`?${searchParams.toString()}`);
-    }
-
-    // Return mock data if API fails
-    // TODO: Remove mock data before pilot and uncomment throw statement
-    const requests = mockPOARequestsResponse?.data?.map(req => req);
-    return requests?.filter(x => {
-      if (status === 'completed') {
-        return x.attributes.status !== 'Pending';
-      }
-      return x.attributes.status === 'Pending';
-    });
-    // throw error;
+  if (!Object.values(STATUSES).includes(status)) {
+    searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
+    throw redirect(`?${searchParams}`);
   }
-}
+
+  return api.getPOARequests(
+    { status },
+    {
+      signal: request.signal,
+    },
+  );
+};
+
+export default POARequestSearchPage;

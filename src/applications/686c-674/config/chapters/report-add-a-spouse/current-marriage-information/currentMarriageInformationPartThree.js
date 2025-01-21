@@ -28,17 +28,28 @@ export const uiSchema = {
         },
         'ui:webComponentField': VaTextInputField,
       },
-
       state: {
         'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData =>
-          !formData?.currentMarriageInformation?.outsideUsa,
         'ui:errorMessages': {
           required: 'Select a state',
         },
+        'ui:required': formData =>
+          !formData?.currentMarriageInformation?.outsideUsa,
         'ui:options': {
-          hideIf: form => form?.currentMarriageInformation?.outsideUsa,
+          hideIf: formData => formData?.currentMarriageInformation?.outsideUsa,
+        },
+      },
+      country: {
+        'ui:title': 'Country',
+        'ui:webComponentField': VaSelectField,
+        'ui:errorMessages': {
+          required: 'Select a country',
+        },
+        'ui:required': formData =>
+          formData?.currentMarriageInformation?.outsideUsa,
+        'ui:options': {
+          hideIf: formData => !formData?.currentMarriageInformation?.outsideUsa,
         },
       },
     },

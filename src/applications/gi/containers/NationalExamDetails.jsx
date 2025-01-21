@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  VaIcon,
-  VaLink,
-  VaAlert,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 import { fetchNationalExamDetails } from '../actions';
+import {
+  formatNationalExamName,
+  formatAddress,
+  toTitleCase,
+} from '../utils/helpers';
 
 const NationalExamDetails = () => {
   const dispatch = useDispatch();
   const { examId } = useParams();
   const [isMobile, setIsMobile] = useState(false);
-
   const { examDetails, loadingDetails, error } = useSelector(
     state => state.nationalExams,
   );
-
   useEffect(
     () => {
       window.scrollTo(0, 0);
@@ -55,74 +55,64 @@ const NationalExamDetails = () => {
   }, []);
 
   // Remove this once the table width is updated in the component
-  useEffect(
+
+  useLayoutEffect(
+    // eslint-disable-next-line consistent-return
     () => {
-      setTimeout(() => {
-        const vaTableInner = document.querySelector(
-          '.exams-table va-table-inner',
-        );
-        if (vaTableInner?.shadowRoot) {
-          const { shadowRoot } = vaTableInner;
-          const usaTable = shadowRoot.querySelector('.usa-table');
-          if (usaTable) {
-            usaTable.style.width = '100%';
+      if (!error) {
+        const observer = new MutationObserver(() => {
+          const vaTableInner = document.querySelector(
+            '.exams-table va-table-inner',
+          );
+          if (vaTableInner?.shadowRoot) {
+            const { shadowRoot } = vaTableInner;
+            const usaTable = shadowRoot.querySelector('.usa-table');
+            if (usaTable) {
+              usaTable.style.width = '100%';
+            }
           }
-        }
-      }, 0);
-
-      const observer = new MutationObserver(() => {
-        const vaTableInner = document.querySelector(
-          '.exams-table va-table-inner',
-        );
-        if (vaTableInner?.shadowRoot) {
-          const { shadowRoot } = vaTableInner;
-          const usaTable = shadowRoot.querySelector('.usa-table');
-          if (usaTable) {
-            usaTable.style.width = '100%';
-          }
-        }
-      });
-
-      const vaTable = document.querySelector('.exams-table va-table');
-      if (vaTable) {
-        observer.observe(vaTable, {
-          attributes: true,
-          childList: true,
-          subtree: true,
         });
-      }
 
-      return () => observer.disconnect();
+        const vaTable = document.querySelector('.exams-table va-table');
+        if (vaTable) {
+          observer.observe(vaTable, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+          });
+        }
+        return () => observer.disconnect();
+      }
     },
-    [examDetails],
+    [examDetails, error],
   );
+
+  if (error) {
+    return (
+      <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+        <va-alert
+          style={{ marginTop: '8px', marginBottom: '32px' }}
+          status="error"
+          data-e2e-id="alert-box"
+        >
+          <h2 slot="headline">
+            We can’t load the national exam details right now
+          </h2>
+          <p>
+            We’re sorry. There’s a problem with our system. Try again later.
+          </p>
+        </va-alert>
+      </div>
+    );
+  }
 
   if (loadingDetails || !examDetails) {
     return (
       <div className="row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
         <va-loading-indicator
           label="Loading"
-          message="Loading your National Exam Details..."
+          message="Loading your national exam details..."
         />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <VaAlert
-          style={{ marginTop: '8px', marginBottom: '32px' }}
-          status="error"
-          data-e2e-id="alert-box"
-        >
-          <h2 slot="headline">
-            We can’t load the National Exam Details right now
-          </h2>
-          <p>
-            We’re sorry. There’s a problem with our system. Try again later.
-          </p>
-        </VaAlert>
       </div>
     );
   }
@@ -131,33 +121,32 @@ const NationalExamDetails = () => {
 
   return (
     <div className="exam-details-container row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <h1 className="vads-u-margin-bottom--3">{name}</h1>
+      <h1 className="vads-u-margin-bottom--3">
+        {formatNationalExamName(name)}
+      </h1>
       <h3 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
         Admin Info
       </h3>
       <div className="provider-info-container vads-u-margin-top--0p5 vads-u-margin-bottom--3">
         <span className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
-          <VaIcon icon="location_city" size={3} />
+          <va-icon icon="location_city" size={3} />
 
-          <span>{institution?.name}</span>
+          <span>{toTitleCase(institution?.name)}</span>
         </span>
         <span className="vads-u-display--flex vads-u-align-items--center">
-          <VaIcon icon="public" size={3} />
-          {/* If your API includes a "web_address", display it */}
-          {/* <span>{institution?.web_address}</span> */}
+          <va-icon icon="public" size={3} />
+          <span>{institution?.webAddress}</span>
         </span>
       </div>
 
       <div className="address-container vads-u-margin-bottom--3">
         The following is the headquarters address.
         <p className="va-address-block vads-u-margin-top--1">
-          {institution?.physicalAddress?.address1}
+          {formatAddress(institution?.physicalAddress?.address1)}
           <br />
-          {institution.physicalAddress?.city},
-          {institution.physicalAddress?.state}
+          {formatAddress(institution.physicalAddress?.city)},{' '}
+          {institution.physicalAddress?.state}{' '}
           {institution.physicalAddress?.zip}
-          <br />
-          {institution.physicalAddress?.country}
         </p>
       </div>
 
@@ -168,9 +157,9 @@ const NationalExamDetails = () => {
           for your region listed in the form.
         </p>
         <div className="vads-u-margin-bottom--4">
-          <VaLink
+          <va-link
             href="https://www.va.gov/find-forms/about-form-22-0810/"
-            text="Get link to VA Form 22-0810 to print"
+            text="Get link to VA Form 22-0810 to download"
           />
         </div>
       </div>
@@ -189,8 +178,9 @@ const NationalExamDetails = () => {
             return (
               <va-table-row key={i}>
                 <span>{test.name}</span>
-                <span>
-                  {test.beginDate} - {test.endDate}
+                <span className="table-width">
+                  {moment(test.beginDate).format('MM/DD/YY')} -{' '}
+                  {moment(test.endDate).format('MM/DD/YY')}
                 </span>
                 <span>
                   {Number(test.fee).toLocaleString('en-US', {
@@ -206,6 +196,32 @@ const NationalExamDetails = () => {
       </div>
     </div>
   );
+};
+
+NationalExamDetails.propTypes = {
+  examDetails: PropTypes.shape({
+    name: PropTypes.string,
+    tests: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        beginDate: PropTypes.string,
+        endDate: PropTypes.string,
+        fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      }),
+    ),
+    institution: PropTypes.shape({
+      name: PropTypes.string,
+      physicalAddress: PropTypes.shape({
+        address1: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        zip: PropTypes.string,
+        country: PropTypes.string,
+      }),
+    }),
+  }),
+  loadingDetails: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default NationalExamDetails;
