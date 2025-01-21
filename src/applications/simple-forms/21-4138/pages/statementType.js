@@ -13,9 +13,10 @@ export const statementTypePage = {
   uiSchema: {
     statementType: {
       ...radioUI({
-        title: 'What kind of statement do you want to submit?',
-        hint:
-          'We want to make sure this is the right form for you. Before you continue with VA Form 21-4138, select one statement that best describes the action you want to take.',
+        title: 'What would you like to do?',
+        description:
+          "We’ve improved how we process certain types of statements and requests. Before you continue with VA Form 21-4138, tell us what you’re trying to do and we'll check if there's a quicker way to help you.",
+        label: 'Select the option that describes what you want to do',
         labels: STATEMENT_TYPE_LABELS,
         tile: true,
         errorMessages: {
