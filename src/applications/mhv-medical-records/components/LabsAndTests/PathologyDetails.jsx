@@ -134,7 +134,7 @@ ${record.results} \n`;
             <LabelValue
               label="Collection sample"
               value={record.sampleFrom}
-              testId="pathology-sample-tested"
+              testId="pathology-collection-sample"
               actionName="[lab and tests - pathology sample]"
             />
             <LabelValue
