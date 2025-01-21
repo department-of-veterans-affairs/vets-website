@@ -133,13 +133,13 @@ ${record.results} \n`;
             />
             <LabelValue
               label="Collection sample"
-              value={record.labLocation}
+              value={record.sampleFrom}
               testId="pathology-sample-tested"
               actionName="[lab and tests - pathology sample]"
             />
             <LabelValue
               label="Location"
-              value={record.sampleFrom}
+              value={record.labLocation}
               testId="pathology-location"
               actionName="[lab and tests - pathology location]"
             />
