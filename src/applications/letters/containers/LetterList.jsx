@@ -144,18 +144,18 @@ export class LetterList extends React.Component {
             <a
               href="/education/download-letters/"
               target="_blank"
-              style={{ textDecoration: 'none' }}
+              className="vads-u-text-decoration--none"
             >
-              <p>VA education letters</p>
+              VA education letters
             </a>
           </li>
           <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
               target="_blank"
-              style={{ textDecoration: 'none' }}
+              className="vads-u-text-decoration--none"
             >
-              <p>Post-9/11 GI Bill statement of benefits</p>
+              Post-9/11 GI Bill statement of benefits
             </a>
           </li>
           <li>
@@ -163,9 +163,9 @@ export class LetterList extends React.Component {
               href="/housing-assistance/home-loans/check-coe-status/"
               rel="noopener noreferrer"
               target="_blank"
-              style={{ textDecoration: 'none' }}
+              className="vads-u-text-decoration--none"
             >
-              <p>Certificate of home loan benefits</p>
+              Certificate of home loan benefits
             </a>
           </li>
           <li>
@@ -173,9 +173,9 @@ export class LetterList extends React.Component {
               href="/records/get-military-service-records/"
               rel="noopener noreferrer"
               target="_blank"
-              style={{ textDecoration: 'none' }}
+              className="vads-u-text-decoration--none"
             >
-              <p>Discharge or separation papers (DD214)</p>
+              Discharge or separation papers (DD214)
             </a>
           </li>
         </ul>
