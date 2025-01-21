@@ -422,6 +422,10 @@
       }
     }
   }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
 }
 
 .national-exams-container {
