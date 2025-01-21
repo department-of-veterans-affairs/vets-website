@@ -33,7 +33,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page3.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
@@ -46,7 +46,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page4a.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(

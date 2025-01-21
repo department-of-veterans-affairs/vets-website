@@ -60,7 +60,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page3.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
@@ -73,7 +73,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page6.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
@@ -87,7 +87,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('ssn_ssn', data.ssn.ssn);
@@ -97,7 +97,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page10b1.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
@@ -110,7 +110,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillDateWebComponentPattern('sponsorDOD', data.sponsorDOD);
@@ -124,7 +124,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page10b0.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('select').select(1);
@@ -134,7 +134,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page13.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             const numApps = data.applicants.length;
@@ -160,7 +160,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page14.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -175,7 +175,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page15a.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('select').select(1);
@@ -185,7 +185,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page15.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -200,7 +200,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page16.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -215,7 +215,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page17.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -230,7 +230,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page18.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -251,7 +251,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page18c.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -267,7 +267,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page18b1.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -282,7 +282,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -297,7 +297,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page19.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -313,7 +313,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page20.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -328,7 +328,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page21.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.url().then(url => {
@@ -343,7 +343,7 @@ const testConfig = createTestConfig(
         });
       },
       [ALL_PAGES.page24.path]: ({ afterHook }) => {
-        // cy.injectAxeThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.selectVaCheckbox(

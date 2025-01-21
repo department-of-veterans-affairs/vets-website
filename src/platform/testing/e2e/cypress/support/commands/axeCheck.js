@@ -37,6 +37,11 @@ const processAxeCheckResults = violations => {
 Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
   const { _13647Exception } = tempOptions;
 
+  // Check if axe is already running
+  if (cy.state('window').axe) {
+    cy.log('Axe is already running. Skipping...');
+    return;
+  }
   /**
    * Default required ruleset to meet Section 508 compliance.
    * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
