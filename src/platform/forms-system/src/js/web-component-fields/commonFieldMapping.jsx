@@ -8,7 +8,7 @@ export default function commonFieldMapping(props) {
     : '';
 
   return {
-    class: `rjsf-web-component-field${headerStyle}${
+    className: `rjsf-web-component-field${headerStyle}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
     enableAnalytics: uiOptions?.enableAnalytics,

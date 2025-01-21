@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
@@ -12,23 +11,23 @@ export const Title = ({
   classNames,
 }) => {
   const isMinimalHeader = isMinimalHeaderApplicable();
-  headerLevel = headerLevel || (isMinimalHeader ? 1 : 3);
-  const CustomHeader = `h${headerLevel}`;
+  const effectiveHeaderLevel = headerLevel || (isMinimalHeader ? 1 : 3);
+  // Arbitrary decision with design
+  // h1 styling is a bit too large when directly next to other field content
+  // so we'll bump the style down to h2
+  const effectiveHeaderStyleLevel =
+    headerStyleLevel || (isMinimalHeader ? 2 : undefined);
 
-  if (isMinimalHeader) {
-    // Arbitrary decision with design
-    // h1 styling is a bit too large when directly next to other field content
-    // so we'll bump the style down to h2
-    headerStyleLevel = headerStyleLevel || 2;
-  }
+  const CustomHeader = `h${effectiveHeaderLevel}`;
 
-  const style = headerStyleLevel
-    ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
-        headerStyleLevel,
+  const style = effectiveHeaderStyleLevel
+    ? ` mobile-lg:vads-u-font-size--h${effectiveHeaderStyleLevel} vads-u-font-size--h${Number(
+        effectiveHeaderStyleLevel,
       ) + 1}`
     : '';
   const color =
-    headerStyleLevel === 3 || (!headerStyleLevel && headerLevel === 3)
+    effectiveHeaderStyleLevel === 3 ||
+    (!effectiveHeaderStyleLevel && effectiveHeaderLevel === 3)
       ? 'gray-dark'
       : 'black';
   const className =
@@ -36,7 +35,7 @@ export const Title = ({
 
   // If the header is an h1, it's intended to also be the focus
   const focusHeaderProps =
-    headerLevel === 1
+    effectiveHeaderLevel === 1
       ? {
           tabIndex: '-1',
         }
