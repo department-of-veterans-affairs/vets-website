@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  VaSelect,
   VaButtonPair,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -23,16 +23,16 @@ import {
 import {
   determineErrorMessage,
   determineLabel,
+  isValidYear,
 } from '../../../utilities/shared';
 import { applyErrorFocus } from '../../../utilities/page-setup';
 
-const Dropdown = ({
+const YearInput = ({
   shortName,
   router,
   formResponses,
   formValue,
   formError,
-  options,
   H1,
   valueSetter,
   setFormError,
@@ -67,9 +67,9 @@ const Dropdown = ({
   };
 
   const onContinueClick = () => {
-    if (!formValue) {
+    if (!formValue || !isValidYear(formValue)) {
       setFormError(true);
-      applyErrorFocus('duw-dropdown');
+      applyErrorFocus('duw-input');
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead will change.
@@ -127,21 +127,19 @@ const Dropdown = ({
   return (
     <>
       <h1>{H1}</h1>
-      <VaSelect
-        autocomplete="false"
+      <VaTextInput
         className="vads-u-margin-top--6"
-        id="duw-dropdown"
-        data-testid={testId}
-        enable-analytics={false}
+        value={formValue || ''}
+        name={`${shortName}_dropdown`}
+        inputmode="numeric"
+        onInput={e => onValueChange(e.target.value)}
         label={determineLabel(shortName)}
         error={formError ? determineErrorMessage(shortName) : null}
+        data-testid={testId}
+        id="duw-input"
         required
-        name={`${shortName}_dropdown`}
-        value={formValue || ''}
-        onVaSelect={e => onValueChange(e.detail.value)}
-      >
-        {options}
-      </VaSelect>
+        show-input-error
+      />
       {editMode && (
         <va-alert-expandable
           class="vads-u-margin-top--4"
@@ -166,12 +164,11 @@ const Dropdown = ({
   );
 };
 
-Dropdown.propTypes = {
+YearInput.propTypes = {
   H1: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
-  options: PropTypes.array.isRequired,
   questionFlowChanged: PropTypes.bool.isRequired,
   questionSelectedToEdit: PropTypes.string.isRequired,
   routeMap: PropTypes.array.isRequired,
@@ -208,4 +205,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Dropdown);
+)(YearInput);

@@ -27,7 +27,7 @@ describe('Shared Utilities', () => {
   describe('determineErrorMessage', () => {
     it('should correctly return the right error message', () => {
       expect(determineErrorMessage(SHORT_NAME_MAP.DISCHARGE_YEAR)).to.be.equal(
-        'Select a year.',
+        'Enter a valid 4 digit year.',
       );
     });
     it('should correctly return the default error message if no mapped value', () => {
