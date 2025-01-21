@@ -12,6 +12,7 @@ import {
 } from '../utilities/data';
 import {
   isAuthenticatedWithSSOe,
+  isLOA3,
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
@@ -32,6 +33,7 @@ const LandingPageContainer = () => {
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
+  const userVerified = useSelector(isLOA3);
   const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
@@ -77,7 +79,7 @@ const LandingPageContainer = () => {
 
   useEffect(
     () => {
-      if (!profile.loading) {
+      if (!profile.loading && userVerified) {
         if (userHasMhvAccount) {
           dispatch({
             type: fetchAccountStatusSuccess,
@@ -95,7 +97,7 @@ const LandingPageContainer = () => {
         }
       }
     },
-    [userHasMhvAccount, profile.loading, dispatch],
+    [userHasMhvAccount, profile.loading, userVerified, dispatch],
   );
 
   if (loading)
