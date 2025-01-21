@@ -110,53 +110,55 @@ const VaMedicalCenter = props => {
     [localData, onChange],
   );
 
+  const localDataFacilityState = localData['view:facilityState'];
   const previousFacilityState = usePrevious(localData['view:facilityState']);
 
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
-      const { 'view:facilityState': facilityState } = localData;
+      const isStateChanged =
+        localDataFacilityState &&
+        localDataFacilityState !== previousFacilityState;
 
-      if (facilityState && facilityState !== previousFacilityState) {
-        isLoading(true);
-        apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
-          .then(res => {
-            return res.map(location => ({
-              id: location.id,
-              name: location.name,
-            }));
-          })
-          .then(data => {
-            setLocalData(prevLocalData => {
-              if (
-                previousFacilityState &&
-                previousFacilityState !== facilityState
-              ) {
-                return { ...prevLocalData, vaMedicalFacility: undefined };
-              }
-              return prevLocalData;
-            });
+      if (!isStateChanged) return;
 
-            setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
-            isLoading(false);
-            hasError(false);
-          })
-          .catch(err => {
-            isLoading(false);
-            hasError(true);
-            Sentry.withScope(scope => {
-              scope.setExtra('state', facilityState);
-              scope.setExtra('error', err);
-              Sentry.captureMessage('Health care facilities failed to load');
-            });
-            focusElement('.server-error-message');
+      isLoading(true);
+      setFacilities([]);
+      apiRequest(`${apiRequestWithUrl}&state=${localDataFacilityState}`, {})
+        .then(res => {
+          const data = res.map(location => ({
+            id: location.id,
+            name: location.name,
+          }));
+
+          setLocalData(prevLocalData => {
+            const shouldClearFacility =
+              previousFacilityState &&
+              previousFacilityState !== localDataFacilityState;
+
+            if (shouldClearFacility) {
+              return { ...prevLocalData, vaMedicalFacility: undefined };
+            }
+
+            return prevLocalData;
           });
-      } else {
-        setFacilities([]);
-        isLoading(false);
-      }
+
+          setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
+          isLoading(false);
+          hasError(false);
+        })
+        .catch(err => {
+          isLoading(false);
+          hasError(true);
+          Sentry.withScope(scope => {
+            scope.setExtra('state', localDataFacilityState);
+            scope.setExtra('error', err);
+            Sentry.captureMessage('Health care facilities failed to load');
+          });
+          focusElement('.server-error-message');
+        });
     },
-    [localData, previousFacilityState],
+    [localDataFacilityState, previousFacilityState],
   );
 
   // render the static facility name on review page
