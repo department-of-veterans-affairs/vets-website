@@ -354,7 +354,7 @@ const responses = {
       data: providerUtils.createProviderDetails(5, req.params.providerId),
     });
   },
-  'POST /vaos/v2/epsApi/providerDetails/:referralId': (req, res) => {
+  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
     // Provider 3 throws error
     if (req.params.referralId === '3') {
       return res.status(500).json({ error: true });
