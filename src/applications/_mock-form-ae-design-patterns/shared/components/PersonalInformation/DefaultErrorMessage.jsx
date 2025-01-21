@@ -30,7 +30,7 @@ export const DefaultErrorMessage = ({ missingFields = [] }) => {
 
   return (
     <>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         {`Your VA account is missing your ${missingFieldsText}`}, which we need
         before you can begin this form. For security reasons, we don’t allow
         online changes to this information. To update this information, call us
