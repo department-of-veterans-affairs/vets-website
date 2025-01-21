@@ -4,42 +4,21 @@ import { connect } from 'react-redux';
 
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 
-import { BTSSS_PORTAL_URL } from '../../constants';
-import { HelpTextGeneral, HelpTextManage } from '../HelpText';
+import {
+  BTSSS_PORTAL_URL,
+  FIND_FACILITY_TP_CONTACT_LINK,
+} from '../../constants';
 
 import VerifyIdentityAlert from './VerifyIdentityAlert';
-import NonVeteranAlert from './NonVeteranAlert';
+import ForbiddenAlert from './ForbiddenAlert';
 
 const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
   if (errorStatus === 400 || !isIdentityVerified) {
-    return (
-      <>
-        <VerifyIdentityAlert />
-        <p>
-          If you have previously filed claims, you can still view them online by
-          visiting our{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS) portal"
-          />
-          .
-        </p>
-      </>
-    );
+    return <VerifyIdentityAlert />;
   }
 
   if (errorStatus === 403) {
-    return (
-      <>
-        <NonVeteranAlert />
-        <va-need-help class="vads-u-margin-top--2">
-          <div slot="content">
-            <HelpTextGeneral />
-          </div>
-        </va-need-help>
-      </>
-    );
+    return <ForbiddenAlert />;
   }
 
   return (
@@ -48,20 +27,30 @@ const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
         <h2 slot="headline">
           We’re sorry, we can’t access your Travel claims right now
         </h2>
-        <p className="vads-u-margin-y--1">
-          We’re sorry. There’s a problem with our system. Check back later.
+        <p className="vads-u-margin-top--2">
+          We’re sorry. There’s a problem with our system. Check back later or
+          try checking in the Beneficiary Travel Self Service System (BTSSS)
+          portal.
+          <va-link-action
+            text="Go to the BTSSS portal (opens in a new tab)"
+            href={BTSSS_PORTAL_URL}
+          />
         </p>
-        <p>
+
+        <p className="vads-u-margin-y--2">
           If it still doesn’t work, call the BTSSS call center at{' '}
           <va-telephone contact="8555747292" />. We’re here Monday through
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
+        <p className="vads-u-margin-y--0">
+          Or call your VA health facility’s Beneficiary Travel contact.
+          <br />
+          <va-link
+            href={FIND_FACILITY_TP_CONTACT_LINK}
+            text="Find the travel contact for your facility"
+          />
+        </p>
       </va-alert>
-      <va-need-help class="vads-u-margin-top--2">
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </>
   );
 };

@@ -285,19 +285,22 @@ export default function App({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          <va-additional-info
-            class="vads-u-margin-y--3"
-            trigger="How to manage your claims or get more information"
-          >
-            <>
-              <HelpTextManage />
-              <va-link
-                data-testid="status-explainer-link"
-                href="/my-health/travel-pay/help"
-                text="What does my claim status mean?"
-              />
-            </>
-          </va-additional-info>
+          {!error &&
+            !isLoading && (
+              <va-additional-info
+                class="vads-u-margin-y--3"
+                trigger="How to manage your claims or get more information"
+              >
+                <>
+                  <HelpTextManage />
+                  <va-link
+                    data-testid="status-explainer-link"
+                    href="/my-health/travel-pay/help"
+                    text="What does my claim status mean?"
+                  />
+                </>
+              </va-additional-info>
+            )}
 
           {isLoading && (
             <va-loading-indicator
@@ -314,7 +317,11 @@ export default function App({ children }) {
               />
             </>
           )}
-          {error && <ErrorAlert errorStatus={error.errors[0].status} />}
+          {error && (
+            <div className="vads-u-margin-top--2">
+              <ErrorAlert errorStatus={error.errors[0].status} />
+            </div>
+          )}
           {userLoggedIn &&
             !isLoading &&
             travelClaims.length > 0 && (
