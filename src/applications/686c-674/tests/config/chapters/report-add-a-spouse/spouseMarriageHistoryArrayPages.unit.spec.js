@@ -82,7 +82,7 @@ describe('spouseMarriageHistoryOptions', () => {
         .be.true;
     });
 
-    it('should return false if all required fields are present', () => {
+    it('should return false if all required fields are present (inside USA, with state)', () => {
       const completeItem = {
         fullName: { first: 'John', last: 'Doe' },
         startDate: '1991-02-19',
@@ -101,17 +101,138 @@ describe('spouseMarriageHistoryOptions', () => {
         .false;
     });
 
-    it('should handle locations outside the USA where state is not required', () => {
-      const itemOutsideUsa = {
+    it('should return false if all required fields are present (outside USA, with country)', () => {
+      const completeItemOutsideUsa = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: {
+          location: { city: 'Paris', country: 'France' },
+          outsideUsa: true,
+        },
+        endLocation: {
+          location: { city: 'Berlin', country: 'Germany' },
+          outsideUsa: true,
+        },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(completeItemOutsideUsa),
+      ).to.be.false;
+    });
+
+    it('should return true if startLocation city is missing', () => {
+      const itemMissingStartLocationCity = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: { location: {}, outsideUsa: true },
+        endLocation: {
+          location: { city: 'Berlin', country: 'Germany' },
+          outsideUsa: true,
+        },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingStartLocationCity,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return true if startLocation state is missing (inside USA)', () => {
+      const itemMissingStartLocationState = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: { location: { city: 'Some City' }, outsideUsa: false },
+        endLocation: {
+          location: { city: 'Berlin', country: 'Germany' },
+          outsideUsa: true,
+        },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingStartLocationState,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return true if startLocation country is missing (outside USA)', () => {
+      const itemMissingStartLocationCountry = {
         fullName: { first: 'Jane', last: 'Smith' },
         startDate: '1995-06-15',
         endDate: '2005-06-15',
         reasonMarriageEnded: 'Annulment',
         startLocation: { location: { city: 'Paris' }, outsideUsa: true },
+        endLocation: {
+          location: { city: 'Berlin', country: 'Germany' },
+          outsideUsa: true,
+        },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingStartLocationCountry,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return true if endLocation city is missing', () => {
+      const itemMissingEndLocationCity = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: {
+          location: { city: 'Paris', country: 'France' },
+          outsideUsa: true,
+        },
+        endLocation: { location: {}, outsideUsa: true },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingEndLocationCity,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return true if endLocation state is missing (inside USA)', () => {
+      const itemMissingEndLocationState = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: {
+          location: { city: 'Paris', country: 'France' },
+          outsideUsa: true,
+        },
+        endLocation: { location: { city: 'Berlin' }, outsideUsa: false },
+      };
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingEndLocationState,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return true if endLocation country is missing (outside USA)', () => {
+      const itemMissingEndLocationCountry = {
+        fullName: { first: 'Jane', last: 'Smith' },
+        startDate: '1995-06-15',
+        endDate: '2005-06-15',
+        reasonMarriageEnded: 'Annulment',
+        startLocation: {
+          location: { city: 'Paris', country: 'France' },
+          outsideUsa: true,
+        },
         endLocation: { location: { city: 'Berlin' }, outsideUsa: true },
       };
-      expect(spouseMarriageHistoryOptions.isItemIncomplete(itemOutsideUsa)).to
-        .be.false;
+      expect(
+        spouseMarriageHistoryOptions.isItemIncomplete(
+          itemMissingEndLocationCountry,
+        ),
+      ).to.be.true;
     });
   });
 
