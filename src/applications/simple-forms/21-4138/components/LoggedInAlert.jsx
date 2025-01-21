@@ -194,7 +194,7 @@ LoggedInAlert.propTypes = {
   appType: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   formConfig: PropTypes.object.isRequired,
-  getFormControls: PropTypes.func.isRequired,
+  formControls: PropTypes.func.isRequired,
   headingLevel: PropTypes.number.isRequired,
   continueMsg: PropTypes.node,
   lastSavedDate: PropTypes.string,

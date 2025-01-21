@@ -75,23 +75,23 @@ const SaveInProgressIntro = ({
       : false;
     return (
       <FormStartControls
-        resumeOnly={resumeOnly}
+        fetchInProgressForm={fetchInProgressForm}
+        formId={formId}
+        formSaved={!!savedForm}
+        prefillAvailable={prefillAvailable}
+        removeInProgressForm={removeInProgressForm}
+        startPage={startPage}
+        ariaDescribedby={ariaDescribedby}
+        ariaLabel={ariaLabel}
+        customStartLink={customLink}
+        gaStartEventName={gaStartEventName}
         isExpired={isExpired}
         messages={messages}
-        startText={startText}
-        startPage={startPage}
-        formId={formId}
-        returnUrl={returnUrl}
         migrations={migrations}
         prefillTransformer={prefillTransformer}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        prefillAvailable={prefillAvailable}
-        formSaved={!!savedForm}
-        gaStartEventName={gaStartEventName}
-        ariaLabel={ariaLabel}
-        ariaDescribedby={ariaDescribedby}
-        customStartLink={customLink}
+        resumeOnly={resumeOnly}
+        returnUrl={returnUrl}
+        startText={startText}
       />
     );
   };

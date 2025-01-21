@@ -47,19 +47,19 @@ ButtonOnlyAlert.propTypes = {
 const UnverifiedPrefillAlert = ({
   alertTitle,
   appType,
-  buttonOnly,
-  customLink,
   formConfig,
   getStartPage,
   handleClick,
-  openLoginModal,
   retentionPeriod,
   retentionPeriodStart,
   ariaDescribedby,
   ariaLabel,
+  buttonOnly,
+  customLink,
   displayNonVeteranMessaging,
-  hideUnauthedStartLink,
   headingLevel,
+  hideUnauthedStartLink,
+  openLoginModal,
   unauthStartText,
 }) => {
   const Header = `h${headingLevel}`;
@@ -162,16 +162,22 @@ const UnverifiedPrefillAlert = ({
 UnverifiedPrefillAlert.propTypes = {
   alertTitle: PropTypes.string.isRequired,
   appType: PropTypes.string.isRequired,
+  formConfig: PropTypes.shape({
+    signInHelpList: PropTypes.func,
+  }).isRequired,
   getStartPage: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   retentionPeriod: PropTypes.string.isRequired,
   retentionPeriodStart: PropTypes.string.isRequired,
-  signInHelpList: PropTypes.func.isRequired,
-  unauthStartButton: PropTypes.node.isRequired,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
+  buttonOnly: PropTypes.bool,
+  customLink: PropTypes.any,
   displayNonVeteranMessaging: PropTypes.bool,
+  headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
+  openLoginModal: PropTypes.func,
+  unauthStartText: PropTypes.string,
 };
 
 export default UnverifiedPrefillAlert;
