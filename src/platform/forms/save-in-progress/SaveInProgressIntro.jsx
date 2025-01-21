@@ -215,12 +215,12 @@ class SaveInProgressIntro extends React.Component {
         />
       );
 
-      const noSignInLink = !this.props.hideUnauthedStartLink
-        ? `${window.location.pathname.replace(
+      const noSignInLink = this.props.hideUnauthedStartLink
+        ? ''
+        : `${window.location.pathname.replace(
             '/introduction',
-            this.getStartPage(),
-          )}`
-        : '';
+            '',
+          )}${this.getStartPage()}`;
 
       alert = (
         <va-alert-sign-in
