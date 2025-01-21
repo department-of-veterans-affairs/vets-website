@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchLcResult } from '../actions';
 import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
 import LicenseCertificationTestInfo from '../components/LicenseCertificationTestInfo';
@@ -16,6 +15,8 @@ function LicenseCertificationSearchResult({
   const { id } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (!hasFetchedResult) {
       dispatchFetchLcResult(id);
     }
@@ -25,22 +26,20 @@ function LicenseCertificationSearchResult({
 
   return (
     <div>
-      {fetchingLcResult && (
-        <VaLoadingIndicator
-          // data-testid="loading-indicator"
-          message="Loading..."
-        />
-      )}
+      {fetchingLcResult && <va-loading-indicator message="Loading..." />}
       {!fetchingLcResult &&
-      institution &&
-      tests && ( // better check for empty resultInfo
+        institution &&
+        tests && (
           <section className="lc-result-details vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
               <h1 className="mobile-lg:vads-u-text-align--left">{lacNm}</h1>
               <h2 className="vads-u-margin-top--0">{eduLacTypeNm}</h2>
             </div>
             <div className="row">
-              <LicenseCertificationAdminInfo institution={institution} />
+              <LicenseCertificationAdminInfo
+                institution={institution}
+                type={eduLacTypeNm}
+              />
             </div>
             <div className="row">
               <LicenseCertificationTestInfo tests={tests} />
