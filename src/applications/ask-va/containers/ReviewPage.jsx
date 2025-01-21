@@ -200,7 +200,7 @@ const ReviewPage = props => {
             >
               <va-icon icon="attach_file" size={3} />
               <DownloadLink
-                fileUrl={`data:${file.fileType};base64,${file.base64}`}
+                fileUrl={file.base64}
                 fileName={file.fileName}
                 fileSize={file.fileSize}
               />
