@@ -13,11 +13,11 @@ import {
   formatDate,
   getVAStatusFromCRM,
 } from '../config/helpers';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 
 // Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = false;
+const mockTestingFlag = mockTestingFlagforAPI;
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);

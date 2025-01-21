@@ -29,7 +29,7 @@ import {
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
@@ -38,7 +38,7 @@ import {
 } from '../utils/reviewPageHelper';
 
 // Toggle this when testing locally to get successful confirmation page inquiry
-const mockTestingFlag = false;
+const mockTestingFlag = mockTestingFlagforAPI;
 
 const { scroller } = Scroll;
 
