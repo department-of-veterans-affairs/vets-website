@@ -214,8 +214,7 @@ const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-        !form.schoolInfo?.schoolName ||
-        !form.school) &&
+        !form.schoolInfo?.schoolName) &&
       (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
         form.yourRoleEducation ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
