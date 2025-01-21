@@ -128,6 +128,7 @@ export class LetterList extends React.Component {
         {eligibilityMessage}
 
         <br />
+        <h3 slot="headline">Other sources of VA benefit documentation</h3>
         <p>
           A lot of people come to this page looking for their Post-9/11 GI Bill
           statement of benefits, their Certificate of Eligibility (COE) for home
@@ -135,20 +136,26 @@ export class LetterList extends React.Component {
           available here yet, but if you’re eligible for them, you can get them
           through these links:
         </p>
-        <ul className="vads-u-margin-bottom--9">
+        <ul
+          className="vads-u-margin-bottom--9"
+          style={{ listStyleType: 'disc' }}
+        >
           <li>
-            <a href="/education/download-letters/" target="_blank">
-              <strong>Download your VA education letters.</strong>
+            <a
+              href="/education/download-letters/"
+              target="_blank"
+              style={{ textDecoration: 'none' }}
+            >
+              <p>VA education letters</p>
             </a>
           </li>
           <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
               target="_blank"
+              style={{ textDecoration: 'none' }}
             >
-              <strong>
-                View and print your Post-9/11 GI Bill statement of benefits.
-              </strong>
+              <p>Post-9/11 GI Bill statement of benefits</p>
             </a>
           </li>
           <li>
@@ -156,11 +163,9 @@ export class LetterList extends React.Component {
               href="/housing-assistance/home-loans/check-coe-status/"
               rel="noopener noreferrer"
               target="_blank"
+              style={{ textDecoration: 'none' }}
             >
-              <strong>
-                Download a copy of your Certificate of Eligibility for home
-                loan.
-              </strong>
+              <p>Certificate of home loan benefits</p>
             </a>
           </li>
           <li>
@@ -168,10 +173,9 @@ export class LetterList extends React.Component {
               href="/records/get-military-service-records/"
               rel="noopener noreferrer"
               target="_blank"
+              style={{ textDecoration: 'none' }}
             >
-              <strong>
-                Request your military service records (including DD214).
-              </strong>
+              <p>Discharge or separation papers (DD214)</p>
             </a>
           </li>
         </ul>
