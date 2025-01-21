@@ -305,7 +305,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     expect(
       $('va-alert-sign-in', container).getAttribute('no-sign-in-link'),
-    ).to.eql('/');
+    ).to.eql('/testing');
   });
 
   it('should render message if signed in with no saved form', () => {
