@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaComboBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useServiceType, {
@@ -6,9 +6,10 @@ import useServiceType, {
 } from '../../hooks/useServiceType';
 
 const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
-  const { allOptions, serviceTypeFilter } = useServiceType();
+  const { allServices, serviceTypeFilter } = useServiceType();
   const [serviceType, setServiceType] = useState('');
-  const [matches, setMatches] = useState(allOptions);
+  const [options, setOptions] = useState();
+  const [inputError, setInputError] = useState(null);
   const comboBoxRef = useRef(null);
 
   useEffect(() => {
@@ -24,40 +25,53 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
     return () => comboBox.removeEventListener('input', handleInput);
   }, []);
 
+  const createDropdownOption = (match, index) => (
+    <option key={index} value={match[0]}>
+      {match[0]}
+    </option>
+  );
+
+  const createAllServiceOptions = useCallback(
+    () => {
+      return allServices.map((match, index) => {
+        return createDropdownOption(match, index);
+      });
+    },
+    [allServices],
+  );
+
   useEffect(
     () => {
+      const seeAll = (
+        <option key="A" value="health">
+          All VA health services
+        </option>
+      );
+
       if (!serviceType) {
-        setMatches(allOptions);
+        setOptions([seeAll, ...createAllServiceOptions()]);
       } else {
-        setMatches(
+        const filteredServices =
           serviceTypeFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) ||
-            allOptions,
-        );
+          allServices;
+
+        if (filteredServices?.length) {
+          const dropdownOptions = filteredServices.map((match, index) => {
+            return createDropdownOption(match, index);
+          });
+
+          setOptions([seeAll, ...dropdownOptions]);
+        } else {
+          setInputError('No results found. Search for a different service.');
+        }
       }
     },
     [serviceType],
   );
 
-  const makeOptionsFromMatches = () => {
-    const seeAll = (
-      <option key="A" value="health">
-        All VA health services
-      </option>
-    );
-
-    const matchedServices = matches.map((match, index) => {
-      return (
-        <option key={index} value={match[0]}>
-          {match[0]}
-        </option>
-      );
-    });
-
-    return [seeAll, ...matchedServices];
-  };
-
   return (
     <VaComboBox
+      error={inputError}
       label="Service type"
       name="service-type"
       onVaSelect={e => handleServiceTypeChange(e.detail.value)}
@@ -65,7 +79,7 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
       required
       value={serviceType}
     >
-      {makeOptionsFromMatches()}
+      {options}
     </VaComboBox>
   );
 };

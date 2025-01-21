@@ -80,6 +80,7 @@ const prioritySort = (a, b) => {
   return 0;
 };
 
+// Exported for unit testing
 export const filterMatches = (selector, term, facilityType) => {
   const selectorFiltered = selector.data
     .map(hsdatum => {
@@ -91,8 +92,6 @@ export const filterMatches = (selector, term, facilityType) => {
       return null;
     })
     .filter(v => v);
-
-  console.log('selectorFiltered: ', selectorFiltered);
 
   selectorFiltered.sort(prioritySort);
 
@@ -113,7 +112,6 @@ export const filterMatches = (selector, term, facilityType) => {
 export default function useServiceType() {
   const dispatch = useDispatch();
   const selector = vaHealthServicesData;
-  // console.log('🚀 ~ selector:', selector);
 
   // const selector = useSelector(
   //   state => state.drupalStaticData.vaHealthServicesData || [],
@@ -126,7 +124,7 @@ export default function useServiceType() {
     [dispatch],
   );
 
-  const allOptions = selector.data.sort((a, b) => {
+  const allServices = selector?.data?.sort((a, b) => {
     if (a[0] < b[0]) {
       return -1;
     }
@@ -138,8 +136,6 @@ export default function useServiceType() {
     return 0;
   });
 
-  // console.log('allOptions: ', allOptions);
-
   /**
    * function serviceTypeFilter
    * @param { string } term
@@ -148,12 +144,9 @@ export default function useServiceType() {
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
-      // console.log('term: ', term);
       if (!selector || selector.loading) return [];
 
       if (!term?.length) return [];
-
-      // console.log('selector: ', selector);
 
       if (selector.data) {
         return filterMatches(selector, term, facilityType);
@@ -165,7 +158,7 @@ export default function useServiceType() {
   );
 
   return {
-    allOptions,
+    allServices,
     isServiceTypeFilterLoading: selector.isLoading,
     serviceTypeFilter,
   };
