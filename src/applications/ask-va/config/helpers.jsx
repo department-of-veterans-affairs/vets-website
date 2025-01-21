@@ -657,11 +657,9 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
-    case 'Solved':
-    case 'Replied':
+    case 'replied':
       return 'Replied';
     case 'reopened':
-    case 'Reopened':
       return 'Reopened';
     case 'closed':
       return 'Closed';
