@@ -9,6 +9,10 @@ import {
 import api from '../utilities/api';
 import POARequestCard from '../components/POARequestCard';
 
+const SEARCH_PARAMS = {
+  STATUS: 'status',
+};
+
 const STATUSES = {
   PENDING: 'pending',
   COMPLETED: 'completed',
@@ -29,8 +33,8 @@ const SearchResults = ({ poaRequests }) => {
       className="poa-request__list"
       sort-column={1}
     >
-      {poaRequests.map(({ id, attributes: poaRequest }) => {
-        return <POARequestCard poaRequest={poaRequest} key={id} id={id} />;
+      {poaRequests.map((request, index) => {
+        return <POARequestCard poaRequest={request} key={index} />;
       })}
     </ul>
   );
@@ -78,7 +82,6 @@ const DigitalSubmissionAlert = () => (
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
@@ -90,7 +93,7 @@ const POARequestSearchPage = () => {
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
           >
-            Pending requests
+            Pending
           </StatusTabLink>
           <StatusTabLink
             tabStatus={STATUSES.COMPLETED}
@@ -131,10 +134,10 @@ const POARequestSearchPage = () => {
 
 POARequestSearchPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get('status');
+  const status = searchParams.get(SEARCH_PARAMS.STATUS);
 
   if (!Object.values(STATUSES).includes(status)) {
-    searchParams.set('status', STATUSES.PENDING);
+    searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
     throw redirect(`?${searchParams}`);
   }
 
