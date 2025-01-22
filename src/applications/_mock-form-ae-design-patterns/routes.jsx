@@ -28,9 +28,11 @@ const Form1990Entry = lazy(() =>
 
 import { plugin } from './shared/components/VADXPlugin';
 
-const DevPanel = lazy(() => import('./vadx/app/pages/DevPanel'));
-
 import { VADX } from './vadx';
+import { Debug } from './vadx/app/pages/debug/Debug';
+import { withLayout } from './vadx/app/layout/withLayout';
+import { Servers } from './vadx/app/pages/servers/Servers';
+import { FeatureToggles } from './vadx/app/pages/feature-toggles/FeatureToggles';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
@@ -118,8 +120,16 @@ const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
   {
-    path: '/dev',
-    component: routeHoc(DevPanel),
+    path: '/vadx',
+    component: routeHoc(withLayout(Servers)),
+  },
+  {
+    path: '/vadx/debug',
+    component: routeHoc(withLayout(Debug)),
+  },
+  {
+    path: '/vadx/feature-toggles',
+    component: routeHoc(withLayout(FeatureToggles)),
   },
   {
     path: '*',

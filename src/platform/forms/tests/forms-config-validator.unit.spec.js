@@ -67,6 +67,7 @@ const formConfigKeys = [
   'CustomTopContent',
   'defaultDefinitions',
   'dev',
+  'disableSave',
   'downtime',
   'errorText',
   'footerContent',
@@ -279,6 +280,7 @@ const validateForm = async formConfigParam => {
   const optionalProps = {
     ariaDescribedBySubmit: 'string',
     dev: 'object',
+    disableSave: 'boolean',
     introduction: 'component',
     prefillEnabled: 'boolean',
     prefillTransformer: 'function',

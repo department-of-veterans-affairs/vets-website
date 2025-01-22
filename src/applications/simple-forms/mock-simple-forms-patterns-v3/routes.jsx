@@ -1,6 +1,6 @@
-import { createRoutes } from 'platform/forms-system/src/js/routing';
+import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 import formConfig from './config/form';
-import App from './containers/App.jsx';
+import App from './containers/App';
 
 const route = {
   path: '/',

@@ -98,6 +98,21 @@ const testConfig = createTestConfig(
       'informal-conference': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
+            const rep =
+              testData.informalConferenceChoice ||
+              ['me', 'rep'].includes(testData.informalConference)
+                ? 'yes'
+                : 'no';
+            cy.get(`va-radio-option[value="${rep}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'informal-conference/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
             const rep = testData.informalConference;
             cy.get(`va-radio-option[value="${rep}"]`).click();
             cy.axeCheck();
