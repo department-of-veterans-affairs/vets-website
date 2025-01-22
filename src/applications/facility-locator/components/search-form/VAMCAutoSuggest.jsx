@@ -9,7 +9,6 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   const { allServices, serviceTypeFilter } = useServiceType();
   const [serviceType, setServiceType] = useState('');
   const [options, setOptions] = useState();
-  const [inputError, setInputError] = useState(null);
   const comboBoxRef = useRef(null);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   useEffect(
     () => {
       const seeAll = (
-        <option key="A" value="health">
+        <option key="health" value="health">
           All VA health services
         </option>
       );
@@ -59,19 +58,20 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
           const dropdownOptions = filteredServices.map((match, index) => {
             return createDropdownOption(match, index);
           });
-
+          console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
           setOptions([seeAll, ...dropdownOptions]);
-        } else {
-          setInputError('No results found. Search for a different service.');
         }
       }
     },
     [serviceType],
   );
 
+  console.log('options: ', options);
+
   return (
     <VaComboBox
-      error={inputError}
+      class="vads-u-margin-bottom--3"
+      key={JSON.stringify(options)} // Forces re-render when options change
       label="Service type"
       name="service-type"
       onVaSelect={e => handleServiceTypeChange(e.detail.value)}
