@@ -499,10 +499,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   function defaultItemPageScrollAndFocusTarget() {
     const minimalHeader = isMinimalHeaderApplicable();
-    const radioHeader = document.querySelector('va-radio[label-header-level]');
-    const checkboxGroupHeader = document.querySelector(
-      'va-checkbox-group[label-header-level]',
-    );
     const headerLevel = minimalHeader ? 'h1' : 'h3';
 
     if (minimalHeader) {
@@ -510,6 +506,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     } else {
       scrollToTop('topScrollElement');
     }
+
+    const radioHeader = document.querySelector('va-radio[label-header-level]');
+    const checkboxGroupHeader = document.querySelector(
+      'va-checkbox-group[label-header-level]',
+    );
 
     if (radioHeader) {
       waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);

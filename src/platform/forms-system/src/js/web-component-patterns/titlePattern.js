@@ -12,11 +12,12 @@ export const Title = ({
 }) => {
   const isMinimalHeader = useRef(null);
   if (isMinimalHeader.current === null) {
+    // only call once
     isMinimalHeader.current = isMinimalHeaderApplicable();
   }
   const effectiveHeaderLevel = headerLevel || (isMinimalHeader.current ? 1 : 3);
-  // Arbitrary decision with design
-  // h1 styling is a bit too large when directly next to other field content
+  // Arbitrary decision with design:
+  // If we are using h1 as a field, the styling is a bit too large,
   // so we'll bump the style down to h2
   const effectiveHeaderStyleLevel =
     headerStyleLevel || (isMinimalHeader.current ? 2 : undefined);

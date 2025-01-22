@@ -69,10 +69,9 @@ const namePage = {
 /** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI({
-      title: ({ formData }) =>
-        formData?.name ? `Date at ${formData.name}` : 'Date',
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => (formData?.name ? `Date at ${formData.name}` : 'Date'),
+    ),
     date: currentOrPastDateUI(),
   },
   schema: {

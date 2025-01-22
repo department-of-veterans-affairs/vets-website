@@ -304,6 +304,7 @@
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
  * @property {string} [hint] The hint text for the field. For web components.
+ * @property {UIOptions} [ifMinimalHeader] An object of options that will override existing options if minimal header is applicable.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
  * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.

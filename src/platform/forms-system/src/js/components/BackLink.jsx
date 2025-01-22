@@ -83,7 +83,12 @@ export const BackLinkImpl = ({
       className="vads-u-margin-top--2 vads-u-margin-bottom--4"
       aria-label="Previous page"
     >
-      <va-link back href={href} text="Back" onClick={onClick} />
+      <va-link
+        back
+        href={href}
+        text="Back to previous page"
+        onClick={onClick}
+      />
     </nav>
   );
 };

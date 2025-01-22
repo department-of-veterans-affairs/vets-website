@@ -1,8 +1,45 @@
+import { useRef } from 'react';
+import { isMinimalHeaderApplicable } from '../helpers';
+
+const useConditionalMinimalHeader = uiOptions => {
+  const isMinimalHeader = useRef(null);
+
+  if (!uiOptions?.ifMinimalHeader) {
+    return uiOptions;
+  }
+
+  if (isMinimalHeader.current === null) {
+    // only call once
+    isMinimalHeader.current = isMinimalHeaderApplicable();
+  }
+
+  if (isMinimalHeader.current) {
+    return {
+      ...uiOptions,
+      ...uiOptions.ifMinimalHeader, // override with minimal header options
+    };
+  }
+
+  return uiOptions;
+};
+
 /** @param {WebComponentFieldProps} props */
 export default function commonFieldMapping(props) {
-  const { label, required, error, uiOptions, childrenProps } = props;
-
-  const labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
+  const {
+    label,
+    required,
+    error,
+    uiOptions: uiOptionsOriginal,
+    childrenProps,
+  } = props;
+  // we are in the context of a React component, so using a hook is fine here.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const uiOptions = useConditionalMinimalHeader(uiOptionsOriginal);
+  let labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
+  if (uiOptions?.labelHeaderLevel === '1' && !labelHeaderLevelStyle) {
+    // h1 style is too big when used as a field label
+    labelHeaderLevelStyle = '2';
+  }
   const headerStyle = labelHeaderLevelStyle
     ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
     : '';

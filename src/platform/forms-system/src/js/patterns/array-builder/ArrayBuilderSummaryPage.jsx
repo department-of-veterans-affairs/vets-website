@@ -117,20 +117,21 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const [showReviewErrorAlert, setShowReviewErrorAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
-    const isMinimalHeader = useRef(null);
-    if (isMinimalHeader.current === null) {
-      isMinimalHeader.current = isMinimalHeaderApplicable();
-    }
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
+    const isMinimalHeader = useRef(null);
+    if (isMinimalHeader.current === null) {
+      // only check once
+      isMinimalHeader.current = isMinimalHeaderApplicable();
+    }
     const headingLevel =
       titleHeaderLevel ||
       (isMinimalHeader.current && !isReviewPage ? '1' : '3');
-    const Heading = `h${headingLevel}`;
     const headingStyle =
       isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+    const Heading = `h${headingLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
