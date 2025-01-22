@@ -9,11 +9,11 @@ export const CustomTopContent = () => {
     { href: '/', label: 'VA.gov home' },
     { href: '/find-forms', label: 'Find a Form' },
     {
-      href: `/find-forms/about-form-${formNumber}`,
-      label: `About Form ${formNumber}`,
+      href: `/find-forms/upload`,
+      label: `Upload VA Forms`,
     },
     {
-      href: `/form-upload/${formNumber}/introduction`,
+      href: `/find-forms/upload/${formNumber}/introduction`,
       label: `Upload Form ${formNumber}`,
     },
   ];
