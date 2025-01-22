@@ -149,6 +149,7 @@ export default function useServiceType() {
       if (!term?.length) return [];
 
       if (selector.data) {
+        console.log('matches: ', filterMatches(selector, term, facilityType));
         return filterMatches(selector, term, facilityType);
       }
 

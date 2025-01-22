@@ -14,6 +14,7 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   useEffect(() => {
     const comboBox = comboBoxRef.current?.shadowRoot;
     const handleInput = event => {
+      // console.log('event: ', event.target.value);
       setServiceType(event.target.value);
     };
 
@@ -48,17 +49,24 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
       );
 
       if (!serviceType) {
+        // console.log('or this is happening');
         setOptions([seeAll, ...createAllServiceOptions()]);
       } else {
+        // console.log('this is happening');
         const filteredServices =
           serviceTypeFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) ||
           allServices;
 
         if (filteredServices?.length) {
+          // console.log(
+          //   'filteredServices: ',
+          //   filteredServices[0],
+          //   filteredServices[1],
+          // );
           const dropdownOptions = filteredServices.map((match, index) => {
             return createDropdownOption(match, index);
           });
-          console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
+          // console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
           setOptions([seeAll, ...dropdownOptions]);
         }
       }
@@ -66,7 +74,8 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
     [serviceType],
   );
 
-  console.log('options: ', options);
+  // console.log('serviceType: ', serviceType);
+  // console.log('options: ', options);
 
   return (
     <VaComboBox
