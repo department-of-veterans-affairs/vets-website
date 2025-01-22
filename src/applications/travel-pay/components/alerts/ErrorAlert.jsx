@@ -24,6 +24,7 @@ const ErrorAlert = ({ errorStatus }) => {
           the Beneficiary Travel Self Service System (BTSSS) portal.
           <va-link-action
             text="Go to the BTSSS portal (opens in a new tab)"
+            label="Go to the Beneficiary Travel Self Service System portal (opens in a new tab)"
             href={BTSSS_PORTAL_URL}
           />
         </p>
