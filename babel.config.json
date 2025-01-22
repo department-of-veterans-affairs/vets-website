@@ -291,7 +291,7 @@
           "@department-of-veterans-affairs/platform-forms-system/actions": "./src/platform/forms-system/src/js/actions.js",
           "@department-of-veterans-affairs/platform-forms-system/constants": "./src/platform/forms-system/src/js/constants.js",
           "@department-of-veterans-affairs/platform-forms-system/helpers": "./src/platform/forms-system/src/js/helpers.js",
-          "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing.js",
+          "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing",
           "@department-of-veterans-affairs/platform-forms-system/validation": "./src/platform/forms-system/src/js/validation.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-patterns": "./src/platform/forms-system/src/js/web-component-patterns/index.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",

@@ -108,12 +108,9 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships() {
-  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
-  // export function getPatientRelationships({ locationId, typeOfCareId }) {
+export function getPatientRelationships({ facilityId, typeOfCareId }) {
   return apiRequestWithUrl(
-    // `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
-    `/vaos/v2/relationships`,
+    `/vaos/v2/relationships?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}`,
   );
 }
 
