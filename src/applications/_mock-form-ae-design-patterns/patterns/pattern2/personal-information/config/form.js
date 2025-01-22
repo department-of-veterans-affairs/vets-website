@@ -4,31 +4,23 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
-import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 
 // page level imports
-import IntroductionPage from '../IntroductionPage';
+import IntroductionPage from '../../TaskBlue/IntroductionPage';
 import personalInfo from './personalInfo';
-import { contactInfo } from './contactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/2/task-blue/',
+  urlPrefix: '/2/personal-information-demo/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'task-blue',
+  trackingPrefix: 'personal-information-demo',
   introduction: IntroductionPage,
   confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
-    //   expired: 'Your saved mock form ae design patterns benefits application (00-1234) has expired. If you want to apply for mock form ae design patterns benefits, please start a new application.',
-    //   saved: 'Your mock form ae design patterns benefits application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
@@ -60,8 +52,6 @@ const formConfig = {
       title: 'Veteran information',
       pages: {
         ...personalInfo,
-        ...contactInfo,
-        taskCompletePagePattern2,
       },
     },
   },
