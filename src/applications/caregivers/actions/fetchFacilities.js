@@ -26,6 +26,27 @@ const formatFacilityIds = facilityIds => {
   return facilityIdList;
 };
 
+const fetchNewCSRFToken = async () => {
+  const message = 'No csrfToken when making fetchFacilities.';
+  const url = '/v0/maintenance_windows';
+  Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
+
+  apiRequest(`${environment.API_URL}/v0/maintenance_windows`)
+    .then(() => {
+      Sentry.captureMessage(
+        `${message} ${url} successfully called to generate token.`,
+      );
+    })
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage(
+          `${message} ${url} failed when called to generate token.`,
+        );
+      });
+    });
+};
+
 export const fetchFacilities = async ({
   lat = null,
   long = null,
@@ -35,6 +56,11 @@ export const fetchFacilities = async ({
   facilityIds = [],
   type = 'health',
 }) => {
+  const csrfToken = localStorage.getItem('csrfToken');
+  if (!csrfToken) {
+    await fetchNewCSRFToken();
+  }
+
   const url = `${
     environment.API_URL
   }/v0/caregivers_assistance_claims/facilities`;
