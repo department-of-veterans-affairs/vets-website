@@ -167,13 +167,18 @@ export const deceasedDependentChildTypePage = {
       ...checkboxGroupUI({
         title: 'What type of child?',
         labels: childTypeLabels,
-        required: () => true,
+        required: (formData, index) => {
+          const addMode = formData?.deaths?.[index]?.dependentType === 'child';
+          const editMode = formData?.dependentType;
+
+          return addMode || editMode;
+        },
       }),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
 
-          if (itemData?.dependentType !== 'CHILD' && itemData?.childStatus) {
+          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
             Object.keys(itemData.childStatus).forEach(key => {
               itemData.childStatus[key] = undefined;
             });
@@ -186,7 +191,6 @@ export const deceasedDependentChildTypePage = {
   },
   schema: {
     type: 'object',
-    required: ['childStatus'],
     properties: {
       childStatus: checkboxGroupSchema(childTypeEnums),
     },
