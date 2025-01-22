@@ -177,6 +177,12 @@ describe('CG fetchFacilities action', () => {
         });
 
         await waitFor(() => {
+          expect(apiRequestStub.firstCall.args[0]).to.equal(
+            `${environment.API_URL}/v0/maintenance_windows`,
+          );
+          expect(apiRequestStub.secondCall.args[0]).to.equal(
+            `${environment.API_URL}/v0/caregivers_assistance_claims/facilities`,
+          );
           expect(apiRequestStub.callCount).to.equal(2);
           expect(sentrySpy.callCount).to.equal(2);
           expect(sentrySpy.firstCall.args[0]).to.equal(
