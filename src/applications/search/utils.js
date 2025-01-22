@@ -1,10 +1,16 @@
 export function decodeChars(string) {
-  return string
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&');
+  const entityMap = {
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&amp;': '&',
+  };
+
+  return string.replace(
+    /&lt;|&gt;|&quot;|&#39;|&amp;/g,
+    match => entityMap[match],
+  );
 }
 
 export function formatResponseString(string, stripAll = false) {
