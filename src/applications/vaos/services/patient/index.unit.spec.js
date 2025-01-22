@@ -37,6 +37,7 @@ describe('VAOS Services: Patient ', () => {
                 text: 'string',
               },
               lastSeen: '2024-11-26T00:32:34.216Z',
+              hasAvailability: false,
             },
           },
         },
