@@ -60,7 +60,8 @@ describe('Root property names', () => {
       'view:hasEvidence',
       'view:selectableEvidenceTypes',
       'view:evidenceTypeHelp',
-      // TODO: Remove the 2 below when allClaimsAddDisabilitiesEnhancement feature flag is removed
+      // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+      // When remove allClaimsAddDisabilitiesEnhancement FF, remove 'newDisabilities' and 'view:newDisabilityErrors as properties
       'newDisabilities',
       'view:newDisabilityErrors',
     ];

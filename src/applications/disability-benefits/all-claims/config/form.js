@@ -331,7 +331,8 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        // TODO: Remove this page when allClaimsAddDisabilitiesEnhancement feature flag is removed
+        // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+        // When remove allClaimsAddDisabilitiesEnhancement FF, remove this page
         addDisabilitiesPrevious: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.path,

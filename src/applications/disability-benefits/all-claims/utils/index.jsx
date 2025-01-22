@@ -619,7 +619,8 @@ export const DISABILITY_SHARED_CONFIG = {
     path: 'disabilities/rated-disabilities',
     depends: formData => isClaimingIncrease(formData),
   },
-  // TODO: Remove this page when allClaimsAddDisabilitiesEnhancement feature flag is removed
+  // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+  // When remove allClaimsAddDisabilitiesEnhancement FF, move the content of '/add-3' to '/add'
   addDisabilitiesPrevious: {
     path: 'new-disabilities/add',
     depends: formData =>
@@ -887,8 +888,9 @@ export const show5103Updates = () =>
   environment.isDev() || environment.isLocalhost() || environment.isStaging();
 
 /**
- * // TODO: Update this function when allClaimsAddDisabilitiesEnhancement feature flag is removed to simply route users from '/new-disabilities/add-3' to '/new-disabilities/add'
- * // TODO PR #34038: Remove this function completely when there are no more save in progress forms left on the 'new-disabilities/add-3' page.
+ * TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+ * When remove allClaimsAddDisabilitiesEnhancement, update this function to route users from '/new-disabilities/add-3' to '/new-disabilities/add'
+ * Remove this function completely when there are no more save in progress forms remaining on the 'new-disabilities/add-3' page.
  * @param {Object} formData - Form data from save-in-progress
  * @param {String} returnUrl - URL of last saved page
  * @param {Object} router - React router

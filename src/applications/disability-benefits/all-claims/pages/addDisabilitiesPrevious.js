@@ -1,5 +1,5 @@
-// TODO: Remove this page when allClaimsAddDisabilitiesEnhancement feature flag is removed
-
+// TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+// When remove allClaimsAddDisabilitiesEnhancement FF, remove this page
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
