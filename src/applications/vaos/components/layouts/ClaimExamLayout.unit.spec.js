@@ -202,6 +202,12 @@ describe('VAOS Component: ClaimExamLayout', () => {
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
       });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-clinic-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-clinic-phone',
+      });
     });
 
     it('should display facility phone when clinic phone is missing', async () => {
@@ -407,6 +413,12 @@ describe('VAOS Component: ClaimExamLayout', () => {
       });
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-clinic-phone',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-clinic-phone',
       });
     });
   });
