@@ -25,7 +25,7 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading) {
+  if (isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
@@ -34,7 +34,6 @@ function App({
       '/view-change-dependents/add-remove-form-21-686c-v2/';
     return <></>;
   }
-
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -55,7 +54,7 @@ function App({
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    window.location.replace(`${manifest.rootUrl}`);
+    document.location.replace(`${manifest.rootUrl}`);
     return (
       <va-loading-indicator message="Redirecting to introduction page..." />
     );
@@ -65,13 +64,12 @@ function App({
 }
 
 const mapStateToProps = state => {
-  const { featureToggles, user, vaFileNumber } = state;
   return {
-    isLoggedIn: user?.login?.currentlyLoggedIn,
-    isLoading: user?.profile?.loading || featureToggles?.loading,
-    vaFileNumber,
-    featureToggles,
-    savedForms: user?.profile?.savedForms,
+    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+    isLoading: state?.user?.profile?.loading,
+    vaFileNumber: state?.vaFileNumber,
+    featureToggles: state?.featureToggles,
+    savedForms: state?.user?.profile?.savedForms,
   };
 };
 

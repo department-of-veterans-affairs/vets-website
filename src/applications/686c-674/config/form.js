@@ -824,7 +824,7 @@ export const formConfig = {
             schema: deceasedDependentChildTypePage.schema,
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
-              formData?.deaths?.[index]?.dependentType === 'CHILD',
+              formData?.deaths?.[index]?.dependentType === 'child',
           }),
           dependentAdditionalInformationPartFour: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',

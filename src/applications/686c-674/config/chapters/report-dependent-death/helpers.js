@@ -1,8 +1,8 @@
-export const relationshipEnums = ['SPOUSE', 'DEPENDENT_PARENT', 'CHILD'];
+export const relationshipEnums = ['spouse', 'parent', 'child'];
 export const relationshipLabels = {
-  SPOUSE: 'Spouse',
-  DEPENDENT_PARENT: 'Dependent parent',
-  CHILD: 'Child',
+  spouse: 'Spouse',
+  parent: 'Dependent parent',
+  child: 'Child',
 };
 
 export const childTypeEnums = [

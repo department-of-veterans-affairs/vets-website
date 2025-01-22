@@ -25,13 +25,8 @@ function App({
   document.title = DOC_TITLE;
 
   // Handle loading
-  if (isLoading) {
+  if (isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
-  }
-
-  if (!featureToggles?.loading && featureToggles?.vaDependentsV2 === false) {
-    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
-    return <></>;
   }
 
   const content = (
@@ -64,13 +59,12 @@ function App({
 }
 
 const mapStateToProps = state => {
-  const { featureToggles, user, vaFileNumber } = state;
   return {
-    isLoggedIn: user?.login?.currentlyLoggedIn,
-    isLoading: user?.profile?.loading || featureToggles?.loading,
-    vaFileNumber,
-    featureToggles,
-    savedForms: user?.profile?.savedForms,
+    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+    isLoading: state?.user?.profile?.loading,
+    vaFileNumber: state?.vaFileNumber,
+    featureToggles: state?.featureToggles,
+    savedForms: state?.user?.profile?.savedForms,
   };
 };
 

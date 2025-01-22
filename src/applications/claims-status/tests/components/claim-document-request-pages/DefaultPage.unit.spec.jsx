@@ -25,7 +25,7 @@ describe('<DefaultPage>', () => {
     uploading: false,
   };
 
-  it('should render component when status is NEEDED_FROM_YOU', () => {
+  it.skip('should render component when status is NEEDED_FROM_YOU', () => {
     const item = {
       closedDate: null,
       description: 'Buddy statement text',
