@@ -27,11 +27,11 @@ describe('getMissingData', () => {
 
   it('should return empty array when all field data is present', () => {
     const config = {
-      name: true,
-      ssn: true,
-      vaFileNumber: true,
-      dateOfBirth: true,
-      gender: true,
+      name: { show: true, required: true },
+      ssn: { show: true, required: true },
+      vaFileNumber: { show: true, required: true },
+      dateOfBirth: { show: true, required: true },
+      gender: { show: true, required: true },
     };
 
     const result = getMissingData(mockData, config);
@@ -44,21 +44,23 @@ describe('getMissingData', () => {
       userFullName: {},
     };
 
-    const result = getMissingData(dataWithoutName, { name: true });
+    const result = getMissingData(dataWithoutName, {
+      name: { show: true, required: true },
+    });
     expect(result).to.include('name');
   });
 
-  it('should not check fields set to false in config', () => {
+  it('should not check fields set to required: false in config', () => {
     const incompleteData = {
       userFullName: { first: 'John', last: 'Doe' },
     };
 
     const config = {
-      name: true,
-      ssn: false,
-      vaFileNumber: false,
-      dateOfBirth: false,
-      gender: false,
+      name: { show: true, required: true },
+      ssn: { show: false, required: false },
+      vaFileNumber: { show: false, required: false },
+      dateOfBirth: { show: false, required: false },
+      gender: { show: false, required: false },
     };
 
     const result = getMissingData(incompleteData, config);
@@ -70,7 +72,9 @@ describe('getMissingData', () => {
       userFullName: { first: 'John' },
     };
 
-    const result = getMissingData(partialNameData, { name: true });
+    const result = getMissingData(partialNameData, {
+      name: { show: true, required: true },
+    });
     // As long as one part is present, it should pass
     // maybe this should be changed to check for at least one first or last name so just a suffix would fail?
     expect(result).to.not.include('name');

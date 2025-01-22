@@ -23,31 +23,41 @@ import {
 import { adaptFormData } from './adapter';
 
 /**
- * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
- * @property {boolean} [name] - Whether to show name
- * @property {boolean} [ssn] - Whether to show last 4 digits of SSN
- * @property {boolean} [vaFileNumber] - Whether to show last 4 digits of VA file number
- * @property {boolean} [dateOfBirth] - Whether to show date of birth
- * @property {boolean} [gender] - Whether to show gender
- * @property {string | ReactNode} [errorMessage] - Custom error message or ReactNode for missing data
+ * @typedef {Object} FieldConfig
+ * @property {boolean} show - Whether to show the field
+ * @property {boolean} required - Whether the field is required
  */
+
+/**
+ * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
+ * @property {FieldConfig} [name] - Name field configuration
+ * @property {FieldConfig} [ssn] - SSN field configuration
+ * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
+ * @property {FieldConfig} [dateOfBirth] - Date of birth field configuration
+ * @property {FieldConfig} [gender] - Gender field configuration
+ */
+
+const defaultFieldConfig = {
+  show: true,
+  required: true,
+};
+
+/**
+ * @type {PersonalInformationConfig}
+ */
+const defaultConfig = {
+  name: { ...defaultFieldConfig },
+  ssn: { ...defaultFieldConfig },
+  vaFileNumber: { show: false, required: false },
+  dateOfBirth: { ...defaultFieldConfig },
+  gender: { show: false, required: false },
+};
 
 /**
  * @typedef {Object} DataAdapter
  * @property {string} [ssnPath] - Path to SSN in form data example: `'veteran.lastFourSSN'`
  * @property {string} [vaFileNumberPath] - Path to VA file number in form data example: `'veteran.vaFileNumber'`
  */
-
-/**
- * @type {PersonalInformationConfig}
- */
-const defaultConfig = {
-  name: true,
-  ssn: true,
-  vaFileNumber: false,
-  dateOfBirth: true,
-  gender: false,
-};
 
 /**
  * @param {Object} props - Component props
@@ -89,11 +99,12 @@ export const PersonalInformation = ({
 
   if (missingData.length > 0) {
     let messageComponent;
+
     // check if the error message is a function
     if (typeof finalErrorMessage === 'function') {
       messageComponent = finalErrorMessage({ missingFields: missingData });
     }
-    return finalErrorMessage ? (
+    return (
       <va-alert status="error" class="vads-u-margin-bottom--4">
         <h2 slot="headline">We need more information</h2>
 
@@ -101,7 +112,7 @@ export const PersonalInformation = ({
           {messageComponent || finalErrorMessage}
         </div>
       </va-alert>
-    ) : null;
+    );
   }
 
   const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
@@ -118,7 +129,7 @@ export const PersonalInformation = ({
           <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Personal information
           </h4>
-          {finalConfig.name && (
+          {finalConfig.name?.show && (
             <p>
               <strong
                 className="name dd-privacy-hidden"
@@ -126,32 +137,44 @@ export const PersonalInformation = ({
               >
                 Name:{' '}
               </strong>
-              {`${first || ''} ${middle || ''} ${last || ''}`}
+              {first || last ? (
+                `${first || ''} ${middle || ''} ${last || ''}`
+              ) : (
+                <span data-testid="name-not-available">Not available</span>
+              )}
               {suffix ? `, ${suffix}` : null}
             </p>
           )}
-          {finalConfig.ssn &&
-            ssn && (
-              <p>
-                <strong>Last 4 digits of Social Security number: </strong>
+          {finalConfig.ssn?.show && (
+            <p>
+              <strong>Last 4 digits of Social Security number: </strong>
+              {ssn ? (
                 <span data-dd-action-name="Veteran's SSN">
                   {formatNumberForScreenReader(ssn)}
                 </span>
-              </p>
-            )}
-          {finalConfig.vaFileNumber &&
-            vaFileLastFour && (
-              <p>
-                <strong>Last 4 digits of VA file number: </strong>
+              ) : (
+                <span data-testid="ssn-not-available">Not available</span>
+              )}
+            </p>
+          )}
+          {finalConfig.vaFileNumber?.show && (
+            <p>
+              <strong>Last 4 digits of VA file number: </strong>
+              {vaFileLastFour ? (
                 <span
                   className="dd-privacy-mask"
                   data-dd-action-name="Veteran's VA file number"
                 >
                   {formatNumberForScreenReader(vaFileLastFour)}
                 </span>
-              </p>
-            )}
-          {finalConfig.dateOfBirth && (
+              ) : (
+                <span data-testid="va-file-number-not-available">
+                  Not available
+                </span>
+              )}
+            </p>
+          )}
+          {finalConfig.dateOfBirth?.show && (
             <p>
               <strong>Date of birth: </strong>
               {isValid(dobDateObj) ? (
@@ -162,19 +185,23 @@ export const PersonalInformation = ({
                   {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
                 </span>
               ) : (
-                <span>Not available</span>
+                <span data-testid="dob-not-available">Not available</span>
               )}
             </p>
           )}
-          {finalConfig.gender && (
+          {finalConfig.gender?.show && (
             <p>
               <strong>Gender: </strong>
-              <span
-                className="gender dd-privacy-hidden"
-                data-dd-action-name="Veteran's gender"
-              >
-                {genderLabels?.[gender] || ''}
-              </span>
+              {gender ? (
+                <span
+                  className="gender dd-privacy-hidden"
+                  data-dd-action-name="Veteran's gender"
+                >
+                  {genderLabels?.[gender]}
+                </span>
+              ) : (
+                <span data-testid="gender-not-available">Not available</span>
+              )}
             </p>
           )}
         </va-card>
@@ -209,15 +236,20 @@ export const PersonalInformation = ({
   );
 };
 
+const fieldConfigShape = PropTypes.shape({
+  show: PropTypes.bool,
+  required: PropTypes.bool,
+});
+
 PersonalInformation.propTypes = {
   NavButtons: PropTypes.func,
   children: PropTypes.node,
   config: PropTypes.shape({
-    showSSN: PropTypes.bool,
-    showVAFileNumber: PropTypes.bool,
-    showDateOfBirth: PropTypes.bool,
-    showGender: PropTypes.bool,
-    showName: PropTypes.bool,
+    name: fieldConfigShape,
+    ssn: fieldConfigShape,
+    vaFileNumber: fieldConfigShape,
+    dateOfBirth: fieldConfigShape,
+    gender: fieldConfigShape,
   }),
   contentAfterButtons: PropTypes.oneOfType([
     PropTypes.node,

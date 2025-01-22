@@ -6,18 +6,36 @@ import React from 'react';
  * Checks if required data is present based on config
  * @param {Object} data - The data to check
  * @param {Object} config - The field configuration
- * @returns {boolean} Whether all required data is present
+ * @returns {string[]} Array of missing required field names
  */
 export const getMissingData = (data, config) => {
   const checks = {
-    name: get(data, 'userFullName.first') || get(data, 'userFullName.last'),
-    ssn: !config.ssn || get(data, 'ssn'),
-    vaFileNumber: !config.vaFileNumber || get(data, 'vaFileLastFour'),
-    dateOfBirth: !config.dateOfBirth || get(data, 'dob'),
-    gender: !config.gender || get(data, 'gender'),
+    name: {
+      required: config.name?.required,
+      present:
+        get(data, 'userFullName.first') || get(data, 'userFullName.last'),
+    },
+    ssn: {
+      required: config.ssn?.required,
+      present: get(data, 'ssn'),
+    },
+    vaFileNumber: {
+      required: config.vaFileNumber?.required,
+      present: get(data, 'vaFileLastFour'),
+    },
+    dateOfBirth: {
+      required: config.dateOfBirth?.required,
+      present: get(data, 'dob'),
+    },
+    gender: {
+      required: config.gender?.required,
+      present: get(data, 'gender'),
+    },
   };
 
-  return Object.keys(checks).filter(key => !checks[key]);
+  return Object.entries(checks)
+    .filter(([_, { required, present }]) => required && !present)
+    .map(([key]) => key);
 };
 
 /**

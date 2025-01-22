@@ -25,11 +25,11 @@ const personalInfoMax = personalInformationPage({
   title: 'Personal information - Max',
   path: 'personal-information-max',
   personalInfoConfig: {
-    ssn: true,
-    vaFileNumber: true,
-    dateOfBirth: true,
-    gender: true,
-    name: true,
+    ssn: { show: true, required: true },
+    vaFileNumber: { show: true, required: true },
+    dateOfBirth: { show: true, required: true },
+    gender: { show: true, required: true },
+    name: { show: true, required: true },
   },
 });
 
@@ -38,11 +38,11 @@ const personalInfoMin = personalInformationPage({
   title: 'Personal information - Min',
   path: 'personal-information-min',
   personalInfoConfig: {
-    name: true,
-    ssn: true,
-    vaFileNumber: false,
-    dateOfBirth: false,
-    gender: false,
+    name: { show: true, required: true },
+    ssn: { show: true, required: true },
+    vaFileNumber: { show: false, required: false },
+    dateOfBirth: { show: false, required: false },
+    gender: { show: false, required: false },
   },
 });
 
@@ -51,11 +51,11 @@ const personalInfoError = personalInformationPage({
   title: 'Personal information - Error',
   path: 'personal-information-error',
   personalInfoConfig: {
-    ssn: true,
-    vaFileNumber: true,
-    dateOfBirth: true,
-    gender: true,
-    name: true,
+    ssn: { show: true, required: true },
+    vaFileNumber: { show: true, required: true },
+    dateOfBirth: { show: true, required: true },
+    gender: { show: true, required: true },
+    name: { show: true, required: true },
   },
   dataAdapter: {
     ssnPath: 'veteran.SSNError',
@@ -67,11 +67,11 @@ const personalInfoCustomErrorMessage = personalInformationPage({
   title: 'Personal information - Custom error message',
   path: 'personal-information-custom-error-message',
   personalInfoConfig: {
-    ssn: true,
-    vaFileNumber: true,
-    dateOfBirth: true,
-    gender: true,
-    name: true,
+    ssn: { show: true, required: true },
+    vaFileNumber: { show: true, required: true },
+    dateOfBirth: { show: true, required: true },
+    gender: { show: true, required: true },
+    name: { show: true, required: true },
   },
   dataAdapter: {
     ssnPath: 'veteran.SSNError',
@@ -85,16 +85,29 @@ const personalInfoCustomErrorMessageComponent = personalInformationPage({
   title: 'Personal information - Custom error message component',
   path: 'personal-information-custom-error-message-component',
   personalInfoConfig: {
-    ssn: true,
-    vaFileNumber: true,
-    dateOfBirth: true,
-    gender: true,
-    name: true,
+    ssn: { show: true, required: true },
+    vaFileNumber: { show: true, required: true },
+    dateOfBirth: { show: true, required: true },
+    gender: { show: true, required: true },
+    name: { show: true, required: true },
   },
   dataAdapter: {
     ssnPath: 'veteran.SSNError',
   },
   errorMessage: props => <CustomErrorMessage {...props} />,
+});
+
+const personalInfoCustom = personalInformationPage({
+  key: 'personalInfoCustom',
+  title: 'Personal information - Custom',
+  path: 'personal-information-custom',
+  personalInfoConfig: {
+    name: { show: true, required: true },
+    ssn: { show: true, required: false },
+    vaFileNumber: { show: true, required: false },
+    dateOfBirth: { show: true, required: true },
+    gender: { show: true, required: false },
+  },
 });
 
 export default {
@@ -104,4 +117,5 @@ export default {
   ...personalInfoError,
   ...personalInfoCustomErrorMessage,
   ...personalInfoCustomErrorMessageComponent,
+  ...personalInfoCustom,
 };
