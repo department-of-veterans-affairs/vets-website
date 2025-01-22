@@ -27,7 +27,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
         },
@@ -42,7 +42,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
         },
@@ -57,7 +57,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
           outsideUsa: false,
@@ -73,7 +73,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
           outsideUsa: true,
@@ -149,7 +149,7 @@ const formData = (state = 'CA') => {
     deaths: [
       {
         dependentDeathDate: '2023-04-17',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         fullName: {
           first: 'John',
           last: 'Doe',
@@ -166,7 +166,7 @@ const formData = (state = 'CA') => {
       },
       {
         dependentDeathDate: '2000-12-14',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         ssn: '333445555',
         birthDate: '1991-02-19',
         dependentDeathLocation: {
@@ -179,7 +179,7 @@ const formData = (state = 'CA') => {
       },
       {
         dependentDeathDate: '2012-10-31',
-        dependentType: 'child',
+        dependentType: 'CHILD',
         ssn: '333445555',
         birthDate: '2010-02-19',
         fullName: {
