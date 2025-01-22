@@ -16,7 +16,6 @@ const BenefitCard = ({ benefit }) => {
       return (
         <va-link
           href={url}
-          // className="link--center"
           text={text}
           label={label}
           type="secondary"
