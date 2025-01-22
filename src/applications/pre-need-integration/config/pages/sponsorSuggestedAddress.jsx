@@ -3,8 +3,9 @@ import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { validateAddress } from 'platform/user/profile/vap-svc/actions';
 import set from 'platform/utilities/data/set';
-import AddressConfirmation from './addressConfirmation';
+import AddressConfirmation from '../../components/AddressConfirmation';
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
+import { shouldShowSuggestedAddress } from '../../utils/helpers';
 
 function SponsorSuggestedAddress({ formData, addressValidation }) {
   const dispatch = useDispatch();
@@ -28,17 +29,6 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
     stateCode: address.state,
     zipCode: address.postalCode,
   });
-
-  const shouldShowSuggestedAddress = () => {
-    if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
-    return !(
-      userAddress.street === suggestedAddress.addressLine1 &&
-      userAddress.city === suggestedAddress.city &&
-      userAddress.state === suggestedAddress.stateCode &&
-      userAddress.postalCode === suggestedAddress.zipCode &&
-      userAddress.country === suggestedAddress.countryCodeIso3
-    );
-  };
 
   useEffect(() => {
     async function fetchSuggestedAddresses() {
@@ -109,7 +99,7 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
     );
   }
 
-  return shouldShowSuggestedAddress() ? (
+  return shouldShowSuggestedAddress(suggestedAddress, userAddress) ? (
     <SuggestedAddressRadio
       title="Confirm sponsor mailing address"
       userAddress={userAddress}
@@ -118,7 +108,10 @@ function SponsorSuggestedAddress({ formData, addressValidation }) {
       onChangeSelectedAddress={onChangeSelectedAddress}
     />
   ) : (
-    <AddressConfirmation />
+    <AddressConfirmation
+      subHeader="Check sponsor mailing address"
+      userAddress={userAddress}
+    />
   );
 }
 

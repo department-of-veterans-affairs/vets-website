@@ -598,11 +598,27 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
 };
 
 export function capitalizeFirstLetter(string) {
-  if (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  if (!string) return null;
 
-  return null;
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and'];
+
+  return string
+    .split(' ')
+    .map(word => {
+      if (exceptions.includes(word)) {
+        return word;
+      }
+
+      if (word === 'OF') {
+        return 'of';
+      }
+      if (word === 'AND') {
+        return 'and';
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
 }
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
@@ -798,11 +814,37 @@ export const mapToAbbreviation = value => {
   return mapping[value.toLowerCase()];
 };
 
+export const mapProgramTypeToName = programType => {
+  const programTypesNames = {
+    NCD: 'Non College Degree',
+    IHL: 'Institution of Higher Learning',
+    OJT: 'On The Job Training/Apprenticeship',
+    FLGT: 'Flight',
+    CORR: 'Correspondence',
+  };
+
+  return programTypesNames[programType] || 'Unknown Program Type';
+};
+
+export const mapToDashedName = abbreviation => {
+  const reverseMapping = {
+    OJT: 'on-the-job-training-apprenticeship',
+    NCD: 'non-college-degree',
+    IHL: 'institution-of-higher-learning',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return reverseMapping[abbreviation.toUpperCase()] || 'Unknown Abbreviation';
+};
+
 export const getAbbreviationsAsArray = value => {
   if (!value) return [];
   const mapping = {
     OJT: [
       { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'NPFA', description: 'Non Pay Federal Agency' },
+      { abbreviation: 'NPOJT', description: 'Non Pay On-the-job-training' },
       { abbreviation: 'OJT', description: 'On-the-job training' },
     ],
     NCD: [
@@ -878,4 +920,73 @@ export const formatNationalExamName = name => {
   }
 
   return name;
+};
+
+export const formatAddress = str => {
+  if (typeof str !== 'string' || str.trim().length === 0) {
+    return str;
+  }
+
+  const exceptionsList = ['NW', 'NE', 'SW', 'SE', 'PO'];
+  const exceptions = exceptionsList.map(item => item.toUpperCase());
+
+  return str
+    .trim()
+    .split(/\s+/)
+    .map(word => {
+      const subWords = word.split('-');
+      const formattedSubWords = subWords.map(subWord => {
+        const upperSubWord = subWord.toUpperCase();
+
+        if (exceptions.includes(upperSubWord)) {
+          return upperSubWord;
+        }
+
+        const matchingException = exceptions.find(ex =>
+          upperSubWord.startsWith(ex),
+        );
+        if (matchingException) {
+          return matchingException + subWord.slice(matchingException.length);
+        }
+
+        if (/^\d+[A-Z]+$/.test(subWord)) {
+          return subWord;
+        }
+
+        const numberLetterMatch = subWord.match(/^(\d+)([a-zA-Z]+)$/);
+        if (numberLetterMatch) {
+          const numbers = numberLetterMatch[1];
+          const letters = numberLetterMatch[2];
+          return `${numbers}${letters}`;
+        }
+
+        return subWord.charAt(0).toUpperCase() + subWord.slice(1).toLowerCase();
+      });
+
+      return formattedSubWords.join('-');
+    })
+    .join(' ');
+};
+
+export const toTitleCase = str => {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const trimmedStr = str.trim();
+
+  if (!trimmedStr) {
+    return '';
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  const titled = words.map(word => {
+    const parts = word.split('-').map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    });
+    return parts.join('-');
+  });
+
+  return titled.join(' ');
 };
