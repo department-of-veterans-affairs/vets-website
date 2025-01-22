@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
+import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
 

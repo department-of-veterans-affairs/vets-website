@@ -1,36 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Dropdown from './Dropdown';
+import { useSelector } from 'react-redux';
+import { useLcpFilter } from '../utils/useLcpFilter';
 import {
   capitalizeFirstLetter,
   categoryCheck,
   checkAlert,
-  filterLcResults,
   mappedStates,
   showLcParams,
   showMultipleNames,
   updateDropdowns,
 } from '../utils/helpers';
-import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
-import LicenseCertificationAlert from './LicenseCertificationAlert';
+
+import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
+import LicenseCertificationAlert from '../components/LicenseCertificationAlert';
+import Dropdown from '../components/Dropdown';
 
 export default function LicenseCertificationSearchForm({
-  suggestions,
   handleSearch,
   handleShowModal,
   location,
   handleReset,
+  flag,
 }) {
   const [dropdowns, setDropdowns] = useState(updateDropdowns());
-  const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showAlert, setShowAlert] = useState(false);
   const [name, setName] = useState('');
   const [multipleOptions, setMultipleOptions] = useState(null);
 
+  const { hasFetchedOnce, fetchingLc, filteredResults } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
+
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
 
   const [categoryDropdown, locationDropdown] = dropdowns;
+
+  useLcpFilter({
+    flag,
+    name,
+    categoryValue: categoryDropdown.current.optionValue,
+    locationValue: locationDropdown.current.optionValue,
+  });
 
   // If available, use url query params to assign initial dropdown values
   useEffect(
@@ -41,28 +53,9 @@ export default function LicenseCertificationSearchForm({
     [categoryParam, stateParam],
   );
 
-  // Filter suggestions based on query string
-  useEffect(
-    () => {
-      const newSuggestions = filterLcResults(suggestions, name, {
-        type: categoryDropdown.current.optionValue,
-        state: locationDropdown.current.optionValue,
-      });
-
-      if (name.trim() !== '') {
-        newSuggestions.unshift({
-          lacNm: name,
-          type: 'all',
-        });
-      }
-      setFilteredSuggestions(newSuggestions);
-    },
-    [name, suggestions, dropdowns],
-  );
-
   const handleChange = e => {
     const multiples =
-      multipleOptions ?? showMultipleNames(filteredSuggestions, name);
+      multipleOptions ?? showMultipleNames(filteredResults, name);
 
     let allowContinue = false;
 
@@ -145,9 +138,9 @@ export default function LicenseCertificationSearchForm({
   const onSelection = selection => {
     const { selected } = selection;
 
-    if (selected !== filteredSuggestions[0]) {
+    if (selected !== filteredResults[0]) {
       const { eduLacTypeNm: type, state, lacNm: _name } = selected;
-      const multiples = showMultipleNames(filteredSuggestions, _name);
+      const multiples = showMultipleNames(filteredResults, _name);
 
       if (multiples.length > 1) {
         setMultipleOptions(multiples);
@@ -191,98 +184,105 @@ export default function LicenseCertificationSearchForm({
   };
 
   return (
-    <form>
-      <Dropdown
-        disabled={false}
-        label={capitalizeFirstLetter(categoryDropdown.label)}
-        visible
-        name={categoryDropdown.label}
-        options={categoryDropdown.options}
-        value={categoryDropdown.current.optionValue}
-        onChange={handleChange}
-        alt={categoryDropdown.alt}
-        selectClassName="dropdown-filter"
-        required={categoryDropdown.label === 'category'}
-      />
+    <>
+      {fetchingLc && <va-loading-indicator message="Loading..." />}
+      {!fetchingLc &&
+        hasFetchedOnce && (
+          <form>
+            <Dropdown
+              disabled={false}
+              label={capitalizeFirstLetter(categoryDropdown.label)}
+              visible
+              name={categoryDropdown.label}
+              options={categoryDropdown.options}
+              value={categoryDropdown.current.optionValue}
+              onChange={handleChange}
+              alt={categoryDropdown.alt}
+              selectClassName="dropdown-filter"
+              required={categoryDropdown.label === 'category'}
+            />
 
-      <Dropdown
-        disabled={categoryDropdown.current.optionValue === 'Certification'}
-        label={`${capitalizeFirstLetter(locationDropdown.label)}`}
-        visible
-        name={locationDropdown.label}
-        options={locationDropdown.options}
-        value={locationDropdown.current.optionValue ?? 'all'}
-        onChange={handleChange}
-        alt={locationDropdown.alt}
-        selectClassName="dropdown-filter"
-        required={locationDropdown.label === 'category'}
-      >
-        {showAlert ? (
-          <LicenseCertificationAlert
-            changeStateAlert={
-              categoryCheck(categoryDropdown.current.optionValue) &&
-              !multipleOptions
-            }
-            changeDropdownsAlert={
-              categoryCheck(categoryDropdown.current.optionValue) &&
-              multipleOptions?.length > 1
-            }
-            changeStateToAllAlert={
-              categoryDropdown.current.optionValue === 'Certification'
-            }
-            visible={showAlert}
-            name={name}
-            state={locationDropdown.current.optionLabel}
-            type={categoryDropdown.current.optionValue}
-          />
-        ) : (
-          <>
-            (Note: Certifications are nationwide. Selecting a state from this
-            dropdown will only impact licenses and prep courses)
-          </>
+            <Dropdown
+              disabled={
+                categoryDropdown.current.optionValue === 'Certification'
+              }
+              label={`${capitalizeFirstLetter(locationDropdown.label)}`}
+              visible
+              name={locationDropdown.label}
+              options={locationDropdown.options}
+              value={locationDropdown.current.optionValue ?? 'all'}
+              onChange={handleChange}
+              alt={locationDropdown.alt}
+              selectClassName="dropdown-filter"
+              required={locationDropdown.label === 'category'}
+            >
+              {showAlert ? (
+                <LicenseCertificationAlert
+                  changeStateAlert={
+                    categoryCheck(categoryDropdown.current.optionValue) &&
+                    !multipleOptions
+                  }
+                  changeDropdownsAlert={
+                    categoryCheck(categoryDropdown.current.optionValue) &&
+                    multipleOptions?.length > 1
+                  }
+                  changeStateToAllAlert={
+                    categoryDropdown.current.optionValue === 'Certification'
+                  }
+                  visible={showAlert}
+                  name={name}
+                  state={locationDropdown.current.optionLabel}
+                  type={categoryDropdown.current.optionValue}
+                />
+              ) : (
+                <>
+                  (Note: Certifications are nationwide. Selecting a state from
+                  this dropdown will only impact licenses and prep courses)
+                </>
+              )}
+            </Dropdown>
+            <div>
+              <LicenseCertificationKeywordSearch
+                inputValue={name}
+                suggestions={filteredResults}
+                onSelection={onSelection}
+                handleClearInput={handleClearInput}
+                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+              />
+            </div>
+
+            <div className="button-wrapper row">
+              <VaButton
+                className="va-button"
+                text="Submit"
+                onClick={() =>
+                  handleSearch(
+                    categoryDropdown.current.optionValue,
+                    name,
+                    locationDropdown.current.optionValue,
+                  )
+                }
+              />
+              <VaButton
+                text="Reset Search"
+                // className="reset-search"
+                secondary
+                onClick={() =>
+                  handleReset(() => {
+                    setDropdowns(updateDropdowns());
+                    setName('');
+                    setShowAlert(false);
+                    setMultipleOptions(null);
+                  })
+                }
+              />
+            </div>
+          </form>
         )}
-      </Dropdown>
-      <div>
-        <LicenseCertificationKeywordSearch
-          inputValue={name}
-          suggestions={filteredSuggestions}
-          onSelection={onSelection}
-          handleClearInput={handleClearInput}
-          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-        />
-      </div>
-
-      <div className="button-wrapper row">
-        <VaButton
-          className="va-button"
-          text="Submit"
-          onClick={() =>
-            handleSearch(
-              categoryDropdown.current.optionValue,
-              name,
-              locationDropdown.current.optionValue,
-            )
-          }
-        />
-        <VaButton
-          text="Reset Search"
-          // className="reset-search"
-          secondary
-          onClick={() =>
-            handleReset(() => {
-              setDropdowns(updateDropdowns());
-              setName('');
-              setShowAlert(false);
-              setMultipleOptions(null);
-            })
-          }
-        />
-      </div>
-    </form>
+    </>
   );
 }
 
 LicenseCertificationSearchForm.propTypes = {
   handleSearch: PropTypes.func.isRequired,
-  suggestions: PropTypes.array,
 };
