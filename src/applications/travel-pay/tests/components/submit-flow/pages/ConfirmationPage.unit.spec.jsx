@@ -61,5 +61,6 @@ it('should render practictioner name if available', () => {
   const message =
     'This claim is for your appointment at VA location name with First Middle Last on Wednesday, January 15, 2025, 1:39 PM.';
 
-  expect(screen.getByText(message)).to.exist;
+  expect(screen.getByText((_, element) => element.textContent === message)).to
+    .exist;
 });
