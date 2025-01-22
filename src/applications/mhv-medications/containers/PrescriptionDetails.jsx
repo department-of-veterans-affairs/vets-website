@@ -388,7 +388,10 @@ const PrescriptionDetails = () => {
                 >
                   {/* TODO: clean after grouping flag is gone */}
                   {showGroupingContent && (
-                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    <>
+                      <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3 medium-screen:vads-u-margin-y--4" />
+                      <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    </>
                   )}
                   <PrintDownload
                     onDownload={handleFileDownload}
