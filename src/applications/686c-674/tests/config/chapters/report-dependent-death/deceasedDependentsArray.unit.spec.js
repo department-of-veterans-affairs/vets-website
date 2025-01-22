@@ -92,7 +92,7 @@ describe('deceasedDependentOptions', () => {
     it('should return the relationship label if dependentType is valid', () => {
       const item = { dependentType: 'spouse' };
       expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        relationshipLabels.spouse,
+        relationshipLabels.SPOUSE,
       );
     });
 
