@@ -1,23 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 
 import {
   BTSSS_PORTAL_URL,
   FIND_FACILITY_TP_CONTACT_LINK,
 } from '../../constants';
 
-import VerifyIdentityAlert from './VerifyIdentityAlert';
 import ForbiddenAlert from './ForbiddenAlert';
 
-const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
-  if (errorStatus === 400 || !isIdentityVerified) {
-    return <VerifyIdentityAlert />;
-  }
-
-  if (errorStatus === 403) {
+const ErrorAlert = ({ errorStatus }) => {
+  if (errorStatus.toString().startsWith('4')) {
     return <ForbiddenAlert />;
   }
 
@@ -56,15 +48,6 @@ const ErrorAlert = ({ errorStatus, isIdentityVerified }) => {
 
 ErrorAlert.propTypes = {
   errorStatus: PropTypes.number,
-  isIdentityVerified: PropTypes.bool,
 };
 
-export const mapStateToProps = state => {
-  const isIdentityVerified = isLOA3Selector(state);
-
-  return {
-    isIdentityVerified,
-  };
-};
-
-export default connect(mapStateToProps)(ErrorAlert);
+export default ErrorAlert;
