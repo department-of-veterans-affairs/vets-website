@@ -7,6 +7,7 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
   isLoggedIn,
+  isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -15,7 +16,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { envUrl } from '../constants';
 import {
@@ -25,21 +26,46 @@ import {
 } from '../utils/helpers';
 import DashboardCards from './DashboardCards';
 
+const VerifiedAlert = (
+  <div className="vads-u-margin-bottom--4">
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 id="track-your-status-on-mobile" slot="headline">
+        We can prefill some of your information
+      </h2>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your question based on
+        your profile details. You can also save your question in progress and
+        come back later to finish filling it out.
+      </p>
+    </va-alert>
+  </div>
+);
+
 const IntroductionPage = props => {
-  const { route, toggleLoginModal, loggedIn } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const showSignInModal = () => {
+    toggleLoginModal(true);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('showSignInModal') === 'true' &&
+      !loggedIn &&
+      !showLoadingIndicator
+    ) {
+      showSignInModal();
+    }
+  });
 
   const getStartPage = () => {
     const data = formData || {};
     if (pathname) return getNextPagePath(pageList, data, pathname);
     return pageList[1].path;
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true, 'askVA');
   };
 
   useEffect(
@@ -277,6 +303,7 @@ const IntroductionPage = props => {
         pageList={pageList}
         startText="Ask a new question"
         className="vads-u-margin--0"
+        verifiedPrefillAlert={VerifiedAlert}
       />
       <DashboardCards />
     </>
@@ -287,7 +314,6 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {/* <FormTitle title={formConfig.title} subTitle={subTitle} /> */}
       <div className="schemaform-title vads-u-margin-bottom--2">
         <h1 className="vads-u-margin-bottom--2p5" data-testid="form-title">
           {formConfig.title}
@@ -298,8 +324,13 @@ const IntroductionPage = props => {
           </div>
         )}
       </div>
-      {loggedIn && authenticatedUI}
-      {!loggedIn && unAuthenticatedUI}
+      {showLoadingIndicator && <va-loading-indicator set-focus />}
+      {!showLoadingIndicator && (
+        <>
+          {loggedIn && authenticatedUI}
+          {!loggedIn && unAuthenticatedUI}
+        </>
+      )}
     </div>
   );
 };
@@ -330,6 +361,7 @@ IntroductionPage.propTypes = {
     pathname: PropTypes.string,
     pageList: PropTypes.array,
   }),
+  showLoadingIndicator: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -337,6 +369,7 @@ function mapStateToProps(state) {
     formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
+    showLoadingIndicator: isProfileLoading(state),
   };
 }
 
@@ -348,4 +381,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionPage);
+)(withRouter(IntroductionPage));

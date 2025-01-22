@@ -1,0 +1,15 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "cst_claim_phases",
+        "value": true
+      },
+      {
+        "name": "cst_5103_update_enabled",
+        "value": false
+      }
+    ]
+  }
+}

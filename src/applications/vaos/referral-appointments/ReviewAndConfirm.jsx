@@ -12,7 +12,11 @@ import {
   setSelectedSlot,
 } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
-import { routeToPreviousReferralPage, routeToCCPage } from './flow';
+import {
+  routeToPreviousReferralPage,
+  routeToCCPage,
+  routeToNextReferralPage,
+} from './flow';
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotById } from './utils/provider';
 import {
@@ -181,17 +185,6 @@ const ReviewAndConfirm = props => {
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
-        <div className=" vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col">
-              <h2 className={headingStyles}>
-                Details you shared with your referring VA provider
-              </h2>
-            </div>
-          </div>
-        </div>
-        <p className="vads-u-margin--0">{currentReferral.details}</p>
-        <hr className="vads-u-margin-y--2" />
         <div className="vads-u-margin-top--4">
           <va-button
             label="Back"
@@ -207,6 +200,15 @@ const ReviewAndConfirm = props => {
             label="Continue"
             text="Continue"
             uswds
+            onClick={e => {
+              e.preventDefault();
+              // TODO: submit the referral here and poll for status
+              routeToNextReferralPage(
+                history,
+                'reviewAndConfirm',
+                currentReferral.UUID,
+              );
+            }}
           />
         </div>
       </div>

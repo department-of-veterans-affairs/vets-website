@@ -21,8 +21,15 @@ describe('<DashboardCards>', () => {
             ctx.json({
               data: [
                 {
+                  id: '1',
                   attributes: {
                     inquiryNumber: 'A-1',
+                    status: 'In Progress',
+                    categoryName: 'Benefits',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Test question',
+                    levelOfAuthentication: 'Personal',
                   },
                 },
               ],
@@ -70,10 +77,21 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        expect(view.container.querySelector('h2')).to.contain.text(
-          'Your questions',
+        // Check for the main heading
+        expect(view.getByText('Your questions')).to.exist;
+
+        // Check for select elements
+        const statusSelect = view.container.querySelector(
+          'va-select[name="status"]',
         );
-        expect(view.container.querySelector('option')).to.contain.text('All');
+        const categorySelect = view.container.querySelector(
+          'va-select[name="category"]',
+        );
+        expect(statusSelect).to.exist;
+        expect(categorySelect).to.exist;
+
+        // Check that the inquiry content is displayed
+        expect(view.getByText('Test question')).to.exist;
       });
     });
   });

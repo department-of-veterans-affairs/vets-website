@@ -326,16 +326,14 @@ const PrescriptionDetails = () => {
   const content = () => {
     if (prescription || prescriptionsApiError) {
       return (
-        // TODO: clean after grouping flag is gone
-        <div
-          className={`${showGroupingContent ? 'vads-u-margin-bottom--4' : ''}`}
-        >
+        <div>
           <div className="no-print">
             <h1
               aria-describedby="last-filled"
               data-testid="prescription-name"
               className="vads-u-margin-bottom--0"
               id="prescription-name"
+              data-dd-privacy="mask"
             >
               {prescriptionHeader}
             </h1>
@@ -390,7 +388,10 @@ const PrescriptionDetails = () => {
                 >
                   {/* TODO: clean after grouping flag is gone */}
                   {showGroupingContent && (
-                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    <>
+                      <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3 medium-screen:vads-u-margin-y--4" />
+                      <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    </>
                   )}
                   <PrintDownload
                     onDownload={handleFileDownload}

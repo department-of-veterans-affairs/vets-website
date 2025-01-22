@@ -23,17 +23,6 @@ export const uploadPage = {
   uiSchema: {
     'view:uploadGuidelines': {
       'ui:description': UPLOAD_GUIDELINES,
-      'ui:options': {
-        updateUiSchema: formData => {
-          return {
-            'ui:description': warningsPresent(formData) ? (
-              <h3>Your file</h3>
-            ) : (
-              UPLOAD_GUIDELINES
-            ),
-          };
-        },
-      },
     },
     uploadedFile: {
       ...fileInputUI({
@@ -41,6 +30,8 @@ export const uploadPage = {
         name: 'form-upload-file-input',
         fileUploadUrl,
         title,
+        hint:
+          'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB

@@ -396,7 +396,7 @@ export const SubmissionAlert = ({
       )}
     >
       <h2 slot="headline">{titleText}</h2>
-      {contentBody}
+      {typeof contentBody === 'string' ? <p>{contentBody}</p> : contentBody}
       {actionsBody}
     </VaAlert>
   );
@@ -408,7 +408,7 @@ SubmissionAlert.propTypes = {
   confirmationNumber: PropTypes.string,
   content: PropTypes.node,
   status: PropTypes.string,
-  submitDate: PropTypes.instanceOf(Date),
+  submitDate: PropTypes.any,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };

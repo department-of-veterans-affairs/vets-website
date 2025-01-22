@@ -1,11 +1,94 @@
-import React from 'react';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const VehiclePage = ({ handlers }) => {
+import {
+  VaButtonPair,
+  VaRadio,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { BTSSS_PORTAL_URL } from '../../../constants';
+
+const VehiclePage = ({
+  pageIndex,
+  setPageIndex,
+  yesNo,
+  setYesNo,
+  setIsUnsupportedClaimType,
+}) => {
+  useEffect(() => {
+    focusElement('h1', {}, 'va-radio');
+    scrollToTop('topScrollElement');
+  }, []);
+
+  const [requiredAlert, setRequiredAlert] = useState(false);
+
+  const handlers = {
+    onNext: () => {
+      if (!yesNo.vehicle) {
+        setRequiredAlert(true);
+      } else if (yesNo.vehicle !== 'yes') {
+        setIsUnsupportedClaimType(true);
+      } else {
+        setIsUnsupportedClaimType(false);
+        setPageIndex(pageIndex + 1);
+      }
+    },
+    onBack: () => {
+      setPageIndex(pageIndex - 1);
+    },
+  };
+
   return (
     <div>
-      <h1>Vehicle page</h1>
+      <VaRadio
+        use-forms-pattern="single"
+        form-heading="Did you travel in your own vehicle?"
+        form-heading-level={1}
+        id="vehicle"
+        onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+        value={yesNo.vehicle}
+        data-testid="vehicle-test-id"
+        error={requiredAlert ? 'You must make a selection to continue.' : null}
+        header-aria-describedby={null}
+        hint=""
+        label=""
+        label-header-level=""
+      >
+        <va-radio-option
+          label="Yes"
+          value="yes"
+          key="vehicle-yes"
+          name="vehicle"
+          checked={yesNo.vehicle === 'yes'}
+        />
+        <va-radio-option
+          key="vehicle-no"
+          name="vehicle"
+          checked={yesNo.vehicle === 'no'}
+          label="No"
+          value="no"
+        />
+      </VaRadio>
+
+      <va-additional-info
+        class="vads-u-margin-y--3"
+        trigger="If you didn't travel in your own vehicle"
+      >
+        <p>
+          <strong>
+            If you traveled by bus, train, taxi, or other authorized public
+            transportation, you can’t file a claim in this tool right now.
+          </strong>{' '}
+          But you can file your claim online, within 30 days, through the{' '}
+          <va-link
+            external
+            href={BTSSS_PORTAL_URL}
+            text="Beneficiary Travel Self Service System (BTSSS)"
+          />
+          . Or you can use VA Form 10-3542 to submit a claim by mail or in
+          person.
+        </p>
+      </va-additional-info>
 
       <VaButtonPair
         class="vads-u-margin-y--2"
@@ -18,10 +101,11 @@ const VehiclePage = ({ handlers }) => {
 };
 
 VehiclePage.propTypes = {
-  handlers: PropTypes.shape({
-    onBack: PropTypes.func,
-    onNext: PropTypes.func,
-  }),
+  pageIndex: PropTypes.number,
+  setIsUnsupportedClaimType: PropTypes.func,
+  setPageIndex: PropTypes.func,
+  setYesNo: PropTypes.func,
+  yesNo: PropTypes.object,
 };
 
 export default VehiclePage;

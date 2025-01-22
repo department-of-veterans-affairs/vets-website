@@ -82,7 +82,8 @@ const YellowRibbonSelector = ({ programs }) => {
   ];
 
   const getDegreeLevels = degreeLevelKey => {
-    return yellowRibbonDegreeLevelTypeHash[degreeLevelKey] || [];
+    const lowerCaseKey = degreeLevelKey.toLowerCase();
+    return yellowRibbonDegreeLevelTypeHash[lowerCaseKey] || [];
   };
 
   const degreeLevelOptions = [
