@@ -37,6 +37,16 @@ describe('App', () => {
         },
         profile: {
           services: [backendServices.USER_PROFILE],
+          loa: {
+            current: 3,
+            highest: 3,
+          },
+          multifactor: true,
+          verified: true,
+          signIn: {
+            serviceName: 'idme',
+            accountType: 'N/A',
+          },
         },
       },
     };
@@ -159,23 +169,40 @@ describe('App', () => {
       .exist;
   });
 
-  it('handles a failed fetch of claims when user is not LOA3', async () => {
+  it('displays an identity verification alert when user is not LOA3', async () => {
     global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
         isLoggedIn: true,
-        error: { errors: [{ title: 'Bad Request', status: 400 }] },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+            loa: {
+              current: 1,
+              highest: 1,
+            },
+            multifactor: true,
+            verified: false,
+            signIn: {
+              serviceName: 'idme',
+              accountType: 'N/A',
+            },
+          },
+        },
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/verify your identity/i)).to.exist;
+      expect(screen.findByText(/verify your identity for your ID.me account/i))
+        .to.exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;
     });
