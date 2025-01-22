@@ -70,13 +70,15 @@ const mailingAddress33 = {
           updateSchema: (formData, addressSchema) => {
             const livesOnMilitaryBase =
               formData['view:mailingAddress']?.livesOnMilitaryBase;
+            const country =
+              formData['view:mailingAddress']?.address?.country || 'USA';
             if (livesOnMilitaryBase) {
               return {
                 ...addressSchema,
                 properties: {
                   ...addressSchema.properties,
                   state: {
-                    ...addressSchema.properties.state,
+                    type: 'string',
                     title: 'AE/AA/AP',
                     enum: ['AE', 'AA', 'AP'],
                     enumNames: [
@@ -88,14 +90,24 @@ const mailingAddress33 = {
                 },
               };
             }
+
+            let stateSchema = {
+              type: 'string',
+              title: 'State/County/Province',
+            };
+
+            if (country === 'USA') {
+              stateSchema = {
+                ...stateSchema,
+                enum: constants.states.USA.map(state => state.value),
+                enumNames: constants.states.USA.map(state => state.label),
+              };
+            }
             return {
               ...addressSchema,
               properties: {
                 ...addressSchema.properties,
-                state: {
-                  ...addressSchema.properties.state,
-                  title: 'State/County/Province',
-                },
+                state: stateSchema,
               },
             };
           },
