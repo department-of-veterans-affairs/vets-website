@@ -19,10 +19,12 @@ const Verify = () => {
   let buttonContent;
 
   if (isAuthenticated) {
-    <>
-      <VerifyLogingovButton />
-      <VerifyIdmeButton />
-    </>;
+    buttonContent = (
+      <>
+        <VerifyLogingovButton />
+        <VerifyIdmeButton />
+      </>
+    );
   } else if (isAuthenticatedOAuth) {
     // Use the loginServiceName to determine which button to show
     if (loginServiceName === 'idme') {

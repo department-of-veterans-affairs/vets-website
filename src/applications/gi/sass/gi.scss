@@ -369,7 +369,9 @@
 .lc-result-cards-wrapper {
   list-style: none;
   padding-left: 0;
+}
 
+.lc-result-info-wrapper {
   .back-link {
     @media (max-width: $mobile-lg) {
       display: none;
@@ -421,6 +423,10 @@
         min-width: 576px;
       }
     }
+  }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
   }
 }
 
