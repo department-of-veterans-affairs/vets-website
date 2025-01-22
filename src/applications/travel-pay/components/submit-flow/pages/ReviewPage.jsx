@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaModal,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
@@ -14,8 +15,8 @@ const ReviewPage = ({
   appointment,
   address,
   onSubmit,
-  pageIndex,
   setPageIndex,
+  setYesNo,
   isAgreementChecked,
   setIsAgreementChecked,
 }) => {
@@ -30,9 +31,13 @@ const ReviewPage = ({
 
   const [agreementModalOpen, setAgreementModalOpen] = useState(false);
 
-  const onBack = e => {
-    e.preventDefault();
-    setPageIndex(pageIndex - 1);
+  const onBack = () => {
+    setYesNo({
+      mileage: '',
+      vehicle: '',
+      address: '',
+    });
+    setPageIndex(1);
   };
 
   return (
@@ -40,10 +45,12 @@ const ReviewPage = ({
       <h1 tabIndex="-1">Review your travel claim</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
-      <h2 className="vads-u-margin-top--2">Claims</h2>
-      <hr className="vads-u-margin-y--0" />
-      <h3 className=" vad-u-margin-top--0">What you’re claiming</h3>
-      <p>
+      <h2 className="vads-u-margin-bottom--0">Claims</h2>
+      <hr className="vads-u-margin-y--1" />
+      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
+        What you’re claiming
+      </h3>
+      <p className="vads-u-margin-y--0">
         Mileage-only reimbursement for your appointment at{' '}
         {appointment.vaos.apiData.location.attributes.name}{' '}
         {appointment.vaos?.apiData?.practitioners
@@ -54,15 +61,19 @@ const ReviewPage = ({
         on {formattedDate}, {formattedTime}.
       </p>
 
-      <h2 className="vads-u-margin-top--3">Travel method</h2>
-      <hr className="vads-u-margin-y--0" />
-      <h3 className=" vad-u-margin-top--0">How you traveled</h3>
-      <p>In your own vehicle</p>
+      <h2 className="vads-u-margin-bottom--0">Travel method</h2>
+      <hr className="vads-u-margin-y--1" />
+      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
+        How you traveled
+      </h3>
+      <p className="vads-u-margin-y--0">In your own vehicle</p>
 
-      <h2 className="vads-u-margin-top--3">Starting address</h2>
-      <hr className="vads-u-margin-y--0" />
-      <h3 className="vad-u-margin-top--0">Where you traveled from</h3>
-      <p className="vads-u-margin-top--3">
+      <h2 className="vads-u-margin-bottom--0">Starting address</h2>
+      <hr className="vads-u-margin-y--1" />
+      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
+        Where you traveled from
+      </h3>
+      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
         {address.addressLine1}
         <br />
         {address.addressLine2 && (
@@ -82,7 +93,9 @@ const ReviewPage = ({
       </p>
 
       <va-card background>
-        <h3 className="vad-u-margin-bottom--2">Beneficiary travel agreement</h3>
+        <h3 className="vad-u-margin-bottom--2 vads-u-margin-top--0">
+          Beneficiary travel agreement
+        </h3>
         <p>
           <strong>Penalty statement:</strong> There are severe criminal and
           civil penalties, including a fine, imprisonment, or both, for
@@ -95,12 +108,14 @@ const ReviewPage = ({
 
         <va-button
           secondary
-          class="vads-u-margin-y--1"
+          data-testid="open-agreement-modal"
+          class="vads-u-margin-bottom--1"
           onClick={() => setAgreementModalOpen(true)}
           text="View beneficiary travel agreement"
           uswds
         />
         <VaModal
+          data-testid="agreement-modal"
           modalTitle="Beneficiary travel agreement"
           onCloseEvent={() => setAgreementModalOpen(false)}
           onPrimaryButtonClick={() => setAgreementModalOpen(false)}
@@ -132,10 +147,13 @@ const ReviewPage = ({
         />
       </va-card>
 
-      <div className="vads-u-margin-y--2">
-        <va-button text="Back" onClick={e => onBack(e)} />
-        <va-button text="Submit" onClick={e => onSubmit(e)} />
-      </div>
+      <VaButtonPair
+        class="vads-u-margin-top--2"
+        leftButtonText="File claim"
+        rightButtonText="Start over"
+        onPrimaryClick={onSubmit}
+        onSecondaryClick={onBack}
+      />
     </div>
   );
 };
@@ -143,11 +161,11 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   address: PropTypes.object,
   appointment: PropTypes.object,
-  onSubmit: PropTypes.func,
-  pageIndex: PropTypes.number,
   isAgreementChecked: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
+  setYesNo: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default ReviewPage;

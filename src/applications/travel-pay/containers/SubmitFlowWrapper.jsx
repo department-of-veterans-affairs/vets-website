@@ -114,7 +114,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
           appointment={appointment}
           address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
-          pageIndex={pageIndex}
+          setYesNo={setYesNo}
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
