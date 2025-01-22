@@ -1,41 +1,61 @@
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
+  textUI,
+  // descriptionSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   BEHAVIOR_LIST_DESCRIPTION,
-  BEHAVIOR_LIST_BEHAVIORS_TITLE,
+  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
+  BEHAVIOR_LIST_NONE_LABEL,
 } from '../../content/form0781/behaviorListPages';
+
+// move constants to content file???
 import {
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
 } from '../../constants';
 
-const schemaKeys = Object.keys(BEHAVIOR_CHANGES_WORK).concat(
-  Object.keys(BEHAVIOR_CHANGES_HEALTH),
-  Object.keys(BEHAVIOR_CHANGES_OTHER),
-);
+// const schemaKeys = Object.keys(BEHAVIOR_CHANGES_WORK).concat(
+//   Object.keys(BEHAVIOR_CHANGES_HEALTH),
+//   Object.keys(BEHAVIOR_CHANGES_OTHER),
+// );
 
 export const uiSchema = {
   'ui:description': BEHAVIOR_LIST_DESCRIPTION,
-  behaviors: checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIORS_TITLE,
+  workBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.work,
+    labelHeaderLevel: '4',
     labels: {
       ...BEHAVIOR_CHANGES_WORK,
+    },
+    required: false,
+  }),
+  healthBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.health,
+    labelHeaderLevel: '4',
+    labels: {
       ...BEHAVIOR_CHANGES_HEALTH,
+    },
+    required: false,
+  }),
+  otherBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.other,
+    labelHeaderLevel: '4',
+    labels: {
       ...BEHAVIOR_CHANGES_OTHER,
     },
     required: false,
   }),
-  otherBehaviors: {
-    'ui:title': 'placeholder title',
-    'ui:description': 'placeholde description',
-  },
+  unlistedBehaviors: textUI({
+    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.unlisted,
+  }),
   'view:optOut': checkboxGroupUI({
-    title: 'None',
+    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.none,
+    labelHeaderLevel: '4',
     labels: {
-      none: 'no selection placeholder',
+      none: BEHAVIOR_LIST_NONE_LABEL,
     },
     required: false,
   }),
@@ -69,10 +89,11 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    behaviors: checkboxGroupSchema(schemaKeys),
-    otherBehaviors: {
+    workBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_WORK)),
+    healthBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_HEALTH)),
+    otherBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_OTHER)),
+    unlistedBehaviors: {
       type: 'string',
-      properties: {},
     },
     'view:optOut': checkboxGroupSchema(['none']),
   },
