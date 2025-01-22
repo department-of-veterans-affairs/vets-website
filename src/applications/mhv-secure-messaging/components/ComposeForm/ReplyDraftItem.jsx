@@ -32,6 +32,7 @@ import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
 
 const ReplyDraftItem = props => {
   const {
@@ -138,35 +139,7 @@ const ReplyDraftItem = props => {
     [draft, messageBody, attachments],
   );
 
-  useEffect(
-    () => {
-      const checkSessionExpiration = () => {
-        const sessionExpiration = localStorage.getItem('sessionExpiration');
-        if (sessionExpiration) {
-          const expirationTime = new Date(sessionExpiration);
-          const currentTime = new Date();
-
-          if (currentTime >= expirationTime) {
-            window.removeEventListener('beforeunload', beforeUnloadHandler);
-            return;
-          }
-        }
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-      };
-
-      checkSessionExpiration();
-
-      // timer to check session expiration periodically
-      const interval = setInterval(checkSessionExpiration, 1000);
-      return () => {
-        clearInterval(interval);
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   const checkMessageValidity = useCallback(
     () => {

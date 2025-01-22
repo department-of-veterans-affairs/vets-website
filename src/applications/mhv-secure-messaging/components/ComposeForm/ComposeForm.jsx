@@ -47,6 +47,7 @@ import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -725,36 +726,7 @@ const ComposeForm = props => {
     ],
   );
 
-  useEffect(
-    () => {
-      const checkSessionExpiration = () => {
-        const sessionExpiration = localStorage.getItem('sessionExpiration');
-        if (sessionExpiration) {
-          const expirationTime = new Date(sessionExpiration);
-          const currentTime = new Date();
-
-          if (currentTime >= expirationTime) {
-            window.removeEventListener('beforeunload', beforeUnloadHandler);
-            return;
-          }
-        }
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-      };
-
-      checkSessionExpiration();
-
-      // timer to check session expiration periodically
-      const interval = setInterval(checkSessionExpiration, 1000);
-
-      return () => {
-        clearInterval(interval);
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   if (sendMessageFlag === true) {
     return (
