@@ -114,8 +114,6 @@ describe('Prefill pattern - Blue Task', () => {
 
     cy.findByRole('button', { name: /continue/i }).click();
 
-    cy.wait('@mockSip');
-
     cy.url().should('contain', '/veteran-information');
   });
 
@@ -137,8 +135,6 @@ describe('Prefill pattern - Blue Task', () => {
     cy.url().should('contain', '/personal-information');
 
     cy.findByRole('button', { name: /continue/i }).click();
-
-    cy.wait('@mockSip');
 
     // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
