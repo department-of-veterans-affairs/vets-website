@@ -27,7 +27,7 @@ export function handleLoadError(err) {
   return () => <va-loading-indicator message="Reloading page" />;
 }
 
-export default function createRoutesWithStore(store) {
+const routes = store => {
   const newAppointmentPaths = ['/new-appointment', '/schedule'];
   const vaccinePaths = [
     '/new-covid-19-vaccine-appointment',
@@ -74,4 +74,6 @@ export default function createRoutesWithStore(store) {
       </VAOSApp>
     </ErrorBoundary>
   );
-}
+};
+
+export default routes;

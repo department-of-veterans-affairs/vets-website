@@ -7,6 +7,7 @@ import LandingPageContainer from './containers/LandingPageContainer';
 import MedicalRecordsContainer from './containers/MedicalRecordsContainer';
 import MhvMedcationsRoutes from '../mhv-medications/routes';
 import MhvSecureMessagingRoutes from '../mhv-secure-messaging/routes';
+import AppointmentsRoutes from '../vaos/routes';
 
 const routes = (
   <AppConfig>
@@ -30,6 +31,13 @@ const routes = (
         key="mhvSecureMessages"
       >
         {MhvSecureMessagingRoutes}
+      </Route>
+      <Route
+        exact
+        path={['/my-appointments', '/my-appointments/*']}
+        key="appointments"
+      >
+        {AppointmentsRoutes}
       </Route>
 
       <Route>
