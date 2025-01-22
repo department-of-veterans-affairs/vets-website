@@ -18,6 +18,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import AddressTypeahead from './AddressTypeahead';
 
 const SearchControls = props => {
   const {
@@ -99,7 +100,8 @@ const SearchControls = props => {
 
     if (!searchString) {
       updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
+      // focusElement('#street-city-state-zip');
+      locationInputFieldRef.current?.focus();
       return;
     }
 
@@ -153,6 +155,11 @@ const SearchControls = props => {
           'usa-input-error': showError,
         })}
       >
+        <AddressTypeahead
+          geolocateUser={geolocateUser}
+          inputRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
+        />
         <div id="location-input-field">
           <label
             htmlFor="street-city-state-zip"
@@ -187,7 +194,7 @@ const SearchControls = props => {
         <div className="input-container">
           <input
             id="street-city-state-zip"
-            ref={locationInputFieldRef}
+            // ref={locationInputFieldRef}
             name="street-city-state-zip"
             type="text"
             onChange={handleQueryChange}
