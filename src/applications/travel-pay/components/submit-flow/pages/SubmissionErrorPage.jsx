@@ -33,7 +33,9 @@ const SubmissionErrorPage = () => {
       </va-alert>
       <h2>What happens next?</h2>
       <HelpTextModalities />
-      <h3>How can I get help with my claim?</h3>
+      <p className="vads-u-font-weight--bold">
+        How can I get help with my claim?
+      </p>
       <HelpTextGeneral />
     </div>
   );
