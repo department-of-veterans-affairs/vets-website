@@ -61,7 +61,6 @@ const createReferral = (
     providerName: provider.providerName,
     providerLocation: provider.providerLocation,
     providerId,
-    reason: 'Referral',
   };
 };
 
