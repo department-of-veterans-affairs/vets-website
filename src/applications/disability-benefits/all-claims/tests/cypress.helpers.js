@@ -273,7 +273,9 @@ export const pageHooks = cy => ({
     });
   },
 
-  'new-disabilities/add': () => {
+  // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+  // When allClaimsAddDisabilitiesEnhancement FF is removed, update this page to be 'new-disabilities/add'
+  'new-disabilities/add-3': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
         const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
