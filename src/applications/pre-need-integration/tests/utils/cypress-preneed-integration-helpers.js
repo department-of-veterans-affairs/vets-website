@@ -1,27 +1,11 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+import { countries } from 'vets-json-schema/dist/constants.json';
 import cemeteries from '../fixtures/mocks/cemeteries.json';
 import featureToggles from '../fixtures/mocks/feature-toggles.json';
 import { serviceLabels } from '../../utils/labels';
 import { rankLabels } from '../../utils/rankLabels';
 
 function interceptSetup() {
-  cy.intercept('POST', '/v0/preneeds/burial_forms', {
-    data: {
-      attributes: {
-        confirmationNumber: '123fake-submission-id-567',
-        submittedAt: '2016-05-16',
-      },
-    },
-  });
-  cy.intercept('POST', '/v0/preneeds/preneed_attachments', {
-    data: {
-      attributes: {
-        attachmentId: '1',
-        name: 'VA40-10007.pdf',
-        confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
-      },
-    },
-  });
   cy.intercept('POST', '/simple_forms_api/v1/simple_forms', {
     data: {
       attributes: {
@@ -40,6 +24,29 @@ function validateProgressBar(index) {
     .shadow()
     .find(`.usa-step-indicator__segments > li:nth-child(${index})`)
     .should('have.class', 'usa-step-indicator__segment--current');
+}
+
+// Ensures the address that autoppoulates on the unconfirmed suggested address page is as expected
+function validateAddressUnconfirmed(
+  street1,
+  street2,
+  city,
+  country,
+  state,
+  zip,
+) {
+  if (country === 'USA') {
+    cy.get('.blue-bar-block > p').should(
+      'have.text',
+      `${street1}${street2}${city}, ${state} ${zip}`,
+    );
+  } else {
+    const cnt = countries.find(({ value }) => value === country).label;
+    cy.get('.blue-bar-block > p').should(
+      'have.text',
+      `${street1}${street2}${city}, ${zip}${cnt}`,
+    );
+  }
 }
 
 // Clicks continue and then optionally checks to make sure the form page url is as expected
@@ -116,6 +123,14 @@ function fillPreparerInfo(preparer) {
     clickContinue();
 
     // Address validation page
+    validateAddressUnconfirmed(
+      preparer.mailingAddress.street,
+      preparer.mailingAddress.street2,
+      preparer.mailingAddress.city,
+      preparer.mailingAddress.country,
+      preparer.mailingAddress.state,
+      preparer.mailingAddress.postalCode,
+    );
     cy.axeCheck();
     clickContinue();
   }
@@ -145,6 +160,16 @@ function fillApplicantContactInfo(address, phone, email) {
   cy.fillAddress('root_application_claimant_address', address);
   cy.fill('input[name$="phoneNumber"]', phone);
   cy.fill('input[name$="email"]', email);
+  cy.axeCheck();
+  clickContinue();
+  validateAddressUnconfirmed(
+    address.street,
+    address.street2,
+    address.city,
+    address.country,
+    address.state,
+    address.postalCode,
+  );
   cy.axeCheck();
   clickContinue();
 }
@@ -302,6 +327,7 @@ function submitForm() {
 module.exports = {
   interceptSetup,
   validateProgressBar,
+  validateAddressUnconfirmed,
   clickContinue,
   autoSuggestFirstResult,
   visitIntro,

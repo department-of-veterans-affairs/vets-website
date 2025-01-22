@@ -24,9 +24,9 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Applicant Details page
     preneedHelpers.fillApplicantContactInfo(
-      applicant.mailingAddress,
-      applicant.applicantPhoneNumber,
-      applicant.applicantEmail,
+      claimant.address,
+      claimant.phoneNumber,
+      claimant.email,
     );
 
     // Are you the applicant's sponsor? page
@@ -97,6 +97,18 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.get('#root_application_veteran_email').should(
       'have.value',
       applicant.applicantEmail,
+    );
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
+
+    // Address Validation
+    preneedHelpers.validateAddressUnconfirmed(
+      applicant.mailingAddress.street,
+      applicant.mailingAddress.street2,
+      applicant.mailingAddress.city,
+      applicant.mailingAddress.country,
+      applicant.mailingAddress.state,
+      applicant.mailingAddress.postalCode,
     );
     cy.axeCheck();
     preneedHelpers.clickContinue();

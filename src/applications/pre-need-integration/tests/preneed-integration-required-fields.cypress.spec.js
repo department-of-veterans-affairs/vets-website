@@ -93,6 +93,9 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.fill('input[name$="email"]', claimant.email);
     preneedHelpers.clickContinue();
 
+    // Address Validation
+    preneedHelpers.clickContinue();
+
     // Are you the sponsor page
     preneedHelpers.validateProgressBar('3');
     errorCheck(requiredHelpers.veteranDetailsErrors1);
