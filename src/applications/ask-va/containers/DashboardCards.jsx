@@ -38,37 +38,44 @@ const DashboardCards = () => {
       card => card.attributes.levelOfAuthentication === 'Business',
     );
 
+  const transformInquiriesData = data => {
+    const transformedInquiries = data.map(inquiry => ({
+      ...inquiry,
+      attributes: {
+        ...inquiry.attributes,
+        status: getVAStatusFromCRM(inquiry.attributes.status),
+      },
+    }));
+
+    const uniqueCategories = [
+      ...new Set(
+        transformedInquiries.map(item => item.attributes.categoryName),
+      ),
+    ];
+
+    return { transformedInquiries, uniqueCategories };
+  };
+
   const getApiData = url => {
-    if (mockTestingFlag) {
-      const res = mockInquiries;
+    setLoading(true);
 
-      const transformedInquiries = res.data.map(inquiry => ({
-        ...inquiry,
-        attributes: {
-          ...inquiry.attributes,
-          status: getVAStatusFromCRM(inquiry.attributes.status),
-        },
-      }));
-
+    const processData = data => {
+      const { transformedInquiries, uniqueCategories } = transformInquiriesData(
+        data,
+      );
       setInquiries(transformedInquiries);
-      const uniqueCategories = [
-        ...new Set(
-          transformedInquiries.map(item => item.attributes.categoryName),
-        ),
-      ];
       setCategories(uniqueCategories);
       setLoading(false);
+    };
+
+    if (mockTestingFlag) {
+      processData(mockInquiries.data);
       return Promise.resolve();
     }
-    setLoading(true);
+
     return apiRequest(url)
       .then(res => {
-        setInquiries(res.data);
-        const uniqueCategories = [
-          ...new Set(res.data.map(item => item.attributes.categoryName)),
-        ];
-        setCategories(uniqueCategories);
-        setLoading(false);
+        processData(res.data);
       })
       .catch(() => {
         setLoading(false);

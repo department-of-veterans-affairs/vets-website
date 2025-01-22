@@ -814,11 +814,37 @@ export const mapToAbbreviation = value => {
   return mapping[value.toLowerCase()];
 };
 
+export const mapProgramTypeToName = programType => {
+  const programTypesNames = {
+    NCD: 'Non College Degree',
+    IHL: 'Institution of Higher Learning',
+    OJT: 'On The Job Training/Apprenticeship',
+    FLGT: 'Flight',
+    CORR: 'Correspondence',
+  };
+
+  return programTypesNames[programType] || 'Unknown Program Type';
+};
+
+export const mapToDashedName = abbreviation => {
+  const reverseMapping = {
+    OJT: 'on-the-job-training-apprenticeship',
+    NCD: 'non-college-degree',
+    IHL: 'institution-of-higher-learning',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return reverseMapping[abbreviation.toUpperCase()] || 'Unknown Abbreviation';
+};
+
 export const getAbbreviationsAsArray = value => {
   if (!value) return [];
   const mapping = {
     OJT: [
       { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'NPFA', description: 'Non Pay Federal Agency' },
+      { abbreviation: 'NPOJT', description: 'Non Pay On-the-job-training' },
       { abbreviation: 'OJT', description: 'On-the-job training' },
     ],
     NCD: [
