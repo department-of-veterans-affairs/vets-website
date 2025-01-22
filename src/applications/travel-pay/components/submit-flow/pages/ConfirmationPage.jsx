@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaAlert,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
@@ -22,20 +18,25 @@ const ConfirmationPage = ({ appointment }) => {
   return (
     <div>
       <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
-      <VaAlert closeBtnAriaLabel="Close notification" status="success" visible>
+      <va-alert closeBtnAriaLabel="Close notification" status="success" visible>
         <h2 slot="headline">Claim submitted</h2>
         <p className="vads-u-margin-y--0">
           This claim is for your appointment at{' '}
-          {appointment.vaos.apiData.location.attributes.name} on {formattedDate}{' '}
-          {formattedTime}
+          {appointment.vaos.apiData.location.attributes.name}{' '}
+          {appointment.vaos.apiData?.practitioners
+            ? `with ${appointment.vaos.apiData.practitioners[0].name.given.join(
+                ' ',
+              )} ${appointment.vaos.apiData.practitioners[0].name.family}`
+            : ''}{' '}
+          on {formattedDate}, {formattedTime}.
         </p>
-      </VaAlert>
+      </va-alert>
       <h2>What happens next</h2>
       <p className="vads-u-margin-y--2">
         You can check the status of your claim by going to the travel
         reimbursement status page.
       </p>
-      <VaLink
+      <va-link
         href="/my-health/travel-pay/claims/"
         text="Check your travel reimbursement claim status"
       />
@@ -43,7 +44,7 @@ const ConfirmationPage = ({ appointment }) => {
         If you’re eligible for reimbursement, we’ll deposit your reimburesement
         in your bank account.
       </p>
-      <VaLink
+      <va-link
         href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
         text="Learn how to set up direct deposit for travel pay reimbursement"
       />

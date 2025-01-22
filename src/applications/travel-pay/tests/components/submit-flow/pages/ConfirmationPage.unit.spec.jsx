@@ -35,3 +35,31 @@ it('should render with expected content', () => {
     ),
   ).to.exist;
 });
+
+it('should render practictioner name if available', () => {
+  const screen = render(
+    <ConfirmationPage
+      appointment={{
+        vaos: {
+          apiData: {
+            location: { attributes: { name: 'VA location name' } },
+            start: '2025-01-15T21:39:27.698Z',
+            practitioners: [
+              {
+                name: { family: 'Last', given: ['First', 'Middle'] },
+              },
+            ],
+          },
+        },
+      }}
+    />,
+  );
+
+  expect(screen.getByText('We’re processing your travel reimbursement claim'))
+    .to.exist;
+
+  const message =
+    'This claim is for your appointment at VA location name with First Middle Last on Wednesday, January 15, 2025, 1:39 PM.';
+
+  expect(screen.getByText(message)).to.exist;
+});
