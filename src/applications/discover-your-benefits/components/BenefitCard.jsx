@@ -17,7 +17,6 @@ const BenefitCard = ({ benefit }) => {
         <va-link
           href={url}
           className="link--center"
-          aria-label={`${label} (opens in a new tab)`}
           text={text}
           label={label}
           type="secondary"
