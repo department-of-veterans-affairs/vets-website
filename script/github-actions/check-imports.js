@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -24,6 +22,7 @@ function getDeletedFiles() {
     const output = execSync('git ls-files --deleted').toString();
     return output.split('\n').filter(Boolean);
   } catch (error) {
+    /* eslint-disable-next-line no-console */
     console.error(':x: Error fetching deleted files:', error);
     return [];
   }
@@ -67,7 +66,6 @@ function checkBrokenImports(deletedFiles) {
 }
 // Main Execution
 function checkImport() {
-  console.time('optimized');
   try {
     const deletedFiles = getDeletedFiles();
     if (deletedFiles.length === 0) {
@@ -75,14 +73,17 @@ function checkImport() {
     }
     const brokenImports = checkBrokenImports(deletedFiles);
     if (brokenImports.length === 0) {
+      /* eslint-disable-next-line no-console */
       console.log('No broken imports found.');
     } else {
       brokenImports.forEach(({ file, deletedFile }) => {
+        /* eslint-disable-next-line no-console */
         console.warn(`:warning:  ${file} imports deleted file: ${deletedFile}`);
       });
       process.exit(1); // Exit the process with a failure code if broken imports are found.
     }
   } catch (error) {
+    /* eslint-disable-next-line no-console */
     console.error('An error occurred during execution:', error);
     process.exit(1); // Exit the process with a failure code on error.
   }
