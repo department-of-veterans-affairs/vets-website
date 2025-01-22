@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-import { FormTitle } from '@department-of-veterans-affairs/va-forms-system-core';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
   VaButton,
