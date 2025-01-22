@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isBefore, formatDistanceToNow, parseISO } from 'date-fns';
+import { isBefore, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import { buildDateFormatter } from '../utils/helpers';
 
 export default function DueDate({ date }) {
@@ -12,7 +12,7 @@ export default function DueDate({ date }) {
   const formattedClaimDate = buildDateFormatter()(date);
 
   const dueDateHeader = pastDueDate
-    ? `Needed from you by ${formattedClaimDate} - Due ${formatDistanceToNow(
+    ? `Needed from you by ${formattedClaimDate} - Due ${formatDistanceToNowStrict(
         dueDate,
       )} ago`
     : `Needed from you by ${formattedClaimDate}`;

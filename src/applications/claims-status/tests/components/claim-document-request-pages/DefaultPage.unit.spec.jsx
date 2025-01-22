@@ -1,6 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { formatDistanceToNow, subMonths, format, parseISO } from 'date-fns';
+import {
+  formatDistanceToNowStrict,
+  subMonths,
+  format,
+  parseISO,
+} from 'date-fns';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -31,7 +36,7 @@ describe('<DefaultPage>', () => {
     uploading: false,
   };
 
-  it.skip('should render component when status is NEEDED_FROM_YOU', () => {
+  it('should render component when status is NEEDED_FROM_YOU', () => {
     const item = {
       closedDate: null,
       description: 'Buddy statement text',
@@ -47,7 +52,9 @@ describe('<DefaultPage>', () => {
       date: '2024-03-07',
     };
 
-    const monthsDue = formatDistanceToNow(parseISO(nineMonthsAgoSuspenseDate));
+    const monthsDue = formatDistanceToNowStrict(
+      parseISO(nineMonthsAgoSuspenseDate),
+    );
 
     const { getByText, container } = renderWithRouter(
       <DefaultPage {...defaultProps} item={item} />,
