@@ -20,8 +20,9 @@ export const HelpTextManage = () => {
       </p>
       <p className="vads-u-margin-top--2">
         Or call <va-telephone contact="8555747292" /> (
-        <va-telephone tty contact="711" />) from 8 a.m. to 8 p.m. ET Monday
-        through Friday. Have your claim number ready to share when you call.
+        <va-telephone tty contact="711" />) from 8:00 a.m. to 8:00 p.m. ET{' '}
+        Monday through Friday. Have your claim number ready to share when you
+        call.
       </p>
     </div>
   );
