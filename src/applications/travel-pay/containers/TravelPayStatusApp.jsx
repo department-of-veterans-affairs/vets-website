@@ -291,13 +291,39 @@ export default function App({ children }) {
   if (userLoggedIn && !isIdentityVerified) {
     return (
       <Element name="topScrollElement">
-        <article className="usa-grid-full vads-u-padding-bottom--2">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
           <BreadCrumbs />
           <h1 tabIndex="-1" data-testid="header">
             Check your travel reimbursement claim status
           </h1>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-padding-bottom--2">
+
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
+            <h2 className="vads-u-font-size--h4">
+              You can use this tool to check the status of your VA travel
+              claims.
+            </h2>
             <VerifyIdentityAlert />
+          </div>
+        </article>
+      </Element>
+    );
+  }
+
+  if (error) {
+    return (
+      <Element name="topScrollElement">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
+          <BreadCrumbs />
+          <h1 tabIndex="-1" data-testid="header">
+            Check your travel reimbursement claim status
+          </h1>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
+            <h2 className="vads-u-font-size--h4">
+              You can use this tool to check the status of your VA travel
+              claims.
+            </h2>
+            <ErrorAlert errorStatus={error.errors[0].status} />
+            <VaBackToTop />
           </div>
         </article>
       </Element>
@@ -346,11 +372,6 @@ export default function App({ children }) {
                 onClick={() => dispatch(toggleLoginModal(true))}
               />
             </>
-          )}
-          {error && (
-            <div className="vads-u-margin-top--2">
-              <ErrorAlert errorStatus={error.errors[0].status} />
-            </div>
           )}
           {userLoggedIn &&
             !isLoading &&
