@@ -328,10 +328,19 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    let expiredReferrals = 0;
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
-    const referrals = referralUtils.createReferrals(3, '2024-12-02', 1);
+
+    if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
+      expiredReferrals = 1;
+    }
+    const referrals = referralUtils.createReferrals(
+      3,
+      '2024-12-02',
+      expiredReferrals,
+    );
     const singleReferral = referrals.find(
       referral => referral?.UUID === req.params.referralId,
     );
