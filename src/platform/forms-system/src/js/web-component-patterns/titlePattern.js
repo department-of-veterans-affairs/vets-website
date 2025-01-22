@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useRef } from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 import { isMinimalHeaderApplicable } from '../helpers';
 
@@ -10,13 +10,16 @@ export const Title = ({
   headerStyleLevel,
   classNames,
 }) => {
-  const isMinimalHeader = isMinimalHeaderApplicable();
-  const effectiveHeaderLevel = headerLevel || (isMinimalHeader ? 1 : 3);
+  const isMinimalHeader = useRef(null);
+  if (isMinimalHeader.current === null) {
+    isMinimalHeader.current = isMinimalHeaderApplicable();
+  }
+  const effectiveHeaderLevel = headerLevel || (isMinimalHeader.current ? 1 : 3);
   // Arbitrary decision with design
   // h1 styling is a bit too large when directly next to other field content
   // so we'll bump the style down to h2
   const effectiveHeaderStyleLevel =
-    headerStyleLevel || (isMinimalHeader ? 2 : undefined);
+    headerStyleLevel || (isMinimalHeader.current ? 2 : undefined);
 
   const CustomHeader = `h${effectiveHeaderLevel}`;
 

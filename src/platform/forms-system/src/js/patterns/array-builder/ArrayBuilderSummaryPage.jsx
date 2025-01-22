@@ -117,7 +117,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const [showReviewErrorAlert, setShowReviewErrorAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
-    const isMinimalHeader = useRef(isMinimalHeaderApplicable());
+    const isMinimalHeader = useRef(null);
+    if (isMinimalHeader.current === null) {
+      isMinimalHeader.current = isMinimalHeaderApplicable();
+    }
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
