@@ -604,7 +604,7 @@ export const contactUsBreadcrumbs = [
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const questionDetailsBreadcrumbs = [

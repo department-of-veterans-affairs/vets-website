@@ -30,7 +30,7 @@ import createViewDependentsCTA from './view-modify-dependents/view-dependents-ct
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import facilityReducer from './facilities/reducers';
 // Other widgets.
-import createAskVAWidget from './ask-va';
+import createAskVAWidget from './ask-va-archived';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
