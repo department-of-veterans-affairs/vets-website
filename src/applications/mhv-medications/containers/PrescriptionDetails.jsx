@@ -333,6 +333,7 @@ const PrescriptionDetails = () => {
               data-testid="prescription-name"
               className="vads-u-margin-bottom--0"
               id="prescription-name"
+              data-dd-privacy="mask"
             >
               {prescriptionHeader}
             </h1>
