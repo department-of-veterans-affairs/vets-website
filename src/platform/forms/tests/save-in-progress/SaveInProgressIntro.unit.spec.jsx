@@ -1,7 +1,7 @@
 import React from 'react';
 // import moment from 'moment';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { fromUnixTime } from 'date-fns';
@@ -402,7 +402,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const tree = shallow(
+    const tree = mount(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -411,7 +411,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
+        formConfig={{ customText: { appType: 'application' } }}
       />,
     );
 
@@ -419,11 +419,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       "We've prefilled some of your information",
     );
 
-    const alertText = tree
-      .find('va-alert')
-      .children()
-      .not('h3')
-      .text();
+    const alertText = tree.find('va-alert').text();
 
     expect(alertText).to.contain(
       'Since you’re signed in, we can prefill part of your application based on your profile details. You can also save your application in progress and come back later to finish filling it out.',
