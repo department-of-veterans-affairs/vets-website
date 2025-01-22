@@ -1,14 +1,11 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+
 import { HelpTextManage } from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
 
-const IntroductionPage = ({ appointment, onNext }) => {
-  // const userLoggedIn = useSelector(state => isLoggedIn(state));
-
+const IntroductionPage = ({ appointment, onStart }) => {
   const [formattedDate] = formatDateTime(appointment.vaos.apiData.start);
-
   const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
 
   return (
@@ -44,7 +41,7 @@ const IntroductionPage = ({ appointment, onNext }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           <va-link-action
-            onClick={e => onNext(e)}
+            onClick={e => onStart(e)}
             href="javascript0:void"
             text="File a mileage only claim"
           />
@@ -97,7 +94,7 @@ const IntroductionPage = ({ appointment, onNext }) => {
 
 IntroductionPage.propTypes = {
   appointment: PropTypes.object,
-  onNext: PropTypes.func,
+  onStart: PropTypes.func,
 };
 
 export default IntroductionPage;

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
-import PropTypes from 'prop-types';
 import { formatDateTime } from '../../../util/dates';
+import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const MileagePage = ({
   appointment,
@@ -14,10 +16,10 @@ const MileagePage = ({
   setPageIndex,
   yesNo,
   setYesNo,
-  setCantFile,
+  setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
-    focusElement('h1');
+    focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
 
@@ -28,23 +30,20 @@ const MileagePage = ({
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
-    onNext: e => {
-      e.preventDefault();
+    onNext: () => {
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
-        setCantFile(true);
+        setIsUnsupportedClaimType(true);
       } else {
-        setCantFile(false);
+        setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
-    onBack: e => {
-      e.preventDefault();
+    onBack: () => {
       setPageIndex(pageIndex - 1);
     },
   };
-
   return (
     <div>
       <VaRadio
@@ -121,7 +120,7 @@ const MileagePage = ({
           But you can file your claim online, within 30 days, through the{' '}
           <va-link
             external
-            href="https://link-to-btsss"
+            href={BTSSS_PORTAL_URL}
             text="Beneficiary Travel Self Service System (BTSSS)"
           />
           . Or you can use VA Form 10-3542 to submit a claim by mail or in
@@ -132,8 +131,8 @@ const MileagePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        onPrimaryClick={e => handlers.onNext(e)}
-        onSecondaryClick={e => handlers.onBack(e)}
+        onPrimaryClick={handlers.onNext}
+        onSecondaryClick={handlers.onBack}
       />
     </div>
   );
@@ -142,7 +141,7 @@ const MileagePage = ({
 MileagePage.propTypes = {
   appointment: PropTypes.object,
   pageIndex: PropTypes.number,
-  setCantFile: PropTypes.func,
+  setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,
   yesNo: PropTypes.object,

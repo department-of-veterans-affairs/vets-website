@@ -34,4 +34,12 @@ describe('Veteran Personal Information page', () => {
 
     expect(container.querySelector('button[type="submit"]')).to.exist;
   });
+
+  it('should have proper max lengths for name fields', () => {
+    const nameProps = schema.properties.veteranFullName.properties;
+
+    expect(nameProps.first.maxLength).to.equal(12);
+    expect(nameProps.middle.maxLength).to.equal(1);
+    expect(nameProps.last.maxLength).to.equal(18);
+  });
 });

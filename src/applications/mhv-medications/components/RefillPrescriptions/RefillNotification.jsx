@@ -130,6 +130,7 @@ const RefillNotification = ({ refillStatus }) => {
               className="vads-u-padding-y--0"
               data-testid="medication-requested-successful"
               key={idx}
+              data-dd-privacy="mask"
             >
               {id?.prescriptionName}
             </li>

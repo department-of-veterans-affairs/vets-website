@@ -6,7 +6,7 @@ import { EMPTY_FIELD } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 
-const MAX_PAGE_LIST_LENGTH = 10;
+const MAX_PAGE_LIST_LENGTH = 2;
 const MAX_GROUPED_LIST_LENGTH = 26;
 
 const GroupedMedications = props => {
@@ -54,9 +54,11 @@ const GroupedMedications = props => {
           id="list-showing-info"
           data-testid="grouping-showing-info"
         >
-          {`Showing ${displayNums[0]} - ${
-            displayNums[1]
-          } of ${totalListCount} prescriptions, from newest to oldest`}
+          {totalListCount === 1
+            ? `Showing ${totalListCount} prescription`
+            : `Showing ${displayNums[0]} to ${
+                displayNums[1]
+              } of ${totalListCount} prescriptions, from newest to oldest`}
         </p>
       </section>
       <section>
@@ -67,8 +69,8 @@ const GroupedMedications = props => {
                 className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
                 key={rx.prescriptionId}
               >
-                <dt className="vads-u-margin-top--3">
-                  <strong>Prescription number: {rx.prescriptionNumber}</strong>
+                <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
+                  <h4>Prescription number: {rx.prescriptionNumber}</h4>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
                   <LastFilledInfo {...rx} />
@@ -87,7 +89,7 @@ const GroupedMedications = props => {
         {totalListCount > MAX_PAGE_LIST_LENGTH && (
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
-            max-page-list-length={MAX_PAGE_LIST_LENGTH}
+            max-page-list-length={3}
             className="vads-u-justify-content--center no-print vads-u-margin-top--3"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}

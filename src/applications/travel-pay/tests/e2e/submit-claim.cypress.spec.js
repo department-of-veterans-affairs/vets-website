@@ -16,59 +16,7 @@ describe('Submit Mileage Only Claims', () => {
     cy.get('h1').should('include.text', 'File a travel reimbursement claim');
   });
 
-  it('should navigate through the flow for the happy path (with submission error)', () => {
-    cy.get('va-link-action[text="File a mileage only claim"]')
-      .first()
-      .click();
-
-    // Mileage question should be first
-    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
-
-    // Answer "yes" and continue
-    cy.get('va-radio-option[label="Yes"]')
-      .first()
-      .click();
-
-    cy.selectVaButtonPairPrimary();
-
-    // Vehicle question
-    cy.get('h1').should('include.text', 'Did you travel in your own vehicle?');
-
-    // Answer "yes" and continue
-    cy.get('va-radio-option[label="Yes"]')
-      .first()
-      .click();
-
-    cy.selectVaButtonPairPrimary();
-
-    // Address question
-    cy.get('h1').should(
-      'include.text',
-      'Did you travel from your home address?',
-    );
-
-    // Answer "yes" and continue
-    cy.get('va-radio-option[label="Yes"]')
-      .first()
-      .click();
-
-    cy.selectVaButtonPairPrimary();
-
-    // Review page
-    cy.get('h1').should('include.text', 'Review your travel claim');
-
-    // Agree to travel agreement and submit
-    cy.selectVaCheckbox('accept-agreement', true);
-
-    cy.get('va-button[text="Submit"]')
-      .first()
-      .click();
-
-    // Submission Error page is currently the hard-coded default behavior
-    cy.get('h1').should('include.text', 'We couldn’t file your claim');
-  });
-
-  it('should handle validation and answering "No"', () => {
+  it('should handle validation and answering "No" and navigate through the flow', () => {
     cy.get('va-link-action[text="File a mileage only claim"]')
       .first()
       .click();
@@ -85,7 +33,7 @@ describe('Submit Mileage Only Claims', () => {
 
     cy.get('h1').should(
       'include.text',
-      `We can’t file this type of travel reimbursement claim in this tool at this time`,
+      `We can’t file this type of travel reimbursement claim`,
     );
 
     cy.get('va-button[text="Back"]')
@@ -133,9 +81,6 @@ describe('Submit Mileage Only Claims', () => {
 
     // Review page
     cy.get('h1').should('include.text', 'Review your travel claim');
-
-    // Agree to travel agreement and submit
-    cy.selectVaCheckbox('accept-agreement', true);
 
     cy.get('va-button[text="Submit"]')
       .first()

@@ -27,8 +27,8 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURL = () => {
-    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.intercept('GET', Paths.LANDING_LIST, rxList);
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
@@ -128,8 +128,8 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURLforEmptyMedicationsList = () => {
-    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList);
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   visitMedicationsListPage = prescriptionsList => {

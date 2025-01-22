@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
+
+import { Element } from 'platform/utilities/scroll';
 import {
   selectVAPResidentialAddress,
+  selectVAPMailingAddress,
   isProfileLoading,
   isLoggedIn,
 } from 'platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
-
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
 import VehiclePage from '../components/submit-flow/pages/VehiclePage';
@@ -19,37 +20,31 @@ import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
 
-import { appointment1 } from '../services/mocks/appointments';
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+import { appointment1 } from '../services/mocks/appointments';
 
-const SubmitFlowWrapper = ({ address }) => {
-  // This will need to be an API call based on the apptID passed in the params
-  // But for now is hardcoded
+const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
+  // TODO: Placeholders until backend integration is complete
+  // API call based on the URL Params, but for now is hard coded
   const appointment = appointment1;
-
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-  }, []);
+  // This will actually be handled by the redux action, but for now it lives here
+  const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
     vehicle: '',
     address: '',
   });
-  const [cantFile, setCantFile] = useState(false);
-  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-
-  // This will actually be handled by the redux action, but for now it lives here
-  const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
   const onSubmit = e => {
     e.preventDefault();
     if (!isAgreementChecked) {
-      // throw some kind of error
+      scrollToFirstError();
     } else {
       // Placeholder until actual submit is hooked up
 
@@ -67,7 +62,7 @@ const SubmitFlowWrapper = ({ address }) => {
       component: (
         <IntroductionPage
           appointment={appointment}
-          onNext={e => {
+          onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
           }}
@@ -83,7 +78,7 @@ const SubmitFlowWrapper = ({ address }) => {
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
           yesNo={yesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
         />
       ),
     },
@@ -93,7 +88,7 @@ const SubmitFlowWrapper = ({ address }) => {
         <VehiclePage
           setYesNo={setYesNo}
           yesNo={yesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
         />
@@ -103,10 +98,10 @@ const SubmitFlowWrapper = ({ address }) => {
       page: 'address',
       component: (
         <AddressPage
-          address={address}
+          address={homeAddress || mailingAddress}
           yesNo={yesNo}
           setYesNo={setYesNo}
-          setCantFile={setCantFile}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
         />
@@ -117,7 +112,7 @@ const SubmitFlowWrapper = ({ address }) => {
       component: (
         <ReviewPage
           appointment={appointment}
-          address={address}
+          address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
@@ -169,15 +164,17 @@ const SubmitFlowWrapper = ({ address }) => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
-            <CantFilePage
+          {isUnsupportedClaimType && (
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>
@@ -185,12 +182,14 @@ const SubmitFlowWrapper = ({ address }) => {
 };
 
 SubmitFlowWrapper.propTypes = {
-  address: PropTypes.object,
+  homeAddress: PropTypes.object,
+  mailingAddress: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
-    address: selectVAPResidentialAddress(state),
+    homeAddress: selectVAPResidentialAddress(state),
+    mailingAddress: selectVAPMailingAddress(state),
   };
 }
 

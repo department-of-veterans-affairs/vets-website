@@ -37,13 +37,13 @@ describe('ConfirmationPage', () => {
     selectedAccreditedOrganizationId: '1',
     applicantName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
     veteranFullName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },

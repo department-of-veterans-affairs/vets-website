@@ -19,6 +19,7 @@
     },
     "homeless": false,
 
+    "informalConferenceChoice": "yes",
     "informalConference": "me",
     "informalConferenceTime": "time1200to1630",
     "contestedIssues": [

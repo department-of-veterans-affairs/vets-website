@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
+import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const AddressPage = ({
   address,
@@ -11,27 +16,61 @@ const AddressPage = ({
   setPageIndex,
   yesNo,
   setYesNo,
-  setCantFile,
+  setIsUnsupportedClaimType,
 }) => {
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      if (!address) {
+        focusElement('h1');
+      } else {
+        focusElement('h1', {}, 'va-radio');
+      }
+    },
+    [address],
+  );
+
   const [requiredAlert, setRequiredAlert] = useState(false);
 
   const handlers = {
-    onNext: e => {
-      e.preventDefault();
+    onNext: () => {
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
-        setCantFile(true);
+        setIsUnsupportedClaimType(true);
       } else {
-        setCantFile(false);
+        setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
-    onBack: e => {
-      e.preventDefault();
+    onBack: () => {
       setPageIndex(pageIndex - 1);
     },
   };
+
+  if (!address) {
+    return (
+      <>
+        <h1 className="vads-u-margin-bottom--2">
+          Did you travel from your home address?
+        </h1>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+        >
+          <h2 slot="headline">You don’t have an address on file</h2>
+          <p className="vads-u-margin-y--0">
+            We’re sorry, we don’t have an address on file for you and can’t file
+            a claim in this tool right now.
+          </p>
+        </va-alert>
+        <HelpTextModalities />
+        <HelpTextGeneral />
+        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+      </>
+    );
+  }
 
   return (
     <div>
@@ -58,6 +97,8 @@ const AddressPage = ({
           </p>
           <hr className="vads-u-margin-y--0" />
           <p className="vads-u-margin-top--2">
+            <strong>Home address</strong>
+            <br />
             {address.addressLine1}
             <br />
             {address.addressLine2 && (
@@ -105,7 +146,7 @@ const AddressPage = ({
           But you can file your claim online, within 30 days, through the
           <va-link
             external
-            href="https://link-to-btsss"
+            href={BTSSS_PORTAL_URL}
             text="Beneficiary Travel Self Service System (BTSSS)"
           />
           . Or you can use VA Form 10-3542 to submit a claim by mail or in
@@ -115,8 +156,8 @@ const AddressPage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        onPrimaryClick={e => handlers.onNext(e)}
-        onSecondaryClick={e => handlers.onBack(e)}
+        onPrimaryClick={handlers.onNext}
+        onSecondaryClick={handlers.onBack}
       />
     </div>
   );
@@ -125,7 +166,7 @@ const AddressPage = ({
 AddressPage.propTypes = {
   address: PropTypes.object,
   pageIndex: PropTypes.number,
-  setCantFile: PropTypes.func,
+  setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,
   yesNo: PropTypes.object,
