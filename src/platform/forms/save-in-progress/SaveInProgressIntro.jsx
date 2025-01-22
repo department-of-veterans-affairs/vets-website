@@ -170,9 +170,9 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <va-alert status="info" visible>
               <h3>We've prefilled some of your information</h3>
-              Since you’re signed in, we can prefill part of your application
-              based on your profile details. You can also save your application
-              in progress and come back later to finish filling it out.
+              Since you’re signed in, we can prefill part of your {appType}{' '}
+              based on your profile details. You can also save your {appType} in
+              progress and come back later to finish filling it out.
             </va-alert>
             <br />
           </div>
