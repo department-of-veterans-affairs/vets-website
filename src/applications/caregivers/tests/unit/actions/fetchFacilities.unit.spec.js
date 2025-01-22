@@ -147,7 +147,7 @@ describe('CG fetchFacilities action', () => {
         localStorage.setItem('csrfToken', '');
       });
 
-      it('successfully makes extra GET request to refresh csrfToken', async () => {
+      it('returns error making extra GET request to refresh csrfToken', async () => {
         apiRequestStub.onFirstCall().rejects(errorResponse);
         apiRequestStub.onSecondCall().resolves({ meta: {} });
 
@@ -165,7 +165,7 @@ describe('CG fetchFacilities action', () => {
         });
       });
 
-      it('returns error making extra GET request to refresh csrfToken', async () => {
+      it('successfully makes extra GET request to refresh csrfToken', async () => {
         apiRequestStub.onFirstCall().resolves({ data: [] });
         apiRequestStub.onSecondCall().resolves({ meta: {} });
 
@@ -178,6 +178,13 @@ describe('CG fetchFacilities action', () => {
 
         await waitFor(() => {
           expect(apiRequestStub.callCount).to.equal(2);
+          expect(sentrySpy.callCount).to.equal(2);
+          expect(sentrySpy.firstCall.args[0]).to.equal(
+            'No csrfToken when making fetchFacilities. Calling /v0/maintenance_windows to generate new one.',
+          );
+          expect(sentrySpy.secondCall.args[0]).to.equal(
+            'No csrfToken when making fetchFacilities. /v0/maintenance_windows successfully called to generate token.',
+          );
         });
       });
     });
