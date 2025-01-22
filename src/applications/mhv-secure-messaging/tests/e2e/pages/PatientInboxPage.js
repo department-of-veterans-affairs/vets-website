@@ -347,13 +347,13 @@ class PatientInboxPage {
   };
 
   navigateToInterstitialPage = () => {
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+    // cy.intercept(
+    //   'GET',
+    //   Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+    //   mockSignature,
+    // ).as('signature');
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    cy.wait('@signature');
+    // cy.wait('@signature');
   };
 
   navigateToComposePageByKeyboard = () => {
