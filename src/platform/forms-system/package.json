@@ -56,7 +56,7 @@
       "./actions": "./src/js/actions.js",
       "./constants": "./src/js/constants.js",
       "./helpers": "./src/js/helpers.js",
-      "./routing": "./src/js/routing.js",
+      "./routing": "./src/js/routing",
       "./validation": "./src/js/validation.js"
     },
     "peerDependencies": {
