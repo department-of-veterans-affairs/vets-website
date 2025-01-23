@@ -29,16 +29,13 @@ import {
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
-
-// Toggle this when testing locally to get successful confirmation page inquiry
-const mockTestingFlag = false;
 
 const { scroller } = Scroll;
 
@@ -94,7 +91,7 @@ const ReviewPage = props => {
       },
     };
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
