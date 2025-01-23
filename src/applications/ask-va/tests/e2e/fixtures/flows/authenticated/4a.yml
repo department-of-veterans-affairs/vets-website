@@ -1,0 +1,51 @@
+flow:
+  title: Health Care for Veteran (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value:  start-your-question-auth
+
+    - action: include
+      target: page
+      value:  select-category-health-care
+
+    - action: include
+      target: page
+      value:  select-topic-prosthetics
+
+    - action: include
+      target: page
+      value:  select-subtopic-special-benefits-application-status
+      
+    - action: include
+      target: page
+      value:  who-is-your-question-about-myself
+    
+    - action: include
+      target: page
+      value:  what-is-your-relationship-to-the-veteran-veteran
+      
+    - action: include
+      target: page
+      value:  tell-us-about-yourself
+      
+    - action: include
+      target: page
+      value:  your-va-health-facility
+      
+    - action: include
+      target: page
+      value:  your-contact-information-email-no-prefill 
+      
+    - action: include
+      target: page
+      value:  your-question
+
+    - action: include
+      target: page
+      value:  editing-answers
+
+    - action: include
+      target: page
+      value:  your-confirmation-number

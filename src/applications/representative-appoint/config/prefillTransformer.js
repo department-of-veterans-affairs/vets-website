@@ -70,5 +70,9 @@ export default function prefillTransformer(formData) {
     newFormData['Branch of Service'] = undefined;
   }
 
+  newFormData.userIsDigitalSubmitEligible =
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId;
+
   return newFormData;
 }
