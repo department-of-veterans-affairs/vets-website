@@ -166,6 +166,7 @@ describe('Prescription details container', () => {
           prescriptionDetails: {
             ...rxDetailsResponse.data.attributes,
             dispensedDate: null,
+            sortedDispensedDate: null,
           },
         },
       },
