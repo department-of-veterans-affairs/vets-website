@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 import content from '../locales/en/content.json';
 
 const formatAddress = address => {
@@ -29,6 +30,9 @@ const formatFacilityIds = facilityIds => {
 const fetchNewCSRFToken = async () => {
   const message = 'No csrfToken when making fetchFacilities.';
   const url = '/v0/maintenance_windows';
+  recordEvent({
+    event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
+  });
   Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
 
   return apiRequest(`${environment.API_URL}${url}`, { method: 'HEAD' })
@@ -59,6 +63,10 @@ export const fetchFacilities = async ({
   const csrfToken = localStorage.getItem('csrfToken');
   if (!csrfToken) {
     await fetchNewCSRFToken();
+  } else {
+    recordEvent({
+      event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
+    });
   }
 
   const url = `${

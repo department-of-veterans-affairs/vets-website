@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockFetchFacilitiesResponse,
@@ -23,17 +24,20 @@ describe('CG fetchFacilities action', () => {
   const errorResponse = { bad: 'some error' };
   let apiRequestStub;
   let sentrySpy;
+  let recordEventStub;
 
   beforeEach(() => {
     localStorage.setItem('csrfToken', 'my-token');
     apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
     sentrySpy = sinon.spy(Sentry, 'captureMessage');
+    recordEventStub = sinon.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
     apiRequestStub.restore();
     localStorage.clear();
     sentrySpy.restore();
+    recordEventStub.restore();
   });
 
   context('success', () => {
@@ -88,6 +92,16 @@ describe('CG fetchFacilities action', () => {
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
+        expect(
+          recordEventStub.calledWith({
+            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
+          }),
+        ).to.be.false;
+        expect(
+          recordEventStub.calledWith({
+            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
+          }),
+        ).to.be.true;
       });
     });
 
@@ -177,6 +191,16 @@ describe('CG fetchFacilities action', () => {
         });
 
         await waitFor(() => {
+          expect(
+            recordEventStub.calledWith({
+              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
+            }),
+          ).to.be.true;
+          expect(
+            recordEventStub.calledWith({
+              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
+            }),
+          ).to.be.false;
           expect(apiRequestStub.firstCall.args[0]).to.equal(
             `${environment.API_URL}/v0/maintenance_windows`,
           );
