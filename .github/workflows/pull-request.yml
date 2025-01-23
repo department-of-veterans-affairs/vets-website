@@ -338,7 +338,7 @@ jobs:
       - name: Check for broken imports
         id: check-for-broken-imports
         continue-on-error: false
-        run: node script/github-actions/check-imports
+        run: node ./script/github-actions/check-imports.js
     
 
       - name: Run Stylelint
