@@ -338,7 +338,7 @@ jobs:
       - name: Check for broken imports
         id: check-for-broken-imports
         continue-on-error: false
-        uses: ./.github/workflows/check-imports
+        run: node ./.github/workflows/check-imports
     
 
       - name: Run Stylelint
