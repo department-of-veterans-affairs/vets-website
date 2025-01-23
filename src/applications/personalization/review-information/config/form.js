@@ -78,7 +78,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound:
       'Please start over to apply for welcome va setup review information form.',
