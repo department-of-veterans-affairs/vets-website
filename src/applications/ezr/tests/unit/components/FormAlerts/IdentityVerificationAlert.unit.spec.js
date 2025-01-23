@@ -1,4 +1,5 @@
 import React from 'react';
+import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import IdentityVerificationAlert from '../../../../components/FormAlerts/IdentityVerificationAlert';

@@ -6,7 +6,7 @@ import { CSP_IDS } from '../constants';
 import { signInServiceName } from '../selectors';
 import { VerifyIdmeButton, VerifyLogingovButton } from './VerifyButton';
 
-export default function VerifyAlert({ headingLevel = 2 }) {
+export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
   const csp = useSelector(signInServiceName);
 
   if (csp === CSP_IDS.DS_LOGON) {
@@ -15,7 +15,12 @@ export default function VerifyAlert({ headingLevel = 2 }) {
 
   if (csp === CSP_IDS.MHV) {
     return (
-      <VaAlertSignIn variant="signInEither" visible headingLevel={headingLevel}>
+      <VaAlertSignIn
+        variant="signInEither"
+        visible
+        headingLevel={headingLevel}
+        data-testid={dataTestId}
+      >
         <span slot="LoginGovSignInButton">
           <VerifyLogingovButton />
         </span>
@@ -39,7 +44,12 @@ export default function VerifyAlert({ headingLevel = 2 }) {
     );
 
   return (
-    <VaAlertSignIn variant={variant} visible headingLevel={headingLevel}>
+    <VaAlertSignIn
+      variant={variant}
+      visible
+      headingLevel={headingLevel}
+      data-testid={dataTestId}
+    >
       {spanSlot}
     </VaAlertSignIn>
   );

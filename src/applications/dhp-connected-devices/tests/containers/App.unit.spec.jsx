@@ -44,7 +44,7 @@ describe('App', () => {
       initialState: getStore(false, true),
     });
 
-    expect(wrapper.getByText('Your connected deices')).to.exist;
+    expect(wrapper.getByText('Your connected devices')).to.exist;
   });
 
   it('renders the un-authenticated page content when a user is logged out', () => {
@@ -52,7 +52,7 @@ describe('App', () => {
       initialState: getStore(false, false),
     });
 
-    expect($('va-loading-indicator', container)).to.exist;
+    expect($('va-loading-indicator', container)).to.not.exist;
     expect($('va-button', container).getAttribute('text')).to.eql(
       'Sign in or create an account',
     );
