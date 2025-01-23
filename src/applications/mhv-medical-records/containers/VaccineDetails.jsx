@@ -132,7 +132,7 @@ Location: ${record.location}\n`;
           <PrintHeader />
 
           <HeaderSection
-            header={`Vaccines: ${record.name}`}
+            header={`${record.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-testid="vaccine-name"
