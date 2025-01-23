@@ -1,8 +1,7 @@
 import data from '../data/calculator-constants.json';
 
-describe('GI Bill Comparison Tool - Search by Location', () => {
+describe('GI Bill Comparison Tool - Programs List', () => {
   beforeEach(() => {
-    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
       body: data,
