@@ -1,7 +1,7 @@
 import {
-  VaAlert,
   VaButton,
   VaSearchInput,
+  VaAlertSignIn,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
@@ -48,7 +48,7 @@ const IntroductionPage = props => {
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
   const showSignInModal = () => {
-    toggleLoginModal(true);
+    toggleLoginModal(true, 'askVa', true);
   };
 
   useEffect(() => {
@@ -181,29 +181,14 @@ const IntroductionPage = props => {
         when it’s ready.
       </p>
 
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-        uswds
-      >
-        <h4 slot="headline">Sign in to ask a question</h4>
-        <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in with a verified{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account or a
-            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            account. If you don’t have any of those accounts, you can create a
-            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account now.
-          </p>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+        <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
           />
-        </div>
-      </VaAlert>
+        </span>
+      </VaAlertSignIn>
 
       <h3 className="vads-u-margin-top--6">If you need general information</h3>
       <p className="vads-u-margin-bottom--1">
