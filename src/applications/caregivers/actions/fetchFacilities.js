@@ -33,16 +33,24 @@ const fetchNewCSRFToken = async () => {
   recordEvent({
     event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
   });
-  Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
+
+  Sentry.withScope(scope => {
+    scope.setLevel(Sentry.Severity.Log);
+    Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
+  });
 
   return apiRequest(`${environment.API_URL}${url}`, { method: 'HEAD' })
     .then(() => {
-      Sentry.captureMessage(
-        `${message} ${url} successfully called to generate token.`,
-      );
+      Sentry.withScope(scope => {
+        scope.setLevel(Sentry.Severity.Log);
+        Sentry.captureMessage(
+          `${message} ${url} successfully called to generate token.`,
+        );
+      });
     })
     .catch(error => {
       Sentry.withScope(scope => {
+        scope.setLevel(Sentry.Severity.Log);
         scope.setExtra('error', error);
         Sentry.captureMessage(
           `${message} ${url} failed when called to generate token.`,
