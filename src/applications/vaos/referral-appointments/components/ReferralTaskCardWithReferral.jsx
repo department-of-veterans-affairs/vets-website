@@ -25,6 +25,7 @@ export default function ReferralTaskCardWithReferral() {
   const { currentReferral, referralFetchStatus } = useGetReferralById(id);
 
   if (
+    id &&
     !currentReferral &&
     (referralFetchStatus === FETCH_STATUS.succeeded ||
       referralFetchStatus === FETCH_STATUS.failed)
