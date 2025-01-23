@@ -38,6 +38,8 @@ describe('VAOS referral generator', () => {
       today,
       'uid',
       '333',
+      null,
+      'non-physical-therapy',
     );
     const physicalTherapyReferral = referralUtil.createReferral(
       today,
@@ -50,6 +52,14 @@ describe('VAOS referral generator', () => {
       const filteredReferrals = referralUtil.filterReferrals(referrals);
       expect(filteredReferrals.length).to.equal(1);
       expect(filteredReferrals[0].UUID).to.equal('uid-2');
+    });
+  });
+  describe('getAddressString', () => {
+    it('Formats the address string', () => {
+      const referral = referralUtil.createReferral(today, '111', '333');
+      expect(
+        referralUtil.getAddressString(referral.ReferringFacilityInfo.Address),
+      ).to.equal('222 Richmond Avenue, BATAVIA, NY, 14020');
     });
   });
 });
