@@ -91,7 +91,7 @@ const ReviewPage = props => {
       },
     };
 
-    if (mockTestingFlagforAPI) {
+    if (!mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
