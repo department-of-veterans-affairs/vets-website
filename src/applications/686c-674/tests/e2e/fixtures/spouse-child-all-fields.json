@@ -15,8 +15,8 @@
           "city": "test city",
           "postalCode": "43242"
         },
-        "doesChildLiveWithYou": "N",
-        "hasChildEverBeenMarried": "N",
+        "doesChildLiveWithYou": false,
+        "hasChildEverBeenMarried": false,
         "isBiologicalChild": true,
         "dateEnteredHousehold": "2023-02-01",
         "biologicalParentName": {

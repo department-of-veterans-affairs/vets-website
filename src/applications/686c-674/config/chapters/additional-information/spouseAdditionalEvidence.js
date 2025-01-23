@@ -18,7 +18,6 @@ const schema = {
         },
         spouseSupportingDocuments: fileInputSchema,
       },
-      required: ['spouseSupportingDocuments'],
     },
   },
 };
@@ -37,6 +36,9 @@ const uiSchema = {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       formNumber: '686C-674-V2',
     }),
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 export const spouseAdditionalEvidence = {

@@ -18,9 +18,9 @@ export const arrayBuilderOptions = {
       !item?.ssn ||
       isBirthLocationIncomplete ||
       !item?.relationshipToChild ||
-      typeof item?.doesChildLiveWithYou === 'undefined' ||
-      typeof item?.hasChildEverBeenMarried === 'undefined' ||
-      typeof item?.incomeInLastYear === 'undefined'
+      typeof item?.doesChildLiveWithYou !== 'boolean' ||
+      typeof item?.hasChildEverBeenMarried !== 'boolean' ||
+      typeof item?.incomeInLastYear !== 'boolean'
     );
   },
   maxItems: 10,
