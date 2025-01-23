@@ -147,7 +147,7 @@ describe('CG fetchFacilities action', () => {
         localStorage.setItem('csrfToken', '');
       });
 
-      it('returns error making extra GET request to refresh csrfToken', async () => {
+      it('returns error making extra HEAD request to refresh csrfToken', async () => {
         apiRequestStub.onFirstCall().rejects(errorResponse);
         apiRequestStub.onSecondCall().resolves({ meta: {} });
 
@@ -165,7 +165,7 @@ describe('CG fetchFacilities action', () => {
         });
       });
 
-      it('successfully makes extra GET request to refresh csrfToken', async () => {
+      it('successfully makes extra HEAD request to refresh csrfToken', async () => {
         apiRequestStub.onFirstCall().resolves({ data: [] });
         apiRequestStub.onSecondCall().resolves({ meta: {} });
 

@@ -31,7 +31,7 @@ const fetchNewCSRFToken = async () => {
   const url = '/v0/maintenance_windows';
   Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
 
-  return apiRequest(`${environment.API_URL}${url}`)
+  return apiRequest(`${environment.API_URL}${url}`, { method: 'HEAD' })
     .then(() => {
       Sentry.captureMessage(
         `${message} ${url} successfully called to generate token.`,
