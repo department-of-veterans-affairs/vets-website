@@ -178,8 +178,8 @@ describe('YAML tests', () => {
 
                 // TODO: Add check for CI here.
                 if (flow.runOnCI === true) {
-                  // cy.visit('https://staging.va.gov/contact-us/ask-va-too/');
-                  cy.visit('http://localhost:3001/contact-us/ask-va-too/');
+                  // cy.visit('https://staging.va.gov/contact-us/ask-va/');
+                  cy.visit('http://localhost:3001/contact-us/ask-va/');
                   cy.injectAxeThenAxeCheck();
                   executeSteps(flow.steps);
                 }
