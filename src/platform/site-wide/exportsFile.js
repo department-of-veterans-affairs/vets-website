@@ -1,5 +1,3 @@
-import showVaExpandableAlert from './alerts/showVaAlertExpandable';
-
 import MobileAppCallout from './alerts/MobileAppCallout';
 
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
@@ -63,7 +61,6 @@ const { exports: startVAFooter, footerElemementId } = require('./va-footer');
 const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
-  showVaExpandableAlert,
   MobileAppCallout,
   EbenefitsLink,
   toggleValues,
