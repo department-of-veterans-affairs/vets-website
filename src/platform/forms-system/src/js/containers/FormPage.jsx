@@ -30,10 +30,14 @@ import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
-  if (route.formConfig?.useCustomScrollAndFocus) {
-    const scrollAndFocusTarget =
-      route.pageConfig?.scrollAndFocusTarget ||
-      route.formConfig?.scrollAndFocusTarget;
+  const scrollAndFocusTarget =
+    route?.pageConfig?.scrollAndFocusTarget ||
+    route?.formConfig?.scrollAndFocusTarget;
+
+  if (
+    route.formConfig?.useCustomScrollAndFocus !== false &&
+    scrollAndFocusTarget
+  ) {
     customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
     focusElement(defaultFocusSelector);

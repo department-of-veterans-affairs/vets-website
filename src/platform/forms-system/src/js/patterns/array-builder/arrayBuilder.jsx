@@ -507,6 +507,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       scrollToTop('topScrollElement');
     }
 
+    // If we have something with `label-header-level`, then that is likely
+    // the title of the page, so we should focus on that.
     const radioHeader = document.querySelector('va-radio[label-header-level]');
     const checkboxGroupHeader = document.querySelector(
       'va-checkbox-group[label-header-level]',
