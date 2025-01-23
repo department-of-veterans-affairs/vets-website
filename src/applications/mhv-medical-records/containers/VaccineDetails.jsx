@@ -105,8 +105,8 @@ ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date}\n
 ${txtLine}\n\n
+Date received: ${record.date}\n
 Location: ${record.location}\n`;
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
