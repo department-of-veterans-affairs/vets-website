@@ -1,50 +1,50 @@
 import React from 'react';
-import createMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import UnauthenticatedAlert, {
-  headingPrefix,
-} from '../../../components/messages/UnauthenticatedAlert';
-
-const mockStore = createMockStore([]);
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import UnauthenticatedAlert from '../../../components/messages/UnauthenticatedAlert';
 
 describe('Unauthenticated Alert component', () => {
-  it('renders without service description', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
+  const mockStore = {
+    getState: () => ({}),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
+  it('renders', () => {
+    const { container } = render(
+      <Provider store={mockStore}>
         <UnauthenticatedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: headingPrefix })).to.exist;
-  });
 
-  it('with service description', () => {
-    const serviceDescription = 'order supplies';
+    const signInAlert = $('va-alert-sign-in', container);
+    const signInButton = $('va-button', container);
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('signInRequired');
+    expect(signInAlert.getAttribute('heading-level')).to.eql('2');
 
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnauthenticatedAlert serviceDescription={serviceDescription} />
-      </Provider>,
-    );
-    const expectedHeadline = `${headingPrefix} to ${serviceDescription}`;
-    expect(getByRole('heading', { name: expectedHeadline })).to.exist;
+    fireEvent.click(signInButton);
+
+    expect(signInButton).to.exist;
   });
 
   it('with header level 3', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
+    const { container } = render(
+      <Provider store={mockStore}>
         <UnauthenticatedAlert headerLevel={3} />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert.getAttribute('heading-level')).to.eql('3');
   });
 
   it('reports analytics', async () => {
     const recordEventSpy = sinon.spy();
     render(
-      <Provider store={mockStore()}>
+      <Provider store={mockStore}>
         <UnauthenticatedAlert recordEvent={recordEventSpy} />
       </Provider>,
     );

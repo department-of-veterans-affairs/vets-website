@@ -16,7 +16,6 @@ export const App = ({
   toggleLoginModal,
   authenticatedWithSSOe,
   authenticatedWithOAuth,
-  verbose,
 }) => {
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
@@ -56,8 +55,7 @@ export const App = ({
         <>
           <Unauth
             toggleLoginModal={toggleLoginModal}
-            DynamicHeader={DynamicHeader}
-            verbose={verbose}
+            headingLevel={baseHeader}
           />
         </>
       )}
