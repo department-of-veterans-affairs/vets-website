@@ -6,6 +6,7 @@ import {
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
   formatIndividualLabel,
+  renderDOB,
 } from '@@vap-svc/util/personal-information/personalInformationUtils';
 
 describe('formatMultiSelectAndText utility', () => {
@@ -117,5 +118,25 @@ describe('formatIndividualLabel utility', () => {
     const output = 'test string here';
 
     expect(formatIndividualLabel(key, label)).to.equal(output);
+  });
+});
+
+describe('renderDOB utility', () => {
+  it('returns formatted date for a valid date string', () => {
+    const dob = '1986-05-06';
+    const expected = 'May 6, 1986';
+    expect(renderDOB(dob)).to.equal(expected);
+  });
+
+  it('returns NOT_SET_TEXT when dob is undefined, null, or an empty string', () => {
+    const NOT_SET_TEXT = 'This information is not available right now.';
+    let dob;
+    expect(renderDOB(dob)).to.equal(NOT_SET_TEXT);
+
+    dob = null;
+    expect(renderDOB(dob)).to.equal(NOT_SET_TEXT);
+
+    dob = '';
+    expect(renderDOB(dob)).to.equal(NOT_SET_TEXT);
   });
 });

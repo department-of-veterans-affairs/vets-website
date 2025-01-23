@@ -143,6 +143,26 @@ async function getScaffoldAssets() {
   return Object.fromEntries(loadedAssets);
 }
 
+const templateLayoutToDevTemplate = {
+  'accredited-representative-portal.html':
+    'src/platform/landing-pages/arp-dev-template.ejs',
+};
+
+/**
+ * Retrieves the development template path for a given content-build layout
+ *
+ * @param {String} templateLayout - The content-build layout file that the
+ * development template is simulating
+ * @return {String} - The path to the development template. Falls back to the
+ * default development template if no specific alternative template is found.
+ */
+function getDevTemplate(templateLayout) {
+  return (
+    templateLayoutToDevTemplate[templateLayout] ||
+    'src/platform/landing-pages/dev-template.ejs'
+  );
+}
+
 /**
  * Generates HTML files for each app and widget.
  *
@@ -204,13 +224,13 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
         'polyfills',
         useLocalStylesAndComponents ? null : 'web-components',
         'vendor',
-        useLocalStylesAndComponents ? null : 'style',
+        'style',
         entryName,
       ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      template: 'src/platform/landing-pages/dev-template.ejs',
+      template: getDevTemplate(template.layout),
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
@@ -409,6 +429,7 @@ module.exports = async (env = {}) => {
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
+        querystring: require.resolve('querystring-es3'),
         fs: false,
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
@@ -417,6 +438,7 @@ module.exports = async (env = {}) => {
         stream: require.resolve('readable-stream'),
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
+        'process/browser': require.resolve('process/browser'),
       },
       symlinks: false,
     },
@@ -495,8 +517,8 @@ module.exports = async (env = {}) => {
           },
           {
             from:
-              'node_modules/@department-of-veterans-affairs/component-library/dist/assets',
-            to: `${buildPath}/assets`,
+              'node_modules/@department-of-veterans-affairs/component-library/dist/img/',
+            to: `${buildPath}/img/`,
           },
         ],
       }),

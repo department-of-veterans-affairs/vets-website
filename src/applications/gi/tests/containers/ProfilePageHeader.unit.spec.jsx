@@ -476,7 +476,10 @@ describe('<ProfilePageHeader>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ProfilePageHeader institution={RAITINGS_TEST_INSTITUTION} />,
+      <ProfilePageHeader
+        institution={RAITINGS_TEST_INSTITUTION}
+        isShowRatingsToggle
+      />,
       {
         initialState: {
           constants: mockConstants(),
@@ -523,6 +526,9 @@ describe('<ProfilePageHeader>', () => {
         },
       ],
       vetTecProvider: true,
+      cautionFlags: [
+        { title: 'Test caution flag', description: 'Test caution flag' },
+      ],
     };
 
     const screen = renderWithStoreAndRouter(

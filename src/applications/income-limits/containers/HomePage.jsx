@@ -10,7 +10,6 @@ import {
   updateZipCode,
 } from '../actions';
 import { ROUTES } from '../constants';
-import { customizeTitle } from '../utilities/customize-title';
 
 const HomePage = ({
   router,
@@ -19,12 +18,6 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
-  const H1 = 'Income limits and your VA health care';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
-
   useEffect(
     () => {
       const clearForm = () => {
@@ -54,25 +47,24 @@ const HomePage = ({
 
   return (
     <>
+      <h1>Income limits and your VA health care</h1>
+      <p>
+        Answer 2 questions to find out how your income may affect your VA health
+        care eligibility and costs.
+      </p>
       <va-alert
         class="vads-u-margin-top--1 vads-u-margin-bottom--3"
         close-btn-aria-label="Close notification"
         status="info"
         visible
-        uswds
       >
         <h2 slot="headline">
-          We’ve updated this tool to check 2024 income limits
+          We’ve updated this tool to check 2025 income limits
         </h2>
-        <p className="vads-u-margin-bottom--0">
-          You can check your income limits for 2024 now.
+        <p className="vads-u-margin-y--0">
+          You can check your income limits for 2025 now.
         </p>
       </va-alert>
-      <h1>{H1}</h1>
-      <p>
-        Answer 2 questions to find out how your income may affect your VA health
-        care eligibility and costs.
-      </p>
       <h2>What to know before you start:</h2>
       <ul className="vads-u-margin-left--1">
         <li>
@@ -102,25 +94,22 @@ const HomePage = ({
         </li>
       </ul>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="income-limits-current"
         href="#"
-        className="vads-u-display--block vads-u-margin-bottom--1 vads-u-margin-top--3 vads-c-action-link--green"
         onClick={goToCurrent}
-      >
-        Check current income limits
-      </a>
+        text="Check current income limits"
+      />
       <h2>Past income limits</h2>
       <p>You can also use this tool to review income limits for past years.</p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="income-limits-past"
         href="#"
-        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--blue"
         onClick={goToPast}
-      >
-        Check income limits for a previous year
-      </a>
+        text="Check income limits for a previous year"
+        type="secondary"
+      />
     </>
   );
 };

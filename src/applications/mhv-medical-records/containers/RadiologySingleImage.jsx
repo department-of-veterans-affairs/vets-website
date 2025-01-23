@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 
@@ -15,7 +14,7 @@ const RadiologySingleImage = () => {
     return {
       name: 'ANKLE LEFT 3 VIEWS',
       category: 'Radiology',
-      orderedBy: 'Beth M. Smith',
+      orderedBy: 'DOE, JANE A',
       reason: 'Injury',
       clinicalHistory: 'Information',
       imagingProvider: 'John J. Lydon',
@@ -40,22 +39,6 @@ const RadiologySingleImage = () => {
       ],
     };
   }, []);
-
-  useEffect(
-    () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              url: `/labs-and-tests/radiology-images/${labId}`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ]),
-        );
-      }
-    },
-    [labAndTestDetails, labId, dispatch],
-  );
 
   useEffect(
     () => {
@@ -87,17 +70,15 @@ const RadiologySingleImage = () => {
               type="button"
               className="link-button vads-u-margin-right--4 vads-u-margin-y--0"
             >
-              <i
-                className="fas fa-download vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
+              <span className="vads-u-margin-right--0p5" aria-hidden="true">
+                <va-icon icon="file_download" size={2} />
+              </span>
               Download JPG
             </button>
             <button type="button" className="link-button  vads-u-margin-y--0">
-              <i
-                className="fas fa-download vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
+              <span className="vads-u-margin-right--0p5" aria-hidden="true">
+                <va-icon icon="file_download" size={2} />
+              </span>
               Download DICOM
             </button>
           </div>
@@ -117,10 +98,9 @@ const RadiologySingleImage = () => {
                         }/${labAndTestDetails.images.length}`
                   }
                 >
-                  <i
-                    className="fas fa-angle-double-left vads-u-margin-right--1"
-                    aria-hidden="true"
-                  />
+                  <span aria-hidden="true">
+                    <va-icon icon="navigate_far_before" size={2} />
+                  </span>
                   Previous
                 </a>
               )}
@@ -139,10 +119,9 @@ const RadiologySingleImage = () => {
                   }
                 >
                   Next
-                  <i
-                    className="fas fa-angle-double-right vads-u-margin-left--1"
-                    aria-hidden="true"
-                  />
+                  <span aria-hidden="true">
+                    <va-icon icon="navigate_far_next" size={2} />
+                  </span>
                 </a>
               )}
             </div>
@@ -153,27 +132,31 @@ const RadiologySingleImage = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Reason for test
             </h3>
-            <p className="vads-u-margin--0">{labAndTestDetails.reason}</p>
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
+              {labAndTestDetails.reason}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Clinical history
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.clinicalHistory}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Ordered by
             </h3>
-            <p className="vads-u-margin--0">{labAndTestDetails.orderedBy}</p>
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
+              {labAndTestDetails.orderedBy}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Imaging location
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.imagingLocation}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Imaging provider
             </h3>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-dd-privacy="mask">
               {labAndTestDetails.imagingProvider}
             </p>
           </div>

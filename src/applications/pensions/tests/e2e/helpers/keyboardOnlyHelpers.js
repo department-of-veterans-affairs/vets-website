@@ -3,6 +3,10 @@ import isEmpty from 'lodash/isEmpty';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import { replaceRefSchemas } from 'platform/forms-system/src/js/state/helpers';
 
+import {
+  fillDateWebComponentPattern,
+  shouldNotHaveValidationErrors,
+} from './index';
 import formConfig from '../../../config/form';
 
 export const shouldIncludePage = (page, data, index) =>
@@ -71,49 +75,56 @@ export const getComponentType = (parentUi, elementUi, schemaType) => {
 };
 
 export const typeEachChar = str => {
-  for (const character of `${str}`) {
-    cy.realPress(character);
+  if (typeof str !== 'string') {
+    return typeEachChar(`${str}`);
   }
+  return cy.realType(str);
 };
 
-export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
+export const fillSelectByTyping = (str, handleFailure, attempt = 0) => {
   if (typeof str !== 'string') {
-    return fillSelectByTyping(`${str}`);
+    return fillSelectByTyping(`${str}`, handleFailure, attempt);
   }
+
   if (attempt > 3) {
-    throw new Error(`Unable to enter ${str} in select after 3 tries`);
+    cy.log(`Unable to enter ${str} in select after 3 tries.`);
+    return handleFailure(str);
   }
-  cy.realPress(str[i]);
+
   return cy
     .get(':focus :selected')
     .should(Cypress._.noop)
     .then($el => {
       const text = $el.text();
-      if (text === str) return text;
-      if (!text.startsWith(str.slice(0, i)) || i + 1 >= str.length) {
-        // Sometimes the select doesn't pick up the first character,
-        // causing the wrong option to be selected. Waiting before
-        // re-typing the selection mimics user behavior and allows
-        // the select to reset the selection process..
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(100);
+      if (text === str || text === `${str}${str}`) return;
 
-        return fillSelectByTyping(str, 0, attempt + 1);
-      }
-      if (!text.includes(str)) {
-        return fillSelectByTyping(str, i + 1);
-      }
-      return text;
+      cy.realType(str);
+
+      // Sometimes the select doesn't pick up the first character,
+      // causing the wrong option to be selected. Waiting before
+      // re-typing the selection mimics user behavior and allows
+      // the select to reset the selection process.
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      fillSelectByTyping(str, handleFailure, attempt + 1);
     });
 };
 
-export const fillDate = fieldData => {
+export const fillDate = (fieldData, path) => {
   const dateSegments = fieldData.split('-').map(e => e.trim());
   const monthString = new Date(fieldData).toLocaleString('en-US', {
     month: 'long',
     timeZone: 'UTC',
   });
-  fillSelectByTyping(monthString);
+  fillSelectByTyping(monthString, str => {
+    // Sometimes CI can take over a minute to press each key,
+    // which causes the <select /> to timeout between keypresses,
+    // resulting in the selection failing.
+    // We must fall back to fillDateWebComponentPattern,
+    // which doesn't use the keyboard for selects.
+    cy.log(`Failed to enter ${str} in 'fillDate'. Using fallback.`);
+    return fillDateWebComponentPattern(path, fieldData);
+  });
   cy.realPress('Tab', { pressDelay: 0 });
   typeEachChar(parseInt(dateSegments[2], 10));
   cy.realPress('Tab', { pressDelay: 0 });
@@ -152,7 +163,7 @@ export const fillField = ({
 
   if (path.includes('dateOfMarriage') || path.includes('dateOfSeparation')) {
     tabToElementByPath(path, 'Month');
-    fillDate(fieldData);
+    fillDate(fieldData, path.join('_'));
     return;
   }
 
@@ -164,12 +175,20 @@ export const fillField = ({
       month: 'long',
       timeZone: 'UTC',
     });
-    fillSelectByTyping(monthString);
+    fillSelectByTyping(monthString, str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
     cy.tabToElement(`#${name}Day`);
-    fillSelectByTyping(date[2]);
+    fillSelectByTyping(date[2], str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
     cy.tabToElement(`input[name="${name}Year"]`);
     typeEachChar(date[0]);
     return;
+  }
+
+  if (path.includes('powDateRange')) {
+    cy.get('input#root_powStatusYesinput').should('be.checked');
   }
 
   tabToElementByPath(path);
@@ -181,9 +200,11 @@ export const fillField = ({
             elementSchema.enum.findIndex(value => value === fieldData)
           ]
         : fieldData;
-    fillSelectByTyping(enumName);
+    fillSelectByTyping(enumName, str => {
+      throw new Error(`Failed to enter ${str} in 'VaSelectField'`);
+    });
   } else if (type === 'VaMemorableDateField') {
-    fillDate(fieldData);
+    fillDate(fieldData, path.join('_'));
   } else if (type === 'YesNoField' || type === 'yesNo') {
     cy.chooseRadio(fieldData ? 'Y' : 'N');
   } else if (type === 'YesNoField-reverse' || type === 'yesNo-reverse') {
@@ -226,7 +247,9 @@ export const fillStateField = (path, schema, uiSchema, data) => {
   cy.document().then(doc => {
     const tagName = doc.activeElement?.tagName?.toLowerCase();
     if (tagName === 'select' || tagName === 'va-select') {
-      fillSelectByTyping(enumName);
+      fillSelectByTyping(enumName, str => {
+        throw new Error(`Failed to enter ${str} in 'select' or 'va-select`);
+      });
     } else {
       fillInput(fieldData);
     }
@@ -322,6 +345,7 @@ const keyboardTestArrayPage = (page, data, fieldKey, i) => {
     data,
   });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
 };
 
 export const keyboardTestArrayPages = (page, chapter, data) => {
@@ -354,6 +378,7 @@ export const keyboardTestPage = (page, data) => {
 
   fillSchema({ schema: page.schema, uiSchema: page.uiSchema, data });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
   return [page.path];
 };
 

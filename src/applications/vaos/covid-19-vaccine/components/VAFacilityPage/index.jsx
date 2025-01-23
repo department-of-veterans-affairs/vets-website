@@ -16,7 +16,6 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import InfoAlert from '../../../components/InfoAlert';
 import useFormState from '../../../hooks/useFormState';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
@@ -148,6 +147,15 @@ function VAFacilityPage({
       </div>
     );
   }
+  if (loadingClinics) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
+    );
+  }
 
   if (noValidVAFacilities) {
     return (
@@ -277,7 +285,7 @@ function VAFacilityPage({
         <InfoAlert
           status="warning"
           headline="Your browser is blocked from finding your current location."
-          className="vads-u-background-color--gold-lightest vads-u-font-size--base vads-u-padding-bottom--3"
+          className="vads-u-background-color--gold-lightest vads-u-padding-bottom--3"
           level="3"
         >
           <p>
@@ -317,13 +325,6 @@ function VAFacilityPage({
             />
           </SchemaForm>
         )}
-
-      <LoadingOverlay
-        show={loadingClinics}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
 
       {showEligibilityModal && (
         <EligibilityModal

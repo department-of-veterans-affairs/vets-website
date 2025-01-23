@@ -1,3 +1,4 @@
+import { isBefore, subYears, isWithinInterval } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -37,18 +38,6 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
- * Helper that determines if the form data contains values that enable the
- * toxic exposure questions in the Military Service chapter
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user is not short form eligible and the
- * TERA feature flag is set to true
- */
-export function teraInformationEnabled(formData) {
-  const { 'view:isTeraEnabled': isTeraEnabled } = formData;
-  return isTeraEnabled;
-}
-
-/**
  * Helper that determines if the form data contains values that indicate the
  * user wants to fill out information related to toxic exposure
  * @param {Object} formData - the current data object passed from the form
@@ -56,8 +45,73 @@ export function teraInformationEnabled(formData) {
  * the user indicated they wanted to fill out questions related to exposure
  */
 export function includeTeraInformation(formData) {
+  return formData.hasTeraResponse;
+}
+
+export function canVeteranProvideAgentOrangeResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideRadiationCleanupResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideGulfWarServiceResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1976-01-01'))
+  );
+}
+
+export function canVeteranProvideCombatOperationsResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
+  );
+}
+
+export function canVeteranProvidePostSept11ServiceResponse(formData) {
+  return (
+    includeTeraInformation(formData) &&
+    isWithinInterval(new Date(formData?.veteranDateOfBirth), {
+      start: new Date('1976-01-01'),
+      end: subYears(new Date(), 15),
+    })
+  );
+}
+
+/**
+ * Helper that determines if the form data contains values that enable the
+ * toxic exposure file upload in the Military Service chapter
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user wants to fill out TERA information and the
+ * EZR Upload feature flag is set to true
+ */
+export function teraUploadEnabled(formData) {
   const { hasTeraResponse } = formData;
-  return teraInformationEnabled(formData) && hasTeraResponse;
+  return includeTeraInformation(formData) && hasTeraResponse;
 }
 
 /**
@@ -69,7 +123,27 @@ export function includeTeraInformation(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return gulfWarService;
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideGulfWarServiceResponse(formData)
+  );
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-911 gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Post-9/11 Gulf War locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvidePostSept11ServiceResponse(formData)
+  );
 }
 
 /**
@@ -81,7 +155,11 @@ export function includeGulfWarServiceDates(formData) {
  */
 export function includeAgentOrangeExposureDates(formData) {
   const { exposedToAgentOrange } = formData;
-  return exposedToAgentOrange;
+  return (
+    exposedToAgentOrange &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideAgentOrangeResponse(formData)
+  );
 }
 
 /**
@@ -94,7 +172,7 @@ export function includeAgentOrangeExposureDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return exposures.some(o => o);
+  return exposures.includes(true) && includeTeraInformation(formData);
 }
 
 /**
@@ -105,7 +183,10 @@ export function includeOtherExposureDates(formData) {
  * that was not on the specified list
  */
 export function includeOtherExposureDetails(formData) {
-  return formData['view:otherToxicExposures']?.exposureToOther;
+  return (
+    formData['view:otherToxicExposures']?.exposureToOther &&
+    includeTeraInformation(formData)
+  );
 }
 /**
  * Helper that determines if the form data contains values that allow users to fill

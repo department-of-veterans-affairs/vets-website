@@ -1,4 +1,3 @@
-import featureToggleEnabled from './fixtures/mocks/claim-letters/feature-toggle-enabled.json';
 import claimLetters from './fixtures/mocks/claim-letters/list.json';
 
 describe('Claim Letters Page', () => {
@@ -6,22 +5,31 @@ describe('Claim Letters Page', () => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
       'claimLetters',
     );
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
-      'featureToggleEnabled',
-    );
+
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'cst_include_ddl_boa_letters', value: true },
+          { name: 'claim_letters_access', value: true },
+        ],
+      },
+    });
 
     cy.login();
-    cy.visit('track-claims/your-claim-letters');
-    cy.injectAxe();
   });
 
   it('Can tab to download link and pagination', () => {
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
     cy.tabToElement('#claim-letter-list va-link').should('exist');
     cy.tabToElement('va-pagination').should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Pagination buttons work properly', () => {
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
+
     // 'Prev' button should not show on first page
     cy.contains(/Previous/i).should('not.exist');
 
@@ -40,7 +48,7 @@ describe('Claim Letters Page', () => {
     // 'Prev' button should not show
     cy.contains(/Previous/i).should('not.exist');
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Downloads a file successfully when link is focused and enter key is pressed', () => {
@@ -58,6 +66,8 @@ describe('Claim Letters Page', () => {
       fixture:
         'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
     }).as('downloadFile');
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
 
     cy.tabToElement('#claim-letter-list va-link').realPress('Enter');
 
@@ -70,6 +80,6 @@ describe('Claim Letters Page', () => {
       'Test claim letter',
     );
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import moment from 'moment';
 
 import {
   $,
@@ -12,6 +11,10 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { parseISO } from 'date-fns';
+import getFixtureData, {
+  FixtureDataType,
+} from '../../../fixtures/vets-json-api/getFixtureData';
 import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
@@ -19,6 +22,11 @@ import applicantInformation, {
   isOver65,
   setDefaultIsOver65,
 } from '../../../../config/chapters/01-applicant-information/applicantInformation';
+import {
+  getWebComponentErrors,
+  testNumberOfFieldsByType,
+  testSubmitsWithoutErrors,
+} from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -44,13 +52,27 @@ describe('pension applicant information page', () => {
       </Provider>,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect($$('va-alert', container).length).to.equal(1);
-      expect($$('input', container).length).to.equal(7);
-      expect($$('select', container).length).to.equal(2);
+      expect($$('va-text-input', container).length).to.equal(5);
+      expect($$('va-memorable-date', container).length).to.equal(1);
+      expect($$('va-select', container).length).to.equal(1);
+      expect($$('va-radio', container).length).to.equal(1);
       expect($('button[type="submit"]', container)).to.exist;
     });
   });
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 5,
+      'va-memorable-date': 1,
+      'va-select': 1,
+      'va-radio': 1,
+    },
+    'applicant information',
+  );
   it('should not allow submit with errors', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
@@ -70,72 +92,42 @@ describe('pension applicant information page', () => {
     );
 
     fireEvent.submit($('form', container));
-    waitFor(() => {
-      expect($('.usa-input-error', container).length).to.equal(4);
+    await waitFor(() => {
+      expect(getWebComponentErrors(container).length).to.equal(4);
       expect(onSubmit.called).to.be.false;
     });
   });
-  it('should submit with no errors with all required fields filled in', async () => {
-    const { data } = getData({ loggedIn: false });
-    const { queryByText, queryByRole, container } = render(
-      <Provider store={mockStore(data)}>
-        <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
-    const submitBtn = queryByText('Submit');
-    const firstName = queryByRole('textbox', {
-      name: /First name/i,
-    });
-    const lastName = queryByRole('textbox', {
-      name: /Last name/i,
-    });
-    const ssnInput = queryByRole('textbox', {
-      name: /Social Security Number/i,
-    });
-    const birthMonth = container.querySelector('#root_veteranDateOfBirthMonth');
-    const birthDay = container.querySelector('#root_veteranDateOfBirthDay');
-    const birthYear = container.querySelector('#root_veteranDateOfBirthYear');
 
-    fireEvent.click(submitBtn);
-    waitFor(() => {
-      expect($$('.usa-input-error-message', container)).not.to.be.empty;
-
-      fireEvent.change(firstName, { target: { value: 'Jon' } });
-      fireEvent.change(lastName, { target: { value: 'Snow' } });
-      fireEvent.change(ssnInput, { target: { value: '134445555' } });
-      fireEvent.change(birthMonth, { target: { value: '2' } });
-      fireEvent.change(birthDay, { target: { value: '15' } });
-      fireEvent.change(birthYear, { target: { value: '1960' } });
-      fireEvent.click(submitBtn);
-
-      expect($$('.usa-input-error-message', container)).to.be.empty;
-    });
-  });
+  testSubmitsWithoutErrors(
+    formConfig,
+    schema,
+    uiSchema,
+    'applicant information',
+    getFixtureData(FixtureDataType.OVERFLOW),
+    { loggedIn: false },
+  );
 
   describe('isOver65', () => {
     it('should return true if veteranDateOfBirth is over 65 years ago', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: '1950-01-01' },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.true;
     });
+
     it('should return false if veteranDateOfBirth is under 65 years ago', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: '2000-01-01' },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.false;
     });
+
     it('should return undefined if veteranDateOfBirth is invalid or null', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: null },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.undefined;
     });
@@ -146,15 +138,16 @@ describe('pension applicant information page', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(formData.isOver65).to.be.false;
     });
+
     it('should update isOver65 if veteranDateOfBirth changes', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '2000-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(formData.isOver65).to.be.true;
     });

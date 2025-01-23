@@ -1,5 +1,3 @@
-import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
-
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
 export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
@@ -15,9 +13,8 @@ export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
 import * as Sentry from '@sentry/browser';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import recordEvent from '~/platform/monitoring/record-event';
-import { debtMockResponse } from '../utils/mocks/mockResponses';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });
 const fetchDebtLettersInitiated = () => ({
@@ -60,9 +57,10 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVAProfileServiceConfigured()
-      ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
-      : await debtMockResponse();
+    const response = await apiRequest(
+      `${environment.API_URL}/v0/debt_letters`,
+      options,
+    );
 
     // Remove DMC prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
@@ -88,6 +86,32 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     return dispatch(fetchDebtLettersVBMSFailure());
   }
 };
+
+const validateHistory = debts => {
+  const errors = [];
+  debts.forEach(debt => {
+    const history = debt?.debtHistory;
+    history?.forEach(h => {
+      if (!h.date) {
+        errors.push(
+          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${
+            debt?.deductionCode
+          }; diaryCode: ${debt?.diaryCode}`,
+        );
+      }
+    });
+  });
+
+  if (errors.length === 0) return;
+  Sentry.withScope(scope => {
+    scope.setLevel('info');
+    scope.setExtra('Error list', errors);
+    Sentry.captureMessage(
+      `LTR - Debt Letters - Debt object date validation failed`,
+    );
+  });
+};
+
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -100,9 +124,10 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVAProfileServiceConfigured()
-      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : await debtMockResponse();
+    const response = await apiRequest(
+      `${environment.API_URL}/v0/debts`,
+      options,
+    );
 
     if (Object.keys(response).includes('errors')) {
       recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
@@ -132,6 +157,9 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     if (!hasDependentDebts && debtLettersActive) {
       dispatch(fetchDebtLettersVBMS());
     }
+
+    validateHistory(filteredResponse);
+
     return dispatch(
       fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
     );

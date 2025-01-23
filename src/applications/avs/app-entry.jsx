@@ -1,14 +1,15 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/avs.scss';
 
-import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
+import { startAppFromRouterV6 as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import routes from './routes';
+import router from './router';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
-  routes,
+  router,
 });

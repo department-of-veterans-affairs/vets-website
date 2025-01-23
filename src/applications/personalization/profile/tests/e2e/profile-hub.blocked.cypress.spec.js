@@ -1,4 +1,4 @@
-import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
+import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -16,18 +16,11 @@ describe('Profile - Hub page', () => {
   beforeEach(() => {
     cy.login(mockUser);
 
-    mockProfileLOA3(
-      generateFeatureToggles({
-        profileContacts: true,
-      }),
-    );
+    mockProfileLOA3(generateFeatureToggles());
   });
 
   it('should render blocked profile content when user is deceased', () => {
-    cy.intercept(
-      '/v0/profile/direct_deposits/disability_compensations',
-      disabilityComps.isDeceased,
-    );
+    cy.intercept('/v0/profile/direct_deposits', directDeposits.isDeceased);
 
     checkForAccountSecurityAsRedirect();
 
@@ -35,10 +28,7 @@ describe('Profile - Hub page', () => {
   });
 
   it('should render blocked profile content when user has fiduciary flag', () => {
-    cy.intercept(
-      '/v0/profile/direct_deposits/disability_compensations',
-      disabilityComps.isFiduciary,
-    );
+    cy.intercept('/v0/profile/direct_deposits', directDeposits.isFiduciary);
 
     checkForAccountSecurityAsRedirect();
 
@@ -46,10 +36,7 @@ describe('Profile - Hub page', () => {
   });
 
   it('should render blocked profile content when user in not competent', () => {
-    cy.intercept(
-      '/v0/profile/direct_deposits/disability_compensations',
-      disabilityComps.isNotCompetent,
-    );
+    cy.intercept('/v0/profile/direct_deposits', directDeposits.isNotCompetent);
 
     checkForAccountSecurityAsRedirect();
 

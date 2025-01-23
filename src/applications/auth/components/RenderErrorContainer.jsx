@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
-import Helpdesk from './HelpdeskContact';
+import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 
 export default function RenderErrorContainer({
   code = AUTH_ERRORS.DEFAULT.errorCode,
@@ -15,7 +15,7 @@ export default function RenderErrorContainer({
 
   if (auth === AUTH_LEVEL.FAIL) {
     recordEvent({
-      event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      event: `login-error-code-${code}`,
     });
   }
 
@@ -41,9 +41,7 @@ export default function RenderErrorContainer({
             try signing in with your premium DS Logon or premium My HealtheVet
             username and password.
           </p>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -80,10 +78,11 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <Helpdesk />
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+          <ContactCenterInformation
+            startSentance
+            className="vads-u-display--block vads-u-margin-top--2"
+          />
         </>
       );
       break;
@@ -101,9 +100,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
@@ -138,12 +135,10 @@ export default function RenderErrorContainer({
               Login.gov/contact.
             </a>
           </p>
-          <Helpdesk>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+          <ContactCenterInformation className="vads-u-display--block vads-u-margin-top--2">
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          </ContactCenterInformation>
         </>
       );
       break;
@@ -162,7 +157,7 @@ export default function RenderErrorContainer({
           <ul>
             <li>
               <strong>Call the My HealtheVet help desk</strong>
-              <Helpdesk />
+              <ContactCenterInformation />
               <p>
                 Tell the representative that you tried to sign in to VA.gov, but
                 got an error message that you have more than one My HealtheVet
@@ -214,7 +209,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <Helpdesk />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -231,7 +226,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -247,7 +242,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -263,7 +258,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -389,9 +384,24 @@ export default function RenderErrorContainer({
               in—especially if you’re using a public or shared computer.
             </p>
           </div>
-          <Helpdesk>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </ContactCenterInformation>
+        </>
+      );
+      break;
+
+    case AUTH_ERRORS.MHV_PROVISIONING_FAILURE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble provisioning your My HealtheVet account right now
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <p>Try signing in again in a few minutes.</p>
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -405,7 +415,31 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>How can I fix this issue?</h2>
-          <Helpdesk startScentence />
+          <ContactCenterInformation startSentance />
+        </>
+      );
+      break;
+
+    case AUTH_ERRORS.CERNER_NOT_ELIGIBLE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re sorry. Your health care services are not managed with My VA
+          Health. However, you can still use VA.gov and My HealtheVet to access
+          your health care and benefits.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <p>
+            Navigate to the My HealtheVet page to manage your VA health care and
+            benefits. You can do this by using the "Access My HealtheVet" link
+            below
+          </p>
+          <a href="/my-health">Access My HealtheVet</a>
+          <ContactCenterInformation className="vads-u-display--block">
+            If you’re still running into issues,
+          </ContactCenterInformation>
         </>
       );
       break;
@@ -421,9 +455,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
@@ -454,9 +486,9 @@ export default function RenderErrorContainer({
               information in the “Tools,” “Settings,” or “Preferences” menu.
             </li>
           </ul>
-          <Helpdesk>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </ContactCenterInformation>
         </>
       );
       break;
@@ -517,9 +549,9 @@ export default function RenderErrorContainer({
               you’ve updated your browser with the latest updates.
             </li>
           </ul>
-          <Helpdesk>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </ContactCenterInformation>
         </>
       );
   }
@@ -527,7 +559,7 @@ export default function RenderErrorContainer({
   return (
     <div className="usa-content columns small-12">
       <h1>We can’t sign you in</h1>
-      <va-alert visible status="error">
+      <va-alert visible status="error" uswds>
         {alertContent}
       </va-alert>
       {troubleshootingContent}

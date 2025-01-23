@@ -41,19 +41,24 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
 
   return (
     <div data-testid="address-block">
-      <span data-testid="address-line-street1">{address.street1}</span>
+      <p className="vads-u-margin--0" data-testid="address-line-street1">
+        {address.street1}
+      </p>
       {lineTwo}
       {lineThree}
-      <br aria-hidden="true" />
-      <span data-testid="address-city-state-and-zip">
+      <p className="vads-u-margin--0" data-testid="address-city-state-and-zip">
         {`${address.city}, ${address.state} ${address.zip.substring(0, 5)}`}
-      </span>
+      </p>
       {showDirections &&
         placeName && (
-          <div data-testid="directions-link-wrapper">
-            <i
-              className="fas fa-road vads-u-color--link-default vads-u-margin-right--0p5"
-              aria-hidden="true"
+          <div
+            data-testid="directions-link-wrapper"
+            className="vads-u-display--flex vads-u-color--link-default"
+          >
+            <va-icon
+              className="vads-u-margin-right--0p5 vads-u-color--link-default"
+              icon="directions"
+              size={3}
             />
             <a
               data-testid="directions-link"

@@ -5,14 +5,18 @@ import sinon from 'sinon';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
 import { claimsAvailability } from '../../utils/appeals-v2-helpers';
 import { renderWithRouter } from '../utils';
 
+const mockStore = createStore(() => ({}));
+
 const localStorageMock = (() => {
-  let store = {};
+  let store = createStore(() => ({}));
 
   return {
     getItem(key) {
@@ -71,7 +75,7 @@ describe('<YourClaimsPageV2>', () => {
       },
       {
         type: 'legacyAppeal',
-        id: '1122334455',
+        id: '1122334454',
         attributes: {
           updated: '2018-05-29T19:38:40-04:00',
           events: [{ date: '2018-06-01' }],
@@ -87,6 +91,13 @@ describe('<YourClaimsPageV2>', () => {
     getClaims: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
+    location: {
+      pathname: '/claims',
+      search: '?page=1',
+    },
+    history: {
+      push: sinon.spy(),
+    },
   };
 
   it('should render', () => {
@@ -97,11 +108,13 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render <ClaimsAppealsUnavailable/>', () => {
     const { container } = renderWithRouter(
-      <YourClaimsPageV2
-        {...defaultProps}
-        appealsAvailable={claimsAvailability.UNAVAILABLE}
-        claimsAvailable={claimsAvailability.UNAVAILABLE}
-      />,
+      <Provider store={mockStore}>
+        <YourClaimsPageV2
+          {...defaultProps}
+          appealsAvailable={claimsAvailability.UNAVAILABLE}
+          claimsAvailable={claimsAvailability.UNAVAILABLE}
+        />
+      </Provider>,
     );
 
     expect($('.claims-unavailable', container)).to.exist;
@@ -130,12 +143,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('AppealListItem').length).to.equal(1);
     expect(wrapper.find('ClaimsListItem').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a closed claim message if show30DayNotice is true', () => {
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -215,17 +222,57 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render 30 day notice', () => {
-    const props = set('show30DayNotice', true, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
-    wrapper.unmount();
+  it('should return updated state when page changes in getDerivedStateFromProps', () => {
+    const nextProps = {
+      location: {
+        pathname: '/claims',
+        search: '?page=2',
+      },
+    };
+    const prevState = { page: 1 };
+
+    const newState = YourClaimsPageV2.getDerivedStateFromProps(
+      nextProps,
+      prevState,
+    );
+    expect(newState).to.deep.equal({ page: 2 });
   });
 
-  it('should not render 30 day notice', () => {
-    sessionStorage.setItem('show30DayNotice', false);
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
-    wrapper.unmount();
+  it('should return null when page does not change in getDerivedStateFromProps', () => {
+    const nextProps = {
+      location: {
+        pathname: '/claims',
+        search: '?page=1',
+      },
+    };
+    const prevState = { page: 1 };
+
+    const newState = YourClaimsPageV2.getDerivedStateFromProps(
+      nextProps,
+      prevState,
+    );
+    expect(newState).to.be.null;
+  });
+
+  it('should return the correct page from getPageFromURL', () => {
+    const testProps = {
+      location: {
+        search: '?page=3',
+      },
+    };
+
+    const page = YourClaimsPageV2.getPageFromURL(testProps);
+    expect(page).to.equal(3);
+  });
+
+  it('should return 1 when page is not provided in getPageFromURL', () => {
+    const testProps = {
+      location: {
+        search: '',
+      },
+    };
+
+    const page = YourClaimsPageV2.getPageFromURL(testProps);
+    expect(page).to.equal(1);
   });
 });

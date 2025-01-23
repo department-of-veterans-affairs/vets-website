@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
+import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -43,7 +42,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
               className="hca-application-date dd-privacy-mask"
               data-dd-action-name="application date"
             >
-              {moment(timestamp).format('MMM D, YYYY')}
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
             </p>
           </>
         ) : null}

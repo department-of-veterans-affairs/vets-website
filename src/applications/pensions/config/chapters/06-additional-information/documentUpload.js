@@ -1,13 +1,17 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-
 import { files } from '../../definitions';
+import { showUploadDocuments } from '../../../helpers';
+
+// TODO: Remove this page when pension_document_upload_update flipper is removed
+const path = !showUploadDocuments()
+  ? 'additional-information/document-upload'
+  : 'temporarily-hidden-document-upload';
 
 const Description = (
-  <div>
+  <div className="vads-u-color--gray-dark">
     <p>
       You can submit your supporting documents using any of the options listed
       on this page.
@@ -20,17 +24,21 @@ const Description = (
       available to us.
     </p>
 
-    <h3>Option 1: Upload your documents online </h3>
+    <h4>Option 1: Upload your documents online </h4>
 
     <p>You can upload your documents now.</p>
 
-    <p>File types you can upload: PDF</p>
+    <p>Guidelines to upload a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, or .png file</li>
+      <li>Your file should be no larger than 20MB</li>
+    </ul>
   </div>
 );
 
 const UploadMessage = (
-  <div>
-    <h3>Option 2: Submit your documents online through AccessVA</h3>
+  <div className="vads-u-color--gray-dark">
+    <h4>Option 2: Submit your documents online through AccessVA</h4>
 
     <p>
       You can use the QuickSubmit tool through AccessVA to submit your documents
@@ -47,7 +55,7 @@ const UploadMessage = (
       </a>
     </p>
 
-    <h3>Option 3: Mail your documents</h3>
+    <h4>Option 3: Mail your documents</h4>
 
     <p>You can mail your documents to us at this address:</p>
 
@@ -66,7 +74,8 @@ const UploadMessage = (
 
 export default {
   title: 'Document upload',
-  path: 'additional-information/document-upload',
+  path,
+  depends: () => !showUploadDocuments(),
   uiSchema: {
     ...titleUI('Submit your supporting documents'),
     'ui:description': Description,

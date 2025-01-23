@@ -5,8 +5,15 @@ import {
   VaRadio,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import {
+  PAGE_PATH,
+  SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
@@ -55,8 +62,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
       : `${resourcesSettings.rootUrl}/`;
     const newUrl = `${URL}?${queryParams}`;
 
-    history.replaceState({}, '', newUrl);
-    window.location.href = newUrl;
+    window.location.assign(newUrl);
   };
 
   const handleSubmit = event => {
@@ -87,20 +93,12 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
     }
 
     if (isGlobalSearch) {
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': userInput,
-        'search-results-total-count': undefined,
-        'search-results-total-pages': undefined,
-        'search-selection': GLOBAL,
-        'search-typeahead-enabled': false,
-        'search-location': RESOURCES,
-        'sitewide-search-app-used': false, // this is not the sitewide search app
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
+      addSearchGADataToStorage({
+        [PAGE_PATH]: document.location.pathname,
+        [SEARCH_LOCATION]: RESOURCES,
+        [SEARCH_APP_USED]: false,
+        [SEARCH_SELECTION]: 'All VA.gov',
+        [SEARCH_TYPEAHEAD_ENABLED]: false,
       });
     }
 
@@ -115,29 +113,39 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
 
   return (
     <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3">
-      <div className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+      <div>
         {/* Mobile expand/collapse */}
         <button
-          className={`${
-            expanded ? 'va-border-bottom-radius--0 ' : ''
-          }vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none`}
+          className={classNames(
+            'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
+            { 'va-border-bottom-radius--0': expanded },
+          )}
+          data-testid="rs-mobile-expand-collapse"
           onClick={() => setExpanded(!expanded)}
           type="button"
         >
           Search resources and support
-          <i
-            className={`${
-              expanded ? 'vads-u-display--none ' : ''
-            }fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker`}
-            id="sliders-icon"
-            aria-hidden="true"
+          <va-icon
+            class={classNames(
+              'vads-u-font-size--base vads-u-color--primary-dark',
+              {
+                'vads-u-display--none': expanded,
+                'vads-u-visibility--visible': !expanded,
+              },
+            )}
+            icon="add"
+            size="3"
           />
-          <i
-            className={`${
-              expanded ? '' : 'vads-u-display--none '
-            }fa fa-times vads-u-font-size--base vads-u-color--primary-darker`}
-            id="times-icon"
-            aria-hidden="true"
+          <va-icon
+            class={classNames(
+              'vads-u-font-size--base vads-u-color--primary-dark',
+              {
+                'vads-u-display--none': !expanded,
+                'vads-u-visibility--visible': expanded,
+              },
+            )}
+            icon="remove"
+            size="3"
           />
         </button>
         <div
@@ -159,7 +167,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               onVaValueChange={onValueChange}
               uswds
             >
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 mobile-lg:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
                 <va-radio-option
                   onChange={event => {
                     setGlobalSearch(!event.target.checked);
@@ -173,7 +181,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                   uswds
                 />
               </div>
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block">
                 <va-radio-option
                   onChange={event => setGlobalSearch(event.target.checked)}
                   checked={isGlobalSearch}
@@ -187,7 +195,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               </div>
             </VaRadio>
           </div>
-          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
+          <p className="mobile-lg:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
             Enter a keyword, phrase, or question
             {inputError && (
               <span
@@ -210,6 +218,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           )}
           <VaSearchInput
             buttonText="Search"
+            disableAnalytics
             label="Enter a keyword, phrase, or question"
             onInput={handleInputChange}
             onSubmit={e => handleSubmit(e)}

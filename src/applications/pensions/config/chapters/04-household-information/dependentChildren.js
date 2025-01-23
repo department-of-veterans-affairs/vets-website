@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -9,7 +8,11 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { DependentsMinItem, formatFullName } from '../../../helpers';
+import {
+  DependentsMinItem,
+  formatFullName,
+  showMultiplePageResponse,
+} from '../../../helpers';
 import { doesHaveDependents } from './helpers';
 
 const DependentNameView = ({ formData }) => (
@@ -26,7 +29,8 @@ DependentNameView.propTypes = {
 export default {
   title: 'Dependent children',
   path: 'household/dependents/add',
-  depends: doesHaveDependents,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveDependents(formData),
   uiSchema: {
     ...titleUI('Dependent children'),
     dependents: {
@@ -40,6 +44,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,

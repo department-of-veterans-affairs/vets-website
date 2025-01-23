@@ -154,7 +154,7 @@ const PayrollDeductionInputList = props => {
         {
           label: getContinueButtonText(),
           onClick: updateFormData,
-          isSubmitting: true, // If this button submits a form
+          isSubmitting: 'prevent', // If this button submits a form
         },
       ]}
     />
@@ -171,12 +171,13 @@ const PayrollDeductionInputList = props => {
         </legend>
         {selectedDeductions?.map((deduction, key) => (
           <div key={deduction.name + key}>
-            <va-number-input
+            <va-text-input
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               currency
@@ -188,14 +189,12 @@ const PayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
-              uswds
             />
           </div>
         ))}
         <va-additional-info
           trigger="How to calculate your monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your pay stub. Then follow

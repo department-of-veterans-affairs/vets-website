@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -17,9 +15,11 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -28,6 +28,8 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -43,9 +45,6 @@ const ProgressNoteDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -71,15 +70,15 @@ const ProgressNoteDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+${formatNameFirstLast(user.userFullName)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
 Date: ${record.date}\n
 Location: ${record.location}\n
-Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
+Written by: ${record.writtenBy}\n
+${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
@@ -91,62 +90,76 @@ ${record.note}`;
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
+    <div
+      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
+      data-dd-privacy="mask"
+    >
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[progress note - name]"
       >
-        {record.name}
-      </h1>
+        <DateSubheading
+          date={record.date}
+          id="progress-note-date"
+          label="Date entered"
+        />
 
-      {record.date !== EMPTY_FIELD ? (
-        <div>
-          <p id="progress-note-date">Entered on {record.date}</p>
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="CS&N Detail"
+          downloadPdf={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="CS&N Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
+
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details">
+            <LabelValue
+              label="Location"
+              value={record.location}
+              testId="progress-location"
+              actionName="[progress note - location]"
+            />
+            <LabelValue
+              label="Written by"
+              value={record.writtenBy}
+              testId="note-record-written-by"
+              actionName="[progress note - written by]"
+            />
+            <LabelValue
+              label="Signed by"
+              value={record.signedBy}
+              testId="note-record-signed-by"
+              actionName="[progress note - signed by]"
+            />
+            <LabelValue
+              label="Date signed"
+              value={record.dateSigned}
+              testId="progress-signed-date"
+              actionName="[progress note - date signed]"
+            />
+          </HeaderSection>
         </div>
-      ) : (
-        <DateSubheading date={record.date} id="progress-note-date" />
-      )}
-
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        downloadPdf={generateCareNotesPDF}
-        downloadTxt={generateCareNotesTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-
-      <div className="test-details-container max-80">
-        <h2>Details</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Location
-        </h3>
-        <p data-testid="progress-location">{record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed by
-        </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        {record.coSignedBy !== EMPTY_FIELD && (
-          <>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Co-signed by
-            </h3>
-            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
-          </>
-        )}
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Date signed
-        </h3>
-        <p data-testid="progress-signed-date">{record.dateSigned}</p>
-      </div>
-
-      <div className="test-results-container">
-        <h2>Note</h2>
-        <p data-testid="note-record" className="monospace">
-          {record.note}
-        </p>
-      </div>
+        <div className="test-results-container">
+          <LabelValue
+            label="Note"
+            value={record.note}
+            headerClass="test-results-header"
+            testId="note-record"
+            actionName="[progress note - summary Note]"
+            monospace
+          />
+        </div>
+      </HeaderSection>
     </div>
   );
 };

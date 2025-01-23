@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import {
+  allergyReducer,
   extractLocation,
   extractObservedReported,
 } from '../../reducers/allergies';
 import { EMPTY_FIELD, allergyTypes } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('extractLocation function', () => {
   it('should return the name when all properties exist and conditions are met', () => {
@@ -117,5 +119,67 @@ describe('extractObservedReported function', () => {
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'x' }],
     };
     expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+  });
+});
+
+describe('allergyReducer', () => {
+  it('creates a list', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'AllergyIntolerance',
+    };
+    const newState = allergyReducer(
+      {},
+      { type: Actions.Allergies.GET_LIST, response },
+    );
+    expect(newState.allergiesList.length).to.equal(3);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('puts updated records in updatedList', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'AllergyIntolerance',
+    };
+    const newState = allergyReducer(
+      {
+        allergiesList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Allergies.GET_LIST, response },
+    );
+    expect(newState.allergiesList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into allergiesList on request', () => {
+    const newState = allergyReducer(
+      {
+        allergiesList: [{ resource: { id: 1 } }],
+        updatedList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Allergies.COPY_UPDATED_LIST },
+    );
+    expect(newState.allergiesList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into allergiesList if updatedList does not exist', () => {
+    const newState = allergyReducer(
+      {
+        allergiesList: [{ resource: { id: 1 } }],
+        updatedList: undefined,
+      },
+      { type: Actions.Allergies.COPY_UPDATED_LIST },
+    );
+    expect(newState.allergiesList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
   });
 });

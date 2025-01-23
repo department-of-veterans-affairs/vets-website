@@ -3,11 +3,10 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import {
-  DefinitionTester,
   submitForm,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+  DefinitionTester,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 describe('hca Military Service History config', () => {
@@ -26,7 +25,7 @@ describe('hca Military Service History config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
 
   it('should submit empty form', () => {

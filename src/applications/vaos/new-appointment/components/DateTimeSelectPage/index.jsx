@@ -15,17 +15,20 @@ import {
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
-import { getDateTimeSelect, selectEligibility } from '../../redux/selectors';
+import {
+  getDateTimeSelect,
+  selectEligibility,
+  getChosenClinicInfo,
+} from '../../redux/selectors';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Choose a date and time';
 
 function renderContent({ dispatch, isRequest, facilityId, history }) {
   // Display this content when the facility is configured to accept appointment
@@ -101,10 +104,8 @@ function goForward({ dispatch, data, history, setSubmitted }) {
   }
 }
 
-export default function DateTimeSelectPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function DateTimeSelectPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const {
     appointmentSlotsStatus,
@@ -128,12 +129,7 @@ export default function DateTimeSelectPage({ changeCrumb }) {
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
-
-  useEffect(() => {
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  const clinic = useSelector(state => getChosenClinicInfo(state));
 
   useEffect(
     () => {
@@ -182,7 +178,12 @@ export default function DateTimeSelectPage({ changeCrumb }) {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!loadingSlots && (
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
@@ -205,9 +206,9 @@ export default function DateTimeSelectPage({ changeCrumb }) {
       {!fetchFailed && (
         <>
           <p>
-            Please select an available date and time from the calendar below.
-            {timezone &&
-              ` Appointment times are displayed in ${timezoneDescription}.`}
+            {clinic && `Scheduling at ${clinic.serviceName}`}
+            {clinic && timezone && <br />}
+            {timezone && `Times are displayed in ${timezoneDescription}.`}
           </p>
           <CalendarWidget
             maxSelections={1}
@@ -268,8 +269,4 @@ export default function DateTimeSelectPage({ changeCrumb }) {
 ErrorMessage.propTypes = {
   facilityId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-};
-
-DateTimeSelectPage.propTypes = {
-  changeCrumb: PropTypes.func,
 };

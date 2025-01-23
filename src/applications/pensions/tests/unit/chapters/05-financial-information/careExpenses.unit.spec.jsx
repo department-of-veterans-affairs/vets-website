@@ -6,6 +6,9 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  testSubmitsWithoutErrors,
+  FakeProvider,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import careExpenses, {
@@ -52,10 +55,28 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 2,
+      'va-memorable-date': 2,
+      'va-checkbox': 1,
+      'va-radio': 3,
+      input: 2,
+    },
+    pageTitle,
+  );
+
   describe('CareExpenseView', () => {
     it('should render a list view', () => {
       const { container } = render(
-        <CareExpenseView formData={{ provider: 'Doctor' }} />,
+        <FakeProvider>
+          <CareExpenseView formData={{ provider: 'Doctor' }} />
+        </FakeProvider>,
       );
       const text = container.querySelector('h3');
       expect(text.innerHTML).to.equal('Doctor');

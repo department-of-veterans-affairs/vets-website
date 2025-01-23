@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { differenceInYears } from 'date-fns';
 
 /**
  * Helper that determines if the a dependent is of the declared college
@@ -11,7 +11,7 @@ import moment from 'moment';
 export function canHaveEducationExpenses(formData, testdate = new Date()) {
   const { dateOfBirth } = formData;
   const { grossIncome = 0 } = formData['view:grossIncome'] || {};
-  const age = Math.abs(moment(dateOfBirth).diff(moment(testdate), 'years'));
+  const age = Math.abs(differenceInYears(testdate, new Date(dateOfBirth)));
   const hasGrossIncome = parseFloat(grossIncome).toFixed(2) > 0;
   return age >= 18 && age <= 23 && hasGrossIncome;
 }

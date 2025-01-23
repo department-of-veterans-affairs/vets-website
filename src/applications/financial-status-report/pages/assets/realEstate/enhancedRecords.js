@@ -19,8 +19,8 @@ export const uiSchema = {
       'ui:title': 'What is the estimated value of all your properties?',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
-        classNames: 'schemaform-currency-input',
         width: 'md',
+        currency: true,
       },
 
       'ui:errorMessages': {

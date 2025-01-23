@@ -17,7 +17,7 @@ const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
         <DashboardWidgetWrapper>
           <IconCTALink
             text="Learn how to apply for VA education benefits"
-            icon="graduation-cap"
+            icon="school"
             href="/education/how-to-apply/"
             testId="apply-education-benefits-from-cta"
             onClick={() =>
@@ -33,7 +33,7 @@ const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
             <>
               <IconCTALink
                 text="Compare GI Bill benefits by school"
-                icon="clipboard-list"
+                icon="assessment"
                 href="/education/gi-bill-comparison-tool"
                 testId="compare-gi-benefits-from-cta"
                 onClick={() =>
@@ -46,7 +46,7 @@ const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
               />
               <IconCTALink
                 text="Check your Post-9/11 GI Bill benefits"
-                icon="dollar-sign"
+                icon="attach_money"
                 href="/education/gi-bill/post-9-11/ch-33-benefit/status"
                 testId="check-gi-bill-benefits-from-cta"
                 onClick={() =>

@@ -482,3 +482,13 @@ export const OH_TRANSITION_SITES = {
     telephone: '',
   },
 };
+
+// Currently we are only allowing OH direct scheduling and requests for Food and Nutrition
+// appointments
+export const OH_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+
+export const TRAVEL_CLAIM_MESSAGES = {
+  noClaim: 'No claims found.',
+  error: 'Travel Pay service unavailable.',
+  success: 'Data retrieved successfully.',
+};

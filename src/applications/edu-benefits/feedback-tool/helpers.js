@@ -8,7 +8,16 @@ import dataUtils from 'platform/utilities/data/index';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
 
 export const trackingPrefix = 'edu-feedback-tool-';
 
@@ -140,7 +149,7 @@ export function submit(form, formConfig) {
   };
 
   const onSuccess = json => {
-    const guid = json.data.attributes.guid;
+    const { guid } = json.data.attributes;
     return new Promise((resolve, reject) => {
       pollStatus(
         guid,
@@ -211,76 +220,6 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
   );
 }
 
-/**
- * Provides an issue example label and description with the provided text
- * @param {string} Label text
- * @param {string} Example text
- */
-export const getIssueLabel = (labelText, exampleText) => (
-  <div>
-    {labelText}
-    <br />
-    <span>
-      <i>{exampleText}</i>
-    </span>
-  </div>
-);
-
-export const transcriptReleaseLabel = getIssueLabel(
-  'Release of transcripts',
-  'The school won’t release your transcripts.',
-);
-
-export const recruitingLabel = getIssueLabel(
-  'Recruiting or marketing practices',
-  'The school made inaccurate claims about the quality of its education or its school requirements.',
-);
-
-export const studentLoansLabel = getIssueLabel(
-  'Student loan',
-  'The school didn’t provide you total a cost of your school loan.',
-);
-
-export const qualityLabel = getIssueLabel(
-  'Quality of education',
-  'The school doesn’t have qualified teachers.',
-);
-
-export const creditTransferLabel = getIssueLabel(
-  'Transfer of credits',
-  'The school isn’t accredited for transfer of credits.',
-);
-
-export const accreditationLabel = getIssueLabel(
-  'Accreditation',
-  'The school is unable to get or keep accreditation.',
-);
-
-export const jobOpportunitiesLabel = getIssueLabel(
-  'Post-graduation job opportunity',
-  'The school made promises to you about job placement or salary after graduation.',
-);
-
-export const gradePolicyLabel = getIssueLabel(
-  'Grade policy',
-  'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
-);
-
-export const refundIssuesLabel = getIssueLabel(
-  'Refund issues',
-  'The school won’t refund your GI Bill payment.',
-);
-
-export const financialIssuesLabel = getIssueLabel(
-  'Financial concern',
-  'The school is charging you a higher tuition or extra fees.',
-);
-
-export const changeInDegreeLabel = getIssueLabel(
-  'Change in degree plan or requirements',
-  'The school added new hour or course requirements after you enrolled.',
-);
-
 export function issueUIDescription({ formContext }) {
   if (!formContext) {
     // HACK: due to https://github.com/usds/us-forms-system/issues/260
@@ -311,6 +250,16 @@ export function removeEmptyStringProperties(obj) {
     }
   });
   return cleanObject;
+}
+
+// Formats address on one line
+// Used in school select field radio options
+export function displaySingleLineAddress(obj) {
+  const { address1, address2, address3, city, state, zip, country } = obj;
+  return `${address1}${address2 && `, ${address2}`}${address3 &&
+    `, ${address3}`}, ${city || ''}${city && state ? ', ' : ''}${state || ''}${
+    !state ? ` ${country}` : ` ${zip || ''}`
+  }`;
 }
 
 /*

@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -22,32 +22,16 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles**', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });
 
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/**', incomeLimit);
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -59,6 +43,10 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: 0.0,
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -80,9 +68,11 @@ const testConfig = createTestConfig(
       },
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -95,7 +85,7 @@ const testConfig = createTestConfig(
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
-            .click();
+            .click({ force: true });
         });
       },
       'dependent-ages': ({ afterHook }) => {

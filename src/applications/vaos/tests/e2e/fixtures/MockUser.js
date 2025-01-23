@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
 /**

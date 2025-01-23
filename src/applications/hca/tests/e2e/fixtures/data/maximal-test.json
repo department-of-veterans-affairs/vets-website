@@ -1,11 +1,9 @@
 {
   "data": {
-    "isEssentialAcaCoverage": true,
     "view:preferredFacility": {
       "view:facilityState": "MA",
       "vaMedicalFacility": "631"
     },
-    "view:locator": {},
     "wantsInitialVaContact": true,
     "isCoveredByHealthInsurance": true,
     "providers": [
@@ -116,10 +114,10 @@
       "exposureToWarfareAgents": true,
       "exposureToOther": true
     },
-    "otherToxicExposure": "sometoxinname",
+    "otherToxicExposure": "some toxin name",
     "view:toxicExposureDates": {
       "toxicExposureStartDate": "1990-09-XX",
-      "toxicExposureEndDate": "1991-01-XX"
+      "toxicExposureEndDate": "1990-09-XX"
     },
     "email": "test@test.com",
     "homePhone": "5555555555",
@@ -154,7 +152,7 @@
       "isAsian": true,
       "isWhite": true
     },
-    "veteranDateOfBirth": "1970-03-02",
+    "veteranDateOfBirth": "1960-03-02",
     "veteranSocialSecurityNumber": "324234444",
     "view:placeOfBirth": {
       "cityOfBirth": "Boston",

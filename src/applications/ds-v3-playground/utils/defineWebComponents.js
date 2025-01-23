@@ -8,7 +8,6 @@ import {
   defineCustomElementVaCheckboxGroup,
   defineCustomElementVaMemorableDate,
   defineCustomElementVaModal,
-  defineCustomElementVaNumberInput,
   defineCustomElementVaPrivacyAgreement,
   defineCustomElementVaRadio,
   defineCustomElementVaRadioOption,
@@ -26,7 +25,6 @@ defineCustomElementVaCheckbox();
 defineCustomElementVaCheckboxGroup();
 defineCustomElementVaMemorableDate();
 defineCustomElementVaModal();
-defineCustomElementVaNumberInput();
 defineCustomElementVaPrivacyAgreement();
 defineCustomElementVaRadio();
 defineCustomElementVaRadioOption();

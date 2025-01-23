@@ -49,6 +49,9 @@
     margin-top: auto;
     margin-bottom: 6px;
   }
+  @include media-maxwidth($small-screen) {
+    margin-bottom: -1.5rem;
+  }
 
   button.name-search-button {
     width: 120px;
@@ -105,7 +108,7 @@
   }
 
   .type-of-institution-filter .form-expanding-group-open {
-    padding-left: 2rem;
+    padding-left: 1.25rem;
     border-left: none;
   }
 
@@ -147,7 +150,7 @@
 
   .filters-sidebar-inner {
     @include media-maxwidth($small-screen) {
-      padding-bottom: 8rem;
+      padding-bottom: 5rem;
     }
     h2 {
       margin-top: 0;
@@ -167,7 +170,7 @@
     background: var(--vads-color-base-lightest);
     bottom: 0;
     left: 0;
-    padding: 1rem 2rem;
+    padding: 0.625rem 1.25rem;
     position: fixed;
     width: 100%;
     z-index: 2;
@@ -200,13 +203,13 @@
       display: block;
 
       @include media-maxwidth($small-screen) {
-        margin-top: 1.6rem;
+        margin-top: 1rem;
       }
     }
 
     h2 {
       font-size: 1.35em;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
       padding-bottom: 0;
       margin-top: 0;
       a {
@@ -226,7 +229,7 @@
     }
 
     p.count {
-      margin-bottom: 1rem;
+      margin-bottom: 0.625rem;
     }
 
     .estimated-benefits {
@@ -234,7 +237,7 @@
       h4 {
         margin-top: 0;
         font-size: 1em;
-        font-family: $font-sans;
+        font-family: var(--font-source-sans);
       }
       h4 {
         padding-bottom: 0;
@@ -245,9 +248,6 @@
       h4 > div {
         float: right;
         text-align: right;
-      }
-      i.fa {
-        margin-right: 0.5em;
       }
     }
 
@@ -275,20 +275,12 @@
       display: inline-block;
       padding: 0.1em 0.5em;
       margin: 1em 0 0 1em;
-
-      i.fa {
-        margin-right: 0.4em;
-      }
     }
 
     .preferred-flag {
       font-size: 0.9em;
       font-weight: bold;
       border-radius: 3px 3px 3px 3px;
-
-      i.fa {
-        margin-right: 0.4em;
-      }
     }
   }
 
@@ -320,26 +312,11 @@
     display: flex;
     border: 1px solid;
     margin: 6px 0px;
-    height: 4.2rem;
+    height: 2.625rem;
 
     input {
       border: none;
       height: unset;
-    }
-
-    .clear-button {
-      width: 44px;
-      height: 44px;
-      background-color: transparent;
-      color: var(--vads-color-black);
-      padding: 0;
-      margin: 0;
-      font-family: "Font Awesome 5 Free";
-
-      &:hover {
-        background-color: unset;
-        color: unset;
-      }
     }
   }
 
@@ -360,10 +337,10 @@
     display: inline-block;
     font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
       "Arial", sans-serif;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1;
-    padding: 1rem 2rem;
+    padding: 0.625rem 1.25rem;
     text-align: center;
     text-decoration: none;
     width: 100%;
@@ -381,7 +358,8 @@
     }
   }
   .gi-checkbox-label:before {
-    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-gray-medium);
+    box-shadow: 0 0 0 2px var(--vads-color-white),
+      0 0 0 3px var(--vads-color-gray-medium);
   }
 
   .usa-alert {
@@ -486,4 +464,18 @@
 }
 .school-types-label {
   margin-top: -15px !important;
+}
+.search-by-name-btn {
+  @media screen and (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+.search-by-name-btn::part(button) {
+  border-radius: 0;
+  padding-block: 13.5px;
+  border-radius: 0 5px 5px 0;
+  margin-right: 0;
+  @media screen and (max-width: $small-screen) {
+    border-radius: 5px;
+  }
 }

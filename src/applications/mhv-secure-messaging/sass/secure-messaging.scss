@@ -1,8 +1,9 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
 @import "./folder-thread-list-view";
+@import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
 @forward "usa-button-group";
 
 .bottom-container {
@@ -41,8 +42,7 @@ va-modal va-radio {
   border-radius: 4px;
 }
 
-.send-button-top,
-.reply-button-top {
+.send-button-top {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,7 +76,13 @@ va-modal va-radio {
 
 .breadcrumb > i {
   margin-right: 6px;
-  font-size: 1.1rem;
+  font-size: 0.6875rem;
+}
+
+.reply-button-container {
+  @media (min-width: $xsmall-screen) {
+    min-width: 15em;
+  }
 }
 
 .save-button {
@@ -101,11 +107,11 @@ va-modal va-radio {
 }
 
 .message-input {
-  min-height: 5.2rem;
+  min-height: 3.25rem;
   max-width: 100%;
   width: 100%;
-  padding: 1.2rem;
-  margin: 0.4rem 0px;
+  padding: 0.75rem;
+  margin: 0.25rem 0px;
   resize: none;
 }
 
@@ -198,7 +204,7 @@ va-modal va-radio {
       padding-left: 12px;
       span {
         margin: auto;
-        .attachment-name-text{
+        .attachment-name-text {
           overflow-wrap: anywhere;
         }
       }
@@ -215,8 +221,8 @@ va-modal va-radio {
     }
   }
   .remove-attachment-icon {
-    width: 1rem;
-    height: 1rem;
+    width: 0.625rem;
+    height: 0.625rem;
     position: relative;
     cursor: pointer;
     font-weight: 400;
@@ -245,8 +251,8 @@ va-modal va-radio {
     width: fit-content;
     position: relative;
     @media (min-width: $medium-screen) {
-      padding: 0 0 0 1rem;
-      margin: 0 0 0 1rem;
+      padding: 0 0 0 0.625rem;
+      margin: 0 0 0 0.625rem;
     }
     i::before {
       position: absolute;
@@ -308,3 +314,44 @@ va-loading-indicator {
     }
   }
 }
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
+}
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
+}
+
+.unread-bubble {
+  height: 12px;
+  width: 12px;
+  background-color: var(--vads-color-secondary);
+  border-radius: 50%;
+}
+
+.contactListForm {
+  .contactListFacility::part(header) {
+    font-size: 20px;
+  }
+}
+
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+#edit-preferences-button.vads-u-background-color--transparent {
+  background-color: transparent;
+}
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/

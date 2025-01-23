@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { safeNumber } from '../../utils/calculateIncome';
 import { currency as currencyFormatter } from '../../utils/helpers';
@@ -86,12 +86,13 @@ const CashInBank = ({
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Cash in bank</h3>
         </legend>
-        <VaNumberInput
+        <VaTextInput
           currency
           error={error}
           hint={null}
           id="cash"
           inputmode="decimal"
+          type="decimal"
           label="What is the total amount you have in all checking and savings accounts?"
           name="cash"
           onBlur={onBlur}
@@ -99,7 +100,6 @@ const CashInBank = ({
           required
           value={cash}
           width="md"
-          uswds
         />
         {contentBeforeButtons}
         <FormNavButtons
@@ -126,6 +126,7 @@ CashInBank.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
@@ -160,15 +161,13 @@ const CashInBankReview = ({ data, goToPath }) => {
 
     // if the user saw cash on hand/in bank, they should be routed to
     //  cash on hand page since it's the head of the chapter
-    if (
+    const gmtDepends =
       (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-      (gmtData?.isEligibleForStreamlined &&
-        gmtData?.incomeBelowOneFiftyGmt &&
-        data['view:streamlinedWaiverAssetUpdate'])
-    ) {
+      (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt);
+
+    if (gmtDepends || data['view:reviewPageNavigationToggle']) {
       return goToPath('/cash-on-hand');
     }
-
     return goToPath('/monetary-asset-checklist');
   };
 
@@ -203,6 +202,7 @@ const CashInBankReview = ({ data, goToPath }) => {
 
 CashInBankReview.propTypes = {
   data: PropTypes.shape({
+    'view:reviewPageNavigationToggle': PropTypes.bool,
     assets: PropTypes.shape({
       monetaryAssets: PropTypes.array,
     }),
@@ -211,7 +211,6 @@ CashInBankReview.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
 };
 

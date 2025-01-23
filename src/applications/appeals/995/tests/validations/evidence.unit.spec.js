@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages } from '../../constants';
+import { errorMessages, SC_NEW_FORM_DATA } from '../../constants';
 
 import {
   validateVaLocation,
@@ -20,6 +20,7 @@ import {
   validatePrivateIssues,
   validatePrivateFromDate,
   validatePrivateToDate,
+  validateVaDate,
   buildPrivateString,
   isEmptyPrivateEntry,
   validatePrivateUnique,
@@ -31,6 +32,7 @@ import {
   SELECTED,
 } from '../../../shared/constants';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {
@@ -41,7 +43,7 @@ describe('VA evidence', () => {
     });
     it('should show an error for a missing location name', () => {
       const errors = { addError: sinon.spy() };
-      validateVaLocation(errors, { locationAndName: '' });
+      validateVaLocation(errors);
       expect(errors.addError.calledWith(errorMessages.evidence.locationMissing))
         .to.be.true;
     });
@@ -93,6 +95,17 @@ describe('VA evidence', () => {
       expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
         .true;
     });
+
+    it('should return false if feature toggle is enabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaFromDate(
+        errors,
+        { evidenceDates: { from: '', to: '' } },
+        { [SC_NEW_FORM_DATA]: true },
+      );
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.false;
+    });
   });
 
   describe('validateVaToDate', () => {
@@ -120,8 +133,8 @@ describe('VA evidence', () => {
       validateVaToDate(errors, {
         evidenceDates: { from: '2022-02-02', to: '2022-01-01' },
       });
-      expect(errors.addError.calledWith(errorMessages.endDateBeforeStart)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.endDateBeforeStart))
+        .to.be.true;
     });
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
@@ -131,6 +144,51 @@ describe('VA evidence', () => {
         },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+
+    it('should return false if feature toggle is enabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaToDate(
+        errors,
+        { evidenceDates: { from: '', to: '' } },
+        { [SC_NEW_FORM_DATA]: true },
+      );
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('validateVaDate', () => {
+    const fullData = { [SC_NEW_FORM_DATA]: true };
+    it('should not show an error for a valid treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+    it('should not show an error for an invalid treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '2000' }, fullData);
+      expect(errors.addError.notCalled).to.be.true;
+    });
+    it('should not show an error for a missing treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '' }, fullData);
+      expect(errors.addError.notCalled).to.be.true;
+    });
+    it('should show an error for a to date in the future', () => {
+      const errors = { addError: sinon.spy() };
+      const treatmentDate = parseDateWithOffset({
+        years: MAX_YEARS_PAST + 1,
+      }).substring(0, 7); // only keep YYYYY-MM
+      validateVaDate(errors, { treatmentDate }, fullData);
+      expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+
+    it('should return undefined if feature toggle is disabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaDate(errors, { treatmentDate: '' });
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.undefined;
     });
   });
 
@@ -150,70 +208,70 @@ describe('VA evidence', () => {
         'name122022-01-012022-02-02',
       );
       expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-02-02',
+        'name,1,2,,2022-01-01,2022-02-02',
       );
       expect(buildVaLocationString(getLocation(), ';')).to.eq(
-        'name;1;2;2022-01-01;2022-02-02',
+        'name;1;2;;2022-01-01;2022-02-02',
       );
     });
     it('should return expected strings', () => {
       expect(buildVaLocationString({})).to.eq('');
-      expect(buildVaLocationString({}, ',')).to.eq(',,');
+      expect(buildVaLocationString({}, ',')).to.eq(',,,');
       expect(
         buildVaLocationString(
           getLocation({ issues: [], from: '', to: '' }),
           ',',
         ),
-      ).to.eq('name,,');
+      ).to.eq('name,,,');
       expect(
         buildVaLocationString(getLocation({ from: '', to: '' }), ','),
-      ).to.eq('name,1,2,,');
+      ).to.eq('name,1,2,,,');
       expect(buildVaLocationString(getLocation({ to: '' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
       expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-02-02',
+        'name,1,2,,2022-01-01,2022-02-02',
       );
     });
     it('should remove empty dates', () => {
       expect(buildVaLocationString(getLocation({ from: '--' }), ',')).to.eq(
-        'name,1,2,,2022-02-02',
+        'name,1,2,,,2022-02-02',
       );
       expect(buildVaLocationString(getLocation({ from: '-00-00' }), ',')).to.eq(
-        'name,1,2,,2022-02-02',
+        'name,1,2,,,2022-02-02',
       );
       expect(buildVaLocationString(getLocation({ to: '--' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
       expect(buildVaLocationString(getLocation({ to: '-00-00' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
     });
     it('should add leading zeros to dates', () => {
       expect(
         buildVaLocationString(getLocation({ from: '2021-12-4' }), ','),
-      ).to.eq('name,1,2,2021-12-04,2022-02-02');
+      ).to.eq('name,1,2,,2021-12-04,2022-02-02');
       expect(
         buildVaLocationString(getLocation({ from: '2022-1-16' }), ','),
-      ).to.eq('name,1,2,2022-01-16,2022-02-02');
+      ).to.eq('name,1,2,,2022-01-16,2022-02-02');
       expect(
         buildVaLocationString(getLocation({ from: '2022-1-5' }), ','),
-      ).to.eq('name,1,2,2022-01-05,2022-02-02');
+      ).to.eq('name,1,2,,2022-01-05,2022-02-02');
 
       expect(
         buildVaLocationString(getLocation({ to: '2022-12-3' }), ','),
-      ).to.eq('name,1,2,2022-01-01,2022-12-03');
+      ).to.eq('name,1,2,,2022-01-01,2022-12-03');
       expect(
         buildVaLocationString(getLocation({ to: '2022-3-17' }), ','),
-      ).to.eq('name,1,2,2022-01-01,2022-03-17');
+      ).to.eq('name,1,2,,2022-01-01,2022-03-17');
       expect(buildVaLocationString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-03-03',
+        'name,1,2,,2022-01-01,2022-03-03',
       );
     });
     it('should not include issues', () => {
       expect(
         buildVaLocationString(getLocation(), ',', { includeIssues: false }),
-      ).to.eq('name,2022-01-01,2022-02-02');
+      ).to.eq('name,,2022-01-01,2022-02-02');
     });
   });
 
@@ -325,6 +383,11 @@ describe('VA evidence', () => {
 
 describe('Private evidence', () => {
   describe('validatePrivateName', () => {
+    it('should show an error when missing data', () => {
+      const errors = { addError: sinon.spy() };
+      validatePrivateName(errors);
+      expect(errors.addError.called).to.be.true;
+    });
     it('should not show an error for an added facility name', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateName(errors, { providerFacilityName: 'ok' });
@@ -347,7 +410,7 @@ describe('Private evidence', () => {
     it('should show an error for a missing facility country', () => {
       const errors = { addError: sinon.spy() };
       validateCountry(errors, { providerFacilityAddress: { country: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.country)).to.be
+      expect(errors.addError.calledWith(sharedErrorMessages.country)).to.be
         .true;
     });
   });
@@ -361,8 +424,7 @@ describe('Private evidence', () => {
     it('should show an error for a missing facility street', () => {
       const errors = { addError: sinon.spy() };
       validateStreet(errors, { providerFacilityAddress: { street: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.street)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.street)).to.be.true;
     });
   });
 
@@ -375,8 +437,7 @@ describe('Private evidence', () => {
     it('should show an error for a missing facility city', () => {
       const errors = { addError: sinon.spy() };
       validateCity(errors, { providerFacilityAddress: { city: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.city)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.city)).to.be.true;
     });
   });
 
@@ -389,8 +450,7 @@ describe('Private evidence', () => {
     it('should show an error for a missing facility state', () => {
       const errors = { addError: sinon.spy() };
       validateState(errors, { providerFacilityAddress: { state: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.state)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.state)).to.be.true;
     });
   });
 
@@ -412,15 +472,14 @@ describe('Private evidence', () => {
     it('should show an error for a missing facility postal', () => {
       const errors = { addError: sinon.spy() };
       validatePostal(errors, { providerFacilityAddress: { postalCode: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.postal)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.postal)).to.be.true;
     });
     it('should show an error for an invalid pattern', () => {
       const errors = { addError: sinon.spy() };
       validatePostal(errors, {
         providerFacilityAddress: { postalCode: '1234' },
       });
-      expect(errors.addError.calledWith(errorMessages.invalidZip)).to.be.true;
+      expect(errors.addError.calledWith(sharedErrorMessages.zip)).to.be.true;
     });
   });
 
@@ -490,8 +549,8 @@ describe('Private evidence', () => {
       validatePrivateToDate(errors, {
         treatmentDateRange: { from: '2022-02-02', to: '2022-01-01' },
       });
-      expect(errors.addError.calledWith(errorMessages.endDateBeforeStart)).to.be
-        .true;
+      expect(errors.addError.calledWith(sharedErrorMessages.endDateBeforeStart))
+        .to.be.true;
     });
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
@@ -839,6 +898,11 @@ describe('Private evidence', () => {
       validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 4);
       expect(errors.addError.calledWith(errorMessages.evidence.uniquePrivate))
         .to.be.true;
+    });
+    it('should NOT show a duplicate Facility error when data is missing', () => {
+      const errors = { addError: sinon.spy() };
+      validatePrivateUnique(errors);
+      expect(errors.addError.called).to.be.false;
     });
     it('should NOT show a duplicate Facility error on a different index', () => {
       const errors = { addError: sinon.spy() };

@@ -1,14 +1,19 @@
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
-// import * as Sentry from '@sentry/browser';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import titleCase from 'platform/utilities/data/titleCase';
+import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
-import { DATE_FORMATS } from '../constants';
+import {
+  DATE_FORMATS,
+  disabilityCompensationClaimTypeCodes,
+  addOrRemoveDependentClaimTypeCodes,
+  standard5103Item,
+} from '../constants';
 
 // Adding !! so that we convert this to a boolean
 export const claimAvailable = claim =>
@@ -43,6 +48,69 @@ export function getStatusDescription(status) {
   return statusStepMap[status];
 }
 
+const claimPhaseTypeStepMap = {
+  CLAIM_RECEIVED: 'Step 1 of 8: Claim received',
+  UNDER_REVIEW: 'Step 2 of 8: Initial review',
+  GATHERING_OF_EVIDENCE: 'Step 3 of 8: Evidence gathering',
+  REVIEW_OF_EVIDENCE: 'Step 4 of 8: Evidence review',
+  PREPARATION_FOR_DECISION: 'Step 5 of 8: Rating',
+  PENDING_DECISION_APPROVAL: 'Step 6 of 8: Preparing decision letter',
+  PREPARATION_FOR_NOTIFICATION: 'Step 7 of 8: Final review',
+  COMPLETE: 'Step 8 of 8: Claim decided',
+};
+
+export function getClaimPhaseTypeHeaderText(claimPhaseType) {
+  return claimPhaseTypeStepMap[claimPhaseType];
+}
+
+const phase8ItemTextMap = {
+  1: 'We received your claim in our system',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering',
+  4: 'Step 4: Evidence review',
+  5: 'Step 5: Rating',
+  6: 'Step 6: Preparing decision letter',
+  7: 'Step 7: Final review',
+  8: 'Your claim was decided',
+};
+
+const phase5ItemTextMap = {
+  1: 'Step 1: Claim received',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering, review, and decision',
+  4: 'Step 3: Evidence gathering, review, and decision',
+  5: 'Step 3: Evidence gathering, review, and decision',
+  6: 'Step 3: Evidence gathering, review, and decision',
+  7: 'Step 4: Preparation for notification',
+  8: 'Step 5: Closed',
+};
+
+export function getPhaseItemText(phase, showEightPhases = false) {
+  return showEightPhases ? phase8ItemTextMap[phase] : phase5ItemTextMap[phase];
+}
+
+const claimPhaseTypeDescriptionMap = {
+  CLAIM_RECEIVED: 'We received your claim in our system.',
+  UNDER_REVIEW:
+    'We’re checking your claim for basic information, like your name and Social Security number. If information is missing, we’ll contact you.',
+  GATHERING_OF_EVIDENCE:
+    'We’re reviewing your claim to make sure we have all the evidence and information we need. If we need anything else, we’ll contact you.',
+  REVIEW_OF_EVIDENCE:
+    'We’re reviewing all the evidence for your claim. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PREPARATION_FOR_DECISION:
+    'We’re deciding your claim and determining your disability rating. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PENDING_DECISION_APPROVAL:
+    'We’re preparing your decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PREPARATION_FOR_NOTIFICATION:
+    'A senior reviewer is doing a final review of your claim and the decision letter.',
+  COMPLETE:
+    'You can view and download your decision letter. We also sent you a copy by mail.',
+};
+
+export function getClaimPhaseTypeDescription(claimPhaseType) {
+  return claimPhaseTypeDescriptionMap[claimPhaseType];
+}
+
 const statusDescriptionMap = {
   CLAIM_RECEIVED:
     'We received your claim. We haven’t assigned the claim to a reviewer yet.',
@@ -58,6 +126,10 @@ const statusDescriptionMap = {
 
 export function getClaimStatusDescription(status) {
   return statusDescriptionMap[status];
+}
+
+export function isDisabilityCompensationClaim(claimTypeCode) {
+  return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
 }
 
 export function isClaimOpen(status, closeDate) {
@@ -255,51 +327,49 @@ export function groupClaimsByDocsNeeded(list) {
 }
 
 export const DOC_TYPES = [
-  { value: 'L029', label: 'Copy of a DD214' },
-  { value: 'L450', label: 'STR - Dental - Photocopy' },
-  { value: 'L451', label: 'STR - Medical - Photocopy' },
+  {
+    value: 'L014',
+    label: 'Birth Certificate',
+  },
+  {
+    value: 'L029',
+    label: 'Copy of a DD214',
+  },
+  {
+    value: 'L418',
+    label: 'Court papers / documents',
+  },
+  {
+    value: 'L033',
+    label: 'Death Certificate',
+  },
+  {
+    value: 'L702',
+    label: 'Disability Benefits Questionnaire (DBQ)',
+  },
+  {
+    value: 'L037',
+    label: 'Divorce Decree',
+  },
+  {
+    value: 'L703',
+    label: 'Goldmann Perimetry Chart/Field Of Vision Chart',
+  },
+  {
+    value: 'L051',
+    label: 'Marriage Certificate',
+  },
   {
     value: 'L049',
     label: 'Medical Treatment Record - Non-Government Facility',
   },
-  { value: 'L034', label: 'Military Personnel Record' },
   {
-    value: 'L107',
-    label: 'VA Form 21-4142 - Authorization To Disclose Information',
+    value: 'L034',
+    label: 'Military Personnel Record',
   },
   {
-    value: 'L827',
-    label:
-      'VA Form 21-4142a - General Release for Medical Provider Information',
-  },
-  {
-    value: 'L229',
-    label:
-      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
-  },
-  {
-    value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
-  },
-  {
-    value: 'L149',
-    label:
-      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
-  },
-  {
-    value: 'L115',
-    label:
-      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
-  },
-  {
-    value: 'L159',
-    label:
-      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
-  },
-  {
-    value: 'L117',
-    label:
-      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+    value: 'L070',
+    label: 'Photographs',
   },
   {
     value: 'L139',
@@ -310,19 +380,65 @@ export const DOC_TYPES = [
     label: 'VA Form 21-674 - Request for Approval of School Attendance',
   },
   {
-    value: 'L102',
+    value: 'L107',
+    label: 'VA Form 21-4142 - Authorization To Disclose Information',
+  },
+  {
+    value: 'L827',
     label:
-      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+      'VA Form 21-4142a - General Release for Medical Provider Information',
+  },
+  {
+    value: 'L117',
+    label:
+      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+  },
+  {
+    value: 'L149',
+    label:
+      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
+  },
+  {
+    value: 'L159',
+    label:
+      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
+  },
+  {
+    value: 'L115',
+    label:
+      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
   },
   {
     value: 'L222',
     label:
       'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
   },
-  { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },
-  { value: 'L703', label: 'Goldmann Perimetry Chart/Field Of Vision Chart' },
-  { value: 'L070', label: 'Photographs' },
-  { value: 'L023', label: 'Other Correspondence' },
+  {
+    value: 'L102',
+    label:
+      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+  },
+  {
+    value: 'L228',
+    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  },
+  {
+    value: 'L229',
+    label:
+      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
+  },
+  {
+    value: 'L023',
+    label: 'Other Correspondence',
+  },
+  {
+    value: 'L450',
+    label: 'STR - Dental - Photocopy',
+  },
+  {
+    value: 'L451',
+    label: 'STR - Medical - Photocopy',
+  },
 ];
 
 export function getDocTypeDescription(docType) {
@@ -383,7 +499,7 @@ export function makeAuthRequest(
     userOptions,
   );
 
-  apiRequest(`${environment.API_URL}${url}`, options)
+  return apiRequest(`${environment.API_URL}${url}`, options)
     .then(onSuccess)
     .catch(resp => {
       if (resp.status === 401) {
@@ -397,7 +513,13 @@ export function makeAuthRequest(
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation';
+  if (claim?.attributes?.claimType) {
+    const { claimType } = claim.attributes;
+    return claimType === 'Death'
+      ? 'expenses related to death or burial'
+      : claimType;
+  }
+  return 'Disability Compensation';
 }
 
 export const mockData = {
@@ -993,4 +1115,126 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
       ? format(parsedDate, formatString)
       : 'Invalid date';
   };
+};
+
+// Covers two cases:
+//   1. Standard 5103s we get back from the API (only occurs when they're closed).
+//   2. Standard 5103s that we're mocking within our application logic.
+export const isStandard5103Notice = itemDisplayName => {
+  return (
+    itemDisplayName === '5103 Notice Response' ||
+    itemDisplayName === standard5103Item.displayName
+  );
+};
+
+export const isAutomated5103Notice = itemDisplayName => {
+  return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
+export const is5103Notice = itemDisplayName => {
+  return (
+    isAutomated5103Notice(itemDisplayName) ||
+    isStandard5103Notice(itemDisplayName)
+  );
+};
+
+// Capitalizes the first letter in a given string
+export const sentenceCase = str => {
+  return typeof str === 'string' && str.length > 0
+    ? str[0].toUpperCase().concat(str.substring(1))
+    : '';
+};
+
+// Returns a title for a claim for the specified placement:
+//   'detail' for the heading on the single page view
+//   'breadcrumb' for the breadcrumbs on the single page view
+//   'document' for the browser tab title on the single page view
+//   the default return is for the list view (card heading)
+export const generateClaimTitle = (claim, placement, tab) => {
+  // This will default to 'disability compensation'
+  const claimType = getClaimType(claim).toLowerCase();
+  const isRequestToAddOrRemoveDependent = addOrRemoveDependentClaimTypeCodes.includes(
+    claim?.attributes?.claimTypeCode,
+  );
+  // Determine which word should follow the tab name.
+  // "Files for...", "Status of...", "Details of...", "Overview of..."
+  const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
+  // Use the following to (somewhat) cut down on repetition in the switch below.
+  const addOrRemoveDependentClaimTitle = 'request to add or remove a dependent';
+  const baseClaimTitle = isRequestToAddOrRemoveDependent
+    ? addOrRemoveDependentClaimTitle
+    : `${claimType} claim`;
+  // This switch may not scale well; it might be better to create a map of the strings instead.
+  // For examples of output given different parameters, see the unit tests.
+  switch (placement) {
+    case 'detail':
+      return `Your ${baseClaimTitle}`;
+    case 'breadcrumb':
+      if (claimAvailable(claim)) {
+        return `${tabPrefix} your ${baseClaimTitle}`;
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} your claim`;
+    case 'document':
+      if (claimAvailable(claim)) {
+        const formattedDate = buildDateFormatter()(claim.attributes.claimDate);
+        return titleCase(`${tabPrefix} ${formattedDate} ${baseClaimTitle}`);
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} Your Claim`;
+    default:
+      return isRequestToAddOrRemoveDependent
+        ? sentenceCase(addOrRemoveDependentClaimTitle)
+        : `Claim for ${claimType}`;
+  }
+};
+
+// Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+// It is also used to set the Document Request Page breadcrumb text
+export function setDocumentRequestPageTitle(displayName) {
+  return isAutomated5103Notice(displayName)
+    ? 'Review evidence list (5103 notice)'
+    : displayName;
+}
+
+// Used to set page title for the CST Tabs
+export function setTabDocumentTitle(claim, tabName) {
+  setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
+}
+
+// Used to set the page focus on the CST Tabs
+export function setPageFocus(lastPage, loading) {
+  if (!isTab(lastPage)) {
+    if (!loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
+  } else {
+    scrollAndFocus(document.querySelector('.tab-header'));
+  }
+}
+// Used to get the oldest document date
+// Logic used in getTrackedItemDateFromStatus()
+export const getOldestDocumentDate = item => {
+  const arrDocumentDates = item.documents.map(document => document.uploadDate);
+  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
+};
+// Logic here uses a given tracked items status to determine what the date should be.
+// This logic is used in RecentActivity and on the ClaimStatusHeader
+export const getTrackedItemDateFromStatus = item => {
+  switch (item.status) {
+    case 'NEEDED_FROM_YOU':
+    case 'NEEDED_FROM_OTHERS':
+      return item.requestedDate;
+    case 'NO_LONGER_REQUIRED':
+      return item.closedDate;
+    case 'SUBMITTED_AWAITING_REVIEW':
+      return getOldestDocumentDate(item);
+    case 'INITIAL_REVIEW_COMPLETE':
+    case 'ACCEPTED':
+      return item.receivedDate;
+    default:
+      return item.requestedDate;
+  }
 };

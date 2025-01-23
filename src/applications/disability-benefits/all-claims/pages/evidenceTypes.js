@@ -1,46 +1,51 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validateIfHasEvidence } from '../validations';
 import get from 'platform/utilities/data/get';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { validateIfHasEvidence } from '../validations';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
 export const uiSchema = {
-  'view:hasEvidence': {
-    'ui:title':
+  'view:hasEvidence': yesNoUI({
+    title:
       'Is there any evidence you’d like us to review as part of your claim?',
-    'ui:widget': 'yesNo',
-  },
-  'view:hasEvidenceFollowUp': {
+  }),
+  'view:selectableEvidenceTypes': {
+    'ui:title':
+      'What type of evidence do you want us to review as part of your claim?',
+    'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
+      showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
-    'view:selectableEvidenceTypes': {
-      'ui:title':
-        'What type of evidence do you want us to review as part of your claim?',
-      'ui:options': { showFieldLabel: true },
-      'ui:validations': [
-        {
-          validator: validateIfHasEvidence,
-          options: { wrappedValidator: validateBooleanGroup },
-        },
-      ],
-      'ui:errorMessages': {
-        atLeastOne: 'Please select at least one type of supporting evidence',
+    'ui:validations': [
+      {
+        validator: validateIfHasEvidence,
+        options: { wrappedValidator: validateBooleanGroup },
       },
-      'ui:required': formData => get('view:hasEvidence', formData, false),
-      'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
-      'view:hasPrivateMedicalRecords': {
-        'ui:title': 'Private medical records',
-      },
-      'view:hasOtherEvidence': {
-        'ui:title': 'Supporting (lay) statements or other evidence',
-      },
+    ],
+    'ui:errorMessages': {
+      atLeastOne: 'Please select at least one type of supporting evidence',
     },
-    'view:evidenceTypeHelp': {
-      'ui:title': ' ',
-      'ui:description': evidenceTypeHelp,
+    'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
+    'view:hasPrivateMedicalRecords': {
+      'ui:title': 'Private medical records',
     },
+    'view:hasOtherEvidence': {
+      'ui:title': 'Supporting (lay) statements or other evidence',
+    },
+  },
+  'view:evidenceTypeHelp': {
+    'ui:options': {
+      expandUnder: 'view:hasEvidence',
+    },
+    'ui:title': ' ',
+    'ui:description': evidenceTypeHelp,
   },
 };
 
@@ -48,26 +53,18 @@ export const schema = {
   type: 'object',
   required: ['view:hasEvidence'],
   properties: {
-    'view:hasEvidence': {
-      type: 'boolean',
-      default: true,
-    },
-    'view:hasEvidenceFollowUp': {
+    'view:hasEvidence': yesNoSchema,
+    'view:selectableEvidenceTypes': {
       type: 'object',
       properties: {
-        'view:selectableEvidenceTypes': {
-          type: 'object',
-          properties: {
-            'view:hasVaMedicalRecords': { type: 'boolean' },
-            'view:hasPrivateMedicalRecords': { type: 'boolean' },
-            'view:hasOtherEvidence': { type: 'boolean' },
-          },
-        },
-        'view:evidenceTypeHelp': {
-          type: 'object',
-          properties: {},
-        },
+        'view:hasVaMedicalRecords': { type: 'boolean' },
+        'view:hasPrivateMedicalRecords': { type: 'boolean' },
+        'view:hasOtherEvidence': { type: 'boolean' },
       },
+    },
+    'view:evidenceTypeHelp': {
+      type: 'object',
+      properties: {},
     },
   },
 };

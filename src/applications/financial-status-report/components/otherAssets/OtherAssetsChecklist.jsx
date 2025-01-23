@@ -4,7 +4,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
@@ -17,52 +16,21 @@ const OtherAssetsChecklist = ({
 }) => {
   const {
     assets,
-    gmtData,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { otherAssets = [] } = assets;
 
-  // Calculate total assets as necessary
-  // - Calculating these assets is only necessary in the long form version
-  const updateStreamlinedValues = () => {
-    if (
-      otherAssets?.length ||
-      !gmtData?.isEligibleForStreamlined ||
-      gmtData?.incomeBelowGmt
-    )
-      return;
-
-    // liquid assets are caluclated in cash in bank with this ff
-    if (data['view:streamlinedWaiverAssetUpdate']) return;
-
-    const calculatedAssets = calculateLiquidAssets(data);
+  const onChange = ({ name, checked }) => {
     setFormData({
       ...data,
-      gmtData: {
-        ...gmtData,
-        assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+      assets: {
+        ...assets,
+        otherAssets: checked
+          ? [...otherAssets, { name, amount: '' }]
+          : otherAssets.filter(asset => asset.name !== name),
       },
     });
-  };
-
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return otherAssets.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: otherAssets.filter(source => source.name !== value),
-          },
-        })
-      : setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: [...otherAssets, { name: value, amount: '' }],
-          },
-        });
   };
 
   const onSubmit = event => {
@@ -95,10 +63,7 @@ const OtherAssetsChecklist = ({
             prompt={prompt}
             isBoxChecked={isBoxChecked}
           />
-          <va-additional-info
-            trigger="Why do I need to provide this information?"
-            uswds
-          >
+          <va-additional-info trigger="Why do I need to provide this information?">
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
@@ -106,7 +71,7 @@ const OtherAssetsChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}
@@ -123,15 +88,10 @@ OtherAssetsChecklist.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      assetThreshold: PropTypes.number,
-      incomeBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-    }),
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    reviewNavigation: PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,

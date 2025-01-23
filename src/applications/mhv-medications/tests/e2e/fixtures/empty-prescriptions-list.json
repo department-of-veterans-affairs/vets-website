@@ -1,0 +1,31 @@
+{
+    "data": [],
+    "links": {
+        "self": "https://staging-api.va.gov//my_health/v1/prescriptions?page=1&per_page=20&sort%5B%5D=-dispensed_date&sort%5B%5D=prescription_name",
+        "first": "https://staging-api.va.gov//my_health/v1/prescriptions?page=1&per_page=20&sort%5B%5D=-dispensed_date&sort%5B%5D=prescription_name",
+        "prev": null,
+        "next": null,
+        "last": "https://staging-api.va.gov//my_health/v1/prescriptions?page=1&per_page=20&sort%5B%5D=-dispensed_date&sort%5B%5D=prescription_name"
+    },
+    "meta": {
+        "updatedAt": "Wed, 18 Oct 2023 10:13:23 EDT",
+        "failedStationList": "",
+        "sort": {
+            "dispensedDate": "DESC",
+            "prescriptionName": "ASC"
+        },
+        "filterCount": {
+            "allMedications": 0,
+            "active": 0,
+            "recentlyRequested": 0,
+            "renewal": 0,
+            "nonActive": 0
+        },
+        "pagination": {
+            "currentPage": 1,
+            "perPage": 20,
+            "totalPages": 1,
+            "totalEntries": 0
+        }
+    }
+}

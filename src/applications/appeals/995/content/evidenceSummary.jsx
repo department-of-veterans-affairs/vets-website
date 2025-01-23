@@ -5,6 +5,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { EVIDENCE_VA_REQUEST } from '../constants';
 
+import { isOnReviewPage } from '../../shared/utils/helpers';
+
 const recordActionLinkClick = () => {
   recordEvent({
     event: 'cta-action-link-click',
@@ -14,46 +16,61 @@ const recordActionLinkClick = () => {
   });
 };
 
+const wrapError = (message, block) => (
+  <span
+    className={`usa-input-error-message${
+      block ? ' vads-u-display--inline-block' : ''
+    }`}
+  >
+    {message}
+  </span>
+);
+
 export const content = {
   edit: 'Edit',
   editLinkAria: 'Edit document type for',
   editLabel: 'Edit evidence summary page',
-  remove: 'Remove',
+  remove: 'Remove', // for locations
+  delete: 'Delete', // for files
   update: 'Update page',
+  noDate: 'No date provided',
 
   summaryTitle: 'Review the evidence you’re submitting',
 
   vaTitle: 'We’re requesting records from these VA locations:',
 
-  privateTitle:
-    'We’re requesting records from these private medical providers:',
+  privateTitle: 'We’re requesting records from these non-VA medical providers:',
 
   otherTitle: 'You uploaded these documents:',
 
-  addMoreLink: (
-    <>
-      <h4 className="sr-only">Are you missing evidence?</h4>
-      <p>
-        <Link
-          to={`/${EVIDENCE_VA_REQUEST}`}
-          className="vads-c-action-link--green"
-          onClick={recordActionLinkClick}
-        >
-          Add more evidence
-        </Link>
-      </p>
-    </>
-  ),
+  addMoreLink: () => {
+    const Header = isOnReviewPage() ? 'h5' : 'h4';
+    return (
+      <>
+        <Header className="sr-only">Are you missing evidence?</Header>
+        <p>
+          <Link
+            to={`/${EVIDENCE_VA_REQUEST}`}
+            className="vads-c-action-link--green"
+            onClick={recordActionLinkClick}
+          >
+            Add more evidence
+          </Link>
+        </p>
+      </>
+    );
+  },
 
   // remove messages
   removeEvidence: {
     title: 'Are you sure you want to remove this evidence?',
     limitationTitle: 'Are you sure you want to remove the request limitation?',
     va: 'We’ll remove the VA medical record request for',
-    private: 'We’ll remove the private medical record request for',
+    private: 'We’ll remove the non-VA medical record request for',
     limitation: '',
     upload: 'We’ll remove the uploaded document',
     modalRemove: 'Yes, remove this',
+    modalDelete: 'Yes, delete this file',
     modalNotRemove: 'No, keep this',
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',
@@ -61,35 +78,15 @@ export const content = {
 
   // error messages
   missing: {
-    location: (
-      <span className="usa-input-error-message">Missing location name</span>
-    ),
-    facility: (
-      <span className="usa-input-error-message">Missing provider name</span>
-    ),
-    condition: (
-      <span className="usa-input-error-message">Missing condition</span>
-    ),
-    dates: (
-      <span className="usa-input-error-message">Missing treatment dates</span>
-    ),
-    from: (
-      <span className="usa-input-error-message vads-u-display--inline-block">
-        Missing start date
-      </span>
-    ),
-    to: (
-      <span className="usa-input-error-message vads-u-display--inline-block">
-        Missing end date
-      </span>
-    ),
-    address: (
-      <span className="usa-input-error-message">Incomplete address</span>
-    ),
-
-    attachmentId: (
-      <span className="usa-input-error-message">Missing document type</span>
-    ),
+    location: wrapError('Missing location name'),
+    facility: wrapError('Missing provider name'),
+    condition: wrapError('Missing condition'),
+    date: wrapError('Missing treatment date'),
+    dates: wrapError('Missing treatment dates'),
+    from: wrapError('Missing start date', true),
+    to: wrapError('Missing end date', true),
+    address: wrapError('Incomplete address'),
+    attachmentId: wrapError('Missing document type'),
   },
 
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',

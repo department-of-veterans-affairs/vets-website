@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import AccountSecurityContent from '../../../components/account-security/AccountSecurityContent';
 import {
   createCustomProfileState,
   createFeatureTogglesState,
   renderWithProfileReducersAndRouter,
 } from '../../unit-test-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 describe('AccountSecurityContent component', () => {
   afterEach(cleanup);
@@ -72,7 +72,7 @@ describe('AccountSecurityContent component', () => {
 
     expect(
       getByText(
-        'Starting December 31, 2024, you’ll no longer be able to sign in with your DS Logon username and password.',
+        'Starting September 30, 2025, you’ll no longer be able to sign in with your DS Logon username and password.',
         {
           exact: false,
         },
@@ -114,7 +114,7 @@ describe('AccountSecurityContent component', () => {
 
     expect(
       getByText(
-        'Starting December 31, 2024, you’ll no longer be able to sign in with your My HealtheVet username and password.',
+        'Starting January 31, 2025, you’ll no longer be able to sign in with your My HealtheVet username and password.',
         {
           exact: false,
         },

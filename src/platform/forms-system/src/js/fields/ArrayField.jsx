@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import Scroll from 'react-scroll';
 
 import {
   toIdSchema,
@@ -11,8 +10,10 @@ import {
 import {
   VaCard,
   VaModal,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { Element } from 'platform/utilities/scroll';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
 import {
@@ -23,8 +24,6 @@ import {
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
-
-const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -346,6 +345,11 @@ export default class ArrayField extends React.Component {
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
 
+    const modalPrimaryButtonText =
+      uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
+    const modalSecondaryButtonText =
+      uiOptions.modalSecondaryButtonText || 'No, cancel';
+
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
       formData && formData.length
@@ -379,7 +383,6 @@ export default class ArrayField extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
@@ -455,31 +458,29 @@ export default class ArrayField extends React.Component {
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
-                              <button
-                                type="button"
+                              <VaButton
                                 className="float-left"
-                                aria-label={`${updateText} ${ariaItemName}`}
+                                label={`${updateText} ${ariaItemName} ${index +
+                                  1}`}
                                 onClick={() => this.handleUpdate(index)}
-                              >
-                                {updateText}
-                              </button>
+                                text={updateText}
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
                             {multipleRows && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${ariaItemName}`}
+                              <VaButton
+                                secondary
+                                className="float-right"
+                                label={`Remove ${ariaItemName} ${index + 1}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
                                     uiOptions.confirmRemove,
                                   )
                                 }
-                              >
-                                Remove
-                              </button>
+                                text="Remove"
+                              />
                             )}
                           </div>
                         </div>
@@ -491,8 +492,8 @@ export default class ArrayField extends React.Component {
                       clickToClose
                       status="warning"
                       modalTitle={`Are you sure you want to remove this ${uiItemName}?`}
-                      primaryButtonText={`Yes, remove this ${uiItemName}`}
-                      secondaryButtonText="No, cancel"
+                      primaryButtonText={modalPrimaryButtonText}
+                      secondaryButtonText={modalSecondaryButtonText}
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
                       onSecondaryButtonClick={() =>
@@ -501,9 +502,18 @@ export default class ArrayField extends React.Component {
                       visible={isRemoving}
                       uswds
                     >
-                      {uiOptions.confirmRemoveDescription && (
-                        <p>{uiOptions.confirmRemoveDescription}</p>
-                      )}
+                      <>
+                        {(uiOptions.confirmRemoveDescription ||
+                          uiOptions.confirmRemoveDisplayFields) && (
+                          <p>
+                            {uiOptions.confirmRemoveDescription}
+                            {typeof uiOptions.confirmRemoveDisplayFields ===
+                            'function'
+                              ? uiOptions.confirmRemoveDisplayFields(item)
+                              : ''}
+                          </p>
+                        )}
+                      </>
                     </VaModal>
                   )}
                 </CardOrDiv>
@@ -526,14 +536,12 @@ export default class ArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName}`}
+                  <VaButton
+                    secondary
+                    label={`Edit ${ariaItemName} ${index + 1}`}
                     onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
+                    text="Edit"
+                  />
                 </div>
               </CardOrDiv>
             );

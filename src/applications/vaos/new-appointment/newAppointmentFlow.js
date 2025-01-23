@@ -1,6 +1,8 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureOHDirectSchedule,
+  selectFeatureOHRequest,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -9,6 +11,7 @@ import {
   getFormData,
   getNewAppointment,
   getTypeOfCare,
+  selectSingleSupportedVALocation,
   selectCommunityCareSupportedSites,
   selectEligibility,
 } from './redux/selectors';
@@ -18,6 +21,7 @@ import {
   GA_PREFIX,
   TYPES_OF_CARE,
   COVID_VACCINE_ID,
+  OH_ENABLED_TYPES_OF_CARE,
 } from '../utils/constants';
 import {
   getSiteIdFromFacilityId,
@@ -80,8 +84,16 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
+  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
+  const featureOHRequest = selectFeatureOHRequest(state);
+  const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
+    getTypeOfCare(state.newAppointment.data)?.idV2,
+  );
 
   if (isCerner) {
+    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+      return 'selectProvider';
+    }
     return 'scheduleCerner';
   }
 
@@ -128,7 +140,7 @@ const flow = {
   },
   typeOfCare: {
     url: '/new-appointment',
-    label: 'Choose the type of care you need',
+    label: 'What type of care do you need?',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
         recordEvent({
@@ -169,7 +181,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    label: 'Choose where you want to receive your care',
+    label: 'Where do you want to receive care?',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -217,17 +229,17 @@ const flow = {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
-    label: 'Request a preferred provider',
+    label: 'Which provider do you prefer?',
     next: 'ccLanguage',
   },
   ccLanguage: {
     url: '/new-appointment/community-care-language',
-    label: 'Choose a preferred language',
+    label: 'What language do you prefer?',
     next: 'reasonForAppointment',
   },
   ccClosestCity: {
     url: '/new-appointment/choose-closest-city',
-    label: 'What’s the closest city to you?',
+    label: 'What’s the nearest city to you?',
     next: 'ccPreferences',
   },
   vaFacility: {
@@ -236,7 +248,7 @@ const flow = {
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
-    label: 'Choose a VA location',
+    label: 'Which VA location would you like to go to?',
     next: vaFacilityNext,
   },
   scheduleCerner: {
@@ -245,7 +257,7 @@ const flow = {
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    label: 'Choose a VA clinic',
+    label: 'Which VA clinic would you like to go to?',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -257,14 +269,19 @@ const flow = {
       return 'preferredDate';
     },
   },
+  selectProvider: {
+    url: '/new-appointment/provider',
+    label: 'Which provider do you want to schedule with?',
+    next: null,
+  },
   preferredDate: {
     url: '/new-appointment/preferred-date',
-    label: 'When do you want to schedule this appointment?',
+    label: 'When are you available for this appointment?',
     next: 'selectDateTime',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
-    label: 'Choose a date and time',
+    label: 'What date and time do you want for this appointment?',
     next: 'reasonForAppointment',
   },
   requestDateTime: {
@@ -307,12 +324,12 @@ const flow = {
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    label: 'Confirm your contact information',
+    label: 'How should we contact you?',
     next: 'review',
   },
   review: {
     url: '/new-appointment/review',
-    label: 'Review your appointment details',
+    label: 'Review and confirm your appointment details',
   },
 };
 
@@ -328,6 +345,7 @@ const flow = {
 export default function getNewAppointmentFlow(state) {
   const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
   const flowType = getFlowType(state);
+  const isSingleVaFacility = selectSingleSupportedVALocation(state);
 
   return {
     ...flow,
@@ -369,10 +387,6 @@ export default function getNewAppointmentFlow(state) {
     },
     contactInfo: {
       ...flow.contactInfo,
-      label:
-        FLOW_TYPES.DIRECT === flowType
-          ? 'Confirm your contact information'
-          : 'How should we contact you?',
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-appointment/contact-info',
@@ -410,7 +424,7 @@ export default function getNewAppointmentFlow(state) {
       ...flow.review,
       label:
         FLOW_TYPES.DIRECT === flowType
-          ? 'Review your appointment details'
+          ? 'Review and confirm your appointment details'
           : 'Review and submit your request',
       url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },
@@ -426,10 +440,6 @@ export default function getNewAppointmentFlow(state) {
         ? 'date-time'
         : '/new-appointment/select-date',
     },
-    // typeOfAppointment: {
-    //   ...flow.typeOfAppointment,
-    //   url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
-    // },
     typeOfCare: {
       ...flow.typeOfCare,
       url: featureBreadcrumbUrlUpdate
@@ -459,7 +469,7 @@ export default function getNewAppointmentFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? // IMPORTANT!!!
           // The trailing slash is needed for going back to the previous page to work properly.
-          // The trainling slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
+          // The training slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
           // with children.
           //
           // Ex. /schedule/new-covid-19-vaccine-appointment/
@@ -476,6 +486,10 @@ export default function getNewAppointmentFlow(state) {
     },
     vaFacilityV2: {
       ...flow.vaFacilityV2,
+      label: isSingleVaFacility
+        ? 'Your appointment location'
+        : 'Which VA location would you like to go to?',
+
       url: featureBreadcrumbUrlUpdate
         ? 'location'
         : '/new-appointment/va-facility-2',
@@ -510,4 +524,18 @@ export function getUrlLabel(state, location) {
     return results[0].label;
   }
   return null;
+}
+
+/**
+ * Function to get label from the flow based on the pageKey
+ * returns the label which is the page title
+ *
+ * @export
+ * @param {object} state
+ * @param {string} pageKey
+ * @returns {string} the label string
+ */
+export function getPageTitle(state, pageKey) {
+  const _flow = getNewAppointmentFlow(state);
+  return _flow[pageKey].label;
 }

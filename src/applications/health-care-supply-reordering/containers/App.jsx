@@ -3,6 +3,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
@@ -60,17 +61,27 @@ class App extends Component {
       saved: `Your ${supplyDescription} order has been saved.`,
     };
 
+    const breadcrumbs = [
+      { href: '/', label: 'Home' },
+      { href: '/health-care', label: 'VA health care' },
+      {
+        href: '/health-care/order-hearing-aid-or-cpap-supplies-form',
+        label: `Order ${supplyDescription}`,
+      },
+    ];
+    const bcString = JSON.stringify(breadcrumbs);
+
     return (
       <>
         {!featureToggles.loading && (
-          <va-breadcrumbs uswds="false" class="va-nav-breadcrumbs">
-            <a href="/">Home</a>
-            {/* this will get updated when this route is added */}
-            <a href="/health-care">Health care</a>
-            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-              Order {supplyDescription}
-            </a>
-          </va-breadcrumbs>
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns print-full-width">
+              <VaBreadcrumbs
+                breadcrumb-list={bcString}
+                class="va-nav-breadcrumbs vads-u-padding--0"
+              />
+            </div>
+          </div>
         )}
         {pending && (
           <va-loading-indicator>

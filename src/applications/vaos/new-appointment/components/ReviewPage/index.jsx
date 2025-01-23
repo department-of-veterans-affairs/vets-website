@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
@@ -12,12 +11,12 @@ import ReviewRequestInfo from './ReviewRequestInfo';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
-export default function ReviewPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+const pageKey = 'review';
+
+export default function ReviewPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
   const {
@@ -33,17 +32,10 @@ export default function ReviewPage({ changeCrumb }) {
     vaCityState,
   } = useSelector(selectReviewPage, shallowEqual);
   const history = useHistory();
-  const pageTitle =
-    FLOW_TYPES.DIRECT === flowType
-      ? 'Review your appointment details'
-      : 'Review and submit your request';
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   useEffect(
@@ -61,6 +53,9 @@ export default function ReviewPage({ changeCrumb }) {
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const submissionType = isDirectSchedule ? 'appointment' : 'request';
+  const alertHeadline = isDirectSchedule
+    ? 'We couldn’t schedule this appointment'
+    : 'We can’t submit your request';
   const facilityDetails = facility || parentFacility;
 
   return (
@@ -100,10 +95,7 @@ export default function ReviewPage({ changeCrumb }) {
       </div>
       {submitStatus === FETCH_STATUS.failed && (
         <div className="info-alert" role="alert">
-          <InfoAlert
-            status="error"
-            headline="We couldn’t schedule this appointment"
-          >
+          <InfoAlert status="error" headline={alertHeadline}>
             <>
               {submitStatusVaos409 && (
                 <p>
@@ -142,7 +134,3 @@ export default function ReviewPage({ changeCrumb }) {
     </div>
   );
 }
-
-ReviewPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

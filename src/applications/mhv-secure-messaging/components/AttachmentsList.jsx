@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { closeAlert } from '../actions/alerts';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
+import { Alerts } from '../util/constants';
 
 const AttachmentsList = props => {
   const {
     attachments,
     compose,
+    draftSequence,
     reply,
     setAttachments,
     setNavigationError,
@@ -17,7 +22,10 @@ const AttachmentsList = props => {
     attachFileSuccess,
     setAttachFileSuccess,
     forPrint,
+    attachmentScanError,
+    setAttachFileError,
   } = props;
+  const dispatch = useDispatch();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -26,6 +34,23 @@ const AttachmentsList = props => {
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
   const attachFileAlertRef = useRef();
   const [focusedElement, setFocusedElement] = useState(null);
+
+  useEffect(
+    () => {
+      if (attachmentScanError) {
+        setTimeout(
+          () =>
+            setFocusedElement(
+              attachments.length > 1
+                ? document.getElementById('remove-all-attachments-button')
+                : document.querySelector('.remove-attachment-button'),
+            ),
+          400,
+        );
+      }
+    },
+    [attachmentScanError, attachments.length],
+  );
 
   const getSize = num => {
     if (num > 999999) {
@@ -49,12 +74,13 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
+      const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
+        '#close-success-alert-button',
+      );
+      if (attachFileSuccess && alertButton) {
         setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
-        }, 300);
+          setFocusedElement(alertButton);
+        }, 400);
       }
     },
     [attachFileSuccess, attachments, attachFileAlertRef],
@@ -80,16 +106,37 @@ const AttachmentsList = props => {
     setAttachments(newAttArr);
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
-
-    setFocusedElement(
-      document
-        .querySelector('.attach-file-button')
-        .shadowRoot.querySelector('button'),
-    );
+    setAttachFileError(null);
 
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
     }
+
+    setTimeout(
+      () =>
+        setFocusedElement(
+          document
+            .querySelector('.attach-file-button')
+            .shadowRoot.querySelector('button'),
+        ),
+      400,
+    );
+  };
+
+  const handleRemoveAllAttachments = () => {
+    setAttachments([]);
+    dispatch(closeAlert()).then(() => {
+      setTimeout(
+        () =>
+          setFocusedElement(
+            document
+              .querySelector('.attach-file-button')
+              .shadowRoot.querySelector('button'),
+          ),
+        400,
+      );
+      setAttachFileError(null);
+    });
   };
 
   const handleSuccessAlertClose = () => {
@@ -121,7 +168,8 @@ const AttachmentsList = props => {
       {editingEnabled && <HowToAttachFiles />}
 
       {attachFileSuccess &&
-        attachments.length > 0 && (
+        attachments.length > 0 &&
+        !attachmentScanError && (
           <VaAlert
             aria-live="polite"
             aria-label="file successfully attached"
@@ -129,6 +177,7 @@ const AttachmentsList = props => {
             background-only
             className="file-attached-success vads-u-margin-top--2"
             data-testid="file-attached-success-alert"
+            data-dd-action-name="File Attached Alert"
             disable-analytics
             full-width="false"
             show-icon
@@ -137,7 +186,7 @@ const AttachmentsList = props => {
           >
             <p className="vads-u-margin-y--0">File attached</p>
             <button
-              className="close-success-alert-button vads-u-padding--0p5"
+              className="close-success-alert-button vads-u-padding--0p5 vads-u-color--base"
               id="close-success-alert-button"
               data-testid="close-success-alert-button"
               aria-label="Close notification"
@@ -145,11 +194,12 @@ const AttachmentsList = props => {
               onClick={() => {
                 setAttachFileSuccess(false);
                 handleSuccessAlertClose();
+                datadogRum.addAction('File Attached Alert Closed');
               }}
             >
-              <i
-                className="fas fa-times-circle vads-u-color--black"
-                style={{ fontSize: '2.4rem' }}
+              <va-icon
+                icon="cancel"
+                size={3}
                 alt="Close notification icon"
                 aria-hidden="true"
                 role="presentation"
@@ -157,6 +207,52 @@ const AttachmentsList = props => {
             </button>
           </VaAlert>
         )}
+
+      {attachmentScanError &&
+        (attachments.length > 1 ? (
+          <VaAlert
+            data-testid="attachment-virus-alert"
+            aria-label={Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
+            background-only
+            className="file-attached-success vads-u-margin-top--2"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="error"
+          >
+            <p
+              aria-live="assertive"
+              className="vads-u-margin--0 vads-u-margin-bottom--1"
+            >
+              {Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
+            </p>
+            <va-button
+              text="Remove all attachments"
+              secondary
+              className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
+              id="remove-all-attachments-button"
+              data-testid="remove-all-attachments-button"
+              onClick={() => {
+                handleRemoveAllAttachments();
+              }}
+            />
+          </VaAlert>
+        ) : (
+          <VaAlert
+            data-testid="attachment-virus-alert"
+            aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            background-only
+            className="file-attached-success vads-u-margin-top--2"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="error"
+          >
+            <p aria-live="assertive" className="vads-u-margin--0">
+              {Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            </p>
+          </VaAlert>
+        ))}
 
       <ul className="attachments-list">
         {!!attachments.length &&
@@ -167,7 +263,7 @@ const AttachmentsList = props => {
                   <span
                     data-dd-privacy="mask"
                     ref={attachmentReference}
-                    className="vads-u-flex--1"
+                    className="vads-u-flex--1 vads-u-align-items--center vads-u-display--flex vads-u-flex-direction--row"
                     role="alert"
                     aria-live="polite"
                     aria-label={
@@ -178,13 +274,18 @@ const AttachmentsList = props => {
                           )}, button available: Remove ${file.name}`
                     }
                   >
-                    <i
-                      className="fas fa-paperclip"
-                      alt="Attachment icon"
-                      aria-hidden="true"
-                    />
-                    <span className="attachment-name-text">{file.name}</span>(
-                    {getSize(file.size || file.attachmentSize)})
+                    <div className="vads-u-flex--auto vads-u-margin-right--0p5 vads-u-color--link-default">
+                      <va-icon
+                        icon="attach_file"
+                        size={2}
+                        alt="Attachment icon"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="vads-u-flex--1">
+                      <span className="attachment-name-text">{file.name}</span>(
+                      {getSize(file.size || file.attachmentSize)})
+                    </div>
                   </span>
                   <button
                     type="button"
@@ -212,7 +313,7 @@ const AttachmentsList = props => {
                         ? `attachment-link-metadata-${file.id}`
                         : `attachment-link-metadata-for-print-${file.id}`
                     }
-                    href={file.link}
+                    href={file.download}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => {
@@ -223,9 +324,9 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <i
+                    <va-icon
                       aria-labelledby={attachmentNameId(file.id)}
-                      className="fas fa-paperclip"
+                      icon="attach_file"
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
@@ -248,17 +349,23 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
+          draftSequence={draftSequence}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
             setIsAttachmentRemoved(false);
           }}
           onDelete={() => {
+            if (attachments.length === 1) {
+              dispatch(closeAlert());
+            }
             setNavigationError();
             setIsModalVisible(false);
             removeAttachment(fileToRemove);
           }}
-          data-testid="remove-attachment-modal"
+          data-testid={`remove-attachment-modal${
+            draftSequence ? `-${draftSequence}` : ''
+          }`}
         />
       )}
       {isAttachmentRemoved ? (
@@ -268,7 +375,9 @@ const AttachmentsList = props => {
             role="status"
             aria-live="polite"
             className="sr-only"
-            id="attachment-removed-successfully"
+            id={`attachment-removed-successfully${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
@@ -281,8 +390,10 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
+  attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
+  draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,

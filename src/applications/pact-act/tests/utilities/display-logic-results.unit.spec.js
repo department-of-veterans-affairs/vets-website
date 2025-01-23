@@ -7,7 +7,7 @@ import {
   responsesMatchResultsDCs,
 } from '../../utilities/display-logic-results';
 import { BATCHES } from '../../constants/question-batches';
-import { NONE } from '../../constants/display-conditions/results-screens';
+import { NONE } from '../../constants/display-conditions/results-pages';
 
 const pushSpy = sinon.spy();
 const updateSpy = sinon.spy();
@@ -45,7 +45,7 @@ const { ORANGE, BURN_PITS, CAMP_LEJEUNE, RADIATION } = BATCHES;
 
 describe('display conditions for results pages', () => {
   describe('responsesMatchResultsDCs', () => {
-    describe('results screen 1 display conditions', () => {
+    describe('Results page 1 display conditions', () => {
       it('should return true if the display conditions are met', () => {
         const yesShortNames = [BURN_PIT_2_1_1];
 
@@ -141,7 +141,7 @@ describe('display conditions for results pages', () => {
       });
     });
 
-    describe('results screen 2 display conditions', () => {
+    describe('Results page 2 display conditions', () => {
       it('should return true if the display conditions are met', () => {
         const yesShortNames = [LEJEUNE_2_4];
 
@@ -174,7 +174,7 @@ describe('display conditions for results pages', () => {
       });
     });
 
-    describe('results screen 3 display conditions', () => {
+    describe('Results page 3 display conditions', () => {
       it('should return true if the display conditions are met', () => {
         const yesShortNames = [];
 
@@ -203,9 +203,11 @@ describe('display conditions for results pages', () => {
       it('should return push to results 1 when necessary', () => {
         const formResponses = {
           SERVICE_PERIOD: NINETY_OR_LATER,
-          BURN_PIT_2_1: YES,
-          BURN_PIT_2_1_1: null,
+          BURN_PIT_2_1: NO,
+          BURN_PIT_2_1_1: YES,
           BURN_PIT_2_1_2: null,
+          BURN_PIT_2_1_3: null,
+          MAIN_FLOW_2_5: null,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -215,9 +217,10 @@ describe('display conditions for results pages', () => {
       it('should return push to results 1 when necessary', () => {
         const formResponses = {
           SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
-          BURN_PIT_2_1: YES,
-          BURN_PIT_2_1_1: null,
-          BURN_PIT_2_1_2: null,
+          BURN_PIT_2_1: NO,
+          BURN_PIT_2_1_1: NO,
+          BURN_PIT_2_1_2: YES,
+          BURN_PIT_2_1_3: null,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NO,
@@ -226,6 +229,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: YES,
           RADIATION_2_3_B: [GREENLAND_THULE],
           LEJEUNE_2_4: NOT_SURE,
+          MAIN_FLOW_2_5: NOT_SURE,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -238,6 +242,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NO,
           BURN_PIT_2_1_1: YES,
           BURN_PIT_2_1_2: null,
+          BURN_PIT_2_1_3: null,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NO,
@@ -246,6 +251,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: YES,
           RADIATION_2_3_B: [GREENLAND_THULE],
           LEJEUNE_2_4: NOT_SURE,
+          MAIN_FLOW_2_5: NOT_SURE,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -260,6 +266,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NO,
           BURN_PIT_2_1_1: NOT_SURE,
           BURN_PIT_2_1_2: NOT_SURE,
+          BURN_PIT_2_1_3: NOT_SURE,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NO,
@@ -268,6 +275,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: NO,
           RADIATION_2_3_B: null,
           LEJEUNE_2_4: YES,
+          MAIN_FLOW_2_5: NO,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -280,6 +288,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NOT_SURE,
           BURN_PIT_2_1_1: NO,
           BURN_PIT_2_1_2: NO,
+          BURN_PIT_2_1_3: NO,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NOT_SURE,
@@ -288,6 +297,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: NO,
           RADIATION_2_3_B: null,
           LEJEUNE_2_4: YES,
+          MAIN_FLOW_2_5: NO,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -302,6 +312,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NO,
           BURN_PIT_2_1_1: NOT_SURE,
           BURN_PIT_2_1_2: NO,
+          BURN_PIT_2_1_3: NO,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -314,6 +325,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NO,
           BURN_PIT_2_1_1: NOT_SURE,
           BURN_PIT_2_1_2: NOT_SURE,
+          BURN_PIT_2_1_3: NOT_SURE,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NO,
@@ -322,6 +334,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: NO,
           RADIATION_2_3_B: null,
           LEJEUNE_2_4: NO,
+          MAIN_FLOW_2_5: NO,
         };
 
         determineResultsPage(formResponses, router, updateSpy);
@@ -334,6 +347,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1: NOT_SURE,
           BURN_PIT_2_1_1: NO,
           BURN_PIT_2_1_2: NO,
+          BURN_PIT_2_1_3: NO,
           ORANGE_2_2_A: NO,
           ORANGE_2_2_B: null,
           ORANGE_2_2_1_A: NOT_SURE,
@@ -342,6 +356,7 @@ describe('display conditions for results pages', () => {
           RADIATION_2_3_A: NO,
           RADIATION_2_3_B: null,
           LEJEUNE_2_4: NO,
+          MAIN_FLOW_2_5: NO,
         };
 
         determineResultsPage(formResponses, router, updateSpy);

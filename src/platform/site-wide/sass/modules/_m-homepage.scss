@@ -1,6 +1,6 @@
 .hub-links-list {
   padding-right: 5px;
-  padding-left: 1rem;
+  padding-left: 0.625rem;
   list-style: none;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .homepage-hub-container {
-  max-width: 100rem;
+  max-width: 62.5rem;
 
   @include media($medium-screen) {
     margin: auto;
@@ -179,23 +179,6 @@
       background-size: 2em auto;
       background-position: center;
       background-color: var(--vads-color-secondary-darkest);
-    }
-  }
-
-  &-icon {
-    font-size: 1.5em;
-    display: inline-block;
-    position: relative;
-    &::before {
-      position: absolute;
-      margin: 0;
-      top: 15px;
-      left: -7.75px;
-      font-family: "Font Awesome 5 Free"
-    }
-    &.fa-user-circle {
-      font-size: 1.5em;
-      padding-right: .3em;
     }
   }
 

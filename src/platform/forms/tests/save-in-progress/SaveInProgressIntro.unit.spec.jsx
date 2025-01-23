@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
@@ -44,7 +44,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -73,7 +73,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.usa-alert-heading')
+        .find('va-alert h2')
         .last()
         .text(),
     ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
@@ -98,7 +98,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -125,8 +125,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         headingLevel={1}
       />,
     );
-
-    expect(tree.find('.usa-alert-heading').text()).to.contain(
+    expect(tree.find('va-alert h1').text()).to.contain(
       'Your application is in progress',
     );
     tree.unmount();
@@ -231,7 +230,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
@@ -268,7 +270,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -297,7 +302,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     const link = tree.find('.va-button-link');
-    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('text')).to.contain('Sign in to your account.');
     expect(link.prop('aria-label')).to.eq('test aria-label');
     expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
@@ -311,7 +316,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -407,9 +415,20 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('va-alert').text()).to.contain(
-      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your application in progress and come back later to finish filling it out.',
+    expect(tree.find('va-alert h3').text()).to.equal(
+      "We've prefilled some of your information",
     );
+
+    const alertText = tree
+      .find('va-alert')
+      .children()
+      .not('h3')
+      .text();
+
+    expect(alertText).to.contain(
+      'Since you’re signed in, we can prefill part of your application based on your profile details. You can also save your application in progress and come back later to finish filling it out.',
+    );
+
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
   });
@@ -421,7 +440,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -460,7 +482,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -495,7 +520,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000),
+            },
           },
         ],
         prefillsAvailable: [],
@@ -533,7 +561,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -573,7 +604,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -612,7 +646,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -650,7 +687,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -690,7 +730,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -801,7 +844,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -839,8 +882,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={emptyMessageConfig}
       />,
     );
-    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
-    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
+    expect(tree.find('va-alert h2')).to.have.lengthOf(1);
+    expect(tree.find('va-alert h2').text()).to.not.contain(
       'Your application is in progress',
     );
 

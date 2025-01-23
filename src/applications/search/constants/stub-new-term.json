@@ -1,0 +1,80 @@
+{
+  "data": {
+    "id": "",
+    "type": "search_results_responses",
+    "attributes": {
+      "body": {
+        "query": "military",
+        "web": {
+          "total": 5,
+          "nextOffset": 10,
+          "spellingCorrection": null,
+          "results": [
+            {
+              "title": "Request your military service records (including DD214) | Veterans Affairs",
+              "url": "https://www.va.gov/records/get-military-service-records/",
+              "snippet": "...request a copy of your DD214 and other military service records from the National...In this section Request your military service records (including DD214) You...request a copy of your DD214 and other military service records from the National",
+              "publicationDate": "2024-02-07",
+              "thumbnailUrl": null
+            },
+            {
+              "title": "Military sexual trauma (MST) | Veterans Affairs",
+              "url": "https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/",
+              "snippet": "...Military sexual trauma (MST) refers to sexual assault or threatening sexual...sexual harassment experienced during military service. Veterans of all genders and...In this section Military sexual trauma (MST) Military sexual trauma (MST) refers...sexual harassment experienced during military service. Veterans of all genders and",
+              "publicationDate": null,
+              "thumbnailUrl": null
+            },
+            {
+              "title": "Military funeral honors and the committal service | Veterans Affairs",
+              "url": "https://www.va.gov/burials-memorials/what-to-expect-at-military-funeral/",
+              "snippet": "Find out what happens at a military funeral for a Veteran or service member...In this section Military funeral honors and the committal service Find out what...what happens at a military funeral for a Veteran or service member. We carry",
+              "publicationDate": null,
+              "thumbnailUrl": null
+            },
+            {
+              "title": "All Veterans exposed to toxins and other hazards during military service – at home or abroad – eligible for VA health care | VA Gulf Coast health care | Veterans Affairs",
+              "url": "https://www.va.gov/gulf-coast-health-care/news-releases/all-veterans-exposed-to-toxins-and-other-hazards-during-military-service-at-home-or-abroad-eligible-for-va/",
+              "snippet": "...to toxins and other hazards during military service – at home or abroad – are...to toxins and other hazards during military service – at home or abroad – eligible...to toxins and other hazards during military service – at home or abroad – are",
+              "publicationDate": null,
+              "thumbnailUrl": null
+            },
+            {
+              "title": "About VA Form SF180 | Veterans Affairs",
+              "url": "https://www.va.gov/find-forms/about-form-sf180/",
+              "snippet": "Use GSA Form SF180 to request your military service records, like your DD214 or...orders and endorsements, and your military medical records....Form name: Request Pertaining to Military Records Related to: A non-VA form...Use GSA Form SF180 to request your military service records, like your DD214 or",
+              "publicationDate": "2022-12-06",
+              "thumbnailUrl": null
+            }
+          ]
+        },
+        "textBestBets": [
+          {
+            "id": 140341,
+            "title": "What to Expect at a Military Funeral",
+            "url": "https://www.va.gov/burials-memorials/what-to-expect-at-military-funeral/",
+            "description": "What to Expect at a Military Funeral"
+          },
+          {
+            "id": 140301,
+            "title": "Military Sexual Trauma (MST)",
+            "url": "https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/",
+            "description": "Find out how to access free services that can help you recover if you experienced any sexual activity against your will during your time in the military,"
+          }
+        ],
+        "graphicBestBets": [],
+        "healthTopics": [],
+        "jobOpenings": [],
+        "federalRegisterDocuments": [],
+        "relatedSearchTerms": []
+      }
+    }
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 1,
+      "totalEntries": 5
+    }
+  }
+}

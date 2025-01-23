@@ -1,6 +1,7 @@
 // we're not using JSON schema for this form
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -48,20 +49,14 @@ import powConfinementPg from '../pages/evidenceConfinement';
 import powConfinement2Pg from '../pages/evidenceConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import medalAwardPg from '../pages/evidenceMedalAward';
-import hasReceivedMedicalTreatmentPg from '../pages/medicalTreatmentYesNo';
-import medTreatmentPg from '../pages/medicalTreatment';
-import medTreatment3rdPtyVetPg from '../pages/medicalTreatmentThirdPartyVeteran';
-import medTreatment3rdPtyNonVetPg from '../pages/medicalTreatmentThirdPartyNonVeteran';
+import medicalTreatmentPages from '../pages/medicalTreatment';
+import medicalTreatment3rdPartyVeteranPages from '../pages/medicalTreatmentThirdPartyVeteran';
+import medicalTreatment3rdPartyNonVeteranPages from '../pages/medicalTreatmentThirdPartyNonVeteran';
 import pointOfContactPg from '../pages/pointOfContact';
 import veteranPointOfContactPg from '../pages/veteranPointOfContact';
 import nonVeteranPointOfContactPg from '../pages/nonVeteranPointOfContact';
 
-import {
-  PREPARER_TYPES,
-  SUBTITLE,
-  TITLE,
-  hasMedicalTreatmentTitle,
-} from './constants';
+import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
   getPersonalInformationChapterTitle,
@@ -418,7 +413,7 @@ const formConfig = {
           depends: formData =>
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons',
           title: 'Other reasons for request',
           uiSchema: otherReasonsPg.uiSchema,
@@ -428,7 +423,7 @@ const formConfig = {
         otherReasonsThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons-third-party-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyVetPg.uiSchema,
@@ -438,7 +433,7 @@ const formConfig = {
         otherReasonsThirdPartyNonVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons-third-party-non-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyNonVetPg.uiSchema,
@@ -557,43 +552,9 @@ const formConfig = {
     medicalTreatmentChapter: {
       title: 'Medical treatment',
       pages: {
-        hasReceivedMedicalTreatmentPage: {
-          title: hasMedicalTreatmentTitle,
-          path: 'has-received-medical-treatment',
-          uiSchema: hasReceivedMedicalTreatmentPg.uiSchema,
-          schema: hasReceivedMedicalTreatmentPg.schema,
-        },
-        medicalTreatmentPage: {
-          depends: formData =>
-            formData['view:hasReceivedMedicalTreatment'] &&
-            (formData.preparerType === PREPARER_TYPES.VETERAN ||
-              formData.preparerType === PREPARER_TYPES.NON_VETERAN),
-          title: 'Where did you receive medical treatment?', // for review page (has to be more than one word)
-          path: 'medical-treatment',
-          uiSchema: medTreatmentPg.uiSchema,
-          schema: medTreatmentPg.schema,
-          pageClass: 'medical-treatment',
-        },
-        medicalTreatmentThirdPartyVeteranPage: {
-          depends: formData =>
-            formData['view:hasReceivedMedicalTreatment'] &&
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
-          title: 'Where did the veteran receive medical treatment?',
-          path: 'medical-treatment-third-party-veteran',
-          uiSchema: medTreatment3rdPtyVetPg.uiSchema,
-          schema: medTreatment3rdPtyVetPg.schema,
-          pageClass: 'medical-treatment-third-party-veteran',
-        },
-        medicalTreatmentThirdPartyNonVeteranPage: {
-          depends: formData =>
-            formData['view:hasReceivedMedicalTreatment'] &&
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-          title: 'Where did the claimant receive medical treatment?',
-          path: 'medical-treatment-third-party-non-veteran',
-          uiSchema: medTreatment3rdPtyNonVetPg.uiSchema,
-          schema: medTreatment3rdPtyNonVetPg.schema,
-          pageClass: 'medical-treatment-third-party-non-veteran',
-        },
+        ...medicalTreatmentPages,
+        ...medicalTreatment3rdPartyVeteranPages,
+        ...medicalTreatment3rdPartyNonVeteranPages,
       },
     },
   },
@@ -607,6 +568,9 @@ const formConfig = {
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

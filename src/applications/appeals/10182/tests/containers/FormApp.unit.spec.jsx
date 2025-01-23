@@ -12,18 +12,20 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
 import {
+  NEW_API,
   CONTESTABLE_ISSUES_API,
-  SHOW_PART3,
-  SHOW_PART3_REDIRECT,
-} from '../../constants';
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
 
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
 import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 import { SELECTED } from '../../../shared/constants';
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 const getData = ({
-  part3 = true,
   isLoading = false,
   loggedIn = true,
   formData = {},
@@ -41,9 +43,7 @@ const getData = ({
   data: {
     featureToggles: {
       loading: isLoading,
-      /* eslint-disable camelcase */
-      nod_part3_update: part3,
-      /* eslint-enable camelcase */
+      [NEW_API]: true,
     },
     user: {
       login: {
@@ -63,10 +63,7 @@ const getData = ({
           returnUrl,
         },
       },
-      data: {
-        ...formData,
-        [SHOW_PART3]: part3,
-      },
+      data: formData,
     },
     contestableIssues,
     isStartingOver,
@@ -107,7 +104,7 @@ describe('FormApp', () => {
 
   it('should call API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({ formData: { internalTesting: true } });
     render(
       <Provider store={mockStore(data)}>
         <FormApp {...props} />
@@ -134,22 +131,22 @@ describe('FormApp', () => {
     });
   });
 
-  it('should call API when logged in', async () => {
+  it('should call new API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({ formData: { internalTesting: true } });
     render(
       <Provider store={mockStore(data)}>
-        <FormApp {...props} />
+        <FormApp {...props} toggles={{ [NEW_API]: true }} />
       </Provider>,
     );
 
     await waitFor(() => {
-      expect(global.fetch.called).to.be.true;
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
       resetFetch();
     });
   });
 
-  it('should set form data', async () => {
+  it('should update contested issues', async () => {
     const issues = [
       {
         type: 'contestableIssue',
@@ -157,7 +154,6 @@ describe('FormApp', () => {
           ratingIssueSubjectText: 'test1',
           approxDecisionDate: getRandomDate(),
         },
-        [SELECTED]: true,
       },
     ];
     const { props, data } = getData({
@@ -166,9 +162,16 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestedIssues: [],
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-11-01',
+            },
+          },
+        ],
         areaOfDisagreement: [{}],
-        additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
     });
     const store = mockStore(data);
@@ -186,6 +189,53 @@ describe('FormApp', () => {
       const action = store.getActions()[1];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.contestedIssues.length).to.eq(1);
+      expect(action.data.contestedIssues).to.deep.equal([
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'test1',
+            approxDecisionDate: issues[0].attributes.approxDecisionDate,
+            description: '',
+          },
+        },
+      ]);
+    });
+  });
+
+  it('should not update contested issues when the API fails', async () => {
+    const { props, data } = getData({
+      contestableIssues: {
+        status: FETCH_CONTESTABLE_ISSUES_FAILED,
+        issues: [],
+      },
+      formData: {
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-11-01',
+            },
+          },
+        ],
+        areaOfDisagreement: [],
+        [NEW_API]: true,
+      },
+    });
+    const store = mockStore(data);
+
+    render(
+      <Provider store={store}>
+        <FormApp {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      // Here, we are checking the second action, which is dispatched within the
+      // second `useEffect` in `FormApp`. This second `useEffect` is the one that
+      // manages contestable issues.
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
     });
   });
 
@@ -223,112 +273,6 @@ describe('FormApp', () => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.areaOfDisagreement.length).to.eq(2);
-    });
-  });
-
-  describe('test part3 useEffect', () => {
-    const testData = {
-      contestableIssues: {
-        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-        issues: [],
-      },
-      formData: {
-        contestedIssues: [],
-        areaOfDisagreement: [],
-        additionalIssues: [],
-      },
-    };
-    it('should not redirect if part3 is false', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: false,
-      });
-      const store = mockStore(data);
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions();
-        expect(action.length).to.eq(0);
-      });
-    });
-    it('should update part3 flag in formData', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: false,
-      });
-      const store = mockStore({
-        ...data,
-        /* eslint-disable camelcase */
-        featureToggles: { nod_part3_update: true },
-        /* eslint-enable camelcase */
-      });
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions();
-        expect(action[1].type).to.eq(SET_DATA);
-        expect(action[1].data[SHOW_PART3]).to.be.true;
-      });
-    });
-    it('should not redirect if on page before part3 questions', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: true,
-      });
-      const store = mockStore(data);
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions()[0];
-        expect(action.type).to.eq(SET_DATA);
-        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
-      });
-    });
-    it('should not redirect if starting over', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: true,
-        isStartingOver: true,
-      });
-      const store = mockStore(data);
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions()[0];
-        expect(action.type).to.eq(SET_DATA);
-        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
-      });
-    });
-
-    it('should redirect if on page after part3 questions', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: true,
-        returnUrl: '/contested-issues',
-      });
-      const store = mockStore(data);
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions()[0];
-        expect(action.type).to.eq(SET_DATA);
-        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('redirected');
-      });
     });
   });
 });

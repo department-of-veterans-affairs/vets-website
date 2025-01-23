@@ -23,10 +23,11 @@ export const {
   centralMailVaFile,
   bankAccount,
   files,
+  benefitsIntakeFullName,
 } = fullSchemaPensions.definitions;
 
 export const defaultDefinitions = {
-  address: address.schema(fullSchemaPensions),
+  address: address.schema(fullSchemaPensions, false, 'profileAddress'),
   date,
   dateRange,
   usaPhone,
@@ -36,4 +37,5 @@ export const defaultDefinitions = {
   monthlyIncome,
   expectedIncome,
   netWorth,
+  benefitsIntakeFullName,
 };

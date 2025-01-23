@@ -5,15 +5,32 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { SET_DATA } from 'platform/forms-system/src/js/actions';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import App from '../../containers/App';
 
-import { EVIDENCE_VA } from '../../constants';
+import {
+  EVIDENCE_VA,
+  SC_NEW_FORM_TOGGLE,
+  SC_NEW_FORM_DATA,
+} from '../../constants';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
+
 import { SELECTED } from '../../../shared/constants';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
+
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
 
@@ -25,6 +42,9 @@ const getData = ({
   accountUuid = '',
   pathname = '/introduction',
   push = () => {},
+  status = '',
+  toggle = false,
+  toggleApi = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -32,8 +52,10 @@ const getData = ({
       location: { pathname, search: '' },
       children: <h1>Intro</h1>,
       router: { push },
+      routes: [{ path: pathname }],
     },
     data: {
+      routes: [{ path: pathname }],
       user: {
         login: {
           currentlyLoggedIn: loggedIn,
@@ -42,6 +64,7 @@ const getData = ({
           savedForms,
           verified,
           accountUuid,
+          prefillsAvailable: [],
         },
       },
       form: {
@@ -54,8 +77,13 @@ const getData = ({
         },
         data,
       },
+      featureToggles: {
+        loading: false,
+        [SC_NEW_FORM_TOGGLE]: toggle,
+        [NEW_API]: toggleApi,
+      },
       contestableIssues: {
-        status: '',
+        status,
       },
     },
   };
@@ -80,11 +108,9 @@ describe('App', () => {
   });
 
   it('should render logged in state', () => {
-    const { props, data } = getData({ loggedIn: false });
+    const { props, data } = getData({ loggedIn: false, status: 'done' });
     const { container } = render(
-      <Provider
-        store={mockStore({ ...data, contestableIssues: { status: 'done' } })}
-      >
+      <Provider store={mockStore(data)}>
         <App {...props} />
       </Provider>,
     );
@@ -95,7 +121,7 @@ describe('App', () => {
     expect($('va-loading-indicator', container)).to.not.exist;
   });
 
-  it('should show contestable issue loading indicator', () => {
+  it('should not show contestable issue loading indicator on introduction page', () => {
     const { props, data } = getData();
     const { container } = render(
       <Provider store={mockStore(data)}>
@@ -103,9 +129,7 @@ describe('App', () => {
       </Provider>,
     );
 
-    expect(
-      $('va-loading-indicator', container).getAttribute('message'),
-    ).to.contain('Loading your previous decision');
+    expect($('va-loading-indicator', container)).to.not.exist;
   });
 
   it('should redirect to start', () => {
@@ -171,16 +195,72 @@ describe('App', () => {
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal(hasComp);
     });
   });
 
-  it('should update contestable issues', async () => {
-    const { props, data } = getData({ loggedIn: true });
+  it('should call contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      resetFetch();
+    });
+  });
+
+  it('should call new contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+      toggleApi: true,
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
+      resetFetch();
+    });
+  });
+
+  it('should update contested issues', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
+    });
     const contestableIssues = {
-      status: 'done',
-      issues: [],
+      status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+      issues: [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'test',
+            approxDecisionDate: '2000-01-02',
+          },
+        },
+      ],
       legacyCount: 0,
     };
     const store = mockStore({ ...data, contestableIssues });
@@ -194,29 +274,79 @@ describe('App', () => {
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal({
         ...hasComp,
-        contestedIssues: [],
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-02',
+              description: '',
+            },
+          },
+        ],
         legacyCount: 0,
+        internalTesting: true,
       });
     });
   });
 
+  it('should not update contestable issues when the API fails', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        [SC_NEW_FORM_DATA]: false,
+        [NEW_API]: false,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
+    });
+    const contestableIssues = {
+      status: FETCH_CONTESTABLE_ISSUES_FAILED,
+      issues: [],
+      legacyCount: undefined,
+    };
+    const store = mockStore({ ...data, contestableIssues });
+
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    // testing issuesNeedUpdating branch for code coverage
+    await waitFor(() => {
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
+    });
+  });
+
   it('should update evidence', async () => {
-    const { props, data } = getData({ loggedIn: true });
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        contestedIssues: [],
+        legacyCount: 0,
+        [EVIDENCE_VA]: true,
+        locations: [{ issues: ['abc', 'def'] }],
+        additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
+        internalTesting: true,
+      },
+    });
     const contestableIssues = {
       status: 'done',
       issues: [],
       legacyCount: 0,
-    };
-    data.form.data = {
-      ...hasComp,
-      contestedIssues: [],
-      legacyCount: 0,
-      [EVIDENCE_VA]: true,
-      locations: [{ issues: ['abc', 'def'] }],
-      additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
     };
     const store = mockStore({ ...data, contestableIssues });
 
@@ -229,7 +359,7 @@ describe('App', () => {
     // testing update evidence (evidenceNeedsUpdating) branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal({
         ...data.form.data,
         providerFacility: [],
@@ -238,21 +368,25 @@ describe('App', () => {
     });
   });
 
-  it('should set Sentry tags with account UUID & in progress ID', async () => {
-    const { props, data } = getData({ accountUuid: 'abcd-5678' });
+  it('should set feature toggle in form data', async () => {
+    setStoredSubTask(hasComp);
+    const { props, data } = getData({ toggle: true, toggleApi: true });
     const store = mockStore(data);
-
-    const setTag = sinon.stub(Sentry, 'setTag');
     render(
       <Provider store={store}>
         <App {...props} />
       </Provider>,
     );
 
+    // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
-      expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
-      expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
-      setTag.restore();
+      const [action] = store.getActions();
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data).to.deep.equal({
+        ...hasComp,
+        [SC_NEW_FORM_DATA]: true,
+        [NEW_API]: true,
+      });
     });
   });
 });

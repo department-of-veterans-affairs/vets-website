@@ -59,7 +59,7 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            letterTitle={letterTitle}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
@@ -95,7 +95,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content" aria-live="polite">
+      <div className="step-content">
         <p>
           To see an explanation about each letter, click on the (+) to expand
           the box. After you expand the box, you’ll be given the option to
@@ -128,6 +128,7 @@ export class LetterList extends React.Component {
         {eligibilityMessage}
 
         <br />
+        <h3 slot="headline">Other sources of VA benefit documentation</h3>
         <p>
           A lot of people come to this page looking for their Post-9/11 GI Bill
           statement of benefits, their Certificate of Eligibility (COE) for home
@@ -135,15 +136,33 @@ export class LetterList extends React.Component {
           available here yet, but if you’re eligible for them, you can get them
           through these links:
         </p>
-        <ul>
+        <ul className="vads-u-margin-bottom--9 bullet-disc">
+          <li>
+            <a
+              href="/education/download-letters/"
+              target="_blank"
+              className="vads-u-text-decoration--none"
+            >
+              VA education letters
+            </a>
+          </li>
           <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
               target="_blank"
+              className="vads-u-text-decoration--none"
             >
-              <strong>
-                View and print your Post-9/11 GI Bill statement of benefits.
-              </strong>
+              Post-9/11 GI Bill statement of benefits
+            </a>
+          </li>
+          <li>
+            <a
+              href="/housing-assistance/home-loans/check-coe-status/"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="vads-u-text-decoration--none"
+            >
+              Certificate of home loan benefits
             </a>
           </li>
           <li>
@@ -151,21 +170,21 @@ export class LetterList extends React.Component {
               href="/records/get-military-service-records/"
               rel="noopener noreferrer"
               target="_blank"
+              className="vads-u-text-decoration--none"
             >
-              <strong>
-                Request your military service records (including DD214).
-              </strong>
+              Discharge or separation papers (DD214)
             </a>
           </li>
         </ul>
-        <div className="feature help-desk">
-          <h2>Need help?</h2>
-          <div>
-            If you have any questions, please call the VA Benefits Help Desk:
-            <br />
-            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
-            &#8211; 9 p.m. ET
-          </div>
+
+        <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+          Need help?
+        </h2>
+        <div className="vads-u-margin-bottom--4">
+          If you have any questions, please call the VA Benefits Help Desk:
+          <br />
+          <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
+          &#8211; 9 p.m. ET
         </div>
       </div>
     );

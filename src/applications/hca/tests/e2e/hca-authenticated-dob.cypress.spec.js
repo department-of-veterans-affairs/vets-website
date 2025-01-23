@@ -1,11 +1,11 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockUserNoDob from './fixtures/mocks/mockUserNoDob';
-import mockUserInvalidDob from './fixtures/mocks/mockUserInvalidDob';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUserInvalidDob from './fixtures/mocks/user.invalidDob.json';
+import mockUser from './fixtures/mocks/user.json';
+import mockUserNoDob from './fixtures/mocks/user.noDob.json';
 import { goToNextPage } from './utils';
 
 describe('HCA-User-Authenticated-Without-DOB', () => {
@@ -14,10 +14,11 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -28,15 +29,12 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -57,14 +55,10 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
-    goToNextPage();
-
-    cy.findAllByText(/date of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/profile-information-dob');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -77,10 +71,11 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -91,15 +86,12 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -120,14 +112,10 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
-    goToNextPage();
-
-    cy.findAllByText(/date of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/profile-information-dob');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -140,10 +128,11 @@ describe('HCA-User-Authenticated-With-DOB', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -154,20 +143,17 @@ describe('HCA-User-Authenticated-With-DOB', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
 
-  it('works with profile data that has date of birth ', () => {
+  it('works with profile data that has valid date of birth ', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
@@ -182,16 +168,10 @@ describe('HCA-User-Authenticated-With-DOB', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
-
-    cy.findAllByText(/place of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/birth-information');
 
     cy.injectAxe();
     cy.axeCheck();

@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
-import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
-import ErrorMessage from '../../../components/ErrorMessage';
+import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import FacilitiesNotShown from './FacilitiesNotShown';
 import SingleFacilityAvailable from './SingleFacilityAvailable';
 import { lowerCase } from '../../../utils/formatters';
@@ -26,7 +23,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -47,10 +44,9 @@ const sortOptions = [
   { value: 'alphabetical', label: 'Alphabetically' },
 ];
 
-export default function VAFacilityPageV2({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function VAFacilityPageV2() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -88,9 +84,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  const pageTitle = singleValidVALocation
-    ? 'Your appointment location'
-    : 'Choose a VA location';
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
@@ -105,9 +98,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
     },
     [isLoading],
   );
@@ -135,13 +125,28 @@ export default function VAFacilityPageV2({ changeCrumb }) {
     [requestingLocation, requestLocationStatus, sortFocusEl],
   );
 
-  const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
+  const pageHeader = (
+    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+  );
 
   if (hasDataFetchingError) {
     return (
       <div>
         {pageHeader}
-        <ErrorMessage level="2" />
+        <InfoAlert
+          status="error"
+          level={2}
+          headline="You can't schedule an appointment online right now"
+        >
+          <p>
+            We're sorry. There's a problem with our system. Try again later.
+          </p>
+          <p>
+            If you need to schedule now, call your VA facility.
+            <br />
+            <a href="/find-locations">Find your VA health facility</a>
+          </p>
+        </InfoAlert>
       </div>
     );
   }
@@ -149,6 +154,15 @@ export default function VAFacilityPageV2({ changeCrumb }) {
   if (isLoading) {
     return (
       <va-loading-indicator message="Finding available locations for your appointment..." />
+    );
+  }
+  if (loadingEligibility) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
     );
   }
 
@@ -170,6 +184,7 @@ export default function VAFacilityPageV2({ changeCrumb }) {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
@@ -194,6 +209,7 @@ export default function VAFacilityPageV2({ changeCrumb }) {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
@@ -248,9 +264,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
               dispatch(updateFormData(pageKey, uiSchema, newData))
             }
             onSubmit={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-variant-final-${sortMethod}`,
-              });
               dispatch(routeToNextAppointmentPage(history, pageKey));
             }}
             formContext={{
@@ -283,13 +296,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
           </SchemaForm>
         )}
 
-      <LoadingOverlay
-        show={loadingEligibility}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
-
       {showEligibilityModal && (
         <EligibilityModal
           onClose={() => dispatch(hideEligibilityModal())}
@@ -301,7 +307,3 @@ export default function VAFacilityPageV2({ changeCrumb }) {
     </div>
   );
 }
-
-VAFacilityPageV2.propTypes = {
-  changeCrumb: PropTypes.func,
-};

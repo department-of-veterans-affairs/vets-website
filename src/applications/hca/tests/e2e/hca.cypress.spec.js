@@ -1,13 +1,16 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import mockFacilities from './fixtures/mocks/facilities.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockFacilities from './fixtures/mocks/mockFacilities.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import { acceptPrivacyAgreement, goToNextPage } from './utils';
+import {
+  acceptPrivacyAgreement,
+  goToNextPage,
+  selectDropdownWebComponent,
+} from './utils';
 
 const testConfig = createTestConfig(
   {
@@ -42,12 +45,15 @@ const testConfig = createTestConfig(
       },
       'insurance-information/va-facility-api': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
+          selectDropdownWebComponent(
+            'view:preferredFacility_view:facilityState',
+            'MA',
+          );
           cy.wait('@getFacilities');
-          cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
-            .shadow()
-            .find('select')
-            .select('631');
+          selectDropdownWebComponent(
+            'view:preferredFacility_vaMedicalFacility',
+            '631',
+          );
           cy.get('.usa-button-primary').click();
         });
       },
@@ -128,17 +134,20 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
-        'getFacilities',
-      );
       cy.intercept('POST', '/v0/health_care_applications', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2016-05-16',
       });
-      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-        statusCode: 404,
-        body: mockEnrollmentStatus,
-      });
+      cy.intercept(
+        'GET',
+        '/v0/health_care_applications/enrollment_status*',
+        mockEnrollmentStatus,
+      );
+      cy.intercept(
+        'GET',
+        '/v0/health_care_applications/facilities?*',
+        mockFacilities,
+      ).as('getFacilities');
     },
   },
   manifest,

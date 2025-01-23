@@ -5,6 +5,7 @@ const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
+const core = require('@actions/core');
 
 const {
   buildGraph,
@@ -94,8 +95,20 @@ const failOnCrossAppImport = options['fail-on-cross-app-import'];
 // Generate full cross app import report when no apps are specified
 if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
-  fs.outputFileSync(outputPath, JSON.stringify(getCrossAppImports(), null, 2));
-
+  const crossAppJson = getCrossAppImports();
+  fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
+  core.exportVariable(
+    'APPS_NOT_ISOLATED',
+    JSON.stringify(
+      Object.keys(crossAppJson).filter(app => {
+        const appData = crossAppJson[app];
+        return (
+          appData.appsThatThisAppImportsFrom &&
+          Object.keys(appData.appsThatThisAppImportsFrom).length > 0
+        );
+      }),
+    ),
+  );
   console.log(`Cross app import report saved at: ${outputPath}`);
   process.exit(0);
 }

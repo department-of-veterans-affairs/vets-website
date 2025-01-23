@@ -1,4 +1,4 @@
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import manifest from '../../manifest.json';
 
@@ -31,10 +31,6 @@ describe('Enhanced FSR debt and copay alerts', () => {
         features: [
           { name: 'show_financial_status_report_wizard', value: true },
           { name: 'show_financial_status_report', value: true },
-          {
-            name: 'combined_financial_status_report_enhancements',
-            value: true,
-          },
         ],
       },
     }).as('features');

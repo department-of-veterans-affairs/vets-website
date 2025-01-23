@@ -7,15 +7,20 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import {
+  makeAuthRequest,
+  roundToNearest,
+  buildDateFormatter,
+} from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { canUseMocks } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
   DONE_UPLOADING,
   FETCH_APPEALS_ERROR,
@@ -49,12 +54,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -224,37 +223,41 @@ export const getClaim = (id, navigate) => {
   };
 };
 
-export function submitRequest(id) {
+export const clearClaim = () => ({ type: CLEAR_CLAIM_DETAIL });
+
+export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
 
-    if (USE_MOCKS) {
-      dispatch({ type: SET_DECISION_REQUESTED });
-      dispatch(
-        setNotification({
-          title: 'Request received',
-          body:
-            'Thank you. We have your claim request and will make a decision.',
-        }),
-      );
-      return;
-    }
+    const body = JSON.stringify({
+      trackedItemId: Number(trackedItemId) || null,
+    });
 
     makeAuthRequest(
-      `/v0/evss_claims/${id}/request_decision`,
-      { method: 'POST' },
+      `/v0/benefits_claims/${id}/submit5103`,
+      { method: 'POST', body },
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
+        if (cstClaimPhasesEnabled) {
+          dispatch(
+            setNotification({
+              title: 'We received your evidence waiver',
+              body:
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+            }),
+          );
+        } else {
+          dispatch(
+            setNotification({
+              title: 'Request received',
+              body:
+                'Thank you. We have your claim request and will make a decision.',
+            }),
+          );
+        }
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
@@ -262,33 +265,6 @@ export function submitRequest(id) {
     );
   };
 }
-
-export const submit5103 = id => {
-  return dispatch => {
-    dispatch({
-      type: SUBMIT_DECISION_REQUEST,
-    });
-
-    makeAuthRequest(
-      `/v0/benefits_claims/${id}/submit5103`,
-      { method: 'POST' },
-      dispatch,
-      () => {
-        dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
-      },
-      error => {
-        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
-      },
-    );
-  };
-};
 // END lighthouse_migration
 
 export function resetUploads() {
@@ -381,7 +357,7 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
+              if (canUseMocks()) {
                 dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
@@ -466,7 +442,7 @@ export function submitFiles(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(
@@ -562,6 +538,8 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
+              const now = new Date(Date.now());
+              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
@@ -571,21 +549,12 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
                 });
                 dispatch(
                   setNotification({
-                    title: 'We have your evidence',
+                    title: `We received your file upload on ${uploadDate}`,
                     body: (
                       <span>
-                        Thank you for sending us{' '}
-                        {trackedItem
-                          ? trackedItem.displayName
-                          : 'additional evidence'}
-                        . We will associate it with your record in a matter of
-                        days. If the submitted evidence impacts the status of
-                        your claim, then you will see that change within 30 days
-                        of submission.
-                        <br />
-                        Note: It may take a few minutes for your uploaded file
-                        to show here. If you don’t see your file, please try
-                        refreshing the page.
+                        If your uploaded file doesn’t appear in the Documents
+                        Filed section on this page, please try refreshing the
+                        page.
                       </span>
                     ),
                   }),
@@ -621,7 +590,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(
@@ -736,7 +705,7 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       return getStemClaimsMock(dispatch);
     }
 

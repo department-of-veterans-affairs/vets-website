@@ -1,17 +1,21 @@
-import { phoneUI } from 'platform/forms-system/src/js/web-component-patterns/phonePattern';
+import {
+  phoneUI,
+  phoneSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import { emailUI } from 'platform/forms-system/src/js/web-component-patterns/emailPattern';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import {
   ContactRepresentativeTitle,
+  ContactRepresentativeDescription,
   RepresentativeFirstNameTitle,
   RepresentativeLastNameTitle,
   RepresentativePhoneTitle,
   RepresentativePhoneExtensionTitle,
   RepresentativeEmailTitle,
   RepresentativeReviewWidget,
-} from '../content/InformalConference';
+} from '../content/InformalConferenceRep';
 import { validatePhone } from '../validations';
 import { errorMessages } from '../constants';
 
@@ -25,6 +29,7 @@ export default {
     },
     informalConferenceRep: {
       'ui:title': ContactRepresentativeTitle,
+      'ui:description': ContactRepresentativeDescription,
       firstName: {
         'ui:title': RepresentativeFirstNameTitle,
         'ui:webComponentField': VaTextInputField,
@@ -70,7 +75,7 @@ export default {
   // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L79-L92
   schema: {
     type: 'object',
-    required: ['informalConference'],
+    required: ['informalConferenceRep'],
     properties: {
       informalConferenceRep: {
         type: 'object',
@@ -87,14 +92,7 @@ export default {
             type: 'string',
             maxLength: MAX_LENGTH.HLR_REP_LAST_NAME,
           },
-          phone: {
-            type: 'string',
-            pattern: '^[0-9]{3,21}$',
-            maxLength:
-              MAX_LENGTH.PHONE_COUNTRY_CODE +
-              MAX_LENGTH.PHONE_AREA_CODE +
-              MAX_LENGTH.PHONE_NUMBER,
-          },
+          phone: phoneSchema,
           extension: {
             type: 'string',
             pattern: '^[a-zA-Z0-9]{1,10}$',

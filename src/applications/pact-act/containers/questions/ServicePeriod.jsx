@@ -67,11 +67,11 @@ const mapDispatchToProps = {
 
 ServicePeriod.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setServicePeriod: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setServicePeriod: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

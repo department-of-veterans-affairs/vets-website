@@ -1,14 +1,16 @@
 import profile from '@@profile/reducers';
 import { combineReducers } from 'redux';
+import appointments from '~/applications/personalization/appointments/reducers';
 import notifications from '../../common/reducers/notifications';
 import claims from './claims';
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
 import unreadCount from './unreadCount';
-import appointments from '~/applications/personalization/appointments/reducers';
 import debts from './debts';
 import payments from './payments';
+import forms from './form-status';
+import formPdfs from './form-pdf-urls';
 
 export default {
   ...profile,
@@ -16,6 +18,8 @@ export default {
   notifications,
   allPayments: payments,
   allDebts: debts,
+  submittedForms: forms,
+  myVaFormPdfs: formPdfs,
   health: combineReducers({
     appointments,
     rx: combineReducers({

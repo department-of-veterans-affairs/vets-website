@@ -25,7 +25,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
   }
 
   housingAllowanceClassName =
-    'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
+    'small-4 columns vads-u-text-align--right mobile-lg:vads-u-padding-left--7';
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
     <LearnMoreLabel
@@ -94,7 +94,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
         </div>
       </div>
       <div className="vads-u-margin-left--2p5">
-        <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
+        <div className="row vads-u-margin-top--0p5 mobile-lg:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>
               Upon enrollment in program{' '}
@@ -108,7 +108,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
+        <div className="row vads-u-margin-top--0p5 mobile-lg:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>
               Upon completion of program{' '}
@@ -122,7 +122,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
+        <div className="row vads-u-margin-top--0p5 mobile-lg:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>
               Upon employment{' '}

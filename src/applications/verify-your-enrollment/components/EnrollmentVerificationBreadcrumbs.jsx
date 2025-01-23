@@ -9,15 +9,16 @@ import {
 
 export default function EnrollmentVerificationBreadcrumbs() {
   const breadcrumbs = [
-    <a href="/" key="home">
-      Home
-    </a>,
-    <a href="/education/" key="education-and-training">
-      Education and training
-    </a>,
-    <a href={BASE_URL} key="enrollment-verification-page">
-      Montgomery GI Bill® enrollment verification
-    </a>,
+    { href: '/', label: 'Home' },
+    { href: '/education/', label: 'Education and training' },
+    {
+      href: '/education/verify-school-enrollment/',
+      label: 'Verify your school enrollment for GI Bill benefits',
+    },
+    {
+      href: BASE_URL,
+      label: 'Montgomery GI Bill enrollment verification',
+    },
   ];
 
   // Get the last non-empty segment of the URL.
@@ -25,21 +26,24 @@ export default function EnrollmentVerificationBreadcrumbs() {
     .split('/')
     .reverse()
     .find(s => !!s.trim() && !s.startsWith('?'));
-
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
-    breadcrumbs.push(
-      <a href={BENEFITS_PROFILE_URL} key="BenefitsProfilePage">
-        Your benefits profile
-      </a>,
-    );
+    breadcrumbs.push({
+      href: BENEFITS_PROFILE_URL,
+      label: 'Your Montgomery GI Bill benefits information',
+    });
   }
 
   if ([VERIFICATION_REVIEW_URL_SEGMENT].includes(page)) {
-    breadcrumbs.push(
-      <a href={VERIFICATION_PROFILE_URL} key="VerificationReviewPage">
-        Verify your enrollment
-      </a>,
-    );
+    breadcrumbs.push({
+      href: VERIFICATION_PROFILE_URL,
+      label: 'Verify your enrollment',
+    });
   }
-  return <va-breadcrumbs uswds="false">{breadcrumbs}</va-breadcrumbs>;
+
+  const bcString = JSON.stringify(breadcrumbs);
+  return (
+    <div className="bread-crumbs-container">
+      <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" wrapping />
+    </div>
+  );
 }

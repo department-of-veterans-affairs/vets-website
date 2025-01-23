@@ -1,130 +1,45 @@
-import * as Sentry from '@sentry/browser';
 import { isArray } from 'lodash';
-import recordEvent from '~/platform/monitoring/record-event';
-import { apiRequest } from '~/platform/utilities/api';
-import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
-export const hideLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const hideDesktopHeader = () => {
+  const desktopHeader = document.getElementById('legacy-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (!legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.add('vads-u-display--none');
+  if (!desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.add('vads-u-display--none');
   }
 };
 
-export const showLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const showDesktopHeader = () => {
+  const desktopHeader = document.getElementById('legacy-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.remove('vads-u-display--none');
+  if (desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.remove('vads-u-display--none');
   }
 };
 
-export const fetchSearchSuggestions = async searchTerm => {
-  try {
-    // Attempt to fetch suggestions.
-    const suggestions = await apiRequest(
-      `/search_typeahead?query=${encodeURIComponent(searchTerm)}`,
-    );
+/**
+ * Shows or hides the minimal header and does
+ * the opposite for the default header simultaneously.
+ *
+ * @param {boolean} show
+ */
+export const toggleMinimalHeader = show => {
+  const minimalHeader = document.getElementById('header-minimal');
+  const defaultHeader = document.getElementById('header-default');
 
-    // Return empty array if no suggestions are returned.
-    if (!suggestions.length) {
-      return [];
-    }
-
-    // Sort and return suggestions.
-    return suggestions.sort((a, b) => a.length - b.length);
-  } catch (error) {
-    // Custom log rate limit error.
-    if (error?.error?.code === 'OVER_RATE_LIMIT') {
-      Sentry.captureException(
-        new Error(`"OVER_RATE_LIMIT" - Search Typeahead in header v2`),
-      );
-    }
-
-    // Capture all other errors.
-    Sentry.captureException(error);
-
-    // Return empty array if we hit an error.
-    return [];
+  if (!minimalHeader || !defaultHeader) {
+    return;
   }
-};
 
-export const onSearch = componentState => {
-  const savedSuggestions = componentState?.savedSuggestions || [];
-  const suggestions = componentState?.suggestions || [];
-  const searchTerm = componentState?.inputValue;
-  const validSuggestions =
-    savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
-
-  // event logging, note suggestion will be undefined during a userInput search
-  recordEvent({
-    event: 'view_search_results',
-    'search-page-path': document.location.pathname,
-    'search-query': searchTerm,
-    'search-results-total-count': undefined,
-    'search-results-total-pages': undefined,
-    'search-selection': 'All VA.gov',
-    'search-typeahead-enabled': true,
-    'search-location': 'Mobile Header',
-    'sitewide-search-app-used': true,
-    'type-ahead-option-keyword-selected': undefined,
-    'type-ahead-option-position': undefined,
-    'type-ahead-options-list': validSuggestions,
-    'type-ahead-options-count': validSuggestions?.length,
-  });
-
-  const searchUrl = replaceWithStagingDomain(
-    `https://www.va.gov/search/?query=${encodeURIComponent(
-      searchTerm,
-    )}&t=${false}`,
-  );
-
-  // relocate to search results, preserving history
-  window.location.assign(searchUrl);
-};
-
-export const onSuggestionSubmit = (index, componentState) => {
-  const savedSuggestions = componentState?.savedSuggestions || [];
-  const suggestions = componentState?.suggestions || [];
-  const searchTerm = componentState?.inputValue;
-
-  const validSuggestions =
-    savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
-
-  // event logging, note suggestion will be undefined during a userInput search
-  recordEvent({
-    event: 'view_search_results',
-    'search-page-path': document.location.pathname,
-    'search-query': searchTerm,
-    'search-results-total-count': undefined,
-    'search-results-total-pages': undefined,
-    'search-selection': 'All VA.gov',
-    'search-typeahead-enabled': true,
-    'search-location': 'Mobile Header',
-    'sitewide-search-app-used': true,
-    'type-ahead-option-keyword-selected': validSuggestions?.[index],
-    'type-ahead-option-position': index + 1,
-    'type-ahead-options-list': validSuggestions,
-    'type-ahead-options-count': validSuggestions?.length,
-  });
-
-  const searchUrl = replaceWithStagingDomain(
-    `https://www.va.gov/search/?query=${encodeURIComponent(
-      validSuggestions?.[index],
-    )}&t=${true}`,
-  );
-
-  // relocate to search results, preserving history
-  window.location.assign(searchUrl);
+  minimalHeader.classList.toggle('vads-u-display--none', !show);
+  defaultHeader.classList.toggle('vads-u-display--none', show);
 };
 
 export const formatMenuItems = menuItems => {

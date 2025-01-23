@@ -11,18 +11,24 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import { paymentsServerError } from '../fixtures/test-payments-response';
-import appointmentsEmpty from '../fixtures/appointments-empty';
-import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import manifest from 'applications/personalization/dashboard/manifest.json';
+import { paymentsServerError } from '../fixtures/test-payments-response';
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
+import { notificationsSuccessEmpty } from '../fixtures/test-notifications-response';
 
 // currently there's just one error-state, but we're keeping blocks-structure for scalability.
 describe('My VA - Benefit payments - error-states', () => {
   Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 20000 });
   beforeEach(() => {
     mockLocalStorage();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -31,10 +37,15 @@ describe('My VA - Benefit payments - error-states', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
+    cy.intercept('GET', '/vaos/v2/appointments*', {
+      data: [],
+    });
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts');
     cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopays');
+    cy.intercept('/v0/onsite_notifications', notificationsSuccessEmpty()).as(
+      'notifications1',
+    );
     cy.login(mockUser);
   });
 
@@ -46,10 +57,10 @@ describe('My VA - Benefit payments - error-states', () => {
     });
 
     it('shows error - C30358', () => {
-      cy.visit('my-va/');
+      cy.visit(manifest.rootUrl);
       cy.wait(['@noDebts', '@noCopays', '@paymentsServerErrorA']);
-      cy.findByTestId('dashboard-section-debts').should('exist');
 
+      cy.findByTestId('dashboard-section-debts').should('exist');
       cy.findByTestId('dashboard-section-payment').should('exist');
       cy.findByTestId('payments-error').should('exist');
       cy.findByTestId('payment-card-view-history-link').should('not.exist');

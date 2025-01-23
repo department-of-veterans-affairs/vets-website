@@ -1,25 +1,33 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { capitalizeEachWord, isClaimingNew, sippableId } from '../utils';
-import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
+import {
+  capitalizeEachWord,
+  formSubtitle,
+  formTitle,
+  formatMonthYearDate,
+  isClaimingNew,
+  makeConditionsSchema,
+  sippableId,
+  validateConditions,
+} from '../utils';
+import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
-export const conditionsPageTitle = 'Toxic Exposure';
+export const conditionsPageTitle = 'Toxic exposure';
 export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
   <va-additional-info
-    class="vads-u-margin-top--2"
+    class="vads-u-margin-y--3"
     trigger="What is toxic exposure?"
   >
     <div>
       <p className="vads-u-margin-top--0">
-        Toxic exposures include exposures to substances like Agent Orange, burn
+        Toxic exposure includes exposure to substances like Agent Orange, burn
         pits, radiation, asbestos, or contaminated water.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a
-          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
           target="_blank"
           rel="noreferrer"
         >
@@ -33,11 +41,34 @@ export const conditionsDescription = (
 export const gulfWar1990PageTitle = 'Service after August 2, 1990';
 export const gulfWar1990Question =
   'Did you serve in any of these Gulf War locations on or after August 2, 1990? Check any locations where you served.';
+export const summaryOfGulfWar1990PageTitle =
+  'Summary of service after August 2, 1990';
+
+export const gulfWar2001PageTitle = 'Service post-9/11';
+export const gulfWar2001Question =
+  'Did you serve in any of these Gulf War locations on or after September 11, 2001? Check any locations where you served.';
+
+export const herbicidePageTitle = 'Agent Orange locations';
+export const herbicideQuestion =
+  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
+
+export const additionalExposuresPageTitle = 'Other toxic exposures';
+export const additionalExposuresQuestion =
+  'Have you been exposed to any of these hazards? Check any that you’ve been exposed to.';
+export const specifyOtherExposuresLabel =
+  'Other toxic exposures not listed here (250 characters maximum)';
 
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
+export const noneAndLocationError =
+  'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
+export const noneAndHazardError =
+  'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
 
-export const gulfWar1990LocationsAdditionalInfo = (
+export const otherInvalidCharError =
+  'You entered an invalid character in the text field. This field only allows letters, numbers, hyphens, apostrophes, periods, commas, ampersands (& symbol), number signs (# symbol), and spaces.';
+
+export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
     <p>
       You only need to enter one date range. We’ll use this information to find
@@ -46,61 +77,63 @@ export const gulfWar1990LocationsAdditionalInfo = (
   </va-additional-info>
 );
 
-export const dateHelp =
+export const dateRangeDescriptionWithLocation =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
+export const dateRangeDescriptionWithHazard =
+  'Enter any date range you were exposed to this hazard. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
+export const exposureStartDateApproximate = 'Exposure start date (approximate)';
+export const exposureEndDateApproximate = 'Exposure end date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
+export const goBackLink = 'Edit locations and dates';
+export const goBackLinkExposures = 'Edit exposures and dates';
+export const noDatesEntered = 'No dates entered';
+export const notSureDatesSummary = 'I’m not sure of the dates';
+export const notSureDatesDetails =
+  'I’m not sure of the dates I served in this location';
+export const notSureHazardDetails =
+  'I’m not sure of the dates I was exposed to this hazard';
 
 /**
- * Create the markup for page description. If there are item counts, it will display
- * something like '1 of 3: Location'. If there are no counts yet, the prefix will
- * be dropped to only display Location.
+ * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
+ * themselves. If there are item counts, it will display something like 'Location 1 of 3: Location Name'.
+ * If either count is invalid, the prefix will be dropped to only display 'Location Name'.
  *
- * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this location
- * @param {string} locationName - Display name of the location
- * @returns level 4 heading description
+ * @param {number} currentItem - this item's count out of the total selected items
+ * @param {number} totalItems - total number of selected items
+ * @param {string} itemName - Display name of the location or hazard
+ * @param {string} itemType - Name of the item. Defaults to 'Location'
+ * @returns {string} subtitle
  */
-export function dateRangePageDescription(
+export function teSubtitle(
   currentItem,
   totalItems,
-  locationName,
+  itemName,
+  itemType = 'Location',
 ) {
   return (
-    <>
-      <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">
-        {currentItem > 0 &&
-          totalItems > 0 &&
-          `${currentItem} of ${totalItems}: `}
-        {locationName}
-      </h4>
-      <p>{dateHelp}</p>
-    </>
+    (currentItem > 0 &&
+      totalItems > 0 &&
+      `${itemType} ${currentItem} of ${totalItems}: ${itemName}`) ||
+    itemName
   );
 }
 
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. toggle is enabled
- *  2. the claim has a claim type of new
- *  3. claiming at least one new disability
+ *  1. the claim has a claim type of new
+ *  2. claiming at least one new disability
  *
- * Note: toggle is currently read from the redux store by Form526EZApp and stored in sessions storage since
- * not all form aspects have ready access to the store.
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
-  return (
-    window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
-    isClaimingNew(formData) &&
-    formData?.newDisabilities?.length > 0
-  );
+  return isClaimingNew(formData) && formData?.newDisabilities?.length > 0;
 }
 
 /**
  * Checks if
- * 1. TE pages should be showing at all
+ * 1. TE pages should be showing
  * 2. at least one checkbox on the TE conditions page is selected that is not 'none'
  *
  * @param {object} formData
@@ -109,18 +142,17 @@ export function showToxicExposurePages(formData) {
 export function isClaimingTECondition(formData) {
   return (
     showToxicExposurePages(formData) &&
-    formData.toxicExposureConditions &&
-    Object.keys(formData.toxicExposureConditions).some(
-      condition =>
-        condition !== 'none' &&
-        formData.toxicExposureConditions[condition] === true,
+    formData?.toxicExposure?.conditions &&
+    Object.keys(formData.toxicExposure.conditions).some(
+      item =>
+        item !== 'none' && formData.toxicExposure.conditions[item] === true,
     )
   );
 }
 
 /**
  * Builds the Schema based on user entered condition names
- * 
+ *
  * Example output:
 {
     type: 'object',
@@ -142,13 +174,7 @@ export function isClaimingTECondition(formData) {
  * @returns {object} Object with id's for each condition
  */
 export function makeTEConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
-
-  options.push('none');
-
-  return checkboxGroupSchema(options);
+  return makeConditionsSchema(formData);
 }
 
 /**
@@ -194,22 +220,31 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
- * adds an error.
- *
+ * Validates 'none' checkbox is not selected along with a new condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 export function validateTEConditions(errors, formData) {
-  const { toxicExposureConditions = {} } = formData;
+  const { conditions = {} } = formData?.toxicExposure;
 
-  if (
-    toxicExposureConditions.none === true &&
-    Object.values(toxicExposureConditions).filter(value => value === true)
-      .length > 1
-  ) {
-    errors.toxicExposureConditions.addError(noneAndConditionError);
-  }
+  validateConditions(
+    conditions,
+    errors,
+    'toxicExposure',
+    noneAndConditionError,
+  );
+}
+
+/**
+ * Get the value for the 'other' field's description
+ * @param {object} formData - full form data
+ * @param {string} objectName - name of the object containing the 'other' field
+ * @returns {string} sanitized description value if present
+ */
+export function getOtherFieldDescription(formData, objectName) {
+  const description = formData?.toxicExposure?.[objectName]?.description;
+
+  return typeof description === 'string' ? description.trim() : '';
 }
 
 /**
@@ -217,10 +252,12 @@ export function validateTEConditions(errors, formData) {
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
  *
- * gulfWar1990: {
- *   bahrain: true,
- *   egypt: false,
- *   airspace: true,
+ * toxicExposure: {
+ *    gulfWar1990: {
+ *       bahrain: true,
+ *       egypt: false,
+ *       airspace: true,
+ *    }
  * }
  *
  * @param {string} key - the id for the checkbox option
@@ -228,13 +265,19 @@ export function validateTEConditions(errors, formData) {
  * @param {object} formData - full formData for the form
  * @returns {number} - index of the key within the list of selected items if found, 0 otherwise
  */
-export function getKeyIndex(key, objectName, { formData }) {
-  if (!formData[objectName]) return 0;
+export function getKeyIndex(key, objectName, formData) {
+  if (
+    !formData ||
+    !formData?.toxicExposure ||
+    !formData?.toxicExposure[objectName]
+  ) {
+    return 0;
+  }
 
   let index = 0;
-  const properties = Object.keys(formData[objectName]);
+  const properties = Object.keys(formData.toxicExposure[objectName]);
   for (let i = 0; i < properties.length; i += 1) {
-    if (formData[objectName][properties[i]] === true) {
+    if (formData.toxicExposure[objectName][properties[i]] === true) {
       index += 1;
       if (key === properties[i]) {
         return index;
@@ -248,31 +291,186 @@ export function getKeyIndex(key, objectName, { formData }) {
  * Given an object storing checkbox values, get a count of how many values have been selected
  * by the Veteran
  *
- * @param {string} objectName - name of the object to look at in the form data
+ * @param {string} checkboxObjectName - name of the checkbox object to look at in the form data
  * @param {object} formData - full formData for the form
+ * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @returns {number} count of checkboxes with a value of true
  */
-export function getSelectedCount(objectName, { formData } = {}) {
-  if (!formData || !formData[objectName]) return 0;
+export function getSelectedCount(
+  checkboxObjectName,
+  formData,
+  otherFieldName = '',
+) {
+  const otherFieldDescription = getOtherFieldDescription(
+    formData,
+    otherFieldName,
+  );
+  if (!formData?.toxicExposure?.[checkboxObjectName] && !otherFieldDescription)
+    return 0;
 
-  return Object.values(formData[objectName]).filter(value => value === true)
-    .length;
+  let count = 0;
+  const ignoredItems = ['none', 'notsure'];
+  for (const [key, value] of Object.entries(
+    formData.toxicExposure[checkboxObjectName],
+  )) {
+    // Skip `none` and `notsure` as non-locations
+    if (value === true && !ignoredItems.includes(key)) {
+      count += 1;
+    }
+  }
+
+  return count + (otherFieldDescription ? 1 : 0);
 }
 
 /**
- * Checks if a specific location dates page should display. It should display if all
+ * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * If the 'none' checkbox is selected along with another item, adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ * @param {string} objectName - Name of the object to look at in the form data
+ * @param {string} otherObjectName - Name of the object containing other location or other hazard data
+ * @param {string} selectionTypes - locations or hazards
+ */
+export function validateSelections(
+  errors,
+  formData,
+  objectName,
+  otherObjectName,
+  selectionTypes = 'locations',
+) {
+  const { [objectName]: items = {} } = formData?.toxicExposure;
+
+  if (
+    items?.none === true &&
+    !!getSelectedCount(objectName, formData, otherObjectName)
+  ) {
+    errors.toxicExposure[objectName].addError(
+      selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
+    );
+  }
+}
+
+/**
+ * Checks if a specific details page should display. It should display if all
  * the following is true
- * 1. toggle is enabled and claiming a new disability
- * 2. gulfWar1990 checkbox location data is present with a true value
+ * 1. TE pages should be showing at all
+ * 2. the given checkbox data is present for the given itemId with a value of true
+ * 3. the 'none' checkbox is not true
  *
  * @param {object} formData - full form data
- * @param {string} locationId - unique id for the location
+ * @param {string} itemId - unique id for the item
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990LocationDatesPage(formData, locationId) {
+export function showCheckboxLoopDetailsPage(
+  formData,
+  checkboxObjectName,
+  itemId,
+) {
   return (
+    itemId !== 'notsure' &&
     isClaimingTECondition(formData) &&
-    formData?.gulfWar1990 &&
-    formData?.gulfWar1990?.[locationId] === true
+    formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName].none !== true &&
+    formData?.toxicExposure[checkboxObjectName][itemId] === true
+  );
+}
+
+/**
+ * Checks if the a checkbox and loop's summary page should display. It should display if all the following
+ * are true
+ * 1. TE pages should be showing at all
+ * 2. at least one checkbox item was selected OR an 'other' item input was populated
+ * 3. the 'none' checkbox is not true
+ * 4. the 'notsure' checkbox is not the only one selected
+ *
+ * @param {object} formData - full form data
+ * @param {string} checkboxObjectName - name of the object containing the checkboxes
+ * @param {string} otherObjectName - name of the object containing an 'other' input
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showSummaryPage(
+  formData,
+  checkboxObjectName,
+  otherObjectName = '',
+) {
+  if (
+    isClaimingTECondition(formData) &&
+    formData?.toxicExposure[checkboxObjectName]
+  ) {
+    const checkboxes = formData?.toxicExposure[checkboxObjectName];
+    const numSelected = Object.values(
+      formData?.toxicExposure[checkboxObjectName],
+    ).filter(value => value === true).length;
+    return (
+      checkboxes.none !== true &&
+      ((numSelected > 0 && (checkboxes.notsure !== true || numSelected > 1)) ||
+        !!getOtherFieldDescription(formData, otherObjectName))
+    );
+  }
+  return false;
+}
+
+/**
+ * Takes a date range object with start and end dates and generates a description. Fields are optional so
+ * the output format may vary depending on available data. Scenarios
+ * startDate: '' and endDate: '' -> 'No dates entered'
+ * startDate: '1992-04-01' and endDate: '1995-06-01' -> 'April 1992 - June 1995'
+ * startDate: '1992-04-01' and endDate: '' -> 'April 1992 - No end date entered'
+ * startDate: '' and endDate: '1995-06-01' -> 'No start date entered - June 1995'
+ *
+ * @param {object} dates - object containing the date range
+ * @returns {string} a description string with month and year, e.g. "September 1992 - September 1993"
+ */
+export function datesDescription(dates) {
+  if (!dates?.startDate && !dates?.endDate) {
+    if (dates?.['view:notSure']) {
+      return notSureDatesSummary;
+    }
+    return noDatesEntered;
+  }
+  const startDate =
+    formatMonthYearDate(dates?.startDate) || 'No start date entered';
+  const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
+  return `${startDate} - ${endDate}`;
+}
+
+/**
+ * Create a title and subtitle for a page which will be passed into ui:title so that
+ * they are grouped in the same legend
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - the subtitle for the page, which displays below the title
+ * @returns {JSX.Element} markup with title and subtitle. example below.
+ *
+ * <h3 class="...">Service after August 2, 1990</h3>
+ * <h4 class="...">Location 2 of 2: Iraq</h4>
+ */
+export function titleWithSubtitle(title, subTitle) {
+  return (
+    <>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+    </>
+  );
+}
+
+/**
+ * Group together the title, subtitle and description for the details page
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - markup for the page that displays in between the title and rest of the page
+ * @param {string} type - the type of page to generate for, locations or hazards
+ * @returns {JSX.Element} legend for the fieldset
+ */
+export function detailsPageBegin(title, subTitle, type = 'locations') {
+  return (
+    <legend>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+      <p className="vads-u-color--base vads-u-font-weight--normal vads-u-margin-bottom--0">
+        {type === 'locations'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
+    </legend>
   );
 }

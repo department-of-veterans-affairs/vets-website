@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../../utils/facilityAddress';
+import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
 function LocationDirectionsLink({ location, from }) {
   let address = buildAddressArray(location);
@@ -14,22 +14,21 @@ function LocationDirectionsLink({ location, from }) {
   }
 
   return (
-    <div className="vads-u-margin-bottom--1p5">
-      <a
+    <p>
+      {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
+      <va-link
         href={`https://maps.google.com?saddr=${
           location.searchString
         }&daddr=${address}`}
-        rel="noopener noreferrer"
-      >
-        {from === 'FacilityDetail' && <i className="fa fa-road" />}
-        Get directions on Google Maps{' '}
-        <span className="sr-only">{`to ${location.attributes.name}`}</span>
-      </a>
-    </div>
+        text="Get directions on Google Maps"
+        label={`Get directions on Google Maps to ${location.attributes.name}`}
+      />
+    </p>
   );
 }
 
 LocationDirectionsLink.propTypes = {
+  from: PropTypes.string,
   location: PropTypes.object,
 };
 

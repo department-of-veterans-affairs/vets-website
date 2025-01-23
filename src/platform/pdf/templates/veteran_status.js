@@ -6,38 +6,61 @@
  */
 /* eslint-disable no-await-in-loop */
 
-import moment from 'moment';
 import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
-
-import { createAccessibleDoc, registerVaGovFonts } from './utils';
+import {
+  createAccessibleDoc,
+  createHeading,
+  registerVaGovFonts,
+} from './utils';
 
 const config = {
   margins: {
-    top: 40,
+    top: 30,
     bottom: 40,
-    left: 20,
-    right: 20,
+    left: 40,
+    right: 40,
   },
   headings: {
     H1: {
       font: 'Bitter-Bold',
-      size: 14,
+      size: 20,
     },
     H2: {
       font: 'SourceSansPro-Bold',
-      size: 10,
+      size: 13,
     },
+  },
+  paragraph: {
+    font: 'SourceSansPro-Regular',
+    size: 16,
   },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
-    size: 10,
-    disclaimerTextSize: 9,
+    size: 9,
+  },
+  disclaimer: {
+    font: 'SourceSansPro-Regular',
+    size: 9,
+  },
+  instruction: {
+    font: 'SourceSansPro-Regular',
+    size: 12,
   },
 };
 
+// Reusable function to fetch and return an image as a base64 data URL
+const fetchImage = async url => {
+  const fetchedImage = await fetch(url);
+  const contentType = fetchedImage.headers.get('Content-type');
+  const base64Data = Buffer.from(await fetchedImage.arrayBuffer()).toString(
+    'base64',
+  );
+  return `data:${contentType};base64,${base64Data}`;
+};
+
 const validate = data => {
-  const requiredFields = ['fullName', 'serviceHistory', 'dob'];
+  const requiredFields = ['fullName', 'serviceHistory']; // If there is no serviceHistory, there is also no DOD ID
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -57,156 +80,237 @@ const generate = async data => {
   const wrapper = doc.struct('Document');
   doc.addStructure(wrapper);
 
-  // Add a dotted line to indicate where the card should be cut out
-  const cardWrapper = doc.struct('Artifact', () => {
-    doc
-      .roundedRect(100, 100, 336, 192, 5)
-      .dash(5, { space: 5 })
-      .stroke();
-  });
-
-  wrapper.add(cardWrapper);
-
-  // Add content synchronously to ensure that reading order
-  // is left intact for screen reader users.
-
   // VA logo
   if (data.details.image) {
-    const fetchedImage = await fetch(data.details.image.url);
-    const contentType = fetchedImage.headers.get('Content-type');
+    const logoGraphic = await fetchImage(data.details.image.url);
 
-    const image = doc.image(
-      `data:${contentType};base64,${Buffer.from(
-        await fetchedImage.arrayBuffer(),
-      ).toString('base64')}`,
-      275,
-      105,
-      { width: 150, alt: data.details.image.title },
+    const logoImage = doc.image(
+      logoGraphic,
+      doc.page.margins.left,
+      doc.page.margins.top,
+      { width: 155, alt: data.details.image.title },
     );
 
     const logo = doc.struct('Figure', { alt: data.details.image.title }, [
-      () => image,
+      () => logoImage,
     ]);
 
     wrapper.add(logo);
   }
 
-  // Name
-  const name = doc.struct('H1', () => {
+  doc.moveDown(0.5);
+
+  // Heading
+  const heading = createHeading(
+    doc,
+    'H1',
+    config,
+    'Proof of Veteran status card',
+    {
+      x: doc.page.margins.left,
+      paragraphGap: 10,
+    },
+  );
+  wrapper.add(heading);
+
+  // description
+  wrapper.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.paragraph.font)
+        .fontSize(config.paragraph.size)
+        .text(
+          'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
+          doc.page.margins.left,
+          doc.y,
+          {
+            lineGap: 4,
+            width: 450,
+          },
+        );
+    }),
+  );
+
+  // veteran status card
+  // Add content synchronously to ensure that reading order
+  // is left intact for screen reader users.
+
+  doc.moveDown(1);
+  const cardSection = doc.struct('Sect');
+  wrapper.add(cardSection);
+
+  const cardYPosition = doc.y;
+  const cardXPosition = doc.x;
+  const cardWidth = 252; // roughly results in a 2 x 3.5 inch rectangle
+  const cardHeight = 144;
+  const cardPadding = 12;
+
+  // Add a dotted line to indicate where the card should be cut out
+  const cardWrapper = doc.struct('Artifact', () => {
     doc
-      .font(config.headings.H1.font)
-      .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 110, 115);
+      .lineWidth(0.5)
+      .roundedRect(doc.page.margins.left, doc.y, cardWidth, cardHeight, 8)
+      .dash(3.5, { space: 3.5 })
+      .stroke();
   });
 
-  wrapper.add(name);
+  cardSection.add(cardWrapper);
 
-  // DOB
-  if (data.details.dob) {
-    const dateOfBirthHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('Date of birth: ', 110, 160);
-    });
-    const dateOfBirth = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(data.details.dob)
-        .moveDown(0.75);
-    });
-
-    wrapper.add(dateOfBirthHeader);
-    wrapper.add(dateOfBirth);
-  }
-
-  // Disability rating
-  if (data.details.totalDisabilityRating) {
-    const drHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('Disability rating: ');
-    });
-    const dr = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(
-          `${data.details.totalDisabilityRating.toString()}% service connected`,
-        )
-        .moveDown(1.5);
-    });
-
-    wrapper.add(drHeader);
-    wrapper.add(dr);
-  }
-
-  // Service History
-  const serviceHistory = doc.struct('H2', () => {
+  // Card title
+  doc.moveDown(0.5);
+  const cardHeading = doc.struct('H2', () => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text('Period of service', 260, 160)
-      .moveDown(0.5);
+      .text(
+        'Proof of Veteran Status',
+        doc.page.margins.left + cardPadding,
+        doc.y,
+      );
   });
+  cardSection.add(cardHeading);
 
-  wrapper.add(serviceHistory);
+  // VA seal
+  if (data.details.seal) {
+    const sealGraphic = await fetchImage(data.details.seal.url);
+    const sealWidth = 40;
+    const sealImage = doc.image(
+      sealGraphic,
+      cardXPosition + cardWidth - cardPadding - sealWidth, // positioned relative to top-right corner
+      cardYPosition + cardPadding,
+      { width: sealWidth, alt: data.details.image.title },
+    );
+    const seal = doc.struct('Figure', { alt: data.details.seal.title }, [
+      () => sealImage,
+    ]);
+    cardSection.add(seal);
+  }
 
-  const serviceList = doc.struct('L');
-
-  data.details.serviceHistory.slice(0, 2).forEach(item => {
-    const formattedBeginDate = item.beginDate
-      ? moment(item.beginDate).format('LL')
+  // Generate content for latest period of service
+  const latestService = data.details.serviceHistory[0];
+  const serviceStartYear = latestService.beginDate
+    ? latestService.beginDate.substring(0, 4)
+    : '';
+  const serviceEndYear = latestService.endDate
+    ? latestService.endDate.substring(0, 4)
+    : '';
+  const dateRange =
+    serviceStartYear.length || serviceEndYear.length
+      ? `${serviceStartYear}–${serviceEndYear}`
       : '';
-    const formattedEndDate = item.endDate
-      ? moment(item.endDate).format('LL')
-      : '';
-    const dateRange =
-      formattedBeginDate.length || formattedEndDate.length
-        ? `${formattedBeginDate} – ${formattedEndDate}`
-        : '';
 
-    const listItem = doc.struct('LI');
+  // First column of info items
+  doc.moveDown(0.25);
+  const infoItems = [
+    {
+      heading: 'Name',
+      content: data.details.fullName,
+    },
+    {
+      heading: 'Latest period of service',
+      content: `${latestService.branchOfService} • ${dateRange}`,
+    },
+    {
+      heading: 'DoD ID Number',
+      content: data.details.edipi,
+    },
+  ];
 
-    const listLabel = doc.struct('Lbl', () => {
+  let lastHeaderY;
+  infoItems.forEach(item => {
+    lastHeaderY = doc.y;
+    const header = doc.struct('H2', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text(`${item.heading}`);
+    });
+    const content = doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(item.branchOfService);
+        .text(item.content)
+        .moveDown(0.5);
     });
-    listItem.add(listLabel);
-
-    const listBody = doc.struct('LBody', () => {
-      doc.text(dateRange).moveDown(0.75);
-    });
-    listItem.add(listBody);
-
-    serviceList.add(listItem);
+    cardSection.add(header);
+    cardSection.add(content);
   });
 
-  wrapper.add(serviceList);
+  // Second column of info items
+  const infoItems2 = [
+    {
+      heading: 'VA disability rating',
+      content: `${data.details.totalDisabilityRating?.toString()}%`,
+      condition: data.details.totalDisabilityRating,
+    },
+  ];
+  infoItems2.forEach(item => {
+    if (item.condition) {
+      const header = doc.struct('H2', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(`${item.heading}`, doc.page.margins.left + 130, lastHeaderY);
+      });
+      const content = doc.struct('P', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(item.content)
+          .moveDown(0.5);
+      });
+      cardSection.add(header);
+      cardSection.add(content);
+    }
+  });
 
-  // disclaimer text
+  doc.moveDown(0.5);
+
+  // Disclaimer text
   const disclaimerText = doc.struct('P', () => {
     doc
-      .font(config.text.font)
-      .fontSize(config.text.disclaimerTextSize)
+      .font(config.disclaimer.font)
+      .fontSize(config.disclaimer.size)
       .text(
-        "You can use this Veteran status to prove you served in the United States Uniformed Services. This status doesn't entitle you to any VA benefits.",
-        110,
-        250,
-        {
-          width: 330,
-        },
+        "This card doesn't entitle you to any VA benefits.",
+        doc.page.margins.left + cardPadding,
+        cardYPosition + cardHeight - cardPadding - config.disclaimer.size, // position this text relative to the bottom of the card
       );
   });
+  cardSection.add(disclaimerText);
 
-  wrapper.add(disclaimerText);
+  // Instructions
+  doc.moveDown(3);
+  const scissorsWidth = 10;
+  if (data.details.scissors) {
+    const scissorsGraphic = await fetchImage(data.details.scissors.url);
+    const scissorsImage = doc.image(
+      scissorsGraphic,
+      doc.page.margins.left,
+      doc.y,
+      { width: scissorsWidth },
+    );
+    const scissors = doc.struct(
+      'Figure',
+      { alt: data.details.scissors.title },
+      [() => scissorsImage],
+    );
+    wrapper.add(scissors);
+  }
+
+  const instructionText = doc.struct('P', () => {
+    doc
+      .font(config.instruction.font)
+      .fontSize(config.instruction.size)
+      .text(
+        'Cut this card out and keep in your wallet.',
+        doc.page.margins.left + scissorsWidth + 4,
+        doc.y - scissorsWidth - 3, // position this text relative to the bottom of the card
+      );
+  });
+  wrapper.add(instructionText);
 
   wrapper.end();
-
   doc.flushPages();
   return doc;
 };

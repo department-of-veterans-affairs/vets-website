@@ -11,15 +11,19 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
-import { recipientTypeLabels } from '../../../labels';
+import { careFrequencyLabels, recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
+import { showMultiplePageResponse } from '../../../helpers';
 
-const frequencyOptions = {
-  ONCE_MONTH: 'Once a month',
-  ONCE_YEAR: 'Once a year',
-  ONE_TIME: 'One-time',
-};
+const {
+  childName,
+  provider,
+  purpose,
+  paymentAmount,
+} = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const MedicalExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -33,22 +37,28 @@ MedicalExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'List of medical expenses and other unreimbursed expenses',
   path: 'financial/medical-expenses/add',
-  title: 'Medical expenses and other unreimbursed expenses',
-  depends: doesHaveMedicalExpenses,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveMedicalExpenses(formData),
   uiSchema: {
-    ...titleUI('Add a medical or other unreimbursed expense'),
+    ...titleUI(
+      'List of medical expenses and other unreimbursed expenses',
+      <ArrayDescription message="Add a medical or other unreimbursed expense" />,
+    ),
     medicalExpenses: {
       'ui:options': {
-        itemName: 'Unreimbursed Expense',
+        itemName: 'Medical Expense',
         itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
-        reviewTitle: 'Unreimbursed Expenses',
+        reviewTitle: 'Medical Expenses',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({
@@ -78,7 +88,7 @@ export default {
         paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
-          labels: frequencyOptions,
+          labels: careFrequencyLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         paymentAmount: merge({}, currencyUI('How much is each payment?'), {
@@ -108,12 +118,12 @@ export default {
           ],
           properties: {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
-            purpose: { type: 'string' },
+            childName,
+            provider,
+            purpose,
             paymentDate: currentOrPastDateSchema,
-            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
+            paymentAmount,
           },
         },
       },

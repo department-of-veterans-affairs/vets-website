@@ -1,17 +1,14 @@
 import React from 'react';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import {
-  fileTypes,
-  maxSize,
-} from '../../../shared/components/fileUploads/attachments';
-
-export const mailOrFaxLaterMsg =
-  'If you don’t have a copy to upload now, you can send one by mail or fax.';
+import { fileUploadBlurbCustom } from '../../../shared/components/fileUploads/attachments';
 
 const marriagePapers = [
   'Marriage certificate',
   'Civil union papers',
   'Affidavit of common law marriage',
+  'Divorce decree',
+  'Annulment decree',
+  'Death certificate',
 ];
 
 export const acceptableFiles = {
@@ -117,71 +114,14 @@ export function acceptableFileList(list) {
   };
 }
 
-export const fileUploadBlurb = {
-  'view:fileUploadBlurb': {
-    'ui:description': (
-      <>
-        <div className="vads-u-margin-bottom--4">
-          <b>How to upload files</b>
-          <ul>
-            <li>
-              Format the file as a .{fileTypes.slice(0, -1).join(', .')}, or .
-              {fileTypes.slice(-1)} file
-            </li>
-            <li>Make sure that file size is {maxSize} or less</li>
-            <li>
-              If you don’t have a digital copy of your document, you can scan or
-              take a photo of it and then upload the image from your computer or
-              phone
-            </li>
-          </ul>
-          <p>
-            If you don’t want to upload your supporting files now, you’ll have
-            the option to upload them again at the end of this application.
-          </p>
-        </div>
-      </>
-    ),
-  },
-};
-
-export const requiredFileUploadMessage = {
-  'ui:description': (
-    <p>
-      <i>This file is required for your application.</i>
-      Your application will not be considered complete until we receive this
-      file.
-    </p>
-  ),
-};
-
-export const optionalFileUploadMessage = {
-  'ui:description': (
-    <p>
-      This file is not required for your application, but
-      <b>
-        {' '}
-        not uploading this optional file will delay your application’s
-        processing time.
-      </b>
-    </p>
-  ),
-};
-
 /**
  * Builds a document upload page uiSchema and Schema.
  * @param {list of strings} fileList E.g., ['Birth certificate', 'Social security card']
  * @param {string} category E.g., 'school certificate'
- * @param {boolean} isOptional Whether or not this file upload is optional
  * @param {list of objects} resources E.g., [{href: "google.com", text: "Google"}]
  * @returns
  */
-export function uploadWithInfoComponent(
-  fileList,
-  category,
-  isOptional,
-  resources,
-) {
+export function uploadWithInfoComponent(fileList, category, resources) {
   return {
     uiSchema: {
       ...acceptableFileList(fileList || []),
@@ -207,15 +147,14 @@ export function uploadWithInfoComponent(
           </>
         ),
       },
-      // 'view:fileUploadMessage': isOptional
-      //   ? { ...optionalFileUploadMessage }
-      //   : { ...requiredFileUploadMessage },
-      ...fileUploadBlurb,
+      ...fileUploadBlurbCustom(
+        undefined,
+        'If you don’t want to upload your supporting files now, you’ll have the option to upload again at the end of the application.',
+      ),
     },
     schema: {
       'view:acceptableFilesList': blankSchema,
       'view:additionalResources': blankSchema,
-      // 'view:fileUploadMessage': blankSchema,
       'view:fileUploadBlurb': blankSchema,
     },
   };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ export default function ValidateDisplay({
   validateHandler,
   isLoading,
   lastNameInput: { lastNameError, setLastName, lastName } = {},
-  dobInput: { setDob, dob } = {},
+  dobInput: { setDob, dob, dobError } = {},
   setDobError,
   showValidateError,
   validateErrorMessage,
@@ -33,47 +33,49 @@ export default function ValidateDisplay({
     [showValidateError],
   );
 
-  const updateField = useCallback(
-    event => {
-      switch (event.target.name) {
-        case 'last-name':
-          setLastName(event.target.value);
-          break;
-        case 'date-of-birth':
-          // using a delay here to wait for shadowdom to update with errors more of a problem with safari
-          // @TODO remove this once we get an updated va-memorable-date component with an onError property
-          setTimeout(() => {
-            if (event.target.attributes.error) {
-              setDobError(true);
-            } else {
-              setDobError(false);
-            }
-          }, 50);
-          setDob(event.target.value);
-          break;
-        default:
-          break;
+  useEffect(
+    () => {
+      if (lastNameError) {
+        const nestedShadowElement = document
+          .getElementById('last-name-input')
+          .shadowRoot.getElementById('inputField');
+        focusElement(nestedShadowElement);
+      } else if (dobError) {
+        // get the first element with the class usa-input--error with in the shadowRoot of the dob-input
+        const inputs = document
+          .getElementById('dob-input')
+          .shadowRoot.querySelectorAll('va-text-input');
+        const firstError = [...inputs].find(input => {
+          const inputField = input.shadowRoot.getElementById('inputField');
+          return inputField.classList.contains('usa-input--error');
+        });
+        if (firstError) {
+          focusElement(firstError.shadowRoot.getElementById('inputField'));
+        }
       }
+      setDobError(false);
     },
-    [setLastName, setDob, setDobError],
+    [lastNameError, dobError, setDobError],
   );
+
+  const updateFormState = () => {
+    const lastNameValue = document.getElementById('last-name-input').value;
+    const dobValue = document.getElementById('dob-input').value;
+    setLastName(lastNameValue);
+    setDob(dobValue);
+  };
 
   const handleEnter = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      // doing this to trigger validation on enter
-      if (e.target.name === 'date-of-birth') {
-        const nestedShadowElement = e.target.shadowRoot.activeElement.shadowRoot.getElementById(
-          'inputField',
-        );
-        focusElement('.usa-button');
-        focusElement(nestedShadowElement);
-      }
+      updateFormState();
       validateHandler();
     }
   };
+
   const handleFormSubmit = e => {
     e.preventDefault();
+    updateFormState();
     validateHandler();
   };
 
@@ -83,15 +85,10 @@ export default function ValidateDisplay({
 
   return (
     <Wrapper
-      pageTitle={header || t('check-in-at-va')}
+      pageTitle={header || t('start-checking-in-for-your-appointment')}
       testID={`${app}-validate-page`}
     >
-      <p>
-        {subtitle ||
-          t(
-            'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
-          )}
-      </p>
+      <p>{subtitle || t('we-need-your-last-name-and-birth')}</p>
       {showValidateError ? (
         <div className="validate-error-alert" tabIndex="-1">
           <va-alert
@@ -109,11 +106,12 @@ export default function ValidateDisplay({
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
         <VaTextInput
+          id="last-name-input"
           autoCorrect="false"
           error={lastNameErrorMessage}
           label={t('your-last-name')}
           name="last-name"
-          onInput={updateField}
+          onInput={updateFormState}
           required
           spellCheck="false"
           value={lastName}
@@ -123,9 +121,10 @@ export default function ValidateDisplay({
         />
         <div data-testid="dob-input">
           <VaMemorableDate
+            id="dob-input"
             label={t('date-of-birth')}
-            onDateBlur={updateField}
-            onDateChange={updateField}
+            onDateBlur={updateFormState}
+            onDateChange={updateFormState}
             name="date-of-birth"
             value={dob}
             required
@@ -150,12 +149,12 @@ export default function ValidateDisplay({
           <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
             <va-button
               uswds
-              submit
               big
               text={t('continue')}
               data-testid="check-in-button"
               class="vads-u-margin-top--4"
               onClick={handleFormSubmit}
+              id="check-in-button"
             />
           </div>
         )}

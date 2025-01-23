@@ -15,10 +15,6 @@
         "value": false
       },
       {
-        "name": "facilitiesPpmsSuppressCommunityCare",
-        "value": false
-      },
-      {
         "name": "profile_show_profile_2.0",
         "value": false
       },
@@ -83,10 +79,6 @@
         "value": false
       },
       {
-        "name": "vaViewDependentsAccess",
-        "value": false
-      },
-      {
         "name": "allow_online_10_10cg_submissions",
         "value": false
       },
@@ -100,10 +92,6 @@
       },
       {
         "name": "form996HigherLevelReview",
-        "value": false
-      },
-      {
-        "name": "debtLettersShowLetters",
         "value": false
       },
       {

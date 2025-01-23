@@ -1,7 +1,5 @@
 import merge from 'lodash/merge';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -13,43 +11,37 @@ import dataUtils from 'platform/utilities/data/index';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+} from '~/platform/forms-system/src/js/web-component-patterns';
+
 const { get, omit, set } = dataUtils;
 
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
-// import GetFormHelp from '../../components/GetFormHelp';
 
 import {
-  accreditationLabel,
-  changeInDegreeLabel,
   conditionallyShowPrefillMessage,
-  creditTransferLabel,
-  financialIssuesLabel,
-  gradePolicyLabel,
-  jobOpportunitiesLabel,
   PREFILL_FLAGS,
   prefillTransformer,
-  qualityLabel,
-  recordApplicantRelationship,
-  recruitingLabel,
-  refundIssuesLabel,
-  studentLoansLabel,
   submit,
   trackingPrefix,
-  transcriptReleaseLabel,
   transform,
   validateMatch,
 } from '../helpers';
+import { applicantRelationship } from '../pages/index';
 
 import migrations from './migrations';
 
 import manifest from '../manifest.json';
 import NeedHelp from '../components/NeedHelp';
+import { maxCharAllowed } from '../constants';
 
 const {
   address: applicantAddress,
-  anonymousEmail,
   applicantEmail,
   educationDetails,
   fullName,
@@ -57,11 +49,9 @@ const {
   issueDescription,
   issueResolution,
   issueUIDescription,
-  onBehalfOf,
   phone,
   serviceAffiliation,
   serviceBranch,
-  serviceDateRange,
 } = fullSchema.properties;
 
 const { school, programs, assistance } = educationDetails.properties;
@@ -189,50 +179,8 @@ const formConfig = {
         applicantRelationship: {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
-          uiSchema: {
-            'ui:description': recordApplicantRelationship,
-            onBehalfOf: {
-              'ui:widget': 'radio',
-              'ui:title': 'I’m submitting feedback on behalf of...',
-              'ui:options': {
-                nestedContent: {
-                  [myself]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      We’ll only share your name with the school.
-                    </div>
-                  ),
-                  [someoneElse]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Your name is shared with the school, not the name of the
-                      person you’re submitting feedback for.
-                    </div>
-                  ),
-                  [anonymous]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Anonymous feedback is shared with the school. Your
-                      personal information, however, isn’t shared with anyone
-                      outside of VA.
-                    </div>
-                  ),
-                },
-                expandUnderClassNames: 'schemaform-expandUnder',
-              },
-            },
-            anonymousEmail: merge({}, emailUI('Email'), {
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['onBehalfOf'],
-            properties: {
-              onBehalfOf,
-              anonymousEmail,
-            },
-          },
+          uiSchema: applicantRelationship.default.uiSchema,
+          schema: applicantRelationship.default.schema,
         },
         applicantInformation: {
           path: 'applicant-information',
@@ -296,7 +244,7 @@ const formConfig = {
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
-            serviceDateRange: dateRangeUI(
+            serviceDateRange: currentOrPastDateRangeUI(
               'Service start date',
               'Service end date',
               'End of service must be after start of service',
@@ -306,8 +254,9 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceBranch,
-              serviceDateRange,
+              serviceDateRange: currentOrPastDateRangeSchema,
             },
+            required: ['serviceDateRange'],
           },
         },
         contactInformation: {
@@ -565,8 +514,10 @@ const formConfig = {
                 'Which topic best describes your feedback? (Select all that apply)',
               'ui:description': issueUIDescription,
               'ui:validations': [validateBooleanGroup],
+              'ui:webComponentField': VaCheckboxGroupField,
               'ui:options': {
                 showFieldLabel: true,
+                tile: true,
               },
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one',
@@ -586,37 +537,57 @@ const formConfig = {
                 'other',
               ],
               recruiting: {
-                'ui:title': recruitingLabel,
+                'ui:title': 'Recruiting or marketing practices',
+                'ui:description':
+                  'The school made inaccurate claims about the quality of its education or its school requirements.',
               },
               studentLoans: {
-                'ui:title': studentLoansLabel,
+                'ui:title': 'Student loan',
+                'ui:description':
+                  'The school didn’t provide you a total cost of your school loan.',
               },
               quality: {
-                'ui:title': qualityLabel,
+                'ui:title': 'Quality of education',
+                'ui:description': 'The school doesn’t have qualified teachers.',
               },
               creditTransfer: {
-                'ui:title': creditTransferLabel,
+                'ui:title': 'Transfer of credits',
+                'ui:description':
+                  'The school isn’t accredited for transfer of credits.',
               },
               accreditation: {
-                'ui:title': accreditationLabel,
+                'ui:title': 'Accreditation',
+                'ui:description':
+                  'The school is unable to get or keep accreditation.',
               },
               jobOpportunities: {
-                'ui:title': jobOpportunitiesLabel,
+                'ui:title': 'Post-graduation job opportunity',
+                'ui:description':
+                  'The school made promises to you about job placement or salary after graduation.',
               },
               gradePolicy: {
-                'ui:title': gradePolicyLabel,
+                'ui:title': 'Grade policy',
+                'ui:description':
+                  'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
               },
               refundIssues: {
-                'ui:title': refundIssuesLabel,
+                'ui:title': 'Refund issues',
+                'ui:description':
+                  'The school won’t refund your GI Bill payment.',
               },
               financialIssues: {
-                'ui:title': financialIssuesLabel,
+                'ui:title': 'Financial concern',
+                'ui:description':
+                  'The school is charging you a higher tuition or extra fees.',
               },
               changeInDegree: {
-                'ui:title': changeInDegreeLabel,
+                'ui:title': 'Change in degree plan or requirements',
+                'ui:description':
+                  'The school added new hour or course requirements after you enrolled.',
               },
               transcriptRelease: {
-                'ui:title': transcriptReleaseLabel,
+                'ui:title': 'Release of transcripts',
+                'ui:description': 'The school won’t release your transcripts.',
               },
               other: {
                 'ui:title': 'Other',
@@ -624,8 +595,9 @@ const formConfig = {
             },
             issueDescription: {
               'ui:title':
-                'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+                'Please write your feedback and any details about your issue in the space below.',
               'ui:widget': 'textarea',
+              'ui:description': maxCharAllowed('32,000'),
               'ui:options': {
                 rows: 5,
                 maxLength: 32000,
@@ -633,7 +605,8 @@ const formConfig = {
             },
             issueResolution: {
               'ui:title':
-                'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+                'What do you think would be a fair way to resolve your issue?',
+              'ui:description': maxCharAllowed('1,000'),
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,

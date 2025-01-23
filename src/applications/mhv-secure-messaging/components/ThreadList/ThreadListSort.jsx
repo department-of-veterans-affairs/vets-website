@@ -5,12 +5,18 @@ import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Paths, threadSortingOptions } from '../../util/constants';
 
-const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
-
 const ThreadListSort = props => {
   const { sortOrder, sortCallback } = props;
   const location = useLocation();
   const [sortOrderValue, setSortOrderValue] = useState(sortOrder);
+
+  const SORT_MESSAGES_LABEL =
+    location.pathname === Paths.DRAFTS
+      ? 'Show drafts in this order'
+      : 'Show conversations in this order';
+
+  const getDDTagLabel = sortingOrderValue =>
+    threadSortingOptions[sortingOrderValue]?.label || SORT_MESSAGES_LABEL;
 
   const handleSortButtonClick = async () => {
     sortCallback(sortOrderValue);
@@ -23,19 +29,19 @@ const ThreadListSort = props => {
 
   return (
     <div
-      className="small-screen:vads-u-display--flex vads-u-align-items--flex-end"
+      className="mobile-lg:vads-u-display--flex vads-u-align-items--flex-end"
       data-testid="thread-list-sort"
     >
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"
-        data-dd-action-name="Sort Order Dropdown"
-        label={SORT_CONVERSATIONS_LABEL}
+        label={SORT_MESSAGES_LABEL}
         name="sort-order"
         value={sortOrder}
         onVaSelect={e => {
           setSortOrderValue(e.detail.value);
         }}
+        data-dd-action-name={`${getDDTagLabel(sortOrderValue)} Dropdown`}
       >
         <option
           value={
@@ -78,17 +84,17 @@ const ThreadListSort = props => {
         ) : (
           <>
             <option value={threadSortingOptions.SENDER_ALPHA_ASCENDING.value}>
-              A to Z - Sender’s name
+              {threadSortingOptions.SENDER_ALPHA_ASCENDING.label}
             </option>
             <option value={threadSortingOptions.SENDER_ALPHA_DESCENDING.value}>
-              Z to A - Sender’s name
+              {threadSortingOptions.SENDER_ALPHA_DESCENDING.label}
             </option>
           </>
         )}
       </VaSelect>
 
       <va-button
-        class="small-screen:vads-u-margin-left--1 xsmall-screen:vads-u-display--block xsmall-screen:vads-u-margin-top--1p5"
+        class="mobile-lg:vads-u-margin-left--1 vads-u-display--block vads-u-margin-top--1p5"
         text="Sort"
         data-testid="sort-button"
         data-dd-action-name="Sort Button"

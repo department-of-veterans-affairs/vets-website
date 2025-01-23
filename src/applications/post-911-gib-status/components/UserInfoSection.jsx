@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InfoPair from './InfoPair';
-
 import {
   formatDateShort,
   formatDateParsedZoneLong,
 } from 'platform/utilities/date';
+
+import InfoPair from './InfoPair';
 import {
   formatPercent,
-  formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation,
   notQualifiedWarning,
@@ -21,7 +20,6 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   const percentageBenefit =
     formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
   const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-
   let currentAsOfAlert;
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
@@ -42,8 +40,8 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
       enrollmentData.delimitingDate,
     );
   } else if (
-    enrollmentData.remainingEntitlement.months > 0 ||
-    enrollmentData.remainingEntitlement.days > 0
+    enrollmentData.remainingEntitlement?.months > 0 ||
+    enrollmentData.remainingEntitlement?.days > 0
   ) {
     benefitEndDate = benefitEndDateExplanation(
       'remainingEntitlement',
@@ -52,15 +50,15 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   }
 
   let entitlementInfo;
-  const originalEntitlement = enrollmentData.originalEntitlement;
-  const usedEntitlement = enrollmentData.usedEntitlement;
-  const remainingEntitlement = enrollmentData.remainingEntitlement;
+  const { originalEntitlement } = enrollmentData;
+  const { usedEntitlement } = enrollmentData;
+  const { remainingEntitlement } = enrollmentData;
 
   if (enrollmentData.veteranIsEligible) {
     entitlementInfo = (
       <div>
         <div className="section">
-          <h4>Your Benefits</h4>
+          <h2>Your Benefits</h2>
           <InfoPair
             label="Total months received"
             value={formatMonthDayFields(originalEntitlement)}
@@ -79,7 +77,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
             <br />
             <a href="/education/gi-bill-comparison-tool/" target="_blank">
               Find out how much money you can expect to get based on your
-              eligibility percentage
+              eligibility percentage.
             </a>
           </p>
         </div>
@@ -103,12 +101,11 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
         <InfoPair
           label="Date of birth"
           name="dateOfBirth"
-          value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
-          additionalClass="section-line"
-        />
-        <InfoPair
-          label="VA file number"
-          value={formatVAFileNumber(enrollmentData.vaFileNumber)}
+          value={
+            enrollmentData?.dateOfBirth
+              ? formatDateParsedZoneLong(enrollmentData.dateOfBirth)
+              : 'Unavailable'
+          }
           additionalClass="section-line"
         />
         <InfoPair

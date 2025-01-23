@@ -41,9 +41,6 @@ const EkgDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -87,27 +84,41 @@ const EkgDetails = props => {
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - ekg name]"
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="ekg-date" />
+      <DateSubheading
+        date={record.date}
+        id="ekg-date"
+        label="Date and time collected"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateEkgDetailsPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generateEkgTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
-      <div className="electrocardiogram-details max-80">
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
+      <div className="test-details-container max-80">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
         </h2>
-        <p data-testid="ekg-record-facility">
+        <p
+          data-testid="ekg-record-facility"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - ekg facility]"
+        >
           {record.facility || 'There is no facility reported at this time'}
         </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
           Results
         </h2>
         <p data-testid="ekg-results">
@@ -115,7 +126,7 @@ const EkgDetails = props => {
           results, you can request a copy of your complete medical record from
           your VA health facility.
         </p>
-        <p className="vads-u-margin-top--2 no-print">
+        <p className="vads-u-margin-top--3 no-print">
           <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
             Learn how to get records from your VA health facility
           </a>

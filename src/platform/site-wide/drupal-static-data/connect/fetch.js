@@ -2,11 +2,12 @@ import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
 import { DATA_FILES_PATH } from '../constants';
 
-export const fetchDrupalStaticDataFile = async fileName => {
+export const fetchDrupalStaticDataFile = async (
+  fileName,
+  server = environment.BASE_URL,
+) => {
   try {
-    const result = await fetch(
-      `${environment.BASE_URL}/${DATA_FILES_PATH}/${fileName}`,
-    );
+    const result = await fetch(`${server}/${DATA_FILES_PATH}/${fileName}`);
     return await result.json();
   } catch (err) {
     Sentry.withScope(scope => {

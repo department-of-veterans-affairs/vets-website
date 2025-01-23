@@ -19,7 +19,7 @@ const Alert = ({ title, description, displayType }) => (
     vads-u-margin-right--3
     vads-u-margin-left--2
     vads-u-width--auto
-    small-screen:vads-u-margin-x--0
+    mobile-lg:vads-u-margin-x--0
     small-screen-header:vads-u-width--full"
   >
     <h2 slot="headline" className="usa-alert-heading">

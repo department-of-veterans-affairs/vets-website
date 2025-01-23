@@ -22,7 +22,7 @@ const VerifyIdentityInfo = () => (
   >
     <a
       href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-      clasName="vads-u-padding-bottom--2"
+      className="vads-u-padding-bottom--2"
     >
       Get answers to common questions about verifying your identity
     </a>
@@ -37,32 +37,28 @@ const VerifyIdentityInfo = () => (
 );
 
 const IdentityNotVerified = ({
+  disableAnalytics = false,
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
   signInService,
 }) => {
-  let serviceName;
-  switch (signInService) {
-    case CSP_IDS.MHV:
-    case CSP_IDS.MHV_VERBOSE:
-    case CSP_IDS.DS_LOGON:
-      serviceName = 'Login.gov or ID.me';
-      break;
-    case CSP_IDS.ID_ME:
-      serviceName = 'ID.me';
-      break;
-    case CSP_IDS.LOGIN_GOV:
-      serviceName = 'Login.gov';
-      break;
-    default:
-      serviceName = '';
-  }
+  const serviceNameMapping = {
+    [CSP_IDS.MHV]: 'Login.gov or ID.me',
+    [CSP_IDS.MHV_VERBOSE]: 'Login.gov or ID.me',
+    [CSP_IDS.DS_LOGON]: 'Login.gov or ID.me',
+    [CSP_IDS.ID_ME]: 'ID.me',
+    [CSP_IDS.LOGIN_GOV]: 'Login.gov',
+  };
+
+  const serviceName = serviceNameMapping[signInService] || '';
+
   return (
     <>
       <va-alert
         status="continue"
         class="vads-u-margin-top--3 vads-u-margin-bottom--3"
+        disable-analytics={disableAnalytics}
       >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
@@ -98,6 +94,7 @@ const IdentityNotVerified = ({
 IdentityNotVerified.propTypes = {
   signInService: PropTypes.string.isRequired,
   additionalInfoClickHandler: PropTypes.func,
+  disableAnalytics: PropTypes.bool,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,

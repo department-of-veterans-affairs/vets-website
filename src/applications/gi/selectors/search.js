@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import appendQuery from 'append-query';
 import { INITIAL_STATE } from '../reducers/search';
-import { buildSearchFilters } from './filters';
+import {
+  FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP,
+  buildSearchFilters,
+} from './filters';
 import { managePushHistory, setDocumentTitle } from '../utils/helpers';
 
 export const getSearchQueryChanged = query => {
@@ -40,10 +43,18 @@ export const updateUrlParams = (
   if (version) {
     queryParams.version = version;
   }
+  const clonedFilters = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+    exclusion =>
+      !buildSearchFilters(filters).excludedSchoolTypes?.includes(exclusion),
+  );
+  const ClonedBuildSearchFilters =
+    tab === 'location'
+      ? { ...buildSearchFilters(filters), excludedSchoolTypes: clonedFilters }
+      : buildSearchFilters(filters);
 
   const url = appendQuery('/', {
     ...queryParams,
-    ...buildSearchFilters(filters),
+    ...ClonedBuildSearchFilters,
   });
 
   managePushHistory(history, url);

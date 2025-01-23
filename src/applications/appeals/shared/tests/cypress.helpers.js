@@ -1,15 +1,16 @@
 import { parseDateWithOffset } from '../utils/dates';
 import { SELECTED } from '../constants';
 
-export const getRandomDate = () =>
+export const getRandomDate = (offset = Math.random() * 6) =>
   parseDateWithOffset({
-    months: -Math.floor(Math.random() * 6 + 1),
-    days: -Math.floor(Math.random() * 10),
+    months: -Math.floor(3 + offset),
+    days: -Math.floor(offset),
   });
 
 export const fixDecisionDates = (data = [], { unselected } = {}) => {
-  return data.map(issue => {
-    const newDate = getRandomDate();
+  return data.map((issue, index) => {
+    // Pass in an index to maintain mock data issue order
+    const newDate = getRandomDate(index);
     // remove selected value so Cypress can click-select
     if (issue.decisionDate) {
       return {

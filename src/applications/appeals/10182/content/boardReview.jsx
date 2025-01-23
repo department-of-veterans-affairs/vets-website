@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const boardReviewErrorMessage =
-  'Choose a Board review option to proceed';
+  'You must choose a Board review option to proceed';
 
 export const boardReviewTitle = 'Select a Board review option:';
 
@@ -10,6 +10,12 @@ export const boardReviewLabels = {
   direct_review: 'Request a direct review',
   evidence_submission: 'Submit more evidence',
   hearing: 'Request a hearing',
+};
+// Text shown on the confirmation page
+export const boardReviewConfirmationLabels = {
+  direct_review: 'Direct review',
+  evidence_submission: 'Evidence submission',
+  hearing: 'Hearing',
 };
 export const boardReviewDescriptions = {
   direct_review:

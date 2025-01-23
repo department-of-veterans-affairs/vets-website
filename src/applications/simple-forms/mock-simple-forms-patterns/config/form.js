@@ -1,16 +1,17 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
-import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import textEmailPhone from '../pages/mockTextEmailPhone';
 import numberInput from '../pages/mockNumberInput';
-import textInputFullName from '../pages/mockTextInputFullName';
-import textInputAddress from '../pages/mockTextInputAddress';
-import textInputSsn from '../pages/mockTextInputSsn';
+import fullName from '../pages/mockFullName';
+import address from '../pages/mockAddress';
+import ssn from '../pages/mockSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
@@ -24,36 +25,49 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import mockData from '../tests/e2e/fixtures/data/default.json';
+import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
   employersDatesPage,
+  employersIntroPage,
+  employersOptionalPage,
   employersOptions,
   employersPageNameAndAddressPage,
   employersSummaryPage,
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
-import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
-import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
+import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
 
-const chapterSelectInitialData = {
+const initialData = {
   chapterSelect: {
-    textInput: true,
-    numberInput: true,
-    formsPattern: true,
-    checkbox: true,
-    radio: true,
-    select: true,
-    date: true,
-    miscellaneous: true,
-    arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arraySinglePage: true,
+    checkbox: true,
+    date: true,
+    formsPattern: true,
+    miscellaneous: true,
+    numberInput: true,
+    radio: true,
+    select: true,
+    textInput: true,
   },
 };
 
+// Prefill entire form with data:
+// Helpful for testing confirmation page
+if (
+  (environment.isLocalhost() || environment.isDev()) &&
+  !environment.isTest()
+) {
+  Object.assign(initialData, mockData.data);
+  Object.assign(initialData, mockArrayBuilderData.data);
+}
+
 function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
+  return formData => formData?.chapterSelect?.[page];
 }
 
 /** @type {FormConfig} */
@@ -88,7 +102,7 @@ const formConfig = {
           title: 'Chapter Select',
           path: 'chapter-select',
           ...chapterSelect,
-          initialData: chapterSelectInitialData,
+          initialData,
         },
       },
     },
@@ -102,34 +116,34 @@ const formConfig = {
           schema: textInput.schema,
           depends: includeChapter('textInput'),
         },
-        textInputWidgets1: {
+        textEmailPhone: {
           path: 'text-input-widgets1',
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
-          uiSchema: textInputWidgets1.uiSchema,
-          schema: textInputWidgets1.schema,
+          uiSchema: textEmailPhone.uiSchema,
+          schema: textEmailPhone.schema,
           depends: includeChapter('textInput'),
         },
-        textInputFullName: {
+        fullName: {
           path: 'text-input-full-name',
           title: 'Text Input Full Name', // for review page (has to be more than one word)
-          uiSchema: textInputFullName.uiSchema,
-          schema: textInputFullName.schema,
-          initialData: textInputFullName.initialData,
+          uiSchema: fullName.uiSchema,
+          schema: fullName.schema,
+          initialData: fullName.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputAddress: {
+        address: {
           title: 'Text Input Address', // for review page (has to be more than one word)
           path: 'text-input-address',
-          uiSchema: textInputAddress.uiSchema,
-          schema: textInputAddress.schema,
-          initialData: textInputAddress.initialData,
+          uiSchema: address.uiSchema,
+          schema: address.schema,
+          initialData: address.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputSsn: {
+        ssn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
-          uiSchema: textInputSsn.uiSchema,
-          schema: textInputSsn.schema,
+          uiSchema: ssn.uiSchema,
+          schema: ssn.schema,
           depends: includeChapter('textInput'),
         },
       },
@@ -298,16 +312,40 @@ const formConfig = {
     arrayMultiPageBuilder: {
       title: 'Array Multi-Page Builder (WIP)',
       pages: {
+        // this page is not part of the pattern, but is needed
+        // to showcase the 2 different styles of array builder pattern
+        multiPageBuilderChooseFlow: {
+          title: 'Array builder pattern choose flow',
+          path: 'array-multiple-page-builder-choose-flow',
+          uiSchema: arrayBuilderPatternChooseFlow.uiSchema,
+          schema: arrayBuilderPatternChooseFlow.schema,
+          depends: includeChapter('arrayMultiPageBuilder'),
+          initialData: {
+            arrayBuilderPatternFlowType: 'required',
+          },
+        },
         ...arrayBuilderPages(employersOptions, pageBuilder => ({
-          multiPageBuilderStart: pageBuilder.summaryPage({
+          // introPage needed for "required" flow
+          multiPageBuilderIntro: pageBuilder.introPage({
+            title: 'Your Employers',
+            path: 'array-multiple-page-builder',
+            uiSchema: employersIntroPage.uiSchema,
+            schema: employersIntroPage.schema,
+            depends: formData =>
+              includeChapter('arrayMultiPageBuilder')(formData) &&
+              // normally you don't need this kind of check,
+              // but this is so we can test the 2 different styles
+              // of array builder pattern - "required" and "optional".
+              // "introPage" is needed in the "required" flow,
+              // but unnecessary in the "optional" flow
+              formData?.arrayBuilderPatternFlowType === 'required',
+          }),
+          multiPageBuilderSummary: pageBuilder.summaryPage({
             title: 'Array with multiple page builder summary',
             path: 'array-multiple-page-builder-summary',
             uiSchema: employersSummaryPage.uiSchema,
             schema: employersSummaryPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
-            // keep comment this for now while working on this feature
-            // eslint-disable-next-line sonarjs/no-redundant-boolean
-            initialData: false && arrayBuilderMockData,
           }),
           multiPageBuilderStepOne: pageBuilder.itemPage({
             title: 'Employer name and address',
@@ -322,6 +360,18 @@ const formConfig = {
             uiSchema: employersDatesPage.uiSchema,
             schema: employersDatesPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+          multiPageBuilderOptional: pageBuilder.itemPage({
+            title: 'Optional page',
+            path: 'array-multiple-page-builder/:index/optional',
+            uiSchema: employersOptionalPage.uiSchema,
+            schema: employersOptionalPage.schema,
+            depends: (formData, index) => {
+              return (
+                includeChapter('arrayMultiPageBuilder') &&
+                formData?.employers?.[index]?.address?.state === 'CA'
+              );
+            },
           }),
         })),
       },

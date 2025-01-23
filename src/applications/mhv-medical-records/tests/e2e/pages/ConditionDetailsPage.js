@@ -12,9 +12,14 @@ class ConditionDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="condition-location"]').contains(location);
   };
 
-  verifyProviderNotes = providerNotes => {
+  verifyProviderNotes = providerNote => {
     // cy.get('[data-testid="item-list-string"]').should('be.visible');
-    cy.get('[data-testid="list-item-single"]').contains(providerNotes);
+    cy.get('[data-testid="list-item-single"]').contains(providerNote);
+  };
+
+  verifyProviderNotesList = providerNote => {
+    cy.get('[data-testid="list-item-multiple"]').should('be.visible');
+    cy.get('[data-testid="list-item-multiple"]').contains(providerNote);
   };
 }
 

@@ -1,43 +1,39 @@
 import featureToggles from '../../../mocks/api/feature-toggles';
 import userData from '../../../mocks/api/user';
-import vamcEhr from '../../fixtures/vamc-ehr.json';
 import {
   allFoldersWithUnreadMessages,
   oneFolderWithNoUnreadMessages,
 } from '../../../mocks/api/mhv-api/messaging/folders/index';
+import {
+  accountStatusSuccessResponse,
+  accountStatusEightZeroOne,
+  accountStatusFiveZeroZero,
+  accountStatusFourTwoTwo,
+  accountStatusMultiError,
+} from '../../../mocks/api/user/mhvAccountStatus';
 
 class ApiInitializer {
   initializeFeatureToggle = {
-    withAppDisabled: () => {
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
+    withAllFeaturesDisabled: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: false,
-        }),
-      );
+        featureToggles.generateFeatureToggles({ disableAll: true }),
+      ).as('featureToggles');
     },
     withCurrentFeatures: () => {
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: false,
-        }),
-      );
+        featureToggles.generateFeatureToggles(),
+      ).as('featureToggles');
     },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: true,
-        }),
-      );
+        featureToggles.generateFeatureToggles({ enableAll: true }),
+      ).as('featureToggles');
     },
   };
 
@@ -47,36 +43,56 @@ class ApiInitializer {
         'GET',
         '/my_health/v1/messaging/folders*',
         allFoldersWithUnreadMessages,
-      );
+      ).as('sm');
     },
     withNoUnreadMessages: () => {
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders*',
         oneFolderWithNoUnreadMessages,
-      );
+      ).as('sm');
     },
   };
 
   initializeUserData = {
     withDefaultUser: () => {
-      cy.intercept('GET', '/v0/user*', userData.defaultUser);
-    },
-    withCernerPatient: () => {
-      cy.intercept('GET', '/v0/user*', userData.cernerPatient);
-    },
-    withFacilities: ({ facilities = [] }) => {
-      cy.intercept(
-        'GET',
-        '/v0/user*',
-        userData.generateUserWithFacilities({ facilities }),
-      );
+      cy.intercept('GET', '/v0/user*', userData.defaultUser).as('user');
     },
     withMHVAccountState: mhvAccountState => {
       const userDataWithMHVAccountState = userData.generateUserWithMHVAccountState(
         mhvAccountState,
       );
-      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState);
+      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState).as('user');
+    },
+  };
+
+  initializeAccountStatus = {
+    withSuccess: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusSuccessResponse,
+      );
+    },
+    with801: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusEightZeroOne,
+      );
+    },
+    with500: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusFiveZeroZero,
+      );
+    },
+    with422: () => {
+      cy.intercept('GET', '/v0/user/mhv_user_account', accountStatusFourTwoTwo);
+    },
+    withMultipleErrors: () => {
+      cy.intercept('GET', '/v0/user/mhv_user_account', accountStatusMultiError);
     },
   };
 }

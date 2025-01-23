@@ -270,10 +270,10 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const in180Days = moment().add(180, 'days');
   if (enteredDate.isValid()) {
     if (enteredDate.isBefore()) {
-      errors.addError('Please enter a future separation date');
+      errors.addError('Enter a future separation date');
     } else if (enteredDate.isSameOrAfter(in180Days)) {
       errors.addError(
-        'Please enter a separation date less than 180 days in the future',
+        'Enter a separation date less than 180 days in the future',
       );
     }
   }
@@ -295,7 +295,7 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
     errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
+      'Enter an expected separation date that is after your activation date',
     );
   }
 };
@@ -420,8 +420,7 @@ export const isWithinServicePeriod = (
 };
 
 export const missingConditionMessage =
-  'Please enter a condition or select one from the suggested list';
-
+  'Enter a condition, diagnosis, or short description of your symptoms';
 /**
  * Validates a given disability name for length and duplication.
  * @param {Object} err - Errors object from rjsf, which includes an addError method
@@ -451,13 +450,14 @@ export const validateDisabilityName = (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
-    err.addError('Condition names should be less than 256 characters');
+    err.addError('This needs to be less than 256 characters');
   }
 
-  if (
-    !fieldData ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
-  ) {
+  const missingCondition =
+    !fieldData?.trim() ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
+
+  if (missingCondition) {
     err.addError(missingConditionMessage);
   }
 
@@ -474,7 +474,7 @@ export const validateDisabilityName = (
     item => item === itemLowerCased || sippableId(item) === itemSippableId,
   );
   if (itemCount.length > 1) {
-    err.addError('Please enter a unique condition name');
+    err.addError('You’ve already added this condition to your claim');
   }
 };
 
@@ -503,7 +503,7 @@ export const requireDisability = (err, fieldData, formData) => {
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
     err.addError(
-      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+      'You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim.',
     );
   }
 };
@@ -589,7 +589,8 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+  const dob = moment(appStateData.dob).add(13, 'years');
+  if (moment(dateString).isSameOrBefore(dob)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -673,7 +674,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (!startTimes[0] || dateString < startTimes[0]) {
+  if (moment(dateString).isAfter()) {
+    errors.addError('Enter an activation date in the past');
+  } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );

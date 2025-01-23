@@ -1,76 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { range } from 'lodash';
-import Scroll from 'react-scroll';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect } from 'react-redux';
 
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
+import {
+  QUESTION_MAP,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import { updateDischargeYear } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
-const { Element } = Scroll;
+import YearInput from './shared/YearInput';
 
 const DischargeYear = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  router,
+  viewedIntroPage,
+  setDischargeYear,
 }) => {
-  const key = '2_dischargeYear';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.DISCHARGE_YEAR;
+  const H1 = QUESTION_MAP[shortName];
 
-  if (!formValues) {
-    return null;
-  }
-
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  const dischargeYear = formValues[key];
-  const currentYear = new Date().getFullYear();
-  const yearOptions = range(currentYear - 1992).map(i => {
-    const year = currentYear - i;
-    return (
-      <option key={i} value={year.toString()}>
-        {year.toString()}
-      </option>
-    );
-  });
-  const before1992Key = yearOptions.length + 1;
-
-  yearOptions.push(
-    <option key={before1992Key} value="1991">
-      Before 1992
-    </option>,
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
   );
 
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
+
+  const dischargeYear = formResponses[shortName];
+
   return (
-    <div className="vads-u-margin-top--6">
-      <fieldset className="fieldset-input dischargeYear" key={key}>
-        <Element name={key} />
-        <VaSelect
-          autocomplete="false"
-          label="What year were you discharged from the military?"
-          name={key}
-          vaKeyDown={handleKeyDown}
-          value={{ value: dischargeYear }}
-          onVaSelect={update => {
-            updateField(key, update.detail.value);
-            scrollToLast();
-          }}
-          uswds
-        >
-          {yearOptions}
-        </VaSelect>
-      </fieldset>
-    </div>
+    <YearInput
+      H1={H1}
+      formError={formError}
+      formResponses={formResponses}
+      formValue={dischargeYear}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-discharge_year"
+      valueSetter={setDischargeYear}
+    />
   );
 };
 
 DischargeYear.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object.isRequired,
+  setDischargeYear: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default DischargeYear;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setDischargeYear: updateDischargeYear,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DischargeYear);

@@ -13,7 +13,6 @@ import {
   getFifthAccordionHeader,
 } from '../utilities/results-accordions';
 import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
-import { customizeTitle } from '../utilities/customize-title';
 
 /**
  * There are two pathways to displaying income ranges on this page
@@ -22,13 +21,8 @@ import { customizeTitle } from '../utilities/customize-title';
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
-  const APPLY_URL = '/health-care/apply/application/introduction';
+  const APPLY_URL = '/health-care/apply-for-health-care-form-10-10ez/';
   const currentYear = new Date().getFullYear();
-  const H1 = `Your income limits for ${year || currentYear}`;
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
 
   useEffect(
     () => {
@@ -121,17 +115,12 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     );
 
     const applyUrl = (
-      <a
-        href={APPLY_URL}
-        className="vads-u-display--block vads-u-margin-top--3 vads-u-margin-bottom--1 vads-c-action-link--green"
-      >
-        Apply for VA health care
-      </a>
+      <va-link-action href={APPLY_URL} text="Apply for VA health care" />
     );
 
     return (
       <>
-        <h1>{H1}</h1>
+        <h1>Your income limits for {year || currentYear}</h1>
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
         <a

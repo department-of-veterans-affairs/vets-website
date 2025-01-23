@@ -12,9 +12,11 @@ const MessageActionButtons = props => {
   const {
     threadId,
     hideReplyButton,
-    handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
+    showEditDraftButton = false,
+    handleEditDraftButton,
+    hasMultipleDrafts = false,
   } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -28,18 +30,35 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-      {!hideReplyButton && (
-        <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
-          <ReplyButton
-            key="replyButton"
-            visible={!hideReplyButton}
-            onReply={handleReplyButton}
-          />
+    <div className="vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row">
+      {showEditDraftButton ? (
+        <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
+          <button
+            type="button"
+            className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
+            data-testid="edit-draft-button-body"
+            onClick={handleEditDraftButton}
+          >
+            <div className="vads-u-margin-right--0p5">
+              <va-icon icon="undo" aria-hidden="true" />
+            </div>
+            <span
+              className="message-action-button-text"
+              data-testid="edit-draft-button-body-text"
+            >
+              {`Edit draft repl${hasMultipleDrafts ? 'ies' : 'y'}`}
+            </span>
+          </button>
         </div>
+      ) : (
+        !hideReplyButton && (
+          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
+            <ReplyButton key="replyButton" visible />
+          </div>
+        )
       )}
 
-      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column xsmall-screen:vads-u-flex-direction--row ">
+      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row ">
         <PrintBtn
           key="print"
           handlePrint={handlePrint}
@@ -71,11 +90,13 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
-  handleReplyButton: PropTypes.func,
+  handleEditDraftButton: PropTypes.func,
+  hasMultipleDrafts: PropTypes.bool,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
   setIsCreateNewModalVisible: PropTypes.func,
+  showEditDraftButton: PropTypes.bool,
   threadId: PropTypes.number,
 };
 

@@ -6,6 +6,7 @@ import startApp from 'platform/startup';
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
+import './utils/logging'; // Initialize Datadog
 
 const script = document.createElement('script');
 script.nonce = '**CSP_NONCE**';
@@ -19,6 +20,7 @@ script.text =
 document.body.appendChild(script);
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

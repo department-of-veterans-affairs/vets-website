@@ -3,47 +3,39 @@
 const delay = require('mocker-api/lib/delay');
 const moment = require('moment');
 
-// var
-const confirmedVA = require('./var/confirmed_va.json');
-const confirmedCC = require('./var/confirmed_cc.json');
-const requests = require('./var/requests.json');
-const messages0190 = require('./var/messages_0190.json');
-const messages0038 = require('./var/messages_0038.json');
-const parentFacilities = require('./var/facilities.json');
-const facilities983 = require('./var/facilities_983.json');
-const facilities984 = require('./var/facilities_984.json');
-const facilities983A6 = require('./var/facilities_983A6.json');
-const clinicList983 = require('./var/clinicList983.json');
-const clinicList612 = require('./var/clinicList612.json');
-const facilityDetails983 = require('./var/facility_details_983.json');
-const facilityData = require('./var/facility_data.json');
-const ccProviders = require('./var/cc_providers.json');
-const sitesSupportingVAR = require('./var/sites-supporting-var.json');
-const varSlots = require('./var/slots.json');
-const cancelReasons = require('./var/cancel_reasons.json');
-const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
-const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
-const generateMockSlots = require('./var/slots');
-
 // v2
-const requestsV2 = require('./v2/requests.json');
+const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
+const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+
+// To locally test appointment details null state behavior, comment out
+// the inclusion of confirmed.json and uncomment the inclusion of
+// confirmed_null_states.json
 const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+// To locally test appointment details null state behavior, comment out
+// the inclusion of requests.json and uncomment the inclusion of
+// requests_null_states.json.json
+const requestsV2 = require('./v2/requests.json');
+// const requestsV2 = require('./v2/requests_null_states.json.json');
 
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
+// CC Direct Scheduling mocks
+const referralUtils = require('../../referral-appointments/utils/referrals');
+const providerUtils = require('../../referral-appointments/utils/provider');
+
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-
 const features = require('../../utils/featureFlags');
 
-varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
 
@@ -66,155 +58,15 @@ const providerMock = {
   1770904021: 'Jones, Tillie',
 };
 
+const purposeText = {
+  ROUTINEVISIT: 'Routine/Follow-up',
+  MEDICALISSUE: 'New medical issue',
+  QUESTIONMEDS: 'Medication concern',
+  OTHER_REASON: 'My reason isn’t listed',
+};
+
 const responses = {
-  'GET /vaos/v0/appointments': (req, res) => {
-    if (req.query.type === 'cc') {
-      return res.json(confirmedCC);
-    }
-    return res.json(confirmedVA);
-  },
-  'GET /vaos/v0/appointments/va/:id': (req, res) => {
-    return res.json({
-      data: confirmedVA.data.find(appt => appt.id === req.params.id),
-    });
-  },
-  'GET /vaos/v0/appointment_requests': requests,
-  'GET /vaos/v0/appointment_requests/:id': (req, res) => {
-    return res.json({
-      data: requests.data.find(appt => appt.id === req.params.id),
-    });
-  },
-  'GET /vaos/v0/appointment_requests/:id/messages': (req, res) => {
-    const { id } = req.params;
-    if (id === '8a48912a6c2409b9016c525a4d490190') {
-      return res.json(messages0190);
-    }
-
-    if (id === '8a48912a6cab0202016cb4fcaa8b0038') {
-      return res.json(messages0038);
-    }
-
-    return res.json({ data: [] });
-  },
-  'GET /vaos/v0/facilities': parentFacilities,
-  'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
-    if (req.query.parent_code === '984') {
-      return res.json(facilities984);
-    }
-    if (req.query.parent_code === '983A6') {
-      return res.json(facilities983A6);
-    }
-    return res.json(facilities983);
-  },
-  'GET /vaos/v0/community_care/eligibility/:id': (req, res) => {
-    return res.json({
-      data: {
-        id: req.param.id,
-        type: 'cc_eligibility',
-        attributes: { eligible: true },
-      },
-    });
-  },
-  'GET /vaos/v0/community_care/supported_sites': sitesSupportingVAR,
-  'GET /vaos/v0/facilities/:id/visits/:type': (req, res) => {
-    if (req.params.type === 'direct') {
-      return res.json({
-        data: {
-          id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 24,
-            hasVisitedInPastMonths: !req.params.id.startsWith('984'),
-          },
-        },
-      });
-    }
-
-    return res.json({
-      data: {
-        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-        type: 'facility_visit',
-        attributes: {
-          durationInMonths: 12,
-          hasVisitedInPastMonths: !req.params.id.startsWith('984'),
-        },
-      },
-    });
-  },
-  'GET /vaos/v0/facilities/limits': (req, res) => {
-    const data = req.query.facility_ids.map(id => ({
-      id,
-      attributes: {
-        numberOfRequests: id.startsWith('983') ? 0 : 1,
-        requestLimit: 1,
-        institutionCode: id,
-      },
-    }));
-
-    return res.json({
-      data,
-    });
-  },
-  'GET /vaos/v0/facilities/:id/clinics': (req, res) => {
-    if (req.params.id === '983') {
-      return res.json(clinicList983);
-    }
-    if (req.params.id.startsWith(612)) {
-      return res.json(clinicList612);
-    }
-
-    return res.json({
-      data: [],
-    });
-  },
-  'GET /v1/facilities/va/:id': (req, res) => {
-    const facility = facilityData.data.find(f => f.id === req.params.id);
-
-    return res.json({
-      data: facility || facilityDetails983,
-    });
-  },
-  'GET /v1/facilities/va': facilityData,
-  'GET /facilities_api/v1/ccp/provider': ccProviders,
-  'GET /v1/facilities/ccp/:id': (req, res) => {
-    const provider = ccProviders.data.find(p => p.id === req.params.id);
-    return res.json({
-      data: provider,
-    });
-  },
-  'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
-  'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
-  'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
-  'GET /vaos/v0/direct_booking_eligibility_criteria': directBookingEligibilityCriteria,
-  'PUT /vaos/v0/appointments/cancel': {},
-  'POST /vaos/v0/appointment_requests': {
-    data: {
-      id: '8a4886886e4c8e22016e6613216d001g',
-      attributes: {},
-    },
-  },
-  'PUT /vaos/v0/appointment_requests/:id': (req, res) => {
-    const requestAttributes = requests.data.find(
-      item => item.id === req.params.id,
-    ).attributes;
-
-    return res.json({
-      data: {
-        id: req.body.id,
-        attributes: {
-          ...requestAttributes,
-          status: 'Cancelled',
-          appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
-        },
-      },
-    });
-  },
-  'POST /vaos/v0/appointments': {},
-  'POST /vaos/v0/appointment_requests/:id/messages': {
-    data: {
-      attributes: {},
-    },
-  },
+  'GET /facilities_api/v2/ccp/provider': ccProviders,
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
@@ -230,14 +82,44 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    let reasonForAppointment;
+    let patientComments;
+    if (req.body.kind === 'cc') {
+      patientComments = req.body.reasonCode?.text;
+    } else {
+      const tokens = req.body.reasonCode?.text?.split('|') || [];
+      for (const token of tokens) {
+        if (token.startsWith('reason code:')) {
+          reasonForAppointment =
+            purposeText[token.substring('reason code:'.length)];
+        } else if (token.startsWith('comments:')) {
+          patientComments = token.substring('comments:'.length);
+        }
+      }
+    }
+
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+        contact: {
+          telecom: [
+            {
+              type: 'phone',
+              value: '6195551234',
+            },
+            {
+              type: 'email',
+              value: 'myemail72585885@unattended.com',
+            },
+          ],
+        },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        reasonForAppointment,
+        patientComments,
       },
     };
     currentMockId += 1;
@@ -250,15 +132,11 @@ const responses = {
       .concat(confirmedV2.data)
       .concat(mockAppts);
 
-    let appt = appointments.find(item => item.id === req.params.id);
+    const appt = appointments.find(item => item.id === req.params.id);
     if (req.body.status === 'cancelled') {
-      appt = {
-        ...appt,
-        attributes: {
-          ...appt.attributes,
-          cancelationReason: { coding: [{ code: 'pat' }] },
-        },
-      };
+      appt.attributes.status = 'cancelled';
+      appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
+      appt.attributes.cancellable = false;
     }
 
     return res.json({
@@ -439,6 +317,62 @@ const responses = {
       data: [],
     });
   },
+  'GET /vaos/v2/relationships': (req, res) => {
+    return res.json(patientProviderRelationships);
+  },
+
+  // EPS api
+  'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
+    return res.json({
+      data: referralUtils.createReferrals(4, '2024-12-02'),
+    });
+  },
+  'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    if (req.params.referralId === 'error') {
+      return res.status(500).json({ error: true });
+    }
+    const referrals = referralUtils.createReferrals(3, '2024-12-02', 1);
+    const singleReferral = referrals.find(
+      referral => referral?.UUID === req.params.referralId,
+    );
+    return res.json({
+      data: singleReferral ?? {},
+    });
+  },
+  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.providerId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    // Provider 0 has no available slots
+    if (req.params.providerId === '0') {
+      return res.json({
+        data: providerUtils.createProviderDetails(0, req.params.providerId),
+      });
+    }
+    return res.json({
+      data: providerUtils.createProviderDetails(5, req.params.providerId),
+    });
+  },
+  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.referralId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    // Provider 0 has no available slots
+    if (req.params.referralId === '0') {
+      return res.json({
+        data: providerUtils.createDraftAppointmentInfo(
+          0,
+          req.params.referralId,
+        ),
+      });
+    }
+    return res.json({
+      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
+    });
+  },
+  // Required v0 APIs
   'GET /v0/user': {
     data: {
       attributes: {
@@ -492,6 +426,10 @@ const responses = {
             {
               facility_id: '983',
               is_cerner: false,
+            },
+            {
+              facility_id: '692',
+              is_cerner: true,
             },
           ],
         },
@@ -627,16 +565,15 @@ const responses = {
     },
     meta: { errors: null },
   },
-
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
       features,
     },
   },
+  // End of required v0 APIs
 };
 
 module.exports = delay(responses, 1000);

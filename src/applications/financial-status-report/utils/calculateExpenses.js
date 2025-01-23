@@ -1,3 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as Sentry from '@sentry/browser';
 import { sumValues, safeNumber } from './helpers';
 
 // Constants representing the type of expense
@@ -45,7 +48,6 @@ const calculateExpenseRecords = expenseRecords =>
  * @param {Array} params.otherExpenses - Other expenses array.
  * @param {Array} params.utilityRecords - Utility records array.
  * @param {Array} params.installmentContracts - Installment contracts array.
- * @param {boolean} [params.view:enhancedFinancialStatusReport=false] - Enhanced financial status report flag.
  * @returns {number} The total monthly expenses.
  */
 
@@ -54,9 +56,9 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
+  'view:showUpdatedExpensePages': expensePageActive = false,
 }) => {
-  const utilityField = enhancedFSRActive ? 'amount' : 'monthlyUtilityAmount';
+  const utilityField = 'amount';
   const utilities = sumValues(utilityRecords, utilityField);
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
@@ -65,7 +67,9 @@ export const getMonthlyExpenses = ({
     'amountDueMonthly',
   );
   const food = safeNumber(expenses?.food || 0);
-  const rentOrMortgage = safeNumber(expenses?.rentOrMortgage || 0);
+  const rentOrMortgage = expensePageActive
+    ? safeNumber(expenses?.monthlyHousingExpenses)
+    : safeNumber(expenses?.rentOrMortgage || 0);
   const calculatedExpenseRecords = calculateExpenseRecords(
     expenses?.expenseRecords,
   );
@@ -92,13 +96,12 @@ export const getAllExpenses = formData => {
     expenses: {
       creditCardBills = [],
       expenseRecords = [],
-      food = 0,
-      rentOrMortgage = 0,
+      monthlyHousingExpenses = 0,
     } = {},
     otherExpenses = [],
     utilityRecords,
     installmentContracts = [],
-    'view:enhancedFinancialStatusReport': enhancedFSRActive,
+    'view:showUpdatedExpensePages': expensePageActive = false,
   } = formData;
 
   const rentOrMortgageExpenses = filterExpensesByName(expenseRecords, [
@@ -115,24 +118,23 @@ export const getAllExpenses = formData => {
     ...excludeExpensesByName(expenseRecords, [RENT, MORTGAGE_PAYMENT]),
   ];
 
-  const utilityField = enhancedFSRActive ? 'amount' : 'monthlyUtilityAmount';
+  const utilityField = 'amount';
+
+  // This is messy, but will be cleaned up once we remove the enhanced feature flag.
+  const enhancedMortgage = sumValues(rentOrMortgageExpenses, 'amount');
+  const currentRentOrMortgage = expensePageActive
+    ? safeNumber(monthlyHousingExpenses)
+    : enhancedMortgage;
 
   return {
-    rentOrMortgage: enhancedFSRActive
-      ? sumValues(rentOrMortgageExpenses, 'amount')
-      : safeNumber(rentOrMortgage), // use safeNumber
-    food: enhancedFSRActive ? foodExpenses.amount : safeNumber(food), // use safeNumber
+    rentOrMortgage: currentRentOrMortgage,
+    food: safeNumber(foodExpenses.amount), // use safeNumber
     utilities: sumValues(utilityRecords, utilityField),
     otherLivingExpenses: {
-      name: excludeExpensesByName(
-        enhancedFSRActive ? filteredExpenses : otherExpenses,
-        enhancedFSRActive ? [FOOD] : [],
-      )
+      name: excludeExpensesByName(filteredExpenses, [FOOD])
         .map(expense => expense.name)
         .join(', '),
-      amount: enhancedFSRActive
-        ? sumValues(filteredExpenses, 'amount')
-        : sumValues(otherExpenses, 'amount'),
+      amount: sumValues(filteredExpenses, 'amount'),
     },
     expensesInstallmentContractsAndOtherDebts: sumValues(
       [...installmentContracts, ...creditCardBills],
@@ -145,4 +147,34 @@ export const getAllExpenses = formData => {
       ...creditCardBills,
     ],
   };
+};
+
+// /v0/calculate_monthly_expenses
+export const getMonthlyExpensesAPI = async formData => {
+  const body = JSON.stringify(formData);
+  try {
+    const url = `${
+      environment.API_URL
+    }/debts_api/v0/calculate_monthly_expenses`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `calculate_monthly_expenses request handler failed: ${error}`,
+      );
+    });
+    return null;
+  }
 };

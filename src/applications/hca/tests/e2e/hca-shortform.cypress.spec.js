@@ -1,14 +1,15 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import mockFacilities from './fixtures/mocks/facilities.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUser from './fixtures/mocks/user.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
-  shortFormAdditionalHelpAssertion,
+  selectDropdownWebComponent,
   shortFormSelfDisclosureToSubmit,
 } from './utils';
 
@@ -21,14 +22,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -43,9 +42,14 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
@@ -69,41 +73,23 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
 
-    cy.findAllByText(/you can fill out a shorter application/i, {
-      selector: 'h3',
-    })
-      .first()
-      .should('exist');
-
-    cy.get('va-alert')
-      .contains(disabilityRating)
-      .should('exist');
-
     cy.injectAxe();
     cy.axeCheck();
 
     goToNextPage('/veteran-information/maiden-name-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/birth-sex');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/demographic-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/veteran-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
 
     goToNextPage('/veteran-information/veteran-home-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('#root_veteranHomeAddress_street').type(
       testData.veteranAddress.street,
     );
@@ -116,33 +102,29 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
 
     goToNextPage('/veteran-information/contact-information');
-    shortFormAdditionalHelpAssertion();
-
     cy.wait('@mockSip');
+
+    // TERA response
+    goToNextPage('/military-service/toxic-exposure');
+    cy.get('[name="root_hasTeraResponse"]').check('N');
 
     // medicaid
     goToNextPage('/insurance-information/medicaid');
-    shortFormAdditionalHelpAssertion();
-    cy.get('[type=radio]#root_isMedicaidEligibleNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isMedicaidEligibleNo').check('N');
 
-    // general insurance
+    // insurance policies
+    goToNextPage('/insurance-information/your-health-insurance');
     goToNextPage('/insurance-information/general');
-    shortFormAdditionalHelpAssertion();
-
-    cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isCoveredByHealthInsuranceNo').check('N');
 
     goToNextPage('/insurance-information/va-facility');
-    shortFormAdditionalHelpAssertion();
-    cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+    selectDropdownWebComponent(
+      'view:preferredFacility_view:facilityState',
       testData['view:preferredFacility']['view:facilityState'],
     );
-    cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+    cy.wait('@getFacilities');
+    selectDropdownWebComponent(
+      'view:preferredFacility_vaMedicalFacility',
       testData['view:preferredFacility'].vaMedicalFacility,
     );
 
@@ -161,10 +143,11 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -175,17 +158,19 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
@@ -208,7 +193,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     cy.wait('@mockSip');
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/check-your-personal-information',
     );
 
     goToNextPage('/veteran-information/birth-information');
@@ -237,17 +222,23 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/facilities?*',
+      mockFacilities,
+    ).as('getFacilities');
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
@@ -270,7 +261,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/social security/i).type(
       testData.veteranSocialSecurityNumber,
     );
-    goToNextPage('veteran-information/personal-information');
+    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

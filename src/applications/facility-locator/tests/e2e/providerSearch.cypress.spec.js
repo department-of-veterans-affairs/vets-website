@@ -1,5 +1,5 @@
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
-import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockFacilitiesSearchResultsv2 from '../../constants/mock-facility-data-v1.json';
 import mockUrgentCareSearchResults from '../../constants/mock-urgent-care-mashup-data.json';
 import mockEmergencyCareSearchResults from '../../constants/mock-emergency-care-mashup-data.json';
 import mockServices from '../../constants/mock-provider-services.json';
@@ -13,27 +13,27 @@ describe('Provider search', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
     );
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/*specialties[]=1223X2210X*',
-      mockFacilitiesSearchResultsV1,
+      '/facilities_api/v2/ccp/*specialties[]=1223X2210X*',
+      mockFacilitiesSearchResultsv2,
     ).as('searchDentistsProvider');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?*specialties[]=261QE0002X*',
+      '/facilities_api/v2/ccp/provider?*specialties[]=261QE0002X*',
       mockEmergencyCareSearchResults,
     ).as('searchFacilitiesProvider');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/urgent_care?*',
+      '/facilities_api/v2/ccp/urgent_care?*',
       mockUrgentCareSearchResults,
     ).as('searchUrgentCare');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?*specialties[]=261QU0200X*',
+      '/facilities_api/v2/ccp/provider?*specialties[]=261QU0200X*',
       mockUrgentCareSearchResults,
     ).as('searchUrgentCare');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
@@ -76,7 +76,6 @@ describe('Provider search', () => {
 
   it('finds community dentists', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
@@ -92,16 +91,15 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('BADEA, LUANA');
 
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds community urgent care - Clinic/Center', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
@@ -117,10 +115,10 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds community urgent care', () => {
@@ -140,11 +138,10 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.injectAxe();
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds In-network community emergency care', () => {
@@ -162,7 +159,7 @@ describe('Provider search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
     );
-    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3').contains('DELL SETON MEDICAL CENTER AT UT');
 
     cy.injectAxe();

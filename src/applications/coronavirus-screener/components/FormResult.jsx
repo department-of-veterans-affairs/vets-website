@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Element } from 'react-scroll';
 import moment from 'moment';
 import classnames from 'classnames';
+import { Element } from 'platform/utilities/scroll';
+
 import { scrollerTo } from '../lib';
 import { resultText } from '../config/text';
 
@@ -55,7 +56,7 @@ export default function FormResult({
       selectedLanguage={selectedLanguage}
       selectedColors={passFormResultsColors}
     >
-      <i aria-hidden="true" role="presentation" className="fas fa-check" />
+      <va-icon icon="check" size={9} />
       <h2 className="vads-u-font-size--2xl">
         {resultText.passText[selectedLanguage]}
       </h2>

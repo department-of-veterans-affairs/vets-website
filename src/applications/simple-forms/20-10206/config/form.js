@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -31,15 +32,15 @@ import { getMockData } from '../helpers';
 
 const mockData = testData.data;
 
-// export isLocalhost() to facilitate unit-testing
-export function isLocalhost() {
-  return environment.isLocalhost();
+export function isLocalhostOrDev() {
+  return environment.isLocalhost() || environment.isDev();
 }
 
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: !window.Cypress,
+    showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -94,7 +95,7 @@ const formConfig = {
           title: 'Preparer type',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhost),
+          initialData: getMockData(mockData, isLocalhostOrDev),
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
@@ -175,7 +176,7 @@ const formConfig = {
       },
     },
     disabilityExamDetailsChapter: {
-      title: 'Disability exam details',
+      title: 'Claim exam details',
       pages: {
         disabilityExamDetailsPage: {
           depends: {
@@ -184,7 +185,7 @@ const formConfig = {
             },
           },
           path: 'disability-exam-details',
-          title: 'Disability exam details',
+          title: 'Claim exam details',
           uiSchema: disExamDetailsPg.uiSchema,
           schema: disExamDetailsPg.schema,
           pageClass: 'disability-exam-details',
@@ -293,6 +294,9 @@ const formConfig = {
     appType: 'request',
     appAction: 'requesting your personal records',
     submitButtonText: 'Submit request',
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

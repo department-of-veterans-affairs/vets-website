@@ -19,7 +19,8 @@
           "letterCode": "100",
           "description": "First Demand Letter - Inactive Benefits - Due Process"
         }
-      ]
+      ],
+      "compositeDebtId": "71166"
     },
     {
       "fileNumber": "796121200",
@@ -32,7 +33,8 @@
       "amountOverpaid": 0,
       "amountWithheld": 321.76,
       "originalAr": 321.76,
-      "currentAr": 50
+      "currentAr": 50,
+      "compositeDebtId": "72321"
     },
     {
       "fileNumber": "796121213",
@@ -67,7 +69,8 @@
           "letterCode": "212",
           "description": "Bad Address - Locator Request Sent"
         }
-      ]
+      ],
+      "compositeDebtId": "44100"
     },
     {
       "fileNumber": "796121299",
@@ -79,7 +82,7 @@
       "description": "Debt referred to Treasury for Cross servicing",
       "amountOverpaid": 0,
       "amountWithheld": 0,
-      "originalAr": 100,
+      "originalAr": 101,
       "currentAr": 1800,
       "debtHistory": [
         {
@@ -92,7 +95,8 @@
           "letterCode": "212",
           "description": "Bad Address - Locator Request Sent"
         }
-      ]
+      ],
+      "compositeDebtId": "44101"
     },
     {
       "fileNumber": "796121200",
@@ -127,7 +131,8 @@
           "letterCode": "100",
           "description": "First Demand Letter - Inactive Benefits - Due Process"
         }
-      ]
+      ],
+      "compositeDebtId": "742210"
     },
     {
       "fileNumber": "796121200",
@@ -138,8 +143,8 @@
       "diaryCode": "123",
       "diaryCodeDescription": "Pending payment",
       "amountOverpaid": 0,
-      "amountWithheld": 321.76,
-      "originalAr": 321.76,
+      "amountWithheld": 322.76,
+      "originalAr": 322.76,
       "currentAr": 200,
       "debtHistory": [
         {
@@ -152,7 +157,8 @@
           "letterCode": "100",
           "description": "First Demand Letter - Inactive Benefits - Due Process"
         }
-      ]
+      ], 
+      "compositeDebtId": "72322"
     },
     {
       "fileNumber": "796121211",
@@ -182,7 +188,8 @@
           "letterCode": "487",
           "description": "Death Case Pending Action"
         }
-      ]
+      ], 
+      "compositeDebtId": "30316"
     },
     {
       "fileNumber": "796121211",
@@ -227,7 +234,8 @@
           "letterCode": "100",
           "description": "First Demand Letter - Inactive Benefits - Due Process"
         }
-      ]
+      ], 
+      "compositeDebtId": "30100"
     }
   ]
 }

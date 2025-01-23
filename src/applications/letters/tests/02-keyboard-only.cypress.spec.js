@@ -26,7 +26,7 @@ describe('Authed Letter Test', () => {
     // Update address
     cy.tabToElement('#mailingAddress-edit-link');
     cy.realPress('Space');
-    cy.tabToElement('.usa-button-secondary'); // just cancel
+    cy.tabToElement('button:contains("Cancel")'); // just cancel
     cy.realPress('Space');
 
     // go to letters page

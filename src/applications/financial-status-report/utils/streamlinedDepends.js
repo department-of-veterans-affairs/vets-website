@@ -1,7 +1,6 @@
+import * as Sentry from '@sentry/browser';
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
-import { getTotalAssets } from './helpers';
-import { getMonthlyExpenses } from './calculateExpenses';
+import { getCalculatedMonthlyIncomeApi, safeNumber } from './calculateIncome';
 
 const VHA_LIMIT = 5000;
 
@@ -39,13 +38,9 @@ export const isStreamlinedShortForm = formData => {
   // let's keep the cashBelowGmt for now so we don't affect in progress forms that have it,
   //  but we'll use assetsBelowGmt for new forms since it's a more apt description.
   return (
-    (gmtData?.isEligibleForStreamlined &&
-      gmtData?.incomeBelowGmt &&
-      gmtData?.cashBelowGmt) ||
-    (formData['view:streamlinedWaiverAssetUpdate'] &&
-      gmtData?.isEligibleForStreamlined &&
-      gmtData?.incomeBelowGmt &&
-      gmtData?.liquidAssetsBelowGmt)
+    gmtData?.isEligibleForStreamlined &&
+    gmtData?.incomeBelowGmt &&
+    gmtData?.liquidAssetsBelowGmt
   );
 };
 
@@ -61,20 +56,12 @@ export const isStreamlinedShortForm = formData => {
 export const isStreamlinedLongForm = formData => {
   const { gmtData } = formData;
 
-  // Hopefully this is more readable, but using liquidAsetsBelowGmt as flag for
-  //  asset calculation post streamlinedWaiverAssetUpdate feature flag. Want to keep assetsBelowGmt
-  //  untouched in this update as to not interfere with in progress forms.
-  const commonConditions =
+  return (
     gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
-    gmtData?.discretionaryBelow;
-
-  return (
-    commonConditions &&
-    (gmtData?.assetsBelowGmt ||
-      (formData['view:streamlinedWaiverAssetUpdate'] &&
-        gmtData?.liquidAssetsBelowGmt))
+    gmtData?.discretionaryBelow &&
+    gmtData?.liquidAssetsBelowGmt
   );
 };
 
@@ -85,17 +72,55 @@ export const isStreamlinedLongForm = formData => {
 // =============================================================================
 
 /**
- * Calculate total annual income based on the following monthly income sources:
- * - employment income
- * - "other" income
- * - benefits
- *
- * @param {object} formData - all formData
- * @returns {number} Total yearly income
+ * Check if calculated income is below GMT thresholds
+ * @param {object} data - all formData
+ * @param {function} setFormData - function to update formData
  */
-export const calculateTotalAnnualIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  return totalMonthlyNetIncome * 12;
+export const checkIncomeGmt = async (data, setFormData) => {
+  const { gmtData } = data;
+
+  try {
+    const response = await getCalculatedMonthlyIncomeApi(data);
+    if (!response)
+      throw new Error(
+        'No response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
+      );
+
+    // response is an object of calculated income values for vet & spouse, we just need total monthly
+    const { totalMonthlyNetIncome } = response;
+    if (!totalMonthlyNetIncome && totalMonthlyNetIncome !== 0)
+      throw new Error(
+        'No value destructured in response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
+      );
+
+    // calculate annual income & set relevant gmt flags compared to thresholds
+    const calculatedIncome = totalMonthlyNetIncome * 12;
+
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+        incomeBelowOneFiftyGmt:
+          calculatedIncome < gmtData?.incomeUpperThreshold,
+      },
+    });
+  } catch (error) {
+    // something went wrong, and we likely don't have accurate data to set gmt flags
+    //  so we'll just set them to false and send them down the full FSR for manual review
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: false,
+        incomeBelowOneFiftyGmt: false,
+      },
+    });
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`checkIncomeGmt failed: ${error}`);
+    });
+  }
 };
 
 /**
@@ -106,7 +131,7 @@ export const calculateTotalAnnualIncome = formData => {
 export const calculateLiquidAssets = formData => {
   const { monetaryAssets = [] } = formData?.assets;
   // Assets considered for streamlined waiver include cash in bank and on hand
-  const liquidAssets = monetaryAssets.reduce((acc, asset) => {
+  return monetaryAssets.reduce((acc, asset) => {
     if (
       asset?.name === 'Cash in a bank (savings and checkings)' ||
       asset?.name === 'Cash on hand (not in bank)'
@@ -115,20 +140,4 @@ export const calculateLiquidAssets = formData => {
     }
     return acc;
   }, 0);
-
-  return formData['view:streamlinedWaiverAssetUpdate']
-    ? liquidAssets
-    : getTotalAssets(formData);
-};
-
-/**
- * Discresionary income total baseed on total income less expenses
- *  Long form only
- * @param {object} formData - all formData
- * @returns {number} Discretionary income
- */
-export const calculateDiscretionaryIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  const expenses = getMonthlyExpenses(formData);
-  return totalMonthlyNetIncome - expenses;
 };

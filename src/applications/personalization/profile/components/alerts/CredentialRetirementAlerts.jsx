@@ -1,9 +1,10 @@
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSignInServiceProvider } from '../../hooks';
 import { HowToVerifyLink } from '~/platform/user/authorization/components/IdentityNotVerified';
+import { useSignInServiceProvider } from '../../hooks';
 import { useSessionStorage } from '../../../common/hooks/useSessionStorage';
+import { CREDENTIAL_DEADLINES } from '../../constants';
 
 // alerts to be used during the transition period of MHV and DS Logon credential retirement
 
@@ -29,7 +30,9 @@ export const AccountSecurityLoa1CredAlert = () => {
           </p>
           <p>
             {`If you don’t have one of these accounts, you can create one and
-            verify your identity now. Starting December 31, 2024, you’ll no
+            verify your identity now. Starting ${
+              CREDENTIAL_DEADLINES[label]
+            }, you’ll no
             longer be able to sign in with your ${label} username and password.`}
           </p>
 
@@ -75,7 +78,9 @@ export const SignInEmailAlert = () => {
     >
       <div>
         <p className="vads-u-margin-top--0">
-          {`Starting December 31, 2024, you’ll no longer be able to sign in with
+          {`Starting ${
+            CREDENTIAL_DEADLINES[label]
+          }, you’ll no longer be able to sign in with
           your ${label} username and password. You’ll need to use a verified
           Login.gov or ID.me account to access your profile.`}
         </p>

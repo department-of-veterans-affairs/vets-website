@@ -15,9 +15,10 @@ import {
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
-  teraInformationEnabled,
+  teraUploadEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
+  includePostSept11ServiceDates,
   includeAgentOrangeExposureDates,
   includeOtherExposureDates,
   includeOtherExposureDetails,
@@ -27,6 +28,11 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  canVeteranProvideRadiationCleanupResponse,
+  canVeteranProvideGulfWarServiceResponse,
+  canVeteranProvidePostSept11ServiceResponse,
+  canVeteranProvideCombatOperationsResponse,
+  canVeteranProvideAgentOrangeResponse,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -73,6 +79,7 @@ import agentOrangeExposureDates from './chapters/militaryService/agentOrangeExpo
 import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
 import otherToxicExposureDetails from './chapters/militaryService/otherToxicExposureDetails';
 import otherToxicExposureDates from './chapters/militaryService/otherToxicExposureDates';
+import supportingDocuments from './chapters/militaryService/supportingDocuments';
 
 // chapter 4 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
@@ -82,6 +89,8 @@ import insurancePolicies from './chapters/insuranceInformation/insurancePolicies
 import InsuranceSummaryPage from '../components/FormPages/InsuranceSummary';
 import InsurancePolicyInformationPage from '../components/FormPages/InsurancePolicyInformation';
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
+import postSept11Service from './chapters/militaryService/postSept11Service';
+import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 
 // declare shared paths for custom form page navigation
 const {
@@ -99,6 +108,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10_10EZR,
   version: 0,
   trackingPrefix: 'ezr-',
+  v3SegmentedProgressBar: true,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
@@ -141,6 +151,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
+  dev: { showNavLinks: true, collapsibleNavLinks: true },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -220,21 +231,20 @@ const formConfig = {
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
-          depends: teraInformationEnabled,
           uiSchema: toxicExposure.uiSchema,
           schema: toxicExposure.schema,
         },
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideRadiationCleanupResponse,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
           title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideGulfWarServiceResponse,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
@@ -245,17 +255,31 @@ const formConfig = {
           uiSchema: gulfWarServiceDates.uiSchema,
           schema: gulfWarServiceDates.schema,
         },
+        postSept11Service: {
+          path: 'military-service/post-sept-11-service',
+          title: 'Service post-9/11',
+          depends: canVeteranProvidePostSept11ServiceResponse,
+          uiSchema: postSept11Service.uiSchema,
+          schema: postSept11Service.schema,
+        },
+        postSept11ServiceDates: {
+          path: 'military-service/post-sept-11-service-dates',
+          title: 'Post-9/11 service dates',
+          depends: includePostSept11ServiceDates,
+          uiSchema: postSept11ServiceDates.uiSchema,
+          schema: postSept11ServiceDates.schema,
+        },
         combatOperationService: {
           path: 'military-service/operation-support',
           title: 'Operations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideCombatOperationsResponse,
           uiSchema: combatOperationService.uiSchema,
           schema: combatOperationService.schema,
         },
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideAgentOrangeResponse,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },
@@ -286,6 +310,13 @@ const formConfig = {
           depends: includeOtherExposureDates,
           uiSchema: otherToxicExposureDates.uiSchema,
           schema: otherToxicExposureDates.schema,
+        },
+        supportingDocuments: {
+          path: 'military-service/upload-supporting-documents',
+          title: 'Upload supporting documents',
+          depends: teraUploadEnabled,
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
       },
     },

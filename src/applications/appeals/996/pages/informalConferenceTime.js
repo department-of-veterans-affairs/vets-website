@@ -1,13 +1,14 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import { checkConferenceTimes } from '../validations';
-import { errorMessages, CONFERENCE_TIMES_V2 } from '../constants';
+import { errorMessages, CONFERENCE_TIMES_V2_5 } from '../constants';
 
 import {
   InformalConferenceTimesTitle,
   InformalConferenceTimesDescription,
   informalConferenceTimeSelectTitle,
-} from '../content/InformalConference';
+  informalConferenceTimeSelectHint,
+  informalConferenceTimeReviewField,
+} from '../content/InformalConferenceTimes';
 
 // HLR version 2
 export default {
@@ -22,8 +23,10 @@ export default {
           required: errorMessages.informalConferenceTimes,
         },
         enableAnalytics: true,
+        hint: informalConferenceTimeSelectHint,
       }),
       'ui:validations': [checkConferenceTimes],
+      'ui:reviewField': informalConferenceTimeReviewField,
     },
   },
   schema: {
@@ -31,8 +34,10 @@ export default {
     properties: {
       informalConferenceTime: {
         type: 'string',
-        enum: Object.keys(CONFERENCE_TIMES_V2),
-        enumNames: Object.values(CONFERENCE_TIMES_V2).map(name => name.label),
+        enum: Object.keys(CONFERENCE_TIMES_V2_5),
+        enumNames: Object.values(CONFERENCE_TIMES_V2_5).map(
+          name => name.labelMe,
+        ),
       },
     },
   },

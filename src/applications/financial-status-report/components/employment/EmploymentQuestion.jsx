@@ -69,7 +69,6 @@ const EmploymentQuestion = props => {
   // useEffect to get GMT data
   useEffect(() => {
     const fetchData = async () => {
-      const year = 2023;
       const { hasDependents = 0 } = data?.questions;
       const dependents = parseInt(hasDependents, 10);
 
@@ -77,7 +76,7 @@ const EmploymentQuestion = props => {
         zipCode,
       } = data?.personalData?.veteranContactInformation?.address;
 
-      const gmtResponse = await getGMT(dependents, year, zipCode);
+      const gmtResponse = await getGMT(dependents, zipCode);
 
       dispatch(
         setData({
@@ -147,14 +146,12 @@ const EmploymentQuestion = props => {
           label="Have you had any jobs in the last 2 years?"
           onVaValueChange={onSelection}
           required
-          uswds
         >
           <va-radio-option
             id="has-job"
             label="Yes"
             value="true"
             checked={hasJobToAdd}
-            uswds
           />
           <va-radio-option
             id="has-no-job"
@@ -162,7 +159,6 @@ const EmploymentQuestion = props => {
             value="false"
             name="primary"
             checked={!hasJobToAdd}
-            uswds
           />
         </VaRadio>
         {contentBeforeButtons}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +12,6 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsForOtherAssets = ['name', 'amount'];
@@ -27,7 +26,6 @@ const OtherAssetsSummary = ({
 }) => {
   const {
     assets,
-    gmtData,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
@@ -38,26 +36,6 @@ const OtherAssetsSummary = ({
     reviewNavigation && showReviewNavigation
       ? 'Continue to review page'
       : 'Continue';
-
-  useEffect(
-    () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-      // liquid assets are caluclated in cash in bank with this ff
-      if (data['view:streamlinedWaiverAssetUpdate']) return;
-
-      const calculatedAssets = calculateLiquidAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
-  );
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -144,16 +122,12 @@ const OtherAssetsSummary = ({
           <va-additional-info
             class="vads-u-margin-top--4"
             trigger="Why do I need to provide this information?"
-            uswds
           >
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
           </va-additional-info>
-          <va-additional-info
-            trigger="What if I don’t know the estimated value of an asset?"
-            uswds
-          >
+          <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
             Don’t worry. We just want to get an idea of items of value you may
             own so we can better understand your financial situation. Include
             the amount of money you think you would get if you sold the asset.
@@ -178,7 +152,7 @@ const OtherAssetsSummary = ({
               {
                 label: continueButtonText,
                 onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />
@@ -204,13 +178,7 @@ OtherAssetsSummary.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      assetThreshold: PropTypes.number,
-      assetsBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-    }),
     reviewNavigation: PropTypes.bool,
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goForward: PropTypes.func,

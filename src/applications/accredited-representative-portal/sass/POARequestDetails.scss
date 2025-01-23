@@ -1,0 +1,150 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request-details {
+  width: 100%;
+  @media (min-width: $small-desktop-screen) {
+    width: 1000px;
+  }
+
+  &__form {
+    padding: 35px 14px;
+    background-color: $vads-color-base-lightest;
+    margin-top: 66px;
+
+    h4 {
+      font-family: var(--font-source-sans);
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      max-width: 654px;
+      padding: 52px 38px;
+      margin-top: 88px;
+    }
+
+    &-label {
+      margin: 0;
+
+      .poa-request-details__form--error & {
+        border-left: 0.25rem solid $vads-color-error;
+        padding-left: 1rem;
+        position: relative;
+      }
+    }
+
+    &-alert {
+      margin: 35px 0;
+      max-width: 521px;
+
+      @media (min-width: $small-desktop-screen) {
+        margin: 24px 0;
+      }
+    }
+
+    &-submit {
+      margin: 0;
+      width: auto !important;
+    }
+  }
+
+  &__divider {
+    border-bottom: 1px solid $vads-color-base-light;
+    width: 100%;
+    margin: 2rem 0;
+    display: flex;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    flex-direction: column;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    &-item {
+      @media (min-width: $small-desktop-screen) {
+        flex: 33%;
+      }
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+  }
+
+  &__subtitle {
+    margin-top: 0;
+  }
+
+  &__name {
+    font-weight: 400;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__status {
+    margin-left: 15px;
+    color: $vads-color-base;
+
+    &.pending {
+      background-color: $vads-color-warning-lighter;
+      border: 1px solid $vads-color-warning-darker;
+    }
+    &.acceptance {
+      background-color: $vads-color-success-lighter;
+      border: 1px solid $vads-color-success;
+    }
+    &.declination,
+    &.expiration {
+      background-color: $uswds-system-color-red-warm-10;
+      border: 1px solid $uswds-system-color-red-warm-vivid-50 ;
+    }
+    &.processing {
+      background-color: $uswds-system-color-gray-5;
+      border: 1px solid $uswds-system-color-gray-cool-60;
+    }
+  }
+
+  &__table {
+    border-collapse: collapse;
+
+    th {
+      font-weight: 700;
+    }
+    td, th {
+      border: none;
+      padding: 8px 15px;
+      width: 100%;
+      display: block;
+
+      @media (min-width: $small-desktop-screen) {
+        width: 50%;
+        display: table-cell;
+        padding: 15px;
+      }
+    }
+
+    tr {
+      display: block;
+      border-bottom: 1px solid $vads-color-base;
+      @media (min-width: $small-desktop-screen) {
+        display: table-row;
+      }
+
+      &:first-child {
+        border-top: 1px solid $vads-color-base;
+      }
+    }
+  }
+
+  &__info {
+    max-width: 650px;
+  }
+}

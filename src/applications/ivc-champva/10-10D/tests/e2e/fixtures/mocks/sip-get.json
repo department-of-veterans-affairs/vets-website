@@ -1,0 +1,13 @@
+{
+  "formData": {
+    "certifierRelationship": {
+      "relationshipToVeteran": { "applicant": true }
+    },
+    "certifierEmail": "mail@mail.com"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/signer"
+  }
+}

@@ -60,9 +60,9 @@ export default {
   },
   compAssistanceForFamily: {
     en:
-      '/family-member-benefits/comprehensive-assistance-for-family-caregivers/',
+      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/',
     es:
-      '/family-member-benefits/comprehensive-assistance-for-family-caregivers-esp/',
+      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers-esp/',
   },
   decisionReviewsSupplementalClaim: {
     en: '/decision-reviews/supplemental-claim/',
@@ -83,5 +83,31 @@ export default {
   dependencyIndemnity: {
     en: '/disability/dependency-indemnity-compensation/',
     es: '/disability/dependency-indemnity-compensation-esp/',
+  },
+  signingIn: {
+    en: '/resources/signing-in-to-vagov/',
+    es: '/resources/signing-in-to-vagov-esp/',
+  },
+  createSignIn: {
+    en: '/resources/what-to-bring-to-create-your-online-sign-in-account/',
+    es: '/resources/what-to-bring-to-create-your-online-sign-in-account-esp/',
+  },
+  survivorDependencyIndemnity: {
+    en:
+      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/',
+    es:
+      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation-esp/',
+  },
+  disasterHelp: {
+    en: '/resources/disaster-help/',
+    es: '/resources/disaster-help-esp/',
+  },
+  creatingAnAccount: {
+    en: '/resources/creating-an-account-for-vagov/',
+    es: '/resources/creating-an-account-for-vagov-esp/',
+  },
+  verifyingYourIdentiy: {
+    en: '/resources/verifying-your-identity-on-vagov/',
+    es: '/resources/verifying-your-identity-on-vagov-esp/',
   },
 };

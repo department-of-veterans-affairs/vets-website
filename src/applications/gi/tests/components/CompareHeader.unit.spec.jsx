@@ -41,7 +41,7 @@ describe('<CompareHeader>', () => {
       </BrowserRouter>,
     );
     expect(tree.find('div.card-wrapper').text()).to.equal(
-      'Test Institution ARemoveTest Institution BRemoveReturn to search to add',
+      'Test Institution ATest Institution BReturn to search to add',
     );
     tree.unmount();
   });
@@ -121,7 +121,7 @@ describe('<CompareHeader>', () => {
     );
 
     wrapper
-      .find('button')
+      .find('[className="inst-remove-btn"]')
       .at(0)
       .simulate('click');
 

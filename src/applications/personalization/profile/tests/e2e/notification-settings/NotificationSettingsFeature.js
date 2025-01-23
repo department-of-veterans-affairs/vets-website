@@ -17,6 +17,11 @@ class NotificationSettingsFeature {
   DISABILITY_PENSION_DEPOSIT_NOTIFICATION_TEXT =
     'Disability and pension deposit notifications';
 
+  NEW_BENEFIT_OVERPAYMENT_DEBT_NOTIFICATION =
+    'New benefit overpayment debt notification';
+
+  NEW_HEALTH_CARE_COPAY_BILL_NOTIFICATION = 'New health care copay bill';
+
   QUICK_SUBMIT_NOTIFICATION_TEXT = 'QuickSubmit Upload Status';
 
   loginAsUser36AndVisitNotficationSettingsPage = () => {
@@ -37,6 +42,18 @@ class NotificationSettingsFeature {
 
   confirmPaymentNotificationSetting = ({ exists }) => {
     cy.findByText(this.DISABILITY_PENSION_DEPOSIT_NOTIFICATION_TEXT).should(
+      generateExistenceCheck(exists),
+    );
+  };
+
+  confirmNewBenefitOverpaymentDebtNotificationSetting = ({ exists }) => {
+    cy.findByText(this.NEW_BENEFIT_OVERPAYMENT_DEBT_NOTIFICATION).should(
+      generateExistenceCheck(exists),
+    );
+  };
+
+  confirmNewHealthCareCopayBillNotificationSetting = ({ exists }) => {
+    cy.findByText(this.NEW_HEALTH_CARE_COPAY_BILL_NOTIFICATION).should(
       generateExistenceCheck(exists),
     );
   };

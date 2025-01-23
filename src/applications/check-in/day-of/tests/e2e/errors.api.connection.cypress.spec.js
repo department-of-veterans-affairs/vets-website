@@ -1,0 +1,205 @@
+import '../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
+import Error from './pages/Error';
+import Confirmation from './pages/Confirmation';
+import Demographics from '../../../tests/e2e/pages/Demographics';
+import NextOfKin from '../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
+import TravelPages from '../../../tests/e2e/pages/TravelPages';
+import Arrived from './pages/Arrived';
+import UpcomingAppointments from '../../../tests/e2e/pages/UpcomingAppointmentsPage';
+
+describe('Check In Experience | Day Of | API Errors', () => {
+  const {
+    initializeFeatureToggle,
+    initializeSessionGet,
+    initializeSessionPost,
+    initializeCheckInDataGet,
+    initializeCheckInDataPost,
+    initializeDemographicsPatch,
+    initializeBtsssPost,
+    initializeUpcomingAppointmentsDataGet,
+  } = ApiInitializer;
+  beforeEach(() => {
+    initializeFeatureToggle.withAllFeatures();
+  });
+  describe('Patient who encounters an error getting check in data', () => {
+    it('should redirect to the generic error page', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withFailure();
+      cy.visitWithUUID();
+      // page: Validate
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+      Error.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Errors--generic');
+    });
+  });
+  describe('Patient who encounters an error when getting upcoming appointments', () => {
+    it('should show error message on appointments page', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withFailure();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptGoToUpcomingAppointmentsPage();
+      UpcomingAppointments.validatePageLoaded();
+      UpcomingAppointments.validateErrorMessage();
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Errors--upcoming-fail');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+  describe('Patient who encounters an error when checking in', () => {
+    it('should redirect to the generic error page with check-in failed', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
+      initializeCheckInDataPost.withFailure(200);
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+
+      Error.validatePageLoaded('check-in-failed-find-out');
+      cy.createScreenshots('Day-of-check-in--Errors--check-in-fail');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+  describe('Patient who encounters an error when submitting a travel claim', () => {
+    it('should confirm the check-in but display a message about the BTSSS error', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+      initializeBtsssPost.withFailure();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
+      Confirmation.validatePageLoadedWithBtsssGenericFailure();
+      cy.createScreenshots(
+        'Day-of-check-in--Errors--travel-fail-check-in-success',
+      );
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+  describe('Patient who encounters an error when patching demographics', () => {
+    it('should redirect to the generic error page', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withFailure();
+      initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+
+      Error.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});

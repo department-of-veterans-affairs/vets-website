@@ -80,12 +80,12 @@ export function libraryCurrent() {
     ) {
       element.setAttribute('data-number', increment);
       if (increment % 2 !== 0) {
-        element.classList.add('large-screen:vads-u-margin-right--3');
+        element.classList.add('desktop-lg:vads-u-margin-right--3');
       } else {
-        element.classList.remove('large-screen:vads-u-margin-right--3');
+        element.classList.remove('desktop-lg:vads-u-margin-right--3');
       }
       numVal = element.getAttribute('data-number');
-      increment++;
+      increment += 1;
     }
     if (
       numVal > activePage * itemsPerPage ||
@@ -162,12 +162,12 @@ export function libraryFilters(el) {
     (numCards.last === undefined || numCards.last > 9)
   ) {
     activePage = parseInt(activePage, 10);
-    sessionStorage.setItem('pageNum', activePage++);
+    sessionStorage.setItem('pageNum', (activePage += 1));
   }
   // Move our page backward when button clicked if we aren't on page one.
   if (el.srcElement.id === 'pager-previous-click' && activePage !== 1) {
     activePage = parseInt(activePage, 10);
-    sessionStorage.setItem('pageNum', activePage--);
+    sessionStorage.setItem('pageNum', (activePage -= 1));
   }
   // Go back to page one regardless of page number.
   if (el.srcElement.id === 'first-click') {

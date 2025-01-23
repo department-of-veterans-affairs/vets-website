@@ -1,4 +1,5 @@
-import defaultVitals from '../../fixtures/vitals.json';
+// import defaultVitals from '../../fixtures/vitals.json';
+import defaultVitals from '../fixtures/vitals.json';
 import BaseListPage from './BaseListPage';
 
 class VitalsListPage extends BaseListPage {
@@ -51,7 +52,7 @@ class VitalsListPage extends BaseListPage {
       .contains(date);
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
-      .contains(`Review ${name} over time`, { matchCase: false });
+      .contains(`Review your ${name} over time`, { matchCase: false });
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
@@ -59,6 +60,30 @@ class VitalsListPage extends BaseListPage {
       .find('a')
       .eq(_VitalsIndex)
       .click();
+  };
+
+  clickVitalsListNextButton = () => {
+    cy.get('[aria-label="Next page"]')
+      .find('a')
+      .click();
+  };
+
+  loadVAPaginationNext = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
+  };
+
+  loadVAPaginationPrevious = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__previous-page"]')
+      .click({ waitForAnimations: true });
+  };
+
+  verifyFocusDisplayingRecords = recordsDisplaying => {
+    cy.focused().should('have.text', recordsDisplaying);
   };
 }
 

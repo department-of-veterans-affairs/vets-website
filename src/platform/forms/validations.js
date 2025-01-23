@@ -4,7 +4,8 @@ import {
   currentYear,
   maxYear,
 } from 'platform/forms-system/src/js/helpers';
-import { dateToMoment } from '../utilities/date';
+import { isBefore } from 'date-fns';
+import { dateFieldToDate } from '../utilities/date';
 
 /**
  * General Validations *
@@ -128,10 +129,10 @@ function isValidDateRange(fromDate, toDate) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
+  const start = dateFieldToDate(fromDate);
+  const end = dateFieldToDate(toDate);
 
-  return momentStart.isBefore(momentEnd);
+  return isBefore(start, end);
 }
 
 function isBlankMonthYear(field) {
@@ -230,7 +231,7 @@ function isValidRoutingNumber(value) {
 // validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined' && !/\S/.test(input)) {
-    errors.addError('Please provide a response');
+    errors.addError('You must provide a response');
   }
 }
 

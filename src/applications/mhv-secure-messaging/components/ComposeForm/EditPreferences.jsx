@@ -17,19 +17,22 @@ const EditPreferences = () => {
           handleModalClose();
         }}
       />
-
       <button
         ref={editPreferencesButtonRef}
         id="edit-preferences-button"
         data-testid="edit-preferences-button"
         data-dd-action-name="Edit Preferences Button"
         label="Edit preferences"
-        className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full small-screen:vads-u-width--auto"
+        className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full mobile-lg:vads-u-width--auto"
         onClick={() => setEditListModal(true)}
         type="button"
       >
-        <i className="fas fa-cog vads-u-padding-right--0p5" aria-hidden />
-        Edit preferences
+        <div className="vads-u-display--flex vads-u-flex-direction-row vads-u-justify-content--center">
+          <div className="vads-u-padding-right--0p5">
+            <va-icon icon="settings" aria-hidden />
+          </div>
+          Edit preferences
+        </div>
       </button>
     </div>
   );

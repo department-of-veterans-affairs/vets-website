@@ -8,11 +8,15 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
+import { title995 } from '../../content/title';
+import { SC_NEW_FORM_TOGGLE } from '../../constants';
+
 const getData = ({
   loggedIn = true,
   isVerified = true,
   dob = '2000-01-01',
   canAppeal = true,
+  toggle = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -31,6 +35,7 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
@@ -49,6 +54,10 @@ const getData = ({
         },
         data: {},
       },
+      featureToggles: {
+        loading: false,
+        [SC_NEW_FORM_TOGGLE]: toggle,
+      },
       scheduledDowntime: {
         globalDowntime: null,
         isReady: true,
@@ -65,18 +74,28 @@ const getData = ({
 describe('IntroductionPage', () => {
   it('should render', () => {
     const { props, mockStore } = getData({ loggedIn: false });
-    const { container } = render(
+    const { container, queryByText } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('h1', container).textContent).to.contain(
-      'File a Supplemental Claim',
-    );
+    expect($('h1', container).textContent).to.contain(title995);
     expect($('.va-introtext', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
     expect($('.sip-wrapper', container)).to.exist;
+    expect(queryByText(/Other VA health care benefits and services/)).to.not
+      .exist;
+  });
+
+  it('should render MST section when feature toggle is enabled', () => {
+    const { props, mockStore } = getData({ toggle: true });
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(queryByText(/Other VA health care benefits and services/)).to.exist;
   });
 
   it('should render one SIP alert when not logged in', () => {
@@ -102,8 +121,8 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($('va-alert[status="continue"]', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('.sip-wrapper', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
+    expect($('.sip-wrapper.bottom', container).innerHTML).to.eq('');
   });
 
   it('should render missing SSN alert', () => {
@@ -117,7 +136,7 @@ describe('IntroductionPage', () => {
     const alert = $('va-alert[status="error"]', container);
     expect(alert).to.exist;
     expect(alert.innerHTML).to.contain('your Social Security number.');
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
@@ -131,8 +150,9 @@ describe('IntroductionPage', () => {
 
     const alert = $('va-alert[status="error"]', container);
     expect(alert).to.exist;
+
     expect(alert.innerHTML).to.contain('your date of birth.');
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
@@ -149,11 +169,10 @@ describe('IntroductionPage', () => {
     expect(alert.innerHTML).to.contain(
       'your Social Security number and date of birth.',
     );
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('.sip-wrapper', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
   });
 
-  it('should render top SIP alert with action links', () => {
+  it('should render top SIP alert with 2 action links', () => {
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -165,7 +184,8 @@ describe('IntroductionPage', () => {
       'come back later to finish filling it out',
     );
     // Lower SiP alert not shown
-    expect($('.sip-wrapper va-alert[status="info"]', container)).to.not.exist;
+    expect($('.sip-wrapper.bottom va-alert[status="info"]', container)).to.not
+      .exist;
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 });

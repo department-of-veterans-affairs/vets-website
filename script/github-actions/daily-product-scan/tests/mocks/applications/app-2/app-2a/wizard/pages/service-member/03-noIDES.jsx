@@ -6,8 +6,9 @@ import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 const NoIDES = () => {
   recordNotificationEvent('ineligibility - does not have a disability rating');
   return (
-    <div
-      className="feature vads-u-background-color--gray-lightest"
+    <va-card
+      background
+      class="vads-u-margin-bottom--3"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -23,7 +24,7 @@ const NoIDES = () => {
       >
         Find out about VA educational and career counseling
       </a>
-    </div>
+    </va-card>
   );
 };
 

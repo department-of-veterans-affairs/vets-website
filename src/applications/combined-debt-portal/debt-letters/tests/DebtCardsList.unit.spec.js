@@ -39,6 +39,7 @@ describe('DebtLettersSummary', () => {
                     'Account balance cleared via offset, not including TOP.',
                 },
               ],
+              compositeDebtId: '2111599',
             },
             {
               adamKey: '2',
@@ -73,6 +74,7 @@ describe('DebtLettersSummary', () => {
                     'Account balance cleared via offset, not including TOP.',
                 },
               ],
+              compositeDebtId: '301300',
             },
             {
               adamKey: '3',
@@ -94,6 +96,7 @@ describe('DebtLettersSummary', () => {
                     'Account balance cleared via offset, not including TOP.',
                 },
               ],
+              compositeDebtId: '301200',
             },
             {
               adamKey: '4',
@@ -157,6 +160,7 @@ describe('DebtLettersSummary', () => {
                     'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
                 },
               ],
+              compositeDebtId: '441300',
             },
           ],
         },

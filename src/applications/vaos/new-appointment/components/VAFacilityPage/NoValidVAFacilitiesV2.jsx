@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import State from '../../../components/State';
 import FacilityPhone from '../../../components/FacilityPhone';
-import { lowerCase } from '../../../utils/formatters';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import State from '../../../components/State';
+import { lowerCase } from '../../../utils/formatters';
 
 export default function NoValidVAFacilities({
   facilities,
@@ -26,65 +27,58 @@ export default function NoValidVAFacilities({
     <div aria-atomic="true" aria-live="assertive">
       <InfoAlert
         status="warning"
-        headline="We couldn’t find a VA facility"
+        headline="You can’t schedule this appointment online"
         level="2"
       >
         <>
           <p>
-            None of the facilities <strong>where you receive care</strong>{' '}
-            accepts{' '}
-            <strong>
-              online appointments for {lowerCase(typeOfCare?.name)}
-            </strong>
-            .
+            None of your VA facilities have online scheduling for{' '}
+            {lowerCase(typeOfCare?.name)}.
           </p>
-          <h3 className="vads-u-font-size--h4" id="what_you_can_do">
-            What you can do
-          </h3>
-          <ul aria-labelledby="what_you_can_do">
-            {unsupportedFacilities?.length > 0 && (
-              <li>
-                Some clinics don’t offer online scheduling. You can call them
-                directly to schedule your appointment:
-                {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                <ul
-                  className="usa-unstyled-list vads-u-margin-top--2"
-                  role="list"
-                >
-                  {unsupportedFacilities.map(facility => (
-                    <li key={facility.id} className="vads-u-margin-bottom--2">
-                      <strong>{facility.name}</strong>
-                      <br />
-                      {facility.address?.city},{' '}
-                      <State state={facility.address?.state} />
-                      <br />
-                      {!!facility.legacyVAR[sortMethod] && (
-                        <>
-                          {facility.legacyVAR[sortMethod]} miles
-                          <br />
-                        </>
-                      )}
-                      <FacilityPhone
-                        contact={
-                          facility.telecom.find(t => t.system === 'phone')
-                            ?.value
-                        }
-                        className="vads-u-font-weight--normal"
-                        level={4}
-                      />
-                    </li>
-                  ))}
-                </ul>
+          <p id="what_you_can_do">You’ll need to call to schedule.</p>
+          <ul
+            className="usa-unstyled-list vads-u-margin-top--2"
+            aria-labelledby="what_you_can_do"
+          >
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            {unsupportedFacilities.map(facility => (
+              <li key={facility.id} className="vads-u-margin-bottom--2">
+                <strong>{facility.name}</strong>
+                <br />
+                {facility.address?.city},{' '}
+                <State state={facility.address?.state} />
+                <br />
+                {!!facility.legacyVAR[sortMethod] && (
+                  <>
+                    {facility.legacyVAR[sortMethod]} miles
+                    <br />
+                  </>
+                )}
+                <FacilityPhone
+                  contact={
+                    facility.telecom.find(t => t.system === 'phone')?.value
+                  }
+                  className="vads-u-font-weight--normal"
+                  level={3}
+                />
               </li>
-            )}
-            <li>
-              <NewTabAnchor href="/find-locations">
-                Or, find a different VA location
-              </NewTabAnchor>
-            </li>
+            ))}
           </ul>
+          <p>
+            Or you can find a different VA facility.
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find a VA health facility
+            </NewTabAnchor>
+          </p>
         </>
       </InfoAlert>
     </div>
   );
 }
+NoValidVAFacilities.propTypes = {
+  address: PropTypes.object,
+  facilities: PropTypes.array,
+  sortMethod: PropTypes.string,
+  typeOfCare: PropTypes.object,
+};

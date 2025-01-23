@@ -1,14 +1,12 @@
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "../../../platform/forms/sass/m-schemaform";
 
 @import "../new-appointment/sass/styles";
 @import "../appointment-list/sass/styles";
 @import "../covid-19-vaccine/sass/styles";
 @import "../appointment-list/sass/print";
-
-$vaos-loading-overlay: rgba(var(--vads-color-white), 0.9);
 
 .vaos-form__title,
 .vaos-u-text-transform--uppercase {
@@ -19,6 +17,10 @@ h1:focus {
   outline: none !important;
 }
 
+.title-text-eyebrow {
+  display: block;
+  text-transform: uppercase;
+}
 .vaos-u-word-break--break-word {
   word-break: break-word;
 }
@@ -29,7 +31,8 @@ h1:focus {
 
 }
 .vaos__loading-overlay {
-  background: $vaos-loading-overlay;
+  background-color: var(--vads-color-white);
+  opacity: 0.9;
   content: " ";
   display: block;
   height: 100%;
@@ -73,7 +76,7 @@ h1:focus {
 }
 
 va-radio::part(header) {
-  font-size: 3rem;
+  font-size: 1.875rem;
   font-weight: 700;
   margin: .67em 0;
   margin-top: 0;
@@ -87,4 +90,19 @@ va-radio::part(legend) {
 
 #root_reasonAdditionalInfo-label {
   margin-top: 16px;
+}
+
+.schemaform-required-span,
+body {
+  font-size: 1.06rem; // same as 16.96px
+}
+
+.vaos__dynamic-font-size--h2 {
+  font-size: var(--font-size-h2);
+}
+
+@media (max-width: 481px) {
+  .vaos__dynamic-font-size--h2 {
+    font-size: 24px;
+  }
 }

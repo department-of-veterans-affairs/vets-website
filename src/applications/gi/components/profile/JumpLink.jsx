@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,7 +14,7 @@ export default function JumpLink({
   customClass,
 }) {
   const jumpLinkClicked = e => {
-    e.preventDefault();
+    e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
   };
 
@@ -36,7 +37,13 @@ export default function JumpLink({
         onClick={handleClick}
       >
         <p>
-          {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
+          {iconToggle && (
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="iconToggle"
+            />
+          )}
           <span>{label}</span>
         </p>
       </a>
@@ -53,10 +60,22 @@ export default function JumpLink({
     >
       <p className={customClass && 'filter-before-res-link'}>
         {iconToggle && (
-          <i className="fa fa-arrow-down iconToggle" aria-hidden="true" />
+          <va-icon
+            icon="arrow_downward"
+            aria-hidden="true"
+            class="iconToggle"
+          />
         )}
         {label}
       </p>
     </a>
   );
 }
+JumpLink.propTypes = {
+  jumpToId: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  customClass: PropTypes.string,
+  dataTestId: PropTypes.string,
+  iconToggle: PropTypes.bool,
+  onClick: PropTypes.func,
+};

@@ -3,9 +3,8 @@ import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
-import { VA_FORM_IDS } from '~/platform/forms/constants';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import formConfig from '../../../../../config/form';
 import ProcessDescription from '../../../../../components/IntroductionPage/GetStarted/ProcessDescription';
 
@@ -130,6 +129,6 @@ describe('hca <ProcessDescription>', () => {
 
     fireEvent.click(selector);
     expect(dispatch.called).to.be.true;
-    expect(dispatch.calledWith(toggleLoginModal(true))).to.be.true;
+    expect(dispatch.calledWithMatch(toggleLoginModal(true))).to.be.true;
   });
 });

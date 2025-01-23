@@ -7,6 +7,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
   createTransaction,
   refreshTransaction,
@@ -250,12 +251,14 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    const focusableElement = this.editForm?.querySelector(
-      'button, input, select, a, textarea',
-    );
+    if (this.editForm) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(this.editForm)?.[0];
 
-    if (focusableElement) {
-      setTimeout(() => focusElement(focusableElement), 100);
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
     }
   }
 
@@ -327,13 +330,13 @@ export class ProfileInformationEditView extends Component {
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
               >
-                <div>
+                <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
                   <LoadingButton
                     data-action="save-edit"
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4"
+                    type="submit"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -343,7 +346,7 @@ export class ProfileInformationEditView extends Component {
                     <button
                       data-testid="cancel-edit-button"
                       type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 "
+                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
                     >
                       {cancelButtonText || 'Cancel'}

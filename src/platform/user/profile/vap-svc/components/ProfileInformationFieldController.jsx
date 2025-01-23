@@ -188,6 +188,7 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.onDelete();
+    this.closeModal();
   };
 
   clearErrors = () => {
@@ -375,7 +376,7 @@ class ProfileInformationFieldController extends React.Component {
                 <button
                   aria-label={`Remove ${title}`}
                   type="button"
-                  className="small-screen:vads-u-margin--0 usa-button-secondary"
+                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
                 >
                   Remove
@@ -505,15 +506,15 @@ ProfileInformationFieldController.propTypes = {
   showEditView: PropTypes.bool.isRequired,
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
-  activeEditView: PropTypes.string,
-  ariaDescribedBy: PropTypes.string,
-  cancelButtonText: PropTypes.string,
-  cancelCallback: PropTypes.func,
   CustomConfirmCancelModal: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,
     PropTypes.node,
   ]),
+  activeEditView: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
+  cancelButtonText: PropTypes.string,
+  cancelCallback: PropTypes.func,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,

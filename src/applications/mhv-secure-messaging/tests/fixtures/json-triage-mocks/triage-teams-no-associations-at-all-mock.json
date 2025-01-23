@@ -1,0 +1,13 @@
+{
+  "associatedTriageGroupsQty": 0,
+  "associatedBlockedTriageGroupsQty": 0,
+  "noAssociations": true,
+  "allTriageGroupsBlocked": false,
+
+  "mockAllRecipients": [],
+  "mockAllowedRecipients": [],
+  "mockBlockedRecipients": [],
+  "mockBlokedFacilities": [],
+  "mockAllFacilities": [],
+  "mockBlockedFacilities": []
+}

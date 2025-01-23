@@ -1,22 +1,9 @@
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
-// Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
-// Links with only an href should be links to Va.gov pages and shouldn't need resolving
+import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
-const hasOwn = (object, prop) =>
-  Object.prototype.hasOwnProperty.call(object, prop);
-
-const resolveToggleLink = (link, featureToggles) => {
-  const { text, oldHref, href: newHref, toggle, ariaLabel } = link;
-  let href = newHref || oldHref;
-  // If the link's toggle matches a feature toggle
-  // check if the toggle is on. If so, show new href. Otherwise, show old href
-  if (hasOwn(featureToggles, toggle)) {
-    const showNewHref = featureToggles[toggle] === true;
-    href = showNewHref ? newHref : oldHref;
-  }
-  return { href, text, key: toggle, ariaLabel };
-};
+const isLinkData = x => x?.href !== undefined && x?.text !== undefined;
 
 const countUnreadMessages = folders => {
   if (Array.isArray(folders?.data)) {
@@ -34,9 +21,6 @@ const countUnreadMessages = folders => {
   return 0;
 };
 
-const resolveLinkCollection = (links, featureToggles) =>
-  links.map(l => resolveToggleLink(l, featureToggles));
-
 const resolveUnreadMessageAriaLabel = unreadMessageCount => {
   return unreadMessageCount > 0
     ? 'You have unread messages. Go to your inbox.'
@@ -46,264 +30,145 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount,
   unreadMessageAriaLabel,
-  userHasHealthData = false,
+  registered = false,
 ) => {
-  // Appointments section points to VAOS on va.gov
-  const appointmentLinks = [
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  if (messagesLinks.length > 0)
+    messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
+
+  const myVaHealthBenefitsLinks = [
     {
-      href: '/my-health/appointments/schedule/type-of-care',
-      text: 'Schedule a new appointment',
-      toggle: null,
+      href: '/health-care/copay-rates/',
+      text: 'Current Veteran copay rates',
     },
     {
-      href: '/health-care/schedule-view-va-appointments/appointments',
-      text: 'Upcoming VA appointments',
-      toggle: null,
+      href: '/health-care/health-needs-conditions/mental-health',
+      text: 'Mental health services',
     },
     {
-      href: '/find-locations',
-      text: 'Find VA locations',
-      toggle: null,
+      href: '/health-care/about-va-health-benefits/dental-care/',
+      text: 'Dental care',
+    },
+    {
+      href: '/COMMUNITYCARE/programs/veterans/index.asp',
+      text: 'Community care',
+    },
+    registered && {
+      href: '/my-health/update-benefits-information-form-10-10ezr/introduction',
+      text: 'Update health benefits info (10-10EZR)',
+    },
+    {
+      href: '/health-care/get-health-id-card/',
+      text: 'Veteran health information card',
+    },
+    // {
+    //   href: '#FIXME-need-link',
+    //   text: 'Download my IRS 1095-B form',
+    // },
+  ].filter(isLinkData);
+
+  const moreResourcesLinks = [
+    featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
+      href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
+      text: 'Chat live with a health professional on VA Health Chat',
+    },
+    {
+      href: '/resources/the-pact-act-and-your-va-benefits/',
+      text: 'The PACT Act and your benefits',
+    },
+    {
+      href: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
+      text: 'Check your mental health',
+    },
+    {
+      href: 'https://www.veteranshealthlibrary.va.gov/',
+      text: 'Veterans Health Library',
+    },
+    {
+      href: 'https://www.myhealth.va.gov/healthy-living-centers',
+      text: 'Healthy Living Centers',
+    },
+    {
+      href: 'https://www.myhealth.va.gov/mhv-community',
+      text: 'The My HealtheVet community',
+    },
+    {
+      href: '/wholehealth/',
+      text: 'VA’s Whole Health living',
+    },
+    {
+      href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
+      text: 'How to use VA Video Connect',
+    },
+  ].filter(isLinkData);
+
+  const spotlightLinks = [
+    {
+      text: 'Tips for Creating Your Login.gov or ID.me Account',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20241209-tips-creating-login-gov-id-me-account',
+      ),
+    },
+    {
+      text: '5 Morning Routines to Reduce Stress',
+      href: mhvUrl(authdWithSSOe, 'ss20220719-start-your-day-with-mindfulness'),
+    },
+    {
+      text: 'Give Your Immune System a Boost',
+      href: mhvUrl(authdWithSSOe, 'ss20220803-your-body-defense-system'),
     },
   ];
-
-  const messagesLinks = resolveLinkCollection(
-    [
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        text: 'Inbox',
-        toggle: null,
-        ariaLabel: unreadMessageAriaLabel,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
-        text: 'Compose message',
-        toggle: null,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'manage-folders'),
-        text: 'Manage folders',
-        toggle: null,
-      },
-    ],
-    featureToggles,
-  );
-
-  const medicationsLinks = resolveLinkCollection(
-    [
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
-        text: 'Refill VA prescriptions',
-        toggle: null,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/prescription-tracking'),
-        text: 'Track prescription delivery',
-        toggle: null,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
-        text: 'Medications and allergies',
-        toggle: null,
-      },
-    ],
-    featureToggles,
-  );
-
-  const healthRecordsLinks = resolveLinkCollection(
-    [
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download medical record (Blue Button®)',
-        toggle: null,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/labs-tests'),
-        text: 'Lab and test results',
-        toggle: null,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/health-history'),
-        text: 'Health history',
-        toggle: null,
-      },
-    ],
-    featureToggles,
-  );
 
   const paymentsLinks = [
-    {
-      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-      oldHref: null,
-      text: 'File a claim for travel reimbursement',
-      toggle: null,
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-pay/claims',
+      text: 'Check travel reimbursement claim status',
     },
-    {
-      href: '/manage-va-debt/summary/copay-balances',
-      oldHref: null,
-      text: 'Pay copay bills',
-      toggle: null,
-    },
-  ];
-
-  const medicalSuppliesLinks = [
-    {
-      href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      text: 'Order hearing aid batteries and accessories',
-    },
-    {
-      href: '/health-care/order-cpap-supplies/',
-      text: 'Order CPAP supplies',
-    },
-    {
-      href: '/health-care/order-prosthetic-socks/',
-      text: 'Order prosthetic socks',
-    },
-  ];
-
-  const myVaHealthBenefitsLinks = resolveLinkCollection(
-    [
-      {
-        href: '/health-care/copay-rates/',
-        text: 'Current Veteran copay rates',
-      },
-      {
-        href: '/health-care/health-needs-conditions/mental-health',
-        text: 'Mental health services',
-      },
-      {
-        href: '/health-care/about-va-health-benefits/dental-care/',
-        text: 'Dental care',
-      },
-      {
-        href: '/COMMUNITYCARE/programs/veterans/index.asp',
-        text: 'Community care',
-      },
-      {
-        href: '/health-care/update-health-information/',
-        text: 'Update health benefits info (10-10EZR)',
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'health-information-card'),
-        text: 'Veteran health information card',
-        toggle: null,
-      },
-      // {
-      //   href: '#FIXME-need-link',
-      //   text: 'Download my IRS 1095-B form',
-      // },
-    ],
-    featureToggles,
-  );
-
-  const moreResourcesLinks = resolveLinkCollection(
-    [
-      {
-        href: '/resources/the-pact-act-and-your-va-benefits/',
-        text: 'The PACT Act and your benefits',
-      },
-      {
-        oldHref: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
-        text: 'Check your mental health',
-      },
-      {
-        href: 'https://www.veteranshealthlibrary.va.gov/',
-        text: 'Veterans Health Library',
-      },
-      {
-        href: 'https://www.myhealth.va.gov/healthy-living-centers',
-        text: 'Healthy Living Centers',
-      },
-      {
-        href: 'https://www.myhealth.va.gov/mhv-community',
-        text: 'The My HealtheVet community',
-      },
-      {
-        href: '/wholehealth/',
-        text: 'VA’s Whole Health living',
-      },
-      {
-        href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
-        text: 'How to use VA Video Connect',
-      },
-    ],
-    featureToggles,
-  );
-
-  const spotlightLinks = resolveLinkCollection(
-    [
-      {
-        text: 'Try Messages on VA.gov',
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20231205-try-messages-va'),
-        toggle: null,
-      },
-      {
-        text: 'A Better Night’s Sleep',
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20220516-tips-to-sleep-better'),
-        toggle: null,
-      },
-      {
-        text: 'Take Charge with the DASH Diet',
-        href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20210712-lower-blood-pressure-dash-diet',
-        ),
-        toggle: null,
-      },
-    ],
-    featureToggles,
-  );
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
 
   const cards = [
     {
-      title: 'Appointments',
-      icon: 'calendar',
-      links: appointmentLinks,
+      title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
+      icon: 'calendar_today',
+      links: HEALTH_TOOL_LINKS.APPOINTMENTS,
     },
     {
-      title: 'Messages',
-      icon: 'comments',
+      title: HEALTH_TOOL_HEADINGS.MESSAGES,
+      icon: 'forum',
       links: messagesLinks,
     },
     {
-      title: 'Medications',
-      icon: 'prescription-bottle',
-      links: medicationsLinks,
+      title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
+      icon: 'pill',
+      links: HEALTH_TOOL_LINKS.MEDICATIONS,
     },
     {
-      title: 'Health records',
-      icon: 'file-medical',
-      links: healthRecordsLinks,
+      title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
+      icon: 'note_add',
+      introduction:
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
     },
     {
-      title: 'Payments',
-      icon: 'dollar-sign',
+      title: HEALTH_TOOL_HEADINGS.PAYMENTS,
+      icon: 'attach_money',
+      iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
       links: paymentsLinks,
     },
     {
-      title: 'Medical supplies',
-      icon: 'deaf',
-      links: medicalSuppliesLinks,
+      title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,
+      icon: 'medical_services',
+      links: HEALTH_TOOL_LINKS.MEDICAL_SUPPLIES,
     },
   ];
+
   const hubs = [
     {
-      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
+      title: registered ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {
@@ -321,7 +186,7 @@ const resolveLandingPageLinks = (
 
 export {
   countUnreadMessages,
+  isLinkData,
   resolveLandingPageLinks,
-  resolveToggleLink,
   resolveUnreadMessageAriaLabel,
 };

@@ -17,6 +17,9 @@ import {
   FETCH_PERSONAL_INFORMATION,
   FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
   FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+  SEND_CONFIRMATION,
+  SEND_CONFIRMATION_SUCCESS,
+  SEND_CONFIRMATION_FAILURE,
   UPDATE_GLOBAL_EMAIL,
   UPDATE_GLOBAL_PHONE_NUMBER,
   ACKNOWLEDGE_DUPLICATE,
@@ -30,6 +33,9 @@ const initialState = {
   form: {
     data: {},
   },
+  confirmationLoading: false,
+  confirmationSuccess: false,
+  confirmationError: null,
   exclusionPeriods: null,
   exclusionPeriodsLoading: false,
   exclusionPeriodsError: null,
@@ -162,6 +168,27 @@ export default {
           duplicatePhone: action?.response?.data?.attributes?.phone,
         };
       case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
+      case SEND_CONFIRMATION:
+        return {
+          ...state,
+          confirmationLoading: true,
+          confirmationSuccess: false,
+          confirmationError: null,
+        };
+      case SEND_CONFIRMATION_SUCCESS:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationSuccess: true,
+          confirmationError: null,
+        };
+      case SEND_CONFIRMATION_FAILURE:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationSuccess: false,
+          confirmationError: action.errors,
+        };
       case UPDATE_GLOBAL_EMAIL:
         return {
           ...state,

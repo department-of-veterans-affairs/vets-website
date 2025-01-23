@@ -1,13 +1,12 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import { customButtonGroupContinue } from './fixtures/helpers';
@@ -19,6 +18,10 @@ import {
   verifyEditPage,
 } from './pages/ChecklistSummaryFlow';
 import { data } from './fixtures/data/fsr-maximal.json';
+import {
+  otherLivingExpensesOptions,
+  otherLivingExpensesList,
+} from '../../constants/checkboxSelections';
 
 Cypress.config('waitForAnimations', true);
 
@@ -35,11 +38,12 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     // starting with no data, so form is filled with navigation
-    dataSets: ['initial'],
+    dataSets: ['initial', 'initial-expenses'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
@@ -58,7 +62,14 @@ const testConfig = createTestConfig(
 
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
-        cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+        cy.intercept('GET', '/v0/in_progress_forms/5655', {
+          formData: testData,
+          metadata: {
+            version: 0,
+            prefill: true,
+            returnUrl: '/veteran-information',
+          },
+        });
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -83,12 +94,16 @@ const testConfig = createTestConfig(
       // ============================================================
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-debt"]`)
-            .first()
-            .check();
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="debt-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -277,31 +292,63 @@ const testConfig = createTestConfig(
       // ============================================================
       // ================== householdAssetsChapter ==================
       // ============================================================
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
             .as('checklist')
-            .should('have.length', 8);
-          cy.get('@checklist')
+            .should('have.length', 5);
+
+          // Check specific checkboxes
+          cy.get('va-checkbox')
             .eq(0)
-            .click();
-          cy.get('@checklist')
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+
+          cy.get('va-checkbox')
             .eq(1)
-            .click();
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+
+          // Proceed with form submission
           cy.get('.usa-button-primary').click();
         });
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
+          // do U.S. Savings Bonds, and Retirement
+          cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
-          cy.get('#Cash0')
+          cy.get('[id="U.S. Savings Bonds0"]')
             .first()
             .shadow()
             .find('input')
             .type('1000');
-          cy.get('[id="Checking accounts1"]')
+          cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
             .first()
             .shadow()
             .find('input')
@@ -419,7 +466,10 @@ const testConfig = createTestConfig(
       // ==============================================================
       'household-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#Rent0').check();
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .should('exist');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -430,6 +480,17 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      // only shows if showUpdatedExpensePages is active
+      'monthly-housing-expenses': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1200');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -567,14 +628,37 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date received: 01/XX/2010')
+            .and('contain', 'Date received: 01/2010')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });
       },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          fillChecklist(otherExpenses);
+          // Check the length of checkboxes based on the feature flag
+          cy.get('@testData').then(testData => {
+            const otherExpenseChecklistLength = testData[
+              'view:showUpdatedExpensePages'
+            ]
+              ? otherLivingExpensesList.length
+              : otherLivingExpensesOptions.length;
+
+            cy.get('va-checkbox')
+              .shadow()
+              .find('input[type=checkbox]')
+              .as('checklist')
+              .should('have.length', otherExpenseChecklistLength);
+          });
+
+          // Iterate through otherExpenses and check each checkbox
+          otherExpenses.forEach(expense => {
+            cy.get(`va-checkbox[name="${expense.name}"]`)
+              .shadow()
+              .find('input[type="checkbox"]')
+              .check({ force: true });
+          });
+
+          // Click the primary button to proceed
           cy.get('.usa-button-primary').click();
         });
       },
@@ -598,7 +682,7 @@ const testConfig = createTestConfig(
       // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('va-radio-option[value="monthly"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -614,13 +698,17 @@ const testConfig = createTestConfig(
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('va-radio-option[value="waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]').check();
+          cy.get('va-checkbox')
+            .first()
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -686,7 +774,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .first()
-            .type('Mark Webb');
+            .type('Brendan JS Eich');
           cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')

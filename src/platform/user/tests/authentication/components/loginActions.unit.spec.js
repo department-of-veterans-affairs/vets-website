@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
 
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
@@ -9,8 +10,14 @@ import { CSP_IDS } from '../../../authentication/constants';
 
 describe('login DOM ', () => {
   const sandbox = sinon.createSandbox();
+  const generateStore = ({ featureToggles = {} } = {}) => ({
+    dispatch: sinon.spy(),
+    subscribe: sinon.spy(),
+    getState: () => ({ featureToggles }),
+  });
+  const mockStore = generateStore();
 
-  beforeEach(function() {
+  beforeEach(() => {
     sandbox.spy(authUtilities, 'login');
   });
 
@@ -19,7 +26,11 @@ describe('login DOM ', () => {
   });
 
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(<LoginActions />);
+    const loginButtons = mount(
+      <Provider store={mockStore}>
+        <LoginActions />
+      </Provider>,
+    );
 
     const testButton = button => {
       const loginCSP = button.prop('data-csp');
@@ -45,25 +56,49 @@ describe('login DOM ', () => {
     loginButtons.unmount();
   });
 
-  ['vaoccmobile'].forEach(csp => {
-    it(`should render only DS Logon button when 'externalApplication=${csp}' and 'redirect_uri' is 'AHBurnPitRegistry'`, () => {
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile&redirect_uri=AHBurnPitRegistry&oauth=false',
-      );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
-      expect(loginButtons.find('[data-csp="dslogon"]').exists()).to.be.true;
-      expect(loginButtons.find('#create-account').exists()).to.be.false;
-      loginButtons.unmount();
+  it(`should render 3 buttons when flipper is enabled`, () => {
+    global.window.location = new URL(
+      'https://dev.va.gov/sign-in/?application=vaoccmobile',
+    );
+    const store = generateStore({
+      featureToggles: { mhvCredentialButtonDisabled: true },
     });
-    it(`should render all buttons when 'externalApplication=${csp}' and 'redirect_uri' is NOT present`, () => {
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile',
-      );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
-      expect(loginButtons.find('button').length).to.eql(4);
-      expect(loginButtons.find('#create-account').exists()).to.be.true;
-      expect(loginButtons.find('a').length).to.eql(2);
-      loginButtons.unmount();
+    const loginButtons = mount(
+      <Provider store={store}>
+        <LoginActions externalApplication="vaoccmobile" isUnifiedSignIn />
+      </Provider>,
+    );
+    expect(loginButtons.find('button').length).to.eql(3);
+    loginButtons.unmount();
+  });
+
+  it(`should render 4 buttons when flipper is false`, () => {
+    global.window.location = new URL(
+      'https://dev.va.gov/sign-in/?application=mhv',
+    );
+    const store = generateStore({
+      featureToggles: { mhvCredentialButtonDisabled: false },
     });
+    const loginButtons = mount(
+      <Provider store={store}>
+        <LoginActions externalApplication="mhv" />
+      </Provider>,
+    );
+    expect(loginButtons.find('button').length).to.eql(4);
+    loginButtons.unmount();
+  });
+
+  it(`should use fallback when featureToggles not found`, () => {
+    global.window.location = new URL(
+      'https://dev.va.gov/sign-in/?application=mhv',
+    );
+    const store = generateStore({ featureToggles: {} });
+    const loginButtons = mount(
+      <Provider store={store}>
+        <LoginActions externalApplication="mhv" />
+      </Provider>,
+    );
+    expect(loginButtons.find('button').length).to.eql(4);
+    loginButtons.unmount();
   });
 });

@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
-import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
-import {
-  FACILITY_SORT_METHODS,
-  FETCH_STATUS,
-  GA_PREFIX,
-} from '../../../utils/constants';
+import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
-
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the
@@ -30,12 +22,11 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const {
-    cernerSiteIds,
-    requestLocationStatus,
-    sortMethod,
-    loadingEligibility,
-  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { requestLocationStatus, sortMethod, loadingEligibility } = useSelector(
+    state => selectFacilitiesRadioWidget(state),
+    shallowEqual,
+  );
+
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
@@ -90,9 +81,6 @@ export default function FacilitiesRadioWidget({
             label="Sort facilities"
             name="sort"
             onVaSelect={type => {
-              recordEvent({
-                event: `${GA_PREFIX}-variant-method-${type.detail.value}`,
-              });
               updateFacilitySortMethod(type.detail.value);
             }}
             value={sortMethod}
@@ -108,7 +96,7 @@ export default function FacilitiesRadioWidget({
             <InfoAlert
               status="warning"
               headline="Your browser is blocked from finding your current location."
-              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+              className="vads-u-background-color--gold-lightest"
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
@@ -131,7 +119,6 @@ export default function FacilitiesRadioWidget({
         displayedOptions.map((option, i) => {
           const { name, address, legacyVAR } = option?.label;
           const checked = option.value === value;
-          const isCerner = isCernerLocation(option.value, cernerSiteIds);
           let distance;
 
           if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
@@ -160,18 +147,13 @@ export default function FacilitiesRadioWidget({
                 <span className="vads-u-display--block vads-u-font-weight--bold">
                   {name}
                 </span>
-                <span className="vads-u-display--block vads-u-font-size--sm">
+                <span className="vads-u-display--block">
                   {address?.city}, <State state={address?.state} />
                 </span>
                 {!!distance && (
-                  <span className="vads-u-display--block vads-u-font-size--sm">
+                  <span className="vads-u-display--block">
                     {distance} miles
                   </span>
-                )}
-                {isCerner && (
-                  <a href={getCernerURL('/pages/scheduling/upcoming')}>
-                    Schedule online at <strong>My VA Health</strong>
-                  </a>
                 )}
               </label>
             </div>
@@ -182,14 +164,16 @@ export default function FacilitiesRadioWidget({
         hiddenCount > 0 && (
           <button
             type="button"
-            className="additional-info-button va-button-link vads-u-display--block"
+            className="additional-info-button usa-button-secondary vads-u-display--block"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
           >
             <span className="sr-only">show</span>
-            <span className="va-button-link">
-              {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+            <span>
+              {`Show ${hiddenCount} more location${
+                hiddenCount === 1 ? '' : 's'
+              }`}
             </span>
           </button>
         )}

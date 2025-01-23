@@ -36,21 +36,25 @@ const IconCTALink = ({
       data-testid={testId || ''}
     >
       <span className="vads-u-display--flex">
-        <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-right--1">
-          <i
+        <span className="vads-u-height--full vads-u-margin-right--1">
+          <va-icon
+            icon={icon}
+            size={3}
+            srtext={icon}
+            className="vads-u-color--primary-alt-lightest"
             aria-hidden="true"
-            className="fas fa-circle fa-stack-2x vads-u-color--primary-alt-lightest"
           />
-          <i aria-hidden="true" className={`fas fa-${icon} fa-stack-1x`} />
         </span>
+
         <span>
           {`${firstWords} `}
           <span style={{ whiteSpace: 'nowrap' }}>
             {lastWord}
             {boldText ? (
-              <i
-                aria-hidden="true"
-                className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
+              <va-icon
+                icon="navigate_next"
+                size={2}
+                className="vads-u-margin-left--1"
               />
             ) : null}
           </span>
@@ -60,15 +64,16 @@ const IconCTALink = ({
             toggleName={Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator}
           >
             <Toggler.Enabled>
-              <span
+              <svg
+                viewBox="0 0 100 100"
+                width="25px"
+                height="25px"
+                xmlns="http://www.w3.org/2000/svg"
+                className="vads-u-height--full vads-u-margin-left--1"
                 data-testid="icon-cta-link-dot-indicator"
-                className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1"
               >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-xs fa-stack-1x vads-u-height--full fa-circle vads-u-color--secondary-dark"
-                />
-              </span>
+                <circle cx="50" cy="55" r="20" fill="#b50909" />
+              </svg>
             </Toggler.Enabled>
           </Toggler>
         )}

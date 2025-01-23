@@ -22,7 +22,8 @@ import {
   powConfinementDateRangeValidation,
   powConfinement2DateRangeValidation,
   statementOfTruthFullNamePath,
-  getSubmitterName,
+  evidenceConfinementHintUpdateUiSchema,
+  getPhoneAndEmailPageEmailHint,
 } from '../../helpers';
 
 describe('getMockData', () => {
@@ -403,6 +404,31 @@ describe('getPhoneAndEmailPageTitle()', () => {
   });
 });
 
+describe('getPhoneAndEmailPageEmailHint', () => {
+  it('returns correct hint for preparerType', () => {
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.NON_VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      }),
+    ).to.include('send you or the Veteran notifications about the');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+      }),
+    ).to.include('send you or the claimant notifications about the');
+  });
+});
+
 describe('createPayload()', () => {
   let mockFile;
   let formId;
@@ -611,31 +637,46 @@ describe('statementOfTruthFullNamePath()', () => {
   });
 });
 
-describe('getSubmitterName()', () => {
-  it('returns correct name for preparerType', () => {
+describe('evidenceConfinementHintUpdateUiSchema', () => {
+  it('returns the correct hint string depending on preparer type', () => {
+    const beganEndedString = 'began';
+    const formData = {
+      preparerType: PREPARER_TYPES.VETERAN,
+    };
+
     expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.VETERAN,
-        veteranFullName: 'veteranName',
-      }),
-    ).to.equal('veteranName');
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.NON_VETERAN;
     expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.NON_VETERAN,
-        nonVeteranFullName: 'nonVeteranName',
-      }),
-    ).to.equal('nonVeteranName');
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.THIRD_PARTY_VETERAN;
     expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates the Veteran’s confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.THIRD_PARTY_NON_VETERAN;
     expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates the claimant’s confinement ${beganEndedString} as a prisoner of war.`,
+    );
   });
 });

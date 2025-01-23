@@ -1,0 +1,116 @@
+{
+  "data": [
+    {
+      "id": "721633",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 721633,
+        "category": "APPOINTMENTS",
+        "subject": "COVID",
+        "body": "Save draft ",
+        "attachment": null,
+        "sentDate": "2017-11-11T14:55:55.000Z",
+        "senderId": 674887,
+        "senderName": "YARRAGOVULA, SAMATHA ",
+        "recipientId": 406227,
+        "recipientName": "MHVTP, SAFARI",
+        "readReceipt": "READ",
+        "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+        "proxySenderName": null,
+        "threadId": 690952,
+        "folderId": 508804,
+        "messageBody": "Save draft ",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": true
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/721633"
+      }
+    },
+    {
+      "id": "730603",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 730603,
+        "category": "APPOINTMENTS",
+        "subject": "Appointment Inquiry",
+        "body": "test",
+        "attachment": null,
+        "sentDate": "2017-10-03T20:08:05.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 508642,
+        "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+        "readReceipt": null,
+        "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+        "proxySenderName": null,
+        "threadId": 690952,
+        "folderId": -1,
+        "messageBody": "test",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/730603"
+      }
+    },
+    {
+      "id": "730601",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 730601,
+        "category": "APPOINTMENTS",
+        "subject": "Appointment Inquiry",
+        "body": "testing",
+        "attachment": null,
+        "sentDate": "2017-10-03T20:07:01.000+00:00",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 508642,
+        "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+        "readReceipt": null,
+        "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+        "proxySenderName": null,
+        "threadId": 690952,
+        "folderId": -2,
+        "messageBody": "testing",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/730601"
+      }
+    },
+    {
+      "id": "690953",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 690953,
+        "category": "APPOINTMENTS",
+        "subject": "COVID",
+        "body": "hello,2",
+        "attachment": null,
+        "sentDate": "2017-04-13T18:19:43.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 508642,
+        "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+        "readReceipt": "READ",
+        "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+        "proxySenderName": null,
+        "threadId": 690952,
+        "folderId": -1,
+        "messageBody": "hello,2",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/690953"
+      }
+    }
+  ]
+}

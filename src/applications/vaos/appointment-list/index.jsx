@@ -1,11 +1,14 @@
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import AppointmentsPage from './components/AppointmentsPage/index';
-import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import { Route, Switch } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
+import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
+import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
+import AppointmentsPage from './pages/AppointmentsPage/index';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
@@ -13,18 +16,18 @@ function AppointmentListSection() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-
+  const { isInCCPilot } = useIsInCCPilot();
   return (
     <>
       {!featureBreadcrumbUrlUpdate && (
         <Switch>
           <Route
             path="/:pastOrPending?/cc/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
           <Route
             path="/:pastOrPending?/va/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
           <Route
             path="/:pastOrPending?/requests/:id"
@@ -40,13 +43,25 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
-          <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
+          {isInCCPilot && (
+            <Route
+              path="/referrals-requests"
+              component={ReferralsAndRequests}
+            />
+          )}
+          <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
+            exact
             path={['/va/:id', '/:id']}
-            component={ConfirmedAppointmentDetailsPage}
+            component={UpcomingAppointmentsDetailsPage}
           />
-          <Route path="/" component={AppointmentsPage} />
+          <Route
+            exact
+            path={['/', '/pending', '/past']}
+            component={AppointmentsPage}
+          />
+          <Route component={PageNotFound} />
         </Switch>
       )}
     </>

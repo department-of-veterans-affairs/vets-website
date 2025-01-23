@@ -1,6 +1,4 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import set from 'platform/utilities/data/set';
-import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 const { applicantServed, isActiveDuty } = fullSchema1995.properties;
 
@@ -12,9 +10,6 @@ export const schema = {
     'view:newService': {
       type: 'boolean',
     },
-    toursOfDuty: toursOfDuty.schema(fullSchema1995, {
-      fields: ['serviceBranch', 'dateRange'],
-    }),
   },
 };
 
@@ -24,24 +19,6 @@ export const isFieldRequired = formData => {
 
 export const isFieldHidden = formData => {
   return formData.applicantServed !== 'Yes';
-};
-
-export const setDateRangeRequired = (formData, _schema) => {
-  if (isFieldRequired(formData)) {
-    return set(
-      'additionalItems.properties.dateRange.required',
-      ['from'],
-      _schema,
-    );
-  }
-  return set('additionalItems.properties.dateRange.required', [], _schema);
-};
-
-export const setServiceBranchRequired = (formData, _schema) => {
-  if (isFieldRequired(formData)) {
-    return set('additionalItems.required', ['serviceBranch'], _schema);
-  }
-  return set('additionalItems.required', [], _schema);
 };
 
 export const uiSchema = {
@@ -65,18 +42,19 @@ export const uiSchema = {
     'ui:required': formData => isFieldRequired(formData),
     'ui:options': {
       hideIf: formData => isFieldHidden(formData),
-    },
-  },
-  toursOfDuty: {
-    ...toursOfDuty.uiSchema,
-    'ui:options': {
-      ...toursOfDuty.uiSchema['ui:options'],
-      expandUnder: 'view:newService',
-      updateSchema: (formData, _schema) => {
-        let finalSchema = { ..._schema };
-        finalSchema = setDateRangeRequired(formData, finalSchema);
-        finalSchema = setServiceBranchRequired(formData, finalSchema);
-        return finalSchema;
+      widgetProps: {
+        Y: { 'data-info': 'yes' },
+        N: { 'data-info': 'no' },
+      },
+      // Only added to the radio when it is selected
+      // a11y requirement: aria-describedby ID's *must* exist on the page;
+      // and we conditionally add content based on the selection
+      selectedProps: {
+        Y: {
+          'aria-describedby': 'root_view:newService-label',
+        },
+        // this ID doesn't exist, setting this would cause an axe error
+        // N: { 'aria-describedby': 'different_id' },
       },
     },
   },

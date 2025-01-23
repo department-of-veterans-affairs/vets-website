@@ -13,7 +13,6 @@ import {
   updateResultsValidationErrorText,
   updateResultsValidationServiceError,
 } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const ReviewPage = ({
   dependentsInput,
@@ -28,11 +27,6 @@ const ReviewPage = ({
   zipCodeInput,
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const H1 = 'Review your information';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
 
   useEffect(() => {
     if (editMode) {
@@ -80,11 +74,10 @@ const ReviewPage = ({
 
         const messageText = {
           DEPENDENTS:
-            'Your information couldn’t go through. Please enter a number of dependents between 0 and 100.',
-          YEAR:
-            'Your information couldn’t go through. Please select a year again.',
+            'Your information couldn’t go through. Enter a number of dependents between 0 and 100.',
+          YEAR: 'Your information couldn’t go through. Select a year again.',
           ZIP:
-            'Your information couldn’t go through. Please enter a valid 5 digit zip code.',
+            'Your information couldn’t go through. Enter a valid 5 digit zip code.',
         };
 
         const checkMessage = value => {
@@ -113,7 +106,7 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1>Review your information</h1>
       <p className="il-review">
         Make any edits that you may need to. Then select{' '}
         <strong>Continue</strong>.
@@ -127,14 +120,13 @@ const ReviewPage = ({
             </span>
             <span className="income-limits-edit">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a
-                aria-label="Edit year"
+              <va-link
+                label="Edit year"
                 href="#"
                 onClick={() => handleEditClick(ROUTES.YEAR)}
                 name="year"
-              >
-                Edit
-              </a>
+                text="Edit"
+              />
             </span>
           </li>
         )}
@@ -145,14 +137,13 @@ const ReviewPage = ({
           </span>
           <span className="income-limits-edit">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              aria-label="Edit zip code"
+            <va-link
+              label="Edit zip code"
               href="#"
               onClick={() => handleEditClick(ROUTES.ZIPCODE)}
               name="zipCode"
-            >
-              Edit
-            </a>
+              text="Edit"
+            />
           </span>
         </li>
         <li>
@@ -162,14 +153,13 @@ const ReviewPage = ({
           </span>
           <span className="income-limits-edit">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              aria-label="Edit number of dependents"
+            <va-link
+              label="Edit number of dependents"
               href="#"
               onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
               name="dependents"
-            >
-              Edit
-            </a>
+              text="Edit"
+            />
           </span>
         </li>
       </ul>

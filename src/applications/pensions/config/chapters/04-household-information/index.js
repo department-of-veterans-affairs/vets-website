@@ -12,6 +12,7 @@ import dependentChildren from './dependentChildren';
 import dependentChildInformation from './dependentChildInformation';
 import dependentChildInHousehold from './dependentChildInHousehold';
 import dependentChildAddress from './dependentChildAddress';
+import { dependentChildrenPages } from './dependentChildrenPages';
 
 export default {
   title: 'Household information',
@@ -25,6 +26,7 @@ export default {
     currentSpouseMonthlySupport,
     currentSpouseMaritalHistory,
     currentSpouseFormerMarriages,
+    ...dependentChildrenPages,
     hasDependents,
     dependentChildren,
     dependentChildInformation,

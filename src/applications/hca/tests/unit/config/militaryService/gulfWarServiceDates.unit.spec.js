@@ -3,11 +3,10 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import {
-  DefinitionTester,
   submitForm,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+  DefinitionTester,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 
@@ -78,44 +77,6 @@ describe('hca Gulf War Service Dates config', () => {
       formDOM,
       '#root_view\\3A gulfWarServiceDates_gulfWarEndDateYear',
       '1989',
-    );
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should not submit when service start date is equal to service end date', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A gulfWarServiceDates_gulfWarStartDateMonth',
-      '5',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A gulfWarServiceDates_gulfWarStartDateYear',
-      '1990',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A gulfWarServiceDates_gulfWarEndDateMonth',
-      '5',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A gulfWarServiceDates_gulfWarEndDateYear',
-      '1990',
     );
     submitForm(form);
 

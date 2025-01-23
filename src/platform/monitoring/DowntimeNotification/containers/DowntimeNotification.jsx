@@ -61,7 +61,9 @@ class DowntimeNotification extends React.Component {
       ? appTypeContent
       : 'tool';
 
-    const endTime = formatDowntime(this.props.globalDowntime.endTIme);
+    const endTime = formatDowntime(
+      this.props.globalDowntime.endTime ?? new Date(),
+    );
 
     return (
       <va-alert class="vads-u-margin-bottom--4" visible status="warning">
@@ -115,7 +117,7 @@ class DowntimeNotification extends React.Component {
     }
 
     if (this.props.status === externalServiceStatus.down) {
-      return <Down {...this.props} />;
+      return <Down {...this.props} appType={appType} headerLevel={2} />;
     }
 
     return children;

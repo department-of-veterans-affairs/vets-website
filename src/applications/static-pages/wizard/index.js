@@ -25,7 +25,6 @@ export const formIdSuffixes = {
   FORM_ID_10203: '10203',
   FORM_ID_1995: '1995',
   FORM_ID_0994: '0994',
-  FORM_ID_5495: '5495',
   FORM_ID_5490: '5490',
   FORM_ID_1990E: '1990E',
   FORM_ID_1990N: '1990N',

@@ -2,17 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect, useDispatch } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import VerifyEnrollmentStatement from '../components/VerifyEnrollmentStatement';
 import EnrollmentCard from '../components/Enrollmentcard';
 import NeedHelp from '../components/NeedHelp';
-import { VERIFICATION_RELATIVE_URL } from '../constants';
+import { EnrollmentInformation, VERIFICATION_RELATIVE_URL } from '../constants';
 import Loader from '../components/Loader';
 import { useData } from '../hooks/useData';
 import {
@@ -20,87 +18,107 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
+import { isSameMonth, getDateRangesBetween } from '../helpers';
+import DGIBEnrollmentCard from '../components/DGIBEnrollmentCard';
 
 const VerificationReviewWrapper = ({
   children,
-  enrollmentData,
-  // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
-  dispatchUpdatePendingVerifications,
-  dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
-  // isUserLoggedIn,
-  // dispatchupdateToggleEnrollmentCard,
+  enrollmentVerifications,
+  claimantId,
 }) => {
   useScrollToTop();
-  const [radioValue, setRadioValue] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading } = useData();
+  const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
-  // const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
-  const history = useHistory();
+  const enrollmentData = personalInfo;
+  const awardsIds = enrollmentData?.['vye::UserInfo']?.pendingVerifications.map(
+    user => user.awardId,
+  );
 
+  const history = useHistory();
+  const dispatch = useDispatch();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  const handleRadioClick = e => {
-    const { value } = e.detail;
-    setRadioValue(value);
+  const handleCheckboxChange = e => {
+    const { checked } = e.detail;
+    dispatch({ type: 'RESET_ENROLLMENT_ERROR' });
+    setIsChecked(checked);
+    if (checked) {
+      setShowError(false);
+    }
     setErrorStatement(null);
   };
-
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
-    const currentDateTime = new Date().toISOString();
-    // update awardIds to a blank array
-    dispatchUpdatePendingVerifications({ awardIds: [] });
-    const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
-      return {
-        PendingVerificationSubmitted: currentDateTime,
-        awardIds: [id],
-      };
-    });
-    dispatchUpdateVerifications(newVerifiedIDS);
-    dispatchVerifyEnrollmentAction();
+    const submissionError = new Error('Internal Server Error.');
+    if (awardsIds?.length > 0 || claimantId !== undefined) {
+      dispatchVerifyEnrollmentAction(awardsIds);
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    } else {
+      dispatch({
+        type: VERIFY_ENROLLMENT_FAILURE,
+        errors: submissionError.toString(),
+      });
+    }
   };
 
   const handleSubmission = () => {
-    handleVerification();
-    dispatchUpdateToggleEnrollmentSuccess(true);
-    history.push(VERIFICATION_RELATIVE_URL);
+    if (!isChecked) {
+      setShowError(true);
+    } else if (isChecked) {
+      setShowError(false);
+      handleVerification();
+      history.push(VERIFICATION_RELATIVE_URL);
+    }
   };
-
+  useEffect(() => {
+    document.title = 'Verify your enrollment | Veterans Affairs';
+  }, []);
   useEffect(
     () => {
-      if (
-        enrollmentData?.['vye::UserInfo']?.awards &&
-        enrollmentData?.['vye::UserInfo']?.pendingVerifications
-      ) {
-        const { awards, pendingVerifications } = enrollmentData?.[
-          'vye::UserInfo'
-        ];
-        // add all previouslyVerified data into single array
-        const { awardIds } = pendingVerifications;
-        const toBeVerifiedEnrollmentsArray = [];
-        setCurrentPendingAwardIDs(awardIds);
-        awardIds.forEach(id => {
-          // check for each id inside award_ids array
-          if (awards.some(award => award.id === id)) {
-            toBeVerifiedEnrollmentsArray.push(
-              awards.find(award => award.id === id),
+      if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
+        const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
+        const expandedPendingEnrollments = [];
+        pendingVerifications.forEach(enrollment => {
+          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+            const expandedMonths = getDateRangesBetween(
+              enrollment.actBegin,
+              enrollment.actEnd,
             );
+            expandedMonths.forEach(period => {
+              const [startDate, endDate] = period.split(' - ');
+              expandedPendingEnrollments.push({
+                actBegin: startDate,
+                actEnd: endDate,
+                monthlyRate: enrollment.monthlyRate,
+                numberHours: enrollment.numberHours,
+              });
+            });
+          } else {
+            expandedPendingEnrollments.push({
+              actBegin: enrollment.actBegin,
+              actEnd: enrollment.actEnd,
+              monthlyRate: enrollment.monthlyRate,
+              numberHours: enrollment.numberHours,
+            });
           }
         });
 
-        setEnrollmentPeriodsToVerify(toBeVerifiedEnrollmentsArray);
+        setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
+        // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
-    [enrollmentData],
+    [enrollmentData, enrollmentVerifications],
   );
 
   useEffect(
@@ -112,11 +130,28 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [enrollmentData, errorStatement],
+  );
+  useEffect(
+    () => {
+      let timer;
+      if (showError) {
+        timer = setTimeout(() => {
+          focusElement('#enrollmentCheckbox');
+        }, 2500);
+      }
+      return () => clearTimeout(timer);
+    },
+    [showError, enrollmentData],
+  );
   return (
     <>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <EnrollmentVerificationBreadcrumbs />
@@ -130,65 +165,62 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
-                <div className="vye-max-width-480px">
-                  <p className="vads-u-margin-top--3">
-                    <span className="vads-u-font-weight--bold">
-                      If the above enrollment information isn’t correct,
-                    </span>{' '}
-                    please do not submit the form. Instead, work with your
-                    School Certifying Official (SCO) to ensure your enrollment
-                    information is updated with the VA before submitting this
-                    form.
-                  </p>
-                  <p className="vads-u-margin-top--3">
-                    <span className="vads-u-font-weight--bold">Note:</span>{' '}
-                    Please note that providing false reports concerning your
-                    benefits may result in a fine, imprisonment or both.
-                  </p>
-                </div>
-                <div className="vads-u-margin-top--3">
-                  <VaRadio
-                    error={errorStatement}
-                    hint=""
-                    label="To the best of your knowledge, is this enrollment
-                          information correct?"
-                    required
-                    onVaValueChange={handleRadioClick}
+                <DGIBEnrollmentCard
+                  enrollmentVerifications={
+                    enrollmentVerifications?.personalInfo?.recordResponse
+                      ?.enrollmentVerifications
+                  }
+                />
+                <div className="vads-u-margin-top--2">
+                  <div
+                    className={`${
+                      showError
+                        ? 'vads-u-margin-left--2p5 schemaform-field-template usa-input-error'
+                        : ''
+                    }`}
                   >
-                    <VaRadioOption
-                      id="vye-radio-button-yes"
-                      label="Yes, this information is correct."
-                      name="vye-radio-group1"
-                      tile
-                      value="true"
-                    />
-                  </VaRadio>
+                    <label
+                      className="vads-u-font-weight--bold"
+                      htmlFor="enrollmentCheckbox"
+                    >
+                      Is this enrollment information correct?
+                      <span className="vads-u-color--secondary-dark">
+                        {' '}
+                        (*Required)
+                      </span>
+                      {showError && (
+                        <span
+                          role="alert"
+                          className="usa-input-error-message"
+                          id="root_educationType-error-message"
+                        >
+                          <span className="sr-only">Error</span> Please check
+                          the box to confirm the information is correct.
+                        </span>
+                      )}
+                      <VaCheckbox
+                        id="enrollmentCheckbox"
+                        label="Yes, this information is correct"
+                        checked={isChecked}
+                        onVaChange={handleCheckboxChange}
+                      />
+                    </label>
+                  </div>
+                  <EnrollmentInformation />
                 </div>
-                <div
-                  style={{
-                    paddingLeft: '8px',
-                    marginTop: '24px',
-                    display: 'flex',
-                    columnGap: '10px',
-                  }}
-                >
-                  <va-button onClick={handleBackClick} back uswds />
-                  {radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      submit
-                      uswds
-                    />
-                  )}
-                  {!radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      disabled
-                      uswds
-                    />
-                  )}
+                <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column-reverse medium-screen:vads-u-flex-direction--row">
+                  <va-button
+                    onClick={handleBackClick}
+                    back
+                    uswds
+                    class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+                  />
+                  <va-button
+                    text="Submit"
+                    onClick={handleSubmission}
+                    submit
+                    uswds
+                  />
                 </div>
               </>
             )}
@@ -203,7 +235,9 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  claimantId: state.personalInfo?.personalInfo?.recordResponse?.claimantId,
+  verifyEnrollment: state.verifyEnrollment,
+  enrollmentVerifications: state.personalInfo,
 });
 
 const mapDispatchToProps = {
@@ -215,14 +249,16 @@ const mapDispatchToProps = {
 
 VerificationReviewWrapper.propTypes = {
   children: PropTypes.any,
+  claimantId: PropTypes.number,
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  enrollmentData: PropTypes.object,
-  isUserLoggedIn: PropTypes.bool,
+  enrollmentVerifications: PropTypes.object,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
+  mockData: PropTypes.object,
+  verifyEnrollment: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

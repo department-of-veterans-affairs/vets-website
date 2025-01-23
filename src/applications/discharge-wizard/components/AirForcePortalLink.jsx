@@ -2,12 +2,11 @@ import React from 'react';
 
 const AirForcePortalLink = () => (
   <section className="vads-u-margin-bottom--9">
-    <a
-      className="vads-c-action-link--green"
-      href="https://afrba-portal.cce.af.mil/#portal"
-    >
-      Get the form on the Air Force portal
-    </a>
+    <va-link-action
+      href="https://afrba-portal.cce.af.mil/"
+      type="primary"
+      text="Get the form on the Air Force Review Boards Agency Website and Portal."
+    />
   </section>
 );
 

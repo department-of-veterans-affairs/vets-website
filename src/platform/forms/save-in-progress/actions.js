@@ -209,7 +209,7 @@ export function migrateFormData(savedData, migrations) {
   let savedVersion = savedData.metadata?.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
-    savedVersion++;
+    savedVersion += 1;
   }
 
   return savedDataCopy;
@@ -271,7 +271,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
             SAVE_STATUSES.success,
             savedAt,
             json.data.attributes.metadata.expiresAt,
-            json.data.id,
+            json.data.attributes.metadata.inProgressFormId,
           ),
         );
 

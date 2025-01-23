@@ -127,7 +127,7 @@ class SideNav extends Component {
         className={classNames(
           'medium-screen:vads-u-height--auto',
           'medium-screen:vads-u-margin-left--0',
-          'large-screen:vads-u-margin-right--2p5',
+          'desktop-lg:vads-u-margin-right--2p5',
           'medium-screen:vads-u-margin-y--0',
           'usa-width-one-fourth',
           'va-sidenav',
@@ -153,7 +153,7 @@ class SideNav extends Component {
         >
           <span className="sr-only">View sub-navigation for </span>
           In this section
-          <i className="fa fa-bars" aria-hidden="true" role="img" />
+          <va-icon icon="menu" size="3" />
         </button>
         <ul
           id="va-sidenav-ul-container"

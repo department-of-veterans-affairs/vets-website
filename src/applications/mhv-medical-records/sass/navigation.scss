@@ -11,16 +11,6 @@
     flex-direction: row;
     margin-left: 0px;
     height: 54px;
-    i.fa-medkit {
-      color: var(--vads-color-white);
-      background-color: var(--vads-color-primary);
-      margin-top: 9px;
-      margin-bottom: 11px;
-      height: 34px;
-      width: 32px;
-      padding: 8px 8px 10px;
-      border-radius: 100%;
-    }
     h4 {
       color: var(--vads-color-base-darker);
       width: 88px;
@@ -88,14 +78,14 @@
       ul {
         li {
           a {
-            padding-left: 3rem;
+            padding-left: 1.875rem;
           }
         }
       }
     }
   }
 }
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .va-btn-sidebarnav-trigger {
     z-index: 0;
     .button-wrapper {
@@ -119,18 +109,11 @@
     }
     .sidebar-navigation-header {
       height: 50px;
-      margin-left: 20rem;
-      i.fa-medkit {
-        padding-bottom: 4px;
-      }
+      margin-left: 12.5rem;
     }
     button {
       background-color: var(--vads-color-base-lightest);
       height: 46.64px;
-    }
-    .fa-times {
-      width: 14px;
-      color: var(--vads-color-black);
     }
     ul {
       margin: 0px;

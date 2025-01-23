@@ -16,9 +16,10 @@ describe('<SearchAccordion/>', () => {
       expanded: false,
       onClick: () => {},
     };
-    const wrapper = shallow(<SearchAccordion {...props} />);
+    const wrapper = mount(<SearchAccordion {...props} />);
     wrapper
-      .find('button.usa-accordion-button.vads-u-font-size--md')
+      .find('[data-testid="update-tuition-housing"]')
+      .at(0)
       .simulate('click');
     expect(props.expanded).to.be.false;
     wrapper.unmount();

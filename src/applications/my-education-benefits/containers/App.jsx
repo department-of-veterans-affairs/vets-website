@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
-  fetchEligibility,
   fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   fetchDirectDeposit,
@@ -22,13 +21,12 @@ import { duplicateArrays } from '../utils/validation';
 export const App = ({
   children,
   claimantInfo,
-  eligibility,
+  dgiRudisillHideBenefitsSelectionStep,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
   getDirectDeposit,
-  getEligibility,
   getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
@@ -40,24 +38,21 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebDgi40Features,
-  showMebDgi42Features,
-  showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
-  showMebServiceHistoryCategorizeDisagreement,
   mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
   benefitEffectiveDate,
+  meb160630Automation,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+  const previousChosenBenefit = useRef();
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
@@ -81,11 +76,41 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo || !fetchedContactInfo) {
+      if (
+        (!fetchedPersonalInfo && !meb160630Automation) ||
+        (!fetchedContactInfo && !meb160630Automation)
+      ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebEnhancements09);
-      } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+        getPersonalInfo('Chapter33');
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        !meb160630Automation
+      ) {
+        setFormData({
+          ...formData,
+          ...claimantInfo,
+        });
+      }
+
+      if (
+        (!fetchedPersonalInfo &&
+          meb160630Automation &&
+          formData?.chosenBenefit) ||
+        (!fetchedContactInfo &&
+          (meb160630Automation && formData?.chosenBenefit)) ||
+        (meb160630Automation &&
+          formData?.chosenBenefit !== previousChosenBenefit.current)
+      ) {
+        setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
+        getPersonalInfo(formData?.chosenBenefit);
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        meb160630Automation
+      ) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -102,9 +127,8 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMeb1990EZMaintenanceAlert,
-      showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements09,
+      meb160630Automation,
+      formData?.chosenBenefit,
     ],
   );
 
@@ -112,18 +136,6 @@ export const App = ({
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
-      }
-
-      // the firstName check ensures that eligibility only gets called after we have obtained claimant info
-      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (firstName && !fetchedEligibility) {
-        setFetchedEligibility(true);
-        getEligibility();
-      } else if (eligibility && !formData.eligibility) {
-        setFormData({
-          ...formData,
-          eligibility,
-        });
       }
 
       const { toursOfDuty } = formData;
@@ -150,16 +162,12 @@ export const App = ({
       }
     },
     [
-      eligibility,
       featureTogglesLoaded,
-      fetchedEligibility,
       firstName,
       formData,
-      getEligibility,
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebDgi40Features,
     ],
   );
 
@@ -170,9 +178,30 @@ export const App = ({
       }
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+      if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
         setFetchedExclusionPeriods(true);
-        getExclusionPeriods();
+        getExclusionPeriods(chosenBenefit);
+      }
+
+      if (
+        (firstName &&
+          !fetchedExclusionPeriods &&
+          formData?.chosenBenefit &&
+          meb160630Automation) ||
+        (formData?.chosenBenefit !== previousChosenBenefit.current &&
+          meb160630Automation)
+      ) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
+        previousChosenBenefit.current = formData?.chosenBenefit;
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods(chosenBenefit);
       }
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
@@ -194,23 +223,12 @@ export const App = ({
       isLoggedIn,
       featureTogglesLoaded,
       isLOA3,
+      meb160630Automation,
     ],
   );
 
   useEffect(
     () => {
-      if (showMebDgi40Features !== formData.showMebDgi40Features) {
-        setFormData({
-          ...formData,
-          showMebDgi40Features,
-        });
-      }
-      if (showMebDgi42Features !== formData.showMebDgi42Features) {
-        setFormData({
-          ...formData,
-          showMebDgi42Features,
-        });
-      }
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -267,12 +285,6 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
       if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
@@ -297,20 +309,27 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
+      if (meb160630Automation !== formData?.meb160630Automation) {
         setFormData({
           ...formData,
-          showMebEnhancements09,
+          meb160630Automation,
         });
       }
 
       if (
-        showMebServiceHistoryCategorizeDisagreement !==
-        formData.showMebServiceHistoryCategorizeDisagreement
+        dgiRudisillHideBenefitsSelectionStep !==
+        formData.dgiRudisillHideBenefitsSelectionStep
       ) {
         setFormData({
           ...formData,
-          showMebServiceHistoryCategorizeDisagreement,
+          dgiRudisillHideBenefitsSelectionStep,
+        });
+      }
+
+      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
+        setFormData({
+          ...formData,
+          showMebEnhancements09,
         });
       }
 
@@ -329,23 +348,21 @@ export const App = ({
       }
     },
     [
+      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
-      showMebDgi40Features,
-      showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
-      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
       mebAutoPopulateRelinquishmentDate,
+      meb160630Automation,
     ],
   );
 
@@ -367,7 +384,12 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+        if (
+          showDgiDirectDeposit1990EZ &&
+          isLoggedIn &&
+          isLOA3 &&
+          !fetchedDirectDeposit
+        ) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
@@ -404,13 +426,29 @@ export const App = ({
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/apply-for-benefits-form-22-1990">
-          Apply for education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/apply-for-benefits-form-22-1990',
+                label: 'Apply for education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -421,9 +459,9 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
-  eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
@@ -431,26 +469,22 @@ App.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
-  getEligibility: PropTypes.func,
   getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  meb160630Automation: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
-  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
-  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -473,7 +507,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
-  getEligibility: fetchEligibility,
   getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,

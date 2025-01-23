@@ -2,35 +2,16 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Confirmation {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'You’ve completed pre-check-in');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
   };
 
   validatePageContent = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'You’ve completed pre-check-in');
-    cy.get("[data-testid='confirmation-wrapper']");
-    cy.get("p[data-testid='appointment-day-location']");
+    cy.get("[data-testid='header']");
+    cy.get("[data-testid='appointment-text']");
     cy.get("[data-testid='appointment-list']");
-    cy.get("[header='What if I have questions about my appointment?']")
-      .shadow()
-      .find('button')
-      .contains('What if I have questions about my appointment?')
-      .should('be.visible');
-  };
-
-  validateConfirmWithUpdates = () => {
-    cy.get("[header='How can I update my information?']")
-      .shadow()
-      .find('button')
-      .contains('How can I update my information?')
-      .should('be.visible');
-  };
-
-  validateConfirmNoUpdates = () => {
-    cy.get("[header='How can I update my information?']").should('not.exist');
+    cy.get("[data-testid='how-to-link']");
+    cy.get("[data-testid='external-link']");
+    cy.get("[data-testid='pre-check-in-accordions']");
   };
 
   validateDemographicsMessage = () => {
@@ -61,13 +42,6 @@ class Confirmation {
     );
   };
 
-  expandAllAccordions = () => {
-    cy.get('[data-testid="pre-check-in-accordions"]')
-      .shadow()
-      .find('button[aria-label="Expand all accordions"]')
-      .click();
-  };
-
   validateAppointmentType = type => {
     if (type === 'phone') {
       cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
@@ -94,6 +68,10 @@ class Confirmation {
     cy.get(`li:nth-child(${appointment}) [data-testid="details-link"]`).click({
       waitForAnimations: true,
     });
+  };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=what-to-bring-link]').click();
   };
 }
 

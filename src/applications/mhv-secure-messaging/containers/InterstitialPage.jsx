@@ -26,31 +26,33 @@ const InterstitialPage = props => {
 
   return (
     <div className="interstitial-page">
-      <h1>
+      <h1 className="vads-u-margin-bottom--2">
         Only use messages for <span className="no-word-wrap">non-urgent</span>{' '}
         needs
       </h1>
       <div>
-        <p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
           Your care team may take up to <strong>3 business days</strong> to
           reply.
         </p>
 
-        <va-button
-          uswds
+        <button
+          className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
           onClick={acknowledge}
-          text={continueButtonText}
-          data-dd-action-name={continueButtonText}
-        />
+          data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
+        >
+          {continueButtonText}
+          <span className="sr-only">. Page content will change.</span>
+        </button>
 
-        <h2 className="vads-u-font-size--h3">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communication
           options:
         </h2>
-        <ul>
-          <li>
-            <p>
+        <ul className="vads-u-margin--0">
+          <li className="vads-u-margin--0">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
               <strong>
                 If you’re in crisis or having thoughts of suicide,{' '}
               </strong>{' '}
@@ -60,11 +62,15 @@ const InterstitialPage = props => {
 
             <CrisisLineConnectButton />
           </li>
-          <li>
-            <p>
+          <li className="vads-u-margin--0">
+            <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
               <strong>If you think your life or health is in danger, </strong>{' '}
-              call <va-telephone contact="911" /> or go to the nearest emergency
-              room.
+              call
+              <va-telephone
+                contact="911"
+                data-dd-action-name="911 link on Interstital Page"
+              />
+              or go to the nearest emergency room.
             </p>
           </li>
         </ul>

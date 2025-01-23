@@ -1,7 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { pciuStates: PCIU_STATES } = constants;
+const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
 import {
   VA_FORM_IDS,
@@ -38,10 +38,10 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
@@ -83,14 +83,12 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
-  hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
+  hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
+    'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
-  hasAdditionalDocuments:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
+  hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
 export const DISABILITY_526_V2_ROOT_URL =
@@ -339,6 +337,8 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
+export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
+  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
@@ -364,4 +364,83 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   waters:
     'The waters of the Arabian Sea, Gulf of Aden, Gulf of Oman, Persian Gulf, and Red Sea',
   airspace: 'The airspace above any of these locations',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
+});
+
+export const GULF_WAR_2001_LOCATIONS = Object.freeze({
+  djibouti: 'Djibouti',
+  lebanon: 'Lebanon',
+  uzbekistan: 'Uzbekistan',
+  yemen: 'Yemen',
+  airspace: 'The airspace above any of these locations',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
+});
+
+export const HERBICIDE_LOCATIONS = Object.freeze({
+  cambodia: 'Cambodia at Mimot or Krek, Kampong Cham Province',
+  guam: 'Guam, American Samoa, or their territorial waters',
+  koreandemilitarizedzone: 'In or near the Korean demilitarized zone',
+  johnston: 'Johnston Atoll or on a ship that called at Johnston Atoll',
+  laos: 'Laos',
+  c123:
+    'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+  thailand: 'A U.S. or Royal Thai military base in Thailand',
+  vietnam: 'Vietnam or the waters in or off of Vietnam',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
+});
+
+export const ADDITIONAL_EXPOSURES = Object.freeze({
+  asbestos: 'Asbestos',
+  chemical:
+    'Chemical and biological warfare testing through Project 112 or Project Shipboard Hazard and Defense (SHAD)',
+  water: 'Contaminated water at Camp Lejeune or MCAS New River, North Carolina',
+  mos: 'Military Occupational Specialty (MOS)-related toxin',
+  mustardgas: 'Mustard Gas',
+  radiation: 'Radiation',
+  none: 'None of these',
+  notsure: 'I’m not sure if I have been exposed to these hazards',
+});
+
+export const TRAUMATIC_EVENT_TYPES = Object.freeze({
+  combat: 'Traumatic events related to combat',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  nonMst: 'Traumatic events related to other personal interactions',
+  other: 'Other traumatic events',
+});
+
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
+
+export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+  reassignment:
+    'Request for a change in occupational series or duty assignment',
+  absences: 'Increased or decreased use of leave',
+  performance: 'Changes in performance or performance evaluations',
+});
+
+export const BEHAVIOR_CHANGES_HEALTH = Object.freeze({
+  consultations:
+    'Increased or decreased visits to a healthcare professional, counselor, or treatment facility',
+  episodes: 'Episodes of depression, panic attacks, or anxiety',
+  medications: 'Increased or decreased use of prescription medications',
+  selfMedication: 'Increased or decreased use of over-the-counter medications',
+  substances: 'Increased or decreased use of alcohol or drugs',
+  appetite:
+    'Changes in eating habits, such as overeating or undereating, or significant changes in weight',
+  pregnancy: 'Pregnancy tests around the time of the traumatic experiences',
+  screenings: 'Tests for sexually transmitted infections',
+});
+
+export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
+  socialEconomic: 'Economic or social behavioral changes',
+  relationships: 'Changes in or breakup of a significant relationship',
+  misconduct: 'Disciplinary or legal difficulties',
 });

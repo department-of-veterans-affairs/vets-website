@@ -9,6 +9,7 @@ const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   return (
     <VaAccordion uswds openSingle>
       <VaAccordionItem
+        uswds
         open={expanded}
         onClick={e => {
           if (e.target.tagName === 'VA-ACCORDION-ITEM') {
@@ -23,10 +24,10 @@ const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   );
 };
 
-VaAccordionGi.prototype = {
-  title: PropTypes.string,
+VaAccordionGi.propTypes = {
   children: PropTypes.any,
   expanded: PropTypes.bool,
+  title: PropTypes.string,
   onChange: PropTypes.func,
 };
 

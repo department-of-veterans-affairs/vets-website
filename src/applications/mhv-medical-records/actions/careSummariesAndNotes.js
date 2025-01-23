@@ -47,3 +47,7 @@ export const getCareSummaryAndNotesDetails = (
 export const clearCareSummariesDetails = () => async dispatch => {
   dispatch({ type: Actions.CareSummariesAndNotes.CLEAR_DETAIL });
 };
+
+export const reloadRecords = () => async dispatch => {
+  dispatch({ type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST });
+};

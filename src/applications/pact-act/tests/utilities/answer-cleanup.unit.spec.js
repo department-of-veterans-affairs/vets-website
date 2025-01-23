@@ -301,8 +301,9 @@ describe('answer cleanup utilities', () => {
       const responsesInStore = {
         SERVICE_PERIOD: NINETY_OR_LATER,
         BURN_PIT_2_1: YES,
-        BURN_PIT_2_1_1: NOT_SURE,
+        BURN_PIT_2_1_1: YES,
         BURN_PIT_2_1_2: NO,
+        BURN_PIT_2_1_3: NO,
       };
 
       const updateCleanedFormStoreSpy = sinon.spy();
@@ -318,8 +319,9 @@ describe('answer cleanup utilities', () => {
         updateCleanedFormStoreSpy.calledWith({
           SERVICE_PERIOD: NINETY_OR_LATER,
           BURN_PIT_2_1: YES,
-          BURN_PIT_2_1_1: null,
+          BURN_PIT_2_1_1: YES,
           BURN_PIT_2_1_2: null,
+          BURN_PIT_2_1_3: null,
         }),
       ).to.be.true;
     });

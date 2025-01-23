@@ -10,7 +10,7 @@ import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
-// case we end up filtering out deferred and expired issues
+// case we end up filtering out disqualifying and expired issues
 export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   let Wrap = 'h3';
   const wrapClassNames = ['vads-u-font-size--h3'];
@@ -60,7 +60,7 @@ export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}
-    {MAX_LENGTH.SELECTIONS}, submit this request and create a new request for
+    {MAX_LENGTH.SELECTIONS}, submit this request. Then create a new request for
     the remaining issues.
   </VaModal>
 );
@@ -183,7 +183,10 @@ export const removeModalContent = {
   description: issueName => (
     <span>
       We’ll remove{' '}
-      <strong className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <strong
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {issueName}
       </strong>{' '}
       from the issues you’d like us to review

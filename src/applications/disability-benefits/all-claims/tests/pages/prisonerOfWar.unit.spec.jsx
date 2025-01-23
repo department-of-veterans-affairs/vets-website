@@ -132,10 +132,9 @@ describe('Prisoner of war info', () => {
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    expect(form.find('input[type="checkbox"]').length).to.equal(2);
-    const output = form.render().text();
-    expect(output).to.contain('ASHD');
-    expect(output).to.contain('Scars');
+    expect(form.find('va-checkbox').length).to.equal(2);
+    expect(form.find('va-checkbox[label="ASHD"]')).to.exist;
+    expect(form.find('va-checkbox[label="Scars"]')).to.exist;
     form.unmount();
   });
 

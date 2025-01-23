@@ -11,7 +11,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 const ombInfo = {
   resBurden: '10',
   ombNumber: '2900-0858',
-  expDate: '07/31/2024',
+  expDate: '08/31/2027',
 };
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
@@ -52,14 +52,6 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         </li>
       </ul>
       <h2 id="start-your-request">Start your authorization</h2>
-      <p>
-        <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
-        Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-        account. If you don’t have any of those accounts, you can create a free{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account when you
-        sign in to start filling out your form.
-      </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
@@ -106,6 +98,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

@@ -7,6 +7,8 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
+import { NEW_API } from '../../constants/apis';
+
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
@@ -53,7 +55,6 @@ describe('<ContestableIssuesWidget>', () => {
         setFormData,
         getContestableIssues,
         contestableIssues: { issues: contestedIssues, status: apiLoadStatus },
-        showPart3: true,
       },
       mockStore: {
         getState: () => ({
@@ -67,13 +68,6 @@ describe('<ContestableIssuesWidget>', () => {
           contestableIssues: {
             status: apiLoadStatus,
           },
-          featureToggles: [
-            {
-              loading: false,
-              // eslint-disable-next-line camelcase
-              nod_part3_update: true,
-            },
-          ],
         }),
         subscribe: () => {},
         dispatch: () => ({
@@ -100,6 +94,7 @@ describe('<ContestableIssuesWidget>', () => {
 
   it('should call getContestableIssues only once, if there was a previous failure', async () => {
     const getContestableIssuesSpy = sinon.spy();
+    const formData = { [NEW_API]: false };
     const { props, mockStore } = getProps({
       apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
       contestedIssues: [],
@@ -107,12 +102,13 @@ describe('<ContestableIssuesWidget>', () => {
     });
     render(
       <Provider store={mockStore}>
-        <ContestableIssuesWidget {...props} value={[]} formData={undefined} />
+        <ContestableIssuesWidget {...props} value={[]} formData={formData} />
       </Provider>,
     );
 
     await waitFor(() => {
       expect(getContestableIssuesSpy.called).to.be.true;
+      expect(getContestableIssuesSpy.args[0][0]).to.deep.equal(formData);
     });
   });
 
@@ -130,5 +126,25 @@ describe('<ContestableIssuesWidget>', () => {
     );
 
     expect(getContestableIssuesSpy.called).to.be.false;
+  });
+
+  it('should call getContestableIssues with new API', async () => {
+    const getContestableIssuesSpy = sinon.spy();
+    const formData = { [NEW_API]: true };
+    const { props, mockStore } = getProps({
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
+      contestedIssues: [],
+      getContestableIssues: getContestableIssuesSpy,
+    });
+    render(
+      <Provider store={mockStore}>
+        <ContestableIssuesWidget {...props} value={[]} formData={formData} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getContestableIssuesSpy.called).to.be.true;
+      expect(getContestableIssuesSpy.args[0][0]).to.deep.equal(formData);
+    });
   });
 });

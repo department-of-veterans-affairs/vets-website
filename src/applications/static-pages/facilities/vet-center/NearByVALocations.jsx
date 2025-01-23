@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { multiTypeQuery } from '../actions';
 import {
   calculateBoundingBox,
+  getFeaturesFromAddress,
+} from 'platform/utilities/facilities-and-mapbox';
+import { multiTypeQuery } from '../actions';
+import {
   convertMetersToMiles,
   distancesToNearbyVetCenters,
-} from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+} from '../facilityUtilities';
 import buildFacility from './buildFacility';
 import {
   hasAnyMultiData,
@@ -20,20 +22,20 @@ import VAFacility from './components/VAFAcility';
 const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
 
 const genQuery = (boundingBox, coordinates, type, mobileFalse) => {
-  const query = '/facilities/va/?';
-  const params = [
-    'page=1',
-    'per_page=2',
-    `type=${type}`,
-    `radius=${NEARBY_VA_LOCATIONS_RADIUS_MILES}`,
-    `latitude=${coordinates[1]}`,
-    `longitude=${coordinates[0]}`,
-    ...boundingBox.map(c => `bbox[]=${c}`),
-  ];
+  const params = {
+    page: 1,
+    // eslint-disable-next-line camelcase
+    per_page: 2,
+    type,
+    radius: NEARBY_VA_LOCATIONS_RADIUS_MILES,
+    lat: coordinates[1],
+    long: coordinates[0],
+    bbox: boundingBox,
+  };
   if (mobileFalse) {
-    params.push('mobile=false');
+    params.mobile = false;
   }
-  return query + params.join('&');
+  return params;
 };
 const NearbyLocations = props => {
   const [originalCoordinates, setOriginalCoordinates] = useState([]);
@@ -67,18 +69,21 @@ const NearbyLocations = props => {
       dispatch(
         multiTypeQuery(
           'Health',
+          '/va',
           genQuery(boundingBox, coordinates, 'health', true),
         ),
       );
       dispatch(
         multiTypeQuery(
           'Cemetery',
+          '/va',
           genQuery(boundingBox, coordinates, 'cemetery', false),
         ),
       );
       dispatch(
         multiTypeQuery(
           'VetCenter',
+          '/va',
           genQuery(boundingBox, coordinates, 'vet_center', true),
         ),
       );

@@ -1,27 +1,56 @@
-import React from 'react';
-import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
-import { CHAPTER_3, relationshipOptions } from '../../../constants';
-
-const question = (
-  <h3 className="vads-u-display--inline">
-    {CHAPTER_3.RELATIONSHIP_TO_VET.TITLE}
-  </h3>
-);
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import PageFieldSummary from '../../../components/PageFieldSummary';
+import {
+  CHAPTER_3,
+  relationshipOptionsMyself,
+  relationshipOptionsSomeoneElse,
+} from '../../../constants';
 
 const relationshipToVeteranPage = {
   uiSchema: {
-    'ui:title': question,
-    'ui:description': CHAPTER_3.RELATIONSHIP_TO_VET.PAGE_DESCRIPTION,
-    personalRelationship: radioUI({
-      title: CHAPTER_3.RELATIONSHIP_TO_VET.QUESTION_1,
-      labels: relationshipOptions,
+    'ui:objectViewField': PageFieldSummary,
+    relationshipToVeteran: radioUI({
+      title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
+      labelHeaderLevel: '3',
+      labels: relationshipOptionsSomeoneElse,
+      required: () => true,
+      errorMessages: {
+        required: 'Please select your relationship to the Veteran.',
+      },
     }),
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formData.whoIsYourQuestionAbout === 'Myself') {
+          return {
+            ...formSchema,
+            properties: {
+              relationshipToVeteran: radioSchema(
+                Object.values(relationshipOptionsMyself),
+              ),
+            },
+          };
+        }
+        return {
+          ...formSchema,
+          properties: {
+            relationshipToVeteran: radioSchema(
+              Object.values(relationshipOptionsSomeoneElse),
+            ),
+          },
+        };
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['personalRelationship'],
+    required: ['relationshipToVeteran'],
     properties: {
-      personalRelationship: radioSchema(Object.keys(relationshipOptions)),
+      relationshipToVeteran: radioSchema(
+        Object.values(relationshipOptionsSomeoneElse),
+      ),
     },
   },
 };

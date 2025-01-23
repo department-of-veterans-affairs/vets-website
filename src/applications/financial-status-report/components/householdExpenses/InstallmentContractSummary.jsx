@@ -67,7 +67,7 @@ const InstallmentContractSummary = ({
     const dateYear = dateReceived.split('-')[0];
     const dateMonth = dateReceived.split('-')[1];
 
-    return `${dateMonth}/XX/${dateYear}`;
+    return `${dateMonth}/${dateYear}`;
   };
 
   const billBody = ({
@@ -153,7 +153,6 @@ const InstallmentContractSummary = ({
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="What are examples of installment contracts or other debt?"
-          uswds
         >
           Examples of installment contracts or other debt include:
           <br />

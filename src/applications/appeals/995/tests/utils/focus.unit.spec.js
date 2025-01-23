@@ -1,11 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as focusUtils from 'platform/utilities/ui/focus';
+import * as focusReview from 'platform/forms-system/src/js/utilities/ui/focus-review';
 
-import { focusEvidence, focusUploads } from '../../utils/focus';
-
-import { LAST_ISSUE } from '../../../shared/constants';
+import { focusEvidence, focusH3AfterAlert } from '../../utils/focus';
 
 describe('focusEvidence', () => {
   const renderPage = hasError =>
@@ -36,47 +38,49 @@ describe('focusEvidence', () => {
   });
 });
 
-describe('focusUploads', () => {
-  afterEach(() => {
-    window.sessionStorage.removeItem(LAST_ISSUE);
+describe('focusH3AfterAlert', () => {
+  let focusElementSpy;
+  let focusReviewSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+    focusReviewSpy = sinon.stub(focusReview, 'focusReview');
   });
-  const renderPage = () =>
+  afterEach(() => {
+    focusElementSpy.restore();
+    focusReviewSpy.restore();
+  });
+
+  const setup = () =>
     render(
       <div id="main">
-        <h3>Title</h3>
-        <ul>
-          <li id="root_additionalDocuments_file_0">
-            <select id="root_additionalDocuments_0_attachmentId">
-              <option> </option>
-            </select>
-          </li>
-          <li id="root_additionalDocuments_file_1">
-            <select id="root_additionalDocuments_1_attachmentId">
-              <option> </option>
-            </select>
-          </li>
-        </ul>
+        <div name="topContentElement" />
+        <div name="testScrollElement" />
+        <div>
+          <va-alert status="info" visible="false">
+            <h3 id="alert" slot="headline">
+              Alert header
+            </h3>
+          </va-alert>
+          <h3 id="header">Page header</h3>
+        </div>
       </div>,
     );
 
-  it('should focus on header', async () => {
-    window.location.hash = '';
-    const { container } = await renderPage();
+  it('should focus on h3 outside of va-alert on review page', async () => {
+    setup();
 
-    await focusUploads(0, container);
+    await focusH3AfterAlert();
     await waitFor(() => {
-      const target = $('h3', container);
-      expect(document.activeElement).to.eq(target);
+      expect(focusElementSpy.args[0][0]).to.eq('h3#header');
     });
   });
-  it('should focus on second file select', async () => {
-    window.location.hash = '#1';
-    const { container } = await renderPage();
 
-    await focusUploads(0, container);
+  it('should focus on header on review page', async () => {
+    setup();
+
+    await focusH3AfterAlert({ name: 'test', onReviewPage: true });
     await waitFor(() => {
-      const target = $('#root_additionalDocuments_1_attachmentId', container);
-      expect(document.activeElement).to.eq(target);
+      expect(focusReviewSpy.args[0]).to.deep.equal(['test', true, true]);
     });
   });
 });

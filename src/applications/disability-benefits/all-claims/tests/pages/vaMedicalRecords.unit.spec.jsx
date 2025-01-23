@@ -49,16 +49,15 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
         }}
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(3);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -76,16 +75,15 @@ describe('VA Medical Records', () => {
           },
           newDisabilities,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
         }}
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(4);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -102,10 +100,8 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': false,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': false,
           },
           vaTreatmentFacilities: [],
         }}
@@ -130,10 +126,8 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
           vaTreatmentFacilities: [],
         }}
@@ -142,8 +136,13 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    // Required field: Facility name
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(
+      form.find(
+        'va-checkbox-group[error="Please select at least one condition"]',
+      ).length,
+    ).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

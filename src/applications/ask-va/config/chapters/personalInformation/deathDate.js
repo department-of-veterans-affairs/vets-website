@@ -1,23 +1,47 @@
 import React from 'react';
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
+import {
+  titleUI,
+  dateOfDeathUI,
+  dateOfDeathSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
-
-const questionHeader = (
-  <h4 className="vads-u-display--inline">{CHAPTER_3.DEATH_DATE.TITLE}</h4>
-);
 
 const deathDatePage = {
   uiSchema: {
-    'ui:title': questionHeader,
-    dateOfDeath: currentOrPastDateUI(CHAPTER_3.DEATH_DATE.QUESTION_1),
+    ...titleUI(CHAPTER_3.DEATH_DATE.TITLE),
+    dateOfDeath: {
+      ...dateOfDeathUI(CHAPTER_3.DEATH_DATE.TITLE),
+      'ui:validations': [validateCurrentOrPastMemorableDate],
+      'ui:errorMessages': {
+        required: 'Please enter the date of death',
+      },
+      'ui:reviewField': ({ children }) => (
+        <div className="review-row">
+          <dt>{CHAPTER_3.DEATH_DATE.TITLE}</dt>
+          <dd>
+            {children.props.formData && (
+              <>
+                {new Date(
+                  `${children.props.formData}T00:00:00`,
+                ).toLocaleDateString('en-us', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </>
+            )}
+          </dd>
+        </div>
+      ),
+    },
   },
+
   schema: {
     type: 'object',
     required: ['dateOfDeath'],
     properties: {
-      dateOfDeath: {
-        type: 'string',
-      },
+      dateOfDeath: dateOfDeathSchema,
     },
   },
 };

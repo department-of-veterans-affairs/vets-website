@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -11,7 +12,10 @@ import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
-import { convertRatingToStars } from '../../utils/helpers';
+import {
+  convertRatingToStars,
+  showSchoolContentBasedOnType,
+} from '../../utils/helpers';
 import SchoolRatings from './schoolRatings/SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import GettingStartedWithBenefits from './GettingStartedWithBenefits';
@@ -19,6 +23,8 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
+import YellowRibbonSelector from './YellowRibbonSelector';
+import Programs from './Programs';
 
 export default function InstitutionProfile({
   institution,
@@ -32,16 +38,26 @@ export default function InstitutionProfile({
   compare,
   smallScreen,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-
+  const { type, facilityCode, name, programTypes } = institution;
+  localStorage.setItem('institutionName', name);
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
   // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
+
   let stars = false;
   let ratingCount = 0;
   let institutionRatingIsNotNull = false;
@@ -74,10 +90,7 @@ export default function InstitutionProfile({
   }
   /** ************************************************************************ */
   const displayStars =
-    isProduction &&
-    stars &&
-    isProduction &&
-    ratingCount >= MINIMUM_RATING_COUNT;
+    isShowRatingsToggle && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -89,23 +102,50 @@ export default function InstitutionProfile({
         className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
       >
         <div className="usa-width-three-fourths">
-          <ProfilePageHeader institution={institution} />
+          <ProfilePageHeader
+            institution={institution}
+            isShowRatingsToggle={isShowRatingsToggle}
+          />
+          {type === 'FLIGHT' && (
+            <p>
+              For information about VA flight benefits, visit{' '}
+              <VaLink
+                text="here."
+                href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/"
+              />
+              <span className="vads-u-display--inline-block">
+                Please contact a School Certifying Official listed under the
+                Contact information at the bottom of this page to discuss
+                benefits available.
+              </span>
+            </p>
+          )}
         </div>
 
         <div className="usa-width-one-fourth">
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          <JumpLink
-            label="Calculate your benefits"
-            jumpToId="calculate-your-benefits"
-          />
+          {showSchoolContentBasedOnType(type) &&
+            type !== 'FOREIGN' && (
+              <JumpLink
+                label="Calculate your benefits"
+                jumpToId="calculate-your-benefits"
+              />
+            )}
+          {institution.yr === true &&
+            toggleValue && (
+              <JumpLink
+                label="Yellow Ribbon Program information"
+                jumpToId="yellow-ribbon-program-information"
+              />
+            )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
           {displayStars &&
-            isProduction && (
+            isShowRatingsToggle && (
               <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
             )}
           <JumpLink
@@ -116,6 +156,10 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
+          {programTypes?.length > 0 &&
+            toggleGiProgramsFlag && (
+              <JumpLink label="Programs" jumpToId="programs" />
+            )}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"
@@ -128,16 +172,94 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
+      {showSchoolContentBasedOnType(type) &&
+        type !== 'FOREIGN' && (
+          <ProfileSection
+            label="Calculate your benefits"
+            id="calculate-your-benefits"
+          >
+            <CalculateYourBenefits
+              gibctEybBottomSheet={gibctEybBottomSheet}
+              isOJT={isOJT}
+            />
+          </ProfileSection>
+        )}
 
-      <ProfileSection
-        label="Calculate your benefits"
-        id="calculate-your-benefits"
-      >
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-        />
-      </ProfileSection>
+      {type === 'FOREIGN' && (
+        <p>
+          Limited programs are approved at foreign schools, please contact
+          <a
+            href="mailto:federal.approvals@va.gov"
+            className="vads-u-margin-x--0p5"
+          >
+            federal.approvals@va.gov
+          </a>
+          to verify if your intended program is approved at this foreign
+          location.
+        </p>
+      )}
+      {institution.yr === true &&
+        toggleValue && (
+          <ProfileSection
+            label="Yellow Ribbon Program information"
+            id="yellow-ribbon-program-information"
+          >
+            <p>
+              The Yellow Ribbon program may pay towards net tuition and fee
+              costs not covered by the Post-9/11 GI Bill at participating
+              institutions of higher learning (IHL). Schools that choose to
+              participate in the Yellow Ribbon program will contribute up to a
+              certain dollar amount toward the extra tuition. VA will match the
+              participating school’s contribution
+              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
+              to the total cost of the tuition and fees. To confirm the number
+              of students eligible for funding, contact the individual school.
+            </p>
+            <va-link
+              href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+              text="Find out if you qualify for the Yellow Ribbon Program"
+              className="vads-u-margin-bottom--2"
+            />
+
+            <div className="additional-info-wrapper vads-u-margin-top--2p5">
+              <div className="subsection vads-u-margin-bottom--2">
+                <h3 className="small-screen-header">
+                  What to know about the content displayed
+                </h3>
+              </div>
+
+              <ul className="getting-started-with-benefits-li">
+                <li>
+                  <strong>Degree level:</strong> type of degree such as
+                  Undergraduate, Graduate, Masters, or Doctorate.
+                </li>
+                <li>
+                  <strong>College or professional school:</strong> a school
+                  within a college or university that has a specialized
+                  professional or academic focus.
+                </li>
+                <li>
+                  <strong>Funding available:</strong> total number of students
+                  eligible to receive funding.
+                </li>
+                <li>
+                  <strong> School contribution: </strong> maximum amount the IHL
+                  will contribute per student each academic year toward unmet
+                  tuition and fee costs.
+                </li>
+              </ul>
+            </div>
+            {institution.yellowRibbonPrograms.length > 0 ? (
+              <YellowRibbonSelector
+                programs={institution.yellowRibbonPrograms}
+              />
+            ) : (
+              <p className="vads-u-font-weight--bold vads-u-padding-top--3">
+                No programs to display
+              </p>
+            )}
+          </ProfileSection>
+        )}
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
@@ -145,7 +267,7 @@ export default function InstitutionProfile({
         <GettingStartedWithBenefits />
       </ProfileSection>
       {displayStars &&
-        isProduction && (
+        isShowRatingsToggle && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
             <div>
               <SchoolRatings
@@ -182,6 +304,11 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
+      {toggleGiProgramsFlag && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
+        </ProfileSection>
+      )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />
@@ -211,3 +338,18 @@ export default function InstitutionProfile({
     </div>
   );
 }
+InstitutionProfile.propTypes = {
+  calculator: PropTypes.object,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  eligibility: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([null]),
+  ]),
+  institution: PropTypes.object,
+  isOJT: PropTypes.bool,
+  showModal: PropTypes.func,
+  smallScreen: PropTypes.bool,
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+};

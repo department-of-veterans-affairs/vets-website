@@ -16,4 +16,8 @@ templates.veteranStatus = () => {
   return require('./veteran_status');
 };
 
+templates.selfEnteredInfo = () => {
+  return require('./self_entered_info');
+};
+
 export { templates };

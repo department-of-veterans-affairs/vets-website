@@ -1,66 +1,60 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import _ from 'platform/utilities/data';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
 
-import {
-  evidenceTypeTitle,
-  privateMedicalRecords,
-  evidenceTypeError,
-  evidenceTypeHelp,
-  HasEvidenceLabel,
-  bddShaOtherEvidence,
-} from '../content/evidenceTypesBDD';
+import { evidenceTypeHelp } from '../content/evidenceTypesBDD';
 
 import { BddEvidenceSubmitLater } from '../content/bddEvidenceSubmitLater';
 
 export const uiSchema = {
-  'view:hasEvidence': {
-    'ui:title': ' ',
-    'ui:description': HasEvidenceLabel,
-    'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'No, I will submit more information later',
-      },
-      widgetProps: {
-        N: {
-          'aria-describedby': 'submit-evidence-later',
-        },
-      },
+  'view:hasEvidence': yesNoUI({
+    title:
+      'Do you want to upload any other documents or evidence at this time?',
+    labels: {
+      Y: 'Yes',
+      N: 'No, I will submit more information later',
     },
-  },
-  'view:hasEvidenceFollowUp': {
+  }),
+  'view:selectableEvidenceTypes': {
+    // Displaying atLeastOne validation errors requires using a VaCheckboxGroupField,
+    // which for some reason won't render if export title text from evidenceTypesBDD.jsx.
+    // Thus, titles are written out here.
+    'ui:title':
+      'What type of evidence do you want to submit as part of your claim',
+    'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
+      showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
-    'view:selectableEvidenceTypes': {
-      'ui:title': evidenceTypeTitle,
-      'ui:validations': [
-        {
-          validator: validateIfHasEvidence,
-          options: { wrappedValidator: validateBooleanGroup },
-        },
-      ],
-      'ui:errorMessages': {
-        atLeastOne: evidenceTypeError,
+    'ui:validations': [
+      {
+        validator: validateIfHasEvidence,
+        options: { wrappedValidator: validateBooleanGroup },
       },
-      'ui:required': formData => get('view:hasEvidence', formData, false),
-      'view:hasPrivateMedicalRecords': {
-        'ui:title': privateMedicalRecords,
-      },
-      'view:hasOtherEvidence': {
-        'ui:title': bddShaOtherEvidence,
-      },
+    ],
+    'ui:errorMessages': {
+      atLeastOne: 'Please select at least one type of supporting evidence',
     },
-    'view:evidenceTypeHelp': {
-      'ui:title': ' ',
-      'ui:description': evidenceTypeHelp,
-      'ui:options': {
-        forceDivWrapper: true,
-      },
+    'view:hasPrivateMedicalRecords': {
+      'ui:title': 'Private medical records',
+    },
+    'view:hasOtherEvidence': {
+      'ui:title':
+        'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence',
+    },
+  },
+  'view:evidenceTypeHelp': {
+    'ui:title': ' ',
+    'ui:description': evidenceTypeHelp,
+    'ui:options': {
+      expandUnder: 'view:hasEvidence',
     },
   },
   'view:evidenceSubmitLater': {
@@ -76,25 +70,17 @@ export const schema = {
   type: 'object',
   required: ['view:hasEvidence'],
   properties: {
-    'view:hasEvidence': {
-      type: 'boolean',
-      default: true,
-    },
-    'view:hasEvidenceFollowUp': {
+    'view:hasEvidence': yesNoSchema,
+    'view:selectableEvidenceTypes': {
       type: 'object',
       properties: {
-        'view:selectableEvidenceTypes': {
-          type: 'object',
-          properties: {
-            'view:hasPrivateMedicalRecords': { type: 'boolean' },
-            'view:hasOtherEvidence': { type: 'boolean' },
-          },
-        },
-        'view:evidenceTypeHelp': {
-          type: 'object',
-          properties: {},
-        },
+        'view:hasPrivateMedicalRecords': { type: 'boolean' },
+        'view:hasOtherEvidence': { type: 'boolean' },
       },
+    },
+    'view:evidenceTypeHelp': {
+      type: 'object',
+      properties: {},
     },
     'view:evidenceSubmitLater': {
       type: 'object',

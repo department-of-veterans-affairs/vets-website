@@ -1,51 +1,51 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Outlet, useNavigation } from 'react-router-dom';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Header from '../components/common/Header/Header';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-function App({ children }) {
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+function App() {
   const {
-    useToggleValue,
+    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
-    TOGGLE_NAMES,
+    useToggleValue,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
+  const isAppEnabled = useToggleValue(appToggleKey);
+  const isProduction = window.Cypress || environment.isProduction();
+  const shouldExitApp = isProduction && !isAppEnabled;
 
-  const toggleIsLoading = useToggleLoadingValue();
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  const navigation = useNavigation();
 
-  if (toggleIsLoading) {
+  if (isAppToggleLoading) {
     return (
-      <div className="vads-u-margin-x--3">
-        <VaLoadingIndicator />
+      <div className="vads-u-margin-y--5">
+        <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
       </div>
     );
   }
 
-  if (!appEnabled && environment.isProduction()) {
-    return document.location.replace('/');
+  if (shouldExitApp) {
+    window.location.replace('/');
+    return null;
   }
 
   return (
-    <>
+    <div className="container">
       <Header />
-      {children}
-    </>
+      {navigation.state === 'loading' ? (
+        <VaLoadingIndicator message="Loading..." />
+      ) : (
+        <Outlet />
+      )}
+      <Footer />
+    </div>
   );
 }
 
-App.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-function mapStateToProps({ user }) {
-  return { user };
-}
-
-export default connect(mapStateToProps)(App);
+export default App;

@@ -29,6 +29,7 @@ import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
+import ProviderSelectPage from './components/ProviderSelectPage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
@@ -37,7 +38,6 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import ScheduleCernerPage from './components/ScheduleCernerPage';
-import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
@@ -47,7 +47,7 @@ export function NewAppointment() {
   );
   const match = useRouteMatch();
   const location = useLocation();
-  const [crumb, setCrumb] = useState('New appointment');
+  const [crumb, setCrumb] = useState('Schedule an appointment');
 
   useManualScrollRestoration();
 
@@ -64,8 +64,6 @@ export function NewAppointment() {
       !location.pathname.endsWith('confirmation') &&
       !location.pathname.endsWith('type-of-care'),
   });
-
-  useVariantSortMethodTracking({ skip: shouldRedirectToStart });
 
   if (shouldRedirectToStart) {
     return <Redirect to="/" />;
@@ -120,6 +118,9 @@ export function NewAppointment() {
           </Route>
           <Route path={`${match.url}/location`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/provider`}>
+            <ProviderSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route
             path={`${match.url}/how-to-schedule`}

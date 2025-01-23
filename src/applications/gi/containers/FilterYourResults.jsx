@@ -1,32 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import LearnMoreLabel from '../components/LearnMoreLabel';
 import {
-  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
   createId,
-  validateSearchTerm,
+  validateSearchTermSubmit,
+  isShowVetTec,
+  isEmptyCheckboxFilters,
 } from '../utils/helpers';
-import { showModal, filterChange, setError } from '../actions';
-import { TABS, INSTITUTION_TYPES } from '../constants';
+import { showModal, filterChange, setError, focusSearch } from '../actions';
+import {
+  TABS,
+  INSTITUTION_TYPES,
+  INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
+} from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
-import { useFilterBtn } from '../hooks/useFilterbtn';
-import Loader from '../components/Loader';
+
+const vetTecCheckbox = (
+  vettec,
+  preferredProvider,
+  handleVetTecChange,
+  handlePreferredProviderChange,
+  legendId,
+  automatedTest = false,
+) => {
+  if (isShowVetTec(automatedTest)) {
+    return (
+      <>
+        <Checkbox
+          checked={vettec}
+          name="vettec"
+          label="VET TEC providers"
+          onChange={handleVetTecChange}
+          className="expanding-header-checkbox"
+          inputAriaLabelledBy={legendId}
+        />
+        <div className="expanding-group-children">
+          {vettec && (
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers only"
+              onChange={handlePreferredProviderChange}
+              labelAriaLabel="VET TEC Preferred providers"
+              inputAriaLabelledBy={legendId}
+            />
+          )}
+        </div>
+      </>
+    );
+  }
+  return <div />;
+};
 
 export function FilterYourResults({
-  dispatchShowModal,
   dispatchFilterChange,
   dispatchError,
   filters,
@@ -36,13 +80,14 @@ export function FilterYourResults({
   smallScreen,
   errorReducer,
   searchType,
+  dispatchFocusSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
   const {
-    expanded,
     schools,
+    expanded,
     excludedSchoolTypes,
     excludeCautionFlags,
     accredited,
@@ -65,11 +110,37 @@ export function FilterYourResults({
     specialMissionTRIBAL,
   } = filters;
 
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
+
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
-  const [nameValue, setNameValue] = useState(search.query.name);
-  const { isCleared, setIsCleared, focusOnFirstInput, loading } = useFilterBtn(
-    true,
+  const [nameValue, setNameValue] = useState(
+    search.query.name || search.query.location,
   );
   const recordCheckboxEvent = e => {
     recordEvent({
@@ -104,46 +175,29 @@ export function FilterYourResults({
     updateInstitutionFilters('expanded', value);
   };
 
-  const handleSchoolChange = e => {
-    const { checked } = e.target;
-
-    if (!checked) {
-      dispatchFilterChange({
-        ...filters,
-        schools: false,
-        excludedSchoolTypes: [
-          'PUBLIC',
-          'FOR PROFIT',
-          'PRIVATE',
-          'FOREIGN',
-          'FLIGHT',
-          'CORRESPONDENCE',
-          'HIGH SCHOOL',
-        ],
-        excludeCautionFlags: false,
-        accredited: false,
-        studentVeteran: false,
-        yellowRibbonScholarship: false,
-        specialMission: 'ALL',
-      });
-      recordCheckboxEvent(e);
-    } else {
-      onChangeCheckbox(e);
-    }
-  };
-
   const handleIncludedSchoolTypesChange = e => {
     // The filter consumes these as exclusions
     const { name } = e.target;
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
+
     updateInstitutionFilters(
       'excludedSchoolTypes',
       checked
         ? newExcluded.concat(name)
         : newExcluded.filter(type => type !== name),
     );
+
+    dispatchFilterChange({
+      ...filters,
+      excludedSchoolTypes: checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+      schools: checked
+        ? true
+        : newExcluded.filter(type => type !== name).length !== 0,
+    });
   };
 
   const handleVetTecChange = e => {
@@ -185,12 +239,18 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (isProductionOrTestProdEnv()) {
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    if (
+      validateSearchTermSubmit(
+        nameValue,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
+    ) {
+      updateInstitutionFilters('search', true);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
-    updateInstitutionFilters('search', true);
-
-    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {
@@ -203,23 +263,18 @@ export function FilterYourResults({
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
-        optionLabel: type,
+        optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
+        dataTestId: `school-type-${type}`,
       };
     });
 
     return (
-      <div className="vads-u-margin-bottom--5">
-        <CheckboxGroup
-          label={
-            <div className="vads-u-margin-left--neg0p25">
-              Include these school types:
-            </div>
-          }
-          onChange={handleIncludedSchoolTypesChange}
-          options={options}
-          setIsCleared={setIsCleared}
-        />
-      </div>
+      <CheckboxGroup
+        label={<h3>School types</h3>}
+        onChange={handleIncludedSchoolTypesChange}
+        options={options}
+        // setIsCleared={setIsCleared}
+      />
     );
   };
 
@@ -228,15 +283,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Has no cautionary warnings"
-            onClick={() => {
-              dispatchShowModal('cautionaryWarnings');
-            }}
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Has no cautionary warnings
           </label>
@@ -245,16 +292,7 @@ export function FilterYourResults({
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Is accredited"
-            onClick={() => {
-              dispatchShowModal('accredited');
-            }}
-            buttonId="accredited-button"
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Is accredited
           </label>
@@ -274,11 +312,8 @@ export function FilterYourResults({
 
     return (
       <CheckboxGroup
-        label={
-          <div className="vads-u-margin-left--neg0p25">About the school:</div>
-        }
+        label={<h3>About the school</h3>}
         onChange={onChangeCheckbox}
-        setIsCleared={setIsCleared}
         options={options}
       />
     );
@@ -305,7 +340,7 @@ export function FilterYourResults({
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: 'Religiously affiliated institutions',
+        optionLabel: 'Religiously-affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
@@ -340,84 +375,44 @@ export function FilterYourResults({
       },
     ];
 
+    const sortedOptions = options.sort((a, b) =>
+      a.optionLabel.localeCompare(b.optionLabel),
+    );
+
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
-        label={
-          <div className="vads-u-margin-left--neg0p25">
-            Community focus (i.e., Single-gender, Religious affiliation, HBCU)
-          </div>
-        }
+        label={<h3>Community focus</h3>}
         onChange={onChangeCheckbox}
-        setIsCleared={setIsCleared}
-        options={options}
+        options={sortedOptions}
       />
     );
   };
 
   const typeOfInstitution = () => {
-    const name = 'Type of institution';
     const legendId = `${createId(name)}-legend`;
     return (
-      <>
-        <div className="vads-u-margin-bottom--4">
-          <h3
-            className="vads-u-margin-bottom--3"
-            aria-label={`${name}:`}
-            id={legendId}
-          >
-            {name}
-          </h3>
-          <div className="vads-u-margin-bottom--4">
-            {specializedMissionAttributes()}
-          </div>
-          <Checkbox
-            checked={schools}
-            name="schools"
-            label="Schools"
-            onChange={handleSchoolChange}
-            className="expanding-header-checkbox"
-            inputAriaLabelledBy={legendId}
-            focusOnFirstInput={focusOnFirstInput}
-          />
-          <div className="school-types expanding-group-children">
-            {schools && (
-              <>
-                {excludedSchoolTypesGroup()}
-                {schoolAttributes()}
-              </>
-            )}
-          </div>
-        </div>
+      <div className="vads-u-margin-bottom--4">
+        {excludedSchoolTypesGroup()}
+        {schoolAttributes()}
+        <h3>Other</h3>
         <Checkbox
           checked={employers}
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
-        <Checkbox
-          checked={vettec}
-          name="vettec"
-          label="VET TEC providers"
-          onChange={handleVetTecChange}
-          className="expanding-header-checkbox"
-          inputAriaLabelledBy={legendId}
-        />
-        <div className="expanding-group-children">
-          {vettec && (
-            <Checkbox
-              checked={preferredProvider}
-              name="preferredProvider"
-              label="Preferred providers only"
-              onChange={handlePreferredProviderChange}
-              labelAriaLabel="VET TEC Preferred providers"
-              inputAriaLabelledBy={legendId}
-            />
-          )}
-        </div>
-      </>
+        {vetTecCheckbox(
+          vettec,
+          preferredProvider,
+          handleVetTecChange,
+          handlePreferredProviderChange,
+          legendId,
+        )}
+        {specializedMissionAttributes()}
+      </div>
     );
   };
 
@@ -463,7 +458,7 @@ export function FilterYourResults({
   const renderLocation = () => {
     return (
       <>
-        {loading && <Loader className="search-loader" />}
+        {/* {loading && <Loader className="search-loader" />} */}
         <h3>Location</h3>
         {renderCountryFilter()}
         {renderStateFilter()}
@@ -479,7 +474,14 @@ export function FilterYourResults({
   );
 
   const title = 'Filter your results';
-
+  const updateResultButton = classNames(
+    'vads-u-width--full',
+    'vads-u-margin-top--0',
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--2',
+    'vads-u-margin-right--1p5',
+    'vads-u-padding--0',
+  );
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
@@ -489,8 +491,7 @@ export function FilterYourResults({
           buttonOnClick={() => updateResults()}
           expanded={expanded}
           onClick={onAccordionChange}
-          isCleared={isCleared}
-          setIsCleared={setIsCleared}
+          dispatchFocusSearch={dispatchFocusSearch}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -514,22 +515,18 @@ export function FilterYourResults({
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button"
+              className={`${updateResultButton}`}
               onClick={closeAndUpdate}
-            >
-              Update results
-            </button>
+              text="Update results"
+              data-testid="Update-results"
+            />
             {!environment.isProduction() && (
               <ClearFiltersBtn
+                className="reset-search-small-screen"
                 smallScreen={smallScreen}
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
-              >
-                Clear filters
-              </ClearFiltersBtn>
+              />
             )}
           </div>
         </div>
@@ -549,8 +546,20 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
   dispatchError: setError,
+  dispatchFocusSearch: focusSearch,
 };
-
+FilterYourResults.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFilterChange: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  modalClose: PropTypes.func.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  searchType: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  dispatchFocusSearch: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -21,66 +21,6 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const advanceToToxicExposure = () => {
-  cy.get('[href="#start"]')
-    .first()
-    .click();
-  cy.wait('@mockSip');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/personal-information',
-  );
-  goToNextPage('/veteran-information/birth-information');
-  goToNextPage('/veteran-information/maiden-name-information');
-  goToNextPage('/veteran-information/birth-sex');
-  goToNextPage('/veteran-information/demographic-information');
-  goToNextPage('/veteran-information/veteran-address');
-  cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
-
-  goToNextPage('/veteran-information/contact-information');
-  cy.wait('@mockSip');
-  goToNextPage('/va-benefits/basic-information');
-  cy.get('[name="root_vaCompensationType"]').check('none');
-  goToNextPage('/va-benefits/pension-information');
-  cy.get('[name="root_vaPensionType"]').check('No');
-  goToNextPage('/military-service/service-information');
-  goToNextPage('/military-service/additional-information');
-};
-
-export const advanceFromToxicExposureToReview = () => {
-  goToNextPage('/household-information/financial-information-use');
-
-  goToNextPage('/household-information/share-financial-information');
-  cy.get('[name="root_discloseFinancialInformation"]').check('N');
-
-  goToNextPage('/household-information/share-financial-information-confirm');
-  cy.findAllByText(/confirm/i, { selector: 'button' })
-    .first()
-    .click();
-
-  goToNextPage('/household-information/marital-status');
-  cy.get('#root_maritalStatus').select(testData.maritalStatus);
-
-  goToNextPage('/insurance-information/medicaid');
-  cy.get('[name="root_isMedicaidEligible"]').check('N');
-
-  goToNextPage('/insurance-information/medicare');
-  cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
-
-  goToNextPage('/insurance-information/general');
-  cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
-
-  goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
-    testData['view:preferredFacility']['view:facilityState'],
-  );
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
-    testData['view:preferredFacility'].vaMedicalFacility,
-  );
-
-  goToNextPage('review-and-submit');
-};
-
 export const fillGulfWarDateRange = () => {
   const { gulfWarStartDate, gulfWarEndDate } = testData[
     'view:gulfWarServiceDates'
@@ -129,15 +69,21 @@ export const fillToxicExposureDateRange = () => {
   );
 };
 
+export const selectDropdownWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-select[name="root_${fieldName}"]`)
+      .shadow()
+      .find('select')
+      .select(value);
+  }
+};
+
 export const advanceToHousehold = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
   cy.wait('@mockSip');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/personal-information',
-  );
+  cy.location('pathname').should('include', '/check-your-personal-information');
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
   goToNextPage('/veteran-information/birth-sex');
@@ -153,6 +99,8 @@ export const advanceToHousehold = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
+  goToNextPage('/military-service/toxic-exposure');
+  cy.get('[name="root_hasTeraResponse"]').check('N');
   goToNextPage('/household-information/financial-information-use');
 };
 
@@ -163,14 +111,18 @@ export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicare');
   cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
 
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
   goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+  selectDropdownWebComponent(
+    'view:preferredFacility_view:facilityState',
     testData['view:preferredFacility']['view:facilityState'],
   );
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+  cy.wait('@getFacilities');
+  selectDropdownWebComponent(
+    'view:preferredFacility_vaMedicalFacility',
     testData['view:preferredFacility'].vaMedicalFacility,
   );
 
@@ -237,14 +189,6 @@ export const fillSpousalBasicInformation = () => {
   cy.get('#root_dateOfMarriageYear').type(maritalYear);
 };
 
-export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-alert-expandable')
-    .shadow()
-    .findByText(/you’re filling out a shortened application!/i)
-    .first()
-    .should('exist');
-};
-
 export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('highDisability');
@@ -262,24 +206,26 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .first()
     .click();
 
+  cy.get('[name="root_hasTeraResponse"]').check('N');
+  goToNextPage('/insurance-information/medicaid');
+
   // medicaid page with short form message
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 
-  // general insurance
+  // insurance policies
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
   // va facility
   goToNextPage('/insurance-information/va-facility');
-  shortFormAdditionalHelpAssertion();
-
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+  selectDropdownWebComponent(
+    'view:preferredFacility_view:facilityState',
     testData['view:preferredFacility']['view:facilityState'],
   );
-
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+  cy.wait('@getFacilities');
+  selectDropdownWebComponent(
+    'view:preferredFacility_vaMedicalFacility',
     testData['view:preferredFacility'].vaMedicalFacility,
   );
 
@@ -305,4 +251,76 @@ export const shortFormSelfDisclosureToSubmit = () => {
       .should('eq', 'highDisability');
   });
   cy.location('pathname').should('include', '/confirmation');
+};
+
+// Keyboard-only pattern helpers
+export const fillAddressWithKeyboard = (fieldName, value) => {
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street"]`, value.street);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street2"]`, value.street2);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street3"]`, value.street3);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_city"]`, value.city);
+  cy.tabToElement(`[name="root_${fieldName}_state"]`);
+  cy.chooseSelectOptionUsingValue(value.state);
+  cy.typeInIfDataExists(
+    `[name="root_${fieldName}_postalCode"]`,
+    value.postalCode,
+  );
+};
+
+export const fillDateWithKeyboard = (fieldName, value) => {
+  const [year, month, day] = value
+    .split('-')
+    .map(num => parseInt(num, 10).toString());
+  cy.tabToElement(`[name="root_${fieldName}Month"]`);
+  cy.chooseSelectOptionUsingValue(month);
+  // eslint-disable-next-line no-restricted-globals
+  if (!isNaN(day)) {
+    cy.tabToElement(`[name="root_${fieldName}Day"]`);
+    cy.chooseSelectOptionUsingValue(day);
+  }
+  cy.typeInIfDataExists(`[name="root_${fieldName}Year"]`, year);
+};
+
+export const fillNameWithKeyboard = (fieldName, value) => {
+  cy.typeInIfDataExists(`[name="root_${fieldName}_first"]`, value.first);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_middle"]`, value.middle);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_last"]`, value.last);
+  if (value.suffix) {
+    cy.tabToElement(`[name="root_${fieldName}_suffix"]`);
+    cy.chooseSelectOptionUsingValue(value.suffix);
+  }
+};
+
+export const selectDropdownWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="root_${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
+};
+
+export const selectRadioWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="root_${fieldName}"]`);
+  cy.findOption(value);
+  cy.realPress('Space');
+};
+
+// single field web component fill helpers
+export const fillTextWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-text-input[name="root_${fieldName}"]`)
+      .shadow()
+      .find('input')
+      .type(value);
+  }
+};
+
+export const selectRadioWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(
+      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
+    ).click();
+  }
+};
+
+export const selectYesNoWebComponent = (fieldName, value) => {
+  const selection = value ? 'Y' : 'N';
+  selectRadioWebComponent(fieldName, selection);
 };

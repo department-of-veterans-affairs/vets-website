@@ -9,6 +9,7 @@ describe('<CautionaryInformation>', () => {
     const institution = {
       complaints: {
         financialByFacCode: 0,
+        mainCampusRollUp: 1,
       },
       cautionFlags: [],
     };

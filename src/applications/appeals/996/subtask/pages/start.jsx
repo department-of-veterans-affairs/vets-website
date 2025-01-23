@@ -9,6 +9,8 @@ import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
+import { PageTitle } from '../../content/title';
+
 import pageNames from './pageNames';
 
 const content = {
@@ -66,17 +68,14 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
-      <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0996 (Higher-Level Review)
-      </div>
+      <PageTitle />
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
       </h2>
       <p>
-        Use this form if you disagree with VA’s decision on your claim and want
-        to request that a senior reviewer take a new look at your case and the
-        evidence you provided. You can’t submit any new evidence with a
+        Use this form if you disagree with VA’s decision on your initial or
+        supplemental claim, and want to request a new review of your case by a
+        higher-level reviewer. You can’t submit any new evidence with a
         Higher-Level Review.
       </p>
       <va-additional-info
@@ -84,8 +83,8 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         uswds
       >
         <p className="vads-u-padding-bottom--1">
-          If you don’t think this is the right form for you, find out about
-          other decision review options.
+          If you don’t think this is the right form for you, there other
+          decision review options.
         </p>
         <a href="/resources/choosing-a-decision-review-option/">
           Learn about choosing a decision review option

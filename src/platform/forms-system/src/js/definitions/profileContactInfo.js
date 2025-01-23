@@ -14,8 +14,10 @@ import {
   standardEmailSchema,
   profileAddressSchema,
   blankSchema,
+  getReturnState,
   clearReturnState,
 } from '../utilities/data/profile';
+import { scrollTo, focusElement } from '../../../../utilities/ui';
 
 /**
  * Profile settings
@@ -87,6 +89,9 @@ const profileContactInfo = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
+  disableMockContactInfo = false,
+  contactSectionHeadingLevel = null,
+  editContactInfoHeadingLevel = null,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -98,8 +103,14 @@ const profileContactInfo = ({
     wrapperProperties[addressKey] = addressSchema || profileAddressSchema;
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
-      path: `edit-${contactPath}-mailing-address`,
-      CustomPage: props => EditAddress({ ...props, content, contactPath }),
+      path: `${contactPath}/edit-mailing-address`,
+      CustomPage: props =>
+        EditAddress({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -113,8 +124,14 @@ const profileContactInfo = ({
       phoneSchema || standardPhoneSchema(requiredList.includes(keys.homePhone));
     config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
-      path: `edit-${contactPath}-home-phone`,
-      CustomPage: props => EditHomePhone({ ...props, content, contactPath }),
+      path: `${contactPath}/edit-home-phone`,
+      CustomPage: props =>
+        EditHomePhone({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -128,8 +145,14 @@ const profileContactInfo = ({
       standardPhoneSchema(requiredList.includes(keys.mobilePhone));
     config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
-      path: `edit-${contactPath}-mobile-phone`,
-      CustomPage: props => EditMobilePhone({ ...props, content, contactPath }),
+      path: `${contactPath}/edit-mobile-phone`,
+      CustomPage: props =>
+        EditMobilePhone({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -141,8 +164,14 @@ const profileContactInfo = ({
     wrapperProperties[emailKey] = emailSchema || standardEmailSchema;
     config[`${contactInfoPageKey}EditEmailAddress`] = {
       title: content.editEmail,
-      path: `edit-${contactPath}-email-address`,
-      CustomPage: props => EditEmail({ ...props, content, contactPath }),
+      path: `${contactPath}/edit-email-address`,
+      CustomPage: props =>
+        EditEmail({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -162,6 +191,9 @@ const profileContactInfo = ({
           keys,
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
+          disableMockContactInfo,
+          contactSectionHeadingLevel,
+          editContactInfoHeadingLevel,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
@@ -187,6 +219,13 @@ const profileContactInfo = ({
       onFormExit: formData => {
         clearReturnState();
         return formData;
+      },
+      // overide scroll & focus header
+      scrollAndFocusTarget: () => {
+        if (!getReturnState()) {
+          scrollTo('topContentElement');
+          focusElement('h3');
+        }
       },
     },
     // edit pages; only accessible via ContactInfo component links

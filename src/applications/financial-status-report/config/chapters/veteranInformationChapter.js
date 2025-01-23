@@ -104,11 +104,11 @@ export default {
         title: 'Spouse name',
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData => formData.questions?.isMarried,
       },
       spouseTransition: {
         path: 'spouse-transition',
-        title: 'Spouse Transition',
+        title: 'You added a spouse',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: SpouseTransitionExplainer,
@@ -116,28 +116,28 @@ export default {
         depends: formData => {
           const globalState = getGlobalState();
           return (
-            formData.questions.isMarried &&
-            !formData.reviewNavigation &&
+            formData.questions?.isMarried &&
+            !formData?.reviewNavigation &&
             globalState.spouseChanged
           );
         },
       },
       dependentCount: {
         path: 'dependents-count',
-        title: 'Dependents',
-        uiSchema: {},
+        title: 'Dependent count',
+        uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,
       },
       dependentAges: {
         path: 'dependent-ages',
-        title: 'Dependents',
+        title: 'Dependents ages',
         uiSchema: {},
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0' &&
+          formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,

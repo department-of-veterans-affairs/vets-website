@@ -1,11 +1,11 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import {
   PensionInfoDescription,
   PensionTypeDescription,
 } from '../../../components/FormDescriptions';
 
-const { vaPensionType } = fullSchemaHca.properties;
+const { vaPensionType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -15,7 +15,6 @@ export default {
       'ui:title': 'Do you receive a Veterans pension from the VA?',
       'ui:description': PensionTypeDescription,
       'ui:reviewField': CustomReviewField,
-      'ui:required': () => true,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -27,9 +26,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['vaCompensationType'],
-    properties: {
-      vaPensionType,
-    },
+    required: ['vaPensionType'],
+    properties: { vaPensionType },
   },
 };

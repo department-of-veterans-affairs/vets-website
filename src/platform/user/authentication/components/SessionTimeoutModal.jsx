@@ -28,8 +28,7 @@ export class SessionTimeoutModal extends React.Component {
   }
 
   componentDidUpdate() {
-    this.serviceName =
-      this.props.serviceName === undefined ? '' : this.props.serviceName;
+    this.serviceName = this.props.serviceName;
     if (this.props.isLoggedIn && !this.expirationInterval) {
       this.clearInterval();
       this.expirationInterval = setInterval(this.checkExpiration, 1000);
@@ -105,6 +104,7 @@ export class SessionTimeoutModal extends React.Component {
         title="Your session will end in..."
         visible={this.state.countdown} // Display only for 30s countdown.
       >
+        {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
         <div className="vads-u-text-align--center">
           <div className="vads-u-font-size--2xl">{this.state.countdown}</div>
           <div>SECONDS</div>
@@ -134,11 +134,12 @@ export class SessionTimeoutModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     isLoggedIn: isLoggedIn(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
-    serviceName: signInServiceNameSelector(state),
+    serviceName:
+      signInServiceNameSelector(state) || sessionStorage.getItem('ci') || '',
   };
 };
 

@@ -1,13 +1,28 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import startApp from '@department-of-veterans-affairs/platform-startup/index';
+
+import React from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 
 import './sass/accredited-representative-portal.scss';
-import routes from './routes';
-import reducer from './reducers';
-import manifest from './manifest.json';
+import './sass/POARequestCard.scss';
+import './sass/POARequestDetails.scss';
+import './sass/Header.scss';
 
-startApp({
-  url: manifest.rootUrl,
-  reducer,
-  routes,
+import manifest from './manifest.json';
+import routes from './routes';
+import createReduxStore from './utilities/store';
+
+window.appName = manifest.entryName;
+
+const router = createBrowserRouter(routes, {
+  basename: '/representative',
 });
+
+startReactApp(
+  <Provider store={createReduxStore()}>
+    <RouterProvider router={router} />
+  </Provider>,
+);

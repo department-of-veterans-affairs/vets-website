@@ -40,7 +40,7 @@ describe('Veteran address', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
@@ -121,12 +121,12 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '34035',
     );
     fillData(
       form,
       'input#root_veteranContactInformation_phoneNumber',
-      '8005551212',
+      '800-555-1212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -168,7 +168,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '34012',
+      '34035',
     );
     fillData(
       form,
@@ -304,7 +304,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '34035',
     );
     fillData(
       form,
@@ -584,6 +584,47 @@ describe('Veteran address', () => {
     ).to.include(
       'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base.” If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.',
     );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should display an error if the veteran enters an invalid phone number not matching 111222333 or 111-222-333', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      false,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '04102',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '1008005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(
+      form
+        .find('#root_veteranContactInformation_phoneNumber-error-message')
+        .text(),
+    ).to.include('Enter a 10-digit phone number without dashes or spaces');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

@@ -12,9 +12,6 @@ export const otherIncome = [
 ];
 
 export const monetaryAssets = [
-  'Cash',
-  'Checking accounts',
-  'Savings accounts',
   'U.S. Savings Bonds',
   'Retirement accounts (401k, IRAs, 403b, TSP)',
   'Other stocks and bonds (not in your retirement accounts)',
@@ -75,4 +72,17 @@ export const otherLivingExpensesOptions = [
   'Legal fees',
   'Pet care',
   'Transportation and car expenses',
+];
+export const otherLivingExpensesList = [
+  `Clothing`,
+  `Entertainment`,
+  `Family and child care`,
+  `Food`,
+  `Health expenses`,
+  `Homeowner's Association (HOA) fees`,
+  `Household maintenance`,
+  `Legal fees`,
+  `Pet care`,
+  `Renters insurance`,
+  `Transportation and car expenses (including insurance)`,
 ];

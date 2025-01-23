@@ -1,7 +1,10 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  extractContainedResource,
+  formatDate,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -16,9 +19,14 @@ const initialState = {
 
   /**
    * The list of vaccines returned from the api
-   * @type {array}
+   * @type {Array}
    */
   vaccinesList: undefined,
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The vaccine currently being displayed to the user
    */
@@ -78,7 +86,9 @@ export const extractReaction = vaccine => {
 export const extractNote = vaccine => {
   // Check if the vaccine object contains valid note data
   return (
-    (isArrayAndHasItems(vaccine.note) && vaccine.note.map(note => note.text)) ||
+    (isArrayAndHasItems(vaccine.note) &&
+      vaccine.note.map(note => note.text).join().length &&
+      vaccine.note.map(note => note.text)) ||
     []
   );
 };
@@ -88,6 +98,7 @@ export const extractNote = vaccine => {
  * @param {Object} vaccine a FHIR vaccine resource
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
+
 export const convertVaccine = vaccine => {
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
@@ -96,7 +107,7 @@ export const convertVaccine = vaccine => {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
-      ? formatDateLong(vaccine.occurrenceDateTime)
+      ? formatDate(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
@@ -121,18 +132,39 @@ export const vaccineReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vaccines.GET_LIST: {
-      const vaccineList = action.response.entry;
+      const oldList = state.vaccinesList;
+      const newList =
+        action.response.entry
+          ?.map(record => {
+            const vaccine = record.resource;
+            return convertVaccine(vaccine);
+          })
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vaccinesList:
-          vaccineList
-            ?.map(record => {
-              const vaccine = record.resource;
-              return convertVaccine(vaccine);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
+        vaccinesList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Vaccines.COPY_UPDATED_LIST: {
+      const originalList = state.vaccinesList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          vaccinesList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Vaccines.CLEAR_DETAIL: {

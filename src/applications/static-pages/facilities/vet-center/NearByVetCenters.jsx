@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect, useDispatch } from 'react-redux';
+import {
+  calculateBoundingBox,
+  getFeaturesFromAddress,
+} from 'platform/utilities/facilities-and-mapbox';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
 import {
-  calculateBoundingBox,
   convertMetersToMiles,
   distancesToNearbyVetCenters,
-} from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+} from '../facilityUtilities';
 import buildFacility from './buildFacility';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;
@@ -23,12 +25,17 @@ const NearByVetCenters = props => {
   );
   const dispatch = useDispatch();
 
-  const fetchVetCenters = query => {
+  const fetchVetCenters = body => {
     dispatch(fetchFacilityStarted());
-    apiRequest(query, {
-      apiVersion: 'v1',
+    apiRequest('/va', {
+      apiVersion: 'facilities_api/v2',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
     }).then(res => {
-      dispatch(fetchFacilitySuccess());
+      dispatch(fetchFacilitySuccess(res.data));
       setFetchedVetCenters(res.data);
     });
   };
@@ -51,17 +58,18 @@ const NearByVetCenters = props => {
         coordinates[0],
         NEARBY_VET_CENTER_RADIUS_MILES,
       );
-      const params = [
-        'type=vet_center',
-        'page=1',
-        'per_page=5',
-        'mobile=false',
-        `radius=${NEARBY_VET_CENTER_RADIUS_MILES}`,
-        `latitude=${coordinates[1]}`,
-        `longitude=${coordinates[0]}`,
-        ...boundingBox.map(c => `bbox[]=${c}`),
-      ].join('&');
-      fetchVetCenters(`/facilities/va/?${params}`);
+      const params = {
+        type: 'vet_center',
+        page: 1,
+        // eslint-disable-next-line camelcase
+        per_page: 5,
+        mobile: false,
+        radius: NEARBY_VET_CENTER_RADIUS_MILES,
+        lat: coordinates[1],
+        long: coordinates[0],
+        bbox: boundingBox,
+      };
+      fetchVetCenters(params);
     }
   };
 
@@ -93,6 +101,9 @@ const NearByVetCenters = props => {
         });
 
       const fetchDrivingData = async () => {
+        if (vetCentersCoordinates.length === 0) {
+          return;
+        }
         const response = await fetch(
           distancesToNearbyVetCenters(
             originalCoordinates,
@@ -136,7 +147,7 @@ const NearByVetCenters = props => {
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row facility
+        mobile-lg:vads-u-flex-direction--row facility
       vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         key={vetCenter.id || vetCenter.fieldFacilityLocatorApiId}
       >
@@ -149,7 +160,7 @@ const NearByVetCenters = props => {
 
         {vetCenter.fieldMedia && (
           <section
-            className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
+            className="region-grid usa-width-one-half vads-u-order--first mobile-lg:vads-u-order--initial
         vads-u-margin-bottom--2"
           >
             <VetCenterImageSection vetCenter={vetCenter} />
@@ -169,7 +180,6 @@ const NearByVetCenters = props => {
 
       centerDistance = vetCenterDistance.distance;
     }
-
     return buildFacility(vc, centerDistance);
   };
 
@@ -217,15 +227,31 @@ const NearByVetCenters = props => {
     );
     return renderNearbyVetCenterContainer(normalizedFetchedVetCenters);
   }
+  if (originalCoordinates && fetchedVetCenters.length > 0) {
+    return (
+      <>
+        <h2
+          className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                  medium-screen:vads-u-margin-bottom--3"
+          id="other-near-locations-not-found"
+          data-testid="other-near-locations-not-found"
+        >
+          Other nearby Vet Centers
+        </h2>
+        <p>No nearby Vet Center locations found.</p>
+      </>
+    );
+  }
   return null;
 };
 
 NearByVetCenters.propTypes = {
-  vetCenters: PropTypes.array,
-  mainVetCenterPhone: PropTypes.string,
+  facilitiesLoading: PropTypes.bool,
   mainVetCenterAddress: PropTypes.object,
   mainVetCenterId: PropTypes.string,
+  mainVetCenterPhone: PropTypes.string,
   satteliteVetCenters: PropTypes.array,
+  vetCenters: PropTypes.array,
 };
 
 const mapStateToProps = store => ({

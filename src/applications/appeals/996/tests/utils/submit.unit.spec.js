@@ -4,7 +4,6 @@ import {
   getAddress,
   getConferenceTime,
   getRep,
-  getTimeZone,
   getContact,
 } from '../../utils/submit';
 
@@ -18,7 +17,7 @@ describe('getRep', () => {
     informalConferenceRep: {
       firstName: 'James',
       lastName: 'Sullivan',
-      phone: '8005551212',
+      phone: '800-555-1212',
       extension,
       email,
     },
@@ -48,6 +47,18 @@ describe('getRep', () => {
         countryCode: '1',
         areaCode: '800',
         phoneNumber: '5551212',
+      },
+    });
+  });
+
+  it('should not throw an error with an empty phone object', () => {
+    const data = getDataV2({ extension: '', email: '' });
+    data.informalConferenceRep.phone = null;
+    expect(getRep(data)).to.deep.equal({
+      firstName: 'James',
+      lastName: 'Sullivan',
+      phone: {
+        countryCode: '1',
       },
     });
   });
@@ -143,13 +154,6 @@ describe('getAddress', () => {
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });
 

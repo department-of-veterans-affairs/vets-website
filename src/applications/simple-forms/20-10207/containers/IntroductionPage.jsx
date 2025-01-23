@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -14,6 +16,29 @@ const IntroductionPage = props => {
   // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
+
+  useEffect(() => {
+    const { livingSituation, otherReasons, otherHousingRisks } = formData;
+
+    const formNotStarted = ![
+      livingSituation,
+      otherReasons,
+      otherHousingRisks,
+    ].some(obj => obj && Object.values(obj).some(el => el != null));
+
+    if (formNotStarted) {
+      const dataTransfer = JSON.parse(
+        sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
+      );
+      if (dataTransfer && Date.now() < dataTransfer.expiry) {
+        dispatch(setData({ ...formData, ...dataTransfer.data }));
+      }
+    }
+    sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
+  }, []);
 
   const childContent = (
     <>
@@ -181,14 +206,6 @@ const IntroductionPage = props => {
         </p>
       </va-additional-info>
       <h2 id="start-your-request">Start your request</h2>
-      <p>
-        <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
-        Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-        account. If you don’t have any of those accounts, you can create a free{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account when you
-        sign in to start filling out your form.
-      </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div
@@ -254,6 +271,9 @@ const IntroductionPage = props => {
       childContent={childContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

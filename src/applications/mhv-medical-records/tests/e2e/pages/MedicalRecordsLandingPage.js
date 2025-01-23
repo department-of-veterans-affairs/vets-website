@@ -1,80 +1,82 @@
-class MedicationsLandingPage {
+import sessionStatus from '../fixtures/session-status.json';
+
+class MedicalRecordsLandingPage {
+  handleSession = () => {
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
+  };
+
   clickExpandAllAccordionButton = () => {
     cy.contains('Expand all').click({ force: true });
   };
 
-  verifyListMedicationsAndSuppliesAccordionDropDown = () => {
-    cy.get('[data-testid="tool-information"]')
-      .contains(
-        'This tool lists medications and supplies prescribed by your VA providers. It also lists medications and supplies prescribed by non-VA providers, if you filled them through a VA pharmacy.',
-      )
-      .should('be.visible');
+  verifyPageTitle = () => {
+    cy.get('[data-testid="mr-landing-page-title"]').contains('Medical records');
   };
 
-  verifyWhatTypeOfPrescriptionsAccordionDropDown = () => {
-    cy.get('[data-testid="track-refill-prescription-info"]')
-      .contains(
-        'You can refill and track your shipments of most VA prescriptions. This includes prescription medications and prescription supplies, like diabetic supplies.',
-      )
-      .should('be.visible');
+  verifyDownloadOnMhvLink = linkText => {
+    cy.get('[data-testid="go-to-mhv-download-records"]').should('be.visible');
+    cy.get('[data-testid="go-to-mhv-download-records"]')
+      .contains(linkText)
+      .invoke('attr', 'href')
+      .should(
+        'contain',
+        'myhealth.va.gov/mhv-portal-web/download-my-data', // mhv-syst.
+      );
   };
 
-  verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
-    cy.get('[data-testid="prescription-refill-info"]')
-      .contains(
-        'Prescriptions usually arrive within 3 to 5 days after we ship them. You can find tracking information in your prescription details.',
-      )
-      .should('be.visible');
+  verifyLabsAndTestsLink = () => {
+    cy.get('[data-testid="labs-and-tests-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/labs-and-tests');
   };
 
-  verifyMoreQuestionsAccordionDropDown = () => {
-    cy.get('[data-testid="more-questions"]')
-      .contains(
-        'For questions about your medications and supplies, send a secure message to your care team.',
-      )
-      .should('be.visible');
+  verifyNotesLink = () => {
+    cy.get('[data-testid="notes-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/summaries-and-notes');
   };
 
-  clickExpandAccordionsOnMedicationsLandingPage = () => {
-    cy.expandAccordions();
+  verifyVaccinesLink = () => {
+    cy.get('[data-testid="vaccines-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/vaccines');
   };
 
-  verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
-    cy.get('[data-testid="renew-information-button"]')
-      .contains(
-        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
-      )
-      .should('be.visible');
+  verifyAllergiesLink = () => {
+    cy.get('[data-testid="allergies-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/allergies');
   };
 
-  verifyHowToConfirmOrUpdateMailingAddressAccordionDropDown = () => {
-    cy.get('[data-testid="mailing-address-confirmation"]')
-      .contains(
-        'We’ll send your prescriptions to the address we have on file for you. We ship to all addresses in the U.S. and its territories. We don’t ship prescriptions to foreign countries.',
-      )
-      .should('be.visible');
+  verifyConditionsLink = () => {
+    cy.get('[data-testid="conditions-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/conditions');
   };
 
-  verifyHowToReviewAllergiesAndReactionsAccordionDropDown = () => {
-    cy.get('[data-testid="allergies-reactions-review"]')
-      .contains(
-        'Make sure your providers know about all your allergies and reactions to medications.',
-      )
-      .should('be.visible');
+  verifyVitalsLink = () => {
+    cy.get('[data-testid="vitals-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', '/my-health/medical-records/vitals');
   };
 
-  verifyNavigationToLandingPageAfterClickingBreadcrumb = () => {
-    cy.get('[data-testid="landing-page-heading"]')
-      .should('be.visible')
-      .and('contain', 'About medications');
+  verifySettingsLink = () => {
+    cy.get('[data-testid="settings-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and('include', 'my-health/medical-records/settings');
   };
 
-  verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    // cy.get('[data-testid="empty-list-alert"] >div ').should(
-    cy.get('[data-testid="alert-message"]').should(
-      'contain.text',
-      'You don’t have any medications in your medications list',
-    );
+  verifyDownloadReportsLink = () => {
+    cy.get('[data-testid="go-to-download-mr-reports"]')
+      .should('have.attr', 'href')
+      .and('include', 'my-health/medical-records/download');
   };
 }
-export default MedicationsLandingPage;
+export default new MedicalRecordsLandingPage();

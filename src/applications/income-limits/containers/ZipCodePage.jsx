@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
-  VaNumberInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +14,6 @@ import {
   updateZipValidationServiceError,
 } from '../actions';
 import { validateZip } from '../api';
-import { customizeTitle } from '../utilities/customize-title';
 
 const ZipCodePage = ({
   editMode,
@@ -35,10 +34,6 @@ const ZipCodePage = ({
       ? `What was your zip code in ${year - 1}?`
       : `What was your zip code last year?`;
   };
-
-  useEffect(() => {
-    document.title = customizeTitle(determineH1());
-  });
 
   // Checks that a zip was entered and is numbers only and has length of 5
   const inputValid = zip => {
@@ -108,6 +103,8 @@ const ZipCodePage = ({
   const onBlurInput = () => {
     if (inputValid(zipCode)) {
       setFormError(false);
+    } else {
+      setFormError(true);
     }
   };
 
@@ -136,12 +133,10 @@ const ZipCodePage = ({
     <>
       <h1>{determineH1()}</h1>
       <form>
-        <VaNumberInput
+        <VaTextInput
           className="input-size-3"
           data-testid="il-zipCode"
-          error={
-            (formError && 'Please enter a valid 5 digit zip code.') || null
-          }
+          error={(formError && 'Enter a valid 5 digit zip code.') || null}
           hint={`Enter the zip code for where you lived for all or most of ${getPreviousYear(
             pastMode,
             year,
@@ -154,7 +149,6 @@ const ZipCodePage = ({
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          required
           uswds
           value={zipCode || ''}
         />

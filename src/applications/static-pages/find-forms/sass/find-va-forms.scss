@@ -1,0 +1,50 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+[data-widget-type="find-va-forms"] {
+  .usa-input-error {
+    margin-top: inherit;
+    position: inherit;
+  }
+
+  i {
+    pointer-events: none;
+  }
+
+  .vads-l-grid-container--full {
+    border-bottom: 1px solid var(--vads-color-base-lighter);
+    margin-bottom: 0;
+  }
+
+  .find-va-forms-pagination-override {
+    border: none;
+  }
+
+  .find-forms-search-metadata {
+    div {
+      align-items: center;
+      display: flex;
+
+      label {
+        margin-top: 0;
+        width: 75px;
+      }
+    }
+  }
+}
+
+@media (min-width: $medium-screen) {
+  [data-widget-type="find-va-forms"] {
+    [data-e2e-id="find-form-search-form"] {
+      .find-form-button {
+        border-radius: 0px;
+      }
+    }
+  }
+}
+
+.medium-screen-va-border-left-radius--0 {
+  @media (min-width: $medium-screen) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   isEmptyObject,
   getItemSchema,
-  returnPhoneObject,
+  isOutsideForm,
 } from '../../utils/helpers';
 
 describe('isEmptyObject', () => {
@@ -37,29 +37,27 @@ describe('getItemSchema', () => {
   });
 });
 
-describe('returnPhoneObject', () => {
-  const blankResult = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  it('should return invalid phone', () => {
-    expect(returnPhoneObject(undefined)).to.deep.equal(blankResult);
-    expect(returnPhoneObject(null)).to.deep.equal(blankResult);
-    expect(returnPhoneObject('')).to.deep.equal(blankResult);
-    expect(returnPhoneObject('800')).to.deep.equal(blankResult);
-    expect(returnPhoneObject('80055')).to.deep.equal(blankResult);
-    expect(returnPhoneObject('80055512')).to.deep.equal(blankResult);
-    expect(returnPhoneObject('800555121')).to.deep.equal(blankResult);
+describe('isOutsideForm', () => {
+  it('should return true', () => {
+    expect(isOutsideForm('/start')).to.be.true;
+    expect(isOutsideForm('/introduction')).to.be.true;
+    expect(isOutsideForm('/confirmation')).to.be.true;
+    expect(isOutsideForm('/form-saved')).to.be.true;
+    expect(isOutsideForm('/error')).to.be.true;
+    expect(isOutsideForm('/resume')).to.be.true;
+    expect(isOutsideForm('/start/')).to.be.true;
+    expect(isOutsideForm('/introduction/')).to.be.true;
+    expect(isOutsideForm('/confirmation/')).to.be.true;
+    expect(isOutsideForm('/form-saved/')).to.be.true;
+    expect(isOutsideForm('/error/')).to.be.true;
+    expect(isOutsideForm('/resume/')).to.be.true;
   });
-  it('should return a phone object from a string', () => {
-    const result = returnPhoneObject('8005551212');
-    expect(result).to.deep.equal({
-      countryCode: '1',
-      areaCode: '800',
-      phoneNumber: '5551212',
-      phoneNumberExt: '',
-    });
+  it('should return false', () => {
+    expect(isOutsideForm('')).to.be.false;
+    expect(isOutsideForm('/')).to.be.false;
+    expect(isOutsideForm('/middle')).to.be.false;
+    expect(isOutsideForm('/form')).to.be.false;
+    expect(isOutsideForm('/resum')).to.be.false;
+    expect(isOutsideForm('/err')).to.be.false;
   });
 });

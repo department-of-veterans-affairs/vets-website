@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
-import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
+
+import { Element } from 'platform/utilities/scroll';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
@@ -11,7 +12,6 @@ import Back from './Back';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
-  const { Element } = Scroll;
   const scrollToError = () => {
     scrollTo('errorScrollElement', getScrollOptions());
   };

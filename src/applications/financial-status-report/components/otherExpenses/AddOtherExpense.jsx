@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaNumberInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -126,9 +123,8 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             type="text"
             value={expenseName || ''}
             charcount
-            uswds
           />
-          <VaNumberInput
+          <VaTextInput
             width="md"
             error={otherExpenseAmountError}
             id="add-other-living-expense-amount"
@@ -139,9 +135,8 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             name="add-other-living-expense-amount"
             onInput={handlers.onExpenseAmountChange}
             required
-            type="number"
+            type="decimal"
             value={expenseAmount || ''}
-            uswds
           />
           <div className="vads-u-margin-top--2">
             <ButtonGroup
@@ -154,7 +149,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
                 {
                   label: `${labelText} expense`,
                   onClick: handlers.onUpdate,
-                  isSubmitting: true, // If this button submits a form
+                  isSubmitting: 'prevent', // If this button submits a form
                 },
               ]}
             />

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
+import NameTag from '~/applications/personalization/components/NameTag';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
-import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -14,7 +14,7 @@ import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
 import { getRoutesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { ProfilePrivacyPolicy } from './ProfilePrivacyPolicy';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
@@ -48,16 +48,7 @@ const ProfileWrapper = ({
 }) => {
   const location = useLocation();
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
-  const profileShowDirectDepositSingleFormToggle = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleForm,
-  );
-
-  const routesForNav = getRoutesForNav({
-    profileContacts: profileContactsToggle,
-    profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
-  });
+  const routesForNav = getRoutesForNav();
 
   const layout = useMemo(
     () => {
@@ -103,6 +94,7 @@ const ProfileWrapper = ({
               <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--6 small-desktop-screen:vads-l-col--8">
                 {/* children will be passed in from React Router one level up */}
                 {children}
+                <ProfilePrivacyPolicy />
               </div>
             </div>
           </div>
@@ -110,7 +102,12 @@ const ProfileWrapper = ({
       )}
 
       {layout === LAYOUTS.FULL_WIDTH && (
-        <ProfileFullWidthContainer>{children}</ProfileFullWidthContainer>
+        <ProfileFullWidthContainer>
+          <>
+            {children}
+            <ProfilePrivacyPolicy />
+          </>
+        </ProfileFullWidthContainer>
       )}
     </>
   );

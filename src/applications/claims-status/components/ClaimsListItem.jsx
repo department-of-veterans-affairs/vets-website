@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
-  getClaimType,
+  getClaimPhaseTypeHeaderText,
   buildDateFormatter,
   getStatusDescription,
+  isDisabilityCompensationClaim,
+  generateClaimTitle,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
 const formatDate = buildDateFormatter();
-
-const getTitle = claim => {
-  return `Claim for ${getClaimType(claim).toLowerCase()}`;
-};
 
 const getLastUpdated = claim => {
   const updatedOn = formatDate(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Last updated: ${updatedOn}`;
+  return `Moved to this step on ${updatedOn}`;
 };
 
 const showPreDecisionCommunications = claim => {
@@ -33,8 +32,10 @@ const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 const CommunicationsItem = ({ children, icon }) => {
   return (
     <li className="vads-u-margin--0">
-      <i
-        className={`fa fa-${icon} vads-u-margin-right--1`}
+      <va-icon
+        icon={icon}
+        size={3}
+        class="vads-u-margin-right--1"
         aria-hidden="true"
       />
       {children}
@@ -50,34 +51,47 @@ CommunicationsItem.propTypes = {
 export default function ClaimsListItem({ claim }) {
   const {
     claimDate,
+    claimPhaseDates,
+    claimTypeCode,
     decisionLetterSent,
     developmentLetterSent,
     documentsNeeded,
     status,
   } = claim.attributes;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
+
   const inProgress = !isClaimComplete(claim);
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
-  const humanStatus = getStatusDescription(status);
+  const humanStatus = showEightPhases
+    ? getClaimPhaseTypeHeaderText(claimPhaseDates.phaseType)
+    : getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
-  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
 
   return (
     <ClaimCard
-      title={getTitle(claim)}
+      title={generateClaimTitle(claim)}
       label={inProgress ? 'In Progress' : null}
       subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             We sent you a development letter
           </CommunicationsItem>
         ) : null}
         {decisionLetterSent && (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             You have a decision letter ready
           </CommunicationsItem>
         )}
@@ -87,8 +101,14 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim>
-          An item in the claim needs your attention
+        <va-alert status="info" slim>
+          <span className="vads-u-font-weight--bold">
+            We requested more information from you:
+          </span>{' '}
+          Check the claim details to learn more.
+          <div className="vads-u-margin-top--2">
+            This message will go away when we finish reviewing your response.
+          </div>
         </va-alert>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

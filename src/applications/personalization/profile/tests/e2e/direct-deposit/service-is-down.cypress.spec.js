@@ -15,7 +15,7 @@ describe('When a dependent service for direct deposit is down', () => {
       'GET',
       '/v0/maintenance_windows',
       maintenanceWindows.createDowntimeActiveNotification([
-        maintenanceWindows.SERVICES.VA_PROFILE,
+        maintenanceWindows.SERVICES.LIGHTHOUSE_DIRECT_DEPOSIT,
       ]),
     );
 
@@ -23,14 +23,6 @@ describe('When a dependent service for direct deposit is down', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    // header content for maintenance alert
-    cy.findByText(
-      /We can’t show your direct deposit information right now/i,
-    ).should('exist');
-
-    // body content for maintenance alert
-    cy.findByText(
-      /The system that handles direct deposit information is down for maintenance right now./i,
-    ).should('exist');
+    cy.findByText(/This application is down for maintenance/i).should('exist');
   });
 });

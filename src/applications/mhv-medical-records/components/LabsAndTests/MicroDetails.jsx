@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -19,9 +16,11 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
@@ -47,9 +46,6 @@ const MicroDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -75,21 +71,25 @@ const MicroDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+${formatNameFirstLast(user.userFullName)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
-Sample tested: ${record.sampleTested}\n
-Sample from: ${record.sampleFrom}\n
+${
+      record.name !== 'Microbiology' && record.labType
+        ? `Lab type: ${record.labType}\n`
+        : ''
+    }
+Site or sample tested: ${record.sampleTested}\n
+Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
-Ordering location: ${record.orderingLocation}\n
-Collecting location: ${record.collectingLocation}\n
-Lab location: ${record.labLocation}\n
-Date completed: ${record.date}\n
-${txtLine}\n\n
-Results\n
+Location: ${record.collectingLocation}\n
+Date completed: ${record.dateCompleted}\n
+${txtLine}\n\
+Results\n\
+Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.\n
 ${record.results}`;
 
     generateTextFile(
@@ -101,55 +101,111 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="microbio-date"
+        data-testid="microbio-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - microbio name]"
+      >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="microbio-date" />
+      <DateSubheading
+        date={record.date}
+        id="microbio-date"
+        label="Date and time collected"
+        labelClass="vads-font-weight-regular"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
+        description="L&TR Detail"
         downloadPdf={generateMicrobiologyPdf}
         allowTxtDownloads={allowTxtDownloads}
         downloadTxt={generateMicroTxt}
       />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      <DownloadingRecordsInfo
+        description="L&TR Detail"
+        allowTxtDownloads={allowTxtDownloads}
+      />
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+        {record.name !== 'Microbiology' &&
+          record.labType && (
+            <>
+              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+                Lab type
+              </h3>
+              <p
+                data-testid="microbio-lab-type"
+                data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - microbio lab type]"
+              >
+                {record.labType}
+              </p>
+            </>
+          )}
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Site or sample tested
         </h3>
-        <p>{record.sampleTested}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample from
+        <p
+          data-testid="microbio-sample-tested"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio site]"
+        >
+          {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Collection sample
         </h3>
-        <p>{record.sampleFrom}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="microbio-sample-from"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio sample]"
+        >
+          {record.sampleFrom}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
+        <p
+          data-testid="microbio-ordered-by"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio ordered by]"
+        >
+          {record.orderedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
         </h3>
-        <p>{record.orderingLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
-        </h3>
-        <p>{record.collectingLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Lab location
-        </h3>
-        <p>{record.labLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p
+          data-testid="microbio-collecting-location"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio location]"
+        >
+          {record.collectingLocation}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p
+          data-testid="microbio-date-completed"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio date]"
+        >
+          {record.dateCompleted}
+        </p>
       </div>
 
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace">
+        <p
+          className="vads-u-font-size--base monospace vads-u-line-height--3"
+          data-dd-privacy="mask"
+          data-dd-action-name="[lab and tests - microbio results]"
+        >
           {record.results}
         </p>{' '}
       </div>

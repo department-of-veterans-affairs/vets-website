@@ -159,7 +159,6 @@ export {
   isValidCurrentOrFutureDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureMonthYear,
-  dateToMoment,
   isValidDateRange,
   isValidRoutingNumber,
 } from './src/js/utilities/validations/index';
@@ -244,8 +243,9 @@ export {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
 } from './src/js/routing';
+
+export { createRoutes } from './src/js/routing/createRoutes';
 
 export {
   transformErrors,

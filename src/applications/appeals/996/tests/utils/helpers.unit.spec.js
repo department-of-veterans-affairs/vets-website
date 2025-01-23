@@ -1,29 +1,19 @@
 import { startOfDay } from 'date-fns';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
-  getEligibleContestableIssues,
-  mayHaveLegacyAppeals,
   isVersion1Data,
+  getEligibleContestableIssues,
+  showConferenceContact,
+  showConferenceVeteranPage,
+  showConferenceRepPages,
+  checkNeedsFormDataUpdate,
+  checkNeedsRedirect,
+  onFormLoaded,
 } from '../../utils/helpers';
 
-import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
-import {
-  isEmptyObject,
-  returnPhoneObject,
-} from '../../../shared/utils/helpers';
-import {
-  getIssueDate,
-  getIssueName,
-  getIssueNameAndDate,
-  getLegacyAppealsLength,
-  getSelected,
-  getSelectedCount,
-  hasDuplicates,
-  hasSomeSelected,
-  someSelected,
-} from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
   const date = startOfDay(new Date());
@@ -46,14 +36,32 @@ describe('getEligibleContestableIssues', () => {
       },
     },
   ];
-  const deferredIssue = {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'Issue 2',
-      description: 'this is a deferred issue',
-      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+  const disqualifyingIssues = [
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 3',
+        description: 'this is a deferred issue',
+        approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+      },
     },
-  };
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 4',
+        description: 'this issue needs apportionment',
+        approxDecisionDate: parseDateWithOffset({ months: -3 }, date),
+      },
+    },
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 5',
+        description: 'this issue has attorney fees',
+        approxDecisionDate: parseDateWithOffset({ months: -5 }, date),
+      },
+    },
+  ];
 
   it('should return empty array', () => {
     expect(getEligibleContestableIssues()).to.have.lengthOf(0);
@@ -70,71 +78,14 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([eligibleIssue, ineligibleIssue]),
     ).to.deep.equal([eligibleIssue]);
   });
-  it('should filter out deferred issues', () => {
+  it('should filter out disqualifying issues', () => {
     expect(
       getEligibleContestableIssues([
-        eligibleIssue,
-        deferredIssue,
         ineligibleIssue,
+        eligibleIssue,
+        ...disqualifyingIssues,
       ]),
     ).to.deep.equal([eligibleIssue]);
-  });
-});
-
-describe('getLegacyAppealsLength', () => {
-  it('should return 0 with no issues', () => {
-    expect(getLegacyAppealsLength()).to.equal(0);
-  });
-  it('should return 0 with no legacy issues', () => {
-    expect(
-      getLegacyAppealsLength([{ type: 'one' }, { type: LEGACY_TYPE }]),
-    ).to.equal(0);
-    expect(
-      getLegacyAppealsLength([
-        { type: 'one' },
-        { type: LEGACY_TYPE, attributes: {} },
-      ]),
-    ).to.equal(0);
-    expect(
-      getLegacyAppealsLength([
-        { type: 'one' },
-        { type: LEGACY_TYPE, attributes: { issues: [] } },
-      ]),
-    ).to.equal(0);
-  });
-  it('should return a value > 0 with legacy issues', () => {
-    expect(
-      getLegacyAppealsLength([
-        { type: 'one' },
-        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
-      ]),
-    ).to.equal(2);
-    expect(
-      getLegacyAppealsLength([
-        { type: 'one' },
-        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
-        { type: LEGACY_TYPE, attributes: { issues: [] } },
-        { type: LEGACY_TYPE, attributes: { issues: [{}] } },
-      ]),
-    ).to.equal(3);
-  });
-});
-
-describe('mayHaveLegacyAppeals', () => {
-  it('should return false if there is no data', () => {
-    expect(mayHaveLegacyAppeals()).to.be.false;
-  });
-  it('should return false if there is no legacy & no additional issues', () => {
-    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [] })).to.be
-      .false;
-  });
-  it('should return true if there are some legacy issues & no additional issues', () => {
-    expect(mayHaveLegacyAppeals({ legacyCount: 1, additionalIssues: [] })).to.be
-      .true;
-  });
-  it('should return true if there is no legacy & some additional issues', () => {
-    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
-      .be.true;
   });
 });
 
@@ -148,220 +99,132 @@ describe('isVersion1Data', () => {
   });
 });
 
-describe('someSelected', () => {
-  it('should return true for issues that have some selected values', () => {
-    expect(someSelected([{ [SELECTED]: true }, {}])).to.be.true;
-    expect(someSelected([{}, { [SELECTED]: true }, {}])).to.be.true;
-    expect(someSelected([{}, {}, {}, { [SELECTED]: true }])).to.be.true;
+describe('showConferenceContact', () => {
+  const test = choice =>
+    showConferenceContact({
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test('yes')).to.be.true;
   });
-  it('should return false for issues with no selected values', () => {
-    expect(someSelected()).to.be.false;
-    expect(someSelected([])).to.be.false;
-    expect(someSelected([{}, {}])).to.be.false;
-    expect(someSelected([{}, { [SELECTED]: false }, {}])).to.be.false;
-    expect(someSelected([{}, {}, {}, { [SELECTED]: false }])).to.be.false;
-  });
-});
-
-describe('hasSomeSelected', () => {
-  const testIssues = (contestedIssues, additionalIssues) =>
-    hasSomeSelected({ contestedIssues, additionalIssues });
-  it('should return true for issues that have some selected values', () => {
-    expect(testIssues([{ [SELECTED]: true }], [{}])).to.be.true;
-    expect(testIssues([{}], [{ [SELECTED]: true }, {}])).to.be.true;
-    expect(testIssues([{}], [{}, {}, { [SELECTED]: true }])).to.be.true;
-    expect(
-      testIssues([{}, { [SELECTED]: true }], [{}, {}, { [SELECTED]: true }]),
-    ).to.be.true;
-  });
-  it('should return false for no selected issues', () => {
-    expect(testIssues()).to.be.false;
-    expect(testIssues([], [])).to.be.false;
-    expect(testIssues([{}], [{}])).to.be.false;
-    expect(testIssues([{ [SELECTED]: false }], [{}])).to.be.false;
-    expect(testIssues([{}], [{ [SELECTED]: false }, {}])).to.be.false;
-    expect(testIssues([{}], [{}, {}, { [SELECTED]: false }])).to.be.false;
-    expect(
-      testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
-    ).to.be.false;
+  it('should return false', () => {
+    expect(test('y')).to.be.false;
+    expect(test('no')).to.be.false;
   });
 });
 
-describe('getSelected & getSelectedCount', () => {
-  it('should return selected contested issues', () => {
-    const data = {
-      contestedIssues: [
-        { type: 'no', [SELECTED]: false },
-        { type: 'ok', [SELECTED]: true },
-      ],
+describe('showConferenceVeteranPage', () => {
+  const test = (contact, choice) =>
+    showConferenceVeteranPage({
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test('me', 'yes')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test('me', 'no')).to.be.false;
+    expect(test('rep', 'yes')).to.be.false;
+    expect(test('yes', 'yes')).to.be.false;
+  });
+});
+
+describe('showConferenceRepPages', () => {
+  const test = (contact, choice) =>
+    showConferenceRepPages({
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test('rep', 'yes')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test('rep', 'no')).to.be.false;
+    expect(test('me', 'yes')).to.be.false;
+    expect(test('yes', 'yes')).to.be.false;
+  });
+});
+
+describe('checkNeedsFormDataUpdate', () => {
+  const test = (contact, choice) => {
+    const formData = {
+      informalConference: contact,
+      informalConferenceChoice: choice,
     };
-    expect(getSelected(data)).to.deep.equal([
-      { type: 'ok', [SELECTED]: true, index: 0 },
-    ]);
-    expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
-  });
-  it('should return selected additional issues', () => {
-    const data = {
-      additionalIssues: [
-        { type: 'no', [SELECTED]: false },
-        { type: 'ok', [SELECTED]: true },
-      ],
+    checkNeedsFormDataUpdate({ formData });
+    return {
+      who: formData.informalConference,
+      yN: formData.informalConferenceChoice,
     };
-    expect(getSelected(data)).to.deep.equal([
-      { type: 'ok', [SELECTED]: true, index: 0 },
-    ]);
-    expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
+  };
+  it('should not alter the data if already set', () => {
+    expect(test('me', 'yes')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test('rep', 'yes')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test('me', 'no')).to.deep.equal({ yN: 'no', who: 'me' });
+    expect(test('rep', 'no')).to.deep.equal({ yN: 'no', who: 'rep' });
   });
-  it('should return all selected issues', () => {
-    const data = {
-      contestedIssues: [
-        { type: 'no1', [SELECTED]: false },
-        { type: 'ok1', [SELECTED]: true },
-      ],
-      additionalIssues: [
-        { type: 'no2', [SELECTED]: false },
-        { type: 'ok2', [SELECTED]: true },
-      ],
-    };
-    expect(getSelected(data)).to.deep.equal([
-      { type: 'ok1', [SELECTED]: true, index: 0 },
-      { type: 'ok2', [SELECTED]: true, index: 1 },
-    ]);
-    expect(getSelectedCount(data, data.additionalIssues)).to.eq(2);
+  it('should alter the data', () => {
+    expect(test('me')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test('me', '')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test('rep')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test('no')).to.deep.equal({ yN: 'no', who: 'no' });
   });
 });
 
-describe('getIssueName', () => {
-  it('should return undefined', () => {
-    expect(getIssueName()).to.be.undefined;
-  });
-  it('should return a contested issue name', () => {
-    expect(
-      getIssueName({ attributes: { ratingIssueSubjectText: 'test' } }),
-    ).to.eq('test');
-  });
-  it('should return an added issue name', () => {
-    expect(getIssueName({ issue: 'test2' })).to.eq('test2');
-  });
-});
-
-describe('getIssueDate', () => {
-  it('should return undefined', () => {
-    expect(getIssueDate()).to.eq('');
-  });
-  it('should return a contestable issue date', () => {
-    expect(
-      getIssueDate({ attributes: { approxDecisionDate: '2021-01-01' } }),
-    ).to.eq('2021-01-01');
-  });
-  it('should return an added issue name', () => {
-    expect(getIssueDate({ decisionDate: '2021-02-01' })).to.eq('2021-02-01');
-  });
-});
-
-describe('getIssueNameAndDate', () => {
-  it('should return empty string', () => {
-    expect(getIssueNameAndDate()).to.equal('');
-  });
-  it('should return a contested issue name', () => {
-    expect(
-      getIssueNameAndDate({
-        attributes: {
-          ratingIssueSubjectText: 'test',
-          approxDecisionDate: '2021-01-01',
-        },
-      }),
-    ).to.eq('test2021-01-01');
-  });
-  it('should return an added issue name', () => {
-    expect(
-      getIssueNameAndDate({ issue: 'test2', decisionDate: '2021-02-02' }),
-    ).to.eq('test22021-02-02');
-  });
-});
-
-describe('hasDuplicates', () => {
-  const contestedIssues = [
+describe('checkNeedsRedirect', () => {
+  const routes = [
+    {},
     {
-      attributes: {
-        ratingIssueSubjectText: 'test',
-        approxDecisionDate: '2021-01-01',
-      },
+      path: 'introduction',
+      // shortened pageList
+      pageList: [
+        { path: '/introduction' },
+        { path: '/veteran-information' },
+        { path: '/homeless' },
+        { path: '/authorization' },
+        { path: '/issue-summary' },
+        { path: '/review-and-submit' },
+      ],
     },
   ];
+  const props = ({ returnUrl = '/homeless', routerSpy = () => {} }) => ({
+    formData: {},
+    returnUrl,
+    router: { push: routerSpy },
+    routes,
+  });
 
-  it('should be false with no duplicate additional issues', () => {
-    const result = hasDuplicates();
-    expect(result).to.be.false;
-  });
-  it('should be false when there are duplicate contestable issues', () => {
-    const result = hasDuplicates({
-      contestedIssues: [contestedIssues[0], contestedIssues[0]],
+  describe('Redirect from opt-in page', () => {
+    it('should not redirect', () => {
+      const routerSpy = sinon.spy();
+      checkNeedsRedirect(props({ routerSpy }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/homeless');
     });
-    expect(result).to.be.false;
-  });
-  it('should be false when there are no duplicate issues (only date differs)', () => {
-    const result = hasDuplicates({
-      contestedIssues,
-      additionalIssues: [{ issue: 'test', decisionDate: '2021-01-02' }],
+    it('should redirect, with an invalid returnUrl', () => {
+      const routerSpy = sinon.spy();
+      checkNeedsRedirect(props({ routerSpy, returnUrl: '/test' }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/veteran-information');
     });
-    expect(result).to.be.false;
-  });
-  it('should be true when there is a duplicate additional issue', () => {
-    const result = hasDuplicates({
-      contestedIssues,
-      additionalIssues: [{ issue: 'test', decisionDate: '2021-01-01' }],
+    it('should redirect from opt-in', () => {
+      const routerSpy = sinon.spy();
+      checkNeedsRedirect(props({ routerSpy, returnUrl: '/opt-in' }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/authorization');
     });
-    expect(result).to.be.true;
   });
-  it('should be true when there is are multiple duplicate additional issues', () => {
-    const result = hasDuplicates({
-      contestedIssues,
-      additionalIssues: [
-        { issue: 'test2', decisionDate: '2021-02-01' },
-        { issue: 'test2', decisionDate: '2021-02-01' },
-      ],
-    });
-    expect(result).to.be.true;
-  });
-});
 
-describe('isEmptyObject', () => {
-  it('should return true for an empty object', () => {
-    expect(isEmptyObject({})).to.be.true;
-  });
-  it('should return true for non objects or filled objects', () => {
-    expect(isEmptyObject()).to.be.false;
-    expect(isEmptyObject('')).to.be.false;
-    expect(isEmptyObject([])).to.be.false;
-    expect(isEmptyObject('test')).to.be.false;
-    expect(isEmptyObject(null)).to.be.false;
-    expect(isEmptyObject(true)).to.be.false;
-    expect(isEmptyObject(() => {})).to.be.false;
-    expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('returnPhoneObject', () => {
-  const emptyPhone = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  it('should return empty phone object', () => {
-    expect(returnPhoneObject()).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(undefined)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(null)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject([])).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject('1234')).to.deep.equal(emptyPhone);
-  });
-  it('should return a phone object', () => {
-    expect(returnPhoneObject('8005551212')).to.deep.equal({
-      countryCode: '1',
-      areaCode: '800',
-      phoneNumber: '5551212',
-      phoneNumberExt: '',
+  describe('onFormLoaded', () => {
+    it('should redirect', () => {
+      const routerSpy = sinon.spy();
+      const formData = {
+        informalConference: 'me',
+        informalConferenceChoice: 'yes',
+      };
+      onFormLoaded(props({ routerSpy, formData }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/homeless');
     });
   });
 });

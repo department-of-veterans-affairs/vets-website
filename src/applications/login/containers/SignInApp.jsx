@@ -27,6 +27,8 @@ export function UnifiedSigninPage({ router, location }) {
     if (isAuthenticated) {
       window.location = '/';
     }
+
+    document.title = `Sign in or create an account | Veterans Affairs`;
   }, []);
 
   // Immediately check if OAuthEnabled

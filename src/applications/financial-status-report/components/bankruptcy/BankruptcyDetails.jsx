@@ -132,6 +132,7 @@ const BankruptcyDetails = ({
           name="date-discharged"
           onDateBlur={() => handleDateBlur()}
           onDateChange={({ target }) => {
+            setDateError(null);
             setDateDischarged(target.value);
           }}
           value={dateDischarged}
@@ -155,7 +156,6 @@ const BankruptcyDetails = ({
           required
           type="text"
           width="xl"
-          uswds
           value={courtLocation}
         />
         <VaTextInput
@@ -178,7 +178,6 @@ const BankruptcyDetails = ({
           required
           type="text"
           width="xl"
-          uswds
           value={docketNumber}
         />
       </fieldset>
@@ -193,7 +192,7 @@ const BankruptcyDetails = ({
           {
             label: continueButtonText,
             onClick: onSubmit,
-            isSubmitting: true,
+            isSubmitting: 'prevent',
           },
         ]}
       />

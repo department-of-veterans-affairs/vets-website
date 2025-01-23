@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
 import { normalizeFullName } from '../../utils/helpers';
+import { REACT_BINDINGS } from '../../utils/imports';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
+
+// expose React binding for web components
+const { VaModal } = REACT_BINDINGS;
 
 // declare shared routes from the form & default states
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -117,9 +119,11 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           >
             Edit{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>{' '}
-            <i
-              role="presentation"
-              className="fas fa-chevron-right vads-u-margin-left--0p5"
+            <va-icon
+              class="vads-u-margin-left--0p5"
+              icon="chevron_right"
+              size={3}
+              aria-hidden="true"
             />
           </Link>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -128,9 +132,11 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
             className="va-button-link hca-button-remove"
             onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
-            <i
-              role="presentation"
-              className="fas fa-times vads-u-margin-right--0p5"
+            <va-icon
+              class="vads-u-margin-right--0p5"
+              icon="close"
+              size={3}
+              aria-hidden="true"
             />{' '}
             Remove{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>

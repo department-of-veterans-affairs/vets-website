@@ -52,9 +52,8 @@ class IntroductionPage extends React.Component {
           Follow these steps to get started
         </h2>
 
-        <va-process-list uswds="false">
-          <li>
-            <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
+        <va-process-list>
+          <va-process-list-item header="Check your eligibility">
             <p>
               Make sure you meet our eligibility requirements before you apply.
             </p>
@@ -131,9 +130,8 @@ class IntroductionPage extends React.Component {
                 Assistance (DEA, Chapter 35)
               </a>
             </va-additional-info>
-          </li>
-          <li>
-            <h3 className="vads-u-font-size--h4">Gather your information</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Gather your information">
             <p>
               <strong>Here’s what you’ll need to apply</strong>:
             </p>
@@ -145,8 +143,8 @@ class IntroductionPage extends React.Component {
               <li>Your current address and contact information</li>
               <li>Bank account direct deposit information</li>
             </ul>
-          </li>
-          <li>
+          </va-process-list-item>
+          <va-process-list-item header="Start your application">
             <h3 className="vads-u-font-size--h4">Start your application</h3>
             <p>
               We’ll take you through each step of the process. It should take
@@ -168,7 +166,7 @@ class IntroductionPage extends React.Component {
                 information.
               </p>
             </va-additional-info>
-          </li>
+          </va-process-list-item>
         </va-process-list>
 
         {user?.login?.currentlyLoggedIn && (

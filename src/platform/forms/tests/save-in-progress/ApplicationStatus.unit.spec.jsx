@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { add, getUnixTime, sub } from 'date-fns';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
@@ -66,9 +66,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -102,9 +100,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -137,9 +133,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -173,9 +167,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(-1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(sub(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -201,9 +193,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -234,17 +224,13 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
             {
               form: VA_FORM_IDS.FORM_22_1995,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -278,9 +264,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .subtract(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(sub(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -310,12 +294,8 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(+1, 'day')
-                  .unix(),
-                lastUpdated: moment()
-                  .subtract(1, 'hour')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
+                lastUpdated: getUnixTime(sub(Date.now(), { hours: 1 })),
               },
             },
           ],

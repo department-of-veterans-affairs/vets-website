@@ -31,6 +31,11 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   USA: 'Enter a valid 5-digit ZIP code',
 };
 
+const CITY_ERROR_MESSAGES = {
+  default: 'City is required',
+  military: 'Select a post office type: APO, FPO, or DPO',
+};
+
 const MILITARY_CITY_TITLE = 'APO/FPO/DPO';
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
@@ -209,16 +214,15 @@ export const updateFormDataAddress = (
  *   })
  * }
  * ```
- * @param {{
- *   labels?: {
- *     militaryCheckbox?: string,
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ * @param {Object} [options]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.militaryCheckbox]
+ * @param {string} [options.labels.street]
+ * @param {string} [options.labels.street2]
+ * @param {string} [options.labels.street3]
+ * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
+ * you will need to include in your `submitTransformer` the `allowPartialAddress` option
+ * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
  * @returns {UISchemaOptions}
  */
 export function addressUI(options) {
@@ -312,6 +316,9 @@ export function addressUI(options) {
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
+          /* Set isMilitary to either `true` or `undefined` (not `false`) so that
+          `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
+          addressFormData.isMilitary = addressFormData.isMilitary || undefined;
           const { isMilitary } = addressFormData;
           // 'inert' is the preferred solution for now
           // instead of disabled via DST guidance
@@ -385,7 +392,7 @@ export function addressUI(options) {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'City is required',
+        required: CITY_ERROR_MESSAGES.default,
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -407,6 +414,7 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.military;
             return {
               type: 'string',
               title: MILITARY_CITY_TITLE,
@@ -416,6 +424,7 @@ export function addressUI(options) {
           }
 
           ui['ui:webComponentField'] = VaTextInputField;
+          ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.default;
           return {
             type: 'string',
             title: 'City',
@@ -520,7 +529,7 @@ export function addressUI(options) {
   if (!omit('postalCode')) {
     uiSchema.postalCode = {
       'ui:required': requiredFunc('postalCode', true),
-      'ui:title': 'Postal code',
+      'ui:title': options?.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -624,15 +633,14 @@ export const addressSchema = options => {
  *   })
  * }
  * ```
- * @param {{
- *   labels?: {
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ * @param {Object} [options]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.street]
+ * @param {string} [options.labels.street2]
+ * @param {string} [options.labels.street3]
+ * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
+ * you will need to include in your `submitTransformer` the `allowPartialAddress` option
+ * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
  * @returns {UISchemaOptions}
  */
 export const addressNoMilitaryUI = options =>

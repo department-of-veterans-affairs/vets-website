@@ -7,6 +7,8 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   MISSING_UNIT_OVERRIDE: 'missingUnitNumberOverride',
   SHOW_SUGGESTIONS_OVERRIDE: 'showSuggestionsOverride',
   SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE: 'showSuggestionsNoConfirmedOverride',
+  NO_SUGGESTIONS_NO_OVERRIDE: 'noSuggestionsNoOverride',
+  SHOW_SUGGESTIONS_NO_OVERRIDE: 'showSuggestionsNoOverride',
   VALIDATION_ERROR: 'validationError',
 });
 
@@ -23,9 +25,11 @@ const ValidationErrorText = ({ editFunction }) => (
   <p>
     We’re sorry. We couldn’t verify your address with the U.S. Postal Service,
     so we will not be able to deliver your VA mail to that address. Please{' '}
-    <button type="button" className="va-button-link" onClick={editFunction}>
-      edit the address
-    </button>{' '}
+    <va-button
+      class="va-button-link"
+      onClick={editFunction}
+      text="edit the address"
+    />{' '}
     you entered.
   </p>
 );
@@ -70,6 +74,25 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         We can’t confirm the address you entered with the U.S. Postal Service.
         Confirm that you want us to use this address as you entered it. Or, go
         back to edit it.
+      </p>
+    ),
+  },
+  [ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE]: {
+    headline: 'This address you entered is invalid',
+    ModalText: () => (
+      <p>
+        We can’t confirm the address you entered with the U.S. Postal Service.
+        You’ll need to go back to edit it.
+      </p>
+    ),
+  },
+  [ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE]: {
+    headline:
+      'We can’t confirm the address you entered with the U.S. Postal Service',
+    ModalText: () => (
+      <p>
+        We can use the suggested address we found. Or, you can go back to edit
+        the address you entered.
       </p>
     ),
   },

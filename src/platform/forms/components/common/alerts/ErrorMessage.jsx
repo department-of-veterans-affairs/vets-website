@@ -1,5 +1,7 @@
 // libs
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 /**
  * A column layout component
@@ -10,24 +12,39 @@ import React from 'react';
  */
 function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
+  const alertRef = useRef(null);
 
-  if (!active) return null;
-  else {
-    return (
-      <div
-        className="usa-alert usa-alert-error schemaform-failure-alert"
-        data-testid={testId}
-      >
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>{title}</strong>
-          </p>
-          <p>{message}</p>
-          {children}
-        </div>
-      </div>
-    );
-  }
+  useEffect(
+    () => {
+      if (active && alertRef?.current) {
+        waitForRenderThenFocus('.schemaform-failure-alert');
+      }
+    },
+    [active, alertRef],
+  );
+
+  return !active ? null : (
+    <va-alert
+      ref={alertRef}
+      status="error"
+      class="schemaform-failure-alert vads-u-margin-top--4"
+      data-testid={testId}
+    >
+      <h2 slot="headline" className="schemaform-warning-header">
+        {title}
+      </h2>
+      <p>{message}</p>
+      {children}
+    </va-alert>
+  );
 }
+
+ErrorMessage.propTypes = {
+  active: PropTypes.bool,
+  children: PropTypes.node,
+  message: PropTypes.string,
+  testId: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export default ErrorMessage;

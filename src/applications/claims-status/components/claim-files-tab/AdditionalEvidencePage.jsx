@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { Element } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
@@ -13,7 +12,7 @@ import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
-import { setFocus, setPageFocus, setUpPage } from '../../utils/page';
+import { setFocus, setPageFocus } from '../../utils/page';
 import {
   addFile,
   removeFile,
@@ -44,18 +43,12 @@ const scrollToError = () => {
   });
 };
 
-const { Element } = Scroll;
-
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (!this.props.loading) {
-      setUpPage();
-    } else {
-      scrollToTop();
-    }
+    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -72,6 +65,9 @@ class AdditionalEvidencePage extends React.Component {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
+    if (this.props.location.hash !== prevProps.location.hash) {
+      this.scrollToSection();
+    }
   }
 
   componentWillUnmount() {
@@ -80,6 +76,12 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  scrollToSection = () => {
+    if (this.props.location.hash === '#add-files') {
+      setPageFocus('h3#add-files');
+    }
+  };
+
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
     this.props.navigate(filesPath);
@@ -87,6 +89,7 @@ class AdditionalEvidencePage extends React.Component {
 
   render() {
     const { claim, lastPage } = this.props;
+
     let content;
 
     const isOpen = isClaimOpen(
@@ -102,7 +105,7 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { message, filesNeeded } = this.props;
 
       content = (
         <div className="additional-evidence-container">
@@ -116,11 +119,21 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          <h3 id="add-files" className="vads-u-margin-bottom--3">
+            Additional evidence
+          </h3>
           {isOpen ? (
             <>
-              {this.props.filesNeeded.map(item => (
-                <FilesNeeded key={item.id} id={claim.id} item={item} />
+              {filesNeeded.map(item => (
+                <FilesNeeded
+                  key={item.id}
+                  id={claim.id}
+                  item={item}
+                  evidenceWaiverSubmitted5103={
+                    claim.attributes.evidenceWaiverSubmitted5103
+                  }
+                  previousPage="files"
+                />
               ))}
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
@@ -221,6 +234,7 @@ AdditionalEvidencePage.propTypes = {
   getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,

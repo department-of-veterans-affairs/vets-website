@@ -45,7 +45,8 @@ describe('VAOS select appointment date', () => {
       });
     });
 
-    it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
+    // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
+    it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
       const firstDate = moment().add(1, 'day');
@@ -166,7 +167,7 @@ describe('VAOS select appointment date', () => {
         .assertErrorAlert({
           text: /We.ve run into a problem when trying to find available appointment times/i,
         })
-        .assertNexButton({ label: 'Continue', isEnabled: false });
+        .assertNextButton({ label: 'Continue', isEnabled: false });
 
       // Assert
       cy.axeCheckBestPractice();

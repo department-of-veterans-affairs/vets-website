@@ -79,7 +79,7 @@ describe('<EstimateYourBenefitsSummarySheet>', () => {
     const btn = wrapper.find(
       'button.eyb-button.usa-accordion-button.vads-u-padding-bottom--0',
     );
-    expect(btn.props()['aria-expanded']).to.equal('true');
+    expect(btn.props()['aria-expanded']).to.equal(true);
     expect(btn.props()['aria-controls']).to.equal('eyb-summary-sheet');
     btn.simulate('click');
     expect(mocktoggleEybExpansion.calledOnce).to.be.true;

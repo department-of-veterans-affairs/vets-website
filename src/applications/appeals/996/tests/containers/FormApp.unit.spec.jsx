@@ -12,13 +12,17 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import { CONTESTABLE_ISSUES_API } from '../../constants';
-
-import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
-import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
 import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
@@ -59,6 +63,9 @@ const getData = ({
         data: formData,
       },
       contestableIssues,
+      featureToggles: {
+        [NEW_API]: true,
+      },
     },
   };
 };
@@ -144,15 +151,16 @@ describe('Form0996App', () => {
   it('should call API is logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
 
-    const { props, data } = getData();
-    const { container } = render(
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
       <Provider store={mockStore(data)}>
         <Form0996App {...props} />
       </Provider>,
     );
 
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.exist;
       expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
       resetFetch();
     });
@@ -171,6 +179,24 @@ describe('Form0996App', () => {
     await waitFor(() => {
       expect($('va-loading-indicator', container)).to.not.exist;
       expect(global.fetch.notCalled).to.be.true;
+      resetFetch();
+    });
+  });
+
+  it('should call API is logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <Form0996App {...props} toggles={{ [NEW_API]: true }} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
       resetFetch();
     });
   });
@@ -194,15 +220,14 @@ describe('Form0996App', () => {
     });
   });
 
-  it('should set form data', async () => {
+  it('should update contested issues', async () => {
     const issues = [
       {
         type: 'contestableIssue',
         attributes: {
           ratingIssueSubjectText: 'test1',
-          approxDecisionDate: '2023-06-06',
+          approxDecisionDate: '2023-06-07',
         },
-        [SELECTED]: true,
       },
     ];
     const { props, data } = getData({
@@ -210,12 +235,20 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
-        contestedIssues: [],
-        legacyCount: 0,
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-06-06',
+            },
+            [SELECTED]: true,
+          },
+        ],
+        internalTesting: true,
       },
     });
     const store = mockStore(data);
@@ -230,6 +263,57 @@ describe('Form0996App', () => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.contestedIssues.length).to.eq(1);
+      expect(action.data).to.deep.equal({
+        ...hasComp,
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-06-07',
+              description: '',
+            },
+          },
+        ],
+        internalTesting: true,
+      });
+    });
+  });
+
+  it('should not update contested issues when the API fails', async () => {
+    const { props, data } = getData({
+      contestableIssues: {
+        benefitType: 'compensation',
+        status: FETCH_CONTESTABLE_ISSUES_FAILED,
+        issues: [],
+      },
+      formData: {
+        benefitType: 'compensation',
+        areaOfDisagreement: [],
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-06-06',
+            },
+          },
+        ],
+        internalTesting: true,
+        [NEW_API]: true,
+      },
+    });
+    const store = mockStore(data);
+
+    render(
+      <Provider store={store}>
+        <Form0996App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
     });
   });
 
@@ -249,14 +333,13 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
         contestedIssues: issues,
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
-        legacyCount: 0,
+        internalTesting: true,
       },
     });
     const store = mockStore(data);
@@ -297,14 +380,13 @@ describe('Form0996App', () => {
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         benefitType: 'compensation',
         issues,
-        legacyCount: 0,
       },
       formData: {
         contestedIssues: issues,
         benefitType: 'compensation',
         areaOfDisagreement: [issues[0], additionalIssues[0]],
         additionalIssues,
-        legacyCount: 0,
+        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -318,36 +400,6 @@ describe('Form0996App', () => {
     await waitFor(() => {
       const action = store.getActions()[0];
       expect(action).to.be.undefined;
-    });
-  });
-
-  it('should force transform of v1 data', async () => {
-    const { props, data } = getData({
-      contestableIssues: {
-        benefitType: 'compensation',
-        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-        issues: maximalTestV1.data.contestedIssues,
-        legacyCount: 0,
-      },
-      formData: {
-        ...maximalTestV1.data,
-        benefitType: 'compensation',
-        contestedIssues: [],
-        legacyCount: 0,
-      },
-    });
-    const store = mockStore(data);
-
-    render(
-      <Provider store={store}>
-        <Form0996App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const action = store.getActions()[0];
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal(migratedMaximalTestV1);
     });
   });
 });

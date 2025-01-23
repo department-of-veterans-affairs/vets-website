@@ -1,11 +1,11 @@
 import { vitalTypeDisplayNames } from '../constants';
 
-export const generateVitalsIntro = () => {
+export const generateVitalsIntro = (records, lastUpdatedIndicator) => {
   return {
-    title: `Vitals`,
-    subject: 'VA Medical Record',
-    preface:
-      'This list includes vitals and other basic health numbers your providers check at your appointments.',
+    title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
+    preface: `VA Medical Record\n\n${lastUpdatedIndicator}\n\nShowing ${
+      records.length
+    } records from newest to oldest`,
   };
 };
 
@@ -32,9 +32,13 @@ export const generateVitalsItem = record => ({
 
 export const generateVitalsContent = records => ({
   results: {
-    header: vitalTypeDisplayNames[records[0].type],
+    header: records[0].name,
+    headerType: 'H3',
+    headerIndent: 30,
+    preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 30,
+    sectionSeparators: false,
     items: records.map(record => ({
-      header: record.name,
       ...generateVitalsItem(record),
     })),
   },

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -8,6 +9,7 @@ import {
   boolYesNo,
   convertRatingToStars,
   formatCurrency,
+  isShowVetTec,
   naIfNull,
   schoolSize,
   upperCaseFirstLetterOnly,
@@ -34,6 +36,27 @@ import {
   MilitaryTuitionAssistanceModalContent,
   PriorityEnrollmentModalContent,
 } from '../components/content/modals';
+
+export const renFieldData = (programHours, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        label: 'Length of VET TEC programs',
+        mapper: institution => programHours(institution.programLengthInHours),
+      },
+      {
+        label: 'Credit for military training',
+        mapper: institution => boolYesNo(institution.creditForMilTraining),
+      },
+    ];
+  }
+  return [
+    {
+      label: 'Credit for military training',
+      mapper: institution => boolYesNo(institution.creditForMilTraining),
+    },
+  ];
+};
 
 const CompareLayout = ({
   calculated,
@@ -442,9 +465,9 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">
                   <div className="caution-flag-icon vads-u-flex--1">
                     {!hasFlags && (
-                      <i className="fa fa-check" style={{ display: 'none' }} />
+                      <va-icon size={4} icon="check" class="display-none" />
                     )}
-                    {hasFlags && <i className="fa fa-exclamation-triangle" />}
+                    {hasFlags && <va-icon size={3} icon="warning" />}
                   </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
@@ -503,17 +526,7 @@ const CompareLayout = ({
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
-        fieldData={[
-          {
-            label: 'Length of VET TEC programs',
-            mapper: institution =>
-              programHours(institution.programLengthInHours),
-          },
-          {
-            label: 'Credit for military training',
-            mapper: institution => boolYesNo(institution.creditForMilTraining),
-          },
-        ]}
+        fieldData={renFieldData(programHours)}
       />
       <va-additional-info trigger="Additional information on academics fields">
         <MilitaryTrainingCreditModalContent />
@@ -566,7 +579,13 @@ const CompareLayout = ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
-
+CompareLayout.propTypes = {
+  calculated: PropTypes.object.isRequired,
+  estimated: PropTypes.object.isRequired,
+  institutions: PropTypes.array.isRequired,
+  showDifferences: PropTypes.bool,
+  smallScreen: PropTypes.bool,
+};
 export default connect(
   null,
   mapDispatchToProps,

@@ -137,28 +137,26 @@ const SpouseGrossMonthlyIncomeInput = props => {
       <h3 className="schemaform-block-title vads-u-margin-top--5">
         Monthly income for {employerName}
       </h3>
-      <va-number-input
+      <va-text-input
         label="What’s your spouse's gross monthly income at this job?"
         hint="Gross income is income before taxes and any other deductions. You can use information from your spouse's paystub to calculate your spouse's gross monthly income."
-        inputmode="numeric"
+        inputmode="decimal"
         id="gross-monthly-income"
         currency
         data-testid="gross-monthly-income"
         name="gross-monthly-income"
         onInput={setNewGrossMonthlyIncome}
-        type="text"
+        type="decimal"
         value={grossMonthlyIncome.value}
         required
         min={0}
         max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
         error={error}
-        uswds
       />
       <va-additional-info
         trigger="How to calculate your spouse’s gross monthly income"
         class="vads-u-margin-top--2"
-        uswds
       >
         <p className="vads-u-padding-bottom--2">
           <strong>If your spouse is a salaried employee,</strong> divide your

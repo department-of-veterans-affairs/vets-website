@@ -10,3 +10,10 @@ export const StudentNameHeader = ({ formData }) => {
     </div>
   );
 };
+
+export const generateHelpText = (
+  text,
+  className = 'vads-u-color--gray vads-u-font-size--md',
+) => {
+  return <span className={className}>{text}</span>;
+};

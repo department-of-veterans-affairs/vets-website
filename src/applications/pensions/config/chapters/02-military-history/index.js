@@ -1,14 +1,16 @@
 import servicePeriod from './servicePeriod';
-import generalHistory from './generalHistory';
-import previousNames from './previousNames';
+import hasOtherNames from './hasOtherNames';
+import otherNames from './otherNames';
+import { otherNamesPages } from './otherNamesPages';
 import pow from './pow';
 
 export default {
   title: 'Military history',
   pages: {
     servicePeriod,
-    generalHistory,
-    previousNames,
+    hasOtherNames,
+    otherNames,
+    ...otherNamesPages,
     pow,
   },
 };

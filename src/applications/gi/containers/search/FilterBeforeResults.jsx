@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
@@ -18,15 +22,280 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
-  validateSearchTerm,
+  sortedSpecializedMissionDefinitions,
+  validateSearchTermSubmit,
+  isShowVetTec,
+  isShowCommunityFocusVACheckbox,
+  isEmptyCheckboxFilters,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
-import { TABS, INSTITUTION_TYPES } from '../../constants';
+import {
+  TABS,
+  INSTITUTION_TYPES,
+  INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
+} from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
-import { useFilterBtn } from '../../hooks/useFilterbtn';
+import VACheckboxGroupGi from '../../components/VaCheckboxGroupGi';
+// import { useFilterBtn } from '../../hooks/useFilterbtn';
+
+const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        name: 'employers',
+        dataTestId: 'employers',
+        checked: employers,
+        optionLabel: 'On-the-job training and apprenticeships',
+      },
+      {
+        name: 'vettec',
+        dataTestId: 'vettec',
+        checked: vettec,
+        optionLabel: 'VET TEC providers',
+      },
+    ];
+  }
+  return [
+    {
+      name: 'employers',
+      dataTestId: 'employers',
+      checked: employers,
+      optionLabel: 'On-the-job training and apprenticeships',
+    },
+  ];
+};
+
+export function schoolTypesCheckboxes(
+  handleIncludedSchoolTypesChange,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  const schoolTypes = (
+    <h3
+      className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
+      aria-level={2}
+    >
+      School types
+    </h3>
+  );
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        className="about-school-checkbox"
+        label={schoolTypes}
+        onChange={handleIncludedSchoolTypesChange}
+        options={options}
+        row={!smallScreen}
+        padding={!smallScreen}
+        colNum="1p5"
+        labelMargin="3"
+        // setIsCleared={setIsCleared}
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      className="about-school-checkbox"
+      label={schoolTypes}
+      onChange={handleIncludedSchoolTypesChange}
+      options={options}
+      row={!smallScreen}
+      colNum="1p5"
+      labelMargin="3"
+      // setIsCleared={setIsCleared}
+    />
+  );
+}
+
+export function aboutTheSchoolOptions(
+  excludeCautionFlags,
+  accredited,
+  studentVeteran,
+  yellowRibbonScholarship,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return [
+      {
+        name: 'excludeCautionFlags',
+        checked: excludeCautionFlags,
+        dataTestId: 'exclude-caution-flags',
+        optionLabel: 'Has no cautionary warnings',
+      },
+      {
+        name: 'accredited',
+        dataTestId: 'accredited',
+        checked: accredited,
+        optionLabel: 'Is accredited',
+      },
+      {
+        name: 'studentVeteran',
+        dataTestId: 'student-veteran',
+        checked: studentVeteran,
+        optionLabel: 'Has a Student Veteran Group',
+      },
+      {
+        name: 'yellowRibbonScholarship',
+        dataTestId: 'yellow-ribbon',
+        checked: yellowRibbonScholarship,
+        optionLabel: 'Offers Yellow Ribbon Program',
+      },
+    ];
+  }
+  return [
+    {
+      name: 'excludeCautionFlags',
+      checked: excludeCautionFlags,
+      dataTestId: 'exclude-caution-flags',
+      optionLabel: (
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="excludeCautionFlags"
+        >
+          Has no cautionary warnings
+        </label>
+      ),
+    },
+    {
+      name: 'accredited',
+      dataTestId: 'accredited',
+      checked: accredited,
+      optionLabel: (
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="accredited"
+        >
+          Is accredited
+        </label>
+      ),
+    },
+    {
+      name: 'studentVeteran',
+      dataTestId: 'student-veteran',
+      checked: studentVeteran,
+      optionLabel: 'Has a Student Veteran Group',
+    },
+    {
+      name: 'yellowRibbonScholarship',
+      dataTestId: 'yellow-ribbon',
+      checked: yellowRibbonScholarship,
+      optionLabel: 'Offers Yellow Ribbon Program',
+    },
+  ];
+}
+
+export function aboutTheSchool(
+  onChangeCheckbox,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  const aboutTheSchoolLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      About the school
+    </h3>
+  );
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        // setIsCleared={setIsCleared}
+        className="about-school-checkbox"
+        label={aboutTheSchoolLabel}
+        onChange={onChangeCheckbox}
+        options={options}
+        row={!smallScreen}
+        padding={!smallScreen}
+        colNum="1p5"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      // setIsCleared={setIsCleared}
+      className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
+      label={aboutTheSchoolLabel}
+      onChange={onChangeCheckbox}
+      options={options}
+      row={!smallScreen}
+      padding={!smallScreen}
+      colNum="4p5"
+    />
+  );
+}
+
+export function otherCheckboxes(
+  handleVetTechPreferredProviderChange,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  const otherLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      Other
+    </h3>
+  );
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        className="other-checkbox"
+        label={otherLabel}
+        onChange={handleVetTechPreferredProviderChange}
+        options={options}
+        // setIsCleared={setIsCleared}
+        row={!smallScreen}
+        colNum="4p5"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
+      label={otherLabel}
+      onChange={handleVetTechPreferredProviderChange}
+      options={options}
+      // setIsCleared={setIsCleared}
+      row={!smallScreen}
+      colNum="4p5"
+    />
+  );
+}
+
+export function communityFocusCheckboxes(
+  onChangeCheckbox,
+  sortedOptions,
+  smallScreen,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        class="vads-u-margin-y--4"
+        className="my-filters-margin"
+        onChange={onChangeCheckbox}
+        options={sortedOptions}
+        // setIsCleared={setIsCleared}
+        row={!smallScreen}
+        colNum="4"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      class="vads-u-margin-y--4"
+      className="my-filters-margin"
+      onChange={onChangeCheckbox}
+      options={sortedOptions}
+      // setIsCleared={setIsCleared}
+      row={!smallScreen}
+      colNum="4"
+    />
+  );
+}
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -44,12 +313,7 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const {
-    isCleared,
-    setIsCleared,
-    focusOnFirstInput,
-    loading,
-  } = useFilterBtn();
+  // const { isCleared, setIsCleared, loading } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -74,13 +338,40 @@ export function FilterBeforeResults({
     specialMissionTRIBAL,
   } = filters;
 
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
+
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
   const [smfAccordionExpanded, setSmfAccordionExpanded] = useState(false);
   const [jumpLinkToggle, setJumpLinkToggle] = useState(0);
 
-  const smfDefinitions = specializedMissionDefinitions.map(smf => {
+  const smfDefinitions = sortedSpecializedMissionDefinitions().map(smf => {
     return (
       <div key={smf.key}>
         <h3>{smf.title}</h3>
@@ -119,8 +410,16 @@ export function FilterBeforeResults({
     });
   };
 
-  const handleVetTechPreferredProviderChange = e => {
-    const { checked, name } = e.target;
+  const recordCheckboxHomeEvent = e => {
+    recordEvent({
+      event: 'gibct-home-form-change',
+      'gibct-home-form-field': e.target.name,
+      'gibct-home-form-value': e.target.checked,
+    });
+  };
+  const handleVetTechPreferredProviderChange = (e, currentName) => {
+    const { checked } = e.target;
+    const name = currentName || e.target.name;
     if (checked && name === 'vettec') {
       dispatchFilterChange({
         ...filters,
@@ -128,6 +427,7 @@ export function FilterBeforeResults({
         preferredProvider: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
     if (!checked && name === 'vettec') {
       dispatchFilterChange({
@@ -136,6 +436,7 @@ export function FilterBeforeResults({
         preferredProvider: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (checked && name === 'employers') {
@@ -144,6 +445,7 @@ export function FilterBeforeResults({
         employers: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (!checked && name === 'employers') {
@@ -152,6 +454,7 @@ export function FilterBeforeResults({
         employers: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
   };
 
@@ -169,12 +472,14 @@ export function FilterBeforeResults({
     }
   };
 
-  const onChangeCheckbox = e => {
+  const onChangeCheckbox = (e, currentName) => {
+    const name = currentName || e.target.name;
     recordCheckboxEvent(e);
-    updateInstitutionFilters(e.target.name, e.target.checked);
+    recordCheckboxHomeEvent(e);
+    updateInstitutionFilters(name, e.target.checked);
   };
 
-  const handleIncludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = (e, currentName) => {
     // The filter consumes these as exclusions
     /* 
       if schools boolean is false, no matter what school type filter
@@ -186,7 +491,8 @@ export function FilterBeforeResults({
       makes it true if any of the school types filters
       are checked.
     */
-    const { name } = e.target;
+    // const { name } = e.target;
+    const name = currentName || e.target.name;
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
@@ -205,124 +511,39 @@ export function FilterBeforeResults({
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
-        optionLabel: type,
+        optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
         dataTestId: `school-type-${type}`,
       };
     });
 
     return (
       <div className="filter-your-results">
-        <CheckboxGroup
-          className="about-school-checkbox"
-          label={
-            <h3
-              className={
-                isProductionOrTestProdEnv() ? 'school-types-label' : ''
-              }
-              aria-level={2}
-            >
-              School types
-            </h3>
-          }
-          onChange={handleIncludedSchoolTypesChange}
-          options={options}
-          row={!smallScreen}
-          colNum="1p5"
-          labelMargin="3"
-          focusOnFirstInput={focusOnFirstInput}
-          setIsCleared={setIsCleared}
-        />
+        {schoolTypesCheckboxes(
+          handleIncludedSchoolTypesChange,
+          options,
+          smallScreen,
+        )}
       </div>
     );
   };
 
   const schoolAttributes = () => {
-    const options = [
-      {
-        name: 'excludeCautionFlags',
-        checked: excludeCautionFlags,
-        dataTestId: 'exclude-caution-flags',
-        optionLabel: (
-          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-            Has no cautionary warnings
-          </label>
-        ),
-      },
-      {
-        name: 'accredited',
-        dataTestId: 'accredited',
-        checked: accredited,
-        optionLabel: (
-          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-            Is accredited
-          </label>
-        ),
-      },
-      {
-        name: 'studentVeteran',
-        dataTestId: 'student-veteran',
-        checked: studentVeteran,
-        optionLabel: 'Has a Student Veteran Group',
-      },
-      {
-        name: 'yellowRibbonScholarship',
-        dataTestId: 'yellow-ribbon',
-        checked: yellowRibbonScholarship,
-        optionLabel: 'Offers Yellow Ribbon Program',
-      },
-    ];
-
-    return (
-      <CheckboxGroup
-        setIsCleared={setIsCleared}
-        className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
-            About the school
-          </h3>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4p5"
-      />
+    const options = aboutTheSchoolOptions(
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
     );
+
+    return aboutTheSchool(onChangeCheckbox, options, smallScreen);
   };
+
   const vetTecOJT = () => {
-    const options = [
-      {
-        name: 'employers',
-        dataTestId: 'employers',
-        checked: employers,
-        optionLabel: 'On-the-job training and apprenticeships',
-      },
-      {
-        name: 'vettec',
-        dataTestId: 'vettec',
-        checked: vettec,
-        optionLabel: 'VET TEC providers',
-      },
-    ];
-    return (
-      <CheckboxGroup
-        className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
-            Other
-          </h3>
-        }
-        onChange={handleVetTechPreferredProviderChange}
-        options={options}
-        setIsCleared={setIsCleared}
-        row={!smallScreen}
-        colNum="4p5"
-      />
+    const options = etTecOJTOptions(employers, vettec);
+    return otherCheckboxes(
+      handleVetTechPreferredProviderChange,
+      options,
+      smallScreen,
     );
   };
 
@@ -335,7 +556,7 @@ export function FilterBeforeResults({
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
+      employers: true,
       vettec: false,
       preferredProvider: false,
       country: 'ALL',
@@ -370,7 +591,13 @@ export function FilterBeforeResults({
 
   const closeAndUpdate = () => {
     if (
-      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameVal,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       recordEvent({
         event: 'gibct-form-change',
@@ -417,7 +644,7 @@ export function FilterBeforeResults({
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
         optionLabel: isProductionOrTestProdEnv()
-          ? 'Religiously affiliated institutions'
+          ? 'Religiously-affiliated institutions'
           : 'Religious affiliation',
       },
       {
@@ -470,6 +697,10 @@ export function FilterBeforeResults({
       },
     ];
 
+    const sortedOptions = options.sort((a, b) =>
+      a.optionLabel.localeCompare(b.optionLabel),
+    );
+
     return (
       <div className="community-focus-container">
         <h3
@@ -495,20 +726,11 @@ export function FilterBeforeResults({
               }
             />
           )}
-          <CheckboxGroup
-            class="vads-u-margin-y--4"
-            className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
-            label={
-              <h3 className="visually-hidden" aria-level={2}>
-                Community focus
-              </h3>
-            }
-            onChange={onChangeCheckbox}
-            options={options}
-            setIsCleared={setIsCleared}
-            row={!smallScreen}
-            colNum="4"
-          />
+          {communityFocusCheckboxes(
+            onChangeCheckbox,
+            sortedOptions,
+            smallScreen,
+          )}
         </div>
       </div>
     );
@@ -562,7 +784,6 @@ export function FilterBeforeResults({
       </>
     );
   };
-
   const typeOfInstitution = () => {
     const title = 'Filter your results';
     return (
@@ -581,34 +802,17 @@ export function FilterBeforeResults({
           {specializedMissionAttributes()}
           {smallScreen && renderLocation()}
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button apply-filter-button vads-u-margin-top--3"
+              className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}
-            >
-              Apply filters
-            </button>
-            {isProductionOrTestProdEnv() ? (
-              <ClearFiltersBtn
-                testId="clear-button"
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
-              >
-                Clear filters
-              </ClearFiltersBtn>
-            ) : (
-              <button
-                onClick={clearAllFilters}
-                className={
-                  smallScreen
-                    ? 'clear-filters-button mobile-clear-filter-button'
-                    : 'clear-filters-button'
-                }
-              >
-                Clear filters
-              </button>
-            )}
+              data-testid="update-filter-your-results-button"
+              text="Apply filters"
+            />
+            <ClearFiltersBtn
+              className="vads-u-margin-left--2"
+              onClick={onApplyFilterClick}
+            />
           </div>
           <div
             id="learn-more-about-specialized-missions-accordion-button"
@@ -648,7 +852,7 @@ export function FilterBeforeResults({
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
-      {loading && <Loader className="search-loader" />}
+      {/* {loading && <Loader className="search-loader" />} */}
       {!smallScreen && (
         <div>
           {search.inProgress && (
@@ -690,7 +894,18 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
   dispatchError: setError,
 };
-
+FilterBeforeResults.propTypes = {
+  dispatchError: PropTypes.func,
+  dispatchFilterChange: PropTypes.func,
+  errorReducer: PropTypes.object,
+  filters: PropTypes.object,
+  modalClose: PropTypes.func,
+  nameVal: PropTypes.string,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  searchType: PropTypes.string,
+  onApplyFilterClick: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -1,7 +1,9 @@
 import React, { useEffect, useState, createRef } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
@@ -17,7 +19,7 @@ import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function NameSearchForm({
@@ -33,13 +35,17 @@ export function NameSearchForm({
   errorReducer,
   filterBeforeResultsReducer,
   dispatchShowFiltersBeforeResult,
+  focusSearchReducer,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
   // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const { showFiltersBeforeResult } = filterBeforeResultsReducer;
+  const [isClearButtonClicked, setIsButtonClicked] = useState(false);
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
+  const { focusOnSearch } = focusSearchReducer;
+  const dispatch = useDispatch();
   const history = useHistory();
   const inputRef = createRef();
   const doSearch = value => {
@@ -66,6 +72,7 @@ export function NameSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
+
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
@@ -88,6 +95,16 @@ export function NameSearchForm({
     },
     [search.loadFromUrl],
   );
+  // This effect runs to focus on search when Reset Search button is clicked.
+  useEffect(
+    () => {
+      if (focusOnSearch) {
+        inputRef.current.focus();
+        dispatch({ type: 'RESET_FOCUS' });
+      }
+    },
+    [focusOnSearch, inputRef, dispatch],
+  );
 
   useEffect(
     () => {
@@ -100,9 +117,13 @@ export function NameSearchForm({
       inputRef.current.focus();
     }
   };
+  const onCearFilterClick = () => {
+    inputRef.current.focus();
+  };
+
   const handleSubmit = event => {
-    event.preventDefault();
-    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
+    event?.preventDefault();
+    if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
@@ -110,7 +131,7 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
-    }
+    } else inputRef.current.focus();
     onApplyFilterClick();
   };
   const onKeyEnter = event => {
@@ -141,6 +162,7 @@ export function NameSearchForm({
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
               inputRef={inputRef}
+              isClearButtonClicked={isClearButtonClicked}
               className="name-search"
               inputValue={name}
               label="School, employer, or training provider"
@@ -150,24 +172,19 @@ export function NameSearchForm({
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
               type="name"
-              // validateSearchTerm={validateSearchTerm}
               filters={filters}
               version={version}
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
-            <button
-              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
-              type="submit"
+            <VaButton
+              text="Search"
               onKeyPress={onKeyEnter}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-search vads-u-margin-right--0p5"
-                role="presentation"
-              />
-              Search
-            </button>
+              onClick={handleSubmit}
+              data-testid="search-btn"
+              className={`search-by-name-btn hydrated ${error &&
+                'vads-u-margin-left--neg2p5'}`}
+            />
           </div>
         </div>
       </form>
@@ -176,9 +193,10 @@ export function NameSearchForm({
         JSON.parse(sessionStorage.getItem('show')) && (
           <div>
             <FilterBeforeResults
+              setIsButtonClicked={setIsButtonClicked}
               nameVal={name}
               searchType="name"
-              onApplyFilterClick={onApplyFilterClick}
+              onApplyFilterClick={onCearFilterClick}
             />
           </div>
         )}
@@ -193,6 +211,7 @@ const mapStateToProps = state => ({
   search: state.search,
   errorReducer: state.errorReducer,
   filterBeforeResultsReducer: state.filterBeforeResultsReducer,
+  focusSearchReducer: state.focusSearchReducer,
 });
 
 const mapDispatchToProps = {
@@ -201,6 +220,22 @@ const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchError: setError,
   dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
+};
+
+NameSearchForm.propTypes = {
+  autocomplete: PropTypes.object.isRequired,
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFetchNameAutocompleteSuggestions: PropTypes.func.isRequired,
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
+  dispatchUpdateAutocompleteName: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filterBeforeResultsReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  focusSearchReducer: PropTypes.object.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

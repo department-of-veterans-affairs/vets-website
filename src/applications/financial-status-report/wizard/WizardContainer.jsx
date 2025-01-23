@@ -7,12 +7,13 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import Wizard, {
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import Wizard from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
 import GetFormHelp from '../components/shared/GetFormHelp';
+
+const buttonText = 'Request help with VA Form 5655';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
@@ -45,9 +46,8 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
             If you already know this is the form you need, you can go to the
             form now.
           </p>
-          <button
-            type="button"
-            className="skip-wizard-link"
+          <va-button
+            text={buttonText}
             onClick={e => {
               e.preventDefault();
               setWizardStatus(WIZARD_STATUS_COMPLETE);
@@ -55,9 +55,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
                 event: `howToWizard-skip`,
               });
             }}
-          >
-            Request help with VA Form 5655
-          </button>
+          />
           <section aria-live="polite">
             <Wizard
               pages={pages}

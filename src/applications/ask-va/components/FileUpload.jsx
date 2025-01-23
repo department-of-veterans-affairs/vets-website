@@ -2,28 +2,67 @@ import { VaFileInput } from '@department-of-veterans-affairs/component-library/d
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
+const idList = numberOfIDs => {
+  const ids = [];
+  for (let i = 0; i < numberOfIDs; i++) {
+    ids.push(`askVA_upload_${i}`);
+  }
+  return ids;
+};
+
 const FileUpload = props => {
   const {
-    acceptFileTypes = '.pdf,.jpeg,.png',
+    acceptFileTypes = '.pdf,.jpeg,.png,.jpg',
     buttonText = 'Upload file',
     error,
-    label = 'Upload your file',
-    header = 'Upload your files',
-    hint = null,
-    showDescription = true,
+    label = 'Select optional files to upload',
+    hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
     // success = null,
   } = props;
 
+  const first = 'askVA_upload_first';
+  const uploadIDs = idList(10);
   const [attachments, setAttachments] = useState([]);
+
+  const onRemoveFile = fileToRemoveID => {
+    const uploadedFiles = localStorage.getItem('askVAFiles');
+    const parseFiles = JSON.parse(uploadedFiles);
+    const removedFile = parseFiles.filter(
+      file => file.fileID !== fileToRemoveID,
+    );
+    localStorage.askVAFiles = JSON.stringify(removedFile);
+    setAttachments(attachments.filter(file => file.fileID !== fileToRemoveID));
+  };
 
   const onAddFile = async event => {
     const { files } = event.detail;
-    setAttachments([...attachments, ...files]);
-  };
 
-  // const onRemoveFile = fileToRemoveName => {
-  //   setAttachments(attachments.filter(file => file.name !== fileToRemoveName));
-  // };
+    if (files.length) {
+      const currentFile = files[0];
+      const reader = new FileReader();
+      const storedFile = localStorage.getItem('askVAFiles');
+
+      reader.readAsDataURL(currentFile);
+      reader.onload = () => {
+        const base64Img = reader.result;
+        const imgData = {
+          fileName: files[0].name,
+          fileSize: files[0].size,
+          fileType: files[0].type,
+          base64: base64Img,
+          fileID: event.target['data-testid'],
+        };
+
+        const questionFiles = storedFile
+          ? [...JSON.parse(storedFile), imgData]
+          : [imgData];
+        setAttachments([...attachments, imgData]);
+        localStorage.askVAFiles = JSON.stringify(questionFiles);
+      };
+    } else {
+      onRemoveFile(event.target['data-testid']);
+    }
+  };
 
   // const renderAlert = () => {
   //   if (success === true) {
@@ -47,31 +86,32 @@ const FileUpload = props => {
   //   return null;
   // };
 
+  const fileInputs = () => {
+    return attachments.map((attachment, i) => {
+      return (
+        <VaFileInput
+          key={i}
+          accept={acceptFileTypes}
+          data-testid={uploadIDs[i]}
+          error={error}
+          aria-label={label}
+          name="usa-file-input"
+          onVaChange={onAddFile}
+          uswds
+        />
+      );
+    });
+  };
+
   return (
     <div>
-      <h3 className="site-preview-heading" data-testid="file-upload-header">
-        {header}
-      </h3>
       <div className="usa-form-group">
-        {showDescription ? (
-          <p>
-            You’ll need to scan your document onto your device to submit this
-            application, such as your computer, tablet, or mobile phone. You can
-            upload your document from there.
-          </p>
-        ) : null}
-        <div>
-          <p>Guidelines to upload a file:</p>
-          <ul>
-            <li>You can upload a .pdf, .jpeg, or.png file</li>
-            <li>Your file should be no larger than 25MB</li>
-          </ul>
-        </div>
         <VaFileInput
+          className="vads-u-margin-y--neg1"
           accept={acceptFileTypes}
           multiple="multiple"
           button-text={buttonText}
-          data-testid="ask-va-file-upload-button"
+          data-testid={first}
           error={error}
           hint={hint}
           label={label}
@@ -79,36 +119,8 @@ const FileUpload = props => {
           onVaChange={onAddFile}
           uswds
         />
+        {fileInputs()}
       </div>
-      {/* <h3 className="site-preview-heading">Attachments</h3>
-      {renderAlert()} */}
-      {/* {attachments.length > 0 ? (
-        <ul className="attachments-list">
-          {attachments.map(file => (
-            <li key={file.name + file.size}>
-              <div className="attachment-file">
-                <span>
-                  <i
-                    className="fas fa-paperclip"
-                    alt="Attachment icon"
-                    aria-hidden="true"
-                  />
-                  <span className="vads-u-margin-left--1">{file.name}</span> (
-                  {getFileSize(file.size)})
-                </span>
-                <VaButton
-                  onClick={() => onRemoveFile(file.name)}
-                  secondary
-                  text="Remove"
-                  uswds
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="no-attachments">There are no attachments.</div>
-      )} */}
     </div>
   );
 };

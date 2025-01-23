@@ -1,4 +1,3 @@
-// Relative imports.
 import environment from 'platform/utilities/environment';
 import crossDomainRedirects from './crossDomainRedirects.json';
 
@@ -45,9 +44,9 @@ const redirectIfNecessary = currentWindow => {
   );
   const catchAllRedirectMatch = catchAllCrossDomainRedirects?.find(redirect => {
     const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
-    const currentPathStartsWithCatchAll = currentWindow.location.pathname?.startsWith(
-      redirect.src.toLowerCase(),
-    );
+    const currentPathStartsWithCatchAll = currentWindow.location.pathname
+      ?.toLowerCase()
+      .startsWith(redirect.src.toLowerCase());
     return isHostMatch && currentPathStartsWithCatchAll;
   });
 

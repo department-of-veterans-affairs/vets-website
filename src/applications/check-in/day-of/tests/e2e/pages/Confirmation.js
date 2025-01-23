@@ -13,58 +13,37 @@ class Confirmation {
       .and('include.text', 'You’re checked in');
     cy.get('[data-testid="travel-pay-info-message"]', {
       timeout: Timeouts.slow,
-    })
-      .should('be.visible')
-      .and(
-        'include.text',
-        'VA travel pay reimbursement pays eligible Veterans',
-      );
+    }).should('be.visible');
   };
 
   validatePageLoadedWithBtsssSubmission = () => {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
+    cy.get('[data-testid="travel-pay-message-success"]', {
+      timeout: Timeouts.slow,
+    })
       .should('be.visible')
       .and('include.text', 'We’re processing your travel reimbursement claim.');
   };
 
   validatePageLoadedWithBtsssIneligible = () => {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and(
-        'include.text',
-        'We’re sorry. We can’t file this type of travel reimbursement claim for you',
-      );
+    cy.get('[data-testid="travel-pay-message-ineligible"]', {
+      timeout: Timeouts.slow,
+    }).should('be.visible');
   };
 
   validatePageLoadedWithBtsssGenericFailure = () => {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and(
-        'include.text',
-        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
-      );
-  };
-
-  validatePageLoadedWithBtsssTravelClaimExistsFailure = () => {
-    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and(
-        'include.text',
-        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
-      );
+    cy.get('[data-testid="travel-pay-message-error"]', {
+      timeout: Timeouts.slow,
+    }).should('be.visible');
   };
 
   validateBackButton = appointmentCount => {
     if (appointmentCount > 1) {
       cy.get('[data-testid=go-to-appointments-button]', {
         timeout: Timeouts.slow,
-      })
-        .should('be.visible')
-        .and('include.text', "Back to today's appointments");
+      }).should('be.visible');
     } else {
       cy.get('[data-testid=go-to-appointments-button]', {
         timeout: Timeouts.slow,
@@ -92,6 +71,14 @@ class Confirmation {
   };
 
   attemptGoBackToAppointments = () => {
+    cy.get('[data-testid=go-to-appointments-link]').click();
+  };
+
+  attemptGoBackToUpcomingAppointments = () => {
+    cy.get('[data-testid=go-to-upcoming-appointments-link]').click();
+  };
+
+  attemptGoBackToAppointmentsButton = () => {
     cy.get('[data-testid=go-to-appointments-button]').click();
   };
 

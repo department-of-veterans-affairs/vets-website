@@ -4,17 +4,14 @@ export const content = {
   title: 'Do you want to limit the information we can request?',
 
   textAreaLabel:
-    'If you want to limit what we can request from your private medical provider(s), describe the limitation (for example, you want to release only treatment dates or a type of disability.)',
+    'If you want to limit what we can request from your non-VA medical provider(s), describe the limitation (for example, you want your doctor to release only treatment dates or certain types of disabilities)',
 
   info: (
-    <va-additional-info
-      trigger="What does &quot;limiting consent&quot; mean?"
-      uswds
-    >
+    <va-additional-info trigger="What does &quot;limiting consent&quot; mean?">
       <p>
         If you choose to limit consent, you’re limiting the type or amount of
         information that your doctor or medical facility can release to us. It
-        may take us longer to get your private medical records if you limit
+        may take us longer to get your non-VA medical records if you limit
         consent.
       </p>
     </va-additional-info>
@@ -28,4 +25,13 @@ export const content = {
   },
 
   update: 'Update page',
+
+  // New form content
+  nameYn: 'do you want to limit information', // edit aria-label
+  ynTitle: 'Do you want to limit consent for the information requested?',
+  errorMessage: 'You must enter a limitation',
+
+  textAreaTitle: 'What do you want your information request to be limited to?',
+  textAreaHint:
+    'For example, you want your doctor to release only treatment dates or certain types of disabilities',
 };

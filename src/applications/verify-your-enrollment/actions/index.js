@@ -1,6 +1,10 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { USER_MOCK_DATA } from '../constants/mockData';
+import {
+  isVerificationEndDateValid,
+  removeCommas,
+  splitAddressLine,
+} from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -28,7 +32,10 @@ export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
 export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
-
+export const CHECK_CLAIMANT_START = 'CHECK_CLAIMANT_START';
+export const CHECK_CLAIMANT_SUCCESS = 'CHECK_CLAIMANT_SUCCESS';
+export const CHECK_CLAIMANT_FAIL = 'CHECK_CLAIMANT_FAIL';
+export const CHECK_CLAIMANT_END = 'CHECK_CLAIMANT_END';
 export const handleSuggestedAddressPicked = value => ({
   type: SET_SUGGESTED_ADDRESS_PICKED,
   payload: value,
@@ -61,40 +68,97 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-export const getData = () => {
-  return disptach => {
-    disptach({ type: GET_DATA }); // TODO: replace with real API call when is ready
-    setTimeout(() => {
-      disptach({
-        type: GET_DATA_SUCCESS,
-        response: USER_MOCK_DATA,
+export const fetchClaimantId = () => {
+  return async dispatch => {
+    dispatch({ type: CHECK_CLAIMANT_START });
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timed out')), 5000),
+    );
+
+    try {
+      const response = await Promise.race([
+        apiRequest(`${API_URL}/dgib_verifications/claimant_lookup`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }),
+        timeoutPromise,
+      ]);
+      dispatch({
+        type: CHECK_CLAIMANT_SUCCESS,
+        claimantId: response.claimantId,
       });
-    }, 1000);
+    } catch (errors) {
+      dispatch({
+        type: CHECK_CLAIMANT_FAIL,
+        errors: errors.message || errors,
+      });
+    } finally {
+      dispatch({ type: CHECK_CLAIMANT_END });
+    }
   };
 };
 export const fetchPersonalInfo = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest(API_URL, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
+    const {
+      checkClaimant: { claimantId },
+    } = getState();
+    if (claimantId) {
+      try {
+        const [recordResponse] = await Promise.all([
+          // apiRequest(`${API_URL}/dgib_verifications/claimant_status`, {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({ claimantId }),
+          // }),
+          apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ claimantId }),
+          }),
+        ]);
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
-          response,
+          response: { recordResponse },
         });
-      })
-      .catch(errors => {
+      } catch (errors) {
         dispatch({
           type: FETCH_PERSONAL_INFO_FAILED,
           errors,
         });
-      });
+      }
+    } else {
+      return apiRequest(API_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          dispatch({
+            type: FETCH_PERSONAL_INFO_SUCCESS,
+            response,
+          });
+        })
+        .catch(errors => {
+          dispatch({
+            type: FETCH_PERSONAL_INFO_FAILED,
+            errors,
+          });
+        });
+    }
+    return null;
   };
 };
-
+const customHeaders = {
+  'Content-Type': 'application/json',
+  'X-Key-Inflection': 'camel',
+};
 export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
@@ -102,7 +166,7 @@ export function postMailingAddress(mailingAddress) {
       const response = await apiRequest(`${API_URL}/address`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
-        headers: { 'Content-Type': 'application/json' },
+        headers: customHeaders,
       });
       dispatch({
         type: UPDATE_ADDRESS_SUCCESS,
@@ -122,10 +186,11 @@ export const updateBankInfo = bankInfo => {
   return async dispatch => {
     dispatch({ type: UPDATE_BANK_INFO });
     try {
+      const processedBankInfo = removeCommas(bankInfo);
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
-        body: JSON.stringify(bankInfo),
-        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(processedBankInfo),
+        headers: customHeaders,
       });
 
       dispatch({
@@ -142,14 +207,46 @@ export const updateBankInfo = bankInfo => {
   };
 };
 
-export const verifyEnrollmentAction = () => {
-  return async dispatch => {
+export const verifyEnrollmentAction = verifications => {
+  return async (dispatch, getState) => {
     dispatch({ type: VERIFY_ENROLLMENT });
+    const {
+      checkClaimant: { claimantId },
+      personalInfo,
+    } = getState();
+    const enrollmentVerifications =
+      personalInfo?.personalInfo?.recordResponse?.enrollmentVerifications || [];
+    const URL = claimantId
+      ? `${API_URL}/dgib_verifications/verify_claimant`
+      : `${API_URL}/verify`;
+    const newVerifications = enrollmentVerifications?.filter(
+      verification =>
+        !verification?.verificationMethod &&
+        isVerificationEndDateValid(verification?.verificationEndDate),
+    );
+    const lastVerification =
+      newVerifications?.length > 0
+        ? newVerifications[newVerifications?.length - 1]
+        : null;
+    const body = claimantId
+      ? (() => {
+          return {
+            claimantId,
+            verifiedPeriodBeginDate: lastVerification?.verificationBeginDate,
+            verifiedPeriodEndDate: lastVerification?.verificationEndDate,
+            verifiedThroughDate: lastVerification?.verificationEndDate,
+            verificationMethod: 'VYE',
+            appCommunication: {
+              responseType: 'Y',
+            },
+          };
+        })()
+      : { awardIds: verifications };
     try {
-      const response = await apiRequest(`${API_URL}/verify`, {
+      const response = await apiRequest(URL, {
         method: 'POST',
-        // body: JSON.stringify(bankInfo),
-        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        headers: customHeaders,
       });
 
       dispatch({
@@ -202,17 +299,18 @@ export const validateAddress = (formData, fullName) => async (
       isSuggestedAddressPicked ||
       (addressType === 'International' && confidenceScore >= 96)
     ) {
+      const updatedAddress = splitAddressLine(address.addressLine1, 20);
       const fields = {
         veteranName: fullName,
-        address1: address.addressLine1,
-        address2: address.addressLine2,
+        address1: updatedAddress.line1,
+        address2: updatedAddress.line2,
         address3: address.addressLine3,
         address4: address.addressLine4,
         city: address.city,
         ...stateAndZip,
       };
       try {
-        dispatch(postMailingAddress(fields));
+        dispatch(postMailingAddress(removeCommas(fields)));
         dispatch({
           type: ADDRESS_VALIDATION_SUCCESS,
           payload: validationResponse,

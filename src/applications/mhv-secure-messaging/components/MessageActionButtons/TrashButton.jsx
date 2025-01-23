@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DeleteMessageModal from '../Modals/DeleteMessageModal';
@@ -7,22 +7,31 @@ import { deleteMessage } from '../../actions/messages';
 import { addAlert } from '../../actions/alerts';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
+import { getListOfThreads } from '../../actions/threads';
 
 const TrashButton = props => {
   const { activeFolder, messageId, threadId, visible } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
 
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
     dispatch(deleteMessage(threadId)).then(() => {
-      navigateToFolderByFolderId(
-        activeFolder
-          ? activeFolder.folderId
-          : Constants.DefaultFolders.DELETED.id,
-        history,
+      const redirectToFolderId = activeFolder
+        ? activeFolder.folderId
+        : Constants.DefaultFolders.INBOX.id;
+      dispatch(
+        getListOfThreads(
+          redirectToFolderId,
+          Constants.THREADS_PER_PAGE_DEFAULT,
+          threadSort.page,
+          threadSort.value,
+          true,
+        ),
       );
+      navigateToFolderByFolderId(redirectToFolderId, history);
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,
@@ -57,18 +66,17 @@ const TrashButton = props => {
     props.visible && (
       <>
         <button
+          id="trash-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3"
-          style={{ minWidth: '100px' }}
+          className="usa-button-secondary mobile-lg:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={() => {
             setIsDeleteVisible(true);
           }}
           data-dd-action-name="Trash Button"
         >
-          <i
-            className="fas fa-trash-alt vads-u-margin-right--0p5"
-            aria-hidden
-          />
+          <div className="vads-u-margin-right--0p5">
+            <va-icon icon="delete" aria-hidden />
+          </div>
           <span
             className="message-action-button-text"
             data-testid="trash-button-text"

@@ -1,76 +1,120 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
+import manifest from '../manifest.json';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
-
-  render() {
-    const { form } = this.props;
-    const { submission, data } = form;
-
-    const contactOption = data?.contactPreference || 'email';
-    const referenceID = submission?.id || 'A-123456-7890';
-
-    return (
-      <div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          className="vads-u-margin-bottom--2"
-          status="success"
-          visible
-          uswds
-        >
-          <p className="vads-u-margin-y--0">
-            Your question was submitted successfully.
-          </p>
-        </va-alert>
-        <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
-          Thank you for submitting a question to the U.S. Department of Veteran
-          Affairs. Your reference number is{' '}
-          <span className="vads-u-font-weight--bold">{referenceID}</span>
-        </p>
-        <p className="vads-u-margin-bottom--3">
-          You will also receive an email confirmation.
-        </p>
-        <p className="vads-u-margin-bottom--2">
-          You should receive a reply by {contactOption} within 7 business days.
-          If we need more information to answer your question, we'll contact
-          you.
-        </p>
-      </div>
-    );
-  }
-}
-
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+const contactPrefrencesMap = {
+  Email: 'email',
+  'Phone call': 'phone call',
+  'U.S. mail': 'mail',
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+const ConfirmationPage = ({ location }) => {
+  const inquiryNumber = location.state?.inquiryNumber || 'A-123456-7890';
+  const contactPreference =
+    contactPrefrencesMap[location.state?.contactPreference || 'email'];
+  const alertRef = useRef(null);
+  const { user } = useSelector(state => state);
+  const {
+    login: { currentlyLoggedIn },
+    profile: { loading },
+  } = user;
 
-export default connect(mapStateToProps)(ConfirmationPage);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
+
+  if (loading) {
+    return (
+      <va-loading-indicator label="Loading" message="Loading..." set-focus />
+    );
+  }
+
+  const alert = (
+    <va-alert
+      className="vads-u-margin-bottom--2"
+      status="success"
+      visible
+      uswds
+      ref={alertRef}
+      slim
+    >
+      <p className="vads-u-margin-y--0">
+        Your question was submitted successfully.
+      </p>
+    </va-alert>
+  );
+
+  const actionLink = currentlyLoggedIn && (
+    <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+      <va-link-action
+        href={`${manifest.rootUrl}`}
+        text="Return to Ask VA"
+        type="secondary"
+      />
+    </div>
+  );
+
+  const confirmationNumber = (
+    <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+      Your confirmation number is{' '}
+      <span className="vads-u-font-weight--bold">{inquiryNumber}</span>. We’ll
+      also send you an email confirmation.
+    </p>
+  );
+
+  const contactMethod = () => {
+    if (contactPreference === 'email' && currentlyLoggedIn) {
+      return (
+        <p className="vads-u-margin-bottom--3">
+          You should receive an email within 7 business days when your reply is
+          ready. To read the reply, you’ll need to sign in to VA.gov. If we need
+          more information to answer your question, we’ll contact you.
+        </p>
+      );
+    }
+    if (contactPreference === 'phone call') {
+      return (
+        <p className="vads-u-margin-bottom--3">
+          You should receive a phone call within 7 business days. If we need
+          more information to answer your question, we’ll contact you.
+        </p>
+      );
+    }
+    if (contactPreference === 'mail') {
+      return (
+        <p className="vads-u-margin-bottom--3">
+          You should receive a letter in the mail within 7 business days. If we
+          need more information to answer your question, we’ll contact you.
+        </p>
+      );
+    }
+    return (
+      <p className="vads-u-margin-bottom--3">
+        You should receive a reply by email within 7 business days. If we need
+        more information to answer your question, we’ll contact you.
+      </p>
+    );
+  };
+
+  return (
+    <>
+      {alert}
+      {confirmationNumber}
+      {contactMethod()}
+      {actionLink}
+    </>
+  );
+};
+
+ConfirmationPage.propTypes = {
+  location: PropTypes.object,
+};
+export default withRouter(ConfirmationPage);

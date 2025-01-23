@@ -1,4 +1,4 @@
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import manifest from '../../manifest.json';
 
@@ -19,7 +19,7 @@ import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 // TODO: Skipping this test due to the Chromium Renderer crash issue.
 // Track the progress of the fix in issue #63283
 
-describe('Enhanced FSR debt and copay alerts', () => {
+describe.skip('Enhanced FSR debt and copay alerts', () => {
   afterEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
@@ -34,10 +34,6 @@ describe('Enhanced FSR debt and copay alerts', () => {
         features: [
           { name: 'show_financial_status_report_wizard', value: true },
           { name: 'show_financial_status_report', value: true },
-          {
-            name: 'combined_financial_status_report_enhancements',
-            value: true,
-          },
         ],
       },
     }).as('features');

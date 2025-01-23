@@ -6,6 +6,7 @@ export const SERVICE_PERIOD_INPUT = 'paw-servicePeriod';
 export const BURN_PIT_2_1_INPUT = 'paw-burnPit2_1';
 export const BURN_PIT_2_1_1_INPUT = 'paw-burnPit2_1_1';
 export const BURN_PIT_2_1_2_INPUT = 'paw-burnPit2_1_2';
+export const BURN_PIT_2_1_3_INPUT = 'paw-burnPit2_1_3';
 
 export const ORANGE_2_2_A_INPUT = 'paw-orange2_2_A';
 export const ORANGE_2_2_B_INPUT = 'paw-orange2_2_B';
@@ -20,10 +21,13 @@ export const RADIATION_2_3_B_INPUT = 'paw-radiation2_3_B';
 
 export const LEJEUNE_2_4_INPUT = 'paw-lejeune2_4';
 
+export const MAIN_FLOW_2_5_INPUT = 'paw-mainFlow2_5';
+
 export const RESULTS_1_1_HEADER = 'paw-results-1-1';
 export const RESULTS_1_2_HEADER = 'paw-results-1-2';
 export const RESULTS_2_HEADER = 'paw-results-2';
 export const RESULTS_3_HEADER = 'paw-results-3';
+export const RESULTS_4_HEADER = 'paw-results-4';
 
 export const clickStart = () =>
   cy

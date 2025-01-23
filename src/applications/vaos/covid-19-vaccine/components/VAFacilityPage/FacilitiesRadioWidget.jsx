@@ -80,9 +80,7 @@ export default function FacilitiesRadioWidget({
                 <FacilityAddress facility={option?.label} showPhone={false} />
               </span>
               {!!distance && (
-                <span className="vads-u-display--block vads-u-font-size--sm">
-                  {distance} miles
-                </span>
+                <span className="vads-u-display--block">{distance} miles</span>
               )}
             </label>
           </div>
@@ -93,14 +91,16 @@ export default function FacilitiesRadioWidget({
         hiddenCount > 0 && (
           <button
             type="button"
-            className="additional-info-button va-button-link vads-u-display--block"
+            className="additional-info-button usa-button-secondary vads-u-display--block"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
           >
             <span className="sr-only">show</span>
-            <span className="va-button-link">
-              {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+            <span>
+              {`Show ${hiddenCount} more location${
+                hiddenCount === 1 ? '' : 's'
+              }`}
             </span>
           </button>
         )}

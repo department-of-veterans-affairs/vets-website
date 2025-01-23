@@ -13,8 +13,8 @@ const CheckboxGroup = ({
   colNum = null,
   labelMargin = '1p5',
   className,
-  focusOnFirstInput,
-  setIsCleared,
+  // focusOnFirstInput,
+  // setIsCleared,
 }) => {
   const inputId = _.uniqueId('checkbox-group-');
 
@@ -35,7 +35,7 @@ const CheckboxGroup = ({
         <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <input
             checked={checked}
-            ref={e => focusOnFirstInput && focusOnFirstInput(optionLabel, e)}
+            // ref={e => focusOnFirstInput && focusOnFirstInput(optionLabel, e)}
             id={`${inputId}-${index}`}
             name={name}
             data-testid={dataTestId}
@@ -43,15 +43,16 @@ const CheckboxGroup = ({
             onFocus={() => onFocus(`${inputId}-${index}`)}
             onChange={e => {
               onChange(e);
-              if (setIsCleared) {
-                setIsCleared(false);
-              }
+              // if (setIsCleared) {
+              //   setIsCleared(false);
+              // }
             }}
             aria-labelledby={`${inputId}-legend ${createId(
               name,
             )}-${index}-label`}
           />
           <label
+            data-testid={`${dataTestId}-${index}`}
             className={`gi-checkbox-label ${checkBoxLabelMargin}`}
             id={`${createId(name)}-${index}-label`}
             name={`${name}-label`}
@@ -80,7 +81,6 @@ const CheckboxGroup = ({
 };
 
 CheckboxGroup.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({
@@ -91,8 +91,13 @@ CheckboxGroup.propTypes = {
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
+  className: PropTypes.string,
+  colNum: PropTypes.number,
+  errorMessage: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  labelMargin: PropTypes.string,
   row: PropTypes.bool,
+  onFocus: PropTypes.func,
 };
 
 CheckboxGroup.defaultProps = {

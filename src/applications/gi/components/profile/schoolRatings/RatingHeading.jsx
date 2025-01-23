@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RatingsStars from './RatingsStars';
 
 export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
@@ -14,13 +15,19 @@ export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
         </div>
 
         <div className="vads-l-row">
-          <div className="vads-l-col vads-u-font-weight--bold small-screen:vads-u-font-size--base vads-u-font-family--serif small-screen-font">
+          <div className="vads-l-col vads-u-font-weight--bold mobile-lg:vads-u-font-size--base vads-u-font-family--serif small-screen-font">
             {ratingCount} veterans rated this institution
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+RatingHeading.propTypes = {
+  displayStars: PropTypes.number.isRequired,
+  ratingAverage: PropTypes.number.isRequired,
+  ratingCount: PropTypes.number.isRequired,
 };
 
 export default RatingHeading;

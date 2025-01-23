@@ -1,9 +1,27 @@
 import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
-
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import cookie from 'cookie';
+
+const checkDdSCookie = () => {
+  const cookies = cookie.parse(document.cookie || '');
+  const ddSCookie = cookies._dd_s;
+
+  if (!ddSCookie) {
+    return;
+  }
+
+  const cookieParts = ddSCookie.split('&');
+  const idPart = cookieParts.find(part => part.startsWith('id='));
+
+  if (!idPart) {
+    // Cookie _dd_s does not have an id value. nullify the cookie to reinitialize the DD_RUM.
+    document.cookie = '_dd_s=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+};
 
 const initializeDatadogRum = config => {
+  checkDdSCookie();
   const datadogRumConfig = config;
   if (!datadogRumConfig.env) {
     datadogRumConfig.env = environment.vspEnvironment();
@@ -13,14 +31,12 @@ const initializeDatadogRum = config => {
 };
 
 const setRumUser = user => {
-  if (user.loggedIn && environment.isStaging()) {
-    datadogRum.setUser({
-      id: user.accountUuid || 'no-account-uuid-found',
-    });
-  }
+  datadogRum.setUser({
+    id: user.id || 'no-id-found',
+  });
 };
 
-const useDatadogRum = (config, userInfo) => {
+const useDatadogRum = config => {
   useEffect(
     () => {
       if (
@@ -31,13 +47,25 @@ const useDatadogRum = (config, userInfo) => {
         !window.Mocha
       ) {
         initializeDatadogRum(config);
-        if (userInfo) {
-          setRumUser(userInfo);
-        }
       }
     },
-    [config, userInfo],
+    [config],
   );
 };
 
-export { useDatadogRum };
+// REMINDER: Always be conscience of PII and Datadog
+const setDatadogRumUser = user => {
+  if (
+    // // Prevent RUM from running on local/CI environments.
+    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // Only run if DD is configured.
+    window.DD_RUM?.getInitConfiguration() &&
+    // Not during unit tests
+    !window.Mocha &&
+    user?.id
+  ) {
+    setRumUser({ id: user.id });
+  }
+};
+
+export { useDatadogRum, setDatadogRumUser };

@@ -32,7 +32,10 @@ export class CommunityCarePreferencesPageObject extends PageObject {
   }
 
   expandAccordian() {
-    cy.findByText(/Find a provider/).click();
+    cy.findByTestId('choose-a-provider-button')
+      .first()
+      .should('exist')
+      .click();
     cy.axeCheckBestPractice();
 
     return this;
@@ -51,7 +54,7 @@ export class CommunityCarePreferencesPageObject extends PageObject {
     cy.findByText(label, { selector: 'h2' }).click({
       waitForAnimations: true,
     });
-    cy.wait('@v1:get:provider');
+    cy.wait('@v2:get:provider');
     cy.findByLabelText(/doe, jane/i).check({ waitForAnimations: true });
     cy.findByText(/Select provider/i, { selector: 'button' }).click({
       waitForAnimations: true,
@@ -67,7 +70,7 @@ export class CommunityCarePreferencesPageObject extends PageObject {
     cy.findByText(label, { selector: 'h2' }).click({
       waitForAnimations: true,
     });
-    cy.wait('@v1:get:provider');
+    cy.wait('@v2:get:provider');
     cy.findByLabelText(/doe, jane/i).check({ waitForAnimations: true });
     cy.findByText(/Select provider/i, { selector: 'button' }).click({
       waitForAnimations: true,

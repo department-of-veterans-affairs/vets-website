@@ -2,19 +2,32 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 /**
- * Determines if the MHV-on-VA.gov Landing Page feature toggle is enabled.
- * @param {Object} state Current redux state.
- * @returns {Boolean}
- */
-export const isLandingPageEnabled = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPageEnabled];
-};
-
-/**
  * Determines if the Landing Page Personalization changes are enabled.
  * @param {Object} state Current redux state.
- * @returns {Boolean}
+ * @returns {Boolean} true if the personalization is enabled
  */
 export const personalizationEnabled = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
+};
+
+/**
+ * Determines if the MR Phase 1 is enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the MR phase 1 is enabled
+ */
+export const mrPhase1Enabled = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1
+  ];
+};
+
+/**
+ * Determines if AccountCreation api consumption is enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the MR phase 1 is enabled
+ */
+export const apiAccountStatusEnabled = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvAccountCreationApiConsumption
+  ];
 };

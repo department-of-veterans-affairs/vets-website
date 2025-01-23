@@ -15,12 +15,13 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-import forcedMigrations from '../migrations/forceMigrations';
+import { NEW_API } from '../constants/apis';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
+import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
@@ -29,6 +30,7 @@ import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 import { data996 } from '../../shared/props';
 
@@ -41,8 +43,10 @@ export const Form0996App = ({
   router,
   getContestableIssues,
   contestableIssues,
-  legacyCount,
+  toggles,
 }) => {
+  const { pathname } = location || {};
+
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -64,41 +68,39 @@ export const Form0996App = ({
             ...formData,
             benefitType: subTaskBenefitType,
           });
-        } else if (loggedIn && formData.benefitType) {
+        } else if (
+          loggedIn &&
+          // internalTesting is used to test the get contestable issues API call
+          // in unit tests; Setting up the unit test to get RoutedSavableApp to
+          // work properly is overly complicated
+          (!isOutsideForm(pathname) || formData.internalTesting) &&
+          formData.benefitType
+        ) {
           const areaOfDisagreement = getSelected(formData);
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
+            getContestableIssues({
+              benefitType: formData.benefitType,
+              [NEW_API]: toggles[NEW_API],
+            });
           } else if (
+            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             issuesNeedUpdating(
               contestableIssues?.issues,
               formData?.contestedIssues,
-            ) ||
-            contestableIssues.legacyCount !== formData.legacyCount
+            )
           ) {
-            /**
-             * Force HLR v2 update
-             * The migration itself should handle this, but it only calls the
-             * function if the save-in-progress version number changes (migration
-             * length in form config). Since Lighthouse is reporting seeing v1
-             * submissions still, we need to prevent v1 data from being submitted
-             */
-            const data = formData?.informalConferenceRep?.name
-              ? forcedMigrations(formData)
-              : formData;
-
             /** Update dynamic data:
              * user changed address, phone, email
              * user changed benefit type
              * changes to contestable issues (from a backend update)
              */
             setFormData({
-              ...data,
+              ...formData,
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),
-              legacyCount: contestableIssues?.legacyCount,
             });
           } else if (
             areaOfDisagreement?.length !==
@@ -129,11 +131,30 @@ export const Form0996App = ({
       getContestableIssues,
       hasSupportedBenefitType,
       isLoadingIssues,
-      legacyCount,
       loggedIn,
+      pathname,
       setFormData,
       subTaskBenefitType,
+      toggles,
     ],
+  );
+
+  useEffect(
+    () => {
+      const isUpdatedApi = toggles[NEW_API] || false;
+      if (
+        !toggles.loading &&
+        (typeof formData[NEW_API] === 'undefined' ||
+          formData[NEW_API] !== isUpdatedApi)
+      ) {
+        setFormData({
+          ...formData,
+          [NEW_API]: toggles[NEW_API],
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData[NEW_API]],
   );
 
   let content = (
@@ -143,24 +164,12 @@ export const Form0996App = ({
   );
 
   // Go to start page if we don't have an expected benefit type
-  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
+  if (!pathname.endsWith('/start') && !hasSupportedBenefitType) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator
         set-focus
         message="Please wait while we restart the application for you."
-      />,
-    );
-  } else if (
-    loggedIn &&
-    hasSupportedBenefitType &&
-    ((contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
-  ) {
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
       />,
     );
   }
@@ -176,10 +185,11 @@ export const Form0996App = ({
   });
 
   // Add data-location attribute to allow styling specific pages
-  return (
-    <article id="form-0996" data-location={`${location?.pathname?.slice(1)}`}>
+  return wrapWithBreadcrumb(
+    'hlr',
+    <article id="form-0996" data-location={`${pathname?.slice(1)}`}>
       {content}
-    </article>
+    </article>,
   );
 };
 
@@ -190,10 +200,8 @@ Form0996App.propTypes = {
   contestableIssues: PropTypes.shape({
     status: PropTypes.string,
     issues: PropTypes.array,
-    legacyCount: PropTypes.number,
   }),
   formData: data996,
-  legacyCount: PropTypes.number,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -205,6 +213,10 @@ Form0996App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  toggles: PropTypes.shape({
+    [NEW_API]: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -213,7 +225,7 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
-  legacyCount: state.legacyCount || 0,
+  toggles: state.featureToggles,
 });
 
 const mapDispatchToProps = {

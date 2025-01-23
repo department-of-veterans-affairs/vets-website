@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
 import AppealListItem from '../../../components/appeals-v2/AppealListItem';
@@ -153,6 +152,18 @@ describe('<AppealListItem>', () => {
         .first()
         .text(),
     ).to.contain('Description here.');
+    wrapper.unmount();
+  });
+
+  it('should mask appeal issues in DataDog (no PII)', () => {
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+
+    expect(
+      wrapper
+        .find('.masked-issue')
+        .first()
+        .props()['data-dd-privacy'],
+    ).to.equal('mask');
     wrapper.unmount();
   });
 });

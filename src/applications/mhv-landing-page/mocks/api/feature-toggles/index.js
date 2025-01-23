@@ -1,22 +1,39 @@
-const generateFeatureToggles = (toggles = {}) => {
-  const {
-    mhvLandingPageEnabled = true,
-    mhvLandingPagePersonalization = true,
-  } = toggles;
+const { snakeCase } = require('lodash');
+
+// Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
+const APPLICATION_FEATURE_TOGGLES = Object.freeze({
+  mhvVaHealthChatEnabled: false,
+  mhvLandingPagePersonalization: false,
+  mhvAccountCreationApiConsumption: true,
+  mhvIntegrationMedicalRecordsToPhase1: false,
+  travelPayPowerSwitch: false,
+});
+
+const generateFeatureToggles = ({
+  toggles = APPLICATION_FEATURE_TOGGLES,
+  enableAll = false,
+  disableAll = false,
+} = {}) => {
+  let overrideValue;
+  if (enableAll) overrideValue = true;
+  if (disableAll) overrideValue = false;
+
+  const override = enableAll || disableAll;
+
+  const snakeCaseToggles = Object.entries(toggles).map(([key, value]) => ({
+    name: key,
+    value: override ? overrideValue : value,
+  }));
+
+  const camelCaseToggles = Object.entries(toggles).map(([key, value]) => ({
+    name: snakeCase(key),
+    value: override ? overrideValue : value,
+  }));
 
   return {
     data: {
       type: 'feature_toggles',
-      features: [
-        {
-          name: 'mhv_landing_page_enabled',
-          value: mhvLandingPageEnabled,
-        },
-        {
-          name: 'mhv_landing_page_personalization',
-          value: mhvLandingPagePersonalization,
-        },
-      ],
+      features: [...snakeCaseToggles, ...camelCaseToggles],
     },
   };
 };

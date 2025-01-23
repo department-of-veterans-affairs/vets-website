@@ -4,9 +4,10 @@
       "view:claimingIncrease": true,
       "view:claimingNew": true
     },
-    "standardClaim": false,
+    "standardClaim": true,
     "view:fdcWarning": {},
     "isVaEmployee": true,
+    "isTerminallyIll": false,
     "homelessOrAtRisk": "homeless",
     "view:isHomeless": {
       "homelessHousingSituation": "other",
@@ -121,14 +122,12 @@
       }
     ],
     "view:hasEvidence": true,
-    "view:hasEvidenceFollowUp": {
-      "view:selectableEvidenceTypes": {
-        "view:hasVaMedicalRecords": true,
-        "view:hasPrivateMedicalRecords": true,
-        "view:hasOtherEvidence": true
-      },
-      "view:evidenceTypeHelp": {}
+    "view:selectableEvidenceTypes": {
+      "view:hasVaMedicalRecords": true,
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
     },
+    "view:evidenceTypeHelp": {},
     "view:unemployable": false,
     "view:aidAndAttendance": true,
     "view:modifyingHome": true,

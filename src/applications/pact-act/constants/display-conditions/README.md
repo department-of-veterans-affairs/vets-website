@@ -112,7 +112,7 @@ There are many different flows that would work for these display conditions. Her
 The **Short** flow (line(s) above the main flow line) includes follow-up questions regarding locations chosen and/or `Yes` responses that skip remaining questions in the batch (e.g. Burn Pit) and/or direct to a results page.
 
 The **Long** flow (main flow line) follows the `No` and `I'm not sure` response flows through all of the questions for that
-`SERVICE_PERIOD_SELECTION` leading to the results screens.
+`SERVICE_PERIOD_SELECTION` leading to the results pages.
 
 ## Nested, Forked and Pathed Display Conditions
 
@@ -122,14 +122,13 @@ Nested, forked and pathed display conditions use all of the functionality above 
 ## Display Conditions - Results Pages
 
 Results pages' display conditions follow the same general structure as that of the questions. But they are
-different in a couple of ways. Results screens care about "Yes" answers only and filter everything else
+different in a couple of ways. Results pages care about "Yes" answers only and filter everything else
 out. 
 
-Results screen 3 is reached when there are no "Yes" responses at all. If any are found, it will not
+Results page 3 is reached when there are no "Yes" responses at all. If any are found, it will not
 display.
 
-Results pages are also driven by question batches (`/constants/question-batches.js`). These constants
-group the question categories together for easy assessment and comparison by the Results pages.
+With the exception of Results page 4, results pages are driven by question batches (`/constants/question-batches.js`). These constants group the question categories together for easy assessment and comparison by the Results pages.
 
 ```
 SERVICE_PERIOD_SELECTION: {
@@ -164,3 +163,24 @@ SERVICE_PERIOD_SELECTION: {
 ```
 
 In the above example, this results page will display if there are no "Yes" responses in the form.
+
+### Results page 4
+Results page 4 requires a "Yes" response to either of two specific questions. Because either or both of these questions could have a "Yes" among "Yes" responses to other questions (thus meeting the criteria for other results pages), the conditions for results page 4 must be evaluated first.
+
+```
+// Results page 4
+SERVICE_PERIOD_SELECTION: {
+  [NINETY_OR_LATER]: {
+    YES: [BURN_PIT_2_1, MAIN_FLOW_2_5]
+  }
+}
+
+// Results page 1
+SERVICE_PERIOD_SELECTION: {
+  [NINETY_OR_LATER]: {
+    ONLY: [BURN_PITS],
+  }
+}
+```
+
+The above examples are criteria for results pages 1 and 4. Results page 4 should display if there is a "Yes" response to either the first Burn Pit question or the Main Flow 2.5 question, or both. Results 1 should display if there is a "Yes" response to any Burn Pit question. Because results page 4 has more specific criteria, it will take precedence.

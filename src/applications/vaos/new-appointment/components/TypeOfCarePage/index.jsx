@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
@@ -23,15 +22,12 @@ import { resetDataLayer } from '../../../utils/events';
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'typeOfCare';
-const pageTitle = 'Choose the type of care you need';
 
-export default function TypeOfCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function TypeOfCarePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
   const {
@@ -41,6 +37,7 @@ export default function TypeOfCarePage({ changeCrumb }) {
     pageChangeInProgress,
     showCommunityCare,
     showDirectScheduling,
+    removePodiatry,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
@@ -71,19 +68,12 @@ export default function TypeOfCarePage({ changeCrumb }) {
     [showUpdateAddressAlert, dispatch],
   );
 
-  useEffect(
-    () => {
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
-    },
-    [changeCrumb, featureBreadcrumbUrlUpdate],
-  );
-
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+        typeOfCare =>
+          typeOfCare.id !== PODIATRY_ID ||
+          (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
@@ -103,16 +93,24 @@ export default function TypeOfCarePage({ changeCrumb }) {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:title': 'What care do you need?',
         'ui:widget': 'radio',
+        'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
+          hideLabelText: true,
+        },
       },
     },
     initialData,
   });
 
   return (
-    <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {
@@ -164,7 +162,3 @@ export default function TypeOfCarePage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfCarePage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

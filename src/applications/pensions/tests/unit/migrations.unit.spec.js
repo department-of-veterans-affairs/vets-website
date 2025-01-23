@@ -335,4 +335,21 @@ describe('Pension migrations', () => {
     };
     expect(formData).to.eql(updatedData);
   });
+  it('should update from v9 to v10', () => {
+    const { formData, metadata } = migrations[9]({
+      formData: {
+        ...v8formData,
+        serviceBranch: {
+          ...v8formData.serviceBranch,
+          '': true,
+        },
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(formData).to.eql(v8formData);
+    expect(metadata.returnUrl).to.eq('/review-and-submit');
+  });
 });

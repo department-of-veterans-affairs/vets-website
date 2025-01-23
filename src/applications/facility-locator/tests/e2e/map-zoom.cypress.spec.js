@@ -4,7 +4,7 @@ Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
 
   // Zoom in
-  [...Array(5)].forEach(_ =>
+  [...Array(15)].forEach(_ =>
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy
       .get('.mapboxgl-ctrl-zoom-in')
@@ -56,8 +56,8 @@ it('handles map zooming correctly', () => {
   cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
   cy.intercept('GET', '/v0/maintenance_windows', []);
   cy.intercept(
-    'GET',
-    '/facilities_api/v1/**',
+    'POST',
+    '/facilities_api/v2/**',
     mockFacilitiesSearchResultsV1,
   ).as('searchFacilitiesVA');
   cy.visit('/find-locations');

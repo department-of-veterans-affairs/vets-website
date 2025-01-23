@@ -1,4 +1,4 @@
-import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
+import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -8,11 +8,7 @@ import user from '../../mocks/endpoints/user';
 describe('Profile - Hub page', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    mockProfileLOA3(
-      generateFeatureToggles({
-        profileContacts: true,
-      }),
-    );
+    mockProfileLOA3(generateFeatureToggles());
   });
 
   it('should render the correct content', () => {
@@ -63,10 +59,7 @@ describe('Profile - Hub page', () => {
       }),
     );
 
-    cy.intercept(
-      '/v0/profile/direct_deposits/disability_compensations',
-      disabilityComps.isDeceased,
-    );
+    cy.intercept('/v0/profile/direct_deposits', directDeposits.isDeceased);
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 

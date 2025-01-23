@@ -1,23 +1,23 @@
 import { expect } from 'chai';
-import { canHaveEducationExpenses } from '../../../../utils/helpers/household';
+import { canHaveEducationExpenses } from '../../../../utils/helpers';
 
 describe('hca household section helpers', () => {
   context('hca `canHaveEducationExpenses` executes', () => {
     it('should return `false` when birthdate is greater than 23 years from testdate', () => {
       const formData = {
         dateOfBirth: '1986-06-01',
-        'view:grossIncome': { grossIncome: 1000 },
+        'view:grossIncome': { grossIncome: '1000' },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.false;
     });
 
     it('should return `false` when birthdate is less than 18 years from testdate', () => {
       const formData = {
         dateOfBirth: '2005-06-02',
-        'view:grossIncome': { grossIncome: 1000 },
+        'view:grossIncome': { grossIncome: '1000' },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.false;
     });
 
@@ -26,7 +26,7 @@ describe('hca household section helpers', () => {
         dateOfBirth: '2005-06-01',
         'view:grossIncome': { grossIncome: '1000' },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.true;
     });
 
@@ -35,7 +35,7 @@ describe('hca household section helpers', () => {
         dateOfBirth: '2000-06-01',
         'view:grossIncome': { grossIncome: '1000' },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.true;
     });
 
@@ -44,13 +44,13 @@ describe('hca household section helpers', () => {
         dateOfBirth: '2003-06-01',
         'view:grossIncome': { grossIncome: '1000' },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.true;
     });
 
     it('should return `false` when no income is declared', () => {
       const formData = { dateOfBirth: '2003-06-01' };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.false;
     });
 
@@ -59,7 +59,7 @@ describe('hca household section helpers', () => {
         dateOfBirth: '2003-06-01',
         'view:grossIncome': { grossIncome: 0 },
       };
-      const testdate = '2023-06-01';
+      const testdate = new Date('2023-06-01');
       expect(canHaveEducationExpenses(formData, testdate)).to.be.false;
     });
   });

@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
 import { hasValidCovidPhoneNumber } from '../services/appointment';
-import { selectFeaturePhysicalLocation } from '../redux/selectors';
 
 export default function FacilityAddress({
   name,
@@ -14,14 +12,14 @@ export default function FacilityAddress({
   showDirectionsLink,
   clinicName,
   clinicPhysicalLocation,
+  clinicPhone,
+  clinicPhoneExtension,
   showPhone = true,
   level = 4,
   showCovidPhone,
   isPhone,
+  phoneHeading,
 }) {
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
-  );
   const address = facility?.address;
   const phone =
     showCovidPhone && hasValidCovidPhoneNumber(facility)
@@ -37,9 +35,7 @@ export default function FacilityAddress({
     <>
       {!!name && (
         <>
-          <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-            {name}
-          </Heading>
+          <Heading className="vads-u-display--inline">{name}</Heading>
           <br />
         </>
       )}
@@ -58,32 +54,39 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      <div className={extraInfoClasses}>
+      <div className={extraInfoClasses} data-dd-privacy="mask">
         {!!clinicName && (
           <>
-            <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-              Clinic:
-            </HeadingSub>{' '}
-            {clinicName}
+            <HeadingSub className="vads-u-display--inline">Clinic:</HeadingSub>{' '}
+            {clinicName} <br />
           </>
         )}
         {!!clinicPhysicalLocation &&
-          !isPhone &&
-          featurePhysicalLocation && (
+          !isPhone && (
             <>
-              <br />
-              <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+              <HeadingSub className="vads-u-display--inline">
                 Location:
               </HeadingSub>{' '}
-              {clinicPhysicalLocation}
+              {clinicPhysicalLocation} <br />
             </>
           )}
         {showPhone &&
-          !!phone && (
-            <>
-              {!!clinicName && <br />}
-              <FacilityPhone contact={phone} level={level + 1} />
-            </>
+          !!clinicPhone && (
+            <FacilityPhone
+              contact={clinicPhone}
+              extension={clinicPhoneExtension}
+              heading="Clinic phone:"
+              level={level + 1}
+            />
+          )}
+        {showPhone &&
+          !!phone &&
+          !clinicPhone && (
+            <FacilityPhone
+              contact={phone}
+              level={level + 1}
+              heading={phoneHeading}
+            />
           )}
       </div>
     </>
@@ -93,10 +96,13 @@ export default function FacilityAddress({
 FacilityAddress.propTypes = {
   facility: PropTypes.object.isRequired,
   clinicName: PropTypes.string,
+  clinicPhone: PropTypes.string,
+  clinicPhoneExtension: PropTypes.string,
   clinicPhysicalLocation: PropTypes.string,
   isPhone: PropTypes.bool,
   level: PropTypes.number,
   name: PropTypes.string,
+  phoneHeading: PropTypes.string,
   showCovidPhone: PropTypes.bool,
   showDirectionsLink: PropTypes.bool,
   showPhone: PropTypes.bool,

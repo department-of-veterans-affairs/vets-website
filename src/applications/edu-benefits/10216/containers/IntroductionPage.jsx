@@ -1,0 +1,213 @@
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+
+const IntroductionPage = ({ router }) => {
+  useEffect(() => {
+    focusElement('.schemaform-title > h1');
+    scrollToTop();
+  }, []);
+
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/institution-details');
+  };
+
+  return (
+    <article className="schemaform-intro">
+      <FormTitle title="35% exemption of the routine reporting" />
+      <p className="vads-u-margin-y--2">
+        35% exemption request from 85/15 Rule reporting requirement (VA Form
+        22-10216)
+      </p>
+      <va-alert status="info" visible>
+        <h2 slot="headline">For educational institutions only</h2>
+        <p>
+          Note: This form is not for Veterans. It is intended for educational
+          institutions submitting reports regarding VA benefits.
+        </p>
+      </va-alert>
+
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-y--4">
+        What to know before you fill out this form
+      </h2>
+      <ul>
+        <li>
+          Accredited schools: Submit a copy of VA Form 22-10216 by uploading it
+          to the{' '}
+          <va-link
+            text="VA Education File Upload Portal."
+            href="https://www.my.va.gov/EducationFileUploads/s/"
+          />
+        </li>
+        <li>
+          Non-accredited schools: Submit both VA Form 22-10216 and VA Form
+          22-10215 (Statement of Assurance of Compliance with 85% Enrollment
+          Ratios) for the corresponding term to the{' '}
+          <va-link
+            text="VA Education File Upload Portal."
+            href="https://www.my.va.gov/EducationFileUploads/s/"
+          />
+        </li>
+        <li>
+          <strong>Note for non-accredited schools:</strong> This exemption
+          applies only to the submission of routine reports. Your Educational &
+          Training Institution must maintain compliance with the provisions of
+          the 85/15 Rule for all programs approved to receive GI Bill Benefits
+          and must provide 85/15 calculations for any term requested by a VA
+          employee or State Approval Agency representative.
+        </li>
+      </ul>
+
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
+        How do I submit my exemption request?
+      </h2>
+      <va-process-list>
+        <va-process-list-item header="Complete the form">
+          <p>
+            Fill out the exemption request form online. You’ll need to download
+            and upload the form during this process. After completing the form,
+            you will download a PDF, which you will need to submit later by
+            uploading it to the VA Education Portal. Ensure you have all the
+            necessary details, such as your enrollment information, institution,
+            and any required documentaion, before continuing.
+          </p>
+          <p>
+            <strong>Note for non-accredited schools: </strong>
+            If you are submitting on behalf of a non-accredited institution, you
+            will need to complete and submit both the exemption request form, VA
+            Form 22-10216, and VA Form 22-10215 (Statement of Assurance of
+            Compliance with 85% Enrollment Ratios) for the corresponding term.
+            You’ll need to upload all forms through the VA Education File Upload
+            Portal in Step 3.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Download the completed form as a PDF">
+          <p>
+            When you reach the final step of this form, be sure to download and
+            save the PDF to your device. <strong>Please note: </strong> this
+            online tool does not submit the form for you. You must download your
+            completed form as a PDF and proceed to the next step.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+          <p>
+            Finally, upload your completed exemption request PDF. For
+            non-accredited schools, upload both VA Form 22-10216 and VA Form
+            22-10215.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
+
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
+        What happens after I submit my exemption request?
+      </h2>
+      <p>
+        After submitting your exemption request, we will review your submission
+        within 7-10 business days. Once the review is complete, we will email
+        your school a letter with the decision. If your request is accepted, we
+        will send a letter that includes a copy of the WEAMS form from 1998 as
+        confirmation. If your request is denied, the letter will explain the
+        reason for rejection, and we may provide you with further instructions
+        for re-submission or additional steps.
+      </p>
+
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--2">
+        Information and instructions for completing the 35% exemption request
+      </h2>
+      <va-accordion>
+        <va-accordion-item header="VA education service help" id="first">
+          <p>
+            If you need help calculating your facility’s potential eligibility
+            for the 35% exemption, or have questions concerning the 85/15 Rule,
+            contact the{' '}
+            <va-link
+              text="Education Liaison Representative"
+              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
+            />{' '}
+            of jurisdiction.
+          </p>
+          <div>
+            <strong>Note:</strong> The numbers on the instructions match the
+            item numbers on the form. Items not shown are self-explanatory.
+            <ul>
+              <li>
+                Provide the full name of your institution as listed on the Web
+                Enabled Approval Management System (WEAMS) report (VA Form
+                22-1998).
+              </li>
+              <li>Provide your institution’s VA assigned facility code.</li>
+            </ul>
+          </div>
+          <p>
+            <strong>Note:</strong> Separate exemption requests (and
+            calculations) are required for the main campus and any branch
+            campuses with separate administrative capability seeking the 35%
+            exemption. Branches and extensions without separate administrative
+            capability are part of the main or branch campus under which that
+            extension is approved.
+          </p>
+        </va-accordion-item>
+        <va-accordion-item
+          header="VA beneficiary student percentage"
+          id="second"
+        >
+          <p>
+            The result of students provided in the "total number of VA
+            beneficiary students" field divided by the "total number of
+            students" field.
+          </p>
+        </va-accordion-item>
+        <va-accordion-item header="Date of calculation" id="third">
+          <p>
+            Provide the date that 85/15 calculation was completed. This must be
+            within 30 days of the term state date.
+          </p>
+          <h4 className="vads-u-margin-y--3">35% calculation example</h4>
+          <ul>
+            <li>Total number of students enrolled at your school: 1,000</li>
+            <li>
+              Total number of VA beneficiaries enrolled at your school: 250
+            </li>
+          </ul>
+          <p>
+            <strong>Note:</strong> To calculate the percentage for the 35%
+            exemption, divide the total number of enrolled students (1,000).
+          </p>
+          <p>
+            250 divided by 1,000 is .25. To convert the quotient to a
+            percentage, move the decimal point two spaces to the right and add
+            the '%' sign after the last digit (.25 is 25%).
+          </p>
+        </va-accordion-item>
+      </va-accordion>
+
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+        Start the form
+      </h2>
+      <va-link-action
+        href="#"
+        onClick={startForm}
+        text="Start your 35% exemption request"
+      />
+      <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
+
+      <va-omb-info
+        res-burden={30}
+        omb-number="2900-0896"
+        exp-date="11/30/2024"
+      />
+    </article>
+  );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default IntroductionPage;

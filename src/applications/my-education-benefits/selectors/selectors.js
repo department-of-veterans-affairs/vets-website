@@ -7,7 +7,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   benefitEffectiveDate: state?.form?.data?.benefitEffectiveDate,
-  eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
   duplicatePhone: state.data?.duplicatePhone,
   email: state?.form?.data?.email?.email,
@@ -18,7 +17,6 @@ export const getAppData = state => ({
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
-  isEligibilityCallComplete: state.data?.eligibilityFetchComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
@@ -33,16 +31,6 @@ export const getAppData = state => ({
   showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
-  showMebDgi40Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi40Features
-  ],
-  showMebDgi42Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi42Features
-  ],
-  // Add the new feature flag: showMebEnhancements
-  showMebEnhancements: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements
-  ],
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
@@ -53,13 +41,16 @@ export const getAppData = state => ({
   showMebEnhancements09: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements09
   ],
-  showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
-  ],
   mebExclusionPeriodEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
   ],
   mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
+  ],
+  dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
+  ],
+  meb160630Automation: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.meb160630Automation
   ],
 });

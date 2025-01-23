@@ -1,9 +1,11 @@
+import React from 'react';
+
 export const complaintList = [
   {
     content: [
       {
         type: 'text',
-        value: 'Military Tuition Assistance or MyCAA - ',
+        value: 'Military Tuition Assistance or MyCAA – ',
       },
       {
         type: 'link',
@@ -11,10 +13,13 @@ export const complaintList = [
         href: 'https://pecs.militaryonesource.mil/pecs/',
         target: '_blank',
       },
+    ],
+  },
+  {
+    content: [
       {
         type: 'text',
-        value:
-          '. Federal financial aid (e.g., Pell Grants and federal loans) -  ',
+        value: 'Federal financial aid (e.g., Pell Grants and federal loans) – ',
       },
       {
         type: 'link',
@@ -150,3 +155,8 @@ export const getHelpList = [
     ],
   },
 ];
+export const maxCharAllowed = char => (
+  <p className="max-char vads-u-color--gray-medium">
+    {`${char} characters maximum`}
+  </p>
+);

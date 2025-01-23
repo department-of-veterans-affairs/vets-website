@@ -88,6 +88,7 @@ const EvidencePrivateRecordsAuthorization = ({
         {authorizationHeader}
         <VaCheckbox
           id="privacy-agreement"
+          name="privacy-agreement"
           label={authorizationLabel}
           checked={data.privacyAgreementAccepted}
           onVaChange={handlers.onChange}

@@ -21,6 +21,15 @@ const ignoreList = {
     'reservesNationalGuardService',
     'separationLocation',
   ],
+  toxicExposure: [
+    'toxicExposureConditions',
+    'gulfWar1990Locations',
+    'gulfWar2001Locations',
+    'herbicideLocations',
+    'herbicideOtherLocations',
+    'otherExposures',
+    'specifyOtherExposures',
+  ],
   unemployability: [
     'medicalCare',
     'hospitalizationHistory',
@@ -45,9 +54,12 @@ describe('Root property names', () => {
   it('should not be duplicated', () => {
     const properties = new Map();
     const duplicatedProperties = {};
+
+    // these properties are used on the original claim and BDD evidence type pages
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
-      'view:hasEvidenceFollowUp',
+      'view:selectableEvidenceTypes',
+      'view:evidenceTypeHelp',
     ];
 
     Object.keys(pages).forEach(pageName => {

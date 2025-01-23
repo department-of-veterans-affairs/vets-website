@@ -1,13 +1,12 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 // platform imports
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // internal imports
-import { prefillTransformer, transform } from '../utils/helpers';
+import { prefillTransformer } from './prefill-transformer';
+import { submitTransformer } from './submit-transformer';
 import {
   isLoggedOut,
   isSigiEnabled,
@@ -17,10 +16,18 @@ import {
   hasNoCompensation,
   hasHighCompensation,
   notShortFormEligible,
+  includeRegOnlyAuthQuestions,
+  includeRegOnlyGuestQuestions,
+  showRegOnlyAuthConfirmation,
+  showRegOnlyGuestConfirmation,
   dischargePapersRequired,
-  teraInformationEnabled,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
+  includeGulfWarService,
   includeGulfWarServiceDates,
+  includePostSept11Service,
+  includePostSept11ServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -30,13 +37,11 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useJsonFacilityList,
-  useLighthouseFacilityList,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import { SHARED_PATHS } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';
 import manifest from '../manifest.json';
-import IdentityPage from '../containers/IdentityPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
@@ -44,8 +49,13 @@ import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
 
+// Before you begin
+import IdentityPage from '../containers/IdentityPage';
+import PersonalInformationPage from '../containers/PersonalInformationPage';
+import AuthBenefitsPackagePage from '../containers/AuthBenefitsPackagePage';
+import AuthRegistrationOnlyPage from '../containers/AuthRegistrationOnlyPage';
+
 // chapter 1 Veteran Information
-import VeteranInformation from '../components/FormPages/VeteranInformation';
 import veteranDateOfBirth from './chapters/veteranInformation/veteranDateOfBirth';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
@@ -59,7 +69,9 @@ import contactInformation from './chapters/veteranInformation/contactInformation
 // chapter 2 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
 import pensionInformation from './chapters/vaBenefits/pensionInformation';
+import benefitsPackage from './chapters/vaBenefits/benefitsPackage';
 import DisabilityConfirmationPage from '../components/FormPages/DisabilityConfirmation';
+import RegistrationOnlyGuestPage from '../components/FormPages/RegistrationOnlyGuest';
 import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
 // chapter 3 Military Service
@@ -69,6 +81,8 @@ import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
 import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import postSept11Service from './chapters/militaryService/postSept11Service';
+import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 import combatOperationService from './chapters/militaryService/combatOperationService';
 import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
 import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
@@ -99,14 +113,15 @@ import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
-import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
+import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const { date } = fullSchemaHca.definitions;
+const { date } = FULL_SCHEMA.definitions;
 
 /**
  * NOTE: Prefill message data values can be found in
@@ -139,14 +154,32 @@ const formConfig = {
     dependencies: [externalServices['1010ez']],
     message: DowntimeWarning,
   },
-  transformForSubmit: transform,
+  transformForSubmit: submitTransformer,
   introduction: IntroductionPage,
+  v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
       path: 'id-form',
       component: IdentityPage,
       pageKey: 'id-form',
       depends: isLoggedOut,
+    },
+    {
+      path: 'check-your-personal-information',
+      component: PersonalInformationPage,
+      pageKey: 'verify-personal-information',
+    },
+    {
+      path: 'va-benefits-package',
+      component: AuthBenefitsPackagePage,
+      pageKey: 'auth-va-benefits-package',
+      depends: includeRegOnlyAuthQuestions,
+    },
+    {
+      path: 'care-for-service-connected-conditions',
+      component: AuthRegistrationOnlyPage,
+      pageKey: 'auth-reg-only-confirmation',
+      depends: showRegOnlyAuthConfirmation,
     },
   ],
   confirmation: ConfirmationPage,
@@ -165,14 +198,6 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        veteranProfileInformation: {
-          path: 'veteran-information/personal-information',
-          title: 'Veteran\u2019s personal information',
-          CustomPage: VeteranInformation,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
@@ -256,6 +281,24 @@ const formConfig = {
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
+        vaBenefitsPackage: {
+          path: 'va-benefits/benefits-package',
+          title: 'VA benefits package',
+          depends: includeRegOnlyGuestQuestions,
+          CustomPageReview: () => null,
+          uiSchema: benefitsPackage.uiSchema,
+          schema: benefitsPackage.schema,
+        },
+        vaRegOnlyConfirmation: {
+          path: 'va-benefits/service-connected-care',
+          title: 'Care for service-connected conditions',
+          initialData: {},
+          depends: showRegOnlyGuestConfirmation,
+          CustomPage: RegistrationOnlyGuestPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
         vaPayConfirmation: {
           path: 'va-benefits/confirm-service-pay',
           title: 'Disability confirmation',
@@ -295,30 +338,43 @@ const formConfig = {
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
-          depends: teraInformationEnabled,
           uiSchema: toxicExposure.uiSchema,
           schema: toxicExposure.schema,
         },
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: includeRadiationCleanUpEfforts,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
-          title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          title: 'Service after August 2, 1990',
+          depends: includeGulfWarService,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
         gulfWarServiceDates: {
           path: 'military-service/gulf-war-service-dates',
-          title: 'Gulf War service dates',
+          title: 'Service dates after August 2, 1990',
           depends: includeGulfWarServiceDates,
           uiSchema: gulfWarServiceDates.uiSchema,
           schema: gulfWarServiceDates.schema,
+        },
+        postSept11Service: {
+          path: 'military-service/post-sept-11-service',
+          title: 'Service post-9/11',
+          depends: includePostSept11Service,
+          uiSchema: postSept11Service.uiSchema,
+          schema: postSept11Service.schema,
+        },
+        postSept11ServiceDates: {
+          path: 'military-service/post-sept-11-service-dates',
+          title: 'Post-9/11 service dates',
+          depends: includePostSept11ServiceDates,
+          uiSchema: postSept11ServiceDates.uiSchema,
+          schema: postSept11ServiceDates.schema,
         },
         combatOperationService: {
           path: 'military-service/operation-support',
@@ -330,7 +386,7 @@ const formConfig = {
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: includeAgentOrangeExposure,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },
@@ -511,21 +567,28 @@ const formConfig = {
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },
+        insuranceIntro: {
+          path: 'insurance-information/your-health-insurance',
+          title: 'Your health insurance',
+          CustomPage: InsuranceInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
         general: {
           path: 'insurance-information/general',
           title: 'Other coverage',
+          depends: formData => !formData['view:isInsuranceV2Enabled'],
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        vaFacilityJson: {
-          path: 'insurance-information/va-facility-json',
-          title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
-          depends: useJsonFacilityList,
-          uiSchema: vaFacilityJsonPage.uiSchema,
-          schema: vaFacilityJsonPage.schema,
+        healthInsurancePolicySummary: {
+          ...insurancePolicyPages.healthInsurancePolicySummary,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        healthInsurancePolicyInformation: {
+          ...insurancePolicyPages.healthInsurancePolicyInformation,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
         },
         vaFacilityLighthouse: {
           path: 'insurance-information/va-facility-api',
@@ -533,7 +596,6 @@ const formConfig = {
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          depends: useLighthouseFacilityList,
           uiSchema: vaFacilityApiPage.uiSchema,
           schema: vaFacilityApiPage.schema,
         },

@@ -28,12 +28,12 @@ const IssueSummary = ({ formData }) => {
           You’ve selected these issues for review
         </h3>
       </legend>
-      <ul className="issues-summary vads-u-margin-bottom--0">
+      <ul className="issues-summary vads-u-margin-bottom--0 remove-bullets">
         {issues.length ? (
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>
               <h4
-                className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
+                className="capitalize word-break-all vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
                 data-dd-action-name="rated issue name"
               >
                 {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}

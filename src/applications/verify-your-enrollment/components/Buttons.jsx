@@ -8,7 +8,7 @@ const ButtonsGroup = ({
   secondaryLabel,
 }) => {
   return (
-    <div>
+    <div className="button-container">
       <va-button onClick={onPrimaryClick} text={primaryLabel} />
       <va-button onClick={onSecondaryClick} secondary text={secondaryLabel} />
     </div>

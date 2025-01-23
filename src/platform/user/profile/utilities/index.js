@@ -1,7 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
@@ -34,17 +34,21 @@ export function mapRawUserDataToState(json) {
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
+          initialSignIn,
           signIn,
           birthDate: dob,
           email,
           firstName: first,
           gender,
+          icn,
           lastName: last,
           loa,
           middleName: middle,
           multifactor,
           verified,
           claims,
+          edipi,
+          preferredName,
         },
         services,
         vaProfile,
@@ -59,9 +63,11 @@ export function mapRawUserDataToState(json) {
   const userState = {
     accountType: loa.current,
     accountUuid,
+    initialSignIn,
     dob,
     email,
     gender,
+    icn,
     isCernerPatient: vaProfile?.isCernerPatient,
     loa,
     multifactor,
@@ -74,8 +80,10 @@ export function mapRawUserDataToState(json) {
       middle,
       last,
     },
+    preferredName,
     verified,
     claims,
+    edipi,
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
@@ -128,7 +136,7 @@ export const hasSessionSSO = () =>
   JSON.parse(localStorage.getItem('hasSessionSSO'));
 
 export function setupProfileSession(userProfile) {
-  const { firstName, signIn } = userProfile;
+  const { firstName, signIn, preferredName } = userProfile;
   const loginType = signIn?.serviceName || null;
   localStorage.setItem('hasSession', true);
   if (signIn?.ssoe) {
@@ -138,6 +146,7 @@ export function setupProfileSession(userProfile) {
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
+  if (preferredName) localStorage.setItem('preferredName', preferredName);
 
   // Set Sentry Tag so we can associate errors with the login policy
   setSentryLoginType(loginType);

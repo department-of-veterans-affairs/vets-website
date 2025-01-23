@@ -30,7 +30,10 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {
@@ -62,7 +65,10 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {
@@ -94,7 +100,10 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {
@@ -129,7 +138,10 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {

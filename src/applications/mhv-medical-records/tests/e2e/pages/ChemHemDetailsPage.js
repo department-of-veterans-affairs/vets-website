@@ -29,13 +29,6 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="chem-hem-ordered-by"]').should('contain', orderedBy);
   };
 
-  verifyLabOrderingLocation = locationOrdered => {
-    cy.get('[data-testid="chem-hem-ordering-location"]').should(
-      'contain',
-      locationOrdered,
-    );
-  };
-
   verifyLabCollectingLocation = locationCollected => {
     cy.get('[data-testid="chem-hem-collecting-location"]').should(
       'contain',
@@ -43,8 +36,12 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     );
   };
 
-  verifyProviderNotes = notes => {
+  verifyProviderNotesSingle = notes => {
     cy.get('[data-testid="list-item-single"]').should('contain', notes);
+  };
+
+  verifyProviderNotesMultiple = notes => {
+    cy.get('[data-testid="list-item-multiple"]').should('contain', notes);
   };
 
   verifyDownloadTextFileHeadless = (
@@ -98,12 +95,11 @@ class ChemHemDetailsPage extends BaseDetailsPage {
 
   verifyComposeMessageLink = composeMessageLink => {
     // verify compose a message on the My Healthvet website
-    cy.get('[data-testid="compose-message-Link"]').should('be.visible');
-    cy.get('[data-testid="compose-message-Link"]')
+    cy.get('[data-testid="new-message-link"]').should('be.visible');
+    cy.get('[data-testid="new-message-link"]')
       .contains(composeMessageLink)
       .invoke('attr', 'href')
-      .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
-    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
+      .should('contain', '/my-health/secure-messages/new-message');
   };
 }
 

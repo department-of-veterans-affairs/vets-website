@@ -1,81 +1,95 @@
+import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import * as Sentry from '@sentry/browser';
+import content from '../locales/en/content.json';
 
-export const fetchFacilities = async (mapBoxResponse, request = null) => {
-  if (mapBoxResponse?.errorMessage) {
-    return mapBoxResponse.errorMessage;
-  }
-  // Increase the area of the boundary to improve search results
-  const adjustedBoundaryCoordinates = [
-    // min X
-    mapBoxResponse[0] - 0.3,
-    // min Y
-    mapBoxResponse[1] - 0.3,
-    // max X
-    mapBoxResponse[2] + 0.3,
-    // max Y
-    mapBoxResponse[3] + 0.3,
-  ];
-
-  const lightHouseRequestUrl = `${
-    environment.API_URL
-  }/v1/facilities/va?bbox%5B%5D=${adjustedBoundaryCoordinates[0]}%2C%20${
-    adjustedBoundaryCoordinates[1]
-  }%2C%20${adjustedBoundaryCoordinates[2]}%2C%20${
-    adjustedBoundaryCoordinates[3]
-  }&per_page=500`;
-
-  // Helper function to join address parts, filtering out null or undefined values
+const formatAddress = address => {
   const joinAddressParts = (...parts) => {
-    return parts.filter(part => part != null).join(', ');
+    const [city, state, zip] = parts;
+    const stateZip = state && zip ? `${state} ${zip}` : state || zip;
+    return [city, stateZip].filter(Boolean).join(', ');
   };
 
-  // eslint-disable-next-line no-param-reassign
-  request = request || apiRequest(`${lightHouseRequestUrl}`, {});
+  return {
+    address1: address.address1,
+    address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
+    address3: joinAddressParts(address?.city, address?.state, address?.zip),
+  };
+};
 
-  return request
+const formatFacilityIds = facilityIds => {
+  let facilityIdList = '';
+  if (facilityIds.length > 0) {
+    facilityIdList = `${facilityIds.join(',')}`;
+  }
+
+  return facilityIdList;
+};
+
+export const fetchFacilities = async ({
+  lat = null,
+  long = null,
+  radius = null,
+  page = null,
+  perPage = null,
+  facilityIds = [],
+  type = 'health',
+}) => {
+  const url = `${
+    environment.API_URL
+  }/v0/caregivers_assistance_claims/facilities`;
+
+  const body = {
+    type,
+    lat,
+    long,
+    radius,
+    page,
+    perPage,
+    facilityIds: formatFacilityIds(facilityIds),
+  };
+
+  const fetchRequest = apiRequest(url, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  return fetchRequest
     .then(response => {
-      return response.data.map(facility => {
-        const { physical } = facility.attributes.address;
-
-        // Create a new address object without modifying the original facility
-        const newPhysicalAddress = {
-          address1: physical.address1,
-          address2: joinAddressParts(physical.address2, physical.address3),
-          address3: joinAddressParts(
-            physical.city,
-            physical.state,
-            physical.zip,
-          ),
+      if (!response?.data?.length) {
+        return {
+          type: 'NO_SEARCH_RESULTS',
+          errorMessage: content['error--no-results-found'],
         };
+      }
+      const facilities = response.data.map(facility => {
+        const attributes = facility?.attributes;
 
         // Return a new facility object with the updated address
         return {
-          ...facility,
-          attributes: {
-            ...facility.attributes,
-            address: {
-              ...facility.attributes.address,
-              physical: newPhysicalAddress,
-            },
+          ...attributes,
+          id: facility.id,
+          address: {
+            physical: formatAddress(attributes?.address.physical),
           },
         };
       });
+
+      return {
+        facilities,
+        meta: response.meta,
+      };
     })
     .catch(error => {
-      const errors = error.errors.map(err => {
-        return err.detail ? err.detail : err.title;
-      });
-
       Sentry.withScope(scope => {
-        scope.setExtra('error', errors);
-        Sentry.captureMessage('Error fetching Lighthouse VA facilities');
+        scope.setExtra('error', error);
+        Sentry.captureMessage(content['error--facilities-fetch']);
       });
 
       return {
         type: 'SEARCH_FAILED',
-        errorMessage: errors,
+        errorMessage: 'There was an error fetching the health care facilities.',
       };
     });
 };

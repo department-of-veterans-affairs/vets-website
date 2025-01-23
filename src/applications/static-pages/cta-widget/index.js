@@ -4,20 +4,22 @@ import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { fetchMHVAccount } from 'platform/user/profile/actions';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
-
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import recordEvent from '~/platform/monitoring/record-event';
+import { fetchMHVAccount } from '~/platform/user/profile/actions';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
+import { CSP_IDS, AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceName,
+} from '~/platform/user/authentication/selectors';
+import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import {
   logout as IAMLogout,
   mfa,
-} from 'platform/user/authentication/utilities';
-import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+} from '~/platform/user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -27,7 +29,7 @@ import HealthToolsDown from './components/messages/HealthToolsDown';
 import MultipleIds from './components/messages/MultipleIds';
 import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
 import NoMHVAccount from './components/messages/NoMHVAccount';
-import NotAuthorized from './components/messages/mvi/NotAuthorized';
+import SignInOtherAccount from './components/messages/SignInOtherAccount';
 import NotFound from './components/messages/mvi/NotFound';
 import OpenMyHealtheVet from './components/messages/OpenMyHealtheVet';
 import RegisterFailed from './components/messages/RegisterFailed';
@@ -55,6 +57,7 @@ export class CallToActionWidget extends Component {
     mhvAccountIdState: PropTypes.string,
     mviStatus: PropTypes.string,
     profile: PropTypes.object,
+    serviceName: PropTypes.string,
     // From mapDispatchToProps.
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
@@ -78,6 +81,9 @@ export class CallToActionWidget extends Component {
     this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
+    this._featureToggle = ctaWidget?.featureToggle;
+    this._headerLevel = ctaWidget?.headerLevel || props.headerLevel;
+    this._requiresVerification = ctaWidget?.requiresVerification;
   }
 
   componentDidMount() {
@@ -154,7 +160,7 @@ export class CallToActionWidget extends Component {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={this.openLoginModal}
-            headerLevel={this.props.headerLevel}
+            headerLevel={this._headerLevel}
             ariaLabel={this.props.ariaLabel}
             ariaDescribedby={this.props.ariaDescribedby}
           />
@@ -163,8 +169,12 @@ export class CallToActionWidget extends Component {
       return (
         <SignIn
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.openLoginModal}
-          headerLevel={this.props.headerLevel}
+          primaryButtonHandler={
+            this._requiresVerification
+              ? this.openForcedLoginModal
+              : this.openLoginModal
+          }
+          headerLevel={this._headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
         />
@@ -177,12 +187,8 @@ export class CallToActionWidget extends Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return (
-        <Verify
-          serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.verifyHandler}
-        />
-      );
+
+      return this.getVerifyAlert();
     }
 
     if (this.isNonMHVSchedulingTool()) {
@@ -222,6 +228,7 @@ export class CallToActionWidget extends Component {
     return null;
   };
 
+  // Function called when isHealthTool()
   getHealthToolContent = () => {
     const { mhvAccount, authenticatedWithSSOe } = this.props;
 
@@ -259,14 +266,11 @@ export class CallToActionWidget extends Component {
     return this.getInaccessibleHealthToolContent();
   };
 
+  // Function called when isHealthTool() or isNonMHVSchedulingTool()
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return (
-          <NotAuthorized
-            authenticatedWithSSOe={this.props.authenticatedWithSSOe}
-          />
-        );
+        return this.getVerifyAlert();
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -274,6 +278,34 @@ export class CallToActionWidget extends Component {
     }
   };
 
+  // Function called when isHealthTool() or isNonMHVSchedulingTool()
+  getVerifyAlert = () => {
+    const serviceDescription = this.isHealthTool()
+      ? 'access more VA.gov tools and features'
+      : this._serviceDescription;
+    switch (this.props.serviceName) {
+      case CSP_IDS.ID_ME:
+      case CSP_IDS.LOGIN_GOV:
+        return (
+          <Verify
+            signInService={this.props.serviceName}
+            headerLevel={this._headerLevel}
+            serviceDescription={serviceDescription}
+          />
+        );
+
+      case CSP_IDS.MHV:
+      default:
+        return (
+          <SignInOtherAccount
+            headerLevel={this._headerLevel}
+            serviceDescription={serviceDescription}
+          />
+        );
+    }
+  };
+
+  // Function called when isHealthTool()
   getInaccessibleHealthToolContentSSOe = () => {
     const { profile, mhvAccountIdState } = this.props;
 
@@ -281,12 +313,7 @@ export class CallToActionWidget extends Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
-      return (
-        <Verify
-          serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.verifyHandler}
-        />
-      );
+      return this.getVerifyAlert();
     }
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
@@ -300,6 +327,7 @@ export class CallToActionWidget extends Component {
     window.location = mhvUrl(this.props.authenticatedWithSSOe, 'home');
   };
 
+  // Function called when isHealthTool()
   getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
@@ -317,12 +345,7 @@ export class CallToActionWidget extends Component {
 
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
-        return (
-          <Verify
-            serviceDescription={this._serviceDescription}
-            primaryButtonHandler={this.verifyHandler}
-          />
-        );
+        return this.getVerifyAlert();
 
       case ACCOUNT_STATES.NEEDS_SSN_RESOLUTION:
         return <NeedsSSNResolution />;
@@ -426,6 +449,8 @@ export class CallToActionWidget extends Component {
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
+  openForcedLoginModal = () => this.props.toggleLoginModal(true, '', true);
+
   goToTool = gaEvent => {
     const url = this._toolUrl;
     if (!url) return;
@@ -462,10 +487,6 @@ export class CallToActionWidget extends Component {
     mfa();
   };
 
-  verifyHandler = () => {
-    window.location.href = '/verify';
-  };
-
   render() {
     const {
       appId,
@@ -489,6 +510,11 @@ export class CallToActionWidget extends Component {
 
     // Derive the CTA widget.
     const ctaWidget = ctaWidgetsLookup?.[appId];
+
+    // Render nothing if feature toggle is off.
+    if (!!this._featureToggle && !featureToggles[this._featureToggle]) {
+      return null;
+    }
 
     // Derive the CTA URL.
     const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;
@@ -536,6 +562,7 @@ const mapStateToProps = state => {
 
   return {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    serviceName: signInServiceName(state),
     featureToggles: state.featureToggles,
     isLoggedIn: isLoggedIn(state),
     isVaPatient: vaPatient,

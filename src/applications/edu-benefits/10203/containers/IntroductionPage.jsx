@@ -5,40 +5,14 @@ import { connect } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { getRemainingEntitlement } from '../actions/post-911-gib-status';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-
-const withFeatureToggle = Component => {
-  return props => {
-    const {
-      useToggleValue,
-      useToggleLoadingValue,
-      TOGGLE_NAMES,
-    } = useFeatureToggle();
-
-    const toggleValue = useToggleValue(
-      TOGGLE_NAMES.benefitsEducationUseLighthouse,
-    );
-    const togglesLoading = useToggleLoadingValue();
-
-    if (togglesLoading) {
-      return null;
-    }
-
-    const apiVersion = { apiVersion: toggleValue ? 'v1' : 'v0' };
-
-    return <Component {...props} apiVersion={apiVersion} />;
-  };
-};
+import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       focusElement('.va-nav-breadcrumbs-list');
-      this.props.getRemainingEntitlement(this.props.apiVersion);
+      this.props.getRemainingEntitlement();
     }
   }
 
@@ -49,10 +23,7 @@ export class IntroductionPage extends React.Component {
 
   loginPrompt() {
     if (this.props.isLoggedIn) {
-      if (
-        this.props.useEvss &&
-        this.moreThanSixMonths(this.props?.remainingEntitlement)
-      ) {
+      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
         return (
           <div
             id="entitlement-remaining-alert"
@@ -108,7 +79,9 @@ export class IntroductionPage extends React.Component {
           Scholarship).
         </p>
         {this.loginPrompt()}
-        <h4>Follow the steps below to apply for this scholarship</h4>
+        <h3 className="vads-u-font-size--h4">
+          Follow the steps below to apply for this scholarship
+        </h3>
         <div className="process schemaform-process">
           <ol>
             <li
@@ -118,7 +91,9 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Determine your eligibility</h5>
+                <h4 className="vads-u-font-size--h5">
+                  Determine your eligibility
+                </h4>
               </div>
               <div itemProp="itemListElement">
                 <div className="vads-u-font-weight--bold">
@@ -154,7 +129,7 @@ export class IntroductionPage extends React.Component {
                         program for health care professionals. <br />
                         <a
                           aria-label="See eligible degree programs, opening in new tab"
-                          href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                          href="https://www.va.gov/resources/approved-fields-of-study-for-the-stem-scholarship/"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -181,7 +156,7 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Prepare</h5>
+                <h4 className="vads-u-font-size--h5">Prepare</h4>
               </div>
               <div itemProp="itemListElement">
                 <div>
@@ -205,7 +180,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>Apply</h5>
+                <h4 className="vads-u-font-size--h5">Apply</h4>
               </div>
               <p>Complete this education benefits form.</p>
               <p>
@@ -220,7 +195,7 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>VA review</h5>
+                <h4 className="vads-u-font-size--h5">VA review</h4>
               </div>
               <div itemProp="itemListElement">
                 <p>
@@ -239,7 +214,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-five">
               <div>
-                <h5>Decision</h5>
+                <h4 className="vads-u-font-size--h5">Decision</h4>
               </div>
               <p>
                 If we approve your application, you’ll get a Certificate of
@@ -279,19 +254,16 @@ export class IntroductionPage extends React.Component {
 }
 
 IntroductionPage.propTypes = {
-  apiVersion: PropTypes.object,
   getRemainingEntitlement: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   remainingEntitlement: PropTypes.object,
   route: PropTypes.object,
-  useEvss: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
-    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 
@@ -302,4 +274,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withFeatureToggle(IntroductionPage));
+)(IntroductionPage);

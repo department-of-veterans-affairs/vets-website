@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 
 // Desciptions and labels for the two resolution options
@@ -91,21 +91,17 @@ const ResolutionAmount = ({ formContext }) => {
   };
 
   return (
-    <div>
-      <div className="vads-u-margin-y--0">
-        <p className="vads-u-display--block">
-          You selected:{' '}
-          <span className="vads-u-font-weight--bold">
-            {resolutionOption === 'monthly'
-              ? content.debtMonthly.type
-              : content.debtCompromise.type}
-          </span>
-        </p>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          {getResolutionText()}
+    <>
+      <p className="vads-u-margin-top--3">
+        You selected:{' '}
+        <span className="vads-u-font-weight--bold">
+          {resolutionOption === 'monthly'
+            ? content.debtMonthly.type
+            : content.debtCompromise.type}
         </span>
-      </div>
-      <VaNumberInput
+      </p>
+      <p className="vads-u-margin-bottom--0">{getResolutionText()}</p>
+      <VaTextInput
         width="md"
         data-testid="resolution-amount"
         error={errorMessage}
@@ -126,11 +122,10 @@ const ResolutionAmount = ({ formContext }) => {
         onInput={onAmountChange}
         required
         currency
-        type="text"
+        type="decimal"
         value={resolutionAmount || ''}
-        uswds
       />
-    </div>
+    </>
   );
 };
 

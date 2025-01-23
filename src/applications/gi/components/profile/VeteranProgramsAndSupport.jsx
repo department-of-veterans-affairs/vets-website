@@ -1,5 +1,11 @@
 import React from 'react';
-import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
+import PropTypes from 'prop-types';
+import {
+  createId,
+  formatCurrency,
+  formatNumber,
+  showSchoolContentBasedOnType,
+} from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 
@@ -51,6 +57,7 @@ export default function VeteranProgramsAndSupport({
   const available = Object.keys(programs).filter(
     key => !!institution[key] === true,
   );
+  const { type } = institution;
 
   const programLabel = programKey => {
     const program = programs[programKey];
@@ -73,11 +80,12 @@ export default function VeteranProgramsAndSupport({
       '';
 
     return (
-      <div key={programKey}>
-        <i className="fa fa-check vads-u-color--green" />
+      <div className="veteran-programs" key={programKey}>
+        <va-icon icon="check" size={3} class="vads-u-color--green" />
         &nbsp;
         <strong>
           <LearnMoreLabel
+            bold
             text={program.text}
             onClick={() => {
               showModal(program.modal);
@@ -93,7 +101,7 @@ export default function VeteranProgramsAndSupport({
   };
 
   const veteranPrograms = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>
@@ -107,10 +115,10 @@ export default function VeteranProgramsAndSupport({
   );
 
   const historicalInformation = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <div className="historical-information table">
         <h3>Historical Information</h3>
-        <va-table class="vads-u-margin-top--0">
+        <va-table table-type="bordered">
           <va-table-row slot="headers">
             <span>Benefit</span>
             <span>Recipients</span>
@@ -121,20 +129,27 @@ export default function VeteranProgramsAndSupport({
             <span>{formatNumber(institution.p911Recipients)}</span>
             <span>{formatCurrency(institution.p911TuitionFees)}</span>
           </va-table-row>
-          <va-table-row>
-            <span>Yellow Ribbon</span>
-            <span>{formatNumber(institution.p911YrRecipients)}</span>
-            <span>{formatCurrency(institution.p911YellowRibbon)}</span>
-          </va-table-row>
+          {showSchoolContentBasedOnType(type) && (
+            <va-table-row>
+              <span>Yellow Ribbon</span>
+              <span>{formatNumber(institution.p911YrRecipients)}</span>
+              <span>{formatCurrency(institution.p911YellowRibbon)}</span>
+            </va-table-row>
+          )}
         </va-table>
       </div>
     </div>
   );
 
   return (
-    <div className="row veteran-programs-and-support">
+    <div className="veteran-programs-and-support vads-u-display--flex vads-u-justify-content--space-between">
       {veteranPrograms}
       {historicalInformation}
     </div>
   );
 }
+VeteranProgramsAndSupport.propTypes = {
+  constants: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+};

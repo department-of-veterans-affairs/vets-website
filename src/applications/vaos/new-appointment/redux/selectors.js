@@ -20,6 +20,7 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureRemovePodiatry,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -172,17 +173,6 @@ export function getDateTimeSelect(state, pageKey) {
   };
 }
 
-export function hasSingleValidVALocation(state) {
-  const formInfo = getFormPageInfo(state, 'vaFacility');
-
-  return (
-    !formInfo.schema?.properties.vaParent &&
-    !formInfo.schema?.properties.vaFacility &&
-    !!formInfo.data.vaParent &&
-    !!formInfo.data.vaFacility
-  );
-}
-
 export function selectProviderSelectionInfo(state) {
   const {
     communityCareProviders,
@@ -242,6 +232,9 @@ export function selectSingleValidVALocation(state) {
 
   return validFacilities?.length === 1 && !!data.vaFacility;
 }
+export function selectSingleSupportedVALocation(state) {
+  return getNewAppointment(state)?.data?.isSingleVaFacility;
+}
 
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
@@ -286,7 +279,7 @@ export function getChosenClinicInfo(state) {
   const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
+    clinics?.[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.id === data.clinicId,
     ) || null
   );
@@ -320,6 +313,14 @@ export function selectChosenFacilityInfo(state) {
   return newAppointment.facilities[typeOfCare.id].find(
     facility => facility.id === formData.vaFacility,
   );
+}
+
+export function getPatientProviderRelationships(state) {
+  return {
+    patientProviderRelationships: state.patientProviderRelationships,
+    patientProviderRelationshipsStatus:
+      state.patientProviderRelationshipsStatus,
+  };
 }
 
 export function getChosenVACityState(state) {
@@ -381,6 +382,7 @@ export function selectTypeOfCarePage(state) {
     pageChangeInProgress: selectPageChangeInProgress(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
+    removePodiatry: selectFeatureRemovePodiatry(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     useV2: featureVAOSServiceVAAppointments,

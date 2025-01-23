@@ -51,3 +51,22 @@ export const selectVaRadio = (container, value, selector = 'va-radio') => {
   });
   $(selector, container).__events.vaValueChange(changeEvent);
 };
+
+export const checkVaCheckbox = (checkboxGroup, bool) => {
+  checkboxGroup.__events.vaChange({
+    target: {
+      checked: bool,
+    },
+    detail: { checked: bool },
+  });
+};
+
+export const getProps = element => {
+  let prop;
+  Object.keys(element).forEach(key => {
+    if (key.match(/^__react[^$]*(\$.+)$/)) {
+      prop = key;
+    }
+  });
+  return prop;
+};

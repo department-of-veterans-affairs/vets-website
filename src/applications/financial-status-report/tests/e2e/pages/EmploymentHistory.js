@@ -3,10 +3,7 @@ import { customButtonGroupContinue } from '../fixtures/helpers';
 const fillEmploymentInformation = employer => {
   // enhanced-employment-records
   // enhanced-spouse-employment-records
-  cy.get('#type')
-    .shadow()
-    .find('select')
-    .select(employer.type);
+  cy.get('va-radio-option[value="Part time"]').click();
   cy.get('#employer-name')
     .shadow()
     .find('input')
@@ -20,7 +17,7 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
+    cy.fillVaDate('from', employer.from, true);
     customButtonGroupContinue();
 
     // gross-monthly-income
@@ -33,16 +30,17 @@ const fillEmploymentInformation = employer => {
 
     // deduction-checklist
     // spouse-deduction-checklist
-    for (let i = 0; i < employer.deductions.length; i++) {
-      cy.get(
-        `input[type="checkbox"][value='${employer.deductions[i].name}']`,
-      ).check();
-    }
+    employer.deductions.forEach(deduction => {
+      cy.get(`va-checkbox[name="${deduction.name}"]`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
+    });
     cy.get('.usa-button-primary').click();
 
     // deduction-values
     // spouse-deduction-values
-    cy.get('va-number-input')
+    cy.get('va-text-input')
       .as('InputList')
       .should('have.length', employer.deductions.length);
     cy.get('@InputList').each((input, index) => {
@@ -62,8 +60,8 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
-    cy.fillDate('to', employer.to);
+    cy.fillVaDate('from', employer.from, true);
+    cy.fillVaDate('to', employer.to, true);
     customButtonGroupContinue('Add employment record');
   }
 };
@@ -85,6 +83,7 @@ const employmentInformationLoop = employers => {
       cy.get('.vads-c-action-link--green').click();
     }
   }
+
   cy.get('va-card')
     .as('EmploymentCards')
     .should('have.length', employers.length);

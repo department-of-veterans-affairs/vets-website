@@ -1,5 +1,4 @@
-import moment from 'moment';
-import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
+import { differenceInMilliseconds } from 'date-fns';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -8,7 +7,6 @@ import {
 } from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 import { deductionCodes } from '../constants/deduction-codes';
-import { debtMockResponse } from '../utils/debtMockResponses';
 import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
@@ -22,8 +20,12 @@ export const fetchFormStatus = () => async dispatch => {
   dispatch({
     type: FSR_API_CALL_INITIATED,
   });
-  const sessionExpiration = localStorage.getItem('sessionExpiration');
-  const remainingSessionTime = moment(sessionExpiration).diff(moment());
+
+  const sessionExpiration = new Date(localStorage.getItem('sessionExpiration'));
+  const remainingSessionTime = differenceInMilliseconds(
+    sessionExpiration,
+    new Date(),
+  );
 
   if (!remainingSessionTime) {
     // reset errors if user is not logged in or session has expired
@@ -53,7 +55,7 @@ export const fetchFormStatus = () => async dispatch => {
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+      Sentry.captureMessage(`FSR fetchFormStatus failed: ${error.detail}`);
     });
   }
   return dispatch({
@@ -73,9 +75,7 @@ export const fetchDebts = async dispatch => {
       },
     };
 
-    return isVAProfileServiceConfigured()
-      ? apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : debtMockResponse();
+    return apiRequest(`${environment.API_URL}/v0/debts`, options);
   };
 
   try {

@@ -4,9 +4,7 @@
     "type": "afterVisitSummary",
     "attributes": {
       "id": "9A7AF40B2BC2471EA116891839113252",
-      "appointmentIens": [
-        "9876543"
-      ],
+      "appointmentIens": ["9876543"],
       "meta": {
         "generatedDate": "2023-07-12T07:45:11Z",
         "pageHeader": "After Visit Summary\nPatient,Test\nDOB: 01/01/1950 (74y)\nVisit date: February 07, 2024\nDate generated: February 08, 2024 11:06\nVEHU DIVISION",
@@ -35,10 +33,7 @@
           "status": "CHECKED OUT"
         }
       ],
-      "providers": [
-        "DOCTOR,GREAT B - ACOS/EDUC.",
-        "NURSE,GREAT - LVN"
-      ],
+      "providers": ["DOCTOR,GREAT B - ACOS/EDUC.", "NURSE,GREAT - LVN"],
       "procedures": [
         {
           "name": "Skin Barrier, Wipes or Swabs, each",
@@ -452,9 +447,7 @@
           {
             "T": "Allergy",
             "allergen": "BANANAS",
-            "reactions": [
-              ""
-            ],
+            "reactions": [""],
             "severity": "",
             "site": "LOMA LINDA VA CLINIC",
             "stationNo": "605",
@@ -464,9 +457,7 @@
           {
             "T": "Allergy",
             "allergen": "SIMVASTATIN",
-            "reactions": [
-              "myopathy"
-            ],
+            "reactions": ["myopathy"],
             "severity": "",
             "site": "WEST PALM BEACH VAMC",
             "stationNo": "548",
@@ -563,6 +554,7 @@
           "name": "INSULIN REGULAR 500 UNT/ML INJ",
           "type": "Outpatient",
           "sig": "INJECT 100ML IM 5XD",
+          "indication": "DIABETES MELLITUS",
           "source": "VA",
           "totalNumRefills": 0,
           "refillsRemaining": 0,
@@ -928,9 +920,7 @@
           "TABLET CUTTER - device once",
           "ABACAVIR TAB - give: 300mg po today "
         ],
-        "changedMedications": [
-          "ONDANSETRON TAB - give: 8mg po once"
-        ]
+        "changedMedications": ["ONDANSETRON TAB - give: 8mg po once"]
       },
       "labResults": [
         {
@@ -1620,20 +1610,20 @@
       ],
       "clinicalServices": [
         {
-            "stationNo": "500",
-            "name": "Cardiology",
-            "location": "Hartford",
-            "hours": "0800-1830",
-            "phone": "9764002",
-            "comment": ""
+          "stationNo": "500",
+          "name": "Cardiology",
+          "location": "Hartford",
+          "hours": "0800-1830",
+          "phone": "9764002",
+          "comment": ""
         },
         {
-            "stationNo": "500",
-            "name": "PULMONARY",
-            "location": "Newington",
-            "hours": "0800-1630",
-            "phone": "5058675309",
-            "comment": ""
+          "stationNo": "500",
+          "name": "PULMONARY",
+          "location": "Newington",
+          "hours": "0800-1630",
+          "phone": "5058675309",
+          "comment": ""
         }
       ],
       "pharmacyTerms": [

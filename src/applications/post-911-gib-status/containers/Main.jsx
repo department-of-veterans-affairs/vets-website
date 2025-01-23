@@ -35,11 +35,14 @@ export class Main extends React.Component {
       case 'backendServiceError':
         appContent = backendErrorMessage;
         break;
+      case 'serviceDowntimeError':
+        appContent = genericErrorMessage;
+        break;
       default:
         appContent = genericErrorMessage;
     }
 
-    return <div>{appContent}</div>;
+    return <div id="appContent">{appContent}</div>;
   }
 }
 

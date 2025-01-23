@@ -5,15 +5,16 @@
     "attributes": {
       "claimDate": "2021-01-12",
       "claimPhaseDates": {
-        "phaseChangeDate": "2022-01-01",
+        "phaseChangeDate": "2022-01-02",
         "currentPhaseBack": false,
         "latestPhaseType": "GATHERING_OF_EVIDENCE",
         "previousPhases": {
           "phase1CompleteDate": "2022-01-01",
-          "phase2CompleteDate": "2022-01-01"
+          "phase2CompleteDate": "2022-01-02"
         }
       },
       "claimType": "Compensation",
+      "claimTypeCode": "110LCMP7IDES",
       "closeDate": null,
       "contentions": [
         {
@@ -159,14 +160,14 @@
       "tempJurisdiction": null,
       "trackedItems": [
         {
-          "closedDate": null,
-          "description": "What was received item two.",
-          "displayName": "Farm Income",
+          "closedDate": "2022-01-04",
+          "description": "Test",
+          "displayName": "Closed Tracked Item",
           "overdue": false,
-          "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "receivedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": null,
-          "id": 4,
+          "id": 1,
           "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
@@ -177,9 +178,9 @@
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
           "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": "2022-02-04",
-          "id": 5,
+          "id": 2,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
@@ -190,9 +191,9 @@
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
           "receivedDate": null,
-          "requestedDate": null,
-          "suspenseDate": "2010-03-25",
-          "id": 50,
+          "requestedDate": "2022-01-01",
+          "suspenseDate": "2022-03-25",
+          "id": 3,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
@@ -202,10 +203,10 @@
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
-          "receivedDate": "2021-01-04",
-          "requestedDate": null,
+          "receivedDate": "2022-01-25",
+          "requestedDate": "2022-01-21",
           "suspenseDate": null,
-          "id": 51,
+          "id": 4,
           "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
@@ -216,9 +217,9 @@
           "displayName": "Farm Income",
           "overdue": false,
           "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": null,
-          "id": 4,
+          "id": 5,
           "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
@@ -229,9 +230,9 @@
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
           "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": "2022-02-04",
-          "id": 5,
+          "id": 6,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
@@ -242,9 +243,9 @@
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
           "receivedDate": null,
-          "requestedDate": null,
-          "suspenseDate": "2010-03-25",
-          "id": 50,
+          "requestedDate": "2022-01-01",
+          "suspenseDate": "2022-03-25",
+          "id": 7,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
@@ -254,10 +255,10 @@
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
-          "receivedDate": "2021-01-04",
-          "requestedDate": null,
+          "receivedDate": "2022-01-24",
+          "requestedDate": "2022-01-20",
           "suspenseDate": null,
-          "id": 51,
+          "id": 8,
           "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
@@ -268,9 +269,9 @@
           "displayName": "Farm Income",
           "overdue": false,
           "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": null,
-          "id": 4,
+          "id": 9,
           "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
@@ -281,9 +282,9 @@
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
           "receivedDate": "2022-01-04",
-          "requestedDate": null,
+          "requestedDate": "2022-01-01",
           "suspenseDate": "2022-02-04",
-          "id": 5,
+          "id": 10,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
@@ -294,9 +295,9 @@
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
           "receivedDate": null,
-          "requestedDate": null,
-          "suspenseDate": "2010-03-25",
-          "id": 50,
+          "requestedDate": "2022-01-01",
+          "suspenseDate": "2022-03-25",
+          "id": 11,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
@@ -306,13 +307,26 @@
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
-          "receivedDate": "2021-01-04",
-          "requestedDate": null,
+          "receivedDate": "2022-01-04",
+          "requestedDate": "2022-01-01",
           "suspenseDate": null,
-          "id": 51,
+          "id": 12,
           "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
+        },
+        {
+          "closedDate": null,
+          "description": "Automated 5103 Notice Response",
+          "displayName": "Automated 5103 Notice Response",
+          "overdue": false,
+          "receivedDate": "2024-06-13",
+          "requestedDate": "2024-06-13",
+          "suspenseDate": "2024-07-14",
+          "id": 13,
+          "status": "NEEDED_FROM_YOU",
+          "uploaded": false,
+          "uploadsAllowed": true
         }
       ]
     }

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
 import ResultCard from '../../../containers/search/ResultCard';
 
@@ -49,6 +50,8 @@ const INSTITUTION = {
   programLengthInHours: null,
   schoolProvider: true,
   employerProvider: false,
+  tuitionInState: 14900,
+  tuitionOutOfState: 14900,
   vrrap: null,
 };
 
@@ -56,6 +59,20 @@ describe('<ResultCard>', () => {
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(
       <ResultCard institution={INSTITUTION} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
+  });
+  it('should render with version', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version="1.0.0" />,
       {
         initialState: {
           constants: mockConstants(),
@@ -94,6 +111,9 @@ describe('<ResultCard>', () => {
       {
         initialState: {
           constants: mockConstants(),
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.giComparisonToolShowRatings]: true,
+          },
         },
       },
     );
@@ -121,5 +141,59 @@ describe('<ResultCard>', () => {
       },
     );
     expect(screen.getByText('Approved programs:')).to.exist;
+  });
+  it('should not show You may be eligible for up to when type is FLIGHT', () => {
+    const institution = { ...INSTITUTION, type: 'FLIGHT' };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('You may be eligible for up to:')).to.not.exist;
+  });
+  it('should show You may be eligible for up to amount when type is FOR PROFIT', () => {
+    const institution = { ...INSTITUTION };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
+    expect(screen.queryByText('You may be eligible for up to:')).to.exist;
+    expect(screen.getByText('$14,900')).to.exist;
+  });
+  it('should show You may be eligible for up to when type is not FLIGHT', () => {
+    const institution = { ...INSTITUTION, type: 'PUBLIC' };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
+    expect(screen.queryByText('You may be eligible for up to:')).to.exist;
+    expect(screen.getByText('100% in-state')).to.exist;
+  });
+  it('should render program hours', () => {
+    const institution = { ...INSTITUTION, programLengthInHours: [10, 100] };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.getByText('10 - 100 hours')).to.exist;
   });
 });

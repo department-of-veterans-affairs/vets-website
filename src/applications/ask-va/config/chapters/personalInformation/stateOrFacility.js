@@ -1,8 +1,11 @@
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, stateOrFacilityOptions } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const stateOrFacilityPage = {
   uiSchema: {
@@ -18,7 +21,7 @@ const stateOrFacilityPage = {
     type: 'object',
     required: ['stateOrFacility'],
     properties: {
-      stateOrFacility: radioSchema(Object.keys(stateOrFacilityOptions)),
+      stateOrFacility: radioSchema(Object.values(stateOrFacilityOptions)),
     },
   },
 };

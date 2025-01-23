@@ -37,7 +37,6 @@ export const claimantInfo = {
           authBroker: 'iam',
         },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
-        inheritedProofVerified: false,
         claims: null,
       },
       vaProfile: null,

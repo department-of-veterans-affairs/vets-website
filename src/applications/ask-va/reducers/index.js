@@ -1,14 +1,15 @@
-import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 import formConfig from '../config/form';
 
 import {
-  SET_CATEGORY_ID,
-  SET_TOPIC_ID,
-  SET_UPDATED_IN_REVIEW,
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
+  SET_CATEGORY_ID,
   SET_LOCATION_SEARCH,
+  SET_TOPIC_ID,
+  SET_SUBTOPIC_ID,
+  SET_UPDATED_IN_REVIEW,
 } from '../actions';
 
 import {
@@ -20,6 +21,7 @@ import {
 const initialState = {
   categoryID: '',
   topicID: '',
+  subtopicID: '',
   updatedInReview: '',
   searchLocationInput: '',
   getLocationInProgress: false,
@@ -33,6 +35,7 @@ const initialState = {
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
+  test: 'test',
   askVA: (state = initialState, action) => {
     switch (action.type) {
       case SET_CATEGORY_ID:
@@ -44,6 +47,11 @@ export default {
         return {
           ...state,
           topicID: action.payload,
+        };
+      case SET_SUBTOPIC_ID:
+        return {
+          ...state,
+          subtopicID: action.payload,
         };
       case SET_UPDATED_IN_REVIEW:
         return {

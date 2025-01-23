@@ -1,17 +1,16 @@
-import React from 'react';
-import ProfileLink from '../../../components/ProfileLink';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 import {
   personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = <h3>{CHAPTER_3.ABOUT_YOURSELF.TITLE}</h3>;
+const aboutYourselfFormSchema = { ...personalInformationFormSchemas };
+delete aboutYourselfFormSchema.isVeteranDeceased;
 
 const aboutYourselfPage = {
   uiSchema: {
-    'ui:title': question,
-    'ui:description': ProfileLink,
+    ...titleUI(CHAPTER_3.ABOUT_YOURSELF.TITLE),
     aboutYourself: personalInformationAboutYourselfUiSchemas,
   },
   schema: {
@@ -20,7 +19,7 @@ const aboutYourselfPage = {
     properties: {
       aboutYourself: {
         type: 'object',
-        properties: personalInformationFormSchemas,
+        properties: aboutYourselfFormSchema,
       },
     },
   },

@@ -10,7 +10,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import formConfig from '../../config/form';
 import maximalData from '../fixtures/data/maximal-test.json';
-import { errorMessages } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 const mockStore = data => ({
   getState: () => ({
@@ -33,7 +33,7 @@ const mockStore = data => ({
   }),
 });
 
-describe('add issue page', () => {
+describe('contestable issues page', () => {
   const {
     schema,
     uiSchema,

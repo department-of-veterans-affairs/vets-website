@@ -1,62 +1,78 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-const CLAIM_STATUS = {
-  SAVED: 'Saved',
-  INCOMPLETE: 'Incomplete',
-  IN_PROCESS: 'In Process',
-  CLAIM_SUBMITTED: 'Claim Submitted',
-  MANUAL_REVIEW: 'In Manual Review',
-  ON_HOLD: 'On Hold',
-  APPEALED: 'Appealed',
-  // Closed has a bunch of variants.
-  // TBD if we need to be more specific.
-  CLOSED: 'Closed',
-};
+import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
   const {
+    canViewClaimDetails,
     id,
     createdOn,
     claimStatus,
-    claimName,
     claimNumber,
-    appointmentName,
-    appointmentDate,
+    appointmentDateTime,
+    facilityName,
     modifiedOn,
   } = props;
 
+  const [createDate, createTime] = formatDateTime(createdOn);
+  const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
+  let appointmentDateTitle;
+  if (appointmentDateTime == null) {
+    appointmentDateTitle = 'Appointment information not available';
+  } else {
+    const [appointmentDate, appointmentTime] = formatDateTime(
+      appointmentDateTime,
+    );
+    appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
+  }
+
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      {claimStatus === 'IN_PROCESS' && (
-        <span className="usa-label uswds-system-color-gold-20v">
-          In Progress
-        </span>
+      <h3
+        className="vads-u-margin-top--2 vads-u-margin-bottom--0"
+        data-testid="travel-claim-details"
+      >
+        {appointmentDateTitle}
+      </h3>
+      <h4 className="vads-u-margin-bottom--1">Where</h4>
+      <p className="vads-u-margin-top--0">{facilityName}</p>
+      <h4 className="vads-u-margin-bottom--1">Claim Details</h4>
+      <ul className="vads-u-margin-top--0">
+        <li>
+          <strong>Claim status: {claimStatus}</strong>
+        </li>
+        <li>Claim number: {claimNumber}</li>
+        <li>
+          Submitted on {createDate} at {createTime}
+        </li>
+        <li>
+          Updated on {updateDate} at {updateTime}
+        </li>
+      </ul>
+      {canViewClaimDetails && (
+        <Link
+          to={{
+            pathname: `/claims/${id}`,
+            state: { claimDetailsProps: props },
+          }}
+          className="vads-u-display--flex vads-u-align-items--center"
+        >
+          Travel reimbursement claim details <va-icon icon="chevron_right" />
+        </Link>
       )}
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        Travel claim
-      </h2>
-      <p className="vads-u-margin-top--0">Received on {createdOn}</p>
-      <p>
-        Status: {CLAIM_STATUS[claimStatus]} <br />
-        Claim name: {claimName} <br />
-        Claim number: {claimNumber} <br />
-        Appointment name: {appointmentName} <br />
-        Appointment date: {appointmentDate} <br />
-        Last updated: {modifiedOn}
-      </p>
-      <va-link href="" text="View details" />
     </va-card>
   );
 }
 
 TravelClaimCard.propTypes = {
-  appointmentDate: PropTypes.string,
-  appointmentName: PropTypes.string,
-  claimName: PropTypes.string,
+  appointmentDateTime: PropTypes.string,
+  canViewClaimDetails: PropTypes.bool,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,
+  facilityName: PropTypes.string,
   id: PropTypes.string,
   modifiedOn: PropTypes.string,
 };

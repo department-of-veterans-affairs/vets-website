@@ -1,4 +1,5 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import environment from 'platform/utilities/environment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { DEBT_TYPES } from '../constants';
 import {
@@ -34,12 +35,11 @@ const getSubmissionType = selectedDebtsAndCopays => {
 // Main function to build the event data object
 export const buildEventData = ({
   selectedDebtsAndCopays,
-  'view:enhancedFinancialStatusReport': enhancedFlag,
   isStreamlinedShort,
   isStreamlinedLong,
 }) => {
   return {
-    'enhanced-submission': enhancedFlag,
+    'enhanced-submission': true,
     streamlined: getStreamlinedValue(isStreamlinedShort, isStreamlinedLong), // Get the streamlined value
     'submission-type': getSubmissionType(selectedDebtsAndCopays), // Get the submission type
   };
@@ -49,6 +49,8 @@ export const buildEventData = ({
 const submitForm = (form, formConfig) => {
   // Destructure the formConfig object to get the URL and tracking prefix
   const { submitUrl, trackingPrefix } = formConfig;
+  const { flippers = {} } = form.data;
+  const { serverSideTransform = false } = flippers;
 
   // Transform the form data for submission
   const body = formConfig.transformForSubmit
@@ -65,8 +67,19 @@ const submitForm = (form, formConfig) => {
     isStreamlinedLong,
   });
 
+  // adjusting the submitUrl based on feature flag
+  const newSubmitUrl = serverSideTransform
+    ? `${
+        environment.API_URL
+      }/debts_api/v0/financial_status_reports/transform_and_submit`
+    : submitUrl;
+
+  // transform_and_submit is expecting the whole striingified formData
+  const formDataBody = JSON.stringify(form.data);
+  const submitBody = serverSideTransform ? formDataBody : body;
+
   // Submit the form data to the specified URL, with the tracking prefix and eventData
-  return submitToUrl(body, submitUrl, trackingPrefix, eventData);
+  return submitToUrl(submitBody, newSubmitUrl, trackingPrefix, eventData);
 };
 
 export default submitForm;

@@ -24,7 +24,6 @@ export function KeywordSearch({
   required,
   suggestions,
   version,
-  filters,
   dispatchError,
   errorReducer,
   type,
@@ -94,9 +93,7 @@ export function KeywordSearch({
       if (value !== '') {
         debouncedFetchSuggestion(value);
       }
-      if (validateSearchTerm) {
-        validateSearchTerm(value, dispatchError, error, filters, type);
-      }
+      validateSearchTerm(value, dispatchError, error, type);
     }
   };
 
@@ -118,8 +115,8 @@ export function KeywordSearch({
             htmlFor="institution-search"
           >
             {label}
+            <span className="form-required-span">(*Required)</span>
           </label>
-          {required && <span className="form-required-span">(*Required)</span>}
         </div>
       )}
       {error && (
@@ -154,8 +151,9 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <div className="input-container">
+            <div className="input-container input-container-width">
               <input
+                data-testid="ct-input"
                 aria-controls="ctKeywordSearch"
                 className={classNames('input-box-margin', className)}
                 {...getInputProps({
@@ -172,11 +170,11 @@ export function KeywordSearch({
               {/* eslint-disable-next-line no-nested-ternary */}
               {inputValue &&
                 inputValue.length > 0 && (
-                  <button
-                    aria-label={`Clear your ${label}`}
-                    type="button"
+                  <va-icon
+                    size={3}
+                    icon="cancel"
                     id="clear-input"
-                    className="fas fa-times-circle clear-button"
+                    class="vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}
@@ -220,10 +218,11 @@ const mapDispatchToProps = {
 KeywordSearch.propTypes = {
   className: PropTypes.string,
   dispatchError: PropTypes.func,
-  errorReducer: PropTypes.object,
   error: PropTypes.string,
-  inputValue: PropTypes.string,
+  errorReducer: PropTypes.object,
+  filters: PropTypes.object,
   inputRef: PropTypes.object,
+  inputValue: PropTypes.string,
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,

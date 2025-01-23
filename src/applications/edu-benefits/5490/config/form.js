@@ -10,6 +10,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
+import { prefillTransformer } from './prefill-transformer';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
@@ -28,7 +29,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
 import contactInformationPage from '../../pages/contactInformation';
-import createDirectDepositPage5490 from '../content/directDeposit';
+// import createDirectDepositPage5490 from '../content/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
@@ -38,6 +39,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 
 import manifest from '../manifest.json';
+import createDirectDepositPageUpdate from '../content/directDepositUpdate';
+import { updateApplicantInformationPage } from '../../utils/helpers';
 
 const {
   benefit,
@@ -95,11 +98,13 @@ const getRelationship = (myGet, formData) => {
 
 const removeAdditionalBenefit = () => {
   return {
-    applicantInformation: applicantInformationUpdate(fullSchema5490, {
-      labels: {
-        relationshipAndChildType: relationshipAndChildTypeLabels,
-      },
-    }),
+    applicantInformation: updateApplicantInformationPage(
+      applicantInformationUpdate(fullSchema5490, {
+        labels: {
+          relationshipAndChildType: relationshipAndChildTypeLabels,
+        },
+      }),
+    ),
     applicantService: applicantServicePage(fullSchema5490),
   };
 };
@@ -122,6 +127,7 @@ const formConfig = {
   version: 1,
   migrations: [urlMigration('/5490')],
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -644,8 +650,7 @@ const formConfig = {
           fullSchema5490,
           'relativeAddress',
         ),
-
-        directDeposit: createDirectDepositPage5490(),
+        directDeposit: createDirectDepositPageUpdate(),
       },
     },
     GuardianInformation: {

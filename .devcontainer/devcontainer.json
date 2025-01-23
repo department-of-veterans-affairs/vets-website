@@ -11,7 +11,8 @@
 		"ghcr.io/devcontainers/features/desktop-lite:1": {
 			"vncPort": "5900",
 			"webPort": "6080"
-		}
+		},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
 	"customizations": {
 		"vscode": {
@@ -53,6 +54,7 @@
 		6080
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
+	"postStartCommand": "./.devcontainer/codespaces-start.sh",
 	"remoteUser": "node",
 	"hostRequirements": {
 		"cpus": 16,

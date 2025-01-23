@@ -16,6 +16,7 @@ const {
   BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
+  BURN_PIT_2_1_3,
   ORANGE_2_2_A,
   ORANGE_2_2_B,
   ORANGE_2_2_1_A,
@@ -25,6 +26,7 @@ const {
   RADIATION_2_3_A,
   RADIATION_2_3_B,
   LEJEUNE_2_4,
+  MAIN_FLOW_2_5,
 } = SHORT_NAME_MAP;
 
 const {
@@ -47,6 +49,7 @@ describe('utils: display logic for questions', () => {
         RADIATION_2_3_A,
         RADIATION_2_3_B,
         LEJEUNE_2_4,
+        MAIN_FLOW_2_5,
       ]);
     });
 
@@ -56,6 +59,8 @@ describe('utils: display logic for questions', () => {
         BURN_PIT_2_1,
         BURN_PIT_2_1_1,
         BURN_PIT_2_1_2,
+        BURN_PIT_2_1_3,
+        MAIN_FLOW_2_5,
       ]);
     });
 
@@ -65,6 +70,7 @@ describe('utils: display logic for questions', () => {
         BURN_PIT_2_1,
         BURN_PIT_2_1_1,
         BURN_PIT_2_1_2,
+        BURN_PIT_2_1_3,
         ORANGE_2_2_A,
         ORANGE_2_2_B,
         ORANGE_2_2_1_A,
@@ -74,6 +80,7 @@ describe('utils: display logic for questions', () => {
         RADIATION_2_3_A,
         RADIATION_2_3_B,
         LEJEUNE_2_4,
+        MAIN_FLOW_2_5,
       ]);
     });
   });

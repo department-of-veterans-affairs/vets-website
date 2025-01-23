@@ -106,7 +106,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleRemoveDisability = idx => () => {
-    const disabilities = this.state.disabilities;
+    const { disabilities } = this.state;
     this.ratingInputRefs.pop();
     disabilities.splice(idx, 1);
     this.setState({ disabilities }, this.focusLastRatingInput);
@@ -130,8 +130,8 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   render() {
-    const disabilities = this.state.disabilities;
-    const calculatedRating = this.state.calculatedRating;
+    const { disabilities } = this.state;
+    const { calculatedRating } = this.state;
     const ratings = getRatings(disabilities);
 
     return (
@@ -144,10 +144,10 @@ export default class DisabilityRatingCalculator extends React.Component {
             Enter each of your disability ratings separately below. You can also
             add a description of each for your notes, if you'd like. Then click{' '}
             <strong>Calculate</strong> to get your combined rating.{' '}
-            <strong className="vads-u-display--inline small-screen:vads-u-display--none">
+            <strong className="vads-u-display--inline mobile-lg:vads-u-display--none">
               Disability ratings are given in 10% increments, between 0 and 100.
             </strong>
-            <span className="vads-u-display--none small-screen:vads-u-display--inline">
+            <span className="vads-u-display--none mobile-lg:vads-u-display--inline">
               Disability ratings are given in 10% increments, between 0 and 100.
             </span>
           </p>
@@ -158,7 +158,7 @@ export default class DisabilityRatingCalculator extends React.Component {
                 id="ratingLabel"
               >
                 Disability rating
-                <span className="vads-u-display--none small-screen:vads-u-display--block">
+                <span className="vads-u-display--none mobile-lg:vads-u-display--block">
                   In 10% increments
                 </span>
               </div>
@@ -192,8 +192,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               onClick={this.handleAddRating}
               data-e2e="add"
             >
-              <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
-              Add rating
+              <va-icon icon="add_circle" size={3} /> Add rating
             </button>
           </div>
           <div>

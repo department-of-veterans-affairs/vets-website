@@ -28,17 +28,17 @@ const combined = {
 describe('Submit event data', () => {
   it('should build submit event data', () => {
     expect(buildEventData(debtOnly)).to.deep.equal({
-      'enhanced-submission': false,
+      'enhanced-submission': true,
       streamlined: 'streamlined-false',
       'submission-type': 'debt-submission',
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
-      'enhanced-submission': false,
+      'enhanced-submission': true,
       streamlined: 'streamlined-long',
       'submission-type': 'copay-submission',
     });
     expect(buildEventData(combined)).to.deep.equal({
-      'enhanced-submission': false,
+      'enhanced-submission': true,
       streamlined: 'streamlined-short',
       'submission-type': 'combo-submission',
     });
@@ -60,10 +60,24 @@ describe('submitForm', () => {
     xhr.restore();
   });
 
-  it('should submit at endpioint', done => {
+  it('should submit at standard endpioint', done => {
     submitForm(maximal, formConfig);
     expect(requests[0].url).to.contain(
       '/debts_api/v0/financial_status_reports',
+    );
+    done();
+  });
+
+  it('should submit at Transform & Submit endpioint', done => {
+    const adjustedMaximal = {
+      data: {
+        ...maximal.data,
+        flippers: { serverSideTransform: true },
+      },
+    };
+    submitForm(adjustedMaximal, formConfig);
+    expect(requests[0].url).to.contain(
+      '/debts_api/v0/financial_status_reports/transform_and_submit',
     );
     done();
   });

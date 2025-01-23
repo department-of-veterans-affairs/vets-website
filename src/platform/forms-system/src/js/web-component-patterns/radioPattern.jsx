@@ -20,6 +20,18 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * })
  * ```
  *
+ * Advanced labels:
+ * ```js
+ * labels: {
+ *    dog: 'Dog',
+ *    cat: 'Cat',
+ * },
+ * descriptions: {
+ *    dog: 'This is a dog',
+ *    cat: 'This is a cat',
+ * }
+ * ```
+ *
  * Usage schema:
  * ```js
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
@@ -31,6 +43,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *  required?: UISchemaOptions['ui:required'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ *  labelHeaderLevelStyle?: UISchemaOptions['ui:options']['labelHeaderLevelStyle'],
  *  hint?: string,
  * }} options
  * @returns {UISchemaOptions}

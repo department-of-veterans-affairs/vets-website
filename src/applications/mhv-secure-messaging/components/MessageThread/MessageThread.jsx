@@ -3,7 +3,7 @@ On each <MessageThreadItem> expand we call getMessages(messageId) to mark unread
 We no longer need to handle an additional expansion call 
 */
 
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,6 +12,7 @@ import MessageThreadItem from './MessageThreadItem';
 const MessageThread = props => {
   const { messageHistory, isDraftThread } = props;
   const accordionRef = useRef();
+  const [expanded, setExpanded] = useState('');
 
   return (
     <>
@@ -22,7 +23,7 @@ const MessageThread = props => {
       <section
         aria-label={
           messageHistory?.length > 0 &&
-          `${messageHistory?.length} Message${
+          `${messageHistory?.length} message${
             messageHistory?.length > 1 ? 's' : ''
           } in this conversation`
         }
@@ -33,7 +34,7 @@ const MessageThread = props => {
           className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5"
         >
           {messageHistory?.length > 0 &&
-            `${messageHistory?.length} Message${
+            `${messageHistory?.length} message${
               messageHistory?.length > 1 ? 's' : ''
             } in this conversation`}
         </h2>
@@ -41,6 +42,14 @@ const MessageThread = props => {
           ref={accordionRef}
           data-testid="thread-expand-all"
           bordered
+          onClick={e => {
+            setExpanded(
+              e.target?.shadowRoot
+                ?.querySelector('.usa-accordion')
+                ?.querySelector('button').innerText,
+            );
+          }}
+          data-dd-action-name={`${expanded} Accordion Button`}
         >
           {messageHistory.map((m, i) => {
             return (
@@ -63,7 +72,6 @@ MessageThread.propTypes = {
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
   replyMessage: PropType.object,
-  viewCount: PropType.number,
 };
 
 export default MessageThread;

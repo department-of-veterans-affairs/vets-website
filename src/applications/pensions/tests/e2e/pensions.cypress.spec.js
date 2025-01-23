@@ -23,9 +23,22 @@ import {
   selectRadioWebComponent,
   fillSpouseMarriagesPage,
   fillVaMedicalCentersPage,
+  shouldNotHaveValidationErrors,
 } from './helpers';
 
 import pagePaths from './pagePaths';
+
+const replaceDefaultPostHook = ({ afterHook }) => {
+  afterHook(() => {
+    cy.findByText(/continue/i, { selector: 'button' }).click({ force: true });
+    shouldNotHaveValidationErrors();
+  });
+};
+
+const replaceDefaultBehavior = context => {
+  cy.fillPage();
+  replaceDefaultPostHook(context);
+};
 
 export const pageHooks = cy => ({
   introduction: () => {
@@ -34,12 +47,17 @@ export const pageHooks = cy => ({
       .first()
       .click();
   },
-  [pagePaths.mailingAddress]: () => {
+  ...Object.keys(pagePaths).reduce((paths, pagePath) => ({
+    ...paths,
+    [pagePath]: replaceDefaultBehavior,
+  })),
+  [pagePaths.mailingAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+      replaceDefaultPostHook({ afterHook });
     });
   },
-  [pagePaths.previousNames]: () => {
+  [pagePaths.previousNames]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.previousNames.forEach((previousName, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -49,9 +67,10 @@ export const pageHooks = cy => ({
           data.previousNames.length,
         );
       });
+      replaceDefaultPostHook({ afterHook });
     });
   },
-  [pagePaths.currentEmploymentHistory]: () => {
+  [pagePaths.currentEmploymentHistory]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.currentEmployers.forEach((employer, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -61,9 +80,10 @@ export const pageHooks = cy => ({
           data.currentEmployers.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.previousEmploymentHistory]: () => {
+  [pagePaths.previousEmploymentHistory]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.previousEmployers.forEach((employer, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -73,9 +93,10 @@ export const pageHooks = cy => ({
           data.previousEmployers.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.vaMedicalCenters]: () => {
+  [pagePaths.vaMedicalCenters]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.vaMedicalCenters.forEach((medicalCenter, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -85,9 +106,10 @@ export const pageHooks = cy => ({
           data.vaMedicalCenters.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.federalMedicalCenters]: () => {
+  [pagePaths.federalMedicalCenters]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.federalMedicalCenters.forEach((medicalCenter, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -97,27 +119,30 @@ export const pageHooks = cy => ({
           data.federalMedicalCenters.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.maritalStatus]: () => {
+  [pagePaths.maritalStatus]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       selectRadioWebComponent('maritalStatus', data.maritalStatus);
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.marriageInfo]: () => {
+  [pagePaths.marriageInfo]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      // TODO Fix this
       cy.get('#root_marriages').type(`${data.marriages.length}`, {
         force: true,
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.currentSpouseAddress]: () => {
+  [pagePaths.currentSpouseAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.currentSpouseFormerMarriages]: () => {
+  [pagePaths.currentSpouseFormerMarriages]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.spouseMarriages.forEach((marriage, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -127,9 +152,10 @@ export const pageHooks = cy => ({
           data.spouseMarriages.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.dependentChildren]: () => {
+  [pagePaths.dependentChildren]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.dependents.forEach((dependent, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -139,9 +165,10 @@ export const pageHooks = cy => ({
           data.dependents.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.incomeSources]: () => {
+  [pagePaths.incomeSources]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.incomeSources.forEach(async (incomeSource, index) => {
         await cy.fillFieldsInVaCardIfNeeded(
@@ -151,9 +178,10 @@ export const pageHooks = cy => ({
           data.incomeSources.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.careExpenses]: () => {
+  [pagePaths.careExpenses]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.careExpenses.forEach((careExpense, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -163,9 +191,10 @@ export const pageHooks = cy => ({
           data.careExpenses.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
-  [pagePaths.medicalExpenses]: () => {
+  [pagePaths.medicalExpenses]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
       data.medicalExpenses.forEach((medicalExpense, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -175,6 +204,7 @@ export const pageHooks = cy => ({
           data.medicalExpenses.length,
         );
       });
+      afterHook(replaceDefaultPostHook);
     });
   },
   'review-and-submit': ({ afterHook }) => {
@@ -193,6 +223,7 @@ export const pageHooks = cy => ({
         cy.findAllByText(/Submit application/i, {
           selector: 'button',
         }).click();
+        shouldNotHaveValidationErrors();
       });
     });
   },

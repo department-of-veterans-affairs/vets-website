@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+
 import {
   convertRatingToStars,
   createId,
@@ -30,6 +30,7 @@ const ProfilePageHeader = ({
   dispatchAddCompareInstitution,
   dispatchRemoveCompareInstitution,
   institution,
+  isShowRatingsToggle,
   dispatchShowModal,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
@@ -55,8 +56,6 @@ const ProfilePageHeader = ({
     ownershipName,
   } = institution;
 
-  // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
     physicalCity,
@@ -168,7 +167,7 @@ const ProfilePageHeader = ({
         {showLeftIconSection && (
           <div className="usa-width-one-half">
             <IconWithInfo
-              icon="calendar"
+              icon="calendar_today"
               present={lowerType !== 'ojt' && highestDegree}
             >
               {'  '}
@@ -177,18 +176,18 @@ const ProfilePageHeader = ({
                 : highestDegree}{' '}
               program
             </IconWithInfo>
-            <IconWithInfo icon="briefcase" present={lowerType === 'ojt'}>
+            <IconWithInfo icon="work" present={lowerType === 'ojt'}>
               {'   '}
               On-the-job training
             </IconWithInfo>
             <IconWithInfo
-              icon="university"
+              icon="account_balance"
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
               {_.capitalize(lowerType)} school
             </IconWithInfo>
-            <IconWithInfo icon="award" present={accreditationType}>
+            <IconWithInfo icon="bookmark" present={accreditationType}>
               {'   '}
               <LearnMoreLabel
                 text={<>{_.capitalize(accreditationType)} Accreditation</>}
@@ -199,7 +198,7 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            <IconWithInfo icon="building" present>
+            <IconWithInfo icon="location_city" present>
               {'   '}
               Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
@@ -208,7 +207,7 @@ const ProfilePageHeader = ({
         {showRightIconSection && (
           <div className="usa-width-one-half">
             <IconWithInfo
-              icon="users"
+              icon="groups"
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
@@ -221,7 +220,7 @@ const ProfilePageHeader = ({
               {'   '}
               {_.capitalize(localeType)} locale
             </IconWithInfo>
-            <IconWithInfo icon="globe" present={website}>
+            <IconWithInfo icon="public" present={website}>
               <a
                 href={website}
                 target="_blank"
@@ -231,6 +230,18 @@ const ProfilePageHeader = ({
                 {'  '}
                 {website}
               </a>
+            </IconWithInfo>
+            <IconWithInfo icon="school" present>
+              <LearnMoreLabel
+                text="Yellow Ribbon Program"
+                onClick={() => {
+                  dispatchShowModal('yribbon');
+                }}
+                buttonClassName="small-screen-font"
+                buttonId="yellow-ribbon-additional-info-learn-more"
+              />
+              : &nbsp;
+              {institution.yr ? 'Yes' : 'No'}
             </IconWithInfo>
           </div>
         )}
@@ -271,7 +282,7 @@ const ProfilePageHeader = ({
               {_.capitalize(programs[0].schoolLocale)} locale
             </IconWithInfo>
           )}
-          <IconWithInfo icon="globe" present={programs.length > 0}>
+          <IconWithInfo icon="public" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
               target="_blank"
@@ -284,7 +295,18 @@ const ProfilePageHeader = ({
         </div>
       </div>
     );
-
+  const learnMoreLabel = (
+    <>
+      <strong>{formatNumber(studentCount)}</strong>{' '}
+      <span>GI Bill students</span>
+    </>
+  );
+  const preferredProvideLearnMore = (
+    <>
+      <va-icon icon="star" size={3} class="vads-u-color--gold" />
+      <strong> Preferred Provider</strong>
+    </>
+  );
   return (
     <div className="vads-u-background-color--gray-lightest profile-card">
       <SchoolClassification
@@ -303,12 +325,7 @@ const ProfilePageHeader = ({
           {preferredProvider && (
             <span className="preferred-provider-text">
               <LearnMoreLabel
-                text={
-                  <>
-                    <i className="fa fa-star vads-u-color--gold" />
-                    <strong> Preferred Provider</strong>
-                  </>
-                }
+                text={preferredProvideLearnMore}
                 onClick={() => {
                   dispatchShowModal('preferredProviders');
                 }}
@@ -319,7 +336,7 @@ const ProfilePageHeader = ({
           )}
         </div>
         {displayStars &&
-          isProduction && (
+          isShowRatingsToggle && (
             <div className={starClasses}>
               <span className="vads-u-font-size--sm">
                 <RatingsStars rating={ratingAvg} />
@@ -342,15 +359,11 @@ const ProfilePageHeader = ({
           )}
         {!displayStars &&
           type.toUpperCase() !== 'OJT' &&
-          isProduction && <span>Not yet rated by Veterans</span>}
+          isShowRatingsToggle && <span>Not yet rated by Veterans</span>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
-              text={
-                <>
-                  <strong>{formatNumber(studentCount)}</strong> GI Bill students
-                </>
-              }
+              text={learnMoreLabel}
               buttonId={createId('GI Bill students profile')}
               onClick={() => {
                 dispatchShowModal('gibillstudents');
@@ -386,6 +399,10 @@ const ProfilePageHeader = ({
 };
 
 ProfilePageHeader.propTypes = {
+  compare: PropTypes.object,
+  dispatchAddCompareInstitution: PropTypes.func,
+  dispatchRemoveCompareInstitution: PropTypes.func,
+  dispatchShowModal: PropTypes.func,
   institution: PropTypes.object,
   onViewWarnings: PropTypes.func,
 };

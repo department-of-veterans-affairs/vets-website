@@ -10,7 +10,7 @@ const uploadUrl = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
 
-function createPayload(file, _formId, password) {
+export function createPayload(file, _formId, password) {
   const payload = new FormData();
   payload.append('file', file);
   payload.append('form_id', _formId);
@@ -22,17 +22,25 @@ function createPayload(file, _formId, password) {
   return payload;
 }
 
+export function findAndFocusLastSelect() {
+  const lastSelect = [...document.querySelectorAll('va-select')].slice(-1);
+  if (lastSelect.length) {
+    focusElement(lastSelect[0]);
+  } else {
+    // focus on upload button as a fallback
+    focusElement(
+      // including `#upload-button` because RTL can't access the shadowRoot
+      'button, #upload-button',
+      {},
+      document.querySelector(`#upload-button`)?.shadowRoot,
+    );
+  }
+  return lastSelect;
+}
+
 export const fileUploadUi = content => {
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
-  const findAndFocusLastSelect = () => {
-    // focus on last document type select since all new uploads are appended
-    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
-    if (lastSelect.length) {
-      focusElement(lastSelect[0]);
-    }
-  };
-
   const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content.label, {
@@ -48,7 +56,7 @@ export const fileUploadUi = content => {
     parseResponse: (response, file) => {
       setTimeout(() => {
         findAndFocusLastSelect();
-      });
+      }, 500);
       return {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,
@@ -67,7 +75,16 @@ export const fileUploadUi = content => {
       },
     }),
     // hideOnReview: true,
-    // attachmentName: true,
+    // attachmentName: false,
+    attachmentName: content?.attachmentName
+      ? {
+          'ui:title': 'Document name',
+        }
+      : false,
+    //   ? {
+    //       'ui:title': 'Document name',
+    //     }
+    //   : false,
     uswds: true,
   });
 };
