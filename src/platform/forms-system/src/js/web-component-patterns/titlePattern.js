@@ -3,35 +3,45 @@ import React, { useRef } from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 import { isMinimalHeaderApplicable } from '../helpers';
 
-export const Title = ({
-  title,
-  description,
-  headerLevel,
-  headerStyleLevel,
-  classNames,
-}) => {
+const useHeadingLevels = (userHeaderLevel, userHeaderStyleLevel) => {
   const isMinimalHeader = useRef(null);
   if (isMinimalHeader.current === null) {
     // only call once
     isMinimalHeader.current = isMinimalHeaderApplicable();
   }
-  const effectiveHeaderLevel = headerLevel || (isMinimalHeader.current ? 1 : 3);
+  const headerLevel = userHeaderLevel || (isMinimalHeader.current ? 1 : 3);
   // Arbitrary decision with design:
   // If we are using h1 as a field, the styling is a bit too large,
   // so we'll bump the style down to h2
-  const effectiveHeaderStyleLevel =
-    headerStyleLevel || (isMinimalHeader.current ? 2 : undefined);
+  const headerStyleLevel =
+    userHeaderStyleLevel || (isMinimalHeader.current ? 2 : undefined);
 
-  const CustomHeader = `h${effectiveHeaderLevel}`;
+  return {
+    headerLevel,
+    headerStyleLevel,
+  };
+};
 
-  const style = effectiveHeaderStyleLevel
-    ? ` mobile-lg:vads-u-font-size--h${effectiveHeaderStyleLevel} vads-u-font-size--h${Number(
-        effectiveHeaderStyleLevel,
+export const Title = ({
+  title,
+  description,
+  headerLevel: userHeaderLevel,
+  headerStyleLevel: userHeaderStyleLevel,
+  classNames,
+}) => {
+  const { headerLevel, headerStyleLevel } = useHeadingLevels(
+    userHeaderLevel,
+    userHeaderStyleLevel,
+  );
+
+  const CustomHeader = `h${headerLevel}`;
+  const style = headerStyleLevel
+    ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
+        headerStyleLevel,
       ) + 1}`
     : '';
   const color =
-    effectiveHeaderStyleLevel === 3 ||
-    (!effectiveHeaderStyleLevel && effectiveHeaderLevel === 3)
+    headerStyleLevel === 3 || (!headerStyleLevel && headerLevel === 3)
       ? 'gray-dark'
       : 'black';
   const className =
@@ -39,7 +49,7 @@ export const Title = ({
 
   // If the header is an h1, it's intended to also be the focus
   const focusHeaderProps =
-    effectiveHeaderLevel === 1
+    headerLevel === 1
       ? {
           tabIndex: '-1',
         }

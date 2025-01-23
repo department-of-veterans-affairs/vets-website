@@ -85,7 +85,6 @@ export const withEditTitle = (title, lowerCase = true) => {
  *   nounSingular: string,
  *   lowerCase?: boolean,
  *   hasMultipleItemPages?: boolean,
- *   headerLevel?: number | string,
  *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}

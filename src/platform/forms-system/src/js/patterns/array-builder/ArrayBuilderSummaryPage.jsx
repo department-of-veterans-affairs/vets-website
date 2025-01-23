@@ -63,6 +63,21 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
+const useHeadings = (userDefinedHeaderLevel, isReviewPage) => {
+  const isMinimalHeader = useRef(null);
+  if (isMinimalHeader.current === null) {
+    // only check once
+    isMinimalHeader.current = isMinimalHeaderApplicable();
+  }
+  const headingLevel =
+    userDefinedHeaderLevel ||
+    (isMinimalHeader.current && !isReviewPage ? '1' : '3');
+  const headingStyle =
+    isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+
+  return { headingLevel, headingStyle };
+};
+
 /**
  * @param {{
  *   arrayPath: string,
@@ -121,16 +136,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const isMinimalHeader = useRef(null);
-    if (isMinimalHeader.current === null) {
-      // only check once
-      isMinimalHeader.current = isMinimalHeaderApplicable();
-    }
-    const headingLevel =
-      titleHeaderLevel ||
-      (isMinimalHeader.current && !isReviewPage ? '1' : '3');
-    const headingStyle =
-      isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+    const { headingLevel, headingStyle } = useHeadings(
+      titleHeaderLevel,
+      isReviewPage,
+    );
     const Heading = `h${headingLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =

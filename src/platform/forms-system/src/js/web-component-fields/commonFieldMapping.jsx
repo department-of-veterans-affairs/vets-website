@@ -23,6 +23,20 @@ const useConditionalMinimalHeader = uiOptions => {
   return uiOptions;
 };
 
+const getLabelHeaderLevelProps = uiOptions => {
+  let labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
+  if (uiOptions?.labelHeaderLevel === '1' && !labelHeaderLevelStyle) {
+    // h1 style is too big when used as a field label
+    labelHeaderLevelStyle = '2';
+  }
+  return {
+    labelHeaderLevel: uiOptions?.labelHeaderLevel,
+    headerStyleClass: labelHeaderLevelStyle
+      ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
+      : '',
+  };
+};
+
 /** @param {WebComponentFieldProps} props */
 export default function commonFieldMapping(props) {
   const {
@@ -32,20 +46,16 @@ export default function commonFieldMapping(props) {
     uiOptions: uiOptionsOriginal,
     childrenProps,
   } = props;
-  // we are in the context of a React component, so using a hook is fine here.
+  // About eslint rule disabled here: As long as we are in the context
+  // of a React component, using a hook should be fine here.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const uiOptions = useConditionalMinimalHeader(uiOptionsOriginal);
-  let labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
-  if (uiOptions?.labelHeaderLevel === '1' && !labelHeaderLevelStyle) {
-    // h1 style is too big when used as a field label
-    labelHeaderLevelStyle = '2';
-  }
-  const headerStyle = labelHeaderLevelStyle
-    ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
-    : '';
+  const { headerStyleClass, labelHeaderLevel } = getLabelHeaderLevelProps(
+    uiOptions,
+  );
 
   return {
-    className: `rjsf-web-component-field${headerStyle}${
+    className: `rjsf-web-component-field${headerStyleClass}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
     enableAnalytics: uiOptions?.enableAnalytics,
@@ -55,7 +65,7 @@ export default function commonFieldMapping(props) {
     inputmode: uiOptions?.inputmode,
     invalid: uiOptions?.invalid,
     label,
-    labelHeaderLevel: uiOptions?.labelHeaderLevel,
+    labelHeaderLevel,
     maxlength: childrenProps.schema.maxLength,
     messageAriaDescribedby: uiOptions?.messageAriaDescribedby,
     minlength: childrenProps.schema.minLength,

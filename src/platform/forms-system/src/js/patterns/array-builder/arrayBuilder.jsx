@@ -1,12 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
-  focusByOrder,
-  scrollTo,
-  scrollToTop,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
-import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
   onNavBackKeepUrlParams,
@@ -14,11 +8,11 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
+  defaultItemPageScrollAndFocusTarget,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
-import { isMinimalHeaderApplicable } from '../../helpers';
 
 /**
  * @typedef {Object} ArrayBuilderPages
@@ -495,32 +489,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     };
-  }
-
-  function defaultItemPageScrollAndFocusTarget() {
-    const minimalHeader = isMinimalHeaderApplicable();
-    const headerLevel = minimalHeader ? 'h1' : 'h3';
-
-    if (minimalHeader) {
-      scrollTo('header-minimal');
-    } else {
-      scrollToTop('topScrollElement');
-    }
-
-    // If we have something with `label-header-level`, then that is likely
-    // the title of the page, so we should focus on that.
-    const radioHeader = document.querySelector('va-radio[label-header-level]');
-    const checkboxGroupHeader = document.querySelector(
-      'va-checkbox-group[label-header-level]',
-    );
-
-    if (radioHeader) {
-      waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);
-    } else if (checkboxGroupHeader) {
-      waitForRenderThenFocus(headerLevel, checkboxGroupHeader.shadowRoot);
-    } else {
-      focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
-    }
   }
 
   pageBuilder.summaryPage = pageConfig => {
