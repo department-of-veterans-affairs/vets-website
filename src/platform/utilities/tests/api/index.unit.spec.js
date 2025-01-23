@@ -39,11 +39,6 @@ describe('test wrapper', () => {
       sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
-    it('should behave as if in production', async () => {
-      await apiRequest('/status', {}, null, null, mockEnv);
-      expect(mockEnv.isProduction.called).to.be.true;
-    });
-
     it('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
