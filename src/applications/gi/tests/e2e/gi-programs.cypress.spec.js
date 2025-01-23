@@ -26,14 +26,6 @@ describe('GI Bill Comparison Tool - Search by Location', () => {
       .first()
       .click();
   });
-  // it('shows the list of programs (more than 20) with search controls', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.url().should('include', '/institution/318Z0032/');
-  //   cy.get('h1').should('contain', 'NEW YORK');
-  //   cy.get('#search-input').should('exist');
-  //   cy.contains('button', 'Search').should('exist');
-  //   cy.contains('button', 'Reset search').should('exist');
-  // });
   it('should show a "no results" message when an invalid program name is searched', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
