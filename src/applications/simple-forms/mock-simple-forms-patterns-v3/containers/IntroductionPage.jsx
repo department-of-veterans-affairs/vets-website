@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { FormTitle } from '@department-of-veterans-affairs/va-forms-system-core';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 
 const childContent = (
   <>

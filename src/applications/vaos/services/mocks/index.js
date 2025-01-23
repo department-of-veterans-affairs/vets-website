@@ -354,6 +354,24 @@ const responses = {
       data: providerUtils.createProviderDetails(5, req.params.providerId),
     });
   },
+  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.referralId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    // Provider 0 has no available slots
+    if (req.params.referralId === '0') {
+      return res.json({
+        data: providerUtils.createDraftAppointmentInfo(
+          0,
+          req.params.referralId,
+        ),
+      });
+    }
+    return res.json({
+      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
+    });
+  },
   // Required v0 APIs
   'GET /v0/user': {
     data: {
@@ -408,6 +426,10 @@ const responses = {
             {
               facility_id: '983',
               is_cerner: false,
+            },
+            {
+              facility_id: '692',
+              is_cerner: true,
             },
           ],
         },
