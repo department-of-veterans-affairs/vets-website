@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 import { clientServerErrorContent } from '../helpers';
 
-const MAX_PAGE_LIST_LENGTH = 10;
+const MAX_PAGES_CONTAINER_WIDTH = 640; // USWDS width-tablet setting
 const MAX_ROWS = 6;
 
 const paginateData = data => {
@@ -27,12 +27,19 @@ const Payments = ({
   textContent,
   alertMessage,
 }) => {
+  // Hooks
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentData, setCurrentData] = useState([]);
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
+
+  // State
+  const [currentData, setCurrentData] = useState([]);
+  const [maxPageLength, setMaxPageLength] = useState(10);
+
+  // Refs
   const totalPages = useRef(0);
   const tableHeadingRef = useRef(null);
+  const tablePaginationRef = useRef(null);
 
   useEffect(
     () => {
@@ -42,6 +49,36 @@ const Payments = ({
     },
     [currentPage, data],
   );
+
+  /* eslint-disable-next-line consistent-return */
+  useEffect(() => {
+    /**
+     * Using ResizeObserver to update number of table pagination links
+     * based on viewport width or zoom rate. USWDS tablet breakpoint
+     * is the magic number default for updating state.
+     *
+     * See https://designsystem.digital.gov/utilities/height-and-width/
+     */
+    if (window.ResizeObserver && tablePaginationRef.current) {
+      const handleResizeObserver = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          if (entry.contentRect.width < MAX_PAGES_CONTAINER_WIDTH) {
+            setMaxPageLength(5);
+          }
+
+          if (entry.contentRect.width >= MAX_PAGES_CONTAINER_WIDTH) {
+            setMaxPageLength(10);
+          }
+        }
+      });
+
+      handleResizeObserver.observe(tablePaginationRef.current);
+
+      return () => {
+        handleResizeObserver.disconnect();
+      };
+    }
+  }, []);
 
   const onPageChange = page => {
     const newURL = `${location.pathname}?page=${page}`;
@@ -84,13 +121,16 @@ const Payments = ({
             );
           })}
         </va-table>
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={totalPages.current}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
+        <div ref={tablePaginationRef}>
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={15}
+            // pages={totalPages.current}
+            maxPageListLength={maxPageLength}
+            showLastPage
+          />
+        </div>
       </>
     );
   }
