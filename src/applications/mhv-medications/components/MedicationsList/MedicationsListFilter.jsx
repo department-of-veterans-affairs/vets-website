@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -54,6 +55,17 @@ const MedicationsListFilter = props => {
   };
 
   const handleFilterSubmit = () => {
+    // Submit analytics event
+    recordEvent({
+      event: 'form_radio_button_submit',
+      action: 'click',
+      // eslint-disable-next-line camelcase
+      form_field_type: 'radio button',
+      // eslint-disable-next-line camelcase
+      form_field_label: 'Select a filter',
+      // eslint-disable-next-line camelcase
+      form_field_option_label: filterOption,
+    });
     updateFilter(filterOption);
     focusElement(document.getElementById('showingRx'));
   };
@@ -132,6 +144,7 @@ const MedicationsListFilter = props => {
           onClick={handleFilterSubmit}
           text="Apply filter"
           data-testid="filter-button"
+          disableAnalytics
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
