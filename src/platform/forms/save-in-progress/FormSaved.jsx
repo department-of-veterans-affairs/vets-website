@@ -19,8 +19,8 @@ const FormSaved = props => {
     route,
     lastSavedDate,
     user,
-    formId,
     location = window.location,
+    formId,
     expirationMessage,
   } = props;
 
