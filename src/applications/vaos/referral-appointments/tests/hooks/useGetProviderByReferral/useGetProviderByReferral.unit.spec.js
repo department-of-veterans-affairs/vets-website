@@ -14,7 +14,7 @@ import * as getProviderByIdModule from '../../../../services/referral';
 import TestComponent from './TestComponent';
 
 describe('Community Care Referrals', () => {
-  describe('useGetProviderByReferral hook', () => {
+  describe('useGetProviderById hook', () => {
     const sandbox = sinon.createSandbox();
     const providerDetails = createProviderDetails(1, '111');
     const initialState = {
