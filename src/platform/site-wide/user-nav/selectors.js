@@ -12,6 +12,7 @@ export const selectUserGreeting = createSelector(
   () => localStorage.getItem('userFirstName'),
   state => selectProfile(state)?.preferredName,
   (name, email, sessionPreferredName, sessionFirstName, preferredName) => {
+    if (preferredName) localStorage.setItem('preferredName', preferredName);
     if (
       preferredName ||
       sessionPreferredName ||
