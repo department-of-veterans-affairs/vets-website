@@ -36,7 +36,7 @@ const App = props => {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
-  } = user;
+  } = user.profile;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
@@ -61,7 +61,7 @@ const App = props => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [fetchEnrollmentStatus, isUserLOA3],
+    [isUserLOA3],
   );
 
   /**
@@ -130,7 +130,7 @@ const mapStateToProps = state => ({
     isAuthOnlyEnabled: state.featureToggles.ezrAuthOnlyEnabled,
   },
   formData: state.form.data,
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = {
