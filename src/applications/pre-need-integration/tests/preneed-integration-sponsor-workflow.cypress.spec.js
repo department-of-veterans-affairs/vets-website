@@ -14,7 +14,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     // Preparer Information
     preneedHelpers.fillPreparerInfo(applicant);
 
-    // Applicant Information and Applicant Details Page
+    // Applicant Information
     preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillApplicantInfo(
       claimant.name,
@@ -23,19 +23,19 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       claimant.relationshipToVet,
     );
 
-    // Applicant Details page
+    // Applicant Details
     preneedHelpers.fillApplicantContactInfo(
       claimant.address,
       claimant.phoneNumber,
       claimant.email,
     );
 
-    // Are you the applicant's sponsor? page
+    // Are you the applicant's sponsor?
     cy.selectRadio('root_application_applicant_isSponsor', applicant.isSponsor);
     cy.axeCheck();
     preneedHelpers.clickContinue();
 
-    // Veteran/Sponsor Information Page
+    // Sponsor Details
     // Ensuring all contact information autocompletes when indicating that the preparer is the applicant's sponsor
     preneedHelpers.validateProgressBar('3');
     cy.get('#root_application_veteran_currentName_first').should(
@@ -66,7 +66,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.axeCheck();
     preneedHelpers.clickContinue();
 
-    // Page 2 Autocomplete
+    // Sponsor Mailing Address/Contact Details
     cy.get('#root_application_veteran_address_country').should(
       'have.value',
       applicant.mailingAddress.country,
@@ -114,7 +114,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.axeCheck();
     preneedHelpers.clickContinue();
 
-    // Sponsor Demographics pages
+    // Sponsor Demographics
     preneedHelpers.fillVeteranDemographics(veteran);
 
     // Sponsor Military Details
@@ -124,14 +124,14 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       veteran.vaClaimNumber,
     );
 
-    // Previous Names Pages
+    // Previous Names
     preneedHelpers.fillPreviousName(veteran);
 
-    // Military History Pages
+    // Military History
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillServicePeriods(veteran.serviceRecords);
 
-    // Benefit Selection Page
+    // Previously Buried Person(s)
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillBenefitSelection(
       claimant.desiredCemetery,
@@ -139,7 +139,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       testData.data.application.currentlyBuriedPersons,
     );
 
-    // Supporting Documents Page
+    // Supporting Documents
     preneedHelpers.validateProgressBar('7');
     cy.get('label[for="root_application_preneedAttachments"]').should(
       'be.visible',
@@ -147,7 +147,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.axeCheck();
     preneedHelpers.clickContinue();
 
-    // Review/Submit Page
+    // Review/Submit
     preneedHelpers.validateProgressBar('8');
     preneedHelpers.submitForm();
   });
