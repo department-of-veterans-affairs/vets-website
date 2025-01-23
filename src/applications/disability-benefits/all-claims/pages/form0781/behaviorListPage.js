@@ -5,9 +5,16 @@ import {
   // descriptionSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
+import {
   BEHAVIOR_LIST_DESCRIPTION,
   BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
   BEHAVIOR_LIST_NONE_LABEL,
+  behaviorListAdditionalInformation,
+  behaviorListPageTitle,
 } from '../../content/form0781/behaviorListPages';
 
 // move constants to content file???
@@ -23,6 +30,7 @@ import {
 // );
 
 export const uiSchema = {
+  'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
   'ui:description': BEHAVIOR_LIST_DESCRIPTION,
   workBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.work,
@@ -59,6 +67,12 @@ export const uiSchema = {
     },
     required: false,
   }),
+  'view:behaviorAdditionalInformation': {
+    'ui:description': behaviorListAdditionalInformation,
+  },
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
   'ui:validations': [
     (errors, field) => {
       const behaviorSelected = Object.values(field.behaviors || {}).some(
@@ -96,5 +110,13 @@ export const schema = {
       type: 'string',
     },
     'view:optOut': checkboxGroupSchema(['none']),
+    'view:behaviorAdditionalInformation': {
+      type: 'object',
+      properties: {},
+    },
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

@@ -1,5 +1,7 @@
 import React from 'react';
 
+export const behaviorListPageTitle = 'Types of behavioral changes';
+
 export const BEHAVIOR_LIST_DESCRIPTION = (
   <>
     <p>
@@ -26,4 +28,20 @@ export const BEHAVIOR_LIST_NONE_LABEL =
 
 export const BEHAVIOR_INTRO_COMBAT_DESCRIPTION = (
   <p>Placholder content for combat intro description</p>
+);
+
+export const behaviorListAdditionalInformation = (
+  <va-additional-info
+    class="vads-u-margin-y--3"
+    trigger="Why we’re asking this question"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We understand that traumatic events from your military service may not
+        have been reported or documented. In these situations, the information
+        you provide about your behavioral changes will help us understand your
+        situation and identify evidence to support your claim.
+      </p>
+    </div>
+  </va-additional-info>
 );
