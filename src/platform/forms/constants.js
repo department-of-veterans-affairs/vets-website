@@ -462,7 +462,6 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '',
   },
   {
-    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
     benefit: 'welcome va setup review information form',
     title: 'Welcome VA Setup Review Information Form',
     description: 'welcome va setup review information form',
