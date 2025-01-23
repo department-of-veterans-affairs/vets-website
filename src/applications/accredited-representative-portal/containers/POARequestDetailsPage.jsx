@@ -391,11 +391,13 @@ POARequestDetailsPage.loader = ({ params, request }) => {
   });
 };
 
-POARequestDetailsPage.createDecisionAction = async ({ request, params }) => {
+POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
   const decision = DECISION_OPTIONS[key];
 
-  await api.createPOARequestDecision(params.id, decision);
+  await api.createPOARequestDecision(params.id, decision, {
+    signal: request.signal,
+  });
 
   return redirect('..');
 };

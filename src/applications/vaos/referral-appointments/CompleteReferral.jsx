@@ -195,15 +195,6 @@ export default function CompleteReferral(props) {
             data-testid="provider-telephone"
           />
         </p>
-        <h5 className="vads-u-margin-bottom--0p5">
-          Details you shared with your referring VA provider
-        </h5>
-        <p data-testid="referral-reason" className="vads-u-margin--0">
-          {`Reason: ${currentReferral.reason}`}
-        </p>
-        <p data-testid="referral-other-details" className="vads-u-margin--0">
-          {`Other details: ${currentReferral.details}`}
-        </p>
         <h5 className="vads-u-margin-bottom--0p5">Need to make changes?</h5>
         <p data-testid="changes-copy" className="vads-u-margin--0">
           Contact this referring VA facility if you need to reschedule or cancel

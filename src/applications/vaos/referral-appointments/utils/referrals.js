@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 
 const { addDays, addMonths, format, subMonths } = require('date-fns');
-const { providers } = require('./provider');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
@@ -19,13 +18,13 @@ const createReferral = (
   uuid,
   providerId = '111',
   expirationDate,
+  categoryOfCare = 'Physical Therapy',
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
   const mydWithTimeFormat = 'yyyy-MM-dd kk:mm:ss';
-  const provider = providers[providerId];
 
   return {
     ReferralCategory: 'Inpatient',
@@ -39,7 +38,7 @@ const createReferral = (
     ReferringProvider: '534_520824810',
     SourceOfReferral: 'Interfaced from VA',
     Status: 'Approved',
-    CategoryOfCare: provider.typeOfCare,
+    CategoryOfCare: categoryOfCare,
     StationID: '528A4',
     Sta6: '534',
     ReferringProviderNPI: '534_520824810',
@@ -50,6 +49,7 @@ const createReferral = (
       Address: {
         Address1: '222 Richmond Avenue',
         City: 'BATAVIA',
+        State: 'NY',
         ZipCode: '14020',
       },
       Phone: '(585) 297-1000',
@@ -58,11 +58,9 @@ const createReferral = (
     ReferralStatus: 'open',
     UUID: uuid,
     numberOfAppointments: 1,
-    providerName: provider.providerName,
-    providerLocation: provider.providerLocation,
+    providerName: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+    providerLocation: 'FHA South Melbourne Medical Complex',
     providerId,
-    details: 'Back pain',
-    reason: 'Referral',
   };
 };
 
@@ -129,9 +127,30 @@ const filterReferrals = referrals => {
   );
 };
 
+/**
+ * Creates an address string from object
+ *
+ * @param {Object} addressObject Address object
+ * @returns {String} Address string
+ */
+const getAddressString = addressObject => {
+  let addressString = addressObject.Address1;
+  if (addressObject.Address2) {
+    addressString = `${addressString}, ${addressObject.Address2}`;
+  }
+  if (addressObject.street3) {
+    addressString = `${addressString}, ${addressObject.Address3}`;
+  }
+  addressString = `${addressString}, ${addressObject.City}, ${
+    addressObject.State
+  }, ${addressObject.ZipCode}`;
+  return addressString;
+};
+
 module.exports = {
   createReferral,
   createReferrals,
   getReferralSlotKey,
   filterReferrals,
+  getAddressString,
 };
