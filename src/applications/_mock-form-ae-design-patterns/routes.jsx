@@ -7,6 +7,7 @@ import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 
+import personalInfoDemoConfig from './patterns/pattern2/personal-information/config/form';
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 
 import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
@@ -113,6 +114,15 @@ const pattern2Routes = [
   {
     path: '/2/post-study',
     component: routeHoc(ReviewPage),
+  },
+  {
+    path: '/2/personal-information-demo',
+    component: routeHoc(App),
+    indexRoute: {
+      onEnter: (nextState, replace) =>
+        replace('/2/personal-information-demo/introduction?loggedIn=true'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(personalInfoDemoConfig),
   },
 ];
 

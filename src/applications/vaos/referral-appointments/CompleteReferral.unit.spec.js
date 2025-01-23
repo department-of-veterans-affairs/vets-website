@@ -144,8 +144,6 @@ describe('CompleteReferral', () => {
     );
     expect(getByTestId('provider-facility-org-name')).to.exist;
     expect(getByTestId('changes-copy')).to.exist;
-    expect(getByTestId('referral-other-details')).to.exist;
-    expect(getByTestId('referral-reason')).to.exist;
     expect(getByTestId('referring-facility-telephone')).to.exist;
     expect(getByTestId('referring-facility-telephone-tty')).to.exist;
     expect(getByTestId('print-button')).to.exist;

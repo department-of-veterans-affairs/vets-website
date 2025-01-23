@@ -5,33 +5,33 @@ import ProviderAddress from './ProviderAddress';
 
 describe('VAOS Component: ProviderAddress', () => {
   const address = {
-    street1: 'test street',
-    street2: '',
-    street3: '',
+    Address1: 'test Address',
+    Address2: '',
+    Address3: '',
     state: 'testylvania',
     city: 'testland',
     zip: '88888',
   };
-  it('renders the address and phone with no street 1 or 2', () => {
+  it('renders the address and phone with no Address 1 or 2', () => {
     const screen = render(
       <ProviderAddress address={address} phone="555-555-5555" />,
     );
     expect(screen.getByTestId('address-block')).to.exist;
     expect(screen.getByTestId('phone')).to.exist;
-    expect(screen.queryByTestId('street2')).to.not.exist;
-    expect(screen.queryByTestId('street3')).to.not.exist;
+    expect(screen.queryByTestId('Address2')).to.not.exist;
+    expect(screen.queryByTestId('Address3')).to.not.exist;
   });
-  it('renders the address with street 1 and 2', () => {
+  it('renders the address with Address 1 and 2', () => {
     const addressWithStreets = {
       ...address,
-      ...{ street2: 'test two', street3: 'test three' },
+      ...{ Address2: 'test two', Address3: 'test three' },
     };
     const screen = render(
       <ProviderAddress address={addressWithStreets} phone="555-555-5555" />,
     );
     expect(screen.getByTestId('address-block')).to.exist;
-    expect(screen.queryByTestId('street2')).to.exist;
-    expect(screen.queryByTestId('street3')).to.exist;
+    expect(screen.queryByTestId('Address2')).to.exist;
+    expect(screen.queryByTestId('Address3')).to.exist;
   });
   it('show directions if showDirections is true and name is provider', () => {
     const screen = render(

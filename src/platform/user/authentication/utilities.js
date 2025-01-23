@@ -152,7 +152,7 @@ export const createExternalApplicationUrl = () => {
       URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
-      URL = sanitizeUrl(`${externalRedirectUrl}`);
+      URL = sanitizeUrl(externalRedirectUrl, to);
       break;
     case EXTERNAL_APPS.SMHD:
       URL = `${sanitizeUrl(`${externalRedirectUrl}`)}/`;
