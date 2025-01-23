@@ -61,7 +61,7 @@ const App = props => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [isUserLOA3],
+    [fetchEnrollmentStatus, isUserLOA3],
   );
 
   /**
@@ -130,7 +130,7 @@ const mapStateToProps = state => ({
     isAuthOnlyEnabled: state.featureToggles.ezrAuthOnlyEnabled,
   },
   formData: state.form.data,
-  user: state.user,
+  user: state.user.profile,
 });
 
 const mapDispatchToProps = {
