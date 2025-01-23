@@ -8,6 +8,7 @@ const { veteran } = testData.data.application;
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
+    preneedHelpers.invalidAddressIntercept();
     preneedHelpers.visitIntro();
 
     // Preparer Information

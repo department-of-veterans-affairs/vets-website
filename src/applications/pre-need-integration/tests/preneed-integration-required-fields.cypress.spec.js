@@ -21,6 +21,7 @@ function errorCheck(errorList) {
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
+    preneedHelpers.invalidAddressIntercept();
     preneedHelpers.visitIntro();
 
     // Preparer Information Page 1

@@ -18,6 +18,30 @@ function interceptSetup() {
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 }
 
+function invalidAddressIntercept() {
+  cy.intercept('POST', '/v0/profile/address_validation', {
+    data: {
+      errors: [
+        {
+          title: 'Address Validation Error',
+          detail: {
+            messages: [
+              {
+                code: 'ADDRVAL108',
+                key: 'CandidateAddressNotFound',
+                text: 'No Candidate Address Found',
+                severity: 'INFO',
+              },
+            ],
+          },
+          code: 'VET360_AV_ERROR',
+          status: '400',
+        },
+      ],
+    },
+  });
+}
+
 // The string passed to this function should reflect the number of sections of the progress bar that are expected to be complete
 function validateProgressBar(index) {
   cy.get('va-segmented-progress-bar')
@@ -61,6 +85,7 @@ function autoSuggestFirstResult(field, value) {
   cy.get(field).trigger('keyup', { keyCode: 40 });
   cy.get(field).trigger('keydown', { keyCode: 13 });
   cy.get(field).trigger('keyup', { keyCode: 13 });
+  cy.get('body').click();
 }
 
 // Visits the pre-need intro page, validates the title, clicks start application
@@ -326,6 +351,7 @@ function submitForm() {
 
 module.exports = {
   interceptSetup,
+  invalidAddressIntercept,
   validateProgressBar,
   validateAddressUnconfirmed,
   clickContinue,

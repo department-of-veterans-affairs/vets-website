@@ -10,6 +10,7 @@ const { veteran } = testData.data.application;
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
+    preneedHelpers.invalidAddressIntercept();
     preneedHelpers.visitIntro();
 
     // Preparer Information
