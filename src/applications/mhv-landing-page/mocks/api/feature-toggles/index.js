@@ -6,6 +6,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPagePersonalization: false,
   mhvIntegrationMedicalRecordsToPhase1: false,
   travelPayPowerSwitch: false,
+  vaOnlineScheduling: false,
 });
 
 const generateFeatureToggles = ({

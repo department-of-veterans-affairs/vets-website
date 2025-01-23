@@ -98,8 +98,8 @@ export function selectFutureStatus(state) {
 }
 
 export const selectFutureAppointments = createSelector(
-  state => state.appointments.pending,
-  state => state.appointments.confirmed,
+  state => state?.appointments?.pending,
+  state => state?.appointments?.confirmed,
   (pending, confirmed) => {
     if (!confirmed || !pending) {
       return null;
@@ -113,7 +113,7 @@ export const selectFutureAppointments = createSelector(
 );
 
 export const selectUpcomingAppointments = createSelector(
-  state => state.appointments.confirmed,
+  state => state?.appointments?.confirmed,
   confirmed => {
     if (!confirmed) {
       return null;
@@ -128,7 +128,7 @@ export const selectUpcomingAppointments = createSelector(
 );
 
 export const selectPendingAppointments = createSelector(
-  state => state.appointments.pending,
+  state => state?.appointments?.pending,
   pending =>
     pending
       ?.filter(isPendingOrCancelledRequest)
@@ -136,7 +136,7 @@ export const selectPendingAppointments = createSelector(
 );
 
 export const selectPastAppointments = createSelector(
-  state => state.appointments.past,
+  state => state.appointments?.past,
   past => {
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
   },
@@ -148,7 +148,7 @@ export const selectPastAppointments = createSelector(
 
 export const selectPastAppointmentsV2 = state => {
   const selector = createSelector(
-    () => state.appointments.past,
+    () => state?.appointments?.past,
     past => {
       if (!past) {
         return null;
@@ -190,11 +190,11 @@ export function selectFacility(state, id) {
 }
 
 export function selectFacilitySettingsStatus(state) {
-  return state.appointments.facilitySettingsStatus;
+  return state?.appointments?.facilitySettingsStatus;
 }
 
 export function selectCanUseVaccineFlow(state) {
-  return state.appointments.facilitySettings?.some(
+  return state?.appointments?.facilitySettings?.some(
     facility =>
       facility.services.find(service => service.id === VACCINE_TYPE_OF_CARE_ID)
         ?.direct.enabled,
@@ -208,8 +208,8 @@ export function selectProviderAddress(appointment) {
 
 export function getRequestedAppointmentListInfo(state) {
   return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
+    facilityData: state?.appointments?.facilityData,
+    pendingStatus: state?.appointments?.pendingStatus,
     pendingAppointments: selectPendingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
@@ -218,8 +218,8 @@ export function getRequestedAppointmentListInfo(state) {
 
 export function getUpcomingAppointmentListInfo(state) {
   return {
-    facilityData: state.appointments.facilityData,
-    futureStatus: state.appointments.confirmedStatus,
+    facilityData: state?.appointments?.facilityData,
+    futureStatus: state?.appointments?.confirmedStatus,
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
@@ -271,9 +271,9 @@ export function getPastAppointmentListInfo(state) {
   return {
     showScheduleButton: selectFeatureRequests(state),
     pastAppointmentsByMonth: selectPastAppointmentsV2(state),
-    pastStatus: state.appointments.pastStatus,
-    pastSelectedIndex: state.appointments.pastSelectedIndex,
-    facilityData: state.appointments.facilityData,
+    pastStatus: state?.appointments?.pastStatus,
+    pastSelectedIndex: state?.appointments?.pastSelectedIndex,
+    facilityData: state?.appointments?.facilityData,
   };
 }
 
@@ -294,8 +294,8 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
-    pastStatus: state.appointments.pastStatus,
-    pendingStatus: state.appointments.pendingStatus,
+    pastStatus: state?.appointments?.pastStatus,
+    pendingStatus: state?.appointments?.pendingStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
