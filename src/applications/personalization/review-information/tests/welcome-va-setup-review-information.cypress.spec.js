@@ -1,7 +1,9 @@
+import manifest from '../manifest.json';
 import { cypressSetup } from './utils';
 import mockUser from './fixtures/mocks/user.json';
 
 describe('Welcome to My VA Review Contact Information form', () => {
+  const formURL = `${manifest.rootUrl}/contact-information`;
   const editMobileNumber = () => {
     cy.get('#edit-mobile-phone').click();
     cy.location('pathname').should('include', '/edit-mobile-phone');
@@ -69,9 +71,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
     beforeEach(() => {
       cypressSetup();
       cy.login(mockUser);
-      cy.visit(
-        '/my-va/welcome-va-setup/review-information/contact-information',
-      );
+      cy.visit(formURL);
       cy.wait(['@mockUser', '@features', '@mockVamc']);
     });
 
@@ -94,9 +94,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
   context('when not signed in', () => {
     beforeEach(() => {
       cypressSetup();
-      cy.visit(
-        '/my-va/welcome-va-setup/review-information/contact-information',
-      );
+      cy.visit(formURL);
       cy.wait(['@features']);
     });
 
