@@ -45,3 +45,39 @@ export const behaviorListAdditionalInformation = (
     </div>
   </va-additional-info>
 );
+
+/**
+ * Validates the 'none' checkbox is not selected if behaviors are also selected
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ */
+
+export function validateBehaviorSelections(errors, formData) {
+  // returns true at first checkbox selection
+  const behaviorsSelected =
+    Object.values(formData.workBehaviors || {}).some(
+      selected => selected === true,
+    ) ||
+    Object.values(formData.healthBehaviors || {}).some(
+      selected => selected === true,
+    ) ||
+    Object.values(formData.otherBehaviors || {}).some(
+      selected => selected === true,
+    );
+
+  // returns true if text field has any input
+  const unlistedProvided = Object.values(formData.unlistedBehaviors || {}).some(
+    entry => !!entry,
+  );
+
+  // returns true if 'none' checkbox is selected
+  const optedOut = Object.values(formData['view:optOut'] || {}).some(
+    selected => selected === true,
+  );
+
+  if (optedOut && (behaviorsSelected || unlistedProvided)) {
+    errors['view:optOut'].addError(
+      'If you didn’t experience any of these behavioral changes, unselect the other options you selected.',
+    );
+  }
+}

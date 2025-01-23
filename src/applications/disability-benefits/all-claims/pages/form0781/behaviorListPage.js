@@ -2,7 +2,6 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
   textUI,
-  // descriptionSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   titleWithTag,
@@ -15,6 +14,7 @@ import {
   BEHAVIOR_LIST_NONE_LABEL,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
+  validateBehaviorSelections,
 } from '../../content/form0781/behaviorListPages';
 
 // move constants to content file???
@@ -23,11 +23,6 @@ import {
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
 } from '../../constants';
-
-// const schemaKeys = Object.keys(BEHAVIOR_CHANGES_WORK).concat(
-//   Object.keys(BEHAVIOR_CHANGES_HEALTH),
-//   Object.keys(BEHAVIOR_CHANGES_OTHER),
-// );
 
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
@@ -73,31 +68,7 @@ export const uiSchema = {
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },
-  'ui:validations': [
-    (errors, field) => {
-      const behaviorSelected = Object.values(field.behaviors || {}).some(
-        selected => selected,
-      );
-      const otherProvided = Object.values(field.otherBehaviors || {}).some(
-        entry => !!entry,
-      );
-      const optedOut = !!Object.values(field['view:optOut'] || {}).some(
-        entry => !!entry,
-      );
-
-      if (!behaviorSelected && !otherProvided && !optedOut) {
-        // when a user has not selected options nor opted out
-        errors['view:optOut'].addError(
-          'selection required Error message placehoder',
-        );
-      } else if (optedOut && (behaviorSelected || otherProvided)) {
-        // when a user has selected options and opted out
-        errors['view:optOut'].addError(
-          'conflicting selections Error message placehoder',
-        );
-      }
-    },
-  ],
+  'ui:validations': [validateBehaviorSelections],
 };
 
 export const schema = {
