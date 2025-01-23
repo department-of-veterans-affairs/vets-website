@@ -67,10 +67,17 @@ describe('GI Bill Comparison Tool - Search by Location', () => {
   });
   it('displays an error if the user tries to search with an empty input', () => {
     cy.injectAxeThenAxeCheck();
+    cy.get('#search-input')
+      .shadow()
+      .find('input')
+      .type(' ');
     cy.contains('button', 'Search').click();
-    cy.contains('Please fill in a program name and then select search.').should(
-      'exist',
-    );
+    cy.get('[class="usa-error-message"]')
+      .should(
+        'contain',
+        'Please fill in a program name and then select search.',
+      )
+      .should('exist');
   });
   it('paginates correctly when there are more than 20 programs', () => {
     cy.injectAxeThenAxeCheck();
