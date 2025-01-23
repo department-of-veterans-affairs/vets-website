@@ -135,28 +135,29 @@ const FileField = props => {
 
   const Tag = formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
 
-  // hide upload & delete buttons on review & submit page when reviewing
-  const showButtons = !formContext.reviewMode && !isUploading;
-
   const titleString =
     typeof uiSchema['ui:title'] === 'string'
       ? uiSchema['ui:title']
       : schema.title;
 
   const getFileListId = index => `${idSchema.$id}_file_${index}`;
+  const checkForErrors = () =>
+    !files.some((file, index) => {
+      const errors =
+        errorSchema?.[index]?.__errors ||
+        [file.errorMessage].filter(error => error);
+
+      return errors.length > 0;
+    });
 
   // This is always true if enableShortWorkflow is not enabled
   // If enabled, do not allow upload if any error exist
   const checkUploadVisibility = () =>
-    !enableShortWorkflow ||
-    (enableShortWorkflow &&
-      !files.some((file, index) => {
-        const errors =
-          errorSchema?.[index]?.__errors ||
-          [file.errorMessage].filter(error => error);
+    !enableShortWorkflow || (enableShortWorkflow && checkForErrors());
 
-        return errors.length > 0;
-      }));
+  // hide upload & delete buttons on review & submit page when reviewing
+  const showButtons =
+    !formContext.reviewMode && !isUploading && checkForErrors();
 
   const focusAddAnotherButton = () => {
     // Add a timeout to allow for the upload button to reappear in the DOM
