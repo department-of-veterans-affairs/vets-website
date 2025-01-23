@@ -176,13 +176,13 @@ const ReviewPage = props => {
       </div>
       <VaAccordion>
         {props.chapters
-          .filter(chapter => chapter.name === 'yourQuestion')
+          .filter(chapter => chapter.name === 'categoryTopics')
           .map(chapter => {
             return (
               <VaAccordionItem
                 bordered
                 key={chapter.name}
-                header="Your question"
+                header="Category, topic, who your question is about"
                 level={4}
                 id={chapter.name}
                 open
@@ -341,6 +341,41 @@ const ReviewPage = props => {
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
+                {getPageKeysForReview(formConfig)}
+              </VaAccordionItem>
+            );
+          })}
+
+        {props.chapters
+          .filter(chapter => chapter.name === 'yourQuestion')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Your question"
+                level={4}
+                id={chapter.name}
+                open
+                className="vads-u-margin-bottom--2"
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
               </VaAccordionItem>
             );
           })}
@@ -367,12 +402,11 @@ function mapStateToProps(state, ownProps) {
   const viewedPages = getViewedPages(state);
 
   const pagesToMoveConfig = {
-    yourQuestion: [
+    categoryTopics: [
       'selectCategory',
       'selectTopic',
       'selectSubtopic',
       'whoIsYourQuestionAbout',
-      'question',
     ],
     relationshipToTheVeteran: [
       'relationshipToVeteran',
@@ -447,6 +481,7 @@ function mapStateToProps(state, ownProps) {
       'yourPostalCode_generalquestion',
       'yourVAHealthFacility_generalquestion',
     ],
+    yourQuestion: ['question'],
   };
 
   const { pagesByChapter, modifiedFormConfig } = createPageListByChapterAskVa(
@@ -455,6 +490,7 @@ function mapStateToProps(state, ownProps) {
   );
 
   const chapterNames = [
+    'categoryTopics',
     'yourQuestion',
     'relationshipToTheVeteran',
     'yourInformation',
