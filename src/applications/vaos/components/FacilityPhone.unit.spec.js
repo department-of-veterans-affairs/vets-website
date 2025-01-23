@@ -14,7 +14,7 @@ describe('VAOS Component: FacilityPhone', () => {
       },
     );
 
-    expect(screen.getByText(new RegExp(`Main phone:`))).to.exist;
+    expect(screen.getByText(new RegExp(`Phone:`))).to.exist;
 
     const vaPhone = screen.getByTestId('facility-telephone');
     expect(vaPhone).to.exist;
@@ -32,7 +32,7 @@ describe('VAOS Component: FacilityPhone', () => {
       },
     );
 
-    expect(screen.getByText(new RegExp(`Main phone:`))).to.exist;
+    expect(screen.getByText(new RegExp(`Phone:`))).to.exist;
 
     const vaPhone = screen.getByTestId('facility-telephone');
     expect(vaPhone).to.exist;
@@ -50,7 +50,7 @@ describe('VAOS Component: FacilityPhone', () => {
       },
     );
 
-    expect(screen.getByText(new RegExp(`Main phone:`))).to.exist;
+    expect(screen.getByText(new RegExp(`Phone:`))).to.exist;
 
     const vaPhone = screen.getByTestId('facility-telephone');
     expect(vaPhone).to.exist;
