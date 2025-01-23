@@ -10,7 +10,7 @@ const {
   getDeletedFiles,
   checkBrokenImports,
   getAllProjectFiles,
-} = require('./brokenImports'); // Adjust the path to your script
+} = require('./brokenImports'); 
 describe('Broken Imports Checker', () => {
   let execSyncStub, readFileSyncStub, readdirSyncStub;
   beforeEach(() => {

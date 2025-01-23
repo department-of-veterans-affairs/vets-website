@@ -54,7 +54,6 @@ function checkBrokenImports(deletedFiles) {
 
   const brokenImports = [];
   allFiles.forEach(file => {
-    // https://www.geeksforgeeks.org/node-js-fs-readfilesync-method/?utm_source=chatgpt.com
     const content = fs.readFileSync(file, 'utf-8');
     importPatterns.forEach((regex, index) => {
       if (regex.test(content)) {

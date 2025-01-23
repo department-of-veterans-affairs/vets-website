@@ -339,7 +339,6 @@ jobs:
         id: check-for-broken-imports
         continue-on-error: false
         uses: ./.github/workflows/check-imports
-        with:
           delimiter: ','
           output-type: 'entry_name, url'
 
