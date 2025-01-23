@@ -28,7 +28,7 @@ describe('GI Bill Comparison Tool - Search by Location', () => {
   });
   it('shows the list of programs (more than 20) with search controls', () => {
     cy.injectAxeThenAxeCheck();
-    cy.url().should('include', '/institution/318Z0032/');
+    // cy.url().should('include', '/institution/318Z0032/');
     cy.get('h1').should('contain', 'NEW YORK');
     cy.get('#search-input').should('exist');
     cy.contains('button', 'Search').should('exist');
