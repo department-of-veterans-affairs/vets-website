@@ -14,7 +14,6 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   useEffect(() => {
     const comboBox = comboBoxRef.current?.shadowRoot;
     const handleInput = event => {
-      // console.log('event: ', event.target.value);
       setServiceType(event.target.value);
     };
 
@@ -33,10 +32,9 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
 
   const createAllServiceOptions = useCallback(
     () => {
-      console.log('allServices: ', allServices);
-      return allServices.map((match, index) => {
-        return createDropdownOption(match, index);
-      });
+      return allServices.map((match, index) =>
+        createDropdownOption(match, index),
+      );
     },
     [allServices],
   );
@@ -50,48 +48,39 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
       );
 
       if (!serviceType) {
-        // console.log('or this is happening');
         setOptions([seeAll, ...createAllServiceOptions()]);
       } else {
-        // console.log('this is happening');
         const filteredServices =
           serviceTypeFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) ||
           allServices;
 
         if (filteredServices?.length) {
-          // console.log(
-          //   'filteredServices: ',
-          //   filteredServices[0],
-          //   filteredServices[1],
-          // );
+          const dropdownOptions = filteredServices.map((match, index) =>
+            createDropdownOption(match.hsdatum, index),
+          );
 
-          const dropdownOptions = filteredServices.map((match, index) => {
-            // console.log('match: ', match);
-            return createDropdownOption(match.hasdatum, index);
-          });
-          console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
           setOptions([seeAll, ...dropdownOptions]);
         }
       }
     },
-    [serviceType],
+    [allServices, createAllServiceOptions, serviceType, serviceTypeFilter],
   );
 
-  // console.log('serviceType: ', serviceType);
-  // console.log('options: ', options);
-
   return (
-    <VaComboBox
-      class="vads-u-margin-bottom--3"
-      label="Service type"
-      name="service-type"
-      onVaSelect={e => handleServiceTypeChange(e.detail.value)}
-      ref={comboBoxRef}
-      required
-      value={serviceType}
-    >
-      {options}
-    </VaComboBox>
+    <>
+      {options?.length} options
+      <VaComboBox
+        class="vads-u-margin-bottom--3"
+        label="Service type"
+        name="service-type"
+        onVaSelect={e => handleServiceTypeChange(e.detail.value)}
+        ref={comboBoxRef}
+        required
+        value={serviceType}
+      >
+        {options}
+      </VaComboBox>
+    </>
   );
 };
 
