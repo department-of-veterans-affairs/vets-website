@@ -1,5 +1,14 @@
 import { apiRequest } from 'platform/utilities/api';
 
+/**
+ * `window.appName` is used for the value of the `Source-App-Name` header in the
+ * platform `apiRequest` function. We set that property here so that it is
+ * guaranteed to be set before it is attempted to be used.
+ */
+import manifest from '../manifest.json';
+
+window.appName = manifest.entryName;
+
 const API_VERSION = 'accredited_representative_portal/v0';
 
 /**
@@ -18,6 +27,9 @@ const wrapApiRequest = fn => {
 
     const options = {
       apiVersion: API_VERSION,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       ...optionsFromFn,
       ...optionsFromCaller,
     };
