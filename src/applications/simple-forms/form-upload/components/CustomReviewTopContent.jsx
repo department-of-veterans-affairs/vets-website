@@ -86,12 +86,14 @@ const CustomReviewTopContent = () => {
       </div>
     </div>
   );
-
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Personal information</h3>
-        <EditLink href={`/${getFormNumber()}/name-and-zip-code`} />
+        <EditLink
+          href={`/${getFormNumber()}/name-and-zip-code`}
+          label="Edit Personal information"
+        />
       </div>
       {renderPersonalInfo()}
       <p className="vads-u-margin-bottom--5">
@@ -103,12 +105,18 @@ const CustomReviewTopContent = () => {
       </p>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Contact information</h3>
-        <EditLink href={`/${getFormNumber()}/phone-number-and-email`} />
+        <EditLink
+          href={`/${getFormNumber()}/phone-number-and-email`}
+          label="Edit Contact information"
+        />
       </div>
       {renderContactInfo()}
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Uploaded file</h3>
-        <EditLink href={`/${getFormNumber()}/upload`} />
+        <EditLink
+          href={`/${getFormNumber()}/upload`}
+          label="Edit Uploaded file"
+        />
       </div>
       {uploadedFile && renderFileInfo(uploadedFile)}
     </>

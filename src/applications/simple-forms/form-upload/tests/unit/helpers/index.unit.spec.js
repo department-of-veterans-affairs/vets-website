@@ -40,14 +40,14 @@ describe('Helpers', () => {
       global.window.location = {
         pathname: '/form-upload/21-0779/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 21-0779' });
+      expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
 
     it('returns default content when the form number is not mapped', () => {
       global.window.location = {
         pathname: '/form-upload/99-9999/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 99-9999' });
+      expect(getFormContent()).to.include({ title: 'Upload form 99-9999' });
     });
   });
 
