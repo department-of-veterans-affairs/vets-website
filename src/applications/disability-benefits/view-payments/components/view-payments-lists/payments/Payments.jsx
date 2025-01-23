@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { chunk } from 'lodash';
 import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
-import { clientServerErrorContent } from '../helpers';
+import { clientServerErrorContent, useResizeObserver } from '../helpers';
 
 const MAX_PAGES_CONTAINER_WIDTH = 640; // USWDS width-tablet setting
 const MAX_ROWS = 6;
@@ -27,7 +27,7 @@ const Payments = ({
   textContent,
   alertMessage,
 }) => {
-  // Hooks
+  // Page navigation
   const location = useLocation();
   const navigate = useNavigate();
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
@@ -35,50 +35,11 @@ const Payments = ({
   // State
   const [currentData, setCurrentData] = useState([]);
   const [maxPageLength, setMaxPageLength] = useState(10);
+  const [from, to] = getFromToNums(currentPage, data.length);
 
   // Refs
-  const totalPages = useRef(0);
   const tableHeadingRef = useRef(null);
-  const tablePaginationRef = useRef(null);
-
-  useEffect(
-    () => {
-      const paginatedData = paginateData(data);
-      setCurrentData(paginatedData[currentPage - 1]);
-      totalPages.current = paginatedData.length;
-    },
-    [currentPage, data],
-  );
-
-  /* eslint-disable-next-line consistent-return */
-  useEffect(() => {
-    /**
-     * Using ResizeObserver to update number of table pagination links
-     * based on viewport width or zoom rate. USWDS tablet breakpoint
-     * is the magic number default for updating state.
-     *
-     * See https://designsystem.digital.gov/utilities/height-and-width/
-     */
-    if (window.ResizeObserver && tablePaginationRef.current) {
-      const handleResizeObserver = new ResizeObserver(entries => {
-        for (const entry of entries) {
-          if (entry.contentRect.width < MAX_PAGES_CONTAINER_WIDTH) {
-            setMaxPageLength(5);
-          }
-
-          if (entry.contentRect.width >= MAX_PAGES_CONTAINER_WIDTH) {
-            setMaxPageLength(10);
-          }
-        }
-      });
-
-      handleResizeObserver.observe(tablePaginationRef.current);
-
-      return () => {
-        handleResizeObserver.disconnect();
-      };
-    }
-  }, []);
+  const totalPages = useRef(0);
 
   const onPageChange = page => {
     const newURL = `${location.pathname}?page=${page}`;
@@ -88,7 +49,26 @@ const Payments = ({
     navigate(newURL);
   };
 
-  const [from, to] = getFromToNums(currentPage, data.length);
+  const onPaginationResize = useCallback((target, element) => {
+    if (element.contentRect.width < MAX_PAGES_CONTAINER_WIDTH) {
+      setMaxPageLength(5);
+    }
+
+    if (element.contentRect.width >= MAX_PAGES_CONTAINER_WIDTH) {
+      setMaxPageLength(10);
+    }
+  }, []);
+
+  const tablePaginationRef = useResizeObserver(onPaginationResize);
+
+  useEffect(
+    () => {
+      const paginatedData = paginateData(data);
+      setCurrentData(paginatedData[currentPage - 1]);
+      totalPages.current = paginatedData.length;
+    },
+    [currentPage, data],
+  );
 
   if (currentData) {
     return (
