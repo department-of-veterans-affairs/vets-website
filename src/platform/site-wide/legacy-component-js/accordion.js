@@ -39,11 +39,6 @@ const addAriaHiddenAttr = () => {
           buttonElement.getAttribute('aria-expanded'),
         );
 
-        if (buttonElement.getAttribute('aria-expanded') === 'true') {
-          el.setAttribute('aria-hidden', false);
-          return;
-        }
-
         el.setAttribute('aria-hidden', hiddenValue);
       }
     },
