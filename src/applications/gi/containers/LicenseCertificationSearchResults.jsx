@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import ADDRESS_DATA from 'platform/forms/address/data';
-import {
-  VaCard,
-  VaLink,
-  VaLinkAction,
-  VaLoadingIndicator,
-  VaPagination,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { fetchLicenseCertificationResults } from '../actions';
+import { useSelector } from 'react-redux';
+
+import ADDRESS_DATA from 'platform/forms/address/data';
+
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import PropTypes from 'prop-types';
 import {
   capitalizeFirstLetter,
-  filterLcResults,
   formatResultCount,
   showLcParams,
 } from '../utils/helpers';
+import { useLcpFilter } from '../utils/useLcpFilter';
 
-function LicenseCertificationSearchResults({
-  dispatchFetchLicenseCertificationResults,
+export default function LicenseCertificationSearchResults({
   // error,
-  lcResults,
-  fetchingLc,
-  hasFetchedOnce,
+  flag,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredResults, setFilteredResults] = useState([]);
 
   const location = useLocation();
   const history = useHistory();
+
+  const { hasFetchedOnce, fetchingLc, filteredResults } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
+
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
+
+  useLcpFilter({
+    flag,
+    name: nameParam,
+    categoryValue: categoryParam,
+    locationValue: stateParam,
+  });
 
   const itemsPerPage = 10;
 
@@ -40,30 +44,13 @@ function LicenseCertificationSearchResults({
     currentPage * itemsPerPage,
   );
 
-  useEffect(
-    () => {
-      if (!hasFetchedOnce) {
-        dispatchFetchLicenseCertificationResults();
-      }
-    },
-    [dispatchFetchLicenseCertificationResults, hasFetchedOnce],
-  );
-
-  useEffect(
-    () => {
-      if (lcResults.length !== 0) {
-        const results = filterLcResults(lcResults, nameParam, {
-          type: categoryParam,
-          state: stateParam,
-        });
-        setFilteredResults(results);
-      }
-    },
-    [lcResults],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
   const handleRouteChange = id => event => {
@@ -83,7 +70,7 @@ function LicenseCertificationSearchResults({
   return (
     <div>
       {fetchingLc && (
-        <VaLoadingIndicator
+        <va-loading-indicator
           // data-testid="loading-indicator"
           message="Loading..."
         />
@@ -97,20 +84,21 @@ function LicenseCertificationSearchResults({
                   Search Results
                 </h1>
 
-                <div className="result-info-wrapper">
+                <div className="lc-result-info-wrapper">
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
                     <p className="vads-u-color--gray-dark vads-u-margin--0">
                       Showing{' '}
-                      {filteredResults.length === 0 && ' 0 results for:'}
-                      {`${formatResultCount(
-                        filteredResults,
-                        currentPage,
-                        itemsPerPage,
-                      )} of ${filteredResults.length} results for:`}
+                      {filteredResults.length - 1 === 0
+                        ? ' 0 results for:'
+                        : `${formatResultCount(
+                            filteredResults,
+                            currentPage,
+                            itemsPerPage,
+                          )} of ${filteredResults.length - 1} results for:`}
                     </p>
-                    <VaLink
+                    <va-link
                       href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
-                      className="back-link"
+                      class="back-link"
                       back
                       text="Back to search"
                       onClick={handlePreviousRouteChange}
@@ -129,18 +117,19 @@ function LicenseCertificationSearchResults({
                     }`}
                   </p>
                   <p className="lc-filter-option">
-                    <strong>License/Certification Name: </strong>{' '}
+                    <strong>License/Certification name: </strong>{' '}
                     {`"${nameParam}"`}
                   </p>
                 </div>
               </div>
               <div className="row">
-                {filteredResults.length > 0 ? (
+                {filteredResults.length - 1 > 0 ? (
                   <ul className="lc-result-cards-wrapper">
                     {currentResults.map((result, index) => {
+                      if (index === 0) return null;
                       return (
                         <li className="vads-u-padding-bottom--2" key={index}>
-                          <VaCard class="vads-u-background-color--gray-lightest vads-u-border--0">
+                          <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
                             <h3 className="vads-u-margin--0">{result.lacNm}</h3>
                             <h4 className="lc-card-subheader vads-u-margin-top--1p5">
                               {result.eduLacTypeNm}
@@ -150,7 +139,7 @@ function LicenseCertificationSearchResults({
                                 {ADDRESS_DATA.states[result.state]}
                               </p>
                             )}
-                            <VaLinkAction
+                            <va-link-action
                               href={`/lc-search/results/${result.enrichedId}`}
                               text={`View test amount details for ${
                                 result.lacNm
@@ -158,7 +147,7 @@ function LicenseCertificationSearchResults({
                               type="secondary"
                               onClick={handleRouteChange(result.enrichedId)}
                             />
-                          </VaCard>
+                          </va-card>
                         </li>
                       );
                     })}
@@ -170,7 +159,7 @@ function LicenseCertificationSearchResults({
                   </p>
                 )}
               </div>
-              {filteredResults.length > 0 && (
+              {filteredResults.length > itemsPerPage && (
                 <VaPagination
                   page={currentPage}
                   pages={totalPages}
@@ -186,25 +175,6 @@ function LicenseCertificationSearchResults({
 }
 
 LicenseCertificationSearchResults.propTypes = {
-  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
-  fetchingLc: PropTypes.bool.isRequired,
-  hasFetchedOnce: PropTypes.bool.isRequired,
-  lcResults: PropTypes.array,
+  flag: PropTypes.string,
   // error: Proptypes // verify error Proptypes
 };
-
-const mapStateToProps = state => ({
-  fetchingLc: state.licenseCertificationSearch.fetchingLc,
-  hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
-  lcResults: state.licenseCertificationSearch.lcResults,
-  // error: // create error state in redux store
-});
-
-const mapDispatchToProps = {
-  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LicenseCertificationSearchResults);

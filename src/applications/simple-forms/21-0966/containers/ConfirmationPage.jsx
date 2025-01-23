@@ -28,6 +28,9 @@ import {
 } from '../definitions/constants';
 import { useNewConfirmationPage } from '../config/features';
 
+const { COMPENSATION, PENSION } = veteranBenefits;
+const { SURVIVOR } = survivingDependentBenefits;
+
 const NextSteps = ({ formData }) => (
   <div>
     <h2>What are my next steps?</h2>
@@ -37,13 +40,15 @@ const NextSteps = ({ formData }) => (
         <p>{confirmationPageNextStepsParagraph(formData)}</p>
       </>
     ) : (
-      <p>
-        You should complete and file your claims as soon as possible. If you
-        complete and file your claim before the intent to file expires and we
-        approve your claim, you may be able to get retroactive payments.
-        Retroactive payments are payments for the time between when we processed
-        your intent to file and when we approved your claim.
-      </p>
+      <>
+        <p>You should complete and file your claims as soon as possible.</p>
+        <p>
+          If you complete and file your claim before the intent to file expires
+          and we approve your claim, you may be able to get retroactive
+          payments. Retroactive payments are payments for the time between when
+          we processed your intent to file and when we approved your claim.
+        </p>
+      </>
     )}
   </div>
 );
@@ -51,7 +56,7 @@ const NextSteps = ({ formData }) => (
 const ActionLinksToCompleteClaims = ({ formData }) => (
   <>
     {(hasActiveCompensationITF({ formData }) ||
-      formData.benefitSelection[veteranBenefits.COMPENSATION]) && (
+      formData.benefitSelection[COMPENSATION]) && (
       <div>
         <va-link-action
           href="/disability/file-disability-claim-form-21-526ez/introduction"
@@ -61,7 +66,7 @@ const ActionLinksToCompleteClaims = ({ formData }) => (
       </div>
     )}
     {(hasActivePensionITF({ formData }) ||
-      formData.benefitSelection[veteranBenefits.PENSION]) && (
+      formData.benefitSelection[PENSION]) && (
       <div>
         <va-link-action
           href="/pension/file-pension-claim-form-21p-527ez/introduction"
@@ -70,7 +75,7 @@ const ActionLinksToCompleteClaims = ({ formData }) => (
         />
       </div>
     )}
-    {formData.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
+    {formData.benefitSelection[SURVIVOR] && (
       <div>
         <va-link-action
           href="/find-forms/about-form-21p-534ez/"
@@ -82,12 +87,176 @@ const ActionLinksToCompleteClaims = ({ formData }) => (
   </>
 );
 
+const CompensationAction = () => (
+  <div>
+    <va-link-action
+      href="/disability/file-disability-claim-form-21-526ez/introduction"
+      text="Complete your disability compensation claim"
+      type="secondary"
+    />
+  </div>
+);
+
+const PensionAction = () => (
+  <div>
+    <va-link-action
+      href="/pension/file-pension-claim-form-21p-527ez/introduction"
+      text="Complete your pension claim"
+      type="secondary"
+    />
+  </div>
+);
+
+const SurvivorAction = () => (
+  <div>
+    <va-link-action
+      href="/find-forms/about-form-21p-534ez/"
+      text="Complete your pension for survivors claim"
+      type="secondary"
+    />
+  </div>
+);
+
+const PensionExistingAction = ({ formData }) => (
+  <div>
+    <p>
+      Our records show that you already have an intent to file for pension
+      claims. Your intent to file for pension claims expires on{' '}
+      {format(
+        new Date(formData['view:activePensionITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}
+      .
+    </p>
+    <PensionAction />
+  </div>
+);
+
+const CompensationExistingAction = ({ formData }) => (
+  <div>
+    <p>
+      Our records show that you already have an intent to file for disability
+      compensation. Your intent to file for disability compensation expires on{' '}
+      {format(
+        new Date(formData['view:activeCompensationITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}
+      .
+    </p>
+    <CompensationAction />
+  </div>
+);
+
+const newActionMap = {
+  [COMPENSATION]: CompensationAction,
+  [PENSION]: PensionAction,
+  [SURVIVOR]: SurvivorAction,
+};
+
+const existingActionMap = {
+  [COMPENSATION]: CompensationExistingAction,
+  [PENSION]: PensionExistingAction,
+};
+
+/**
+ * Returns a data only object of string constants like this:
+ * {
+ *   actionsNew: ["compensation", "pension"],
+ *   actionsExisting: ["compensation", "pension"]
+ * }
+ *
+ * This makes it easier to test the logic in isolation without rendering
+ */
+export const getNextStepsActionsPlaceholders = formData => {
+  const actionsExisting = [];
+  const actionsNew = [];
+
+  const isCompensationApplicable =
+    hasActiveCompensationITF({ formData }) ||
+    formData.benefitSelection?.[COMPENSATION];
+
+  const isPensionApplicable =
+    hasActivePensionITF({ formData }) || formData.benefitSelection?.[PENSION];
+
+  const isSurvivorApplicable = formData.benefitSelection?.[SURVIVOR];
+  const hasCompensationExisting = hasActiveCompensationITF({ formData });
+  const hasPensionExisting = hasActivePensionITF({ formData });
+
+  if (hasCompensationExisting) {
+    actionsExisting.push(COMPENSATION);
+  } else if (isCompensationApplicable) {
+    actionsNew.push(COMPENSATION);
+  }
+
+  if (hasPensionExisting) {
+    actionsExisting.push(PENSION);
+  } else if (isPensionApplicable) {
+    actionsNew.push(PENSION);
+  }
+
+  if (isSurvivorApplicable) {
+    actionsNew.push(SURVIVOR);
+  }
+
+  return { actionsNew, actionsExisting };
+};
+
+const NextStepsV2Actions = ({ formData }) => {
+  let { actionsNew, actionsExisting } = getNextStepsActionsPlaceholders(
+    formData,
+  );
+
+  // convert arrays of strings to arrays of JSX
+  // e.g. ["compensation", "pension"] => [<CompensationAction />, <PensionAction />]
+  actionsNew = actionsNew.map(action => {
+    const Component = newActionMap[action];
+    return <Component key={action} />;
+  });
+  actionsExisting = actionsExisting.map(action => {
+    const Component = existingActionMap[action];
+    return <Component key={action} formData={formData} />;
+  });
+
+  return (
+    <div>
+      {actionsNew}
+      {actionsExisting}
+    </div>
+  );
+};
+
+const NextStepsV2 = ({ formData }) => {
+  return (
+    <div>
+      <h2>What are my next steps?</h2>
+      {confirmationPageNextStepsParagraph(formData) ? (
+        <>
+          <p>You should complete and file your claims as soon as possible.</p>
+          <p>{confirmationPageNextStepsParagraph(formData)}</p>
+        </>
+      ) : (
+        <>
+          <p>You should complete and file your claims as soon as possible.</p>
+          <p>
+            If you complete and file your claim before the intent to file
+            expires and we approve your claim, you may be able to get
+            retroactive payments. Retroactive payments are payments for the time
+            between when we processed your intent to file and when we approved
+            your claim.
+          </p>
+        </>
+      )}
+      <NextStepsV2Actions formData={formData} />
+    </div>
+  );
+};
+
 const AlreadySubmittedHeader = ({ formData }) => (
   <>
     {!confirmationPageFormBypassed(formData) && (
       <>
         {hasActiveCompensationITF({ formData }) &&
-          formData.benefitSelection[veteranBenefits.PENSION] && (
+          formData.benefitSelection[PENSION] && (
             <div>
               <h2>
                 You’ve already submitted an intent to file for disability
@@ -108,7 +277,7 @@ const AlreadySubmittedHeader = ({ formData }) => (
             </div>
           )}
         {hasActivePensionITF({ formData }) &&
-          formData.benefitSelection[veteranBenefits.COMPENSATION] && (
+          formData.benefitSelection[COMPENSATION] && (
             <div>
               <h2>
                 You’ve already submitted an intent to file for pension claims
@@ -142,14 +311,12 @@ export const ConfirmationPage = props => {
   const currentFormData = {
     ...data,
     benefitSelection: {
-      [veteranBenefits.COMPENSATION]:
-        data.benefitSelection?.[veteranBenefits.COMPENSATION] ||
+      [COMPENSATION]:
+        data.benefitSelection?.[COMPENSATION] ||
         data.benefitSelectionCompensation,
-      [veteranBenefits.PENSION]:
-        data.benefitSelection?.[veteranBenefits.PENSION] ||
-        data.benefitSelectionPension,
-      [survivingDependentBenefits.SURVIVOR]:
-        data.benefitSelection?.[survivingDependentBenefits.SURVIVOR],
+      [PENSION]:
+        data.benefitSelection?.[PENSION] || data.benefitSelectionPension,
+      [SURVIVOR]: data.benefitSelection?.[SURVIVOR],
     },
   };
 
@@ -183,6 +350,7 @@ export const ConfirmationPage = props => {
             expirationDate: submissionResponse?.expirationDate,
             confirmationNumber,
           })}
+          actions={<></>}
         />
         {!confirmationPageFormBypassed(formData) && (
           <>
@@ -191,34 +359,23 @@ export const ConfirmationPage = props => {
             />
             <ConfirmationView.ChapterSectionCollection />
             <ConfirmationView.PrintThisPage />
-            <ConfirmationView.WhatsNextProcessList
-              item2Content={
-                submissionApi === submissionApis.BENEFITS_INTAKE ? (
+            {submissionApi === submissionApis.BENEFITS_INTAKE && (
+              <ConfirmationView.WhatsNextProcessList
+                item1Header="We’ll confirm that we’ve received your form"
+                item1Content="We will contact you when we have received your submission. This can take up to 30 days."
+                item2Header="Next, we’ll review your form"
+                item2Content={
                   <p>
                     After we review your form, we’ll confirm next steps. Then
                     you’ll have 1 year to file your claim.
                   </p>
-                ) : (
-                  <>
-                    <p>
-                      After we process your request, we’ll confirm next steps.
-                      If we don’t already have a form showing that you’re
-                      authorized as a signer, we’ll contact the Veteran or
-                      family member who intends to file the claim.
-                    </p>
-                    <p>
-                      If we need information after reviewing your form, we’ll
-                      contact you
-                    </p>
-                  </>
-                )
-              }
-            />
+                }
+                item1Actions={<></>}
+              />
+            )}
           </>
         )}
-        <AlreadySubmittedHeader formData={formData} />
-        <NextSteps formData={formData} />
-        <ActionLinksToCompleteClaims formData={formData} />
+        <NextStepsV2 formData={formData} />
         <ConfirmationView.HowToContact />
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />

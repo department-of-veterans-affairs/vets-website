@@ -3,8 +3,11 @@ import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { validateAddress } from 'platform/user/profile/vap-svc/actions';
 import set from 'platform/utilities/data/set';
-import AddressConfirmation from './addressConfirmation';
-import { isAuthorizedAgent } from '../../utils/helpers';
+import AddressConfirmation from '../../components/AddressConfirmation';
+import {
+  isAuthorizedAgent,
+  shouldShowSuggestedAddress,
+} from '../../utils/helpers';
 
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
 
@@ -29,17 +32,6 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
     stateCode: address.state,
     zipCode: address.postalCode,
   });
-
-  const shouldShowSuggestedAddress = () => {
-    if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
-    return !(
-      userAddress.street === suggestedAddress.addressLine1 &&
-      userAddress.city === suggestedAddress.city &&
-      userAddress.state === suggestedAddress.stateCode &&
-      userAddress.postalCode === suggestedAddress.zipCode &&
-      userAddress.country === suggestedAddress.countryCodeIso3
-    );
-  };
 
   // Handle Address Validation
   useEffect(() => {
@@ -110,7 +102,7 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
     );
   }
 
-  return shouldShowSuggestedAddress() ? (
+  return shouldShowSuggestedAddress(suggestedAddress, userAddress) ? (
     <SuggestedAddressRadio
       title={
         !isAuthorizedAgent(formData)
@@ -123,7 +115,14 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
       onChangeSelectedAddress={onChangeSelectedAddress}
     />
   ) : (
-    <AddressConfirmation />
+    <AddressConfirmation
+      subHeader={
+        !isAuthorizedAgent(formData)
+          ? 'Check your mailing address'
+          : 'Check applicant mailing address'
+      }
+      userAddress={userAddress}
+    />
   );
 }
 

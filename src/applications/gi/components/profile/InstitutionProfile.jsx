@@ -44,19 +44,11 @@ export default function InstitutionProfile({
     TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
   );
 
-  const programTypes = [
-    'Non College Degree',
-    'Institution of Higher Learning',
-    'On The Job Training/Apprenticeship',
-    'Flight',
-    'Correspondence',
-  ];
-
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type, facilityCode, name } = institution;
+  const { type, facilityCode, name, programTypes } = institution;
   localStorage.setItem('institutionName', name);
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
@@ -164,6 +156,10 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
+          {programTypes?.length > 0 &&
+            toggleGiProgramsFlag && (
+              <JumpLink label="Programs" jumpToId="programs" />
+            )}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"
