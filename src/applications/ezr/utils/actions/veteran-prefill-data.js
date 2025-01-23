@@ -15,15 +15,12 @@ import {
  * @returns {Promise} - resolves to calling the reducer to set the correct state variables
  * for enrollment status
  */
-export function fetchVeteranPrefillDataAction(
-  env = environment,
-  simulate = false,
-) {
+export function fetchVeteranPrefillDataAction(env = environment) {
   return (dispatch, getState) => {
     const { isLoading } = selectVeteranPrefillData(getState());
     if (isLoading) return null;
 
-    const simulateServerLocally = env.isLocalhost() && simulate;
+    const simulateServerLocally = env.isLocalhost();
     const { FETCH_VETERAN_PREFILL_DATA_STARTED } = VETERAN_PREFILL_DATA_ACTIONS;
 
     dispatch({ type: FETCH_VETERAN_PREFILL_DATA_STARTED });

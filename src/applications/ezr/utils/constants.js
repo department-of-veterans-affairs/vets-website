@@ -148,12 +148,6 @@ export const VETERAN_PREFILL_DATA_ACTIONS = {
   FETCH_VETERAN_PREFILL_DATA_FAILED: 'FETCH_VETERAN_PREFILL_DATA_FAILED',
 };
 
-export const VETERAN_PREFILL_DATA_INIT_STATE = {
-  hasServerError: false,
-  veteranPrefillData: null,
-  loading: false,
-};
-
 // declare mock response for veteran prefill data from vets-api to use for simulated testing
 export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
   veteranIncome: {
@@ -203,4 +197,10 @@ export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
   spouseDateOfBirth: '1970-02-21',
   spouseSocialSecurityNumber: '865767654',
   spouseIncomeYear: '2024',
+};
+
+export const VETERAN_PREFILL_DATA_INIT_STATE = {
+  hasServerError: false,
+  parsedData: MOCK_VETERAN_PREFILL_DATA_RESPONSE,
+  loading: false,
 };

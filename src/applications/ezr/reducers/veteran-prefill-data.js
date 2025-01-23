@@ -24,12 +24,12 @@ function veteranPrefillData(state = VETERAN_PREFILL_DATA_INIT_STATE, action) {
       loading: true,
     }),
     [FETCH_VETERAN_PREFILL_DATA_SUCCEEDED]: () => {
-      const { parsedVeteranPrefillData } = response;
+      const { parsedData } = response;
       return {
         ...state,
         hasServerError: false,
         loading: false,
-        parsedVeteranPrefillData,
+        parsedData,
       };
     },
     [FETCH_VETERAN_PREFILL_DATA_FAILED]: () => ({

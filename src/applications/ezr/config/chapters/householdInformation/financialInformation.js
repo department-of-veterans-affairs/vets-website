@@ -7,7 +7,7 @@ import {
   deductibleExpensesPage,
   summaryPage,
 } from '../../../definitions/financials';
-import CombatOperationServiceDescription from '../../../components/FormDescriptions/CombatOperationServiceDescription';
+import FinancialOverviewInformation from '../../../components/FormDescriptions/FinancialOverviewInformation';
 
 /**
  * Declare attributes for array builder pattern
@@ -20,8 +20,8 @@ const options = {
   required: false,
   // isItemIncomplete: validateInsurancePolicy,
   text: {
-    cardDescription: () => {
-      return CombatOperationServiceDescription;
+    cardDescription: item => {
+      return FinancialOverviewInformation(item);
     },
   },
 };

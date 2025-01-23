@@ -6,11 +6,11 @@ import { isProfileLoading } from 'platform/user/selectors';
  */
 export function selectVeteranPrefillData(state) {
   const {
-    veteranPrefillData: { hasServerError, loading, parsedVeteranPrefillData },
+    veteranPrefillData: { hasServerError, loading, parsedData },
   } = state;
   return {
     isLoading: isProfileLoading(state) || loading,
     hasServerError,
-    parsedVeteranPrefillData,
+    parsedData,
   };
 }
