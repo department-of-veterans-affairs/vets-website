@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import MessagePromptDiv from './MessagePromptDiv';
+import MessagePromptDiv from '../MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
 /**
