@@ -67,7 +67,7 @@ const programInfo = {
       ),
       nonSupported: _.merge(
         numberUI({
-          number: 'Number of non-supported students FTE',
+          title: 'Number of non-supported students FTE',
           errorMessages: {
             required: 'Please enter the number of non-supported students FTE',
           },
