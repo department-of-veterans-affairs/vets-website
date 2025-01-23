@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
-import ConfirmReferral from './ConfirmReferral';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useGetReferralById } from './hooks/useGetReferralById';
@@ -16,6 +15,7 @@ import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
 
 export default function ReferralAppointments() {
@@ -23,7 +23,6 @@ export default function ReferralAppointments() {
   const basePath = useRouteMatch();
   const { isInCCPilot } = useIsInCCPilot();
   const { search } = useLocation();
-
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const {
@@ -59,6 +58,7 @@ export default function ReferralAppointments() {
   }
 
   if (!referral && referralFetchStatus !== FETCH_STATUS.failed) {
+    // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
@@ -75,9 +75,8 @@ export default function ReferralAppointments() {
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
         </Route>
-        {/* TODO: remove this mock page when referral complete page is built */}
-        <Route path={`${basePath.url}/confirm`}>
-          <ConfirmReferral currentReferral={referral} />
+        <Route path={`${basePath.url}/complete/`} search={id}>
+          <CompleteReferral currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />

@@ -8,11 +8,11 @@ import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
 import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
-import widgetTypes from './widgetTypes';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
@@ -30,7 +30,7 @@ import createViewDependentsCTA from './view-modify-dependents/view-dependents-ct
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import facilityReducer from './facilities/reducers';
 // Other widgets.
-import createAskVAWidget from './ask-va';
+import createAskVAWidget from './ask-va-archived';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
@@ -49,8 +49,8 @@ import createAppointARepLandingContent from './representative-appoint';
 import createRepresentativeStatus from './representative-status';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-forms/createFindVaForms';
-import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+} from './find-forms/createFindVaForms';
+import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
 import createHCAPerformanceWarning from './hca-performance-warning';
 import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';

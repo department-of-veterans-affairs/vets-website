@@ -70,6 +70,8 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+export const FILTER_LC_RESULTS = 'FILTER_LC_RESULTS';
+
 export const FETCH_INSTITUTION_PROGRAMS_FAILED =
   'FETCH_INSTITUTION_PROGRAMS_FAILED';
 export const FETCH_INSTITUTION_PROGRAMS_STARTED =
@@ -87,13 +89,14 @@ export const FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED =
   'FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED';
 
 export const fetchNationalExamDetails = id => {
-  const url = `http://localhost:3000/v1/gi/lcpe/exams/${id}`;
-  // const url = `${api.url}/lce?type=${type}`;
+  const url = `${api.url}/lcpe/exams/${id}`;
   return async dispatch => {
-    dispatch({ type: FETCH_NATIONAL_EXAM_DETAILS_STARTED });
+    dispatch({
+      type: FETCH_NATIONAL_EXAM_DETAILS_STARTED,
+    });
 
     try {
-      const res = await fetch(url, apiV0.settings);
+      const res = await fetch(url, api.settings);
       if (!res.ok) {
         throw new Error(res.statusText);
       }
@@ -112,18 +115,22 @@ export const fetchNationalExamDetails = id => {
 };
 
 export const fetchNationalExams = () => {
-  const url = `http://localhost:3000/v1/gi/lcpe/exams`;
-  // const url = `${api.url}/lce?type=${type}`;
+  const url = `${api.url}/lcpe/exams`;
   return async dispatch => {
-    dispatch({ type: FETCH_NATIONAL_EXAMS_STARTED });
+    dispatch({
+      type: FETCH_NATIONAL_EXAMS_STARTED,
+    });
 
     try {
-      const res = await fetch(url, apiV0.settings);
+      const res = await fetch(url, api.settings);
       if (!res.ok) {
         throw new Error(res.statusText);
       }
       const { exams } = await res.json();
-      dispatch({ type: FETCH_NATIONAL_EXAMS_SUCCEEDED, payload: exams });
+      dispatch({
+        type: FETCH_NATIONAL_EXAMS_SUCCEEDED,
+        payload: exams,
+      });
     } catch (err) {
       dispatch({
         type: FETCH_NATIONAL_EXAMS_FAILED,
@@ -159,15 +166,15 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchLicenseCertificationResults(
-  name = null,
-  filterOptions = { type: 'all', state: 'all' },
+export function fetchAndFilterLacpResults( // new action for ss filter
+  name,
+  lacpType = 'all',
+  location = 'all',
 ) {
-  const { type, state } = filterOptions;
+  const url = `${
+    api.url
+  }/lcpe/lacs?type=${lacpType}&location=${location}&name=${name}`; //
 
-  const url = name
-    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
-    : `${api.url}/lce?type=${type}&state=${state}`;
   return dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
@@ -179,11 +186,11 @@ export function fetchLicenseCertificationResults(
         throw new Error(res.statusText);
       })
       .then(results => {
-        const { data } = results;
+        const { lacs } = results;
 
         dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: data,
+          payload: lacs, // this list of lacps will be filtered based on the query parameters in the above url
         });
       })
       .catch(err => {
@@ -195,9 +202,46 @@ export function fetchLicenseCertificationResults(
   };
 }
 
-export function fetchLcResult(link) {
+export function filterLcResults(name, category, location) {
+  return {
+    type: FILTER_LC_RESULTS,
+    payload: { name, category, location },
+  };
+}
+
+export function fetchLicenseCertificationResults() {
+  const url = `${api.url}/lcpe/lacs`;
+
   return dispatch => {
-    const url = `${api.url}/${link}`;
+    dispatch({ type: FETCH_LC_RESULTS_STARTED });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(results => {
+        const { lacs } = results;
+
+        dispatch({
+          type: FETCH_LC_RESULTS_SUCCEEDED,
+          payload: lacs,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_LC_RESULTS_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
+export function fetchLcResult(id) {
+  return dispatch => {
+    const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
     return fetch(url, api.settings)
@@ -210,7 +254,7 @@ export function fetchLcResult(link) {
       .then(result => {
         dispatch({
           type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.data,
+          payload: result.lac,
         });
       })
       .catch(err => {
@@ -508,15 +552,23 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
   version,
+  description,
 ) {
   const [longitude, latitude] = coordinates;
-
-  const params = {
-    latitude,
-    longitude,
-    distance,
-    ...rubyifyKeys(buildSearchFilters(filters)),
-  };
+  // If description - search by program, else search by location w/ filters
+  const params = description
+    ? {
+        latitude,
+        longitude,
+        distance,
+        description,
+      }
+    : {
+        latitude,
+        longitude,
+        distance,
+        ...rubyifyKeys(filters && buildSearchFilters(filters)),
+      };
   if (version) {
     params.version = version;
   }
@@ -524,7 +576,7 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude, distance },
+      payload: { location, latitude, longitude, distance, description },
     });
 
     return fetch(url, api.settings)
@@ -564,6 +616,7 @@ export function fetchSearchByLocationResults(
   distance,
   filters,
   version,
+  description,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -594,6 +647,7 @@ export function fetchSearchByLocationResults(
             distance,
             filters,
             version,
+            description,
           ),
         );
       })

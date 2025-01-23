@@ -4,10 +4,18 @@ export const envUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
+export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
+
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_CATEGORIES: `${baseURL}/contents?type=category${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
@@ -70,6 +78,8 @@ export const CategoryGuardianshipCustodianshipFiduciaryIssues =
   'Guardianship, custodianship, or fiduciary issues';
 export const CategoryHousingAssistanceAndHomeLoans =
   'Housing assistance and home loans';
+export const CategoryBenefitsIssuesOutsidetheUS =
+  'Benefits issues outside the U.S.';
 
 // Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
@@ -77,17 +87,8 @@ export const TopicVeteranReadinessAndEmploymentChapter31 =
 export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const TopicAppraisals = 'Appraisals';
-export const requireSignInCategories = [
-  CategoryEducation,
-  'Education benefits and work study',
-  'Disability compensation',
-  'Debt for benefit overpayments and health care copay bills',
-  'Benefits issues outside the U.S.',
-];
 export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
-
-export const requireSignInTopics = ['Compensation', CategoryEducation];
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -121,7 +122,12 @@ export const branchOfServiceRuleforCategories = [
 export const hasPrefillInformation = form => {
   const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
 
-  return !!(first && last && dateOfBirth && socialOrServiceNum);
+  return !!(
+    first &&
+    last &&
+    dateOfBirth &&
+    (socialOrServiceNum.ssn || socialOrServiceNum.serviceNumber)
+  );
 };
 
 // Response Page headers
@@ -601,7 +607,7 @@ export const contactUsBreadcrumbs = [
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const questionDetailsBreadcrumbs = [

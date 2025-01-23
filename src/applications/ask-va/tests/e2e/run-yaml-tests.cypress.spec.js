@@ -148,7 +148,9 @@ describe('YAML tests', () => {
 
         // Intercept the user API request and log in
         cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
-        // cy.login();
+        cy.login();
+
+        cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       for (const path of paths) {
@@ -176,8 +178,8 @@ describe('YAML tests', () => {
 
                 // TODO: Add check for CI here.
                 if (flow.runOnCI === true) {
-                  // cy.visit('https://staging.va.gov/contact-us/ask-va-too/');
-                  cy.visit('http://localhost:3001/contact-us/ask-va-too/');
+                  // cy.visit('https://staging.va.gov/contact-us/ask-va/');
+                  cy.visit('http://localhost:3001/contact-us/ask-va/');
                   cy.injectAxeThenAxeCheck();
                   executeSteps(flow.steps);
                 }
