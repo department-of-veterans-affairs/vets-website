@@ -200,7 +200,7 @@
 //   });
 
 //   it('visits landing page of Ask VA ', () => {
-//     cy.visit('/contact-us/ask-va-too');
+//     cy.visit('/contact-us/ask-va');
 //     cy.injectAxeThenAxeCheck();
 
 //     // Check for the "Ask a new question" button and click it
