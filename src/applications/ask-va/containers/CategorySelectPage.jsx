@@ -84,7 +84,7 @@ const CategorySelectPage = props => {
   return !error ? (
     <>
       <SignInMayBeRequiredCategoryPage />
-      <h3>Category</h3>
+      <h3>Categoryddd</h3>
       <form className="rjsf">
         <VaSelect
           id="root_selectCategory"
