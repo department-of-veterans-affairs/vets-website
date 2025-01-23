@@ -28,6 +28,13 @@ const uiSchema = {
           required: "Please enter your institution's facilty code",
         },
       }),
+      'ui:validations': [
+        (errors, fieldData) => {
+          if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
+            errors.addError('Please enter a valid 8-digit facility code');
+          }
+        },
+      ],
     },
     termStartDate: {
       ...currentOrPastDateUI({
