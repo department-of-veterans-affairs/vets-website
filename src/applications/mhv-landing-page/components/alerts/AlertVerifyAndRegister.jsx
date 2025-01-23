@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  CSP_IDS,
-  SERVICE_PROVIDERS,
-} from '~/platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
@@ -12,16 +9,20 @@ import {
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   const headline = 'Verify your identity';
-  const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
-  const verifyServiceButton =
+  const variant = CSP_IDS.LOGIN_GOV ? 'verifyLoginGov' : 'verifyIdMe';
+  const spanSlot =
     cspId === CSP_IDS.LOGIN_GOV ? (
-      <VerifyLogingovButton />
+      <span slot="LoginGovVerifyButton">
+        <VerifyLogingovButton />
+      </span>
     ) : (
-      <VerifyIdmeButton />
+      <span slot="IdMeVerifyButton">
+        <VerifyIdmeButton />
+      </span>
     );
 
   useEffect(
@@ -37,26 +38,14 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   );
 
   return (
-    <VaAlert data-testid={testId} status="warning" visible>
-      <h2 slot="headline">{headline}</h2>
-      <div>
-        <p className="vads-u-margin-y--2">
-          We need you to verify your identity for your{' '}
-          <strong>{serviceProviderLabel}</strong> account. This step helps us
-          protect all Veterans’ information and prevent scammers from stealing
-          your benefits.
-        </p>
-        <p>
-          This one-time process often takes about 10 minutes. You’ll need to
-          provide certain personal information and identification.
-        </p>
-        <p>{verifyServiceButton}</p>
-        <va-link
-          href="/resources/verifying-your-identity-on-vagov/"
-          text="Learn more about verifying your identity"
-        />
-      </div>
-    </VaAlert>
+    <VaAlertSignIn
+      data-testid={testId}
+      variant={variant}
+      visible
+      headingLevel={2}
+    >
+      {spanSlot}
+    </VaAlertSignIn>
   );
 };
 
