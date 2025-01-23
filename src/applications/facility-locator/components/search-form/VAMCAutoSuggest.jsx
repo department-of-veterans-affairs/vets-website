@@ -33,6 +33,7 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
 
   const createAllServiceOptions = useCallback(
     () => {
+      console.log('allServices: ', allServices);
       return allServices.map((match, index) => {
         return createDropdownOption(match, index);
       });
@@ -63,10 +64,12 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
           //   filteredServices[0],
           //   filteredServices[1],
           // );
+
           const dropdownOptions = filteredServices.map((match, index) => {
-            return createDropdownOption(match, index);
+            // console.log('match: ', match);
+            return createDropdownOption(match.hasdatum, index);
           });
-          // console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
+          console.log('dropdownOptions: ', [seeAll, ...dropdownOptions]);
           setOptions([seeAll, ...dropdownOptions]);
         }
       }
@@ -80,7 +83,6 @@ const VAMCAutoSuggest = ({ handleServiceTypeChange }) => {
   return (
     <VaComboBox
       class="vads-u-margin-bottom--3"
-      key={JSON.stringify(options)} // Forces re-render when options change
       label="Service type"
       name="service-type"
       onVaSelect={e => handleServiceTypeChange(e.detail.value)}
