@@ -43,12 +43,12 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    applicantInformation: {
+      title: 'Applicant information',
       pages: {
         nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
+          path: 'applicant-information',
+          title: 'Applicant information',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
@@ -60,23 +60,45 @@ const formConfig = {
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
+    veteranInformation: {
+      title: 'Veteran information',
       pages: {
         mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
+          path: 'veteran-information',
+          title: 'Veteran Information',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
+    burialInformation: {
+      title: 'Burial information',
       pages: {
         phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
+          path: 'burial-information',
+          title: 'Burial information',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
+        },
+      },
+    },
+    memorialItems: {
+      title: 'Memorial items',
+      pages: {
+        phoneAndEmailAddress: {
+          path: 'memorial-items',
+          title: 'Memorial items',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
+        },
+      },
+    },
+    reviewApplication: {
+      title: 'Review application',
+      pages: {
+        phoneAndEmailAddress: {
+          path: 'review-application',
+          title: 'Review application',
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
         },
