@@ -103,7 +103,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 </h3>
                 <va-link
                   text="Learn how to access your benefits and set up your new account"
-                  href="/"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
                 />
               </div>
             )}
