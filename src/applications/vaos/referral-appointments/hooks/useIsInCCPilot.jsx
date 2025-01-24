@@ -10,7 +10,10 @@ const useIsInCCPilot = () => {
   const patentFacilities = useSelector(selectPatientFacilities);
 
   return {
-    isInCCPilot: getIsInCCPilot(featureCCDirectScheduling, patentFacilities),
+    isInCCPilot: getIsInCCPilot(
+      featureCCDirectScheduling,
+      patentFacilities || [],
+    ),
   };
 };
 

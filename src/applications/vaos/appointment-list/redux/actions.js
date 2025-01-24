@@ -99,7 +99,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
-      patientFacilities,
+      patientFacilities || [],
     );
 
     dispatch({
@@ -262,7 +262,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
-      patientFacilities,
+      patientFacilities || [],
     );
 
     dispatch({

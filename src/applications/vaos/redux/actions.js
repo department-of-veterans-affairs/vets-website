@@ -87,7 +87,7 @@ export function fetchPendingAppointments() {
       const patientFacilities = selectPatientFacilities(state);
       const includeEPS = getIsInCCPilot(
         featureCCDirectScheduling,
-        patientFacilities,
+        patientFacilities || [],
       );
 
       const pendingAppointments = await getAppointmentRequests({
