@@ -11,7 +11,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import AppContent from '../components/AppContent';
 import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
 import MVIError from '../components/MVIError';
-import { isLoadingFeatures, rdSortAbTest } from '../selectors';
+import { isLoadingFeatures } from '../selectors';
 
 const App = props => {
   const { featureFlagsLoading, user } = props;
@@ -44,17 +44,12 @@ const App = props => {
 };
 
 App.propTypes = {
-  error: PropTypes.string,
   featureFlagsLoading: PropTypes.bool,
-  loading: PropTypes.bool,
-  sortToggle: PropTypes.bool,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  error: state.totalRating.error,
   featureFlagsLoading: isLoadingFeatures(state),
-  sortToggle: rdSortAbTest(state),
   user: state.user,
 });
 

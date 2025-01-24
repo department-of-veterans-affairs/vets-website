@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { getRatedDisabilities } from '../actions';
 import CombinedRating from './CombinedRating';
-import NeedHelp from './NeedHelp';
 import Learn from './Learn';
+import NeedHelp from './NeedHelp';
 import OnThisPage from './OnThisPage';
 import RatingLists from './RatingLists';
 import ServerError from './ServerError';
