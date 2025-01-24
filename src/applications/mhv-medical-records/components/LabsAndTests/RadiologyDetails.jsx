@@ -382,15 +382,6 @@ ${record.results}`;
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - radiology name]"
       >
-        <h1
-          className="vads-u-margin-bottom--0"
-          aria-describedby="radiology-date"
-          data-testid="radiology-record-name"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology name]"
-        >
-          {record.name}
-        </h1>
         <DateSubheading
           date={record.date}
           id="radiology-date"
@@ -473,22 +464,20 @@ ${record.results}`;
         </div>
 
         <div className="test-results-container">
-          <h2 className="test-results-header">Results</h2>
-          <InfoAlert fullState={fullState} />
-          <p
+          <HeaderSection
+            header={record.results}
+            fullState={fullState}
+            valur={<InfoAlert fullState={fullState} />}
             data-testid="radiology-record-results"
             className="monospace"
             data-dd-privacy="mask"
             data-dd-action-name="[lab and tests - radiology results]"
-          >
-            {record.results}
-          </p>
+          />
         </div>
 
         {phase0p5Flag && (
           <div className="test-results-container">
-            <h2 className="test-results-header">Images</h2>
-            {imageStatusContent()}
+            <HeaderSection label="Images" value={imageStatusContent()} />
           </div>
         )}
       </HeaderSection>

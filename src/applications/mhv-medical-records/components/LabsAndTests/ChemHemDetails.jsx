@@ -169,21 +169,16 @@ Lab comments: ${entry.labComments}\n`,
         </div>
         {/*         RESULTS CARDS            */}
         <div className="test-results-container">
-          <LabelValue
-            label="Results"
-            value={<InfoAlert highLowResults fullState={fullState} />}
-          />
+          <HeaderSection header="test-results-header">Results</HeaderSection>
+          value= <InfoAlert highLowResults fullState={fullState} />
+          <InfoAlert highLowResults fullState={fullState} />
           <div className="print-only">
             <p>
               Your provider will review your results and explain what they mean
               for your health. To ask a question now, send a secure message to
               your care team.
             </p>
-
-            <LabelValue
-              label="Standard range"
-              value={<ChemHemResults results={record.results} />}
-            />
+            <LabelValue label="Standard range" />
             <p className="vads-u-margin-top--0">
               The standard range is one tool your providers use to understand
               your results. If your results are outside the standard range, this
@@ -191,6 +186,7 @@ Lab comments: ${entry.labComments}\n`,
               provider will explain what your results mean for your health.
             </p>
           </div>
+          <ChemHemResults results={record.results} />
         </div>
       </HeaderSection>
     </div>

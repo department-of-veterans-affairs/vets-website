@@ -99,7 +99,7 @@ ${record.results} \n`;
       <HeaderSection
         header={record.name}
         className="vads-u-margin-bottom--0"
-        aria-describedby="pathology-name"
+        aria-describedby="pathology-date"
         data-testid="pathology-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - pathology name]"
@@ -152,16 +152,15 @@ ${record.results} \n`;
           </HeaderSection>
         </div>
         <div className="test-results-container">
-          <h2 className="test-results-header">Results</h2>
-          <InfoAlert fullState={fullState} />
-          <p
+          <HeaderSection
+            header={record.results}
+            label="Results"
+            value={<InfoAlert fullState={fullState} />}
             data-testid="pathology-report"
             className="monospace"
             data-dd-privacy="mask"
             data-dd-action-name="[lab and tests - pathology results]"
-          >
-            {record.results}
-          </p>
+          />
         </div>
       </HeaderSection>
     </div>

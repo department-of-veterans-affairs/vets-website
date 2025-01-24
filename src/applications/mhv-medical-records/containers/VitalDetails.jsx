@@ -380,7 +380,7 @@ Provider notes: ${vital.notes}\n\n`,
 
         {/* print view start */}
         <HeaderSection
-          hheader={`Vitals: ${vitalTypeDisplayNames[records[0].type]}`}
+          header={`Vitals: ${vitalTypeDisplayNames[records[0].type]}`}
           className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
           data-dd-privacy="mask"
           data-dd-action-name="[vitals detail - name - Print]"

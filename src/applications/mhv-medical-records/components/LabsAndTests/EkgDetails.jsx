@@ -27,6 +27,7 @@ import {
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import LabelValue from '../shared/LabelValue';
+import HeaderSection from '../shared/HeaderSection';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -84,14 +85,14 @@ const EkgDetails = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
         data-dd-privacy="mask"
-      >
-        {record.name}
-      </h1>
+      />
+
       <DateSubheading
         date={record.date}
         id="ekg-date"

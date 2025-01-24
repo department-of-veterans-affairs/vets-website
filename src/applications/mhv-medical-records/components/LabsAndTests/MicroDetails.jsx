@@ -132,13 +132,6 @@ ${record.results}`;
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
-            <LabelValue
-              label="Location"
-              value={record.location}
-              testId="note-record-location"
-              actionName="[admission discharge summary - location]"
-            />
-
             {record.name !== 'Microbiology' &&
               record.labType && (
                 <LabelValue
@@ -182,15 +175,14 @@ ${record.results}`;
         </div>
 
         <div className="test-results-container">
-          <h2 className="test-results-header">Results</h2>
-          <InfoAlert fullState={fullState} />
-          <p
+          <HeaderSection
+            header={record.results}
+            label="Results"
+            value={<InfoAlert fullState={fullState} />}
             className="vads-u-font-size--base monospace vads-u-line-height--3"
             data-dd-privacy="mask"
             data-dd-action-name="[lab and tests - microbio results]"
-          >
-            {record.results}
-          </p>{' '}
+          />
         </div>
       </HeaderSection>
     </div>
