@@ -1,26 +1,21 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
-import {
-  SUBTITLE_509,
-  DOWNLOAD_URL_509,
-  SUBTITLE_0779,
-  DOWNLOAD_URL_0779,
-} from '../config/constants';
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
-  const regex = /\/(\d{2}-\d{3,4})/;
+  const regex = /upload\/([^/]+)/;
   return path.match(regex)?.[1] || '';
 };
 
 const formMappings = {
   '21-0779': {
-    subTitle: SUBTITLE_0779,
-    pdfDownloadUrl: DOWNLOAD_URL_0779,
+    subTitle:
+      'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
   },
   '21-509': {
-    subTitle: SUBTITLE_509,
-    pdfDownloadUrl: DOWNLOAD_URL_509,
+    subTitle: 'Statement of Dependency of Parent(s)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
 };
 
