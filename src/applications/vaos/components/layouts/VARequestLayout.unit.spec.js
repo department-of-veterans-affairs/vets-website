@@ -180,6 +180,24 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
       });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-id',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-id',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-details',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-phone',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-phone',
+      });
     });
   });
 

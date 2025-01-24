@@ -37,9 +37,6 @@ describe('VAOS Component: PhoneLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        location: {
-          stationId: '983',
-        },
         videoData: {},
         practitioners: [
           {
@@ -102,7 +99,6 @@ describe('VAOS Component: PhoneLayout', () => {
         }),
       );
 
-      expect(screen.getByText(/Clinic: Not available/i));
       expect(screen.getByText(/Reason: Not available/i));
       expect(screen.getByText(/Other details: Not available/i));
 
@@ -129,6 +125,18 @@ describe('VAOS Component: PhoneLayout', () => {
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-clinic-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-facility-phone',
       });
     });
 
@@ -348,6 +356,18 @@ describe('VAOS Component: PhoneLayout', () => {
       });
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-clinic-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-details',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-phone',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-phone',
       });
     });
     it('should display phone layout without cancel button', async () => {

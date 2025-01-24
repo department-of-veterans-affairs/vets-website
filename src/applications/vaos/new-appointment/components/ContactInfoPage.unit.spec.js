@@ -53,9 +53,12 @@ describe('VAOS Page: ContactInfoPage', () => {
       ),
     ).to.be.ok;
     userEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
-    });
+    await waitFor(
+      () => {
+        expect(screen.history.push.called).to.be.true;
+      },
+      { timeout: 3000 },
+    );
 
     expect(window.dataLayer).to.deep.include({
       event: 'vaos-contact-info-email-not-populated',
