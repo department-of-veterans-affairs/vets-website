@@ -1,5 +1,41 @@
 import React from 'react';
 
+export const behaviorPageTitle = 'Behavioral changes ';
+
+export const behaviorIntroDescription = (
+  <>
+    <p>
+      The next few questions are about behavioral changes you experienced after
+      your traumatic experiences.
+    </p>
+    <p>
+      These questions are optional. Any information you provide will help us
+      understand your situation and identify evidence to support your claim. You
+      can provide only details you’re comfortable sharing.
+    </p>
+    <h4>Information we’ll ask you for</h4>
+    <p>
+      We’ll ask you for this information:
+      <ul>
+        <li>
+          The types of behavioral changes you experienced after your traumatic
+          events
+        </li>
+        <li>
+          A description of each behavioral change, including when it happened,
+          whether any records exist, and any other details you want to provide
+        </li>
+      </ul>
+    </p>
+    <h4>You can take a break at any time</h4>
+    <p>
+      We understand that some of the questions may be difficult to answer. You
+      can take a break at any time and come back to continue your application
+      later. We’ll save the information you’ve entered so far.
+    </p>
+  </>
+);
+
 export const behaviorListPageTitle = 'Types of behavioral changes';
 
 export const behaviorListDescription = (
