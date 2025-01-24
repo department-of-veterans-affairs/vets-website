@@ -1,385 +1,267 @@
 [
   {
-    "claimant_id": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
-    "created_at": "2024-11-27T17:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2024-12-24T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
       "authorizations": {
-        "record_disclosure": false,
-        "record_disclosure_limitations": [
-          "DRUG_ABUSE",
-          "HIV",
-          "SICKLE_CELL"
-        ],
-        "address_change": true
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
       },
       "claimant": {
         "name": {
-          "first": "Racquel",
+          "first": "Emmett",
           "middle": null,
-          "last": "Cornell"
+          "last": "Bernard"
         },
         "address": {
-          "address_line1": "7805 Wintheiser Flats",
-          "address_line2": null,
-          "city": "Port Idella",
-          "state_code": "IA",
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
           "country": "US",
-          "zip_code": "21317",
-          "zip_code_suffix": null
+          "zipCode": "68673",
+          "zipCodeSuffix": null
         },
-        "ssn": "808470130",
-        "va_file_number": "225762772",
-        "date_of_birth": "1982-03-29",
-        "service_number": "888606132",
-        "service_branch": "ARMY",
-        "phone": "(973) 688-6630",
-        "email": "rochel@deckow-bernhard.test"
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
       }
     },
     "resolution": {
-      "created_at": "2024-11-28T17:51:27Z",
+      "createdAt": "2024-12-25T20:25:43.742Z",
       "type": "expiration",
-      "id": "e35c2787-cd86-4b69-a714-707a424d70bb"
+      "id": "3774f8cc-326d-4568-b2b0-f703b53c254b"
     },
-    "power_of_attorney_holder": {
+    "powerOfAttorneyHolder": {
       "type": "veteran_service_organization",
       "name": "Trustworthy Organization",
       "id": "23563963-e31c-4797-a259-e26b727072e1"
     },
-    "accredited_individual": {
-      "full_name": "Bob Representative",
+    "accreditedIndividual": {
+      "fullName": "Bob Representative",
       "id": "d9d7e941-7156-4eca-827c-bcabe731d7ea"
     },
     "id": "345dd27a-db3f-4e8f-8588-e0d589026e44"
   },
   {
-    "claimant_id": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
-    "created_at": "2024-12-07T17:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2025-01-03T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
       "authorizations": {
-        "record_disclosure": false,
-        "record_disclosure_limitations": [
-          "DRUG_ABUSE",
-          "HIV",
-          "SICKLE_CELL"
-        ],
-        "address_change": true
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
       },
       "claimant": {
         "name": {
-          "first": "Racquel",
+          "first": "Emmett",
           "middle": null,
-          "last": "Cornell"
+          "last": "Bernard"
         },
         "address": {
-          "address_line1": "7805 Wintheiser Flats",
-          "address_line2": null,
-          "city": "Port Idella",
-          "state_code": "IA",
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
           "country": "US",
-          "zip_code": "21317",
-          "zip_code_suffix": null
+          "zipCode": "68673",
+          "zipCodeSuffix": null
         },
-        "ssn": "808470130",
-        "va_file_number": "225762772",
-        "date_of_birth": "1982-03-29",
-        "service_number": "888606132",
-        "service_branch": "ARMY",
-        "phone": "(973) 688-6630",
-        "email": "rochel@deckow-bernhard.test"
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
       }
     },
     "resolution": {
-      "created_at": "2024-12-08T17:51:27Z",
+      "createdAt": "2025-01-04T20:25:43.742Z",
       "type": "decision",
-      "decision_type": "declination",
+      "decisionType": "declination",
       "reason": "Didn't authorize treatment record disclosure",
-      "creator_id": "37f4491b-5cf2-42b1-93c6-bc329c935c51",
-      "id": "1d86c16e-19be-4344-b4f6-06c22d9496cb"
+      "creatorId": "61d86989-2a13-4c72-9ae0-c3c6cb09260b",
+      "id": "a5bf6a40-ac6f-49df-b18f-b6d11db18936"
     },
-    "power_of_attorney_holder": {
+    "powerOfAttorneyHolder": {
       "type": "veteran_service_organization",
       "name": "Good Representatives R Us",
       "id": "41d36596-67d1-4b23-ab58-927447e88d07"
     },
-    "accredited_individual": {
-      "full_name": "Bob Representative",
+    "accreditedIndividual": {
+      "fullName": "Bob Representative",
       "id": "d9d7e941-7156-4eca-827c-bcabe731d7ea"
     },
     "id": "0b255a94-b9e0-45c8-b313-3c1179178b4f"
   },
   {
-    "claimant_id": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
-    "created_at": "2024-12-17T17:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2025-01-13T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
       "authorizations": {
-        "record_disclosure": false,
-        "record_disclosure_limitations": [
-          "DRUG_ABUSE",
-          "HIV",
-          "SICKLE_CELL"
-        ],
-        "address_change": true
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
       },
       "claimant": {
         "name": {
-          "first": "Racquel",
+          "first": "Emmett",
           "middle": null,
-          "last": "Cornell"
+          "last": "Bernard"
         },
         "address": {
-          "address_line1": "7805 Wintheiser Flats",
-          "address_line2": null,
-          "city": "Port Idella",
-          "state_code": "IA",
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
           "country": "US",
-          "zip_code": "21317",
-          "zip_code_suffix": null
+          "zipCode": "68673",
+          "zipCodeSuffix": null
         },
-        "ssn": "808470130",
-        "va_file_number": "225762772",
-        "date_of_birth": "1982-03-29",
-        "service_number": "888606132",
-        "service_branch": "ARMY",
-        "phone": "(973) 688-6630",
-        "email": "rochel@deckow-bernhard.test"
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
       }
     },
     "resolution": {
-      "created_at": "2024-12-18T17:51:27Z",
+      "createdAt": "2025-01-14T20:25:43.742Z",
       "type": "decision",
-      "decision_type": "acceptance",
-      "creator_id": "e6438b18-28ab-43a7-854f-4c27c7daa23c",
-      "id": "7f33a272-afc8-47cc-bbaa-cf5d6771f8a1"
+      "decisionType": "acceptance",
+      "creatorId": "ec1557e9-9d54-4310-9ef9-3213a4d5d778",
+      "id": "ddc65772-e924-496a-b8ae-27d12c676b01"
     },
-    "power_of_attorney_holder": {
+    "powerOfAttorneyHolder": {
       "type": "veteran_service_organization",
       "name": "Trustworthy Organization",
       "id": "23563963-e31c-4797-a259-e26b727072e1"
     },
-    "accredited_individual": {
-      "full_name": "Robert Lowe",
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
       "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
     },
     "id": "521ea854-2dee-4b52-b681-401c6c8542f5"
   },
   {
-    "claimant_id": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
-    "created_at": "2024-11-27T23:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
+    "claimantId": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
+    "createdAt": "2024-12-25T02:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
       "authorizations": {
-        "record_disclosure": true,
-        "record_disclosure_limitations": [
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": [
           "ALCOHOLISM",
           "DRUG_ABUSE",
           "SICKLE_CELL"
         ],
-        "address_change": true
+        "addressChange": false
       },
       "claimant": {
         "name": {
-          "first": "Morgan",
+          "first": "Oswaldo",
           "middle": null,
-          "last": "Tiffany"
+          "last": "Dorie"
         },
         "address": {
-          "address_line1": "3186 Yundt Estate",
-          "address_line2": null,
-          "city": "Erneststad",
-          "state_code": "NY",
+          "addressLine1": "151 Cole Island",
+          "addressLine2": null,
+          "city": "Sinaside",
+          "stateCode": "CA",
           "country": "US",
-          "zip_code": "10739-6818",
-          "zip_code_suffix": null
+          "zipCode": "29556-1866",
+          "zipCodeSuffix": null
         },
-        "ssn": "135456143",
-        "va_file_number": "193891177",
-        "date_of_birth": "1976-10-16",
-        "service_number": "333731267",
-        "service_branch": "USPHS",
-        "phone": "670-453-4163",
-        "email": "clarence.vonrueden@adams.test"
+        "ssn": "770301851",
+        "vaFileNumber": "806349829",
+        "dateOfBirth": "1983-08-08",
+        "serviceNumber": "946178914",
+        "serviceBranch": "ARMY",
+        "phone": "2351452514",
+        "email": "ernie@keebler-berge.example"
       }
     },
     "resolution": {
-      "created_at": "2024-11-28T23:51:27Z",
+      "createdAt": "2024-12-26T02:25:43.742Z",
       "type": "expiration",
-      "id": "043a6d05-549e-4a13-bb30-8cdda34b6f40"
+      "id": "8608bb4d-ccfc-4613-948d-77ccb591a18e"
     },
-    "power_of_attorney_holder": {
+    "powerOfAttorneyHolder": {
       "type": "veteran_service_organization",
       "name": "We Help Vets",
       "id": "83b7de4d-a2cd-4b15-9e32-af48804c3e31"
     },
-    "accredited_individual": {
-      "full_name": "Robert Lowe",
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
       "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
     },
     "id": "6cb8c41a-7ede-4124-91e3-aeb31932207a"
   },
   {
-    "claimant_id": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
-    "created_at": "2024-12-07T23:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
+    "claimantId": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
+    "createdAt": "2025-01-04T02:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
       "authorizations": {
-        "record_disclosure": true,
-        "record_disclosure_limitations": [
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": [
           "ALCOHOLISM",
           "DRUG_ABUSE",
           "SICKLE_CELL"
         ],
-        "address_change": true
+        "addressChange": false
       },
       "claimant": {
         "name": {
-          "first": "Morgan",
+          "first": "Oswaldo",
           "middle": null,
-          "last": "Tiffany"
+          "last": "Dorie"
         },
         "address": {
-          "address_line1": "3186 Yundt Estate",
-          "address_line2": null,
-          "city": "Erneststad",
-          "state_code": "NY",
+          "addressLine1": "151 Cole Island",
+          "addressLine2": null,
+          "city": "Sinaside",
+          "stateCode": "CA",
           "country": "US",
-          "zip_code": "10739-6818",
-          "zip_code_suffix": null
+          "zipCode": "29556-1866",
+          "zipCodeSuffix": null
         },
-        "ssn": "135456143",
-        "va_file_number": "193891177",
-        "date_of_birth": "1976-10-16",
-        "service_number": "333731267",
-        "service_branch": "USPHS",
-        "phone": "670-453-4163",
-        "email": "clarence.vonrueden@adams.test"
+        "ssn": "770301851",
+        "vaFileNumber": "806349829",
+        "dateOfBirth": "1983-08-08",
+        "serviceNumber": "946178914",
+        "serviceBranch": "ARMY",
+        "phone": "2351452514",
+        "email": "ernie@keebler-berge.example"
       }
     },
     "resolution": {
-      "created_at": "2024-12-08T23:51:27Z",
+      "createdAt": "2025-01-05T02:25:43.742Z",
       "type": "decision",
-      "decision_type": "acceptance",
-      "creator_id": "2b4a721f-0882-433f-bb51-b0f30270555e",
-      "id": "73fdf18e-6fac-44a3-9b69-0e7c3149e8d1"
+      "decisionType": "acceptance",
+      "creatorId": "efe06275-97c7-442b-b226-3d7a90e0992e",
+      "id": "f767ec7c-be23-4a72-9acd-9e0c9c1389eb"
     },
-    "power_of_attorney_holder": {
+    "powerOfAttorneyHolder": {
       "type": "veteran_service_organization",
       "name": "The Swift Reps",
       "id": "31f61e0f-8993-4c57-86f2-7f22e9ca9e68"
     },
-    "accredited_individual": {
-      "full_name": "Robert Lowe",
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
       "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
     },
     "id": "53a1c8f1-0ac2-442b-b6df-768a5324fd78"
-  },
-  {
-    "claimant_id": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
-    "created_at": "2024-12-17T23:51:27Z",
-    "expires_at": null,
-    "power_of_attorney_form": {
-      "authorizations": {
-        "record_disclosure": true,
-        "record_disclosure_limitations": [
-          "ALCOHOLISM",
-          "DRUG_ABUSE",
-          "SICKLE_CELL"
-        ],
-        "address_change": true
-      },
-      "claimant": {
-        "name": {
-          "first": "Morgan",
-          "middle": null,
-          "last": "Tiffany"
-        },
-        "address": {
-          "address_line1": "3186 Yundt Estate",
-          "address_line2": null,
-          "city": "Erneststad",
-          "state_code": "NY",
-          "country": "US",
-          "zip_code": "10739-6818",
-          "zip_code_suffix": null
-        },
-        "ssn": "135456143",
-        "va_file_number": "193891177",
-        "date_of_birth": "1976-10-16",
-        "service_number": "333731267",
-        "service_branch": "USPHS",
-        "phone": "670-453-4163",
-        "email": "clarence.vonrueden@adams.test"
-      }
-    },
-    "resolution": {
-      "created_at": "2024-12-18T23:51:27Z",
-      "type": "decision",
-      "decision_type": "declination",
-      "reason": "Didn't authorize treatment record disclosure",
-      "creator_id": "f31cb32a-23bf-48ca-995a-db20e6bdf951",
-      "id": "3580e76b-33b5-408e-b925-b6c308fa0003"
-    },
-    "power_of_attorney_holder": {
-      "type": "veteran_service_organization",
-      "name": "Good Representatives R Us",
-      "id": "41d36596-67d1-4b23-ab58-927447e88d07"
-    },
-    "accredited_individual": {
-      "full_name": "Suzie Lowe",
-      "id": "90e83d10-8ce1-482b-8f06-45bea0cc7f3c"
-    },
-    "id": "0657aca0-a8d2-4d09-bf60-114fe0fe468d"
-  },
-  {
-    "claimant_id": "4cdad2aa-87b9-4879-96fe-3effd6a13d83",
-    "created_at": "2024-12-15T05:51:27Z",
-    "expires_at":  "2024-12-22T05:51:27Z",
-    "power_of_attorney_form": {
-      "authorizations": {
-        "record_disclosure": true,
-        "record_disclosure_limitations": [
-          "ALCOHOLISM",
-          "HIV"
-        ],
-        "address_change": false
-      },
-      "claimant": {
-        "name": {
-          "first": "Kelly",
-          "middle": null,
-          "last": "Miguel"
-        },
-        "address": {
-          "address_line1": "5266 Minh Coves",
-          "address_line2": null,
-          "city": "Port America",
-          "state_code": "NC",
-          "country": "US",
-          "zip_code": "63751",
-          "zip_code_suffix": null
-        },
-        "ssn": "254457366",
-        "va_file_number": "639106878",
-        "date_of_birth": "1944-02-11",
-        "service_number": "342545363",
-        "service_branch": "ARMY",
-        "phone": "(802) 806-8772",
-        "email": "darryl.hayes@morissette-schaden.example"
-      }
-    },
-    "resolution": null,
-    "power_of_attorney_holder": {
-      "type": "veteran_service_organization",
-      "name": "The Swift Reps",
-      "id": "31f61e0f-8993-4c57-86f2-7f22e9ca9e68"
-    },
-    "accredited_individual": {
-      "full_name": "Erica Representative",
-      "id": "c50410bb-7341-4d95-9a2f-aed22178ff08"
-    },
-    "id": "beb394d6-006a-4f2a-918c-6d35355f3d41"
   }
-  ]
+]
