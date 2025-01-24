@@ -40,7 +40,21 @@ const StepThree = ({ formResponses }) => {
 
   const handlePrint = () => {
     if (window.print) {
+      const printButton = document.querySelector(
+        'va-button[data-testid="duw-print"]',
+      );
+      const backButton = document.querySelector(
+        'va-button[data-testid="duw-results-back"]',
+      );
+      if (printButton) printButton.style.display = 'none';
+      if (backButton) backButton.style.display = 'none';
+
       window.print();
+
+      setTimeout(() => {
+        if (printButton) printButton.style.display = '';
+        if (backButton) backButton.style.display = '';
+      }, 500);
     }
   };
 
@@ -109,7 +123,11 @@ const StepThree = ({ formResponses }) => {
           {onlineSubmissionMsg}
         </>
       )}
-      <va-button onClick={handlePrint} text="Print this page" />
+      <va-button
+        data-testid="duw-print"
+        onClick={handlePrint}
+        text="Print this page"
+      />
     </va-process-list-item>
   );
 };
