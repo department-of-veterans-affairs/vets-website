@@ -1,31 +1,34 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
 import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
 import LicenseCertificationTestInfo from '../components/LicenseCertificationTestInfo';
+import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
-function LicenseCertificationSearchResult({
-  dispatchFetchLcResult,
-  hasFetchedResult,
-  resultInfo,
-  fetchingLcResult,
-}) {
+export default function LicenseCertificationSearchResult() {
   const { id } = useParams();
+
+  const { hasFetchedResult, fetchingLcResult, resultInfo, error } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!hasFetchedResult) {
-      dispatchFetchLcResult(id);
+      dispatch(fetchLcResult(id));
     }
   }, []);
 
   const { lacNm, eduLacTypeNm, institution, tests } = resultInfo;
 
   return (
-    <div>
+    <>
+      {error && <LicesnseCertificationServiceError />}
       {fetchingLcResult && <va-loading-indicator message="Loading..." />}
       {!fetchingLcResult &&
         institution &&
@@ -46,7 +49,7 @@ function LicenseCertificationSearchResult({
             </div>
           </section>
         )}
-    </div>
+    </>
   );
 }
 
@@ -55,18 +58,3 @@ LicenseCertificationSearchResult.propTypes = {
   hasFetchedResult: PropTypes.bool.isRequired,
   resultInfo: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  fetchingLcResult: state.licenseCertificationSearch.fetchingLcResult,
-  hasFetchedResult: state.licenseCertificationSearch.hasFetchedResult,
-  resultInfo: state.licenseCertificationSearch.lcResultInfo,
-});
-
-const mapDispatchToProps = {
-  dispatchFetchLcResult: fetchLcResult,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LicenseCertificationSearchResult);
