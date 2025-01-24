@@ -8,7 +8,7 @@ import {
 const ForbiddenAlert = () => {
   return (
     <>
-      <va-alert closealble="false" status="warning" role="status" visible>
+      <va-alert closeable="false" status="warning" role="status" visible>
         <h2 slot="headline">We can’t find any travel claims for you</h2>
         <p className="vads-u-margin-y--2">If this seems incorrect to you:</p>
         <ul>

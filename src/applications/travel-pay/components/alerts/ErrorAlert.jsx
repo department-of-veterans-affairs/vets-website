@@ -15,7 +15,7 @@ const ErrorAlert = ({ errorStatus }) => {
 
   return (
     <>
-      <va-alert closealble="false" status="error" role="status" visible>
+      <va-alert closeable="false" status="error" role="status" visible>
         <h2 slot="headline">
           We’re sorry, we can’t access your travel claims right now
         </h2>
