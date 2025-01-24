@@ -85,7 +85,7 @@ export const behaviorListAdditionalInformation = (
 );
 
 /**
- * Validates the 'none' checkbox is not selected if behaviors are also selected
+ * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
@@ -113,7 +113,13 @@ export function validateBehaviorSelections(errors, formData) {
     selected => selected === true,
   );
 
-  if (optedOut && (behaviorsSelected || unlistedProvided)) {
+  if (!behaviorsSelected && !unlistedProvided && !optedOut) {
+    // when a user has not selected options nor opted out
+    errors['view:optOut'].addError(
+      'PLACEHOLDER error message - selection required',
+    );
+  } else if (optedOut && (behaviorsSelected || unlistedProvided)) {
+    // when a user has selected options and opted out
     errors['view:optOut'].addError(
       'If you didn’t experience any of these behavioral changes, unselect the other options you selected.',
     );

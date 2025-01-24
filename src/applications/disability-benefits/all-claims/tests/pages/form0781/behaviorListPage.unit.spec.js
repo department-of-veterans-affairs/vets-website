@@ -14,7 +14,28 @@ describe('Behavior List Page', () => {
 });
 
 describe('validateBehaviorSelections', () => {
-  describe('when selections are invalid', () => {
+  describe('invalid: selections required', () => {
+    it('should add error when nothing is selected', () => {
+      const errors = {
+        'view:optOut': {
+          addError: sinon.spy(),
+        },
+      };
+      const formData = {
+        syncModern0781Flow: true,
+        workBehaviors: {
+          absences: false,
+        },
+        unlistedBehaviors: null,
+        'view:optOut': { none: false },
+      };
+
+      validateBehaviorSelections(errors, formData);
+      expect(errors['view:optOut'].addError.called).to.be.true;
+    });
+  });
+
+  describe('invalid: conflicting selections', () => {
     it('should add error when selecting none and selecting a behavior', () => {
       const errors = {
         'view:optOut': {
@@ -57,8 +78,8 @@ describe('validateBehaviorSelections', () => {
     });
   });
 
-  describe('when selections are valid', () => {
-    it('should add not error when selecting none and with no other selected behaviors', () => {
+  describe('valid selections', () => {
+    it('should not add error when selecting none and with no other selected behaviors', () => {
       const errors = {
         'view:optOut': {
           addError: sinon.spy(),
@@ -78,7 +99,7 @@ describe('validateBehaviorSelections', () => {
       expect(errors['view:optOut'].addError.called).to.be.false;
     });
 
-    it('should add not error when behaviors are selected and none is unselected', () => {
+    it('should not add error when behaviors are selected and none is unselected', () => {
       const errors = {
         'view:optOut': {
           addError: sinon.spy(),
