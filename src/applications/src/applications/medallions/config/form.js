@@ -6,7 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
+// import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 
@@ -52,12 +52,12 @@ const formConfig = {
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
+        // identificationInformation: {
+        //   path: 'identification-information',
+        //   title: 'Identification information',
+        //   uiSchema: identificationInformation.uiSchema,
+        //   schema: identificationInformation.schema,
+        // },
       },
     },
     veteranInformation: {
@@ -88,17 +88,6 @@ const formConfig = {
         phoneAndEmailAddress: {
           path: 'memorial-items',
           title: 'Memorial items',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
-    },
-    reviewApplication: {
-      title: 'Review application',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'review-application',
-          title: 'Review application',
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
         },
