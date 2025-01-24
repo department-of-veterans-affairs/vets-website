@@ -8,7 +8,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { selectAuthStatus } from '../../../utils/selectors';
 import SaveInProgressDescription from './SaveInProgressDescription';
 import CheckAppStatusAlert from '../../FormAlerts/CheckAppStatusAlert';
-import SaveTimeSipAlert from '../../FormAlerts/SaveTimeSipAlert';
 import ProcessTimeline from './ProcessTimeline';
 import content from '../../../locales/en/content.json';
 
@@ -54,12 +53,7 @@ const ProcessDescription = ({ route }) => {
 
       <span className={className}>
         <ProcessTimeline />
-
-        {isLoggedIn ? (
-          sipIntro({ buttonOnly: true })
-        ) : (
-          <SaveTimeSipAlert sipIntro={sipIntro({ buttonOnly: true })} />
-        )}
+        {sipIntro({ buttonOnly: true })}
       </span>
     </>
   );

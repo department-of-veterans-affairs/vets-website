@@ -65,28 +65,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   };
 
   return isLoggedOut ? (
-    <>
-      <va-alert
-        status="info"
-        class="vads-u-margin-y--4"
-        data-testid="ezr-login-alert"
-        uswds
-      >
-        <h3 slot="headline">{content['sip-alert-title']}</h3>
-        <div>
-          <ul>
-            <li>
-              We can fill in some of your information for you to save you time.
-            </li>
-            <li>
-              You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your form to come back and finish it.
-            </li>
-          </ul>
-          {sipIntro}
-        </div>
-      </va-alert>
-    </>
+    sipIntro
   ) : (
     <div className="vads-u-margin-y--4">{LoggedInAlertToRender()}</div>
   );

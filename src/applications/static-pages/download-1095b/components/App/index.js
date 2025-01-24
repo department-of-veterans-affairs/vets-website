@@ -8,9 +8,6 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
 import {
   VaRadio,
   VaRadioOption,
@@ -208,25 +205,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <va-alert-sign-in variant="signInRequired" heading-level={2} visible>
+      <span slot="SignInButton">
+        <va-button
+          onClick={() => toggleLoginModal(true)}
+          text="Sign in or create an account"
+          className="vads-u-margin-top--2"
+        />
+      </span>
+    </va-alert-sign-in>
   );
 
   if (!displayToggle) {

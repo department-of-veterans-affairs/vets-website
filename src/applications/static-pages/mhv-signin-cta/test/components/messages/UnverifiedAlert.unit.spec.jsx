@@ -1,87 +1,60 @@
 import React from 'react';
-import createMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import UnverifiedAlert, {
-  headingPrefix,
-  mhvHeadingPrefix,
-} from '../../../components/messages/UnverifiedAlert';
-
-const mockStore = createMockStore([]);
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import UnverifiedAlert from '../../../components/messages/UnverifiedAlert';
 
 describe('Unverified Alert component', () => {
-  it('renders without service description', () => {
-    const { getByRole } = render(
+  const mockStore = (serviceName = CSP_IDS.IDME) => ({
+    getState: () => ({
+      user: { profile: { signIn: { serviceName } } },
+    }),
+    dispatch: () => {},
+    subscribe: () => {},
+  });
+
+  it('renders single button', () => {
+    const { container } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: headingPrefix })).to.exist;
-  });
 
-  it('with service description', () => {
-    const serviceDescription = 'order supplies';
+    const signInAlert = $('va-alert-sign-in', container);
+    const signInButton = $('.idme-verify-button', container);
 
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert serviceDescription={serviceDescription} />
-      </Provider>,
-    );
-    const expectedHeadline = `${headingPrefix} to ${serviceDescription}`;
-    expect(getByRole('heading', { name: expectedHeadline })).to.exist;
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('verifyIdMe');
+    expect(signInAlert.getAttribute('heading-level')).to.eql('2');
+
+    fireEvent.click(signInButton);
+
+    expect(signInButton).to.exist;
   });
 
   it('with header level 3', () => {
-    const { getByRole } = render(
+    const { container } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert headerLevel={3} />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert.getAttribute('heading-level')).to.eql('3');
   });
 
   it('renders MHV account alert', () => {
-    const { getByRole, getByText } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.MHV} />
+    const { container } = render(
+      <Provider store={mockStore(CSP_IDS.MHV)}>
+        <UnverifiedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: mhvHeadingPrefix })).to.exist;
-    expect(getByText(/You have 2 options/)).to.exist;
-  });
-
-  it('renders alert for Login.gov account', () => {
-    const { getByRole, queryByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.LOGIN_GOV} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
-    expect(queryByRole('button', { name: /Verify with ID.me/ })).not.to.exist;
-  });
-
-  it('renders alert for ID.me account', () => {
-    const { getByRole, queryByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.ID_ME} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
-    expect(queryByRole('button', { name: /Verify with Login.gov/ })).not.to
-      .exist;
-  });
-
-  it('renders alert for MHV Basic account', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.MHV} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
-    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert.getAttribute('variant')).to.eql('signInEither');
+    expect($('.idme-verify-button', container)).to.exist;
+    expect($('.logingov-verify-button', container)).to.exist;
   });
 
   it('reports analytics', async () => {

@@ -28,7 +28,9 @@ const testConfig = createTestConfig(
         cy.injectAxe();
 
         afterHook(() => {
-          cy.get('.schemaform-start-button')
+          cy.get('va-alert-sign-in')
+            .shadow()
+            .find('va-link')
             .first()
             .click();
         });

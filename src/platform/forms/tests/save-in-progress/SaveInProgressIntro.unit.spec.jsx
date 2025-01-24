@@ -145,21 +145,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         },
       },
       signInHelpList: signInHelpListMock,
-      customText: {
-        appType: 'testApp',
-      },
+      customText: { appType: 'testApp' },
     };
     const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
+      profile: { savedForms: [], prefillsAvailable: [] },
+      login: { currentlyLoggedIn: false, loginUrls: { idme: '/mockLoginUrl' } },
     };
 
     const { container } = render(
@@ -346,18 +336,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect($('va-alert', container).textContent).to.contain(
-      'We can fill in some of your information for you to save you time.',
+    expect($('va-alert-sign-in', container).getAttribute('variant')).to.eql(
+      'signInOptional',
     );
     expect($('va-button', container).getAttribute('text')).to.contain(
       'Sign in to start your application',
     );
-    expect($('a', container).textContent).to.contain(
-      'Start your application without signing in',
-    );
-    expect(container.textContent).to.include(
-      'lose any information you already',
-    );
+    expect(
+      $('va-alert-sign-in', container).getAttribute('no-sign-in-link'),
+    ).to.eql('/testing');
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -456,7 +443,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const tree = shallow(
+    const { container } = render(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -470,10 +457,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
+    const signInAlert = container.querySelector('va-alert-sign-in');
 
-    expect(tree.find('va-alert').text()).to.contain('1 year');
-    expect(tree.find('va-alert').text()).to.not.contain('60 days');
-    tree.unmount();
+    expect(signInAlert.getAttribute('time-limit')).to.eql('1 year');
+    expect(signInAlert.getAttribute('time-limit')).to.not.eql('60 days');
   });
 
   it('should render loading indicator while profile is loading', () => {

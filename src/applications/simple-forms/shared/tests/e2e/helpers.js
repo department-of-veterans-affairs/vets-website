@@ -159,9 +159,11 @@ export const selectRelationshipToVeteranPattern = (fieldName, value) => {
 
 export const introductionPageFlow = () => {
   cy.get('va-button[text*="start"]');
-  cy.findAllByText(/without signing in/i)
+  cy.get('va-alert-sign-in')
+    .shadow()
+    .find('va-link')
     .first()
-    .click({ force: true });
+    .click({ force: true, waitForAnimations: true });
 };
 
 export const fillStatementOfTruthSignature = veteranSignature => {

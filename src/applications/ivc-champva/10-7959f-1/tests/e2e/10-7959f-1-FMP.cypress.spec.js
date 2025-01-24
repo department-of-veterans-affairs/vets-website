@@ -25,7 +25,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
+          cy.get('va-alert-sign-in')
+            .shadow()
+            .find('va-link')
             .first()
             .click();
         });

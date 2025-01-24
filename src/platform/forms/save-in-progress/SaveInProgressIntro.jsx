@@ -222,6 +222,7 @@ class SaveInProgressIntro extends React.Component {
           text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         />
       );
+
       alert = buttonOnly ? (
         <>
           {unauthStartButton}

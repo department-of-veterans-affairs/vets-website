@@ -9,7 +9,7 @@ export const UnauthContent = () => (
     <CallToActionWidget
       appId="view-appointments"
       setFocus={false}
-      headerLevel={2}
+      headerLevel={3}
     />
     <p data-testid="non-cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
