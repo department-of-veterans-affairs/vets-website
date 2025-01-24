@@ -46,7 +46,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.repeatKey('Tab', 11);
+    cy.repeatKey('Tab', 12);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
     cy.get('input[data-testid="ct-input"]').should('be.focused');
@@ -54,26 +54,26 @@ describe('CT before search by name accessibility', () => {
       'contain',
       'Please fill in a school, employer, or training provider.',
     );
-    cy.repeatKey('Tab', 2);
+    cy.repeatKey('Tab', 3);
     cy.get('[data-testid="school-type-Public"]').as('checkbox');
     cy.get('@checkbox').should('be.focused');
     cy.get('@checkbox').should('have.attr', 'checked');
     cy.get('@checkbox').click();
     cy.get('@checkbox').should('not.be.checked');
-    cy.repeatKey('Tab', 7);
+    cy.repeatKey('Tab', 8);
     cy.get('[data-testid="exclude-caution-flags"]').as('checkbox2');
     cy.get('@checkbox2').should('be.focused');
     cy.get('@checkbox2').should('not.be.checked');
     cy.get('@checkbox2').click();
     cy.get('@checkbox2').should('have.attr', 'checked');
-    cy.repeatKey('Tab', 17);
+    cy.repeatKey('Tab', 18);
     cy.focused()
       .should('contain.text', 'Reset search')
       .as('resetButton');
     cy.get('@resetButton').click();
     cy.get('@checkbox2').should('not.be.checked');
     cy.get('@checkbox').should('have.attr', 'checked');
-    cy.repeatKey('Tab', 27);
+    cy.repeatKey('Tab', 28);
     cy.focused().should(
       'contain.text',
       'Learn more about community focus filters',
@@ -84,7 +84,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.repeatKey('Tab', 1);
+    cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', 'About this tool');
     cy.realPress('Enter');
     cy.get('a[id="about-this-tool"]').then(link => {
