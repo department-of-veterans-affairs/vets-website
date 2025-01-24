@@ -11,6 +11,16 @@ const formMappings = {
     subTitle: 'Statement of Dependency of Parent(s)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
+  '21P-0518-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
+  },
+  '21P-0516-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Veteran with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
