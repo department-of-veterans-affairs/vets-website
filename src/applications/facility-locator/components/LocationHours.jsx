@@ -42,6 +42,10 @@ const LocationHours = ({ location }) => {
   const facilityType = get(location, 'attributes.facilityType');
   const isVetCenter = facilityType === LocationType.VET_CENTER;
 
+  if ((Array.isArray(hoursInfo) && !hoursInfo.length) || !hoursInfo) {
+    return null;
+  }
+
   return (
     <div id="hours-op">
       <h3 className="highlight">Hours of operation</h3>

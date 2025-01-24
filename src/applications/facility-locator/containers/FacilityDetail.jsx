@@ -69,10 +69,14 @@ class FacilityDetail extends Component {
         </div>
         {website &&
           website !== 'NULL' && (
-            <>
+            <p className="vads-u-margin--0">
               <va-icon icon="language" size="3" />
-              <va-link href={website} text="Website" />
-            </>
+              <va-link
+                class="vads-u-margin-left--0p5"
+                href={website}
+                text="Website"
+              />
+            </p>
           )}
         <div>
           <LocationDirectionsLink location={facility} from="FacilityDetail" />
