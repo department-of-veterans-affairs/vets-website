@@ -40,6 +40,7 @@ import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
 import VACheckboxGroupGi from '../../components/VaCheckboxGroupGi';
+import AboutYellowRibbonProgram from '../../components/AboutYellowRibbonProgram';
 // import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
@@ -202,16 +203,19 @@ export function aboutTheSchool(
   );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
-      <VACheckboxGroupGi
-        // setIsCleared={setIsCleared}
-        className="about-school-checkbox"
-        label={aboutTheSchoolLabel}
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        padding={!smallScreen}
-        colNum="1p5"
-      />
+      <>
+        <VACheckboxGroupGi
+          // setIsCleared={setIsCleared}
+          className="about-school-checkbox"
+          label={aboutTheSchoolLabel}
+          onChange={onChangeCheckbox}
+          options={options}
+          row={!smallScreen}
+          padding={!smallScreen}
+          colNum="1p5"
+        />
+        <AboutYellowRibbonProgram />
+      </>
     );
   }
   return (
