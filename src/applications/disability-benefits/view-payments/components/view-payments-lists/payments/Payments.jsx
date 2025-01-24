@@ -105,8 +105,7 @@ const Payments = ({
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             page={currentPage}
-            pages={15}
-            // pages={totalPages.current}
+            pages={totalPages.current}
             maxPageListLength={maxPageLength}
             showLastPage
           />
