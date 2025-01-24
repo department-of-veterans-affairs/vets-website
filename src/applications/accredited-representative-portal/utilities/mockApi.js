@@ -12,18 +12,19 @@ const apiFetch = data => {
 const mockApi = {
   getPOARequests({ status, sort }) {
     const filteredPoaRequests = poaRequests.filter(poaRequest => {
-      switch (true) {
-        case status === 'completed' && sort === 'resolved_at_asc':
-          return poaRequest.resolution !== null;
-        case status === 'completed' && sort === 'resolved_at_desc':
-          return poaRequest.resolution !== null;
-        case status === 'pending' && sort === 'created_at_asc':
-          return poaRequest.resolution === null;
-        case status === 'pending' && sort === 'created_at_desc':
-          return poaRequest.resolution === null;
-        default:
-          throw new Error(`Unexpected status: ${status}`);
+      if (status === 'completed' && sort === 'resolved_at_asc') {
+        return poaRequest.resolution !== null;
       }
+      if (status === 'completed' && sort === 'resolved_at_desc') {
+        return poaRequest.resolution !== null;
+      }
+      if (status === 'pending' && sort === 'created_at_asc') {
+        return poaRequest.resolution === null;
+      }
+      if (status === 'pending' && sort === 'created_at_desc') {
+        return poaRequest.resolution === null;
+      }
+      throw new Error(`Unexpected status: ${status}`);
     });
 
     return apiFetch(filteredPoaRequests);
