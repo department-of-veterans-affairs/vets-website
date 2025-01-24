@@ -23,9 +23,9 @@ const UnauthContext = () => {
       <div>
         <p className="vads-u-margin-top--0">
           Sign in with your existing <strong>Login.gov</strong>,{' '}
-          <strong>ID.me</strong>, or <strong>DS Logon</strong>
-          account. If you don’t have any of these accounts, you can create a
-          free <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
+          <strong>ID.me</strong>, or <strong>DS Logon</strong> account. If you
+          don’t have any of these accounts, you can create a free{' '}
+          <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
         </p>
         <va-button
           data-testid="btsss-login-button"
