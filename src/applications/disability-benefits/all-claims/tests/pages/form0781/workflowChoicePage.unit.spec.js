@@ -179,8 +179,9 @@ describe('Form 0781 workflow choice page', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('[error]').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(
+      $$('va-radio[error="You must provide a response"]', container).length,
+    ).to.equal(1);
   });
 
   it('should allow continuing to the next page when a selection is made', () => {
