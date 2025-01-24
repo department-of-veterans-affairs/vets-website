@@ -92,18 +92,12 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * whether the code is running in production or non-production mode. If no environment object is provided, the function defaults to using the
  * global `environment` object.
  */
-export function apiRequest(
-  resource,
-  optionalSettings,
-  success,
-  error,
-  env = environment,
-) {
+export function apiRequest(resource, optionalSettings, success, error) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  const isProd = env.isProduction();
+  const isProd = environment.isProduction();
 
   if (success) {
     // eslint-disable-next-line no-console
