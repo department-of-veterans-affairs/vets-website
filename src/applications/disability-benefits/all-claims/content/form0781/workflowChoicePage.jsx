@@ -7,28 +7,25 @@ export const workflowChoicePageTitle = (
 );
 
 // Lists new conditions the veteran has claimed
+// The user should not get to this page if these conditions are not present
 const conditionSelections = formData => {
-  const conditions = formData?.newDisabilities?.map(
+  const conditions = formData.newDisabilities.map(
     disability =>
       // Capitalize condition
       disability.condition.charAt(0).toUpperCase() +
       disability.condition.slice(1),
   );
 
-  if (conditions?.length) {
-    return (
-      <div>
-        <p>You selected these new conditions for your disability claim:</p>
-        <ul>
-          {conditions.map((condition, index) => (
-            <li key={index}>{condition}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  return <></>;
+  return (
+    <div>
+      <p>You selected these new conditions for your disability claim:</p>
+      <ul>
+        {conditions.map((condition, index) => (
+          <li key={index}>{condition}</li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export const workflowChoicePageDescription = formData => {

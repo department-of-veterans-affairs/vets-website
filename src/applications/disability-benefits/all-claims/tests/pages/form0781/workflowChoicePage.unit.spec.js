@@ -26,6 +26,7 @@ describe('Form 0781 workflow choice page', () => {
 
   describe('Page Content', () => {
     // These conditions are selected by the user on the src/applications/disability-benefits/all-claims/pages/addDisabilities.js page
+    // The user must have claimed new conditions to begin the Form 0781 workflow
     it('lists a single new condition claimed by the user', () => {
       const { getByText } = render(
         <DefinitionTester
@@ -94,31 +95,19 @@ describe('Form 0781 workflow choice page', () => {
     within(listElement).getByText('Varicocele, left');
   });
 
-  // This situation shouldn't occur but we should be defensive
-  it('does not display a conditions list if no new conditions exist', () => {
-    const { queryByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={{}}
-        data={{}}
-      />,
-    );
-
-    expect(
-      queryByText(
-        /You selected these new conditions for your disability claim:\s/i,
-      ),
-    ).not.to.exist;
-  });
-
   it('Displays a selection of choices on filling out 0781 and includes examples', () => {
     const onSubmit = Sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          newDisabilities: [
+            {
+              condition: 'ankle replacement (ankle arthroplasty), bilateral',
+            },
+          ],
+        }}
         definitions={{}}
         formData={{}}
         onSubmit={onSubmit}
@@ -176,7 +165,13 @@ describe('Form 0781 workflow choice page', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          newDisabilities: [
+            {
+              condition: 'ankle replacement (ankle arthroplasty), bilateral',
+            },
+          ],
+        }}
         definitions={{}}
         formData={{}}
         onSubmit={onSubmit}
@@ -194,7 +189,13 @@ describe('Form 0781 workflow choice page', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          newDisabilities: [
+            {
+              condition: 'ankle replacement (ankle arthroplasty), bilateral',
+            },
+          ],
+        }}
         definitions={{}}
         formData={{}}
         onSubmit={onSubmit}
