@@ -197,9 +197,12 @@ export function aboutTheSchool(
   automatedTest = false,
 ) {
   const aboutTheSchoolLabel = (
-    <h3 className="about-school-label" aria-level={2}>
-      About the school
-    </h3>
+    <>
+      <h3 className="about-school-label" aria-level={2}>
+        About the school
+      </h3>
+      <AboutYellowRibbonProgram className="vads-u-margin-bottom--3" />
+    </>
   );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
@@ -214,7 +217,6 @@ export function aboutTheSchool(
           padding={!smallScreen}
           colNum="1p5"
         />
-        <AboutYellowRibbonProgram />
       </>
     );
   }
