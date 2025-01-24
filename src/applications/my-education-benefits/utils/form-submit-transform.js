@@ -446,14 +446,14 @@ export function createAdditionalConsiderations(submissionForm) {
       formKey: 'activeDutyKicker',
       exclusionType: null,
       notificationMessage:
-        'DoD data shows you are potentially eligible for an active-duty kicker.',
+        'Department of Defense data shows you are potentially eligible for an active-duty kicker.',
       eligibilityFlag: 'eligibleForActiveDutyKicker',
     },
     reserveKicker: {
       formKey: 'selectedReserveKicker',
       exclusionType: null,
       notificationMessage:
-        'DoD data shows you are potentially eligible for a reserve kicker.',
+        'Department of Defense data shows you are potentially eligible for a reserve kicker.',
       eligibilityFlag: 'eligibleForReserveKicker',
     },
     sixHundredDollarBuyUp: {

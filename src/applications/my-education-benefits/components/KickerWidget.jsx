@@ -28,7 +28,7 @@ const KickerWidget = ({
   if (kickerType === 'activeDuty' && eligibleForActiveDutyKicker) {
     return (
       <va-alert>
-        Department of defense data shows you are potentially eligible for an
+        Department of Defense data shows you are potentially eligible for an
         active duty kicker
       </va-alert>
     );
@@ -37,7 +37,7 @@ const KickerWidget = ({
   if (kickerType === 'reserve' && eligibleForReserveKicker) {
     return (
       <va-alert>
-        Department of defense data shows you are potentially eligible for a
+        Department of Defense data shows you are potentially eligible for a
         reserve kicker
       </va-alert>
     );
