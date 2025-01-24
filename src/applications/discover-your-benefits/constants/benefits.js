@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
@@ -92,17 +94,34 @@ export const separationTypeLabels = Object.freeze({
   OVER_3_YEARS: '3+ years',
 });
 
-export const disabilityTypes = Object.freeze({
-  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  STARTED: 'STARTED',
-  NOT_APPLIED: 'NOT_APPLIED',
-});
+// TODO: When PTEMSVT-411 passes staging remove logic in favor of the object with a DENIED key
+export const disabilityTypes = environment.isProduction()
+  ? Object.freeze({
+      APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+      STARTED: 'STARTED',
+      NOT_APPLIED: 'NOT_APPLIED',
+    })
+  : Object.freeze({
+      APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+      DENIED: 'DENIED',
+      STARTED: 'STARTED',
+      NOT_APPLIED: 'NOT_APPLIED',
+    });
 
-export const disabilityTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
-  STARTED: "I've started the process but haven't received a rating.",
-  NOT_APPLIED: "I haven't applied for a disability rating.",
-});
+export const disabilityTypeLabels = environment.isProduction()
+  ? Object.freeze({
+      APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
+      STARTED: "I've started the process but haven't received a rating.",
+      NOT_APPLIED: "I haven't applied for a disability rating.",
+    })
+  : Object.freeze({
+      APPLIED_AND_RECEIVED:
+        "I've filed a disability claim and received a rating.",
+      DENIED: "I've filed a disability claim, but my claim was denied.",
+      STARTED:
+        "I've filed a disability claim, but haven't received a rating yet.",
+      NOT_APPLIED: "I haven't filed a disability claim.",
+    });
 
 export const giBillTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
