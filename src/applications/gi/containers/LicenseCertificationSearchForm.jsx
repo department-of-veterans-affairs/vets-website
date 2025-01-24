@@ -16,6 +16,7 @@ import {
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import LicenseCertificationAlert from '../components/LicenseCertificationAlert';
 import Dropdown from '../components/Dropdown';
+import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
 export default function LicenseCertificationSearchForm({
   handleSearch,
@@ -29,7 +30,7 @@ export default function LicenseCertificationSearchForm({
   const [name, setName] = useState('');
   const [multipleOptions, setMultipleOptions] = useState(null);
 
-  const { hasFetchedOnce, fetchingLc, filteredResults } = useSelector(
+  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
 
@@ -185,6 +186,7 @@ export default function LicenseCertificationSearchForm({
 
   return (
     <>
+      {error && <LicesnseCertificationServiceError />}
       {fetchingLc && <va-loading-indicator message="Loading..." />}
       {!fetchingLc &&
         hasFetchedOnce && (
