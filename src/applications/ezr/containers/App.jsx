@@ -97,7 +97,8 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return isAuthOnlyEnabled ? (
+  return isAuthOnlyEnabled &&
+    !window.location.href.startsWith('http://localhost') ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
