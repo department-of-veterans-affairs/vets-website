@@ -11,7 +11,8 @@ const useHeadingLevels = (userHeaderLevel, userHeaderStyleLevel) => {
   }
   const headerLevel = userHeaderLevel || (isMinimalHeader.current ? 1 : 3);
   // Arbitrary decision with design:
-  // If we are using h1 as a field, the styling is a bit too large,
+  // When using titleUI with minimal header and we are now using h1s,
+  // the styling is a bit too large for a page title (before it was h3),
   // so we'll bump the style down to h2
   const headerStyleLevel =
     userHeaderStyleLevel || (isMinimalHeader.current ? 2 : undefined);

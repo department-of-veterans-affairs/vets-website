@@ -63,15 +63,14 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
-const useHeadings = (userDefinedHeaderLevel, isReviewPage) => {
+const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   const isMinimalHeader = useRef(null);
   if (isMinimalHeader.current === null) {
     // only check once
     isMinimalHeader.current = isMinimalHeaderApplicable();
   }
   const headingLevel =
-    userDefinedHeaderLevel ||
-    (isMinimalHeader.current && !isReviewPage ? '1' : '3');
+    userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
   const headingStyle =
     isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
 
@@ -136,7 +135,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const { headingLevel, headingStyle } = useHeadings(
+    const { headingLevel, headingStyle } = useHeadingLevels(
       titleHeaderLevel,
       isReviewPage,
     );
