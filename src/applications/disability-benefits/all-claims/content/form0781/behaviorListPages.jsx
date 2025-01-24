@@ -54,8 +54,18 @@ export const behaviorListDescription = (
 export const behaviorListNoneLabel =
   'I didn’t experience any of these behavioral changes.';
 
-export const BEHAVIOR_INTRO_COMBAT_DESCRIPTION = (
-  <p>Placholder content for combat intro description</p>
+export const behaviorIntroCombatDescription = (
+  <>
+    <p>
+      The next few questions are about behavioral changes you experienced after
+      your traumatic experiences
+    </p>
+    <p>
+      Since you said your traumatic experiences were related to combat only,
+      these questions are optional. You don’t need to answer them. If we need
+      more information, we’ll contact you after you submit your claim.
+    </p>
+  </>
 );
 
 export const behaviorListAdditionalInformation = (
