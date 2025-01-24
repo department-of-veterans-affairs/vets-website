@@ -1,3 +1,4 @@
+import notFoundError from './fixtures/not-found-error.json';
 import featureToggleEnabled from './fixtures/feature-toggle-enabled.json';
 import serviceConnectedOnly from './fixtures/service-connected-only.json';
 import noCombinedRating from './fixtures/no-combined-rating.json';
@@ -13,6 +14,22 @@ describe('View rated disabilities', () => {
     );
 
     cy.login();
+  });
+
+  context('when the server returns an error', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/rated_disabilities', {
+        statusCode: 404,
+        body: notFoundError,
+      });
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that an error occurred', () => {
+      cy.findByText('We’re sorry. Something went wrong on our end.');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
   context('when there is no combined rating', () => {
