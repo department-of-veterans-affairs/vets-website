@@ -1,0 +1,119 @@
+{
+    "data": {
+        "application": {
+            "claimant": {
+                "desiredCemetery": "818",
+                "address": {
+                    "street": "55 Angus street",
+                    "street2": "Apt 3",
+                    "city": "Dundee City",
+                    "country": "GBR",
+                    "postalCode": "DD11AA"
+                },
+                "phoneNumber": "443825555555",
+                "email": "HJSanti@test.test",
+                "name": {
+                    "first": "Harry",
+                    "middle": "James",
+                    "last": "Santiago",
+                    "suffix": "Sr.",
+                    "maiden": "Jones"
+                },
+                "ssn": "888552222",
+                "dateOfBirth": "1948-08-05",
+                "relationshipToVet": "husband"
+            },
+            "currentlyBuriedPersons": [
+                {
+                    "name": {
+                        "first": "Grant",
+                        "last": "Smith"
+                    }
+                }
+            ],
+            "hasCurrentlyBuried": "1",
+            "veteran": {
+                "serviceName": {
+                    "first": "Alex",
+                    "middle": "Jane",
+                    "last": "Doe",
+                    "suffix": "Jr."
+                },
+                "militaryStatus": "A",
+                "militaryServiceNumber": "123456",
+                "vaClaimNumber": "23444444",
+                "ethnicity": "isSpanishHispanicLatino",
+                "race": {
+                    "isBlackOrAfricanAmerican": true,
+                    "isOther": true
+                },
+                "raceComment": "Kryptonian",
+                "maritalStatus": "Married",
+                "gender": "Female",
+                "currentName": {
+                    "first": "Ben",
+                    "middle": "Marshall",
+                    "last": "Preparer",
+                    "suffix": "III",
+                    "maiden": "Green"
+                },
+                "ssn": "333557777",
+                "dateOfBirth": "1950-05-07",
+                "cityOfBirth": "New Orleans",
+                "stateOfBirth": "Louisiana",
+                "address": {
+                    "street": "102 medium sky st",
+                    "street2": "Apt 4",
+                    "city": "Boston",
+                    "country": "USA",
+                    "state": "MA",
+                    "postalCode": "02034"
+                },
+                "phoneNumber": "1234244444",
+                "email": "BenPrep@test.test",
+                "serviceRecords": [
+                    {
+                        "dateRange": {
+                            "from": "1966-01-01",
+                            "to": "1968-03-02"
+                        },
+                        "serviceBranch": "AR",
+                        "dischargeType": "1",
+                        "highestRank": "COL"
+                    },
+                    {
+                        "dateRange": {
+                            "from": "1969-01-01",
+                            "to": "1972-05-03"
+                        },
+                        "serviceBranch": "AF",
+                        "dischargeType": "2",
+                        "highestRank": "AMN"
+                    }
+                ]
+            },
+            "applicant": {
+                "isSponsor": "yes",
+                "mailingAddress": {
+                    "street": "102 medium sky st",
+                    "street2": "Apt 4",
+                    "city": "Boston",
+                    "country": "USA",
+                    "state": "MA",
+                    "postalCode": "02034"
+                },
+                "applicantPhoneNumber": "1234244444",
+                "applicantEmail": "BenPrep@test.test",
+                "name": {
+                    "first": "Ben",
+                    "last": "Preparer"
+                },
+                "applicantRelationshipToClaimant": "Authorized Agent/Rep"
+            }
+        },
+        "privacyAgreementAccepted": true,
+        "formNumber": "40-10007",
+        "version": "int"
+    }
+}
+

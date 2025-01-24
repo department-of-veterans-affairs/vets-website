@@ -118,6 +118,7 @@ const MedicationsListFilter = props => {
           data-testid="filter-option"
           onVaValueChange={handleFilterOptionChange}
           className="vads-u-margin-top--0"
+          enableAnalytics
         >
           {filterOptionsArray.map(option => (
             <VaRadioOption

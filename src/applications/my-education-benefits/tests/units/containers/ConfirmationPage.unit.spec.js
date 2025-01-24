@@ -40,7 +40,7 @@ describe('Confirmation Page', () => {
 //   const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
 //     defaultProps,
 //     reducers: reducer,
-//     path: '/education/apply-for-benefits-form-22-1990/confirmation',
+//     path: '/education/apply-for-gi-bill-form-22-1990/confirmation',
 //   });
 //   console.log(await screen.findByText('Loading your results'));
 // });
