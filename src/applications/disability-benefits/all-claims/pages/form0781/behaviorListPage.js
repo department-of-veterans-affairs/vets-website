@@ -9,16 +9,14 @@ import {
   mentalHealthSupportAlert,
 } from '../../content/form0781';
 import {
-  BEHAVIOR_LIST_DESCRIPTION,
-  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
-  BEHAVIOR_LIST_NONE_LABEL,
+  behaviorListDescription,
+  behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
   validateBehaviorSelections,
 } from '../../content/form0781/behaviorListPages';
-
-// move constants to content file???
 import {
+  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
@@ -26,7 +24,7 @@ import {
 
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
-  'ui:description': BEHAVIOR_LIST_DESCRIPTION,
+  'ui:description': behaviorListDescription,
   workBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.work,
     labelHeaderLevel: '4',
@@ -58,7 +56,7 @@ export const uiSchema = {
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
-      none: BEHAVIOR_LIST_NONE_LABEL,
+      none: behaviorListNoneLabel,
     },
     required: false,
   }),

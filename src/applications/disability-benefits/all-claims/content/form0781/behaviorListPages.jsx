@@ -2,7 +2,7 @@ import React from 'react';
 
 export const behaviorListPageTitle = 'Types of behavioral changes';
 
-export const BEHAVIOR_LIST_DESCRIPTION = (
+export const behaviorListDescription = (
   <>
     <p>
       Did you experience any of these behavioral changes after your traumatic
@@ -15,15 +15,7 @@ export const BEHAVIOR_LIST_DESCRIPTION = (
   </>
 );
 
-export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
-  work: 'Behavioral changes related to work',
-  health: 'Behavioral changes related to health',
-  other: 'Other behavioral changes',
-  unlisted: 'Other behavioral changes not listed here:',
-  none: 'None',
-});
-
-export const BEHAVIOR_LIST_NONE_LABEL =
+export const behaviorListNoneLabel =
   'I didn’t experience any of these behavioral changes.';
 
 export const BEHAVIOR_INTRO_COMBAT_DESCRIPTION = (
