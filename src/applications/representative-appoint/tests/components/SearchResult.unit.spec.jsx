@@ -107,44 +107,108 @@ describe('SearchResult Component', () => {
 
   context('when v2 is enabled', () => {
     context('when the user is userIsDigitalSubmitEligible', () => {
-      it('displays submission methods', () => {
-        const representative = {
-          data: {
-            id: 1,
-            type: 'individual',
-            attributes: {
-              addressLine1: '123 Main St',
-              city: '',
-              stateCode: '',
-              zipCode: '',
-              fullName: 'Robert Smith',
-              individualType: 'representative',
+      context('when the representative accepts digital submission', () => {
+        it('displays digital submission methods', () => {
+          const representative = {
+            data: {
+              id: 1,
+              type: 'individual',
+              attributes: {
+                addressLine1: '123 Main St',
+                city: '',
+                stateCode: '',
+                zipCode: '',
+                fullName: 'Robert Smith',
+                individualType: 'representative',
+                accreditedOrganizations: {
+                  data: [{ attributes: { canAcceptDigitalPoaRequests: true } }],
+                },
+              },
             },
-          },
-        };
+          };
 
-        const useV2FeatureVisibilityStub = sinon
-          .stub(useV2FeatureToggle, 'default')
-          .returns(true);
+          const useV2FeatureVisibilityStub = sinon
+            .stub(useV2FeatureToggle, 'default')
+            .returns(true);
 
-        const { container } = render(
-          <SearchResult
-            representative={representative}
-            query={{}}
-            handleSelectRepresentative={() => {}}
-            loadingPOA={false}
-            userIsDigitalSubmitEligible
-          />,
-        );
+          const { container } = render(
+            <SearchResult
+              representative={representative}
+              query={{}}
+              handleSelectRepresentative={() => {}}
+              loadingPOA={false}
+              userIsDigitalSubmitEligible
+            />,
+          );
 
-        const submissionMethods = container.querySelector(
-          '[data-testid="submission-methods"]',
-        );
+          const digitalSubmissionMethods = container.querySelector(
+            '[data-testid="submission-methods-with-digital"]',
+          );
 
-        expect(submissionMethods).to.exist;
+          const nonDigitalSubmissionMethods = container.querySelector(
+            '[data-testid="submission-methods-without-digital"]',
+          );
 
-        useV2FeatureVisibilityStub.restore();
+          expect(digitalSubmissionMethods).to.exist;
+          expect(nonDigitalSubmissionMethods).not.to.exist;
+
+          useV2FeatureVisibilityStub.restore();
+        });
       });
+
+      context(
+        'when the representative does not accept digital submission',
+        () => {
+          it('displays non digital submission methods', () => {
+            const representative = {
+              data: {
+                id: 1,
+                type: 'individual',
+                attributes: {
+                  addressLine1: '123 Main St',
+                  city: '',
+                  stateCode: '',
+                  zipCode: '',
+                  fullName: 'Robert Smith',
+                  individualType: 'representative',
+                  accreditedOrganizations: {
+                    data: [
+                      { attributes: { canAcceptDigitalPoaRequests: false } },
+                    ],
+                  },
+                },
+              },
+            };
+
+            const useV2FeatureVisibilityStub = sinon
+              .stub(useV2FeatureToggle, 'default')
+              .returns(true);
+
+            const { container } = render(
+              <SearchResult
+                representative={representative}
+                query={{}}
+                handleSelectRepresentative={() => {}}
+                loadingPOA={false}
+                userIsDigitalSubmitEligible
+              />,
+            );
+
+            const digitalSubmissionMethods = container.querySelector(
+              '[data-testid="submission-methods-with-digital"]',
+            );
+
+            const nonDigitalSubmissionMethods = container.querySelector(
+              '[data-testid="submission-methods-without-digital"]',
+            );
+
+            expect(digitalSubmissionMethods).not.to.exist;
+            expect(nonDigitalSubmissionMethods).to.exist;
+
+            useV2FeatureVisibilityStub.restore();
+          });
+        },
+      );
     });
 
     context('when the user is not userIsDigitalSubmitEligible', () => {
@@ -178,11 +242,16 @@ describe('SearchResult Component', () => {
           />,
         );
 
-        const submissionMethods = container.querySelector(
-          '[data-testid="submission-methods"]',
+        const digitalSubmissionMethods = container.querySelector(
+          '[data-testid="submission-methods-with-digital"]',
         );
 
-        expect(submissionMethods).not.to.exist;
+        const nonDigitalSubmissionMethods = container.querySelector(
+          '[data-testid="submission-methods-without-digital"]',
+        );
+
+        expect(digitalSubmissionMethods).not.to.exist;
+        expect(nonDigitalSubmissionMethods).not.to.exist;
 
         useV2FeatureVisibilityStub.restore();
       });
@@ -220,11 +289,16 @@ describe('SearchResult Component', () => {
         />,
       );
 
-      const submissionMethods = container.querySelector(
-        '[data-testid="submission-methods"]',
+      const digitalSubmissionMethods = container.querySelector(
+        '[data-testid="submission-methods-with-digital"]',
       );
 
-      expect(submissionMethods).not.to.exist;
+      const nonDigitalSubmissionMethods = container.querySelector(
+        '[data-testid="submission-methods-without-digital"]',
+      );
+
+      expect(digitalSubmissionMethods).not.to.exist;
+      expect(nonDigitalSubmissionMethods).not.to.exist;
 
       useV2FeatureVisibilityStub.restore();
     });
