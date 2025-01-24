@@ -7,7 +7,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from 'platform/utilities/environment';
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
