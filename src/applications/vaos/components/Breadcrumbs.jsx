@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
 import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
 
-export default function VAOSBreadcrumbs({ children }) {
+export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const location = useLocation();
   // get boolean if single va location
 
@@ -15,7 +15,7 @@ export default function VAOSBreadcrumbs({ children }) {
 
   const label = useSelector(state => getUrlLabel(state, location));
   const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
-  const newLabel = label === undefined || label === null ? covidLabel : label;
+  const newLabel = labelOverride || label || covidLabel;
 
   useEffect(
     () => {
@@ -94,4 +94,5 @@ export default function VAOSBreadcrumbs({ children }) {
 
 VAOSBreadcrumbs.propTypes = {
   children: PropTypes.object,
+  labelOverride: PropTypes.string,
 };

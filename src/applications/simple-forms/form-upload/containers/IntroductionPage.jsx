@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-import { FormTitle } from '@department-of-veterans-affairs/va-forms-system-core';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
   VaButton,
@@ -67,8 +67,8 @@ const IntroductionPage = ({ route }) => {
               </li>
               <li>Then we’ll ask you to upload your completed form.</li>
               <li>
-                <b>Note:</b> The upload tool can <b>not</b> check for mistakes
-                in your form. Make sure you review your file before you submit.
+                <b>Note:</b> The upload tool can’t check for mistakes in your
+                form. Make sure you review your file before you submit.
               </li>
             </ul>
           </div>

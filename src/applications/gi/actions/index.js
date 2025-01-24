@@ -70,6 +70,8 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+export const FILTER_LC_RESULTS = 'FILTER_LC_RESULTS';
+
 export const FETCH_INSTITUTION_PROGRAMS_FAILED =
   'FETCH_INSTITUTION_PROGRAMS_FAILED';
 export const FETCH_INSTITUTION_PROGRAMS_STARTED =
@@ -163,6 +165,49 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
     }
   };
 };
+
+export function fetchAndFilterLacpResults( // new action for ss filter
+  name,
+  lacpType = 'all',
+  location = 'all',
+) {
+  const url = `${
+    api.url
+  }/lcpe/lacs?type=${lacpType}&location=${location}&name=${name}`; //
+
+  return dispatch => {
+    dispatch({ type: FETCH_LC_RESULTS_STARTED });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(results => {
+        const { lacs } = results;
+
+        dispatch({
+          type: FETCH_LC_RESULTS_SUCCEEDED,
+          payload: lacs, // this list of lacps will be filtered based on the query parameters in the above url
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_LC_RESULTS_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
+export function filterLcResults(name, category, location) {
+  return {
+    type: FILTER_LC_RESULTS,
+    payload: { name, category, location },
+  };
+}
 
 export function fetchLicenseCertificationResults() {
   const url = `${api.url}/lcpe/lacs`;
@@ -507,15 +552,23 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
   version,
+  description,
 ) {
   const [longitude, latitude] = coordinates;
-
-  const params = {
-    latitude,
-    longitude,
-    distance,
-    ...rubyifyKeys(buildSearchFilters(filters)),
-  };
+  // If description - search by program, else search by location w/ filters
+  const params = description
+    ? {
+        latitude,
+        longitude,
+        distance,
+        description,
+      }
+    : {
+        latitude,
+        longitude,
+        distance,
+        ...rubyifyKeys(filters && buildSearchFilters(filters)),
+      };
   if (version) {
     params.version = version;
   }
@@ -523,7 +576,7 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude, distance },
+      payload: { location, latitude, longitude, distance, description },
     });
 
     return fetch(url, api.settings)
@@ -563,6 +616,7 @@ export function fetchSearchByLocationResults(
   distance,
   filters,
   version,
+  description,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -593,6 +647,7 @@ export function fetchSearchByLocationResults(
             distance,
             filters,
             version,
+            description,
           ),
         );
       })

@@ -26,6 +26,21 @@ import {
 } from '../utils/helpers';
 import DashboardCards from './DashboardCards';
 
+const VerifiedAlert = (
+  <div className="vads-u-margin-bottom--4">
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 id="track-your-status-on-mobile" slot="headline">
+        We can prefill some of your information
+      </h2>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your question based on
+        your profile details. You can also save your question in progress and
+        come back later to finish filling it out.
+      </p>
+    </va-alert>
+  </div>
+);
+
 const IntroductionPage = props => {
   const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
@@ -288,6 +303,7 @@ const IntroductionPage = props => {
         pageList={pageList}
         startText="Ask a new question"
         className="vads-u-margin--0"
+        verifiedPrefillAlert={VerifiedAlert}
       />
       <DashboardCards />
     </>

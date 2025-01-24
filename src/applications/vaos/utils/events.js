@@ -48,6 +48,8 @@ export function recordItemsRetrieved(type, count) {
 
 export const NULL_STATE_FIELD = {
   TYPE_OF_CARE: 'type-of-care',
+  PROVIDER: 'provider',
+  CLINIC_PHONE: 'clinic-phone',
 };
 
 /**
