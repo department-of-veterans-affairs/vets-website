@@ -21,14 +21,14 @@ describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
       global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
+        pathname: '/find-forms/upload/21-0779/upload',
       };
       expect(getFormNumber()).to.eq('21-0779');
     });
 
     it('returns empty string when formNumber does not match', () => {
       global.window.location = {
-        pathname: '/form-upload/fake-form/upload',
+        pathname: 'find-forms/upload/fake-form/upload',
       };
       expect(getFormNumber()).to.eq('');
     });
@@ -37,14 +37,14 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
+        pathname: 'find-forms/upload/21-0779/upload',
       };
       expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
 
     it('returns default content when the form number is not mapped', () => {
       global.window.location = {
-        pathname: '/form-upload/99-9999/upload',
+        pathname: 'find-forms/upload/99-9999/upload',
       };
       expect(getFormContent()).to.include({ title: 'Upload form 99-9999' });
     });
