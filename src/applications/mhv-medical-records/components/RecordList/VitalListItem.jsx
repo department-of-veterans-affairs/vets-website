@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 import { kebabCase } from 'lodash';
 
 import { vitalTypeDisplayNames } from '../../util/constants';
-import {
-  formatDateInLocalTimezone,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { sendDataDogAction } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
@@ -105,20 +102,6 @@ const VitalListItem = props => {
               {record.measurement}
             </span>
           </div>
-          <div
-            className="vads-u-line-height--4 vads-u-margin-bottom--1"
-            data-dd-privacy="mask"
-            data-dd-action-name="[vitals list - date]"
-            data-testid={dataTestIds.date}
-          >
-            <span className="vads-u-font-weight--bold">Date: </span>
-            <span data-testid={dataTestIds.dateTimestamp}>
-              {isAccelerating
-                ? formatDateInLocalTimezone(record.effectiveDateTime)
-                : record.date}
-            </span>
-          </div>
-
           <Link
             to={url}
             className="vads-u-line-height--4"
