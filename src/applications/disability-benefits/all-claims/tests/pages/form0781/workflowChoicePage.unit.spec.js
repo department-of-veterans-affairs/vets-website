@@ -112,7 +112,7 @@ describe('Form 0781 workflow choice page', () => {
     ).not.to.exist;
   });
 
-  it('Displays a selection of choices on filling out 0781 and incplues examples', () => {
+  it('Displays a selection of choices on filling out 0781 and includes examples', () => {
     const onSubmit = Sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
