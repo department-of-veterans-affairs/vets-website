@@ -52,7 +52,7 @@ const testPaginationResize = () => {
     .shadow()
     .find('li.usa-pagination__item')
     .should($lis => {
-      expect($lis).to.have.length(6);
+      expect($lis).to.have.length(7);
     });
   testAxe();
 };
