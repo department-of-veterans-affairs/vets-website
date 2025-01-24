@@ -1,10 +1,6 @@
 import React from 'react';
-// import {useSelector} from "react-redux";
 
 export const ChildAdditionalEvidence = () => {
-  // const formData = useSelector(state => {
-  //   return state?.form?.data || {};
-  // });
   return (
     <div>
       <p>
