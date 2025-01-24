@@ -3,15 +3,6 @@ import { expect } from 'chai';
 import environment from 'platform/utilities/environment';
 import { resolveParamsWithUrl } from '../config';
 
-const store = {
-  default: {
-    getState: () => ({
-      // eslint-disable-next-line camelcase
-      featureToggles: { facility_locator_lat_long_only: true },
-    }),
-  },
-};
-
 const center = [35.78, -78.68];
 
 describe('Locator url and parameters builder - latLong only', () => {
@@ -25,7 +16,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'NonVAUrgentCare',
       center,
       page,
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -43,7 +33,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'pharmacy',
       page,
       center,
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -61,7 +50,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'health',
       page,
       center,
-      store,
     });
     const url = `${environment.API_URL}/facilities_api/v2/va`;
     expect(result.url).to.eql(url);
@@ -79,7 +67,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'PrimaryCare',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -103,7 +90,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'UrgentCare',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -126,7 +112,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'benefits',
       page,
       center,
-      store,
     });
     const url = `${environment.API_URL}/facilities_api/v2/va`;
     expect(result.url).to.eql(url);
@@ -143,7 +128,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'VAHomeLoanAssistance',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -160,7 +144,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'ApplyingForBenefits',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -182,7 +165,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'cemetery',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -207,7 +189,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: '122300000X', // Dentist
       page,
       center,
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -225,7 +206,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'vet_center',
       page,
       center,
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -248,7 +228,6 @@ describe('Locator url and parameters builder - latLong only', () => {
       page,
       center: [33.32464, -97.18077],
       radius: 40,
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
