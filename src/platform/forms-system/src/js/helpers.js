@@ -807,3 +807,20 @@ export function getUrlPathIndex(url) {
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
 }
+
+export function isMinimalHeaderApplicable() {
+  // sessionStorage needs to be populated by header component before you
+  // can use this, which happens before all form code is loaded, but not
+  // necessarily before the .js files are served. Using it in any React
+  // component in the body is generally fine, but not in the initial
+  // load of a .js file.
+  const isApplicable = sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE');
+  if (isApplicable !== 'true') {
+    return false;
+  }
+
+  let excludePaths = sessionStorage.getItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  excludePaths = excludePaths ? JSON.parse(excludePaths) : [];
+  const isExcludedPath = excludePaths.includes(window?.location?.pathname);
+  return isApplicable && !isExcludedPath;
+}

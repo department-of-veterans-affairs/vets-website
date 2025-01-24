@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-
+import sinon from 'sinon';
+import { afterEach } from 'mocha';
 import {
   parseISODate,
   formatISOPartialDate,
@@ -15,6 +16,7 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
+  isMinimalHeaderApplicable,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1298,5 +1300,51 @@ describe('getUrlPathIndex', () => {
     expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
     expect(getUrlPathIndex('/form-1/path-2/0/the-page?add')).to.eql(0);
     expect(getUrlPathIndex('/form-1/path-2/1/page-3')).to.eql(1);
+  });
+});
+
+describe('isMinimalHeaderApplicable', () => {
+  afterEach(() => {
+    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  });
+
+  it('sessionStorage should not be populated with minimal header values - this indicates a test sessionStorage leak', () => {
+    const minimalHeaderValue = sessionStorage.getItem(
+      'MINIMAL_HEADER_APPLICABLE',
+    );
+    const minimalHeaderExcludePathsValue = sessionStorage.getItem(
+      'MINIMAL_HEADER_EXCLUDE_PATHS',
+    );
+
+    expect(minimalHeaderValue).to.eql(null);
+    expect(minimalHeaderExcludePathsValue).to.eql(null);
+  });
+
+  it('should return a boolean if minimal header is applicable', () => {
+    expect(isMinimalHeaderApplicable()).to.eql(false);
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+    expect(isMinimalHeaderApplicable()).to.eql(true);
+  });
+
+  it('should not be applicable on excluded paths', () => {
+    const locationStub = sinon.stub(window, 'location');
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+    sessionStorage.setItem(
+      'MINIMAL_HEADER_EXCLUDE_PATHS',
+      '["/introduction","/confirmation"]',
+    );
+
+    locationStub.value({
+      pathname: '/introduction',
+    });
+    expect(isMinimalHeaderApplicable()).to.eql(false);
+
+    locationStub.value({
+      pathname: '/middle-of-form',
+    });
+    expect(isMinimalHeaderApplicable()).to.eql(true);
+
+    locationStub.restore();
   });
 });
