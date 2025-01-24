@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
   VaCheckbox,
-  VaModal,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
@@ -28,8 +27,6 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(
     appointment.vaos.apiData.start,
   );
-
-  const [agreementModalOpen, setAgreementModalOpen] = useState(false);
 
   const onBack = () => {
     setYesNo({
@@ -105,31 +102,7 @@ const ReviewPage = ({
           By submitting this claim, you agree to the beneficiary travel
           agreement.
         </p>
-
-        <va-button
-          secondary
-          data-testid="open-agreement-modal"
-          class="vads-u-margin-bottom--1"
-          onClick={() => setAgreementModalOpen(true)}
-          text="View beneficiary travel agreement"
-          uswds
-        />
-        <VaModal
-          data-testid="agreement-modal"
-          modalTitle="Beneficiary travel agreement"
-          onCloseEvent={() => setAgreementModalOpen(false)}
-          onPrimaryButtonClick={() => setAgreementModalOpen(false)}
-          primaryButtonText="Finish reviewing your travel claim"
-          visible={agreementModalOpen}
-        >
-          <>
-            <TravelAgreementContent />
-            <p>
-              Review your claim information now to file your travel pay claim.
-            </p>
-          </>
-        </VaModal>
-
+        <TravelAgreementContent />
         <VaCheckbox
           className="vads-u-margin-x--1 vads-u-margin-y--2"
           checked={isAgreementChecked}
