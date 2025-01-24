@@ -226,7 +226,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.login(notVerifiedUser);
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
-    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
+    cy.get('va-alert-sign-in').should('exist');
   });
   it('should show Maintenance Alet if toggle is off', () => {
     cy.injectAxeThenAxeCheck();

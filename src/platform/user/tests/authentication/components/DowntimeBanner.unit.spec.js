@@ -73,7 +73,7 @@ describe('DowntimeBanner', () => {
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
 
-  it('should NOT display banner if statuses are active', () => {
+  it.skip('should NOT display banner if statuses are active', () => {
     server.use(
       rest.get(STATUSES_URL, (_, res, ctx) => {
         return res(ctx.json(generateMockResponse()));

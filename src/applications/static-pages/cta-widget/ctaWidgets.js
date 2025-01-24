@@ -65,6 +65,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
+    headerLevel: 3,
     serviceDescription: 'change your address',
   },
   [CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS]: {
@@ -90,6 +91,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
+    headerLevel: 3,
     serviceDescription: 'manage your VA debt',
   },
   [CTA_WIDGET_TYPES.DIRECT_DEPOSIT]: {
@@ -102,6 +104,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
+    headerLevel: 3,
     serviceDescription: 'change your direct deposit information online',
   },
   [CTA_WIDGET_TYPES.DISABILITY_BENEFITS]: {
@@ -158,6 +161,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
+      internalUrl: '/my-health/medical-records/download',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -197,6 +201,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+      internalUrl: '/my-health/medical-records/labs-and-tests',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -235,11 +240,13 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.MESSAGING,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
+      internalUrl: '/my-health/secure-messages/inbox/',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
     isHealthTool: true,
     mhvToolName: 'Secure Messaging',
+    headerLevel: 3,
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
     requiresVerification: true,
@@ -255,7 +262,7 @@ export const ctaWidgetsLookup = {
     }),
     hasRequiredMhvAccount: accountLevel =>
       MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel),
-    isHealthTool: true,
+    isHealthTool: () => true,
     mhvToolName: 'Prescription Refill and Tracking',
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
@@ -265,6 +272,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments/schedule/type-of-care',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
@@ -314,6 +322,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+      internalUrl: '/my-health/appointments',
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',

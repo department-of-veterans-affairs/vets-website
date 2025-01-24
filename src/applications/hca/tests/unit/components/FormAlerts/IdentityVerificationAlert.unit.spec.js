@@ -1,36 +1,43 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import * as recordEventModule from 'platform/monitoring/record-event';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import IdentityVerificationAlert from '../../../../components/FormAlerts/IdentityVerificationAlert';
 
 describe('hca <IdentityVerificationAlert>', () => {
-  context('when the component renders', () => {
-    it('should render `va-alert` with status of `continue`', () => {
-      const { container } = render(<IdentityVerificationAlert />);
-      const selector = container.querySelector('va-alert');
-      expect(selector).to.exist;
-      expect(selector).to.have.attr('status', 'continue');
-    });
-
-    it('should render `verify` button with correct href', () => {
-      const { container } = render(<IdentityVerificationAlert />);
-      const selector = container.querySelector('.usa-button');
-      expect(selector).to.exist;
-    });
+  const mockState = serviceName => ({
+    user: { profile: { signIn: { serviceName } } },
   });
+  context('when the component renders', () => {
+    it('should render `va-alert-sign-in` for ID.me', () => {
+      const { container } = renderInReduxProvider(
+        <IdentityVerificationAlert />,
+        { initialState: mockState('idme') },
+      );
+      const selector = container.querySelector('va-alert-sign-in');
+      expect(selector).to.exist;
+      expect(selector.getAttribute('variant')).to.eql('verifyIdMe');
+    });
 
-  context('when the `verify` button is clicked', () => {
-    it('should call recordEvent with correct argument', () => {
-      const recordEventStub = sinon.stub(recordEventModule, 'default');
-      const { container } = render(<IdentityVerificationAlert />);
-      const selector = container.querySelector('.usa-button');
-      fireEvent.click(selector);
-      expect(recordEventStub.calledWith({ event: AUTH_EVENTS.VERIFY })).to.be
-        .true;
-      recordEventStub.restore();
+    it('should render `va-alert-sign-in` for Login.gov', () => {
+      const { container } = renderInReduxProvider(
+        <IdentityVerificationAlert />,
+        { initialState: mockState('logingov') },
+      );
+      const selector = container.querySelector('va-alert-sign-in');
+      expect(selector).to.exist;
+      expect(selector.getAttribute('variant')).to.eql('verifyLoginGov');
+    });
+
+    it('should render `va-alert-sign-in` with 2 buttons for MHV', () => {
+      const { container } = renderInReduxProvider(
+        <IdentityVerificationAlert />,
+        { initialState: mockState('mhv') },
+      );
+      const selector = container.querySelector('va-alert-sign-in');
+      expect(selector).to.exist;
+      expect(selector.getAttribute('variant')).to.eql('signInEither');
+      expect(selector.getAttribute('heading-level')).to.eql('2');
+      expect(container.querySelectorAll('button').length).to.eql(2);
     });
   });
 });

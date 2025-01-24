@@ -27,8 +27,8 @@ const CrisisLineConnectButton = () => {
         window.addEventListener('keydown', onEscapeKeyPress);
       }
       return () => {
-        modalCloseButton.removeEventListener('click', onCrisisModalClose);
-        window.removeEventListener('keydown', onEscapeKeyPress);
+        modalCloseButton?.removeEventListener('click', onCrisisModalClose);
+        window?.removeEventListener('keydown', onEscapeKeyPress);
       };
     },
     [lastFocusableElement, crisisModalOpened],

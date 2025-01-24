@@ -151,6 +151,7 @@ const LOA1Content = ({
           <IdentityNotVerified
             headline="Verify your identity to access more VA.gov tools and features"
             signInService={signInService}
+            dataTestId="verify-identity-alert-headline"
           />
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,6 +6,7 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import VerifyAlert from 'platform/user/authentication/components/VerifyAlert';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { getAppData } from '../selectors';
@@ -30,8 +30,6 @@ function IntroductionLogin({
     showHideLoginModal(true, 'cta-form');
   };
 
-  const nextQuery = { next: window.location.pathname };
-  const verifyUrl = appendQuery('/verify', nextQuery);
   const headlineText =
     'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
   const shouldShowLoadingIndicator =
@@ -143,39 +141,7 @@ function IntroductionLogin({
 
       {apiCallsComplete &&
         isLoggedIn &&
-        isLOA3 === false && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="continue"
-            visible
-          >
-            <h2 slot="headline">
-              Verify your identity before starting your application
-            </h2>
-            <div>
-              <p className="vads-u-margin-top--0">
-                When you verify your VA.gov account:
-              </p>
-              <ul>
-                <li>
-                  We can prefill part of your application based on your account
-                  details.
-                </li>
-                <li>We may be able to give you an instant decision.</li>
-              </ul>
-              <p>
-                Verifying your VA.gov account is a one-time process that will
-                take <strong>5-10 minutes</strong> to complete. Once your
-                account is verified, you can continue to this application.
-              </p>
-              <p className="vads-u-margin-bottom--2p5">
-                <a className="vads-c-action-link--green" href={verifyUrl}>
-                  Verify your identity before starting your application
-                </a>
-              </p>
-            </div>
-          </va-alert>
-        )}
+        isLOA3 === false && <VerifyAlert headingLevel={2} />}
     </>
   );
 }

@@ -8,7 +8,7 @@ export const UnauthContent = () => (
     <CallToActionWidget
       appId="lab-and-test-results"
       setFocus={false}
-      headerLevel={2}
+      headerLevel={3}
     />
     <h2>How can this tool help me manage my health care?</h2>
     <p>

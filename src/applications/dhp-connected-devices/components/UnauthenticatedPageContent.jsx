@@ -7,22 +7,14 @@ export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
   return (
     <>
       <h2>Connected devices</h2>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-      >
-        <h3 slot="headline">Please sign in to connect a device</h3>
-        <div>
-          Sign in with your existing ID.me, DS Logon, or My HealtheVet account.
-          If you don’t have any of these accounts, you can create a free ID.me
-          account now.
-        </div>
-        <p />
-        <button type="button" className="usa-button" onClick={toggleLoginModal}>
-          Sign in or create an account
-        </button>
-      </va-alert>
+      <va-alert-sign-in variant="signInRequired" visible heading-level={3}>
+        <span slot="SignInButton">
+          <va-button
+            text="Sign in or create an account"
+            onClick={toggleLoginModal}
+          />
+        </span>
+      </va-alert-sign-in>
     </>
   );
 };
