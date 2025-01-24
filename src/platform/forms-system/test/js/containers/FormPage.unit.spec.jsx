@@ -975,6 +975,58 @@ describe('Schemaform <FormPage>', () => {
       });
     });
 
+    it('should use a page’s scrollAndFocusTarget even if useCustomScrollAndFocus is undefined', async () => {
+      const CustomPage = () => (
+        <div id="main">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <div name="topContentElement" />
+          <h3>H3</h3>
+          <h4>H4</h4>
+        </div>
+      );
+      const route = makeBypassRoute(CustomPage)();
+      route.pageConfig.scrollAndFocusTarget = '#main h4';
+      route.formConfig = { useCustomScrollAndFocus: undefined };
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={route}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H4');
+      });
+    });
+
+    it('should not use a page’s scrollAndFocusTarget if useCustomScrollAndFocus is explicitly false', async () => {
+      const CustomPage = () => (
+        <div id="main" className="nav-header">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <div name="topContentElement" />
+          <h3>H3</h3>
+          <h4>H4</h4>
+        </div>
+      );
+      const route = makeBypassRoute(CustomPage)();
+      route.pageConfig.scrollAndFocusTarget = '#main h4';
+      route.formConfig = { useCustomScrollAndFocus: false };
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={route}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H2');
+      });
+    });
+
     it('can receive ContentBeforeButtons that has access to setFormData and router', () => {
       const setData = sinon.spy();
       const router = {
