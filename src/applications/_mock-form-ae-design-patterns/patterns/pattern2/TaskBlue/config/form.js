@@ -8,7 +8,7 @@ import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patt
 
 // page level imports
 import IntroductionPage from '../IntroductionPage';
-import veteranInfo from './veteranInfo';
+import personalInfo from './personalInfo';
 import { contactInfo } from './contactInfo';
 
 const formConfig = {
@@ -32,8 +32,8 @@ const formConfig = {
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.veteranSocialSecurityNumber || null,
+      ssn: formData?.veteranSocialSecurityNumber || null,
+      vaFileNumber: formData?.veteranVAFileNumber || null,
     };
     return {
       metadata,
@@ -59,12 +59,7 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-details',
-          uiSchema: veteranInfo.uiSchema,
-          schema: veteranInfo.schema,
-        },
+        ...personalInfo,
         ...contactInfo,
         taskCompletePagePattern2,
       },

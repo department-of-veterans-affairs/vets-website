@@ -34,7 +34,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Upload VA Form ${formNumber}`,
+    title: `Upload form ${formNumber}`,
   };
 };
 
