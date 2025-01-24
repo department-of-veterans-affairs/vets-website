@@ -16,18 +16,20 @@ const LastFilledInfo = rx => {
     <>
       {nonVA &&
         orderedDate && (
-          <p data-testid="rx-last-filled-info">
+          <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
             Documented on {dateFormat(orderedDate, 'MMMM D, YYYY')}
           </p>
         )}
       {showLastFilledDate && (
-        <p data-testid="rx-last-filled-date">
+        <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
           Last filled on {dateFormat(sortedDispensedDate, 'MMMM D, YYYY')}
         </p>
       )}
       {!nonVA &&
         !showLastFilledDate && (
-          <p data-testid="active-not-filled-rx">Not filled yet</p>
+          <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
+            Not filled yet
+          </p>
         )}
     </>
   );

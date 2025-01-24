@@ -529,9 +529,12 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const filterLcResults = (results, nameInput, filters) => {
-  const { type: typeFilter, state: stateFilter } = filters;
-
+export const filterSuggestions = (
+  results,
+  nameInput,
+  typeFilter,
+  stateFilter,
+) => {
   if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
     return results;
 
@@ -587,10 +590,9 @@ export const handleLcResultsSearch = (history, category, name, state) => {
 };
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
-  if (currentPage * itemsPerPage > results.length) {
-    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
-      results.length
-    }  `;
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage -
+      (itemsPerPage - 1)} - ${results.length - 1}  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
@@ -621,9 +623,30 @@ export function capitalizeFirstLetter(string) {
     .join(' ');
 }
 
-export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
+export const mappedStates = Object.entries(ADDRESS_DATA.states)
+  .map(state => {
+    return { optionValue: state[0], optionLabel: state[1] };
+  })
+  .filter(state => {
+    const exceptions = [
+      'AS',
+      'AA',
+      'AE',
+      'AP',
+      'DC',
+      'FM',
+      'GU',
+      'MH',
+      'MP',
+      'PW',
+      'PR',
+      'VI',
+    ];
+
+    if (exceptions.includes(state.optionValue)) return false;
+
+    return true;
+  });
 
 export const updateDropdowns = (
   category = 'all',
@@ -814,11 +837,37 @@ export const mapToAbbreviation = value => {
   return mapping[value.toLowerCase()];
 };
 
+export const mapProgramTypeToName = programType => {
+  const programTypesNames = {
+    NCD: 'Non College Degree',
+    IHL: 'Institution of Higher Learning',
+    OJT: 'On The Job Training/Apprenticeship',
+    FLGT: 'Flight',
+    CORR: 'Correspondence',
+  };
+
+  return programTypesNames[programType] || 'Unknown Program Type';
+};
+
+export const mapToDashedName = abbreviation => {
+  const reverseMapping = {
+    OJT: 'on-the-job-training-apprenticeship',
+    NCD: 'non-college-degree',
+    IHL: 'institution-of-higher-learning',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return reverseMapping[abbreviation.toUpperCase()] || 'Unknown Abbreviation';
+};
+
 export const getAbbreviationsAsArray = value => {
   if (!value) return [];
   const mapping = {
     OJT: [
       { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'NPFA', description: 'Non Pay Federal Agency' },
+      { abbreviation: 'NPOJT', description: 'Non Pay On-the-job-training' },
       { abbreviation: 'OJT', description: 'On-the-job training' },
     ],
     NCD: [

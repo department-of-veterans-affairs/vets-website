@@ -4,8 +4,9 @@ import {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
+  getRoute,
 } from '../../src/js/routing';
+import { createRoutes } from '../../src/js/routing/createRoutes';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
@@ -120,6 +121,7 @@ describe('Schemaform routing', () => {
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');
   });
+
   describe('createRoutes', () => {
     it('should create routes', () => {
       const formConfig = {
@@ -203,6 +205,30 @@ describe('Schemaform routing', () => {
       );
 
       expect(checkValidPagePath(pageList, data, pathname)).to.be.false;
+    });
+  });
+
+  describe('other utilities', () => {
+    it('getRoute', () => {
+      const formConfig = {
+        disableSave: true,
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page',
+              },
+            },
+          },
+        },
+      };
+
+      const routes = createRoutes(formConfig);
+      const location = {
+        pathname: '/test-page',
+      };
+
+      expect(getRoute(routes, location).path).to.equal('test-page');
     });
   });
 });

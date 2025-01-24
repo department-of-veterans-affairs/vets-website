@@ -22,9 +22,9 @@ const MedicationsListCard = ({ rx }) => {
   }
   const refillsRemaining = () => {
     if (rx.refillRemaining === 1) {
-      return <p>{rx.refillRemaining} refill left</p>;
+      return <p data-dd-privacy="mask">{rx.refillRemaining} refill left</p>;
     }
-    return <p>{rx.refillRemaining} refills left</p>;
+    return <p data-dd-privacy="mask">{rx.refillRemaining} refills left</p>;
   };
   const handleLinkClick = () => {
     dispatch(setPrescriptionDetails(rx));
@@ -40,6 +40,7 @@ const MedicationsListCard = ({ rx }) => {
           aria-describedby={`status-${rx.prescriptionId} status-description-${
             rx.prescriptionId
           } fill-or-refill-button-${rx.prescriptionId}`}
+          data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
           }
@@ -63,9 +64,14 @@ const MedicationsListCard = ({ rx }) => {
           <p
             className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
             data-testid="rx-card-details--shipped-on"
+            data-dd-privacy="mask"
           >
             <va-icon icon="local_shipping" size={3} aria-hidden="true" />
-            <span className="vads-u-margin-left--2" data-testid="shipping-date">
+            <span
+              className="vads-u-margin-left--2"
+              data-testid="shipping-date"
+              data-dd-privacy="mask"
+            >
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
@@ -79,6 +85,7 @@ const MedicationsListCard = ({ rx }) => {
             id={`status-${rx.prescriptionId}`}
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
             data-testid="rxStatus"
+            data-dd-privacy="mask"
           >
             {rx.dispStatus !== 'Active: Refill in Process'
               ? rx.dispStatus

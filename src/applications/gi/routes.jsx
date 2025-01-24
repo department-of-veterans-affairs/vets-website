@@ -8,7 +8,7 @@ import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
-import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
+import LicenseCertificationSearchPage from './components/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
 import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';

@@ -661,6 +661,8 @@ describe('GIBCT helpers:', () => {
       const result = getAbbreviationsAsArray('OJT');
       expect(result).to.deep.equal([
         'APP: Apprenticeships',
+        'NPFA: Non Pay Federal Agency',
+        'NPOJT: Non Pay On-the-job-training',
         'OJT: On-the-job training',
       ]);
     });

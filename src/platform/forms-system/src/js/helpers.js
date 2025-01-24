@@ -144,33 +144,6 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
-export function hideFormTitle(formConfig, pathName) {
-  if (
-    !formConfig?.chapters ||
-    typeof formConfig.chapters !== 'object' ||
-    formConfig.chapters.length === 0
-  )
-    return false;
-
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const page = pageList.find(p => p.path === pathName);
-
-  if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
-  }
-
-  if (!page || !page.chapterKey) {
-    return false;
-  }
-
-  return (
-    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
-    formConfig.hideFormTitle ??
-    false
-  );
-}
-
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
@@ -663,6 +636,38 @@ export function getActiveChapters(formConfig, formData) {
         p => !p.hideOnReviewPage && p.chapterKey && p.chapterKey !== 'review',
       )
       .map(p => p.chapterKey),
+  );
+}
+
+export function hideFormTitle(formConfig, pathName, formData) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  let pageList = createPageList(formConfig, formPages);
+  try {
+    pageList = getActiveExpandedPages(pageList, formData);
+  } catch {
+    // If we can't get active expanded pages, just use the default pageList
+  }
+  const page = pageList.find(p => p.path === pathName);
+
+  if (pathName === '/confirmation') {
+    return formConfig.hideFormTitle ?? false;
+  }
+
+  if (!page || !page.chapterKey) {
+    return false;
+  }
+
+  return (
+    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
+    formConfig.hideFormTitle ??
+    false
   );
 }
 
