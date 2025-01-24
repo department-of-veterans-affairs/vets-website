@@ -37,7 +37,7 @@ export default function AppContent() {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (hasError || (data && data.errors)) {
+  if (hasError || data?.errors) {
     contentOrError = <ServerError />;
   } else {
     contentOrError = (
