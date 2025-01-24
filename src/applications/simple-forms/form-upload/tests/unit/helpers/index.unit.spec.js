@@ -14,7 +14,6 @@ import {
   getMockData,
   formattedPhoneNumber,
 } from '../../../helpers';
-import { DOWNLOAD_URL_0779 } from '../../../config/constants';
 
 const { scroller } = Scroll;
 
@@ -53,7 +52,9 @@ describe('Helpers', () => {
 
   describe('getPdfDownloadUrl', () => {
     it('returns the url', () => {
-      expect(getPdfDownloadUrl('21-0779')).to.eq(DOWNLOAD_URL_0779);
+      expect(getPdfDownloadUrl('21-0779')).to.eq(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
+      );
     });
 
     it('returns an empty string', () => {
