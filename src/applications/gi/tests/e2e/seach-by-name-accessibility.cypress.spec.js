@@ -38,7 +38,7 @@ describe('CT before search by name accessibility', () => {
     );
     cy.realPress(['Shift', 'Tab']);
     cy.focused().should('contain.text', 'Search');
-    cy.repeatKey('Tab', 14);
+    cy.repeatKey('Tab', 15);
     cy.focused().should('contain.text', 'Go to community focus details');
     cy.realPress('Enter');
     cy.get('[part="accordion-header"]').should(
