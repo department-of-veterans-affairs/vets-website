@@ -47,25 +47,37 @@ export const workInProgressContent = {
 };
 
 export const STATEMENT_TYPES = Object.freeze({
-  BUDDY_STATEMENT: 'buddy-statement',
+  NEW_EVIDENCE: 'new-evidence',
   DECISION_REVIEW: 'decision-review',
+  BUDDY_STATEMENT: 'buddy-statement',
   PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
-  NEW_EVIDENCE: 'new-evidence',
   NOT_LISTED: 'not-listed',
 });
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
-  [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to submit a formal statement to support my claim or someone else’s claim. This is also known as a “buddy statement.”',
-  [STATEMENT_TYPES.DECISION_REVIEW]:
-    'I want to request a decision review for my claim.',
-  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
-    'I want to request that VA process my claim faster due to certain qualifying situations.',
-  [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
   [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
-  [STATEMENT_TYPES.NOT_LISTED]:
-    "The type of statement I want to submit isn't listed here.",
+  [STATEMENT_TYPES.DECISION_REVIEW]:
+    "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'I want to provide context or details about a claim.',
+  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
+    'I want to request faster claim processing because of my situation.',
+  [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
+  [STATEMENT_TYPES.NOT_LISTED]: "What I want to do isn't listed here.",
+});
+
+export const STATEMENT_TYPE_DESCRIPTIONS = Object.freeze({
+  [STATEMENT_TYPES.NEW_EVIDENCE]: '',
+  [STATEMENT_TYPES.DECISION_REVIEW]:
+    'In some situations, you can submit new evidence for closed claims.',
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'You can do this for your claim, or as a "buddy statement" for another person\'s claim.',
+  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
+    'Certain situations, like a recent job loss or homelessness, may qualify you for priority processing.',
+  [STATEMENT_TYPES.PERSONAL_RECORDS]:
+    'You can request your DD214, benefit records, and more.',
+  [STATEMENT_TYPES.NOT_LISTED]: '',
 });
 
 export const DECISION_REVIEW_TYPES = Object.freeze({
