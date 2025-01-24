@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
 import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
@@ -10,9 +9,12 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 export default function LicenseCertificationSearchResult() {
   const { id } = useParams();
 
-  const { hasFetchedResult, fetchingLcResult, resultInfo, error } = useSelector(
-    state => state.licenseCertificationSearch,
-  );
+  const {
+    hasFetchedResult,
+    fetchingLcResult,
+    lcResultInfo,
+    error,
+  } = useSelector(state => state.licenseCertificationSearch);
 
   const dispatch = useDispatch();
 
@@ -24,7 +26,7 @@ export default function LicenseCertificationSearchResult() {
     }
   }, []);
 
-  const { lacNm, eduLacTypeNm, institution, tests } = resultInfo;
+  const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
 
   return (
     <>
@@ -52,9 +54,3 @@ export default function LicenseCertificationSearchResult() {
     </>
   );
 }
-
-LicenseCertificationSearchResult.propTypes = {
-  dispatchFetchLcResult: PropTypes.func.isRequired,
-  hasFetchedResult: PropTypes.bool.isRequired,
-  resultInfo: PropTypes.object,
-};
