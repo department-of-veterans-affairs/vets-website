@@ -7,7 +7,7 @@ describe('CT before search by name accessibility', () => {
       data: {
         type: 'feature_toggles',
         features: [
-          { name: 'show_about_yellow_ribbon_program', value: true },
+          { name: 'show_about_yellow_ribbon_program', value: false },
           { name: 'is_updated_gi', value: false },
         ],
       },
@@ -47,7 +47,7 @@ describe('CT before search by name accessibility', () => {
     );
     cy.realPress(['Shift', 'Tab']);
     cy.focused().should('contain.text', 'Search');
-    cy.repeatKey('Tab', 14);
+    cy.repeatKey('Tab', 13);
     cy.focused().should('contain.text', 'Go to community focus details');
     cy.realPress('Enter');
     cy.get('[part="accordion-header"]').should(
@@ -55,7 +55,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.repeatKey('Tab', 10);
+    cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
     cy.get('input[data-testid="ct-input"]').should('be.focused');
@@ -69,20 +69,20 @@ describe('CT before search by name accessibility', () => {
     cy.get('@checkbox').should('have.attr', 'checked');
     cy.get('@checkbox').click();
     cy.get('@checkbox').should('not.be.checked');
-    cy.repeatKey('Tab', 6);
+    cy.repeatKey('Tab', 7);
     cy.get('[data-testid="exclude-caution-flags"]').as('checkbox2');
     cy.get('@checkbox2').should('be.focused');
     cy.get('@checkbox2').should('not.be.checked');
     cy.get('@checkbox2').click();
     cy.get('@checkbox2').should('have.attr', 'checked');
-    cy.repeatKey('Tab', 16);
+    cy.repeatKey('Tab', 17);
     cy.focused()
       .should('contain.text', 'Reset search')
       .as('resetButton');
     cy.get('@resetButton').click();
     cy.get('@checkbox2').should('not.be.checked');
     cy.get('@checkbox').should('have.attr', 'checked');
-    cy.repeatKey('Tab', 26);
+    cy.repeatKey('Tab', 27);
     cy.focused().should(
       'contain.text',
       'Learn more about community focus filters',
@@ -93,7 +93,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.repeatKey('Tab', 2);
+    cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'About this tool');
     cy.realPress('Enter');
     cy.get('a[id="about-this-tool"]').then(link => {
