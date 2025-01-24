@@ -20,6 +20,8 @@ import { duplicateArrays } from '../utils/validation';
 export const App = ({
   children,
   claimantInfo,
+  eligibleForActiveDutyKicker,
+  eligibleForReserveKicker,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
@@ -52,20 +54,26 @@ export const App = ({
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
-  document.addEventListener(
-    'wheel',
-    event => {
+  useEffect(() => {
+    const handleWheel = event => {
       if (
         event.target.type === 'number' &&
         document.activeElement === event.target
       ) {
         event.preventDefault();
-        document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
-        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
+        document.body.scrollTop += event.deltaY; // Chrome, Safari, etc.
+        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, etc.
       }
-    },
-    { passive: false },
-  );
+    };
+
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Cleanup on unmount
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   useEffect(
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
@@ -153,6 +161,41 @@ export const App = ({
       formData,
       isLOA3,
       isLoggedIn,
+      setFormData,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+
+      // Update eligibleForActiveDutyKicker in formData
+      if (
+        eligibleForActiveDutyKicker !== formData.eligibleForActiveDutyKicker
+      ) {
+        setFormData({
+          ...formData,
+          eligibleForActiveDutyKicker,
+        });
+      }
+
+      // Update eligibleForReserveKicker in formData
+      if (eligibleForReserveKicker !== formData.eligibleForReserveKicker) {
+        setFormData({
+          ...formData,
+          eligibleForReserveKicker,
+        });
+      }
+    },
+    [
+      eligibleForActiveDutyKicker,
+      eligibleForReserveKicker,
+      formData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
       setFormData,
     ],
   );
@@ -410,6 +453,8 @@ App.propTypes = {
   claimantInfo: PropTypes.object,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
+  eligibleForActiveDutyKicker: PropTypes.bool,
+  eligibleForReserveKicker: PropTypes.bool,
   email: PropTypes.string,
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,

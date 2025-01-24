@@ -425,8 +425,10 @@ function getExclusionMessage(exclusionType, exclusionPeriods) {
     ? messages[exclusionType]
     : null;
 }
+
 export function createAdditionalConsiderations(submissionForm) {
   const exclusionPeriods = submissionForm.exclusionPeriods || [];
+
   const mapping = {
     academyRotcScholarship: {
       formKey: 'federallySponsoredAcademy',
@@ -443,10 +445,16 @@ export function createAdditionalConsiderations(submissionForm) {
     activeDutyKicker: {
       formKey: 'activeDutyKicker',
       exclusionType: null,
+      notificationMessage:
+        'DoD data shows you are potentially eligible for an active-duty kicker.',
+      eligibilityFlag: 'eligibleForActiveDutyKicker',
     },
     reserveKicker: {
       formKey: 'selectedReserveKicker',
       exclusionType: null,
+      notificationMessage:
+        'DoD data shows you are potentially eligible for a reserve kicker.',
+      eligibilityFlag: 'eligibleForReserveKicker',
     },
     sixHundredDollarBuyUp: {
       formKey: 'sixHundredDollarBuyUp',
@@ -454,15 +462,44 @@ export function createAdditionalConsiderations(submissionForm) {
     },
   };
 
+  const { mebKickerNotificationEnabled } = submissionForm;
+
   return Object.entries(mapping).reduce(
-    (acc, [key, { formKey, exclusionType }]) => {
+    (
+      acc,
+      [key, { formKey, exclusionType, notificationMessage, eligibilityFlag }],
+    ) => {
       const value = submissionForm[formKey];
-      const exclusionMessage = exclusionType
-        ? getExclusionMessage(exclusionType, exclusionPeriods)
-        : '';
-      acc[key] =
-        setAdditionalConsideration(value) +
-        (exclusionMessage ? ` - ${exclusionMessage}` : '');
+
+      let message = setAdditionalConsideration(value);
+
+      // Append exclusion message if applicable
+      if (exclusionType) {
+        const exclusionMessage = getExclusionMessage(
+          exclusionType,
+          exclusionPeriods,
+        );
+        if (exclusionMessage) {
+          message += ` - ${exclusionMessage}`;
+        }
+      }
+
+      // Append notification message for kicker fields if:
+      // 1. Notification is enabled
+      // 2. Applicant is eligible for the kicker
+      // 3. Applicant has answered 'Yes' or 'No'
+      if (
+        notificationMessage &&
+        mebKickerNotificationEnabled &&
+        submissionForm[eligibilityFlag] === true &&
+        value &&
+        (value.toLowerCase() === 'yes' || value.toLowerCase() === 'no')
+      ) {
+        message += ` - ${notificationMessage}`;
+      }
+
+      acc[key] = message;
+
       return acc;
     },
     {},
