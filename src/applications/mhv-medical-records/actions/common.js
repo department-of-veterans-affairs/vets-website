@@ -55,8 +55,18 @@ export const getListWithRetryRecursively = async (
  * Wrapper for getListWithRetryRecursively(). Its sole function is to make sure the
  * CLEAR_INITIAL_FHIR_LOAD action is called only once.
  */
-export const getListWithRetry = async (dispatch, getList) => {
-  const response = await getListWithRetryRecursively(dispatch, getList);
+export const getListWithRetry = async (
+  dispatch,
+  getList,
+  retryInterval = defaultRetryInterval,
+  endTimeParam = null,
+) => {
+  const response = await getListWithRetryRecursively(
+    dispatch,
+    getList,
+    retryInterval,
+    endTimeParam,
+  );
   if (response?.id) {
     // All successful FHIR calls should have an id, so this indicates a successful response, and we
     // clear the initialFhirLoad.
