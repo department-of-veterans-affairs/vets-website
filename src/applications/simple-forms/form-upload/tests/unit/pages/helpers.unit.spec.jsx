@@ -79,7 +79,7 @@ describe('CustomTopContent', () => {
     expect(breadcrumbs).to.exist;
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a Form"},{"href":"/find-forms/about-form-21-0779","label":"About Form 21-0779"},{"href":"/form-upload/21-0779/introduction","label":"Upload Form 21-0779"}]',
+      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload","label":"Upload VA forms"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
     );
   });
 });

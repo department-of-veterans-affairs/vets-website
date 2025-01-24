@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '../helpers';
-import LicenseCertificationSearchPage from '../../containers/LicenseCertificationSearchPage';
+import LicenseCertificationSearchPage from '../../components/LicenseCertificationSearchPage';
 
 describe('<LicenseCertificationSearchPage />', () => {
   it('should render', async () => {
