@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
+import sinon from 'sinon';
 import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
 
 describe('useInitialFhirLoadTimeout', () => {
@@ -50,6 +51,19 @@ describe('useInitialFhirLoadTimeout', () => {
   });
 
   it('should clear the timeout on unmount', () => {
+    // Only mock the functions we care about; omit 'performance' due to known bug caused by lolex
+    // attempting to redefine read-only parameters.
+    const clock = sinon.useFakeTimers({
+      toFake: [
+        'Date',
+        'setTimeout',
+        'clearTimeout',
+        'setInterval',
+        'clearInterval',
+      ],
+    });
+    const clearTimeoutSpy = sinon.spy(global, 'clearTimeout');
+
     const initialFhirLoad = new Date(new Date() - 500); // 500ms ago
     const timeoutDuration = 1000; // 1 second
 
@@ -57,11 +71,18 @@ describe('useInitialFhirLoadTimeout', () => {
       useInitialFhirLoadTimeout(initialFhirLoad, timeoutDuration),
     );
 
-    // Act as if the component is unmounted
+    // Unmount the hook
     unmount();
 
-    // No specific assertion for timeout clearance, but ensure no errors occur
-    expect(true).to.be.true; // Ensure no errors occurred
+    // Advance the clock to see if any scheduled timeouts would still run
+    clock.tick(2000);
+
+    // Check that clearTimeout was actually called
+    expect(clearTimeoutSpy.callCount).to.equal(1);
+
+    // Cleanup spies/fakes to avoid side effects in other tests
+    clearTimeoutSpy.restore();
+    clock.restore();
   });
 
   it('should reset to false when initialFhirLoad changes to null', () => {
