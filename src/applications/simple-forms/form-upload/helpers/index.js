@@ -22,6 +22,16 @@ const formMappings = {
     subTitle: SUBTITLE_509,
     pdfDownloadUrl: DOWNLOAD_URL_509,
   },
+  '21P-0518-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
+  },
+  '21P-0516-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Veteran with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
+  },
 };
 
 export const getFormContent = (pathname = null) => {
