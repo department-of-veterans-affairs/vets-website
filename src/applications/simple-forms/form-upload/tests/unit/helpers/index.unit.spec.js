@@ -41,13 +41,6 @@ describe('Helpers', () => {
       };
       expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
-
-    it('returns default content when the form number is not mapped', () => {
-      global.window.location = {
-        pathname: 'find-forms/upload/99-9999/upload',
-      };
-      expect(getFormContent()).to.include({ title: 'Upload form 99-9999' });
-    });
   });
 
   describe('getPdfDownloadUrl', () => {

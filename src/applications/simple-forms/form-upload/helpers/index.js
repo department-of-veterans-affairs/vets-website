@@ -1,12 +1,6 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 
-export const getFormNumber = (pathname = null) => {
-  const path = pathname || window?.location?.pathname;
-  const regex = /upload\/([^/]+)/;
-  return path.match(regex)?.[1] || '';
-};
-
 const formMappings = {
   '21-0779': {
     subTitle:
@@ -17,6 +11,17 @@ const formMappings = {
     subTitle: 'Statement of Dependency of Parent(s)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
+};
+
+export const getFormNumber = (pathname = null) => {
+  const path = pathname || window?.location?.pathname;
+  const regex = /upload\/([^/]+)/;
+  const match = path.match(regex)?.[1];
+  if (formMappings[match]) {
+    return match;
+  }
+
+  return '';
 };
 
 export const getFormContent = (pathname = null) => {
