@@ -29,6 +29,7 @@ import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import useInitialFhirLoadTimeout from '../hooks/useInitialFhirLoadTimeout';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
+
   const [cards, setCards] = useState(null);
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
@@ -57,6 +59,10 @@ const Vitals = () => {
   const { isLoading, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
     isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
+
+  const initialFhirLoadTimedOut = useInitialFhirLoadTimeout(
+    refresh.initialFhirLoad,
+  );
 
   const dispatchAction = useMemo(
     () => {
@@ -159,7 +165,7 @@ const Vitals = () => {
   );
 
   const content = () => {
-    if (accessAlert) {
+    if (accessAlert || initialFhirLoadTimedOut) {
       return (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.VITALS}

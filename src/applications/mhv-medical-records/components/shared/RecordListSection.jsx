@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
 import NoRecordsMessage from './NoRecordsMessage';
+import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
 
 const RecordListSection = ({
   children,
@@ -12,7 +13,9 @@ const RecordListSection = ({
   listCurrentAsOf,
   initialFhirLoad,
 }) => {
-  if (accessAlert) {
+  const initialFhirLoadTimedOut = useInitialFhirLoadTimeout(initialFhirLoad);
+
+  if (accessAlert || initialFhirLoadTimedOut) {
     return (
       <AccessTroubleAlertBox
         alertType={accessAlertType}
@@ -55,7 +58,7 @@ RecordListSection.propTypes = {
   accessAlert: PropTypes.bool,
   accessAlertType: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  initialFhirLoad: PropTypes.bool,
+  initialFhirLoad: PropTypes.instanceOf(Date),
   listCurrentAsOf: PropTypes.instanceOf(Date),
   recordCount: PropTypes.number,
   recordType: PropTypes.string,

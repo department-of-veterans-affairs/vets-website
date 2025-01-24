@@ -1,7 +1,7 @@
 import { Actions } from '../util/actionTypes';
+import { INITIAL_FHIR_LOAD_DURATION } from '../util/constants';
 
 const defaultRetryInterval = 2000;
-const defaultEndTimeOffset = 120000;
 
 /**
  * Helper function to create a delay
@@ -20,26 +20,47 @@ const delay = ms => {
  * @param {number} endTimeParam when to stop polling and return an error (milliseconds since epoch)
  * @returns the response from the API function once it returns a 200 response
  */
-export const getListWithRetry = async (
+export const getListWithRetryRecursively = async (
   dispatch,
   getList,
   retryInterval = defaultRetryInterval,
   endTimeParam = null,
 ) => {
+  const now = Date.now();
   const endTime =
-    endTimeParam === null ? Date.now() + defaultEndTimeOffset : endTimeParam;
+    endTimeParam === null ? now + INITIAL_FHIR_LOAD_DURATION : endTimeParam;
 
-  if (Date.now() >= endTime) {
+  if (now >= endTime) {
     throw new Error('Timed out while waiting for response');
   }
 
-  const response = await getList();
+  let response = await getList();
   if (response?.status === 202) {
-    dispatch({ type: Actions.Refresh.SET_INITIAL_FHIR_LOAD });
-    if (Date.now() < endTime) {
-      await delay(retryInterval);
-      return getListWithRetry(dispatch, getList, retryInterval, endTime);
-    }
+    dispatch({
+      type: Actions.Refresh.SET_INITIAL_FHIR_LOAD,
+      payload: new Date(now),
+    });
+    await delay(retryInterval);
+    response = await getListWithRetryRecursively(
+      dispatch,
+      getList,
+      retryInterval,
+      endTime,
+    );
+  }
+  return response;
+};
+
+/**
+ * Wrapper for getListWithRetryRecursively(). Its sole function is to make sure the
+ * CLEAR_INITIAL_FHIR_LOAD action is called only once.
+ */
+export const getListWithRetry = async (dispatch, getList) => {
+  const response = await getListWithRetryRecursively(dispatch, getList);
+  if (response?.id) {
+    // All successful FHIR calls should have an id, so this indicates a successful response, and we
+    // clear the initialFhirLoad.
+    dispatch({ type: Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD });
   }
   return response;
 };

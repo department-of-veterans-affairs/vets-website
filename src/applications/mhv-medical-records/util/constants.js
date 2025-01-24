@@ -356,6 +356,9 @@ export const VALID_REFRESH_DURATION = 3600000; // 1 hour
 
 export const STATUS_POLL_INTERVAL = 2000;
 
+/** How long to poll the backend while it's returning 202 Patient Not Found */
+export const INITIAL_FHIR_LOAD_DURATION = 120000; // in milliseconds
+
 export const refreshPhases = {
   STALE: 'stale',
   IN_PROGRESS: 'in_progress',
