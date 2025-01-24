@@ -6,22 +6,20 @@ import sinon from 'sinon';
 import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import reducer from '../../redux/reducer';
-import App from '../../containers/TravelPayStatusApp';
+import TravelPayStatusApp from '../../containers/TravelPayStatusApp';
 import { formatDateTime } from '../../util/dates';
 import travelClaims from '../../services/mocks/travel-claims-31.json';
 
-describe('App', () => {
+describe('TravelPayStatusApp', () => {
   let oldLocation;
   const getData = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
-    isLoggedIn = true,
   } = {}) => {
     return {
       featureToggles: {
@@ -31,14 +29,14 @@ describe('App', () => {
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
         /* eslint-enable camelcase */
       },
-      user: {
-        login: {
-          currentlyLoggedIn: isLoggedIn,
-        },
-        profile: {
-          services: [backendServices.USER_PROFILE],
-        },
-      },
+      // user: {
+      //   login: {
+      //     currentlyLoggedIn: isLoggedIn,
+      //   },
+      //   profile: {
+      //     services: [backendServices.USER_PROFILE],
+      //   },
+      // },
     };
   };
 
@@ -110,7 +108,7 @@ describe('App', () => {
   });
 
   it('should redirect if feature flag is off', async () => {
-    renderWithStoreAndRouter(<App />, {
+    renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: false,
@@ -124,50 +122,41 @@ describe('App', () => {
   });
 
   it('should redirect the root path / to /claims/ and render the app.', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
-      initialState: getData(),
-      path: `/`,
-      reducers: reducer,
-    });
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <TravelPayStatusApp />,
+      {
+        initialState: getData(),
+        path: `/`,
+        reducers: reducer,
+      },
+    );
     expect(
       await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
     ).to.exist;
   });
 
   it('should render loading state if feature flag is loading', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
-      initialState: getData(),
-      path: `/claims/`,
-      reducers: reducer,
-    });
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <TravelPayStatusApp />,
+      {
+        initialState: getData(),
+        path: `/claims/`,
+        reducers: reducer,
+      },
+    );
     expect(
       await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
     ).to.exist;
-  });
-
-  it('renders a login prompt for an unauthenticated user', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: false,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-    expect(await screen.findByText('Log in to view your travel claims')).to
-      .exist;
   });
 
   it('handles a failed fetch of claims', async () => {
     global.fetch.restore();
     mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -182,11 +171,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest({ data: [] });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -216,11 +204,10 @@ describe('App', () => {
       ],
     });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -251,12 +238,11 @@ describe('App', () => {
       ],
     });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
         hasClaimDetailsFeatureFlag: false,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -269,28 +255,11 @@ describe('App', () => {
     });
   });
 
-  it('shows the login modal when clicking the login prompt', async () => {
-    const { container } = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: false,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-
-    fireEvent.click($('va-button', container));
-    // TODO: make this check for the modal itself
-    expect($('va-button', container)).to.exist;
-  });
-
   it('sorts the claims correctly using the select-option', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -343,11 +312,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest(travelClaims);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -399,11 +367,10 @@ describe('App', () => {
     );
     mockApiRequest({ data: topStatusesSubset });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -431,11 +398,10 @@ describe('App', () => {
     );
     mockApiRequest({ data: nonTopStatuses });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -473,11 +439,10 @@ describe('App', () => {
     );
     mockApiRequest({ data: topStatusesSubset });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -504,11 +469,10 @@ describe('App', () => {
   });
 
   it('filters by date range', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -555,11 +519,10 @@ describe('App', () => {
   });
 
   it('filters by status and date together', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -617,11 +580,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest(travelClaims);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
