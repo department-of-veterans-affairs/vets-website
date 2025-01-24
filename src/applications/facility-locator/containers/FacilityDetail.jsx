@@ -13,7 +13,6 @@ import LocationPhoneLink from '../components/search-results-items/common/Locatio
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import { FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
-import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
 
 import OperationStatus from '../components/facility-details/OperationStatus';
 
@@ -92,7 +91,7 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility, currentQuery, showHoursSpecialInstructions } = this.props;
+    const { facility, currentQuery } = this.props;
 
     if (!facility) {
       return null;
@@ -124,10 +123,7 @@ class FacilityDetail extends Component {
           <div>
             <LocationMap info={facility} />
             <div className="vads-u-margin-bottom--4">
-              <LocationHours
-                location={facility}
-                showHoursSpecialInstructions={showHoursSpecialInstructions}
-              />
+              <LocationHours location={facility} />
             </div>
           </div>
         </div>
@@ -144,9 +140,6 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
-    showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
-      state,
-    ),
   };
 }
 
@@ -160,5 +153,4 @@ FacilityDetail.propTypes = {
   facility: PropTypes.object,
   fetchVAFacility: PropTypes.func,
   params: PropTypes.object,
-  showHoursSpecialInstructions: PropTypes.bool,
 };
