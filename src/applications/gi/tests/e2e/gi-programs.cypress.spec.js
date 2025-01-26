@@ -15,7 +15,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
         type: 'feature_toggles',
         features: [
           {
-            name: 'toggleGiProgramsFlag',
+            name: 'toggle_gi_programs_flag',
             value: true,
           },
         ],
