@@ -15,13 +15,11 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       statusCode: 200,
       body: data,
     });
-    cy.visit(
-      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
-    );
-    // cy.get('[data-testid="program-link"]').should('exist');
-    // cy.get('[data-testid="program-link"]')
-    //   .first()
-    //   .click();
+    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+    cy.get('[data-testid="program-link"]').should('exist');
+    cy.get('[data-testid="program-link"]')
+      .first()
+      .click();
   });
 
   it('should show a "no results" message when an invalid program name is searched', () => {
