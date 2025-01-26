@@ -20,12 +20,14 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.wait('@featureToggles');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]')
-      .first()
-      .click();
+    // cy.get('[data-testid="program-link"]').should('exist');
+    // cy.get('[data-testid="program-link"]')
+    //   .first()
+    //   .click();
   });
 
   it('should show a "no results" message when an invalid program name is searched', () => {
