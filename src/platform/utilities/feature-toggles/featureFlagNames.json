@@ -315,5 +315,6 @@
   "enableLightHouse": "enable_lighthouse",
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
-  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled"
+  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
 }
