@@ -8,18 +8,18 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     //     features: [{ name: 'toggle_gi_programs_flag', value: true }],
     //   },
     // });
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          // Make sure the toggle name matches what your code expects
-          {
-            name: 'toggleGiProgramsFlag',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggles');
+    // cy.intercept('GET', '/v0/feature_toggles?*', {
+    //   data: {
+    //     type: 'feature_toggles',
+    //     features: [
+    //       // Make sure the toggle name matches what your code expects
+    //       {
+    //         name: 'toggleGiProgramsFlag',
+    //         value: true,
+    //       },
+    //     ],
+    //   },
+    // }).as('featureToggles');
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
@@ -27,12 +27,12 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       statusCode: 200,
       body: data,
     });
-    cy.wait('@featureToggles');
-    // cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    // cy.get('[data-testid="program-link"]').should('exist');
-    // cy.get('[data-testid="program-link"]')
-    //   .first()
-    //   .click();
+    // cy.wait('@featureToggles');
+    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+    cy.get('[data-testid="program-link"]').should('exist');
+    cy.get('[data-testid="program-link"]')
+      .first()
+      .click();
   });
 
   it('should show a "no results" message when an invalid program name is searched', () => {
@@ -54,9 +54,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
 
   it('should clear the search query and display all programs when "Reset search" is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]');
     cy.get('#search-input')
       .shadow()
       .find('input')
@@ -73,9 +70,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
 
   it('should display relevant results when a user searches for "ACCOUNTING"', () => {
     cy.injectAxeThenAxeCheck();
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]');
     cy.get('#search-input')
       .shadow()
       .find('input')
@@ -90,9 +84,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
 
   it('displays an error if the user tries to search with an empty input', () => {
     cy.injectAxeThenAxeCheck();
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]');
     cy.get('#search-input')
       .shadow()
       .find('input')
@@ -108,9 +99,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
 
   it('paginates correctly when there are more than 20 programs', () => {
     cy.injectAxeThenAxeCheck();
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]');
     cy.get('va-pagination').should('exist');
     cy.get('#results-summary').should('contain', 'Showing 1-20');
     cy.get('va-pagination')
