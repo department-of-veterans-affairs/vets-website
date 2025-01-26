@@ -49,15 +49,25 @@ const BuildRoutes = () => {
                 <Route
                   exact
                   path="/lc-search"
-                  component={LicenseCertificationSearchPage}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchPage
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/lc-search/results"
-                  component={LicenseCertificationSearchResults}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchResults
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
-                  path="/lc-search/results/:type/:id"
+                  path="/lc-search/results/:id"
                   component={LicenseCertificationSearchResult}
                 />
               </>

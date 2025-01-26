@@ -7,37 +7,41 @@ export default () => {
   const mhvButtonDeprecated = useToggleValue(
     TOGGLE_NAMES.mhvCredentialButtonDisabled,
   );
+  const supportLinks = [
+    { text: 'Sign-in errors', url: '"/resources/signing-in-to-vagov/"' },
+    {
+      text: 'Verifying your identity',
+      url: '/resources/verifying-your-identity-on-vagov/',
+    },
+    {
+      text: 'Deleting your account',
+      url: '/resources/can-i-delete-my-logingov-or-idme-account',
+    },
+    {
+      text: 'Common issues with Login.gov or ID.me',
+      url: '/resources/support-for-common-logingov-and-idme-issues/',
+    },
+  ];
   return (
     <div className="row">
       <div className="columns print-full-width sign-in-wrapper">
         <div className="help-info">
-          <h2 className="vads-u-margin-top--0">Having trouble signing in?</h2>
+          <h2 className="vads-u-margin-top--0">
+            {mhvButtonDeprecated
+              ? 'Help and support'
+              : 'Having trouble signing in?'}
+          </h2>
           {mhvButtonDeprecated ? (
             <div>
-              <p>Get help with questions about:</p>
               <div>
                 <div role="list" className="vads-u-padding-bottom--3">
-                  <li>
-                    <a href="/resources/signing-in-to-vagov/">signing in</a>
-                  </li>
-                  <li>
-                    <a href="/resources/verifying-your-identity-on-vagov/">
-                      verifying your identity
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/resources/verifying-your-identity-on-vagov/">
-                      deleting your account
-                    </a>
-                  </li>
+                  {supportLinks.map((link, idx) => (
+                    <li className="vads-u-margin--0" key={idx}>
+                      <a href={link.url}>{link.text}</a>
+                    </li>
+                  ))}
                 </div>
               </div>
-              <va-link
-                text="The My HealtheVet sign-in option is no loner available"
-                label="The My HealtheVet sign-in option is no longer available"
-                href="/"
-                className="vads-u-margin-top--3"
-              />
             </div>
           ) : (
             <p>
