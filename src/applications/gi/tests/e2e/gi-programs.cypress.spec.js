@@ -2,6 +2,17 @@ import data from '../data/calculator-constants.json';
 
 describe('GI Bill Comparison Tool - Programs List', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'toggleGiProgramsFlag',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggles');
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
       body: data,
@@ -9,28 +20,14 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-
-    cy.visit(
-      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
-    );
-    // Temporary removed for cypress to pass
-    // cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    // cy.intercept('GET', '/v0/feature_toggles?*', {
-    //   data: {
-    //     type: 'feature_toggles',
-    //     features: [
-    //       {
-    //         name: 'toggleGiProgramsFlag',
-    //         value: true,
-    //       },
-    //     ],
-    //   },
-    // });
-    // cy.get('[data-testid="program-link"]').should('exist');
-    // cy.get('[data-testid="program-link"]')
-    //   .first()
-    //   .click();
+    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+    cy.wait('@featureToggles');
+    cy.get('[data-testid="program-link"]').should('exist');
+    cy.get('[data-testid="program-link"]')
+      .first()
+      .click();
   });
+
   it('should show a "no results" message when an invalid program name is searched', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
@@ -42,6 +39,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('be.visible')
       .and('contain', 'We didn’t find any results for');
   });
+
   it('should clear the search query and display all programs when "Reset search" is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
@@ -57,6 +55,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('be.focused');
     cy.get('[data-testid="program-list-item"]').should('have.length', 20);
   });
+
   it('should display relevant results when a user searches for "ACCOUNTING"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
@@ -70,6 +69,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .first()
       .should('contain', 'ACCOUNTING-CPA TRACK-BS');
   });
+
   it('displays an error if the user tries to search with an empty input', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
@@ -84,6 +84,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       )
       .should('exist');
   });
+
   it('paginates correctly when there are more than 20 programs', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-pagination').should('exist');
