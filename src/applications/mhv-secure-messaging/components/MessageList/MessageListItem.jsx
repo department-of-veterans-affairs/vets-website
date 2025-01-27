@@ -77,6 +77,7 @@ const MessageListItem = props => {
               role="img"
               className="unread-icon vads-u-margin-right--1 unread-bubble"
               alt="Unread message icon"
+              data-testid="unread-message-icon"
             />
           ))}
       </div>
