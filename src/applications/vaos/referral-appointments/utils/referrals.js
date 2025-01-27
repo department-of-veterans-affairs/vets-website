@@ -152,5 +152,6 @@ module.exports = {
   createReferrals,
   getReferralSlotKey,
   filterReferrals,
+  expiredUUIDBase,
   getAddressString,
 };

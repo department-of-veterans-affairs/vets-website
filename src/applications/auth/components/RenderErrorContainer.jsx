@@ -36,10 +36,7 @@ export default function RenderErrorContainer({
           <h2>What you can do:</h2>
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
-            the final page of the identity verification process. Or, if you
-            don’t want to verify your identity with Login.gov or ID.me, you can
-            try signing in with your premium DS Logon or premium My HealtheVet
-            username and password.
+            the final page of the identity verification process.
           </p>
           <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
