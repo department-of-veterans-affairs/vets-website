@@ -7,6 +7,7 @@ import {
   fetchAccountStatus,
   fetchAccountStatusSuccess,
 } from '../../reducers/account';
+import * as apiCalls from '../../utilities/api';
 
 function TestComponent({ spy }) {
   try {
@@ -19,6 +20,7 @@ function TestComponent({ spy }) {
 
 describe('useAccountCreationApi', () => {
   it('calls dispatch to fetchAccountStatus if not loading and LOA3, and no MHV account', async () => {
+    sinon.stub(apiCalls, 'getMHVAccount').resolves({ errors: [] });
     const dispatch = sinon.spy();
     const initialState = {
       user: {
