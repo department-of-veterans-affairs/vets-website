@@ -18,6 +18,7 @@ import {
   generateInitialHeaderContent,
   generateFinalHeaderContent,
   generateFooterContent,
+  createRichTextDetailItem,
 } from './utils';
 
 const defaultConfig = {
@@ -122,12 +123,24 @@ const generateResultItemContent = async (item, doc, results, config) => {
   }
 
   for (const resultItem of item.items) {
-    const structs = await createDetailItem(
-      doc,
-      config,
-      config.indents.one,
-      resultItem,
-    );
+    let structs;
+
+    if (resultItem.isRich) {
+      structs = await createRichTextDetailItem(
+        doc,
+        config,
+        config.indents.one,
+        resultItem,
+      );
+    } else {
+      structs = await createDetailItem(
+        doc,
+        config,
+        config.indents.one,
+        resultItem,
+      );
+    }
+
     for (const struct of structs) {
       results.add(struct);
     }

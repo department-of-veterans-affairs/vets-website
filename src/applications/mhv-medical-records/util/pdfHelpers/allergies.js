@@ -1,5 +1,3 @@
-import { processList } from '../helpers';
-
 export const generateAllergiesIntro = (records, lastUpdated) => {
   return {
     title: 'Allergies and reactions',
@@ -13,6 +11,8 @@ export const generateAllergiesIntro = (records, lastUpdated) => {
 };
 
 export const generateAllergyItem = record => {
+  const multipleReactions = record.reaction.length > 1;
+
   if (record.isOracleHealthData) {
     return {
       items: [
@@ -22,9 +22,12 @@ export const generateAllergyItem = record => {
           inline: true,
         },
         {
-          title: 'Signs and symptoms',
-          value: processList(record.reaction),
-          inline: true,
+          title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
+          value: multipleReactions
+            ? [{ value: record.reaction }]
+            : record.reaction[0],
+          isRich: multipleReactions,
+          inline: !multipleReactions,
         },
         {
           title: 'Type of allergy',
@@ -53,9 +56,12 @@ export const generateAllergyItem = record => {
         inline: true,
       },
       {
-        title: 'Signs and symptoms',
-        value: processList(record.reaction),
-        inline: true,
+        title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
+        value: multipleReactions
+          ? [{ value: record.reaction, indent: 0, paragraphGap: 0 }]
+          : record.reaction[0],
+        isRich: multipleReactions,
+        inline: !multipleReactions,
       },
       {
         title: 'Type of allergy',
