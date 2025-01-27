@@ -135,27 +135,53 @@ export const giBillTypeLabels = Object.freeze({
   NOT_APPLIED: "I haven't applied for GI Bill benefits.",
 });
 
-export const characterOfDischargeTypes = Object.freeze({
-  HONORABLE: 'HONORABLE',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
-    'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
-  BAD_CONDUCT: 'BAD_CONDUCT',
-  DISHONORABLE: 'DISHONORABLE',
-  UNCHARACTERIZED: 'UNCHARACTERIZED',
-  NOT_SURE: 'NOT_SURE',
-});
+export const characterOfDischargeTypes = environment.isProduction()
+  ? Object.freeze({
+      HONORABLE: 'HONORABLE',
+      UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
+      UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+        'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
+      BAD_CONDUCT: 'BAD_CONDUCT',
+      DISHONORABLE: 'DISHONORABLE',
+      UNCHARACTERIZED: 'UNCHARACTERIZED',
+      NOT_SURE: 'NOT_SURE',
+    })
+  : Object.freeze({
+      HONORABLE: 'HONORABLE',
+      UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
+      UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+        'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
+      BAD_CONDUCT: 'BAD_CONDUCT',
+      DISHONORABLE: 'DISHONORABLE',
+      UNCHARACTERIZED: 'UNCHARACTERIZED',
+      STILL_SERVING: 'STILL_SERVING',
+      NOT_SURE: 'NOT_SURE',
+    });
 
-export const characterOfDischargeTypeLabels = Object.freeze({
-  HONORABLE: 'Honorable',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
-    'Under Other Than Honorable Conditions',
-  BAD_CONDUCT: 'Bad Conduct',
-  DISHONORABLE: 'Dishonorable',
-  UNCHARACTERIZED: 'Uncharacterized',
-  NOT_SURE: "I'm not sure",
-});
+export const characterOfDischargeTypeLabels = environment.isProduction()
+  ? Object.freeze({
+      HONORABLE: 'Honorable',
+      UNDER_HONORABLE_CONDITIONS_GENERAL:
+        'Under Honorable Conditions (General)',
+      UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+        'Under Other Than Honorable Conditions',
+      BAD_CONDUCT: 'Bad Conduct',
+      DISHONORABLE: 'Dishonorable',
+      UNCHARACTERIZED: 'Uncharacterized',
+      NOT_SURE: "I'm not sure",
+    })
+  : Object.freeze({
+      HONORABLE: 'Honorable',
+      UNDER_HONORABLE_CONDITIONS_GENERAL:
+        'Under Honorable Conditions (General)',
+      UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+        'Under Other Than Honorable Conditions',
+      BAD_CONDUCT: 'Bad Conduct',
+      DISHONORABLE: 'Dishonorable',
+      UNCHARACTERIZED: 'Uncharacterized',
+      STILL_SERVING: "I'm still serving",
+      NOT_SURE: "I'm not sure",
+    });
 
 export const mappingTypes = {
   GOALS: 'goals',
@@ -186,6 +212,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
@@ -214,6 +241,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
@@ -254,6 +282,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
@@ -287,6 +316,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
@@ -357,6 +387,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [
@@ -393,6 +424,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
@@ -425,6 +457,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -464,6 +497,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -491,6 +525,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -519,6 +554,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
@@ -577,6 +613,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.STARTED,
@@ -614,6 +651,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -649,6 +687,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -682,6 +721,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -710,6 +750,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -733,6 +774,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -760,6 +802,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.DISHONORABLE,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
