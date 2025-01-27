@@ -17,16 +17,8 @@ describe('HCA-Health-Insurance-Information', () => {
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
-    cy.get('[name="root_gender"]').check('M');
-
     goToNextPage('/veteran-information/demographic-information');
     goToNextPage('/veteran-information/veteran-address');
-    cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);
-    cy.get('#root_veteranAddress_city').type(testData.veteranAddress.city);
-    cy.get('#root_veteranAddress_state').select(testData.veteranAddress.state);
-    cy.get('#root_veteranAddress_postalCode').type(
-      testData.veteranAddress.postalCode,
-    );
     cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
 
     goToNextPage('/veteran-information/contact-information');
