@@ -1,6 +1,6 @@
 import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
-import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
+import manualUploadPage from '../../pages/form0781/manualUploadPage';
 import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
 import * as eventType from '../../pages/form0781/traumaticEventTypes';
 import * as eventDetails from '../../pages/form0781/traumaticEventDetails';
