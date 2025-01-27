@@ -265,7 +265,7 @@ function fillServicePeriods(serviceRecord) {
   clickContinue();
 
   serviceRecord.forEach((tour, index) => {
-    cy.get('.schemaform-block-title', { timeout: 10000 }).should('be.visible');
+    cy.get('h3').should('be.focused');
     autoSuggestFirstResult(
       '#root_serviceBranch',
       serviceLabels[tour.serviceBranch],
