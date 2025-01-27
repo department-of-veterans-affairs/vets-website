@@ -69,6 +69,10 @@ class GeneralFunctionsPage {
     cy.get(`h1`).should(`have.text`, text);
   };
 
+  verifyHeaderFocused = () => {
+    cy.get(`h1`).should(`be.focused`);
+  };
+
   verifyMaintenanceBanner = (startDate, endDate, text) => {
     cy.get(Locators.ALERTS.VA_ALERT)
       .find(`h2`)
