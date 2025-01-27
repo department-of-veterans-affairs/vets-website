@@ -142,10 +142,10 @@ export const formConfig = {
   formId: VA_FORM_IDS.FORM_21_686CV2,
   saveInProgress: {
     messages: {
-      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      inProgress: 'Your application is in progress',
       expired:
-        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, start a new application.',
-      saved: 'Your dependent status application has been saved.',
+        'Your saved application has expired. If you want to apply for dependent status, start a new application.',
+      saved: 'Your application has been saved',
     },
   },
   savedFormMessages: {
