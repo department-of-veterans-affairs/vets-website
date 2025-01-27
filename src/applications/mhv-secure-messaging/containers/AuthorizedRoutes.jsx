@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -31,12 +31,26 @@ AppRoute.propTypes = {
 };
 
 const AuthorizedRoutes = () => {
+  const location = useLocation();
   const contactListPage = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingEditContactList
       ],
   );
+
+  const removeLandingPage = useSelector(
+    state =>
+      state.featureToggles?.[
+        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
+
+  if (removeLandingPage && location.pathname === `/`) {
+    window.location.replace('/my-health/secure-messages/inbox');
+    return <></>;
+  }
+
   return (
     <div
       className="vads-l-col--12
