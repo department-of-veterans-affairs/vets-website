@@ -16,10 +16,9 @@ export function VyeEnrollmentLoginWidget({
   user,
   includedInFlipper,
 }) {
-  const onSignInClicked = useCallback(
-    () => toggleLoginModal(true, 'vye-enrollment-login-widget', true),
-    [toggleLoginModal],
-  );
+  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
+    toggleLoginModal,
+  ]);
 
   const visitorUI = (
     <div>

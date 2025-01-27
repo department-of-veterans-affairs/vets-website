@@ -10,10 +10,9 @@ export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGME
 export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 
 export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
-  const onSignInClicked = useCallback(
-    () => toggleLoginModal(true, 'enrollment-verifications', true),
-    [toggleLoginModal],
-  );
+  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
+    toggleLoginModal,
+  ]);
 
   const visitorUI = (
     <va-alert-sign-in variant="signInRequired" visible heading-level={3}>
