@@ -247,3 +247,26 @@ export const addressExists = address =>
     address?.stateCode?.trim() &&
     address?.zipCode?.trim()
   );
+
+export const entityAcceptsDigitalPoaRequests = entity => {
+  const repType = getRepType(entity);
+
+  if (repType === 'Organization') {
+    return !!entity?.attributes?.canAcceptDigitalPoaRequests;
+  }
+  if (repType === 'VSO Representative') {
+    const accreditedOrganizations = entity?.attributes?.accreditedOrganizations;
+
+    if (
+      !accreditedOrganizations ||
+      accreditedOrganizations?.data?.length === 0
+    ) {
+      return false;
+    }
+
+    return accreditedOrganizations.data.some(
+      org => org?.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+  return false;
+};
