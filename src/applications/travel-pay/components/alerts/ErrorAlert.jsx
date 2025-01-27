@@ -22,9 +22,10 @@ const ErrorAlert = ({ errorStatus }) => {
         <p className="vads-u-margin-top--2">
           There’s a problem with our system. Check back later or try checking in
           the Beneficiary Travel Self Service System (BTSSS) portal.
+          <br />
           <va-link-action
-            text="Go to the BTSSS portal (opens in a new tab)"
-            label="Go to the Beneficiary Travel Self Service System portal (opens in a new tab)"
+            text="Go to the BTSSS portal"
+            label="Go to the Beneficiary Travel Self Service System portal"
             href={BTSSS_PORTAL_URL}
           />
         </p>
