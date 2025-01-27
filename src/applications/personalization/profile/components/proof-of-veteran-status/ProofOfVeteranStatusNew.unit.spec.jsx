@@ -237,7 +237,7 @@ describe('ProofOfVeteranStatusNew', () => {
       });
     });
 
-    it('displays error message when confirmed without service history', async () => {
+    it('confirmed and no service history displays not confirmed message', async () => {
       const mockData = {
         data: {
           id: '',
@@ -257,6 +257,38 @@ describe('ProofOfVeteranStatusNew', () => {
         '/profile/vet_verification_status',
       );
       await waitFor(() => {
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('not confirmed and no service history displays the returned not confirmed message', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: {
+            veteranStatus: 'not confirmed',
+            notConfirmedReason: 'PERSON_NOT_FOUND',
+          },
+          message: problematicEligibility.message,
+        },
+      };
+      apiRequestStub.resolves(mockData);
+      initialState = createBasicInitialState([], problematicEligibility, true);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran Status on your mobile device/i,
+          ),
+        ).to.not.exist;
         expect(
           view.queryByText(
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
