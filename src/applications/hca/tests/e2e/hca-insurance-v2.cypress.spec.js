@@ -5,30 +5,15 @@ import {
   goToNextPage,
   selectYesNoWebComponent,
   setupForAuth,
+  startAsAuthUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
 
 describe('HCA-Health-Insurance-Information', () => {
   const advanceToHealthInsurance = () => {
-    cy.get('.schemaform-start-button')
-      .first()
-      .click();
-    cy.location('pathname').should('include', '/id-form');
+    startAsAuthUser();
 
-    cy.get('#root_firstName').type(testData.veteranFullName.first);
-    cy.get('#root_lastName').type(testData.veteranFullName.last);
-
-    const [year, month, day] = testData.veteranDateOfBirth
-      .split('-')
-      .map(dateComponent => parseInt(dateComponent, 10).toString());
-    cy.get('#root_dobMonth').select(month);
-    cy.get('#root_dobDay').select(day);
-    cy.get('#root_dobYear').type(year);
-
-    cy.get('#root_ssn').type(testData.veteranSocialSecurityNumber);
-
-    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

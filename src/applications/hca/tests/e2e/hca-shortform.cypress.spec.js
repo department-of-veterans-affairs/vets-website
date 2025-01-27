@@ -19,6 +19,7 @@ describe('HCA-ShortForm-Authenticated: High disability', () => {
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
+    goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
     goToNextPage('/veteran-information/demographic-information');
