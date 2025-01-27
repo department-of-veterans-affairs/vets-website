@@ -80,7 +80,7 @@ describe('SM MAIN PAGE WITHOUT API CALLS', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   describe('SM MAIN PAGE REDIRECTING', () => {
@@ -93,6 +93,9 @@ describe('SM MAIN PAGE WITHOUT API CALLS', () => {
       SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
 
       cy.url().should(`include`, `/secure-messages/inbox`);
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
     });
   });
 });

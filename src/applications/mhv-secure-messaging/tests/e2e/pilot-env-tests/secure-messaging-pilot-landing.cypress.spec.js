@@ -64,5 +64,7 @@ describe('SM PILOT FEATURE FLAG', () => {
       Paths.UI_PILOT,
     );
     cy.url().should(`include`, `/secure-messages-pilot/inbox`);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
