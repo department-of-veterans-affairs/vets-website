@@ -176,7 +176,10 @@ export const serviceDowntimeErrorMessage = (
 export const genericErrorMessage = (
   <div>
     <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
-    <Link className="usa-button usa-button-primary" to="/">
+    <Link
+      className="usa-button usa-button-primary"
+      to="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
+    >
       Back to Post-9/11 GI Bill
     </Link>
   </div>
@@ -212,7 +215,7 @@ export const authenticationErrorMessage = (
           <li>
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
             <br />
-            <Link to="/education/apply-for-benefits-form-22-1990/introduction">
+            <Link to="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
               Apply for education benefits
             </Link>
           </li>
