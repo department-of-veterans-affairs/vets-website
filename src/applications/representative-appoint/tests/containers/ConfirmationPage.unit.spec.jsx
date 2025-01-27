@@ -92,6 +92,16 @@ describe('ConfirmationPage', () => {
     expect(checkbox.checked).to.be.true;
   });
 
+  it('should not focus on the "Continue" button after it is clicked when the checkbox is not checked', () => {
+    // We can't text the focus of the checkbox after the button click because it's in the shadow DOM.
+    // Instead, we can test that the focus is not on the "Continue" button after it is clicked when the checkbox is not checked.
+    const button = container.querySelector('va-button');
+
+    fireEvent.click(button);
+
+    expect(document.activeElement).to.not.equal(button);
+  });
+
   it('should call the download handler when "Download your form" link is clicked', () => {
     const downloadLink = container.querySelector('va-link');
 

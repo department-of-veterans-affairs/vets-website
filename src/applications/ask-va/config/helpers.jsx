@@ -657,11 +657,9 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
-    case 'Solved':
-    case 'Replied':
+    case 'replied':
       return 'Replied';
     case 'reopened':
-    case 'Reopened':
       return 'Reopened';
     case 'closed':
       return 'Closed';
@@ -756,6 +754,16 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
+  const sizeMb = fileSize * 0.001;
+
+  return (
+    <a href={fileUrl} download={fileName}>
+      {`${fileName} (${sizeMb.toFixed(2)} MB)`}
+    </a>
+  );
 };
 
 export const isEducationNonVRE = formData =>

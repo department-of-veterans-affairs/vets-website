@@ -4,12 +4,11 @@ steps:
     value:  Your VA health facility
   - action: typeTextInput
     target: CITY_OR_POSTAL_CODE
-    value:  36064
+    value:  austin
   - action: click
     target: search
   - action: click
     target: radio
-    value: "vha_619GF"
-    # value: "Central Alabama Montgomery VA Clinic, Montgomery, AL 36117"
+    value: "vba_349b"
   - action: click
     target: call-to-action

@@ -9,7 +9,4 @@ steps:
     target: EMAIL
     value:  joe@joe.com
   - action: click
-    target: radio
-    value:  Email
-  - action: click
     target: call-to-action

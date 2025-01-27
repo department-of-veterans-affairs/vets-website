@@ -26,7 +26,7 @@ const defaultUser = {
         firstName: 'Veteran',
         middleName: null,
         lastName: 'Maveteran',
-        preferredName: 'VeeMav',
+        preferredName: 'Pat',
         birthDate: '1974-04-06',
         gender: 'M',
         zip: null,

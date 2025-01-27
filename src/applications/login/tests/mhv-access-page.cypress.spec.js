@@ -12,7 +12,7 @@ describe('My HealtheVet Access Page', () => {
       .should('exist')
       .and(
         'contain',
-        'Get temporary access to the My HealtheVet sign-in option. This sign-in process may change in the future.',
+        "Get temporary access to the My HealtheVet sign-in option if you weren't able to create a new Login.gov or ID.me account yet",
       );
   });
 
