@@ -47,7 +47,7 @@
 }
 .main-content {
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 2rem !important;
 
   @media (max-width: $small-screen) {
     max-width: 480px;

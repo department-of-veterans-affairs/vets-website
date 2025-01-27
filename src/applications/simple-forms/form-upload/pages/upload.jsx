@@ -23,17 +23,6 @@ export const uploadPage = {
   uiSchema: {
     'view:uploadGuidelines': {
       'ui:description': UPLOAD_GUIDELINES,
-      'ui:options': {
-        updateUiSchema: formData => {
-          return {
-            'ui:description': warningsPresent(formData) ? (
-              <h3>Your file</h3>
-            ) : (
-              UPLOAD_GUIDELINES
-            ),
-          };
-        },
-      },
     },
     uploadedFile: {
       ...fileInputUI({
@@ -41,6 +30,8 @@ export const uploadPage = {
         name: 'form-upload-file-input',
         fileUploadUrl,
         title,
+        hint:
+          'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB
@@ -71,14 +62,15 @@ export const uploadPage = {
 /** @type {CustomPageType} */
 export function UploadPage(props) {
   const warnings = props.data?.uploadedFile?.warnings;
-  const alert = warnings
-    ? FORM_UPLOAD_OCR_ALERT(
-        formNumber,
-        getPdfDownloadUrl(formNumber),
-        onCloseAlert,
-        warnings,
-      )
-    : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  const alert =
+    warnings?.length > 0
+      ? FORM_UPLOAD_OCR_ALERT(
+          formNumber,
+          getPdfDownloadUrl(formNumber),
+          onCloseAlert,
+          warnings,
+        )
+      : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
   return <CustomAlertPage {...props} alert={alert} />;
 }
 

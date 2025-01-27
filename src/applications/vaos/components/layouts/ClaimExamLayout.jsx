@@ -57,6 +57,10 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   recordAppointmentDetailsNullStates({
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+    [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
   });
 
   return (
@@ -153,9 +157,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             <>
               <a href={facility.website}>{facility.name}</a>
               <br />
-              {facilityPhone && (
-                <FacilityPhone heading="Phone:" contact={facilityPhone} />
-              )}
+              {facilityPhone && <FacilityPhone contact={facilityPhone} />}
               {!facilityPhone && <>Not available</>}
             </>
           )}

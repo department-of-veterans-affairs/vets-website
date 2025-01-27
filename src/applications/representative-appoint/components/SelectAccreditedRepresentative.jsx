@@ -138,6 +138,7 @@ const SelectAccreditedRepresentative = props => {
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
         selectedAccreditedOrganizationId: null,
+        representativeSubmissionMethod: null,
       };
 
       setFormData({
@@ -204,6 +205,7 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
+            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
           />
         ))}
       <p className="vads-u-margin-y--4">

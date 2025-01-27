@@ -12,7 +12,7 @@ describe('LoginNote', () => {
   afterEach(() => wrapper.unmount());
 
   it('should render', () => {
-    expect(wrapper.find('a').text()).includes('Learn more about creating');
+    expect(wrapper.find('a').text()).includes('Learn about creating');
     wrapper.unmount();
   });
 });

@@ -206,6 +206,8 @@ const filteredStates = constants.states.USA.filter(
 
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
+const COUNTRY_VALUES = constants.countries.map(country => country.value);
+const COUNTRY_NAMES = constants.countries.map(country => country.label);
 
 export const customLocationSchema = {
   type: 'object',
@@ -223,6 +225,11 @@ export const customLocationSchema = {
           type: 'string',
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
+        },
+        country: {
+          type: 'string',
+          enum: COUNTRY_VALUES,
+          enumNames: COUNTRY_NAMES,
         },
       },
     },
@@ -242,6 +249,11 @@ export const customLocationSchemaStatePostal = {
           type: 'string',
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
+        },
+        country: {
+          type: 'string',
+          enum: COUNTRY_VALUES,
+          enumNames: COUNTRY_NAMES,
         },
         postalCode: {
           type: 'string',

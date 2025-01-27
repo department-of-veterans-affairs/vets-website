@@ -21,6 +21,7 @@ export default function MhvSignIn() {
     apiRequest('/test_account_user_email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
     });
     login({
       policy: 'mhv',

@@ -17,7 +17,7 @@ import { getReferralSlotKey } from '../utils/referrals';
 import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
-  const { currentReferral, provider, appointmentsByMonth } = props;
+  const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -32,7 +32,7 @@ export const DateAndTimeContent = props => {
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
-      provider.slots.map(slot => {
+      draftAppointmentInfo.slots.slots.map(slot => {
         return new Date(slot.start);
       }),
     ),
@@ -40,25 +40,30 @@ export const DateAndTimeContent = props => {
   useEffect(
     () => {
       if (selectedSlot) {
-        setSelectedDate(getSlotById(provider.slots, selectedSlot).start);
+        setSelectedDate(
+          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
+        );
       }
     },
-    [provider.slots, selectedSlot],
+    [draftAppointmentInfo.slots.slots, selectedSlot],
   );
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
+      const savedSlot = getSlotById(
+        draftAppointmentInfo.slots.slots,
+        savedSelectedSlot,
+      );
       if (!savedSlot) {
         return;
       }
       dispatch(setSelectedSlot(savedSlot.id));
     },
-    [dispatch, selectedSlotKey, provider.slots],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
   );
   const onChange = useCallback(
     value => {
-      const newSlot = getSlotByDate(provider.slots, value[0]);
+      const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
       if (newSlot) {
         setError('');
         dispatch(setSelectedSlot(newSlot.id));
@@ -66,7 +71,7 @@ export const DateAndTimeContent = props => {
         sessionStorage.setItem(selectedSlotKey, newSlot.id);
       }
     },
-    [dispatch, provider.slots, selectedSlotKey],
+    [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
@@ -93,7 +98,19 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.UUID);
   };
 
-  const noSlotsAvailable = !provider.slots.length;
+  const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
+
+  const driveTimeMinutes = Math.floor(
+    draftAppointmentInfo.drivetime.destination
+      .driveTimeInSecondsWithoutTraffic / 60,
+  );
+  const driveTimeDistance =
+    draftAppointmentInfo.drivetime.destination.distanceInMiles;
+
+  const driveTimeString =
+    driveTimeMinutes && driveTimeDistance
+      ? `${driveTimeMinutes}-minute drive (${driveTimeDistance} miles)`
+      : null;
 
   return (
     <>
@@ -103,21 +120,19 @@ export const DateAndTimeContent = props => {
           online with this provider:
         </p>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {provider.providerName}
+          {draftAppointmentInfo.provider.name}
         </p>
         <p className="vads-u-margin-top--0">{currentReferral.CategoryOfCare}</p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {provider.orgName}
+          {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={provider.orgAddress}
+          address={currentReferral.ReferringFacilityInfo.Address}
           showDirections
-          directionsName={provider.orgName}
-          phone={provider.orgPhone}
+          directionsName={currentReferral.ReferringFacilityInfo.FacilityName}
+          phone={currentReferral.ReferringFacilityInfo.Phone}
         />
-        <p>
-          {provider.driveTime} ({provider.driveDistance})
-        </p>
+        {driveTimeString && <p>{driveTimeString}</p>}
         <h2>Choose a date and time</h2>
         {!noSlotsAvailable && (
           <p>
@@ -140,7 +155,7 @@ export const DateAndTimeContent = props => {
             We’re sorry. We couldn’t find any open time slots.
           </h2>
           <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={provider.orgPhone} />
+          <va-telephone contact={currentReferral.ReferringFacilityInfo.Phone} />
         </va-alert>
       )}
       {!noSlotsAvailable && (
@@ -148,7 +163,7 @@ export const DateAndTimeContent = props => {
           <div data-testid="cal-widget">
             <CalendarWidget
               maxSelections={1}
-              availableSlots={provider.slots}
+              availableSlots={draftAppointmentInfo.slots.slots}
               value={[selectedDate]}
               id="dateTime"
               timezone={facilityTimeZone}
@@ -190,7 +205,7 @@ export const DateAndTimeContent = props => {
 DateAndTimeContent.propTypes = {
   appointmentsByMonth: PropTypes.object.isRequired,
   currentReferral: PropTypes.object.isRequired,
-  provider: PropTypes.object.isRequired,
+  draftAppointmentInfo: PropTypes.object.isRequired,
 };
 
 export default DateAndTimeContent;

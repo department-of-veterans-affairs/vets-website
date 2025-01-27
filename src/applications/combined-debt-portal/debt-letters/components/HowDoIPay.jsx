@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { deductionCodes } from '../const/deduction-codes';
 
 export const getDeductionDescription = code => {
@@ -75,9 +76,9 @@ const HowDoIPay = ({ userData }) => {
 
       <h3>Pay by phone</h3>
       <p>
-        Call us at <va-telephone contact="8008270648" /> (
-        <va-telephone contact="6127136415" /> from overseas) (
-        <va-telephone contact="711" tty="true" />
+        Call us at <va-telephone contact={CONTACTS.DMC} /> (
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas) (<va-telephone contact="711" tty="true" />
         ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
 

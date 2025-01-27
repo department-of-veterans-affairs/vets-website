@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Burials and memorials
+  - action: click
+    target: call-to-action

@@ -334,6 +334,12 @@ jobs:
 
       - name: Annotate ESLint results for modified files
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+      
+      - name: Check for broken imports
+        id: check-for-broken-imports
+        continue-on-error: false
+        run: node ./script/github-actions/check-imports.js
+    
 
       - name: Run Stylelint
         if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}

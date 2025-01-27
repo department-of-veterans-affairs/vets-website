@@ -6,8 +6,6 @@ export const generateDemographicsContent = record => {
       sectionSeparators: false,
       items: [
         {
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'First name',
@@ -63,10 +61,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Permanent address and contact information',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Street address',
@@ -122,10 +117,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Eligibility',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Service connected percentage',
@@ -146,10 +138,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Employment',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Occupation',
@@ -170,10 +159,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Primary next of kin',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -214,10 +200,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Emergency contact',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -258,10 +241,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'VA guardian',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -302,10 +282,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Civil guardian',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -346,10 +323,7 @@ export const generateDemographicsContent = record => {
         },
         {
           header: 'Active insurance',
-          headerIndent: 40,
           headerType: 'H4',
-          itemsIndent: 40,
-          spaceResults: 1,
           items: [
             {
               title: 'Insurance company',

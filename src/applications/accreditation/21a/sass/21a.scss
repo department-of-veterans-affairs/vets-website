@@ -1,0 +1,28 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.arp-footer {
+  background-color: var(--vads-color-primary-darker);
+  min-width: 100%;
+
+  a:hover {
+    color: var(--vads-color-warning) !important;
+  }
+}
+
+// There is a div in content-build accredited-representative-portal.html that
+// would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+  display: none;
+}

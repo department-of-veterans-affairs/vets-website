@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { shallowEqual, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { selectProviderSelectionInfo } from '../../redux/selectors';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { GA_PREFIX } from '../../../utils/constants';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
 import RemoveProviderModal from './RemoveProviderModal';
 
 export default function SelectedProvider({
@@ -24,18 +24,16 @@ export default function SelectedProvider({
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!providerSelected && (
-        <button
-          className="va-button-link"
-          type="button"
-          aria-describedby="providerSelectionDescription"
+        <va-button
+          secondary
+          text="Choose a provider"
           onClick={() => {
             setShowProvidersList(true);
             recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
           }}
-        >
-          <va-icon icon="add" size="3" aria-hidden="true" />
-          Find a provider
-        </button>
+          uswds
+          data-testid="choose-a-provider-button"
+        />
       )}
       {providerSelected && (
         <section id="selectedProvider" aria-label="Selected provider">
@@ -50,27 +48,26 @@ export default function SelectedProvider({
             {formData.address?.city}, {formData.address?.state}
           </span>
           <span>{`${formData[sortMethod]} miles`}</span>
-          <div className="vads-u-display--flex vads-u-margin-top--1">
-            <button
-              type="button"
-              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
-              onClick={() => {
-                setProvidersListLength(initialProviderDisplayCount);
-                setShowProvidersList(true);
-              }}
-            >
-              Change provider
-            </button>
-            <button
-              aria-label={`Remove ${formData.name}`}
-              type="button"
-              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
-              onClick={() => {
-                setShowRemoveProviderModal(true);
-              }}
-            >
-              Remove
-            </button>
+          <div className="vads-u-margin-top--2 vads-l-row">
+            <div className="vads-u-margin-top--1 vads-u-padding-right--1p5">
+              <va-button
+                secondary
+                text="Change provider"
+                onClick={() => {
+                  setProvidersListLength(initialProviderDisplayCount);
+                  setShowProvidersList(true);
+                }}
+                uswds
+              />
+            </div>
+            <div className="vads-u-margin-top--1">
+              <va-button
+                secondary
+                text="Remove"
+                onClick={() => setShowRemoveProviderModal(true)}
+                uswds
+              />
+            </div>
           </div>
         </section>
       )}

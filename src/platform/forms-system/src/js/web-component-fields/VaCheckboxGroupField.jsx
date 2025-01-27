@@ -120,6 +120,7 @@ export default function VaCheckboxGroupField(props) {
                 checkbox-description={
                   uiSchema?.['ui:description'] || schema.description
                 }
+                style={{ whiteSpace: 'pre-line' }}
               />
             );
           })}

@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getAddressString } from '../utils/provider';
+import { getAddressString } from '../utils/referrals';
 
 const ProviderAddress = props => {
   const { address, showDirections = false, directionsName, phone } = props;
   return (
     <address data-testid="address-block">
       <p className="vads-u-margin--0">
-        {address.street1} <br />
-        {address.street2 && (
-          <span data-testid="street2">
-            {address.street2}
+        {address.Address1} <br />
+        {address.Address2 && (
+          <span data-testid="Address2">
+            {address.Address2}
             <br />
           </span>
         )}
-        {address.street3 && (
-          <span data-testid="street3">
-            {address.street3}
+        {address.Address3 && (
+          <span data-testid="Address3">
+            {address.Address3}
             <br />
           </span>
         )}
-        {address.city}, {address.state}, {address.zip}
+        {address.City}, {address.State}, {address.ZipCode}
       </p>
       {showDirections &&
         directionsName && (

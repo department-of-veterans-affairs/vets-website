@@ -1,12 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-
 import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -20,22 +18,13 @@ import formConfig from '../../config/form';
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-const getData = ({
-  renderName = true,
-  suffix = 'Esq.',
-  disability526NewConfirmationPage = false,
-} = {}) => ({
+const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
     profile: {
       userFullName: renderName
         ? { first: 'Foo', middle: 'Man', last: 'Choo', suffix }
         : {},
     },
-  },
-  featureToggles: {
-    loading: false,
-    [Toggler.TOGGLE_NAMES
-      .disability526NewConfirmationPage]: disability526NewConfirmationPage,
   },
 });
 
@@ -173,28 +162,6 @@ describe('ConfirmationPoll', () => {
     }, 50);
   });
 
-  it('should render long wait alert', done => {
-    mockMultipleApiRequests([
-      pendingResponse,
-      pendingResponse,
-      pendingResponse,
-      successResponse,
-    ]);
-
-    const form = mount(
-      <Provider store={mockStore(getData())}>
-        <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
-      </Provider>,
-    );
-    setTimeout(() => {
-      expect(global.fetch.callCount).to.equal(4);
-      const alert = form.find('va-loading-indicator');
-      expect(alert.html()).to.contain('longer than expected');
-      form.unmount();
-      done();
-    }, 50);
-  });
-
   it('should ignore immediate api failures', done => {
     mockMultipleApiRequests([
       errorResponse,
@@ -209,10 +176,9 @@ describe('ConfirmationPoll', () => {
       </Provider>,
     );
     setTimeout(() => {
-      form.update();
       expect(global.fetch.callCount).to.equal(4);
-      const confirmationPage = form.find('ConfirmationPage');
-      expect(confirmationPage.length).to.equal(1);
+      const loadingIndicator = form.find('va-loading-indicator');
+      expect(loadingIndicator.length).to.equal(1);
       form.unmount();
       done();
     }, 50);

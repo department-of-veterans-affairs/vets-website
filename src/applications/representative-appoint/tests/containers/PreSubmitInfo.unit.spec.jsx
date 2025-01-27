@@ -17,7 +17,7 @@ describe('<PreSubmitInfo>', () => {
         formData: {
           veteranFullName: {
             first: 'John',
-            middle: 'Edmund',
+            middle: 'E',
             last: 'Doe',
             suffix: 'Sr.',
           },
@@ -63,7 +63,7 @@ describe('<PreSubmitInfo>', () => {
     const { container } = renderContainer(props, mockStore);
     const content = $('va-accordion-item', container);
 
-    expect(content.textContent).to.contain('John Edmund Doe Sr.');
+    expect(content.textContent).to.contain('John E Doe Sr.');
   });
 
   it('should include the representative name', () => {

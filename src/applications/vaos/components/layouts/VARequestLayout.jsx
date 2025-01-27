@@ -48,6 +48,9 @@ export default function VARequestLayout({ data: appointment }) {
 
   recordAppointmentDetailsNullStates({
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
   });
 
   return (
@@ -107,9 +110,7 @@ export default function VARequestLayout({ data: appointment }) {
           </div>
         </Section>
         <Section heading="Phone">
-          {facilityPhone && (
-            <FacilityPhone heading="Phone:" contact={facilityPhone} icon />
-          )}
+          {facilityPhone && <FacilityPhone contact={facilityPhone} icon />}
           {!facilityPhone && <>Not available</>}
         </Section>
         <Details

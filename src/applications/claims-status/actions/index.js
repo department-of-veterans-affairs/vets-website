@@ -225,55 +225,6 @@ export const getClaim = (id, navigate) => {
 
 export const clearClaim = () => ({ type: CLEAR_CLAIM_DETAIL });
 
-export function submitRequest(id, cstClaimPhasesEnabled = false) {
-  return dispatch => {
-    dispatch({
-      type: SUBMIT_DECISION_REQUEST,
-    });
-
-    if (canUseMocks()) {
-      dispatch({ type: SET_DECISION_REQUESTED });
-      dispatch(
-        setNotification({
-          title: 'Request received',
-          body:
-            'Thank you. We have your claim request and will make a decision.',
-        }),
-      );
-      return Promise.resolve();
-    }
-
-    return makeAuthRequest(
-      `/v0/evss_claims/${id}/request_decision`,
-      { method: 'POST' },
-      dispatch,
-      () => {
-        dispatch({ type: SET_DECISION_REQUESTED });
-        if (cstClaimPhasesEnabled) {
-          dispatch(
-            setNotification({
-              title: 'We received your evidence waiver',
-              body:
-                'Thank you. We’ll move your claim to the next step as soon as possible.',
-            }),
-          );
-        } else {
-          dispatch(
-            setNotification({
-              title: 'Request received',
-              body:
-                'Thank you. We have your claim request and will make a decision.',
-            }),
-          );
-        }
-      },
-      error => {
-        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
-      },
-    );
-  };
-}
-
 export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({

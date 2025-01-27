@@ -1,9 +1,34 @@
-// TODO: this is a placeholder. Structure will be added to this page in this ticket #97085
+import {
+  textareaUI,
+  textareaSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  additionalInformationPageTitle,
+  additionalInformationPageQuestion,
+} from '../../content/form0781/additionalInformationPage';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
+
 export const uiSchema = {
-  'ui:description': 'Placeholder text for additional information page skeleton',
+  'ui:title': titleWithTag(additionalInformationPageTitle, form0781HeadingTag),
+  additionalInformation: textareaUI({
+    title: additionalInformationPageQuestion,
+  }),
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
 };
 
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    additionalInformation: textareaSchema,
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
+  },
 };

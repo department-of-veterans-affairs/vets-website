@@ -170,9 +170,9 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <va-alert status="info" visible>
               <h3>We've prefilled some of your information</h3>
-              Since you’re signed in, we can prefill part of your application
-              based on your profile details. You can also save your application
-              in progress and come back later to finish filling it out.
+              Since you’re signed in, we can prefill part of your {appType}{' '}
+              based on your profile details. You can also save your {appType} in
+              progress and come back later to finish filling it out.
             </va-alert>
             <br />
           </div>
@@ -520,6 +520,58 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
+/**
+ * @type {React.FC<{
+ *   fetchInProgressForm: any,
+ *   formId: string,
+ *   pageList: any[],
+ *   removeInProgressForm: any,
+ *   toggleLoginModal: any,
+ *   user: any,
+ *   afterButtonContent: any,
+ *   alertTitle: string,
+ *   ariaDescribedby: string,
+ *   ariaLabel: string,
+ *   buttonOnly: boolean,
+ *   children: any,
+ *   customLink: any,
+ *   devOnly: {
+ *     forceShowFormControls: boolean,
+ *   },
+ *   displayNonVeteranMessaging: boolean,
+ *   downtime: any,
+ *   formConfig: {
+ *     signInHelpList: any,
+ *     customText: {
+ *       appType: string,
+ *       appAction: string,
+ *       appContinuing: string,
+ *     },
+ *   },
+ *   formData: any,
+ *   gaStartEventName: string,
+ *   headingLevel: number,
+ *   hideUnauthedStartLink: boolean,
+ *   isLoggedIn: boolean,
+ *   lastSavedDate: number,
+ *   messages: any,
+ *   migrations: any[],
+ *   pathname: string,
+ *   prefillEnabled: bullion,
+ *   prefillTransformer: any,
+ *   renderSignInMessage: any,
+ *   resumeOnly: boolean,
+ *   retentionPeriod: string,
+ *   retentionPeriodStart: string,
+ *   returnUrl: string,
+ *   startMessageOnly: boolean,
+ *   startText: string,
+ *   unauthStartText: string,
+ *   unverifiedPrefillAlert: any,
+ *   verifiedPrefillAlert: any,
+ *   verifyRequiredPrefill: boolean,
+ * }>}
+ */
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

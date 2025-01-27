@@ -77,6 +77,12 @@ describe('VAOS Component: CCLayout', () => {
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
       });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-provider',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-provider',
+      });
     });
   });
 
@@ -209,6 +215,12 @@ describe('VAOS Component: CCLayout', () => {
       });
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-provider',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-provider',
       });
     });
   });

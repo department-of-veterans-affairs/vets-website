@@ -171,6 +171,7 @@ export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
+export { default as VerifyAlert } from './authorization/components/VerifyAlert';
 // TO DO: resolve missing nested import
 // export { MHVApp } from './authorization/containers/MHVApp';
 // export {

@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaButton,
-  VaTelephone,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useParams } from 'react-router-dom';
@@ -138,21 +135,17 @@ export function ClinicOrFacilityPhone({
   if (clinicPhone) {
     return (
       <FacilityPhone
-        heading="Clinic phone:"
+        heading="Clinic phone: "
         contact={clinicPhone}
         extension={clinicPhoneExtension}
       />
     );
   }
   if (facilityPhone) {
-    return <FacilityPhone heading="Phone:" contact={facilityPhone} />;
+    return <FacilityPhone contact={facilityPhone} />;
   }
-  return (
-    <div>
-      Phone: &nbsp;
-      <VaTelephone contact="800-698-2411" data-testid="main-va-telephone" />
-    </div>
-  );
+  // if no clinic or facility phone number, it will default to VA main phone number
+  return <FacilityPhone />;
 }
 ClinicOrFacilityPhone.propTypes = {
   clinicPhone: PropTypes.string,

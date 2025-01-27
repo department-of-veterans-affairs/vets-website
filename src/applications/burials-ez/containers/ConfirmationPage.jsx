@@ -274,6 +274,26 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     </>
   );
 
+  const askQuestions = (
+    <>
+      <h2>How to contact us if you have questions</h2>
+      <p>
+        Call us at <va-telephone contact="8008271000" international /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        Or you can ask us a question online through Ask VA. Select the category
+        and topic for the VA benefit this form is related to.
+      </p>
+      <va-link
+        text="Contact us online through Ask VA"
+        label="Contact us online through Ask VA"
+        href="https://ask.va.gov/"
+      />
+    </>
+  );
+
   if (burialsConfirmationPage) {
     return (
       <ConfirmationView
@@ -298,6 +318,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
           item2Content={item2Content}
         />
         {submitAdditionalDocuments}
+        {askQuestions}
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
       </ConfirmationView>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   radioSchema,
   radioUI,
@@ -13,28 +12,11 @@ export default {
       labels: disabilityTypeLabels,
       required: () => false,
     }),
-    'view:disabilityEligibility': {
-      'ui:description': (
-        <div>
-          <va-link
-            href="https://www.va.gov/disability/eligibility"
-            external
-            text="Learn more about disability ratings"
-            type="secondary"
-            label="Learn more about disability ratings"
-          />{' '}
-        </div>
-      ),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       disabilityRating: radioSchema(Object.keys(disabilityTypes)),
-      'view:disabilityEligibility': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

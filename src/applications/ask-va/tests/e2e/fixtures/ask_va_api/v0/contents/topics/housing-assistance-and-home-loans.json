@@ -1,0 +1,166 @@
+{
+    "data": [
+        {
+            "id": "b72a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Appraisals",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Appraisals",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "b52a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Funding fee refund",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Funding fee refund",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "b12a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Help to avoid foreclosure",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Help to avoid foreclosure",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "af2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Home Loan Certificate of Eligibility (COE) or Restoration of Entitlement (ROE)",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Home Loan Certificate of Eligibility (COE) or Restoration of Entitlement (ROE)",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "ad2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Home loan benefits",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Home loan benefits",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "b92a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Homes for sale by VA",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Homes for sale by VA",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "258302a6-eee4-eb11-bacb-001dd804b72f",
+            "type": "contents",
+            "attributes": {
+                "name": "Native American Direct Loan (NADL)",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Native American Direct Loan (NADL)",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "bb2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Property titles and taxes for homes sold by VA",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Property titles and taxes for homes sold by VA",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "b32a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants",
+                "parentId": "64524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        }
+    ]
+}

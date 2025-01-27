@@ -1,5 +1,10 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import {
+  focusByOrder,
+  scrollTo,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 import manifest from '../manifest.json';
 import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -53,11 +58,6 @@ export function isLocalhost() {
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/user.json';
 import { CustomTopContent } from '../components/breadcrumbs';
-import {
-  focusByOrder,
-  scrollTo,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
 
 const mockData = testData.data;
 
@@ -114,8 +114,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
-  hideUnauthedStartLink: false,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
@@ -127,7 +126,7 @@ const formConfig = {
   ...minimalFlowProps,
   chapters: {
     statementTypeChapter: {
-      title: 'What kind of statement do you want to submit?',
+      title: 'What would you like to do?',
       hideFormNavProgress: true,
       hideOnReviewPage: true,
       pages: {

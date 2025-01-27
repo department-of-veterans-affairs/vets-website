@@ -7,14 +7,14 @@ export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
     { href: '/', label: 'VA.gov home' },
-    { href: '/find-forms', label: 'Find a Form' },
+    { href: '/find-forms', label: 'Find a VA form' },
     {
-      href: `/find-forms/about-form-${formNumber}`,
-      label: `About Form ${formNumber}`,
+      href: `/find-forms/upload`,
+      label: `Upload VA forms`,
     },
     {
-      href: `/form-upload/${formNumber}/introduction`,
-      label: `Upload Form ${formNumber}`,
+      href: `/find-forms/upload/${formNumber}/introduction`,
+      label: `Upload form ${formNumber}`,
     },
   ];
   const bcString = JSON.stringify(breadcrumbs);

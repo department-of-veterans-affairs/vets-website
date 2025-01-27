@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 
 export default function MhvAccess() {
+  useEffect(() => {
+    document.title = 'Access the My HealtheVet sign-in option';
+  });
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">
         <h1 id="signin-signup-modal-title">
-          Get temporary access to My HealtheVet
+          Access the My HealtheVet sign-in option
         </h1>
         <p className="vads-u-measure--5">
-          Some groups are approved to access the My HealtheVet sign-in option
-          until they create a new modern account. This sign-in process may
-          change in the future.
+          Get temporary access to the My HealtheVet sign-in option if you
+          weren't able to create a new Login.gov or ID.me account yet.
         </p>
+
+        <p>This sign-in process may change in the future.</p>
       </div>
+      <h2>Sign in</h2>
       <div className="vads-u-margin-y--2">
         <va-button
           onClick={() => login({ policy: 'mhv' })}
-          text="Sign in with My HealtheVet"
+          text="My HealtheVet"
           data-testid="accessMhvBtn"
         />
       </div>

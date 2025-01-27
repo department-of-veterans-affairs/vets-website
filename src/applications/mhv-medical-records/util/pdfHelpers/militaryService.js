@@ -6,6 +6,7 @@ export const generateMilitaryServiceContent = record => ({
         monospace: true,
         lineGap: 0,
         value: record,
+        indent: 30,
       },
     ],
   },

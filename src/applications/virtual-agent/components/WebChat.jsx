@@ -91,12 +91,17 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentEnableRootBot,
   );
 
+  const isDatadogLoggingEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
+  );
+
   validateParameters({
     csrfToken,
     apiSession,
     userFirstName,
     userUuid,
     setParamLoadingStatus,
+    isDatadogLoggingEnabled,
   });
 
   const store = useWebChatStore({
@@ -112,7 +117,7 @@ const WebChat = ({
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  signOutEventListener(isDatadogLoggingEnabled);
 
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);

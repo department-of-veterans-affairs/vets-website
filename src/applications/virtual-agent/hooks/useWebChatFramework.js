@@ -2,10 +2,17 @@ import { useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import useLoadWebChat from './useLoadWebChat';
+import { logErrorToDatadog } from '../utils/logging';
+import { useDatadogLogging } from './useDatadogLogging';
 
 const TIMEOUT_DURATION_MS = 250;
 
-function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
+function checkForWebchat(
+  setLoadingStatus,
+  MAX_INTERVAL_CALL_COUNT,
+  timeout,
+  isDatadogLoggingEnabled,
+) {
   let intervalCallCount = 0;
   const intervalId = setInterval(() => {
     intervalCallCount += 1;
@@ -13,7 +20,13 @@ function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
       setLoadingStatus(COMPLETE);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
-      Sentry.captureException(new Error('Failed to load webchat framework'));
+      const errorMessage = new Error('Failed to load webchat framework');
+      Sentry.captureException(errorMessage);
+      logErrorToDatadog(
+        isDatadogLoggingEnabled,
+        errorMessage.message,
+        errorMessage,
+      );
       setLoadingStatus(ERROR);
       clearInterval(intervalId);
     }
@@ -28,12 +41,13 @@ export default function useWebChatFramework(props) {
   useLoadWebChat();
 
   const MAX_INTERVAL_CALL_COUNT = props.timeout / TIMEOUT_DURATION_MS;
-
+  const isDatadogLoggingEnabled = useDatadogLogging();
   if (loadingStatus === LOADING) {
     checkForWebchat(
       setLoadingStatus,
       MAX_INTERVAL_CALL_COUNT,
       TIMEOUT_DURATION_MS,
+      isDatadogLoggingEnabled,
     );
   }
 

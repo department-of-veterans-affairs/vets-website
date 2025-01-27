@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Servicemembers’ Group Life Insurance (SGLI)
+  - action: click
+    target: call-to-action

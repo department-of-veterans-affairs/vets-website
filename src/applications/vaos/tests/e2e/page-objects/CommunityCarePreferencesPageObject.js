@@ -32,7 +32,10 @@ export class CommunityCarePreferencesPageObject extends PageObject {
   }
 
   expandAccordian() {
-    cy.findByText(/Find a provider/).click();
+    cy.findByTestId('choose-a-provider-button')
+      .first()
+      .should('exist')
+      .click();
     cy.axeCheckBestPractice();
 
     return this;

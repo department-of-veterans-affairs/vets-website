@@ -301,7 +301,7 @@ const FacilitySearch = props => {
         </h3>
         <p>
           You’ll need to find and select the VA medical center or clinic where
-          the Veteran receives or plans to recieve care.
+          the Veteran receives or plans to receive care.
         </p>
         <p>
           The VA medical center or clinic may be in a different city, state, or

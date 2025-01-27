@@ -376,17 +376,19 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const { container } = render(
-      <FileField
-        registry={registry}
-        schema={schema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        errorSchema={errorSchema}
-        formData={formData}
-        formContext={formContext}
-        onChange={f => f}
-        requiredSchema={requiredSchema}
-      />,
+      <Provider store={uploadStore}>
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />
+      </Provider>,
     );
 
     // Prepend 'Error' for screenreader
@@ -1233,18 +1235,20 @@ describe('Schemaform <FileField>', () => {
         $id: 'myIdSchemaId',
       };
       const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={idSchema}
-          errorSchema={mockErrorSchemaWithError}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-          enableShortWorkflow
-        />,
+        <Provider store={uploadStore}>
+          <FileField
+            registry={mockRegistry}
+            schema={mockSchema}
+            uiSchema={mockUiSchema}
+            idSchema={idSchema}
+            errorSchema={mockErrorSchemaWithError}
+            formData={mockFormDataWithError}
+            formContext={formContext}
+            onChange={f => f}
+            requiredSchema={requiredSchema}
+            enableShortWorkflow
+          />
+        </Provider>,
       );
 
       // id for main upload button is interpolated {idSchema.$id}_add_label
@@ -1254,18 +1258,20 @@ describe('Schemaform <FileField>', () => {
 
     it('should render Upload a new file button for file with error', () => {
       const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          errorSchema={mockErrorSchemaWithError}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-          enableShortWorkflow
-        />,
+        <Provider store={uploadStore}>
+          <FileField
+            registry={mockRegistry}
+            schema={mockSchema}
+            uiSchema={mockUiSchema}
+            idSchema={mockIdSchema}
+            errorSchema={mockErrorSchemaWithError}
+            formData={mockFormDataWithError}
+            formContext={formContext}
+            onChange={f => f}
+            requiredSchema={requiredSchema}
+            enableShortWorkflow
+          />
+        </Provider>,
       );
 
       // This button is specific to the file that has the error
@@ -1282,18 +1288,20 @@ describe('Schemaform <FileField>', () => {
         },
       };
       const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          errorSchema={errorSchema}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-          enableShortWorkflow
-        />,
+        <Provider store={uploadStore}>
+          <FileField
+            registry={mockRegistry}
+            schema={mockSchema}
+            uiSchema={mockUiSchema}
+            idSchema={mockIdSchema}
+            errorSchema={errorSchema}
+            formData={mockFormDataWithError}
+            formContext={formContext}
+            onChange={f => f}
+            requiredSchema={requiredSchema}
+            enableShortWorkflow
+          />
+        </Provider>,
       );
 
       // This button is specific to the file that has the error
@@ -1306,18 +1314,20 @@ describe('Schemaform <FileField>', () => {
     it('should render remove file button as cancel', () => {
       const onChangeSpy = sinon.spy();
       const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          errorSchema={mockErrorSchemaWithError}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={onChangeSpy}
-          requiredSchema={requiredSchema}
-          enableShortWorkflow
-        />,
+        <Provider store={uploadStore}>
+          <FileField
+            registry={mockRegistry}
+            schema={mockSchema}
+            uiSchema={mockUiSchema}
+            idSchema={mockIdSchema}
+            errorSchema={mockErrorSchemaWithError}
+            formData={mockFormDataWithError}
+            formContext={formContext}
+            onChange={onChangeSpy}
+            requiredSchema={requiredSchema}
+            enableShortWorkflow
+          />
+        </Provider>,
       );
 
       // This button is specific to the file that has the error

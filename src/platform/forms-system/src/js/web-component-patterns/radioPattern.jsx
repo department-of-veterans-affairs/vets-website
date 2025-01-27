@@ -43,6 +43,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *  required?: UISchemaOptions['ui:required'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ *  labelHeaderLevelStyle?: UISchemaOptions['ui:options']['labelHeaderLevelStyle'],
  *  hint?: string,
  * }} options
  * @returns {UISchemaOptions}

@@ -13,7 +13,8 @@ export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
 
   const { submission, data } = form;
-  const formSubmissionId = submission?.response?.formSubmissionId;
+  const response = submission?.response ?? {};
+  const confirmationNumber = response?.attributes?.confirmationNumber;
   const veteranFirstName = data?.veteranInformation?.fullName?.first || '';
   const veteranLastName = data?.veteranInformation?.fullName?.last || '';
 
@@ -29,11 +30,11 @@ export default function ConfirmationPage() {
   return (
     <>
       <va-alert status="success" class="vads-u-margin-bottom--4" uswds>
-        <h3>Form submission started on August 15, 2024</h3>
+        <h3>Form submission started on {dateSubmitted}</h3>
         <p className="vads-u-margin-y--0">Your submission is in progress.</p>
         <p>
           It can take up to 10 days for us to receive your form. Your
-          confirmation number is {formSubmissionId}.
+          confirmation number is {confirmationNumber}.
         </p>
         <va-link-action
           href="/my-va/"

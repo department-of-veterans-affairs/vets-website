@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Signing in to VA.gov and managing VA.gov profile
+  - action: click
+    target: call-to-action

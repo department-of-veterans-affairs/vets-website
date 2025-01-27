@@ -15,12 +15,7 @@ export const SummaryTitle = ({ formData }) => {
       </h1>
       {ShowIssuesList({ issues })}
       <p>
-        <Link
-          aria-label="go back and add any missing issues for review"
-          to={`/${CONTESTABLE_ISSUES_PATH}`}
-        >
-          Add an issue
-        </Link>
+        <Link to={`/${CONTESTABLE_ISSUES_PATH}`}>Add an issue</Link>
       </p>
     </>
   );

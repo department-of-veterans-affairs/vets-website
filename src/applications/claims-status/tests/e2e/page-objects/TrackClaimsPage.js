@@ -336,7 +336,7 @@ class TrackClaimsPage {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Request for Submit Buddy Statement(s)',
+        'Submit Buddy Statement(s)',
       );
     }
   }

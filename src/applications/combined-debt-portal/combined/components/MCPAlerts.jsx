@@ -128,7 +128,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8772228387" />
+        <va-telephone contact={CONTACTS['222_VETS']} />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>

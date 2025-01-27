@@ -116,42 +116,48 @@ const VaMedicalCenter = props => {
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
-      const { 'view:facilityState': facilityState } = localData;
-      if (facilityState) {
-        isLoading(true);
-        apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
-          .then(res => {
-            return res.map(location => ({
-              id: location.id,
-              name: location.name,
-            }));
-          })
-          .then(data => {
-            if (
+      const isStateChanged =
+        localDataFacilityState &&
+        localDataFacilityState !== previousFacilityState;
+
+      if (!isStateChanged) return;
+
+      isLoading(true);
+      setFacilities([]);
+      apiRequest(`${apiRequestWithUrl}&state=${localDataFacilityState}`, {})
+        .then(res => {
+          const data = res.map(location => ({
+            id: location.id,
+            name: location.name,
+          }));
+
+          setLocalData(prevLocalData => {
+            const shouldClearFacility =
               previousFacilityState &&
-              previousFacilityState !== facilityState
-            ) {
-              setLocalData({ ...localData, vaMedicalFacility: undefined });
+              previousFacilityState !== localDataFacilityState;
+
+            if (shouldClearFacility) {
+              return { ...prevLocalData, vaMedicalFacility: undefined };
             }
-            setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
-            isLoading(false);
-          })
-          .catch(err => {
-            isLoading(false);
-            hasError(true);
-            Sentry.withScope(scope => {
-              scope.setExtra('state', facilityState);
-              scope.setExtra('error', err);
-              Sentry.captureMessage('Health care facilities failed to load');
-            });
-            focusElement('.server-error-message');
+
+            return prevLocalData;
           });
-      } else {
-        setFacilities([]);
-        isLoading(false);
-      }
+
+          setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
+          isLoading(false);
+          hasError(false);
+        })
+        .catch(err => {
+          isLoading(false);
+          hasError(true);
+          Sentry.withScope(scope => {
+            scope.setExtra('state', localDataFacilityState);
+            scope.setExtra('error', err);
+            Sentry.captureMessage('Health care facilities failed to load');
+          });
+          focusElement('.server-error-message');
+        });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [localDataFacilityState, previousFacilityState],
   );
 
@@ -179,16 +185,13 @@ const VaMedicalCenter = props => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="server-error-message vads-u-margin-top--4">
-        <ServerErrorAlert />
-      </div>
-    );
-  }
-
   return (
     <>
+      {error && (
+        <div className="server-error-message vads-u-margin-top--4">
+          <ServerErrorAlert />
+        </div>
+      )}
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}

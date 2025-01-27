@@ -11,7 +11,6 @@ import {
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
-  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/82968
   it('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
@@ -53,10 +52,14 @@ describe('VAOS Page: ContactInfoPage', () => {
         /You can update your contact information for most of your benefits and services in your VA.gov profile./,
       ),
     ).to.be.ok;
-    const button = await screen.findByText(/^Continue/);
+    userEvent.click(screen.getByText(/^Continue/));
+    await waitFor(
+      () => {
+        expect(screen.history.push.called).to.be.true;
+      },
+      { timeout: 3000 },
+    );
 
-    userEvent.click(button);
-    expect(screen.history.push.called).to.be.true;
     expect(window.dataLayer).to.deep.include({
       event: 'vaos-contact-info-email-not-populated',
     });

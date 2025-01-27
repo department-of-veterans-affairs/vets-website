@@ -25,9 +25,16 @@ const uiSchema = {
         title: 'Facility code',
         hint: '',
         errorMessages: {
-          required: "Please enter your institution's facilty code",
+          required: "Please enter your institution's facility code",
         },
       }),
+      'ui:validations': [
+        (errors, fieldData) => {
+          if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
+            errors.addError('Please enter a valid 8-digit facility code');
+          }
+        },
+      ],
     },
     termStartDate: {
       ...currentOrPastDateUI({

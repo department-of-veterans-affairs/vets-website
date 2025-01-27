@@ -155,6 +155,7 @@ function addActiveState() {
         const ariaExpanded =
           parent.getAttribute('aria-expanded') === 'false' ? 'true' : 'false';
         parent.setAttribute('aria-expanded', ariaExpanded);
+        accordionContent.setAttribute('aria-hidden', 'false');
       }
     }
   }

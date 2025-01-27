@@ -30,6 +30,7 @@ describe('License Certification Reducer', () => {
     });
     expect(result).to.deep.equal({
       ...INITIAL_STATE,
+      filteredResults: payload,
       fetchingLc: false,
       lcResults: payload,
       hasFetchedOnce: true,

@@ -8,7 +8,7 @@ import { CHAPTER_3, yourRoleOptionsEducation } from '../../../constants';
 const yourRoleEducationPage = {
   uiSchema: {
     'ui:objectViewField': PageFieldSummary,
-    yourRoleEducation: radioUI({
+    yourRole: radioUI({
       title: CHAPTER_3.YOUR_ROLE.TITLE,
       labelHeaderLevel: '3',
       labels: yourRoleOptionsEducation,
@@ -19,9 +19,9 @@ const yourRoleEducationPage = {
   },
   schema: {
     type: 'object',
-    required: ['yourRoleEducation'],
+    required: ['yourRole'],
     properties: {
-      yourRoleEducation: radioSchema(Object.values(yourRoleOptionsEducation)),
+      yourRole: radioSchema(Object.values(yourRoleOptionsEducation)),
     },
   },
 };

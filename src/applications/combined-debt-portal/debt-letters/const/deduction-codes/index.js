@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const deductionCodes = Object.freeze({
   '30': 'Disability compensation and pension debt',
@@ -13,11 +14,11 @@ export const deductionCodes = Object.freeze({
 const ContactInfo = () => (
   <p className="vads-u-margin-bottom--0">
     If you have questions about your VA debt, call us at{' '}
-    <va-telephone contact="8008270648" /> (
+    <va-telephone contact={CONTACTS.DMC} /> (
     <va-telephone contact="711" tty="true" />
     ). If you’re outside the U.S., call{' '}
-    <va-telephone contact="6127136415" international />. We’re here Monday
-    through Friday, 7:30 a.m. to 7:00 p.m. ET.
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re here
+    Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
   </p>
 );
 

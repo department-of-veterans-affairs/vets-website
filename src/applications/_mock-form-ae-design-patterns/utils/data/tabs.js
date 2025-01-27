@@ -52,6 +52,13 @@ export const tabsConfig = {
       bgColor: '--vads-color-warning',
       textColor: '--vads-color-black',
     },
+    {
+      name: 'Personal Info Demo',
+      path: '/2/personal-information-demo',
+      description: 'Pattern 2 - Personal Information Demo',
+      bgColor: '--vads-color-secondary-darkest',
+      textColor: '--vads-color-white',
+    },
   ],
 };
 

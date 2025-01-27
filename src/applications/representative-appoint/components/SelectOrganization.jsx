@@ -13,6 +13,13 @@ const SelectOrganization = props => {
     formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
       ?.data;
 
+  // // v2 feature pending availableSubmissionMethods
+  // const filteredOrganizations = organizations?.filter(org =>
+  //   org.attributes?.availableSubmissionMethods?.includes(
+  //     formData.representativeSubmissionMethod,
+  //   ),
+  // );
+
   const isReviewPage = useReviewPage();
 
   const isReplacingRep =
@@ -86,6 +93,18 @@ const SelectOrganization = props => {
           checked={formData.selectedAccreditedOrganizationId === org.id}
         />
       ))}
+
+      {/* v2 feature pending availableSubmissionMethods */}
+
+      {/* {filteredOrganizations?.map((org, index) => (
+        <va-radio-option
+          label={`${org.attributes.name}`}
+          name="organization"
+          value={org.id}
+          key={`${org.id}-${index}`}
+          checked={formData.selectedAccreditedOrganizationId === org.id}
+        />
+      ))} */}
     </VaRadio>
   );
 

@@ -1,6 +1,8 @@
-import { mapboxToken } from '../utils/mapboxToken';
 import React from 'react';
-import { staticMapURL } from '../utils/mapHelpers';
+import {
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
 
 function LocationMap({ info }) {
   if (!info) {

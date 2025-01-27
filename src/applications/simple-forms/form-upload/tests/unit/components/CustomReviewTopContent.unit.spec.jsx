@@ -9,7 +9,7 @@ import CustomReviewTopContent from '../../../components/CustomReviewTopContent';
 const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/test-page';
 const config = formConfig(TEST_URL);
 
-const mockStore = {
+const mockStore = withPhoneNumber => ({
   getState: () => ({
     user: {
       login: {
@@ -37,6 +37,7 @@ const mockStore = {
         idNumber: { ssn: '234232345' },
         address: { postalCode: '55555' },
         fullName: { first: 'John', last: 'Veteran' },
+        phoneNumber: withPhoneNumber ? '1234567890' : null,
       },
     },
     scheduledDowntime: {
@@ -49,12 +50,12 @@ const mockStore = {
   }),
   subscribe: () => {},
   dispatch: () => {},
-};
+});
 
 describe('CustomReviewTopContent', () => {
-  const subject = () =>
+  const subject = withPhoneNumber =>
     render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore(withPhoneNumber)}>
         <CustomReviewTopContent />
       </Provider>,
     );
@@ -100,6 +101,15 @@ describe('CustomReviewTopContent', () => {
       expect(getByText('55555')).to.exist;
       expect(getByText('Social security number')).to.exist;
       expect(getByText('●●●–●●–2345')).to.exist;
+    });
+  });
+
+  describe('renderContactInfo', () => {
+    it('renders phone number when provided', () => {
+      const { getByText } = subject('with-phone-number');
+
+      expect(getByText('Phone number')).to.exist;
+      expect(getByText('(123) 456-7890')).to.exist;
     });
   });
 

@@ -26,7 +26,7 @@ export default {
         form?.relationshipToVeteran !== 'otherFamily',
     },
     claimantDateOfBirth: {
-      ...dateOfBirthUI('Date of birth'),
+      ...dateOfBirthUI({ title: 'Date of birth', dataDogHidden: true }),
       'ui:required': form =>
         form?.relationshipToVeteran !== 'executor' &&
         form?.relationshipToVeteran !== 'funeralDirector' &&

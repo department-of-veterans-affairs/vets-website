@@ -1,7 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+
 import GetFormHelp from '../components/GetFormHelp';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
@@ -33,6 +32,7 @@ import {
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
+  representativeSubmissionMethod,
 } from '../pages';
 
 // import initialData from '../tests/fixtures/data/test-data.json';
@@ -41,6 +41,7 @@ import SelectAccreditedRepresentative from '../components/SelectAccreditedRepres
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
 import SelectOrganization from '../components/SelectOrganization';
+import RepresentativeSubmissionMethod from '../components/RepresentativeSubmissionMethod';
 
 import SubmissionError from '../components/SubmissionError';
 
@@ -136,29 +137,26 @@ const formConfig = {
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
         },
+        RepresentativeSubmissionMethod: {
+          title: 'Representative Submission Method',
+          path: 'representative-submission-method',
+          CustomPage: RepresentativeSubmissionMethod,
+          depends: formData =>
+            representativeSubmissionMethod.pageDepends(formData),
+          uiSchema: representativeSubmissionMethod.uiSchema,
+          schema: representativeSubmissionMethod.schema,
+        },
         selectAccreditedOrganization: {
           path: 'representative-organization',
           title: 'Organization Select',
           hideOnReview: true,
           CustomPage: SelectOrganization,
           depends: formData =>
-            !!formData['view:selectedRepresentative'] &&
-            ['representative', 'veteran_service_officer'].includes(
-              formData['view:selectedRepresentative'].attributes
-                ?.individualType,
-            ) &&
-            formData['view:selectedRepresentative'].attributes
-              ?.accreditedOrganizations?.data?.length > 1,
+            selectedAccreditedOrganizationId.pageDepends(formData),
           uiSchema: selectedAccreditedOrganizationId.uiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              selectedAccreditedOrganizationId: {
-                type: 'string',
-              },
-            },
-          },
+          schema: selectedAccreditedOrganizationId.schema,
         },
+
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',
           path: 'representative-replace',

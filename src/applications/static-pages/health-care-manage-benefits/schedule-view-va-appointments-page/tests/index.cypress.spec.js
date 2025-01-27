@@ -1,12 +1,12 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import cernerUser from '../../fixtures/user/cerner.json';
+import nonLOA3User from '../../fixtures/user/nonLOA3.json';
 import notCernerUser from '../../fixtures/user/notCerner.json';
 import features from '../../fixtures/feature-toggles/enabled.json';
 import staticEhrData from '../../fixtures/vamc-ehr-static.json';
 
 const TEST_URL = '/health-care/schedule-view-va-appointments/';
 
-const setup = ({ authenticated, isCerner } = {}) => {
+const setup = ({ authenticated, isLOA3 = true } = {}) => {
   // Mock feature toggles route.
   cy.intercept('GET', '/v0/feature_toggles*', features);
   cy.intercept('GET', '/data/cms/vamc-ehr.json', staticEhrData);
@@ -21,10 +21,10 @@ const setup = ({ authenticated, isCerner } = {}) => {
   }
 
   // Log in the user.
-  if (isCerner) {
-    cy.login(cernerUser);
-  } else {
+  if (isLOA3) {
     cy.login(notCernerUser);
+  } else {
+    cy.login(nonLOA3User);
   }
 
   // Visit the test URL.
@@ -32,39 +32,25 @@ const setup = ({ authenticated, isCerner } = {}) => {
 };
 
 describe('The schedule view VA appointments page', () => {
-  it('Shows the correct CTA widget when unauthenticated', () => {
+  // The CallToAction handles what to show users whether they are logged in or not
+  it('Shows the CallToAction widget when unauthenticated', () => {
     // Set up the test.
     setup({ authenticated: false });
 
-    // Ensure the non-Cerner patient content shows.
-    cy.get('[data-testid="non-cerner-content"]').should('exist');
-    cy.get('[data-testid="cerner-content"]').should('not.exist');
-
-    // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-cta-widget"]').should('not.exist');
+    cy.get('va-alert-sign-in').should('exist');
+    cy.get('[data-testid="view-appointments"]').should('exist');
   });
 
-  it('Shows the correct CTA widget when authenticated and is NOT a Cerner patient', () => {
+  it('Shows the CallToAction widget when authenticated', () => {
     // Set up the test.
-    setup({ authenticated: true, isCerner: false });
+    setup({ authenticated: true });
 
-    // Ensure the non-Cerner patient content shows.
-    cy.get('[data-testid="non-cerner-content"]').should('exist');
-    cy.get('[data-testid="cerner-content"]').should('not.exist');
+    cy.get('va-alert')
+      .should('exist')
+      .shadow()
+      .get('va-button')
+      .should('have.attr', 'text', 'Go to your VA appointments');
 
-    // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-cta-widget"]').should('not.exist');
-  });
-
-  it('Shows the correct CTA widget when authenticated and IS a Cerner patient', () => {
-    // Set up the test.
-    setup({ authenticated: true, isCerner: true });
-
-    // Ensure the Cerner patient content shows.
-    cy.get('[data-testid="non-cerner-content"]').should('not.exist');
-    cy.get('[data-testid="cerner-content"]').should('exist');
-
-    // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-cta-widget"]').should('exist');
+    cy.get('[data-testid="view-appointments"]').should('exist');
   });
 });

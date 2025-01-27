@@ -15,6 +15,8 @@ import formConfig from '../config/form';
 import configService from '../utilities/configService';
 import { getFormSubtitle } from '../utilities/helpers';
 
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
+
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
 
@@ -25,6 +27,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
   } = useFeatureToggle();
 
   const appIsEnabled = useToggleValue(appToggleKey);
+  const v2FeatureToggle = useV2FeatureToggle();
   const isProduction = window.Cypress || environment.isProduction();
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
 
@@ -40,6 +43,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [pathname],
   );
 
+  // dynamically updates the form subtitle to 21-22 or 21-22A
   useEffect(
     () => {
       configService.setFormConfig({ subTitle });
@@ -50,25 +54,17 @@ function App({ loggedIn, location, children, formData, setFormData }) {
 
   useEffect(
     () => {
-      const defaultViewFields = {
-        'view:isLoggedIn': loggedIn,
-      };
-      setFormData({
+      const updatedFormData = {
         ...formData,
-        ...defaultViewFields,
-      });
+        v2IsEnabled: v2FeatureToggle,
+        'view:isLoggedIn': loggedIn,
+        'view:representativeQueryInput': '',
+        'view:representativeSearchResults': [],
+      };
+      setFormData(updatedFormData);
     },
-    [loggedIn],
+    [v2FeatureToggle, loggedIn],
   );
-
-  // resetting user query between sessions
-  useEffect(() => {
-    setFormData({
-      ...formData,
-      'view:representativeQueryInput': '',
-      'view:representativeSearchResults': [],
-    });
-  }, []);
 
   if (isAppToggleLoading) {
     return (

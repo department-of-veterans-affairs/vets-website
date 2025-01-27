@@ -403,6 +403,11 @@ export const Data = {
       PAY: `Learn how to dispute your VA copay charges`,
     },
   },
+  DATE_RANGE: {
+    THREE_MONTHS: `Last 3 months`,
+    SIX_MONTHS: `Last 6 months`,
+    TWELVE_MONTHS: `Last 12 months`,
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',

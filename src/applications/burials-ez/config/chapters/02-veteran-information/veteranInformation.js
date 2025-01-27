@@ -26,7 +26,10 @@ export default {
       ),
       'ui:reviewField': AltReviewRowView,
     },
-    veteranDateOfBirth: dateOfBirthUI('Veteran’s date of birth'),
+    veteranDateOfBirth: dateOfBirthUI({
+      title: 'Veteran’s date of birth',
+      dataDogHidden: true,
+    }),
   },
   schema: {
     type: 'object',

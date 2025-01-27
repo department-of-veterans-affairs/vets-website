@@ -6,7 +6,7 @@ import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
-  const setup = () => {
+  const setup = (state = {}) => {
     return renderWithStoreAndRouter(<RxBreadcrumbs />, {
       initialState: {
         rx: {
@@ -27,6 +27,7 @@ describe('Medications Breadcrumbs', () => {
             },
           },
         },
+        ...state,
       },
       reducers,
       path: '/medications/prescription/000',
@@ -40,7 +41,20 @@ describe('Medications Breadcrumbs', () => {
 
   it('Make sure breadcrumbs render', () => {
     const screen = setup();
-    const breadcrumbs = screen.findByTestId('rx-breadcrumb');
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
+    expect(breadcrumbs).to.exist;
+  });
+
+  it('Renders breadcrumb if Rx details call fails', () => {
+    const screen = setup({
+      rx: {
+        prescriptions: {
+          prescriptionDetails: undefined,
+          apiError: true,
+        },
+      },
+    });
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
     expect(breadcrumbs).to.exist;
   });
 });

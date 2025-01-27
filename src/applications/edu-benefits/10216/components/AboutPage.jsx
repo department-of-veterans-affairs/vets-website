@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import BreadcrumbAboutPage from './BreadcrumbAboutPage';
 
 const AboutPage = ({ props }) => {
   const goToIntroduction = event => {
@@ -16,6 +17,9 @@ const AboutPage = ({ props }) => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+        <BreadcrumbAboutPage />
+      </div>
       <h1>About VA Form 22-10216</h1>
       <p>
         35% Exemption Request from 85/15 Reporting Requirement (VA Form
@@ -53,7 +57,7 @@ const AboutPage = ({ props }) => {
       </p>
       <h3 className="vads-u-margin-top--6">Online tool</h3>
       <p className="vads-u-margin-bottom--0">
-        You can submit your request online instead of filling out and sending us
+        You can submit your request online instead of filling out and sending
         the paper form.
       </p>
       <va-link-action

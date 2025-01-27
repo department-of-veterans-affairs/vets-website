@@ -77,8 +77,15 @@ const VaPrescription = prescription => {
                 }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
                 to="/refill"
                 data-testid="refill-nav-link"
+                data-dd-action-name={
+                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                }
               >
-                {hasBeenDispensed ? 'Refill' : 'Fill'} this prescription
+                {/* TODO: clean after grouping flag is gone */}
+                {!showGroupingContent &&
+                  `${hasBeenDispensed ? 'Refill' : 'Fill'} this prescription`}
+                {showGroupingContent &&
+                  `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
               </Link>
             ) : (
               <FillRefillButton {...prescription} />
@@ -102,7 +109,7 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescription number
                 </h3>
-                <p data-testid="prescription-number">
+                <p data-testid="prescription-number" data-dd-privacy="mask">
                   {prescription.prescriptionNumber}
                 </p>
               </>
@@ -126,10 +133,13 @@ const VaPrescription = prescription => {
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-dd-privacy="mask"
+                >
                   Prescription number
                 </h3>
-                <p data-testid="prescription-number">
+                <p data-testid="prescription-number" data-dd-privacy="mask">
                   {prescription.prescriptionNumber}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -437,11 +447,12 @@ const VaPrescription = prescription => {
                 refillHistory[0].dispensedDate !== undefined) && (
                 <>
                   <p
-                    className="vads-u-margin-y--2"
+                    className="vads-u-margin-top--2 vads-u-margin-bottom--0"
                     data-testid="refill-history-info"
                   >
-                    Showing {refillHistory.length} refills, from newest to
-                    oldest
+                    {`Showing ${refillHistory.length} refill${
+                      refillHistory.length > 1 ? 's, from newest to oldest' : ''
+                    }`}
                   </p>
                   <va-accordion
                     bordered
@@ -453,8 +464,14 @@ const VaPrescription = prescription => {
                       const refillPosition = refillHistory.length - i - 1;
                       const refillLabelId = `rx-refill-${refillPosition}`;
                       return (
-                        <va-accordion-item bordered="true" key={i}>
-                          <h3
+                        <va-accordion-item
+                          bordered="true"
+                          key={i}
+                          subHeader={`Filled on ${dateFormat(
+                            entry.dispensedDate,
+                          )}`}
+                        >
+                          <h4
                             className="vads-u-font-size--h6"
                             data-testid="rx-refill"
                             id={refillLabelId}
@@ -462,34 +479,30 @@ const VaPrescription = prescription => {
                           >
                             {i + 1 === refillHistory.length
                               ? 'Original fill'
-                              : `Refill ${refillPosition}`}
-                          </h3>
-                          <h4
-                            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                            data-testid="fill-date"
-                          >
-                            Filled by pharmacy on
+                              : `Refill`}
                           </h4>
-                          <p
-                            className="vads-u-margin--0 vads-u-margin-bottom--1"
-                            data-testid="dispensedDate"
-                          >
-                            {dateFormat(entry.dispensedDate)}
-                          </p>
+                          {i === 0 && (
+                            <>
+                              <h4
+                                className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0"
+                                data-testid="shipped-date"
+                              >
+                                Shipped on
+                              </h4>
+                              <p
+                                className="vads-u-margin--0 vads-u-margin-bottom--1"
+                                data-testid="shipped-on"
+                              >
+                                {dateFormat(
+                                  latestTrackingStatus?.completeDateTime,
+                                )}
+                              </p>
+                            </>
+                          )}
                           <h4
-                            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                            data-testid="shipped-date"
-                          >
-                            Shipped on
-                          </h4>
-                          <p
-                            className="vads-u-margin--0 vads-u-margin-bottom--1"
-                            data-testid="shipped-on"
-                          >
-                            {dateFormat(latestTrackingStatus?.completeDateTime)}
-                          </p>
-                          <h4
-                            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                            className={`${
+                              i === 0 ? 'vads-u-margin-top--2 ' : ''
+                            }vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0`}
                             data-testid="med-image"
                             aria-hidden="true"
                           >

@@ -54,7 +54,11 @@ const FormApp = props => {
       : formConfig.subTitle;
   const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
   const notProd = !environment.isProduction();
-  const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+  const hasHiddenFormTitle = hideFormTitle(
+    formConfig,
+    trimmedPathname,
+    formData,
+  );
   let useTopBackLink = false;
 
   let formTitle;

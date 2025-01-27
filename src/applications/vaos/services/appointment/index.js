@@ -279,10 +279,10 @@ export function getVAAppointmentLocationId(appointment) {
       return '612A4';
     }
 
-    return appointment?.location.vistaId;
+    return appointment?.location?.vistaId;
   }
 
-  return appointment?.location.stationId;
+  return appointment?.location?.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment

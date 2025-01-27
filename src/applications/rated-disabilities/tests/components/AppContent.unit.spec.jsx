@@ -39,6 +39,10 @@ describe('<AppContent>', () => {
     mockApiCall.reset();
   });
 
+  after(() => {
+    mockApiCall.reset();
+  });
+
   context('error/loading states', () => {
     it('should display a loading indicator when the request is not done', async () => {
       mockApiCall.resolves(mockResponse);

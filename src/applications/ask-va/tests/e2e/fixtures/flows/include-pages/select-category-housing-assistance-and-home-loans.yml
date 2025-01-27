@@ -1,0 +1,10 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Housing assistance and home loans
+  - action: click
+    target: call-to-action
+

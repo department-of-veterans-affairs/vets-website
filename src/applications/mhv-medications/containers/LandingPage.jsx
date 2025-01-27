@@ -664,7 +664,6 @@ const LandingPage = () => {
             </section>
           </section>
         </div>
-        <va-back-to-top />
       </>
     );
   };

@@ -33,7 +33,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -464,8 +464,8 @@ const all = {
         subject: {
           reference: 'Patient/4130',
         },
-        effectiveDateTime: '2022-04-01T09:00:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-12-12T09:00:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -526,7 +526,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -957,8 +957,8 @@ const all = {
         subject: {
           reference: 'Patient/4130',
         },
-        effectiveDateTime: '2022-03-10T09:30:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-11-15T09:30:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -1054,7 +1054,7 @@ const all = {
         subject: {
           reference: 'Patient/ex-MHV-patient-1',
         },
-        date: '2022-03-03T10:00:00-05:00',
+        date: '2024-11-02T10:00:00-05:00',
         content: [
           {
             attachment: {
@@ -1240,7 +1240,7 @@ const all = {
               text: 'Blood',
             },
             collection: {
-              collectedDateTime: '2022-02-26T09:30:00-05:00',
+              collectedDateTime: '2024-11-02T09:30:00-05:00',
               bodySite: {
                 text: 'Blood',
               },
@@ -1323,12 +1323,12 @@ const all = {
               code: '18725-2',
             },
           ],
-          text: 'LR MICROBIOLOGY REPORT',
+          text: 'Microbiology',
         },
         subject: {
           reference: 'Patient/ex-MHV-patient-1',
         },
-        effectiveDateTime: '2022-04-01T09:30:00-05:00',
+        effectiveDateTime: '2024-11-02T09:30:00-05:00',
         issued: '2021-01-20T16:38:59-05:00',
         performer: [
           {
@@ -1358,7 +1358,7 @@ const all = {
           {
             contentType: 'text/plain',
             data:
-              'QWNjZXNzaW9uIFtVSURdOiBNSSAxNiAzMDY1IFsxMjE2MDAzMDY1XSBSZWNlaXZlZDogRmViIDI2LCAyMDIyQDA5OjMwCkNvbGxlY3Rpb24gc2FtcGxlOiBWRU5PVVMgQkxPT0QgQ29sbGVjdGlvbiBkYXRlOiBGZWIgMjYsIDIwMjIgOTozMApTaXRlL1NwZWNpbWVuOiBCTE9PRCBWRU5PVVMKUHJvdmlkZXI6IFdJTFNPTiwgUEFUCgoqIEJBQ1RFUklPTE9HWSBGSU5BTCBSRVBPUlQgPT4gRmViIDI2LCAyMDIyIDA5OjMwIFRFQ0ggQ09ERTogMjA1OTMxCkNVTFRVUkUgUkVTVUxUUzogRVNDSEVSSUNISUEgQ09MSSAtIFF1YW50aXR5OiAyKwpBTlRJQklPVElDIFNVU0NFUFRJQklMSVRZIFRFU1QgUkVTVUxUUzoKRVNDSEVSSUNISUEgQ09MSQo6CkFNUElDSUxMSU4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkFNUElDSUxMSU4vU1VMQkFDVEFNLi4uLi4uLi4uLiBTCkNFRkFaT0xJTi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTClRPQlJNQ04uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkdFTlRNQ04uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkNFRlRSSUFYT05FLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkNJUFJPRkxPWEFDSU4uLi4uLi4uLi4uLi4uLi4uLiBTCkFNT1hJQ0lMTElOL0NMQVZVTEFOQVRFLi4uLi4uLiBTClRSSU1FVEgvU1VMRi4uLi4uLi4uLi4uLi4uLi4uLiBTCkxFVk9GTE9YQUNJTi4uLi4uLi4uLi4uLi4uLi4uLiBTCgo9LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS0KUGVyZm9ybWluZyBMYWJvcmF0b3J5OgpCYWN0ZXJpb2xvZ3kgUmVwb3J0IFBlcmZvcm1lZCBCeToKV2FzaGluZ3RvbiBEQyBWQU1DCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tClJlc3VsdCBLZXk6ClNVU0MgPSBTdXNjZXB0aWJpbGl0eSBSZXN1bHQgUyA9IFN1c2NlcHRpYmxlCklOVFAgPSBJbnRlcnByZXRhdGlvbiBJID0gSW50ZXJtZWRpYXRlCk1JQyA9IE1pbmltdW0gSW5oaWJpdG9yeSBDb25jZW50cmF0aW9uIFIgPSBSZXNpc3RhbnQ=',
+              'QWNjZXNzaW9uIFtVSURdOiBNSSAxNiAzMDY1IFsxMjE2MDAzMDY1XSBSZWNlaXZlZDogTm92IDIsIDIwMjRAMDk6MzAKQ29sbGVjdGlvbiBzYW1wbGU6IFZFTk9VUyBCTE9PRCBDb2xsZWN0aW9uIGRhdGU6IE5vdiAyLCAyMDI0IDk6MzAKU2l0ZS9TcGVjaW1lbjogQkxPT0QgVkVOT1VTClByb3ZpZGVyOiBXSUxTT04sIFBBVAoKKiBCQUNURVJJT0xPR1kgRklOQUwgUkVQT1JUID0+IE5vdiAyLCAyMDI0IDA5OjMwIFRFQ0ggQ09ERTogMjA1OTMxCkNVTFRVUkUgUkVTVUxUUzogRVNDSEVSSUNISUEgQ09MSSAtIFF1YW50aXR5OiAyKwpBTlRJQklPVElDIFNVU0NFUFRJQklMSVRZIFRFU1QgUkVTVUxUUzoKRVNDSEVSSUNISUEgQ09MSQo6CkFNUElDSUxMSU4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkFNUElDSUxMSU4vU1VMQkFDVEFNLi4uLi4uLi4uLiBTCkNFRkFaT0xJTi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTClRPQlJNQ04uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkdFTlRNQ04uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkNFRlRSSUFYT05FLi4uLi4uLi4uLi4uLi4uLi4uLiBTCkNJUFJPRkxPWEFDSU4uLi4uLi4uLi4uLi4uLi4uLiBTCkFNT1hJQ0lMTElOL0NMQVZVTEFOQVRFLi4uLi4uLiBTClRSSU1FVEgvU1VMRi4uLi4uLi4uLi4uLi4uLi4uLiBTCkxFVk9GTE9YQUNJTi4uLi4uLi4uLi4uLi4uLi4uLiBTCgo9LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS09LS0KUGVyZm9ybWluZyBMYWJvcmF0b3J5OgpCYWN0ZXJpb2xvZ3kgUmVwb3J0IFBlcmZvcm1lZCBCeToKV2FzaGluZ3RvbiBEQyBWQU1DCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tClJlc3VsdCBLZXk6ClNVU0MgPSBTdXNjZXB0aWJpbGl0eSBSZXN1bHQgUyA9IFN1c2NlcHRpYmxlCklOVFAgPSBJbnRlcnByZXRhdGlvbiBJID0gSW50ZXJtZWRpYXRlCk1JQyA9IE1pbmltdW0gSW5oaWJpdG9yeSBDb25jZW50cmF0aW9uIFIgPSBSZXNpc3RhbnQ=',
           },
         ],
       },
@@ -1410,7 +1410,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -1877,8 +1877,8 @@ const all = {
         subject: {
           reference: 'Patient/4130',
         },
-        effectiveDateTime: '2022-01-27T08:00:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-09-18T08:00:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -1959,7 +1959,7 @@ const all = {
             },
             status: 'available',
             collection: {
-              collectedDateTime: '2021-12-21T12:54:00-0500',
+              collectedDateTime: '2024-08-27T12:54:00-0500',
             },
           },
           {
@@ -2024,7 +2024,7 @@ const all = {
         subject: {
           reference: 'Patient/ex-MHV-patient-1',
         },
-        effectiveDateTime: '2021-12-21T12:54:00-0500',
+        effectiveDateTime: '2024-08-27T12:54:00-0500',
         issued: '1999-08-11T16:09:00Z',
         performer: [
           {
@@ -2100,14 +2100,14 @@ const all = {
         subject: {
           reference: 'Patient/ex-MHV-patient-1',
         },
-        date: '2021-11-17T10:00:00-05:00',
+        date: '2024-03-07T10:00:00-05:00',
         content: [
           {
             attachment: {
               contentType: 'text/plain',
               data:
                 'UGcuIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOS8xMi8yMiAxMDoxMQogICAgICAgICAgICAgICAgICAgICAgICAgICBDT05GSURFTlRJQUwgRUNHIFJFUE9SVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAKTUhWTElTQU9ORSxST0JFUlQgTSAgICA2NjYtMTItMzQ1NiAgIE5PVCBJTlBBVElFTlQgICAgICAgICAgICAgIERPQjogQVVHIDksMTk2MgogICAgICAgICAgICAgICAgICAgICAgUFJPQ0VEVVJFIERBVEUvVElNRTogMTIvMTQvMDAgMTE6MzUKLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXQVJEL0NMSU5JQzogQ0FSRElPTE9HWSBPVVRQQVRJRU5UIChMT0MpCiAgICBBR0U6IDM4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU0VYOiAgTUFMRQogICAgSFQgSU46IDA3MSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdUIExCUzogMTU0CiAgICBCTE9PRCBQUkVTU1VSRTogICAgICAgICAgICAgICAgICAgICAgICAgVFlQRTogCgogICAgICAgICBWRU5UIFJBVEU6IDA4NiAgICAgICAgUFIgSU5URVJWQUw6IDEzMiAgICAgICBRUlMgRFVSQVRJT046IDEzMgogICAgICAgICBRVDogMzg4ICAgICAgICAgICAgICAgUVRDOiA0NjQKICAgICAgICAgUCBBWElTOiAxMTIgICAgICAgICAgIFIgQVhJUzogNzAgICAgICAgICAgICAgVCBBWElTOiAxNDgKCiAgICBJTlRFUlBSRVRBVElPTjogCgogICAgSU5TVFJVTUVOVCBEWDogIE5vcm1hbCBzaW51cyByaHl0aG0KICAgICAgICAgICAgICAgICAgICBSaWdodCBidW5kbGUgYnJhbmNoIGJsb2NrCiAgICAgICAgICAgICAgICAgICAgTGF0ZXJhbCBpbmZhcmN0ICwgYWdlIHVuZGV0ZXJtaW5lZAogICAgICAgICAgICAgICAgICAgIFBvc3NpYmxlIEluZmVyaW9yIGluZmFyY3QgKGNpdGVkIG9uIG9yIGJlZm9yZSAzMS1KVUwtMjAwMCkKICAgICAgICAgICAgICAgICAgICBBYm5vcm1hbCBFQ0cKICAgICAgICAgICAgICAgICAgICAuCiAgICAgICAgICAgICAgICAgICAgLgogICAgICAgICAgICAgICAgICAgIC4KCiAgICBDT05GSVJNQVRJT04gU1RBVFVTOiBDT05GSVJNRUQKCiAgICBDT01QQVJJU09OOiAKIAoKICAgIENPTU1FTlRTOiAKCiAgICBIRUFSVCBNRURTOgoKICAgIElOVEVSUFJFVEVEIEJZOiBHVVBUQSxTQVRZRU5EUkE=',
-              title: 'ELECTROCARDIOGRAM',
+              title: 'MRI Right Ankle',
             },
           },
         ],
@@ -2168,7 +2168,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -2371,8 +2371,8 @@ const all = {
         subject: {
           reference: 'Patient/4130',
         },
-        effectiveDateTime: '2021-10-26T13:46:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-05-16T13:46:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -2412,7 +2412,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -2841,8 +2841,8 @@ const all = {
         subject: {
           reference: 'Patient/4130',
         },
-        effectiveDateTime: '2021-10-03T08:45:00-0500',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-05-01T08:45:00-0500',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -2886,71 +2886,49 @@ const all = {
     },
     {
       fullUrl:
-        'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
+        'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/12321',
       resource: {
+        physician: 'Gregory House, M.D.',
         resourceType: 'DiagnosticReport',
-        id: '625882',
+        id: '1234562786',
         meta: {
-          versionId: '1',
-          lastUpdated: '2024-05-21T15:39:30.126-04:00',
-          source: '#byyVtiRCKRE6yvwG',
           profile: [
-            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chReport',
+            'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.SPlabReport',
           ],
+        },
+        text: {
+          status: 'generated',
+          div:
+            '<div xmlns="http://www.w3.org/1999/xhtml"><h2><span title="Codes:{http://loinc.org 11526-1}">LR SURGICAL PATHOLOGY REPORT</span> (<span title="Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 LAB}">Laboratory</span>, <span title="Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 SP}">Surgical Pathology</span>) </h2><table class="grid"><tr><td>Subject</td><td><b>MTPZEROTWO DAYTSHR </b> male, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/1 (use: usual))</td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Identifier:</td><td> <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabReportTO.SP;7009190 (use: usual)</td></tr></table><p><b>Report Details</b></p></div>',
         },
         contained: [
           {
             resourceType: 'Specimen',
-            id: 'Specimen-0',
+            id: 'ex-MHV-specimen-6',
             meta: {
               profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chSpecimen',
+                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.LabSpecimen',
               ],
+            },
+            type: {
+              text: 'Left pointer finger',
+            },
+            accessionIdentifier: {
+              use: 'usual',
+              system: 'urn:oid:2.16.840.1.113883.4.349.4.989',
+              value: 'SP 99 1804',
             },
             status: 'available',
-            type: {
-              coding: [
-                {
-                  system: 'http://terminology.hl7.org/CodeSystem/v2-0487',
-                  code: 'SER',
-                  display: 'Serum',
-                },
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/61',
-                  version: '5.2',
-                  code: '72',
-                  display: 'SERUM',
-                },
-              ],
-              text: 'Nasal cavity structure (body structure)',
-            },
-            request: [
-              {
-                reference: '#ServiceRequest-1',
-              },
-            ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-04-13T12:54:00-0500',
+              bodySite: {
+                text: 'Left pointer finger',
+              },
             },
-          },
-          {
-            resourceType: 'Practitioner',
-            id: 'Provider-1',
-            identifier: [
-              {
-                system: 'http://va.gov/terminology/vistaDefinedTerms/4',
-                value: '35457-VA552',
-              },
-            ],
-            name: [
-              {
-                text: 'Gregory House, M.D.',
-              },
-            ],
           },
           {
             resourceType: 'Organization',
-            id: 'Organization-552',
+            id: 'ex-MHV-organization-989',
             meta: {
               profile: [
                 'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization',
@@ -2959,131 +2937,23 @@ const all = {
             identifier: [
               {
                 use: 'usual',
-                type: {
-                  text: 'FI',
-                },
                 system: 'urn:oid:2.16.840.1.113883.4.349',
-                value: '552',
+                value: 'LabSiteTO.989',
+              },
+              {
+                system: 'http://hl7.org/fhir/sid/us-npi',
+                value: '1234',
               },
             ],
             active: true,
             name: 'DAYTON, OH VAMC',
-            address: [
-              {
-                line: ['4100 W. THIRD STREET'],
-                city: 'DAYTON',
-                state: 'OH',
-                postalCode: '45428',
-                country: 'USA',
-              },
-            ],
-          },
-          {
-            resourceType: 'Organization',
-            id: 'OrgPerformer-989',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization',
-              ],
-            },
-            identifier: [
-              {
-                use: 'usual',
-                system: 'urn:oid:2.16.840.1.113883.4.349',
-                value: '989',
-              },
-            ],
-            active: true,
-            name: 'Washington DC VAMC',
-          },
-          {
-            resourceType: 'ServiceRequest',
-            id: 'ServiceRequest-1',
-            meta: {
-              profile: [
-                'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chOrder',
-              ],
-            },
-            status: 'unknown',
-            intent: 'order',
-            category: [
-              {
-                coding: [
-                  {
-                    system: 'http://snomed.info/sct',
-                    code: '108252007',
-                    display: 'Laboratory procedure',
-                  },
-                ],
-              },
-            ],
-            code: {
-              coding: [
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/64',
-                  code: '89042.0000',
-                },
-                {
-                  system: 'http://va.gov/terminology/vistaDefinedTerms/60',
-                  code: '5150',
-                  display: 'T-TRANSGLUTAMINASE IGA',
-                },
-              ],
-              text: 'SARS-CoV-2 Ag QI IA rapid~DSS ACC',
-            },
-            subject: {
-              reference: 'Patient/4130',
-            },
-            requester: {
-              reference: '#Provider-1',
-            },
-            performer: [
-              {
-                reference: '#Organization-552',
-              },
-            ],
-          },
-          {
-            resourceType: 'Observation',
-            id: '12400',
-            status: 'Final',
-            code: {
-              text: 'COVID-19 CEPHEID',
-            },
-            valueQuantity: {
-              value: 'Not Detected',
-              unit: '',
-            },
-            performer: [
-              {
-                reference: '#OrgPerformer-989',
-              },
-            ],
-            referenceRange: [
-              {
-                text: 'Not Detected',
-              },
-            ],
-          },
-        ],
-        extension: [
-          {
-            url:
-              'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes',
-            valueString:
-              'The Abbott BinaxNOW COVID-19 Ag Card Test is a rapid lateral flow immunoassay for the qualitative detection of nucleocapsid protein antigen from SARS-CoV-2. It does not differentiate between SARS-CoV and SARS-CoV-2. This test panel was approved for use under FDA Emergency Use Authorization only. These results must be accompanied with the following Facts Sheets: --For Health Care Providers: https://www.fda.gov/media/141568/download --For Patients: https://www.fda.gov/media/141569/download',
           },
         ],
         identifier: [
           {
             use: 'usual',
-            system: 'urn:fdc:TEST.DAYTON.MED.VA.GOV:LR',
-            value: '3741350004',
-          },
-        ],
-        basedOn: [
-          {
-            reference: '#ServiceRequest-1',
+            system: 'urn:oid:2.16.840.1.113883.4.349.4.989',
+            value: 'LabReportTO.SP;7009190',
           },
         ],
         status: 'final',
@@ -3100,48 +2970,45 @@ const all = {
             coding: [
               {
                 system: 'http://terminology.hl7.org/CodeSystem/v2-0074',
-                code: 'CH',
+                code: 'SP',
               },
             ],
-          },
-          {
-            coding: [
-              {
-                system: 'http://loinc.org',
-                version: '2.76',
-                code: '10362-2',
-              },
-            ],
-            text: 'ENDOMYSIUM AB.IGA:PRTHR:PT:SER:ORD:',
+            text: 'Chemistry and hematology',
           },
         ],
         code: {
-          text: 'CH',
+          coding: [
+            {
+              system: 'http://loinc.org',
+              code: '11526-1',
+            },
+          ],
+          text: 'Surgical Pathology',
         },
         subject: {
-          reference: 'Patient/4130',
+          reference: 'Patient/ex-MHV-patient-1',
         },
-        effectiveDateTime: '2021-07-27T15:40:00-0500',
-        issued: '2022-04-01T09:00:00-05:00',
+        effectiveDateTime: '2024-04-13T12:54:00-0500',
+        issued: '1999-08-11T16:09:00Z',
         performer: [
           {
-            reference: '#OrgPerformer-989',
+            reference: '#ex-MHV-organization-989',
           },
         ],
         specimen: [
           {
-            reference: '#Specimen-0',
+            reference: '#ex-MHV-specimen-6',
           },
         ],
-        result: [
+        presentedForm: [
           {
-            reference: '#12400',
+            contentType: 'text/plain',
+            data:
+              'RGF0ZSBTcGVjIHRha2VuOiBBcHIgMTMsIDIwMjQgMTI6NTQgUGF0aG9sb2dpc3Q6IENIRVJZTCBKQU1FUwpEYXRlIFNwZWMgcmVjJ2Q6IEFwciAxMywgMjAyNCAxMjo1NSBUZWNoOiBDSEVSWUwgSkFNRVMKRGF0ZSBjb21wbGV0ZWQ6IEFwciAxMywgMjAyNCBBY2Nlc3Npb24gIzogQ1kgMTQgOTk5OTk4ClN1Ym1pdHRlZCBieTogR1JFR09SWSBIT1VTRSwgTS5ELiBQcmFjdGl0aW9uZXI6IFNBTkRSQSBERU5UT04KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpTcGVjaW1lbjoKRkxVSUQKREVTQ1JJUFRJT046ClRoaXMgaXMgdGhlIE5hdGlvbmFsIHBhY2thZ2UgLSB0ZXN0aW5nIGZvciBNSFYuCk1JQ1JPU0NPUElDIEVYQU0gKERhdGUgU3BlYyB0YWtlbjogQXByIDEzLCAyMDI0IDEyOjU0KQpOb3JtYWwgZmx1aWQgLSBURVNUIE9OTFkKPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tPS0tClBlcmZvcm1pbmcgTGFib3JhdG9yeToKQ3l0b2xvZ3kgUmVwb3J0IFBlcmZvcm1lZCBCeToKV0FTSElOR1RJT04gREMgVkFNQw==',
           },
         ],
       },
-      search: {
-        mode: 'match',
-      },
+      search: { mode: 'match' },
     },
     {
       fullUrl:
@@ -3189,7 +3056,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -3686,7 +3553,7 @@ const all = {
           reference: 'Patient/4130',
         },
         effectiveDateTime: '2020-04-21T12:37:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -3792,7 +3659,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -3991,7 +3858,7 @@ const all = {
           reference: 'Patient/4130',
         },
         effectiveDateTime: '2020-04-01T09:31:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',
@@ -4058,7 +3925,7 @@ const all = {
               },
             ],
             collection: {
-              collectedDateTime: '2022-04-01T09:00:00-05:00',
+              collectedDateTime: '2024-12-12T09:00:00-05:00',
             },
           },
           {
@@ -4339,7 +4206,7 @@ const all = {
           reference: 'Patient/4130',
         },
         effectiveDateTime: '2020-02-26T09:54:00-05:00',
-        issued: '2022-04-01T09:00:00-05:00',
+        issued: '2024-12-12T09:00:00-05:00',
         performer: [
           {
             reference: '#OrgPerformer-989',

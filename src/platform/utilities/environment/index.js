@@ -108,4 +108,8 @@ export default Object.freeze({
       process?.env?.NODE_ENV === 'test'
     );
   },
+
+  isUnitTest() {
+    return !!(window?.Mocha || process?.env?.NODE_ENV === 'test');
+  },
 });

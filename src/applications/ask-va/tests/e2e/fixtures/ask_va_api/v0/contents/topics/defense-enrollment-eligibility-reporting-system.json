@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "id": "ed455736-ec3c-ec11-b6e5-001dd804d87f",
+            "type": "contents",
+            "attributes": {
+                "name": "Adding requests",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Adding requests",
+                "parentId": "9520fd17-ec3c-ec11-b6e5-001dd804d87f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "40a0524e-ec3c-ec11-b6e5-001dd804d87f",
+            "type": "contents",
+            "attributes": {
+                "name": "Updating DEERS records",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Updating DEERS records",
+                "parentId": "9520fd17-ec3c-ec11-b6e5-001dd804d87f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}

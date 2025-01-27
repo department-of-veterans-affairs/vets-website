@@ -19,7 +19,7 @@ const BreadcrumbUsedInForm = () => {
   ];
   return (
     <div className="row">
-      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      <VaBreadcrumbs breadcrumbList={crumbs} />
     </div>
   );
 };

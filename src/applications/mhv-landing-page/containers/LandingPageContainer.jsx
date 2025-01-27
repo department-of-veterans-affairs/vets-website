@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getMHVAccount, getFolderList } from '../utilities/api';
+import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
+import { useAccountCreationApi } from '../hooks';
 import {
   resolveLandingPageLinks,
   countUnreadMessages,
@@ -19,13 +20,7 @@ import {
   mhvAccountStatusLoading,
 } from '../selectors';
 
-import {
-  fetchAccountStatus,
-  fetchAccountStatusSuccess,
-} from '../reducers/account';
-
 const LandingPageContainer = () => {
-  const dispatch = useDispatch();
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
@@ -75,28 +70,7 @@ const LandingPageContainer = () => {
     [loading],
   );
 
-  useEffect(
-    () => {
-      if (!profile.loading) {
-        if (userHasMhvAccount) {
-          dispatch({
-            type: fetchAccountStatusSuccess,
-            data: { error: false },
-          });
-        } else {
-          dispatch({ type: fetchAccountStatus });
-
-          getMHVAccount().then(resp => {
-            dispatch({
-              type: fetchAccountStatusSuccess,
-              data: resp,
-            });
-          });
-        }
-      }
-    },
-    [userHasMhvAccount, profile.loading, dispatch],
-  );
+  useAccountCreationApi();
 
   if (loading)
     return (

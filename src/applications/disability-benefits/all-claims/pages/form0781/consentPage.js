@@ -9,10 +9,14 @@ import {
   consentPageTitle,
   CONSENT_OPTION_INDICATOR_CHOICES,
 } from '../../content/form0781/consentPage';
-import { formTitle } from '../../utils';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': formTitle(consentPageTitle),
+  'ui:title': titleWithTag(consentPageTitle, form0781HeadingTag),
   'ui:description': consentPageDescription,
   optionIndicator: radioUI({
     title: consentPageFormQuestion,
@@ -20,11 +24,18 @@ export const uiSchema = {
     hint: consentPageFormHint,
     labels: CONSENT_OPTION_INDICATOR_CHOICES,
   }),
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
 };
 
 export const schema = {
   type: 'object',
   properties: {
     optionIndicator: radioSchema(Object.keys(CONSENT_OPTION_INDICATOR_CHOICES)),
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

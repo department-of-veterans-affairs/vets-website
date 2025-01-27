@@ -78,13 +78,6 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </ul>
 
       <h2 id="start-your-request">Start your request</h2>
-      <p>
-        <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
-        Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-        account. If you don’t have any of those accounts, you can create a free{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
-      </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">

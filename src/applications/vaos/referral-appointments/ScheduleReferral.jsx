@@ -29,6 +29,7 @@ export default function ScheduleReferral(props) {
     <ReferralLayout
       hasEyebrow
       heading={`Referral for ${currentReferral.CategoryOfCare}`}
+      categoryOfCare={currentReferral?.CategoryOfCare}
     >
       <div>
         <p data-testid="subtitle">

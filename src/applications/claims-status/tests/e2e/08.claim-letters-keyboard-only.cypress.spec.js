@@ -1,4 +1,3 @@
-import featureToggleEnabled from './fixtures/mocks/claim-letters/feature-toggle-enabled.json';
 import claimLetters from './fixtures/mocks/claim-letters/list.json';
 
 describe('Claim Letters Page', () => {
@@ -6,9 +5,15 @@ describe('Claim Letters Page', () => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
       'claimLetters',
     );
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
-      'featureToggleEnabled',
-    );
+
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'cst_include_ddl_boa_letters', value: true },
+          { name: 'claim_letters_access', value: true },
+        ],
+      },
+    });
 
     cy.login();
   });

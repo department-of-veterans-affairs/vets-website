@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import * as addressUtils from '../address/helpers';
 
-// Examples from:
-// https://github.com/department-of-veterans-affairs/vets-api/blob/1efd2c206859b1a261e762a50cdb44dc8b66462d/spec/factories/pciu_address.rb#L34
-
 const domestic = {
   addressType: 'DOMESTIC',
   countryName: 'USA',

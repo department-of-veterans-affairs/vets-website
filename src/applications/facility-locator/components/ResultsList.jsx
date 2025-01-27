@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
@@ -308,9 +306,6 @@ function mapStateToProps(state) {
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
-    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
-      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
-    ],
   };
 }
 

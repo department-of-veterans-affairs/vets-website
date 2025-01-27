@@ -50,6 +50,7 @@ export default function CCLayout({ data: appointment }) {
 
   recordAppointmentDetailsNullStates({
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+    [NULL_STATE_FIELD.PROVIDER]: !providerName,
   });
 
   return (
@@ -92,7 +93,7 @@ export default function CCLayout({ data: appointment }) {
           {!!ccProvider && (
             <>
               <br />
-              <FacilityPhone heading="Phone:" contact={ccProvider.phone} />
+              <FacilityPhone contact={ccProvider.phone} />
             </>
           )}
         </Section>

@@ -8,17 +8,27 @@ import { selectProfile } from '../../user/selectors';
 export const selectUserGreeting = createSelector(
   state => selectProfile(state)?.userFullName,
   state => selectProfile(state)?.email,
+  () => localStorage.getItem('preferredName'),
   () => localStorage.getItem('userFirstName'),
   state => selectProfile(state)?.preferredName,
-  (name, email, sessionFirstName, preferredName) => {
-    if (preferredName || name.first || sessionFirstName) {
+  (name, email, sessionPreferredName, sessionFirstName, preferredName) => {
+    if (preferredName) localStorage.setItem('preferredName', preferredName);
+
+    if (
+      preferredName ||
+      sessionPreferredName ||
+      name.first ||
+      sessionFirstName
+    ) {
       return (
         <span
           className="user-dropdown-email"
           data-dd-privacy="mask"
           data-dd-action-name="First Name"
         >
-          {preferredName || startCase(toLower(name.first || sessionFirstName))}
+          {preferredName ||
+            sessionPreferredName ||
+            startCase(toLower(name.first || sessionFirstName))}
         </span>
       );
     }

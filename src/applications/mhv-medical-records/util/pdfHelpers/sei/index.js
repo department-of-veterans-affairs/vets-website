@@ -61,6 +61,8 @@ export const generateSelfEnteredData = ({
     data.push({
       type: selfEnteredTypes.DEMOGRAPHICS,
       title: `Self-entered ${selfEnteredTypes.DEMOGRAPHICS}`,
+      titleMoveDownAmount: 0,
+      titleParagraphGap: 0,
       records: generateDemographicsContent(demographics),
     });
   }

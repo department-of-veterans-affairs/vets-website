@@ -1,5 +1,6 @@
 import { captureError } from '../../utils/error';
 import {
+  postDraftReferralAppointment,
   getProviderById,
   getPatientReferrals,
   getPatientReferralById,
@@ -7,6 +8,12 @@ import {
 import { filterReferrals } from '../utils/referrals';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
   'FETCH_PROVIDER_DETAILS_SUCCEEDED';
@@ -24,6 +31,28 @@ export function setFormCurrentPage(currentPage) {
   return {
     type: SET_FORM_CURRENT_PAGE,
     payload: currentPage,
+  };
+}
+
+export function createDraftReferralAppointment(referralId) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
+      });
+      const providerDetails = await postDraftReferralAppointment(referralId);
+
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
+        data: providerDetails,
+      });
+      return providerDetails;
+    } catch (error) {
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
+      });
+      return captureError(error);
+    }
   };
 }
 

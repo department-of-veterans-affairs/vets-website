@@ -1,33 +1,25 @@
 import React from 'react';
 
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { AUTHORIZER_TYPE_ITEMS } from '../definitions/constants';
 import { getEnumsFromConstants, getLabelsFromConstants } from '../utils';
-
-const labelString = 'Who is submitting this authorization?';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    authorizerType: {
-      'ui:title': (
-        <>
-          <h2 className="vads-u-font-size--h3">{labelString}</h2>
-          Select the description that fits you.
-        </>
-      ),
-      'ui:widget': 'radio',
-      'ui:reviewField': ({ children }) => (
-        // prevent ui:title's <h2> from getting pulled into
-        // review-field's <dt> & causing a11y headers-hierarchy errors.
-        <div className="review-row">
-          <dt>{labelString}</dt>
-          <dd>{children}</dd>
-        </div>
-      ),
-      'ui:options': {
-        labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
+    authorizerType: radioUI({
+      title: 'Who is submitting this authorization?',
+      description: 'Select the description that fits you.',
+      labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
+      errorMessages: {
+        required: 'You must provide a response',
       },
-    },
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
+    }),
     'view:note': {
       'ui:description': () => (
         <p>
@@ -52,10 +44,7 @@ export default {
     type: 'object',
     required: ['authorizerType'],
     properties: {
-      authorizerType: {
-        type: 'string',
-        enum: getEnumsFromConstants(AUTHORIZER_TYPE_ITEMS),
-      },
+      authorizerType: radioSchema(getEnumsFromConstants(AUTHORIZER_TYPE_ITEMS)),
       'view:note': {
         type: 'object',
         properties: {},

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -74,7 +75,7 @@ const OverviewPage = () => {
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import { focusElement } from 'platform/utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -18,6 +19,7 @@ const centralTz = 'America/Chicago';
 
 const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form);
+  const loggedIn = useSelector(isLoggedIn);
   const { formConfig } = route;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showUpdatedConfirmation = useToggleValue(
@@ -30,10 +32,12 @@ const ConfirmationPage = ({ route }) => {
   const usingDirectDeposit =
     !!data.bankAccount && Object.keys(data.bankAccount).length > 0;
 
-  const zonedDate = utcToZonedTime(submission?.timestamp, centralTz);
-  const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
-    timeZone: centralTz,
-  });
+  const zonedDate = submission?.timestamp
+    ? utcToZonedTime(submission?.timestamp, centralTz)
+    : null;
+  const submittedAt = zonedDate
+    ? format(zonedDate, 'LLL d, yyyy h:mm a zzz', { timeZone: centralTz })
+    : '';
 
   const confirmationNumber = response?.confirmationNumber;
   const submissionAlertContent = (
@@ -109,50 +113,77 @@ const ConfirmationPage = ({ route }) => {
               item2Content="If we have questions or need more information after reviewing your form, we'll contact you by phone, email, or mail."
             />
             <p className="vads-u-padding-left--7">
-              <strong>Note:</strong> If we send you a request for more
-              information, you’ll need to respond within 30 days of our request.
-              If you don’t respond within 30 days, we may decide your claim with
-              the evidence thats available to us
+              If we send you a request for more information, you’ll need to
+              respond within 30 days of our request. If you don’t respond within
+              30 days, we may decide your claim with the evidence thats
+              available to us.
             </p>
-            <section>
-              <h2>If you need to submit supporting documents</h2>
-              <p>
-                If you didn’t already submit your supporting documents and
-                additional evidence, you can submit them in one of these 2 ways:
-              </p>
-              <h3>
-                Option 1: Upload your documents using the Claim Status Tool
-              </h3>
-              <p>
-                It may take 7-10 days for your pension claim to appear in the
-                Claim Status Tool. After your pension claim appears, you can
-                upload your documents in the Files tab.
-              </p>
-              <va-link
-                href="/track-claims"
-                text="Use the Claim Status Tool to upload your documents"
-              />
-              <h3>Option 2: Mail us copies of your documents</h3>
-              <p>
-                Don’t send us a printed copy of your pension claim. We already
-                have it. And don’t send us your original documents. We can’t
-                return them.
-              </p>
-              <p>Mail us copies of your documents to this address:</p>
-              <p className="va-address-block">
-                Department of Veterans Affairs
-                <br />
-                Pension Intake Center
-                <br />
-                PO Box 5365
-                <br />
-                Janesville, WI 53547-5365
-              </p>
-              <p>
-                <strong>Note:</strong> If we asked you to submit any supporting
-                documents, you should keep a copy of them for your records.
-              </p>
-            </section>
+            {loggedIn ? (
+              <section>
+                <h2>If you need to submit supporting documents</h2>
+                <p>
+                  If you didn’t already submit your supporting documents and
+                  additional evidence, you can submit them in one of these 2
+                  ways:
+                </p>
+                <h3>
+                  Option 1: Upload your documents using the Claim Status Tool
+                </h3>
+                <p>
+                  It may take 7-10 days for your pension claim to appear in the
+                  Claim Status Tool. After your pension claim appears, you can
+                  upload your documents in the Files tab.
+                </p>
+                <va-link
+                  href="/track-claims"
+                  text="Use the Claim Status Tool to upload your documents"
+                />
+                <h3>Option 2: Mail us copies of your documents</h3>
+                <p>
+                  Don’t send us a printed copy of your pension claim. We already
+                  have it. And don’t send us your original documents. We can’t
+                  return them.
+                </p>
+                <p>Mail us copies of your documents to this address:</p>
+                <p className="va-address-block">
+                  Department of Veterans Affairs
+                  <br />
+                  Pension Intake Center
+                  <br />
+                  PO Box 5365
+                  <br />
+                  Janesville, WI 53547-5365
+                </p>
+                <p>
+                  <strong>Note:</strong> If we asked you to submit any
+                  supporting documents, you should keep a copy of them for your
+                  records.
+                </p>
+              </section>
+            ) : (
+              <section>
+                <h2>If you need to submit supporting documents</h2>
+                <p>
+                  If you didn’t already submit your supporting documents and
+                  additional evidence, you can submit copies of your documents
+                  by mail.
+                </p>
+                <p>Mail any supporting documents to this address:</p>
+                <p className="va-address-block">
+                  Department of Veterans Affairs
+                  <br />
+                  Pension Intake Center
+                  <br />
+                  PO Box 5365
+                  <br />
+                  Janesville, WI 53547-5365
+                </p>
+                <p>
+                  <strong>Note:</strong> Mail us copies of your documents only.
+                  Don’t send us your original documents. We can’t return them.
+                </p>
+              </section>
+            )}
           </>
         ) : (
           <>
@@ -255,11 +286,16 @@ const ConfirmationPage = ({ route }) => {
                   <br />
                 </>
               )}
-              {obfuscateAccountNumber(data.bankAccount.accountNumber)}
-              <br />
-              {data.bankAccount.accountType.charAt(0).toUpperCase() +
-                data.bankAccount.accountType.slice(1)}{' '}
-              Account
+              {data.bankAccount.accountNumber ? (
+                <>
+                  {obfuscateAccountNumber(data.bankAccount.accountNumber)}
+                  <br />
+                </>
+              ) : null}
+              {data.bankAccount.accountType
+                ? `${data.bankAccount.accountType.charAt(0).toUpperCase() +
+                    data.bankAccount.accountType.slice(1)} Account`
+                : null}
             </p>
             <p>
               If you currently receive VA benefit payments through direct

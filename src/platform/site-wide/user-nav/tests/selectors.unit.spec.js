@@ -30,6 +30,13 @@ describe('User navigation selectors', () => {
       expect(result.props.children).to.equal('Joe');
     });
 
+    it('should return session preferred name', () => {
+      localStorage.setItem('userFirstName', 'Joe');
+      localStorage.setItem('preferredName', 'Joey');
+      const result = selectUserGreeting(state);
+      expect(result.props.children).to.equal('Joey');
+    });
+
     it('should return profile name', () => {
       localStorage.setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
@@ -40,6 +47,15 @@ describe('User navigation selectors', () => {
 
     it('should return preferred name', () => {
       localStorage.setItem('userFirstName', 'Joe');
+      let stateObj = set('user.profile.userFullName.first', 'Jain');
+      stateObj = set('user.profile.preferredName', 'JJ', stateObj);
+      const result = selectUserGreeting(stateObj);
+      expect(result.props.children).to.equal('JJ');
+    });
+
+    it('should prioritize preferred name over cached preferred name', () => {
+      localStorage.setItem('userFirstName', 'Joe');
+      localStorage.setItem('preferredName', 'Joey');
       let stateObj = set('user.profile.userFullName.first', 'Jain');
       stateObj = set('user.profile.preferredName', 'JJ', stateObj);
       const result = selectUserGreeting(stateObj);

@@ -80,6 +80,7 @@ describe('<Default5103EvidenceNotice>', () => {
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
   });
+
   it('link has the correct href to upload additional evidence', () => {
     const { getByText } = renderWithRouter(
       <Default5103EvidenceNotice
@@ -94,98 +95,7 @@ describe('<Default5103EvidenceNotice>', () => {
     );
   });
 
-  context('when useLighthouse5103 false', () => {
-    const props = {
-      item: automated5103,
-      params: { id: claimId },
-      useLighthouse5103: false,
-    };
-
-    context('when checkbox is checked and submit button clicked', () => {
-      it('should submitRequest notice and redirect to files tab', () => {
-        const submitRequest = sinon.spy();
-        const submit5103 = sinon.spy();
-        const navigate = sinon.spy();
-
-        const { container, rerender } = renderWithRouter(
-          <Default5103EvidenceNotice
-            {...props}
-            submit5103={submit5103}
-            submitRequest={submitRequest}
-            navigate={navigate}
-            loadingDecisionRequest={false}
-            decisionRequested
-          />,
-        );
-
-        expect($('#default-5103-notice-page', container)).to.exist;
-        expect($('va-checkbox', container)).to.exist;
-        expect($('va-button', container)).to.exist;
-
-        // Check the checkbox
-        $('va-checkbox', container).__events.vaChange({
-          detail: { checked: true },
-        });
-
-        rerenderWithRouter(
-          rerender,
-          <Default5103EvidenceNotice
-            {...props}
-            submit5103={submit5103}
-            submitRequest={submitRequest}
-            navigate={navigate}
-            loadingDecisionRequest={false}
-            decisionRequested
-          />,
-        );
-
-        // Click submit button
-        fireEvent.click($('#submit', container));
-
-        expect(submitRequest.called).to.be.true;
-        expect(submit5103.called).to.be.false;
-        expect(navigate.calledWith('../files')).to.be.true;
-      });
-    });
-    context('when checkbox is not checked and submit button clicked', () => {
-      it('should not submit 5103 notice and error message displayed', () => {
-        const submitRequest = sinon.spy();
-        const submit5103 = sinon.spy();
-        const navigate = sinon.spy();
-
-        const { container } = renderWithRouter(
-          <Default5103EvidenceNotice
-            {...props}
-            submit5103={submit5103}
-            submitRequest={submitRequest}
-            navigate={navigate}
-          />,
-        );
-        expect($('#default-5103-notice-page', container)).to.exist;
-        expect($('va-checkbox', container)).to.exist;
-        expect($('va-button', container)).to.exist;
-        expect($('va-checkbox', container).getAttribute('error')).to.be.null;
-
-        // Click submit button
-        fireEvent.click($('#submit', container));
-
-        expect($('va-checkbox', container).getAttribute('checked')).to.equal(
-          'false',
-        );
-        expect($('va-checkbox', container).getAttribute('required')).to.equal(
-          'true',
-        );
-        expect(submitRequest.called).to.be.false;
-        expect(submit5103.called).to.be.false;
-        expect(navigate.calledWith('../files')).to.be.false;
-        expect($('va-checkbox', container).getAttribute('error')).to.equal(
-          'You must confirm you’re done adding evidence before submitting the evidence waiver',
-        );
-      });
-    });
-  });
-
-  context('when useLighthouse5103 true', () => {
+  context('submit5103', () => {
     const props = {
       item: automated5103,
       params: { id: claimId },
@@ -194,15 +104,13 @@ describe('<Default5103EvidenceNotice>', () => {
 
     context('when checkbox is checked and submit button clicked', () => {
       it('should submit5103 notice and redirect to files tab', () => {
-        const submitRequest = sinon.spy();
-        const submit5103 = sinon.spy();
         const navigate = sinon.spy();
+        const submit5103 = sinon.spy();
 
         const { container, rerender } = renderWithRouter(
           <Default5103EvidenceNotice
             {...props}
             submit5103={submit5103}
-            submitRequest={submitRequest}
             navigate={navigate}
             loadingDecisionRequest={false}
             decisionRequested
@@ -222,7 +130,6 @@ describe('<Default5103EvidenceNotice>', () => {
           <Default5103EvidenceNotice
             {...props}
             submit5103={submit5103}
-            submitRequest={submitRequest}
             navigate={navigate}
             loadingDecisionRequest={false}
             decisionRequested
@@ -232,25 +139,24 @@ describe('<Default5103EvidenceNotice>', () => {
         // Click submit button
         fireEvent.click($('#submit', container));
 
-        expect(submitRequest.called).to.be.false;
         expect(submit5103.called).to.be.true;
         expect(navigate.calledWith('../files')).to.be.true;
       });
     });
+
     context('when checkbox is not checked and submit button clicked', () => {
       it('should not submit 5103 notice and error message displayed', () => {
-        const submitRequest = sinon.spy();
-        const submit5103 = sinon.spy();
         const navigate = sinon.spy();
+        const submit5103 = sinon.spy();
 
         const { container } = renderWithRouter(
           <Default5103EvidenceNotice
             {...props}
             submit5103={submit5103}
-            submitRequest={submitRequest}
             navigate={navigate}
           />,
         );
+
         expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
@@ -262,7 +168,6 @@ describe('<Default5103EvidenceNotice>', () => {
         expect($('va-checkbox', container).getAttribute('checked')).to.equal(
           'false',
         );
-        expect(submitRequest.called).to.be.false;
         expect(submit5103.called).to.be.false;
         expect(navigate.calledWith('../files')).to.be.false;
         expect($('va-checkbox', container).getAttribute('error')).to.equal(

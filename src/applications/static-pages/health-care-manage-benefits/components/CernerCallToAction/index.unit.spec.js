@@ -1,10 +1,8 @@
-// Dependencies.
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-// Relative imports.
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import { CernerCallToAction } from '.';
-import widgetTypes from '../../../widgetTypes';
 
 describe('<CernerCallToAction>', () => {
   it('renders what we expect on its initial render', () => {

@@ -43,17 +43,11 @@ const routes = (
       <AppRoute exact path={['/refill']} key="RefillPage">
         <div>
           <RefillPrescriptions />
-          <div className="no-print">
-            <va-back-to-top />
-          </div>
         </div>
       </AppRoute>
       <AppRoute exact path={['/', '/:page']} key="App">
         <div>
           <Prescriptions />
-          <div className="no-print">
-            <va-back-to-top />
-          </div>
         </div>
       </AppRoute>
       <AppRoute

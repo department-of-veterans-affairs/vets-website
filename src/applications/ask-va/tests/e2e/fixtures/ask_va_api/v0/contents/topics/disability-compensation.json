@@ -1,0 +1,118 @@
+{
+    "data": [
+        {
+            "id": "cb2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Aid and Attendance or Housebound benefits",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Aid and Attendance or Housebound benefits",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "c52a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Claim status",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Claim status",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "c92a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Direct deposit",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Direct deposit",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "cd2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Guardianship, custodianship, or fiduciary issues",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Guardianship, custodianship, or fiduciary issues",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "c32a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "How to file a claim",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "How to file a claim",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "c72a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Payment issues",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Payment issues",
+                "parentId": "68524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

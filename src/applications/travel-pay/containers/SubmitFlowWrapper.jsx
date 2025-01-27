@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import {
+  selectVAPMailingAddress,
+  selectVAPResidentialAddress,
+  isProfileLoading,
+  isLoggedIn,
+} from 'platform/user/selectors';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -11,21 +19,29 @@ import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
 
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+import { appointment1 } from '../services/mocks/appointments';
 
-const SubmitFlowWrapper = () => {
-  const [cantFile, setCantFile] = useState(false);
-
+const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
+  // TODO: Placeholders until backend integration is complete
+  // API call based on the URL Params, but for now is hard coded
+  const appointment = appointment1;
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
+  const [yesNo, setYesNo] = useState({
+    mileage: '',
+    vehicle: '',
+    address: '',
+  });
+
   const [pageIndex, setPageIndex] = useState(0);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
 
   const handlers = {
     onNext: e => {
       e.preventDefault();
-
       setPageIndex(pageIndex + 1);
     },
     onBack: e => {
@@ -49,7 +65,8 @@ const SubmitFlowWrapper = () => {
       page: 'intro',
       component: (
         <IntroductionPage
-          onNext={e => {
+          appointment={appointment}
+          onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
           }}
@@ -58,15 +75,41 @@ const SubmitFlowWrapper = () => {
     },
     {
       page: 'mileage',
-      component: <MileagePage handlers={handlers} />,
+      component: (
+        <MileagePage
+          appointment={appointment}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+        />
+      ),
     },
     {
       page: 'vehicle',
-      component: <VehiclePage handlers={handlers} />,
+      component: (
+        <VehiclePage
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
     },
     {
       page: 'address',
-      component: <AddressPage handlers={handlers} />,
+      component: (
+        <AddressPage
+          address={homeAddress || mailingAddress}
+          yesNo={yesNo}
+          setYesNo={setYesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
     },
     {
       page: 'review',
@@ -77,6 +120,9 @@ const SubmitFlowWrapper = () => {
       component: <ConfirmationPage />,
     },
   ];
+
+  const profileLoading = useSelector(state => isProfileLoading(state));
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const {
     useToggleValue,
@@ -89,7 +135,7 @@ const SubmitFlowWrapper = () => {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
-  if (toggleIsLoading) {
+  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -111,19 +157,33 @@ const SubmitFlowWrapper = () => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
-            <CantFilePage
+          {isUnsupportedClaimType && (
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>
   );
 };
 
-export default SubmitFlowWrapper;
+SubmitFlowWrapper.propTypes = {
+  homeAddress: PropTypes.object,
+  mailingAddress: PropTypes.object,
+};
+
+function mapStateToProps(state) {
+  return {
+    homeAddress: selectVAPResidentialAddress(state),
+    mailingAddress: selectVAPMailingAddress(state),
+  };
+}
+
+export default connect(mapStateToProps)(SubmitFlowWrapper);

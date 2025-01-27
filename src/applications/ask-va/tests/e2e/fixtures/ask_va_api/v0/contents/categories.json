@@ -1,0 +1,331 @@
+{
+    "data": [
+        {
+            "id": "75524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Education benefits and work study",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Education benefits and work study",
+                "parentId": null,
+                "rankOrder": 1,
+                "requiresAuthentication": true,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "68524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Disability compensation",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Disability compensation",
+                "parentId": null,
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "73524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Health care",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Health care",
+                "parentId": null,
+                "rankOrder": 3,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "5c524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Debt for benefit overpayments and health care copay bills",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Debt for benefit overpayments and health care copay bills",
+                "parentId": null,
+                "rankOrder": 4,
+                "requiresAuthentication": true,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "60524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Decision reviews and appeals",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Decision reviews and appeals",
+                "parentId": null,
+                "rankOrder": 5,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "5e524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Sign in and technical issues",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Sign in and technical issues",
+                "parentId": null,
+                "rankOrder": 6,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "64524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Housing assistance and home loans",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Housing assistance and home loans",
+                "parentId": null,
+                "rankOrder": 7,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "77524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran Readiness and Employment",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran Readiness and Employment",
+                "parentId": null,
+                "rankOrder": 8,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "282d7129-c977-ec11-8940-001dd804d2b4",
+            "type": "contents",
+            "attributes": {
+                "name": "Survivor Benefits",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Survivor Benefits",
+                "parentId": null,
+                "rankOrder": 9,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "71524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Burials and memorials",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burials and memorials",
+                "parentId": null,
+                "rankOrder": 10,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "6a524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Pension",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Pension",
+                "parentId": null,
+                "rankOrder": 11,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "e77b38c8-1617-ec11-b6e5-001dd804ce09",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran ID Card (VIC)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran ID Card (VIC)",
+                "parentId": null,
+                "rankOrder": 12,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "66524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Benefits issues outside the U.S.",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Benefits issues outside the U.S.",
+                "parentId": null,
+                "rankOrder": 13,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "6f524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Life insurance",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Life insurance",
+                "parentId": null,
+                "rankOrder": 14,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "9520fd17-ec3c-ec11-b6e5-001dd804d87f",
+            "type": "contents",
+            "attributes": {
+                "name": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "parentId": null,
+                "rankOrder": 15,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "6d524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Guardianship, custodianship, or fiduciary issues",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Guardianship, custodianship, or fiduciary issues",
+                "parentId": null,
+                "rankOrder": 16,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "62524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Center for Women Veterans",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Center for Women Veterans",
+                "parentId": null,
+                "rankOrder": 17,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "5a524deb-d864-eb11-bb24-000d3a579c45",
+            "type": "contents",
+            "attributes": {
+                "name": "Center for Minority Veterans",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Center for Minority Veterans",
+                "parentId": null,
+                "rankOrder": 18,
+                "requiresAuthentication": false,
+                "topicType": "Category",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

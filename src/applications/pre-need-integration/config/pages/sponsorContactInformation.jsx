@@ -12,29 +12,54 @@ import {
   bottomPadding,
 } from '../../utils/helpers';
 
+// Import veteran properties from schema
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
+// Component for state title
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
 
+// Validation function
+const isRequired = formData => {
+  return (
+    formData?.application?.veteran?.address.street !== undefined ||
+    formData?.application?.veteran?.address.street2 !== undefined ||
+    formData?.application?.veteran?.address.city !== undefined ||
+    formData?.application?.veteran?.address.state !== undefined ||
+    formData?.application?.veteran?.address.postalCode !== undefined
+  );
+};
+
+// UI Schema
 export const uiSchema = {
   application: {
     veteran: {
-      address: merge({}, address.uiSchema('Sponsor’s mailing address'), {
-        street: {
-          'ui:title': 'Street address',
-        },
-        street2: {
-          'ui:title': 'Street address line 2',
-        },
-        state: {
-          'ui:title': sponsorMailingAddressStateTitleWrapper,
-          'ui:options': {
-            hideIf: formData => !sponsorMailingAddressHasState(formData),
+      address: merge(
+        {},
+        address.uiSchema(
+          'Sponsor mailing address',
+          'You can choose to enter your sponsor’s mailing address. This is optional. We’ll confirm this address with the U.S. Postal Service.',
+          false,
+          isRequired,
+          false,
+          ['street', 'city', 'postalCode'],
+        ),
+        {
+          street: {
+            'ui:title': 'Street address',
+          },
+          street2: {
+            'ui:title': 'Street address line 2',
+          },
+          state: {
+            'ui:title': sponsorMailingAddressStateTitleWrapper,
+            'ui:options': {
+              hideIf: formData => !sponsorMailingAddressHasState(formData),
+            },
           },
         },
-      }),
+      ),
       'view:contactInfoSubheader': {
         'ui:description': sponsorContactInfoSubheader,
         'ui:options': {
@@ -59,6 +84,7 @@ export const uiSchema = {
   },
 };
 
+// Schema
 export const schema = {
   type: 'object',
   properties: {
@@ -68,7 +94,7 @@ export const schema = {
         veteran: {
           type: 'object',
           properties: {
-            address: address.schema(fullSchemaPreNeed),
+            address: address.schema(fullSchemaPreNeed, isRequired),
             'view:contactInfoSubheader': {
               type: 'object',
               properties: {},

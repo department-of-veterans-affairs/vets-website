@@ -240,7 +240,7 @@ function ToeApp({
               },
               {
                 href:
-                  '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
+                  '/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e',
                 label: 'Apply to use transferred education benefits',
               },
             ]}

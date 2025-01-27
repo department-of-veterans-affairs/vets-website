@@ -14,10 +14,14 @@ import {
   MHVDowntime,
   useDatadogRum,
   MhvSecondaryNav,
+  useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
+  const location = useLocation();
+  const { measuredRef, isHidden } = useBackToTop(location);
   const user = useSelector(selectUser);
   const contentClasses =
     'main-content usa-width-two-thirds medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
@@ -75,7 +79,7 @@ const App = ({ children }) => {
       serviceRequired={[backendServices.USER_PROFILE]}
     >
       <MhvSecondaryNav />
-      <div className="routes-container usa-grid">
+      <div ref={measuredRef} className="routes-container usa-grid">
         <div className={`${contentClasses}`}>
           <DowntimeNotification
             appTitle="Medications"
@@ -97,6 +101,13 @@ const App = ({ children }) => {
             )}
           >
             {children}
+            <va-back-to-top
+              class="no-print"
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
+              data-testid="rx-back-to-top"
+            />
           </DowntimeNotification>
         </div>
       </div>

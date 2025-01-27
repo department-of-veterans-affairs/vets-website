@@ -27,7 +27,7 @@ export default function App({ location, children }) {
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959a}>
         <Toggler.Enabled>
-          <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+          <VaBreadcrumbs wrapping breadcrumbList={breadcrumbList} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}

@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import {
   checkboxGroupSchema,
-  checkboxGroupUI,
+  checkboxGroupUI as checkboxGroupUiFn,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const formatDate = dateString =>
@@ -35,13 +35,16 @@ const suppliesUpdateUiSchema = formData =>
 
 const suppliesUi = ({
   title,
+  tile,
   description,
   hint,
   replaceSchema,
   updateUiSchema,
+  checkboxGroupUI = checkboxGroupUiFn,
 }) =>
   checkboxGroupUI({
     title,
+    tile,
     description,
     hint,
     labels: {},

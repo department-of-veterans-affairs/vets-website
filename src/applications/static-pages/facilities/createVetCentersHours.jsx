@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
-import widgetTypes from '../widgetTypes';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import { standardizeDateTime } from './facilityUtilities';
 
 export default async function createVetCentersHours(store) {

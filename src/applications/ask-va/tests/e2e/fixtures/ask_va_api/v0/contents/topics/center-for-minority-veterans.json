@@ -1,0 +1,23 @@
+{
+    "data": [
+        {
+            "id": "852a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Programs and policies",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Programs and policies",
+                "parentId": "5a524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

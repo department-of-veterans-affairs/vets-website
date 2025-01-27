@@ -20,9 +20,7 @@ describe('Medications Details Page Grouping', () => {
       Data.REFILL_HISTORY_INFO,
     );
     detailsPage.clickRefillHistoryAccordionOnDetailsPage();
-    detailsPage.verifyFilledDateFieldInAccordionCardInfoOnDetailPage(
-      Data.FILL_DATE_FIELD,
-    );
+
     detailsPage.verifyImageFieldInAccordionCardInfoOnDetailsPage(
       Data.IMAGE_FIELD,
     );

@@ -1,4 +1,4 @@
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import manifest from '../../manifest.json';
 
 import mockUser from './fixtures/mocks/mockUser.json';

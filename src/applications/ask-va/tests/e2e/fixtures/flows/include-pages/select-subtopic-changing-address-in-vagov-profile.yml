@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Changing address in VA.gov profile
+  - action: click
+    target: call-to-action

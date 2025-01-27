@@ -1,0 +1,198 @@
+{
+    "data": [
+        {
+            "id": "c0da1728-d91f-ed11-b83c-001dd8069009",
+            "type": "contents",
+            "attributes": {
+                "name": "Audiology and hearing aids",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Audiology and hearing aids",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "77bd7f33-773f-ef11-8409-001dd830980e",
+            "type": "contents",
+            "attributes": {
+                "name": "Billing and copays",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Billing and copays",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "0b2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Career opportunities at VA health facilities",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Career opportunities at VA health facilities",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "032b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Caregiver support program",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Caregiver support program",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "99b276de-9f90-eb11-a812-001dd8049eb2",
+            "type": "contents",
+            "attributes": {
+                "name": "Eligibility and how to apply",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Eligibility and how to apply",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "092b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Family health benefits",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Family health benefits",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "b9d2b73f-773f-ef11-8409-001dd830980e",
+            "type": "contents",
+            "attributes": {
+                "name": "Foreign Medical Program",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Foreign Medical Program",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "132b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Getting care at a local VA medical center",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Getting care at a local VA medical center",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "0d2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Prosthetics",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Prosthetics",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "0f2b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Vet Centers and readjustment counseling",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Vet Centers and readjustment counseling",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "112b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Women's health services",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Women's health services",
+                "parentId": "73524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        }
+    ]
+}

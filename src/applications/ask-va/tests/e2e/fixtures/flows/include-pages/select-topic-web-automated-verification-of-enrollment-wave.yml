@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Web Automated Verification of Enrollment (WAVE)
+  - action: click
+    target: call-to-action

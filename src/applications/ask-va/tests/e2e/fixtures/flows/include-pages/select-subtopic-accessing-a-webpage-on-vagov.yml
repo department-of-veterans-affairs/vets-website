@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Accessing a webpage on VA.gov
+  - action: click
+    target: call-to-action

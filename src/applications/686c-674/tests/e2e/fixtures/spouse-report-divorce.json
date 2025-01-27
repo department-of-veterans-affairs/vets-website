@@ -11,7 +11,8 @@
         "startLocation": {
           "outsideUsa": true,
           "location": {
-            "city": "Foreign city"
+            "city": "Foreign city",
+            "country": "AUS"
           }
         },
         "endLocation": {
@@ -38,7 +39,8 @@
         "startLocation": {
           "outsideUsa": true,
           "location": {
-            "city": "Foreign city"
+            "city": "Fakesville",
+            "country": "AUS"
           }
         },
         "endLocation": {
@@ -71,7 +73,7 @@
       "outsideUsa": true,
       "location": {
         "city": "Fakesville",
-        "state": "CA"
+        "country": "AUS"
       },
       "date": "2009-04-01",
       "type": "CIVIL",

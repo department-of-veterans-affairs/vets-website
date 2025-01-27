@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {
+  buildAddressArray,
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
 import { fetchMainSatelliteLocationFacility } from './actions';
-import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
-import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 function cleanAddress(address, lat, long) {
   try {

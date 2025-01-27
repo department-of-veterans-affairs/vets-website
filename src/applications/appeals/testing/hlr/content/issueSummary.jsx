@@ -17,17 +17,14 @@ export const SummaryTitle = ({ formData }) => {
       </h3>
       {ShowIssuesList({ issues })}
       <p>
-        If an issue is missing, please{' '}
         <Link
-          aria-label="go back and add any missing issues for review"
           to={{
             pathname: CONTESTABLE_ISSUES_PATH,
             search: '?redirect',
           }}
         >
-          go back and add it
+          Go back to add more issues
         </Link>
-        .
       </p>
     </>
   );

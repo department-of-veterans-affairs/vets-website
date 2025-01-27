@@ -139,9 +139,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('.va-growable-background').length).to.equal(1);
     const button = tree.everySubTree('button');
     // no remove button
-    expect(button.length).to.equal(2);
-    expect(button[0].text()).to.equal('Save');
-    expect(button[1].text()).to.contain('Add another');
+    expect(button.length).to.equal(1);
+    expect(tree.toString()).to.contain('text="Save"'); // SkinDeep doesn't handle VaButton, so can't directly query for this save button.
+    expect(button[0].text()).to.contain('Add another');
   });
   it('should render save button with showSave option', () => {
     const idSchema = {
@@ -184,11 +184,14 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
     expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
     const button = tree.everySubTree('button');
-    expect(button.length).to.equal(4);
-    expect(button[0].text()).to.equal('Edit');
-    expect(button[1].text()).to.equal('Save');
-    expect(button[2].text()).to.equal('Remove');
-    expect(button[3].text()).to.contain('Add another');
+    expect(button.length).to.equal(1);
+
+    // SkinDeep doesn't handle VaButton, so can't directly query for these three buttons directly:
+    expect(tree.toString()).to.contain('text="Edit"');
+    expect(tree.toString()).to.contain('text="Remove"');
+    expect(tree.toString()).to.contain('text="Save"');
+
+    expect(button[0].text()).to.contain('Add another');
   });
 
   it('should render unique aria-labels on buttons from ui option key in item', () => {
@@ -259,14 +262,14 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
     expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
     const button = tree.everySubTree('button');
-    expect(button.length).to.equal(4);
-    expect(button[0].text()).to.equal('Edit');
-    expect(button[0].props['aria-label']).to.equal('Edit foo');
-    expect(button[1].text()).to.equal('Save');
-    expect(button[1].props['aria-label']).to.equal('Save bar');
-    expect(button[2].text()).to.equal('Remove');
-    expect(button[2].props['aria-label']).to.equal('Remove bar');
-    expect(button[3].text()).to.contain('Add another');
+    expect(button.length).to.equal(1);
+
+    // SkinDeep doesn't handle VaButton, so can't directly query for these three buttons directly:
+    expect(tree.toString()).to.contain('label="Edit foo');
+    expect(tree.toString()).to.contain('label="Save bar');
+    expect(tree.toString()).to.contain('label="Remove bar');
+
+    expect(button[0].text()).to.contain('Add another');
   });
 
   it('should render invalid items', () => {
@@ -395,11 +398,12 @@ describe('Schemaform <ArrayField>', () => {
       expect(tree.getMountedInstance().state.editing[2]).to.be.false;
     });
     it('enforces max items by hiding add and displaying an alert', () => {
-      const buttons = tree.everySubTree('button');
       const alerts = tree.everySubTree('va-alert');
-      expect(buttons.length).to.equal(2);
-      expect(buttons[0].text()).to.equal('Edit');
-      expect(buttons[1].text()).to.contain('Remove');
+
+      // SkinDeep doesn't handle VaButton, so can't directly query for these two buttons directly.
+      expect(tree.toString()).to.contain('label="Edit item');
+      expect(tree.toString()).to.contain('label="Remove');
+
       expect(alerts.length).to.equal(1);
       expect(alerts[0].text()).to.equal(
         'You’ve entered the maximum number of items allowed.',

@@ -96,6 +96,21 @@
       "cookieOnly": true
     },
     {
+      "hostname": "mentalhealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.mirecc.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "mirecc.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
       "hostname": "www.move.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
@@ -142,6 +157,11 @@
     },
     {
       "hostname": "www.ptsd.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "ptsd.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
     },

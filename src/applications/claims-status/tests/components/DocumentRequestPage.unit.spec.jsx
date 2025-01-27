@@ -125,10 +125,10 @@ describe('<DocumentRequestPage>', () => {
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        `Request for ${trackedItem.displayName}`,
+        trackedItem.displayName,
       );
       expect(document.title).to.equal(
-        `Request for ${trackedItem.displayName} | Veterans Affairs`,
+        `${trackedItem.displayName} | Veterans Affairs`,
       );
     });
   });
@@ -465,7 +465,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      expect(document.title).to.equal('Request for Testing | Veterans Affairs');
+      expect(document.title).to.equal('Testing | Veterans Affairs');
       expect(resetUploads.called).to.be.true;
     });
 

@@ -20,4 +20,10 @@ describe('go bill CT new homepage', () => {
       'Discover how your GI Bill benefits can support your education.',
     );
   });
+  it('should direct to the schools and employers search tabs', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.contains('.comparison-tool-link', 'Schools and employers').click();
+    cy.url().should('contain', '/schools-and-employers');
+    cy.injectAxeThenAxeCheck();
+  });
 });

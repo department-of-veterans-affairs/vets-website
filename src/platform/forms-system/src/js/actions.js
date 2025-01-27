@@ -313,9 +313,13 @@ export function uploadFile(
         onChange({ ...fileData, isEncrypted: !!password });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
-        let errorMessage =
-          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.';
-        const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
+        let errorMessage = req.statusText;
+        try {
+          // detail contains a better error message
+          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+        } catch (error) {
+          // intentionally empty
+        }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             new Date(
@@ -326,12 +330,7 @@ export function uploadFile(
         if (password) {
           onChange({ ...fileObj, errorMessage, isEncrypted: true });
         } else {
-          const changePayload = {
-            ...fileObj,
-            errorMessage,
-            ...(errorAlert && { alert: errorAlert }),
-          };
-          onChange(changePayload);
+          onChange({ ...fileObj, errorMessage });
         }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
@@ -339,7 +338,9 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage = FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+      const errorMessage =
+        uiOptions?.fileUploadNetworkErrorMessage ||
+        FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
       const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
 
       if (password) {

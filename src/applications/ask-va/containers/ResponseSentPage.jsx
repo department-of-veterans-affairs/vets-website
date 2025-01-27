@@ -2,6 +2,7 @@ import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useRef } from 'react';
 import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
+import manifest from '../manifest.json';
 
 const ResponseSentPage = () => {
   const alertRef = useRef(null);
@@ -37,7 +38,7 @@ const ResponseSentPage = () => {
         </p>
         <div className="vads-u-margin-bottom--7 vads-u-margin-top--6">
           <va-link-action
-            href="/contact-us/ask-va-too"
+            href={`${manifest.rootUrl}`}
             text="Return to Ask VA Inbox"
             type="secondary"
           />

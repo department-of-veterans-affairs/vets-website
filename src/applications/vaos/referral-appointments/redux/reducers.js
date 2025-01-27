@@ -1,8 +1,8 @@
 import {
   SET_FORM_CURRENT_PAGE,
-  FETCH_PROVIDER_DETAILS,
-  FETCH_PROVIDER_DETAILS_FAILED,
-  FETCH_PROVIDER_DETAILS_SUCCEEDED,
+  CREATE_DRAFT_REFERRAL_APPOINTMENT,
+  CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
+  CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
   FETCH_REFERRALS,
   FETCH_REFERRALS_SUCCEEDED,
   FETCH_REFERRALS_FAILED,
@@ -17,13 +17,13 @@ import { FETCH_STATUS } from '../../utils/constants';
 const initialState = {
   facility: null,
   sortProviderBy: '',
-  selectedProvider: {},
+  draftAppointmentInfo: {},
   currentPage: null,
   referrals: [],
   selectedSlot: '',
   referralsFetchStatus: FETCH_STATUS.notStarted,
   referralFetchStatus: FETCH_STATUS.notStarted,
-  providerFetchStatus: FETCH_STATUS.notStarted,
+  draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -33,21 +33,21 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         currentPage: action.payload,
       };
-    case FETCH_PROVIDER_DETAILS:
+    case CREATE_DRAFT_REFERRAL_APPOINTMENT:
       return {
         ...state,
-        providerFetchStatus: FETCH_STATUS.loading,
+        draftAppointmentCreateStatus: FETCH_STATUS.loading,
       };
-    case FETCH_PROVIDER_DETAILS_SUCCEEDED:
+    case CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED:
       return {
         ...state,
-        providerFetchStatus: FETCH_STATUS.succeeded,
-        selectedProvider: action.data,
+        draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
+        draftAppointmentInfo: action.data,
       };
-    case FETCH_PROVIDER_DETAILS_FAILED:
+    case CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED:
       return {
         ...state,
-        providerFetchStatus: FETCH_STATUS.failed,
+        draftAppointmentCreateStatus: FETCH_STATUS.failed,
       };
     case FETCH_REFERRALS:
       return {
@@ -90,8 +90,10 @@ function ccAppointmentReducer(state = initialState, action) {
     case SET_INIT_REFERRAL_FLOW:
       return {
         ...state,
-        selectedProvider: {},
+        provider: {},
         providerFetchStatus: FETCH_STATUS.notStarted,
+        draftAppointmentInfo: {},
+        draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
         selectedSlot: '',
       };
     default:
