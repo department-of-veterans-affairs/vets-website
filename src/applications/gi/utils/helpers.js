@@ -883,6 +883,7 @@ export const getAbbreviationsAsArray = value => {
       { abbreviation: 'MA', description: 'Master of Arts' },
       { abbreviation: 'MBA', description: 'Master of Business Administration' },
       { abbreviation: 'MS', description: 'Master of Science' },
+      { abbreviation: 'PhD', description: 'Doctor of Philosophy' },
     ],
     CORR: [
       { abbreviation: 'AAS', description: 'Associate of Applied Science' },
@@ -901,6 +902,10 @@ export const getAbbreviationsAsArray = value => {
       },
       { abbreviation: 'IR', description: 'Instrument Rating' },
       { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      {
+        abbreviation: 'PPIL',
+        description: 'Professional Pilot Interdisciplinary Sciences',
+      },
       { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
     ],
   };

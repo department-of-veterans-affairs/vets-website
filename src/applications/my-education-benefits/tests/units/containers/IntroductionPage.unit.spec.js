@@ -8,7 +8,7 @@
 
 // const defaultProps = {
 //   featureTogglesLoaded: true,
-//   route: '/education/apply-for-benefits-form-22-1990/introduction',
+//   route: '/education/apply-for-gi-bill-form-22-1990/introduction',
 // };
 
 // describe.skip('Introduction Page', () => {

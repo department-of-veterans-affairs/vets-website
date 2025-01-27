@@ -3,12 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import { selectProfile } from 'platform/user/selectors';
 import {
   deriveLOA1URL,
   deriveLOA2PlusURL,
   deriveDefaultURL,
 } from '../../helpers';
-import { selectProfile } from 'platform/user/selectors';
 
 export const App = ({ loa }) => {
   const deriveURL = () => {
