@@ -59,14 +59,10 @@ const MhvSecondaryNav = () => {
   const items = [...mhvSecNavItems];
   const {
     loading = true,
-    mhvTransitionalMedicalRecordsLandingPage = false,
     mhvIntegrationMedicalRecordsToPhase1 = false,
   } = useSelector(toggleValuesSelector);
 
-  if (
-    mhvTransitionalMedicalRecordsLandingPage &&
-    !mhvIntegrationMedicalRecordsToPhase1
-  ) {
+  if (!mhvIntegrationMedicalRecordsToPhase1) {
     items.push(transitionalMedicalRecordsLink);
   } else {
     items.push(medicalRecordsLink);

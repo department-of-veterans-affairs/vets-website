@@ -5,12 +5,10 @@ import MhvSecondaryNav from '../containers/MhvSecondaryNav';
 
 const stateFn = ({
   loading,
-  mhvTransitionalMedicalRecordsLandingPage = false,
   mhvIntegrationMedicalRecordsToPhase1 = false,
 } = {}) => ({
   featureToggles: {
     loading,
-    mhvTransitionalMedicalRecordsLandingPage,
     mhvIntegrationMedicalRecordsToPhase1,
   },
 });
@@ -53,27 +51,9 @@ describe('<MhvSecondaryNav />', () => {
   });
 
   describe('Medical Records href', () => {
-    it('when no features set:\n\t /my-health/medical-records', () => {
-      const initialState = stateFn({ loading: false });
-      const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/medical-records$/);
-    });
-
-    it('when mhvTransitionalMedicalRecordsLandingPage enabled:\n\t /my-health/records', () => {
+    it('when toggle enabled:\n\t /my-health/medical-records', () => {
       const initialState = stateFn({
         loading: false,
-        mhvTransitionalMedicalRecordsLandingPage: true,
-      });
-      const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/records$/);
-    });
-
-    it('when both toggles enabled:\n\t /my-health/medical-records', () => {
-      const initialState = stateFn({
-        loading: false,
-        mhvTransitionalMedicalRecordsLandingPage: true,
         mhvIntegrationMedicalRecordsToPhase1: true,
       });
       const { getByRole } = setup({ initialState });
