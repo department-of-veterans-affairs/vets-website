@@ -274,8 +274,8 @@ export default function TravelPayStatusApp({ children }) {
           <h1 tabIndex="-1" data-testid="header">
             Check your travel reimbursement claim status
           </h1>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
-            <h2 className="vads-u-font-size--h4">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
               You can use this tool to check the status of your VA travel
               claims.
             </h2>
