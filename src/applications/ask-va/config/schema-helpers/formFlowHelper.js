@@ -60,6 +60,7 @@ import yourLocationOfResidencePage from '../chapters/personalInformation/yourLoc
 import yourMailingAddressPage from '../chapters/personalInformation/yourMailingAddress';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
+import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 import yourVRECounselorPage from '../chapters/personalInformation/yourVRECounselor';
 import yourVREInformationPage from '../chapters/personalInformation/yourVREInformation';
 
@@ -90,6 +91,12 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRolePage.uiSchema,
     schema: yourRolePage.schema,
+  },
+  yourRoleEducation: {
+    editModeOnReviewPage: false,
+    title: CHAPTER_3.YOUR_ROLE.TITLE,
+    uiSchema: yourRoleEducationPage.uiSchema,
+    schema: yourRoleEducationPage.schema,
   },
   moreAboutYourRelationshipToVeteran: {
     editModeOnReviewPage: false,
@@ -561,7 +568,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
 );
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
-  'yourRole',
+  'yourRoleEducation',
   'schoolInYourProfile',
   'searchSchools',
   'useThisSchool',
