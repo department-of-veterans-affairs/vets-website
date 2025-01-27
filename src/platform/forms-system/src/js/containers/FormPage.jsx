@@ -8,9 +8,10 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import {
   isReactComponent,
   focusElement,
-  customScrollAndFocus,
   defaultFocusSelector,
 } from 'platform/utilities/ui';
+import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
+
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -28,17 +29,18 @@ import {
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 import { stringifyUrlParams } from '../helpers';
 
-function focusForm(route, index) {
-  // Check main toggle to enable custom focus
-  if (route.formConfig?.useCustomScrollAndFocus) {
-    const scrollAndFocusTarget =
-      route.pageConfig?.scrollAndFocusTarget ||
-      route.formConfig?.scrollAndFocusTarget;
-    customScrollAndFocus(scrollAndFocusTarget, index);
-  } else {
-    focusElement(defaultFocusSelector);
+const focusForm = async (route, index) => {
+  const useCustomScrollAndFocus = route.formConfig?.useCustomScrollAndFocus;
+  const scrollAndFocusTarget =
+    route.pageConfig?.scrollAndFocusTarget ||
+    route.formConfig?.scrollAndFocusTarget;
+  if (useCustomScrollAndFocus || scrollAndFocusTarget) {
+    return customScrollAndFocus(scrollAndFocusTarget, index);
   }
-}
+
+  focusElement(defaultFocusSelector);
+  return scrollToTop();
+};
 
 function getContentBeforeAndAfterButtons(
   route,
@@ -83,7 +85,9 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
-      focusForm(this.props.route, this.props?.params?.index);
+      setTimeout(() => {
+        focusForm(this.props.route, this.props?.params?.index);
+      }, 250);
     }
   }
 
