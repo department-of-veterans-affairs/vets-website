@@ -41,7 +41,7 @@ const ConfirmationPage = ({ appointment }) => {
         text="Check your travel reimbursement claim status"
       />
       <p className="vads-u-margin-y--2">
-        If you’re eligible for reimbursement, we’ll deposit your reimburesement
+        If you’re eligible for reimbursement, we’ll deposit your reimbursement
         in your bank account.
       </p>
       <va-link
