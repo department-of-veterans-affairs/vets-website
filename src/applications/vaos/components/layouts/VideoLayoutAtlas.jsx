@@ -58,6 +58,8 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
     [NULL_STATE_FIELD.PROVIDER]: !videoProviderName,
     [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
   });
 
   return (
