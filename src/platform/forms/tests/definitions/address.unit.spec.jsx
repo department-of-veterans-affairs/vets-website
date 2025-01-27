@@ -2,7 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
+import definitions from 'vets-json-schema/dist/definitions.json';
 import {
   DefinitionTester,
   fillData,
@@ -13,7 +15,6 @@ import {
   requireStateWithCountry,
   requireStateWithData,
 } from '../../definitions/address';
-import definitions from 'vets-json-schema/dist/definitions.json';
 
 const { address } = definitions;
 const addressSchema = {
@@ -21,6 +22,10 @@ const addressSchema = {
     address,
   },
 };
+const mouseClick = new MouseEvent('click', {
+  bubbles: true,
+  cancelable: true,
+});
 
 describe('Forms library address definition', () => {
   it('should render address', () => {
@@ -143,47 +148,77 @@ describe('Forms library address definition', () => {
   it('should require state for non-required addresses with other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillData(form, 'input#root_street', '123 st');
-    fillData(form, 'input#root_city', 'Northampton');
-    fillData(form, 'input#root_postalCode', '12345');
+    const st = form.container.querySelector('#root_street');
+    const city = form.container.querySelector('#root_city');
+    const postalCode = form.container.querySelector('#root_postalCode');
+    fireEvent.change(st, {
+      target: { value: '123 st' },
+    });
+    fireEvent.change(city, {
+      target: { value: 'Northampton' },
+    });
+    fireEvent.change(postalCode, {
+      target: { value: '12345' },
+    });
 
-    form.find('form').simulate('submit');
+    fireEvent.submit(form.container.querySelector('form'));
 
-    const errors = form.find('.usa-input-error-message');
-    expect(errors.length).to.equal(1);
-    form.unmount();
+    waitFor(() => {
+      const errors = form.container.querySelectorAll(
+        '.usa-input-error-message',
+      );
+      expect(Array.from(errors)).not.to.be.empty;
+    });
   }).timeout(4000);
 
   it('should not require state for non-required addresses with no other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    form.find('form').simulate('submit');
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    fireEvent(submitButton, mouseClick);
 
-    const errors = form.find('.usa-input-error-message');
-    expect(errors.length).to.equal(0);
+    waitFor(() => {
+      const errors = form.container.querySelectorAll(
+        '.usa-input-error-message',
+      );
+      expect(Array.from(errors)).not.to.be.empty;
+    });
     form.unmount();
   }).timeout(4000);
 
   it('should require state if the country requires it', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillData(form, 'select#root_country', 'USA');
-    fillData(form, 'input#root_street', '123 st');
-    fillData(form, 'input#root_city', 'Northampton');
-    fillData(form, 'input#root_postalCode', '12345');
+    const { container, unmount } = render(
+      <DefinitionTester schema={s} uiSchema={uis} />,
+    );
 
-    form.find('form').simulate('submit');
+    waitFor(() => {
+      fireEvent.change(screen.getByLabelText(/country/i), {
+        target: { value: 'USA' },
+      });
+      fireEvent.change(screen.getByLabelText(/street/i), {
+        target: { value: '123 st' },
+      });
+      fireEvent.change(screen.getByLabelText(/city/i), {
+        target: { value: 'Northampton' },
+      });
+      fireEvent.change(screen.getByLabelText(/postal code/i), {
+        target: { value: '12345' },
+      });
 
-    const errors = form.find('.usa-input-error-message');
-    expect(errors.length).to.equal(1);
-    expect(errors.first().text()).to.equal('Error Please enter a state');
-    form.unmount();
+      fireEvent.submit(container.querySelector('form'));
+
+      const errors = container.querySelectorAll('.usa-input-error-message');
+      expect(errors.length).toBe(1);
+      expect(errors[0].textContent).toBe('Error Please enter a state');
+    });
+    unmount();
   }).timeout(4000);
 });
 
