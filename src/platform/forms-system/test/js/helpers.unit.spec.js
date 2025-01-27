@@ -16,7 +16,8 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
-  isMinimalHeaderApplicable,
+  isMinimalHeaderPath,
+  isMinimalHeaderApp,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1303,7 +1304,7 @@ describe('getUrlPathIndex', () => {
   });
 });
 
-describe('isMinimalHeaderApplicable', () => {
+describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
   afterEach(() => {
     sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
     sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
@@ -1322,9 +1323,11 @@ describe('isMinimalHeaderApplicable', () => {
   });
 
   it('should return a boolean if minimal header is applicable', () => {
-    expect(isMinimalHeaderApplicable()).to.eql(false);
+    expect(isMinimalHeaderApp()).to.eql(false);
+    expect(isMinimalHeaderPath()).to.eql(false);
     sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-    expect(isMinimalHeaderApplicable()).to.eql(true);
+    expect(isMinimalHeaderApp()).to.eql(true);
+    expect(isMinimalHeaderPath()).to.eql(true);
   });
 
   it('should not be applicable on excluded paths', () => {
@@ -1338,12 +1341,14 @@ describe('isMinimalHeaderApplicable', () => {
     locationStub.value({
       pathname: '/introduction',
     });
-    expect(isMinimalHeaderApplicable()).to.eql(false);
+    expect(isMinimalHeaderApp()).to.eql(true);
+    expect(isMinimalHeaderPath()).to.eql(false);
 
     locationStub.value({
       pathname: '/middle-of-form',
     });
-    expect(isMinimalHeaderApplicable()).to.eql(true);
+    expect(isMinimalHeaderApp()).to.eql(true);
+    expect(isMinimalHeaderPath()).to.eql(true);
 
     locationStub.restore();
   });

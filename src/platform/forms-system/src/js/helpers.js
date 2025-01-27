@@ -808,19 +808,34 @@ export function getUrlPathIndex(url) {
   return indexString ? Number(indexString) : undefined;
 }
 
-export function isMinimalHeaderApplicable() {
-  // sessionStorage needs to be populated by header component before you
-  // can use this, which happens before all form code is loaded, but not
-  // necessarily before the .js files are served. Using it in any React
-  // component in the body is generally fine, but not in the initial
-  // load of a .js file.
-  const isApplicable = sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE');
-  if (isApplicable !== 'true') {
+/**
+ * If the minimal header is applicable to the current app regardless of excluded paths.
+ *
+ * Note: Not reliable to use in a .js file load. Should be used in
+ * a component or function to allow for session storage to load first.
+ *
+ * @returns {boolean}
+ */
+export function isMinimalHeaderApp() {
+  return sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') === 'true';
+}
+
+/**
+ * If the minimal header is applicable to the current app and the
+ * current window path is not a excluded
+ *
+ * Note: Not reliable to use in a .js file load. Should be used in
+ * a component or function to allow for session storage to load first.
+ *
+ * @returns {boolean}
+ */
+export function isMinimalHeaderPath() {
+  if (!isMinimalHeaderApp()) {
     return false;
   }
 
   let excludePaths = sessionStorage.getItem('MINIMAL_HEADER_EXCLUDE_PATHS');
   excludePaths = excludePaths ? JSON.parse(excludePaths) : [];
   const isExcludedPath = excludePaths.includes(window?.location?.pathname);
-  return isApplicable && !isExcludedPath;
+  return !isExcludedPath;
 }
