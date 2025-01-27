@@ -1,28 +1,15 @@
-import manifest from '../../manifest.json';
 import maxTestData from './fixtures/data/maximal-test.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import featureToggles from './fixtures/mocks/feature-toggles.insurance.json';
+import mockFeatures from './fixtures/mocks/feature-toggles.insurance.json';
 import {
   fillTextWebComponent,
   goToNextPage,
   selectYesNoWebComponent,
+  setupForAuth,
 } from './utils';
 
 const { data: testData } = maxTestData;
-const APIs = {
-  features: '/v0/feature_toggles*',
-  enrollment: '/v0/health_care_applications/enrollment_status*',
-};
 
 describe('HCA-Health-Insurance-Information', () => {
-  const setupGuestUser = () => {
-    cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
-      'mockEnrollmentStatus',
-    );
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockFeatures']);
-  };
   const advanceToHealthInsurance = () => {
     cy.get('.schemaform-start-button')
       .first()
@@ -91,7 +78,7 @@ describe('HCA-Health-Insurance-Information', () => {
   };
 
   beforeEach(() => {
-    setupGuestUser();
+    setupForAuth({ features: mockFeatures });
     advanceToHealthInsurance();
   });
 
