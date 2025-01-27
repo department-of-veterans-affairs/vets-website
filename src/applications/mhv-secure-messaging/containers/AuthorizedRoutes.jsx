@@ -59,9 +59,11 @@ const AuthorizedRoutes = () => {
     >
       <ScrollToTop />
       <Switch>
+        {/* Remove this landing page block when mhvSecureMessagingRemoveLandingPage FF is removed */}
         <AppRoute exact path="/" key="App">
           <LandingPageAuth />
         </AppRoute>
+        {/*  */}
         <AppRoute exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </AppRoute>

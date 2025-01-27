@@ -48,6 +48,13 @@ const App = ({ isPilot }) => {
     state => state.featureToggles['mhv-mock-session'],
   );
 
+  const removeLandingPage = useSelector(
+    state =>
+      state.featureToggles?.[
+        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
+
   useEffect(
     () => {
       if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
@@ -136,8 +143,15 @@ const App = ({ isPilot }) => {
   // Feature flag maintains whitelist for cerner integration pilot environment.
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
+  // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
+  // When removing the landing page changes are fully implemented, update manifest.json to set
+  // rootURL to /my-health/secure-messages/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    window.location.replace(manifest.rootUrl);
+    if (
+      removeLandingPage
+        ? window.location.replace('/my-health/secure-messages/inbox')
+        : window.location.replace(manifest.rootUrl)
+    );
     return <></>;
   }
 
