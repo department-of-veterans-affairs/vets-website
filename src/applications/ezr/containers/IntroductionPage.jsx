@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
@@ -24,8 +22,6 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
   const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
-
-  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
   useEffect(
     () => {
@@ -51,7 +47,7 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
             <>
               <ProcessDescription />
               {isUserLOA1 ? (
-                <IdentityVerificationAlert onVerify={onVerifyEvent} />
+                <IdentityVerificationAlert />
               ) : (
                 <SaveInProgressInfo {...sipProps} />
               )}
