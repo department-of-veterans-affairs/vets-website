@@ -13,6 +13,7 @@ const selectorShorthand = {
   TYPE_DAY: 'va-text-input.usa-form-group--day-input',
   TYPE_YEAR: 'va-text-input.usa-form-group--year-input',
   TYPE_QUESTION: "textarea[name='root_question']",
+  TYPE_SUBJECT: `input#root_subject[name="root_subject"]`,
   TYPE_FIRST_NAME: "va-text-input[name='root_aboutYourself_first']",
   TYPE_LAST_NAME: "va-text-input[name='root_aboutYourself_last']",
   TYPE_FAMILY_MEMBER_FIRST_NAME:
@@ -64,8 +65,8 @@ const clickLink = text => {
 };
 
 const clickSearchButton = () => {
-  cy.get('input#facility-search').should('exist');
-  cy.get('input#facility-search').click();
+  cy.get('button#facility-search').should('exist');
+  cy.get('button#facility-search').click();
 };
 
 // const clickSearchButton = text => {
@@ -75,7 +76,7 @@ const clickSearchButton = () => {
 
 const clickRadioButton = selector => {
   const newSelector =
-    mapSelectorShorthand(selector) || `va-radio-option[value="${selector}"]`;
+    mapSelectorShorthand(selector) || `va-radio-option[value*="${selector}"]`;
 
   cy.get(newSelector).should('exist');
   cy.get(newSelector).click();

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Link, useLoaderData, Form, redirect } from 'react-router-dom';
-import { formatDateShort } from 'platform/utilities/date/index';
+import { useLoaderData, Form, redirect } from 'react-router-dom';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import {
+  expiresSoon,
+  formatStatus,
+  resolutionDate,
+} from '../utilities/poaRequests';
 import api from '../utilities/api';
 
 const DECISION_TYPES = {
@@ -48,24 +51,54 @@ const DECISION_OPTIONS = {
   ...DECLINATION_OPTIONS,
 };
 
-const checkAuthorizations = (
-  isTreatmentDisclosureAuthorized,
-  isAddressChangingAuthorized,
-  status,
-) => {
-  const authorizations = [];
-  if (isTreatmentDisclosureAuthorized === status) {
-    authorizations.push('Health');
-  }
+const Authorized = () => {
+  return (
+    <span>
+      <va-icon
+        icon="check_circle"
+        class="vads-u-color--success poa-request__card-icon"
+      />
+      Authorized
+    </span>
+  );
+};
 
-  if (isAddressChangingAuthorized === status) {
-    authorizations.push('Address');
+const NoAccess = () => {
+  return (
+    <span>
+      <va-icon
+        icon="warning"
+        class="vads-u-color--error poa-request__card-icon"
+      />
+      No Access
+    </span>
+  );
+};
+
+const AccessToSome = () => {
+  return (
+    <span>
+      <va-icon
+        icon="warning"
+        class="vads-u-color--error poa-request__card-icon"
+      />
+      Access to some
+    </span>
+  );
+};
+const checkAuthorizations = x => {
+  if (x) {
+    return <Authorized />;
   }
-  return authorizations.length > 0 ? authorizations.join(', ') : 'None';
+  return <NoAccess />;
+};
+const checkLimitations = (limitations, limit) => {
+  const checkLimitation = limitations.includes(limit);
+  return checkAuthorizations(checkLimitation);
 };
 
 const POARequestDetailsPage = () => {
-  const poaRequest = useLoaderData().attributes;
+  const poaRequest = useLoaderData();
   const [error, setError] = useState(false);
   const handleChange = e => {
     e.preventDefault();
@@ -76,194 +109,278 @@ const POARequestDetailsPage = () => {
       setError(true);
     }
   };
+
+  const poaStatus =
+    poaRequest.resolution?.decision_type ||
+    poaRequest.resolution?.type ||
+    'Pending';
+
+  const relationship = poaRequest?.power_of_attorney_form.claimant.relationship;
+  const city = poaRequest?.power_of_attorney_form.claimant.address.city;
+  const state = poaRequest?.power_of_attorney_form.claimant.address.state_code;
+  const zipCode = poaRequest?.power_of_attorney_form.claimant.address.zip_code;
+  const phone = poaRequest?.power_of_attorney_form.claimant.phone;
+  const email = poaRequest.power_of_attorney_form.claimant.emaill;
+  const claimantFirstName =
+    poaRequest?.power_of_attorney_form.claimant.name.first;
+  const claimantLastName =
+    poaRequest?.power_of_attorney_form.claimant.name.last;
+  const recordDisclosureLimitations =
+    poaRequest.power_of_attorney_form.authorizations
+      .record_disclosure_limitations;
   return (
     <section className="poa-request-details">
-      <h1>
-        <span data-testid="poa-request-details-header">POA request:</span>
-        {poaRequest?.claimant?.firstName} {poaRequest?.claimant?.lastName}
-      </h1>
+      <h1 data-testid="poa-request-details-header">POA request</h1>
+      <h2 className="poa-request-details__name">
+        {claimantLastName}, {claimantFirstName}
+        <span
+          className={`usa-label vads-u-font-family--sans poa-request-details__status ${poaStatus}`}
+        >
+          {formatStatus(poaStatus)}
+        </span>
+      </h2>
+
+      <ul className="poa-request-details__list">
+        <li className="poa-request-details__list-item">
+          <p className="poa-request-details__title">
+            Requesting representation through
+          </p>
+          <p className="poa-request-details__subtitle">
+            {poaRequest?.power_of_attorney_holder?.name}
+          </p>
+        </li>
+        <li className="poa-request-details__list-item">
+          {poaRequest?.created_at && (
+            <>
+              <p className="poa-request-details__title">Request submitted on</p>
+              {resolutionDate(poaRequest?.created_at, poaStatus.id)}
+            </>
+          )}
+        </li>
+        <li className="poa-request-details__list-item">
+          {poaStatus === 'declination' && (
+            <>
+              <p className="poa-request-details__title">
+                POA request declined on
+              </p>
+              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+            </>
+          )}
+          {poaStatus === 'acceptance' && (
+            <>
+              <p className="poa-request-details__title">
+                <va-icon
+                  icon="check_circle"
+                  class="vads-u-color--success poa-request__card-icon"
+                />{' '}
+                POA request accepted on
+              </p>
+              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+            </>
+          )}
+          {poaStatus === 'expiration' && (
+            <>
+              <p className="poa-request-details__title">
+                <va-icon
+                  icon="warning"
+                  class="vads-u-color--error poa-request__card-icon"
+                />{' '}
+                POA request expired on
+              </p>
+              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+            </>
+          )}
+          {poaStatus === 'Pending' && (
+            <>
+              <p className="poa-request-details__title">
+                {expiresSoon(poaRequest.expires_at) && (
+                  <va-icon
+                    class="poa-request__card-icon"
+                    icon="warning"
+                    size={2}
+                    srtext="warning"
+                    aria-hidden="true"
+                  />
+                )}
+                POA request expires on
+              </p>
+              {resolutionDate(poaRequest?.expires_at, poaStatus.id)}
+            </>
+          )}
+        </li>
+      </ul>
+
       <span
         className="poa-request-details__divider"
         aria-hidden="true"
         tabIndex={-1}
       />
 
-      <h2>Veteran information</h2>
-      <ul className="poa-request-details__list">
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Name</p>
-          <p className="poa-request-details__subtitle">
-            {poaRequest?.veteran?.lastName}, {poaRequest?.veteran?.firstName}
-          </p>
-        </li>
-
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">VA file number</p>
-          <p className="poa-request-details__subtitle">xxx-xxx-1111</p>
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Social security number</p>
-          <p className="poa-request-details__subtitle">xxx-xx-1234</p>
-        </li>
-      </ul>
-
-      <h2>POA request information</h2>
-      <ul className="poa-request-details__list">
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">POA submission date</p>
-          <p className="poa-request-details__subtitle">
-            {poaRequest?.submittedAt &&
-              formatDateShort(poaRequest?.submittedAt)}
-          </p>
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">
-            {poaRequest?.status === 'Declined' && (
-              <va-icon
-                icon="close"
-                class="vads-u-color--error poa-request__card-icon"
-              />
-            )}
-            {poaRequest?.status === 'Accepted' && (
-              <va-icon
-                icon="check_circle"
-                class="vads-u-color--success poa-request__card-icon"
-              />
-            )}
-            <span>POA status</span>
-          </p>
-          <p className="poa-request-details__subtitle">{poaRequest?.status}</p>
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Represented through</p>
-          <p className="poa-request-details__subtitle">
-            Disabled American Veterans
-          </p>
-        </li>
-      </ul>
-
-      <h2>Claimant information</h2>
-      <ul className="poa-request-details__list">
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Claimant name</p>
-          <p className="poa-request-details__subtitle">
-            {poaRequest?.claimant.lastName}, {poaRequest?.claimant.firstName}
-          </p>
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Relationship to Veteran</p>
-          <p className="poa-request-details__subtitle">
-            {poaRequest?.claimant.relationshipToVeteran}
-          </p>
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Address</p>
-          <p className="poa-request-details__subtitle">
-            {poaRequest?.claimantAddress.city},{' '}
-            {poaRequest?.claimantAddress.state}
-            <br />
-            {poaRequest?.claimantAddress.zip}
-          </p>
-        </li>
-
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Email</p>
-          <p className="poa-request-details__subtitle">email</p>
-        </li>
-
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Phone</p>
-          <p className="poa-request-details__subtitle">1231231234</p>
-        </li>
-      </ul>
-
-      <h2>Limitations of consent</h2>
-      <ul className="poa-request-details__list">
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">
-            <va-icon
-              icon="check_circle"
-              class="vads-u-color--success poa-request__card-icon"
-            />
-            Approves
-          </p>
-          {checkAuthorizations(
-            poaRequest?.isTreatmentDisclosureAuthorized,
-            poaRequest?.isAddressChangingAuthorized,
-            true,
+      <div className="poa-request-details__info">
+        <h2>Claimant information</h2>
+        <table className="poa-request-details__table">
+          <tr>
+            <th scope="row">Relationship to veteran</th>
+            <td>{relationship}</td>
+          </tr>
+          <tr>
+            <th scope="row">Address</th>
+            <td>
+              {city}, {state}, {zipCode}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Phone</th>
+            <td>{phone}</td>
+          </tr>
+          <tr>
+            <th scope="row">Email</th>
+            <td>{email}</td>
+          </tr>
+          {relationship === 'Self' && (
+            <>
+              <tr>
+                <th scope="row">Social security number</th>
+                <td>{poaRequest?.power_of_attorney_form?.claimant?.ssn}</td>
+              </tr>
+              <tr>
+                <th scope="row">VA file number</th>
+                <td>
+                  {poaRequest?.power_of_attorney_form?.claimant?.va_file_number}
+                </td>
+              </tr>
+            </>
           )}
-        </li>
-        <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">
-            <va-icon
-              icon="warning"
-              class="vads-u-color--error poa-request__card-icon"
-            />
-            Declines
-          </p>
+        </table>
 
-          {checkAuthorizations(
-            poaRequest?.isTreatmentDisclosureAuthorized,
-            poaRequest?.isAddressChangingAuthorized,
-            false,
-          )}
-        </li>
-      </ul>
-      <Link to="/poa-requests/">Back to power of attorney list</Link>
+        {/* if there is a claimant that is a relative/friend to the veteran, their information will populate in the previous table under claimant,
+        and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
+        {poaRequest.power_of_attorney_form.veteran && (
+          <>
+            <h2>Veteran information</h2>
+            <table className="poa-request-details__table">
+              <tr>
+                <th scope="row">Name</th>
+                <td>
+                  {poaRequest?.power_of_attorney_form?.veteran?.name?.last},{' '}
+                  {poaRequest?.power_of_attorney_form?.veteran?.name?.first}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Social security number</th>
+                <td>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</td>
+              </tr>
+              <tr>
+                <th scope="row">VA file number</th>
+                <td>
+                  {poaRequest?.power_of_attorney_form?.veteran?.va_file_number}
+                </td>
+              </tr>
+            </table>
+          </>
+        )}
 
-      <Form
-        method="post"
-        action="decision"
-        className={
-          error
-            ? `poa-request-details__form poa-request-details__form--error`
-            : `poa-request-details__form`
-        }
-      >
-        <VaRadio
-          header-aria-describedby={null}
-          hint=""
-          label="Do you accept or decline this POA request?"
-          label-header-level="4"
-          class="poa-request-details__form-label"
-          onVaValueChange={handleChange}
-          required
-        >
-          <VaRadioOption
-            label="I accept the request"
-            value="ACCEPTANCE"
-            name="decision"
-          />
+        <h2>Authorization information</h2>
+        <table className="poa-request-details__table">
+          <tr>
+            <th scope="row">Change of address</th>
+            <td>
+              {checkAuthorizations(
+                poaRequest?.power_of_attorney_form.authorizations
+                  .address_change,
+              )}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Protected medical records</th>
+            <td>
+              {recordDisclosureLimitations.length === 0 && <NoAccess />}
+              {recordDisclosureLimitations.length < 4 &&
+                recordDisclosureLimitations.length > 0 && <AccessToSome />}
+              {recordDisclosureLimitations.length === 4 && <Authorized />}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Alcoholism or alcohol abuse records</th>
+            <td>
+              {checkLimitations(recordDisclosureLimitations, 'ALCOHOLISM')}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Drug abuse records</th>
+            <td>
+              {checkLimitations(recordDisclosureLimitations, 'DRUG_ABUSE')}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">HIV records</th>
+            <td>{checkLimitations(recordDisclosureLimitations, 'HIV')}</td>
+          </tr>
+          <tr>
+            <th scope="row">Sickle cell anemia records</th>
+            <td>
+              {checkLimitations(recordDisclosureLimitations, 'SICKLE_CELL')}
+            </td>
+          </tr>
+        </table>
 
-          {Object.entries(DECLINATION_OPTIONS).map(([value, decision]) => (
-            <VaRadioOption
-              key={value}
-              label={decision.reason}
-              value={value}
-              name="decision"
-            />
-          ))}
-        </VaRadio>
+        {poaStatus === 'Pending' && (
+          <Form
+            method="post"
+            action="decision"
+            className={
+              error
+                ? `poa-request-details__form poa-request-details__form--error`
+                : `poa-request-details__form`
+            }
+          >
+            <VaRadio
+              header-aria-describedby={null}
+              hint=""
+              label="Do you accept or decline this POA request?"
+              label-header-level="4"
+              class="poa-request-details__form-label"
+              onVaValueChange={handleChange}
+              required
+            >
+              <VaRadioOption
+                label="I accept the request"
+                value="ACCEPTANCE"
+                name="decision"
+              />
 
-        <va-alert
-          status="info"
-          class="poa-request-details__form-alert"
-          visible
-          aria-live="polite"
-          slim
-        >
-          <p className="vads-u-margin-y--0">
-            We will send the claimant an email letting them know your decision.
-          </p>
-        </va-alert>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-        <button
-          type="submit"
-          className="usa-button poa-request-details__form-submit"
-        >
-          Submit decision
-        </button>
-      </Form>
+              {Object.entries(DECLINATION_OPTIONS).map(([value, decision]) => (
+                <VaRadioOption
+                  key={value}
+                  label={decision.reason}
+                  value={value}
+                  name="decision"
+                />
+              ))}
+            </VaRadio>
+
+            <va-alert
+              status="info"
+              class="poa-request-details__form-alert"
+              visible
+              aria-live="polite"
+              slim
+            >
+              <p className="vads-u-margin-y--0">
+                We will send the claimant an email letting them know your
+                decision.
+              </p>
+            </va-alert>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+            <button
+              type="submit"
+              className="usa-button poa-request-details__form-submit"
+            >
+              Submit Decision
+            </button>
+          </Form>
+        )}
+      </div>
     </section>
   );
 };
@@ -274,11 +391,13 @@ POARequestDetailsPage.loader = ({ params, request }) => {
   });
 };
 
-POARequestDetailsPage.createDecisionAction = async ({ request, params }) => {
+POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
   const decision = DECISION_OPTIONS[key];
 
-  await api.createPOARequestDecision(params.id, decision);
+  await api.createPOARequestDecision(params.id, decision, {
+    signal: request.signal,
+  });
 
   return redirect('..');
 };

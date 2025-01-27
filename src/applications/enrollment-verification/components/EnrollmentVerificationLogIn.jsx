@@ -9,39 +9,14 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
     toggleLoginModal,
   ]);
   return (
-    <va-alert status="continue" visible>
-      <h3 slot="headline">
-        Sign in to verify your enrollment for Post-9/11 GI Bill benefits
-      </h3>
-      <p>
-        Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have either of these
-        accounts, you can create a free{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://www.id.me/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          ID.me
-        </a>{' '}
-        account or{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://secure.login.gov/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Login.gov
-        </a>{' '}
-        account now.
-      </p>
-      <va-button
-        onClick={onSignInClicked}
-        primary-alternate
-        text="Sign in or create an account"
-      />
-    </va-alert>
+    <va-alert-sign-in variant="signInRequired" visible heading-level={3}>
+      <span slot="SignInButton">
+        <va-button
+          onClick={onSignInClicked}
+          text="Sign in or create an account"
+        />
+      </span>
+    </va-alert-sign-in>
   );
 }
 

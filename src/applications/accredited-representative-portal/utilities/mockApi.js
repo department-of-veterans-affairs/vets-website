@@ -11,24 +11,22 @@ const apiFetch = data => {
 
 const mockApi = {
   getPOARequests({ status }) {
-    const filteredPoaRequests = poaRequests.filter(
-      ({ attributes: poaRequest }) => {
-        switch (status) {
-          case 'completed':
-            return ['Declined', 'Accepted'].includes(poaRequest.status);
-          case 'pending':
-            return poaRequest.status === 'Pending';
-          default:
-            throw new Error(`Unexpected status: ${status}`);
-        }
-      },
-    );
+    const filteredPoaRequests = poaRequests.filter(poaRequest => {
+      switch (status) {
+        case 'completed':
+          return poaRequest.resolution !== null;
+        case 'pending':
+          return poaRequest.resolution === null;
+        default:
+          throw new Error(`Unexpected status: ${status}`);
+      }
+    });
 
     return apiFetch(filteredPoaRequests);
   },
 
   getPOARequest(id) {
-    const poaRequest = poaRequests.find(r => r.id === +id);
+    const poaRequest = poaRequests.find(r => r.id === id);
     return apiFetch(poaRequest);
   },
 
@@ -37,7 +35,7 @@ const mockApi = {
   },
 
   createPOARequestDecision(id, { type }) {
-    const poaRequest = poaRequests.find(r => r.id === +id).attributes;
+    const poaRequest = poaRequests.find(r => r.id === id);
 
     switch (type) {
       case 'acceptance':

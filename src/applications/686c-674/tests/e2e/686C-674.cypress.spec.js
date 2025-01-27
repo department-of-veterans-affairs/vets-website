@@ -88,12 +88,18 @@ const testConfig = createTestConfig(
         });
       },
 
-      'current-marriage-information': ({ afterHook }) => {
+      'current-marriage-information/location-of-marriage': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('#root_currentMarriageInformation_location_country').select(
-            'Argentina',
-          );
+          cy.get(
+            'select#options[name="root_currentMarriageInformation_location_country"]',
+            { timeout: 1000 },
+          )
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get(
+            'select#options[name="root_currentMarriageInformation_location_country"]',
+          ).select('AUS');
           cy.get('.usa-button-primary').click();
         });
       },

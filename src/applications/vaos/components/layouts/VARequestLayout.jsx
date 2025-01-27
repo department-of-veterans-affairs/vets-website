@@ -48,6 +48,9 @@ export default function VARequestLayout({ data: appointment }) {
 
   recordAppointmentDetailsNullStates({
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
   });
 
   return (

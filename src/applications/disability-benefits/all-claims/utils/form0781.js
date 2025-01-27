@@ -1,7 +1,7 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
 import { isClaimingNew } from '.';
-import { form0781WorkflowChoices } from '../content/form0781';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 
 /**
  * Helper method to determin if a series of veteran selections match ONLY
@@ -40,6 +40,14 @@ export function showForm0781Pages(formData) {
   );
 }
 
+export function showManualUpload0781Page(formData) {
+  return (
+    showForm0781Pages(formData) &&
+    formData['view:mentalHealthWorkflowChoice'] ===
+      form0781WorkflowChoices.SUBMIT_PAPER_FORM
+  );
+}
+
 /**
  * Checks if
  * 1. modern 0781 pages should be showing
@@ -71,6 +79,31 @@ export function isRelatedToMST(formData) {
     formData?.mentalHealth?.eventTypes?.mst === true
   );
 }
+
+/**
+ * Checks if
+ * 1. the option to complete the online form is selected
+ * 2. the user is adding an event
+ *
+ * @param {object} formData
+ * @returns {boolean} true if Add an event is selected, false otherwise
+ */
+export function isAddingEvent(formData) {
+  return isCompletingForm0781(formData) && formData['view:addEvent'] === true;
+}
+
+/**
+ * Checks if
+ * 1. the user is adding an event
+ * 2. official police report exists option is selected
+ *
+ * @param {object} formData
+ * @returns {boolean} true if police report is selected, false otherwise
+ */
+export const policeReportSelected = index => formData =>
+  isAddingEvent(formData) &&
+  _.get(`event${index}.reports.police`, formData, false);
+
 /*
  * @returns
  *   TRUE

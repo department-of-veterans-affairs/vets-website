@@ -6,8 +6,7 @@ const UnsupportedClaimTypePage = ({
   setIsUnsupportedClaimType,
   setPageIndex,
 }) => {
-  const onBack = e => {
-    e.preventDefault();
+  const onBack = () => {
     setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
   };
@@ -17,11 +16,7 @@ const UnsupportedClaimTypePage = ({
       <h1 tabIndex="-1">
         We can’t file this type of travel reimbursement claim
       </h1>
-      <va-button
-        class="vads-u-margin-y--2"
-        text="Back"
-        onClick={e => onBack(e)}
-      />
+      <va-button class="vads-u-margin-y--2" text="Back" onClick={onBack} />
     </div>
   );
 };

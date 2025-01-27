@@ -412,6 +412,13 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   other: 'Other traumatic events',
 });
 
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
+
 export const BEHAVIOR_CHANGES_WORK = Object.freeze({
   reassignment:
     'Request for a change in occupational series or duty assignment',

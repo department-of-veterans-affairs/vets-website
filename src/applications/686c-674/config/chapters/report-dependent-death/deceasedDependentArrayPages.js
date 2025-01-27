@@ -1,4 +1,3 @@
-import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -45,22 +44,30 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathLocation?.location?.city ||
     !item?.dependentDeathDate ||
     (item?.dependentDeathLocation?.outsideUsa === false &&
-      !item?.dependentDeathLocation?.location?.state),
+      !item?.dependentDeathLocation?.location?.state) ||
+    (item?.dependentDeathLocation?.outsideUsa === true &&
+      !item?.dependentDeathLocation?.location?.country),
   maxItems: 20,
   text: {
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
-      ) || ''}`,
-    cardDescription: item => {
-      const birthDate = item?.birthDate
-        ? format(parseISO(item.birthDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const dependentDeathDate = item?.dependentDeathDate
-        ? format(parseISO(item.dependentDeathDate), 'MM/dd/yyyy')
-        : 'Unknown';
+    getItemName: item => {
+      const dependentType = item?.dependentType;
 
-      return `${birthDate} - ${dependentDeathDate}`;
+      if (!dependentType) {
+        return 'Unknown';
+      }
+
+      const label = relationshipLabels[dependentType];
+
+      if (label) {
+        return label;
+      }
+
+      return 'Unknown'; // Default if `dependentType` is null for some reason
+    },
+    cardDescription: item => {
+      const firstName = capitalize(item?.fullName?.first || '');
+      const lastName = capitalize(item?.fullName?.last || '');
+      return `${firstName} ${lastName}`.trim();
     },
     summaryTitle: 'Review your dependents who have died',
   },
@@ -160,18 +167,13 @@ export const deceasedDependentChildTypePage = {
       ...checkboxGroupUI({
         title: 'What type of child?',
         labels: childTypeLabels,
-        required: (formData, index) => {
-          const addMode = formData?.deaths?.[index]?.dependentType === 'child';
-          const editMode = formData?.dependentType;
-
-          return addMode || editMode;
-        },
+        required: () => true,
       }),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
 
-          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
+          if (itemData?.dependentType !== 'CHILD' && itemData?.childStatus) {
             Object.keys(itemData.childStatus).forEach(key => {
               itemData.childStatus[key] = undefined;
             });
@@ -184,6 +186,7 @@ export const deceasedDependentChildTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['childStatus'],
     properties: {
       childStatus: checkboxGroupSchema(childTypeEnums),
     },
@@ -233,17 +236,32 @@ export const deceasedDependentLocationOfDeathPage = {
           'ui:errorMessages': {
             required: 'Enter a state',
           },
-          'ui:required': (formData, index) => {
-            const isEditMode = formData?.dependentDeathLocation?.outsideUsa;
-            const isAddMode =
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa;
-
-            return !isAddMode && !isEditMode;
-          },
+          'ui:required': (formData, index) =>
+            !(
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa
+            ),
           'ui:options': {
             hideIf: (formData, index) =>
-              formData?.dependentDeathLocation?.outsideUsa ||
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa,
+          },
+        },
+        country: {
+          'ui:title': 'Select a country',
+          'ui:webComponentField': VaSelectField,
+          'ui:errorMessages': {
+            required: 'Select a country',
+          },
+          'ui:required': (formData, index) =>
+            formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+            formData?.dependentDeathLocation?.outsideUsa,
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !(
+                formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+                formData?.dependentDeathLocation?.outsideUsa
+              ),
           },
         },
       },

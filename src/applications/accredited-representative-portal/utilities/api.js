@@ -4,9 +4,8 @@ const API_VERSION = 'accredited_representative_portal/v0';
 
 /**
  * This abstraction was introduced to let us pass fetch options to API methods
- * so that we could forward an abort signal from route loaders. This
- * abstraction only accomodates inner functions that don't have default
- * parameters.
+ * so that we could forward an abort signal from route loaders. This abstraction
+ * only accomodates inner functions that don't have default parameters.
  *
  * Not every API method needs to be defined using this abstraction. Furthermore,
  * it is okay to refactor this abstraction, or even just unwind it altogether,

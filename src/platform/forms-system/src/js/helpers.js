@@ -144,33 +144,6 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
-export function hideFormTitle(formConfig, pathName) {
-  if (
-    !formConfig?.chapters ||
-    typeof formConfig.chapters !== 'object' ||
-    formConfig.chapters.length === 0
-  )
-    return false;
-
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const page = pageList.find(p => p.path === pathName);
-
-  if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
-  }
-
-  if (!page || !page.chapterKey) {
-    return false;
-  }
-
-  return (
-    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
-    formConfig.hideFormTitle ??
-    false
-  );
-}
-
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
@@ -666,6 +639,38 @@ export function getActiveChapters(formConfig, formData) {
   );
 }
 
+export function hideFormTitle(formConfig, pathName, formData) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  let pageList = createPageList(formConfig, formPages);
+  try {
+    pageList = getActiveExpandedPages(pageList, formData);
+  } catch {
+    // If we can't get active expanded pages, just use the default pageList
+  }
+  const page = pageList.find(p => p.path === pathName);
+
+  if (pathName === '/confirmation') {
+    return formConfig.hideFormTitle ?? false;
+  }
+
+  if (!page || !page.chapterKey) {
+    return false;
+  }
+
+  return (
+    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
+    formConfig.hideFormTitle ??
+    false
+  );
+}
+
 /**
  * Returns the schema, omitting all `required` arrays.
  *
@@ -801,4 +806,36 @@ export function getUrlPathIndex(url) {
     .reverse()
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
+}
+
+/**
+ * If the minimal header is applicable to the current app regardless of excluded paths.
+ *
+ * Note: Not reliable to use in a .js file load. Should be used in
+ * a component or function to allow for session storage to load first.
+ *
+ * @returns {boolean}
+ */
+export function isMinimalHeaderApp() {
+  return sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') === 'true';
+}
+
+/**
+ * If the minimal header is applicable to the current app and the
+ * current window path is not a excluded
+ *
+ * Note: Not reliable to use in a .js file load. Should be used in
+ * a component or function to allow for session storage to load first.
+ *
+ * @returns {boolean}
+ */
+export function isMinimalHeaderPath() {
+  if (!isMinimalHeaderApp()) {
+    return false;
+  }
+
+  let excludePaths = sessionStorage.getItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  excludePaths = excludePaths ? JSON.parse(excludePaths) : [];
+  const isExcludedPath = excludePaths.includes(window?.location?.pathname);
+  return !isExcludedPath;
 }
