@@ -13,7 +13,7 @@ describe('Medical Records View Vitals', () => {
   });
 
   it('Visits View Vitals List', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
 
     VitalsListPage.verifyVitalOnListPage(
       0,

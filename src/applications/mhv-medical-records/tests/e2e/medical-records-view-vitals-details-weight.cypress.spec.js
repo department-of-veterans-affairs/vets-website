@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
   });
 
   it('Vitals Details Weight', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     // click weight link
     VitalsListPage.clickLinkByRecordListItemIndex(5);
 

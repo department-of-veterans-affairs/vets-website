@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
   });
 
   it('Vitals Details Blood Pressure', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     // click blood pressure Link
     VitalsListPage.clickLinkByRecordListItemIndex(0);
 

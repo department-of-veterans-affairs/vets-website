@@ -11,7 +11,7 @@ describe('Medical Records Vitals', () => {
 
   it('Vitals Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Vitals Page
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     VitalsListPage.clickVitalsDetailsLink(0);
     // should display a toggle menu button
     // Verify  PrintDownload button

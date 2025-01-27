@@ -10,7 +10,7 @@ describe('Medical Records View Vitals', () => {
   });
 
   it('Visits View Vitals List - does not have Pain Severity', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
 
     // no pagination
     cy.get(

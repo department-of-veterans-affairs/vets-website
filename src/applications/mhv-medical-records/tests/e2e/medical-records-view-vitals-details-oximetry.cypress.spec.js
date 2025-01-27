@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
   });
 
   it('Vitals Details Pulse Oximetry', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     // click pulse oximetry link
     VitalsListPage.clickLinkByRecordListItemIndex(3);
 

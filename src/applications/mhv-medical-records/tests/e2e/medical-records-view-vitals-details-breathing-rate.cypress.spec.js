@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
   });
 
   it('Vitals Details Breathing Rate', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     // click breathing rate Link
     VitalsListPage.clickLinkByRecordListItemIndex(2);
 

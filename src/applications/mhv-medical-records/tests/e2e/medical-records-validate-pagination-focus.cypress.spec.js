@@ -12,7 +12,7 @@ describe('Medical Records View Vitals', () => {
   });
 
   it('Click next previous page, verify focus', () => {
-    VitalsListPage.goToVitals();
+    VitalsListPage.goToVitals(undefined, true);
     // visit blood pressure page
     VitalsListPage.clickLinkByRecordListItemIndex(0);
 
