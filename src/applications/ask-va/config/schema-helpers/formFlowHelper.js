@@ -3,7 +3,7 @@ import {
   CHAPTER_2,
   CHAPTER_3,
   schoolInYourProfileOptions,
-  yourRoleOptions,
+  yourRoleOptionsEducation,
 } from '../../constants';
 import {
   aboutMyselfRelationshipFamilyMemberCondition,
@@ -215,8 +215,9 @@ const ch3Pages = {
     depends: form =>
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
-      (form.yourRole === yourRoleOptions.SCO ||
-        form.yourRole === yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP),
+      (form.yourRole === yourRoleOptionsEducation.SCO ||
+        form.yourRole ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -237,9 +238,9 @@ const ch3Pages = {
     uiSchema: stateOfFacilityPage.uiSchema,
     schema: stateOfFacilityPage.schema,
     depends: form =>
-      form.yourRole === yourRoleOptions.VA_EMPLOYEE ||
-      form.yourRole === yourRoleOptions.WORK_STUDY_SUP ||
-      form.yourRole === yourRoleOptions.OTHER,
+      form.yourRole === yourRoleOptionsEducation.VA_EMPLOYEE ||
+      form.yourRole === yourRoleOptionsEducation.WORK_STUDY_SUP ||
+      form.yourRole === yourRoleOptionsEducation.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -260,8 +261,9 @@ const ch3Pages = {
     schema: schoolInYourProfilePage.schema,
     depends: form =>
       (form.school || form.schoolInfo?.schoolName) &&
-      (form.yourRole === yourRoleOptions.SCO ||
-        form.yourRole === yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP),
+      (form.yourRole === yourRoleOptionsEducation.SCO ||
+        form.yourRole ===
+          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
