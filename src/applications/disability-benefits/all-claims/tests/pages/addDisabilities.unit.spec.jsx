@@ -2,6 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import set from 'platform/utilities/data/set';
 import React from 'react';
@@ -44,6 +45,14 @@ const createScreen = (
   );
 };
 
+const getVaButtonByText = (text, container) => {
+  return $(`va-button[text="${text}"]`, container);
+};
+
+const getAllVaButtonsByText = (text, container) => {
+  return $$(`va-button[text="${text}"]`, container);
+};
+
 const simulateInputChange = (selector, value) => {
   const vaTextInput = selector;
   vaTextInput.value = value;
@@ -58,7 +67,6 @@ const simulateInputChange = (selector, value) => {
 const addAConditionWithMouse = async (
   getAllByRole,
   getByTestId,
-  getByText,
   searchTerm,
   searchResult,
 ) => {
@@ -71,7 +79,7 @@ const addAConditionWithMouse = async (
     for (const result of listResults) {
       if (result.textContent === searchResult) {
         fireEvent.click(result);
-        const saveButton = getByText('Save');
+        const saveButton = getVaButtonByText('Save');
         fireEvent.click(saveButton);
       }
     }
@@ -103,7 +111,7 @@ const addAConditionWithKeyboard = async (
     }
   });
 
-  const saveButton = getByText('Save');
+  const saveButton = getVaButtonByText('Save');
   fireEvent.click(saveButton);
 };
 
@@ -164,13 +172,13 @@ describe('Add Disabilities Page', () => {
     });
 
     it('should render "Your new conditions" subheading, AutoComplete, save button, and add another condition button', () => {
-      const { getByRole, getByTestId, getByText } = createScreen();
+      const { container, getByRole, getByTestId, getByText } = createScreen();
 
       const newConditionsSubHeading = getByRole('heading', {
         name: 'Your new conditions',
       });
       const input = getByTestId('autocomplete-input');
-      const saveButton = getByText('Save');
+      const saveButton = getVaButtonByText('Save', container);
       const addAnotherConditionButton = getByText('Add another condition');
 
       expect(newConditionsSubHeading).to.be.visible;
@@ -180,23 +188,20 @@ describe('Add Disabilities Page', () => {
     });
 
     it('should render with no saved conditions by default', () => {
-      const { queryByText } = createScreen();
+      const { container } = createScreen();
 
-      const savedConditionEditButton = queryByText('Edit');
+      const savedConditionEditButton = getVaButtonByText('Edit', container);
 
       expect(savedConditionEditButton).to.not.exist;
     });
 
     it('should render autocomplete label with required and input', () => {
-      const { getByText, getByTestId } = createScreen();
+      const { getByTestId } = createScreen();
 
-      const label = getByText('Enter your condition');
-      const required = label.querySelector('span').textContent;
       const input = getByTestId('autocomplete-input');
 
-      expect(label).to.be.visible;
-      expect(required).to.eq('(*Required)');
-      expect(input).to.be.visible;
+      expect(input).to.have.attribute('label', 'Enter your condition');
+      expect(input).to.have.attribute('required');
     });
 
     it('should render error message on result and alert on page if no new conditions are added', () => {
@@ -221,14 +226,14 @@ describe('Add Disabilities Page', () => {
 
   describe('Updating State', () => {
     it('should render with saved condition when there is initial formData', () => {
-      const { getByText } = createScreen(true, false, [
+      const { container, getByText } = createScreen(true, false, [
         {
           condition: 'asthma',
         },
       ]);
 
       const savedCondition = getByText('asthma');
-      const savedConditionEditButton = getByText('Edit');
+      const savedConditionEditButton = getVaButtonByText('Edit', container);
 
       expect(savedCondition).to.be.visible;
       expect(savedConditionEditButton).to.be.visible;
@@ -287,6 +292,7 @@ describe('Add Disabilities Page', () => {
     it('should be able to add a free-text condition', async () => {
       const searchTerm = 'Tinnitus';
       const {
+        container,
         getAllByRole,
         getByTestId,
         getByText,
@@ -296,13 +302,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         `Enter your condition as "${searchTerm}"`,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchTerm);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -316,18 +321,22 @@ describe('Add Disabilities Page', () => {
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
       const searchResult = 'tinnitus (ringing or hissing in ears)';
-      const { getAllByRole, getByTestId, getByText } = createScreen();
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         searchResult,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -340,18 +349,22 @@ describe('Add Disabilities Page', () => {
       const searchResult = 'tinnitus (ringing or hissing in ears)';
       const newSearchTerm = 'Neck strain';
       const newSearchResult = 'neck strain (cervical strain)';
-      const { getAllByRole, getByTestId, getByText } = createScreen();
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm,
         searchResult,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -363,7 +376,6 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         newSearchTerm,
         newSearchResult,
       );
@@ -381,8 +393,8 @@ describe('Add Disabilities Page', () => {
       const searchTerm2 = 'Hear';
       const searchResult2 = 'hearing loss';
       const {
+        container,
         getAllByRole,
-        getAllByText,
         getByTestId,
         getByText,
         queryByText,
@@ -391,13 +403,12 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm1,
         searchResult1,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton1 = getByText('Edit');
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
         const savedCondition1 = getByText(searchResult1);
 
         expect(savedConditionEditButton1).to.be.visible;
@@ -410,20 +421,22 @@ describe('Add Disabilities Page', () => {
       addAConditionWithMouse(
         getAllByRole,
         getByTestId,
-        getByText,
         searchTerm2,
         searchResult2,
       );
 
       await waitFor(() => {
-        const savedConditionEditButton2 = getAllByText('Edit')[1];
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
+          container,
+        )[1];
         let savedCondition2 = getByText(searchResult2);
 
         expect(savedConditionEditButton2).to.be.visible;
         expect(savedCondition2).to.be.visible;
 
         fireEvent.click(savedConditionEditButton2);
-        const removeButton = getByText('Remove');
+        const removeButton = getVaButtonByText('Remove', container);
         fireEvent.click(removeButton);
 
         savedCondition2 = queryByText(searchResult2);
@@ -460,6 +473,7 @@ describe('Add Disabilities Page', () => {
     it('should be able to add a free-text condition', async () => {
       const searchTerm = 'Tinnitus';
       const {
+        container,
         getAllByRole,
         getByTestId,
         getByText,
@@ -475,7 +489,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchTerm);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -489,7 +503,12 @@ describe('Add Disabilities Page', () => {
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
       const searchResult = 'tinnitus (ringing or hissing in ears)';
-      const { getAllByRole, getByTestId, getByText } = createScreen();
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
       addAConditionWithKeyboard(
         getAllByRole,
@@ -500,7 +519,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -513,7 +532,12 @@ describe('Add Disabilities Page', () => {
       const searchResult = 'tinnitus (ringing or hissing in ears)';
       const newSearchTerm = 'Neck strain';
       const newSearchResult = 'neck strain (cervical strain)';
-      const { getAllByRole, getByTestId, getByText } = createScreen();
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
       addAConditionWithKeyboard(
         getAllByRole,
@@ -524,7 +548,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton = getByText('Edit');
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
         const savedCondition = getByText(searchResult);
 
         expect(savedConditionEditButton).to.be.visible;
@@ -554,8 +578,8 @@ describe('Add Disabilities Page', () => {
       const searchTerm2 = 'Hear';
       const searchResult2 = 'hearing loss';
       const {
+        container,
         getAllByRole,
-        getAllByText,
         getByTestId,
         getByText,
         queryByText,
@@ -570,7 +594,7 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton1 = getByText('Edit');
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
         const savedCondition1 = getByText(searchResult1);
 
         expect(savedConditionEditButton1).to.be.visible;
@@ -589,14 +613,17 @@ describe('Add Disabilities Page', () => {
       );
 
       await waitFor(() => {
-        const savedConditionEditButton2 = getAllByText('Edit')[1];
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
+          container,
+        )[1];
         let savedCondition2 = getByText(searchResult2);
 
         expect(savedConditionEditButton2).to.be.visible;
         expect(savedCondition2).to.be.visible;
 
         userEvent.type(savedConditionEditButton2, '{enter}');
-        const removeButton = getByText('Remove');
+        const removeButton = getVaButtonByText('Remove', container);
         userEvent.type(removeButton, '{enter}');
 
         savedCondition2 = queryByText(searchResult2);
