@@ -76,7 +76,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through September 30, 2025
+                    {mhvButtonDeprecated
+                      ? "We'll remove this optionm after September 30, 2025"
+                      : 'Available through September 30, 2025'}
                   </span>
                 </h3>
                 <p>
@@ -90,6 +92,20 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   actionLocation={actionLocation}
                 />
               </>
+            )}
+            {mhvButtonDeprecated && (
+              <div>
+                <h3 id="mhvH3" className="vads-u-margin-top--3">
+                  My HealtheVet sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
+              </div>
             )}
           </div>
         )}
