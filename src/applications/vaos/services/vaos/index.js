@@ -50,16 +50,15 @@ export function getAppointments({
   if (fetchClaimStatus) {
     includeParams.push('claims');
   }
-  let epsParam = '';
   if (includeEPS) {
-    epsParam = '&includeEPS=true';
+    includeParams.push('eps');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
       .join(',')}&start=${startDate}&end=${endDate}&${statuses
       .map(status => `statuses[]=${status}`)
-      .join('&')}${epsParam}`,
+      .join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
