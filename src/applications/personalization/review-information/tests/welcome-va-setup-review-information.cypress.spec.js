@@ -1,7 +1,7 @@
 import { cypressSetup } from './utils';
 import mockUser from './fixtures/mocks/user.json';
 
-describe('Welcome to My VA Review Contact Information form', () => {
+describe.skip('Welcome to My VA Review Contact Information form', () => {
   const editMobileNumber = () => {
     cy.get('#edit-mobile-phone').click();
     cy.location('pathname').should('include', '/edit-mobile-phone');

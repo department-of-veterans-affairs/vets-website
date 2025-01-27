@@ -529,9 +529,12 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const filterLcResults = (results, nameInput, filters) => {
-  const { type: typeFilter, state: stateFilter } = filters;
-
+export const filterSuggestions = (
+  results,
+  nameInput,
+  typeFilter,
+  stateFilter,
+) => {
   if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
     return results;
 
@@ -587,10 +590,9 @@ export const handleLcResultsSearch = (history, category, name, state) => {
 };
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
-  if (currentPage * itemsPerPage > results.length) {
-    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
-      results.length
-    }  `;
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage -
+      (itemsPerPage - 1)} - ${results.length - 1}  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
@@ -621,9 +623,30 @@ export function capitalizeFirstLetter(string) {
     .join(' ');
 }
 
-export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
+export const mappedStates = Object.entries(ADDRESS_DATA.states)
+  .map(state => {
+    return { optionValue: state[0], optionLabel: state[1] };
+  })
+  .filter(state => {
+    const exceptions = [
+      'AS',
+      'AA',
+      'AE',
+      'AP',
+      'DC',
+      'FM',
+      'GU',
+      'MH',
+      'MP',
+      'PW',
+      'PR',
+      'VI',
+    ];
+
+    if (exceptions.includes(state.optionValue)) return false;
+
+    return true;
+  });
 
 export const updateDropdowns = (
   category = 'all',
@@ -860,6 +883,7 @@ export const getAbbreviationsAsArray = value => {
       { abbreviation: 'MA', description: 'Master of Arts' },
       { abbreviation: 'MBA', description: 'Master of Business Administration' },
       { abbreviation: 'MS', description: 'Master of Science' },
+      { abbreviation: 'PhD', description: 'Doctor of Philosophy' },
     ],
     CORR: [
       { abbreviation: 'AAS', description: 'Associate of Applied Science' },
@@ -878,6 +902,10 @@ export const getAbbreviationsAsArray = value => {
       },
       { abbreviation: 'IR', description: 'Instrument Rating' },
       { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      {
+        abbreviation: 'PPIL',
+        description: 'Professional Pilot Interdisciplinary Sciences',
+      },
       { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
     ],
   };
