@@ -189,7 +189,10 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
+      // TODO: When PTEMSVY-396 STAGING is complete, remove the conditional logic
+      [mappingTypes.GI_BILL]: environment.isProduction()
+        ? [giBillTypes.STARTED, giBillTypes.NOT_APPLIED]
+        : [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
