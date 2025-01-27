@@ -1,11 +1,11 @@
 describe('go bill CT new homepage', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'is_updated_gi', value: true }],
-      },
-    });
+    // cy.intercept('GET', '/v0/feature_toggles?*', {
+    //   data: {
+    //     type: 'feature_toggles',
+    //     features: [{ name: 'is_updated_gi', value: true }],
+    //   },
+    // });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('education/gi-bill-comparison-tool/');
   });
