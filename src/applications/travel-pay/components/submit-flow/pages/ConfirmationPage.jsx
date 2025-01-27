@@ -18,7 +18,7 @@ const ConfirmationPage = ({ appointment }) => {
   return (
     <div>
       <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
-      <va-alert closeBtnAriaLabel="Close notification" status="success" visible>
+      <va-alert status="success" visible>
         <h2 slot="headline">Claim submitted</h2>
         <p className="vads-u-margin-y--0">
           This claim is for your appointment at{' '}
