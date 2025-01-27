@@ -1,5 +1,6 @@
 import * as workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
+import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
 import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
 import * as eventType from '../../pages/form0781/traumaticEventTypes';
 import * as eventDetails from '../../pages/form0781/traumaticEventDetails';
@@ -33,6 +34,14 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
+  },
+  // Placeholder until workflow choice page merges with the real config:
+  manualUploadPage: {
+    path:
+      'disability/file-disability-claim-form-21-526ez/additional-forms/mental-health-statement/upload',
+    uiSchema: manualUploadPage.uiSchema,
+    depends: formData => isCompletingForm0781(formData),
+    schema: manualUploadPage.schema,
   },
   mentalHealthSupport: {
     path: 'additional-forms/mental-health-statement/support',
