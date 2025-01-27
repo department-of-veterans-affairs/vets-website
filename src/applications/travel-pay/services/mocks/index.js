@@ -3,6 +3,7 @@ const delay = require('mocker-api/lib/delay');
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
 const user = require('./user.json');
+// const noAddressUser = require('./user-no-address.json');
 
 const responses = {
   'GET /v0/user': user,

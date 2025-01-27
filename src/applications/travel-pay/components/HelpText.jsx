@@ -19,9 +19,9 @@ export const HelpTextManage = () => {
         .
       </p>
       <p className="vads-u-margin-top--2">
-        Or call <va-telephone contact="8555747292" /> from 7 a.m. to 7 p.m.
-        Monday through Friday. Have your claim number ready to share when you
-        call.
+        Or call <va-telephone contact="8555747292" /> from 8:00 a.m. to 8:00
+        p.m. ET Monday through Friday. Have your claim number ready to share
+        when you call.
       </p>
     </div>
   );
