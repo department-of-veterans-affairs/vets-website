@@ -1,30 +1,24 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths, Locators, Data } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 
-describe('Secure Messaging Pilot feature flag', () => {
-  const pilotFeatureFlag = {
-    name: 'mhv_secure_messaging_cerner_pilot',
-    value: true,
-  };
-  const mockPilotFeatureToggles = {
-    ...mockFeatureToggles,
-    data: {
-      ...mockFeatureToggles.data,
-      features: [...mockFeatureToggles.data.features, pilotFeatureFlag],
-    },
-  };
+describe('SM PILOT FEATURE FLAG', () => {
+  const mockPilotFeatureToggles = GeneralFunctionsPage.updateFeatureToggles(
+    `mhv_secure_messaging_cerner_pilot`,
+    true,
+  );
   it('pilot OF landing page view', () => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_PILOT);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     PilotEnvPage.verifyUrl(Paths.UI_MAIN);
     cy.get(Locators.ACCORDIONS).should('have.length', 5);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('pilot ON landing page view', () => {
@@ -37,9 +31,6 @@ describe('Secure Messaging Pilot feature flag', () => {
     cy.wait('@Recipients')
       .its('request.url')
       .should('contain', 'requires_oh=');
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
 
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
 
@@ -54,6 +45,23 @@ describe('Secure Messaging Pilot feature flag', () => {
       .find('span')
       .should('have.text', Data.WHAT_SECURE_MSG_PILOT);
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
     // TODO text of expanded accordion TBD later. Test could be adjusted accordingly
+  });
+
+  it('redirect to pilot inbox page', () => {
+    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+      'mhv_secure_messaging_cerner_pilot',
+      true,
+      'mhv_secure_messaging_remove_landing_page',
+      true,
+    );
+    SecureMessagingSite.login();
+    SecureMessagingLandingPage.loadMainPage(
+      updatedFeatureToggle,
+      Paths.UI_PILOT,
+    );
   });
 });
