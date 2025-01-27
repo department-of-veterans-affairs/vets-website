@@ -507,5 +507,3 @@ describe('Components and Utility Functions', () => {
     });
   });
 });
-
-// TODO: UNAUTH path for sequence diagram
