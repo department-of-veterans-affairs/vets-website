@@ -18,7 +18,8 @@ const isElementInViewport = (
 const addAriasExpandedAttr = () => {
   Array.from(document.querySelectorAll('.usa-accordion-button')).forEach(
     element => {
-      const hasAriasExpandedAttr = element.getAttribute('aria-expanded');
+      const hasAriasExpandedAttr =
+        element.getAttribute('aria-expanded') === 'true';
       if (!hasAriasExpandedAttr) {
         element.setAttribute('aria-expanded', false);
       }
@@ -37,11 +38,6 @@ const addAriaHiddenAttr = () => {
         const hiddenValue = !toBoolean(
           buttonElement.getAttribute('aria-expanded'),
         );
-
-        if (el.getAttribute('id') === 'a1') {
-          el.setAttribute('aria-hidden', false);
-          return;
-        }
 
         el.setAttribute('aria-hidden', hiddenValue);
       }
@@ -209,8 +205,8 @@ function autoExpandAccordionPanelByUrlHash() {
 }
 
 const loadAccordionHandler = () => {
-  addAriaHiddenAttr();
   addAriasExpandedAttr();
+  addAriaHiddenAttr();
   addAccordionClickHandler();
   autoExpandAccordionPanelByUrlHash();
 };
