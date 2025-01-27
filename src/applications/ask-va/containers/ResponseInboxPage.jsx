@@ -352,34 +352,6 @@ const ResponseInboxPage = ({ router }) => {
                     {correspondence.attributes.attachments &&
                       correspondence.attributes.attachments.length > 0 &&
                       correspondence.attributes.attachments.map(
-                        (attachment, index, array) => (
-                          <div
-                            key={attachment.id}
-                            className={`vads-u-margin-bottom--2 ${
-                              index === array.length - 1
-                                ? 'vads-u-margin-bottom--0'
-                                : ''
-                            }`}
-                          >
-                            <va-link
-                              href={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                attachment.id
-                              }`}
-                              text={`${attachment.name}
-                          ${
-                            attachment.fileSize
-                              ? `(${attachment.fileSize} kb)`
-                              : ''
-                          }`}
-                              icon-name="attach_file"
-                              icon-size={3}
-                            />
-                          </div>
-                        ),
-                      )}
-                    {correspondence.attributes.attachments &&
-                      correspondence.attributes.attachments.length > 0 &&
-                      correspondence.attributes.attachments.map(
                         (file, index, array) => {
                           return (
                             <div
@@ -390,13 +362,16 @@ const ResponseInboxPage = ({ router }) => {
                                   : ''
                               }`}
                             >
-                              <va-icon icon="attach_file" size={3} />
+                              <va-icon
+                                icon="attach_file"
+                                size={3}
+                                className="vads-u-margin--right-1p5"
+                              />
                               <DownloadLink
                                 fileUrl={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
                                   file.id
                                 }`}
                                 fileName={file.name}
-                                fileSize={0}
                               />
                             </div>
                           );
