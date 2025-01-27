@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const behaviorPageTitle = 'Behavioral changes ';
+export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
   <>

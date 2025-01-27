@@ -56,7 +56,7 @@ describe('validateBehaviorSelections', () => {
       expect(errors['view:optOut'].addError.called).to.be.true;
     });
 
-    it('should add error when selecting none and selecting a behavior', () => {
+    it('should add error when selecting none and entering an unlisted behavior', () => {
       const errors = {
         'view:optOut': {
           addError: sinon.spy(),
