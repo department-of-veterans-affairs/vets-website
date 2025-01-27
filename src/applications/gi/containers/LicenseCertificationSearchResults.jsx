@@ -13,6 +13,7 @@ import {
   showLcParams,
 } from '../utils/helpers';
 import { useLcpFilter } from '../utils/useLcpFilter';
+import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
 export default function LicenseCertificationSearchResults({
   // error,
@@ -23,7 +24,7 @@ export default function LicenseCertificationSearchResults({
   const location = useLocation();
   const history = useHistory();
 
-  const { hasFetchedOnce, fetchingLc, filteredResults } = useSelector(
+  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
 
@@ -63,10 +64,6 @@ export default function LicenseCertificationSearchResults({
     history.push(`/lc-search?category=${categoryParam}&state=${stateParam}`);
   };
 
-  // if (error) {
-  //   {/* ERROR STATE */}
-  // }
-
   return (
     <div>
       {fetchingLc && (
@@ -76,6 +73,11 @@ export default function LicenseCertificationSearchResults({
         />
       )}
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+        {error && (
+          <div className="row">
+            <LicesnseCertificationServiceError />
+          </div>
+        )}
         {!fetchingLc &&
           hasFetchedOnce && (
             <>

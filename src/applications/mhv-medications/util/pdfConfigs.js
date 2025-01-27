@@ -337,12 +337,9 @@ export const buildVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Last filled on',
-              value: dateFormat(
-                (prescription.rxRfRecords?.length &&
-                  prescription.rxRfRecords[0].dispensedDate) ||
-                  prescription.dispensedDate,
-                'MMMM D, YYYY',
-              ),
+              value: prescription.sortedDispensedDate
+                ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
+                : 'Not filled yet',
               inline: true,
             },
             {
