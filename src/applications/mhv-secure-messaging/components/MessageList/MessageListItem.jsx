@@ -22,7 +22,6 @@ const MessageListItem = props => {
     category,
     activeFolder,
   } = props;
-  // const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const inSentOrDrafts =
     activeFolder.folderId === DefaultFolders.DRAFTS.id ||
