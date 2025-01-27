@@ -8,6 +8,7 @@ import {
   numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
+import CustomReviewField from '../ReviewPage/CustomReviewField';
 
 export default {
   uiSchema: {
@@ -32,7 +33,11 @@ export default {
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
-        'ui:description': PercentageCalc,
+        'ui:field': PercentageCalc,
+        'ui:reviewField': CustomReviewField,
+        'ui:options': {
+          classNames: 'vads-u-margin-top--2',
+        },
       },
       dateOfCalculation: {
         ...currentOrPastDateUI({
@@ -55,10 +60,7 @@ export default {
           beneficiaryStudent: numberSchema,
           numOfStudent: numberSchema,
           studentPercentageCalc: {
-            type: 'object',
-            properties: {
-              calculatedPercentage: { type: 'number' },
-            },
+            type: 'number',
           },
           dateOfCalculation: currentOrPastDateSchema,
         },

@@ -130,7 +130,7 @@ const IntroductionPage = ({ router }) => {
             />{' '}
             of jurisdiction.
           </p>
-          <p>
+          <div>
             <strong>Note:</strong> The numbers on the instructions match the
             item numbers on the form. Items not shown are self-explanatory.
             <ul>
@@ -141,7 +141,7 @@ const IntroductionPage = ({ router }) => {
               </li>
               <li>Provide your institution’s VA assigned facility code.</li>
             </ul>
-          </p>
+          </div>
           <p>
             <strong>Note:</strong> Separate exemption requests (and
             calculations) are required for the main campus and any branch

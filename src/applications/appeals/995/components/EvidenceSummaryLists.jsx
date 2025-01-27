@@ -63,7 +63,7 @@ const confirmationPageLabel = showListOnly =>
         'vads-u-color--gray',
         'vads-u-font-size--sm',
       ].join(' ')
-    : '';
+    : 'vads-u-font-weight--bold';
 
 const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string

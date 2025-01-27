@@ -18,6 +18,10 @@ describe('Unauthenticated', () => {
         data: {
           features: [
             { name: 'appoint_a_representative_enable_frontend', value: true },
+            {
+              name: 'appoint_a_representative_enable_v2_features',
+              value: false,
+            },
           ],
         },
       });
@@ -69,7 +73,7 @@ describe('Unauthenticated', () => {
       cy.injectAxeThenAxeCheck();
 
       cy.get('input[name="root_applicantName_first"]').type('Adam');
-      cy.get('input[name="root_applicantName_middle"]').type('James');
+      cy.get('input[name="root_applicantName_middle"]').type('J');
       cy.get('input[name="root_applicantName_last"]').type('Friedman');
 
       cy.get('va-select.usa-form-group--month-select')
@@ -114,7 +118,7 @@ describe('Unauthenticated', () => {
       // VETERAN_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
       cy.get('input[name="root_veteranFullName_first"]').type('John');
-      cy.get('input[name="root_veteranFullName_middle"]').type('Edmund');
+      cy.get('input[name="root_veteranFullName_middle"]').type('E');
       cy.get('input[name="root_veteranFullName_last"]').type('Doe');
 
       cy.get('va-select.usa-form-group--month-select')

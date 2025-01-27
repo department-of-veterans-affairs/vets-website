@@ -66,8 +66,14 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
   );
 
+  const isAccelerating = useMemo(
+    () => isAcceleratingAllergies || isAcceleratingVitals,
+    [isAcceleratingAllergies, isAcceleratingVitals],
+  );
+
   return {
     isLoading,
+    isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
   };

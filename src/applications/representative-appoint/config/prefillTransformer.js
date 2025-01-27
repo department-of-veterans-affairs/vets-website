@@ -6,7 +6,11 @@ export default function prefillTransformer(formData) {
   };
 
   if (preparerIsVeteran({ formData })) {
-    newFormData.veteranFullName = formData?.personalInformation?.fullName;
+    newFormData.veteranFullName = {
+      first: formData?.personalInformation?.fullName?.first,
+      middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
+      last: formData?.personalInformation?.fullName?.last,
+    };
     newFormData.veteranDateOfBirth = formData?.personalInformation?.dateOfBirth;
     newFormData.veteranSocialSecurityNumber =
       formData?.personalInformation?.ssn;
@@ -34,7 +38,11 @@ export default function prefillTransformer(formData) {
       street: undefined,
     };
   } else {
-    newFormData.applicantName = formData?.personalInformation?.fullName;
+    newFormData.applicantName = {
+      first: formData?.personalInformation?.fullName?.first,
+      middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
+      last: formData?.personalInformation?.fullName?.last,
+    };
     newFormData.applicantDOB = formData?.personalInformation?.dateOfBirth;
     newFormData.applicantEmail = formData?.contactInformation?.email;
     newFormData.applicantPhone = formData?.contactInformation?.primaryPhone;
@@ -61,6 +69,10 @@ export default function prefillTransformer(formData) {
     newFormData.primaryPhone = undefined;
     newFormData['Branch of Service'] = undefined;
   }
+
+  newFormData.userIsDigitalSubmitEligible =
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId;
 
   return newFormData;
 }

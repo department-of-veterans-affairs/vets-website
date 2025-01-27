@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-tera.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import featureToggles from './fixtures/mocks/feature-toggles.tera.json';
 import { goToNextPage } from './utils';
 
 const { data: testData } = maxTestData;
@@ -13,10 +13,9 @@ const APIs = {
 describe('HCA-TERA-Branching', () => {
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+      'mockEnrollmentStatus',
+    );
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockFeatures']);
   };

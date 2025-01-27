@@ -8,7 +8,7 @@ export const defaultSignInProviders = {
 };
 
 export const legacySignInProviders = {
-  mhv: true,
+  mhv: false,
   dslogon: true,
 };
 

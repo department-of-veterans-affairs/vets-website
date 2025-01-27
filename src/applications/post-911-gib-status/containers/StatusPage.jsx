@@ -31,13 +31,24 @@ class StatusPage extends React.Component {
           <p>
             You can print your statement and use it as a replacement for a
             Certificate of Eligibility (COE) to show that you qualify for
-            benefits.
+            benefits. This statement only includes entitlement earned through
+            your own military service. If you recently transferred entitlement,
+            it may not be reflected here.
           </p>
+          <p>
+            The Supreme Court’s Rudisill decision may increase your months of
+            entitlement if you have two or more qualifying periods of active
+            duty.
+          </p>
+          <va-link
+            href="https://benefits.va.gov/gibill/rudisill.asp"
+            text="Learn more about requesting a Rudisill review"
+          />
         </div>
       );
 
       printButton = (
-        <div className="section">
+        <div className="section vads-u-margin-top--4">
           <VaButton
             text="Get printable statement of benefits"
             onClick={this.navigateToPrint}
@@ -56,7 +67,7 @@ class StatusPage extends React.Component {
             {printButton}
             <UserInfoSection enrollmentData={enrollmentData} />
             <h3>How can I see my Post-9/11 GI Bill benefit payments?</h3>
-            <div>
+            <div className="vads-u-margin-bottom--4">
               If you've received education benefit payments through this
               program,{' '}
               <a href="/va-payment-history/payments/">
@@ -66,10 +77,11 @@ class StatusPage extends React.Component {
             </div>
             <VaNeedHelp>
               <div slot="content">
-                <p>
-                  Call us at <VaTelephone contact="8008271000" />. We're here
-                  Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-                  hearing loss, call <VaTelephone contact="711" tty="true" />.
+                <p className="vads-u-margin-top--0">
+                  Call 888-GI-BILL-1 (<VaTelephone contact="8884424551" />
+                  ). We're here from Monday through Friday, 8:00 a.m to 7:00 p.m
+                  ET. If you have hearing loss, call{' '}
+                  <VaTelephone contact="711" tty="true" />.
                 </p>
               </div>
             </VaNeedHelp>

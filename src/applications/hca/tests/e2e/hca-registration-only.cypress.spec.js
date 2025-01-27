@@ -1,9 +1,9 @@
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-reg-only.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import featureToggles from './fixtures/mocks/feature-toggles.reg-only.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUser from './fixtures/mocks/user.json';
 import { goToNextPage } from './utils';
 
 const { data: testData } = minTestData;
@@ -17,19 +17,16 @@ const APIs = {
 describe('HCA-Registration-Only-Authenticated-User', () => {
   const setupAuthUser = ({ userPercentOfDisability = 0 }) => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+      'mockEnrollmentStatus',
+    );
     cy.intercept(APIs.disability, {
       statusCode: 200,
       body: {
         data: { id: '', type: 'hash', attributes: { userPercentOfDisability } },
       },
     }).as('mockDisabilityRating');
-    cy.intercept(APIs.prefill, { statusCode: 200, body: mockPrefill }).as(
-      'mockSip',
-    );
+    cy.intercept(APIs.prefill, mockPrefill).as('mockSip');
     cy.login(mockUser);
     cy.visit(manifest.rootUrl);
     cy.wait([
@@ -102,10 +99,9 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
 describe('HCA-Registration-Only-Guest-User', () => {
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+      'mockEnrollmentStatus',
+    );
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockFeatures']);
   };

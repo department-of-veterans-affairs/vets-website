@@ -1,11 +1,11 @@
 import { getTime } from 'date-fns';
-import mockFacilities from 'applications/hca/tests/e2e/fixtures/mocks/mockFacilitiesV1.json';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mockUser';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import mockFacilities from './fixtures/mocks/facilities.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockUser from './fixtures/mocks/user.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
@@ -22,14 +22,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -145,10 +143,11 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
@@ -159,10 +158,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
         },
       },
     }).as('mockDisabilityRating');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
+    cy.intercept('/v0/in_progress_forms/1010ez', mockPrefill).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
@@ -226,10 +222,11 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept(
+      'GET',
+      '/v0/health_care_applications/enrollment_status*',
+      mockEnrollmentStatus,
+    ).as('mockEnrollmentStatus');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {

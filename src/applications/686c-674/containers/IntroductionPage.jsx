@@ -11,6 +11,7 @@ import {
   VaFileNumberMissingAlert,
   ServerErrorAlert,
 } from '../config/helpers';
+import { V2_LAUNCH_DATE } from '../config/constants';
 
 const IntroductionPage = props => {
   const dispatch = useDispatch();
@@ -62,7 +63,6 @@ const IntroductionPage = props => {
   ) : (
     <div className="schemaform-intro">
       <IntroductionPageHeader />
-      <IntroductionPageFormProcess />
       <SaveInProgressIntro
         {...props}
         hideUnauthedStartLink
@@ -73,12 +73,22 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Add or remove a dependent"
         headingLevel={2}
-      />
+      >
+        <p className="vads-u-margin-bottom--4">
+          You should also know that we updated our online form.{' '}
+          <strong>
+            If you started applying online before {V2_LAUNCH_DATE},
+          </strong>{' '}
+          you’ll need to review the information in your application.Select
+          Continue your application to use our updated form.
+        </p>
+      </SaveInProgressIntro>
+      <IntroductionPageFormProcess />
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
-          omb-number="2900-0043"
-          exp-date="09/30/2021"
+          omb-number="2900-0009"
+          exp-date="08/31/2025"
         />
       </div>
     </div>

@@ -120,4 +120,40 @@ describe('prefillTransformer', () => {
       expect(result.veteranSocialSecurityNumber).to.be.undefined;
     });
   });
+
+  context('when the user does not have an ICN', () => {
+    it('sets userIsDigitalSubmitEligible to false', () => {
+      const data = {
+        ...prefill,
+        identityValidation: { hasIcn: false, hasParticipantId: true },
+      };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.false;
+    });
+  });
+
+  context('when the user does not have a participant id', () => {
+    it('sets userIsDigitalSubmitEligible to false', () => {
+      const data = {
+        ...prefill,
+        identityValidation: { hasIcn: true, hasParticipantId: false },
+      };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.false;
+    });
+  });
+
+  context('when the user has an ICN and a participant id', () => {
+    it('sets userIsDigitalSubmitEligible to true', () => {
+      const data = { ...prefill };
+
+      const result = prefillTransformer(data);
+
+      expect(result.userIsDigitalSubmitEligible).to.be.true;
+    });
+  });
 });

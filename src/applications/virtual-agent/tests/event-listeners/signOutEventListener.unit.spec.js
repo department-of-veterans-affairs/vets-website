@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import * as Sentry from '@sentry/browser';
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import signOutEventListener from '../../event-listeners/signOutEventListener';
+import * as logging from '../../utils/logging';
 
 describe('signOutEventListener', () => {
   let sandbox;
@@ -59,9 +60,10 @@ describe('signOutEventListener', () => {
     });
     it('should capture exception when sign out link is not found', () => {
       const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+      const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
       sandbox.stub(document, document.querySelectorAll.name).returns([]);
 
-      signOutEventListener();
+      signOutEventListener(true);
 
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(captureExceptionStub.firstCall.args[0]).to.be.an.instanceOf(
@@ -69,6 +71,14 @@ describe('signOutEventListener', () => {
       );
       expect(captureExceptionStub.firstCall.args[0].message).to.equal(
         'Virtual Agent chatbot could not find sign out link in menu',
+      );
+      expect(logErrorToDatadogStub.calledOnce).to.be.true;
+      expect(logErrorToDatadogStub.firstCall.args[0]).to.be.true;
+      expect(logErrorToDatadogStub.firstCall.args[1]).to.equal(
+        'Virtual Agent chatbot could not find sign out link in menu',
+      );
+      expect(logErrorToDatadogStub.firstCall.args[2]).to.be.an.instanceOf(
+        TypeError,
       );
     });
   });

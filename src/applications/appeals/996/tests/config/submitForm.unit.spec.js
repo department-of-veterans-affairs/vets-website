@@ -3,29 +3,15 @@ import sinon from 'sinon';
 
 import formConfig from '../../config/form';
 import maximalTestV2 from '../fixtures/data/maximal-test-v2.json';
-import maximalTestV25 from '../fixtures/data/maximal-test-v2.5.json';
 import { SUBMIT_URL, SUBMIT_URL_NEW } from '../../constants/apis';
 
 import submitForm, { buildEventData } from '../../config/submitForm';
 
 describe('HLR submit event data', () => {
-  it('should build submit event data', () => {
-    expect(buildEventData({ informalConference: 'no' })).to.deep.equal({
-      'decision-reviews-informalConf': 'no',
-    });
-    expect(buildEventData({ informalConference: 'rep' })).to.deep.equal({
-      'decision-reviews-informalConf': 'yes-with-rep',
-    });
-    expect(buildEventData({ informalConference: 'yes' })).to.deep.equal({
-      'decision-reviews-informalConf': 'yes',
-    });
-  });
-
   it('should build submit event data for new content', () => {
     const getData = value => ({
       informalConference: value,
       informalConferenceChoice: 'yes',
-      hlrUpdatedContent: true,
     });
     expect(buildEventData(getData('no'))).to.deep.equal({
       'decision-reviews-informalConf': 'no',
@@ -61,7 +47,13 @@ describe('submitForm', () => {
   });
 
   it('should use v2 endpoint with v3 data', done => {
-    submitForm(maximalTestV25, formConfig);
+    const data = {
+      data: {
+        ...maximalTestV2.data,
+        decisionReviewHlrNewApi: true,
+      },
+    };
+    submitForm(data, formConfig);
     expect(requests[0].url).to.contain(SUBMIT_URL_NEW);
     done();
   });

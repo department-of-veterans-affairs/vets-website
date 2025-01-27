@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const NeedHelp = () => (
   <>
@@ -24,6 +25,11 @@ const NeedHelp = () => (
         </li>
         <li>A waiver (ask us to stop collection on the debt)</li>
       </ul>
+      <p>
+        <strong>Note:</strong> The time limit to request a waiver (debt
+        forgiveness) has changed. You now have <strong>1 year</strong> from the
+        date you received your first debt letter to request a waiver.
+      </p>
       <a
         className="vads-c-action-link--blue"
         href="/manage-va-debt/request-debt-help-form-5655/"
@@ -42,11 +48,11 @@ const NeedHelp = () => (
           If you think a debt was created in error, you can dispute it. Get
           information about disputing a debt by contacting us online through{' '}
           <a href="https://ask.va.gov/">Ask VA</a> or calling the Debt
-          Management Center at <va-telephone contact="8008270648" /> (
+          Management Center at <va-telephone contact={CONTACTS.DMC} /> (
           <va-telephone contact="711" tty="true" />
           ). For international callers, use{' '}
-          <va-telephone contact="6127136415" />. We’re here Monday through
-          Friday, 7:30 a.m. to 7:00 p.m. ET.
+          <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
+          here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       </section>
     </article>
@@ -56,11 +62,11 @@ const NeedHelp = () => (
         <p>
           If you have any questions about your benefit overpayment. Contact us
           online through <a href="https://ask.va.gov/">Ask VA</a> or call the
-          Debt Management Center at <va-telephone contact="8008270648" /> (
+          Debt Management Center at <va-telephone contact={CONTACTS.DMC} /> (
           <va-telephone contact="711" tty="true" />
           ). For international callers, use{' '}
-          <va-telephone contact="6127136415" />. We’re here Monday through
-          Friday, 7:30 a.m. to 7:00 p.m. ET.
+          <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
+          here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       </div>
     </va-need-help>

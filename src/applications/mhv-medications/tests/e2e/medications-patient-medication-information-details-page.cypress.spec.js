@@ -4,7 +4,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import rxTrackingDetails from './fixtures/prescription-tracking-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe.skip('Medications Details Page Medication Information', () => {
+describe('Medications Details Page Medication Information', () => {
   it('visits Medications Details Page Medication Information Link', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();

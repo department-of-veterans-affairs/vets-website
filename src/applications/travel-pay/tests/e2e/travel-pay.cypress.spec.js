@@ -24,12 +24,17 @@ Cypress.Commands.add('openFilters', () => {
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
+  });
+
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -81,7 +86,7 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
-    cy.get('a[data-testid="status-explainer-link"]')
+    cy.get('va-link[data-testid="status-explainer-link"]')
       .first()
       .click();
 
@@ -148,10 +153,6 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters the claims by a date range preset', () => {
-    // the month argument is 0-indexed in the date constructor,
-    // so this is setting the date to June 25, 2024, i.e., 6/25/24
-    cy.clock(new Date(2024, 5, 25), ['Date']);
-
     cy.openFilters();
 
     cy.get('select[name="claimsDates"]').should('have.value', 'all');
@@ -170,8 +171,6 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters by multiple properties with non-default sorting', () => {
-    cy.clock(new Date(2024, 5, 25), ['Date']);
-
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
     cy.get('va-button[data-testid="Sort travel claims"]').click();

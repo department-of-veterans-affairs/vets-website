@@ -11,6 +11,9 @@ const CernerFacilityAlert = ({ className = '' }) => {
   );
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
+  );
   const cernerFacilities = useMemo(
     () => {
       return userFacilities?.filter(facility =>
@@ -40,7 +43,12 @@ const CernerFacilityAlert = ({ className = '' }) => {
   return (
     <va-alert
       class={`${className} ${
-        cernerFacilitiesNames?.length > 0 ? 'vads-u-margin-bottom--2p5' : ''
+        cernerFacilitiesNames?.length > 0
+          ? `vads-u-margin-bottom--2p5 ${
+              // Need extra padding if both alerts appear
+              prescriptionsApiError ? 'vads-u-margin-top--2' : ''
+            }`
+          : ''
       }`}
       status="warning"
       visible={cernerFacilitiesNames?.length > 0}

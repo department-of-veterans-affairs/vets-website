@@ -7,6 +7,7 @@ import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 
+import personalInfoDemoConfig from './patterns/pattern2/personal-information/config/form';
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 
 import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
@@ -28,9 +29,11 @@ const Form1990Entry = lazy(() =>
 
 import { plugin } from './shared/components/VADXPlugin';
 
-const DevPanel = lazy(() => import('./vadx/app/pages/DevPanel'));
-
 import { VADX } from './vadx';
+import { Debug } from './vadx/app/pages/debug/Debug';
+import { withLayout } from './vadx/app/layout/withLayout';
+import { Servers } from './vadx/app/pages/servers/Servers';
+import { FeatureToggles } from './vadx/app/pages/feature-toggles/FeatureToggles';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
@@ -112,14 +115,31 @@ const pattern2Routes = [
     path: '/2/post-study',
     component: routeHoc(ReviewPage),
   },
+  {
+    path: '/2/personal-information-demo',
+    component: routeHoc(App),
+    indexRoute: {
+      onEnter: (nextState, replace) =>
+        replace('/2/personal-information-demo/introduction?loggedIn=true'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(personalInfoDemoConfig),
+  },
 ];
 
 const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
   {
-    path: '/dev',
-    component: routeHoc(DevPanel),
+    path: '/vadx',
+    component: routeHoc(withLayout(Servers)),
+  },
+  {
+    path: '/vadx/debug',
+    component: routeHoc(withLayout(Debug)),
+  },
+  {
+    path: '/vadx/feature-toggles',
+    component: routeHoc(withLayout(FeatureToggles)),
   },
   {
     path: '*',

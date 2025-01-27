@@ -135,6 +135,13 @@ const Vitals = () => {
     [isAcceleratingVitals],
   );
 
+  const PER_PAGE = useMemo(
+    () => {
+      return Object.keys(VITAL_TYPES).length;
+    },
+    [VITAL_TYPES],
+  );
+
   useEffect(
     () => {
       if (vitals?.length) {
@@ -165,7 +172,7 @@ const Vitals = () => {
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
             class="hydrated initial-fhir-load"
-            message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+            message="We're loading your records for the first time. This can take up to 2 minutes."
             setFocus
             data-testid="initial-fhir-loading-indicator"
           />
@@ -224,7 +231,7 @@ const Vitals = () => {
           <RecordList
             records={cards}
             type={recordType.VITALS}
-            perPage={7}
+            perPage={PER_PAGE}
             hidePagination
             domainOptions={{
               isAccelerating: isAcceleratingVitals,

@@ -33,9 +33,6 @@ export const isOnConfirmationPage = currentLocation => {
 };
 
 export const formConfig = {
-  formOptions: {
-    fullWidth: true,
-  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',

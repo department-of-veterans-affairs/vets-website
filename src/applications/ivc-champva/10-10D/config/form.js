@@ -223,7 +223,7 @@ const formConfig = {
         page2: {
           // initialData: mockData.data,
           path: 'signer-info',
-          title: 'Certification',
+          title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
@@ -240,7 +240,7 @@ const formConfig = {
         },
         page3: {
           path: 'signer-mailing-address',
-          title: 'Certification',
+          title: 'Your mailing address',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
@@ -260,14 +260,14 @@ const formConfig = {
         },
         page4: {
           path: 'signer-contact-info',
-          title: 'Certification',
+          title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
           path: 'signer-relationship',
-          title: 'Certification',
+          title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI('Your relationship to the applicant'),
@@ -1199,7 +1199,8 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1221,7 +1222,8 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance upload`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

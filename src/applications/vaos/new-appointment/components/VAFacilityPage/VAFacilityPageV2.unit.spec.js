@@ -1189,9 +1189,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      await screen.findByText(
-        /You can.t schedule an appointment online at this facility/i,
-      );
+      await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
       await setTypeOfEyeCare(store, '407'); // Ophthalmology

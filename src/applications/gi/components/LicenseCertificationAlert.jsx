@@ -1,3 +1,4 @@
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 
 function LicenseCertificationAlert({
@@ -10,8 +11,8 @@ function LicenseCertificationAlert({
   type,
 }) {
   return (
-    <va-alert
-      className="license-alert"
+    <VaAlert
+      className="alert"
       // slim={true}
       // disable-analytics={true}
       visible={visible}
@@ -21,7 +22,7 @@ function LicenseCertificationAlert({
       style={{ maxWidth: '30rem' }}
     >
       {changeStateAlert &&
-        `The state field has been updated to ${state} becuase
+        `The state field has been updated to ${state} because
         the ${name} ${
           type === 'prep' ? 'prep course' : type
         } is specific to that state.`}
@@ -29,7 +30,7 @@ function LicenseCertificationAlert({
         `State options have been changed to reflect only those states where ${name} is available`}
       {changeStateToAllAlert &&
         `Certifications are nationwide. State does not apply`}
-    </va-alert>
+    </VaAlert>
   );
 }
 

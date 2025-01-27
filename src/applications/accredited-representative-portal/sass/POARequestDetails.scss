@@ -1,14 +1,15 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .poa-request-details {
+  width: 100%;
   @media (min-width: $small-desktop-screen) {
-    width: 968px;
+    width: 1000px;
   }
 
   &__form {
     padding: 35px 14px;
     background-color: $vads-color-base-lightest;
-    margin-top: 35px;
+    margin-top: 66px;
 
     h4 {
       font-family: var(--font-source-sans);
@@ -79,5 +80,71 @@
 
   &__subtitle {
     margin-top: 0;
+  }
+
+  &__name {
+    font-weight: 400;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__status {
+    margin-left: 15px;
+    color: $vads-color-base;
+
+    &.pending {
+      background-color: $vads-color-warning-lighter;
+      border: 1px solid $vads-color-warning-darker;
+    }
+    &.acceptance {
+      background-color: $vads-color-success-lighter;
+      border: 1px solid $vads-color-success;
+    }
+    &.declination,
+    &.expiration {
+      background-color: $uswds-system-color-red-warm-10;
+      border: 1px solid $uswds-system-color-red-warm-vivid-50 ;
+    }
+    &.processing {
+      background-color: $uswds-system-color-gray-5;
+      border: 1px solid $uswds-system-color-gray-cool-60;
+    }
+  }
+
+  &__table {
+    border-collapse: collapse;
+
+    th {
+      font-weight: 700;
+    }
+    td, th {
+      border: none;
+      padding: 8px 15px;
+      width: 100%;
+      display: block;
+
+      @media (min-width: $small-desktop-screen) {
+        width: 50%;
+        display: table-cell;
+        padding: 15px;
+      }
+    }
+
+    tr {
+      display: block;
+      border-bottom: 1px solid $vads-color-base;
+      @media (min-width: $small-desktop-screen) {
+        display: table-row;
+      }
+
+      &:first-child {
+        border-top: 1px solid $vads-color-base;
+      }
+    }
+  }
+
+  &__info {
+    max-width: 650px;
   }
 }

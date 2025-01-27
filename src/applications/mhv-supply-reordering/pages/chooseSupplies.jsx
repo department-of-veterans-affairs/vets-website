@@ -1,5 +1,5 @@
 import React from 'react';
-// import { validateAtLeastOneSelected } from '../utils/validators';
+import PropTypes from 'prop-types';
 import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
@@ -19,15 +19,17 @@ const Description = ({ formData }) => {
         You have {numberOfSuppliesPhrase(count)} that are available for reorder.
       </p>
       <p>
-        <strong>Note:</strong> For CPAP supplies, each order is a 12-month
-        supply. You can only order each item once every 12 months.
-      </p>
-      <p>
-        For hearing aid supplies, each order is a 6-month supply. You can only
-        order each item once every 6 months.
+        <strong>Note:</strong> We’ll send you a 6-month supply of each item
+        added to your order. You can only order each item once every 5 months.
       </p>
     </>
   );
+};
+
+Description.propTypes = {
+  formData: PropTypes.shape({
+    supplies: PropTypes.array,
+  }),
 };
 
 /** @type {PageSchema} */
@@ -36,6 +38,7 @@ export default {
     'ui:description': Description,
     chosenSupplies: suppliesUi({
       title: 'Select available supplies for reorder',
+      tile: true,
       replaceSchema: suppliesReplaceSchema,
       updateUiSchema: suppliesUpdateUiSchema,
     }),

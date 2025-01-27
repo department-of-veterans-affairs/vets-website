@@ -4,6 +4,7 @@ import { enUS } from 'date-fns/locale';
 import React from 'react';
 
 import {
+  CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
   CategoryHealthCare,
@@ -12,9 +13,11 @@ import {
   CHAPTER_3,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
+  relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
@@ -345,7 +348,7 @@ export const isLocationOfResidenceRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
@@ -519,7 +522,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
-    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
   }
@@ -654,10 +657,9 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
-    case 'Replied':
+    case 'replied':
       return 'Replied';
     case 'reopened':
-    case 'Reopened':
       return 'Reopened';
     case 'closed':
       return 'Closed';
@@ -706,7 +708,7 @@ export const convertDateForInquirySubheader = dateString => {
   }
 
   // Ensure the date is valid
-  if (isNaN(utcDate.getTime())) {
+  if (Number.isNaN(utcDate.getTime())) {
     return 'Invalid Date';
   }
 
@@ -752,4 +754,120 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const isEducationNonVRE = formData =>
+  formData.selectCategory === CategoryEducation &&
+  formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31;
+
+export const isOutsideUSEducation = formData =>
+  formData.selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+  formData.selectTopic === TopicEducationBenefitsAndWorkStudy;
+
+// Who is your question about? rules:
+// CATEGORY = EDUCATION BENEFITS AND WORK STUDY
+// AND
+// TOPIC =/ VETERAN READINESS & EMPLOYMENT
+//
+// ALSO HIDDEN IF:
+// CATEGORY =  BENEFITS ISSUES OUTSIDE THE US
+// AND
+// TOPIC = EDUCATION BENEFITS AND WORK STUDY
+//
+// BECAUSE 'EDU' QUESTIONS ARE SENT AS "GENERAL QUESTIONS" TO CRM. BUT SHOULD CONTINUE DOWN THE 'SOMEONE ELSE' FLOW.
+export const whoIsYourQuestionAboutCondition = formData => {
+  return !(isEducationNonVRE(formData) || isOutsideUSEducation(formData));
+};
+
+export const aboutMyselfRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
+  );
+};
+
+export const aboutMyselfRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.FAMILY_MEMBER
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+  );
+};
+
+export const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran ===
+      relationshipOptionsMyself.FAMILY_MEMBER &&
+    formData.isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout ===
+      whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    // EDU doesn't apply except when EDU + VRE
+    (formData.selectCategory !== CategoryEducation ||
+      (formData.selectCategory === CategoryEducation &&
+        formData.selectTopic === TopicVeteranReadinessAndEmploymentChapter31))
+  );
+};
+
+export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
+  );
+};
+
+export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
+  return (
+    formData.relationshipToVeteran !== relationshipOptionsSomeoneElse.WORK &&
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
+  );
+};
+
+export const generalQuestionCondition = formData => {
+  return (
+    formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
 };

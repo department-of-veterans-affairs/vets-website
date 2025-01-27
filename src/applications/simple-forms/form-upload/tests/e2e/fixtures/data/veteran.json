@@ -13,9 +13,7 @@
     },
     "phoneNumber": "1231231234",
     "email": "john@veteran.com",
-    "idNumber": {
-      "ssn": "234232345",
-      "vaFileNumber": "456454567"
-    }
+    "ssn": "234232345",
+    "vaFileNumber": "456454567"
   }
 }

@@ -41,8 +41,7 @@ const RxBreadcrumbs = () => {
   }
 
   if (
-    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION) &&
-    prescription?.prescriptionId
+    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
@@ -56,8 +55,7 @@ const RxBreadcrumbs = () => {
       </div>
     );
   } else if (
-    location.pathname.includes(medicationsUrls.subdirectories.DETAILS) &&
-    prescription?.prescriptionId
+    location.pathname.includes(medicationsUrls.subdirectories.DETAILS)
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">

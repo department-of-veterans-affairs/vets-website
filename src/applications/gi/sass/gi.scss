@@ -310,26 +310,73 @@
   padding-left: 0;
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
 
-.lc-clear {
-  border: 1px solid $color-gray-dark;
-  border-left: none;
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
 }
 
-.lc-card-subheader {
-  text-transform: capitalize;
+.lc-result-cards-wrapper {
+  list-style: none;
+  padding-left: 0;
 }
 
-.license-alert {
-  max-width: 30rem;
-}
-
-.reset-search {
-  background-color: $color-white;
-  color: $color-primary;
+.lc-result-info-wrapper {
+  .back-link {
+    @media (max-width: $mobile-lg) {
+      display: none;
+    }
+  }
 }
 
 .inst-remove-btn::part(button) {
@@ -377,6 +424,10 @@
       }
     }
   }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
 }
 
 .national-exams-container {
@@ -387,11 +438,18 @@
     font-weight: 400;
     line-height: 34px;
   }
-  .provider-info-container > span {
-    gap: 1rem;
-  }
-  va-accordion-item {
-    margin-bottom: 20px;
+}
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"] {
+      border-bottom: 1px solid $color-primary !important;
+    }
+    @media screen and (max-width: $small-screen) {
+      height: 94px;
+      padding: 0 4px;
+      text-align: left;
+    }
   }
 }
 

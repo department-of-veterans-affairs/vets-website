@@ -328,10 +328,19 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    let expiredReferrals = 0;
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
-    const referrals = referralUtils.createReferrals(3, '2024-12-02');
+
+    if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
+      expiredReferrals = 1;
+    }
+    const referrals = referralUtils.createReferrals(
+      3,
+      '2024-12-02',
+      expiredReferrals,
+    );
     const singleReferral = referrals.find(
       referral => referral?.UUID === req.params.referralId,
     );
@@ -352,6 +361,24 @@ const responses = {
     }
     return res.json({
       data: providerUtils.createProviderDetails(5, req.params.providerId),
+    });
+  },
+  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.referralId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    // Provider 0 has no available slots
+    if (req.params.referralId === '0') {
+      return res.json({
+        data: providerUtils.createDraftAppointmentInfo(
+          0,
+          req.params.referralId,
+        ),
+      });
+    }
+    return res.json({
+      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
     });
   },
   // Required v0 APIs
@@ -408,6 +435,10 @@ const responses = {
             {
               facility_id: '983',
               is_cerner: false,
+            },
+            {
+              facility_id: '692',
+              is_cerner: true,
             },
           ],
         },

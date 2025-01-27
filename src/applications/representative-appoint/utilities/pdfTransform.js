@@ -1,7 +1,18 @@
 import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
-  const authorizeRecords = formData.authorizeMedicalSelectCheckbox || {};
+  const medicalAuthorization = formData.authorizationRadio;
+  let authorizeRecords;
+  if (
+    medicalAuthorization ===
+      'Yes, they can access all of these types of records' ||
+    medicalAuthorization ===
+      "No, they can't access any of these types of records"
+  ) {
+    authorizeRecords = {};
+  } else {
+    authorizeRecords = formData.authorizeMedicalSelectCheckbox || {};
+  }
 
   const conditionsMap = {
     alcoholRecords: 'ALCOHOLISM',

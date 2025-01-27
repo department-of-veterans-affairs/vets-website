@@ -1,11 +1,10 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../../components/MapboxClient';
 import {
-  BOUNDING_RADIUS,
-  EXPANDED_BOUNDING_RADIUS,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-} from '../../constants';
+  mapboxClient,
+} from 'platform/utilities/facilities-and-mapbox';
+import { BOUNDING_RADIUS, EXPANDED_BOUNDING_RADIUS } from '../../constants';
 import {
   GEOCODE_STARTED,
   SEARCH_FAILED,

@@ -1,10 +1,10 @@
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-insurance.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
+import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
+import featureToggles from './fixtures/mocks/feature-toggles.insurance.json';
 import {
-  goToNextPage,
   fillTextWebComponent,
+  goToNextPage,
   selectYesNoWebComponent,
 } from './utils';
 
@@ -17,10 +17,9 @@ const APIs = {
 describe('HCA-Health-Insurance-Information', () => {
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, {
-      statusCode: 404,
-      body: mockEnrollmentStatus,
-    }).as('mockEnrollmentStatus');
+    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
+      'mockEnrollmentStatus',
+    );
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockFeatures']);
   };

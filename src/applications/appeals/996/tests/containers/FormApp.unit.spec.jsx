@@ -64,9 +64,6 @@ const getData = ({
       },
       contestableIssues,
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        hlr_updateed_contnet: true,
-        hlrUpdateedContnet: true,
         [NEW_API]: true,
       },
     },
@@ -238,7 +235,6 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
@@ -252,7 +248,6 @@ describe('Form0996App', () => {
             [SELECTED]: true,
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
       },
     });
@@ -280,7 +275,6 @@ describe('Form0996App', () => {
             },
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
       });
     });
@@ -292,7 +286,6 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_FAILED,
         issues: [],
-        legacyCount: undefined,
       },
       formData: {
         benefitType: 'compensation',
@@ -306,9 +299,7 @@ describe('Form0996App', () => {
             },
           },
         ],
-        legacyCount: 0,
         internalTesting: true,
-        hlrUpdatedContent: true,
         [NEW_API]: true,
       },
     });
@@ -342,14 +333,12 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         issues,
-        legacyCount: 0,
       },
       formData: {
         benefitType: 'compensation',
         contestedIssues: issues,
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
-        legacyCount: 0,
         internalTesting: true,
       },
     });
@@ -391,15 +380,12 @@ describe('Form0996App', () => {
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         benefitType: 'compensation',
         issues,
-        legacyCount: 0,
       },
       formData: {
         contestedIssues: issues,
         benefitType: 'compensation',
         areaOfDisagreement: [issues[0], additionalIssues[0]],
         additionalIssues,
-        legacyCount: 0,
-        hlrUpdatedContent: true,
         [NEW_API]: true,
       },
     });

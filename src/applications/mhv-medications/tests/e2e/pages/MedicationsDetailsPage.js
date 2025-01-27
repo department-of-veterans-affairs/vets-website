@@ -1,6 +1,7 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
+import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -323,7 +324,7 @@ class MedicationsDetailsPage {
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
     cy.get('[data-testid="rx-refill"]')
       .first()
-      .should('contain', 'Refill 1');
+      .should('contain', 'Refill');
   };
 
   verifyFillDateFieldOnDetailsPage = () => {
@@ -411,7 +412,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation?ndc=00113002239`,
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
       medicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -419,8 +420,25 @@ class MedicationsDetailsPage {
     });
   };
 
+  clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      noMedicationInformation,
+    ).as('medicationDescription');
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyMedicationInformationTitle = rxName => {
-    cy.get('[data-testid="medication-information"]').should(
+    cy.get('[data-testid="medication-information-title"]').should(
       'contain',
       `Medication information: ${rxName}`,
     );
@@ -523,6 +541,30 @@ class MedicationsDetailsPage {
 
   verifyPreviousPrescriptionHeaderTextOnDetailsPage = text => {
     cy.get('[data-testid="previous-rx"]').should('contain', text);
+  };
+
+  visitMedDetailsPage = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my-health/medications/prescription/${prescriptionDetails}`,
+    );
+    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+  };
+
+  verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('have.text', text);
+  };
+
+  verifyLastFilledDateOnDetailsPage = text => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+  };
+
+  verifyRefillLinkTextOnDetailsPage = text => {
+    cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
+  };
+
+  verifyRefillHistoryDescriptionText = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
 }
 

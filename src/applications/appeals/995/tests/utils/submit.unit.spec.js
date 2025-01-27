@@ -10,13 +10,15 @@ import {
 } from '../../constants';
 import {
   getAddress,
+  getClaimantData,
+  getEmail,
   getEvidence,
   getForm4142,
   getPhone,
-  getEmail,
-  getClaimantData,
+  getTreatmentDate,
   hasDuplicateFacility,
   hasDuplicateLocation,
+  TEMP_DATE,
 } from '../../utils/submit';
 
 const text =
@@ -211,6 +213,24 @@ describe('getClaimantData', () => {
   });
 });
 
+describe('getTreatmentDate', () => {
+  const wrap = (date, noDate) => ({ treatmentDate: date, noDate });
+  it('should return treatment date', () => {
+    expect(getTreatmentDate(wrap('2020-02', false))).to.eq('2020-02-01');
+  });
+  // A default treatment date is only needed until LH finalizes the new API
+  it('should return default treatment date', () => {
+    expect(getTreatmentDate()).to.eq(TEMP_DATE);
+    expect(getTreatmentDate({})).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap())).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap('12'))).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap('1234'))).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap('1234-1'))).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap('', true))).to.eq(TEMP_DATE);
+    expect(getTreatmentDate(wrap('2020-03-03', true))).to.eq(TEMP_DATE);
+  });
+});
+
 describe('hasDuplicateLocation', () => {
   const getLocation = ({
     wrap = false,
@@ -222,6 +242,7 @@ describe('hasDuplicateLocation', () => {
       locationAndName: name,
       issues: ['1', '2'],
       evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
+      noDate: false,
       treatmentDate: from.substring(0, from.lastIndexOf('-')),
     };
     return wrap ? { attributes: location } : location;
@@ -263,8 +284,7 @@ describe('hasDuplicateLocation', () => {
     expect(hasDuplicateLocation(list, second, true)).to.be.true;
 
     // check date format without leading zeros
-    const first2 = getLocation({ from: '2022-1-1' });
-    expect(hasDuplicateLocation(list, first2, true)).to.be.true;
+    expect(hasDuplicateLocation(list, first, true)).to.be.true;
   });
 });
 
@@ -288,6 +308,7 @@ describe('getEmail', () => {
     expect(result.slice(-10)).to.eq('12345@test');
   });
 });
+
 describe('getEvidence', () => {
   const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
     data: {
@@ -306,6 +327,13 @@ describe('getEvidence', () => {
           issues: ['1', '2'],
           evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
           treatmentDate: '2002-07',
+        },
+        {
+          locationAndName: 'test 3',
+          issues: ['2'],
+          evidenceDates: { from: '2022-05-05', to: '2022-06-06' },
+          treatmentDate: '2002', // incomplete date
+          noDate: true,
         },
       ],
     },
@@ -334,6 +362,18 @@ describe('getEvidence', () => {
                 {
                   startDate: newForm ? '2002-07-01' : '2022-03-03',
                   endDate: newForm ? '2002-07-01' : '2022-04-04',
+                },
+              ],
+            },
+          },
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 3',
+              evidenceDates: [
+                {
+                  startDate: newForm ? TEMP_DATE : '2022-05-05',
+                  endDate: newForm ? TEMP_DATE : '2022-06-06',
                 },
               ],
             },
@@ -383,7 +423,7 @@ describe('getEvidence', () => {
     evidence.data.locations.push(evidence.data.locations[0]);
     evidence.data.locations.push(evidence.data.locations[1]);
 
-    expect(evidence.data.locations.length).to.eq(4);
+    expect(evidence.data.locations.length).to.eq(5);
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
 

@@ -52,3 +52,6 @@ export const isProductionEnv = () => {
     !window.Mocha
   );
 };
+
+export const showUploadDocuments = () =>
+  window.sessionStorage.getItem('showUploadDocuments') === 'true';

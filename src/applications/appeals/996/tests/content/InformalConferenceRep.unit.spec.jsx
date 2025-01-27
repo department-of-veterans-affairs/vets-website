@@ -23,4 +23,15 @@ describe('RepresentativeReviewWidget', () => {
     expect(span).to.exist;
     expect(span.textContent).to.eq('some value');
   });
+
+  it('should render with no data', () => {
+    const { container } = render(
+      <div>
+        <RepresentativeReviewWidget />
+      </div>,
+    );
+    const span = $('.dd-privacy-hidden[data-dd-action-name=""]', container);
+    expect(span).to.exist;
+    expect(span.textContent).to.eq('');
+  });
 });

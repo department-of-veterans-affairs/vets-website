@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
@@ -9,6 +9,7 @@ import {
   renderMHVDowntime,
   useDatadogRum,
   MhvSecondaryNav,
+  useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -38,11 +39,8 @@ const App = ({ children }) => {
   );
 
   const dispatch = useDispatch();
-
-  const [isHidden, setIsHidden] = useState(true);
-  const [height, setHeight] = useState(0);
   const location = useLocation();
-  const measuredRef = useRef();
+  const { measuredRef, isHidden } = useBackToTop(location);
   const atLandingPage = location.pathname === '/';
 
   const scheduledDowntimes = useSelector(
@@ -116,52 +114,6 @@ const App = ({ children }) => {
     },
   };
   useDatadogRum(datadogRumConfig);
-
-  useEffect(
-    () => {
-      if (height) {
-        // small screen (mobile)
-        if (window.innerWidth <= 481 && height > window.innerHeight * 4) {
-          setIsHidden(false);
-        }
-        // medium screen (desktop/tablet)
-        else if (window.innerWidth > 481 && height > window.innerHeight * 2) {
-          setIsHidden(false);
-        }
-        // default to hidden
-        else {
-          setIsHidden(true);
-        }
-      }
-    },
-    [height, location],
-  );
-
-  const { current } = measuredRef;
-
-  useEffect(
-    () => {
-      if (!current) return () => {};
-      let isMounted = true; // Flag to prevent React state update on an unmounted component
-
-      const resizeObserver = new ResizeObserver(() => {
-        requestAnimationFrame(() => {
-          if (isMounted && height !== current.offsetHeight) {
-            setHeight(current.offsetHeight);
-          }
-        });
-      });
-      resizeObserver.observe(current);
-      return () => {
-        isMounted = false;
-        if (current) {
-          resizeObserver.unobserve(current);
-        }
-        resizeObserver.disconnect();
-      };
-    },
-    [current, height],
-  );
 
   useEffect(
     () => {
@@ -242,6 +194,7 @@ const App = ({ children }) => {
               </HeaderSectionProvider>
             )}
             <va-back-to-top
+              class="no-print"
               hidden={isHidden}
               data-dd-privacy="mask"
               data-dd-action-name="Back to top"

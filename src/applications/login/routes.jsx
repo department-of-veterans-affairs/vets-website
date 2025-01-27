@@ -3,6 +3,7 @@ import SignInApp from './containers/SignInApp';
 import SignInWrapper from './components/SignInWrapper';
 import MockAuth from './containers/MockAuth';
 import MhvSignIn from './containers/MhvSignIn';
+import MhvAccess from './containers/MhvAccess';
 
 const routes = {
   path: '/',
@@ -20,6 +21,10 @@ const routes = {
           {
             path: 'access-myhealthevet-test-account',
             component: MhvSignIn,
+          },
+          {
+            path: 'mhv',
+            component: MhvAccess,
           },
         ],
 };
