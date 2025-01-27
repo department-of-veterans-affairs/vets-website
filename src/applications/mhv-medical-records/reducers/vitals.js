@@ -115,7 +115,9 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
-      const oldList = state.vitalsList;
+      const oldList = state.vitalsList
+        ? [...state.vitalsList]
+        : state.vitalsList;
       const newList =
         action.response.entry?.map(vital => {
           return convertVital(vital.resource);
