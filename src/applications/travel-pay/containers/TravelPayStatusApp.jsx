@@ -19,6 +19,7 @@ import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
+import ErrorAlert from '../components/alerts/ErrorAlert';
 
 export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
@@ -265,6 +266,27 @@ export default function TravelPayStatusApp({ children }) {
     return null;
   }
 
+  if (error) {
+    return (
+      <Element name="topScrollElement">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
+          <BreadCrumbs />
+          <h1 tabIndex="-1" data-testid="header">
+            Check your travel reimbursement claim status
+          </h1>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
+            <h2 className="vads-u-font-size--h4">
+              You can use this tool to check the status of your VA travel
+              claims.
+            </h2>
+            <ErrorAlert errorStatus={error.errors[0].status} />
+            <VaBackToTop />
+          </div>
+        </article>
+      </Element>
+    );
+  }
+
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
@@ -276,19 +298,22 @@ export default function TravelPayStatusApp({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          <va-additional-info
-            class="vads-u-margin-y--3"
-            trigger="How to manage your claims or get more information"
-          >
-            <>
-              <HelpTextManage />
-              <va-link
-                data-testid="status-explainer-link"
-                href="/my-health/travel-pay/help"
-                text="What does my claim status mean?"
-              />
-            </>
-          </va-additional-info>
+          {!error &&
+            !isLoading && (
+              <va-additional-info
+                class="vads-u-margin-y--3"
+                trigger="How to manage your claims or get more information"
+              >
+                <>
+                  <HelpTextManage />
+                  <va-link
+                    data-testid="status-explainer-link"
+                    href="/my-health/travel-pay/help"
+                    text="What does my claim status mean?"
+                  />
+                </>
+              </va-additional-info>
+            )}
 
           {isLoading && (
             <va-loading-indicator

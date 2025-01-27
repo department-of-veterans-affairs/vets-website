@@ -29,14 +29,6 @@ describe('TravelPayStatusApp', () => {
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
         /* eslint-enable camelcase */
       },
-      // user: {
-      //   login: {
-      //     currentlyLoggedIn: isLoggedIn,
-      //   },
-      //   profile: {
-      //     services: [backendServices.USER_PROFILE],
-      //   },
-      // },
     };
   };
 
@@ -149,21 +141,52 @@ describe('TravelPayStatusApp', () => {
     ).to.exist;
   });
 
-  it('handles a failed fetch of claims', async () => {
+  it('handles a failed fetch of claims when user is not a Veteran', async () => {
     global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
+    mockApiRequest({ errors: [{ title: 'Forbidden', status: 403 }] }, false);
 
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
+        isLoggedIn: true,
+        error: { errors: [{ title: 'Forbidden', status: 403 }] },
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
-    await waitFor(async () => {
-      expect(await screen.findByText('Error fetching travel claims.')).to.exist;
+    await waitFor(() => {
+      expect(screen.findByText(/We can’t find any travel claims for you/i)).to
+        .exist;
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect($('va-additional-info')).to.not.exist;
+    });
+  });
+
+  it('handles a unspecified errors', async () => {
+    global.fetch.restore();
+    mockApiRequest(
+      { errors: [{ title: 'Service unavilable', status: 500 }] },
+      false,
+    );
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        error: { errors: [{ title: 'Service unavilable', status: 500 }] },
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    await waitFor(() => {
+      expect(screen.findByText(/we can’t access your travel claims right now/i))
+        .to.exist;
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect($('va-additional-info')).to.not.exist;
     });
   });
 
