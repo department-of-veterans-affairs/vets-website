@@ -335,7 +335,7 @@ const POARequestDetailsPage = () => {
           >
             <VaRadio
               header-aria-describedby={null}
-              label="Do you accept or decline pis POA request?"
+              label="Do you accept or decline this POA request?"
               label-header-level="4"
               class="poa-request-details__form-label"
               onVaValueChange={handleChange}
