@@ -25,7 +25,7 @@ const uiSchema = {
         title: 'Facility code',
         hint: '',
         errorMessages: {
-          required: "Please enter your institution's facilty code",
+          required: "Please enter your institution's facility code",
         },
       }),
       'ui:validations': [
