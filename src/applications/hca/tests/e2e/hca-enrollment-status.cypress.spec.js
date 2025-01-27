@@ -20,20 +20,14 @@ Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
     });
 
     it('should render correct content based on status', () => {
-      if (status === HCA_ENROLLMENT_STATUSES.noneOfTheAbove) {
-        cy.get('[data-testid="hca-enrollment-alert"]').should('not.exist');
-        cy.get('va-process-list').should('exist');
-      } else {
-        cy.get('[data-testid="hca-enrollment-alert"]').should('exist');
-        cy.get('va-process-list').should('not.exist');
-      }
+      const isNA = status === HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
+      const hasStatus = HCA_APPLY_ALLOWED_STATUSES.has(status);
 
-      if (HCA_APPLY_ALLOWED_STATUSES.has(status)) {
-        cy.get('va-omb-info').should('exist');
-      } else {
-        cy.get('va-omb-info').should('not.exist');
-      }
-
+      cy.get('[data-testid="hca-enrollment-alert"]').should(
+        isNA ? 'not.exist' : 'exist',
+      );
+      cy.get('va-process-list').should(isNA ? 'exist' : 'not.exist');
+      cy.get('va-omb-info').should(hasStatus ? 'exist' : 'not.exist');
       cy.injectAxeThenAxeCheck();
     });
   });
