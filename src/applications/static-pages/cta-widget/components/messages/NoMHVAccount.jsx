@@ -7,7 +7,7 @@ const NoMHVAccount = ({
   serviceDescription,
   primaryButtonHandler,
   secondaryButtonHandler,
-  recordEventFn,
+  recordEventFn = recordEvent,
 }) => {
   const heading = `Please create a My HealtheVet account to ${serviceDescription}`;
   useEffect(
@@ -48,13 +48,10 @@ const NoMHVAccount = ({
   return <CallToActionAlert {...content} />;
 };
 
-NoMHVAccount.defaultProps = {
-  recordEventFn: recordEvent,
-};
-
 NoMHVAccount.propTypes = {
   serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
+  recordEventFn: PropTypes.func,
 };
 
 export default NoMHVAccount;
