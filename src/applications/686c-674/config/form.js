@@ -148,6 +148,12 @@ export const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
+  savedFormMessages: {
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
+    noAuth:
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
+  },
   version: migrations.length,
   v3SegmentedProgressBar: true,
   migrations,
@@ -165,12 +171,6 @@ export const formConfig = {
       externalServices.vaProfile,
       externalServices.vbms,
     ],
-  },
-  savedFormMessages: {
-    notFound:
-      'Start your application to add or remove a dependent on your VA benefits.',
-    noAuth:
-      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',
