@@ -13,7 +13,7 @@ const loadingIndicator = (
 );
 
 export default function AppContent() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [hasError, setHasError] = useState(false);
   const [isRequestDone, setIsRequestDone] = useState(false);
 
@@ -37,7 +37,7 @@ export default function AppContent() {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (hasError) {
+  if (hasError || data?.errors) {
     contentOrError = <ServerError />;
   } else {
     contentOrError = (
