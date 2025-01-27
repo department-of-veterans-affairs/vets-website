@@ -6,6 +6,7 @@ export const INTEGRATION_DEPLOYMENT =
   'https://pr18811-ps4nwwul37jtyembecv4bg0gafmyl3oj.ci.cms.va.gov';
 
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
+import environment from 'platform/utilities/environment';
 import mockForms from '../../config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
 
@@ -64,7 +65,8 @@ export const fetchAndBuildFormConfig = (
     dispatch(formLoadingInitiated(formId));
     try {
       const forms = await fetchMethod();
-      const form = findFormByFormId(forms, formId);
+      const filteredForms = filterForms(forms, environment.isProduction());
+      const form = findFormByFormId(filteredForms, formId);
       const formConfig = createFormConfig(form, options);
 
       dispatch(formLoadingSucceeded(formConfig));
