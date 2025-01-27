@@ -273,26 +273,6 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      // 'ui:required': (formData, index) => {
-      //   const addMode =
-      //     formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
-      //   const editMode = formData?.typeOfProgramOrBenefit;
-
-      //   console.log(
-      //     'AddMode',
-      //     addMode && Object.values(addMode).includes(true),
-      //   );
-      //   console.log(
-      //     'EditMode',
-      //     editMode && Object.values(editMode).includes(true),
-      //   );
-
-      //   return (
-      //     (addMode && Object.values(addMode).includes(true)) ||
-      //     (editMode && Object.values(editMode).includes(true))
-      //   );
-      // },
-      // 'ui:required': () => true,
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];
@@ -548,27 +528,9 @@ export const previousTermDatesPage = {
         },
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
-          // 'ui:required': (formData, index) => {
-          //   const addMode =
-          //     formData?.studentInformation?.[index]?.schoolInformation
-          //       ?.studentDidAttendSchoolLastTerm;
-          //   const editMode =
-          //     formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-          //   return addMode || editMode;
-          // },
         },
         dateTermEnded: {
           ...currentOrPastDateUI('When did the previous school term end?'),
-          // 'ui:required': (formData, index) => {
-          //   const addMode =
-          //     formData?.studentInformation?.[index]?.schoolInformation
-          //       ?.studentDidAttendSchoolLastTerm;
-          //   const editMode =
-          //     formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-          //   return addMode || editMode;
-          // },
         },
       },
     },
