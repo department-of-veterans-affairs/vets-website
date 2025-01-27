@@ -1,6 +1,15 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import {
+  getUrlPathIndex,
+  isMinimalHeaderPath,
+} from 'platform/forms-system/src/js/helpers';
+import {
+  focusByOrder,
+  scrollTo,
+  scrollToTop,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -262,4 +271,30 @@ export const maxItemsHint = ({
   }
 
   return hint;
+};
+
+export const defaultItemPageScrollAndFocusTarget = () => {
+  const minimalHeader = isMinimalHeaderPath();
+  const headerLevel = minimalHeader ? 'h1' : 'h3';
+
+  if (minimalHeader) {
+    scrollTo('header-minimal');
+  } else {
+    scrollToTop('topScrollElement');
+  }
+
+  // If we have something with `label-header-level`, then that is likely
+  // the title of the page, so we should focus on that.
+  const radioHeader = document.querySelector('va-radio[label-header-level]');
+  const checkboxGroupHeader = document.querySelector(
+    'va-checkbox-group[label-header-level]',
+  );
+
+  if (radioHeader) {
+    waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);
+  } else if (checkboxGroupHeader) {
+    waitForRenderThenFocus(headerLevel, checkboxGroupHeader.shadowRoot);
+  } else {
+    focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
+  }
 };
