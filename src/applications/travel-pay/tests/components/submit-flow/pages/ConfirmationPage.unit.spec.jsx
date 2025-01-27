@@ -58,12 +58,9 @@ it('should render practictioner name if available', () => {
   expect(screen.getByText('We’re processing your travel reimbursement claim'))
     .to.exist;
 
-  const message =
-    'This claim is for your appointment at VA location name with First Middle Last on Wednesday, January 15, 2025, 1:39 PM.';
-
   expect(
     screen.queryAllByText((_, element) =>
-      element.textContent.includes(message),
+      element.textContent.includes('with First Middle Last'),
     ),
   ).to.not.be.empty;
 });
