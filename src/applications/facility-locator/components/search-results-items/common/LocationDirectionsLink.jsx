@@ -17,6 +17,7 @@ function LocationDirectionsLink({ location, from }) {
     <p>
       {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
       <va-link
+        class="vads-u-margin-left--0p5"
         href={`https://maps.google.com?saddr=${
           location.searchString
         }&daddr=${address}`}
