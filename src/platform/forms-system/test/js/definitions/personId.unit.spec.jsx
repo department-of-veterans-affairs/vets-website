@@ -2,14 +2,15 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import * as personId from '../../../src/js/definitions/personId';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import * as personId from '../../../src/js/definitions/personId';
 
 describe('Edu personId', () => {
   const uiSchema = personId.uiSchema('veteran', 'view:noSSN');
@@ -25,7 +26,7 @@ describe('Edu personId', () => {
   });
 
   it('should conditionally require SSN or file number', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <DefinitionTester
         formData={{}}
         schema={schema}
@@ -34,35 +35,29 @@ describe('Edu personId', () => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-
     // VA file number input is not visible; error is shown for empty SSN input
-    expect(
-      formDOM.querySelector(
+    waitFor(() => {
+      const ssnError = form.container.querySelector(
         '.usa-input-error #root_veteranSocialSecurityNumber',
-      ),
-    ).not.to.be.null;
-    expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
-
-    // Check no-SSN box
-    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    ).find(input => input.id === 'root_view:noSSN');
-    ReactTestUtils.Simulate.change(noSSNBox, {
-      target: {
-        checked: true,
-      },
+      );
+      expect(ssnError).not.to.be.null;
+      const vaFileNumber = form.container.querySelector('#root_vaFileNumber');
+      expect(vaFileNumber).to.be.null;
     });
+    const checkbox = form.getByLabelText(
+      /I don’t have a Social Security number/,
+    );
 
-    expect(
-      formDOM.querySelector(
-        '.usa-input-error #root_veteranSocialSecurityNumber',
-      ),
-    ).to.be.null;
-    expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to
-      .be.null;
+    fireEvent.change(checkbox, { target: { checked: true } });
+
+    waitFor(() => {
+      expect(
+        form.container.querySelector(
+          '.usa-input-error #root_veteranSocialSecurityNumber',
+        ),
+      ).to.be.null;
+      expect(form.container.querySelector('#root_vaFileNumber')).not.to.be.null;
+    });
   });
   it('should submit with no errors when required field is filled', () => {
     const onSubmit = sinon.spy();
