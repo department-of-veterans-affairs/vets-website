@@ -7,6 +7,7 @@ import MockDate from 'mockdate';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import reducer from '../../redux/reducer';
 import App from '../../containers/App';
@@ -134,6 +135,7 @@ describe('App', () => {
       path: `/claims/`,
       reducers: reducer,
     });
+    // This tests that the MHV nav is present
     expect(await screen.findAllByText(/My HealtheVet/i)).to.exist;
   });
 
@@ -148,7 +150,9 @@ describe('App', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-    // TODO: update this once alert is in use
-    expect(await screen.findByText(/verify your identity/i)).to.exist;
+    await waitFor(() => {
+      expect($('va-alert-sign-in')).to.exist;
+      expect(screen.findByText(/verify your identity/i)).to.exist;
+    });
   });
 });

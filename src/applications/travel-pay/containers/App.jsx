@@ -8,6 +8,8 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 
+import VerifyIdentityAlert from '../components/alerts/VerifyIdentityAlert';
+
 const App = ({ identityVerified, user }) => {
   return (
     <RequiredLoginView
@@ -20,8 +22,11 @@ const App = ({ identityVerified, user }) => {
           <Outlet />
         </>
       ) : (
-        // TODO: incorporate VerifyIdentityAlert from access error PR
-        <p>You must verify your identity</p>
+        <article className="usa-grid-full vads-u-padding-bottom--2">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--4">
+            <VerifyIdentityAlert />
+          </div>
+        </article>
       )}
     </RequiredLoginView>
   );
