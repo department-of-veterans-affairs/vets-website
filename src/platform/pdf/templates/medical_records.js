@@ -86,13 +86,7 @@ const generateDetailsContent = async (doc, parent, data, config) => {
   if (data.details.header) {
     const headOptions = { x: config.margins.left, paragraphGap: 12 };
     details.add(
-      createHeading(
-        doc,
-        'H2',
-        config,
-        `${data.details.header} (h2)`,
-        headOptions,
-      ),
+      createHeading(doc, 'H2', config, data.details.header, headOptions),
     );
   }
   const itemIndent = data.details.header
@@ -116,7 +110,7 @@ const generateResultItemContent = async (item, doc, results, config) => {
         doc,
         item.headerType || 'H3',
         config,
-        `${item.header} (${item.headerType || 'h3'})`,
+        item.header,
         headingOptions,
       ),
     );
@@ -160,13 +154,7 @@ const generateResultsContent = async (doc, parent, data, config) => {
   if (data.results.header) {
     const headingOptions = { x: config.margins.left, paragraphGap: 12 };
     results.add(
-      createHeading(
-        doc,
-        'H2',
-        config,
-        `${data.results.header} (h2)`,
-        headingOptions,
-      ),
+      createHeading(doc, 'H2', config, data.results.header, headingOptions),
     );
   }
 
