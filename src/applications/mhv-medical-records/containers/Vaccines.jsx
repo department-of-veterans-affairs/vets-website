@@ -30,7 +30,6 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   getLastUpdatedText,
   formatNameFirstLast,
   sendDataDogAction,
@@ -131,8 +130,7 @@ const Vaccines = props => {
 ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
-Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n`;
+Location: ${item.location}\n`;
   };
 
   const generateVaccinesTxt = async () => {
@@ -142,8 +140,7 @@ Vaccines\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
-For complete records of your allergies and reactions to vaccines, review your allergy records.\n
+This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
 Showing ${vaccines.length} records from newest to oldest
 ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
