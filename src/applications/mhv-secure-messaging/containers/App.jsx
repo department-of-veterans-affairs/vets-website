@@ -149,7 +149,7 @@ const App = ({ isPilot }) => {
   if (isPilot && !cernerPilotSmFeatureFlag) {
     if (
       removeLandingPage
-        ? window.location.replace('/my-health/secure-messages/inbox')
+        ? window.location.replace('/my-health/secure-messages-pilot/inbox')
         : window.location.replace(manifest.rootUrl)
     );
     return <></>;
