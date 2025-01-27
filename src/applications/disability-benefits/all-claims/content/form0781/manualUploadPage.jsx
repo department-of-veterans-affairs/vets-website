@@ -6,7 +6,7 @@ export const manualUploadPageTitle = (
 
 export const manualUploadPageDescription = (
   <>
-    <div className="vads-u-font-size--h4">Upload VA Form 21-0781</div>
+    <h4 className="vads-u-font-size--h4">How to upload a file</h4>
     <p>
       If your file isn’t already saved on the device you’re using to submit this
       application, you’ll need to scan your file. Then you can upload it on this
