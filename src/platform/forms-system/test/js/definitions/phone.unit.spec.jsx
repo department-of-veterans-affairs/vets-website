@@ -39,17 +39,24 @@ describe('Schemaform definition phone', () => {
 
     expect(formDOM.querySelector('label').textContent).to.equal('My phone');
   });
-  it('should render minLength phone error', () => {
-    const { container } = render(
+  it('should render minLength phone error', async () => {
+    const form = render(
       <DefinitionTester schema={definitions.phone} uiSchema={uiSchema()} />,
     );
 
-    const input = container.querySelector('input');
+    const input = form.container.querySelector('input');
     fireEvent.change(input, { target: { value: '1asdf' } });
 
-    waitFor(() => {
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
+    fireEvent(submitButton, mouseClick);
+
+    await waitFor(() => {
       screen.getByText(
-        '/Please enter a 10-digit phone number (with or without dashes)/',
+        'Please enter a 10-digit phone number (with or without dashes)',
       );
     });
   });

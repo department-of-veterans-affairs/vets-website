@@ -33,7 +33,7 @@ describe('Schemaform definition dateRange', () => {
     expect(form.container.querySelectorAll('input').length).to.equal(2);
     expect(form.container.querySelectorAll('select').length).to.equal(4);
   });
-  it('should render invalid dateRange error', () => {
+  it('should render invalid dateRange error', async () => {
     const dateRangeUISchema = uiSchema();
     const form = render(
       <DefinitionTester
@@ -43,11 +43,18 @@ describe('Schemaform definition dateRange', () => {
       />,
     );
 
-    fillDate(form, 'from', 4, 4, 2000);
+    fillDate(form, 'to', 4, 4, 2000);
 
-    fillDate(form, 'to', 4, 4, 2001);
+    fillDate(form, 'from', 4, 4, 2001);
 
-    waitFor(() => {
+    await waitFor(() => {
+      const submitButton = form.getByRole('button', { name: 'Submit' });
+      const mouseClick = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      fireEvent(submitButton, mouseClick);
+
       const errorMessage = `Error ${
         dateRangeUISchema['ui:errorMessages'].pattern
       }`;

@@ -73,11 +73,11 @@ describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
     // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
-      oldLocation = document.location.href;
-      global.dom.reconfigure({ url: 'https://www.va.gov' });
+      oldLocation = document.location;
+      global.window.location.href = 'https://www.va.gov';
     });
     afterEach(() => {
-      global.dom.reconfigure({ url: oldLocation });
+      global.window.location = oldLocation;
     });
     it('should map profile', () => {
       const data = createDefaultData();

@@ -27,7 +27,7 @@ describe('Edu personId', () => {
     expect(inputs.length).to.equal(2);
   });
 
-  it('should conditionally require SSN or file number', () => {
+  it('should conditionally require SSN or file number', async () => {
     const form = render(
       <DefinitionTester
         formData={{}}
@@ -41,7 +41,7 @@ describe('Edu personId', () => {
 
     fireEvent(submitButton, mouseClick);
 
-    waitFor(() => {
+    await waitFor(() => {
       const ssnError = form.container.querySelector(
         '.usa-input-error #root_veteranSocialSecurityNumber',
       );
@@ -56,9 +56,9 @@ describe('Edu personId', () => {
 
     fireEvent.change(checkbox, { target: { checked: true } });
 
-    waitFor(() => {
+    await waitFor(() => {
       const rootVetSSn = form.container.querySelector(
-        '#.usa-input-error #root_veteranSocialSecurityNumber',
+        '.usa-input-error #root_veteranSocialSecurityNumber',
       );
       expect(rootVetSSn).to.be.null;
       const rootVaFileNumber = form.container.querySelector(
@@ -67,7 +67,7 @@ describe('Edu personId', () => {
       expect(rootVaFileNumber).not.to.be.null;
     });
   });
-  it('should submit with no errors when required field is filled', () => {
+  it('should submit with no errors when required field is filled', async () => {
     const onSubmit = sinon.spy();
     const form = render(
       <DefinitionTester
@@ -81,19 +81,13 @@ describe('Edu personId', () => {
 
     const submitButton = form.getByRole('button', { name: 'Submit' });
 
-    fireEvent(submitButton, mouseClick);
-
-    waitFor(() => {
-      const errors = form.container.querySelectorAll('.usa-input-error');
-      expect(Array.from(errors)).not.to.be.empty;
-    });
-
     const ssnInput = form.container.querySelector(
       '#root_veteranSocialSecurityNumber',
     );
     fireEvent.change(ssnInput, { target: { value: '123456789' } });
+    fireEvent(submitButton, mouseClick);
 
-    waitFor(() => {
+    await waitFor(() => {
       const errors = form.container.querySelectorAll('.usa-input-error');
       expect(Array.from(errors)).to.be.empty;
     });

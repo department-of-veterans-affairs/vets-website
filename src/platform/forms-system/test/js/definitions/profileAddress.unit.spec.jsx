@@ -171,7 +171,7 @@ describe('Schemaform definition address', () => {
     expect(country.value).to.equal('CAN');
   });
 
-  it('should require state for non-required addresses with other info', () => {
+  it('should require state for non-required addresses with other info', async () => {
     const { container } = render(
       <DefinitionTester
         schema={getAddressSchema()}
@@ -191,7 +191,7 @@ describe('Schemaform definition address', () => {
     fireEvent.change(city, { target: { value: 'Northampton' } });
     fireEvent.change(postalCode, { target: { value: '12345' } });
     fireEvent(submit, mouseClick);
-    waitFor(() => {
+    await waitFor(() => {
       const errors = $$('[role="alert"]');
       expect(errors.length).to.equal(1);
       expect(errors[0].textContent).to.include('State, Province, or Region');
