@@ -1,10 +1,11 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import FolderLoadPage from './pages/FolderLoadPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
-describe('SM main page', () => {
+describe('SM MAIN PAGE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
@@ -65,7 +66,7 @@ describe('SM main page', () => {
   });
 });
 
-describe('SM main page without API calls', () => {
+describe('SM MAIN PAGE WITHOUT API CALLS', () => {
   it('validate Inbox and New Message links exists in the page', () => {
     SecureMessagingSite.login();
     cy.intercept(
@@ -80,5 +81,18 @@ describe('SM main page without API calls', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
+  });
+
+  describe('SM MAIN PAGE REDIRECTING', () => {
+    it('verify redirecting to inbox wit feature flag', () => {
+      const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+        'mhv_secure_messaging_remove_landing_page',
+        true,
+      );
+      SecureMessagingSite.login(updatedFeatureToggle);
+      SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
+
+      cy.url().should(`include`, `/secure-messages/inbox`);
+    });
   });
 });
