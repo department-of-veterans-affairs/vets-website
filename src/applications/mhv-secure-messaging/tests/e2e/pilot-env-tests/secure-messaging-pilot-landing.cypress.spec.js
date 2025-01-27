@@ -63,5 +63,6 @@ describe('SM PILOT FEATURE FLAG', () => {
       updatedFeatureToggle,
       Paths.UI_PILOT,
     );
+    cy.url().should(`include`, `/secure-messages-pilot/inbox`);
   });
 });
