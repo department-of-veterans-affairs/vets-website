@@ -180,8 +180,8 @@ describe('ProofOfVeteranStatusNew', () => {
           attributes: {
             veteranStatus: 'not confirmed',
             notConfirmedReason: 'PERSON_NOT_FOUND',
-            message: problematicEligibility.message,
           },
+          message: problematicEligibility.message,
         },
       };
 

@@ -183,7 +183,7 @@ const ProofOfVeteranStatusNew = ({
       })
     : null;
 
-  const contactInfoElements = data?.attributes?.message?.map(item => {
+  const contactInfoElements = data?.message?.map(item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
       0,
       3,
@@ -345,7 +345,7 @@ const ProofOfVeteranStatusNew = ({
 
                 {isVetStatusEligibilityPopulated &&
                 data?.attributes?.veteranStatus !== 'confirmed' &&
-                data?.attributes?.message.length > 0 ? (
+                data?.message?.length > 0 ? (
                   <>
                     <div>
                       <va-alert
