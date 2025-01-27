@@ -41,6 +41,11 @@ export const fetchDrupalDigitalForms = () =>
 export const mockFetchForms = async () =>
   new Promise(r => setTimeout(r, 200, mockForms));
 
+export const filterForms = (forms, onlyPublished) =>
+  onlyPublished
+    ? forms.filter(form => form.moderationState === 'published')
+    : forms;
+
 export const findFormByFormId = (forms, formId) => {
   const form = forms.find(f => f.formId === formId);
 
