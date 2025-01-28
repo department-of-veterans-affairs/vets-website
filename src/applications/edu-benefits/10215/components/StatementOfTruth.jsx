@@ -3,36 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 import FormSignature from './FormSignature';
 import FormSignatureCheckbox from './FormSignatureCheckbox';
-/**
- * Checks that the provided signature string matches the existing
- * applicantName in the formData.
- *
- * @param {string} signatureName string we want to check
- * @param {object} formData standard formData object
- * @returns Either a string representing an error, or undefined (representing a match)
- */
-// export function signatureValidator(signatureName, formData) {
-//   const firstName = formData?.veteranFullName.first || '';
-//   const middle = formData?.veteranFullName.middle || '';
-//   const lastName = formData?.veteranFullName.last || '';
-//   const fullName = `${firstName} ${middle} ${lastName}`;
-//   const name =
-//     Object.values(fullName)
-//       .filter(el => el)
-//       .join('')
-//       .toLowerCase() || '';
-
-//   const processedSignatureName = signatureName
-//     .replaceAll(' ', '')
-//     .toLowerCase();
-//   const processedName = name.replaceAll(' ', '');
-//   if (processedSignatureName !== processedName) {
-//     return `Please enter your full name exactly as entered on the form: ${capitalizeFirstLetter(
-//       name,
-//     )}`;
-//   }
-//   return undefined;
-// }
 
 export default function StatementOfTruth(signatureProps) {
   // Input states

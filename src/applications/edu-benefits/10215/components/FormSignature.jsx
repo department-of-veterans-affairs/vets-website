@@ -5,26 +5,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-/**
- * The text input and checkbox which make up the form signature. It's
- * recommended to use the Attestation component instead of FormSignature
- * directly, as that one also includes the gray box and handles the
- * aria-labelledby appropriately.
- *
- * Example usage in formConfig:
- * preSubmitInfo: {
- *   CustomComponent: (signatureProps) => (
- *     <section className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
- *       <h3>Statement of truth</h3>
- *       <p>I solemnly swear I am up to no good.</p>
- *       <FormSignature
- *         {...signatureProps}
- *         signatureLabel="Secret code name"
- *       />
- *     <section/>
- *   ),
- * }
- */
 export const FormSignature = ({
   signature,
   setSignature,
@@ -39,7 +19,6 @@ export const FormSignature = ({
   validations,
   requiredErrorMessage,
 }) => {
-  // Signature input validation
   useEffect(
     () => {
       // Required validation always comes first
