@@ -11,6 +11,7 @@ import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import StatementOfTruth from '../components/StatementOfTruth';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -53,6 +54,10 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   customText: {
     submitButtonText: 'Continue',
   },
