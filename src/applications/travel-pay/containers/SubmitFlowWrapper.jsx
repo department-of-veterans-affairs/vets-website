@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -21,12 +22,45 @@ import BreadCrumbs from '../components/Breadcrumbs';
 
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
-import { appointment1 } from '../services/mocks/appointments';
+import { getAppointmentData } from '../redux/actions';
 
 const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
-  // TODO: Placeholders until backend integration is complete
-  // API call based on the URL Params, but for now is hard coded
-  const appointment = appointment1;
+  const dispatch = useDispatch();
+  const { apptId } = useParams();
+
+  const {
+    hasFetchedAppointment,
+    isLoadingAppointment,
+    appointmentData,
+    appointmentError,
+  } = useSelector(state => state.travelPay);
+
+  const profileLoading = useSelector(state => isProfileLoading(state));
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const toggleIsLoading = useToggleLoadingValue();
+  const canSubmitMileage = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  useEffect(
+    () => {
+      if (userLoggedIn && !hasFetchedAppointment) {
+        dispatch(getAppointmentData(apptId));
+      }
+    },
+    [dispatch, userLoggedIn, hasFetchedAppointment],
+  );
+
+  const appIsAvailable =
+    !toggleIsLoading && canSubmitMileage && appointmentData;
+
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
@@ -65,7 +99,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'intro',
       component: (
         <IntroductionPage
-          appointment={appointment}
+          appointment={appointmentData}
           onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
@@ -77,7 +111,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'mileage',
       component: (
         <MileagePage
-          appointment={appointment}
+          appointment={appointmentData}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
@@ -121,21 +155,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
   ];
 
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const toggleIsLoading = useToggleLoadingValue();
-  const canSubmitMileage = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
-
-  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
+  if (profileLoading || toggleIsLoading || isLoadingAppointment) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -150,6 +170,18 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   if (!canSubmitMileage) {
     window.location.replace('/');
     return null;
+  }
+
+  if (appointmentError) {
+    return (
+      <div>
+        <p>
+          Oops.... something went wrong and we can’t get your appointment
+          details.
+        </p>
+        <p>{appointmentError.message}</p>
+      </div>
+    );
   }
 
   return (
@@ -167,6 +199,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
           {isSubmissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
             !isSubmissionError &&
+            appIsAvailable &&
             pageList[pageIndex].component}
         </div>
       </article>

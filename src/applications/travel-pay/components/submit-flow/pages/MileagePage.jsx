@@ -23,9 +23,7 @@ const MileagePage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.vaos.apiData.start,
-  );
+  const [formattedDate, formattedTime] = formatDateTime(appointment.start);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -68,10 +66,10 @@ const MileagePage = ({
             {' '}
             <strong>
               {formattedDate} {formattedTime} at{' '}
-              {appointment.vaos.apiData.location.attributes.name}
+              {appointment.location.attributes.name}
             </strong>
           </p>
-          <p>{appointment.vaos.apiData.reasonForAppointment}</p>
+          <p>{appointment.reasonForAppointment}</p>
           <hr className="vads-u-margin-y--0" />
         </div>
         <va-radio-option

@@ -5,8 +5,8 @@ import { HelpTextManage } from '../../HelpText';
 import { formatDateTime, getDaysLeft } from '../../../util/dates';
 
 const IntroductionPage = ({ appointment, onStart }) => {
-  const [formattedDate] = formatDateTime(appointment.vaos.apiData.start);
-  const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
+  const [formattedDate] = formatDateTime(appointment.start);
+  const daysLeft = getDaysLeft(appointment.start);
 
   return (
     <div>
@@ -16,7 +16,7 @@ const IntroductionPage = ({ appointment, onStart }) => {
         <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
         to file for your appointment on{' '}
         <strong>
-          {formattedDate} at {appointment.vaos.apiData.location.attributes.name}
+          {formattedDate} at {appointment.location.attributes.name}
         </strong>
         .
       </p>
