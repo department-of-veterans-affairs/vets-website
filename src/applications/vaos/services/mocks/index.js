@@ -381,6 +381,16 @@ const responses = {
       data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
     });
   },
+  'POST /vaos/v2/epsApi/appointments/:referralId': (req, res) => {
+    const { referralId } = req.params;
+    const { slotId, draftApppointmentId } = req.body;
+
+    if (!referralId || !slotId || !draftApppointmentId) {
+      return res.status(400).json({ error: true });
+    }
+
+    return res.status(201);
+  },
   // Required v0 APIs
   'GET /v0/user': {
     data: {
