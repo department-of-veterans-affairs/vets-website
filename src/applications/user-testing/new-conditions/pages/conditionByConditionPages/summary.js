@@ -16,9 +16,8 @@ const summaryPage = {
     'view:hasConditions': arrayBuilderYesNoUI(
       arrayBuilderOptions,
       {},
-      // TODO: Is this the best way to handle hiding the hint?
       {
-        hint: ' ', // Because there is maxItems: 100 if this empty string is not present the hint will count down from 100 which is a confusing user experience
+        hint: null, // Because there is maxItems: 100 if this empty string is not present the hint will count down from 100 which is a confusing user experience
       },
     ),
   },
