@@ -46,10 +46,9 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims, error } = useSelector(
+  const { isLoading, travelClaims, hasFetchedClaims, error } = useSelector(
     state => state.travelPay,
   );
-  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -183,7 +182,6 @@ export default function App({ children }) {
         travelClaims.length === 0
       ) {
         dispatch(getTravelClaims());
-        setHasFetchedClaims(true);
       }
     },
     [
