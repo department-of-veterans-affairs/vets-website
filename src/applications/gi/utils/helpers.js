@@ -648,68 +648,46 @@ export const mappedStates = Object.entries(ADDRESS_DATA.states)
     return true;
   });
 
-export const updateDropdowns = (
-  category = 'all',
-  location = 'all',
-  multiples = [],
-) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'License', optionLabel: 'License' },
-        {
-          optionValue: 'Certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'Prep Course',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
+export const updateCategoryDropdown = (category = 'all') => {
+  return {
+    label: 'category',
+    options: [
+      { optionValue: 'all', optionLabel: 'All' },
+      { optionValue: 'License', optionLabel: 'License' },
+      {
+        optionValue: 'Certification',
+        optionLabel: 'Certification',
+      },
+      {
+        optionValue: 'Prep Course',
+        optionLabel: 'Prep Course',
+      },
+    ],
+    alt: 'category type',
+    current: {
+      optionValue: category,
+      optionLabel: capitalizeFirstLetter(category),
     },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
+  };
+};
+
+export const updateStateDropdown = multiples => {
+  return {
+    label: 'state',
+    options:
+      multiples.length === 0
+        ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+        : [
+            { optionValue: 'all', optionLabel: 'All' },
+            ...mappedStates.filter(mappedState =>
+              multiples.find(
+                multiple => multiple.state === mappedState.optionValue,
               ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
-
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
-      };
-    }
-
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
-    }
-
-    return dropdown;
-  });
+            ),
+          ],
+    alt: 'state',
+    current: { optionValue: 'all', optionLabel: 'All' },
+  };
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
@@ -723,22 +701,6 @@ export const categoryCheck = type => {
     return true;
   }
   if (type === 'Prep Course') return true;
-
-  return false;
-};
-
-export const checkAlert = (type, multiples, currentLocation, newLocation) => {
-  if (multiples.length > 1 && type !== 'Certification') {
-    return true;
-  }
-
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'Certification' && currentLocation !== 'all') {
-    return true;
-  }
 
   return false;
 };
