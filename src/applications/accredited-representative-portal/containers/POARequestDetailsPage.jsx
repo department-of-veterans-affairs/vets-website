@@ -115,19 +115,17 @@ const POARequestDetailsPage = () => {
     poaRequest.resolution?.type ||
     'Pending';
 
-  const relationship = poaRequest?.power_of_attorney_form.claimant.relationship;
-  const city = poaRequest?.power_of_attorney_form.claimant.address.city;
-  const state = poaRequest?.power_of_attorney_form.claimant.address.state_code;
-  const zipCode = poaRequest?.power_of_attorney_form.claimant.address.zip_code;
-  const phone = poaRequest?.power_of_attorney_form.claimant.phone;
-  const email = poaRequest.power_of_attorney_form.claimant.emaill;
-  const claimantFirstName =
-    poaRequest?.power_of_attorney_form.claimant.name.first;
-  const claimantLastName =
-    poaRequest?.power_of_attorney_form.claimant.name.last;
-  const recordDisclosureLimitations =
-    poaRequest.power_of_attorney_form.authorizations
-      .record_disclosure_limitations;
+  const relationship = poaRequest?.powerOfAttorneyForm.claimant.relationship;
+  const city = poaRequest?.powerOfAttorneyForm.claimant.address.city;
+  const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
+  const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
+  const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
+  const email = poaRequest.powerOfAttorneyForm.claimant.emaill;
+  const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
+  const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
+  const {
+    recordDisclosureLimitations,
+  } = poaRequest.powerOfAttorneyForm.authorizations;
   return (
     <section className="poa-request-details">
       <h1 data-testid="poa-request-details-header">POA request</h1>
@@ -146,14 +144,14 @@ const POARequestDetailsPage = () => {
             Requesting representation through
           </p>
           <p className="poa-request-details__subtitle">
-            {poaRequest?.power_of_attorney_holder?.name}
+            {poaRequest?.powerOfAttorneyHolder?.name}
           </p>
         </li>
         <li className="poa-request-details__list-item">
-          {poaRequest?.created_at && (
+          {poaRequest?.createdAt && (
             <>
               <p className="poa-request-details__title">Request submitted on</p>
-              {resolutionDate(poaRequest?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest?.createdAt, poaStatus.id)}
             </>
           )}
         </li>
@@ -163,7 +161,7 @@ const POARequestDetailsPage = () => {
               <p className="poa-request-details__title">
                 POA request declined on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
           {poaStatus === 'acceptance' && (
@@ -175,7 +173,7 @@ const POARequestDetailsPage = () => {
                 />{' '}
                 POA request accepted on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
           {poaStatus === 'expiration' && (
@@ -187,13 +185,13 @@ const POARequestDetailsPage = () => {
                 />{' '}
                 POA request expired on
               </p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
           {poaStatus === 'Pending' && (
             <>
               <p className="poa-request-details__title">
-                {expiresSoon(poaRequest.expires_at) && (
+                {expiresSoon(poaRequest.expiresAt) && (
                   <va-icon
                     class="poa-request__card-icon"
                     icon="warning"
@@ -204,7 +202,7 @@ const POARequestDetailsPage = () => {
                 )}
                 POA request expires on
               </p>
-              {resolutionDate(poaRequest?.expires_at, poaStatus.id)}
+              {resolutionDate(poaRequest?.expiresAt, poaStatus.id)}
             </>
           )}
         </li>
@@ -241,12 +239,12 @@ const POARequestDetailsPage = () => {
             <>
               <tr>
                 <th scope="row">Social security number</th>
-                <td>{poaRequest?.power_of_attorney_form?.claimant?.ssn}</td>
+                <td>{poaRequest?.powerOfAttorneyForm?.claimant?.ssn}</td>
               </tr>
               <tr>
                 <th scope="row">VA file number</th>
                 <td>
-                  {poaRequest?.power_of_attorney_form?.claimant?.va_file_number}
+                  {poaRequest?.powerOfAttorneyForm?.claimant?.va_file_number}
                 </td>
               </tr>
             </>
@@ -255,25 +253,25 @@ const POARequestDetailsPage = () => {
 
         {/* if there is a claimant that is a relative/friend to the veteran, their information will populate in the previous table under claimant,
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
-        {poaRequest.power_of_attorney_form.veteran && (
+        {poaRequest.powerOfAttorneyForm.veteran && (
           <>
             <h2>Veteran information</h2>
             <table className="poa-request-details__table">
               <tr>
                 <th scope="row">Name</th>
                 <td>
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.last},{' '}
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.first}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.last},{' '}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.first}
                 </td>
               </tr>
               <tr>
                 <th scope="row">Social security number</th>
-                <td>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</td>
+                <td>{poaRequest?.powerOfAttorneyForm?.veteran?.ssn}</td>
               </tr>
               <tr>
                 <th scope="row">VA file number</th>
                 <td>
-                  {poaRequest?.power_of_attorney_form?.veteran?.va_file_number}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.vaFileNumber}
                 </td>
               </tr>
             </table>
@@ -286,8 +284,7 @@ const POARequestDetailsPage = () => {
             <th scope="row">Change of address</th>
             <td>
               {checkAuthorizations(
-                poaRequest?.power_of_attorney_form.authorizations
-                  .address_change,
+                poaRequest?.powerOfAttorneyForm.authorizations.address_change,
               )}
             </td>
           </tr>

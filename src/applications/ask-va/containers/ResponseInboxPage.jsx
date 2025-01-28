@@ -18,6 +18,7 @@ import FileUpload from '../components/FileUpload';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import {
   convertDateForInquirySubheader,
+  DownloadLink,
   formatDate,
   getFiles,
   getVAStatusFromCRM,
@@ -143,46 +144,6 @@ const ResponseInboxPage = ({ router }) => {
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
-
-  // const handleFileUpload = event => {
-  //   const errors = [];
-  //   const fileEntries = event.detail;
-
-  //   fileEntries.forEach(fileEntry => {
-  //     if (fileEntry) {
-  //       let fileError;
-
-  //       if (fileEntry.size > 25 * 1024 * 1024) {
-  //         fileError = `File is ${
-  //           fileEntry.size
-  //         } MB. Please include files less than 25 MB`;
-  //       }
-
-  //       if (fileError) errors.push(fileError);
-  //     }
-  //   });
-  //   console.log(errors);
-
-  //   setFileUploadError(errors);
-  //   console.log(event.detail);
-  //   const reader = new FileReader();
-  //   reader.onload = e => {
-  //     setSendReply({
-  //       ...sendReply,
-  //       attachments: [
-  //         ...sendReply.attachments,
-  //         {
-  //           name: file.name,
-  //           file: e.target.result.split(',')[1],
-  //         },
-  //       ],
-  //     });
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // { 'reply' => 'this is my reply', 'files' => [{ 'file_name' => nil, 'file_content' => nil }] }
-  // reference submit tranformer
 
   useEffect(
     () => {
@@ -391,30 +352,30 @@ const ResponseInboxPage = ({ router }) => {
                     {correspondence.attributes.attachments &&
                       correspondence.attributes.attachments.length > 0 &&
                       correspondence.attributes.attachments.map(
-                        (attachment, index, array) => (
-                          <div
-                            key={attachment.id}
-                            className={`vads-u-margin-bottom--2 ${
-                              index === array.length - 1
-                                ? 'vads-u-margin-bottom--0'
-                                : ''
-                            }`}
-                          >
-                            <va-link
-                              href={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                attachment.id
+                        (file, index, array) => {
+                          return (
+                            <div
+                              key={file.id}
+                              className={`vads-u-margin-bottom--2 ${
+                                index === array.length - 1
+                                  ? 'vads-u-margin-bottom--0'
+                                  : ''
                               }`}
-                              text={`${attachment.name}
-                          ${
-                            attachment.fileSize
-                              ? `(${attachment.fileSize} kb)`
-                              : ''
-                          }`}
-                              icon-name="attach_file"
-                              icon-size={3}
-                            />
-                          </div>
-                        ),
+                            >
+                              <va-icon
+                                icon="attach_file"
+                                size={3}
+                                className="vads-u-margin--right-1p5"
+                              />
+                              <DownloadLink
+                                fileUrl={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
+                                  file.id
+                                }`}
+                                fileName={file.name}
+                              />
+                            </div>
+                          );
+                        },
                       )}
                   </div>
                 </va-accordion-item>
@@ -442,20 +403,6 @@ const ResponseInboxPage = ({ router }) => {
                   value={sendReply.reply}
                   required
                 />
-                {/* <VaFileInputMultiple
-              accept={null}
-              className=""
-              label="Select optional files to upload"
-              hint="You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size"
-              name="my-file-input-multiple"
-              onVaMultipleChange={handleFileUpload}
-              error={fileUploadError}
-              errors={fileUploadError}
-              value={null}
-            />
-            {fileUploadError.length > 0 && (
-              <VaAlert status="error">{fileUploadError}</VaAlert>
-            )} */}
 
                 {inquiryData.attributes?.allowAttachments && <FileUpload />}
 
