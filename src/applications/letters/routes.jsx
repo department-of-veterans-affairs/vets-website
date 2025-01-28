@@ -9,7 +9,7 @@ import LetterList from './containers/LetterList';
 import Main from './containers/Main';
 import { LetterPage } from './containers/LetterPage';
 
-const letterPageFeatureFlagHandler = (
+const letterPageFeatureFlagWrapper = (
   <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
     {toggleValue =>
       toggleValue ? <LetterPage /> : <Navigate to="confirm-address" replace />
@@ -20,7 +20,7 @@ const letterPageFeatureFlagHandler = (
 const routes = (
   <Routes>
     <Route path="/" element={<App />}>
-      <Route index element={letterPageFeatureFlagHandler} />
+      <Route index element={letterPageFeatureFlagWrapper} />
       <Route element={<DownloadLetters />}>
         <Route element={<AddressSection />} path="confirm-address" />
         <Route element={<Main />}>
