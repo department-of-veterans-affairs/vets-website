@@ -1,9 +1,8 @@
 import maxTestData from './fixtures/data/maximal-test.json';
 import mockFeatures from './fixtures/mocks/feature-toggles.insurance.json';
 import {
-  fillTextWebComponent,
+  fillInsuranceInformation,
   goToNextPage,
-  selectYesNoWebComponent,
   setupForAuth,
   startAsAuthUser,
 } from './utils';
@@ -35,24 +34,6 @@ describe('HCA-Health-Insurance-Information', () => {
     goToNextPage('/insurance-information/your-health-insurance');
     goToNextPage('/insurance-information/health-insurance');
   };
-  const fillInsuranceInformation = policy => {
-    const {
-      insuranceName,
-      insurancePolicyHolderName,
-      insurancePolicyNumber,
-    } = policy;
-
-    fillTextWebComponent('insuranceName', insuranceName);
-    fillTextWebComponent(
-      'insurancePolicyHolderName',
-      insurancePolicyHolderName,
-    );
-    fillTextWebComponent(
-      'view:policyNumberOrGroupCode_insurancePolicyNumber',
-      insurancePolicyNumber,
-    );
-    cy.injectAxeThenAxeCheck();
-  };
 
   beforeEach(() => {
     setupForAuth({ features: mockFeatures });
@@ -60,13 +41,13 @@ describe('HCA-Health-Insurance-Information', () => {
   });
 
   it('should successfully advance to facility selection when user does not have health insurance coverage', () => {
-    selectYesNoWebComponent('view:hasHealthInsuranceToAdd', false);
+    cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', false);
     goToNextPage('/insurance-information/va-facility');
     cy.injectAxeThenAxeCheck();
   });
 
   it('should successfully fill the policy information when user has health insurance coverage', () => {
-    selectYesNoWebComponent('view:hasHealthInsuranceToAdd', true);
+    cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', true);
 
     goToNextPage(
       '/insurance-information/health-insurance/0/policy-information',
@@ -74,7 +55,7 @@ describe('HCA-Health-Insurance-Information', () => {
     fillInsuranceInformation(testData.providers[0]);
 
     goToNextPage('/insurance-information/health-insurance');
-    selectYesNoWebComponent('view:hasHealthInsuranceToAdd', false);
+    cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', false);
 
     goToNextPage('/insurance-information/va-facility');
     cy.injectAxeThenAxeCheck();
