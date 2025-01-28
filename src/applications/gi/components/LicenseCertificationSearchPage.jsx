@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import LicenseCertificationSearchForm from '../containers/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 
@@ -75,11 +74,6 @@ const faqs = [
 export default function LicenseCertificationSearchPage({ flag }) {
   const history = useHistory();
   const location = useLocation();
-  const [modal, setModal] = useState({
-    visible: false,
-    changedfield: '',
-    message: '',
-  });
 
   useEffect(() => {
     window.scrollTo(0, 0); // create function for reuse
@@ -102,32 +96,13 @@ export default function LicenseCertificationSearchPage({ flag }) {
   const handleUpdateQueryParam = () => updateQueryParam(history, location); // refactor this function
 
   const handleSearch = (category, name, state) => {
-    handleUpdateQueryParam()([
-      ['state', state],
-      ['category', category],
-      ['name', name],
-    ]);
+    handleUpdateQueryParam()([['category', category], ['name', name]]);
     handleLcResultsSearch(history, category, name, state);
   };
 
   const handleReset = callback => {
     history.replace('/lc-search');
     callback?.();
-  };
-
-  const handleShowModal = (changedField, message, callback) => {
-    return setModal({
-      visible: true,
-      changedField,
-      message,
-      callback,
-    });
-  };
-
-  const toggleModal = () => {
-    setModal(current => {
-      return { ...current, visible: false };
-    });
   };
 
   return (
@@ -154,8 +129,6 @@ export default function LicenseCertificationSearchPage({ flag }) {
         <div className="lc-form-wrapper row">
           <LicenseCertificationSearchForm
             handleSearch={handleSearch}
-            handleUpdateQueryParam={handleUpdateQueryParam}
-            handleShowModal={handleShowModal}
             location={location}
             handleReset={handleReset}
             flag={flag}
@@ -179,26 +152,6 @@ export default function LicenseCertificationSearchPage({ flag }) {
             })}
           </va-accordion>
         </div>
-        <VaModal
-          forcedModal={false}
-          clickToClose
-          disableAnalytics
-          large
-          modalTitle={`Are you sure you want to change the ${
-            modal.changedField
-          } field?`}
-          onCloseEvent={toggleModal}
-          onPrimaryButtonClick={() => {
-            modal.callback();
-            toggleModal();
-          }}
-          primaryButtonText="Continue to change"
-          onSecondaryButtonClick={toggleModal}
-          secondaryButtonText="Go Back"
-          visible={modal.visible}
-        >
-          <p>{modal.message}</p>
-        </VaModal>
       </section>
     </div>
   );
