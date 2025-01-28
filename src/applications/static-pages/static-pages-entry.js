@@ -7,6 +7,7 @@ import 'platform/polyfills';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import widgetTypes from 'platform/site-wide/widgetTypes';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
@@ -130,6 +131,7 @@ alertsBuildShow();
 // & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
 icsCreate('#add-to-calendar-link, a.recurring-event');
 openShareLink();
+connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
