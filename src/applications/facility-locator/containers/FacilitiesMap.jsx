@@ -23,6 +23,7 @@ import {
   clearGeocodeError,
 } from '../actions';
 import {
+  facililitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
@@ -444,6 +445,9 @@ const FacilitiesMap = props => {
           suppressPPMS={props.suppressPPMS}
           suppressPharmacies={props.suppressPharmacies}
           clearSearchText={props.clearSearchText}
+          facililitiesUseAddressTypeahead={
+            props.facililitiesUseAddressTypeahead
+          }
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
           <VaAlert
@@ -691,6 +695,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  facililitiesUseAddressTypeahead: facililitiesUseAddressTypeahead(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,

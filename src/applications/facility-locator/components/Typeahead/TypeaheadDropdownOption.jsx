@@ -5,27 +5,24 @@ import classNames from 'classnames';
 export const optionClasses = selected =>
   classNames('dropdown-option', { selected });
 
-// exported for Downshift that uses a string to display and select the item, also used here for the display
-export const toDisplay = item =>
-  typeof item === 'string' ? item : item?.toDisplay || '';
-
 function TypeaheadDropdownOption({
   highlightedIndex,
   index,
   item,
   getItemProps,
+  itemToString,
 }) {
   return (
     <div
       key={`${item.id}-${index}`}
       {...getItemProps({
-        item: item.id,
+        item,
         className: optionClasses(index === highlightedIndex),
         role: 'option',
         'aria-selected': index === highlightedIndex,
       })}
     >
-      {toDisplay(item)}
+      {itemToString(item)}
     </div>
   );
 }
@@ -34,6 +31,7 @@ TypeaheadDropdownOption.propTypes = {
   getItemProps: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
+  itemToString: PropTypes.func.isRequired,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
 };
 

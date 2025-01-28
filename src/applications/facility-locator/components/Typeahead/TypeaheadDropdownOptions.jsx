@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TypeaheadDropdownOption from './TypeaheadDropdownOption';
 
-export { toDisplay } from './TypeaheadDropdownOption';
-
 function TypeaheadDropdownOptions({
   getItemProps,
   highlightedIndex,
   options,
   isShown,
+  itemToString,
 }) {
   if (!isShown || !options.length) {
     return null;
@@ -23,6 +22,7 @@ function TypeaheadDropdownOptions({
           index={index}
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
+          itemToString={itemToString}
         />
       ))}
     </div>
@@ -32,6 +32,7 @@ function TypeaheadDropdownOptions({
 TypeaheadDropdownOptions.propTypes = {
   getItemProps: PropTypes.func.isRequired,
   isShown: PropTypes.bool.isRequired,
+  itemToString: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
 };

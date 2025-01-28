@@ -43,7 +43,6 @@ export const validateForm = (oldState, payload) => {
     ...oldState,
     ...payload,
   };
-
   const needServiceType = newState.facilityType === 'provider';
 
   return {

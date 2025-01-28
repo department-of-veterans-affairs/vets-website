@@ -1,55 +1,57 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import Downshift from 'downshift';
 import PropTypes from 'prop-types';
-import TypeaheadDropdownOptions, {
-  toDisplay,
-} from './TypeaheadDropdownOptions';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
-import InputWithClear from './InputWithClear';
+import { searchAddresses } from '../utils/mapHelpers';
+import Typeahead from './Typeahead';
 
 const MIN_SEARCH_CHARS = 3;
+const onlySpaces = str => /^\s+$/.test(str);
 
 function AddressTypeahead({
   currentQuery,
   geolocateUser,
   inputRef,
   onClearClick,
+  onChange,
 }) {
+  const [inputValue, setInputValue] = useState(null);
   const { locationChanged, searchString, geolocationInProgress } = currentQuery;
   const [, setIsFocused] = useState(false);
-  const [defaultSelectedItem, setDefaultSelectedItem] = useState(searchString);
-  const [touched, setTouched] = useState(false);
-  const [, setSearchTerm] = useState('');
+  const [defaultSelectedItem, setDefaultSelectedItem] = useState(null);
   const [options, setOptions] = useState([]);
-  const [, setSelectedItem] = useState(null);
+  const [showAddressError, setShowAddressError] = useState(false);
 
-  const showAddressError = useMemo(
+  const inputClearClick = useCallback(
     () => {
-      return (
-        touched &&
-        locationChanged &&
-        !geolocationInProgress &&
-        (!searchString || searchString.length === 0)
-      );
+      setInputValue('');
+      // setting to null causes the the searchString to be used, because of a useEffect below
+      // so we set it to a non-existent object
+      setDefaultSelectedItem({ toDisplay: '', id: '' });
+      setOptions([]);
+      onClearClick?.(); // clears searchString in redux
     },
-    [locationChanged, touched, searchString, geolocationInProgress],
+    [onClearClick],
   );
 
-  useEffect(
-    () => {
-      if (!defaultSelectedItem && searchString) {
-        setDefaultSelectedItem(searchString);
-      }
-    },
-    [defaultSelectedItem, searchString],
-  );
+  const inputValueClearOnly = () => {
+    setInputValue('');
+  };
 
   const handleOnSelect = selectedItem => {
-    setSelectedItem(selectedItem);
+    // This selects the WHOLE item not just the text to display giving you access to all it's data
+    if (!selectedItem) {
+      return;
+    }
+    setDefaultSelectedItem(selectedItem);
+    setInputValue(selectedItem.toDisplay);
+    onChange({
+      searchString: onlySpaces(selectedItem.toDisplay)
+        ? selectedItem.toDisplay.trim()
+        : selectedItem.toDisplay,
+    });
   };
 
   /**
@@ -59,11 +61,23 @@ function AddressTypeahead({
    * updateSearch is not called directly but debounced below
    */
   const updateSearch = term => {
-    const trimmedTerm = term.trim();
-    setSearchTerm(trimmedTerm);
+    const trimmedTerm = term?.trim();
+    if (trimmedTerm === searchString?.trim()) {
+      return; // already have the values
+    }
     if (trimmedTerm.length > MIN_SEARCH_CHARS) {
       // fetch results and set options
-      setOptions([]);
+      searchAddresses(trimmedTerm).then(features => {
+        if (!features) {
+          setOptions([]);
+        }
+        setOptions([
+          ...features.map(feature => ({
+            ...feature,
+            toDisplay: feature.place_name || trimmedTerm,
+          })),
+        ]);
+      });
     }
   };
 
@@ -72,80 +86,101 @@ function AddressTypeahead({
     recordEvent({
       event: 'fl-get-geolocation',
     });
+    onChange({ searchString: '' });
     geolocateUser();
   };
 
   const debouncedUpdateSearch = vaDebounce(500, updateSearch);
 
-  return (
-    <Downshift
-      onChange={handleOnSelect}
-      selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
-      defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
-      defaultInputValue={searchString || ''}
-      itemToString={toDisplay}
-      onInputValueChange={term => {
-        setTouched(true);
-        debouncedUpdateSearch(term);
-      }}
-    >
-      {({
-        getInputProps,
-        getItemProps,
-        getLabelProps,
-        getRootProps,
-        isOpen,
-        inputValue,
-        highlightedIndex,
-      }) => (
-        <div id="address-typeahead-container">
-          <div className="w-72 flex flex-col gap-1">
-            <div id="address-typeahead-label-container">
-              <label
-                htmlFor="street-city-state-zip"
-                id="street-city-state-zip-label"
-                {...getLabelProps()}
-              >
-                <span id="city-state-zip-text">City, state or postal code</span>{' '}
-                <span className="form-required-span">(*Required)</span>
-              </label>
-              <UseMyLocation
-                onClick={handleGeolocationButtonClick}
-                geolocationInProgress={currentQuery.geolocationInProgress}
-              />
-            </div>
-            <AddressInputError showError={showAddressError || false} />
-            <div
-              className="flex shadow-sm bg-white gap-0.5"
-              {...getRootProps({}, { suppressRefError: true })}
-            >
-              <InputWithClear
-                {...getInputProps({
-                  onFocus: () => setIsFocused(true),
-                  disabled: false,
-                  onBlur: () => setIsFocused(false),
-                })}
-                onClearClick={onClearClick}
-                ref={inputRef}
-              />
+  const onBlur = e => {
+    // happens when the input is blurred
+    const { value } = e.target;
+    onChange({ searchString: value?.trim() || '' });
+  };
 
-              <TypeaheadDropdownOptions
-                getItemProps={getItemProps}
-                highlightedIndex={highlightedIndex}
-                options={options}
-                isShown={
-                  isOpen && !!inputValue && inputValue.length > MIN_SEARCH_CHARS
-                }
-              />
-            </div>
-          </div>
-        </div>
-      )}
-    </Downshift>
+  const handleInputChange = e => {
+    // This way no Downshift odd input changes when selecting an address from the options
+    const { value } = e.target;
+    setInputValue(value);
+
+    if (!value?.trim()) {
+      onClearClick();
+      return;
+    }
+
+    setShowAddressError(false);
+    debouncedUpdateSearch(value);
+  };
+
+  useEffect(
+    () => {
+      // If the location is changed, and there is no value in searchString or inputValue then show the error
+      setShowAddressError(
+        locationChanged &&
+          !geolocationInProgress &&
+          !searchString?.length &&
+          inputValue === '', // not null but empty string (null on start)
+      );
+    },
+    [locationChanged, geolocationInProgress, searchString, inputValue],
   );
+
+  useEffect(
+    () => {
+      // Sets the inputValue on load to the searchString if there is one
+      if (inputValue === null && searchString) {
+        setInputValue(searchString);
+      }
+    },
+    [searchString, inputValue],
+  );
+
+  /* eslint-disable prettier/prettier */
+  return (
+    <Typeahead
+      inputValue={inputValue || ''}
+      onInputValueChange={handleInputChange}
+      defaultSelectedItem={defaultSelectedItem || null}
+      handleOnSelect={handleOnSelect}
+      label={(
+        <>
+          <span id="city-state-zip-text">City, state or postal code</span>{' '}
+          <span className="form-required-span">(*Required)</span>
+        </>
+      )}
+      options={options}
+      downshiftInputProps={{
+        // none are required
+        id: 'street-city-state-zip', // not required to provide an id
+        onFocus: () => setIsFocused(true), // not required
+        onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
+        disabled: false,
+        autoCorrect: 'off',
+        spellCheck: 'false',
+      }}
+      inputClearClick={inputClearClick}
+      inputValueClearOnly={inputValueClearOnly}
+      inputError={<AddressInputError showError={showAddressError || false} />}
+      showError={showAddressError}
+      inputId="street-city-state-zip"
+      inputRef={inputRef}
+      labelSibling={(
+        <UseMyLocation
+          onClick={handleGeolocationButtonClick}
+          geolocationInProgress={currentQuery.geolocationInProgress}
+        />
+      )}
+      minCharacters={MIN_SEARCH_CHARS}
+      keepDataOnBlur
+      clearOnEscape={false}
+      showDownCaret={false}
+    />
+  );
+  /* eslint-enable prettier/prettier */
 }
 
 AddressTypeahead.propTypes = {
+  onChange: PropTypes.func.isRequired,
   currentQuery: PropTypes.shape({
     geolocationInProgress: PropTypes.bool,
     locationChanged: PropTypes.bool,
@@ -156,15 +191,4 @@ AddressTypeahead.propTypes = {
   onClearClick: PropTypes.func,
 };
 
-const mapDispatch = {};
-
-const mapStateToProps = state => {
-  return {
-    currentQuery: state.searchQuery,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatch,
-)(AddressTypeahead);
+export default AddressTypeahead;
