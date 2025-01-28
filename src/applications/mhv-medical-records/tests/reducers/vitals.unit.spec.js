@@ -201,11 +201,32 @@ describe('getMeasurement', () => {
     expect(measurement).to.equal('72 beats per minute');
   });
 
-  it('should return the correct measurement for a given type when there are multiple codes', () => {
+  it('should return the correct measurement for OH blood pressure', () => {
     const record = ohVitals.entry[4].resource;
     const type = 'BLOOD_PRESSURE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.equal('134/78');
+  });
+
+  it('should return the correct measurement for OH heart rate', () => {
+    const record = ohVitals.entry[2].resource;
+    const type = 'HEART_RATE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('63 beats per minute');
+  });
+
+  it('should return the correct measurement for OH pulse oximetry', () => {
+    const record = ohVitals.entry[0].resource;
+    const type = 'PULSE_OXIMETRY';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('100%');
+  });
+
+  it('should return the correct measurement for OH temperatue', () => {
+    const record = ohVitals.entry[3].resource;
+    const type = 'TEMPERATURE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('36.1 Cel');
   });
 
   it('should return EMPTY_FIELD if the record is empty', () => {
