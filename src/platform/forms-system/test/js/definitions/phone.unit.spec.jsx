@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
@@ -55,7 +55,7 @@ describe('Schemaform definition phone', () => {
     fireEvent(submitButton, mouseClick);
 
     await waitFor(() => {
-      screen.getByText(
+      form.getByText(
         'Please enter a 10-digit phone number (with or without dashes)',
       );
     });
