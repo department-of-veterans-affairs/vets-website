@@ -7,6 +7,8 @@ import {
 import { EMPTY_FIELD } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
+const ohVitals = require('../fixtures/vitalsOh.json');
+
 describe('extractLocation function', () => {
   it('should return the location name when vital.performer[0].extension[0].valueReference.reference is valid', () => {
     const vital = {
@@ -200,10 +202,10 @@ describe('getMeasurement', () => {
   });
 
   it('should return the correct measurement for a given type when there are multiple codes', () => {
-    const record = require('../fixtures/vitalOhBloodPressure.json').resource;
+    const record = ohVitals.entry[4].resource;
     const type = 'BLOOD_PRESSURE';
     const measurement = getMeasurement(record, type);
-    expect(measurement).to.equal('125/79');
+    expect(measurement).to.equal('134/78');
   });
 
   it('should return EMPTY_FIELD if the record is empty', () => {

@@ -1,0 +1,1669 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://api.va.gov/services/fhir/v0/r4/Observation?date=ge2024-07&date=le2024-07&patient=XXXXXXXXXXVXXXXXX&-pageToken=1~81mhhmpkRdWX1wU&category=vital-signs"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-2abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-2abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:23:32.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "therapy",
+                "display": "Therapy"
+              }
+            ],
+            "text": "Therapy"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "3623994",
+              "display": "SpO2"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "2708-6"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "59408-5"
+            }
+          ],
+          "text": "SpO2"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:22:00.000Z",
+        "issued": "2024-07-12T17:23:32.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-98765"
+          }
+        ],
+        "valueQuantity": {
+          "value": 100,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "214"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 95,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "high": {
+              "value": 100,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703540",
+                  "display": "Respiratory Rate",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "9279-1"
+                }
+              ],
+              "text": "Respiratory Rate"
+            },
+            "valueQuantity": {
+              "value": 15,
+              "unit": "br/min",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 12,
+                  "unit": "br/min",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "/min"
+                },
+                "high": {
+                  "value": 20,
+                  "unit": "br/min",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "/min"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703960",
+                  "display": "Oxygen Therapy",
+                  "userSelected": true
+                }
+              ],
+              "text": "Oxygen Therapy"
+            },
+            "dataAbsentReason": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "code": "unknown",
+                  "display": "Unknown"
+                }
+              ],
+              "text": "Unknown"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-3abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-3abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:23:32.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "703306",
+              "display": "Mean Arterial Pressure, Calc"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "76536-2"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8478-0"
+            }
+          ],
+          "text": "Mean Arterial Pressure, Calc"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:22:00.000Z",
+        "issued": "2024-07-12T17:23:32.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-98765"
+          }
+        ],
+        "valueQuantity": {
+          "value": 97,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-4abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-4abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:23:32.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "703511",
+              "display": "Peripheral Pulse Rate"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8893-0"
+            }
+          ],
+          "text": "Peripheral Pulse Rate"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:22:00.000Z",
+        "issued": "2024-07-12T17:23:32.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-98765"
+          }
+        ],
+        "valueQuantity": {
+          "value": 63,
+          "unit": "bpm",
+          "system": "http://unitsofmeasure.org",
+          "code": "/min"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "214"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 60,
+              "unit": "bpm",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "high": {
+              "value": 100,
+              "unit": "bpm",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-5abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-5abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:23:32.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "4157752",
+              "display": "Temperature Temporal Artery"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "75539-7"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8310-5"
+            }
+          ],
+          "text": "Temperature Temporal Artery"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:22:00.000Z",
+        "issued": "2024-07-12T17:23:32.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-98765"
+          }
+        ],
+        "valueQuantity": {
+          "value": 36.1,
+          "unit": "Deg C",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "211",
+                "display": "LOW"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L",
+                "display": "Low"
+              }
+            ],
+            "text": "LOW"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 36.6,
+              "unit": "Deg C",
+              "system": "http://unitsofmeasure.org",
+              "code": "Cel"
+            },
+            "high": {
+              "value": 38,
+              "unit": "Deg C",
+              "system": "http://unitsofmeasure.org",
+              "code": "Cel"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-6abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-6abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:23:32.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85354-9",
+              "display": "Blood pressure panel with all children optional"
+            }
+          ],
+          "text": "Blood pressure"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:22:00.000Z",
+        "issued": "2024-07-12T17:23:32.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-98765"
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703501",
+                  "display": "Systolic Blood Pressure",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "8480-6"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "85354-9"
+                }
+              ],
+              "text": "Systolic Blood Pressure"
+            },
+            "valueQuantity": {
+              "value": 134,
+              "unit": "mmHg",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 90,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "high": {
+                  "value": 160,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703516",
+                  "display": "Diastolic Blood Pressure",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "8462-4"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "85354-9"
+                }
+              ],
+              "text": "Diastolic Blood Pressure"
+            },
+            "valueQuantity": {
+              "value": 78,
+              "unit": "mmHg",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 50,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "high": {
+                  "value": 90,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-7abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-7abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T17:19:44.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs",
+                "userSelected": false
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "22528909",
+              "display": "Heart Rate - Anes"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "89278-6"
+            }
+          ],
+          "text": "Heart Rate - Anes"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T17:15:00.000Z",
+        "issued": "2024-07-12T17:19:35.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-9999"
+          }
+        ],
+        "valueQuantity": {
+          "value": 72,
+          "unit": "bpm",
+          "system": "http://unitsofmeasure.org",
+          "code": "/min"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-8abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-8abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "therapy",
+                "display": "Therapy"
+              }
+            ],
+            "text": "Therapy"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "3623994",
+              "display": "SpO2"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "2708-6"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "59408-5"
+            }
+          ],
+          "text": "SpO2"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "valueQuantity": {
+          "value": 100,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "214"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 95,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "high": {
+              "value": 100,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703960",
+                  "display": "Oxygen Therapy",
+                  "userSelected": true
+                }
+              ],
+              "text": "Oxygen Therapy"
+            },
+            "dataAbsentReason": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "code": "unknown",
+                  "display": "Unknown"
+                }
+              ],
+              "text": "Unknown"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703540",
+                  "display": "Respiratory Rate",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "9279-1"
+                }
+              ],
+              "text": "Respiratory Rate"
+            },
+            "valueQuantity": {
+              "value": 14,
+              "unit": "br/min",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 12,
+                  "unit": "br/min",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "/min"
+                },
+                "high": {
+                  "value": 20,
+                  "unit": "br/min",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "/min"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-9abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-9abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "4154123",
+              "display": "Weight Dosing"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "79348-9"
+            }
+          ],
+          "text": "Weight Dosing"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "valueQuantity": {
+          "value": 103,
+          "unit": "kg",
+          "system": "http://unitsofmeasure.org",
+          "code": "kg"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-10abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-10abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "703306",
+              "display": "Mean Arterial Pressure, Calc"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "76536-2"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8478-0"
+            }
+          ],
+          "text": "Mean Arterial Pressure, Calc"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "valueQuantity": {
+          "value": 88,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-11abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-11abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "703511",
+              "display": "Peripheral Pulse Rate"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8893-0"
+            }
+          ],
+          "text": "Peripheral Pulse Rate"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "valueQuantity": {
+          "value": 68,
+          "unit": "bpm",
+          "system": "http://unitsofmeasure.org",
+          "code": "/min"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "214"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 60,
+              "unit": "bpm",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "high": {
+              "value": 100,
+              "unit": "bpm",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-12abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-12abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+              "code": "4157752",
+              "display": "Temperature Temporal Artery"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "75539-7"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "8310-5"
+            }
+          ],
+          "text": "Temperature Temporal Artery"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "valueQuantity": {
+          "value": 36.7,
+          "unit": "Deg C",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                "code": "214"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 36.6,
+              "unit": "Deg C",
+              "system": "http://unitsofmeasure.org",
+              "code": "Cel"
+            },
+            "high": {
+              "value": 38,
+              "unit": "Deg C",
+              "system": "http://unitsofmeasure.org",
+              "code": "Cel"
+            },
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                  "code": "normal",
+                  "display": "Normal Range"
+                }
+              ],
+              "text": "Normal Range"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://api.va.gov/services/fhir/v0/r4/Observation/1-13abcdef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1-13abcdef",
+        "meta": {
+          "lastUpdated": "2024-07-12T15:18:12.000Z"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85354-9",
+              "display": "Blood pressure panel with all children optional"
+            }
+          ],
+          "text": "Blood pressure"
+        },
+        "subject": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Patient/XXXXXXXXXXVXXXXXX"
+        },
+        "encounter": {
+          "reference": "https://api.va.gov/services/fhir/v0/r4/Encounter/4-123456"
+        },
+        "effectiveDateTime": "2024-07-12T15:16:00.000Z",
+        "issued": "2024-07-12T15:16:00.000Z",
+        "performer": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "LA",
+                      "display": "legal authenticator"
+                    }
+                  ],
+                  "text": "legal authenticator"
+                },
+                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+              }
+            ],
+            "reference": "https://api.va.gov/services/fhir/v0/r4/Practitioner/4-8888"
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703501",
+                  "display": "Systolic Blood Pressure",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "8480-6"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "85354-9"
+                }
+              ],
+              "text": "Systolic Blood Pressure"
+            },
+            "valueQuantity": {
+              "value": 115,
+              "unit": "mmHg",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 90,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "high": {
+                  "value": 160,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72",
+                  "code": "703516",
+                  "display": "Diastolic Blood Pressure",
+                  "userSelected": true
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "8462-4"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "85354-9"
+                }
+              ],
+              "text": "Diastolic Blood Pressure"
+            },
+            "valueQuantity": {
+              "value": 78,
+              "unit": "mmHg",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "interpretation": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/52",
+                    "code": "214",
+                    "userSelected": true
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "code": "N",
+                    "display": "Normal"
+                  }
+                ]
+              }
+            ],
+            "referenceRange": [
+              {
+                "low": {
+                  "value": 50,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "high": {
+                  "value": 90,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                },
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/referencerange-meaning",
+                      "code": "normal",
+                      "display": "Normal Range"
+                    }
+                  ],
+                  "text": "Normal Range"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
+}
