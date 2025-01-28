@@ -71,7 +71,7 @@ const chapters = {
     pages: {
       contactInformation: {
         path: 'contact-information',
-        title: 'Veteran information',
+        title: 'Contact information ',
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
         onNavForward: ({ goPath }) => {

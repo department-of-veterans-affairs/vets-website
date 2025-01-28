@@ -43,7 +43,7 @@ const EditReviewSupplies = props => {
 EditReviewSupplies.propTypes = {
   defaultEditButton: PropTypes.func,
   formData: PropTypes.shape({
-    chosenSupplies: PropTypes.array,
+    chosenSupplies: PropTypes.object,
     supplies: PropTypes.array,
   }),
   title: PropTypes.string,
