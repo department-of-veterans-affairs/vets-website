@@ -13,12 +13,22 @@ export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
 export function fetchRatedDisabilities() {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
-    );
+    try {
+      const response = await getData(
+        '/disability_compensation_form/rated_disabilities',
+      );
 
-    if (response.errors) {
-      const errorCode = response.errors[0].code;
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET rated disabilities',
+        'api-status': 'successful',
+      });
+      dispatch({
+        type: FETCH_RATED_DISABILITIES_SUCCESS,
+        response,
+      });
+    } catch (error) {
+      const errorCode = error.errors[0].code;
       if (isServerError(errorCode)) {
         recordEvent({
           event: `api_call`,
@@ -36,17 +46,7 @@ export function fetchRatedDisabilities() {
       }
       dispatch({
         type: FETCH_RATED_DISABILITIES_FAILED,
-        response,
-      });
-    } else {
-      recordEvent({
-        event: `api_call`,
-        'api-name': 'GET rated disabilities',
-        'api-status': 'successful',
-      });
-      dispatch({
-        type: FETCH_RATED_DISABILITIES_SUCCESS,
-        response,
+        response: error,
       });
     }
   };
@@ -71,13 +71,28 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
     dispatch({
       type: FETCH_TOTAL_RATING_STARTED,
     });
-    const response = await getData('/disability_compensation_form/rating_info');
-    const source = response?.sourceSystem;
-    const sourceString = source ? ` - ${source}` : '';
-    const apiName = `GET disability rating${sourceString}`;
 
-    const error = getResponseError(response);
-    if (error) {
+    try {
+      const response = await getData(
+        '/disability_compensation_form/rating_info',
+      );
+      const source = response?.sourceSystem;
+      const sourceString = source ? ` - ${source}` : '';
+      const apiName = `GET disability rating${sourceString}`;
+      recordAnalyticsEvent({
+        event: `api_call`,
+        'api-name': apiName,
+        'api-status': 'successful',
+      });
+      dispatch({
+        type: FETCH_TOTAL_RATING_SUCCEEDED,
+        response,
+      });
+    } catch (err) {
+      const error = getResponseError(err);
+      const source = error?.sourceSystem;
+      const sourceString = source ? ` - ${source}` : '';
+      const apiName = `GET disability rating${sourceString}`;
       const errorCode = error.code;
       if (isServerError(errorCode)) {
         recordAnalyticsEvent({
@@ -97,16 +112,6 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
       dispatch({
         type: FETCH_TOTAL_RATING_FAILED,
         error,
-      });
-    } else {
-      recordAnalyticsEvent({
-        event: `api_call`,
-        'api-name': apiName,
-        'api-status': 'successful',
-      });
-      dispatch({
-        type: FETCH_TOTAL_RATING_SUCCEEDED,
-        response,
       });
     }
   };

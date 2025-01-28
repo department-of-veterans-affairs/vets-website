@@ -1,3 +1,4 @@
+import featureToggleDisabled from '../fixtures/feature-toggle-disabled.json';
 import mockDisabilities from '../mockdata/200-response.json';
 import mockTotalRating from '../mockdata/total-rating-response.json';
 import mockErrorResponse from '../mockdata/error-response.json';
@@ -8,6 +9,10 @@ const DISABILITIES_ENDPOINT =
 const TOTAL_RATING_ENDPOINT = 'v0/disability_compensation_form/rating_info';
 
 const loginAndVisit = () => {
+  cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled).as(
+    'featureToggleEnabled',
+  );
+
   cy.login();
   cy.visit(RATED_DISABILITIES_PATH);
 };
