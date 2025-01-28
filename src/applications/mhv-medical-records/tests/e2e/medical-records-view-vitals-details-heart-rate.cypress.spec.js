@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
   });
 
   it('Vitals Details Heart Rate', () => {
-    VitalsListPage.goToVitals(undefined, true);
+    VitalsListPage.goToVitals();
     // click heart rate link
     VitalsListPage.clickLinkByRecordListItemIndex(1);
 
