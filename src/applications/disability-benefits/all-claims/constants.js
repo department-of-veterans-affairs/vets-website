@@ -40,8 +40,8 @@ export const RESERVE_GUARD_TYPES = {
 
 export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = FORM_PROFILE_STATES?.map(state => state.label);
-export const STATE_VALUES = FORM_PROFILE_STATES?.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
