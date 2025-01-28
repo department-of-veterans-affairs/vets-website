@@ -70,6 +70,10 @@
                     {
                         "facilityId": "668",
                         "isCerner": true
+                    },
+                    {
+                        "facilityId": "653",
+                        "isCerner": true
                     }
                 ],
                 "vaPatient": true,
