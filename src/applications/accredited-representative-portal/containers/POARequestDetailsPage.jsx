@@ -141,7 +141,7 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status ${poaStatus}`}
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${poaStatus}`}
           >
             {formatStatus(poaStatus)}
           </span>
