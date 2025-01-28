@@ -22,20 +22,12 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     }).as('featureToggles');
 
     cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.wait('@featureToggles').then(interception => {
-      // eslint-disable-next-line no-console
-      console.log('Feature Toggles Interception:', interception);
-
-      const toggleResponse = interception.response.body;
-      // eslint-disable-next-line no-console
-      console.log('Feature Toggles Response Body:', toggleResponse);
-
-      cy.log(JSON.stringify(toggleResponse));
-    });
+    cy.wait('@featureToggles');
     cy.get('[data-testid="program-link"]').should('exist');
     cy.get('[data-testid="program-link"]')
       .first()
       .click();
+    cy.wait('@featureToggles');
   });
   it('should show a "no results" message when an invalid program name is searched', () => {
     cy.injectAxeThenAxeCheck();
