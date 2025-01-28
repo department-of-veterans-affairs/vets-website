@@ -237,7 +237,7 @@ describe('ProofOfVeteranStatusNew', () => {
       });
     });
 
-    it('confirmed and no service history displays not confirmed message', async () => {
+    it('displays not confirmed message if confirmed with no service history', async () => {
       const mockData = {
         data: {
           id: '',
@@ -265,7 +265,7 @@ describe('ProofOfVeteranStatusNew', () => {
       });
     });
 
-    it('not confirmed and no service history displays the returned not confirmed message', async () => {
+    it('displays not confirmed message if not confirmed and no service history', async () => {
       const mockData = {
         data: {
           id: '',
