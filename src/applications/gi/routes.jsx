@@ -8,7 +8,7 @@ import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
-import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
+import LicenseCertificationSearchPage from './components/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
 import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
@@ -49,15 +49,25 @@ const BuildRoutes = () => {
                 <Route
                   exact
                   path="/lc-search"
-                  component={LicenseCertificationSearchPage}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchPage
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/lc-search/results"
-                  component={LicenseCertificationSearchResults}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchResults
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
-                  path="/lc-search/results/:type/:id"
+                  path="/lc-search/results/:id"
                   component={LicenseCertificationSearchResult}
                 />
               </>

@@ -1,7 +1,7 @@
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
@@ -38,6 +38,7 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
+          {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
           <Route
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}

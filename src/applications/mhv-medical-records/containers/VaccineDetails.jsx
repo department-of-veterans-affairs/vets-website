@@ -89,7 +89,7 @@ const VaccineDetails = props => {
 
   const generateVaccinePdf = async () => {
     setDownloadStarted(true);
-    const title = `Vaccines: ${record.name}`;
+    const title = `${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateVaccineItem(record) };
@@ -105,8 +105,8 @@ ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date received: ${record.date}\n
 ${txtLine}\n\n
+Date received: ${record.date}\n
 Location: ${record.location}\n`;
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
@@ -132,7 +132,7 @@ Location: ${record.location}\n`;
           <PrintHeader />
 
           <HeaderSection
-            header={`Vaccines: ${record.name}`}
+            header={`${record.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-testid="vaccine-name"

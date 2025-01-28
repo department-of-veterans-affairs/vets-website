@@ -248,7 +248,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          <div role="heading" aria-level="2">
+          <div>
             {this.props.location.query.allBenefits ? (
               <>
                 <p>

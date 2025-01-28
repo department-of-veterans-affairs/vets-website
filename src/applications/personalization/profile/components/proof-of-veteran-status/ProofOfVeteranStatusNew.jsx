@@ -151,32 +151,37 @@ const ProofOfVeteranStatusNew = ({
     }
   };
 
-  const componentizedMessage = vetStatusEligibility.message.map(item => {
-    const contactNumber = `${CONTACTS.DS_LOGON.slice(
-      0,
-      3,
-    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
-    const startIndex = item.indexOf(contactNumber);
+  const isVetStatusEligibilityPopulated =
+    Object.keys(vetStatusEligibility).length !== 0;
 
-    if (startIndex === -1) {
-      return item;
-    }
+  const componentizedMessage = isVetStatusEligibilityPopulated
+    ? vetStatusEligibility?.message.map(item => {
+        const contactNumber = `${CONTACTS.DS_LOGON.slice(
+          0,
+          3,
+        )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+        const startIndex = item.indexOf(contactNumber);
 
-    const before = item.slice(0, startIndex);
-    const telephone = item.slice(
-      startIndex,
-      startIndex + contactNumber.length + 11,
-    );
-    const after = item.slice(startIndex + telephone.length);
+        if (startIndex === -1) {
+          return item;
+        }
 
-    return (
-      <>
-        {before}
-        <va-telephone contact={contactNumber} /> (
-        <va-telephone contact={CONTACTS[711]} tty />){after}
-      </>
-    );
-  });
+        const before = item.slice(0, startIndex);
+        const telephone = item.slice(
+          startIndex,
+          startIndex + contactNumber.length + 11,
+        );
+        const after = item.slice(startIndex + telephone.length);
+
+        return (
+          <>
+            {before}
+            <va-telephone contact={contactNumber} /> (
+            <va-telephone contact={CONTACTS[711]} tty />){after}
+          </>
+        );
+      })
+    : null;
 
   const contactInfoElements = data?.attributes?.message?.map(item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
@@ -338,7 +343,8 @@ const ProofOfVeteranStatusNew = ({
                   </>
                 ) : null}
 
-                {data?.attributes?.veteranStatus !== 'confirmed' &&
+                {isVetStatusEligibilityPopulated &&
+                data?.attributes?.veteranStatus !== 'confirmed' &&
                 data?.attributes?.message.length > 0 ? (
                   <>
                     <div>

@@ -214,10 +214,9 @@ const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-        !form.schoolInfo?.schoolName ||
-        !form.school) &&
-      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-        form.yourRoleEducation ===
+        !form.schoolInfo?.schoolName) &&
+      (form.yourRole === yourRoleOptionsEducation.SCO ||
+        form.yourRole ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   schoolStOrResidency: {
@@ -239,9 +238,9 @@ const ch3Pages = {
     uiSchema: stateOfFacilityPage.uiSchema,
     schema: stateOfFacilityPage.schema,
     depends: form =>
-      form.yourRoleEducation === yourRoleOptionsEducation.VA_EMPLOYEE ||
-      form.yourRoleEducation === yourRoleOptionsEducation.WORK_STUDY_SUP ||
-      form.yourRoleEducation === yourRoleOptionsEducation.OTHER,
+      form.yourRole === yourRoleOptionsEducation.VA_EMPLOYEE ||
+      form.yourRole === yourRoleOptionsEducation.WORK_STUDY_SUP ||
+      form.yourRole === yourRoleOptionsEducation.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -262,8 +261,8 @@ const ch3Pages = {
     schema: schoolInYourProfilePage.schema,
     depends: form =>
       (form.school || form.schoolInfo?.schoolName) &&
-      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-        form.yourRoleEducation ===
+      (form.yourRole === yourRoleOptionsEducation.SCO ||
+        form.yourRole ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
   },
   yourContactInformation: {

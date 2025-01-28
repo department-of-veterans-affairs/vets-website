@@ -156,9 +156,10 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
-          {toggleGiProgramsFlag && (
-            <JumpLink label="Programs" jumpToId="programs" />
-          )}
+          {programTypes?.length > 0 &&
+            toggleGiProgramsFlag && (
+              <JumpLink label="Programs" jumpToId="programs" />
+            )}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"

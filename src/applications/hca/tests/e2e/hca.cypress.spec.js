@@ -3,13 +3,12 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import mockFacilities from './fixtures/mocks/facilities.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
   selectDropdownWebComponent,
+  setupBasicTest,
+  startAsGuestUser,
 } from './utils';
 
 const testConfig = createTestConfig(
@@ -17,14 +16,9 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
-
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('.schemaform-start-button')
-            .first()
-            .click();
-        });
+        afterHook(() => startAsGuestUser());
       },
       'id-form': () => {
         cy.get('@testData').then(data => {
@@ -66,16 +60,7 @@ const testConfig = createTestConfig(
       'household-information/share-financial-information-confirm': ({
         afterHook,
       }) => {
-        afterHook(() => {
-          cy.findByText(
-            /confirm that you don\u2019t want to provide your household financial information/i,
-          )
-            .first()
-            .should('exist');
-          cy.findAllByText(/confirm/i, { selector: 'button' })
-            .first()
-            .click();
-        });
+        afterHook(() => goToNextPage());
       },
       'household-information/marital-status': ({ afterHook }) => {
         afterHook(() => {
@@ -131,24 +116,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', '/v0/health_care_applications', {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: '2016-05-16',
-      });
-      cy.intercept(
-        'GET',
-        '/v0/health_care_applications/enrollment_status*',
-        mockEnrollmentStatus,
-      );
-      cy.intercept(
-        'GET',
-        '/v0/health_care_applications/facilities?*',
-        mockFacilities,
-      ).as('getFacilities');
-    },
+    setupPerTest: () => setupBasicTest(),
   },
   manifest,
   formConfig,
