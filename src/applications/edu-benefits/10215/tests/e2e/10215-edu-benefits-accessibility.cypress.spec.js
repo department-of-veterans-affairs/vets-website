@@ -1,16 +1,8 @@
-const tabClickContinue = numberOfTabs => {
-  cy.repeatKey('Tab', numberOfTabs);
-  cy.focused().should('contain.text', 'Continue');
-  cy.realPress('Enter');
-};
+import manifest from '../../manifest.json';
 
 describe('10215 EDU Benefits accessibility', () => {
-  beforeEach(() => {
-    cy.visit(
-      'education/apply-for-education-benefits/application/10215/introduction',
-    );
-  });
   it('should traverses content via keyboard', () => {
+    cy.visit(`${manifest.rootUrl}`);
     const institutionDetail = {
       institutionName: 'Test Institution Name',
       facilityCode: '12345678',
@@ -69,10 +61,12 @@ describe('10215 EDU Benefits accessibility', () => {
       '2010-01-01',
       true,
     );
-    tabClickContinue(2);
+    cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'Review the calculation instructions');
-    tabClickContinue(2);
+    cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'Review the calculation instructions');
     cy.repeatKey('Tab', 1);
@@ -111,14 +105,17 @@ describe('10215 EDU Benefits accessibility', () => {
     );
     cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'Cancel adding this program');
-    tabClickContinue(2);
+    cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
     cy.selectVaRadioOption(
       'root_view:programsSummary',
       reviewYourProgram.doYouHaveAnotherProgramToAddNo,
     );
-    tabClickContinue(2);
-    // Review Application Page
-    tabClickContinue(7);
+    cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
+
+    cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'Download VA Form 22-10215');
   });
