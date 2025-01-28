@@ -1,6 +1,7 @@
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import _ from 'lodash';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -50,7 +51,7 @@ const FileUpload = props => {
           fileSize: files[0].size,
           fileType: files[0].type,
           base64: base64Img,
-          fileID: event.target['data-testid'],
+          fileID: _.uniqueId(`${event.target['data-testid']}`),
         };
 
         const questionFiles = storedFile
