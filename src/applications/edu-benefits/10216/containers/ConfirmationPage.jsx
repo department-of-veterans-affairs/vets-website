@@ -5,14 +5,14 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 
-export const ConfirmationPage = ({ props, isAccredited }) => {
+export const ConfirmationPage = ({ router, route, isAccredited }) => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
   const goBack = e => {
     e.preventDefault();
-    props?.router.push('/review-and-submit');
+    router.push('/review-and-submit');
   };
   const childContent = (
     <div>
@@ -86,7 +86,7 @@ export const ConfirmationPage = ({ props, isAccredited }) => {
 
   return (
     <ConfirmationView
-      formConfig={props.route?.formConfig}
+      formConfig={route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
@@ -99,10 +99,11 @@ export const ConfirmationPage = ({ props, isAccredited }) => {
 
 ConfirmationPage.propTypes = {
   isAccredited: PropTypes.bool,
-  props: PropTypes.shape({
-    router: PropTypes.shape({
-      push: PropTypes.func,
-    }),
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
   }),
 };
 
