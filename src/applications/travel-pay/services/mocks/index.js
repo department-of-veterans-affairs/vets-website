@@ -2,6 +2,8 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
+const appointment = require('./vaos-appointment.json');
+// const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
 const user = require('./user.json');
 
 const responses = {
@@ -64,5 +66,6 @@ const responses = {
       modifiedOn: '2024-05-31T16:40:45.781Z',
     });
   },
+  'GET /vaos/v2/appointment/:id?_include=facilities,claims': appointment,
 };
 module.exports = delay(responses, 1000);
