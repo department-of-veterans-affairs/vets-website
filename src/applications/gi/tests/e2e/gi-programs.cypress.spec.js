@@ -23,8 +23,12 @@ describe('GI Bill Comparison Tool - Programs List', () => {
 
     cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
     // cy.wait('@featureToggles');
-    cy.get('[data-testid="program-link"]').should('exist');
-    cy.get('[data-testid="program-link"]')
+    // cy.get('[data-testid="program-link"]').should('exist');
+    // cy.get('[data-testid="program-link"]')
+    //   .first()
+    //   .click();
+    cy.get('.program-link').should('exist');
+    cy.get('.program-link')
       .first()
       .click();
   });

@@ -29,7 +29,7 @@ const Programs = ({ programTypes, facilityCode }) => {
                 .replace(/\s+/g, '-')
                 .replace(/\//g, '-')}`,
             }}
-            className="vads-u-display--flex vads-u-align-items--center"
+            className="program-link vads-u-display--flex vads-u-align-items--center"
             data-testid="program-link"
           >
             See All
