@@ -46,13 +46,11 @@ const fetchAppointmentFailure = error => ({
 export function getAppointmentData(apptId) {
   return async dispatch => {
     dispatch(fetchAppointmentStart());
-
     try {
       const apptUrl = `${
         environment.API_URL
-      }/vaos/v2/appointments/${apptId}?_include=facilities,claims`;
+      }/vaos/v2/appointment/${apptId}?_include=facilities,claims`;
       const response = await apiRequest(apptUrl);
-
       dispatch(fetchAppointmentSuccess(response.data));
     } catch (error) {
       dispatch(fetchAppointmentFailure(error));

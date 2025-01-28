@@ -10,12 +10,10 @@ import {
 const initialState = {
   hasFetchedData: false,
   isLoading: false,
-  isError: false,
   error: null,
   travelClaims: [],
   hasFetchedAppointment: false,
   isLoadingAppointment: false,
-  isAppointmentError: false,
   appointmentData: {},
   appointmentError: null,
 };
@@ -40,7 +38,6 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         hasFetchedData: true,
         isLoading: false,
-        isError: true,
         error: action.error,
       };
     case FETCH_APPOINTMENT_STARTED:
@@ -61,7 +58,6 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         hasFetchedAppointment: true,
         isLoadingAppointment: false,
-        isAppointmentError: true,
         appointmentError: action.error,
       };
     default:
