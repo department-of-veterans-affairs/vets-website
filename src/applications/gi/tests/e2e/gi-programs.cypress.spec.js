@@ -9,40 +9,36 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // cy.intercept('GET', '/v0/feature_toggles?*', {
-    //   data: {
-    //     type: 'feature_toggles',
-    //     features: [
-    //       {
-    //         name: 'gi_comparison_tool_programs_toggle_flag',
-    //         value: true,
-    //       },
-    //     ],
-    //   },
-    // }).as('featureToggles');
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'gi_comparison_tool_programs_toggle_flag',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggles');
 
     cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    // cy.wait('@featureToggles');
-    // cy.get('[data-testid="program-link"]').should('exist');
-    // cy.get('[data-testid="program-link"]')
-    //   .first()
-    //   .click();
-    cy.get('.program-link').should('exist');
-    cy.get('.program-link')
+    cy.wait('@featureToggles');
+    cy.get('[data-testid="program-link"]').should('exist');
+    cy.get('[data-testid="program-link"]')
       .first()
       .click();
   });
-  // it('should show a "no results" message when an invalid program name is searched', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('#search-input')
-  //     .shadow()
-  //     .find('input')
-  //     .type('SomeRandomProgramName');
-  //   cy.contains('button', 'Search').click();
-  //   cy.get('#no-results-message')
-  //     .should('be.visible')
-  //     .and('contain', 'We didn’t find any results for');
-  // });
+  it('should show a "no results" message when an invalid program name is searched', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('#search-input')
+      .shadow()
+      .find('input')
+      .type('SomeRandomProgramName');
+    cy.contains('button', 'Search').click();
+    cy.get('#no-results-message')
+      .should('be.visible')
+      .and('contain', 'We didn’t find any results for');
+  });
   it('should clear the search query and display all programs when "Reset search" is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')

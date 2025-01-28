@@ -304,11 +304,11 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
-      {/* {toggleGiProgramsFlag && ( */}
-      <ProfileSection label="Programs" id="programs">
-        <Programs programTypes={programTypes} facilityCode={facilityCode} />
-      </ProfileSection>
-      {/* )} */}
+      {toggleGiProgramsFlag && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
+        </ProfileSection>
+      )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />
