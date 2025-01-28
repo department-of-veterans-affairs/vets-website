@@ -4,10 +4,10 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import BreadcrumbAboutPage from './BreadcrumbAboutPage';
 
-const AboutPage = ({ props }) => {
+const AboutPage = ({ aboutProps }) => {
   const goToIntroduction = event => {
     event.preventDefault();
-    props?.router.push('/introduction');
+    aboutProps?.router.push('/introduction');
   };
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const AboutPage = ({ props }) => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--4">
+    <div className="form-22-10216-container row">
       <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
         <BreadcrumbAboutPage />
       </div>
@@ -76,11 +76,13 @@ const AboutPage = ({ props }) => {
     </div>
   );
 };
+
 AboutPage.propTypes = {
-  props: PropTypes.shape({
+  aboutProps: PropTypes.shape({
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
   }).isRequired,
 };
+
 export default AboutPage;
