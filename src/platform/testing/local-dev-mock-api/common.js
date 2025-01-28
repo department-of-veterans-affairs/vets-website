@@ -65,7 +65,6 @@ const responses = {
       type: 'feature_toggles',
       features: [
         { name: 'showExpandableVamcAlert', value: true },
-        { name: 'facilityLocatorShowCommunityCares', value: true },
         { name: 'profile_show_profile_2.0', value: false },
         { name: 'vaOnlineScheduling', value: true },
         { name: 'vaOnlineSchedulingCancel', value: true },
