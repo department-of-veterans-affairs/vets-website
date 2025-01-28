@@ -22,6 +22,7 @@
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
  * @property {string} [ariaDescribedBySubmit]
+ * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
