@@ -7,11 +7,11 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
-import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import ProcessDescription from '../components/IntroductionPage/ProcessDescription';
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
@@ -47,7 +47,7 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
             <>
               <ProcessDescription />
               {isUserLOA1 ? (
-                <IdentityVerificationAlert />
+                <VerifyAlert headingLevel={3} dataTestId="ezr-identity-alert" />
               ) : (
                 <SaveInProgressInfo {...sipProps} />
               )}
