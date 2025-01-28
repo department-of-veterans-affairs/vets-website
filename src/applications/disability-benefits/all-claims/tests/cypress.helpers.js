@@ -197,8 +197,15 @@ export const reviewAndSubmitPageFlow = (
     ? `${first} ${middle} ${last}`
     : `${first} ${last}`;
 
-  cy.fillVaTextInput('veteran-signature', veteranSignature);
-  cy.selectVaCheckbox('veteran-certify', true);
+  cy.get('#veteran-signature')
+    .shadow()
+    .get('#inputField')
+    .type(veteranSignature);
+
+  cy.get(`va-checkbox[id="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
@@ -350,15 +357,11 @@ export const pageHooks = cy => ({
       }
     });
   },
-  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
-  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
-  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
-  // locally. this will be uncommented for launch.
-  // 'review-and-submit': ({ afterHook }) => {
-  //   afterHook(() => {
-  //     cy.get('@testData').then(() => {
-  //       reviewAndSubmitPageFlow();
-  //     });
-  //   });
-  // },
+  'review-and-submit': ({ afterHook }) => {
+    afterHook(() => {
+      cy.get('@testData').then(() => {
+        reviewAndSubmitPageFlow();
+      });
+    });
+  },
 });
