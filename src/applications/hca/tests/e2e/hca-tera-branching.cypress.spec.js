@@ -1,24 +1,10 @@
-import manifest from '../../manifest.json';
 import maxTestData from './fixtures/data/maximal-test.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import featureToggles from './fixtures/mocks/feature-toggles.tera.json';
-import { goToNextPage } from './utils';
+import mockFeatures from './fixtures/mocks/feature-toggles.tera.json';
+import { goToNextPage, setupForGuest } from './utils';
 
 const { data: testData } = maxTestData;
-const APIs = {
-  features: '/v0/feature_toggles*',
-  enrollment: '/v0/health_care_applications/enrollment_status*',
-};
 
 describe('HCA-TERA-Branching', () => {
-  const setupGuestUser = () => {
-    cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
-      'mockEnrollmentStatus',
-    );
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockFeatures']);
-  };
   const advanceToTERA = ({
     birthdate = testData.veteranDateOfBirth,
     entryDate = testData.lastEntryDate,
@@ -88,7 +74,7 @@ describe('HCA-TERA-Branching', () => {
   };
 
   beforeEach(() => {
-    setupGuestUser();
+    setupForGuest({ features: mockFeatures });
   });
 
   it('should render radiation cleanup and agent orange questions when Veteran birthdate is prior to 1966', () => {
