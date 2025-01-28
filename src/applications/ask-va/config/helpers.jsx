@@ -756,6 +756,16 @@ export const getFiles = files => {
   });
 };
 
+export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
+  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
+
+  return (
+    <a href={fileUrl} download={fileName}>
+      {`${fileName}${fileSizeText}`}
+    </a>
+  );
+};
+
 export const isEducationNonVRE = formData =>
   formData.selectCategory === CategoryEducation &&
   formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31;

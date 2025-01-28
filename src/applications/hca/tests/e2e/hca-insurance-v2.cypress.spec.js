@@ -1,60 +1,24 @@
-import manifest from '../../manifest.json';
 import maxTestData from './fixtures/data/maximal-test.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import featureToggles from './fixtures/mocks/feature-toggles.insurance.json';
+import mockFeatures from './fixtures/mocks/feature-toggles.insurance.json';
 import {
   fillTextWebComponent,
   goToNextPage,
   selectYesNoWebComponent,
+  setupForAuth,
+  startAsAuthUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
-const APIs = {
-  features: '/v0/feature_toggles*',
-  enrollment: '/v0/health_care_applications/enrollment_status*',
-};
 
 describe('HCA-Health-Insurance-Information', () => {
-  const setupGuestUser = () => {
-    cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
-    cy.intercept('GET', APIs.enrollment, mockEnrollmentStatus).as(
-      'mockEnrollmentStatus',
-    );
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockFeatures']);
-  };
   const advanceToHealthInsurance = () => {
-    cy.get('.schemaform-start-button')
-      .first()
-      .click();
-    cy.location('pathname').should('include', '/id-form');
+    startAsAuthUser();
 
-    cy.get('#root_firstName').type(testData.veteranFullName.first);
-    cy.get('#root_lastName').type(testData.veteranFullName.last);
-
-    const [year, month, day] = testData.veteranDateOfBirth
-      .split('-')
-      .map(dateComponent => parseInt(dateComponent, 10).toString());
-    cy.get('#root_dobMonth').select(month);
-    cy.get('#root_dobDay').select(day);
-    cy.get('#root_dobYear').type(year);
-
-    cy.get('#root_ssn').type(testData.veteranSocialSecurityNumber);
-
-    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
-    cy.get('[name="root_gender"]').check('M');
-
     goToNextPage('/veteran-information/demographic-information');
     goToNextPage('/veteran-information/veteran-address');
-    cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);
-    cy.get('#root_veteranAddress_city').type(testData.veteranAddress.city);
-    cy.get('#root_veteranAddress_state').select(testData.veteranAddress.state);
-    cy.get('#root_veteranAddress_postalCode').type(
-      testData.veteranAddress.postalCode,
-    );
     cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
 
     goToNextPage('/veteran-information/contact-information');
@@ -91,7 +55,7 @@ describe('HCA-Health-Insurance-Information', () => {
   };
 
   beforeEach(() => {
-    setupGuestUser();
+    setupForAuth({ features: mockFeatures });
     advanceToHealthInsurance();
   });
 

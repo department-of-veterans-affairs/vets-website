@@ -1,0 +1,7 @@
+[
+  {
+    "status": "Order Processed",
+    "orderId": "12345",
+    "productId": "9999"
+  }
+]
