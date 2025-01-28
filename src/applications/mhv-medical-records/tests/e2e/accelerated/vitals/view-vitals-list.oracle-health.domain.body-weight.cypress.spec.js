@@ -31,6 +31,13 @@ describe('Medical Records View Body Weight', () => {
     );
     cy.get('[data-testid="vital-body-weight-measurement"]').contains('88.6 kg');
 
+    cy.get('[data-testid="vital-body-weight-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-body-weight-date-timestamp"]').contains(
+      'January 1, 2014',
+    );
+
     cy.get('[data-testid="vital-body-weight-review-over-time"]').should(
       'be.visible',
     );

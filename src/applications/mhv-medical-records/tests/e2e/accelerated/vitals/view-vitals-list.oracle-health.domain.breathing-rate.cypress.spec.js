@@ -35,6 +35,13 @@ describe('Medical Records View Breathing Rate', () => {
       '13 breaths per minute',
     );
 
+    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').contains(
+      'January 18, 2017',
+    );
+
     cy.get('[data-testid="vital-respiratory-rate-review-over-time"]').should(
       'be.visible',
     );

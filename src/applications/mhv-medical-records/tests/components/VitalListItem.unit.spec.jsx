@@ -49,6 +49,13 @@ describe('Vital list item component', () => {
     expect(recordName).to.exist;
   });
 
+  it('should contain the date of the record', () => {
+    const recordDate = screen.getByText('October 27, 2023', {
+      exact: true,
+    });
+    expect(recordDate).to.exist;
+  });
+
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
       name: 'Review your blood pressure over time',

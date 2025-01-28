@@ -35,6 +35,13 @@ describe('Medical Records View Body Height', () => {
       '171.3 cm',
     );
 
+    cy.get('[data-testid="vital-body-height-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-body-height-date-timestamp"]').contains(
+      'January 1, 2014',
+    );
+
     cy.get('[data-testid="vital-body-height-review-over-time"]').should(
       'be.visible',
     );
