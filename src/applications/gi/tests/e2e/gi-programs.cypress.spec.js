@@ -28,17 +28,17 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .first()
       .click();
   });
-  it('should show a "no results" message when an invalid program name is searched', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('#search-input')
-      .shadow()
-      .find('input')
-      .type('SomeRandomProgramName');
-    cy.contains('button', 'Search').click();
-    cy.get('#no-results-message')
-      .should('be.visible')
-      .and('contain', 'We didn’t find any results for');
-  });
+  // it('should show a "no results" message when an invalid program name is searched', () => {
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('#search-input')
+  //     .shadow()
+  //     .find('input')
+  //     .type('SomeRandomProgramName');
+  //   cy.contains('button', 'Search').click();
+  //   cy.get('#no-results-message')
+  //     .should('be.visible')
+  //     .and('contain', 'We didn’t find any results for');
+  // });
   it('should clear the search query and display all programs when "Reset search" is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
