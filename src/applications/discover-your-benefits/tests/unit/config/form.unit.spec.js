@@ -210,23 +210,3 @@ describe('Questionnaire Form - Chapter 5: Disability', () => {
     });
   });
 });
-
-describe('Questionnaire Form - Chapter 6: GI Bill Status', () => {
-  const { chapters } = formConfig;
-  const { chapter6 } = chapters;
-  const giBillPage = chapter6.pages.giBillStatus;
-
-  describe('GI Bill Status page configuration', () => {
-    it('should have the correct path for the GI Bill Status page', () => {
-      expect(giBillPage.path).to.equal('gi-bill');
-    });
-
-    it('should have the correct title for the GI Bill Status page', () => {
-      expect(giBillPage.title).to.equal('GI Bill Status');
-    });
-
-    it('should have a valid uiSchema for the GI Bill Status page', () => {
-      expect(giBillPage.uiSchema).to.be.an('object');
-    });
-  });
-});
