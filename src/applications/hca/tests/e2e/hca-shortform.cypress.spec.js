@@ -1,6 +1,7 @@
 import minTestData from './fixtures/data/minimal-test.json';
 import {
   acceptPrivacyAgreement,
+  fillIdentityForm,
   goToNextPage,
   selectDropdownWebComponent,
   setupForAuth,
@@ -105,20 +106,8 @@ describe('HCA-ShortForm: Unauthenticated', () => {
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
-    cy.findByLabelText(/first name/i).type(testData.veteranFullName.first);
-    cy.findByLabelText(/last name/i).type(testData.veteranFullName.last);
+    fillIdentityForm(testData);
 
-    const [year, month, day] = testData.veteranDateOfBirth
-      .split('-')
-      .map(dateComponent => parseInt(dateComponent, 10).toString());
-    cy.findByLabelText(/month/i).select(month);
-    cy.findByLabelText(/day/i).select(day);
-    cy.findByLabelText(/year/i).type(year);
-
-    cy.findByLabelText(/social security/i).type(
-      testData.veteranSocialSecurityNumber,
-    );
-    goToNextPage('/check-your-personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
@@ -126,12 +115,7 @@ describe('HCA-ShortForm: Unauthenticated', () => {
 
     goToNextPage('/veteran-information/demographic-information');
     goToNextPage('/veteran-information/veteran-address');
-    cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);
-    cy.get('#root_veteranAddress_city').type(testData.veteranAddress.city);
-    cy.get('#root_veteranAddress_state').select(testData.veteranAddress.state);
-    cy.get('#root_veteranAddress_postalCode').type(
-      testData.veteranAddress.postalCode,
-    );
+    cy.fillAddress('root_veteranAddress', testData.veteranAddress);
     cy.get('[type=radio]')
       .first()
       .scrollIntoView()

@@ -3,8 +3,12 @@ import {
   acceptPrivacyAgreement,
   advanceFromHouseholdToReview,
   advanceToHousehold,
+  fillDeductibleExpenses,
   fillDependentBasicInformation,
+  fillDependentIncome,
   fillSpousalBasicInformation,
+  fillSpousalIncome,
+  fillVeteranIncome,
   goToNextPage,
   setupForAuth,
 } from './utils';
@@ -68,26 +72,10 @@ describe('HCA-Household: Non-disclosure', () => {
       .check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -125,7 +113,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
-    fillSpousalBasicInformation();
+    fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
@@ -137,37 +125,13 @@ describe('HCA-Household: Spousal disclosure', () => {
       .check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/spouse-annual-income');
-    cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
-      testData['view:spouseIncome'].spouseGrossIncome,
-    );
-    cy.get('[name="root_view:spouseNetIncome_spouseNetIncome"]').type(
-      testData['view:spouseIncome'].spouseNetIncome,
-    );
-    cy.get('[name="root_view:spouseOtherIncome_spouseOtherIncome"]').type(
-      testData['view:spouseIncome'].spouseOtherIncome,
-    );
+    fillSpousalIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -198,7 +162,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
-    fillSpousalBasicInformation();
+    fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
@@ -208,19 +172,12 @@ describe('HCA-Household: Spousal disclosure', () => {
     cy.get('[name="root_provideSupportLastYear"]').check('N');
 
     goToNextPage('/household-information/spouse-contact-information');
-    cy.get('#root_spouseAddress_street').type(
-      testData['view:spouseContactInformation'].spouseAddress.street,
+    cy.fillAddress(
+      'root_spouseAddress',
+      testData['view:spouseContactInformation'].spouseAddress,
     );
-    cy.get('#root_spouseAddress_city').type(
-      testData['view:spouseContactInformation'].spouseAddress.city,
-    );
-    cy.get('#root_spouseAddress_state').select(
-      testData['view:spouseContactInformation'].spouseAddress.state,
-    );
-    cy.get('#root_spouseAddress_postalCode').type(
-      testData['view:spouseContactInformation'].spouseAddress.postalCode,
-    );
-    cy.get('#root_spousePhone').type(
+    cy.fill(
+      '[name="root_spousePhone"]',
       testData['view:spouseContactInformation'].spousePhone,
     );
 
@@ -230,37 +187,13 @@ describe('HCA-Household: Spousal disclosure', () => {
       .check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/spouse-annual-income');
-    cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
-      testData['view:spouseIncome'].spouseGrossIncome,
-    );
-    cy.get('[name="root_view:spouseNetIncome_spouseNetIncome"]').type(
-      testData['view:spouseIncome'].spouseNetIncome,
-    );
-    cy.get('[name="root_view:spouseOtherIncome_spouseOtherIncome"]').type(
-      testData['view:spouseIncome'].spouseOtherIncome,
-    );
+    fillSpousalIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -312,26 +245,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -373,13 +290,12 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:dependentIncome"]').check('Y');
 
     goToNextPage();
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+    fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
     cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
+    cy.fill(
+      '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
@@ -387,26 +303,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -454,26 +354,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -518,13 +402,12 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_receivedSupportLastYear"]').check('Y');
 
     goToNextPage();
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+    fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
     cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
+    cy.fill(
+      '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
@@ -532,26 +415,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -599,26 +466,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -663,34 +514,16 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:dependentIncome"]').check('Y');
 
     goToNextPage();
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+    fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -741,26 +574,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -808,34 +625,16 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.get('[name="root_receivedSupportLastYear"]').check('Y');
 
     goToNextPage();
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+    fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
@@ -873,7 +672,7 @@ describe('HCA-Household: Full disclosure', () => {
     cy.get('#root_maritalStatus').select('Married');
 
     goToNextPage('/household-information/spouse-personal-information');
-    fillSpousalBasicInformation();
+    fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
@@ -894,13 +693,12 @@ describe('HCA-Household: Full disclosure', () => {
     cy.get('[name="root_receivedSupportLastYear"]').check('Y');
 
     goToNextPage();
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+    fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
     cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
+    cy.fill(
+      '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
@@ -908,37 +706,13 @@ describe('HCA-Household: Full disclosure', () => {
     cy.get('[name="root_view:reportDependents"]').check('N');
 
     goToNextPage('/household-information/veteran-annual-income');
-    cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
-      testData.veteranGrossIncome,
-    );
-    cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-      testData.veteranNetIncome,
-    );
-    cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
-      testData.veteranOtherIncome,
-    );
+    fillVeteranIncome(testData);
 
     goToNextPage('/household-information/spouse-annual-income');
-    cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
-      testData['view:spouseIncome'].spouseGrossIncome,
-    );
-    cy.get('[name="root_view:spouseNetIncome_spouseNetIncome"]').type(
-      testData['view:spouseIncome'].spouseNetIncome,
-    );
-    cy.get('[name="root_view:spouseOtherIncome_spouseOtherIncome"]').type(
-      testData['view:spouseIncome'].spouseOtherIncome,
-    );
+    fillSpousalIncome(testData);
 
     goToNextPage('/household-information/deductible-expenses');
-    cy.get(
-      '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    ).type(testData.deductibleMedicalExpenses);
-    cy.get(
-      '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-    ).type(testData.deductibleEducationExpenses);
-    cy.get(
-      '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    ).type(testData.deductibleFuneralExpenses);
+    fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToReview();
 
