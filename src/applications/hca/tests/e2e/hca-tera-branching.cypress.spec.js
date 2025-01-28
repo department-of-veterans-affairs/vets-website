@@ -13,16 +13,16 @@ describe('HCA-TERA-Branching', () => {
     advanceToTERA(testData);
 
     goToNextPage('/military-service/radiation-cleanup-efforts');
-    cy.get('[name="root_radiationCleanupEfforts"]').check('N');
+    cy.selectRadio('root_radiationCleanupEfforts', 'N');
 
     goToNextPage('/military-service/gulf-war-service');
-    cy.get('[name="root_gulfWarService"]').check('N');
+    cy.selectRadio('root_gulfWarService', 'N');
 
     goToNextPage('/military-service/operation-support');
-    cy.get('[name="root_combatOperationService"]').check('N');
+    cy.selectRadio('root_combatOperationService', 'N');
 
     goToNextPage('/military-service/agent-orange-exposure');
-    cy.get('[name="root_exposedToAgentOrange"]').check('Y');
+    cy.selectRadio('root_exposedToAgentOrange', 'Y');
 
     goToNextPage('/military-service/other-toxic-exposure');
     goToNextPage('/military-service/documents');
@@ -33,10 +33,10 @@ describe('HCA-TERA-Branching', () => {
     advanceToTERA(testData, { birthdate: '1970-01-01' });
 
     goToNextPage('/military-service/gulf-war-service');
-    cy.get('[name="root_gulfWarService"]').check('N');
+    cy.selectRadio('root_gulfWarService', 'N');
 
     goToNextPage('/military-service/operation-support');
-    cy.get('[name="root_combatOperationService"]').check('Y');
+    cy.selectRadio('root_combatOperationService', 'Y');
 
     goToNextPage('/military-service/other-toxic-exposure');
     goToNextPage('/military-service/documents');
@@ -51,10 +51,10 @@ describe('HCA-TERA-Branching', () => {
     });
 
     goToNextPage('/military-service/post-sept-11-service');
-    cy.get('[name="root_gulfWarService"]').check('N');
+    cy.selectRadio('root_gulfWarService', 'N');
 
     goToNextPage('/military-service/operation-support');
-    cy.get('[name="root_combatOperationService"]').check('Y');
+    cy.selectRadio('root_combatOperationService', 'Y');
 
     goToNextPage('/military-service/other-toxic-exposure');
     goToNextPage('/military-service/documents');

@@ -22,11 +22,11 @@ describe('HCA-Household: Non-disclosure', () => {
 
   it('works without sharing household information', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('N');
+    cy.selectRadio('root_discloseFinancialInformation', 'N');
 
     goToNextPage('/household-information/share-financial-information-confirm');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select(testData.maritalStatus);
+    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
     advanceFromHouseholdToSubmit(testData, { disclosureAssertionValue: false });
     cy.injectAxeThenAxeCheck();
@@ -34,16 +34,14 @@ describe('HCA-Household: Non-disclosure', () => {
 
   it('works without spouse or dependent information', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[type="radio"]')
-      .last()
-      .check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -64,23 +62,21 @@ describe('HCA-Household: Spousal disclosure', () => {
 
   it('works with spouse who lived with Veteran', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select(testData.maritalStatus);
+    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_sameAddress"]').check('Y');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_sameAddress', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[type="radio"]')
-      .last()
-      .check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -97,21 +93,21 @@ describe('HCA-Household: Spousal disclosure', () => {
 
   it('works with spouse who did not live with Veteran', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select(testData.maritalStatus);
+    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_sameAddress"]').check('N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_sameAddress', 'N');
 
     goToNextPage('/household-information/spouse-financial-support');
-    cy.get('[name="root_provideSupportLastYear"]').check('N');
+    cy.selectRadio('root_provideSupportLastYear', 'N');
 
     goToNextPage('/household-information/spouse-contact-information');
     cy.fillAddress(
@@ -124,9 +120,7 @@ describe('HCA-Household: Spousal disclosure', () => {
     );
 
     goToNextPage('/household-information/dependents');
-    cy.get('[type="radio"]')
-      .last()
-      .check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -150,25 +144,25 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is of college age, lived with Veteran and did not earn income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_view:dependentIncome"]').check('N');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -182,35 +176,35 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is of college age, lived with Veteran and earned income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_view:dependentIncome"]').check('Y');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_view:dependentIncome', 'Y');
 
     goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.selectRadio('root_attendedSchoolLastYear', 'Y');
     cy.fill(
       '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -224,28 +218,28 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is of college age, did not live with Veteran and did not earn income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_view:dependentIncome"]').check('N');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage();
-    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+    cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -259,38 +253,38 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is of college age, did not live with Veteran and earned income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_view:dependentIncome"]').check('Y');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_view:dependentIncome', 'Y');
 
     goToNextPage();
-    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+    cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.selectRadio('root_attendedSchoolLastYear', 'Y');
     cy.fill(
       '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -304,14 +298,14 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is not of college age, lived with Veteran and did not earn income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
@@ -320,12 +314,12 @@ describe('HCA-Household: Dependent disclosure', () => {
     });
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_view:dependentIncome"]').check('N');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -339,14 +333,14 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is not of college age, lived with Veteran and earned income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
@@ -355,15 +349,15 @@ describe('HCA-Household: Dependent disclosure', () => {
     });
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_view:dependentIncome"]').check('Y');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_view:dependentIncome', 'Y');
 
     goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -377,14 +371,14 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is not of college age, did not live with Veteran and did not earn income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
@@ -393,15 +387,15 @@ describe('HCA-Household: Dependent disclosure', () => {
     });
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_view:dependentIncome"]').check('N');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage();
-    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+    cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -415,14 +409,14 @@ describe('HCA-Household: Dependent disclosure', () => {
 
   it('works with dependent who is not of college age, did not live with Veteran and earned income', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Never Married');
+    cy.get('[name="root_maritalStatus"]').select('Never Married');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
@@ -431,18 +425,18 @@ describe('HCA-Household: Dependent disclosure', () => {
     });
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_view:dependentIncome"]').check('Y');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_view:dependentIncome', 'Y');
 
     goToNextPage();
-    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+    cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -463,45 +457,45 @@ describe('HCA-Household: Full disclosure', () => {
 
   it('works with full spousal and dependent information', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+    cy.selectRadio('root_discloseFinancialInformation', 'Y');
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('#root_maritalStatus').select('Married');
+    cy.get('[name="root_maritalStatus"]').select('Married');
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
-    cy.get('[name="root_cohabitedLastYear"]').check('Y');
-    cy.get('[name="root_sameAddress"]').check('Y');
+    cy.selectRadio('root_cohabitedLastYear', 'Y');
+    cy.selectRadio('root_sameAddress', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('Y');
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_disabledBefore18"]').check('N');
-    cy.get('[name="root_cohabitedLastYear"]').check('N');
-    cy.get('[name="root_view:dependentIncome"]').check('Y');
+    cy.selectRadio('root_disabledBefore18', 'N');
+    cy.selectRadio('root_cohabitedLastYear', 'N');
+    cy.selectRadio('root_view:dependentIncome', 'Y');
 
     goToNextPage();
-    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+    cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.selectRadio('root_attendedSchoolLastYear', 'Y');
     cy.fill(
       '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
     goToNextPage('/household-information/dependents');
-    cy.get('[name="root_view:reportDependents"]').check('N');
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
