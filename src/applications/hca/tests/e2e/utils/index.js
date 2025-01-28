@@ -1,4 +1,5 @@
 // export utils
+export * from './fillers';
 export * from './helpers';
 export * from './setup';
 
@@ -23,54 +24,6 @@ export const goToNextPage = pagePath => {
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
-};
-
-export const fillGulfWarDateRange = () => {
-  const { gulfWarStartDate, gulfWarEndDate } = testData[
-    'view:gulfWarServiceDates'
-  ];
-  const [startYear, startMonth] = gulfWarStartDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  const [endYear, endMonth] = gulfWarEndDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateMonth"]').select(
-    startMonth,
-  );
-  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateYear"]').type(
-    startYear,
-  );
-  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateMonth"]').select(
-    endMonth,
-  );
-  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateYear"]').type(
-    endYear,
-  );
-};
-
-export const fillToxicExposureDateRange = () => {
-  const { toxicExposureStartDate, toxicExposureEndDate } = testData[
-    'view:toxicExposureDates'
-  ];
-  const [startYear, startMonth] = toxicExposureStartDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  const [endYear, endMonth] = toxicExposureEndDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get(
-    '[name="root_view:toxicExposureDates_toxicExposureStartDateMonth"]',
-  ).select(startMonth);
-  cy.get(
-    '[name="root_view:toxicExposureDates_toxicExposureStartDateYear"]',
-  ).type(startYear);
-  cy.get(
-    '[name="root_view:toxicExposureDates_toxicExposureEndDateMonth"]',
-  ).select(endMonth);
-  cy.get('[name="root_view:toxicExposureDates_toxicExposureEndDateYear"]').type(
-    endYear,
-  );
 };
 
 export const selectDropdownWebComponent = (fieldName, value) => {
@@ -129,66 +82,6 @@ export const advanceFromHouseholdToReview = () => {
   );
 
   goToNextPage('review-and-submit');
-};
-
-export const fillDependentBasicInformation = dependent => {
-  const {
-    fullName,
-    dateOfBirth,
-    becameDependent,
-    dependentRelation,
-    socialSecurityNumber,
-  } = dependent;
-
-  cy.get('#root_fullName_first').type(fullName.first);
-  cy.get('#root_fullName_middle').type(fullName.middle);
-  cy.get('#root_fullName_last').type(fullName.last);
-  cy.get('#root_fullName_suffix').type(fullName.suffix);
-  cy.get('#root_dependentRelation').select(dependentRelation);
-  cy.get('#root_socialSecurityNumber').type(socialSecurityNumber);
-
-  const [birthYear, birthMonth, birthDay] = dateOfBirth
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get('#root_dateOfBirthMonth').select(birthMonth);
-  cy.get('#root_dateOfBirthDay').select(birthDay);
-  cy.get('#root_dateOfBirthYear').type(birthYear);
-
-  const [dependentYear, dependentMonth, dependentDay] = becameDependent
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get('#root_becameDependentMonth').select(dependentMonth);
-  cy.get('#root_becameDependentDay').select(dependentDay);
-  cy.get('#root_becameDependentYear').type(dependentYear);
-};
-
-export const fillSpousalBasicInformation = () => {
-  const {
-    spouseDateOfBirth,
-    spouseFullName,
-    spouseSocialSecurityNumber,
-    dateOfMarriage,
-  } = testData;
-
-  cy.get('#root_spouseFullName_first').type(spouseFullName.first);
-  cy.get('#root_spouseFullName_middle').type(spouseFullName.middle);
-  cy.get('#root_spouseFullName_last').type(spouseFullName.last);
-  cy.get('#root_spouseFullName_suffix').type(spouseFullName.suffix);
-  cy.get('#root_spouseSocialSecurityNumber').type(spouseSocialSecurityNumber);
-
-  const [birthYear, birthMonth, birthDay] = spouseDateOfBirth
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get('#root_spouseDateOfBirthMonth').select(birthMonth);
-  cy.get('#root_spouseDateOfBirthDay').select(birthDay);
-  cy.get('#root_spouseDateOfBirthYear').type(birthYear);
-
-  const [maritalYear, maritalMonth, maritalDay] = dateOfMarriage
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  cy.get('#root_dateOfMarriageMonth').select(maritalMonth);
-  cy.get('#root_dateOfMarriageDay').select(maritalDay);
-  cy.get('#root_dateOfMarriageYear').type(maritalYear);
 };
 
 export const shortFormSelfDisclosureToSubmit = () => {
@@ -253,76 +146,4 @@ export const shortFormSelfDisclosureToSubmit = () => {
       .should('eq', 'highDisability');
   });
   cy.location('pathname').should('include', '/confirmation');
-};
-
-// Keyboard-only pattern helpers
-export const fillAddressWithKeyboard = (fieldName, value) => {
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street"]`, value.street);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street2"]`, value.street2);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street3"]`, value.street3);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_city"]`, value.city);
-  cy.tabToElement(`[name="root_${fieldName}_state"]`);
-  cy.chooseSelectOptionUsingValue(value.state);
-  cy.typeInIfDataExists(
-    `[name="root_${fieldName}_postalCode"]`,
-    value.postalCode,
-  );
-};
-
-export const fillDateWithKeyboard = (fieldName, value) => {
-  const [year, month, day] = value
-    .split('-')
-    .map(num => parseInt(num, 10).toString());
-  cy.tabToElement(`[name="root_${fieldName}Month"]`);
-  cy.chooseSelectOptionUsingValue(month);
-  // eslint-disable-next-line no-restricted-globals
-  if (!isNaN(day)) {
-    cy.tabToElement(`[name="root_${fieldName}Day"]`);
-    cy.chooseSelectOptionUsingValue(day);
-  }
-  cy.typeInIfDataExists(`[name="root_${fieldName}Year"]`, year);
-};
-
-export const fillNameWithKeyboard = (fieldName, value) => {
-  cy.typeInIfDataExists(`[name="root_${fieldName}_first"]`, value.first);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_middle"]`, value.middle);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_last"]`, value.last);
-  if (value.suffix) {
-    cy.tabToElement(`[name="root_${fieldName}_suffix"]`);
-    cy.chooseSelectOptionUsingValue(value.suffix);
-  }
-};
-
-export const selectDropdownWithKeyboard = (fieldName, value) => {
-  cy.tabToElement(`[name="root_${fieldName}"]`);
-  cy.chooseSelectOptionUsingValue(value);
-};
-
-export const selectRadioWithKeyboard = (fieldName, value) => {
-  cy.tabToElement(`[name="root_${fieldName}"]`);
-  cy.findOption(value);
-  cy.realPress('Space');
-};
-
-// single field web component fill helpers
-export const fillTextWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-text-input[name="root_${fieldName}"]`)
-      .shadow()
-      .find('input')
-      .type(value);
-  }
-};
-
-export const selectRadioWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(
-      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
-    ).click();
-  }
-};
-
-export const selectYesNoWebComponent = (fieldName, value) => {
-  const selection = value ? 'Y' : 'N';
-  selectRadioWebComponent(fieldName, selection);
 };

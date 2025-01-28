@@ -5,8 +5,9 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
   acceptPrivacyAgreement,
+  fillIdentityForm,
+  fillVaFacility,
   goToNextPage,
-  selectDropdownWebComponent,
   setupBasicTest,
   startAsGuestUser,
 } from './utils';
@@ -21,34 +22,14 @@ const testConfig = createTestConfig(
         afterHook(() => startAsGuestUser());
       },
       'id-form': () => {
-        cy.get('@testData').then(data => {
-          cy.findByLabelText(/first name/i).type(data.veteranFullName.first);
-          cy.findByLabelText(/last name/i).type(data.veteranFullName.last);
-
-          const [year, month, day] = data.veteranDateOfBirth
-            .split('-')
-            .map(dateComponent => parseInt(dateComponent, 10).toString());
-          cy.findByLabelText(/month/i).select(month);
-          cy.findByLabelText(/day/i).select(day);
-          cy.findByLabelText(/year/i).type(year);
-
-          cy.findByLabelText(/social security/i).type(
-            data.veteranSocialSecurityNumber,
-          );
-        });
+        cy.get('@testData').then(testData => fillIdentityForm(testData));
       },
       'insurance-information/va-facility-api': ({ afterHook }) => {
         afterHook(() => {
-          selectDropdownWebComponent(
-            'view:preferredFacility_view:facilityState',
-            'MA',
-          );
-          cy.wait('@getFacilities');
-          selectDropdownWebComponent(
-            'view:preferredFacility_vaMedicalFacility',
-            '631',
-          );
-          cy.get('.usa-button-primary').click();
+          cy.get('@testData').then(testData => {
+            fillVaFacility(testData['view:preferredFacility']);
+            goToNextPage();
+          });
         });
       },
       'household-information/share-financial-information': ({ afterHook }) => {
@@ -72,39 +53,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('[name="root_view:reportDependents"]').check('N');
-            goToNextPage();
-          });
-        });
-      },
-      'household-information/veteran-annual-income': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get(
-              '[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
-            ).type(data.veteranGrossIncome);
-            cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-              data.veteranNetIncome,
-            );
-            cy.get(
-              '[name="root_view:veteranOtherIncome_veteranOtherIncome"]',
-            ).type(data.veteranOtherIncome);
-
-            goToNextPage();
-          });
-        });
-      },
-      'household-information/deductible-expenses': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get(
-              '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-            ).type(data.deductibleMedicalExpenses);
-            cy.get(
-              '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-            ).type(data.deductibleEducationExpenses);
-            cy.get(
-              '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-            ).type(data.deductibleFuneralExpenses);
             goToNextPage();
           });
         });
