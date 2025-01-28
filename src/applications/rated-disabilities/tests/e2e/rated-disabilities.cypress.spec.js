@@ -1,4 +1,4 @@
-import featureToggleDisabled from './fixtures/feature-toggle-disabled.json';
+import featureToggleDisabled from '../fixtures/feature-toggle-disabled.json';
 import mockDisabilities from '../mockdata/200-response.json';
 import mockTotalRating from '../mockdata/total-rating-response.json';
 import mockErrorResponse from '../mockdata/error-response.json';
