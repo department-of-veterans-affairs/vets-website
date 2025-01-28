@@ -90,9 +90,9 @@ export const FormSignature = ({
 };
 
 FormSignature.propTypes = {
-  signature: PropTypes.string.isRequired,
+  signature: PropTypes.object,
   setSignature: PropTypes.func.isRequired,
-  signatureError: PropTypes.string.isRequired,
+  signatureError: PropTypes.string,
   setSignatureError: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   // eslint-disable-next-line react/sort-prop-types
@@ -119,6 +119,7 @@ FormSignature.propTypes = {
    *   function validator(signatureValue: string, formData: Object): string | undefined
    */
   validations: PropTypes.arrayOf(PropTypes.func),
+  requiredErrorMessage: PropTypes.string,
 };
 
 FormSignature.defaultProps = {

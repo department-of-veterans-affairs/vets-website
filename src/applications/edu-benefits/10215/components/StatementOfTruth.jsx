@@ -34,22 +34,18 @@ import FormSignatureCheckbox from './FormSignatureCheckbox';
 //   return undefined;
 // }
 
-export default function StatementOfTruth({
-  onSectionComplete,
-  formData,
-  ...signatureProps
-}) {
+export default function StatementOfTruth(signatureProps) {
   // Input states
   const [checked, setChecked] = useState(
     signatureProps?.formData?.AGREED ?? false,
   );
   const [signature, setSignature] = useState({
-    value: formData?.signature ?? '', // Pre-populate with existing signature if available
-    dirty: formData?.signature?.length > 0, // will be dirty if any prev signature is present
+    value: signatureProps?.formData?.signature ?? '', // Pre-populate with existing signature if available
+    dirty: signatureProps?.formData?.signature?.length > 0, // will be dirty if any prev signature is present
   });
   const [signatureOfficialTitle, setSignatureOfficialTitle] = useState({
-    value: formData?.signatureOfficialTitle ?? '', // Pre-populate with existing signature if available
-    dirty: formData?.signatureOfficialTitle?.length > 0, // will be dirty if any prev signature is present
+    value: signatureProps?.formData?.signatureOfficialTitle ?? '', // Pre-populate with existing signature if available
+    dirty: signatureProps?.formData?.signatureOfficialTitle?.length > 0, // will be dirty if any prev signature is present
   });
 
   // Validation states
@@ -70,7 +66,7 @@ export default function StatementOfTruth({
         checked && !signatureError && !signatureOfficialTitleError;
       if (sectionComplete !== isComplete) {
         setSectionComplete(isComplete);
-        onSectionComplete(isComplete);
+        signatureProps?.onSectionComplete(isComplete);
       }
     },
     [
@@ -78,7 +74,7 @@ export default function StatementOfTruth({
       signatureError,
       signatureOfficialTitleError,
       sectionComplete,
-      onSectionComplete,
+      signatureProps?.onSectionComplete,
     ],
   );
 
