@@ -15,14 +15,6 @@ export const facilityLocatorPredictiveLocationSearch = state =>
 export const facililitiesUseAddressTypeahead = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facililitiesUseAddressTypeahead];
 
-export const facilityLocatorShowOperationalHoursSpecialInstructions = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.facilityLocatorShowOperationalHoursSpecialInstructions
-  ];
-
-export const facilityLocatorLatLongOnly = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorLatLongOnly];
-
 export const facilityLocatorRestoreCommunityCarePagination = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorRestoreCommunityCarePagination

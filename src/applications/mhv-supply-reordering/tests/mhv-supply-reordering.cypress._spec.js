@@ -1,9 +1,11 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+
+// example testConfig: https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/testing/e2e/cypress/support/form-tester#sample-code
+// dataSets - sample data to be entered into the form, located: ./fixtures/data/*.json
 
 const testConfig = createTestConfig(
   {
@@ -11,24 +13,17 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     dataSets: ['minimal-test'],
     pageHooks: {
+      // equivalent default for afterHook: cy.findByText(/^Continue$/).click();
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click({ force: true });
-        });
+        afterHook(() => cy.findByText(/^Start a new order$/).click());
+      },
+      chooseSupplies: () => {
+        cy.findByRole('checkbox', { name: 'root_chosenSupplies_6584' }).check();
       },
     },
-
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/user', mockUser);
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(mockUser);
-    },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'), // doesn't work as advertised.
+    // setup: () => {},
+    // setupPerTest: () => cy.login(userData),
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
