@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
+import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 import DlcTelephoneLink from '../components/DlcTelephoneLink';
@@ -9,8 +9,14 @@ import DlcEmailLink from '../components/DlcEmailLink';
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
-  const { submission, formId, data = {} } = form;
-  const { fullName, emailAddress, chosenSupplies, supplies, permanentAddress } = data;
+  const { submission, data = {} } = form;
+  const {
+    fullName,
+    emailAddress,
+    chosenSupplies,
+    supplies,
+    permanentAddress,
+  } = data;
 
   const submittedAt = submission?.timestamp
     ? format(new Date(submission?.timestamp), 'MMMM d, yyyy')
@@ -22,7 +28,7 @@ export const ConfirmationPage = () => {
 
   const productNames = Object.keys(chosenSupplies || {})
     .filter(id => chosenSupplies[id])
-    .map(id => supplies.find(({ productId }) => id == productId))
+    .map(id => supplies.find(({ productId }) => id == productId)) // eslint-disable-line eqeqeq
     .map(({ productName }) => productName);
 
   useEffect(
@@ -48,8 +54,8 @@ export const ConfirmationPage = () => {
       <va-alert status="success" class="vads-u-margin-bottom--4" ref={alertRef}>
         <h2 slot="headline">You’ve submitted your medical supplies order</h2>
         <p>
-          We’ll send you a confirmation email about your order to{' '}
-          {emailAddress}. Your order will be processed in the next business day.
+          We’ll send you a confirmation email about your order to {emailAddress}
+          . Your order will be processed in the next business day.
         </p>
       </va-alert>
 
@@ -57,7 +63,7 @@ export const ConfirmationPage = () => {
         <h3 slot="headline">Your order information</h3>
 
         <h4>Who submitted this form</h4>
-        <p>
+        <p className="vads-u-margin-y--0 dd-privacy-mask">
           {fullName ? (
             <span>
               for {fullName.first} {fullName.middle} {fullName.last}
@@ -67,10 +73,10 @@ export const ConfirmationPage = () => {
         </p>
 
         <h4>Confirmation number</h4>
-        <p>{orderIds}</p>
+        <p className="vads-u-margin-y--0">{orderIds}</p>
 
         <h4>Supplies ordered</h4>
-        <ul>
+        <ul className="vads-u-margin-y--0">
           {productNames.map(name => (
             // eslint-disable-next-line react/jsx-key
             <li>{name}</li>
@@ -90,10 +96,14 @@ export const ConfirmationPage = () => {
         </p>
 
         <h4>Date submitted</h4>
-        <p data-testid="dateSubmitted">{submittedAt}</p>
+        <p data-testid="dateSubmitted" className="vads-u-margin-y--0">
+          {submittedAt}
+        </p>
 
         <h4>Confirmation for your records</h4>
-        <p>You can print this confirmation page for your records</p>
+        <p className="vads-u-margin-y--0">
+          You can print this confirmation page for your records
+        </p>
 
         <va-button
           class="vads-u-margin-top--4"
@@ -118,7 +128,7 @@ export const ConfirmationPage = () => {
           <DlcTelephoneLink /> or <DlcEmailLink />
         </p>
       </div>
-      <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
+      <a className="vads-c-action-link--green vads-u-margin-y--4" href="/">
         Go back to VA.gov
       </a>
     </div>
