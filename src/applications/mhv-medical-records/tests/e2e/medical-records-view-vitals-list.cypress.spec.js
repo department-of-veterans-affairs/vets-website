@@ -61,7 +61,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[8].resource.valueQuantity.value} °F`,
       moment
         .parseZone(defaultVitals.entry[8].resource.effectiveDateTime)
-        .format('MMMM D, YYYY,'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
