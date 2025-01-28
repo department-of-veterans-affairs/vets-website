@@ -1,40 +1,15 @@
 import maxTestData from './fixtures/data/maximal-test.json';
 import mockFeatures from './fixtures/mocks/feature-toggles.insurance.json';
 import {
+  advanceToHealthInsurance,
   fillInsuranceInformation,
   goToNextPage,
   setupForAuth,
-  startAsAuthUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
 
 describe('HCA-Health-Insurance-Information', () => {
-  const advanceToHealthInsurance = () => {
-    startAsAuthUser();
-
-    goToNextPage('/veteran-information/birth-information');
-    goToNextPage('/veteran-information/maiden-name-information');
-    goToNextPage('/veteran-information/birth-sex');
-    goToNextPage('/veteran-information/demographic-information');
-    goToNextPage('/veteran-information/veteran-address');
-    cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
-
-    goToNextPage('/veteran-information/contact-information');
-    goToNextPage('/va-benefits/basic-information');
-    cy.get('[name="root_vaCompensationType"]').check('highDisability');
-
-    goToNextPage('/va-benefits/confirm-service-pay');
-    goToNextPage('/military-service/toxic-exposure');
-    cy.get('[name="root_hasTeraResponse"]').check('N');
-
-    goToNextPage('/insurance-information/medicaid');
-    cy.get('[name="root_isMedicaidEligible"]').check('N');
-
-    goToNextPage('/insurance-information/your-health-insurance');
-    goToNextPage('/insurance-information/health-insurance');
-  };
-
   beforeEach(() => {
     setupForAuth({ features: mockFeatures });
     advanceToHealthInsurance();
