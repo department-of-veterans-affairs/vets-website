@@ -1,3 +1,7 @@
+// export utils
+export * from './helpers';
+export * from './setup';
+
 import maxTestData from '../fixtures/data/maximal-test.json';
 
 const { data: testData } = maxTestData;
@@ -82,7 +86,6 @@ export const advanceToHousehold = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
-  cy.wait('@mockSip');
   cy.location('pathname').should('include', '/check-your-personal-information');
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
@@ -92,7 +95,6 @@ export const advanceToHousehold = () => {
   cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
 
   goToNextPage('/veteran-information/contact-information');
-  cy.wait('@mockSip');
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');
   goToNextPage('/va-benefits/pension-information');
