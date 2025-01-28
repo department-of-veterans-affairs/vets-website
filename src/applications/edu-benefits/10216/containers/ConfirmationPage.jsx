@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 
-export const ConfirmationPage = props => {
+export const ConfirmationPage = ({ props, isAccredited }) => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
-
+  const goBack = e => {
+    e.preventDefault();
+    props?.router.push('/review-and-submit');
+  };
   const childContent = (
     <div>
-      {!props?.isAccredited && <Alert />}
+      {!isAccredited && <Alert />}
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
         To submit your forms, follow the steps below
       </h2>
@@ -55,13 +58,11 @@ export const ConfirmationPage = props => {
           <p>Once uploaded, click submit to finalize your request.</p>
         </va-process-list-item>
       </va-process-list>
-      <va-button
-        uswds
-        back
-        class="screen-only vads-u-margin-top--1"
-        onClick={() => {
-          props?.router.goBack();
-        }}
+      <va-link
+        onClick={goBack}
+        class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+        text="Back"
+        href="#"
       />
       <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
         What are my next steps?
@@ -97,32 +98,12 @@ export const ConfirmationPage = props => {
 };
 
 ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
   isAccredited: PropTypes.bool,
-  name: PropTypes.string,
-  route: PropTypes.object,
-  router: PropTypes.shape({
-    goBack: PropTypes.func,
+  props: PropTypes.shape({
+    router: PropTypes.shape({
+      push: PropTypes.func,
+    }),
   }),
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;
