@@ -12,7 +12,7 @@ const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'log-level', type: String, defaultValue: 'error' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'coverage-html', type: Boolean, defaultValue: false },
@@ -98,7 +98,7 @@ async function runTests() {
     .filter(spec => spec !== undefined)
     .map(directory => JSON.parse(directory).join('/'));
   for (const app of allUnitTestDirs) {
-    const command = `LOG_LEVEL=${options[
+    const command = `shopt -s extglob; LOG_LEVEL=${options[
       'log-level'
     ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
 
@@ -111,13 +111,61 @@ async function runTests() {
   }
 }
 
-if (options.path[0] !== defaultPath) {
-  const command = `LOG_LEVEL=${options[
-    'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${`--recursive ${options.path
-    .map(p => `'${p}'`)
-    .join(' ')}`}`;
+// async function runUserCommand(paths) {
+//   const allUnitTests = paths.flatMap(p => glob.sync(p));
+//   console.log(JSON.stringify(allUnitTests.join(' ')));
+//   // const allUnitTestDirs = Array.from(
+//   //   new Set(
+//   //     allUnitTests.map(spec =>
+//   //       JSON.stringify(
+//   //         path
+//   //           .dirname(spec)
+//   //           .split('/')
+//   //           .slice(1, 4),
+//   //       ),
+//   //     ),
+//   //   ),
+//   // )
+//   //   .filter(spec => spec !== undefined)
+//   //   .map(directory => JSON.parse(directory).join('/'));
+//   // for (const app of allUnitTestDirs) {
+//   //   const command = `LOG_LEVEL=${options[
+//   //     'log-level'
+//   //   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
+//   //   try {
+//   //     /* eslint-disable-next-line no-await-in-loop */
+//   //     await runCommandAsync(command);
+//   //   } catch (error) {
+//   //     console.log(error);
+//   //   }
+//   // }
+// }
 
+if (options.path[0] !== defaultPath) {
+  const filepaths = options.path.map(
+    p =>
+      options['app-folder'] && p.indexOf('.unit.spec.js') > 0
+        ? `'${p}'`
+        : `'${p}/**/*.unit.spec.js?(x)'`.replace(/\/{2,}/, '/'),
+  );
+
+  // const fs = require('fs');
+
+  // filepaths.forEach(pathx => {
+  //   if (fs.existsSync(path)) {
+  //     console.log(`Exists: ${pathx}`);
+  //   } else {
+  //     console.log(`Missing: ${pathx}`);
+  //   }
+  // });
+
+  const command = `shopt -s extglob; LOG_LEVEL=${options[
+    'log-level'
+  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${filepaths.join(
+    ' ',
+  )}`;
+
+  console.log(JSON.stringify(command));
   runCommand(command);
 } else {
   runTests().then(() => {
