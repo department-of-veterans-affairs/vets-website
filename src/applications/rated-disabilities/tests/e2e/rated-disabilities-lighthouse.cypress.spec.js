@@ -1,9 +1,9 @@
-import notFoundError from './fixtures/not-found-error.json';
-import featureToggleEnabled from './fixtures/feature-toggle-enabled.json';
-import serviceConnectedOnly from './fixtures/service-connected-only.json';
-import noCombinedRating from './fixtures/no-combined-rating.json';
-import noRatings from './fixtures/no-ratings.json';
-import nonServiceConnectedOnly from './fixtures/non-service-connected-only.json';
+import notFoundError from '../fixtures/not-found-error.json';
+import featureToggleEnabled from '../fixtures/feature-toggle-enabled.json';
+import serviceConnectedOnly from '../fixtures/service-connected-only.json';
+import noCombinedRating from '../fixtures/no-combined-rating.json';
+import noRatings from '../fixtures/no-ratings.json';
+import nonServiceConnectedOnly from '../fixtures/non-service-connected-only.json';
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
 
