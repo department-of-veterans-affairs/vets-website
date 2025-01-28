@@ -1,7 +1,7 @@
 import { cypressSetup } from './utils';
 import mockUser from './fixtures/mocks/user.json';
 
-describe.skip('Welcome to My VA Review Contact Information form', () => {
+describe('Welcome to My VA Review Contact Information form', () => {
   const editMobileNumber = () => {
     cy.get('#edit-mobile-phone').click();
     cy.location('pathname').should('include', '/edit-mobile-phone');
@@ -105,7 +105,7 @@ describe.skip('Welcome to My VA Review Contact Information form', () => {
     it('should redirect to sign in', () => {
       cy.location().should(loc => {
         expect(loc.search).to.eq(
-          '?next=%2Fmy-va%2Fwelcome-va-setup%2Freview-information%2Fcontact-information',
+          '?next=%2Fmy-va%2Fwelcome-va-setup%2Fcontact-information',
         );
       });
     });
