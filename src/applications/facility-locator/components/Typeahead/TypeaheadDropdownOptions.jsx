@@ -8,13 +8,24 @@ function TypeaheadDropdownOptions({
   options,
   isShown,
   itemToString,
+  noItemsMessage,
 }) {
-  if (!isShown || !options.length) {
+  if (!isShown) {
     return null;
   }
 
   return (
     <div className="dropdown" role="listbox">
+      {options.length === 0 && (
+        <TypeaheadDropdownOption
+          key=""
+          item={{ toDisplay: noItemsMessage, disabled: true }}
+          index={0}
+          getItemProps={getItemProps}
+          highlightedIndex={-1}
+          itemToString={itemToString}
+        />
+      )}
       {options.map((item, index) => (
         <TypeaheadDropdownOption
           key={item.id}
@@ -33,6 +44,7 @@ TypeaheadDropdownOptions.propTypes = {
   getItemProps: PropTypes.func.isRequired,
   isShown: PropTypes.bool.isRequired,
   itemToString: PropTypes.func.isRequired,
+  noItemsMessage: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
 };

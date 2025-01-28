@@ -20,6 +20,7 @@ function TypeaheadDropdownOption({
         className: optionClasses(index === highlightedIndex),
         role: 'option',
         'aria-selected': index === highlightedIndex,
+        disabled: item?.disabled === true,
       })}
     >
       {itemToString(item)}

@@ -29,6 +29,7 @@ function Typeahead({
   // options for the typeahead to show
   options,
   minCharacters = 3, // only trigger update after n=3 characters
+  noItemsMessage = 'No results found',
   // showError - use the usa-input-error class to show the error
   showError = false,
   // behavior check - should the input clear on escape - default is true
@@ -142,6 +143,7 @@ function Typeahead({
                 isOpen && !!inputValue && inputValue.length > minCharacters
               }
               itemToString={itemToString}
+              noItemsMessage={noItemsMessage}
             />
           </div>
         </div>
@@ -169,6 +171,8 @@ Typeahead.propTypes = {
   keepDataOnBlur: PropTypes.bool, // optional flag to keep the input value on blur
   labelSibling: PropTypes.element, // optional element to render next to the label
   minCharacters: PropTypes.number, // optional minimum number of characters to start searching
+  noItemsMessage: PropTypes.string, // message to show when no items are found
+  showDownCaret: PropTypes.bool, // optional flag to show the down
   showError: PropTypes.bool, // optional flag to show the error state
   stateReducer: PropTypes.func, // optional function to modify the state of Downshift - e.g. handle escape to not clear
 };

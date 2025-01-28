@@ -42,7 +42,8 @@ function AddressTypeahead({
 
   const handleOnSelect = selectedItem => {
     // This selects the WHOLE item not just the text to display giving you access to all it's data
-    if (!selectedItem) {
+    if (!selectedItem || selectedItem.disabled) {
+      // just do nothing if it's disabled -- could also clear the input or do whatever
       return;
     }
     setDefaultSelectedItem(selectedItem);
