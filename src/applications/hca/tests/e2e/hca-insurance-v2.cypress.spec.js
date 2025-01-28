@@ -12,7 +12,7 @@ const { data: testData } = maxTestData;
 describe('HCA-Health-Insurance-Information', () => {
   beforeEach(() => {
     setupForAuth({ features: mockFeatures });
-    advanceToHealthInsurance();
+    advanceToHealthInsurance(testData);
   });
 
   it('should successfully advance to facility selection when user does not have health insurance coverage', () => {
