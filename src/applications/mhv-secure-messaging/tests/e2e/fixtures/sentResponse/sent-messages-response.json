@@ -21,7 +21,7 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": true
+        "unreadMessages": false
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2708300"
@@ -48,7 +48,7 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": true
+        "unreadMessages": false
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649219"
