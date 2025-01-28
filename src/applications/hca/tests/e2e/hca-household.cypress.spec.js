@@ -1,7 +1,6 @@
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
-  acceptPrivacyAgreement,
-  advanceFromHouseholdToReview,
+  advanceFromHouseholdToSubmit,
   advanceToHousehold,
   fillDeductibleExpenses,
   fillDependentBasicInformation,
@@ -26,36 +25,11 @@ describe('HCA-Household: Non-disclosure', () => {
     cy.get('[name="root_discloseFinancialInformation"]').check('N');
 
     goToNextPage('/household-information/share-financial-information-confirm');
-    cy.findByText(
-      /confirm that you don\u2019t want to provide your household financial information/i,
-    )
-      .first()
-      .should('exist');
-    cy.findAllByText(/confirm/i, { selector: 'button' })
-      .first()
-      .click();
-
     goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.false');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData, { disclosureAssertionValue: false });
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works without spouse or dependent information', () => {
@@ -77,24 +51,8 @@ describe('HCA-Household: Non-disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 });
 
@@ -133,24 +91,8 @@ describe('HCA-Household: Spousal disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with spouse who did not live with Veteran', () => {
@@ -195,24 +137,8 @@ describe('HCA-Household: Spousal disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 });
 
@@ -250,24 +176,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is of college age, lived with Veteran and earned income', () => {
@@ -308,24 +218,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is of college age, did not live with Veteran and did not earn income', () => {
@@ -359,24 +253,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is of college age, did not live with Veteran and earned income', () => {
@@ -420,24 +298,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is not of college age, lived with Veteran and did not earn income', () => {
@@ -471,24 +333,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is not of college age, lived with Veteran and earned income', () => {
@@ -525,24 +371,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is not of college age, did not live with Veteran and did not earn income', () => {
@@ -579,24 +409,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('works with dependent who is not of college age, did not live with Veteran and earned income', () => {
@@ -636,24 +450,8 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 });
 
@@ -714,23 +512,7 @@ describe('HCA-Household: Full disclosure', () => {
     goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
-    advanceFromHouseholdToReview();
-
-    // accept the privacy agreement
-    acceptPrivacyAgreement();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-
-    // check for correct disclosure value
-    cy.wait('@mockSubmit').then(interception => {
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('discloseFinancialInformation')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
-
-    cy.injectAxe();
-    cy.axeCheck();
+    advanceFromHouseholdToSubmit(testData);
+    cy.injectAxeThenAxeCheck();
   });
 });
