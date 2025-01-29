@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import {
   selectVAPMailingAddress,
   selectVAPResidentialAddress,
-  // isProfileLoading,
-  // isLoggedIn,
 } from 'platform/user/selectors';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
@@ -36,9 +34,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     appointmentError,
   } = useSelector(state => state.travelPay);
 
-  // const profileLoading = useSelector(state => isProfileLoading(state));
-  // const userLoggedIn = useSelector(state => isLoggedIn(state));
-
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -52,15 +47,15 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   useEffect(
     () => {
-      if (!hasFetchedAppointment) {
+      if (apptId && !hasFetchedAppointment) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, hasFetchedAppointment],
+    [dispatch, hasFetchedAppointment, apptId],
   );
 
   const appIsAvailable =
-    !toggleIsLoading && canSubmitMileage && appointmentData;
+    !toggleIsLoading && canSubmitMileage && hasFetchedAppointment;
 
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
