@@ -62,13 +62,8 @@ const formConfig = {
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo2',
           contactPath: 'contact-information',
-          contactInfoRequiredKeys: [
-            'mobilePhone',
-            'homePhone',
-            'mailingAddress',
-            'email',
-          ],
-          included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'], // default
+          contactInfoRequiredKeys: ['mobilePhone', 'mailingAddress', 'email'],
+          included: ['mobilePhone', 'mailingAddress', 'email'], // default
           wrapperKey: 'veteranInformation',
         }),
       },
