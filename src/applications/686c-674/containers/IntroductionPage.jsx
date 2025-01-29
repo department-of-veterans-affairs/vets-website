@@ -49,9 +49,7 @@ const IntroductionPage = props => {
 
       return (
         <div className="vads-u-margin-y--2">
-          <va-alert status="error" uswds>
-            {alertMessage}
-          </va-alert>
+          <va-alert status="error">{alertMessage}</va-alert>
         </div>
       );
     }
