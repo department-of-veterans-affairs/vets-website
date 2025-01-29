@@ -4,13 +4,12 @@ import DownshiftClear from './DownshiftClear';
 import DownshiftCaret from './DownshiftCaret';
 
 function InputControlsContainer({
+  getToggleButtonProps,
   inputId,
   isOpen,
-  showDownCaret,
-  openMenu,
-  closeMenu,
-  showClearButton,
   onClearClick,
+  showDownCaret,
+  showClearButton,
 }) {
   return (
     <div id={`${inputId}-input-controls-container`}>
@@ -22,19 +21,17 @@ function InputControlsContainer({
       <DownshiftCaret
         isOpen={isOpen}
         showDownCaret={showDownCaret}
-        openMenu={openMenu}
-        closeMenu={closeMenu}
         inputId={inputId}
+        getToggleButtonProps={getToggleButtonProps}
       />
     </div>
   );
 }
 
 InputControlsContainer.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
+  getToggleButtonProps: PropTypes.func.isRequired,
   inputId: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  openMenu: PropTypes.func.isRequired,
   showClearButton: PropTypes.bool.isRequired,
   showDownCaret: PropTypes.bool.isRequired,
   onClearClick: PropTypes.func.isRequired,

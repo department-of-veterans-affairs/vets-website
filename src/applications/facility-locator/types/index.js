@@ -235,3 +235,31 @@ export const SearchControlsTypes = {
   suppressPPMS: PropTypes.bool,
   suppressPharmacies: PropTypes.bool,
 };
+
+export const TypeaheadProps = {
+  handleOnSelect: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired, // controlled component
+  label: PropTypes.element.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClearClick: PropTypes.func.isRequired, // function to call when the clear button is clicked,
+  onInputValueChange: PropTypes.func.isRequired,
+  clearOnEscape: PropTypes.bool, // optional flag to clear the input on escape
+  defaultSelectedItem: PropTypes.object, // can be null
+  downshiftInputProps: PropTypes.object, // props to pass to the input from downshift
+  inputContainerClassName: PropTypes.string, // optional className for the input container
+  inputError: PropTypes.element, // optional element to render an error message
+  inputId: PropTypes.string, // defaults to 'typeahead-input'
+  inputRef: PropTypes.object, // not required only if you programmatically need to focus the input or get something from it
+  isItemDisabled: PropTypes.func, // optional function to disable an item
+  isLoading: PropTypes.bool, // data is loading - to be shown in place of no results if no results is to be shown
+  loadingMessage: PropTypes.string,
+  itemToString: PropTypes.func,
+  keepDataOnBlur: PropTypes.bool, // optional flag to keep the input value on blur
+  labelSibling: PropTypes.element, // optional element to render next to the label
+  minCharacters: PropTypes.number, // optional minimum number of characters to start searching
+  noItemsMessage: PropTypes.string, // message to show when no items are found
+  showDownCaret: PropTypes.bool, // optional flag to show the down
+  showError: PropTypes.bool, // optional flag to show the error state
+  stateReducer: PropTypes.func, // optional function to modify the state of Downshift - e.g. handle escape to not clear
+  shouldShowNoResults: PropTypes.bool, // optional to hide show no results under input
+};

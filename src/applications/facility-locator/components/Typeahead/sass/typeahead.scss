@@ -4,11 +4,14 @@
 div[id$="-typeahead-container"] {
   &.usa-input-error {
     margin-top: 0 !important;
-    right: 0;
-    margin-left: -0.9rem; // matching Facility Type - can override
     padding-top: 0; // matching style to VaSelect use of usa-error
+    right: 0;
   }
-
+  @media (min-width: $small-desktop-screen) {
+    &.usa-input-error {
+      margin-left: -0.9rem; // matching Facility Type - can override
+    }
+  }
   div[id$="-typeahead-label-container"] {
     display: flex;
     flex-direction: column;
@@ -58,8 +61,7 @@ div[id$="-typeahead-container"] {
         z-index: 1011;
         border: 2px solid var(--vads-color-white);
 
-        &.selected,
-        &:hover {
+        &.selected {
           color: var(--vads-color-white);
           // background-color: var(--vads-color-primary-dark);
           color: var(--vads-color-black);

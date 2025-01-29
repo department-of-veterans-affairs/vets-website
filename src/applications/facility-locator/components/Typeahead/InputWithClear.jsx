@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import InputControlsContainer from './InputControlsContainer';
 
 /**
@@ -15,19 +15,18 @@ import InputControlsContainer from './InputControlsContainer';
  * @param {React.MutableRefObject} ref - passed to the input
  * @returns
  */
-function InputWithClear(
-  {
-    inputId,
-    onClearClick,
-    className,
-    isOpen,
-    showDownCaret,
-    openMenu,
-    closeMenu,
-    ...otherProps
-  },
-  ref,
-) {
+
+function InputWithClear({
+  downshiftInputProps = {},
+  getInputProps,
+  getToggleButtonProps,
+  inputId,
+  className,
+  onClearClick,
+  isOpen,
+  showDownCaret,
+  showClearButton,
+}) {
   return (
     <div className={className}>
       <div className="input-with-clear-container vads-u-width--full">
@@ -38,16 +37,13 @@ function InputWithClear(
          */}
         <input
           className="input-with-clear vads-u-width--full"
-          {...otherProps}
-          name={inputId}
-          ref={ref}
+          {...getInputProps({ ...downshiftInputProps })}
         />
         <InputControlsContainer
           isOpen={isOpen}
           showDownCaret={showDownCaret}
-          showClearButton={!!ref?.current?.value}
-          openMenu={openMenu}
-          closeMenu={closeMenu}
+          showClearButton={showClearButton}
+          getToggleButtonProps={getToggleButtonProps}
           onClearClick={onClearClick}
           inputId={inputId}
         />
@@ -57,14 +53,17 @@ function InputWithClear(
 }
 
 InputWithClear.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
+  getInputProps: PropTypes.func.isRequired,
+  getToggleButtonProps: PropTypes.func.isRequired,
   inputId: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  openMenu: PropTypes.func.isRequired,
+  showClearButton: PropTypes.bool.isRequired,
   showDownCaret: PropTypes.bool.isRequired,
   onClearClick: PropTypes.func.isRequired,
   className: PropTypes.string,
+  downshiftInputProps: PropTypes.object,
+
   // others not specified, may be passed from function
 };
 
-export default forwardRef(InputWithClear);
+export default InputWithClear;

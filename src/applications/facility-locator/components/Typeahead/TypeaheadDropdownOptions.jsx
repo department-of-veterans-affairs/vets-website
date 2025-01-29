@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TypeaheadDropdownOption from './TypeaheadDropdownOption';
 
@@ -7,26 +7,38 @@ function TypeaheadDropdownOptions({
   highlightedIndex,
   options,
   isShown,
+  isLoading,
+  loadingMessage,
   itemToString,
+  getMenuProps,
   noItemsMessage,
+  shouldShowNoResults,
 }) {
-  if (!isShown) {
-    return null;
-  }
+  const [optionsToShow, setOptionsToShow] = useState([]);
+  useEffect(
+    () => {
+      if (isLoading) {
+        setOptionsToShow([
+          { id: '', disabled: true, toDisplay: loadingMessage },
+        ]);
+      } else if (!options?.length && shouldShowNoResults) {
+        setOptionsToShow([
+          { id: '', disabled: true, toDisplay: noItemsMessage },
+        ]);
+      } else {
+        setOptionsToShow(options);
+      }
+    },
+    [options, noItemsMessage, shouldShowNoResults, isLoading, loadingMessage],
+  );
 
   return (
-    <div className="dropdown" role="listbox">
-      {options.length === 0 && (
-        <TypeaheadDropdownOption
-          key=""
-          item={{ toDisplay: noItemsMessage, disabled: true }}
-          index={0}
-          getItemProps={getItemProps}
-          highlightedIndex={-1}
-          itemToString={itemToString}
-        />
-      )}
-      {options.map((item, index) => (
+    <div
+      className="dropdown"
+      {...getMenuProps()}
+      style={{ display: isShown ? 'block' : 'none' }}
+    >
+      {optionsToShow.map((item, index) => (
         <TypeaheadDropdownOption
           key={item.id}
           item={item}
@@ -42,11 +54,15 @@ function TypeaheadDropdownOptions({
 
 TypeaheadDropdownOptions.propTypes = {
   getItemProps: PropTypes.func.isRequired,
+  getMenuProps: PropTypes.func.isRequired,
   isShown: PropTypes.bool.isRequired,
   itemToString: PropTypes.func.isRequired,
   noItemsMessage: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
+  shouldShowNoResults: PropTypes.bool.isRequired,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
+  isLoading: PropTypes.bool,
+  loadingMessage: PropTypes.string,
 };
 
 export default TypeaheadDropdownOptions;

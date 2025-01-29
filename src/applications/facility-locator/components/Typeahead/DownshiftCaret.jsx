@@ -3,10 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function DownshiftCaret({
+  getToggleButtonProps,
   isOpen,
   showDownCaret,
-  openMenu,
-  closeMenu,
   inputId,
 }) {
   if (!showDownCaret) {
@@ -18,13 +17,13 @@ function DownshiftCaret({
         id={`downshift-caret-${inputId}`}
         aria-label={isOpen ? 'close dropdown' : 'open dropdown'}
         className="downshift-caret-button"
-        onClick={() => (isOpen ? closeMenu() : openMenu())}
+        {...getToggleButtonProps()}
         type="button"
       >
         {isOpen ? (
-          <va-icon icon="expand_more" size="3" />
-        ) : (
           <va-icon icon="expand_less" size="3" />
+        ) : (
+          <va-icon icon="expand_more" size="3" />
         )}
       </button>
     </div>
@@ -32,10 +31,9 @@ function DownshiftCaret({
 }
 
 DownshiftCaret.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
+  getToggleButtonProps: PropTypes.func.isRequired,
   inputId: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  openMenu: PropTypes.func.isRequired,
   showDownCaret: PropTypes.bool,
 };
 export default DownshiftCaret;

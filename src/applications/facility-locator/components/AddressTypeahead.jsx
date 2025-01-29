@@ -19,41 +19,39 @@ function AddressTypeahead({
 }) {
   const [inputValue, setInputValue] = useState(null);
   const { locationChanged, searchString, geolocationInProgress } = currentQuery;
-  const [defaultSelectedItem, setDefaultSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [options, setOptions] = useState([]);
   const [showAddressError, setShowAddressError] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
+  const [inputHasChanged, setInputHasChanged] = useState(false);
+  const [isGeocoding, setIsGeocoding] = useState(false);
 
   const inputClearClick = useCallback(
     () => {
       setInputValue('');
       // setting to null causes the the searchString to be used, because of a useEffect below
       // so we set it to a non-existent object
-      setDefaultSelectedItem({ toDisplay: '', id: '' });
+      setSelectedItem(null);
       setOptions([]);
+      setInputHasChanged(false);
       onClearClick?.(); // clears searchString in redux
     },
     [onClearClick],
   );
 
-  const inputValueClearOnly = () => {
-    setInputValue('');
-  };
-
-  const handleOnSelect = selectedItem => {
+  const handleOnSelect = item => {
     // This selects the WHOLE item not just the text to display giving you access to all it's data
-    if (!selectedItem || selectedItem.disabled) {
+    if (!item || item.disabled) {
       // just do nothing if it's disabled -- could also clear the input or do whatever
       return;
     }
-    setDefaultSelectedItem(selectedItem);
-    setInputValue(selectedItem.toDisplay);
+    setSelectedItem(item);
     setIsFocused(true);
     onChange({
-      searchString: onlySpaces(selectedItem.toDisplay)
-        ? selectedItem.toDisplay.trim()
-        : selectedItem.toDisplay,
+      searchString: onlySpaces(item.toDisplay)
+        ? item.toDisplay.trim()
+        : item.toDisplay,
     });
   };
 
@@ -70,17 +68,23 @@ function AddressTypeahead({
     }
     if (trimmedTerm.length > MIN_SEARCH_CHARS) {
       // fetch results and set options
-      searchAddresses(trimmedTerm).then(features => {
-        if (!features) {
-          setOptions([]);
-        }
-        setOptions([
-          ...features.map(feature => ({
-            ...feature,
-            toDisplay: feature.place_name || trimmedTerm,
-          })),
-        ]);
-      });
+      setInputHasChanged(true); // show no results if none after populating list
+      setIsGeocoding(true);
+      searchAddresses(trimmedTerm)
+        .then(features => {
+          if (!features) {
+            setOptions([]);
+          } else {
+            setOptions([
+              ...features.map(feature => ({
+                ...feature,
+                toDisplay: feature.place_name || trimmedTerm,
+              })),
+            ]);
+          }
+          setIsGeocoding(false);
+        })
+        .catch(() => setIsGeocoding(false));
     }
   };
 
@@ -95,26 +99,25 @@ function AddressTypeahead({
 
   const debouncedUpdateSearch = vaDebounce(500, updateSearch);
 
-  const onBlur = e => {
-    // happens when the input is blurred
-    const { value } = e.target;
-    onChange({ searchString: value?.trim() || '' });
+  const onBlur = () => {
+    onChange({ searchString: inputValue || '' });
+    // not expected to search when user leaves the field
     setIsFocused(false);
   };
 
   const handleInputChange = e => {
     // This way no Downshift odd input changes when selecting an address from the options
-    const { value } = e.target;
-    setInputValue(value);
+    const { inputValue: iv } = e;
+    setInputValue(iv);
     setIsTouched(true);
 
-    if (!value?.trim()) {
+    if (!iv?.trim()) {
       onClearClick();
       return;
     }
 
     setShowAddressError(false);
-    debouncedUpdateSearch(value);
+    debouncedUpdateSearch(iv);
   };
 
   useEffect(
@@ -153,7 +156,7 @@ function AddressTypeahead({
     <Typeahead
       inputValue={inputValue || ''}
       onInputValueChange={handleInputChange}
-      defaultSelectedItem={defaultSelectedItem || null}
+      selectedItem={selectedItem || null}
       handleOnSelect={handleOnSelect}
       label={(
         <>
@@ -171,10 +174,9 @@ function AddressTypeahead({
         onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
         disabled: false,
         autoCorrect: 'off',
-        spellCheck: 'false',
+        spellCheck: 'false',      
       }}
-      inputClearClick={inputClearClick}
-      inputValueClearOnly={inputValueClearOnly}
+      onClearClick={inputClearClick}
       inputError={<AddressInputError showError={showAddressError || false} />}
       showError={showAddressError}
       inputId="street-city-state-zip"
@@ -187,8 +189,10 @@ function AddressTypeahead({
       )}
       minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
-      clearOnEscape={false}
-      showDownCaret={false}
+      showDownCaret
+      shouldShowNoResults={inputHasChanged}
+      isLoading={isGeocoding}
+      loadingMessage="Searching..."
     />
   );
   /* eslint-enable prettier/prettier */

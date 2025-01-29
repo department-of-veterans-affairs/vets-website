@@ -101,7 +101,7 @@ const SearchControls = props => {
 
     if (!searchString) {
       updateReduxState('searchString');
-      setFocus(locationInputFieldRef.current, false);
+      focusElement('#street-city-state-zip');
       return;
     }
 
