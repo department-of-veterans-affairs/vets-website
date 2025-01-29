@@ -9,7 +9,7 @@ const appointment = require('../../../fixtures/appointment.json');
 
 describe('Mileage page', () => {
   const props = {
-    appointment,
+    appointment: appointment.data,
     pageIndex: 1,
     setPageIndex: () => {},
     yesNo: {

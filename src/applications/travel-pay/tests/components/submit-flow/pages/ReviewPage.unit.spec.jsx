@@ -35,7 +35,7 @@ const setYesNoSpy = sinon.spy();
 describe('Revew page', () => {
   const props = {
     address: homeAddress,
-    appointment,
+    appointment: appointment.data,
     onSubmit: () => onSubmitSpy(),
     isAgreementChecked: false,
     setIsAgreementChecked: () => setIsAgreementCheckedSpy(),

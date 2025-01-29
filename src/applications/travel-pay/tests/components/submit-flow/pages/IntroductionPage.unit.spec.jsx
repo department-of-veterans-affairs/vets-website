@@ -7,18 +7,20 @@ import IntroductionPage from '../../../../components/submit-flow/pages/Introduct
 
 const appointment = require('../../../fixtures/appointment.json');
 
-it('should render with link to file a claim', () => {
-  const props = {
-    appointment,
-    onNext: () => {},
-  };
-  const screen = render(<IntroductionPage {...props} />);
+describe('Introduction page', () => {
+  it('should render with link to file a claim', () => {
+    const props = {
+      appointment: appointment.data,
+      onNext: () => {},
+    };
+    const screen = render(<IntroductionPage {...props} />);
 
-  expect(screen.getByText('File a travel reimbursement claim')).to.exist;
-  expect(
-    screen.getByText(
-      /Monday, December 30, 2024 at Cheyenne VA Medical Center/i,
-    ),
-  ).to.exist;
-  expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+    expect(screen.getByText('File a travel reimbursement claim')).to.exist;
+    expect(
+      screen.getByText(
+        /Monday, December 30, 2024 at Cheyenne VA Medical Center/i,
+      ),
+    ).to.exist;
+    expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+  });
 });
