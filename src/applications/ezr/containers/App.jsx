@@ -9,7 +9,6 @@ import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/a
 import { fetchVeteranPrefillDataAction } from '../utils/actions/veteran-prefill-data';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
-// import { selectVeteranPrefillData } from '../utils/selectors/veteran-prefill-data';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
@@ -20,7 +19,7 @@ const App = props => {
     children,
     features,
     fetchEnrollmentStatus,
-    // fetchVeteranPrefillData,
+    fetchVeteranPrefillData,
     formData,
     location,
     setFormData,
@@ -36,22 +35,17 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-  // const { parsedData } = useSelector(selectVeteranPrefillData);
 
   useEffect(
     () => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      fetchVeteranPrefillData();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
   );
-
-  // useEffect(() => {
-  //   fetchVeteranPrefillData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // });
 
   /**
    * Set default view fields in the form data

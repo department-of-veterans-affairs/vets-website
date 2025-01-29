@@ -64,7 +64,7 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
 };
 
-// declare initial state for entrollment status reducer
+// declare initial state for enrollment status reducer
 export const ENROLLMENT_STATUS_INIT_STATE = {
   hasServerError: false,
   parsedStatus: null,
@@ -160,6 +160,7 @@ export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
     grossIncome: '38911',
     netIncome: '743',
   },
+  incomeYear: '2023',
   providers: [
     {
       insuranceName: 'Insurance1',
@@ -201,6 +202,6 @@ export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
 
 export const VETERAN_PREFILL_DATA_INIT_STATE = {
   hasServerError: false,
-  parsedData: MOCK_VETERAN_PREFILL_DATA_RESPONSE,
+  parsedData: null,
   loading: false,
 };

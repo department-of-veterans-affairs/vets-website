@@ -1,30 +1,22 @@
 import React from 'react';
+import { LAST_YEAR } from '../../utils/constants';
 
 const CombatOperationServiceDescription = props => {
+  const { formData } = props;
   return (
     <>
-      <ul>
-        <li>
-          <strong>Veteran Gross Income</strong>{' '}
-          {/* eslint-disable-next-line react/prop-types */}
-          {props?.veteranIncome?.grossIncome}
-        </li>
-        <li>
-          <strong>Iraqi Freedom</strong> between 2003 and 2011
-        </li>
-        <li>
-          <strong>New Dawn</strong> between 2010 and 2011
-        </li>
-        <li>
-          <strong>Inherent Resolve</strong> between 2014 and the present
-        </li>
-        <li>
-          <strong>Freedom’s Sentinel</strong> between 2015 and 2021
-        </li>
-        <li>
-          <strong>Resolute Support Mission</strong> between 2015 and 2021
-        </li>
-      </ul>
+      <h4>Your annual income from {LAST_YEAR}</h4>
+      <p>Gross annual income: {formData.veteranGrossIncome}</p>
+      <p>Net annual income: {formData.veteranNetIncome}</p>
+      <p>Other income: {formData.veteranOtherIncome}</p>
+      <h4>Spouse’s annual income from {LAST_YEAR}</h4>
+      <p>Gross annual income: {formData.spouseGrossIncome}</p>
+      <p>Net annual income: {formData.spouseNetIncome}</p>
+      <p>Other income: {formData.spouseOtherIncome}</p>
+      <h4>Deductible expenses from {LAST_YEAR}</h4>
+      <p>Gross annual income: {formData.deductibleMedicalExpenses}</p>
+      <p>Net annual income: {formData.deductibleEducationExpenses}</p>
+      <p>Other income: {formData.deductibleFuneralExpenses}</p>
     </>
   );
 };

@@ -19,7 +19,9 @@ export function callFakeSuccess(dispatch) {
   }).then(() => {
     dispatch({
       type: FETCH_VETERAN_PREFILL_DATA_SUCCEEDED,
-      response: MOCK_VETERAN_PREFILL_DATA_RESPONSE,
+      response: {
+        parsedData: MOCK_VETERAN_PREFILL_DATA_RESPONSE,
+      },
     });
   });
 }

@@ -1,21 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { formatCurrency } from '../../utils/helpers/general';
 
 // eslint-disable-next-line react/prop-types
-const PreviousGrossIncome = ({ isVeteranIncome = true }) => {
-  const { parsedData } = useSelector(state => state.veteranPrefillData);
+const PreviousGrossIncome = (veteranData, { isVeteranIncome = true }) => {
   const grossIncome =
     isVeteranIncome === true
-      ? `${parsedData?.veteranIncome?.grossIncome}`
-      : `${parsedData?.spouseIncome?.grossIncome}`;
+      ? `${veteranData?.veteranIncome?.grossIncome}`
+      : `${veteranData?.spouseIncome?.grossIncome}`;
 
   return (
     <>
       <div className="vads-u-background-color--gray-lightest">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Gross income last year
+            Your {isVeteranIncome ? '' : "spouse's"} gross annual income from{' '}
+            {isVeteranIncome
+              ? veteranData.incomeYear
+              : veteranData.spouseIncomeYear}
           </h4>
           <p className="vads-u-margin-y--0">{formatCurrency(grossIncome)}</p>
         </va-card>
@@ -24,7 +25,7 @@ const PreviousGrossIncome = ({ isVeteranIncome = true }) => {
   );
 };
 
-export const GrossIncomeDescription = () => {
+export const GrossIncomeDescription = (props, { isVeteranIncome = true }) => {
   return (
     <>
       <va-additional-info
@@ -44,10 +45,36 @@ export const GrossIncomeDescription = () => {
           </ul>
         </div>
       </va-additional-info>
-      <PreviousGrossIncome />
+      <PreviousGrossIncome
+        isVeteranIncome={isVeteranIncome}
+        veteranData={props.veteranPrefillData.parsedData}
+      />
     </>
   );
 };
+
+// const PreviousNetIncome = (veteranData, { isVeteranIncome = true }) => {
+//   const netIncome =
+//     isVeteranIncome === true
+//       ? `${veteranData?.veteranIncome?.netIncome}`
+//       : `${veteranData?.spouseIncome?.netIncome}`;
+//
+//   return (
+//     <>
+//       <div className="vads-u-background-color--gray-lightest">
+//         <va-card background>
+//           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
+//             Your {isVeteranIncome ? '' : "spouse's"} net income from{' '}
+//             {isVeteranIncome
+//               ? veteranData.incomeYear
+//               : veteranData.spouseIncomeYear}
+//           </h4>
+//           <p className="vads-u-margin-y--0">{formatCurrency(netIncome)}</p>
+//         </va-card>
+//       </div>
+//     </>
+//   );
+// };
 
 export const OtherIncomeDescription = (
   <va-additional-info
