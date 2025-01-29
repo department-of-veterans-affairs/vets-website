@@ -6,6 +6,7 @@ export const FORM_LOADING_FAILED = 'FORM_RENDERER/FORM_LOADING_FAILED';
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
 import ENVIRONMENTS from 'site/constants/environments';
 import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
+import environment from 'platform/utilities/environment';
 import mockForms from '../../config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
 
@@ -43,6 +44,11 @@ export const fetchDrupalDigitalForms = () =>
 export const mockFetchForms = async () =>
   new Promise(r => setTimeout(r, 200, mockForms));
 
+export const filterForms = (forms, onlyPublished) =>
+  onlyPublished
+    ? forms.filter(form => form.moderationState === 'published')
+    : forms;
+
 export const findFormByFormId = (forms, formId) => {
   const form = forms.find(f => f.formId === formId);
 
@@ -61,7 +67,8 @@ export const fetchAndBuildFormConfig = (
     dispatch(formLoadingInitiated(formId));
     try {
       const forms = await fetchMethod();
-      const form = findFormByFormId(forms, formId);
+      const filteredForms = filterForms(forms, environment.isProduction());
+      const form = findFormByFormId(filteredForms, formId);
       const formConfig = createFormConfig(form, options);
 
       dispatch(formLoadingSucceeded(formConfig));

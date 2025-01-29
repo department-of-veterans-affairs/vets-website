@@ -447,9 +447,10 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       continued: !!element.continued,
       lineGap: item.lineGap || 2,
       ...(i === item.value.length - 1 && {
-        paragraphGap: element?.paragraphGap ?? 6,
+        paragraphGap: element?.paragraphGap ?? 2,
       }),
     };
+
     if (element?.itemSeperator) {
       if (doc.y > doc.page.height - doc.page.margins.bottom) {
         // eslint-disable-next-line no-await-in-loop
@@ -457,6 +458,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       }
       addHorizontalRule(doc, ...Object.values(element.itemSeperatorOptions));
     }
+
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
@@ -464,7 +466,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,
-            indent: 20,
+            indent: element.indent ?? 15,
             baseline: 'hanging',
           });
         }),
@@ -479,7 +481,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
             .text(elementTitleText, x, doc.y, {
               ...paragraphOptions,
               continued: true,
-              indent: 20,
+              indent: element.indent ?? 15,
             });
           doc
             .font(config.text.font)
