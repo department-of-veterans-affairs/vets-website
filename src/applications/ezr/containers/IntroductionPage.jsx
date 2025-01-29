@@ -12,7 +12,7 @@ import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
-import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import ProcessDescription from '../components/IntroductionPage/ProcessDescription';
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
@@ -32,9 +32,25 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [isUserLOA3],
+    [isUserLOA3, fetchEnrollmentStatus],
+  );
+
+  useEffect(
+    () => {
+      // Check if we're on the protected route and user is not authenticated
+      if (
+        location.pathname.startsWith(
+          '/my-health/update-benefits-information-form-10-10ezr',
+        ) &&
+        !isUserLOA1 &&
+        !isUserLOA3
+      ) {
+        // Redirect to va.gov/my-health
+        window.location.href = 'https://www.va.gov/my-health';
+      }
+    },
+    [location.pathname, isUserLOA1, isUserLOA3],
   );
 
   const pageContent = (
@@ -62,8 +78,12 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
     </div>
   );
 
-  // Only require login for /my-health routes
-  if (location.pathname.startsWith('/my-health')) {
+  // Only require login for /my-health/update-benefits-information-form-10-10ezr routes
+  if (
+    location.pathname.startsWith(
+      '/my-health/update-benefits-information-form-10-10ezr',
+    )
+  ) {
     return (
       <RequiredLoginView authRequired={1} serviceRequired="user-profile">
         {pageContent}
