@@ -829,6 +829,21 @@ class MedicationsListPage {
       .should('be.visible')
       .and('be.focused');
   };
+
+  verifyPrecriptionNumberForPendingRxOnMedicationCard = prescriptionNumber => {
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="rx-number"]',
+    )
+      .first()
+      .should('contain', prescriptionNumber);
+  };
+
+  verifyPendingRxInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pendingRx-Info"]')
+      .first()
+      .should('be.visible')
+      .and('have.text', text);
+  };
 }
 
 export default MedicationsListPage;
