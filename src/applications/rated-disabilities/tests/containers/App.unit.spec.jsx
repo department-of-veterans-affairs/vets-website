@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import sinon from 'sinon';
 
 import { headline as MVIErrorHeadline } from '../../components/MVIError';
 import { App } from '../../containers/App';
@@ -53,7 +52,6 @@ const props = {
   },
   loginUrl: '',
   verifyUrl: '',
-  fetchRatedDisabilities: sinon.stub(),
 };
 
 describe('<App>', () => {
