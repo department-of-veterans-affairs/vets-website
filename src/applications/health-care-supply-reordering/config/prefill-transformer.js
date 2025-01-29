@@ -7,6 +7,11 @@ import {
 export default function prefillTransformer(pages, formData, metadata) {
   const newFormData = formData;
 
+  // prefill temporaryAddress if empty
+  if (Object.keys(formData?.temporaryAddress || {}).length === 0) {
+    newFormData.temporaryAddress = { ...formData.permanentAddress };
+  }
+
   for (const addressType of ['permanentAddress', 'temporaryAddress']) {
     if (newFormData[addressType]?.country) {
       newFormData[addressType].country =

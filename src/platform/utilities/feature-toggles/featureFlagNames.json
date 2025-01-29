@@ -71,12 +71,9 @@
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
-  "facilityLocatorLatLongOnly": "facility_locator_lat_long_only",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
-  "facilityLocatorRailsEngine": "facility_locator_rails_engine",
   "facilityLocatorRestoreCommunityCarePagination": "facility_locator_restore_community_care_pagination",
   "facilityLocatorShowCommunityCares": "facility_locator_show_community_cares",
-  "facilityLocatorShowHealthConnectNumber": "facility_locator_show_health_connect_number",
   "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
@@ -162,6 +159,8 @@
   "mhvSecureMessagingTriageGroupPlainLanguage": "mhv_secure_messaging_triage_group_plain_language",
   "mhvSecureMessagingRecipientOptGroups": "mhv_secure_messaging_recipient_opt_groups",
   "mhvSecureMessagingRecipientCombobox": "mhv_secure_messaging_recipient_combobox",
+  "mhvSecureMessagingRemoveLandingPage": "mhv_secure_messaging_remove_landing_page",
+  "mhvSecureMessagingSignatureSettings": "mhv_secure_messaging_signature_settings",
   "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "militaryBenefitEstimates": "military_benefit_estimates",
@@ -315,5 +314,6 @@
   "enableLightHouse": "enable_lighthouse",
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
-  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled"
+  "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
 }

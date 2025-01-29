@@ -301,15 +301,10 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ||
-        prescription.rxRfRecords?.find(record => record?.dispensedDate) ? (
+        {prescription?.sortedDispensedDate ? (
           <span>
             Last filled on{' '}
-            {dateFormat(
-              prescription.rxRfRecords?.find(record => record?.dispensedDate)
-                ?.dispensedDate || prescription?.dispensedDate,
-              'MMMM D, YYYY',
-            )}
+            {dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')}
           </span>
         ) : (
           <span>Not filled yet</span>
@@ -448,7 +443,10 @@ const PrescriptionDetails = () => {
                 >
                   {/* TODO: clean after grouping flag is gone */}
                   {showGroupingContent && (
-                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    <>
+                      <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3 medium-screen:vads-u-margin-y--4" />
+                      <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                    </>
                   )}
                   <PrintDownload
                     onDownload={handleFileDownload}
