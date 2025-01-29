@@ -464,13 +464,6 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '',
   },
   {
-    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
-    benefit: 'welcome va setup review information form',
-    title: 'Welcome VA Setup Review Information Form',
-    description: 'welcome va setup review information form',
-    trackingPrefix: 'welcome-va-setup-review-information-',
-  },
-  {
     id: VA_FORM_IDS.FORM_DISPUTE_DEBT,
     benefit: 'digital dispute for debts',
     title: 'Dispute your VA debt',

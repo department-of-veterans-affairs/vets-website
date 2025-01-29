@@ -139,10 +139,10 @@ ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${allergyData.date} \n
 ${txtLine} \n
+Date entered: ${allergyData.date} \n
 Signs and symptoms: ${allergyData.reaction} \n
-Type of Allergy: ${allergyData.type} \n
+Type of allergy: ${allergyData.type} \n
 Location: ${allergyData.location} \n
 Observed or historical: ${allergyData.observedOrReported} \n
 Provider notes: ${allergyData.notes} \n`;
