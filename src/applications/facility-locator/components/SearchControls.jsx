@@ -27,7 +27,7 @@ const SearchControls = props => {
     clearSearchText,
     geolocateUser,
     clearGeocodeError,
-    facililitiesUseAddressTypeahead,
+    facilitiesUseAddressTypeahead,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -387,7 +387,7 @@ const SearchControls = props => {
         onSubmit={handleSubmit}
       >
         <div className="columns">
-          {facililitiesUseAddressTypeahead ? (
+          {facilitiesUseAddressTypeahead ? (
             <AddressTypeahead
               geolocateUser={geolocateUser}
               inputRef={locationInputFieldRef}
