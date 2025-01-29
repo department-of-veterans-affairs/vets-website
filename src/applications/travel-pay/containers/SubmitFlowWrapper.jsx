@@ -55,7 +55,10 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   );
 
   const appIsAvailable =
-    !toggleIsLoading && canSubmitMileage && hasFetchedAppointment;
+    !toggleIsLoading &&
+    canSubmitMileage &&
+    hasFetchedAppointment &&
+    !appointmentError;
 
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
@@ -172,23 +175,23 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     return null;
   }
 
-  if (appointmentError) {
-    return (
-      <div>
-        <p>
-          Oops.... something went wrong and we can’t get your appointment
-          details.
-        </p>
-        <p>{appointmentError.message}</p>
-      </div>
-    );
-  }
-
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {appointmentError && (
+            <va-alert closeable="false" status="error" role="status" visible>
+              <h2 slot="headline">
+                We’re sorry, we can’t access your appointment details right now
+              </h2>
+              <p className="vads-u-margin-top--2">
+                Because we need details of your appointment to file your
+                mileage-only claim we are not able to continue with your claim
+                at this time. Please try again later.
+              </p>
+            </va-alert>
+          )}
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
               pageIndex={pageIndex}
