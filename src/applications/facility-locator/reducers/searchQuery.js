@@ -14,7 +14,7 @@ import {
   MAP_MOVED,
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
-} from '../utils/actionTypes';
+} from '../actions/actionTypes';
 
 export const INITIAL_STATE = {
   searchString: '',
