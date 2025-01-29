@@ -246,11 +246,11 @@ ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
+Showing ${records.length} from newest to oldest
 ${records
       .map(
         vital => `${txtLine}\n\n
-Date entered: ${vital.date}\n
-Details about this test\n
+${vital.date}\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
 Provider notes: ${vital.notes}\n\n`,
