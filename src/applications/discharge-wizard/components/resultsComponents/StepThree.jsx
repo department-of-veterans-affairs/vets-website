@@ -109,7 +109,11 @@ const StepThree = ({ formResponses }) => {
           {onlineSubmissionMsg}
         </>
       )}
-      <va-button onClick={handlePrint} text="Print this page" />
+      <va-button
+        data-testid="duw-print"
+        onClick={handlePrint}
+        text="Print this page"
+      />
     </va-process-list-item>
   );
 };
