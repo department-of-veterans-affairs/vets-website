@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
-import * as utils from 'platform/utilities/ui/scrollTo';
+import * as reactScroll from 'react-scroll';
 
 import { RequiredTermsAcceptanceView } from '../../../authorization/containers/RequiredTermsAcceptanceView';
 import createCommonStore from '../../../../startup/store';
@@ -23,7 +23,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
 
   before(() => {
     window.dataLayer = [];
-    scrollToStub = sinon.stub(utils, 'scrollTo');
+    scrollToStub = sinon.stub(reactScroll.scroller, 'scrollTo');
   });
 
   afterEach(() => {
