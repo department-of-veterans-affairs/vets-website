@@ -98,6 +98,10 @@ const LocationPhoneLink = ({
         from,
         location,
       )}
+      <p>
+        <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
+        <va-telephone tty contact="711" />
+      </p>
     </div>
   );
 };
