@@ -31,7 +31,6 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showLearnMore = userRegistered;
 
   return (
     <>
@@ -54,7 +53,6 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            showLearnMore={showLearnMore}
             ssoe={ssoe}
             showMhvGoBack={userRegistered}
           />
