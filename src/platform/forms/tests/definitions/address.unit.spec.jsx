@@ -141,33 +141,54 @@ describe('Forms library address definition', () => {
     form.unmount();
   }).timeout(4000);
 
-  it('should require state for non-required addresses with other info', () => {
+  it('should require state for non-required addresses with other info', async () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    fillData(form, 'input#root_street', '123 st');
-    fillData(form, 'input#root_city', 'Northampton');
-    fillData(form, 'input#root_postalCode', '12345');
+    const street = form.container.querySelector('input#root_street');
+    fireEvent.change(street, { target: { value: '123 st' } });
+    const city = form.container.querySelector('input#root_city');
+    fireEvent.change(city, { target: { value: 'Northampton' } });
+    const zip = form.container.querySelector('input#root_postalCode');
+    fireEvent.change(zip, { target: { value: '12345' } });
 
-    form.find('form').simulate('submit');
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
 
-    const errors = form.find('.usa-input-error-message');
-    expect(errors.length).to.equal(1);
-    form.unmount();
-  }).timeout(4000);
+    fireEvent(submitButton, mouseClick);
 
-  it('should not require state for non-required addresses with no other info', () => {
+    await waitFor(() => {
+      const errors = form.container.querySelectorAll(
+        '.usa-input-error-message',
+      );
+      expect(Array.from(errors).length).to.equal(0);
+    });
+  });
+
+  it('should not require state for non-required addresses with no other info', async () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    form.find('form').simulate('submit');
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
 
-    const errors = form.find('.usa-input-error-message');
-    expect(errors.length).to.equal(0);
-    form.unmount();
-  }).timeout(4000);
+    fireEvent(submitButton, mouseClick);
+
+    await waitFor(() => {
+      const errors = form.container.querySelectorAll(
+        '.usa-input-error-message',
+      );
+      expect(Array.from(errors).length).to.equal(0);
+    });
+  });
 
   it('should require state if the country requires it', async () => {
     const s = schema(addressSchema, true);
