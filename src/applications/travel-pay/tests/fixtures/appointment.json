@@ -1,93 +1,95 @@
 {
-  "practitioners": [
-    {
+  "data": {
+    "practitioners": [
+      {
+        "identifier": [
+          {
+            "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+            "value": null
+          }
+        ],
+        "name": {
+          "family": "BERNARDO",
+          "given": ["KENNETH J"]
+        }
+      }
+    ],
+    "start": "2024-12-30T14:00:00Z",
+    "localStartTime": "2024-12-01T08:00:00.000-06:00",
+    "serviceName": "COVID VACCINE CLIN1",
+    "friendlyName": "COVID VACCINE CLIN1",
+    "physicalLocation": "MHC",
+    "location": {
+      "id": "983",
+      "type": "appointments",
+      "attributes": {
+        "id": "983",
+        "vistaSite": "983",
+        "vastParent": "983",
+        "type": "va_facilities",
+        "name": "Cheyenne VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": {
+          "timeZoneId": "America/Denver"
+        },
+        "lat": 39.744507,
+        "long": -104.830956,
+        "website": "https://www.denver.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "307-778-7550",
+          "fax": "307-778-7381",
+          "pharmacy": "866-420-6337",
+          "afterHours": "307-778-7550",
+          "patientAdvocate": "307-778-7550 x7517",
+          "mentalHealthClinic": "307-778-7349",
+          "enrollmentCoordinator": "307-778-7550 x7579"
+        },
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["2360 East Pershing Boulevard"],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postalCode": "82001-5356"
+        },
+        "mobile": false,
+        "healthService": [],
+        "operatingStatus": {
+          "code": "NORMAL"
+        }
+      }
+    },
+    "timeZone": "America/Denver",
+    "facilityData": {
+      "resourceType": "Location",
+      "id": "983",
+      "vistaId": "983",
+      "name": "Cheyenne VA Medical Center",
       "identifier": [
         {
-          "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
-          "value": null
+          "system": "http://med.va.gov/fhir/urn",
+          "value": "urn:va:division:983:983"
+        },
+        {
+          "system": "urn:oid:2.16.840.1.113883.6.233",
+          "value": "983"
         }
       ],
-      "name": {
-        "family": "BERNARDO",
-        "given": ["KENNETH J"]
-      }
-    }
-  ],
-  "start": "2024-12-30T14:00:00Z",
-  "localStartTime": "2024-12-01T08:00:00.000-06:00",
-  "serviceName": "COVID VACCINE CLIN1",
-  "friendlyName": "COVID VACCINE CLIN1",
-  "physicalLocation": "MHC",
-  "location": {
-    "id": "983",
-    "type": "appointments",
-    "attributes": {
-      "id": "983",
-      "vistaSite": "983",
-      "vastParent": "983",
-      "type": "va_facilities",
-      "name": "Cheyenne VA Medical Center",
-      "classification": "VA Medical Center (VAMC)",
-      "timezone": {
-        "timeZoneId": "America/Denver"
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "307-778-7550"
+        }
+      ],
+      "position": {
+        "longitude": -104.830956,
+        "latitude": 39.744507
       },
-      "lat": 39.744507,
-      "long": -104.830956,
-      "website": "https://www.denver.va.gov/locations/directions.asp",
-      "phone": {
-        "main": "307-778-7550",
-        "fax": "307-778-7381",
-        "pharmacy": "866-420-6337",
-        "afterHours": "307-778-7550",
-        "patientAdvocate": "307-778-7550 x7517",
-        "mentalHealthClinic": "307-778-7349",
-        "enrollmentCoordinator": "307-778-7550 x7579"
-      },
-      "physicalAddress": {
-        "type": "physical",
+      "address": {
         "line": ["2360 East Pershing Boulevard"],
         "city": "Cheyenne",
         "state": "WY",
         "postalCode": "82001-5356"
-      },
-      "mobile": false,
-      "healthService": [],
-      "operatingStatus": {
-        "code": "NORMAL"
       }
-    }
-  },
-  "timeZone": "America/Denver",
-  "facilityData": {
-    "resourceType": "Location",
-    "id": "983",
-    "vistaId": "983",
-    "name": "Cheyenne VA Medical Center",
-    "identifier": [
-      {
-        "system": "http://med.va.gov/fhir/urn",
-        "value": "urn:va:division:983:983"
-      },
-      {
-        "system": "urn:oid:2.16.840.1.113883.6.233",
-        "value": "983"
-      }
-    ],
-    "telecom": [
-      {
-        "system": "phone",
-        "value": "307-778-7550"
-      }
-    ],
-    "position": {
-      "longitude": -104.830956,
-      "latitude": 39.744507
-    },
-    "address": {
-      "line": ["2360 East Pershing Boulevard"],
-      "city": "Cheyenne",
-      "state": "WY",
-      "postalCode": "82001-5356"
     }
   }
 }
