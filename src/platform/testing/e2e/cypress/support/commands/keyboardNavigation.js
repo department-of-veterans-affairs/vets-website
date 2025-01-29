@@ -326,7 +326,10 @@ Cypress.Commands.add('typeInDate', (fieldName, dateString) => {
       .map(v => parseInt(v, 10).toString());
     const name = removeLeadingHash(fieldName);
     cy.selectDropdownFromData(`[name="${name}Month"]`, month);
-    cy.selectDropdownFromData(`[name="${name}Day"]`, day);
+    // eslint-disable-next-line no-restricted-globals
+    if (!isNaN(day)) {
+      cy.selectDropdownFromData(`[name="${name}Day"]`, day);
+    }
     cy.typeInIfDataExists(`[name="${name}Year"]`, year);
   }
 });
