@@ -11,6 +11,7 @@ import {
   // isProfileLoading,
   // isLoggedIn,
 } from 'platform/user/selectors';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -72,26 +73,20 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
-  const handlers = {
-    onNext: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex + 1);
-    },
-    onBack: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex - 1);
-    },
-    onSubmit: e => {
-      e.preventDefault();
-      // Placeholder until actual submit is hooked up
+  const onSubmit = () => {
+    if (!isAgreementChecked) {
+      scrollToFirstError();
+      return;
+    }
+    // Placeholder until actual submit is hooked up
 
-      // Uncomment to simulate successful submission
-      // setPageIndex(pageIndex + 1);
+    // Uncomment to simulate successful submission
+    // setPageIndex(pageIndex + 1);
 
-      // Uncomment to simulate an error
-      setIsSubmissionError(true);
-    },
+    // Uncomment to simulate an error
+    setIsSubmissionError(true);
   };
 
   const pageList = [
@@ -147,7 +142,17 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
     {
       page: 'review',
-      component: <ReviewPage handlers={handlers} />,
+      component: (
+        <ReviewPage
+          appointment={appointmentData}
+          address={homeAddress || mailingAddress}
+          onSubmit={onSubmit}
+          setYesNo={setYesNo}
+          setPageIndex={setPageIndex}
+          isAgreementChecked={isAgreementChecked}
+          setIsAgreementChecked={setIsAgreementChecked}
+        />
+      ),
     },
     {
       page: 'confirm',

@@ -5,6 +5,7 @@ const travelClaims = require('./travel-claims-31.json');
 const appointment = require('./vaos-appointment.json');
 // const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
 const user = require('./user.json');
+// const noAddressUser = require('./user-no-address.json');
 
 const responses = {
   'GET /v0/user': user,
