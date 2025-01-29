@@ -90,7 +90,7 @@ export const options = {
 export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventsList: pageBuilder.summaryPage({
     title: titleWithTag(eventsListPageTitle, form0781HeadingTag),
-    path: 'additional-forms/mental-health-statement/events-add',
+    path: 'additional-forms/mental-health-statement/events-summary',
     depends: formData => isCompletingForm0781(formData),
     ContentBeforeButtons: (
       <div className="vads-u-margin-y--2p5">{mentalHealthSupportAlert()}</div>
@@ -99,12 +99,15 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventDetails: pageBuilder.itemPage({
     title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
     path: 'additional-forms/mental-health-statement/:index/event-details',
+    depends: formData => isCompletingForm0781(formData) && formData.events,
     uiSchema: eventDetails.uiSchema,
     schema: eventDetails.schema,
   }),
   officialReport: pageBuilder.itemPage({
     title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
     path: `additional-forms/mental-health-statement/:index/event-report`,
+    depends: (formData, index) =>
+      isCompletingForm0781(formData) && formData.events?.[index],
     uiSchema: officialReport.uiSchema,
     schema: officialReport.schema,
   }),
@@ -112,7 +115,8 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
     title: titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
     path: `additional-forms/mental-health-statement/:index/event-police-report`,
     depends: (formData, index) =>
-      formData.events[index]?.reports?.police === true,
+      isCompletingForm0781(formData) &&
+      formData.events?.[index]?.reports?.police,
     uiSchema: policeReport.uiSchema,
     schema: policeReport.schema,
   }),
