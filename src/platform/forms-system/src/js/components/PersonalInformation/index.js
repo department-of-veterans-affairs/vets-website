@@ -1,7 +1,15 @@
 import React from 'react';
 
-import { PersonalInformation } from './PersonalInformation';
+import {
+  PersonalInformation,
+  PersonalInformationCardHeader,
+  PersonalInformationFooter,
+  PersonalInformationHeader,
+  PersonalInformationNote,
+} from './PersonalInformation';
 import { DefaultErrorMessage } from './DefaultErrorMessage';
+import { DefaultCardHeader } from './DefaultCardHeader';
+import { DefaultHeader } from './DefaultHeader';
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -17,6 +25,12 @@ export const defaultConfig = {
   personalInfoConfig: {},
   dataAdapter: {},
   errorMessage: DefaultErrorMessage,
+  cardHeader: <DefaultCardHeader />,
+  header: <DefaultHeader />,
+  note: null,
+  footer: null,
+  contentBeforeButtons: null,
+  contentAfterButtons: null,
 };
 
 /**
@@ -34,6 +48,12 @@ const personalInformationPage = ({
   personalInfoConfig = defaultConfig.personalInfoConfig,
   dataAdapter = defaultConfig.dataAdapter,
   errorMessage = defaultConfig.errorMessage,
+  cardHeader = defaultConfig.cardHeader,
+  header = defaultConfig.header,
+  note = defaultConfig.note,
+  footer = defaultConfig.footer,
+  contentBeforeButtons = defaultConfig.contentBeforeButtons,
+  contentAfterButtons = defaultConfig.contentAfterButtons,
 } = defaultConfig) => {
   return {
     [key]: {
@@ -50,7 +70,22 @@ const personalInformationPage = ({
           config={personalInfoConfig}
           dataAdapter={dataAdapter}
           errorMessage={errorMessage}
-        />
+          contentBeforeButtons={contentBeforeButtons}
+          contentAfterButtons={contentAfterButtons}
+        >
+          {cardHeader && (
+            <PersonalInformationCardHeader>
+              {cardHeader}
+            </PersonalInformationCardHeader>
+          )}
+          {header && (
+            <PersonalInformationHeader>{header}</PersonalInformationHeader>
+          )}
+          {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
+          {footer && (
+            <PersonalInformationFooter>{footer}</PersonalInformationFooter>
+          )}
+        </PersonalInformation>
       ),
       CustomPageReview: null,
       hideOnReview: true,

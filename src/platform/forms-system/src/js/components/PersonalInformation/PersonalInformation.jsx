@@ -95,7 +95,7 @@ export const PersonalInformation = ({
     finalConfig,
   );
 
-  const { note, header, footer } = getChildrenByType(children);
+  const { note, header, footer, cardHeader } = getChildrenByType(children);
 
   if (missingData.length > 0) {
     let messageComponent;
@@ -119,16 +119,10 @@ export const PersonalInformation = ({
 
   return (
     <>
-      {header || (
-        <h3 className="vads-u-margin-bottom--3">
-          Confirm the personal information we have on file for you.
-        </h3>
-      )}
+      {header}
       <div className="vads-u-display--flex">
         <va-card>
-          <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
-            Personal information
-          </h4>
+          {cardHeader}
           {finalConfig.name?.show && (
             <p>
               <strong
@@ -297,6 +291,10 @@ export const PersonalInformationFooter = ({ children }) => {
   return <>{children}</>;
 };
 
+export const PersonalInformationCardHeader = ({ children }) => {
+  return <>{children}</>;
+};
+
 const ChildPropTypes = PropTypes.oneOfType([
   PropTypes.node,
   PropTypes.func,
@@ -305,6 +303,10 @@ const ChildPropTypes = PropTypes.oneOfType([
 ]);
 
 PersonalInformationNote.propTypes = {
+  children: ChildPropTypes,
+};
+
+PersonalInformationCardHeader.propTypes = {
   children: ChildPropTypes,
 };
 
