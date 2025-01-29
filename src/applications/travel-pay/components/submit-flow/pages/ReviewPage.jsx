@@ -24,9 +24,7 @@ const ReviewPage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.vaos.apiData.start,
-  );
+  const [formattedDate, formattedTime] = formatDateTime(appointment.start);
 
   const onBack = () => {
     setYesNo({
@@ -49,11 +47,11 @@ const ReviewPage = ({
       </h3>
       <p className="vads-u-margin-y--0">
         Mileage-only reimbursement for your appointment at{' '}
-        {appointment.vaos.apiData.location.attributes.name}{' '}
-        {appointment.vaos?.apiData?.practitioners
-          ? `with ${appointment.vaos.apiData.practitioners[0].name.given.join(
-              ' ',
-            )} ${appointment.vaos.apiData.practitioners[0].name.family}`
+        {appointment.location.attributes.name}{' '}
+        {appointment.practitioners
+          ? `with ${appointment.practitioners[0].name.given.join(' ')} ${
+              appointment.practitioners[0].name.family
+            }`
           : ''}{' '}
         on {formattedDate}, {formattedTime}.
       </p>
