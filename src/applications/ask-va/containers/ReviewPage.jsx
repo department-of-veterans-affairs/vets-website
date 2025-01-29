@@ -17,7 +17,7 @@ import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-s
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
@@ -26,8 +26,10 @@ import {
   openReviewChapter,
   setUpdatedInReview,
 } from '../actions';
+import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import { DownloadLink } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
@@ -36,8 +38,6 @@ import {
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
-import FileUpload from '../components/FileUpload';
-import { DownloadLink } from '../config/helpers';
 
 const { scroller } = Scroll;
 

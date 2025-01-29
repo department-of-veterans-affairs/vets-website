@@ -99,8 +99,8 @@ describe('generateBlueButtonData', () => {
 
   it('should generate data for allergies', () => {
     const allergies = [
-      { name: 'Allergy 1' },
-      { name: 'Allergy 2', isOracleHealthData: true },
+      { name: 'Allergy 1', reaction: ['hives'] },
+      { name: 'Allergy 2', reaction: ['hives'], isOracleHealthData: true },
     ];
     const result = generateBlueButtonData({ allergies }, ['allergies']);
     expect(result).to.be.an('array').that.is.not.empty;
@@ -316,8 +316,8 @@ describe('generateBlueButtonData', () => {
   it('should include allergies if medications is present', () => {
     const input = {
       allergies: [
-        { name: 'Allergy 1' },
-        { name: 'Allergy 2', isOracleHealthData: true },
+        { name: 'Allergy 1', reaction: ['hives'] },
+        { name: 'Allergy 2', reaction: ['hives'], isOracleHealthData: true },
       ],
       medications: [{ prescriptionName: 'Medication 1' }],
     };
@@ -363,7 +363,7 @@ describe('generateBlueButtonData', () => {
   });
 
   it('should not include allergies if medications is selected but empty', () => {
-    const input = { allergies: [{ name: 'Allergy 1' }] };
+    const input = { allergies: [{ name: 'Allergy 1', reaction: ['hives'] }] };
 
     const recordFilter = ['medications'];
     const result = generateBlueButtonData(input, recordFilter);

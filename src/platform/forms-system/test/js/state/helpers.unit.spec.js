@@ -561,6 +561,32 @@ describe('Schemaform formState:', () => {
         const sameUiSchema = updateUiSchema(schema, newUiSchema, formData);
         expect(sameUiSchema).to.equal(expectedUiSchema); // same object
       });
+      it('should pass in fullData into updateUiSchema ui option function', () => {
+        const schema = {
+          type: 'object',
+          properties: {
+            fullName: { type: 'string' },
+          },
+        };
+        const data = { fullName: 'Pat Smith' };
+        const fullData = { fullName: 'Pat Smith', otherField: 'other' };
+        const index = 2;
+        const updateUiSchemaSpy = sinon.spy();
+        const uiSchema = {
+          fullName: {
+            'ui:title': 'Full Name',
+            'ui:options': {
+              updateUiSchema: updateUiSchemaSpy,
+            },
+          },
+        };
+        updateUiSchema(schema, uiSchema, data, fullData, index);
+        expect(updateUiSchemaSpy.args[0]).to.deep.equal([
+          data,
+          fullData,
+          index,
+        ]);
+      });
     });
 
     describe('if using updateUiSchema for an individual field', () => {
@@ -690,6 +716,8 @@ describe('Schemaform formState:', () => {
         schema,
         uiSchema,
         data,
+        0, // index
+        '', // path
         formData,
       );
 
@@ -736,6 +764,8 @@ describe('Schemaform formState:', () => {
         schema,
         uiSchema,
         data,
+        0, // index
+        '', // path
         formData,
       );
 
@@ -780,11 +810,139 @@ describe('Schemaform formState:', () => {
         schema,
         uiSchema,
         data,
+        0, // index
+        '', // path
         formData,
       );
 
       expect(newSchema.items[0].properties.field).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
+    });
+    it('should pass in full data into updateSchema ui options callback', () => {
+      const updateSchemaStub = sinon.stub();
+      updateSchemaStub.returns({ type: 'number' });
+
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            updateSchema: updateSchemaStub,
+          },
+        },
+      };
+      const data = { entry: 1 };
+      const formData = { entries: [{ entry: 1 }, { entry: 2 }] };
+
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        0, // index
+        '', // path
+        formData,
+      );
+
+      expect(newSchema.properties.field).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+      expect(updateSchemaStub.args[0]).to.deep.equal([
+        data,
+        schema.properties.field,
+        uiSchema.field,
+        0,
+        'field',
+        formData,
+      ]);
+    });
+    it('should pass in full data which falls back to data in updateSchema ui options callback', () => {
+      const updateSchemaStub = sinon.stub();
+      updateSchemaStub.returns({ type: 'number' });
+
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            updateSchema: updateSchemaStub,
+          },
+        },
+      };
+      const data = { entries: [{ entry: 1 }, { entry: 2 }] };
+      const formData = null;
+
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        0, // index
+        '', // path
+        formData,
+      );
+
+      expect(newSchema.properties.field).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+      expect(updateSchemaStub.args[0]).to.deep.equal([
+        data,
+        schema.properties.field,
+        uiSchema.field,
+        0,
+        'field',
+        data,
+      ]);
+    });
+    it('should pass in full data which falls back to data in replaceSchema ui options callback', () => {
+      const replaceSchemaStub = sinon.stub();
+      replaceSchemaStub.returns({ type: 'number' });
+
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            replaceSchema: replaceSchemaStub,
+          },
+        },
+      };
+      const data = { entries: [{ entry: 1 }, { entry: 2 }] };
+      const formData = null;
+
+      const newSchema = updateSchemaFromUiSchema(
+        schema,
+        uiSchema,
+        data,
+        0, // index
+        '', // path
+        formData,
+      );
+
+      expect(newSchema.properties.field).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+      expect(replaceSchemaStub.args[0]).to.deep.equal([
+        data,
+        schema.properties.field,
+        uiSchema.field,
+        0,
+        'field',
+        data,
+      ]);
     });
   });
   describe('replaceRefSchemas', () => {
