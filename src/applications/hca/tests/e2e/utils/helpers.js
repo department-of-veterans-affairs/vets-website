@@ -1,3 +1,19 @@
+export const acceptPrivacyAgreement = () => {
+  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
+    .shadow()
+    .find('label')
+    .click();
+};
+
+export const goToNextPage = pagePath => {
+  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
+    .first()
+    .click();
+  if (pagePath) {
+    cy.location('pathname').should('include', pagePath);
+  }
+};
+
 export const startAsAuthUser = () => {
   cy.get('[href="#start"]')
     .first()

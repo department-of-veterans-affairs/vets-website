@@ -24,17 +24,9 @@ const testConfig = createTestConfig(
       'id-form': () => {
         cy.get('@testData').then(testData => fillIdentityForm(testData));
       },
-      'insurance-information/va-facility-api': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(testData => {
-            fillVaFacility(testData['view:preferredFacility']);
-            goToNextPage();
-          });
-        });
-      },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_discloseFinancialInformationNo').check();
+          cy.selectRadio('root_discloseFinancialInformation', 'N');
           goToNextPage();
         });
       },
@@ -45,14 +37,20 @@ const testConfig = createTestConfig(
       },
       'household-information/marital-status': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_maritalStatus').select('Never Married');
+          cy.get('[name="root_maritalStatus"]').select('Never Married');
           goToNextPage();
         });
       },
       'household-information/dependents': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.get('[name="root_view:reportDependents"]').check('N');
+          cy.selectRadio('root_view:reportDependents', 'N');
+          goToNextPage();
+        });
+      },
+      'insurance-information/va-facility-api': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            fillVaFacility(testData['view:preferredFacility']);
             goToNextPage();
           });
         });
