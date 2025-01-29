@@ -6,7 +6,7 @@ const AccreditedAlert = () => {
       <h2 slot="headline">Complete all submission steps</h2>
       <>
         <p className="vads-u-margin-y--0" id="additional-form-needed-alert">
-          This form requires additional step for successful submission. Follow
+          This form requires additional steps for successful submission. Follow
           the instructions below carefully to ensure your form is submitted
           correctly.
         </p>

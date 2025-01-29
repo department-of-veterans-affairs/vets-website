@@ -19,9 +19,18 @@ export const ConfirmationPage = ({ router, route, isAccredited }) => {
     <div>
       {!isAccredited && <Alert />}
       {isAccredited && <AccreditedAlert />}
-      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-        To submit your forms, follow the steps below
-      </h2>
+      <div>
+        {!isAccredited && (
+          <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+            To submit your forms, follow the steps below
+          </h2>
+        )}
+        {isAccredited && (
+          <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+            To submit your form, follow the steps below
+          </h2>
+        )}
+      </div>
       <div>
         {!isAccredited && (
           <div>
