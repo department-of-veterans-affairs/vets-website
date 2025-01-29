@@ -66,6 +66,8 @@ export default function ArrayBuilderItemPage({
       return null;
     }
 
+    const NavButtons = props.NavButtons || FormNavButtons;
+
     return (
       <SchemaForm
         name={props.name}
@@ -96,7 +98,7 @@ export default function ArrayBuilderItemPage({
               {/* save-in-progress link, etc */}
               {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={props.goBack}
                 goForward={props.onContinue}
                 submitToContinue
@@ -160,6 +162,7 @@ export default function ArrayBuilderItemPage({
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
+    NavButtons: PropTypes.func,
   };
 
   return CustomPage;

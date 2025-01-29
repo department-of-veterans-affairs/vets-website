@@ -240,7 +240,7 @@ const IntroductionPage = props => {
   const authenticatedUI = (
     <>
       <p>This form takes about 2 to 15 minutes to complete.</p>
-      <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--3">
         <va-additional-info trigger="When to use Ask VA">
           <div>
             <p>

@@ -1,11 +1,14 @@
-import React from 'react';
+// TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
+// When remove allClaimsAddDisabilitiesEnhancement FF, remove this page
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import Autocomplete from '../components/Autocomplete';
+import * as combobox from '../definitions/combobox';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
+import ArrayField from '../components/ArrayField';
+import ConditionReviewField from '../components/ConditionReviewField';
 import {
   validateDisabilityName,
   requireDisability,
@@ -27,49 +30,67 @@ import {
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
-const autocompleteUiSchema = {
-  'ui:field': data => (
-    <Autocomplete
-      availableResults={Object.values(disabilityLabelsRevised)}
-      debounceDelay={200}
-      id={data.idSchema.$id}
-      formData={data.formData}
-      label="Enter your condition"
-      onChange={data.onChange}
-    />
-  ),
+const comboboxUiSchema = combobox.uiSchema('Enter your condition', {
+  'ui:reviewField': ({ children }) => children,
+  'ui:options': {
+    debounceRate: 200,
+    freeInput: true,
+    inputTransformers: [
+      // Replace a bunch of things that aren't valid with valid equivalents
+      input => input.replace(/["”’]/g, `'`),
+      input => input.replace(/[;–]/g, ' -- '),
+      input => input.replace(/[&]/g, ' and '),
+      input => input.replace(/[\\]/g, '/'),
+      // TODO: Remove the period replacer once permanent fix in place
+      input => input.replace(/[.]/g, ' '),
+      // Strip out everything that's not valid and doesn't need to be replaced
+      // TODO: Add period back into allowed chars regex
+      input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+      // Get rid of extra whitespace characters
+      input => input.trim(),
+      input => input.replace(/\s{2,}/g, ' '),
+    ],
+    // options for the combobox dropdown
+    listItems: Object.values(disabilityLabelsRevised),
+  },
+  // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
   'ui:validations': [validateDisabilityName, limitNewDisabilities],
   'ui:required': () => true,
   'ui:errorMessages': {
     required: missingConditionMessage,
   },
-  'ui:options': {
-    hideLabelText: true,
-  },
-};
+});
 
-const platformArrayFieldWithAutocomplete = {
+const allClaimsArrayFieldWithCombobox = {
   'ui:description': addDisabilitiesInstructions,
+  'ui:field': ArrayField,
   'ui:options': {
+    viewField: NewDisability,
+    reviewTitle: 'Conditions',
+    duplicateKey: 'condition',
     itemName: 'Condition',
     itemAriaLabel: data => data.condition,
-    viewField: NewDisability,
-    customTitle: ' ',
-    confirmRemove: true,
-    useDlWrap: true,
-    useVaCards: true,
-    showSave: true,
-    reviewMode: true,
-    keepInPageOnReview: false,
+    includeRequiredLabelInTitle: true,
+    classNames: 'cc-autocomplete-container',
   },
+  useNewFocus: true,
+  // Ideally, this would show the validation on the array itself (or the name
+  // field in an array item), but that's not working.
   'ui:validations': [requireDisability],
   items: {
-    condition: autocompleteUiSchema,
+    condition: comboboxUiSchema,
+    // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
+    // disabled until design changes have been approved
+    'ui:objectViewField': ConditionReviewField,
+    'ui:options': {
+      itemAriaLabel: data => data.condition,
+      itemName: 'New condition',
+    },
   },
 };
 
 export const uiSchema = {
-  newDisabilities: platformArrayFieldWithAutocomplete,
+  newDisabilities: allClaimsArrayFieldWithCombobox,
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
     'view:newOnlyAlert': {
