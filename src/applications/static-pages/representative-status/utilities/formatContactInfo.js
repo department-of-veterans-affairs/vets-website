@@ -47,10 +47,7 @@ export async function formatContactInfo(poaAttributes) {
     'END:VCARD',
   ].join('\n');
 
-  const blob = new Blob([vcfData], {
-    type: 'text/vcard',
-    encoding: 'UTF-8',
-  });
+  const blob = new Blob([vcfData], { type: 'text/vcard' });
   const vcfUrl = window?.Mocha
     ? await blobToBase64(blob)
     : URL.createObjectURL(blob);
