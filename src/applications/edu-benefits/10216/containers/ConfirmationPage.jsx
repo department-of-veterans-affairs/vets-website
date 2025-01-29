@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
+import AccreditedAlert from '../components/AccreditedAlert';
 import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = props => {
@@ -14,47 +15,98 @@ export const ConfirmationPage = props => {
   const childContent = (
     <div>
       {!props?.isAccredited && <Alert />}
+      {props?.isAccredited && <AccreditedAlert />}
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
         To submit your forms, follow the steps below
       </h2>
-      <va-process-list>
-        <va-process-list-item header="Download and save both forms">
-          <p>
-            First, complete and save your VA Form 22-10216 as a PDF. If you
-            didn’t do that on on the previous page, go back and do that now.
-            <div className="vads-u-margin-y--2">
-              <va-link
-                download
-                filetype="PDF"
-                href=""
-                // fileName={''}
-                text="Download VA Form 22-10216"
-              />
-            </div>
-            Then, navigate to{' '}
-            <va-link
-              external
-              text="VA Form 22-10215"
-              href="/education/apply-for-education-benefits/application/10215"
-            />{' '}
-            to fill it out. Once completed, save it as a PDF on your device.
-          </p>
-        </va-process-list-item>
-        <va-process-list-item header="Upload the forms to the VA education portal">
-          <p>
-            Visit the{' '}
-            <va-link
-              external
-              text="VA Education File Upload Portal"
-              href="https://www.my.va.gov/EducationFileUploads/s/"
-            />
-            , and upload both your saved VA Form 22-10216 and VA Form 22-10215.
-          </p>
-        </va-process-list-item>
-        <va-process-list-item header="Submit your forms">
-          <p>Once uploaded, click submit to finalize your request.</p>
-        </va-process-list-item>
-      </va-process-list>
+      <div>
+        {!props?.isAccredited && (
+          <div>
+            <va-process-list>
+              <va-process-list-item header="Download and save both forms">
+                <p>
+                  First, complete and save your VA Form 22-10216 as a PDF.
+                  <div className="vads-u-margin-y--2">
+                    <va-link
+                      download
+                      filetype="PDF"
+                      href=""
+                      // fileName={''}
+                      text="Download VA Form 22-10216"
+                    />
+                  </div>
+                  Then, navigate to{' '}
+                  <va-link
+                    external
+                    text="VA Form 22-10215"
+                    href="/education/apply-for-education-benefits/application/10215"
+                  />{' '}
+                  to fill it out. Once completed, save it as a PDF on your
+                  device.
+                </p>
+              </va-process-list-item>
+              <va-process-list-item header="Upload the forms to the VA education portal">
+                <p>
+                  Visit the{' '}
+                  <va-link
+                    external
+                    text="VA Education File Upload Portal"
+                    href="https://www.my.va.gov/EducationFileUploads/s/"
+                  />
+                  , and upload both your saved VA Form 22-10216 and VA Form
+                  22-10215.
+                </p>
+              </va-process-list-item>
+              <va-process-list-item header="Submit your forms">
+                <p>Once uploaded, click submit to finalize your request.</p>
+              </va-process-list-item>
+            </va-process-list>
+          </div>
+        )}
+        {props?.isAccredited && (
+          <div>
+            <va-process-list>
+              <va-process-list-item header="Download and save your form">
+                <p>
+                  Make sure that your completed form is saved as a PDF on your
+                  device.
+                  <div className="vads-u-margin-y--2">
+                    <va-link
+                      download
+                      filetype="PDF"
+                      href=""
+                      // fileName={''}
+                      text="Download VA Form 22-10216"
+                    />
+                  </div>
+                </p>
+              </va-process-list-item>
+              <va-process-list-item header="Upload the form to the VA education portal">
+                <p>
+                  Visit the{' '}
+                  <va-link
+                    external
+                    text="VA Education File Upload Portal"
+                    href="https://www.my.va.gov/EducationFileUploads/s/"
+                  />
+                  , and upload your saved VA Form 22-10216.
+                </p>
+              </va-process-list-item>
+              <va-process-list-item header="Submit your form">
+                <p>Once uploaded, click submit to finalize your request.</p>
+              </va-process-list-item>
+            </va-process-list>
+          </div>
+        )}
+      </div>
+      <p>
+        <va-button
+          secondary
+          text="Print this page"
+          data-testid="print-page"
+          onClick={() => window.print()}
+        />
+      </p>
       <va-button
         uswds
         back
