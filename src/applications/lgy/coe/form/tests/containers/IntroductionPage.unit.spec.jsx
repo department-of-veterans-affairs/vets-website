@@ -39,9 +39,8 @@ const getData = ({
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
-          claims: {
-            coe: canApply,
-          },
+          claims: { coe: canApply },
+          signIn: { serviceName: 'idme' },
         },
       },
       form: {
@@ -106,9 +105,10 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />,
       </Provider>,
     );
-    expect($('h2', container).textContent).to.contain(
-      'verify your identity to access',
-    );
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('verifyIdMe');
+    expect(signInAlert.getAttribute('heading-level')).to.eql('2');
   });
 
   it('prompts the vet to inquire about their EDIPI if they are missing one', () => {
