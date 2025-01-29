@@ -8,27 +8,34 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 
 import PropTypes from 'prop-types';
 import {
-  capitalizeFirstLetter,
   formatResultCount,
   showLcParams,
+  showMultipleNames,
+  updateStateDropdown,
 } from '../utils/helpers';
 import { useLcpFilter } from '../utils/useLcpFilter';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
+import Dropdown from '../components/Dropdown';
+// import SearchAccordion from '../components/SearchAccordion';
+import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 
 export default function LicenseCertificationSearchResults({
   // error,
   flag,
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const location = useLocation();
   const history = useHistory();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
 
   const { nameParam, categoryParam, stateParam } = showLcParams(location);
+
+  const [dropdown, setDropdown] = useState(
+    updateStateDropdown(showMultipleNames(filteredResults, nameParam)),
+  );
 
   useLcpFilter({
     flag,
@@ -45,6 +52,10 @@ export default function LicenseCertificationSearchResults({
     currentPage * itemsPerPage,
   );
 
+  const handleChange = e => {
+    setDropdown(updateStateDropdown(e.target.value));
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -59,11 +70,35 @@ export default function LicenseCertificationSearchResults({
     history.push(`/lc-search/results/${id}`);
   };
 
-  const handlePreviousRouteChange = event => {
-    event.preventDefault();
-    history.push(`/lc-search?category=${categoryParam}&state=${stateParam}`);
+  // TODO
+  // address UI updates to show new filter container along side results container
+  // add separate loading spinners for both results and filter containers
+
+  const renderStateFilter = () => {
+    return (
+      <Dropdown
+        label="Applies to only license and prep course category type. Certifications are available nationwide."
+        name={dropdown.label}
+        alt="Filter results by state"
+        options={dropdown.options}
+        value={dropdown.current.optionLabel}
+        onChange={handleChange}
+        className="state-dropdown"
+        visible
+      />
+    );
   };
 
+  const renderLocation = () => {
+    return (
+      <>
+        <h3>State</h3>
+        {renderStateFilter()}
+      </>
+    );
+  };
+
+  const controls = <div>{renderLocation()}</div>;
   return (
     <div>
       {fetchingLc && (
@@ -85,7 +120,6 @@ export default function LicenseCertificationSearchResults({
                 <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
                   Search Results
                 </h1>
-
                 <div className="lc-result-info-wrapper">
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
                     <p className="vads-u-color--gray-dark vads-u-margin--0">
@@ -96,37 +130,28 @@ export default function LicenseCertificationSearchResults({
                             filteredResults,
                             currentPage,
                             itemsPerPage,
-                          )} of ${filteredResults.length - 1} results for:`}
+                          )} of ${filteredResults.length -
+                            1} results for: ${categoryParam}, ${nameParam}`}
                     </p>
-                    <va-link
-                      href={`/lc-search?category=${categoryParam}&state=${stateParam}`}
-                      class="back-link"
-                      back
-                      text="Back to search"
-                      onClick={handlePreviousRouteChange}
-                    />
                   </div>
-                  <p className="lc-filter-option">
-                    <strong>Category type: </strong>{' '}
-                    {`"${capitalizeFirstLetter(categoryParam)}"`}
-                  </p>
-                  <p className="lc-filter-option">
-                    <strong>State: </strong>{' '}
-                    {`${
-                      stateParam === 'all'
-                        ? `"All"`
-                        : `"${ADDRESS_DATA.states[stateParam]}"`
-                    }`}
-                  </p>
-                  <p className="lc-filter-option">
-                    <strong>License/Certification name: </strong>{' '}
-                    {`"${nameParam}"`}
-                  </p>
                 </div>
               </div>
               <div className="row">
+                <div className="column small-4 vads-u-padding--0">
+                  <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
+                    <LicenseCertificationFilterAccordion
+                      button="Filter your results"
+                      buttonLabel="Filter your
+                      results"
+                      expanded={false}
+                      // buttonOnClick={() => console.log('update results')}
+                    >
+                      {controls}
+                    </LicenseCertificationFilterAccordion>
+                  </div>
+                </div>
                 {filteredResults.length - 1 > 0 ? (
-                  <ul className="lc-result-cards-wrapper">
+                  <ul className="column small-7 lc-result-cards-wrapper">
                     {currentResults.map((result, index) => {
                       if (index === 0) return null;
                       return (

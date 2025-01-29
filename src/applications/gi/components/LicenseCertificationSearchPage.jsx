@@ -95,9 +95,9 @@ export default function LicenseCertificationSearchPage({ flag }) {
 
   const handleUpdateQueryParam = () => updateQueryParam(history, location); // refactor this function
 
-  const handleSearch = (category, name, state) => {
+  const handleSearch = (category, name) => {
     handleUpdateQueryParam()([['category', category], ['name', name]]);
-    handleLcResultsSearch(history, category, name, state);
+    handleLcResultsSearch(history, category, name, 'all');
   };
 
   const handleReset = callback => {

@@ -583,7 +583,12 @@ export const showLcParams = location => {
   return { nameParam, categoryParam, stateParam };
 };
 
-export const handleLcResultsSearch = (history, category, name, state) => {
+export const handleLcResultsSearch = (
+  history,
+  category,
+  name,
+  state = 'all',
+) => {
   return history.push(
     `/lc-search/results?category=${category}&name=${name}&state=${state}`,
   );
@@ -671,9 +676,9 @@ export const updateCategoryDropdown = (category = 'all') => {
   };
 };
 
-export const updateStateDropdown = multiples => {
+export const updateStateDropdown = (multiples = []) => {
   return {
-    label: 'state',
+    label: 'State',
     options:
       multiples.length === 0
         ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
@@ -691,9 +696,13 @@ export const updateStateDropdown = multiples => {
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
-  return suggestions.filter(
-    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
-  );
+  if (suggestions) {
+    return suggestions.filter(
+      suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
+    );
+  }
+
+  return null;
 };
 
 export const categoryCheck = type => {
