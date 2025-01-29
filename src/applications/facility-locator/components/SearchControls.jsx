@@ -16,6 +16,7 @@ import {
 } from '../config';
 import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
+import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
 import AddressTypeahead from './AddressTypeahead';
 
@@ -100,8 +101,7 @@ const SearchControls = props => {
 
     if (!searchString) {
       updateReduxState('searchString');
-      // focusElement('#street-city-state-zip');
-      // locationInputFieldRef.current?.focus();
+      setFocus(locationInputFieldRef.current, false);
       return;
     }
 
@@ -136,11 +136,24 @@ const SearchControls = props => {
 
   const handleClearInput = () => {
     clearSearchText();
-    locationInputFieldRef.current.value = '';
-    // focusElement('#street-city-state-zip');
+    // optional chaining not allowed
+    if (locationInputFieldRef.current) {
+      locationInputFieldRef.current.value = '';
+    }
+    focusElement('#street-city-state-zip');
   };
 
   const renderLocationInputField = () => {
+    if (facilitiesUseAddressTypeahead) {
+      return (
+        <AddressTypeahead
+          geolocateUser={geolocateUser}
+          inputRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
+          onChange={onChange}
+        />
+      );
+    }
     const {
       locationChanged,
       searchString,
@@ -190,7 +203,7 @@ const SearchControls = props => {
         <div className="input-container">
           <input
             id="street-city-state-zip"
-            // ref={locationInputFieldRef}
+            ref={locationInputFieldRef}
             name="street-city-state-zip"
             type="text"
             onChange={handleQueryChange}
@@ -326,7 +339,7 @@ const SearchControls = props => {
         currentQuery.geolocationInProgress === false &&
         locationInputFieldRef.current
       ) {
-        // setFocus(locationInputFieldRef.current, false);
+        setFocus(locationInputFieldRef.current, false);
       }
     },
     [currentQuery.geolocationInProgress],
@@ -387,17 +400,7 @@ const SearchControls = props => {
         onSubmit={handleSubmit}
       >
         <div className="columns">
-          {facilitiesUseAddressTypeahead ? (
-            <AddressTypeahead
-              geolocateUser={geolocateUser}
-              inputRef={locationInputFieldRef}
-              onClearClick={handleClearInput}
-              onChange={onChange}
-              currentQuery={currentQuery}
-            />
-          ) : (
-            renderLocationInputField()
-          )}
+          {renderLocationInputField()}
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
             {renderServiceTypeDropdown()}
