@@ -8,6 +8,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
+import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
@@ -17,7 +18,6 @@ import {
   getUpdatedItemFromPath,
   isDeepEmpty,
 } from './helpers';
-import { isMinimalHeaderPath } from '../../helpers';
 
 const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   <div className="vads-u-margin-top--2">
