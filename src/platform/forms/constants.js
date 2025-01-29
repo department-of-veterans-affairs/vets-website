@@ -478,6 +478,8 @@ export const MY_VA_SIP_FORMS = [
     title: '1330M2 Apply for a medallion in a private cemetery',
     description: 'Memorials benefits',
     trackingPrefix: 'memorials-1330m2',
+  },
+  {
     id: VA_FORM_IDS.FORM_1330M,
     benefit: 'Memorials benefits',
     title: '1330M Apply for a medallion in a private cemetery',
