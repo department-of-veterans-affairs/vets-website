@@ -6,7 +6,7 @@ import {
   PersonalInformationFooter,
   PersonalInformationHeader,
   PersonalInformationNote,
-} from '../../PersonalInformation';
+} from '../../../../src/js/components/PersonalInformation/PersonalInformation';
 
 const initialState = {
   user: {

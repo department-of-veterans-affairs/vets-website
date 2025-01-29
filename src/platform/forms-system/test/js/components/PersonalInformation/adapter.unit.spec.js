@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import { getDataFromPath, adaptFormData } from '../../adapter';
+import {
+  getDataFromPath,
+  adaptFormData,
+} from '../../../../src/js/components/PersonalInformation/adapter';
 
 describe('getDataFromPath', () => {
   const testData = {

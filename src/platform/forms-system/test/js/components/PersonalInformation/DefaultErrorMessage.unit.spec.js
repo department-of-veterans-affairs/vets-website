@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { DefaultErrorMessage } from '../../DefaultErrorMessage';
+import { DefaultErrorMessage } from '../../../../src/js/components/PersonalInformation/DefaultErrorMessage';
 
 describe('DefaultErrorMessage', () => {
   it('should render with a single missing field', () => {

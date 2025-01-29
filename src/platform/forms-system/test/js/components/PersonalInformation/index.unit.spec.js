@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { personalInformationPage, defaultConfig } from '../../index';
-import * as PersonalInformationModule from '../../PersonalInformation';
+import {
+  personalInformationPage,
+  defaultConfig,
+} from '../../../../src/js/components/PersonalInformation/index';
+import * as PersonalInformationModule from '../../../../src/js/components/PersonalInformation/PersonalInformation';
 
 const args = {
   title: 'Test Title',

@@ -6,12 +6,12 @@ import {
   parseDateToDateObj,
   getChildrenByType,
   FORMAT_YMD_DATE_FNS,
-} from '../../utils';
+} from '../../../../src/js/components/PersonalInformation/utils';
 import {
   PersonalInformationHeader,
   PersonalInformationNote,
   PersonalInformationFooter,
-} from '../../PersonalInformation';
+} from '../../../../src/js/components/PersonalInformation/PersonalInformation';
 
 describe('getMissingData', () => {
   const mockData = {
