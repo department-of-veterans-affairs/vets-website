@@ -162,7 +162,7 @@ const Vitals = () => {
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VITALS}
-        recordCount={cards?.length}
+        recordCount={vitals?.length}
         recordType={recordType.VITALS}
         listCurrentAsOf={vitalsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
