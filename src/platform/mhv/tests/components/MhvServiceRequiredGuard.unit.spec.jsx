@@ -4,9 +4,9 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
-import MhvAuthGuard from '../../components/MhvAuthGuard';
+import MhvServiceRequiredGuard from '../../components/MhvServiceRequiredGuard';
 
-describe('MhvAuthGuard component', () => {
+describe('MhvServiceRequiredGuard component', () => {
   let oldLocation;
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('MhvAuthGuard component', () => {
     const componentProps = { ...props, user: { ...state.user } };
     return renderWithStoreAndRouter(
       <>
-        <MhvAuthGuard {...componentProps} />
+        <MhvServiceRequiredGuard {...componentProps} />
       </>,
       {
         initialState: state,
@@ -72,7 +72,7 @@ describe('MhvAuthGuard component', () => {
     };
     renderWithStoreAndRouter(
       <>
-        <MhvAuthGuard {...customProps} />
+        <MhvServiceRequiredGuard {...customProps} />
       </>,
       {
         initialState: customState,
@@ -101,7 +101,7 @@ describe('MhvAuthGuard component', () => {
     };
     renderWithStoreAndRouter(
       <>
-        <MhvAuthGuard {...customProps} />
+        <MhvServiceRequiredGuard {...customProps} />
       </>,
       {
         initialState: customState,
