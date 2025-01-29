@@ -110,6 +110,7 @@ import {
   studentFutureEarningsPage,
   studentAssetsPage,
   remarksPage,
+  studentMarriageDatePage,
 } from './chapters/674/addStudentsArrayPages';
 import {
   childAddressPage,
@@ -180,23 +181,20 @@ export const formConfig = {
       title: 'What would you like to do?',
       pages: {
         addOrRemoveDependents: {
-          hideHeaderRow: true,
           title: 'What do you like to do?',
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
         },
         addDependentOptions: {
-          hideHeaderRow: true,
-          title: 'What do you like to do?',
+          title: 'Add a dependent',
           path: 'options-selection/add-dependents',
           uiSchema: addDependentOptions.uiSchema,
           schema: addDependentOptions.schema,
           depends: form => form?.['view:addOrRemoveDependents']?.add,
         },
         removeDependentOptions: {
-          hideHeaderRow: true,
-          title: 'What do you like to do?',
+          title: 'Remove a dependent',
           path: 'options-selection/remove-dependents',
           uiSchema: removeDependentOptions.uiSchema,
           schema: removeDependentOptions.schema,
@@ -526,13 +524,22 @@ export const formConfig = {
           }),
           addStudentsPartSix: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-marriage-date',
+            uiSchema: studentMarriageDatePage.uiSchema,
+            schema: studentMarriageDatePage.schema,
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.wasMarried,
+          }),
+          addStudentsPartSeven: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-education-benefits',
             uiSchema: studentEducationBenefitsPage.uiSchema,
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartSeven: pageBuilder.itemPage({
+          addStudentsPartEight: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/student-education-benefits/start-date',
@@ -544,7 +551,7 @@ export const formConfig = {
                 formData?.studentInformation?.[index]?.typeOfProgramOrBenefit,
               ).includes(true),
           }),
-          addStudentsPartEight: pageBuilder.itemPage({
+          addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-program-information',
             uiSchema: studentProgramInfoPage.uiSchema,
@@ -552,7 +559,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartNine: pageBuilder.itemPage({
+          addStudentsPartTen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/student-attendance-information',
@@ -561,7 +568,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartTen: pageBuilder.itemPage({
+          addStudentsPartEleven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/date-student-stopped-attending',
@@ -572,7 +579,7 @@ export const formConfig = {
               !formData?.studentInformation?.[index]?.schoolInformation
                 ?.studentIsEnrolledFullTime,
           }),
-          addStudentsPartEleven: pageBuilder.itemPage({
+          addStudentsPartTwelve: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/school-or-program-accreditation',
@@ -581,7 +588,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartTwelve: pageBuilder.itemPage({
+          addStudentsPartThirteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/term-dates',
             uiSchema: studentTermDatesPage.uiSchema,
@@ -589,7 +596,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartThirteen: pageBuilder.itemPage({
+          addStudentsPartFourteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-previously-attended',
             uiSchema: previousTermQuestionPage.uiSchema,
@@ -597,7 +604,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartFourteen: pageBuilder.itemPage({
+          addStudentsPartFifteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/previous-term-dates',
             uiSchema: previousTermDatesPage.uiSchema,
@@ -607,7 +614,7 @@ export const formConfig = {
               formData?.studentInformation?.[index]?.schoolInformation
                 ?.studentDidAttendSchoolLastTerm,
           }),
-          addStudentsPartFifteen: pageBuilder.itemPage({
+          addStudentsPartSixteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/additional-student-income',
             uiSchema: claimsOrReceivesPensionPage.uiSchema,
@@ -615,7 +622,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          addStudentsPartSixteen: pageBuilder.itemPage({
+          addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
@@ -624,7 +631,7 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          addStudentsPartSeventeen: pageBuilder.itemPage({
+          addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
@@ -633,7 +640,7 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          addStudentsPartEighteen: pageBuilder.itemPage({
+          addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
@@ -642,7 +649,7 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          addStudentsPartNineteen: pageBuilder.itemPage({
+          addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/additional-remarks',
             uiSchema: remarksPage.uiSchema,
