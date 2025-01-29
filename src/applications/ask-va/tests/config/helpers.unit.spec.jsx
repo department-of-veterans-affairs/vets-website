@@ -13,6 +13,7 @@ import {
   isBranchOfServiceRequired,
   isVRERequired,
   isHealthFacilityRequired,
+  getHealthFacilityTitle,
 } from '../../config/helpers';
 // import { CategoryGuardianshipCustodianshipFiduciaryIssues } from '../../config/constants';
 import {
@@ -28,6 +29,7 @@ import {
   TopicSpeciallyAdapatedHousing,
   TopicAppraisals,
   CategoryVeteranReadinessAndEmployment,
+  CHAPTER_3,
 } from '../../constants';
 
 describe('Components and Utility Functions', () => {
@@ -446,7 +448,6 @@ describe('Components and Utility Functions', () => {
     });
   });
 
-  // TODO: This might be unreferenced by the app? Revisit. -- Joe
   describe('isVRERequired is as expected', () => {
     it('true for VRE category', () => {
       expect(
@@ -468,7 +469,6 @@ describe('Components and Utility Functions', () => {
     });
   });
 
-  // TODO: This might be unreferenced by the app? Revisit. -- Joe
   describe('isHealthFacilityRequired is as expected', () => {
     it('true for expected topics', () => {
       const healthTopics = [
@@ -504,6 +504,57 @@ describe('Components and Utility Functions', () => {
           selectTopic: 'SOMETHING ELSE',
         }),
       ).to.be.false;
+    });
+  });
+
+  describe('getHealthFacilityTitle values', () => {
+    it('returns proper facility title', () => {
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
+        }),
+      ).to.equal(CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE);
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+        }),
+      ).to.equal(CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE);
+
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          relationshipToVeteran: relationshipOptionsSomeoneElse.VETERAN,
+        }),
+      ).to.equal(CHAPTER_3.FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE);
+
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          relationshipToVeteran: relationshipOptionsSomeoneElse.FAMILY_MEMBER,
+          isQuestionAboutVeteranOrSomeoneElse:
+            isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN,
+        }),
+      ).to.equal(CHAPTER_3.VETERAN_VA_HEALTH_FACILITY.TITLE);
+
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          relationshipToVeteran: relationshipOptionsSomeoneElse.FAMILY_MEMBER,
+          isQuestionAboutVeteranOrSomeoneElse:
+            isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE,
+        }),
+      ).to.equal(CHAPTER_3.FAMILY_MEMBER_VA_HEALTH_FACILITY.TITLE);
+
+      expect(
+        getHealthFacilityTitle({
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          relationshipToVeteran: relationshipOptionsSomeoneElse.WORK,
+        }),
+      ).to.equal(CHAPTER_3.VETERAN_VA_HEALTH_FACILITY.TITLE);
+
+      expect(getHealthFacilityTitle({})).to.equal(
+        CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+      );
     });
   });
 });
