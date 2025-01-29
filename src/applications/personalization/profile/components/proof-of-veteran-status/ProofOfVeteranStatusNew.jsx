@@ -62,9 +62,7 @@ const ProofOfVeteranStatusNew = ({
   const userHasRequiredCardData = !!(
     serviceHistory.length && formattedFullName
   );
-
   const hasConfirmationData = !!(data && data.attributes);
-
   const pdfData = {
     title: `Veteran status card for ${formattedFullName}`,
     details: {
@@ -183,7 +181,7 @@ const ProofOfVeteranStatusNew = ({
       })
     : null;
 
-  const contactInfoElements = data?.attributes?.message?.map(item => {
+  const contactInfoElements = data?.message?.map(item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
       0,
       3,
@@ -209,6 +207,53 @@ const ProofOfVeteranStatusNew = ({
       </>
     );
   });
+
+  const systemErrrorAlert = (
+    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        We’re sorry. There’s a problem with our system. We can’t show your
+        Veteran status card right now. Try again later.
+      </p>
+    </va-alert>
+  );
+
+  const lighthouseApiErrorMessage = (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      {contactInfoElements?.map((message, i) => {
+        if (i === 0) {
+          return (
+            <p key={i} className="vads-u-margin-top--0">
+              {message}
+            </p>
+          );
+        }
+        return <p key={i}>{message}</p>;
+      })}
+    </va-alert>
+  );
+
+  const profileApiErrorMessage = (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      {componentizedMessage.map((message, i) => {
+        if (i === 0) {
+          return (
+            <p key={i} className="vads-u-margin-top--0">
+              {message}
+            </p>
+          );
+        }
+        return <p key={i}>{message}</p>;
+      })}
+    </va-alert>
+  );
 
   return (
     <>
@@ -271,26 +316,7 @@ const ProofOfVeteranStatusNew = ({
                 ) : null}
                 {!vetStatusEligibility.confirmed &&
                 vetStatusEligibility.message.length > 0 ? (
-                  <>
-                    <div>
-                      <va-alert
-                        close-btn-aria-label="Close notification"
-                        status="warning"
-                        visible
-                      >
-                        {componentizedMessage.map((message, i) => {
-                          if (i === 0) {
-                            return (
-                              <p key={i} className="vads-u-margin-top--0">
-                                {message}
-                              </p>
-                            );
-                          }
-                          return <p key={i}>{message}</p>;
-                        })}
-                      </va-alert>
-                    </div>
-                  </>
+                  <>{profileApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
@@ -345,56 +371,33 @@ const ProofOfVeteranStatusNew = ({
 
                 {isVetStatusEligibilityPopulated &&
                 data?.attributes?.veteranStatus !== 'confirmed' &&
-                data?.attributes?.message.length > 0 ? (
-                  <>
-                    <div>
-                      <va-alert
-                        close-btn-aria-label="Close notification"
-                        status="warning"
-                        visible
-                      >
-                        {contactInfoElements.map((message, i) => {
-                          if (i === 0) {
-                            return (
-                              <p key={i} className="vads-u-margin-top--0">
-                                {message}
-                              </p>
-                            );
-                          }
-                          return <p key={i}>{message}</p>;
-                        })}
-                      </va-alert>
-                    </div>
-                  </>
+                data?.message?.length > 0 ? (
+                  <>{lighthouseApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
 
             {useLighthouseApi && !hasConfirmationData ? (
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                visible
-              >
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  We’re sorry. There’s a problem with our system. We can’t show
-                  your Veteran status card right now. Try again later.
-                </p>
-              </va-alert>
+              <>{systemErrrorAlert}</>
             ) : null}
           </>
-        ) : (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="error"
-            visible
-          >
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              We’re sorry. There’s a problem with our system. We can’t show your
-              Veteran status card right now. Try again later.
-            </p>
-          </va-alert>
-        )}
+        ) : null}
+
+        {!userHasRequiredCardData ? (
+          <>
+            {!useLighthouseApi ? <>{systemErrrorAlert}</> : null}
+
+            {useLighthouseApi ? (
+              <>
+                {data?.attributes?.veteranStatus === 'confirmed' ? (
+                  <>{profileApiErrorMessage}</>
+                ) : (
+                  <>{lighthouseApiErrorMessage}</>
+                )}
+              </>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </>
   );
