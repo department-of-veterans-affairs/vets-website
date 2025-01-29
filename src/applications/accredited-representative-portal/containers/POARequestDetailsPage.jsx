@@ -114,16 +114,17 @@ const POARequestDetailsPage = () => {
   };
 
   const poaStatus =
-    poaRequest.resolution?.decision_type ||
+    poaRequest.resolution?.decisionType ||
     poaRequest.resolution?.type ||
     'Pending';
 
-  const relationship = poaRequest?.powerOfAttorneyForm.claimant.relationship;
+  const relationship =
+    poaRequest?.powerOfAttorneyForm.claimant.relationship || 'Self';
   const city = poaRequest?.powerOfAttorneyForm.claimant.address.city;
   const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
   const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
-  const email = poaRequest.powerOfAttorneyForm.claimant.emaill;
+  const email = poaRequest?.powerOfAttorneyForm.claimant.email;
   const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
   const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
   const {
@@ -167,7 +168,7 @@ const POARequestDetailsPage = () => {
           {poaStatus === 'declination' && (
             <>
               <p className="poa-request-details__title">Request declined on</p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
           {poaStatus === 'acceptance' && (
@@ -184,13 +185,7 @@ const POARequestDetailsPage = () => {
           )}
           {poaStatus === 'expiration' && (
             <>
-              <p className="poa-request-details__title">
-                <va-icon
-                  icon="warning"
-                  class="vads-u-color--warning-dark poa-request__card-icon"
-                />{' '}
-                Request expired on
-              </p>
+              <p className="poa-request-details__title">Request expired on</p>
               {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
@@ -245,13 +240,11 @@ const POARequestDetailsPage = () => {
             <>
               <li>
                 <p>Social Security number</p>
-                <p>{poaRequest?.power_of_attorney_form?.claimant?.ssn}</p>
+                <p>{poaRequest?.powerOfAttorneyForm?.claimant?.ssn}</p>
               </li>
               <li>
                 <p>VA file number</p>
-                <p>
-                  {poaRequest?.power_of_attorney_form?.claimant?.va_file_number}
-                </p>
+                <p>{poaRequest?.powerOfAttorneyForm?.claimant?.vaFileNumber}</p>
               </li>
             </>
           )}
@@ -277,7 +270,7 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>VA file number</p>
                 <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.va_file_number}
+                  {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
                 </p>
               </li>
             </ul>
@@ -290,17 +283,17 @@ const POARequestDetailsPage = () => {
             <p>Change of address</p>
             <p>
               {checkAuthorizations(
-                poaRequest?.powerOfAttorneyForm.authorizations.address_change,
+                poaRequest?.powerOfAttorneyForm.authorizations.addressChange,
               )}
             </p>
           </li>
           <li>
             <p>Protected medical records</p>
             <p>
-              {recordDisclosureLimitations.lengp === 0 && <NoAccess />}
-              {recordDisclosureLimitations.lengp < 4 &&
-                recordDisclosureLimitations.lengp > 0 && <AccessToSome />}
-              {recordDisclosureLimitations.lengp === 4 && <Authorized />}
+              {recordDisclosureLimitations.length === 0 && <NoAccess />}
+              {recordDisclosureLimitations.length < 4 &&
+                recordDisclosureLimitations.length > 0 && <AccessToSome />}
+              {recordDisclosureLimitations.length === 4 && <Authorized />}
             </p>
           </li>
           <li>

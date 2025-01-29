@@ -110,7 +110,7 @@ const POARequestSearchPage = () => {
           <StatusTabLink
             tabStatus={STATUSES.COMPLETED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.RESOLVED_DESC}
+            tabSort={SORT_BY.RESOLVED_ASC}
           >
             Processed
           </StatusTabLink>
