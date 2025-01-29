@@ -30,6 +30,36 @@
       border-radius: 6px;
     }
   }
+  &__sort-by {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+  &__select {
+    width: 100%;
+    margin-bottom: 16px;
+
+    > select {
+      max-width: 100%;
+    }
+    @media (min-width: $small-desktop-screen) {
+      width: 300px;
+      margin-bottom: 0;
+    }
+  }
+  &__apply {
+    margin: 0;
+    max-width: 83px;
+    height: 40px;
+
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 16px;
+    }
+  }
   &__list {
     list-style-type: none;
     padding: 0;

@@ -146,9 +146,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        location: {
-          stationId: '983',
-        },
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -177,15 +174,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Location: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Clinic: Not available'
+            content === 'Facility details not available'
           );
         }),
       );
@@ -207,6 +196,24 @@ describe('VAOS Component: ClaimExamLayout', () => {
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-clinic-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-id',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-facility-id',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-facility-phone',
       });
     });
 
@@ -419,6 +426,24 @@ describe('VAOS Component: ClaimExamLayout', () => {
       });
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-clinic-phone',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-id',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-id',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-details',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-details',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-facility-phone',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-facility-phone',
       });
     });
   });
