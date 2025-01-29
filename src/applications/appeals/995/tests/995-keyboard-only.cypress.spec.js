@@ -75,7 +75,8 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.infoPages.pages.choosePrimaryPhone.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100); // wait for focus on header
+      // cy.wait(100); // wait for focus on header
+      // cy.tabToElement('[value="home"]');
       cy.tabToElement('[value="home"]');
       cy.realPress('Space');
       cy.tabToContinueForm();
@@ -252,8 +253,18 @@ describe('Supplemental Claim keyboard only navigation', () => {
         'include',
         chapters.evidence.pages.evidencePrivateLimitation.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('textarea');
-      cy.realType(data.limitedConsent);
+      // Without this waitUntil, only the first letter is entered into the
+      // textarea
+      cy.waitUntil(() =>
+        cy
+          .realType(data.limitedConsent)
+          .then(() =>
+            cy.get(':focus').then($el => $el[0].value === data.limitedConsent),
+          ),
+      );
       cy.tabToSubmitForm();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
