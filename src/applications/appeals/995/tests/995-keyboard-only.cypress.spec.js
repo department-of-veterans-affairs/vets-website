@@ -75,8 +75,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.infoPages.pages.choosePrimaryPhone.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      // cy.wait(100); // wait for focus on header
-      // cy.tabToElement('[value="home"]');
+      cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
       cy.realPress('Space');
       cy.tabToContinueForm();
