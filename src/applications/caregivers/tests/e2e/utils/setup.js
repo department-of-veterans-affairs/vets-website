@@ -28,9 +28,9 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
   cy.intercept('POST', APIs.upload, mockUpload);
+  cy.intercept('POST', APIs.submit, mockSubmission);
   cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');
   cy.intercept('POST', APIs.facilities, mockFacilities).as('getFacilities');
-  cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
 };
 
 export const pageHooks = {

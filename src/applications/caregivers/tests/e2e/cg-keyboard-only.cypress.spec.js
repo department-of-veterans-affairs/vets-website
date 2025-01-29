@@ -47,13 +47,13 @@ describe('Caregivers-Keyboard-Only', () => {
       veteranFacilityState,
       plannedClinic,
     } = testData.veteranPreferredFacility;
-    const facilitySelector = field =>
+    const fieldSelector = field =>
       `[name="root_veteranPreferredFacility_${field}"]`;
     cy.selectDropdownFromData(
-      facilitySelector('veteranFacilityState'),
+      fieldSelector('veteranFacilityState'),
       veteranFacilityState,
     );
-    cy.selectDropdownFromData(facilitySelector('plannedClinic'), plannedClinic);
+    cy.selectDropdownFromData(fieldSelector('plannedClinic'), plannedClinic);
     cy.tabToContinueForm();
 
     // Primary caregiver declaration
