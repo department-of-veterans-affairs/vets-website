@@ -46,7 +46,7 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
-  generateVitalsContent,
+  generateVitalContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 
@@ -228,12 +228,16 @@ const VitalDetails = props => {
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
 
-    const { title, subject, preface } = generateVitalsIntro(
+    const { title, subject, subtitles } = generateVitalsIntro(
       records,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateVitalsContent(records) };
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateVitalContent(records, true),
+    };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
   };
