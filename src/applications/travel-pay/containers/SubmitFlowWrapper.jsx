@@ -8,8 +8,8 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import {
   selectVAPMailingAddress,
   selectVAPResidentialAddress,
-  isProfileLoading,
-  isLoggedIn,
+  // isProfileLoading,
+  // isLoggedIn,
 } from 'platform/user/selectors';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
@@ -35,8 +35,8 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     appointmentError,
   } = useSelector(state => state.travelPay);
 
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  // const profileLoading = useSelector(state => isProfileLoading(state));
+  // const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const {
     useToggleValue,
@@ -51,11 +51,11 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   useEffect(
     () => {
-      if (userLoggedIn && !hasFetchedAppointment) {
+      if (!hasFetchedAppointment) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, userLoggedIn, hasFetchedAppointment],
+    [dispatch, hasFetchedAppointment],
   );
 
   const appIsAvailable =
@@ -155,7 +155,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
   ];
 
-  if (profileLoading || toggleIsLoading || isLoadingAppointment) {
+  if (toggleIsLoading || isLoadingAppointment) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
