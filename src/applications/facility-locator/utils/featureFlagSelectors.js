@@ -14,8 +14,3 @@ export const facilityLocatorPredictiveLocationSearch = state =>
 
 export const facilitiesUseAddressTypeahead = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesUseAddressTypeahead];
-
-export const facilityLocatorRestoreCommunityCarePagination = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.facilityLocatorRestoreCommunityCarePagination
-  ];

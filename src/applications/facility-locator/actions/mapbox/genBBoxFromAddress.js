@@ -12,7 +12,7 @@ import {
   SEARCH_QUERY_UPDATED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
-} from '../../utils/actionTypes';
+} from '../actionTypes';
 import { radiusFromBoundingBox } from '../../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
