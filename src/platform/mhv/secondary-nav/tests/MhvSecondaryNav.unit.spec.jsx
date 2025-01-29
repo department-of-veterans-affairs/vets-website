@@ -3,19 +3,12 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import MhvSecondaryNav from '../containers/MhvSecondaryNav';
 
-const stateFn = ({ loading } = {}) => ({
-  featureToggles: {
-    loading,
-  },
-});
-
-const setup = ({ initialState = stateFn() } = {}) =>
+const setup = ({ initialState = {} } = {}) =>
   renderInReduxProvider(<MhvSecondaryNav />, { initialState });
 
 describe('<MhvSecondaryNav />', () => {
   it('renders', () => {
-    const initialState = stateFn({ loading: false });
-    const { getByRole } = setup({ initialState });
+    const { getByRole } = setup();
     const nav = getByRole('navigation', { name: 'My HealtheVet' });
     const isHidden = nav.classList.contains('vads-u-visibility--hidden');
     expect(isHidden).to.be.false;
