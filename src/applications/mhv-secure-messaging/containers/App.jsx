@@ -18,7 +18,7 @@ import {
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
-import MhvAuthGuard from 'platform/mhv/components/MhvAuthGuard';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
@@ -145,7 +145,10 @@ const App = ({ isPilot }) => {
     // SM Patient API has its own check for facilities that a user is connected to.
     // It will not start a session if a user has no associated facilities.
     <RequiredLoginView user={user}>
-      <MhvAuthGuard user={user} serviceRequired={[backendServices.MESSAGING]}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.MESSAGING]}
+      >
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           {mhvSMDown === externalServiceStatus.down ? (
@@ -178,7 +181,7 @@ const App = ({ isPilot }) => {
             <va-back-to-top />
           </div>
         </div>
-      </MhvAuthGuard>
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };
