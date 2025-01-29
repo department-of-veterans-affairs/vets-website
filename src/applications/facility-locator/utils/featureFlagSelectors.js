@@ -11,11 +11,3 @@ export const facilityLocatorPredictiveLocationSearch = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
   ];
-
-export const facilityLocatorLatLongOnly = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorLatLongOnly];
-
-export const facilityLocatorRestoreCommunityCarePagination = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.facilityLocatorRestoreCommunityCarePagination
-  ];

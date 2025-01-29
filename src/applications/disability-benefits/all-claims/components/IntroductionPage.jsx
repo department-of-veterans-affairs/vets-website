@@ -82,8 +82,8 @@ class IntroductionPage extends React.Component {
           </>
         ) : (
           <p>
-            VA Form 21-526EZ (Application for Disability Compensation and
-            Related Compensation Benefits).
+            Application for Disability Compensation and Related Compensation
+            Benefits (VA Form 21-526EZ)
           </p>
         )}
         <SaveInProgressIntro {...sipProps} />
