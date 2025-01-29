@@ -12,5 +12,6 @@
   ],
   "reporter": "progress",
   "timeout": false,
-  "slow": 0
+  "slow": 0,
+  "recursive": true
 }

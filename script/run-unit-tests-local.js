@@ -4,15 +4,15 @@ const glob = require('glob');
 const path = require('path');
 const { promisify } = require('util');
 const printUnitTestHelp = require('./run-unit-test-help');
-const { runCommand } = require('./utils');
+// const { runCommand } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 const exec = promisify(require('child_process').exec);
 
 const specDirs = '{src,script}';
-const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
+const defaultPath = `./${specDirs}/**/*.unit.spec.@(jsx|js)`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'error' },
+  { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'coverage-html', type: Boolean, defaultValue: false },
@@ -27,7 +27,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     defaultValue: [defaultPath],
   },
 ];
-
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 let coverageInclude = '';
 
@@ -65,6 +64,14 @@ const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageRepor
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 
+const addWildcardAndQuote = (p, qt = "'") => {
+  /* qt = false, ads no quote to string; user can choose between  single or double quote with single being default */
+  const q = !qt ? '' : (/["']/.test(qt) && qt) || "'";
+  return options['app-folder'] || p.indexOf('.unit.spec.js') > 0
+    ? `${q}${p}${q}`
+    : `${q}${p}/**/*.unit.spec.@(jsx|js)${q}`.replace(/\/{2,}/, '/');
+};
+
 async function runCommandAsync(command) {
   return new Promise((resolve, reject) => {
     console.log(`Executing: ${command}`);
@@ -100,7 +107,7 @@ async function runTests() {
   for (const app of allUnitTestDirs) {
     const command = `shopt -s extglob; LOG_LEVEL=${options[
       'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.@(jsx|js)`}"`;
 
     try {
       /* eslint-disable-next-line no-await-in-loop */
@@ -111,62 +118,36 @@ async function runTests() {
   }
 }
 
-// async function runUserCommand(paths) {
-//   const allUnitTests = paths.flatMap(p => glob.sync(p));
-//   console.log(JSON.stringify(allUnitTests.join(' ')));
-//   // const allUnitTestDirs = Array.from(
-//   //   new Set(
-//   //     allUnitTests.map(spec =>
-//   //       JSON.stringify(
-//   //         path
-//   //           .dirname(spec)
-//   //           .split('/')
-//   //           .slice(1, 4),
-//   //       ),
-//   //     ),
-//   //   ),
-//   // )
-//   //   .filter(spec => spec !== undefined)
-//   //   .map(directory => JSON.parse(directory).join('/'));
-//   // for (const app of allUnitTestDirs) {
-//   //   const command = `LOG_LEVEL=${options[
-//   //     'log-level'
-//   //   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
-//   //   try {
-//   //     /* eslint-disable-next-line no-await-in-loop */
-//   //     await runCommandAsync(command);
-//   //   } catch (error) {
-//   //     console.log(error);
-//   //   }
-//   // }
-// }
+async function runCommandIndividually(paths) {
+  const allUnitTests = paths.flatMap(p =>
+    glob.sync(addWildcardAndQuote(p, false)),
+  );
+  const filepaths = allUnitTests.map(p => `'${p}'`);
+  for (const fp of filepaths) {
+    const command = `shopt -s extglob; LOG_LEVEL=${options[
+      'log-level'
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${fp}`;
+    try {
+      /* eslint-disable-next-line no-await-in-loop */
+      await runCommandAsync(command);
+    } catch (error) {
+      console.log(`Runtime ${error}`);
+    }
+  }
+}
 
 if (options.path[0] !== defaultPath) {
-  const filepaths = options.path.map(
-    p =>
-      options['app-folder'] && p.indexOf('.unit.spec.js') > 0
-        ? `'${p}'`
-        : `'${p}/**/*.unit.spec.js?(x)'`.replace(/\/{2,}/, '/'),
-  );
-
-  // const fs = require('fs');
-
-  // filepaths.forEach(pathx => {
-  //   if (fs.existsSync(path)) {
-  //     console.log(`Exists: ${pathx}`);
-  //   } else {
-  //     console.log(`Missing: ${pathx}`);
-  //   }
-  // });
-
+  const filepaths = options.path.map(p => addWildcardAndQuote(p));
   const command = `shopt -s extglob; LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${filepaths.join(
     ' ',
   )}`;
-
   console.log(JSON.stringify(command));
-  runCommand(command);
+  // runCommand(command);
+  runCommandIndividually(options.path).then(() => {
+    console.log('Selected Tests Complete');
+  });
 } else {
   runTests().then(() => {
     console.log('All Tests Complete');
