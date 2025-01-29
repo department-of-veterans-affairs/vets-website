@@ -24,7 +24,7 @@ const App = props => {
     version: '1.0.0',
     applicationId: 'ec980bd9-5d61-4cf7-88a8-bdbbdb015059',
     clientToken: 'pub7162d18113213637d731bd1ae8a0abf0',
-    service: 'benefits-claim-status-tool',
+    service: 'benefits-rated-disabilities',
   });
 
   return (
