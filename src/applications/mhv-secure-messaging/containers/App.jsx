@@ -145,7 +145,7 @@ const App = ({ isPilot }) => {
   // redirect to the SM main experience landing page
   // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
   // When removing the landing page changes are fully implemented, update manifest.json to set
-  // rootURL to /my-health/secure-messages/inbox
+  // rootURL to /my-health/secure-messages-pilot/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
     if (
       removeLandingPage
