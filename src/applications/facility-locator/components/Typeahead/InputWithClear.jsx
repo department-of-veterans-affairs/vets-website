@@ -39,6 +39,7 @@ function InputWithClear(
         <input
           className="input-with-clear vads-u-width--full"
           {...otherProps}
+          name={inputId}
           ref={ref}
         />
         <InputControlsContainer

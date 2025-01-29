@@ -133,7 +133,6 @@ function Typeahead({
               showDownCaret={showDownCaret}
               openMenu={openMenu}
               closeMenu={closeMenu}
-              optionsLength={options?.length || 0}
             />
             <TypeaheadDropdownOptions
               getItemProps={getItemProps}

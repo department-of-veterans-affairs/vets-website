@@ -9,9 +9,13 @@ const NON_VA_URGENT_CARE = 'In-network community urgent care';
 
 describe('Provider search', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',

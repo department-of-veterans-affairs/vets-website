@@ -151,6 +151,7 @@ const SearchControls = props => {
           inputRef={locationInputFieldRef}
           onClearClick={handleClearInput}
           onChange={onChange}
+          currentQuery={currentQuery}
         />
       );
     }

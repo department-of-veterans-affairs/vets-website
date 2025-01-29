@@ -19,10 +19,11 @@ function AddressTypeahead({
 }) {
   const [inputValue, setInputValue] = useState(null);
   const { locationChanged, searchString, geolocationInProgress } = currentQuery;
-  const [, setIsFocused] = useState(false);
   const [defaultSelectedItem, setDefaultSelectedItem] = useState(null);
   const [options, setOptions] = useState([]);
   const [showAddressError, setShowAddressError] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
 
   const inputClearClick = useCallback(
     () => {
@@ -48,6 +49,7 @@ function AddressTypeahead({
     }
     setDefaultSelectedItem(selectedItem);
     setInputValue(selectedItem.toDisplay);
+    setIsFocused(true);
     onChange({
       searchString: onlySpaces(selectedItem.toDisplay)
         ? selectedItem.toDisplay.trim()
@@ -97,12 +99,14 @@ function AddressTypeahead({
     // happens when the input is blurred
     const { value } = e.target;
     onChange({ searchString: value?.trim() || '' });
+    setIsFocused(false);
   };
 
   const handleInputChange = e => {
     // This way no Downshift odd input changes when selecting an address from the options
     const { value } = e.target;
     setInputValue(value);
+    setIsTouched(true);
 
     if (!value?.trim()) {
       onClearClick();
@@ -117,13 +121,21 @@ function AddressTypeahead({
     () => {
       // If the location is changed, and there is no value in searchString or inputValue then show the error
       setShowAddressError(
-        locationChanged &&
+        (locationChanged &&
           !geolocationInProgress &&
           !searchString?.length &&
-          inputValue === '', // not null but empty string (null on start)
+          !inputValue) ||
+          (!isFocused && !searchString?.length && !inputValue && isTouched), // not null but empty string (null on start)
       );
     },
-    [locationChanged, geolocationInProgress, searchString, inputValue],
+    [
+      locationChanged,
+      geolocationInProgress,
+      searchString,
+      inputValue,
+      isFocused,
+      isTouched,
+    ],
   );
 
   useEffect(
@@ -153,7 +165,9 @@ function AddressTypeahead({
       downshiftInputProps={{
         // none are required
         id: 'street-city-state-zip', // not required to provide an id
-        onFocus: () => setIsFocused(true), // not required
+        onFocus: () => {
+          setIsFocused(true); setIsTouched(true)
+        }, // not required
         onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
         disabled: false,
         autoCorrect: 'off',
