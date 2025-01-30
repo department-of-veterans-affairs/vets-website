@@ -13,7 +13,6 @@ const verifyLink = data => {
         ...data,
         ...{ searchString: 'my house' },
       }}
-      from="SearchResult"
     />,
   );
 

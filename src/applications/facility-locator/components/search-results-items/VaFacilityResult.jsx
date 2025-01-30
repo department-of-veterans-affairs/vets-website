@@ -58,7 +58,7 @@ const VaFacilityResult = ({
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink location={location} />
         <LocationPhoneLink
           location={location}
           from="SearchResult"

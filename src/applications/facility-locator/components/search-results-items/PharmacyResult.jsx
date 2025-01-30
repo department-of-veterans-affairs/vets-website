@@ -17,7 +17,7 @@ const PharmacyResult = ({ provider, query }) => {
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} from="SearchResult" />
+        <LocationDirectionsLink location={provider} />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"

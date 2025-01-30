@@ -21,7 +21,7 @@ const CCProviderResult = ({ provider, query }) => {
         <LocationDistance distance={provider.distance} />
         <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} from="SearchResult" />
+        <LocationDirectionsLink location={provider} />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
