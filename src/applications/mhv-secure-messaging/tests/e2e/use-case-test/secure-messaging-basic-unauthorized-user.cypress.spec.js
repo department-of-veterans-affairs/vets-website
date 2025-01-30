@@ -5,16 +5,14 @@ import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.js
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import { Paths } from '../utils/constants';
 
-describe('Secure Messaging Basic User', () => {
+describe('SM BASIC USER', () => {
   it('verify basic user does not have access to secure-messaging', () => {
-    const basicUser = { ...mockUser };
-    basicUser.data.attributes.services = basicUser.data.attributes.services.filter(
-      service => service !== 'messaging',
-    );
+    const unauthorizedUser = { ...mockUser };
+    unauthorizedUser.data.attributes.profile.verified = false;
 
-    SecureMessagingSite.login(mockFeatureToggles, true, basicUser);
+    SecureMessagingSite.login(mockFeatureToggles, true, unauthorizedUser);
 
-    cy.intercept('GET', '/v0/user', basicUser).as('user');
+    cy.intercept('GET', '/v0/user', unauthorizedUser).as('user');
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
