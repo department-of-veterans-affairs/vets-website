@@ -91,7 +91,7 @@ export const householdChildInfoPage = {
       title: 'Remove a stepchild who has left your household',
       nounSingular: removeChildHouseholdOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
