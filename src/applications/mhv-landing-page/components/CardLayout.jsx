@@ -3,19 +3,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import {
-  isAuthenticatedWithSSOe,
-  mrPhase1Enabled,
   apiAccountStatusEnabled,
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
 } from '../selectors';
 
 import NavCard from './NavCard';
-import MedicalRecordsCard from './MedicalRecordsCard';
 import ErrorNavCard from './ErrorNavCard';
-import { HEALTH_TOOL_HEADINGS, MHV_ACCOUNT_CARDS } from '../constants';
+import { MHV_ACCOUNT_CARDS } from '../constants';
 
 const layoutData = data => {
   const offset = 2;
@@ -32,9 +28,6 @@ const CardLayout = ({ data }) => {
   const mhvAccountStatusSortedErrors = useSelector(
     mhvAccountStatusErrorsSorted,
   );
-  const isMrPhase1Enabled = useSelector(mrPhase1Enabled);
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
 
   const rowCols = layoutData(data);
   return rowCols.map((row, x) => {
@@ -68,15 +61,9 @@ const CardLayout = ({ data }) => {
                   code={mhvAccountStatusSortedErrors[0].code}
                   userActionable={mhvAccountStatusUserErrors.length > 0}
                 />
-              ) : col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-              !isMrPhase1Enabled ? (
-                <MedicalRecordsCard href={blueButtonUrl} />
               ) : (
                 <NavCard {...col} />
               )
-            ) : col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-            !isMrPhase1Enabled ? (
-              <MedicalRecordsCard href={blueButtonUrl} />
             ) : (
               <NavCard {...col} />
             )}
