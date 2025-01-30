@@ -72,12 +72,20 @@ const ensureExists = (content, selector = null) => {
         break;
       case 'ASK VA':
       default:
-        newSelector = HEADING_SELECTORS;
+        newSelector = null;
         break;
     }
-    cy.get(newSelector ?? HEADING_SELECTORS, {
-      includeShadowDom: true,
-    }).should('exist');
+    if (newSelector === null) {
+      cy.get('h1, h2, h3, h4, h5, h6', {
+        includeShadowDom: true,
+      })
+        .contains(content)
+        .should('exist');
+    } else {
+      cy.get(newSelector, {
+        includeShadowDom: true,
+      }).should('exist');
+    }
   } else {
     cy.get(selector, { includeShadowDom: true })
       .contains(content)
