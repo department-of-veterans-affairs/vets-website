@@ -49,6 +49,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         long: Math.random() * 180,
         address: {
           city: `Fake city ${index + 1}`,
+          state: 'FakeState',
         },
       }),
     );
@@ -1199,6 +1200,76 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       expect(await screen.findByRole('radio', { name: /Facility 2/i }));
       expect(screen.getByRole('radio', { name: /Facility 3/i }));
+    });
+
+    it('should filter out facilities without a physical location', async () => {
+      mockFacilitiesFetch({
+        children: true,
+        ids: ['983'],
+        facilities: [
+          createMockFacility({
+            id: '983',
+            name: 'Facility 1',
+          }),
+          createMockFacility({
+            id: '984',
+            name: 'Facility 2',
+            address: { city: null, state: null },
+          }),
+          createMockFacility({
+            id: '983GA',
+            name: 'Facility 3',
+          }),
+        ],
+      });
+      mockEligibilityFetches({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockEligibilityFetches({
+        facilityId: '984',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockEligibilityFetches({
+        facilityId: '983GA',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GA',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      await screen.findAllByRole('radio');
+
+      expect(await screen.findByRole('radio', { name: /Facility 1/i }));
+      expect(screen.getByRole('radio', { name: /Facility 3/i }));
+      expect(screen.queryByText(/Facility 2/i)).not.to.exist;
     });
   });
 

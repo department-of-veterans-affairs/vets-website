@@ -257,7 +257,7 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full vads-u-margin-bottom--5">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
