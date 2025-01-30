@@ -6,7 +6,7 @@ import { isValid, format } from 'date-fns';
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   FORMAT_READABLE_DATE_FNS,
   FORMAT_YMD_DATE_FNS_CONCAT,

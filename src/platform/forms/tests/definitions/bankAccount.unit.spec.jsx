@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 import { DefinitionTester } from '../../../testing/unit/schemaform-utils.jsx';
@@ -25,18 +25,25 @@ describe('Schemaform definition bankAccount', () => {
     expect(inputs[2].id).to.equal('root_accountNumber');
     expect(inputs[3].id).to.equal('root_routingNumber');
   });
-  it('should render bankAccount with routing number error', () => {
+  it('should render bankAccount with routing number error', async () => {
     const form = render(
       <DefinitionTester schema={definitions.bankAccount} uiSchema={uiSchema} />,
     );
 
-    const routingNumberInput = form.container.querySelector(
-      '#root_routingNumber',
-    );
-    fireEvent.change(routingNumberInput, { target: { value: '123456789' } });
+    const routingNumber = form.container.querySelector('#root_routingNumber');
+    fireEvent.change(routingNumber, { target: { value: 123456789 } });
 
-    waitFor(() => {
-      screen.getByText(
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    fireEvent(submitButton, mouseClick);
+
+    await waitFor(() => {
+      const error = form.container.querySelector('.usa-input-error-message');
+      expect(error.textContent).to.equal(
         `Error ${uiSchema.routingNumber['ui:errorMessages'].pattern}`,
       );
     });

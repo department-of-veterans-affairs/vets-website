@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import NavItemRow from '../../components/NavItemRow';
 import sinon from 'sinon';
+import NavItemRow from '../../components/NavItemRow';
 
 describe('<NavItemRow>', () => {
   const trackEventsSpy = sinon.spy();
@@ -67,7 +67,7 @@ describe('<NavItemRow>', () => {
   });
 
   it('renders pointerEvents none for current page', () => {
-    window.location = { pathname: '/pittsburgh-health-care/' };
+    window.location.pathname = '/pittsburgh-health-care/';
 
     const itemWithoutChildren = {
       description: 'Some description',
