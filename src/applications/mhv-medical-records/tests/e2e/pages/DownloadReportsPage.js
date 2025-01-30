@@ -1,3 +1,5 @@
+import ccdGenerateError from '../fixtures/ccd-generate-response-error.json';
+
 class DownloadReportsPage {
   goToReportsPage = () => {
     cy.visit('my-health/medical-records/download');
@@ -17,6 +19,15 @@ class DownloadReportsPage {
 
   verifyCcdDownloadXmlFileButton = () => {
     cy.get('[data-testid="generateCcdButton"]').should('be.visible');
+  };
+
+  clickCcdDownloadXmlFileButton = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/ccd/generate',
+      ccdGenerateError,
+    );
+    cy.get('[data-testid="generateCcdButton"]').click();
   };
 
   verifySelfEnteredDownloadButton = () => {
