@@ -1,4 +1,4 @@
-import { FETCH_LOCATIONS, SEARCH_FAILED } from '../../utils/actionTypes';
+import { FETCH_LOCATIONS, SEARCH_FAILED } from '../actionTypes';
 import { LocationType } from '../../constants';
 import { distBetween } from '../../utils/facilityDistance';
 

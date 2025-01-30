@@ -19,6 +19,7 @@ import { setData as setDataAction } from '../actions';
  * BackLinkImpl is for testing so we can pass in props directly
  */
 export const BackLinkImpl = ({
+  text = 'Back to previous page',
   router, // from withRouter
   routes, // from withRouter
   location, // from withRouter
@@ -83,7 +84,7 @@ export const BackLinkImpl = ({
       className="vads-u-margin-top--2 vads-u-margin-bottom--4"
       aria-label="Previous page"
     >
-      <va-link back href={href} text="Back" onClick={onClick} />
+      <va-link back href={href} text={text} onClick={onClick} />
     </nav>
   );
 };
@@ -99,11 +100,12 @@ const mapDispatchToProps = {
 };
 
 BackLinkImpl.propTypes = {
-  form: PropTypes.object,
-  location: PropTypes.object,
-  router: PropTypes.object,
-  routes: PropTypes.array,
-  setData: PropTypes.func,
+  form: PropTypes.object, // from connect
+  location: PropTypes.object, // from withRouter
+  router: PropTypes.object, // from withRouter
+  routes: PropTypes.array, // from withRouter
+  setData: PropTypes.func, // from connect
+  text: PropTypes.string,
 };
 
 const BackLink = withRouter(

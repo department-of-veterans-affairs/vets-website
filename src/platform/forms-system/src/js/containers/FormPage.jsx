@@ -29,11 +29,14 @@ import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
-  // Check main toggle to enable custom focus
-  if (route.formConfig?.useCustomScrollAndFocus) {
-    const scrollAndFocusTarget =
-      route.pageConfig?.scrollAndFocusTarget ||
-      route.formConfig?.scrollAndFocusTarget;
+  const useCustomScrollAndFocus = route.formConfig?.useCustomScrollAndFocus;
+  const scrollAndFocusTarget =
+    route.pageConfig?.scrollAndFocusTarget ||
+    route.formConfig?.scrollAndFocusTarget;
+
+  if (useCustomScrollAndFocus === false) {
+    focusElement(defaultFocusSelector);
+  } else if (useCustomScrollAndFocus || scrollAndFocusTarget) {
     customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
     focusElement(defaultFocusSelector);
@@ -333,6 +336,7 @@ class FormPage extends React.Component {
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
             data={data}
+            fullData={form.data}
             pagePerItemIndex={params ? params.index : undefined}
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}

@@ -9,11 +9,15 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
+import { arrayBuilderEventPageTitleUI } from '../../utils/form0781';
 
-export const uiSchema = index => ({
-  'ui:title': titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
-  'ui:description': reportLocationDescription,
-  [`event${index}`]: {
+export default {
+  uiSchema: {
+    ...arrayBuilderEventPageTitleUI({
+      title: titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
+      editTitle: 'police report location',
+    }),
+    'ui:description': reportLocationDescription,
     agency: textUI({
       title: 'Name of the agency that issued the report',
     }),
@@ -31,38 +35,32 @@ export const uiSchema = index => ({
       'ui:title': 'Country',
       'ui:widget': CountrySelect,
     },
+    'view:mentalHealthSupportAlert': {
+      'ui:description': mentalHealthSupportAlert,
+    },
   },
-  'view:mentalHealthSupportAlert': {
-    'ui:description': mentalHealthSupportAlert,
-  },
-});
-
-export const schema = index => ({
-  type: 'object',
-  properties: {
-    [`event${index}`]: {
-      type: 'object',
-      properties: {
-        agency: {
-          type: 'string',
-        },
-        city: {
-          type: 'string',
-        },
-        state: {
-          type: 'string',
-        },
-        township: {
-          type: 'string',
-        },
-        country: {
-          type: 'string',
-        },
+  schema: {
+    type: 'object',
+    properties: {
+      agency: {
+        type: 'string',
+      },
+      city: {
+        type: 'string',
+      },
+      state: {
+        type: 'string',
+      },
+      township: {
+        type: 'string',
+      },
+      country: {
+        type: 'string',
+      },
+      'view:mentalHealthSupportAlert': {
+        type: 'object',
+        properties: {},
       },
     },
-    'view:mentalHealthSupportAlert': {
-      type: 'object',
-      properties: {},
-    },
   },
-});
+};
