@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EditReviewSupplies = props => {
-  const { defaultEditButton, formData, title } = props;
+const EditReviewSupplies = ({ defaultEditButton, formData, title }) => {
   const { chosenSupplies, supplies } = formData;
 
   const selectedIds = Object.entries(chosenSupplies || {})

@@ -21,7 +21,7 @@ const Description = ({ formData }) => {
 
       <UnsavedFieldNote fieldName="contact information" />
 
-      <h4 className="vads-u-font-size--h3">Email address</h4>
+      <h3>Email address</h3>
       <span>{emailAddress || ''}</span>
       <p>
         <Link to="/edit-email-address" aria-label="Edit email address">
@@ -29,7 +29,7 @@ const Description = ({ formData }) => {
         </Link>
       </p>
 
-      <h4 className="vads-u-font-size--h3">Shipping address</h4>
+      <h3>Shipping address</h3>
       <AddressViewField formData={permanentAddress} />
       <p>
         <Link to="/edit-mailing-address" aria-label="Edit mailing address">
@@ -51,7 +51,7 @@ Description.propTypes = {
 export default {
   uiSchema: {
     'ui:description': Description,
-    'ui:required': () => true, // don't allow progressing without all contact info
+    'ui:required': () => true,
     'ui:options': {
       forceDivWrapper: true,
     },

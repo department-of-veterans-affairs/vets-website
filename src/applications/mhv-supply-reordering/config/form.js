@@ -107,8 +107,7 @@ const chapters = {
         path: 'edit-mailing-address',
         CustomPage: EditAddress,
         CustomPageReview: null,
-        onNavForward: props => {
-          const { goPath, formData, setFormData } = props;
+        onNavForward: ({ goPath, formData, setFormData }) => {
           setFormData(formData);
           goPath(PAGE_PATH.CONTACT_INFORMATION);
         },
