@@ -152,18 +152,3 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.tabToSubmitForm();
   });
 });
-
-/*
-
-
-
-
-    // // Review and submit page
-
-    cy.url().should('include', 'review-and-submit');
-    cy.injectAxeThenAxeCheck();
-    cy.tabToSubmitForm();
-
-    // // Confirmation page
-    cy.location('pathname').should('include', '/confirmation');
- */
