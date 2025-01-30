@@ -1,13 +1,17 @@
-// export const HEADING_SELECTOR = [
-//   'div.form-panel h1',
-//   'div.form-panel h2',
-//   'div.form-panel h3',
-//   'div.form-panel h4',
-//   'div.form-panel h5',
-//   'div.form-panel h6',
-// ].join(', ');
-
-export const HEADING_SELECTOR = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].join(', ');
+export const HEADING_SELECTORS = [
+  'div.form-panel h1',
+  'div.form-panel h2',
+  'div.form-panel h3',
+  'div.form-panel h4',
+  'div.form-panel h5',
+  'div.form-panel h6',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+].join(', ');
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
@@ -58,8 +62,8 @@ const log = content => {
   cy.log(content);
 };
 
-const ensureExists = (content, selector = HEADING_SELECTOR) => {
-  cy.log('ensureExists:', selector, content);
+const ensureExists = (content, selector = HEADING_SELECTORS) => {
+  // cy.log('ensureExists:', selector, content);
   cy.get(selector, { includeShadowDom: true })
     .contains(content)
     .should('exist');
