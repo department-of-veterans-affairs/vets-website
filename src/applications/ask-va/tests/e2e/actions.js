@@ -65,7 +65,17 @@ const log = content => {
 const ensureExists = (content, selector = null) => {
   // cy.log('ensureExists:', selector, content);
   if (selector === null) {
-    cy.get(selectorShorthand.SELECT_CATEGORY, {
+    let newSelector = null;
+    switch ((content ?? '').toUpperCase()) {
+      case 'RESIDENCE':
+        newSelector = selectorShorthand.SELECT_RESIDENCE;
+        break;
+      case 'CATEGORY':
+      default:
+        newSelector = selectorShorthand.SELECT_CATEGORY;
+        break;
+    }
+    cy.get(newSelector, {
       includeShadowDom: true,
     }).should('exist');
   } else {
