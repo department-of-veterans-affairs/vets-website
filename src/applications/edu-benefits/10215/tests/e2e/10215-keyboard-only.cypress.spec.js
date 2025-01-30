@@ -31,11 +31,6 @@ describe('22-10215 Edu Benefits Form', () => {
         features: [],
       },
     });
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
     // Go to application, should go to about page
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
@@ -44,16 +39,12 @@ describe('22-10215 Edu Benefits Form', () => {
       'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
     );
     cy.realPress('Space');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(100);
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
       'What happens after I submit my 85/15 Rule enrollment ratios?',
     );
     cy.realPress('Space');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(100);
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
