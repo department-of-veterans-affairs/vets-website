@@ -2,24 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { HelpTextManage } from '../../HelpText';
-import { formatDateTime, getDaysLeft } from '../../../util/dates';
+import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
+import AppointmentDetails from '../../AppointmentDetails';
 
-const IntroductionPage = ({ appointment, onStart }) => {
-  const [formattedDate] = formatDateTime(appointment.start);
-  const daysLeft = getDaysLeft(appointment.start);
-
+const IntroductionPage = ({ appointment, error, onStart }) => {
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
-      <p>
-        You have{' '}
-        <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
-        to file for your appointment on{' '}
-        <strong>
-          {formattedDate} at {appointment.location.attributes.name}
-        </strong>
-        .
-      </p>
+      {error && <AppointmentErrorAlert />}
+      {appointment && <AppointmentDetails appointment={appointment} />}
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
