@@ -5,11 +5,11 @@ import mockUser from './fixtures/user.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
+import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 import STEPS from './actions';
 
 import testsToRun from './fixtures/tests-to-run.json';
-import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 const EMPTY_FLOW_YML = `
 flow:
