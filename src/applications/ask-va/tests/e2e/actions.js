@@ -57,6 +57,7 @@ const log = content => {
 };
 
 const ensureExists = (content, selector = HEADING_SELECTOR) => {
+  cy.log('ensureExists:', selector, content);
   cy.get(selector, { includeShadowDom: true })
     .contains(content)
     .should('exist');
