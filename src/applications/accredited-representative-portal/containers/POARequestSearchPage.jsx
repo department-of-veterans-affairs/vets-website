@@ -26,14 +26,14 @@ const PENDING = {
   DESC_OPTION: 'Expiration date (farthest)',
 };
 
-const COMPLETED = {
+const PROCESSED = {
   ASC_OPTION: 'Processed date (nearest)',
   DESC_OPTION: 'Processed date (farthest)',
 };
 
 const STATUSES = {
   PENDING: 'pending',
-  COMPLETED: 'completed',
+  PROCESSED: 'processed',
 };
 
 const SearchResults = ({ poaRequests }) => {
@@ -108,9 +108,9 @@ const POARequestSearchPage = () => {
             Pending
           </StatusTabLink>
           <StatusTabLink
-            tabStatus={STATUSES.COMPLETED}
+            tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.RESOLVED_ASC}
+            tabSort={SORT_BY.RESOLVED_DESC}
           >
             Processed
           </StatusTabLink>
@@ -141,7 +141,7 @@ const POARequestSearchPage = () => {
                     />
                   </>
                 );
-              case STATUSES.COMPLETED:
+              case STATUSES.PROCESSED:
                 return (
                   <>
                     <h2
@@ -153,8 +153,8 @@ const POARequestSearchPage = () => {
                     <SortForm
                       asc={SORT_BY.RESOLVED_ASC}
                       desc={SORT_BY.RESOLVED_DESC}
-                      ascOption={COMPLETED.ASC_OPTION}
-                      descOption={COMPLETED.DESC_OPTION}
+                      ascOption={PROCESSED.ASC_OPTION}
+                      descOption={PROCESSED.DESC_OPTION}
                     />
                   </>
                 );
