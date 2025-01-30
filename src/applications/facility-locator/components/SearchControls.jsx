@@ -21,12 +21,13 @@ import { SearchControlsTypes } from '../types';
 
 const SearchControls = props => {
   const {
+    clearGeocodeError,
+    clearSearchText,
     currentQuery,
+    geolocateUser,
     onChange,
     onSubmit,
-    clearSearchText,
-    geolocateUser,
-    clearGeocodeError,
+    setMobileMapPin,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -121,6 +122,7 @@ const SearchControls = props => {
       'fl-current-zoom-depth': zoomLevel,
     });
 
+    setMobileMapPin(null);
     onSubmit();
   };
 

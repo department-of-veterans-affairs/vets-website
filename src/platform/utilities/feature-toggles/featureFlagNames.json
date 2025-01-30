@@ -71,6 +71,7 @@
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
+  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
   "facilityLocatorShowCommunityCares": "facility_locator_show_community_cares",
   "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
-
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { isVADomain } from '../../utils/helpers';
@@ -13,7 +12,8 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index }) => {
+const Covid19Result = ({ isMobileCard = false, location, index }) => {
+  const headerRef = useRef(null);
   const {
     name,
     website,
@@ -37,6 +37,12 @@ const Covid19Result = ({ location, index }) => {
     [index, location],
   );
 
+  useEffect(() => {
+    if (isMobileCard && headerRef?.current) {
+      headerRef.current.focus();
+    }
+  });
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -46,6 +52,7 @@ const Covid19Result = ({ location, index }) => {
             className="vads-u-margin-y--0"
             onClick={clickHandler}
             onKeyDown={clickHandler}
+            ref={headerRef}
             tabIndex={0}
           >
             <va-link href={website} text={name} />
@@ -55,6 +62,7 @@ const Covid19Result = ({ location, index }) => {
             className="vads-u-margin-y--0"
             onClick={clickHandler}
             onKeyDown={clickHandler}
+            ref={headerRef}
             tabIndex={0}
           >
             <Link to={`facility/${location.id}`}>{name}</Link>
@@ -101,6 +109,7 @@ const Covid19Result = ({ location, index }) => {
 
 Covid19Result.propTypes = {
   index: PropTypes.number,
+  isMobileCard: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
 };

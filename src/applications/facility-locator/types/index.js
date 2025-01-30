@@ -232,6 +232,18 @@ export const SearchControlsTypes = {
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  setMobileMapPin: PropTypes.func,
   suppressPPMS: PropTypes.bool,
   suppressPharmacies: PropTypes.bool,
+};
+
+export const SearchAreaControlTypes = {
+  handleSearchArea: PropTypes.func.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  mobileMapUpdateEnabled: PropTypes.bool.isRequired,
+  query: PropTypes.shape({
+    currentRadius: PropTypes.number,
+  }),
+  setMobileMapPin: PropTypes.func,
 };

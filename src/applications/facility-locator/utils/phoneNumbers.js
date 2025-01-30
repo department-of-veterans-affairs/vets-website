@@ -59,3 +59,16 @@ export const parsePhoneNumber = phone => {
     countryCode: intl && intl !== '1' ? intl : undefined,
   };
 };
+
+export const isHealthAndHealthConnect = (apiResult, searchQuery) => {
+  let final = false;
+
+  if (
+    searchQuery?.facilityType === 'health' &&
+    apiResult?.attributes?.phone?.healthConnect !== null
+  ) {
+    final = true;
+  }
+
+  return final;
+};

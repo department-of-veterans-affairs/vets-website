@@ -15,6 +15,7 @@ import {
 } from '../constants';
 
 import { recordSearchResultsEvents } from '../utils/analytics';
+import { isHealthAndHealthConnect } from '../utils/phoneNumbers';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import VaFacilityResult from './search-results-items/VaFacilityResult';
@@ -64,17 +65,6 @@ export const ResultsList = ({
     },
     [resultsData],
   );
-
-  function isHealthAndHealthConnect(apiResult, searchQuery) {
-    let final = false;
-    if (
-      searchQuery?.facilityType === 'health' &&
-      apiResult?.attributes?.phone?.healthConnect !== null
-    ) {
-      final = true;
-    }
-    return final;
-  }
 
   /**
    * Returns Result items by type
@@ -304,7 +294,6 @@ function mapStateToProps(state) {
     pagination: state.searchResult.pagination,
     position,
     searchString,
-    selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
   };
 }
