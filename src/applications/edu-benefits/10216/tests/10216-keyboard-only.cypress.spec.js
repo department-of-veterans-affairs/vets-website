@@ -39,7 +39,7 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
     cy.typeInFocused('AVEDA INSTITUTE MARYLAND');
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
-    cy.typeInFocused(25007120);
+    cy.typeInFocused(11111111);
     cy.tabToElement(
       'select[name="root_institutionDetails_termStartDateMonth"]',
     );

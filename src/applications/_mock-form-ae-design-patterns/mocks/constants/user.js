@@ -4,7 +4,7 @@ const USER = {
   MIDDLE_NAME: 'George',
   LAST_NAME: 'Jenkins',
   SSN_LAST_FOUR: '6789',
-  BIRTH_DATE: '19560710',
+  BIRTH_DATE: '1956-07-10',
   GENDER: 'M',
   EMAIL: 'Mitchell.Jenkins.Test@gmail.com',
   RESIDENTIAL_ADDRESS: {

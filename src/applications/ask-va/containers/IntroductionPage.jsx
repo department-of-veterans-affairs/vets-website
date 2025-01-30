@@ -1,5 +1,5 @@
 import {
-  VaAlert,
+  VaAlertSignIn,
   VaButton,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -26,6 +26,21 @@ import {
 } from '../utils/helpers';
 import DashboardCards from './DashboardCards';
 
+const VerifiedAlert = (
+  <div className="vads-u-margin-bottom--4">
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 id="track-your-status-on-mobile" slot="headline">
+        We can prefill some of your information
+      </h2>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your question based on
+        your profile details. You can also save your question in progress and
+        come back later to finish filling it out.
+      </p>
+    </va-alert>
+  </div>
+);
+
 const IntroductionPage = props => {
   const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
@@ -33,7 +48,7 @@ const IntroductionPage = props => {
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
   const showSignInModal = () => {
-    toggleLoginModal(true);
+    toggleLoginModal(true, 'ask-va', true);
   };
 
   useEffect(() => {
@@ -166,29 +181,14 @@ const IntroductionPage = props => {
         when it’s ready.
       </p>
 
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-        uswds
-      >
-        <h4 slot="headline">Sign in to ask a question</h4>
-        <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in with a verified{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account or a
-            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            account. If you don’t have any of those accounts, you can create a
-            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account now.
-          </p>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+        <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
           />
-        </div>
-      </VaAlert>
+        </span>
+      </VaAlertSignIn>
 
       <h3 className="vads-u-margin-top--6">If you need general information</h3>
       <p className="vads-u-margin-bottom--1">
@@ -243,7 +243,7 @@ const IntroductionPage = props => {
   const authenticatedUI = (
     <>
       <p>This form takes about 2 to 15 minutes to complete.</p>
-      <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--3">
         <va-additional-info trigger="When to use Ask VA">
           <div>
             <p>
@@ -288,6 +288,7 @@ const IntroductionPage = props => {
         pageList={pageList}
         startText="Ask a new question"
         className="vads-u-margin--0"
+        verifiedPrefillAlert={VerifiedAlert}
       />
       <DashboardCards />
     </>

@@ -64,6 +64,7 @@ export const addStudentsOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode ||
+    (item?.wasMarried === true && !item?.marriageDate) ||
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
@@ -217,6 +218,23 @@ export const studentMaritalStatusPage = {
     type: 'object',
     properties: {
       wasMarried: yesNoSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const studentMarriageDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
+    marriageDate: currentOrPastDateUI({
+      title: 'Date of marriage',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['marriageDate'],
+    properties: {
+      marriageDate: currentOrPastDateSchema,
     },
   },
 };
@@ -463,6 +481,10 @@ export const studentTermDatesPage = {
           'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
           'ui:validations': [validateCurrentOrFutureDate],
+          'ui:errorMessages': {
+            required: 'Enter a valid current or future date',
+            pattern: 'Enter a valid current or future date',
+          },
         },
       },
     },
@@ -692,7 +714,7 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: textUI('All other assets'),
-      totalValue: textUI('All other assets'),
+      totalValue: textUI('Total value'),
     },
   },
   schema: {

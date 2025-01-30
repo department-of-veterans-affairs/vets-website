@@ -14,16 +14,13 @@ const BenefitCard = ({ benefit }) => {
   const renderLink = (url, text, label) => {
     if (url) {
       return (
-        <a
+        <va-link
           href={url}
-          rel="noreferrer"
-          className="link--center"
-          aria-label={`${label} (opens in a new tab)`}
-          target="_blank"
-        >
-          {text} (opens in a new tab)
-          <span className="usa-sr-only">opens in a new tab</span>
-        </a>
+          text={text}
+          label={label}
+          type="secondary"
+          external
+        />
       );
     }
     return null;
