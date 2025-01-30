@@ -39,6 +39,7 @@ export const buildMarker = (type, values, selectMobileMapPin) => {
 
     markerElement.addEventListener('click', () => {
       const locationElement = document.getElementById(loc.id);
+      console.log('loc: ', loc);
 
       selectMobileMapPin({
         ...loc,
