@@ -15,13 +15,12 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 // Components
 import Alert from '../components/Alert';
-import Covid19Result from '../components/search-results-items/Covid19Result';
+import MobileMapSearchResult from '../components/MobileMapSearchResult';
 import NoResultsMessage from '../components/NoResultsMessage';
 import PaginationWrapper from '../components/PaginationWrapper';
 import ResultsList from '../components/ResultsList';
 import SearchAreaControl from '../components/SearchAreaControl';
 import SearchControls from '../components/SearchControls';
-import SearchResult from '../components/SearchResult';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 
 import {
@@ -46,7 +45,6 @@ import { FacilitiesMapTypes } from '../types';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
-  Covid19Vaccine,
   EMERGENCY_CARE_SERVICES,
   LocationType,
   MapboxInit,
@@ -511,28 +509,10 @@ const FacilitiesMap = props => {
                     />
                   )}
                 {mobileMapUpdateEnabled && (
-                  <>
-                    {!mobileMapPinSelected && (
-                      <p className="vads-u-margin-y--3">
-                        Select a number to show information about that location.
-                      </p>
-                    )}
-                    {mobileMapPinSelected && (
-                      <div className="mobile-search-result">
-                        {currentQuery.serviceType === Covid19Vaccine ? (
-                          <Covid19Result
-                            isMobileCard
-                            location={mobileMapPinSelected}
-                          />
-                        ) : (
-                          <SearchResult
-                            result={mobileMapPinSelected}
-                            query={currentQuery}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </>
+                  <MobileMapSearchResult
+                    mobileMapPinSelected={mobileMapPinSelected}
+                    query={currentQuery}
+                  />
                 )}
               </TabPanel>
             </Tabs>
