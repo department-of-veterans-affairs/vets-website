@@ -37,7 +37,14 @@ export const FormSignature = ({
         ),
       );
     },
-    [required, signature, formData, validations],
+    [
+      required,
+      signature,
+      formData,
+      validations,
+      requiredErrorMessage,
+      setSignatureError,
+    ],
   );
 
   // Update signature in formData

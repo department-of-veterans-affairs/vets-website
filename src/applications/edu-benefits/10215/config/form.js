@@ -14,7 +14,6 @@ import GetFormHelp from '../components/GetFormHelp';
 import StatementOfTruth from '../components/StatementOfTruth';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
-
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
