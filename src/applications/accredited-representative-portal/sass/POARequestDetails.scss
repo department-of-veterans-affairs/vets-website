@@ -153,12 +153,12 @@
     }
     &.declination,
     &.expiration {
-      background-color: $uswds-system-color-red-warm-10;
-      border: 1px solid $uswds-system-color-red-warm-vivid-50;
+      background-color: $vads-color-error-lighter;
+      border: 1px solid $vads-color-error;
     }
     &.processing {
-      background-color: $uswds-system-color-gray-5;
-      border: 1px solid $uswds-system-color-gray-cool-60;
+      background-color: $vads-color-gray-medium;
+      border: 1px solid $vads-color-base-dark;
     }
   }
 
