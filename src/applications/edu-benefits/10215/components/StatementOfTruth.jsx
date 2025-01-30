@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 
 import FormSignature from './FormSignature';
 import FormSignatureCheckbox from './FormSignatureCheckbox';
@@ -14,8 +13,8 @@ export default function StatementOfTruth(signatureProps) {
     dirty: signatureProps?.formData?.signature?.length > 0, // will be dirty if any prev signature is present
   });
   const [signatureOfficialTitle, setSignatureOfficialTitle] = useState({
-    value: signatureProps?.formData?.signatureOfficialTitle ?? '', // Pre-populate with existing signature if available
-    dirty: signatureProps?.formData?.signatureOfficialTitle?.length > 0, // will be dirty if any prev signature is present
+    value: signatureProps?.formData?.signatureOfficialTitle ?? '',
+    dirty: signatureProps?.formData?.signatureOfficialTitle?.length > 0,
   });
 
   // Validation states
@@ -69,39 +68,43 @@ export default function StatementOfTruth(signatureProps) {
     </>
   );
 
-  // const validators = [signatureValidator];
-
   return (
-    <div className="vads-u-margin-top--3">
-      <section className="box vads-u-background-color--gray-lightest vads-u-padding--3">
-        <h3 className="vads-u-margin-top--0">Statement of truth</h3>
-        {content}
-        <FormSignature
-          signature={signature}
-          setSignature={setSignature}
-          signatureLabel="Your full name"
-          signatureError={signatureError}
-          setSignatureError={setSignatureError}
-          // validations={validators}
-          {...signatureProps}
-        />
-        <FormSignature
-          signature={signatureOfficialTitle}
-          setSignature={setSignatureOfficialTitle}
-          signatureLabel="Your school official title"
-          signatureError={signatureOfficialTitleError}
-          setSignatureError={setSignatureOfficialTitleError}
-          // validations={validators}
-          signaturePath="signatureOfficialTitle"
-          requiredErrorMessage="Please enter your school official title"
-          {...signatureProps}
-        />
-        <FormSignatureCheckbox
-          checked={checked}
-          setChecked={setChecked}
-          {...signatureProps}
-        />
-      </section>
-    </div>
+    <>
+      <div className="vads-u-margin-top--6 vads-u-margin-left--2p5">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information.
+        (Reference: 18 U.S.C. 1001).
+      </div>
+      <div className="vads-u-margin-top--8">
+        <section className="box vads-u-background-color--gray-lightest vads-u-padding--3">
+          <h3 className="vads-u-margin-top--0">Statement of truth</h3>
+          {content}
+          <FormSignature
+            signature={signature}
+            setSignature={setSignature}
+            signatureLabel="Your full name"
+            signatureError={signatureError}
+            setSignatureError={setSignatureError}
+            {...signatureProps}
+          />
+          <FormSignature
+            signature={signatureOfficialTitle}
+            setSignature={setSignatureOfficialTitle}
+            signatureLabel="Your school official title"
+            signatureError={signatureOfficialTitleError}
+            setSignatureError={setSignatureOfficialTitleError}
+            signaturePath="signatureOfficialTitle"
+            requiredErrorMessage="Please enter your school official title"
+            {...signatureProps}
+          />
+          <FormSignatureCheckbox
+            checked={checked}
+            setChecked={setChecked}
+            {...signatureProps}
+          />
+        </section>
+      </div>
+    </>
   );
 }
