@@ -2,7 +2,7 @@ import { datadogLogs } from '@datadog/browser-logs';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-const DISABLED_ENVIRONMENTS = ['production'];
+const DISABLED_ENVIRONMENTS = ['localhost', 'production'];
 
 export const canUseLogging = () => {
   const env = environment.vspEnvironment();
