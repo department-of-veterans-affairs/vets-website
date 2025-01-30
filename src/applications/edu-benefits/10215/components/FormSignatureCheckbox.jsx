@@ -33,6 +33,7 @@ export const FormSignatureCheckbox = ({
       error={showError ? checkboxError : null}
       checked={checked}
       onVaChange={event => setChecked(event.target.checked)}
+      className="vads-u-margin-top--3"
     >
       {checkboxDescription && <p slot="description">{checkboxDescription}</p>}
     </VaCheckbox>
