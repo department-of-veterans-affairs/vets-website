@@ -619,8 +619,9 @@ const formConfig = {
         },
       },
     },
-    additionalForms: {
+    mentalHealth: {
       title: 'Mental health statement',
+      path: 'mental-health-form-0781',
       pages: {
         ...form0781PagesConfig,
       },
