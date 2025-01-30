@@ -2840,10 +2840,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.12.1":
-  version "3.12.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.12.1.tgz#6f0c749df4717bf08b7ec4ff27c9e04bff1c46d2"
-  integrity sha512-4aTVkJuaWX6tRS9J03DVHRmRBfGLiyffLn7gvatE42eosmgRzCQ5okU/6UzC5GAl6R85EDwj3dFY+Djq8Y+Rag==
+"@department-of-veterans-affairs/generator-vets-website@^3.12.2":
+  version "3.12.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.12.2.tgz#ba7b3428931e3420114f22353350af0021ffd685"
+  integrity sha512-WH3/ytf+2GMMHw65o4kxg3jdnfAByKxof+N8YiHYPPbQika33kvpwn3scUV2EfAL8T7MuYdnAyPGvOYeqdp+ag==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"

@@ -34,7 +34,7 @@ export const Auth = ({
         focusElement('.poa-display');
       }
     },
-    [id, isPostLogin],
+    [isPostLogin],
   );
 
   if (isLoading) {

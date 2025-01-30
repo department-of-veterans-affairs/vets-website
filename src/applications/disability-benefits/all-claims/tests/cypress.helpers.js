@@ -280,12 +280,10 @@ export const pageHooks = cy => ({
     });
   },
 
-  // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
-  // When remove allClaimsAddDisabilitiesEnhancement FF, update this page to be 'new-disabilities/add'
-  'new-disabilities/add-3': () => {
+  'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
+        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
@@ -293,11 +291,11 @@ export const pageHooks = cy => ({
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
 
-          cy.get('va-button[text="Remove"]').should('be.visible');
+          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
         }
 
         // click on input and type search text
-        cy.get(autocomplete)
+        cy.get(comboBox)
           .shadow()
           .find(input)
           .type(disability.condition, { force: true });
@@ -308,7 +306,7 @@ export const pageHooks = cy => ({
             .first()
             .click();
 
-          cy.get(autocomplete)
+          cy.get(comboBox)
             .shadow()
             .find(input)
             .should('have.value', disability.condition);
@@ -321,7 +319,7 @@ export const pageHooks = cy => ({
                 .eq(1)
                 .click();
 
-              cy.get(autocomplete)
+              cy.get(comboBox)
                 .shadow()
                 .find(input)
                 .should('have.value', selectedOption);
@@ -329,7 +327,7 @@ export const pageHooks = cy => ({
         }
 
         // click save
-        cy.get('va-button[text="Save"]').click();
+        cy.findByText(/save/i, { selector: 'button' }).click();
       });
     });
   },
