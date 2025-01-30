@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
+import retryFetch from 'fetch-retry';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -42,12 +43,16 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     return fetch(url, settings);
   }
 
+  const originalFetch = fetch;
+
+  const _fetch = !window.Mocha ? retryFetch(originalFetch) : fetch;
+
   const mergedSettings = {
     ...settings,
     ...(!window.Mocha && { retryOn }),
   };
 
-  return fetch(url, mergedSettings).then(response => {
+  return _fetch(url, mergedSettings).then(response => {
     const apiURL = environment.API_URL;
 
     if (response.url.includes(apiURL)) {
