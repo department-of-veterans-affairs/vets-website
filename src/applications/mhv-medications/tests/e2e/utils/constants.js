@@ -35,6 +35,7 @@ export const Data = {
     'Some of your medications may be in a different portal. To view or manage medications at these facilities, go to My VA Health',
   PENDING_RX_CARD_INFO:
     'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
+  PENDING_ALERT_TEXT: 'Your VA pharmacy is still reviewing this prescription',
 };
 export const Paths = {
   LANDING_LIST:
