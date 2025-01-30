@@ -8,14 +8,16 @@ import {
 } from './actions';
 
 const initialState = {
-  hasFetchedData: false,
-  isLoading: false,
-  error: null,
-  travelClaims: [],
-  hasFetchedAppointment: false,
-  isLoadingAppointment: false,
-  appointmentData: {},
-  appointmentError: null,
+  travelClaims: {
+    isLoading: false,
+    error: null,
+    data: [],
+  },
+  appointment: {
+    isLoading: false,
+    error: null,
+    data: null,
+  },
 };
 
 function travelPayReducer(state = initialState, action) {
@@ -23,42 +25,54 @@ function travelPayReducer(state = initialState, action) {
     case FETCH_TRAVEL_CLAIMS_STARTED:
       return {
         ...state,
-        hasFetchedData: false,
-        isLoading: true,
+        travelClaims: {
+          ...state.travelClaims,
+          isLoading: true,
+        },
       };
     case FETCH_TRAVEL_CLAIMS_SUCCESS:
       return {
         ...state,
-        hasFetchedData: true,
-        isLoading: false,
-        travelClaims: action.payload,
+        travelClaims: {
+          ...state.travelClaims,
+          isLoading: false,
+          data: action.payload,
+        },
       };
     case FETCH_TRAVEL_CLAIMS_FAILURE:
       return {
         ...state,
-        hasFetchedData: true,
-        isLoading: false,
-        error: action.error,
+        travelClaims: {
+          ...state.travelClaims,
+          isLoading: false,
+          error: action.error,
+        },
       };
     case FETCH_APPOINTMENT_STARTED:
       return {
         ...state,
-        hasFetchedAppointment: false,
-        isLoadingAppointment: true,
+        appointment: {
+          ...state.appointment,
+          isLoading: true,
+        },
       };
     case FETCH_APPOINTMENT_SUCCESS:
       return {
         ...state,
-        hasFetchedAppointment: true,
-        isLoadingAppointment: false,
-        appointmentData: action.payload,
+        appointment: {
+          ...state.appointment,
+          isLoading: false,
+          data: action.payload,
+        },
       };
     case FETCH_APPOINTMENT_FAILURE:
       return {
         ...state,
-        hasFetchedAppointment: true,
-        isLoadingAppointment: false,
-        appointmentError: action.error,
+        appointment: {
+          ...state.appointment,
+          isLoading: false,
+          error: action.error,
+        },
       };
     default:
       return state;

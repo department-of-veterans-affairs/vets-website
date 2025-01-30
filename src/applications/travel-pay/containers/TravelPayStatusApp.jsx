@@ -35,9 +35,9 @@ export default function TravelPayStatusApp({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims, hasFetchedClaims, error } = useSelector(
-    state => state.travelPay,
-  );
+  const { travelClaims } = useSelector(state => state.travelPay);
+
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -51,11 +51,13 @@ export default function TravelPayStatusApp({ children }) {
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
-  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+  if (travelClaims.data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
     const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
-    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
+    const availableStatuses = new Set(
+      travelClaims.data.map(c => c.claimStatus),
+    );
 
     const availableTopStatuses = intersection(
       Array.from(topStatuses),
@@ -75,10 +77,10 @@ export default function TravelPayStatusApp({ children }) {
 
   const dateFilters = getDateFilters();
 
-  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+  if (travelClaims.data.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
     const initialDateFilters = dateFilters.filter(filter =>
-      travelClaims.some(claim =>
+      travelClaims.data.some(claim =>
         isWithinInterval(new Date(claim.appointmentDateTime), {
           start: filter.start,
           end: filter.end,
@@ -99,16 +101,23 @@ export default function TravelPayStatusApp({ children }) {
     );
   };
 
+  // useEffect(
+  //   () => {
+  //     if (travelClaims.data.length > 0) {
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort((a, b) => compareClaimsDate(a, b));
+      travelClaims.data.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort((a, b) => compareClaimsDate(b, a));
+      travelClaims.data.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
   }
+  // }
+  //   },
+  //   [orderClaimsBy, travelClaims.data],
+  // );
 
   const resetSearch = () => {
     setAppliedStatusFilters([]);
@@ -164,11 +173,16 @@ export default function TravelPayStatusApp({ children }) {
 
   useEffect(
     () => {
-      if (!hasFetchedClaims && travelClaims.length === 0) {
+      if (
+        // !travelClaims.error &&
+        travelClaims.data.length === 0 &&
+        !hasFetchedClaims
+      ) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, travelClaims, hasFetchedClaims],
+    [dispatch, travelClaims.data, travelClaims.error, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -177,7 +191,7 @@ export default function TravelPayStatusApp({ children }) {
     filter => filter.label === appliedDateFilter,
   );
 
-  let displayedClaims = travelClaims.filter(claim => {
+  let displayedClaims = travelClaims.data.filter(claim => {
     const statusFilterIncludesClaim =
       appliedStatusFilters.length === 0 ||
       appliedStatusFilters.includes(claim.claimStatus);
@@ -264,7 +278,7 @@ export default function TravelPayStatusApp({ children }) {
     return null;
   }
 
-  if (error) {
+  if (travelClaims.error) {
     return (
       <Element name="topScrollElement">
         <article className="usa-grid-full vads-u-padding-bottom--0">
@@ -277,7 +291,7 @@ export default function TravelPayStatusApp({ children }) {
               You can use this tool to check the status of your VA travel
               claims.
             </h2>
-            <ErrorAlert errorStatus={error.errors[0].status} />
+            <ErrorAlert errorStatus={travelClaims.error.errors[0].status} />
             <VaBackToTop />
           </div>
         </article>
@@ -296,8 +310,8 @@ export default function TravelPayStatusApp({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          {!error &&
-            !isLoading && (
+          {!travelClaims.error &&
+            !travelClaims.isLoading && (
               <va-additional-info
                 class="vads-u-margin-y--3"
                 trigger="How to manage your claims or get more information"
@@ -313,15 +327,15 @@ export default function TravelPayStatusApp({ children }) {
               </va-additional-info>
             )}
 
-          {isLoading && (
+          {travelClaims.isLoading && (
             <va-loading-indicator
               label="Loading"
               message="Loading Travel Claims..."
             />
           )}
-          {error && <p>Error fetching travel claims.</p>}
-          {!isLoading &&
-            travelClaims.length > 0 && (
+          {/* {travelClaims.error && <p>Error fetching travel claims.</p>} */}
+          {!travelClaims.isLoading &&
+            travelClaims.data.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
                   <h2 className="vads-u-font-size--h4">Your travel claims</h2>
@@ -394,8 +408,8 @@ export default function TravelPayStatusApp({ children }) {
                 )}
               </>
             )}
-          {!isLoading &&
-            !error &&
+          {!travelClaims.isLoading &&
+            !travelClaims.error &&
             travelClaims.length === 0 && <p>No travel claims to show.</p>}
           <VaBackToTop />
         </div>

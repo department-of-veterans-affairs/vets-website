@@ -27,12 +27,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
-  const {
-    hasFetchedAppointment,
-    isLoadingAppointment,
-    appointmentData,
-    appointmentError,
-  } = useSelector(state => state.travelPay);
+  const { appointment } = useSelector(state => state.travelPay);
 
   const {
     useToggleValue,
@@ -47,18 +42,14 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   useEffect(
     () => {
-      if (apptId && !hasFetchedAppointment) {
+      if (apptId && !appointment.data && !appointment.error) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, hasFetchedAppointment, apptId],
+    [dispatch, appointment.data, apptId, appointment.error],
   );
 
-  const appIsAvailable =
-    !toggleIsLoading &&
-    canSubmitMileage &&
-    hasFetchedAppointment &&
-    !appointmentError;
+  const appIsAvailable = !toggleIsLoading && canSubmitMileage;
 
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
@@ -92,7 +83,8 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'intro',
       component: (
         <IntroductionPage
-          appointment={appointmentData}
+          appointment={appointment.data}
+          error={appointment.error}
           onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
@@ -104,7 +96,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'mileage',
       component: (
         <MileagePage
-          appointment={appointmentData}
+          appointment={appointment.data}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
@@ -142,7 +134,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'review',
       component: (
         <ReviewPage
-          appointment={appointmentData}
+          appointment={appointment.data}
           address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
           setYesNo={setYesNo}
@@ -158,7 +150,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
   ];
 
-  if (toggleIsLoading || isLoadingAppointment) {
+  if (toggleIsLoading || appointment.isLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -180,7 +172,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {appointmentError && (
+          {/* {appointmentError && (
             <va-alert closeable="false" status="error" role="status" visible>
               <h2 slot="headline">
                 We’re sorry, we can’t access your appointment details right now
@@ -191,7 +183,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
                 at this time. Please try again later.
               </p>
             </va-alert>
-          )}
+          )} */}
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
               pageIndex={pageIndex}
