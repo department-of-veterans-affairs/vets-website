@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+/* eslint-disable no-inner-declarations */
+
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
@@ -115,18 +117,23 @@ const appsToRun = options['app-folder']
 if (testsToVerify === null) {
   // Not a stress test as no tests need to be verified
   if (appsToRun && appsToRun.length > 0) {
-    core.exportVariable('NO_APPS_TO_RUN', false);
-    for (const dir of appsToRun) {
-      const command = `LOG_LEVEL=${options[
-        'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${dir}/**/*.unit.spec.js?(x)`}"`;
+    /* eslint-disable no-inner-declarations */
 
-      try {
-        /* eslint-disable-next-line no-await-in-loop */
-        await runCommandAsync(command);
-      } catch (error) {
-        console.log(error);
+    async function runTests() {
+      core.exportVariable('NO_APPS_TO_RUN', false);
+      for (const dir of appsToRun) {
+        const command = `LOG_LEVEL=${options[
+          'log-level'
+        ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${dir}/**/*.unit.spec.js?(x)`}"`;
+
+        try {
+          /* eslint-disable-next-line no-await-in-loop */
+          await runCommandAsync(command);
+        } catch (error) {
+          console.log(error);
+        }
       }
+
       // const updatedPath = options['app-folder']
       //   ? options.path.map(p => `'${p}'`).join(' ')
       //   : options.path[0].replace(
@@ -150,6 +157,7 @@ if (testsToVerify === null) {
       //   console.log('This app has no tests to run');
       // }
     }
+    runTests();
   } else {
     // Case: The code changed has no associated unit tests
     core.exportVariable('NO_APPS_TO_RUN', true);
@@ -164,7 +172,6 @@ if (testsToVerify === null) {
       ),
     );
   /* eslint-disable no-await-in-loop */
-  /* eslint-disable no-inner-declarations */
 
   async function runTests() {
     for (const app of appsToVerify) {
