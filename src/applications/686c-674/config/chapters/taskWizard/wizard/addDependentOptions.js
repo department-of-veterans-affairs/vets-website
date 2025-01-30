@@ -10,7 +10,7 @@ export const uiSchema = {
     ...checkboxGroupUI({
       title:
         'Who do you want to add as a dependent? Check everyone you want to add.',
-      required: form => form?.['view:addOrRemoveDependents']?.remove,
+      required: form => form?.['view:addOrRemoveDependents']?.add,
       tile: true,
       labelHeaderLevel: '3',
       labels: {
