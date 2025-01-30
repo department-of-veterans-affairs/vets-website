@@ -41,11 +41,7 @@ const formConfig = {
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
-    <ConfirmationPage
-      isAccredited={isAccredited}
-      router={router}
-      route={route}
-    />
+    <ConfirmationPage router={router} route={route} />
   ),
   formId: '22-10216',
   saveInProgress: {
@@ -80,6 +76,7 @@ const formConfig = {
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
             isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {

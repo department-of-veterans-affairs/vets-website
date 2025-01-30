@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
-import AccreditedAlert from '../components/AccreditedAlert';
 import GetFormHelp from '../components/GetFormHelp';
+import ProcessList from '../components/ProcessList';
 
-export const ConfirmationPage = ({ router, route, isAccredited }) => {
+export const ConfirmationPage = ({ router, route }) => {
+  const isAccredited = localStorage.getItem('isAccredited') === 'true';
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
@@ -17,100 +18,13 @@ export const ConfirmationPage = ({ router, route, isAccredited }) => {
   };
   const childContent = (
     <div>
-      {!isAccredited && <Alert />}
-      {isAccredited && <AccreditedAlert />}
-      <div>
-        {!isAccredited && (
-          <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-            To submit your forms, follow the steps below
-          </h2>
-        )}
-        {isAccredited && (
-          <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-            To submit your form, follow the steps below
-          </h2>
-        )}
-      </div>
-      <div>
-        {!isAccredited && (
-          <div>
-            <va-process-list>
-              <va-process-list-item header="Download and save both forms">
-                <p>
-                  First, complete and save your VA Form 22-10216 as a PDF.
-                  <div className="vads-u-margin-y--2">
-                    <va-link
-                      download
-                      filetype="PDF"
-                      href=""
-                      // fileName={''}
-                      text="Download VA Form 22-10216"
-                    />
-                  </div>
-                  Then, navigate to{' '}
-                  <va-link
-                    external
-                    text="VA Form 22-10215"
-                    href="/education/apply-for-education-benefits/application/10215"
-                  />{' '}
-                  to fill it out. Once completed, save it as a PDF on your
-                  device.
-                </p>
-              </va-process-list-item>
-              <va-process-list-item header="Upload the forms to the VA education portal">
-                <p>
-                  Visit the{' '}
-                  <va-link
-                    external
-                    text="VA Education File Upload Portal"
-                    href="https://www.my.va.gov/EducationFileUploads/s/"
-                  />
-                  , and upload both your saved VA Form 22-10216 and VA Form
-                  22-10215.
-                </p>
-              </va-process-list-item>
-              <va-process-list-item header="Submit your forms">
-                <p>Once uploaded, click submit to finalize your request.</p>
-              </va-process-list-item>
-            </va-process-list>
-          </div>
-        )}
-        {isAccredited && (
-          <div>
-            <va-process-list>
-              <va-process-list-item header="Download and save your form">
-                <p>
-                  Make sure that your completed form is saved as a PDF on your
-                  device.
-                  <div className="vads-u-margin-y--2">
-                    <va-link
-                      download
-                      filetype="PDF"
-                      href=""
-                      // fileName={''}
-                      text="Download VA Form 22-10216"
-                    />
-                  </div>
-                </p>
-              </va-process-list-item>
-              <va-process-list-item header="Upload the form to the VA education portal">
-                <p>
-                  Visit the{' '}
-                  <va-link
-                    external
-                    text="VA Education File Upload Portal"
-                    href="https://www.my.va.gov/EducationFileUploads/s/"
-                  />
-                  , and upload your saved VA Form 22-10216.
-                </p>
-              </va-process-list-item>
-              <va-process-list-item header="Submit your form">
-                <p>Once uploaded, click submit to finalize your request.</p>
-              </va-process-list-item>
-            </va-process-list>
-          </div>
-        )}
-      </div>
+      <Alert isAccredited={isAccredited} />
+
+      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+        To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
+        below
+      </h2>
+      <ProcessList isAccredited={isAccredited} />
       <p>
         <va-button
           secondary
