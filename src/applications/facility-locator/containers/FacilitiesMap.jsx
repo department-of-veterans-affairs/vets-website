@@ -383,6 +383,7 @@ const FacilitiesMap = props => {
             isEnabled={searchAreaButtonEnabled()}
             mobileMapUpdateEnabled={props.mobileMapUpdateEnabled}
             query={props.currentQuery}
+            selectMobileMapPin={props.selectMobileMapPin}
           />
         )}
       </div>
@@ -451,6 +452,7 @@ const FacilitiesMap = props => {
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
+          selectMobileMapPin={props.selectMobileMapPin}
           suppressPPMS={props.suppressPPMS}
           suppressPharmacies={props.suppressPharmacies}
           clearSearchText={props.clearSearchText}
