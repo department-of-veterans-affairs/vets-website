@@ -3,8 +3,12 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
 const core = require('@actions/core');
+const { promisify } = require('util');
+
 const fs = require('fs');
 const { runCommand } = require('../utils');
+const exec = promisify(require('child_process').exec);
+
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
@@ -86,7 +90,20 @@ const testsToVerify = fs.existsSync(
 )
   ? JSON.parse(fs.readFileSync(path.resolve(`unit_tests_to_stress_test.json`)))
   : null;
-
+async function runCommandAsync(command) {
+  return new Promise((resolve, reject) => {
+    console.log(`Executing: ${command}`);
+    exec(command, (error, stdout) => {
+      if (error) {
+        console.error(`Error: ${error}`);
+        reject(error);
+      } else {
+        console.log(`Output: ${stdout}`);
+        resolve(stdout);
+      }
+    });
+  });
+}
 const splitUnitTests = splitArray(
   allUnitTestDirs,
   Math.ceil(allUnitTestDirs.length / numContainers),
@@ -100,28 +117,38 @@ if (testsToVerify === null) {
   if (appsToRun && appsToRun.length > 0) {
     core.exportVariable('NO_APPS_TO_RUN', false);
     for (const dir of appsToRun) {
-      const updatedPath = options['app-folder']
-        ? options.path.map(p => `'${p}'`).join(' ')
-        : options.path[0].replace(
-            `/${specDirs}/`,
-            `/${JSON.parse(dir).join('/')}/`,
-          );
-      const testsToRun = options['app-folder']
-        ? `--recursive ${updatedPath}`
-        : `--recursive ${glob.sync(updatedPath)}`;
       const command = `LOG_LEVEL=${options[
         'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
-        /,/g,
-        ' ',
-      )} `;
-      if (testsToRun !== '') {
-        // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
-        runCommand(command);
-      } else {
-        // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
-        console.log('This app has no tests to run');
+      ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${dir}/**/*.unit.spec.js?(x)`}"`;
+
+      try {
+        /* eslint-disable-next-line no-await-in-loop */
+        await runCommandAsync(command);
+      } catch (error) {
+        console.log(error);
       }
+      // const updatedPath = options['app-folder']
+      //   ? options.path.map(p => `'${p}'`).join(' ')
+      //   : options.path[0].replace(
+      //       `/${specDirs}/`,
+      //       `/${JSON.parse(dir).join('/')}/`,
+      //     );
+      // const testsToRun = options['app-folder']
+      //   ? `--recursive ${updatedPath}`
+      //   : `--recursive ${glob.sync(updatedPath)}`;
+      // const command = `LOG_LEVEL=${options[
+      //   'log-level'
+      // ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
+      //   /,/g,
+      //   ' ',
+      // )} `;
+      // if (testsToRun !== '') {
+      //   // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
+      //   runCommand(command);
+      // } else {
+      //   // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
+      //   console.log('This app has no tests to run');
+      // }
     }
   } else {
     // Case: The code changed has no associated unit tests
