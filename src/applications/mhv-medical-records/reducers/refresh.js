@@ -116,7 +116,13 @@ export const refreshReducer = (state = initialState, action) => {
     case Actions.Refresh.SET_INITIAL_FHIR_LOAD: {
       return {
         ...state,
-        initialFhirLoad: true,
+        initialFhirLoad: state.initialFhirLoad || action.payload,
+      };
+    }
+    case Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD: {
+      return {
+        ...state,
+        initialFhirLoad: null,
       };
     }
     case Actions.Refresh.GET_STATUS: {

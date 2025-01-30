@@ -510,7 +510,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
-      'VA has a variety of mental health resources, information, treatment options and more — all accessible to Veterans, Veterans’ supporters and the general public. Select Learn More below to learn more about a specific mental health topic or to find information specifically tailored to your needs.',
+      'Find out how to access VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you’re not enrolled in VA health care.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
