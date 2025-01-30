@@ -32,5 +32,8 @@ describe('SM BASIC USER', () => {
 
     cy.location('pathname').should('contain', Paths.MHV_LANDING_PAGE);
     cy.location('pathname').should('not.contain', Paths.MHV_SM);
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
