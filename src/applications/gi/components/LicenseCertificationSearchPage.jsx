@@ -93,11 +93,13 @@ export default function LicenseCertificationSearchPage({ flag }) {
     }
   };
 
-  const handleUpdateQueryParam = () => updateQueryParam(history, location); // refactor this function
-
   const handleSearch = (category, name) => {
-    handleUpdateQueryParam()([['category', category], ['name', name]]);
-    handleLcResultsSearch(history, category, name, 'all');
+    const newParams = {
+      category,
+      name,
+    };
+    updateQueryParam(history, location, newParams);
+    handleLcResultsSearch(history, category, name);
   };
 
   const handleReset = callback => {

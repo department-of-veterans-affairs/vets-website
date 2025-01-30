@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
 // Consider using redux actions, as in SearchAccordion -- ok to use local state, since state is limited to this page?
-// Examine use of/need for 'id' and 'isProductionOrTestProdEnv' -- for testing or anyalytics? Necessary here?
+// Examine use of/need for 'id', 'buttonId', and 'isProductionOrTestProdEnv' in SearchAccordion-- for testing or anyalytics? Necessary here?
 // Upon answering these questions, assess the reusability of the original SearchAccordion component to avoid repetion.
 
 export default function LicenseCertificationFilterAccordion({
@@ -17,11 +16,10 @@ export default function LicenseCertificationFilterAccordion({
   onClick,
   headerClass,
   ariaDescribedBy,
+  expanded,
   // dispatchFocusSearch,
 }) {
-  const [isExpanded, setExpanded] = useState(false);
-  // const [id] = useState(`${createId(button)}-accordion`);
-  // const [buttonId] = useState(`update-${createId(button)}-button`);
+  const [isExpanded, setExpanded] = useState(expanded);
 
   const toggle = () => {
     setExpanded(!isExpanded);
@@ -86,10 +84,8 @@ export default function LicenseCertificationFilterAccordion({
 
   return (
     <div className="usa-accordion-item">
-      {/* <div className="usa-accordion-item" id={id}> */}
       {renderHeader()}
       <div
-        // id={`${id}-content`}
         className="usa-accordion-content update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3 "
         aria-hidden={!isExpanded}
         hidden={!isExpanded}
@@ -97,14 +93,7 @@ export default function LicenseCertificationFilterAccordion({
         {isExpanded ? children : null}
       </div>
       {isExpanded && (
-        <div
-          // className={
-          //   isProductionOrTestProdEnv()
-          //     ? updateResultsButtonsWarper
-          //     : 'update-results'
-          //   }
-          className={updateResultsButtonsWarper}
-        >
+        <div className={updateResultsButtonsWarper}>
           <VaButton
             className={`update-results-button-after ${updateResultsButton}`}
             onClick={buttonOnClick}
@@ -112,12 +101,10 @@ export default function LicenseCertificationFilterAccordion({
             text={buttonLabel}
             data-testid="update-estimates"
           />
-          {/* {isProductionOrTestProdEnv() && ( */}
           <ClearFiltersBtn
             // onClick={() => console.log('reset filters')}
             className={`clear-filters-button-after ${clearFiltersButton}`}
           />
-          {/* )} */}
         </div>
       )}
     </div>

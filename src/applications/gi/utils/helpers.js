@@ -559,18 +559,16 @@ export const filterSuggestions = (
   });
 };
 
-export const updateQueryParam = (history, location) => {
-  return keyValuePairs => {
-    const searchParams = new URLSearchParams(location.search);
-    keyValuePairs.forEach(([key, value]) => {
-      searchParams.set(key, value);
-    });
+export const updateQueryParam = (history, location, newParams) => {
+  const searchParams = new URLSearchParams(location.search);
+  Object.entries(newParams).forEach(([key, value]) => {
+    searchParams.set(key, value);
+  });
 
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-  };
+  history.push({
+    pathname: location.pathname,
+    search: searchParams.toString(),
+  });
 };
 
 export const showLcParams = location => {

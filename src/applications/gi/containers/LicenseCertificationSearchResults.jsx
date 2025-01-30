@@ -167,6 +167,15 @@ export default function LicenseCertificationSearchResults({
     );
   };
 
+  const renderSearchInfo = () => {
+    return (
+      <>
+        "<strong>{categoryParam}</strong>
+        ", "<strong>{nameParam}</strong>"
+      </>
+    );
+  };
+
   const controls = (
     <div>
       {categoryTypeFilter()}
@@ -198,14 +207,18 @@ export default function LicenseCertificationSearchResults({
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       Showing{' '}
-                      {filteredResults.length - 1 === 0
-                        ? ' 0 results for:'
-                        : `${formatResultCount(
+                      {filteredResults.length - 1 === 0 ? (
+                        '0 results for:'
+                      ) : (
+                        <>
+                          {`${formatResultCount(
                             filteredResults,
                             currentPage,
                             itemsPerPage,
-                          )} of ${filteredResults.length -
-                            1} results for: ${categoryParam}, ${nameParam}`}
+                          )} of ${filteredResults.length - 1} results for: `}
+                          {renderSearchInfo()}
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -223,7 +236,7 @@ export default function LicenseCertificationSearchResults({
                       button="Filter your results"
                       buttonLabel="Filter your
                       results"
-                      expanded={false}
+                      expanded={!smallScreen}
                       // buttonOnClick={() => console.log('update results')}
                     >
                       {controls}
@@ -238,7 +251,6 @@ export default function LicenseCertificationSearchResults({
                         : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
                     }
                   >
-                    {/* <ul className="column small-8 lc-result-cards-wrapper vads-u-margin-top--0 vads-u-padding-left--2"> */}
                     {currentResults.map((result, index) => {
                       if (index === 0) return null;
                       return (
