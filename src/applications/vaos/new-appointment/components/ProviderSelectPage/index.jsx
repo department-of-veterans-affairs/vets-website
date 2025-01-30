@@ -11,12 +11,24 @@ const pageKey = 'selectProvider';
 export default function SelectProviderPage({
   providers = [
     {
-      name: 'Sarah Bennett, RD',
-      lastAppointment: '9/12/2024',
+      providerName: 'Ralph Rich, RD',
+      providerId: 'Practitioner/123456',
+      serviceType: 'Routine Follow-up',
+      locationName: 'Marion VA Clinic',
+      clinicName: 'Zanesville Primary Care',
+      vistaId: '534',
+      lastSeen: '2023-11-26T00:32:34.216Z',
+      hasAvailability: true,
     },
     {
-      name: 'Julie Carson, RD',
-      lastAppointment: '7/12/2024',
+      providerName: 'Julie Carson, RD',
+      providerId: 'Practitioner/123456',
+      serviceType: 'Routine Follow-up',
+      locationName: 'Marion VA Clinic',
+      clinicName: 'Zanesville Primary Care',
+      vistaId: '534',
+      lastSeen: '2025-01-10T00:32:34.216Z',
+      hasAvailability: true,
     },
   ],
 }) {
