@@ -1,11 +1,13 @@
-export const HEADING_SELECTOR = [
-  'div.form-panel h1',
-  'div.form-panel h2',
-  'div.form-panel h3',
-  'div.form-panel h4',
-  'div.form-panel h5',
-  'div.form-panel h6',
-].join(', ');
+// export const HEADING_SELECTOR = [
+//   'div.form-panel h1',
+//   'div.form-panel h2',
+//   'div.form-panel h3',
+//   'div.form-panel h4',
+//   'div.form-panel h5',
+//   'div.form-panel h6',
+// ].join(', ');
+
+export const HEADING_SELECTOR = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].join(', ');
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
