@@ -2,7 +2,7 @@ import manifest from '../manifest.json';
 import { cypressSetup } from './utils';
 import mockUser from './fixtures/mocks/user.json';
 
-describe.skip('Welcome to My VA Review Contact Information form', () => {
+describe('Welcome to My VA Review Contact Information form', () => {
   const formURL = `${manifest.rootUrl}/contact-information`;
   const editMobileNumber = () => {
     cy.get('#edit-mobile-phone').click();

@@ -299,6 +299,11 @@ export const FORM_STATUS_BDD = 'formStatusBdd';
 
 export const SHOW_8940_4192 = 'showSubforms';
 
+export const ADD_DISABILITIES_ENHANCEMENT_TOGGLE =
+  'all_claims_add_disabilities_enhancement';
+export const ADD_DISABILITIES_ENHANCEMENT_DATA =
+  'showAddDisabilitiesEnhancement';
+
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
 // sessionStorage key used for the user entered separation date in the wizard
@@ -337,8 +342,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
-  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
