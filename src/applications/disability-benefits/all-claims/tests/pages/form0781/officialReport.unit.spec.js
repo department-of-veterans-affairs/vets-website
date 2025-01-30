@@ -12,7 +12,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import * as officialReport from '../../../pages/form0781/officialReport';
+import officialReport from '../../../pages/form0781/officialReport';
 import {
   officialReportPageTitle,
   reportTypesQuestion,
@@ -21,18 +21,17 @@ import {
 import { OFFICIAL_REPORT_TYPES } from '../../../constants';
 
 describe('Official report', () => {
-  const index = 1;
   const { schema, uiSchema } = {
-    schema: officialReport.schema(index),
-    uiSchema: officialReport.uiSchema(index),
+    schema: officialReport.schema,
+    uiSchema: officialReport.uiSchema,
   };
 
-  it('should define a uiSchema function', () => {
-    expect(officialReport.uiSchema).to.be.a('function');
+  it('should define a uiSchema object', () => {
+    expect(officialReport.uiSchema).to.be.a('object');
   });
 
-  it('should define a schema function', () => {
-    expect(officialReport.schema).to.be.a('function');
+  it('should define a schema object', () => {
+    expect(officialReport.schema).to.be.a('object');
   });
 
   it('should render with all checkboxes', () => {

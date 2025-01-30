@@ -2,18 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
-import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import ProcessDescription from '../components/IntroductionPage/ProcessDescription';
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
@@ -24,8 +22,6 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
   const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
-
-  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
   useEffect(
     () => {
@@ -51,7 +47,12 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
             <>
               <ProcessDescription />
               {isUserLOA1 ? (
-                <IdentityVerificationAlert onVerify={onVerifyEvent} />
+                <div className="vads-u-margin-y--4">
+                  <VerifyAlert
+                    headingLevel={3}
+                    dataTestId="ezr-identity-alert"
+                  />
+                </div>
               ) : (
                 <SaveInProgressInfo {...sipProps} />
               )}

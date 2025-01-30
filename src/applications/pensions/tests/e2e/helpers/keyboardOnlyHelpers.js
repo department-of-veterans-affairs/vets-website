@@ -394,7 +394,7 @@ export const fillReviewPage = data => {
   cy.tabToElement('[name="veteran-signature"]');
   const name = get('veteranFullName', data);
   const signature = `${name.first} ${name.middle} ${name.last}`;
-  fillInput(signature);
+  cy.get('[name="veteran-signature"]').type(signature, { force: true }); // realType is unreliable
   cy.tabToElement('[name="veteran-certify"]');
   cy.get(':focus').then($el => {
     if ($el[0].checked !== true) {

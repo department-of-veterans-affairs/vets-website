@@ -25,6 +25,8 @@ describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
   it('verify all sent messages contain the searched category', () => {
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifySearchResponseCategory('Appointment');
+    cy.get(`.unread-icon`).should(`not.exist`);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
