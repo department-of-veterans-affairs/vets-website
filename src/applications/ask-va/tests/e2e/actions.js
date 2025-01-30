@@ -5,12 +5,12 @@ export const HEADING_SELECTORS = [
   'div.form-panel h4',
   'div.form-panel h5',
   'div.form-panel h6',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
+  'div.schemaform-title h1',
+  'div.schemaform-title h2',
+  'div.schemaform-title h3',
+  'div.schemaform-title h4',
+  'div.schemaform-title h5',
+  'div.schemaform-title h6',
 ].join(', ');
 
 const selectorShorthand = {
