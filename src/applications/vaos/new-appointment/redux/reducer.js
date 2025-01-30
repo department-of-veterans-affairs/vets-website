@@ -303,7 +303,7 @@ export default function formReducer(state = initialState, action) {
         : FACILITY_SORT_METHODS.alphabetical;
 
       facilities = facilities.filter(
-        facility => !!facility.address?.city || !!facility.address?.state,
+        facility => !!facility.address?.city && !!facility.address?.state,
       );
 
       if (hasResidentialCoordinates && facilities.length) {
@@ -431,7 +431,7 @@ export default function formReducer(state = initialState, action) {
         const { latitude, longitude } = coords;
 
         facilities = facilities.filter(
-          facility => !!facility.address?.city || !!facility.address?.state,
+          facility => !!facility.address?.city && !!facility.address?.state,
         );
 
         if (latitude && longitude) {

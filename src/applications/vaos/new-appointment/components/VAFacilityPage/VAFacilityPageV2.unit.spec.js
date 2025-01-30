@@ -49,6 +49,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         long: Math.random() * 180,
         address: {
           city: `Fake city ${index + 1}`,
+          state: 'FakeState',
         },
       }),
     );
