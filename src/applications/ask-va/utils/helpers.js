@@ -95,7 +95,7 @@ export const successIcon = (
   </span>
 );
 
-export const newIcon = (
+export const starIcon = (
   <span
     className="vads-u-color--primary vads-u-margin-left--0p5"
     aria-hidden="true"
@@ -104,7 +104,7 @@ export const newIcon = (
   </span>
 );
 
-export const inProgressOrReopenedIcon = (
+export const clockIcon = (
   <span
     className="vads-u-color--grey vads-u-margin-left--0p5"
     aria-hidden="true"
