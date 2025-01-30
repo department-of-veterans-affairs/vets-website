@@ -325,10 +325,10 @@ const PrescriptionDetails = () => {
     const { pendingMed } = prescription;
     const orderedMoreThanSevenDaysAgo = () => {
       const today = new Date();
-      const sevenDaysAgo = new Date(today);
-      sevenDaysAgo.setDate(today.getDate() - 7);
+      const eightDaysLater = new Date(orderedDate);
+      eightDaysLater.setDate(eightDaysLater.getDate() + 8);
 
-      return today >= orderedDate && sevenDaysAgo < orderedDate;
+      return today > eightDaysLater;
     };
     return (
       <>
