@@ -4,6 +4,7 @@ export const fillVaFacilitySearch = () => {
     .find('input')
     .type('43231{enter}');
 
+  cy.wait('@getCoordinates');
   cy.wait('@getFacilities');
 
   cy.get('#root_facility_search_list')

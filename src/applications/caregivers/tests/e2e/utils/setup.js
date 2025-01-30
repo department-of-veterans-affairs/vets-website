@@ -2,6 +2,7 @@ import content from '../../../locales/en/content.json';
 import mockFacilities from '../fixtures/mocks/facilities.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
 import mockMaintenanceWindows from '../fixtures/mocks/maintenance-windows.json';
+import mockMapbox from '../fixtures/mocks/mapbox.json';
 import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockSubmission from '../fixtures/mocks/submission.json';
 import mockUpload from '../fixtures/mocks/upload.json';
@@ -10,10 +11,11 @@ import { fillStatementOfTruthPattern, fillVaFacilitySearch } from './fillers';
 import { goToNextPage, startAsGuestUser } from './helpers';
 
 const APIs = {
+  downloadPdf: '/v0/caregivers_assistance_claims/download_pdf',
   facilities: '/v0/caregivers_assistance_claims/facilities',
   features: '/v0/feature_toggles*',
   maintenance: '/v0/maintenance_windows',
-  downloadPdf: '/v0/caregivers_assistance_claims/download_pdf',
+  mapbox: 'https://api.mapbox.com/**/*',
   submit: '/v0/caregivers_assistance_claims',
   upload: '/v0/form1010cg/attachments',
   vamc: '/data/cms/vamc-ehr.json',
@@ -24,9 +26,11 @@ export const setupBasicTest = (props = {}) => {
 
   const { features = mockFeatures } = props;
 
+  cy.intercept('GET', APIs.mapbox, mockMapbox).as('getCoordinates');
   cy.intercept('GET', APIs.features, features).as('mockFeatures');
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
+  cy.intercept('HEAD', APIs.maintenance, {});
   cy.intercept('POST', APIs.upload, mockUpload);
   cy.intercept('POST', APIs.submit, mockSubmission);
   cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');
