@@ -36,9 +36,9 @@ const defaultLogSettings = {
 export default function initializeBrowserLogging(customLogSettings) {
   // This should only be set to `true` to enable browser logging locally
   // Otherwise this should be `false`
-  const shouldUseLogging = false;
+  const overrideChecks = false;
 
-  const useLogging = canUseLogging() && shouldUseLogging;
+  const useLogging = canUseLogging() && overrideChecks;
 
   if (useLogging) {
     datadogLogs.init({

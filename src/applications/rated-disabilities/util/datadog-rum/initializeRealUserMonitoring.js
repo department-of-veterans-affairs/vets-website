@@ -40,11 +40,12 @@ const defaultRumSettings = {
 // Don't call this function if not logged in
 export default function initializeRealUserMonitoring(customRumSettings) {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
+
   // This should only be set to `true` to enable RUM locally
   // Otherwise this should be `false`
-  const shouldUseRUM = false;
+  const overrideChecks = false;
 
-  const useRUM = canUseRUM() && shouldUseRUM;
+  const useRUM = canUseRUM() || overrideChecks;
 
   if (useRUM) {
     datadogRum.init({
