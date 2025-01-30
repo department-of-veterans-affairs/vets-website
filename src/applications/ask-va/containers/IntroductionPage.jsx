@@ -129,6 +129,9 @@ const IntroductionPage = props => {
     if (inquiryData?.attributes?.status) {
       const { status } = inquiryData.attributes;
       const AskVAStatus = getVAStatusFromCRM(status);
+      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${
+        getVAStatusIconAndMessage[AskVAStatus]?.color
+      }`;
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -143,7 +146,7 @@ const IntroductionPage = props => {
             {AskVAStatus}
             {getVAStatusIconAndMessage[AskVAStatus]?.icon}
           </p>
-          <div className="vads-u-border-left--5px vads-u-border-color--green-light vads-u-padding--0p5">
+          <div className={classes}>
             {getVAStatusIconAndMessage[AskVAStatus]?.message && (
               <p className="vads-u-margin-left--2">
                 {getVAStatusIconAndMessage[AskVAStatus].message}
