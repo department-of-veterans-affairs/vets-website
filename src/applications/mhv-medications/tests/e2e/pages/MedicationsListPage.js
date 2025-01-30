@@ -830,9 +830,12 @@ class MedicationsListPage {
       .and('be.focused');
   };
 
-  verifyPrecriptionNumberForPendingRxOnMedicationCard = prescriptionNumber => {
+  verifyPrecriptionNumberForPendingRxOnMedicationCard = (
+    prescriptionNumber,
+    cardNumber,
+  ) => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="rx-number"]',
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
     )
       .first()
       .should('contain', prescriptionNumber);
@@ -843,6 +846,12 @@ class MedicationsListPage {
       .first()
       .should('be.visible')
       .and('have.text', text);
+  };
+
+  verifyPendingRenewalInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .should('be.visible')
+      .and('contain', text);
   };
 }
 

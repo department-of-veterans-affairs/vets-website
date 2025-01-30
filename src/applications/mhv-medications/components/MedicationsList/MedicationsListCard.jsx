@@ -40,7 +40,10 @@ const MedicationsListCard = ({ rx }) => {
             <span className="vads-u-flex--auto vads-u-padding-top--1">
               <va-icon icon="info" size={3} aria-hidden="true" />
             </span>
-            <p className="vads-u-margin-left--2 vads-u-flex--1">
+            <p
+              className="vads-u-margin-left--2 vads-u-flex--1"
+              data-testid="pending-renewal-rx"
+            >
               This is a renewal you requested. Your VA pharmacy is reviewing it
               now. Details may change.
             </p>
