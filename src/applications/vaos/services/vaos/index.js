@@ -32,13 +32,14 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(
-  start,
-  end,
+export function getAppointments({
+  startDate,
+  endDate,
   statuses = [],
   avs = false,
   fetchClaimStatus = false,
-) {
+  includeEPS = false,
+}) {
   const options = {
     method: 'GET',
   };
@@ -49,10 +50,13 @@ export function getAppointments(
   if (fetchClaimStatus) {
     includeParams.push('claims');
   }
+  if (includeEPS) {
+    includeParams.push('eps');
+  }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${start}&end=${end}&${statuses
+      .join(',')}&start=${startDate}&end=${endDate}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
