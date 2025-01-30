@@ -47,6 +47,7 @@ import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -62,6 +63,7 @@ const ComposeForm = props => {
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   useEffect(
     () => {
@@ -724,17 +726,7 @@ const ComposeForm = props => {
     ],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   if (sendMessageFlag === true) {
     return (
@@ -915,6 +907,8 @@ const ComposeForm = props => {
                     setNavigationError={setNavigationError}
                     editingEnabled
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
 
                   <FileInput
@@ -922,6 +916,8 @@ const ComposeForm = props => {
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
                 </section>
               ))}

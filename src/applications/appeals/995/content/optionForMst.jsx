@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const optionForMstTitle =
-  'Would you like to view an option for an indicator if your claim is related to Military Sexual Trauma (MST)';
+  'Would you like to view an option for an indicator if your claim is related to Military Sexual Trauma (MST)?';
 
 export const optionForMstHint =
   'This option is for an indicator on your health record and will not affect the status or decision for your claim.';

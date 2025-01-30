@@ -41,6 +41,12 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
+    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.setState({ benefitsList: sortedBenefitsList });
   }
 
   componentDidUpdate(prevProps) {
@@ -183,9 +189,13 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const count =
+      this.props.location.query.allBenefits === 'true'
+        ? this.state.benefitsList.length
+        : this.state.resultsCount;
     return (
       <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
+        Showing {count} {resultsText}, filtered to show{' '}
         <b>{this.state.filterValue} results</b>, sorted{' '}
         {this.state.sortValue === 'alphabetical'
           ? 'alphabetically by benefit name'
@@ -238,7 +248,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          <div role="heading" aria-level="2">
+          <div>
             {this.props.location.query.allBenefits ? (
               <>
                 <p>
@@ -399,19 +409,28 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              {this.state.hasResults && (
+              {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
               {!this.props.location.query.allBenefits &&
                 window.history.length > 2 && (
-                  <p>
-                    <va-link
-                      data-testid="back-link"
-                      href="#"
-                      onClick={this.handleBackClick}
-                      text="Go back and review your entries"
-                    />
-                  </p>
+                  <>
+                    <p>
+                      <va-link
+                        data-testid="back-link"
+                        href="#"
+                        onClick={this.handleBackClick}
+                        text="Go back and review your entries"
+                      />
+                    </p>
+                    <p className="start-over-link-container">
+                      <va-link
+                        data-testid="start-over-link"
+                        href="/discover-your-benefits/goals"
+                        text="Start over"
+                      />
+                    </p>
+                  </>
                 )}
 
               <Benfits

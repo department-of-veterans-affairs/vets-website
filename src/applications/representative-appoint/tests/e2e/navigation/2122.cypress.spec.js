@@ -13,6 +13,17 @@ describe('Authenticated', () => {
         '/representation_management/v0/original_entities?query=**',
         mockRepResults,
       ).as('fetchRepresentatives');
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'appoint_a_representative_enable_frontend', value: true },
+            {
+              name: 'appoint_a_representative_enable_v2_features',
+              value: false,
+            },
+          ],
+        },
+      });
     });
 
     it('navigates through the flow successfully', () => {
@@ -60,7 +71,7 @@ describe('Authenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
       cy.injectAxeThenAxeCheck();
       cy.get('input[name="root_veteranFullName_first"]').type('John');
-      cy.get('input[name="root_veteranFullName_middle"]').type('Edmund');
+      cy.get('input[name="root_veteranFullName_middle"]').type('E');
       cy.get('input[name="root_veteranFullName_last"]').type('Doe');
 
       cy.get('va-select.usa-form-group--month-select')
@@ -101,7 +112,7 @@ describe('Authenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_Primary phone"]').type('5467364732');
+      cy.get('input[name="root_primaryPhone"]').type('5467364732');
 
       h.clickContinue();
 

@@ -41,7 +41,6 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
-  showMebServiceHistoryCategorizeDisagreement,
   mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
@@ -334,16 +333,6 @@ export const App = ({
         });
       }
 
-      if (
-        showMebServiceHistoryCategorizeDisagreement !==
-        formData.showMebServiceHistoryCategorizeDisagreement
-      ) {
-        setFormData({
-          ...formData,
-          showMebServiceHistoryCategorizeDisagreement,
-        });
-      }
-
       if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
         setFormData({
           ...formData,
@@ -369,7 +358,6 @@ export const App = ({
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
-      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -453,7 +441,7 @@ export const App = ({
                 label: 'Education and training',
               },
               {
-                href: '/education/apply-for-benefits-form-22-1990',
+                href: '/education/apply-for-gi-bill-form-22-1990',
                 label: 'Apply for education benefits',
               },
             ]}
@@ -497,7 +485,6 @@ App.propTypes = {
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
-  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

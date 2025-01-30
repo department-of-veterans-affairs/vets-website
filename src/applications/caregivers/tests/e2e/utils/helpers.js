@@ -16,8 +16,8 @@ export const setupPerTest = () => {
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
   cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
   cy.intercept(
-    'GET',
-    '/v0/caregivers_assistance_claims/facilities?*',
+    'POST',
+    '/v0/caregivers_assistance_claims/facilities',
     mockFacilities,
   ).as('getFacilities');
   cy.intercept('POST', '/v0/caregivers_assistance_claims', mockSubmission);

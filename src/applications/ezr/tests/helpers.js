@@ -1,4 +1,8 @@
+import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 // simulate v1 forms library input change
 export const simulateInputChange = (formDOM, querySelectorElement, value) => {
@@ -21,4 +25,36 @@ export const inputVaTextInput = (selector, value) => {
     detail: { value },
   });
   vaTextInput.dispatchEvent(event);
+};
+
+/*
+Check to ensure that the address state field is required for non-US countries. It
+must be present in order to pass Enrollment System validation.
+ */
+export const expectStateInputToBeRequired = (
+  schema,
+  uiSchema,
+  definitions,
+  countryFieldName,
+  stateFieldName,
+) => {
+  const { container } = render(
+    <DefinitionTester
+      schema={schema}
+      uiSchema={uiSchema}
+      definitions={definitions}
+    />,
+  );
+
+  const country = container.querySelector(`[name="root_${countryFieldName}"]`);
+  const state = container.querySelector(`[name="root_${stateFieldName}"]`);
+
+  country.__events.vaSelect({
+    target: {
+      name: `root_${countryFieldName}`,
+      value: 'CAN',
+    },
+  });
+
+  expect(state).to.have.attr('required', 'true');
 };

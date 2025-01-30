@@ -43,7 +43,7 @@ import {
   transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers.v2';
+} from './helpers/formSubmitTransformers';
 import {
   resetDataLayer,
   recordItemsRetrieved,

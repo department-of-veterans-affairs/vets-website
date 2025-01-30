@@ -59,7 +59,7 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            letterTitle={letterTitle}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
@@ -128,6 +128,7 @@ export class LetterList extends React.Component {
         {eligibilityMessage}
 
         <br />
+        <h3 slot="headline">Other sources of VA benefit documentation</h3>
         <p>
           A lot of people come to this page looking for their Post-9/11 GI Bill
           statement of benefits, their Certificate of Eligibility (COE) for home
@@ -135,20 +136,23 @@ export class LetterList extends React.Component {
           available here yet, but if you’re eligible for them, you can get them
           through these links:
         </p>
-        <ul className="vads-u-margin-bottom--9">
+        <ul className="vads-u-margin-bottom--9 bullet-disc">
           <li>
-            <a href="/education/download-letters/" target="_blank">
-              <strong>Download your VA education letters.</strong>
+            <a
+              href="/education/download-letters/"
+              target="_blank"
+              className="vads-u-text-decoration--none"
+            >
+              VA education letters
             </a>
           </li>
           <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
               target="_blank"
+              className="vads-u-text-decoration--none"
             >
-              <strong>
-                View and print your Post-9/11 GI Bill statement of benefits.
-              </strong>
+              Post-9/11 GI Bill statement of benefits
             </a>
           </li>
           <li>
@@ -156,11 +160,9 @@ export class LetterList extends React.Component {
               href="/housing-assistance/home-loans/check-coe-status/"
               rel="noopener noreferrer"
               target="_blank"
+              className="vads-u-text-decoration--none"
             >
-              <strong>
-                Download a copy of your Certificate of Eligibility for home
-                loan.
-              </strong>
+              Certificate of home loan benefits
             </a>
           </li>
           <li>
@@ -168,10 +170,9 @@ export class LetterList extends React.Component {
               href="/records/get-military-service-records/"
               rel="noopener noreferrer"
               target="_blank"
+              className="vads-u-text-decoration--none"
             >
-              <strong>
-                Request your military service records (including DD214).
-              </strong>
+              Discharge or separation papers (DD214)
             </a>
           </li>
         </ul>

@@ -299,7 +299,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
         'vaos-update-address-alert-displayed',
       ),
     );
-    fireEvent.click(screen.getByText('Update your address'));
+    fireEvent.click(
+      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+    );
     await waitFor(
       () =>
         expect(
@@ -355,7 +357,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
         /To use some of the tool’s features, you need a home address on file/i,
       ),
     ).to.exist;
-    fireEvent.click(screen.getByText('Update your address'));
+    fireEvent.click(
+      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+    );
     await waitFor(
       () =>
         expect(

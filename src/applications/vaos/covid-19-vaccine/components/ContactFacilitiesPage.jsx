@@ -116,7 +116,7 @@ export default function ContactFacilitiesPage({ changeCrumb }) {
       >
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            <h3 className="vads-u-margin-bottom--0">
               <NewTabAnchor
                 href={`/find-locations/facility/vha_${getRealFacilityId(
                   getFacilityIdFromLocation(facility),

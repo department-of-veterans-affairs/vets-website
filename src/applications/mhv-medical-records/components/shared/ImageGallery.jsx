@@ -37,15 +37,12 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
                 <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--h3">
                   Image {image.index} of {imageList.length}
                 </h2>
-                <div
-                  className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5"
-                  aria-label={image.index}
-                >
+                <div className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5">
                   <img
                     src={`${apiImagingPath}/${studyId}/images/${
                       image.seriesAndImage
                     }`}
-                    alt={`${image.index} - ${image.seriesAndImage}`}
+                    alt={`${image.index}, Details not provided`}
                   />
                 </div>
               </div>

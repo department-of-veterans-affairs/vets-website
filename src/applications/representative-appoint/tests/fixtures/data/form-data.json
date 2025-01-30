@@ -26,7 +26,7 @@
   "claimantRelationship": "CHILD",
   "veteranFullName": {
     "first": "John",
-    "middle": "Edmund",
+    "middle": "E",
     "last": "Doe",
     "suffix": "Sr."
   },
@@ -241,7 +241,7 @@
     "postalCode": "01050"
   },
   "veteranEmail": "test@example.com",
-  "Primary phone": "5551234567",
+  "primaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,
@@ -255,7 +255,7 @@
   "view:outsideVAAuthorizationPolicy": {},
   "view:authorizationNote5": {},
   "view:unsureNote": {},
-  "view:representativeQuery": "bob",
+  "view:representativeQueryInput": "bob",
   "view:representativeSearchResults": [
     {
       "data": {

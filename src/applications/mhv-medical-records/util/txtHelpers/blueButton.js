@@ -13,6 +13,7 @@ import { parseAppointments } from './appointments';
 import { parseDemographics } from './demographics';
 import { parseMilitaryService } from './militaryService';
 import { parseAccountSummary } from './accountSummary';
+import { formatUserDob } from '../helpers';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**
@@ -82,7 +83,7 @@ Blue Button report
 
 This report includes key information from your VA medical records.
 ${userFullName.last}, ${userFullName.first}\n
-Date of birth: ${dob}\n
+Date of birth: ${formatUserDob({ dob: new Date(dob) })}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.

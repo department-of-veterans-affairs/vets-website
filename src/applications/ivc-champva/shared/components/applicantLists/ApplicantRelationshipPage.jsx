@@ -8,7 +8,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { ADDITIONAL_FILES_HINT } from '../../../10-10D/config/constants';
+import { ADDITIONAL_FILES_HINT } from '../../constants';
 import { applicantWording } from '../../utilities';
 
 /*
@@ -105,7 +105,13 @@ export function ApplicantRelationshipReviewPage(props) {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {props.title(currentListItem)}
         </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
+        <VaButton
+          secondary
+          onClick={props.editPage}
+          text="Edit"
+          label={`Edit ${props.title(currentListItem)}`}
+          uswds
+        />
       </div>
       <dl className="review">
         <div className="review-row">

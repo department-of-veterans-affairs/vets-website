@@ -42,7 +42,7 @@ export const uiSchema = {
     updateUiSchema: formData => {
       const title = `Do you authorize this accredited ${getRepType(
         formData['view:selectedRepresentative'],
-      )}’s team to access your records through VA’s information technology systems?`;
+      )}’s team to access your records outside VA’s information technology systems?`;
       return { 'ui:title': title };
     },
   }),

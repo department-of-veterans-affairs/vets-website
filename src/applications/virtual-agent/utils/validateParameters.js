@@ -1,6 +1,8 @@
 import * as Sentry from '@sentry/browser';
 import { ERROR } from './loadingStatus';
 
+import { logErrorToDatadog } from './logging';
+
 function hasAllParams(csrfToken, apiSession, userFirstName, userUuid) {
   return (
     csrfToken &&
@@ -23,6 +25,7 @@ export default function validateParameters({
   userFirstName,
   userUuid,
   setParamLoadingStatusFn,
+  isDatadogLoggingEnabled,
 }) {
   if (hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
     return;
@@ -45,11 +48,11 @@ export default function validateParameters({
     userUuid: sanitizedUserUuid,
   };
 
-  Sentry.captureException(
-    new TypeError(
-      `Virtual Agent chatbot bad start - missing required variables: ${JSON.stringify(
-        params,
-      )}`,
-    ),
+  const error = new TypeError(
+    `Virtual Agent chatbot bad start - missing required variables: ${JSON.stringify(
+      params,
+    )}`,
   );
+  Sentry.captureException(error);
+  logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
 }

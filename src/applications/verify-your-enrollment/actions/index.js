@@ -237,7 +237,7 @@ export const verifyEnrollmentAction = verifications => {
             verifiedThroughDate: lastVerification?.verificationEndDate,
             verificationMethod: 'VYE',
             appCommunication: {
-              responseype: 'Y',
+              responseType: 'Y',
             },
           };
         })()

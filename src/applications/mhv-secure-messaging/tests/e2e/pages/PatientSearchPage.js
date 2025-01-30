@@ -86,7 +86,7 @@ class PatientSearchPage {
         const newItem = JSON.parse(JSON.stringify(item));
         // update the category to provided data
         newItem.type = 'messages';
-        newItem.attributes.readReceipt = 'READ';
+        newItem.attributes.readReceipt = null;
         newItem.attributes.category = category;
         return newItem;
       }),
@@ -107,7 +107,7 @@ class PatientSearchPage {
           sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
             numberOfMonths,
           ),
-          readReceipt: 'READ',
+          readReceipt: null,
         };
         return newItem;
       }),
@@ -137,15 +137,113 @@ class PatientSearchPage {
           const extractedDate = dateString.split(' at ')[0]; // "November 29, 2024"
           const parsedDate = new Date(extractedDate);
 
-          // calculate three months back from the current date
-          const threeMonthsBack = new Date();
-          threeMonthsBack.setMonth(threeMonthsBack.getMonth() - numberOfMonth);
+          // calculate a few months back from the current date
+          const backDate = new Date();
+          backDate.setMonth(backDate.getMonth() - numberOfMonth);
 
           // assert the date is within the last 3 months
-          expect(parsedDate).to.be.gte(threeMonthsBack);
+          expect(parsedDate).to.be.gte(backDate);
         });
     });
   };
+
+  verifyStartDateFormElements = () => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+  };
+
+  verifyEndDateFormElements = () => {
+    cy.get(Locators.BLOCKS.FILTER_END_DATE, { includeShadowDom: true })
+      .find(`.required`)
+      .should(`be.visible`)
+      .and(`have.text`, `(*Required)`);
+
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .shadow()
+      .find(`.select-month`)
+      .should(`be.visible`);
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .shadow()
+      .find(`.select-day`)
+      .should(`be.visible`);
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .shadow()
+      .find(`.input-year`)
+      .should(`be.visible`);
+  };
+
+  verifyMonthFilterRange = number => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateMonth"]`)
+      .find(`option`)
+      .should(`have.length`, number);
+  };
+
+  verifyDayFilterRange = number => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateDay"]`)
+      .find(`option`)
+      .should(`have.length`, number);
+  };
+
+  selectStartMonth = month => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(month);
+  };
+
+  selectEndMonth = month => {
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .find(`[name="discharge-dateMonth"]`)
+      .select(month);
+  };
+
+  selectStartDay = day => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateDay"]`)
+      .select(day);
+  };
+
+  selectEndDay = day => {
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .find(`[name="discharge-dateDay"]`)
+      .select(day);
+  };
+
+  getStartYear = year => {
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find(`[name="discharge-dateYear"]`)
+      .type(year);
+  };
+
+  getEndYear = year => {
+    cy.get(Locators.BLOCKS.FILTER_END_DATE)
+      .find(`[name="discharge-dateYear"]`)
+      .type(year);
+  };
+
+  getRequiredFieldError = selector => {
+    return cy
+      .get(selector)
+      .find(`#error-message`)
+      .should(`be.visible`);
+  };
+
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(

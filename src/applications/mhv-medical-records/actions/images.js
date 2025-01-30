@@ -5,7 +5,19 @@ import {
   getImageRequestStatus,
   getImageList,
   getBbmiNotificationStatus,
+  requestImagingStudy,
 } from '../api/MrApi';
+
+export const requestImages = studyId => async dispatch => {
+  try {
+    dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: false });
+    const response = await requestImagingStudy(studyId);
+    dispatch({ type: Actions.Images.REQUEST_IMAGE_STUDY, response });
+  } catch (error) {
+    dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: true });
+    throw error;
+  }
+};
 
 export const fetchImageRequestStatus = () => async dispatch => {
   try {

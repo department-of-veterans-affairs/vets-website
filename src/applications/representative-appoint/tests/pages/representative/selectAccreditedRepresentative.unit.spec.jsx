@@ -31,7 +31,7 @@ describe('<SelectAccreditedRepresentative>', () => {
 
         loggedIn: true,
         formData: {
-          'view:representativeQuery': query,
+          'view:representativeQueryInput': query,
           'view:representativeSearchResults': results,
           'view:selectedRepresentative': currentRep,
         },
@@ -44,7 +44,7 @@ describe('<SelectAccreditedRepresentative>', () => {
         getState: () => ({
           form: {
             data: {
-              'view:representativeQuery': query,
+              'view:representativeQueryInput': query,
               'view:representativeSearchResults': results,
               'view:selectedRepresentative': currentRep,
             },
@@ -390,7 +390,7 @@ describe('<SelectAccreditedRepresentative>', () => {
 
             const props = {
               formData: {
-                'view:representativeQuery': 'Valid Query',
+                'view:representativeQueryInput': 'Valid Query',
                 'view:selectedRepresentative': null,
               },
             };

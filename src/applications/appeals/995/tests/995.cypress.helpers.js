@@ -135,28 +135,32 @@ export const getPastItf = cy => {
     });
 };
 
-export const setupPerTest = (toggles = []) => {
+// _testData from createTestConfig
+export const setupPerTest = (_testData, toggles = []) => {
   cypressSetup();
 
   setStoredSubTask({ benefitType: 'compensation' });
 
-  cy.intercept('POST', `/${EVIDENCE_UPLOAD_API.join('')}`, mockUpload);
-  cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
+  cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
+  cy.intercept('GET', ITF_API, fetchItf());
   cy.intercept('GET', '/v0/feature_toggles*', {
-    data: { type: 'feature_toggles', features: toggles },
+    data: {
+      type: 'feature_toggles',
+      features: Array.isArray(toggles) ? toggles : [],
+    },
   });
 
   // Include legacy appeals to mock data for maximal test
   const dataSet = Cypress.currentTest.titlePath[1];
   cy.intercept(
     'GET',
-    `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
+    `${CONTESTABLE_ISSUES_API}/compensation`,
     dataSet === 'maximal-test'
       ? mockContestableIssuesWithLegacyAppeals
       : mockContestableIssues,
   ).as('getIssues');
 
-  cy.intercept('POST', `/${SUBMIT_URL.join('')}`, mockSubmit);
+  cy.intercept('POST', SUBMIT_URL, mockSubmit);
 
   cy.get('@testData').then(() => {
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);

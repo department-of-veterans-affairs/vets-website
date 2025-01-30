@@ -12,7 +12,7 @@ import {
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
-import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
+// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -30,7 +30,7 @@ import {
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
 
 export default function AuthApp({ location }) {
-  useDatadogRum();
+  // useDatadogRum();
 
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },

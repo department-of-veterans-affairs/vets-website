@@ -7,10 +7,18 @@ const initialState = {
   imageList: [],
 
   notificationStatus: undefined,
+
+  imageRequestApiFailed: false,
 };
 
 export const imagesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Actions.Images.REQUEST_IMAGE_STUDY: {
+      return {
+        ...state,
+        imageStatus: [action.response],
+      };
+    }
     case Actions.Images.GET_IMAGE_REQUEST_STATUS: {
       return {
         ...state,
@@ -29,7 +37,12 @@ export const imagesReducer = (state = initialState, action) => {
         notificationStatus: action?.payload?.flag ?? null,
       };
     }
-
+    case Actions.Images.SET_REQUEST_API_FAILED: {
+      return {
+        ...state,
+        imageRequestApiFailed: action?.payload ?? false,
+      };
+    }
     default:
       return state;
   }

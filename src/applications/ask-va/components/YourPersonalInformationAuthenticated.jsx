@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { hasPrefillInformation } from '../constants';
 
 const PersonalAuthenticatedInformation = ({
   goForward,
@@ -12,9 +13,13 @@ const PersonalAuthenticatedInformation = ({
   isLoggedIn,
   router,
 }) => {
-  if (!isLoggedIn) {
+  if (!isLoggedIn || !hasPrefillInformation(formData)) {
     goForward(formData);
   }
+
+  const handleGoBack = () => {
+    router.push('/');
+  };
 
   const {
     first,
@@ -33,10 +38,6 @@ const PersonalAuthenticatedInformation = ({
   if (ssn) {
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
-
-  const handleGoBack = () => {
-    router.push('/');
-  };
 
   useEffect(
     () => {

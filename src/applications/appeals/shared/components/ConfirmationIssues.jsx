@@ -8,6 +8,8 @@ import { getReadableDate } from '../utils/dates';
 import { getSelected, getIssueName, getIssueDate } from '../utils/issues';
 import { disagreeWith } from '../utils/areaOfDisagreement';
 
+import { chapterHeaderClass } from './ConfirmationCommon';
+
 const ConfirmationIssues = ({
   data,
   text = 'You’ve selected these issues for review',
@@ -41,7 +43,7 @@ const ConfirmationIssues = ({
 
   return (
     <>
-      <h3 className="vads-u-margin-top--2">Issues for review</h3>
+      <h3 className={chapterHeaderClass}>Issues for review</h3>
       {children ? (
         <ul className="remove-bullets" role="list">
           {children}

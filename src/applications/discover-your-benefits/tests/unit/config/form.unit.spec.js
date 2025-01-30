@@ -46,31 +46,6 @@ describe('Questionnaire Form - Title Function', () => {
   });
 });
 
-describe('Questionnaire Form - SubTitle Function', () => {
-  describe('title function', () => {
-    it('should return blank when on the confirmation page', () => {
-      const currentLocation = { pathname: '/confirmation' };
-      const title = formConfig.subTitle({ currentLocation });
-      expect(title).to.equal('');
-    });
-
-    it('should return blank when on the review page', () => {
-      const currentLocation = { pathname: '/review-and-submit' };
-      const title = formConfig.subTitle({ currentLocation });
-      expect(title).to.equal('');
-    });
-
-    it('should return "Please answer the questions to help us recommend helpful resources and benefits." by default', () => {
-      const currentLocation = { pathname: '/some-other-page' };
-      const title = formConfig.subTitle({ currentLocation });
-      expect(title).to.equal(
-        `Please answer the questions to help us recommend
-helpful resources and benefits.`,
-      );
-    });
-  });
-});
-
 describe('Questionnaire Form - Chapter 1: Goals', () => {
   const { chapters } = formConfig;
   const { chapter1 } = chapters;
@@ -232,26 +207,6 @@ describe('Questionnaire Form - Chapter 5: Disability', () => {
 
     it('should have a valid uiSchema for the Disability page', () => {
       expect(disabilityPage.uiSchema).to.be.an('object');
-    });
-  });
-});
-
-describe('Questionnaire Form - Chapter 6: GI Bill Status', () => {
-  const { chapters } = formConfig;
-  const { chapter6 } = chapters;
-  const giBillPage = chapter6.pages.giBillStatus;
-
-  describe('GI Bill Status page configuration', () => {
-    it('should have the correct path for the GI Bill Status page', () => {
-      expect(giBillPage.path).to.equal('gi-bill');
-    });
-
-    it('should have the correct title for the GI Bill Status page', () => {
-      expect(giBillPage.title).to.equal('GI Bill Status');
-    });
-
-    it('should have a valid uiSchema for the GI Bill Status page', () => {
-      expect(giBillPage.uiSchema).to.be.an('object');
     });
   });
 });

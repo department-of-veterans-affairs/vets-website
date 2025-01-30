@@ -15,6 +15,7 @@ import VaPharmacyText from '../shared/VaPharmacyText';
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const latestTrackingStatus = rx?.trackingList?.[0];
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -87,7 +88,9 @@ const PrescriptionPrintOnly = props => {
           <div className="print-only-rx-details-container">
             <p>
               <strong>Last filled on:</strong>{' '}
-              {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+              {rx?.sortedDispensedDate
+                ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
+                : 'Not filled yet'}
             </p>
             <p>
               <strong>Status:</strong>{' '}
@@ -192,9 +195,7 @@ const PrescriptionPrintOnly = props => {
                       </p>
                       <p>
                         <strong>Shipped on:</strong>{' '}
-                        {entry?.trackingList?.[0]?.completeDateTime
-                          ? dateFormat(entry.trackingList[0].completeDateTime)
-                          : EMPTY_FIELD}
+                        {dateFormat(latestTrackingStatus?.completeDateTime)}
                       </p>
                       <p className="vads-u-margin--0">
                         <strong>Medication description: </strong>

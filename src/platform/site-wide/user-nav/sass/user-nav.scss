@@ -80,6 +80,8 @@
 }
 
 /* OCTO Identity */
+// stylelint-disable-next-line color-no-hex
+$idme-background-green: #08833D;
 .login,
 .verify {
   background: var(--vads-color-white);
@@ -112,7 +114,7 @@
     }
 
     &.idme-button {
-      background: var(--vads-color-success-dark);
+      background: $idme-background-green;
 
       &:hover {
         background: var(
@@ -218,15 +220,6 @@
 }
 
 .login.login-modal {
-  // temporary solution until DST can fix va-modal large property
-  margin-left: -1rem;
-  margin-right: 4rem;
-
-  @include media($medium-screen) {
-    margin-left: unset;
-    margin-right: unset;
-  }
-
   .downtime-notification.row {
     margin: 0 0 1em;
   }

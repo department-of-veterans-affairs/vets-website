@@ -6,7 +6,7 @@ import {
   AlertMhvRegistration,
   AlertUnregistered,
   AlertVerifyAndRegister,
-  AlertMhvUserAction,
+  AlertAccountApiAlert,
 } from '../components/alerts';
 
 import {
@@ -19,6 +19,7 @@ import {
   mhvAccountStatusLoading,
   mhvAccountStatusUserError,
   mhvAccountStatusUsersuccess,
+  mhvAccountStatusErrorsSorted,
   showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
@@ -33,9 +34,13 @@ const Alerts = () => {
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
+
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSuccess = useSelector(mhvAccountStatusUsersuccess);
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
+  const mhvAccountStatusSortedErrors = useSelector(
+    mhvAccountStatusErrorsSorted,
+  );
 
   if (userHasMhvBasicAccount) {
     return <AlertMhvBasicAccount />;
@@ -49,11 +54,15 @@ const Alerts = () => {
     return <AlertUnregistered />;
   }
 
-  if (mhvAccountStatusUserErrors.length > 0 && isAccountStatusApiEnabled) {
+  if (mhvAccountStatusSortedErrors.length > 0 && isAccountStatusApiEnabled) {
     return (
-      <AlertMhvUserAction errorCode={mhvAccountStatusUserErrors[0].code} />
+      <AlertAccountApiAlert
+        userActionable={mhvAccountStatusUserErrors.length > 0}
+        errorCode={mhvAccountStatusSortedErrors[0].code}
+      />
     );
   }
+
   if (
     userRegistered &&
     !userHasMhvAccount &&

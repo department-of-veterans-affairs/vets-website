@@ -11,7 +11,8 @@ import { updateSchemasAndData } from 'platform/forms-system/src/js/state/helpers
  *   isEdit: boolean,
  *   schema: SchemaOptions,
  *   uiSchema: UiSchemaOptions,
- *   data: Object,
+ *   data: Object, // form data scoped to the field
+ *   fullData: Object, // full form data
  *   onChange: Function,
  *   onSubmit: Function
  * }} props
@@ -28,8 +29,10 @@ export function useEditOrAddForm({
   schema,
   uiSchema,
   data,
+  fullData,
   onChange,
   onSubmit,
+  index,
 }) {
   // These states are only used in edit mode
   const [localData, setLocalData] = useState(null);
@@ -50,14 +53,16 @@ export function useEditOrAddForm({
           cloneDeep(schema),
           cloneDeep(uiSchema),
           cloneDeep(data),
+          false, // preserveHiddenData default
+          cloneDeep(fullData),
+          index,
         );
-
         setLocalData(initialData);
         setLocalSchema(initialSchema);
         setLocalUiSchema(initialUiSchema);
       }
     },
-    [data, schema, uiSchema, isEdit],
+    [data, fullData, schema, uiSchema, isEdit, index],
   );
 
   const handleOnChange = useCallback(
@@ -70,7 +75,14 @@ export function useEditOrAddForm({
           data: newData,
           schema: newSchema,
           uiSchema: newUiSchema,
-        } = updateSchemasAndData(localSchema, localUiSchema, updatedData);
+        } = updateSchemasAndData(
+          localSchema,
+          localUiSchema,
+          updatedData,
+          false,
+          fullData,
+          index,
+        );
         setLocalData(newData);
         setLocalSchema(newSchema);
         setLocalUiSchema(newUiSchema);
@@ -81,7 +93,7 @@ export function useEditOrAddForm({
         });
       }
     },
-    [isEdit, localSchema, localUiSchema, onChange, data],
+    [isEdit, localSchema, localUiSchema, onChange, data, fullData, index],
   );
 
   const handleOnSubmit = useCallback(

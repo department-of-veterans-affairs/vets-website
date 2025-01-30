@@ -1,12 +1,14 @@
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
+import { formatISO, subYears } from 'date-fns';
 import {
   getBlueButtonReportData,
   clearFailedList,
 } from '../../actions/blueButtonReport';
 import { Actions } from '../../util/actionTypes';
 import allergies from '../fixtures/allergies.json';
+import * as MrApi from '../../api/MrApi';
 
 describe('Blue Button Actions', () => {
   describe('getBlueButtonReportData', () => {
@@ -158,6 +160,75 @@ describe('Blue Button Actions', () => {
             Actions.BlueButtonReport.GET,
           );
         });
+      });
+
+      it('should fetch appointments with the correct date range when dateFilter.option is "any"', async () => {
+        const mockData = { mockData: 'appointmentsMockData' };
+        const getAppointmentsStub = sinon
+          .stub(MrApi, 'getAppointments')
+          .resolves(mockData);
+
+        const dispatch = sinon.spy();
+        const action = getBlueButtonReportData(
+          { appointments: true },
+          { option: 'any' },
+        );
+        await action(dispatch);
+
+        // Verify that getAppointments was called once
+        expect(getAppointmentsStub.calledOnce).to.be.true;
+
+        // The 'any' option should calculate fromDate as 2 years ago and toDate as far future
+        const currentDate = new Date();
+        const dateTwoYearsAgo = subYears(currentDate, 2);
+        const farFutureDate = new Date(2099, 0, 1);
+
+        const expectedFromDate = formatISO(dateTwoYearsAgo);
+        const expectedToDate = formatISO(farFutureDate);
+
+        const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
+        expect(fromDateArg).to.equal(expectedFromDate);
+        expect(toDateArg).to.equal(expectedToDate);
+
+        // Verify dispatch
+        expect(dispatch.calledOnce).to.be.true;
+        const dispatchedAction = dispatch.firstCall.args[0];
+        expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+        expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
+
+        getAppointmentsStub.restore();
+      });
+
+      it('should fetch appointments with the provided custom dateFilter range', async () => {
+        const mockData = { mockData: 'appointmentsMockData' };
+        const getAppointmentsStub = sinon
+          .stub(MrApi, 'getAppointments')
+          .resolves(mockData);
+
+        const fromDateCustom = '2021-01-01';
+        const toDateCustom = '2021-12-31';
+        const dispatch = sinon.spy();
+        const action = getBlueButtonReportData(
+          { appointments: true },
+          { fromDate: fromDateCustom, toDate: toDateCustom },
+        );
+        await action(dispatch);
+
+        // Verify that getAppointments was called once
+        expect(getAppointmentsStub.calledOnce).to.be.true;
+
+        // Check arguments passed to getAppointments
+        const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
+        expect(fromDateArg).to.equal(formatISO(new Date(fromDateCustom)));
+        expect(toDateArg).to.equal(formatISO(new Date(toDateCustom)));
+
+        // Verify dispatch
+        expect(dispatch.calledOnce).to.be.true;
+        const dispatchedAction = dispatch.firstCall.args[0];
+        expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+        expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
+
+        getAppointmentsStub.restore();
       });
     });
 

@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import {
-  isRequiredFile,
-  nameWording,
-  nameWordingExt,
-  getObjectsWithAttachmentId,
-} from '../../helpers/utilities';
+import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
-import { concatStreets } from '../../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+  nameWording,
+} from '../../../shared/utilities';
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {

@@ -7,6 +7,8 @@ import {
   renderInReduxProvider,
 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import Sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import reducer from '../../reducers';
 import MrBreadcrumbs from '../../components/MrBreadcrumbs';
 
@@ -207,6 +209,77 @@ describe('MrBreadcrumbs component', () => {
       },
     );
     const { getByTestId } = screen;
-    expect(getByTestId('lab-id-breadcrumbs')).to.exist;
+    expect(getByTestId('mr-breadcrumbs')).to.exist;
+  });
+
+  it('tests the time frame in the url logic', () => {
+    const initialState = {
+      mr: {
+        pageTracker: {},
+        breadcrumbs: {
+          crumbsList: [
+            {
+              href: '/',
+              label: 'VA.gov home',
+            },
+            {
+              href: '/my-health',
+              label: 'My HealtheVet',
+            },
+            {
+              href: '/',
+              label: 'Medical records',
+              isRouterLink: true,
+            },
+          ],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
+      },
+    };
+    window.document.querySelector = Sinon.stub().returns({
+      textContent: 'test',
+    });
+    const dispatchSpy = Sinon.spy();
+    const mockStore = {
+      getState: () => ({
+        ...initialState,
+      }),
+      subscribe: () => {},
+      dispatch: action => {
+        action(dispatchSpy);
+        expect(dispatchSpy.called).to.be.true;
+        Sinon.assert.calledWith(
+          dispatchSpy,
+          Sinon.match(params => {
+            expect(params.type).to.equal('MR_SET_BREAD_CRUMBS');
+            expect(params.payload).to.exist;
+            expect(params.payload.crumbs).to.exist;
+            expect(params.payload.crumbs.length).to.equal(2);
+            expect(params.payload.crumbs[0].href).to.equal(
+              '/vitals?timeFrame=2024-02',
+            );
+            return true;
+          }),
+        );
+      },
+    };
+
+    const screen = render(
+      <MemoryRouter
+        initialEntries={[`/vitals/blood-pressure-history?timeFrame=2024-02`]}
+      >
+        <Route path="/vitals/blood-pressure-history">
+          <Provider store={mockStore}>
+            <MrBreadcrumbs />
+          </Provider>
+        </Route>
+      </MemoryRouter>,
+    );
+
+    const header = screen.getByTestId('breadcrumbs');
+    expect(header).to.exist;
   });
 });

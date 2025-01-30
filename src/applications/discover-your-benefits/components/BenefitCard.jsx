@@ -14,16 +14,13 @@ const BenefitCard = ({ benefit }) => {
   const renderLink = (url, text, label) => {
     if (url) {
       return (
-        <a
+        <va-link
           href={url}
-          rel="noreferrer"
-          className="link--center"
-          aria-label={`${label} (opens in a new tab)`}
-          target="_blank"
-        >
-          {text} (opens in a new tab)
-          <span className="usa-sr-only">opens in a new tab</span>
-        </a>
+          text={text}
+          label={label}
+          type="secondary"
+          external
+        />
       );
     }
     return null;
@@ -49,10 +46,10 @@ const BenefitCard = ({ benefit }) => {
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
-          <div className="vads-u-display--inline-block vads-u-margin-right--2">
+          <div className="vads-u-margin-right--2">
             {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
-          <div className="vads-u-display--inline-block">
+          <div>
             {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
           </div>
         </div>

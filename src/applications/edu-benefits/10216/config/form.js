@@ -1,38 +1,30 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import React from 'react';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
+import FormFooter from 'platform/forms/components/FormFooter';
+
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-import studentRatioCalc from '../pages/studentRatioCalc';
 import { validateFacilityCode } from '../utilities';
-import Alert from '../components/Alert';
-import InstitutionDetails from '../pages/institutionDetails';
 import { transform } from './submit-transformer';
+
+// Components
+import Alert from '../components/Alert';
+import GetFormHelp from '../components/GetFormHelp';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-// import submitForm from './submitForm';
+
+// Pages
+import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+import InstitutionDetails from '../pages/institutionDetails';
+import studentRatioCalc from '../pages/studentRatioCalc';
 
 const { date, dateRange } = commonDefinitions;
 
 const subTitle = () => (
-  <div className="schemaform-subtitle vads-u-color--gray">
+  <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
-  </div>
+  </p>
 );
 
 let isAccredited = false;
@@ -48,7 +40,13 @@ const formConfig = {
   },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage
+      isAccredited={isAccredited}
+      router={router}
+      route={route}
+    />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {
@@ -66,6 +64,8 @@ const formConfig = {
   },
   title: 'Request exemption from the 85/15 Rule reporting requirements',
   subTitle,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     dateRange,

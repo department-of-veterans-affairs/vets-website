@@ -9,7 +9,7 @@ import {
   NameAndZipCodePage,
   nameAndZipCodePage,
 } from '../pages/nameAndZipCode';
-import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
+import { SAVE_IN_PROGRESS_CONFIG } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
@@ -65,16 +65,15 @@ const formConfig = (pathname = null) => {
     subTitle,
     defaultDefinitions: {},
     v3SegmentedProgressBar: {
-      useDiv: true,
+      useDiv: false,
     },
-    stepLabels: PROGRESS_BAR_LABELS,
     chapters: {
       personalInformationChapter: {
-        title: 'Personal information',
+        title: 'Veteran information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
-            title: 'Personal information',
+            title: 'Veteran information',
             uiSchema: nameAndZipCodePage.uiSchema,
             schema: nameAndZipCodePage.schema,
             CustomPage: NameAndZipCodePage,

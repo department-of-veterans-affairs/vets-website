@@ -15,6 +15,7 @@ const ErrorNavCard = ({
   iconClasses = 'vads-u-margin-right--1p5',
   title,
   code,
+  userActionable = false,
 }) => {
   const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
@@ -41,29 +42,47 @@ const ErrorNavCard = ({
         </div>
       </div>
 
-      <p
-        className={classnames(
-          'vads-u-padding-left--0',
-          'vads-u-margin-top--2',
-          'vads-u-margin-bottom--0',
-          'vada-u-font-size--md',
-        )}
-      >
-        Error {code}: We can’t give you access to {title.toLowerCase()}
-      </p>
+      {userActionable ? (
+        <div>
+          <p
+            className={classnames(
+              'vads-u-padding-left--0',
+              'vads-u-margin-top--2',
+              'vads-u-margin-bottom--0',
+              'vada-u-font-size--md',
+            )}
+          >
+            Error {code}: We can’t give you access to {title.toLowerCase()}
+          </p>
 
-      <p
-        className={classnames(
-          'vads-u-padding-left--0',
-          'vads-u-margin-top--2',
-          'vads-u-margin-bottom--0',
-          'vada-u-font-size--md',
-        )}
-      >
-        Call us at <va-telephone contact="8773270022" />({' '}
-        <va-telephone contact={CONTACTS[711]} tty /> ). We’re here Monday
-        through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
+          <p
+            className={classnames(
+              'vads-u-padding-left--0',
+              'vads-u-margin-top--2',
+              'vads-u-margin-bottom--0',
+              'vada-u-font-size--md',
+            )}
+          >
+            Call us at <va-telephone contact="8773270022" />({' '}
+            <va-telephone contact={CONTACTS[711]} tty /> ). We’re here Monday
+            through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </div>
+      ) : (
+        <div>
+          <p
+            className={classnames(
+              'vads-u-padding-left--0',
+              'vads-u-margin-top--2',
+              'vads-u-margin-bottom--0',
+              'vada-u-font-size--md',
+            )}
+          >
+            We’ve run into a problem and can’t give you access to {title} right
+            now.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

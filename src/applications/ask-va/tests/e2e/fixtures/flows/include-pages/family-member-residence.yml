@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Family member's location of residence
+  - action: select
+    target: FAMILY_MEMBER_RESIDENCE
+    value:  Georgia
+  - action: click
+    target: call-to-action

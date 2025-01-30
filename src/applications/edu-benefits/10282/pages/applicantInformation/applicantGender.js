@@ -29,7 +29,7 @@ export const genderInfoHelpText = (
         <li>
           Sharing your gender identity in your VA.gov profile is optional. If
           you get healthcare at VA, this information can help your care team
-          better better assess your health needs and risks.
+          better assess your health needs and risks.
         </li>
         <li>
           But you should know that any information you share in your VA.gov

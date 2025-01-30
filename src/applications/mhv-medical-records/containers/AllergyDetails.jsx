@@ -34,6 +34,8 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import HeaderSection from '../components/shared/HeaderSection';
+import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 
@@ -137,10 +139,10 @@ ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${allergyData.date} \n
 ${txtLine} \n
+Date entered: ${allergyData.date} \n
 Signs and symptoms: ${allergyData.reaction} \n
-Type of Allergy: ${allergyData.type} \n
+Type of allergy: ${allergyData.type} \n
 Location: ${allergyData.location} \n
 Observed or historical: ${allergyData.observedOrReported} \n
 Provider notes: ${allergyData.notes} \n`;
@@ -172,102 +174,74 @@ Provider notes: ${allergyData.notes} \n`;
       return (
         <>
           <PrintHeader />
-          <h1
+
+          <HeaderSection
+            header={`${allergyData.name}`}
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
+            data-dd-privacy="mask"
+            data-dd-action-name="[allergy name]"
           >
-            Allergies and reactions:{' '}
-            <span data-dd-privacy="mask" data-dd-action-name="[allergy name]">
-              {allergyData.name}
-            </span>
-          </h1>
-          <DateSubheading
-            date={allergyData.date}
-            label="Date entered"
-            id="allergy-date"
-          />
+            <DateSubheading
+              date={allergyData.date}
+              label="Date entered"
+              id="allergy-date"
+            />
 
-          {downloadStarted && <DownloadSuccessAlert />}
-          <PrintDownload
-            description="Allergies Detail"
-            downloadPdf={generateAllergyPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateAllergyTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+            {downloadStarted && <DownloadSuccessAlert />}
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergyTxt}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
-          <div
-            className="max-80 vads-u-margin-top--4"
-            data-testid="allergy-reaction"
-          >
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-              Signs and symptoms
-            </h2>
-            <ItemList list={allergyData.reaction} />
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-              Type of allergy
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-dd-action-name="[allergy type]"
-              data-testid="allergy-type"
+            <div
+              className="max-80 vads-u-margin-top--4"
+              data-testid="allergy-reaction"
             >
-              {allergyData.type}
-            </p>
-            {!allergyData.isOracleHealthData && (
-              <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-                  Location
-                </h2>
-                <p
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[allergy location]"
-                  data-testid="allergy-location"
-                >
-                  {allergyData.location}
-                </p>
-              </>
-            )}
-            {!allergyData.isOracleHealthData && (
-              <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-                  Observed or historical
-                </h2>
-                <p
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[allergy observed]"
-                  data-testid="allergy-observed"
-                >
-                  {allergyData.observedOrReported}
-                </p>
-              </>
-            )}
-            {allergyData.isOracleHealthData && (
-              <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-                  Recorded by
-                </h2>
-                <p
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[allergy recorded by]"
-                  data-testid="allergy-observed"
-                >
-                  {allergyData.provider}
-                </p>
-              </>
-            )}
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-              Provider notes
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="allergy-notes"
-              style={{ whiteSpace: 'pre-line' }}
-              data-dd-action-name="[allergy provider notes]"
-            >
-              {allergyData.notes}
-            </p>
-          </div>
+              <LabelValue label="Signs and symptoms">
+                <ItemList list={allergyData.reaction} />
+              </LabelValue>
+              <LabelValue
+                label="Type of allergy"
+                value={allergyData.type}
+                testId="allergy-type"
+                actionName="[allergy type]"
+              />
+              {!allergyData.isOracleHealthData && (
+                <LabelValue
+                  label="Location"
+                  value={allergyData.location}
+                  testId="allergy-location"
+                  actionName="[allergy location]"
+                />
+              )}
+              {!allergyData.isOracleHealthData && (
+                <LabelValue
+                  label="Observed or historical"
+                  value={allergyData.observedOrReported}
+                  testId="allergy-observed"
+                  actionName="[allergy observed]"
+                />
+              )}
+              {allergyData.isOracleHealthData && (
+                <LabelValue
+                  label="Recorded by"
+                  value={allergyData.provider}
+                  testId="allergy-observed"
+                  actionName="[allergy recorded by]"
+                />
+              )}
+              <LabelValue
+                label="Provider notes"
+                value={allergyData.notes}
+                testId="allergy-notes"
+                actionName="[allergy provider notes]"
+              />
+            </div>
+          </HeaderSection>
         </>
       );
     }

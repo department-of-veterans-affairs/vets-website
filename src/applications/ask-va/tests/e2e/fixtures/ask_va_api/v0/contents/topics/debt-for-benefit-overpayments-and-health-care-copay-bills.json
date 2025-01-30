@@ -1,0 +1,213 @@
+{
+    "data": [
+        {
+            "id": "932a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Burial benefit overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burial benefit overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "892a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Disability compensation overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Disability compensation overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "992a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Drill pay overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Drill pay overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "439a0e51-01ad-eb11-b1ac-001dd804b647",
+            "type": "contents",
+            "attributes": {
+                "name": "Education benefit overpayments (for school officials)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Education benefit overpayments (for school officials)",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 1,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "912a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Education benefit overpayments (for students)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Education benefit overpayments (for students)",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "8f2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Health care copay debt",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Health care copay debt",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "8d2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Home loan overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Home loan overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "8b2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Pension benefit overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Pension benefit overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "972a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Separation pay overpayments",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Separation pay overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "9b2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Severance pay overpayments",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Severance pay overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "952a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran Readiness and Employment overpayments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran Readiness and Employment overpayments",
+                "parentId": "5c524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 2,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

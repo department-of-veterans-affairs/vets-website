@@ -1,19 +1,19 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
-import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../tests/mocks/setup';
+import { waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import moment from 'moment';
+import React from 'react';
 import { AppointmentList } from '..';
-import PastAppointmentsList from './PastAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
 import { createMockAppointment } from '../../tests/mocks/data';
+import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
 import {
   getVAOSAppointmentMock,
   getVAOSRequestMock,
 } from '../../tests/mocks/mock';
-import RequestedAppointmentsListGroup from './RequestedAppointmentsListGroup';
+import { getTestDate, renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import PastAppointmentsPage from '../pages/PastAppointmentsPage';
+import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
 
 describe('VAOS Backend Service Alert', () => {
   const initialState = {
@@ -215,7 +215,7 @@ describe('VAOS Backend Service Alert', () => {
       fetchClaimStatus: true,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 
@@ -276,7 +276,7 @@ describe('VAOS Backend Service Alert', () => {
       fetchClaimStatus: true,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 
@@ -359,18 +359,15 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialState,
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSServiceRequests: true,
-          },
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
-    );
+    });
 
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
@@ -451,18 +448,15 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: false,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <RequestedAppointmentsListGroup />,
-      {
-        initialState: {
-          ...initialState,
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSServiceRequests: true,
-          },
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
-    );
+    });
 
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');

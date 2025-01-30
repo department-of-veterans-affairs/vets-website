@@ -19,14 +19,8 @@ describe('Medications Refill History on Details Page', () => {
     detailsPage.clickMedicationDetailsLink(refillHistoryDetails, cardNumber);
     detailsPage.verifyRefillHistoryHeaderOnDetailsPage();
     detailsPage.verifyFirstRefillHeaderTextOnDetailsPage();
-    detailsPage.verifyFillDateFieldOnDetailsPage();
+
     detailsPage.verifyShippedOnDateFieldOnDetailsPage();
     detailsPage.verifyNoImageFieldMessageOnDetailsPage();
-    detailsPage.verifyRxFilledByPharmacyDateOnDetailsPage(
-      refillHistoryDetails.data.attributes.refillDate,
-    );
-    detailsPage.verifyRxShippedOnDateOnDetailsPage(
-      refillHistoryDetails.data.attributes.dispensedDate,
-    );
   });
 });

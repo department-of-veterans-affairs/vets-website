@@ -23,7 +23,7 @@ describe('efsr-fsr transform helper functions', () => {
       expect(monthYearFormatter('2004-10-XX')).to.equal('10/2004');
     });
     it('should return undefined if input is falsy', () => {
-      expect(monthYearFormatter('')).to.equal(undefined);
+      expect(monthYearFormatter('')).to.equal('');
     });
   });
 

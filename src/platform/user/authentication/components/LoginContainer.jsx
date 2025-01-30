@@ -5,7 +5,7 @@ import {
   LoginActions,
   LoginInfo,
 } from 'platform/user/authentication/components';
-import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
+// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import environment from 'platform/utilities/environment';
 
 const vaGovFullDomain = environment.BASE_URL;
@@ -13,7 +13,7 @@ export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 const LoginContainer = props => {
   const { externalApplication, isUnifiedSignIn, loggedOut } = props;
-  useDatadogRum();
+  // useDatadogRum();
 
   return (
     <section

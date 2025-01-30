@@ -156,6 +156,7 @@ const AddressValidationRadio = props => {
       <div role="alert">
         <VaAlert
           className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
+          status="warning"
           visible={shouldShowSuggestions || noRecommendationsAvailable}
         >
           <h4

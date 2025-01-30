@@ -96,7 +96,7 @@ export default function FacilitiesRadioWidget({
             <InfoAlert
               status="warning"
               headline="Your browser is blocked from finding your current location."
-              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+              className="vads-u-background-color--gold-lightest"
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
@@ -147,11 +147,11 @@ export default function FacilitiesRadioWidget({
                 <span className="vads-u-display--block vads-u-font-weight--bold">
                   {name}
                 </span>
-                <span className="vads-u-display--block vads-u-font-size--sm">
+                <span className="vads-u-display--block">
                   {address?.city}, <State state={address?.state} />
                 </span>
                 {!!distance && (
-                  <span className="vads-u-display--block vads-u-font-size--sm">
+                  <span className="vads-u-display--block">
                     {distance} miles
                   </span>
                 )}

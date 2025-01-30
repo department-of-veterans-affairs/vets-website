@@ -1,6 +1,7 @@
 import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
@@ -23,7 +24,7 @@ import {
   techIndustryFocusArea,
 } from '../pages';
 import StatementOfTruth from '../components/StatementOfTruth';
-// import submitForm from './submitForm';
+import submitForm from './submitForm';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -31,12 +32,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
-    });
-  },
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10282`,
+  submit: submitForm,
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -8,7 +8,7 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
   const handleInputChange = e => {
     setFormData({
       ...formData,
-      'view:representativeQuery': e.target.value,
+      'view:representativeQueryInput': e.target.value,
     });
   };
 
@@ -21,7 +21,10 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
             name="representative_search"
             label="Enter the name of the accredited representative or Veterans Service Organization (VSO) you’d like to appoint"
             error={error}
-            value={formData['view:representativeQuery']}
+            value={
+              formData['view:representativeQuerySubmission'] ||
+              formData['view:representativeQueryInput']
+            }
             onInput={handleInputChange}
             onKeyPress={e => {
               if (e.key === 'Enter') onSubmit();

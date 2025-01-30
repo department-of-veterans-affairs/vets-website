@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import ConfirmationPage from '../../containers/ConfirmationPage';
 
 const storeBase = {
   form: {
@@ -34,5 +35,17 @@ describe('<ConfirmationPage>', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+  it('should print the page', () => {
+    const printSpy = sinon.spy(window, 'print');
+    const { getByTestId } = render(
+      <Provider store={mockStore(storeBase)}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect(getByTestId('print-page')).to.exist;
+    fireEvent.click(getByTestId('print-page'));
+    expect(printSpy.calledOnce).to.be.true;
+    printSpy.restore();
   });
 });

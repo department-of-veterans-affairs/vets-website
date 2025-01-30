@@ -6,27 +6,23 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
-import ConfirmApprovedPage from './ConfirmApprovedPage';
-import ConfirmReferral from './ConfirmReferral';
+import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import { useGetReferralById } from './hooks/useGetReferralById';
+import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import CompleteReferral from './CompleteReferral';
+import ReferralLayout from './components/ReferralLayout';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
+  const { isInCCPilot } = useIsInCCPilot();
   const { search } = useLocation();
-
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const {
@@ -51,13 +47,18 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
-  if (referralNotFound || !featureCCDirectScheduling) {
+
+  if (referralNotFound || !isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
-  if (
-    (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
-    !referralNotFound
-  ) {
+
+  if (referralFetchStatus === FETCH_STATUS.failed) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  }
+
+  if (!referral && referralFetchStatus !== FETCH_STATUS.failed) {
+    // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
@@ -65,30 +66,17 @@ export default function ReferralAppointments() {
     );
   }
 
-  if (referralFetchStatus === FETCH_STATUS.failed) {
-    return (
-      <VaAlert status="error" visible>
-        <h2 slot="headline">
-          There was an error trying to get your referral data
-        </h2>
-        <p>Please try again later, or contact your VA facility for help.</p>
-      </VaAlert>
-    );
-  }
   return (
     <>
       <Switch>
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/review/`}
-          component={ConfirmApprovedPage}
-        />
+        <Route path={`${basePath.url}/review/`} search={id}>
+          <ReviewAndConfirm currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
         </Route>
-        {/* TODO: remove this mock page when referral complete page is built */}
-        <Route path={`${basePath.url}/confirm`}>
-          <ConfirmReferral currentReferral={referral} />
+        <Route path={`${basePath.url}/complete/`} search={id}>
+          <CompleteReferral currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />

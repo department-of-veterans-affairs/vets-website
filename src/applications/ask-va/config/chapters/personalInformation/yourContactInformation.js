@@ -34,14 +34,14 @@ const yourContactInformationPage = {
     businessPhone: phoneUI('Phone number'),
     businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
-      title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_2.QUESTION,
       labels: {
         PHONE: 'Phone call',
         EMAIL: 'Email',
         US_MAIL: 'U.S. mail',
       },
       errorMessages: {
-        required: 'Please select your contact preference',
+        required: CHAPTER_3.CONTACT_PREF.QUESTION_2.ERROR,
       },
     }),
     preferredName: {

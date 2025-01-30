@@ -5,21 +5,25 @@ import {
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { ServerErrorAlert } from '../config/helpers';
-import { URL, envUrl } from '../constants';
-import { formatDate } from '../utils/helpers';
+import {
+  ServerErrorAlert,
+  formatDate,
+  getVAStatusFromCRM,
+} from '../config/helpers';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { mockInquiries } from '../utils/mockData';
 
 const DashboardCards = () => {
+  const filterSummaryRef = useRef(null);
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
   const showingStart = (currentPage - 1) * itemsPerPage + 1;
@@ -31,16 +35,44 @@ const DashboardCards = () => {
       card => card.attributes.levelOfAuthentication === 'Business',
     );
 
+  const transformInquiriesData = data => {
+    const transformedInquiries = data.map(inquiry => ({
+      ...inquiry,
+      attributes: {
+        ...inquiry.attributes,
+        status: getVAStatusFromCRM(inquiry.attributes.status),
+      },
+    }));
+
+    const uniqueCategories = [
+      ...new Set(
+        transformedInquiries.map(item => item.attributes.categoryName),
+      ),
+    ];
+
+    return { transformedInquiries, uniqueCategories };
+  };
+
   const getApiData = url => {
     setLoading(true);
+
+    const processData = data => {
+      const { transformedInquiries, uniqueCategories } = transformInquiriesData(
+        data,
+      );
+      setInquiries(transformedInquiries);
+      setCategories(uniqueCategories);
+      setLoading(false);
+    };
+
+    if (mockTestingFlagforAPI) {
+      processData(mockInquiries.data);
+      return Promise.resolve();
+    }
+
     return apiRequest(url)
       .then(res => {
-        setInquiries(res.data);
-        const uniqueCategories = [
-          ...new Set(res.data.map(item => item.attributes.categoryName)),
-        ];
-        setCategories(uniqueCategories);
-        setLoading(false);
+        processData(res.data);
       })
       .catch(() => {
         setLoading(false);
@@ -68,8 +100,16 @@ const DashboardCards = () => {
         card => loa === 'All' || card.attributes.levelOfAuthentication === loa,
       )
       .sort((a, b) => {
-        const dateA = parse(a.attributes.lastUpdate, 'MM/dd/yy', new Date());
-        const dateB = parse(b.attributes.lastUpdate, 'MM/dd/yy', new Date());
+        const dateA = parse(
+          a.attributes.lastUpdate,
+          'MM/dd/yyyy hh:mm:ss a',
+          new Date(),
+        );
+        const dateB = parse(
+          b.attributes.lastUpdate,
+          'MM/dd/yyyy hh:mm:ss a',
+          new Date(),
+        );
         return compareDesc(dateA, dateB);
       });
   };
@@ -82,8 +122,8 @@ const DashboardCards = () => {
     setCurrentPage(1);
   };
 
-  const inquiriesGridView = category => {
-    const filteredInquiries = filterAndSortInquiries(category);
+  const inquiriesGridView = loa => {
+    const filteredInquiries = filterAndSortInquiries(loa);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentInquiries = filteredInquiries.slice(
@@ -107,20 +147,25 @@ const DashboardCards = () => {
 
     return (
       <>
-        <div
+        <ul
           className={
             hasBusinessLevelAuth
               ? 'dashboard-cards-grid-with-business'
-              : 'dashboard-cards-grid'
+              : 'dashboard-cards-grid vads-u-padding--0'
           }
         >
           {currentInquiries.map(card => (
-            <div key={card.id}>
+            <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--0p5 vads-u-padding-x-1">
-                    {card.attributes.status}
-                  </span>
+                  <div className="vads-u-margin-bottom--1p5">
+                    <dt className="sr-only">Status</dt>
+                    <dd>
+                      <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                        {getVAStatusFromCRM(card.attributes.status)}
+                      </span>
+                    </dd>
+                  </div>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
@@ -151,9 +196,9 @@ const DashboardCards = () => {
                   />
                 </Link>
               </va-card>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         {totalPages > 1 && (
           <VaPagination
@@ -162,9 +207,33 @@ const DashboardCards = () => {
             maxPageListLength={5}
             showLastPage
             onPageSelect={e => handlePageChange(e.detail.page)}
-            className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5"
+            className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--0"
           />
         )}
+      </>
+    );
+  };
+
+  const renderFilteredResultsInfo = () => {
+    const filteredInquiries = filterAndSortInquiries(
+      hasBusinessLevelAuth ? 'All' : 'Personal',
+    );
+    const totalFilteredCount = filteredInquiries.length;
+
+    return (
+      <>
+        Showing{' '}
+        {totalFilteredCount === 0
+          ? 'no'
+          : `${showingStart}-${Math.min(
+              showingEnd,
+              totalFilteredCount,
+            )} of ${totalFilteredCount}`}{' '}
+        results for
+        <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
+        {statusFilter !== 'All' ? 'status' : 'statuses'} and{' '}
+        <span className="vads-u-font-weight--bold">"{categoryFilter}" </span>
+        {categoryFilter !== 'All' ? 'category' : 'categories'}
       </>
     );
   };
@@ -187,8 +256,8 @@ const DashboardCards = () => {
   }
 
   return (
-    <div className="vads-u-width--full">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+    <div className="vads-u-width--full vads-u-margin-bottom--5">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
@@ -205,10 +274,11 @@ const DashboardCards = () => {
                     event.target.value ? event.target.value : 'All',
                   );
                   setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
                 }}
               >
                 <option value="All">All</option>
-                <option value="In Progress">In Progress</option>
+                <option value="In progress">In progress</option>
                 <option value="Replied">Replied</option>
                 <option value="Reopened">Reopened</option>
               </VaSelect>
@@ -224,6 +294,7 @@ const DashboardCards = () => {
                     event.target.value ? event.target.value : 'All',
                   );
                   setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
                 }}
               >
                 <option value="All">All</option>
@@ -236,19 +307,11 @@ const DashboardCards = () => {
             </div>
           </div>
 
-          <p className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            Showing of{' '}
-            {inquiries.length
-              ? `${showingStart}-${showingEnd} of ${inquiries.length}`
-              : `no`}{' '}
-            results for
-            <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
-            statuses and{' '}
-            <span className="vads-u-font-weight--bold">
-              {' '}
-              "{categoryFilter}"{' '}
-            </span>
-            categories
+          <p
+            ref={filterSummaryRef}
+            className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+          >
+            {renderFilteredResultsInfo()}
           </p>
 
           {hasBusinessLevelAuth ? (

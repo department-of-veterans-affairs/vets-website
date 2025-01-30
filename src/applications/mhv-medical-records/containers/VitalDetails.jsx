@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -19,6 +19,7 @@ import {
   getVitalDetails,
   getVitals,
   reloadRecords,
+  setVitalsList,
 } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -39,23 +40,30 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  loadStates as LOAD_STATES,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
-  generateVitalsContent,
+  generateVitalContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
+
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
+import HeaderSection from '../components/shared/HeaderSection';
+import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
+
+  const location = useLocation();
+
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const vitalsList = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
@@ -85,18 +93,19 @@ const VitalDetails = props => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isAcceleratingVitals } = useAcceleratedData();
+  const { isAcceleratingVitals, isLoading } = useAcceleratedData();
 
-  if (records?.length === 0 && isAcceleratingVitals) {
-    window.location.replace('/my-health/medical-records/vitals');
-  }
+  const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
+  const dispatchAction = isCurrent => {
+    return getVitals(isCurrent, isAcceleratingVitals, urlVitalsDate);
+  };
 
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVitals,
+    dispatchAction,
     dispatch,
   });
 
@@ -191,12 +200,24 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (updatedRecordType) {
+      if (updatedRecordType && !isLoading) {
         const formattedVitalType = macroCase(updatedRecordType);
-        dispatch(getVitalDetails(formattedVitalType, vitalsList));
+
+        if (isAcceleratingVitals && vitalsList?.length) {
+          dispatch(setVitalsList(formattedVitalType));
+        } else {
+          dispatch(getVitalDetails(formattedVitalType, vitalsList));
+        }
       }
     },
-    [vitalType, vitalsList, dispatch, updatedRecordType],
+    [
+      vitalType,
+      vitalsList,
+      dispatch,
+      updatedRecordType,
+      isAcceleratingVitals,
+      isLoading,
+    ],
   );
 
   const lastUpdatedText = getLastUpdatedText(
@@ -207,12 +228,16 @@ const VitalDetails = props => {
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
 
-    const { title, subject, preface } = generateVitalsIntro(
+    const { title, subject, subtitles } = generateVitalsIntro(
       records,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateVitalsContent(records) };
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateVitalContent(records, true),
+    };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
   };
@@ -225,11 +250,11 @@ ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
+Showing ${records.length} from newest to oldest
 ${records
       .map(
         vital => `${txtLine}\n\n
-Date entered: ${vital.date}\n
-Details about this test\n
+${vital.date}\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
 Provider notes: ${vital.notes}\n\n`,
@@ -255,108 +280,107 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <h1
+        <HeaderSection
+          header={vitalDisplayName}
           className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
           data-dd-action-name="[vitals detail - name]"
         >
-          {vitalDisplayName}
-        </h1>
-        <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
+          <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-        {!isAcceleratingVitals && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vitalsList) &&
-              Array.isArray(updatedRecordList) &&
-              vitalsList.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
+          {!isAcceleratingVitals && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.VPR}
+              newRecordsFound={
+                Array.isArray(vitalsList) &&
+                Array.isArray(updatedRecordList) &&
+                vitalsList.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
+
+          {downloadStarted && <DownloadSuccessAlert />}
+          <PrintDownload
+            description={ddDisplayName}
+            downloadPdf={generateVitalsPdf}
+            downloadTxt={generateVitalsTxt}
+            allowTxtDownloads={allowTxtDownloads}
+            list
           />
-        )}
+          <DownloadingRecordsInfo
+            description={ddDisplayName}
+            allowTxtDownloads={allowTxtDownloads}
+          />
 
-        {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description={ddDisplayName}
-          downloadPdf={generateVitalsPdf}
-          downloadTxt={generateVitalsTxt}
-          allowTxtDownloads={allowTxtDownloads}
-          list
-        />
-        <DownloadingRecordsInfo
-          description={ddDisplayName}
-          allowTxtDownloads={allowTxtDownloads}
-        />
+          <HeaderSection
+            header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
+              records.length
+            } records from newest to oldest`}
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
+          vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
+          vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
+            id="showingRecords"
+          >
+            <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 no-print">
+              {currentVitals?.length > 0 &&
+                currentVitals?.map((vital, idx) => (
+                  <li
+                    key={idx}
+                    className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                  >
+                    <HeaderSection
+                      header={
+                        isAcceleratingVitals
+                          ? formatDateInLocalTimezone(vital.effectiveDateTime)
+                          : vital.date
+                      }
+                      data-testid="vital-date"
+                      className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
+                      data-dd-privacy="mask"
+                      data-dd-action-name="[vitals detail - date]"
+                    >
+                      <LabelValue
+                        label="Result"
+                        value={vital.measurement}
+                        testId="vital-result"
+                        actionName="[vitals detail - measurement]"
+                      />
+                      <LabelValue
+                        label="Location"
+                        value={vital.location}
+                        testId="vital-location"
+                        actionName="[vitals detail - location]"
+                      />
+                      <LabelValue
+                        label="Provider notes"
+                        value={vital.notes}
+                        testId="vital-provider-note"
+                        actionName="[vitals detail - note]"
+                      />
+                    </HeaderSection>
+                  </li>
+                ))}
+            </ul>
+          </HeaderSection>
+        </HeaderSection>
 
-        <h2
-          className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
-            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
-            vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
-          id="showingRecords"
-        >
-          {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
-            records.length
-          } records from newest to oldest`}
-        </h2>
-
-        <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 no-print">
-          {currentVitals?.length > 0 &&
-            currentVitals?.map((vital, idx) => (
-              <li
-                key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
-              >
-                <h3
-                  data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[vitals detail - date]"
-                >
-                  {isAcceleratingVitals
-                    ? formatDateInLocalTimezone(vital.effectiveDateTime)
-                    : vital.date}
-                </h3>
-                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
-                  Result
-                </h4>
-                <p
-                  data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[vitals detail - measurement]"
-                >
-                  {vital.measurement}
-                </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
-                  Location
-                </h4>
-                <p
-                  data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                  data-dd-privacy="mask"
-                  data-dd-action-name="[vitals detail - location]"
-                >
-                  {vital.location}
-                </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
-                  Provider notes
-                </h4>
-                <p
-                  data-testid="vital-provider-note"
-                  className="vads-u-margin--0"
-                  data-dd-privacy="mask"
-                  style={{ whiteSpace: 'pre-line' }}
-                  data-dd-action-name="[vitals detail - note]"
-                >
-                  {vital.notes}
-                </p>
-              </li>
-            ))}
-        </ul>
+        <div className="vads-u-margin-bottom--2 no-print">
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            onClick={() => {
+              sendDataDogAction(`Pagination - ${vitalDisplayName}`);
+            }}
+            page={currentPage}
+            pages={paginatedVitals.current.length}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
+            uswds
+          />
+        </div>
 
         {/* print view start */}
         <h1
@@ -422,21 +446,36 @@ Provider notes: ${vital.notes}\n\n`,
             ))}
         </ul>
         {/* print view end */}
-
-        <div className="vads-u-margin-bottom--2 no-print">
-          <VaPagination
-            onPageSelect={e => onPageChange(e.detail.page)}
-            onClick={() => {
-              sendDataDogAction(`Pagination - ${vitalDisplayName}`);
-            }}
-            page={currentPage}
-            pages={paginatedVitals.current.length}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
-            uswds
+      </>
+    );
+  }
+  if (!records?.length) {
+    if (isLoading || listState === LOAD_STATES.FETCHING) {
+      return (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
           />
         </div>
-      </>
+      );
+    }
+    return (
+      <div className="vads-u-margin-y--8">
+        <p>
+          We don’t have any {vitalTypeDisplayNames[vitalType]} records for you
+          right now. Go back to the vitals page to select a different vital.
+        </p>
+        <p>
+          <a
+            href={`/my-health/medical-records/vitals?timeFrame=${urlVitalsDate}`}
+            className="vads-u-margin-top--2"
+          >
+            Go back to the vitals page
+          </a>
+        </p>
+      </div>
     );
   }
 

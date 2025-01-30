@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -10,13 +12,19 @@ import DateSubheading from '../components/shared/DateSubheading';
 import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { accessAlertTypes, ALERT_TYPE_ERROR } from '../util/constants';
+import {
+  accessAlertTypes,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  studyJobStatus,
+} from '../util/constants';
 
-const RadiologyImagesList = () => {
+const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
 
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const activeAlert = useAlerts(dispatch);
@@ -27,40 +35,84 @@ const RadiologyImagesList = () => {
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
   const imageList = useSelector(state => state.mr.images.imageList);
+  const studyJobs = useSelector(state => state.mr.images.imageStatus);
 
-  useEffect(
-    () => {
-      if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
-      }
-    },
-    [labId, dispatch],
+  const [isRadiologyDetailsLoaded, setRadiologyDetailsLoaded] = useState(
+    isTesting || false,
+  );
+  const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
+
+  const returnToDetailsPage = useCallback(
+    () => history.push(`/labs-and-tests/${labId}`),
+    [history, labId],
+  );
+
+  const studyJob = useMemo(
+    () =>
+      studyJobs?.find(img => img.studyIdUrn === radiologyDetails?.studyId) ||
+      null,
+    [studyJobs, radiologyDetails?.studyId],
   );
 
   useEffect(
     () => {
-      if (radiologyDetails) {
-        dispatch(fetchImageList(radiologyDetails.studyId));
-      }
-    },
-    [dispatch, radiologyDetails],
-  );
-
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus());
+      dispatch(fetchImageRequestStatus()).then(() => {
+        setStudyJobsLoaded(true);
+      });
     },
     [dispatch],
   );
 
   useEffect(
     () => {
-      focusElement('h1');
+      if (labId) {
+        dispatch(getlabsAndTestsDetails(labId)).then(() => {
+          setRadiologyDetailsLoaded(true);
+        });
+      }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
     },
-    [radiologyDetails],
+    [labId, dispatch],
   );
 
-  const content = () => (
+  useEffect(
+    () => {
+      // Make sure data has been loaded before possibly redirecting users based on missing data
+      if (isRadiologyDetailsLoaded && isStudyJobsLoaded && studyJobs) {
+        if (
+          studyJob?.studyIdUrn &&
+          studyJob?.status === studyJobStatus.COMPLETE
+        ) {
+          // Do not attempt to fetch the image list unless there is a completed study waiting in the backend.
+          dispatch(fetchImageList(studyJob.studyIdUrn));
+        } else {
+          returnToDetailsPage();
+        }
+      }
+    },
+    [
+      studyJobs,
+      studyJob,
+      isRadiologyDetailsLoaded,
+      isStudyJobsLoaded,
+      history,
+      dispatch,
+      returnToDetailsPage,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (radiologyDetails?.imageCount === 0) {
+        returnToDetailsPage();
+      } else {
+        focusElement('h1');
+      }
+    },
+    [radiologyDetails, returnToDetailsPage],
+  );
+
+  const renderImageContent = () => (
     <>
       <PrintHeader />
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
@@ -139,8 +191,8 @@ const RadiologyImagesList = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {radiologyDetails ? (
-        content()
+      {radiologyDetails && studyJob?.status === studyJobStatus.COMPLETE ? (
+        renderImageContent()
       ) : (
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
@@ -155,3 +207,7 @@ const RadiologyImagesList = () => {
 };
 
 export default RadiologyImagesList;
+
+RadiologyImagesList.propTypes = {
+  isTesting: PropTypes.bool,
+};

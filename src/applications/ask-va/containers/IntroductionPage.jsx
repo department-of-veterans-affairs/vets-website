@@ -1,13 +1,13 @@
 import {
-  VaAlert,
+  VaAlertSignIn,
   VaButton,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
   isLoggedIn,
+  isProfileLoading,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -16,31 +16,56 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
-import { envUrl } from '../constants';
 import {
-  inProgressOrReopenedIcon,
-  newIcon,
-  successIcon,
-} from '../utils/helpers';
+  getVAStatusFromCRM,
+  getVAStatusIconAndMessage,
+} from '../config/helpers';
+import { envUrl, mockTestingFlagforAPI } from '../constants';
+import { mockInquiryStatusResponse } from '../utils/mockData';
 import DashboardCards from './DashboardCards';
 
+const VerifiedAlert = (
+  <div className="vads-u-margin-bottom--4">
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 id="track-your-status-on-mobile" slot="headline">
+        We can prefill some of your information
+      </h2>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your question based on
+        your profile details. You can also save your question in progress and
+        come back later to finish filling it out.
+      </p>
+    </va-alert>
+  </div>
+);
+
 const IntroductionPage = props => {
-  const { route, toggleLoginModal, loggedIn } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('showSignInModal') === 'true' &&
+      !loggedIn &&
+      !showLoadingIndicator
+    ) {
+      showSignInModal();
+    }
+  });
 
   const getStartPage = () => {
     const data = formData || {};
     if (pathname) return getNextPagePath(pageList, data, pathname);
     return pageList[1].path;
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true, 'askVA');
   };
 
   useEffect(
@@ -51,6 +76,18 @@ const IntroductionPage = props => {
   );
 
   const getApiData = url => {
+    setHasError(false);
+
+    // Mocking the API response for testing when searching for reference number
+    // A-20250106-308944
+    if (
+      mockTestingFlagforAPI &&
+      searchReferenceNumber === 'A-20250106-308944'
+    ) {
+      setInquiryData(mockInquiryStatusResponse.data);
+      return Promise.resolve();
+    }
+
     return apiRequest(url)
       .then(res => {
         setInquiryData(res.data);
@@ -64,6 +101,8 @@ const IntroductionPage = props => {
   };
 
   const handleSearchInputChange = async e => {
+    setHasError(false);
+    setInquiryData(false);
     const searchInputValue = e.target.value;
     setSearchReferenceNumber(searchInputValue);
   };
@@ -71,7 +110,7 @@ const IntroductionPage = props => {
   const questionStatus = () => {
     if (hasError) {
       return (
-        <>
+        <div className="vads-u-margin-y--3">
           <p>
             We didn’t find a question with reference number "
             <span className="vads-u-font-weight--bold">
@@ -83,12 +122,13 @@ const IntroductionPage = props => {
             If it still doesn’t work, ask the same question again and include
             your original reference number.
           </p>
-        </>
+        </div>
       );
     }
 
     if (inquiryData?.attributes?.status) {
       const { status } = inquiryData.attributes;
+      const AskVAStatus = getVAStatusFromCRM(status);
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -99,33 +139,14 @@ const IntroductionPage = props => {
             "
           </h3>
           <p>
-            <span className="vads-u-font-weight--bold">Status: </span> {status}{' '}
-            {status === 'Solved' && successIcon}
-            {status === 'New' && newIcon}
-            {status === 'In progress' && inProgressOrReopenedIcon}
-            {status === 'Reopened' && inProgressOrReopenedIcon}
+            <span className="vads-u-font-weight--bold">Status: </span>{' '}
+            {AskVAStatus}
+            {getVAStatusIconAndMessage[AskVAStatus]?.icon}
           </p>
           <div className="vads-u-border-left--5px vads-u-border-color--green-light vads-u-padding--0p5">
-            {status === 'Solved' && (
+            {getVAStatusIconAndMessage[AskVAStatus]?.message && (
               <p className="vads-u-margin-left--2">
-                We either answered your question or didn’t have enough
-                information to answer your question. If you need more help, ask
-                a new question.
-              </p>
-            )}
-            {status === 'New' && (
-              <p className="vads-u-margin-left--2">
-                We received your question. We’ll review it soon.
-              </p>
-            )}
-            {status === 'In progress' && (
-              <p className="vads-u-margin-left--2">
-                We’re reviewing your question.
-              </p>
-            )}
-            {status === 'Reopened' && (
-              <p className="vads-u-margin-left--2">
-                We received your reply. We’ll respond soon.
+                {getVAStatusIconAndMessage[AskVAStatus].message}
               </p>
             )}
           </div>
@@ -156,29 +177,14 @@ const IntroductionPage = props => {
         when it’s ready.
       </p>
 
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-        uswds
-      >
-        <h4 slot="headline">Sign in to ask a question</h4>
-        <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in with a verified{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account or a
-            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            account. If you don’t have any of those accounts, you can create a
-            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account now.
-          </p>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+        <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
           />
-        </div>
-      </VaAlert>
+        </span>
+      </VaAlertSignIn>
 
       <h3 className="vads-u-margin-top--6">If you need general information</h3>
       <p className="vads-u-margin-bottom--1">
@@ -218,49 +224,33 @@ const IntroductionPage = props => {
       </ul>
 
       <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Enter your reference number</p>
+      <p className="vads-u-margin--0">Reference number</p>
       <VaSearchInput
+        big
+        buttonText="Search"
         label="Reference number"
-        value={searchReferenceNumber}
         onInput={handleSearchInputChange}
         onSubmit={handleSearchByReferenceNumber}
-        uswds
+        value={searchReferenceNumber}
       />
-      {questionStatus()}
+      <div className="vads-u-margin-bottom--7">{questionStatus()}</div>
     </>
   );
 
   const authenticatedUI = (
     <>
-      <SaveInProgressIntro
-        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
-        formConfig={formConfig}
-        messages={route.formConfig.savedFormMessages}
-        prefillEnabled={formConfig.prefillEnabled}
-        pageList={pageList}
-        startText="Ask a new question"
-      />
-      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
-        <va-accordion
-          disable-analytics={{
-            value: 'false',
-          }}
-          open-single
-          section-heading={{
-            value: 'null',
-          }}
-          uswds={{
-            value: 'true',
-          }}
-        >
-          <va-accordion-item
-            header="Only use Ask VA for non-urgent questions"
-            id="first"
-          >
+      <p>This form takes about 2 to 15 minutes to complete.</p>
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--3">
+        <va-additional-info trigger="When to use Ask VA">
+          <div>
             <p>
               You can use Ask VA to ask a question online. You can ask about
               education, disability compensation, health care and many other
               topics.
+            </p>
+            <p>
+              We will review your information and reply back in up to{' '}
+              <span className="vads-u-font-weight--bold">7 business days</span>.
             </p>
             <p>
               If you need help now, use one of these urgent communication
@@ -284,10 +274,18 @@ const IntroductionPage = props => {
                 or go to the nearest emergency room.
               </li>
             </ul>
-          </va-accordion-item>
-        </va-accordion>
+          </div>
+        </va-additional-info>
       </div>
-
+      <SaveInProgressIntro
+        formConfig={formConfig}
+        messages={route.formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+        className="vads-u-margin--0"
+        verifiedPrefillAlert={VerifiedAlert}
+      />
       <DashboardCards />
     </>
   );
@@ -297,9 +295,23 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={subTitle} />
-      {loggedIn && authenticatedUI}
-      {!loggedIn && unAuthenticatedUI}
+      <div className="schemaform-title vads-u-margin-bottom--2">
+        <h1 className="vads-u-margin-bottom--2p5" data-testid="form-title">
+          {formConfig.title}
+        </h1>
+        {subTitle && (
+          <div className="schemaform-subtitle" data-testid="form-subtitle">
+            {subTitle}
+          </div>
+        )}
+      </div>
+      {showLoadingIndicator && <va-loading-indicator set-focus />}
+      {!showLoadingIndicator && (
+        <>
+          {loggedIn && authenticatedUI}
+          {!loggedIn && unAuthenticatedUI}
+        </>
+      )}
     </div>
   );
 };
@@ -330,6 +342,7 @@ IntroductionPage.propTypes = {
     pathname: PropTypes.string,
     pageList: PropTypes.array,
   }),
+  showLoadingIndicator: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -337,6 +350,7 @@ function mapStateToProps(state) {
     formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
+    showLoadingIndicator: isProfileLoading(state),
   };
 }
 
@@ -348,4 +362,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionPage);
+)(withRouter(IntroductionPage));

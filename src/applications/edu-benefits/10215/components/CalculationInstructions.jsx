@@ -1,9 +1,13 @@
 import React from 'react';
 import NeedHelp from './NeedHelp';
+import BreadcrumbInstructionPage from './BreadcrumbInstructionPage';
 
 export const CalculationInstructions = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+        <BreadcrumbInstructionPage />
+      </div>
       <h1 className="vads-u-margin-top--2">
         Calculation instructions for VA Form 22-10215: Statement of Assurance of
         Compliance with 85% Enrollment Ratios

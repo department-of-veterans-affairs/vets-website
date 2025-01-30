@@ -39,14 +39,16 @@ export const useData = () => {
       ?.remainingEntitlement;
   const enrollmentVerifications =
     response?.personalInfo?.recordResponse?.enrollmentVerifications;
+  const verifiedThroughDate =
+    response?.personalInfo?.recordResponse?.verifiedDetails[0]
+      .verifiedThroughDate;
 
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(
     userInfo?.remEnt || remainingEntitlement,
   );
-  const fullName = `${profile?.userFullName?.first} ${
-    profile.fullName?.middle
-  } ${profile.fullName?.last}`;
+  const fullName = `${profile?.userFullName?.first} ${profile.userFullName
+    ?.middle || ''} ${profile.userFullName?.last}`;
   const chapter = response?.personalInfo?.recordResponse?.verifiedDetails.at(-1)
     .benefitType;
   return {
@@ -63,5 +65,6 @@ export const useData = () => {
     profile,
     fullName,
     enrollmentVerifications,
+    verifiedThroughDate,
   };
 };

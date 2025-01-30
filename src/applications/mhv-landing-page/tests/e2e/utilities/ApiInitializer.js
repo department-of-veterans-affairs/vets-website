@@ -7,6 +7,9 @@ import {
 import {
   accountStatusSuccessResponse,
   accountStatusEightZeroOne,
+  accountStatusFiveZeroZero,
+  accountStatusFourTwoTwo,
+  accountStatusMultiError,
 } from '../../../mocks/api/user/mhvAccountStatus';
 
 class ApiInitializer {
@@ -77,6 +80,19 @@ class ApiInitializer {
         '/v0/user/mhv_user_account',
         accountStatusEightZeroOne,
       );
+    },
+    with500: () => {
+      cy.intercept(
+        'GET',
+        '/v0/user/mhv_user_account',
+        accountStatusFiveZeroZero,
+      );
+    },
+    with422: () => {
+      cy.intercept('GET', '/v0/user/mhv_user_account', accountStatusFourTwoTwo);
+    },
+    withMultipleErrors: () => {
+      cy.intercept('GET', '/v0/user/mhv_user_account', accountStatusMultiError);
     },
   };
 }

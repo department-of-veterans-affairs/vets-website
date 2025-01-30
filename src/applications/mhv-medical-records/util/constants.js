@@ -228,6 +228,8 @@ export const pageTitles = {
     'Lab And Test Results - Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE:
+    'Lab And Test Results Images - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
@@ -354,6 +356,9 @@ export const VALID_REFRESH_DURATION = 3600000; // 1 hour
 
 export const STATUS_POLL_INTERVAL = 2000;
 
+/** How long to poll the backend while it's returning 202 Patient Not Found */
+export const INITIAL_FHIR_LOAD_DURATION = 120000; // in milliseconds
+
 export const refreshPhases = {
   STALE: 'stale',
   IN_PROGRESS: 'in_progress',
@@ -465,6 +470,22 @@ export const Breadcrumbs = {
   },
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
+
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 3,
+  LAST6: 6,
+  LAST12: 12,
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom' },
+];
 
 export const CernerAlertContent = {
   MR_LANDING_PAGE: {

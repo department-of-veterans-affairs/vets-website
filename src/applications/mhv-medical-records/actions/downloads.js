@@ -68,6 +68,7 @@ export const updateReportDateRange = (
       toDate,
     },
   });
+  dispatch({ type: Actions.BlueButtonReport.CLEAR_APPOINTMENTS });
 };
 
 export const updateReportRecordType = selectedTypes => async dispatch => {

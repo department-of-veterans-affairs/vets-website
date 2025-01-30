@@ -1,5 +1,5 @@
 const transformedMinimalDataActual = {
-  state: 'Virginia',
+  state: 'VA',
   country: 'United States',
   contactInfo: {
     email: 'janedoe@gmail.com',
@@ -10,8 +10,6 @@ const transformedMinimalDataActual = {
     last: 'Doe',
   },
   highestLevelOfEducation: {},
-  signature: 'Jane Doe',
-  AGREED: true,
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -31,8 +29,8 @@ const transformedMaximalDataActual = {
   raceAndGender: true,
   ethnicity: 'NA',
   gender: 'NA',
-  orginRace: { noAnswer: true },
-  state: 'Texas',
+  originRace: { noAnswer: true },
+  state: 'TX',
   country: 'United States',
   contactInfo: {
     email: 'janedoe@gmail.com',
@@ -45,8 +43,6 @@ const transformedMaximalDataActual = {
     middle: 'Test',
     last: 'Doe',
   },
-  signature: 'Jane Doe',
-  AGREED: true,
 };
 
 export const transformedMaximalData = JSON.stringify({

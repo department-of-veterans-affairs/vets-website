@@ -10,7 +10,11 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import {
+  CONTESTABLE_ISSUES_API,
+  SUBMIT_URL,
+  SUBMIT_URL_NEW,
+} from '../constants/apis';
 
 import {
   CONTESTABLE_ISSUES_PATH,
@@ -119,13 +123,13 @@ const testConfig = createTestConfig(
       cypressSetup();
 
       cy.intercept('POST', 'v1/decision_review_evidence', mockUpload);
-      cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
-      cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
+      cy.intercept('POST', SUBMIT_URL, mockSubmit);
+      cy.intercept('POST', SUBMIT_URL_NEW, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-        cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
+        cy.intercept('GET', CONTESTABLE_ISSUES_API, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         }).as('getIssues');
       });

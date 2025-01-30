@@ -184,11 +184,21 @@ const generateHash = data => {
   return hash.toString(16).padStart(8, '0'); // Convert to hexadecimal, pad to 8 chars
 };
 
-export const radiologyRecordHash = async record => {
+export const radiologyRecordHash = record => {
   const { procedureName, radiologist, stationNumber } = record;
-  const date = record.eventDate || record.performedDatePrecise;
+  let date = record.eventDate || record.performedDatePrecise;
+
+  if (!Number.isNaN(Number(date))) {
+    // If the date is a timestamp, convert it to a date (with no time). This is because subsequent
+    // fetches of the same study from CVIX can have timestamps that differ by a few seconds. This
+    // ensures the hash will remain consistent across fetches.
+    const timestamp = parseInt(date, 10);
+    const dateObj = new Date(timestamp);
+    [date] = dateObj.toISOString().split('T'); // Extract the date part
+  }
+
   const dataString = `${procedureName}|${radiologist}|${stationNumber}|${date}`;
-  return (await generateHash(dataString)).substring(0, 8);
+  return generateHash(dataString).substring(0, 8);
 };
 
 /**

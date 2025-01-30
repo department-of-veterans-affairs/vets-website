@@ -39,7 +39,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
 } from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
-import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';

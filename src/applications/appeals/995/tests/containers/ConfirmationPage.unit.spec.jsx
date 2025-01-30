@@ -163,6 +163,6 @@ describe('Confirmation page', () => {
     expect($$('ul', container).length).to.eq(8);
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.eq(31);
+    ).to.eq(37);
   });
 });

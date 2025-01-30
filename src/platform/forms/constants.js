@@ -74,6 +74,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_21_4140: '21-4140',
+  FORM_DISPUTE_DEBT: 'DISPUTE-DEBT',
+  FORM_1330M: '1330M',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -113,6 +115,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_10_7959A]: `${tryGetAppUrl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10_7959C]: `${tryGetAppUrl('10-7959C')}/`,
     [VA_FORM_IDS.FORM_10_7959F_1]: `${tryGetAppUrl('10-7959f-1-FMP')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_2]: `${tryGetAppUrl('fmp-cover-sheet')}/`,
     [VA_FORM_IDS.FORM_10182]: `${tryGetAppUrl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${tryGetAppUrl('995-supplemental-claim')}/`,
     [VA_FORM_IDS.FORM_20_0996]: `${tryGetAppUrl('0996-higher-level-review')}/`,
@@ -155,6 +158,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
   };
 };
 
@@ -424,6 +429,13 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '10-7959f-1-FMP-',
   },
   {
+    id: VA_FORM_IDS.FORM_10_7959F_2,
+    benefit: `Foreign Medical Program (FMP) cover sheet`,
+    title: `Foreign Medical Program (FMP) cover sheet (10-7959f-2)`,
+    description: '',
+    trackingPrefix: 'fmp-cover-sheet-',
+  },
+  {
     id: VA_FORM_IDS.FORM_10_7959C,
     benefit: `other health insurance certification`,
     title: `other health insurance certification (10-7959C)`,
@@ -452,11 +464,18 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '',
   },
   {
-    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
-    benefit: 'welcome va setup review information form',
-    title: 'Welcome VA Setup Review Information Form',
-    description: 'welcome va setup review information form',
-    trackingPrefix: 'welcome-va-setup-review-information-',
+    id: VA_FORM_IDS.FORM_DISPUTE_DEBT,
+    benefit: 'digital dispute for debts',
+    title: 'Dispute your VA debt',
+    description: 'digital dispute for debts',
+    trackingPrefix: 'dispute-debt',
+  },
+  {
+    id: VA_FORM_IDS.FORM_1330M,
+    benefit: 'Memorials benefits',
+    title: '1330M Apply for a medallion in a private cemetery',
+    description: 'Memorials benefits',
+    trackingPrefix: 'memorials-1330m',
   },
 ];
 

@@ -23,13 +23,13 @@ describe('995 contact info loop', () => {
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
       'GET',
-      `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
+      `${CONTESTABLE_ISSUES_API}/compensation`,
       mockContestableIssues,
     ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
-    cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
+    cy.intercept('GET', ITF_API, fetchItf());
 
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);

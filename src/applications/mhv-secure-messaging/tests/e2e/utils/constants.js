@@ -239,6 +239,8 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+    FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
     CL_ALL: '[data-testid*="select-all"]',
@@ -293,6 +295,12 @@ export const Alerts = {
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
     UPCOMING: `Upcoming maintenance on My HealtheVet`,
+  },
+  DATE_FILTER: {
+    EMPTY_START_DATE: `Error Please enter a start date.`,
+    EMPTY_END_DATE: `Error Please enter an end date.`,
+    INVALID_START_DATE: `Start date must be on or before end date.`,
+    INVALID_END_DATE: `End date must be on or after start date.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
@@ -394,6 +402,11 @@ export const Data = {
       SETTINGS: `My HealtheVet (opens in new tab)`,
       PAY: `Learn how to dispute your VA copay charges`,
     },
+  },
+  DATE_RANGE: {
+    THREE_MONTHS: `Last 3 months`,
+    SIX_MONTHS: `Last 6 months`,
+    TWELVE_MONTHS: `Last 12 months`,
   },
 };
 export const Assertions = {

@@ -28,6 +28,8 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -56,9 +58,13 @@ const ProgressNoteDetails = props => {
 
   const generateCareNotesPDF = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateNotesIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
+    const { title, subject, subtitles } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateProgressNoteContent(record),
+    };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Progress note details', runningUnitTest);
   };
@@ -93,89 +99,71 @@ ${record.note}`;
       data-dd-privacy="mask"
     >
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
         data-dd-privacy="mask"
         data-dd-action-name="[progress note - name]"
       >
-        {record.name}
-      </h1>
+        <DateSubheading
+          date={record.date}
+          id="progress-note-date"
+          label="Date entered"
+        />
 
-      <DateSubheading
-        date={record.date}
-        id="progress-note-date"
-        label="Date entered"
-      />
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="CS&N Detail"
+          downloadPdf={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="CS&N Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        description="CS&N Detail"
-        downloadPdf={generateCareNotesPDF}
-        downloadTxt={generateCareNotesTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo
-        description="CS&N Detail"
-        allowTxtDownloads={allowTxtDownloads}
-      />
-
-      <div className="test-details-container max-80">
-        <h2>Details</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h3>
-        <p
-          data-testid="progress-location"
-          data-dd-privacy="mask"
-          data-dd-action-name="[progress note - location]"
-        >
-          {record.location}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Written by
-        </h3>
-        <p
-          data-testid="note-record-written-by"
-          data-dd-privacy="mask"
-          data-dd-action-name="[progress note - written by]"
-        >
-          {record.writtenBy}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Signed by
-        </h3>
-        <p
-          data-testid="note-record-signed-by"
-          data-dd-privacy="mask"
-          data-dd-action-name="[progress note - signed by]"
-        >
-          {record.signedBy}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Date signed
-        </h3>
-        <p
-          data-testid="progress-signed-date"
-          data-dd-privacy="mask"
-          data-dd-action-name="[progress note - date signed]"
-        >
-          {record.dateSigned}
-        </p>
-      </div>
-
-      <div className="test-results-container">
-        <h2 className="test-results-header">Note</h2>
-        <p
-          data-testid="note-record"
-          className="monospace vads-u-line-height--6"
-          data-dd-privacy="mask"
-          data-dd-action-name="[progress note - summary Note]"
-        >
-          {record.note}
-        </p>
-      </div>
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details">
+            <LabelValue
+              label="Location"
+              value={record.location}
+              testId="progress-location"
+              actionName="[progress note - location]"
+            />
+            <LabelValue
+              label="Written by"
+              value={record.writtenBy}
+              testId="note-record-written-by"
+              actionName="[progress note - written by]"
+            />
+            <LabelValue
+              label="Signed by"
+              value={record.signedBy}
+              testId="note-record-signed-by"
+              actionName="[progress note - signed by]"
+            />
+            <LabelValue
+              label="Date signed"
+              value={record.dateSigned}
+              testId="progress-signed-date"
+              actionName="[progress note - date signed]"
+            />
+          </HeaderSection>
+        </div>
+        <div className="test-results-container">
+          <LabelValue
+            label="Note"
+            value={record.note}
+            headerClass="test-results-header"
+            testId="note-record"
+            actionName="[progress note - summary Note]"
+            monospace
+          />
+        </div>
+      </HeaderSection>
     </div>
   );
 };

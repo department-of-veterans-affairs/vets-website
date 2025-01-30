@@ -1,16 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { SearchResultsHeader } from './SearchResultsHeader';
+import { isVSORepresentative } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -21,22 +23,25 @@ const SelectAccreditedRepresentative = props => {
     goForward,
     goToPath,
   } = props;
-  const [loadingReps, setLoadingReps] = useState(false);
-  const [loadingPOA, setLoadingPOA] = useState(false);
-  const [error, setError] = useState(null);
+
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
-
-  const query = formData['view:representativeQuery'];
-  const invalidQuery = query === undefined || !query.trim();
+  const queryInput = formData['view:representativeQueryInput'];
+  const querySubmission = formData['view:representativeQuerySubmission'];
+  const invalidQuery = queryInput === undefined || !queryInput.trim();
 
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
 
   const noSelectionError =
     'Select the accredited representative or VSO you’d like to appoint below.';
+
+  const [loadingReps, setLoadingReps] = useState(false);
+  const [loadingPOA, setLoadingPOA] = useState(false);
+  const [error, setError] = useState(null);
+
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
   const isReviewPage = useReviewPage();
 
@@ -66,7 +71,13 @@ const SelectAccreditedRepresentative = props => {
 
   const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
     const selection = formData['view:selectedRepresentative'];
+
+    const repTypeChanged =
+      isVSORepresentative(currentSelectedRep.current) !==
+      isVSORepresentative(newSelection);
     const noSelectionExists = !selection && !selectionMade;
+    const noNewSelection =
+      !newSelection || newSelection === currentSelectedRep.current;
 
     if (noSelectionExists && !invalidQuery) {
       setError(noSelectionError);
@@ -75,8 +86,10 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (!newSelection || newSelection === currentSelectedRep.current) {
+      if (noNewSelection) {
         goToPath('/review-and-submit');
+      } else if (repTypeChanged) {
+        goToPath('/representative-contact');
       } else {
         goToPath('/representative-contact?review=true');
       }
@@ -96,9 +109,10 @@ const SelectAccreditedRepresentative = props => {
     setError(null);
 
     try {
-      const res = await fetchRepresentatives({ query });
+      const res = await fetchRepresentatives({ query: queryInput });
       setFormData({
         ...formData,
+        'view:representativeQuerySubmission': queryInput,
         'view:representativeSearchResults': res,
       });
     } catch (err) {
@@ -124,6 +138,7 @@ const SelectAccreditedRepresentative = props => {
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
         selectedAccreditedOrganizationId: null,
+        representativeSubmissionMethod: null,
       };
 
       setFormData({
@@ -143,6 +158,17 @@ const SelectAccreditedRepresentative = props => {
       handleGoForward({ selectionMade: true, newSelection: selectedRepResult });
     }
   };
+
+  useEffect(
+    () => {
+      const searchHeader = document.querySelector('.search-header');
+
+      if (searchHeader) {
+        focusElement('.search-header');
+      }
+    },
+    [loadingReps, representativeResults?.length],
+  );
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
@@ -164,6 +190,11 @@ const SelectAccreditedRepresentative = props => {
           set-focus
         />
       ) : null}
+      <SearchResultsHeader
+        inProgress={loadingReps}
+        query={querySubmission}
+        resultCount={representativeResults?.length}
+      />
       {representativeResults &&
         representativeResults.map((rep, index) => (
           <SearchResult
@@ -174,6 +205,7 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
+            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
           />
         ))}
       <p className="vads-u-margin-y--4">

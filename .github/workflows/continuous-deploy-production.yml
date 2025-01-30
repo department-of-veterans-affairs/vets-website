@@ -4,7 +4,6 @@ on:
   repository_dispatch:
     types: [cd-production-deploy]
 
-
 jobs:
   deploy:
     name: Deploy

@@ -91,15 +91,14 @@ describe('pensions employment history', () => {
       </FakeProvider>,
     );
 
-    const cashierEditButton = container.querySelector(
-      '[aria-label="Edit Cashier"]',
-    );
-    const csrEditButton = container.querySelector(
-      '[aria-label="Edit Customer Service Representative"]',
-    );
+    const editButtons = container.querySelectorAll('va-button');
+    expect(editButtons.length).to.eq(2);
 
-    expect(cashierEditButton).to.exist;
-    expect(csrEditButton).to.exist;
+    // Label on these VaButton elements becomes the aria label:
+    expect(editButtons[0].label).to.contain('Edit Cashier');
+    expect(editButtons[1].label).to.contain(
+      'Edit Customer Service Representative',
+    );
   });
 
   describe('EmployerView', () => {

@@ -7,12 +7,13 @@ export default function transform(formConfig, form) {
   //
   // Include total enrolled FTE And supported student percentage FTE if 10+ supported students enrolled
   //
-  formData.data.programs = formData.data.programs.map(program => {
+  formData.data.programs = formData.data?.programs?.map(program => {
     const programWithCalcs = program;
     if (!Number(program.supportedStudents) < 10 && program.fte) {
-      const { total, supportedFTEPercent } = getFTECalcs(program);
-      programWithCalcs.fte.totalFTE = total;
-      programWithCalcs.fte.supportedPercentageFTE = supportedFTEPercent;
+      const fteCalcs = getFTECalcs(program);
+      programWithCalcs.fte.totalFTE = fteCalcs?.total;
+      programWithCalcs.fte.supportedPercentageFTE =
+        fteCalcs?.supportedFTEPercent;
     }
     return programWithCalcs;
   });

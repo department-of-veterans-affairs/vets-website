@@ -36,12 +36,7 @@ const TopicSelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const onModalNo = () => {
-    onChange('');
-    setShowModal({ show: false, selected: '' });
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const showError = data => {
     if (data.selectTopic) {
@@ -61,7 +56,7 @@ const TopicSelectPage = props => {
     );
 
     if (selected.attributes.requiresAuthentication && !loggedIn) {
-      setShowModal({ show: true, selected: selectedValue });
+      setShowModal(true);
     } else {
       dispatch(setTopicID(selected.id));
       onChange({ ...formData, selectTopic: selectedValue });
@@ -134,8 +129,8 @@ const TopicSelectPage = props => {
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
+        onClose={() => setShowModal(false)}
+        show={showModal}
         restrictedItem="topic"
       />
     </>

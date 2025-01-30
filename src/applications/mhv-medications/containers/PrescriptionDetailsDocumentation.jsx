@@ -14,12 +14,14 @@ import {
   generateTextFile,
   generateMedicationsPDF,
   convertHtmlForDownload,
+  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
 import { DOWNLOAD_FORMAT } from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
+import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -46,6 +48,8 @@ const PrescriptionDetailsDocumentation = () => {
   const [hasDocApiError, setHasDocApiError] = useState(false);
   const [isLoadingDoc, setIsLoadingDoc] = useState(false);
   const [isLoadingRx, setIsLoadingRx] = useState(false);
+
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
   useEffect(
     () => {
       if (prescriptionId) {
@@ -160,8 +164,8 @@ const PrescriptionDetailsDocumentation = () => {
 
   useEffect(
     () => {
-      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx && htmlContent) {
-        contentRef.current.innerHTML = htmlContent ?? '';
+      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
+        contentRef.current.innerHTML = htmlContent || '';
       }
       focusElement(document.querySelector('h1'));
     },
@@ -173,7 +177,13 @@ const PrescriptionDetailsDocumentation = () => {
   }
   if (hasDocApiError || hasPrescriptionApiError) {
     return (
-      <div className="vads-u-margin-top--1">
+      <div>
+        <h1
+          className="vads-u-margin-bottom--2p5"
+          data-testid="medication-information-title"
+        >
+          Medication information
+        </h1>
         <ApiErrorNotification
           errorType="access"
           content="medication information"
@@ -181,39 +191,72 @@ const PrescriptionDetailsDocumentation = () => {
       </div>
     );
   }
+  const introContent = () =>
+    htmlContent ? (
+      <div>
+        <h1 data-testid="medication-information-title" data-dd-privacy="mask">
+          Medication information: {prescription?.prescriptionName}
+        </h1>
+        <PrintDownload
+          onPrint={printPage}
+          onText={downloadText}
+          onDownload={downloadPdf}
+          isSuccess={false}
+          isLoading={false}
+        />
+        <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
+        <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
+        <va-on-this-page />
+        <p data-testid="medication-information-warning">
+          We’re providing this content from our trusted health care information
+          partner, WebMD, to help you learn more about the medications you’re
+          taking. WebMD content is reviewed and approved by medical experts. But
+          this content isn’t directly reviewed by VA health care providers and
+          isn’t personalized to your use of the medications. If you have any
+          questions about your medications and your specific needs, ask your VA
+          health care team.
+        </p>
+      </div>
+    ) : (
+      <>
+        <h1
+          className="vads-u-margin-bottom--2p5"
+          data-testid="medication-information-title"
+        >
+          Medication information
+        </h1>
+        <div
+          data-testid="medication-information-no-info"
+          className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color"
+        >
+          <h2 className="vads-u-margin--0">
+            We’re sorry. We don’t have any information about this medication.
+          </h2>
+          <p className="vads-u-margin-y--3">
+            If you have questions about your prescription, call your VA pharmacy
+            <CallPharmacyPhone
+              cmopDivisionPhone={pharmacyPhone}
+              page={pageType.DETAILS}
+            />
+            {`${pharmacyPhone ? '.' : ''}`}
+          </p>
+        </div>
+      </>
+    );
 
   return (
     <>
-      {isLoadingDoc || isLoadingRx || !htmlContent ? (
-        <va-loading-indicator message="Loading information..." set-focus />
+      {isLoadingDoc || isLoadingRx ? (
+        <va-loading-indicator
+          message="Loading information..."
+          set-focus
+          data-testid="loading-indicator"
+        />
       ) : (
-        <div>
-          <h1 data-testid="medication-information">
-            Medication information: {prescription?.prescriptionName}
-          </h1>
-          <PrintDownload
-            onPrint={printPage}
-            onText={downloadText}
-            onDownload={downloadPdf}
-            isSuccess={false}
-            isLoading={false}
-          />
-          <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
-          <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
-          <va-on-this-page />
-          <p>
-            We’re providing this content from our trusted health care
-            information partner, WebMD, to help you learn more about the
-            medications you’re taking. WebMD content is reviewed and approved by
-            medical experts. But this content isn’t directly reviewed by VA
-            health care providers and isn’t personalized to your use of the
-            medications. If you have any questions about your medications and
-            your specific needs, ask your VA health care team.
-          </p>
-        </div>
+        introContent()
       )}
       {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
-      <article>
+      <article className="vads-u-padding-bottom--0">
         <div ref={contentRef} />
       </article>
     </>

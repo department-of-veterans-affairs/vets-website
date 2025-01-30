@@ -47,6 +47,9 @@ const autocompleteUiSchema = {
   'ui:errorMessages': {
     required: missingConditionMessage,
   },
+  'ui:options': {
+    hideLabelText: true,
+  },
 };
 
 const comboboxUiSchema = combobox.uiSchema('Enter your condition', {

@@ -297,11 +297,6 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   }
 }
 
-// Hides the ArrayField label since using the VaTextInput label in the Autocomplete is more accessible
-[id^="root_newDisabilities_"][id$="_condition-label"] {
-  display: none !important;
-}
-
 // Hides the "New condition" h3 that appears on the last item of the platform ArrayField.
 // Cannot add a class to the ArrayField like we could with the allClaims arrayField
 [id^="root_newDisabilities_"] h3.vads-u-font-size--h5 {
@@ -351,4 +346,26 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   va-text-input::part(label) {
     margin-top: 0;
   }
+}
+
+// Intended to be used with summary page cards. Truncates text to specified
+// number of lines, ensuring no overflow or disruption of the card layout.
+.multiline-ellipsis-4 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.multiline-ellipsis-2 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
 }

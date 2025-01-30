@@ -16,6 +16,7 @@ const initialState = {
    * @type {Boolean}
    */
   error: false,
+  dateFilter: {},
 };
 
 export const downloadsReducer = (state = initialState, action) => {

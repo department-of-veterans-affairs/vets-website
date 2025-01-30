@@ -189,7 +189,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert className="vads-u-margin-top--2" />
+            <CernerFacilityAlert />
           </>
         ) : (
           <>
@@ -244,6 +244,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                           dataDogActionNames.refillPage
                             .SELECT_SINGLE_MEDICATION_CHECKBOX
                         }
+                        data-dd-privacy="mask"
                         checked={
                           selectedRefillList.find(
                             item =>

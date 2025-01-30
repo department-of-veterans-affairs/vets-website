@@ -157,8 +157,8 @@ export const PreSubmitInfo = ({
         </VaCheckboxGroup>
       </div>
       <p>
-        <strong>Note:</strong> After continuing to the next step, you will not
-        be able to edit the information on your form.
+        <strong>Note:</strong> You can’t edit the information for your form
+        after this step.
       </p>
     </>
   );

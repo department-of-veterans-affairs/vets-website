@@ -9,7 +9,7 @@ import { DownloadLetterLink } from '../../components/DownloadLetterLink.jsx';
 import { DOWNLOAD_STATUSES } from '../../utils/constants';
 
 const defaultProps = {
-  letterName: 'Commissary Letter',
+  letterTitle: 'Commissary Letter',
   letterType: 'commissary',
 };
 
@@ -71,7 +71,7 @@ describe('<DownloadLetterLink>', () => {
 
     expect(getLetterPdf.args[0]).to.eql([
       defaultProps.letterType,
-      defaultProps.letterName,
+      defaultProps.letterTitle,
       undefined,
       undefined,
     ]);

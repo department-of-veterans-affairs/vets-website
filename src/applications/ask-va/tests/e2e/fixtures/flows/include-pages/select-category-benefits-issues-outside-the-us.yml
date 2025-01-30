@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Benefits issues outside the U.S.
+  - action: click
+    target: call-to-action

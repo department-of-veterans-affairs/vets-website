@@ -3,9 +3,11 @@ import Downshift from 'downshift';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function LicenseCertificationKeywordSearch({
   inputValue,
+  handleInput,
   suggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
@@ -17,11 +19,14 @@ export default function LicenseCertificationKeywordSearch({
   };
 
   const handleSuggestionSelected = selected => {
-    const { name, type } = selected;
+    const { name, type, state } = selected;
 
-    onUpdateAutocompleteSearchTerm(name);
-
-    onSelection({ type, state: type === 'license' ? 'FL' : 'all' }); // remove hardcoded state
+    onSelection({
+      type,
+      state: type === 'license' || type === 'prep' ? state : 'all',
+      name,
+      selected,
+    });
   };
 
   return (
@@ -51,7 +56,17 @@ export default function LicenseCertificationKeywordSearch({
             >
               License/Certification Name
             </label>
-            <div className="lc-name-search-container vads-u-display--flex">
+            <div className="additional-info-wrapper">
+              <VaAdditionalInfo
+                trigger="Tips to improve search results"
+                disableBorder={false}
+              >
+                Using more specific keywords can help narrow down your search
+                results. For example, searching for "Microsoft Azure" will give
+                you more targeted results than searching for only "Microsoft."
+              </VaAdditionalInfo>
+            </div>
+            <div className="vads-u-display--flex input-container">
               <input
                 style={
                   inputValue === ''
@@ -59,10 +74,10 @@ export default function LicenseCertificationKeywordSearch({
                     : { width: '100%', borderRight: 'none' }
                 }
                 aria-controls="lcKeywordSearch"
-                className="lc-name-search-input"
                 {...getInputProps({
                   type: 'text',
                   onChange: handleChange,
+                  onInput: handleInput,
                   'aria-labelledby': 'lc-search-label',
                 })}
               />
@@ -72,13 +87,13 @@ export default function LicenseCertificationKeywordSearch({
                     size={3}
                     icon="cancel"
                     id="clear-input"
-                    class="lc-clear vads-u-display--flex vads-u-align-items--center"
+                    class="clear-icon vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}
             </div>
             {isOpen &&
-              suggestions.length > 0 && (
+              inputValue && (
                 <div
                   className="suggestions-list"
                   role="listbox"
@@ -99,11 +114,11 @@ export default function LicenseCertificationKeywordSearch({
                         {...getItemProps({ item })}
                       >
                         {index !== 0 ? (
-                          item.name
+                          item.lacNm
                         ) : (
                           <div className="keyword-suggestion-container">
                             <span className="vads-u-padding-right--1">
-                              {item.name}
+                              {item.lacNm}
                             </span>
                             <span>
                               {`(${

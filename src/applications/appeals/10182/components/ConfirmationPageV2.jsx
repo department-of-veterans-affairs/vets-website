@@ -18,6 +18,7 @@ import {
 } from '../utils/helpers';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -220,7 +221,7 @@ export const ConfirmationPageV2 = () => {
         </>
       </ConfirmationIssues>
 
-      <h3 className="vads-u-margin-top--2">Board review options</h3>
+      <h3 className={chapterHeaderClass}>Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

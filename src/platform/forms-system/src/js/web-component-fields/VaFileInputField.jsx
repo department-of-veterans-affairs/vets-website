@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { uploadScannedForm } from './vaFileInputFieldHelpers';
+import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
 
 let file = null;
 
@@ -39,9 +39,9 @@ let file = null;
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
-  const [uploadInProgress, setUploadInProgress] = useState(false);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
+  const [error, setError] = useState(mappedProps.error);
 
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.file) {
@@ -51,9 +51,10 @@ const VaFileInputField = props => {
         name,
         size,
         warnings,
+        errorMessage,
       } = uploadedFile;
+      setError(errorMessage);
       file = uploadedFile.file;
-      setUploadInProgress(false);
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
@@ -68,7 +69,7 @@ const VaFileInputField = props => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
       file = null;
-      setUploadInProgress(false);
+      setError(mappedProps.error);
       props.childrenProps.onChange({});
       return;
     }
@@ -81,13 +82,20 @@ const VaFileInputField = props => {
       return;
     }
 
+    const { maxFileSize } = props.uiOptions;
+    if (fileFromEvent.size > maxFileSize) {
+      const fileSizeString = getFileSize(maxFileSize);
+      setError(`File size cannot be greater than ${fileSizeString}`);
+      return;
+    }
+
     dispatch(
       uploadScannedForm(
         fileUploadUrl,
         formNumber,
         fileFromEvent,
         onFileUploaded,
-        () => setUploadInProgress(true),
+        () => setError(null),
       ),
     );
   };
@@ -95,7 +103,7 @@ const VaFileInputField = props => {
   return (
     <VaFileInput
       {...mappedProps}
-      error={uploadInProgress ? '' : mappedProps.error}
+      error={error}
       value={file}
       onVaChange={handleVaChange}
     />

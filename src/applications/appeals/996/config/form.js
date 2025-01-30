@@ -24,7 +24,6 @@ import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
-import optIn from '../pages/optIn';
 import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConferenceChoice';
@@ -36,10 +35,8 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import {
-  mayHaveLegacyAppeals,
-  showNewHlrContent,
-  hideNewHlrContent,
   onFormLoaded,
   showConferenceContact,
   showConferenceVeteranPage,
@@ -68,7 +65,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: 'higher_level_reviews',
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
@@ -198,23 +195,11 @@ const formConfig = {
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
         },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
-          depends: formData =>
-            hideNewHlrContent(formData) && mayHaveLegacyAppeals(formData),
-          initialData: {
-            socOptIn: false,
-          },
-        },
         authorization: {
           title: 'Authorization',
           path: 'authorization',
           uiSchema: authorization.uiSchema,
           schema: authorization.schema,
-          depends: showNewHlrContent,
         },
         issueSummary: {
           title: 'Issue summary',

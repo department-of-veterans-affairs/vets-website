@@ -53,10 +53,6 @@ $nav-mobile-breakpoint: 668px;
   }
 }
 
-.mhv-u-sec-nav-background-color {
-  background-color: rgb(0,113,187);
-}
-
 // Mobile view
 @media (max-width: $nav-mobile-breakpoint) {
   .mhv-c-sec-nav-item {

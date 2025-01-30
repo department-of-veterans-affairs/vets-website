@@ -4,6 +4,7 @@ import {
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import PropTypes from 'prop-types';
 import {
   UPLOAD_GUIDELINES,
   FORM_UPLOAD_OCR_ALERT,
@@ -22,17 +23,6 @@ export const uploadPage = {
   uiSchema: {
     'view:uploadGuidelines': {
       'ui:description': UPLOAD_GUIDELINES,
-      'ui:options': {
-        updateUiSchema: formData => {
-          return {
-            'ui:description': warningsPresent(formData) ? (
-              <h3>Your file</h3>
-            ) : (
-              UPLOAD_GUIDELINES
-            ),
-          };
-        },
-      },
     },
     uploadedFile: {
       ...fileInputUI({
@@ -40,8 +30,12 @@ export const uploadPage = {
         name: 'form-upload-file-input',
         fileUploadUrl,
         title,
+        hint:
+          'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
         formNumber,
         required: () => true,
+        // Disallow uploads greater than 25 MB
+        maxFileSize: 25000000,
         updateUiSchema: formData => {
           return {
             'ui:title': warningsPresent(formData)
@@ -68,13 +62,22 @@ export const uploadPage = {
 /** @type {CustomPageType} */
 export function UploadPage(props) {
   const warnings = props.data?.uploadedFile?.warnings;
-  const alert = warnings
-    ? FORM_UPLOAD_OCR_ALERT(
-        formNumber,
-        getPdfDownloadUrl(formNumber),
-        onCloseAlert,
-        warnings,
-      )
-    : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  const alert =
+    warnings?.length > 0
+      ? FORM_UPLOAD_OCR_ALERT(
+          formNumber,
+          getPdfDownloadUrl(formNumber),
+          onCloseAlert,
+          warnings,
+        )
+      : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
   return <CustomAlertPage {...props} alert={alert} />;
 }
+
+UploadPage.propTypes = {
+  data: PropTypes.shape({
+    uploadedFile: PropTypes.shape({
+      warnings: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }).isRequired,
+};

@@ -21,10 +21,9 @@ const setup = ({
   contentAfterButtons = <div>after</div>,
   updatePage = () => {},
 } = {}) => {
-  const formData = { ...data, hlrUpdatedContent: true };
   return render(
     <InformalConferenceContact
-      data={formData}
+      data={data}
       goBack={goBack}
       goForward={goForward}
       setFormData={setFormData}
@@ -67,7 +66,6 @@ describe('<InformalConferenceContact>', () => {
     });
     expect(
       setSpy.calledWith({
-        hlrUpdatedContent: true,
         informalConference: 'rep',
       }),
     ).to.be.true;
@@ -81,7 +79,6 @@ describe('<InformalConferenceContact>', () => {
     });
     expect(
       setSpy.calledWith({
-        hlrUpdatedContent: true,
         informalConference: 'me',
       }),
     ).to.be.true;
@@ -96,5 +93,14 @@ describe('<InformalConferenceContact>', () => {
 
     fireEvent.submit($('form', container));
     expect(goSpy.called).to.be.true;
+  });
+
+  it('should allow submit with selected value on review page', () => {
+    const { container } = setup({
+      data: { informalConference: 'me', informalConferenceChoice: 'yes' },
+      onReviewPage: true,
+    });
+
+    fireEvent.click($('va-button', container));
   });
 });

@@ -8,20 +8,16 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import {
-  getAddressString,
-  getSlotByDate,
-  getSlotById,
-  hasConflict,
-} from '../utils/provider';
+import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
+import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
-  const { currentReferral, provider, appointmentsByMonth } = props;
+  const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -36,7 +32,7 @@ export const DateAndTimeContent = props => {
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
-      provider.slots.map(slot => {
+      draftAppointmentInfo.slots.slots.map(slot => {
         return new Date(slot.start);
       }),
     ),
@@ -44,25 +40,30 @@ export const DateAndTimeContent = props => {
   useEffect(
     () => {
       if (selectedSlot) {
-        setSelectedDate(getSlotById(provider.slots, selectedSlot).start);
+        setSelectedDate(
+          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
+        );
       }
     },
-    [provider.slots, selectedSlot],
+    [draftAppointmentInfo.slots.slots, selectedSlot],
   );
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
+      const savedSlot = getSlotById(
+        draftAppointmentInfo.slots.slots,
+        savedSelectedSlot,
+      );
       if (!savedSlot) {
         return;
       }
       dispatch(setSelectedSlot(savedSlot.id));
     },
-    [dispatch, selectedSlotKey, provider.slots],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
   );
   const onChange = useCallback(
     value => {
-      const newSlot = getSlotByDate(provider.slots, value[0]);
+      const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
       if (newSlot) {
         setError('');
         dispatch(setSelectedSlot(newSlot.id));
@@ -70,7 +71,7 @@ export const DateAndTimeContent = props => {
         sessionStorage.setItem(selectedSlotKey, newSlot.id);
       }
     },
-    [dispatch, provider.slots, selectedSlotKey],
+    [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
@@ -97,119 +98,106 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.UUID);
   };
 
+  const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
+
+  const driveTimeMinutes = Math.floor(
+    draftAppointmentInfo.drivetime.destination
+      .driveTimeInSecondsWithoutTraffic / 60,
+  );
+  const driveTimeDistance =
+    draftAppointmentInfo.drivetime.destination.distanceInMiles;
+
+  const driveTimeString =
+    driveTimeMinutes && driveTimeDistance
+      ? `${driveTimeMinutes}-minute drive (${driveTimeDistance} miles)`
+      : null;
+
   return (
     <>
       <div>
-        <h1 data-testid="pick-heading">
-          Schedule an appointment with your provider
-        </h1>
         <p>
           You or your referring VA facility selected to schedule an appointment
           online with this provider:
         </p>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {provider.providerName}
+          {draftAppointmentInfo.provider.name}
         </p>
         <p className="vads-u-margin-top--0">{currentReferral.CategoryOfCare}</p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {provider.orgName}
+          {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
-        <address>
-          <p className="vads-u-margin--0">
-            {provider.orgAddress.street1} <br />
-            {provider.orgAddress.street2 && (
-              <>
-                {provider.orgAddress.street2}
-                <br />
-              </>
-            )}
-            {provider.orgAddress.street3 && (
-              <>
-                {provider.orgAddress.street3}
-                <br />
-              </>
-            )}
-            {provider.orgAddress.city}, {provider.orgAddress.state},{' '}
-            {provider.orgAddress.zip}
-          </p>
-          <div
-            data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default"
-          >
-            <va-icon
-              className="vads-u-margin-right--0p5 vads-u-color--link-default"
-              icon="directions"
-              size={3}
-            />
-            <a
-              data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
-                provider.orgAddress,
-              )}`}
-              aria-label={`directions to ${provider.orgName}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Directions
-            </a>
-          </div>
-        </address>
-        <p>
-          Phone:{' '}
-          <va-telephone
-            contact={provider.orgPhone}
-            data-testid="provider-telephone"
-          />
-        </p>
-        <p>
-          {provider.driveTime} ({provider.driveDistance})
-        </p>
-        <h2>Choose a date and time</h2>
-        <p>
-          Select an available date and time from the calendar below. Appointment
-          times are displayed in{' '}
-          {`${getTimezoneDescByFacilityId(
-            currentReferral.ReferringFacilityInfo.FacilityCode,
-          )}`}
-          .
-        </p>
-      </div>
-      <div data-testid="cal-widget">
-        <CalendarWidget
-          maxSelections={1}
-          availableSlots={provider.slots}
-          value={[selectedDate]}
-          id="dateTime"
-          timezone={facilityTimeZone}
-          additionalOptions={{
-            required: true,
-          }}
-          // disabled={loadingSlots}
-          disabledMessage={
-            <va-loading-indicator
-              data-testid="loadingIndicator"
-              set-focus
-              message="Finding appointment availability..."
-            />
-          }
-          onChange={onChange}
-          onNextMonth={null}
-          onPreviousMonth={null}
-          minDate={format(new Date(), 'yyyy-MM-dd')}
-          maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
-          required
-          requiredMessage={error}
-          startMonth={format(new Date(), 'yyyy-MM')}
-          showValidation={error.length > 0}
-          showWeekends
-          overrideMaxDays
+        <ProviderAddress
+          address={currentReferral.ReferringFacilityInfo.Address}
+          showDirections
+          directionsName={currentReferral.ReferringFacilityInfo.FacilityName}
+          phone={currentReferral.ReferringFacilityInfo.Phone}
         />
+        {driveTimeString && <p>{driveTimeString}</p>}
+        <h2>Choose a date and time</h2>
+        {!noSlotsAvailable && (
+          <p>
+            Select an available date and time from the calendar below.
+            Appointment times are displayed in{' '}
+            {`${getTimezoneDescByFacilityId(
+              currentReferral.ReferringFacilityInfo.FacilityCode,
+            )}`}
+            .
+          </p>
+        )}
       </div>
-      <FormButtons
-        onBack={() => onBack()}
-        onSubmit={() => onSubmit()}
-        loadingText="Page change in progress"
-      />
+      {noSlotsAvailable && (
+        <va-alert
+          status="warning"
+          data-testid="no-slots-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">
+            We’re sorry. We couldn’t find any open time slots.
+          </h2>
+          <p>Please call this provider to schedule an appointment</p>
+          <va-telephone contact={currentReferral.ReferringFacilityInfo.Phone} />
+        </va-alert>
+      )}
+      {!noSlotsAvailable && (
+        <>
+          <div data-testid="cal-widget">
+            <CalendarWidget
+              maxSelections={1}
+              availableSlots={draftAppointmentInfo.slots.slots}
+              value={[selectedDate]}
+              id="dateTime"
+              timezone={facilityTimeZone}
+              additionalOptions={{
+                required: true,
+              }}
+              // disabled={loadingSlots}
+              disabledMessage={
+                <va-loading-indicator
+                  data-testid="loadingIndicator"
+                  set-focus
+                  message="Finding appointment availability..."
+                />
+              }
+              onChange={onChange}
+              onNextMonth={null}
+              onPreviousMonth={null}
+              minDate={format(new Date(), 'yyyy-MM-dd')}
+              maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
+              required
+              requiredMessage={error}
+              startMonth={format(new Date(), 'yyyy-MM')}
+              showValidation={error.length > 0}
+              showWeekends
+              overrideMaxDays
+            />
+          </div>
+          <FormButtons
+            onBack={() => onBack()}
+            onSubmit={() => onSubmit()}
+            loadingText="Page change in progress"
+          />
+        </>
+      )}
     </>
   );
 };
@@ -217,7 +205,7 @@ export const DateAndTimeContent = props => {
 DateAndTimeContent.propTypes = {
   appointmentsByMonth: PropTypes.object.isRequired,
   currentReferral: PropTypes.object.isRequired,
-  provider: PropTypes.object.isRequired,
+  draftAppointmentInfo: PropTypes.object.isRequired,
 };
 
 export default DateAndTimeContent;

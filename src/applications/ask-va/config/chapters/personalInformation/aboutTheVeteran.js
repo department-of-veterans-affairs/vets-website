@@ -31,30 +31,11 @@ const ssnServiceInfo = (
       </span>
       <span className="form-required-span">(*Required)</span>
     </p>
-    <span className="vads-u-margin-y--0 vads-u-font-size--sm medium-screen:vads-u-font-size--root">
+    <p className="vads-u-font-size--sm vads-u-margin-bottom-1">
       Please provide one of the following:
-    </span>
+    </p>
   </div>
 );
-
-const validateSSandSNGroup = (errors, values, formData) => {
-  if (
-    !(
-      (formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran ===
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
-      (formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran ===
-          "I'm a family member of a Veteran") ||
-      formData.whoIsYourQuestionAbout === "It's a general question"
-    ) &&
-    !Object.keys(values).some(key => values[key])
-  ) {
-    errors.addError(
-      `Please enter either the Veteran's Social Security number or Service number`,
-    );
-  }
-};
 
 const aboutTheVeteranPage = {
   uiSchema: {
@@ -101,10 +82,18 @@ const aboutTheVeteranPage = {
       }),
       socialOrServiceNum: {
         'ui:title': ssnServiceInfo,
-        'ui:validations': [validateSSandSNGroup],
         'ui:options': { showFieldLabel: true },
         ssn: ssnUI(),
         serviceNumber: serviceNumberUI('Service number'),
+        'ui:validations': [
+          (errors, field) => {
+            if (!Object.keys(field).some(key => field[key])) {
+              errors.addError(
+                "Please enter either the Veteran's Social Security number or Service number",
+              );
+            }
+          },
+        ],
       },
       branchOfService: selectUI({
         title: CHAPTER_3.VETERANS_BRANCH_OF_SERVICE.TITLE,
@@ -112,7 +101,7 @@ const aboutTheVeteranPage = {
           required: CHAPTER_3.VETERANS_BRANCH_OF_SERVICE.ERROR,
         },
         required: formData => {
-          return !isBranchOfServiceRequired(formData);
+          return isBranchOfServiceRequired(formData);
         },
         hideIf: formData => {
           return !isBranchOfServiceRequired(formData);

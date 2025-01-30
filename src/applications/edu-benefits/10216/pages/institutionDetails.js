@@ -32,7 +32,7 @@ const institutionDetails = () => ({
         },
         'ui:validations': [
           (errors, fieldData) => {
-            if (fieldData && !/^\d{8}$/.test(fieldData)) {
+            if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
               errors.addError('Please enter a valid 8-digit facility code');
             }
           },
@@ -42,7 +42,7 @@ const institutionDetails = () => ({
         ...currentOrPastDateUI({
           title: 'Term start date',
           errorMessages: {
-            required: 'Please enter a date',
+            required: 'Please enter a start date',
           },
         }),
       },

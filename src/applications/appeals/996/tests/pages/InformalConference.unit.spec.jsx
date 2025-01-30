@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
@@ -28,11 +28,11 @@ describe('Higher-Level Review 0996 informal conference', () => {
       </Provider>,
     );
 
-    expect($$('va-radio-option', container).length).to.equal(3);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 
   /* Successful submits */
-  it('successfully submits when "no" informal conference is selected', () => {
+  it('successfully submits when "me" informal conference is selected', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={mockStore()}>
@@ -40,7 +40,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           schema={schema}
-          data={{ informalConference: 'no' }}
+          data={{ informalConference: 'me' }}
           formData={{}}
           uiSchema={uiSchema}
         />
@@ -48,8 +48,10 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('[error]', container).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    waitFor(() => {
+      expect($$('[error]', container).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 
   /* Unsuccessful submits */

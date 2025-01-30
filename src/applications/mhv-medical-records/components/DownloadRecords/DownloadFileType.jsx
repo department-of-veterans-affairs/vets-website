@@ -21,6 +21,7 @@ import {
   getNameDateAndTime,
   makePdf,
   generateTextFile,
+  focusOnErrorField,
   getLastUpdatedText,
   formatUserDob,
   sendDataDogAction,
@@ -41,6 +42,7 @@ const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
   const history = useHistory();
   const [fileType, setFileType] = useState('');
+  const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
@@ -75,6 +77,8 @@ const DownloadFileType = props => {
 
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const { fromDate, toDate, option: dateFilterOption } = dateFilter;
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
@@ -85,26 +89,26 @@ const DownloadFileType = props => {
 
   useEffect(
     () => {
-      if (!dateFilter) {
+      if (!dateFilterOption) {
         history.push('/download/date-range');
       } else if (!recordFilter) {
         history.push('/download/record-type');
       }
     },
-    [dateFilter, history, recordFilter],
+    [dateFilterOption, history, recordFilter],
   );
 
   const filterByDate = useCallback(
     recDate => {
-      if (dateFilter.option === 'any') {
+      if (dateFilterOption === 'any') {
         return true;
       }
       return (
-        isBefore(new Date(dateFilter.fromDate), new Date(recDate)) &&
-        isAfter(new Date(dateFilter.toDate), new Date(recDate))
+        isBefore(new Date(fromDate), new Date(recDate)) &&
+        isAfter(new Date(toDate), new Date(recDate))
       );
     },
-    [dateFilter],
+    [dateFilterOption, fromDate, toDate],
   );
 
   /**
@@ -191,10 +195,10 @@ const DownloadFileType = props => {
       };
 
       if (!isDataFetched) {
-        dispatch(getBlueButtonReportData(options));
+        dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch],
+    [isDataFetched, recordFilter, dispatch, dateFilter],
   );
 
   const recordData = useMemo(
@@ -231,18 +235,7 @@ const DownloadFileType = props => {
             medications && recordFilter?.includes('medications')
               ? medications.filter(rec => filterByDate(rec.lastFilledOn))
               : null,
-          appointments:
-            appointments &&
-            (recordFilter?.includes('upcomingAppts') ||
-              recordFilter?.includes('pastAppts'))
-              ? appointments.filter(
-                  rec =>
-                    filterByDate(rec.date) &&
-                    ((recordFilter.includes('upcomingAppts') &&
-                      rec.isUpcoming) ||
-                      (recordFilter.includes('pastAppts') && !rec.isUpcoming)),
-                )
-              : null,
+          appointments: appointments || null,
           demographics:
             demographics && recordFilter?.includes('demographics')
               ? demographics
@@ -306,13 +299,9 @@ const DownloadFileType = props => {
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
             fromDate:
-              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-                ? formatDateLong(dateFilter.fromDate)
-                : 'Any',
+              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
             toDate:
-              dateFilter?.fromDate && dateFilter.fromDate !== 'any'
-                ? formatDateLong(dateFilter.toDate)
-                : 'any',
+              fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
             recordSets: generateBlueButtonData(recordData, recordFilter),
             ...scaffold,
             name,
@@ -337,8 +326,8 @@ const DownloadFileType = props => {
       }
     },
     [
-      dateFilter.fromDate,
-      dateFilter.toDate,
+      fromDate,
+      toDate,
       dispatch,
       dob,
       isDataFetched,
@@ -376,6 +365,15 @@ const DownloadFileType = props => {
     [dispatch, isDataFetched, recordData, user],
   );
 
+  const checkFileTypeValidity = useCallback(
+    () => {
+      const isValid = !!fileType;
+      setFileTypeError(isValid ? '' : 'Please select a file type');
+      return isValid;
+    },
+    [fileType],
+  );
+
   const handleDdRum = useCallback(e => {
     const selectedNode = Array.from(e.target.childNodes).find(
       node => node.value === e.detail.value,
@@ -383,6 +381,11 @@ const DownloadFileType = props => {
     const selectedText = selectedNode ? selectedNode.innerText : '';
     sendDataDogAction(`${selectedText} - File type`);
   }, []);
+
+  const selectFileTypeHandler = e => {
+    checkFileTypeValidity();
+    if (e?.detail?.value) setFileTypeError(null);
+  };
 
   return (
     <div>
@@ -431,10 +434,12 @@ const DownloadFileType = props => {
               onVaValueChange={e => {
                 setFileType(e.detail.value);
                 handleDdRum(e);
+                selectFileTypeHandler(e);
               }}
+              error={fileTypeError}
             >
-              <va-radio-option label="PDF" value="pdf" />
-              <va-radio-option label="Text file" value="txt" />
+              <va-radio-option label="PDF" value="pdf" name="file-type" />
+              <va-radio-option label="Text file" value="txt" name="file-type" />
             </VaRadio>
             {downloadStarted && <DownloadSuccessAlert />}
             <div className="vads-u-margin-top--1">
@@ -462,6 +467,8 @@ const DownloadFileType = props => {
               className="vads-u-margin-y--0p5"
               data-testid="download-report-button"
               onClick={() => {
+                selectFileTypeHandler();
+                focusOnErrorField();
                 if (fileType === 'pdf') {
                   generatePdf().then(() => history.push('/download'));
                 } else if (fileType === 'txt') {

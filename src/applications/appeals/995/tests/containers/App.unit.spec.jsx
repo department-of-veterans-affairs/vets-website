@@ -5,11 +5,11 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import App from '../../containers/App';
 
@@ -18,12 +18,19 @@ import {
   SC_NEW_FORM_TOGGLE,
   SC_NEW_FORM_DATA,
 } from '../../constants';
+import {
+  NEW_API,
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_API_NEW,
+} from '../../constants/apis';
+
 import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../../shared/actions';
-import { NEW_API } from '../../constants/apis';
+
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
 
@@ -37,6 +44,7 @@ const getData = ({
   push = () => {},
   status = '',
   toggle = false,
+  toggleApi = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -72,7 +80,7 @@ const getData = ({
       featureToggles: {
         loading: false,
         [SC_NEW_FORM_TOGGLE]: toggle,
-        [NEW_API]: toggle,
+        [NEW_API]: toggleApi,
       },
       contestableIssues: {
         status,
@@ -189,6 +197,41 @@ describe('App', () => {
       const [action] = store.getActions();
       expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal(hasComp);
+    });
+  });
+
+  it('should call contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      resetFetch();
+    });
+  });
+
+  it('should call new contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+      toggleApi: true,
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
+      resetFetch();
     });
   });
 
@@ -325,27 +368,9 @@ describe('App', () => {
     });
   });
 
-  it('should set Sentry tags with account UUID & in progress ID', async () => {
-    const { props, data } = getData({ accountUuid: 'abcd-5678' });
-    const store = mockStore(data);
-
-    const setTag = sinon.stub(Sentry, 'setTag');
-    render(
-      <Provider store={store}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
-      expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
-      setTag.restore();
-    });
-  });
-
   it('should set feature toggle in form data', async () => {
     setStoredSubTask(hasComp);
-    const { props, data } = getData({ toggle: true });
+    const { props, data } = getData({ toggle: true, toggleApi: true });
     const store = mockStore(data);
     render(
       <Provider store={store}>
