@@ -7,6 +7,7 @@ import {
 } from 'platform/utilities/ui';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import { createBreadcrumbListFromPath } from '../../routing';
 
 /**
  * If the minimal header is applicable to the current app regardless of excluded paths.
@@ -42,38 +43,8 @@ export function isMinimalHeaderPath(pathname = window?.location?.pathname) {
   return !isExcludedPath;
 }
 
-function breadcrumbItem(label, href) {
-  return { label, href };
-}
-
-function generateBreadcrumbList(pathname) {
-  const breadcrumbList = [breadcrumbItem('VA.gov home', '/')];
-
-  try {
-    // pathname = '/my-form/introduction'
-    const pathParts = pathname.split('/').filter(Boolean);
-    // pathParts = ['my-form', 'introduction']
-    pathParts.pop();
-    // pathParts = ['my-form']
-
-    const otherBreadcrumbList = pathParts.map((part, index) => {
-      // part = 'my-form'
-      let label = part.charAt(0).toUpperCase() + part.slice(1);
-      // label = 'My-form'
-      label = label.replace(/-/g, ' ');
-      // label = 'My form'
-      const href = `/${pathParts.slice(0, index + 1).join('/')}`;
-      return breadcrumbItem(label, href);
-    });
-    breadcrumbList.push(...otherBreadcrumbList);
-  } catch (error) {
-    // suppress error - Just use Home breadcrumb
-  }
-  return breadcrumbList;
-}
-
 function autoGenerateBreadcrumbList() {
-  return generateBreadcrumbList(window.location?.pathname);
+  return createBreadcrumbListFromPath(window.location?.pathname);
 }
 
 const Breadcrumbs = ({ breadcrumbList, homeVeteransAffairs }) => (

@@ -314,10 +314,8 @@ export const defaultItemPageScrollAndFocusTarget = () => {
 
   if (radioHeader) {
     focusElement(headerLevel, null, radioHeader);
-    // waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);
   } else if (checkboxGroupHeader) {
     focusElement(headerLevel, null, checkboxGroupHeader);
-    // waitForRenderThenFocus(headerLevel, checkboxGroupHeader.shadowRoot);
   } else {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }

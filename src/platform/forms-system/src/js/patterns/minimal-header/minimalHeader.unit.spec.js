@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { afterEach } from 'mocha';
 import { isMinimalHeaderApp, isMinimalHeaderPath } from '.';
