@@ -1,10 +1,10 @@
 export const HEADING_SELECTORS = [
-  'div.form-panel h1',
-  'div.form-panel h2',
-  'div.form-panel h3',
-  'div.form-panel h4',
-  'div.form-panel h5',
-  'div.form-panel h6',
+  'div.form-panel > h1',
+  'div.form-panel > h2',
+  'div.form-panel > h3',
+  'div.form-panel > h4',
+  'div.form-panel > h5',
+  'div.form-panel > h6',
   'div.schemaform-title h1',
   'div.schemaform-title h2',
   'div.schemaform-title h3',
@@ -62,11 +62,17 @@ const log = content => {
   cy.log(content);
 };
 
-const ensureExists = (content, selector = HEADING_SELECTORS) => {
+const ensureExists = (content, selector = null) => {
   // cy.log('ensureExists:', selector, content);
-  cy.get(selector, { includeShadowDom: true })
-    .contains(content)
-    .should('exist');
+  if (selector === null) {
+    cy.get(selectorShorthand.SELECT_CATEGORY, {
+      includeShadowDom: true,
+    }).should('exist');
+  } else {
+    cy.get(selector, { includeShadowDom: true })
+      .contains(content)
+      .should('exist');
+  }
 };
 
 const clickLink = text => {
