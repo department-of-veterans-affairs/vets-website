@@ -47,7 +47,7 @@ const AuthorizedRoutes = () => {
   );
 
   if (removeLandingPage && location.pathname === `/`) {
-    window.location.replace('/my-health/secure-messages/inbox');
+    window.location.replace(`/my-health/secure-messages${Paths.INBOX}`);
     return <></>;
   }
 

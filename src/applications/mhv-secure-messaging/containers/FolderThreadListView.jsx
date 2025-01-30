@@ -7,7 +7,6 @@ import {
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -50,13 +49,6 @@ const FolderThreadListView = props => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
-  );
-
-  const removeLandingPage = useSelector(
-    state =>
-      state.featureToggles?.[
-        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
-      ],
   );
 
   const displayingNumberOfThreadsSelector =
@@ -128,8 +120,7 @@ const FolderThreadListView = props => {
             break;
         }
       }
-      const newId = removeLandingPage && id === null ? 0 : id;
-      dispatch(retrieveFolder(newId));
+      dispatch(retrieveFolder(id));
 
       return () => {
         // clear out alerts if user navigates away from this component
@@ -138,7 +129,7 @@ const FolderThreadListView = props => {
         }
       };
     },
-    [dispatch, location.pathname, params.folderId, removeLandingPage],
+    [dispatch, location.pathname, params.folderId],
   );
 
   useEffect(
