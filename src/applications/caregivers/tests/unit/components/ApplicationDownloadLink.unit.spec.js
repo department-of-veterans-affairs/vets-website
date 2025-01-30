@@ -36,6 +36,10 @@ describe('CG <ApplicationDownloadLink>', () => {
     localStorage.setItem('csrfToken', 'my-token');
   });
 
+  afterEach(() => {
+    localStorage.clear();
+  });
+
   context('default behavior', () => {
     it('should render a download file button', () => {
       const { container } = subject();
