@@ -1,31 +1,30 @@
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 
-const institutionDetail = {
-  institutionName: 'Test Institution Name',
-  facilityCode: '12345678',
-  termStartDate: '2000-01-01',
-  dateOfCalculations: '2010-01-01',
-};
-
-const calculationDetail = {
-  programName: 'Test Program Name',
-  totalNumberOfStudentsEnrolled: 130,
-  totalNumberOfSupportedStudentsEnrolled: 40,
-  numberOfSupportedStudentsFTE: 20,
-  numberOfNonSupportedStudentsFTE: 10,
-};
-
-const reviewYourProgram = {
-  doYouHaveAnotherProgramToAddYES: 'Y',
-  doYouHaveAnotherProgramToAddNo: 'N',
-};
-
 describe('22-10215 Edu Benefits Form', () => {
   beforeEach(() => {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
+    const institutionDetail = {
+      institutionName: 'Test Institution Name',
+      facilityCode: '12345678',
+      termStartDate: '2000-01-01',
+      dateOfCalculations: '2010-01-01',
+    };
+
+    const calculationDetail = {
+      programName: 'Test Program Name',
+      totalNumberOfStudentsEnrolled: 130,
+      totalNumberOfSupportedStudentsEnrolled: 40,
+      numberOfSupportedStudentsFTE: 20,
+      numberOfNonSupportedStudentsFTE: 10,
+    };
+
+    const reviewYourProgram = {
+      doYouHaveAnotherProgramToAddYES: 'Y',
+      doYouHaveAnotherProgramToAddNo: 'N',
+    };
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [],
