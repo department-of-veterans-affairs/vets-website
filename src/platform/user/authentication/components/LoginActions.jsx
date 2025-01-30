@@ -66,10 +66,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   ariaDescribedBy="mhvH3"
                   actionLocation={actionLocation}
                 />
-                <va-link
+                {/* <va-link
                   text="Learn how to access your benefits and set up your new account"
                   href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
+                /> */}
               </>
             )}
             {dslogon && (
