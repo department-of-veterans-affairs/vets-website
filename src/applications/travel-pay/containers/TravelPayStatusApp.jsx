@@ -321,7 +321,6 @@ export default function TravelPayStatusApp({ children }) {
               message="Loading Travel Claims..."
             />
           )}
-          {error && <p>Error fetching travel claims.</p>}
           {!isLoading &&
             travelClaims.length > 0 && (
               <>
