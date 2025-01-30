@@ -34,7 +34,7 @@ const defaultLogSettings = {
 };
 
 export default function initializeBrowserLogging(customLogSettings) {
-  // This should only be set to `true` to enable RUM locally
+  // This should only be set to `true` to enable browser logging locally
   // Otherwise this should be `false`
   const shouldUseLogging = false;
 
