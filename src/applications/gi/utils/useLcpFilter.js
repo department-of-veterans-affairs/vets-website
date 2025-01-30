@@ -7,7 +7,12 @@ import {
   fetchLicenseCertificationResults,
 } from '../actions';
 
-export const useLcpFilter = ({ flag, name, categoryValue, locationValue }) => {
+export const useLcpFilter = ({
+  flag,
+  name,
+  categoryValue,
+  locationValue = 'all',
+}) => {
   const dispatch = useDispatch();
   const { hasFetchedOnce } = useSelector(
     state => state.licenseCertificationSearch,

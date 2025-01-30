@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
-// import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
 // Consider using redux actions, as in SearchAccordion -- ok to use local state, since state is limited to this page?
@@ -91,7 +90,7 @@ export default function LicenseCertificationFilterAccordion({
       {renderHeader()}
       <div
         // id={`${id}-content`}
-        className="usa-accordion-content update-results-form vads-u-padding-y--1"
+        className="usa-accordion-content update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3 "
         aria-hidden={!isExpanded}
         hidden={!isExpanded}
       >

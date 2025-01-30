@@ -8,6 +8,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 
 import PropTypes from 'prop-types';
 import {
+  capitalizeFirstLetter,
   formatResultCount,
   showLcParams,
   showMultipleNames,
@@ -89,16 +90,79 @@ export default function LicenseCertificationSearchResults({
     );
   };
 
+  const categoryTypeFilter = () => {
+    // on mount ake checked state of each option reflect filter options from current page
+    // on checkbox click make reflect updated options in filter logic
+
+    const categories = ['all', 'license', 'certification', 'prep course'];
+    const options = [
+      {
+        name: categories[0],
+        // checked: excludedSchoolTypes.includes(type.toUpperCase()),
+        checked: false,
+        label: capitalizeFirstLetter(categories[0]),
+        // dataTestId: `school-type-${type}`,
+      },
+      {
+        name: categories[1],
+        checked: false,
+        label: capitalizeFirstLetter(categories[1]),
+        // dataTestId: `school-type-${type}`,
+      },
+      {
+        name: categories[2],
+        checked: false,
+        label: capitalizeFirstLetter(categories[2]),
+        // dataTestId: `school-type-${type}`,
+      },
+      {
+        name: categories[3],
+        checked: false,
+        label: capitalizeFirstLetter(categories[3]),
+        // dataTestId: `school-type-${type}`,
+      },
+    ];
+
+    return (
+      <>
+        <va-checkbox-group
+          // onChange={handleIncludedSchoolTypesChange}
+          options={options}
+          label="Category"
+          label-header-level="3"
+          // setIsCleared={setIsCleared}
+          class="vads-u-margin-top--0"
+        >
+          {options.map((option, index) => {
+            return (
+              <va-checkbox
+                key={index}
+                label={option.label}
+                name={option.name}
+                value={index}
+              />
+            );
+          })}
+        </va-checkbox-group>
+      </>
+    );
+  };
+
   const renderLocation = () => {
     return (
       <>
-        <h3>State</h3>
+        <h3 className="vads-u-margin-bottom--0">State</h3>
         {renderStateFilter()}
       </>
     );
   };
 
-  const controls = <div>{renderLocation()}</div>;
+  const controls = (
+    <div>
+      {categoryTypeFilter()}
+      {renderLocation()}
+    </div>
+  );
   return (
     <div>
       {fetchingLc && (
