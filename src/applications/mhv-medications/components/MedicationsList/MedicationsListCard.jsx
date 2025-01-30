@@ -14,7 +14,8 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const pendingMed = rx.prescriptionSource === 'PD';
+  const pendingMed =
+    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
   const latestTrackingStatus = rx?.trackingList?.[0];
   let showRefillRemaining = false;
 

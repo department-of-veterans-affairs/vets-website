@@ -86,10 +86,11 @@ describe('Medication card component', () => {
     expect(shippedOn);
   });
 
-  it('shows pending med text inside card body when the rx prescription source is PD', () => {
+  it('shows pending med text inside card body when the rx prescription source is PD and dispStatus is NewOrder', () => {
     const screen = setup({
       ...prescriptionsListItem,
       prescriptionSource: 'PD',
+      dispStatus: 'NewOrder',
     });
     expect(
       screen.getByText(

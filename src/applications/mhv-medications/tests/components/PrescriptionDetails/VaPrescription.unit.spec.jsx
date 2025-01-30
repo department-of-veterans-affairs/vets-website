@@ -206,8 +206,12 @@ describe('vaPrescription details container', () => {
     expect(haventFilledRxNotification).to.exist;
   });
 
-  it('displays pending med content if prescription source is PD', () => {
-    const screen = setup({ ...prescription, prescriptionSource: 'PD' });
+  it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
+    const screen = setup({
+      ...prescription,
+      prescriptionSource: 'PD',
+      dispStatus: 'NewOrder',
+    });
     const status = screen.getByText(
       'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
     );

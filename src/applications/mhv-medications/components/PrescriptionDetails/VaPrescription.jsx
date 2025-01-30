@@ -35,7 +35,12 @@ const VaPrescription = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
-  const pendingMed = prescription?.prescriptionSource === 'PD';
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
   refillHistory.push(originalFill);
   const hasBeenDispensed =
     prescription?.dispensedDate ||
@@ -43,9 +48,6 @@ const VaPrescription = prescription => {
   const latestTrackingStatus = prescription?.trackingList?.[0];
 
   const determineStatus = () => {
-    const pendingRenewal =
-      prescription?.prescriptionSource === 'PD' &&
-      prescription?.dispStatus === 'Renew';
     if (pendingRenewal) {
       return (
         <p>
@@ -316,10 +318,10 @@ const VaPrescription = prescription => {
               </div>
             </>
           )}
-          {!pendingMed ||
-            (pendingMed &&
-              prescription?.dispStatus === 'Renew' && (
-                <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
+          {!pendingMed && (
+            <div>
+              {!pendingRenewal && (
+                <>
                   {/* TODO: clean after grouping flag is gone */}
                   {!showGroupingContent && (
                     <h2
@@ -668,8 +670,10 @@ const VaPrescription = prescription => {
                         groupedMedicationsList={prescription.groupedMedications}
                       />
                     )}
-                </div>
-              ))}
+                </>
+              )}
+            </div>
+          )}
         </>
       );
     }
