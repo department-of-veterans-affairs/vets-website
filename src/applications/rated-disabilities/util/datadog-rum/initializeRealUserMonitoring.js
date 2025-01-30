@@ -2,16 +2,16 @@ import { datadogRum } from '@datadog/browser-rum';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-// This is used in useDataDogRum
-// Note: Blocking production usage for now until we can QA in Staging
-export const isProductionEnv = () => {
-  return (
-    // !environment.BASE_URL.includes('localhost') &&
-    // TODO: remove this when we push to production
-    environment.vspEnvironment() !== 'production' &&
-    // !window.DD_RUM?.getInitConfiguration() &&
-    !window.Mocha
-  );
+const DISABLED_ENVIRONMENTS = ['production'];
+
+export const canUseRUM = () => {
+  const env = environment.vspEnvironment();
+
+  const alreadyInitialized = Boolean(window.DD_RUM?.getInitConfiguration());
+  const inTestEnv = window.Mocha;
+  const inDisabledEnv = DISABLED_ENVIRONMENTS.includes(env);
+
+  return !alreadyInitialized && !inTestEnv && !inDisabledEnv;
 };
 
 // https://docs.datadoghq.com/real_user_monitoring/browser/#configuration
@@ -40,8 +40,13 @@ const defaultRumSettings = {
 // Don't call this function if not logged in
 export const initializeRealUserMonitoring = customRumSettings => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
+  // This should only be set to `true` to enable RUM locally
+  // Otherwise this should be `false`
+  const shouldUseRUM = false;
 
-  if (isProductionEnv()) {
+  const useRUM = canUseRUM() && shouldUseRUM;
+
+  if (useRUM) {
     datadogRum.init({
       ...defaultRumSettings,
       ...customRumSettings,
