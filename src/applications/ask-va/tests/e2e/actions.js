@@ -1,10 +1,10 @@
 export const HEADING_SELECTORS = [
-  'div.form-panel > h1',
-  'div.form-panel > h2',
-  'div.form-panel > h3',
-  'div.form-panel > h4',
-  'div.form-panel > h5',
-  'div.form-panel > h6',
+  'div.form-panel h1',
+  'div.form-panel h2',
+  'div.form-panel h3',
+  'div.form-panel h4',
+  'div.form-panel h5',
+  'div.form-panel h6',
   'div.schemaform-title h1',
   'div.schemaform-title h2',
   'div.schemaform-title h3',
@@ -67,12 +67,12 @@ const ensureExists = (content, selector = null) => {
   if (selector === null) {
     let newSelector = null;
     switch ((content ?? '').toUpperCase()) {
-      case 'RESIDENCE':
-        newSelector = selectorShorthand.SELECT_RESIDENCE;
-        break;
       case 'CATEGORY':
-      default:
         newSelector = selectorShorthand.SELECT_CATEGORY;
+        break;
+      case 'ASK VA':
+      default:
+        newSelector = HEADING_SELECTORS;
         break;
     }
     cy.get(newSelector ?? HEADING_SELECTORS, {
