@@ -105,7 +105,6 @@ describe('22-10216 Edu form', () => {
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
     cy.tabToSubmitForm();
-    cy.tabToSubmitForm();
 
     // // Confirmation page
     cy.location('pathname').should('include', '/confirmation');
