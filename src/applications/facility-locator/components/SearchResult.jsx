@@ -13,6 +13,7 @@ import {
   OperatingStatus,
 } from '../constants';
 import { isVADomain } from '../utils/helpers';
+import { resultMapper } from '../utils/resultMapper';
 import { isHealthAndHealthConnect } from '../utils/phoneNumbers';
 
 export const urgentCareCall = query => {
@@ -49,6 +50,9 @@ const SearchResult = ({ result, query }) => {
     website,
   } = location;
 
+  console.log('result: ', result);
+  console.log('query: ', query);
+
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const headerRef = useRef(null);
 
@@ -61,49 +65,51 @@ const SearchResult = ({ result, query }) => {
     [headerRef],
   );
 
-  return (
-    <div className="facility-result" id={result.id}>
-      <p className="vads-u-margin-bottom--1 i-pin-card-map">{markerText}</p>
-      {isProvider ? (
-        <>
-          <h2 className="vads-u-margin-top--0" ref={headerRef}>
-            {name}
-          </h2>
-          {orgName && <h6>{orgName}</h6>}
-        </>
-      ) : (
-        <>
-          {isVADomain(website) ? (
-            <h3 className="vads-u-margin-y--0" ref={headerRef}>
-              <va-link href={website} text={name} />
-            </h3>
-          ) : (
-            <h3 className="vads-u-margin-y--0" ref={headerRef}>
-              <Link to={`facility/${result.id}`}>{name}</Link>
-            </h3>
-          )}
-        </>
-      )}
-      <LocationDistance distance={distance} />
-      {operatingStatus &&
-        operatingStatus.code !== OperatingStatus.NORMAL && (
-          <LocationOperationStatus operatingStatus={operatingStatus} />
-        )}
-      <LocationAddress location={result} />
-      <LocationDirectionsLink
-        location={result}
-        from="SearchResult"
-        query={query}
-      />
-      <LocationPhoneLink
-        from="SearchResult"
-        location={result}
-        query={query}
-        showHealthConnectNumber={isHealthAndHealthConnect(result, query)}
-      />
-      {urgentCareCall(query)}
-    </div>
-  );
+  return resultMapper(result);
+
+  // return (
+  //   <div className="facility-result" id={result.id}>
+  //     <p className="vads-u-margin-bottom--1 i-pin-card-map">{markerText}</p>
+  //     {isProvider ? (
+  //       <>
+  //         <h2 className="vads-u-margin-top--0" ref={headerRef}>
+  //           {name}
+  //         </h2>
+  //         {orgName && <h6>{orgName}</h6>}
+  //       </>
+  //     ) : (
+  //       <>
+  //         {isVADomain(website) ? (
+  //           <h3 className="vads-u-margin-y--0" ref={headerRef}>
+  //             <va-link href={website} text={name} />
+  //           </h3>
+  //         ) : (
+  //           <h3 className="vads-u-margin-y--0" ref={headerRef}>
+  //             <Link to={`facility/${result.id}`}>{name}</Link>
+  //           </h3>
+  //         )}
+  //       </>
+  //     )}
+  //     <LocationDistance distance={distance} />
+  //     {operatingStatus &&
+  //       operatingStatus.code !== OperatingStatus.NORMAL && (
+  //         <LocationOperationStatus operatingStatus={operatingStatus} />
+  //       )}
+  //     <LocationAddress location={result} />
+  //     <LocationDirectionsLink
+  //       location={result}
+  //       from="SearchResult"
+  //       query={query}
+  //     />
+  //     <LocationPhoneLink
+  //       from="SearchResult"
+  //       location={result}
+  //       query={query}
+  //       showHealthConnectNumber={isHealthAndHealthConnect(result, query)}
+  //     />
+  //     {urgentCareCall(query)}
+  //   </div>
+  // );
 };
 
 SearchResult.propTypes = {

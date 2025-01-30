@@ -14,9 +14,10 @@ import {
 } from '../constants';
 import { isHealthAndHealthConnect } from './phoneNumbers';
 
+// Receives a single result and returns the
+// proper data structure / listing (e.g. VA health, VBA, Urgent care)
 export const resultMapper = (result, searchQuery, index) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
-  // const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
 
   switch (searchQuery.facilityType) {
     case 'health':
