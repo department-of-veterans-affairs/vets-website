@@ -75,7 +75,7 @@ const ensureExists = (content, selector = null) => {
         newSelector = selectorShorthand.SELECT_CATEGORY;
         break;
     }
-    cy.get(newSelector, {
+    cy.get(newSelector ?? HEADING_SELECTORS, {
       includeShadowDom: true,
     }).should('exist');
   } else {
