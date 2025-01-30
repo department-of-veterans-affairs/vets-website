@@ -85,6 +85,7 @@ const IntroductionPage = ({ appointment, error, onStart }) => {
 
 IntroductionPage.propTypes = {
   appointment: PropTypes.object,
+  error: PropTypes.object,
   onStart: PropTypes.func,
 };
 

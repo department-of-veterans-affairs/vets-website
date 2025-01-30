@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
@@ -23,11 +23,11 @@ import UnsupportedClaimTypePage from '../components/submit-flow/pages/Unsupporte
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { getAppointmentData } from '../redux/actions';
 
-const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
+const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
-  const { appointment } = useSelector(state => state.travelPay);
+  const { isLoading, error, data } = appointment;
 
   const {
     useToggleValue,
@@ -42,11 +42,11 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   useEffect(
     () => {
-      if (apptId && !appointment.data && !appointment.error) {
+      if (apptId && !data && !error) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, appointment.data, apptId, appointment.error],
+    [dispatch, data, apptId, error],
   );
 
   const appIsAvailable = !toggleIsLoading && canSubmitMileage;
@@ -83,8 +83,8 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'intro',
       component: (
         <IntroductionPage
-          appointment={appointment.data}
-          error={appointment.error}
+          appointment={data}
+          error={error}
           onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
@@ -96,7 +96,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'mileage',
       component: (
         <MileagePage
-          appointment={appointment.data}
+          appointment={data}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
@@ -134,7 +134,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'review',
       component: (
         <ReviewPage
-          appointment={appointment.data}
+          appointment={data}
           address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
           setYesNo={setYesNo}
@@ -150,7 +150,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
   ];
 
-  if (toggleIsLoading || appointment.isLoading) {
+  if (toggleIsLoading || isLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -172,18 +172,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {/* {appointmentError && (
-            <va-alert closeable="false" status="error" role="status" visible>
-              <h2 slot="headline">
-                We’re sorry, we can’t access your appointment details right now
-              </h2>
-              <p className="vads-u-margin-top--2">
-                Because we need details of your appointment to file your
-                mileage-only claim we are not able to continue with your claim
-                at this time. Please try again later.
-              </p>
-            </va-alert>
-          )} */}
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
               pageIndex={pageIndex}
@@ -205,12 +193,14 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 SubmitFlowWrapper.propTypes = {
   homeAddress: PropTypes.object,
   mailingAddress: PropTypes.object,
+  appointment: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
     homeAddress: selectVAPResidentialAddress(state),
     mailingAddress: selectVAPMailingAddress(state),
+    appointment: state.travelPay.appointment,
   };
 }
 
