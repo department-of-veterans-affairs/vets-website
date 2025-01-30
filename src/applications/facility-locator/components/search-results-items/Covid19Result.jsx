@@ -44,7 +44,12 @@ const Covid19Result = ({ isMobileCard = false, location, index }) => {
   });
 
   return (
-    <div className="facility-result" id={location.id} key={location.id}>
+    <div
+      data-testid="covid-19-result"
+      className="facility-result"
+      id={location.id}
+      key={location.id}
+    >
       <>
         <LocationMarker markerText={location.markerText} />
         {isVADomain(website) ? (
