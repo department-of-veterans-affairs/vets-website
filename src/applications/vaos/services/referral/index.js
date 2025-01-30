@@ -33,6 +33,10 @@ export async function postDraftReferralAppointment(referralId) {
     `/vaos/v2/epsApi/draftReferralAppointment/${referralId}`,
     {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ referralId }),
     },
   );
   return response.data;
