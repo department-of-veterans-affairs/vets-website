@@ -16,13 +16,14 @@ import prefillTransformer from './prefill-transformer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 
+import submitForm from './submitForm';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/debts_api/v0/digital_disputes',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
   trackingPrefix: 'dispute-debt',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
