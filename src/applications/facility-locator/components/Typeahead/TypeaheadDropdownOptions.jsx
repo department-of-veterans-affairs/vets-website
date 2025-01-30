@@ -14,6 +14,8 @@ function TypeaheadDropdownOptions({
   noItemsMessage,
   shouldShowNoResults,
 }) {
+  // All an option is required to have is an id, toDisplay, and optionally disabled
+  // Anything else is up to the user. The `id` is used for the key and that's why it is required
   const [optionsToShow, setOptionsToShow] = useState([]);
   useEffect(
     () => {

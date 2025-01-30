@@ -22,7 +22,6 @@ function AddressTypeahead({
   const [selectedItem, setSelectedItem] = useState(null);
   const [options, setOptions] = useState([]);
   const [showAddressError, setShowAddressError] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [inputHasChanged, setInputHasChanged] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
@@ -47,7 +46,6 @@ function AddressTypeahead({
       return;
     }
     setSelectedItem(item);
-    setIsFocused(true);
     onChange({
       searchString: onlySpaces(item.toDisplay)
         ? item.toDisplay.trim()
@@ -102,7 +100,6 @@ function AddressTypeahead({
   const onBlur = () => {
     onChange({ searchString: inputValue || '' });
     // not expected to search when user leaves the field
-    setIsFocused(false);
   };
 
   const handleInputChange = e => {
@@ -128,7 +125,7 @@ function AddressTypeahead({
           !geolocationInProgress &&
           !searchString?.length &&
           !inputValue) ||
-          (!isFocused && !searchString?.length && !inputValue && isTouched), // not null but empty string (null on start)
+          (!searchString?.length && !inputValue && isTouched), // not null but empty string (null on start)
       );
     },
     [
@@ -136,7 +133,6 @@ function AddressTypeahead({
       geolocationInProgress,
       searchString,
       inputValue,
-      isFocused,
       isTouched,
     ],
   );
@@ -151,42 +147,49 @@ function AddressTypeahead({
     [searchString, inputValue],
   );
 
-  /* eslint-disable prettier/prettier */
   return (
     <Typeahead
       inputValue={inputValue || ''}
       onInputValueChange={handleInputChange}
       selectedItem={selectedItem || null}
       handleOnSelect={handleOnSelect}
+      /* eslint-disable prettier/prettier */
       label={(
         <>
           <span id="city-state-zip-text">City, state or postal code</span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
       )}
+      /* eslint-enable prettier/prettier */
       options={options}
       downshiftInputProps={{
         // none are required
         id: 'street-city-state-zip', // not required to provide an id
         onFocus: () => {
-          setIsFocused(true); setIsTouched(true)
+          setIsTouched(true);
         }, // not required
         onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
         disabled: false,
         autoCorrect: 'off',
-        spellCheck: 'false',      
+        spellCheck: 'false',
+        onChange: e => {
+          // possibly necessary if you see input jumping around
+          handleInputChange({ inputValue: e.target.value });
+        },
       }}
       onClearClick={inputClearClick}
       inputError={<AddressInputError showError={showAddressError || false} />}
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
+      /* eslint-disable prettier/prettier */
       labelSibling={(
         <UseMyLocation
           onClick={handleGeolocationButtonClick}
           geolocationInProgress={currentQuery.geolocationInProgress}
         />
       )}
+      /* eslint-enable prettier/prettier */
       minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
       showDownCaret
@@ -195,7 +198,6 @@ function AddressTypeahead({
       loadingMessage="Searching..."
     />
   );
-  /* eslint-enable prettier/prettier */
 }
 
 AddressTypeahead.propTypes = {
