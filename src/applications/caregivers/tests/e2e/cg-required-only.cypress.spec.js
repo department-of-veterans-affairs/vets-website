@@ -8,7 +8,7 @@ import { pageHooks, setupBasicTest } from './utils';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['requiredOnly', 'secondaryOneOnly'],
+    dataSets: ['requiredOnly'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),

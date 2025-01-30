@@ -2,8 +2,7 @@ export const fillVaFacilitySearch = () => {
   cy.get('va-search-input')
     .shadow()
     .find('input')
-    .type('43231');
-  cy.realPress('Enter');
+    .type('43231{enter}');
 
   cy.wait('@getFacilities');
 
@@ -14,11 +13,8 @@ export const fillVaFacilitySearch = () => {
 };
 
 export const fillStatementOfTruthPattern = (label, signature) => {
-  cy.findByTestId(label)
-    .find('.signature-input')
-    .then($el => cy.fillVaTextInput($el, signature));
-
-  cy.findByTestId(label)
-    .find('.signature-checkbox')
-    .then($el => cy.selectVaCheckbox($el, true));
+  cy.findByTestId(label).within(() => {
+    cy.get('.signature-input').then($el => cy.fillVaTextInput($el, signature));
+    cy.get('.signature-checkbox').then($el => cy.selectVaCheckbox($el, true));
+  });
 };

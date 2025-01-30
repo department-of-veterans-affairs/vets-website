@@ -44,7 +44,7 @@ export const pageHooks = {
     });
   },
   'review-and-submit': () => {
-    cy.get('@testKey').then(testKey => {
+    cy.get('@testData').then(testData => {
       const labels = {
         veteran: content['vet-input-label'],
         primary: content['primary-signature-label'],
@@ -53,63 +53,43 @@ export const pageHooks = {
         secondaryTwo: content['secondary-two-signature-label'],
       };
       const parties = {
-        veteran: 'Micky Mouse',
-        primary: 'Mini Mouse',
-        secondaryOne: 'George Geef Goofus II',
-        secondaryTwo: 'Donald Duck',
-      };
-      const statementOfTruthActions = {
-        secondaryOneOnly: () => {
-          fillStatementOfTruthPattern(labels.veteran, parties.veteran);
-          fillStatementOfTruthPattern(
-            labels.secondaryOne,
-            parties.secondaryOne,
-          );
-        },
-        oneSecondaryCaregiver: () => {
-          fillStatementOfTruthPattern(labels.veteran, parties.veteran);
-          fillStatementOfTruthPattern(labels.primary, parties.primary);
-          fillStatementOfTruthPattern(
-            labels.secondaryOne,
-            parties.secondaryOne,
-          );
-        },
-        twoSecondaryCaregivers: () => {
-          fillStatementOfTruthPattern(labels.veteran, parties.veteran);
-          fillStatementOfTruthPattern(labels.primary, parties.primary);
-          fillStatementOfTruthPattern(
-            labels.secondaryOne,
-            parties.secondaryOne,
-          );
-          fillStatementOfTruthPattern(
-            labels.secondaryTwo,
-            parties.secondaryTwo,
-          );
-        },
-        signAsRepresentativeYes: () => {
-          fillStatementOfTruthPattern(labels.representative, parties.primary);
-          fillStatementOfTruthPattern(labels.primary, parties.primary);
-        },
-        default: () => {
-          fillStatementOfTruthPattern(labels.veteran, parties.veteran);
-          fillStatementOfTruthPattern(labels.primary, parties.primary);
-        },
+        veteran: testData.veteranSignature,
+        primary: testData.primarySignature,
+        representative: testData.primarySignature,
+        secondaryOne: testData.secondaryOneSignature,
+        secondaryTwo: testData.secondaryTwoSignature,
       };
 
-      (statementOfTruthActions[testKey] || statementOfTruthActions.default)();
+      cy.get('@testKey').then(testKey => {
+        const statementOfTruthActions = {
+          secondaryOneOnly: ['veteran', 'secondaryOne'],
+          oneSecondaryCaregiver: ['veteran', 'primary', 'secondaryOne'],
+          twoSecondaryCaregivers: [
+            'veteran',
+            'primary',
+            'secondaryOne',
+            'secondaryTwo',
+          ],
+          signAsRepresentativeYes: ['representative', 'primary'],
+          default: ['veteran', 'primary'],
+        };
+        const signatures =
+          statementOfTruthActions[testKey] || statementOfTruthActions.default;
+        signatures.forEach(role =>
+          fillStatementOfTruthPattern(labels[role], parties[role]),
+        );
+      });
     });
   },
   confirmation: ({ afterHook }) => {
     afterHook(() => {
       cy.get('va-link')
         .contains(content['button-download'])
-        .as('button');
+        .as('downloadButton')
+        .click();
 
-      cy.get('@button').click();
-
-      cy.wait('@downloadPdf').then(() => {
-        cy.get('@button').should('be.visible');
-      });
+      cy.wait('@downloadPdf');
+      cy.get('@downloadButton').should('be.visible');
     });
   },
 };
