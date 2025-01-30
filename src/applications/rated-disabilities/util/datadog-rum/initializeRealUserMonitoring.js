@@ -6,10 +6,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 // Note: Blocking production usage for now until we can QA in Staging
 export const isProductionEnv = () => {
   return (
-    !environment.BASE_URL.includes('localhost') &&
+    // !environment.BASE_URL.includes('localhost') &&
     // TODO: remove this when we push to production
-    !environment.vspEnvironment() === 'production' &&
-    !window.DD_RUM?.getInitConfiguration() &&
+    environment.vspEnvironment() !== 'production' &&
+    // !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
   );
 };
@@ -26,9 +26,8 @@ const defaultRumSettings = {
   site: 'ddog-gov.com',
   // see src/site/constants/vsp-environments.js for defaults
   env: environment.vspEnvironment(), // 'production'
-  sessionSampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
-  sessionReplaySampleRate:
-    environment.vspEnvironment() === 'staging' ? 100 : 20,
+  sessionSampleRate: 10,
+  sessionReplaySampleRate: 20,
   trackInteractions: true,
   trackUserInteractions: true,
   trackFrustrations: true,

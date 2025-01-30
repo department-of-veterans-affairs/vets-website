@@ -8,6 +8,7 @@ import DowntimeNotification, {
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import AppContent from '../components/AppContent';
 import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
@@ -25,6 +26,9 @@ const App = props => {
     applicationId: 'ec980bd9-5d61-4cf7-88a8-bdbbdb015059',
     clientToken: 'pub7162d18113213637d731bd1ae8a0abf0',
     service: 'benefits-rated-disabilities',
+    sessionSampleRate: environment.vspEnvironment() !== 'production' ? 100 : 20,
+    sessionReplaySampleRate:
+      environment.vspEnvironment() !== 'production' ? 100 : 20,
   });
 
   return (
