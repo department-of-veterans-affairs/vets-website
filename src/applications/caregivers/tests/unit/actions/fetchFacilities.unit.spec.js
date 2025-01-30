@@ -94,12 +94,12 @@ describe('CG fetchFacilities action', () => {
         expect(apiRequestStub.callCount).to.equal(1);
         expect(
           recordEventStub.calledWith({
-            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
+            event: 'caregivers-10-10cg-fetch-csrf-token-empty',
           }),
         ).to.be.false;
         expect(
           recordEventStub.calledWith({
-            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
+            event: 'caregivers-10-10cg-fetch-csrf-token-present',
           }),
         ).to.be.true;
       });
@@ -193,12 +193,12 @@ describe('CG fetchFacilities action', () => {
         await waitFor(() => {
           expect(
             recordEventStub.calledWith({
-              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
+              event: 'caregivers-10-10cg-fetch-csrf-token-empty',
             }),
           ).to.be.true;
           expect(
             recordEventStub.calledWith({
-              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
+              event: 'caregivers-10-10cg-fetch-csrf-token-present',
             }),
           ).to.be.false;
           expect(apiRequestStub.firstCall.args[0]).to.equal(
