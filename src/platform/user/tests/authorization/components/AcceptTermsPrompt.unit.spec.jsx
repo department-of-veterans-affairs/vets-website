@@ -20,7 +20,7 @@ const defaultProps = {
 describe('<AcceptTermsPrompt>', () => {
   let scrollToStub;
 
-  before(() => {
+  beforeEach(() => {
     window.dataLayer = [];
     scrollToStub = sinon.stub(reactScroll.scroller, 'scrollTo');
   });
