@@ -38,7 +38,7 @@ const defaultRumSettings = {
 
 // Initialize Datadog RUM directly, if not using a feature flag
 // Don't call this function if not logged in
-export const initializeRealUserMonitoring = customRumSettings => {
+export default function initializeRealUserMonitoring(customRumSettings) {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   // This should only be set to `true` to enable RUM locally
   // Otherwise this should be `false`
@@ -55,4 +55,4 @@ export const initializeRealUserMonitoring = customRumSettings => {
     // If sessionReplaySampleRate > 0, we need to manually start the recording
     datadogRum.startSessionReplayRecording();
   }
-};
+}
