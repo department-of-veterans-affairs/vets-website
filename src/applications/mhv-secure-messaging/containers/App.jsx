@@ -48,13 +48,6 @@ const App = ({ isPilot }) => {
     state => state.featureToggles['mhv-mock-session'],
   );
 
-  const removeLandingPage = useSelector(
-    state =>
-      state.featureToggles?.[
-        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
-
   useEffect(
     () => {
       if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
@@ -147,11 +140,7 @@ const App = ({ isPilot }) => {
   // When removing the landing page changes are fully implemented, update manifest.json to set
   // rootURL to /my-health/secure-messages-pilot/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    if (
-      removeLandingPage
-        ? window.location.replace('/my-health/secure-messages-pilot/inbox')
-        : window.location.replace(manifest.rootUrl)
-    );
+    window.location.replace(manifest.rootUrl);
     return <></>;
   }
 
