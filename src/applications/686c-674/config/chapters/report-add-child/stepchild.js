@@ -9,6 +9,7 @@ import {
   ssnUI,
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import React from 'react';
 
 function required(formData, rawIndex) {
   const index = parseInt(rawIndex, 10);
@@ -37,6 +38,18 @@ export const stepchild = {
         required: 'Enter the date.',
       },
     }),
+    'view:biologicalParentInfo': {
+      'ui:description': () => (
+        <va-additional-info trigger="How we define when a child enters your household">
+          <ul>
+            <li>
+              You start supporting them financially, <strong>or</strong>
+            </li>
+            <li>The child starts living with you</li>
+          </ul>
+        </va-additional-info>
+      ),
+    },
     biologicalParentName: firstNameLastNameNoSuffixUI(
       title => `Child’s biological parent’s ${title}`,
     ),
@@ -57,6 +70,10 @@ export const stepchild = {
     properties: {
       isBiologicalChild: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,
+      'view:biologicalParentInfo': {
+        type: 'object',
+        properties: {},
+      },
       biologicalParentName: firstNameLastNameNoSuffixSchema,
       biologicalParentSsn: ssnSchema,
       biologicalParentDob: currentOrPastDateSchema,
