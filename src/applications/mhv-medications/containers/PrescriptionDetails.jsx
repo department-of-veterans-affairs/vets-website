@@ -439,7 +439,7 @@ const PrescriptionDetails = () => {
                     showGroupingContent
                       ? ' vads-u-margin-top--3 vads-u-margin-bottom--5'
                       : ''
-                  } vads-u-padding-top--3 vads-u-border-top--1px vads-u-border-color--gray-lighter`}
+                  }`}
                 >
                   {/* TODO: clean after grouping flag is gone */}
                   {showGroupingContent && (

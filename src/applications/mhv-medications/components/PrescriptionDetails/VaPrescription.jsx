@@ -317,7 +317,7 @@ const VaPrescription = prescription => {
             </>
           )}
           {!pendingMed && (
-            <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-border-color--gray-lighter">
+            <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
               {/* TODO: clean after grouping flag is gone */}
               {!showGroupingContent && (
                 <h2
