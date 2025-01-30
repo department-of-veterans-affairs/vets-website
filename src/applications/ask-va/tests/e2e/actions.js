@@ -1,4 +1,17 @@
-export const HEADING_SELECTOR = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].join(', ');
+export const HEADING_SELECTORS = [
+  'div.form-panel h1',
+  'div.form-panel h2',
+  'div.form-panel h3',
+  'div.form-panel h4',
+  'div.form-panel h5',
+  'div.form-panel h6',
+  'div.schemaform-title h1',
+  'div.schemaform-title h2',
+  'div.schemaform-title h3',
+  'div.schemaform-title h4',
+  'div.schemaform-title h5',
+  'div.schemaform-title h6',
+].join(', ');
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
@@ -49,10 +62,35 @@ const log = content => {
   cy.log(content);
 };
 
-const ensureExists = (content, selector = HEADING_SELECTOR) => {
-  cy.get(selector, { includeShadowDom: true })
-    .contains(content)
-    .should('exist');
+const ensureExists = (content, selector = null) => {
+  // cy.log('ensureExists:', selector, content);
+  if (selector === null) {
+    let newSelector = null;
+    switch ((content ?? '').toUpperCase()) {
+      case 'CATEGORY':
+        newSelector = selectorShorthand.SELECT_CATEGORY;
+        break;
+      case 'ASK VA':
+      default:
+        newSelector = null;
+        break;
+    }
+    if (newSelector === null) {
+      cy.get('h1, h2, h3, h4, h5, h6', {
+        includeShadowDom: true,
+      })
+        .contains(content)
+        .should('exist');
+    } else {
+      cy.get(newSelector, {
+        includeShadowDom: true,
+      }).should('exist');
+    }
+  } else {
+    cy.get(selector, { includeShadowDom: true })
+      .contains(content)
+      .should('exist');
+  }
 };
 
 const clickLink = text => {
