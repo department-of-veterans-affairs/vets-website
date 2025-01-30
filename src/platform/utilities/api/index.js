@@ -51,7 +51,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
   const mergedSettings = {
     ...settings,
-    ...retryOn,
+    ...(!window.Mocha && { retryOn }),
   };
 
   return _fetch(url, mergedSettings).then(response => {
