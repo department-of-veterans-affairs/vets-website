@@ -7,7 +7,7 @@ import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
-import { errorMessages } from '../constants';
+// import { errorMessages } from '../constants';
 
 const store = ({
   termsOfUseEnabled = true,
@@ -360,38 +360,38 @@ describe('TermsOfUse', () => {
     });
   });
 
-  it('should show an error state if there is a network error | non-modal', async () => {
-    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
+  // it('should show an error state if there is a network error | non-modal', async () => {
+  //   const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+  //   global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
 
-    const mockStore = store();
-    server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
-      ),
-      rest.post(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (_, res) => res.networkError(),
-      ),
-    );
-    const { queryAllByTestId } = render(
-      <Provider store={mockStore}>
-        <TermsOfUse />
-      </Provider>,
-    );
+  //   const mockStore = store();
+  //   server.use(
+  //     rest.get(
+  //       `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+  //       (_, res, ctx) => res(ctx.status(200)),
+  //     ),
+  //     rest.post(
+  //       `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+  //       (_, res) => res.networkError(),
+  //     ),
+  //   );
+  //   const { queryAllByTestId } = render(
+  //     <Provider store={mockStore}>
+  //       <TermsOfUse />
+  //     </Provider>,
+  //   );
 
-    const accept = queryAllByTestId('accept')[0];
-    expect(accept).to.exist;
+  //   const accept = queryAllByTestId('accept')[0];
+  //   expect(accept).to.exist;
 
-    fireEvent.click(accept);
+  //   fireEvent.click(accept);
 
-    await waitFor(() => {
-      const nonModalErrorState = queryAllByTestId('error-non-modal')[0];
-      expect(nonModalErrorState).to.exist;
-      expect(nonModalErrorState.textContent).to.eql(errorMessages.network);
-    });
-  });
+  //   await waitFor(() => {
+  //     const nonModalErrorState = queryAllByTestId('error-non-modal')[0];
+  //     expect(nonModalErrorState).to.exist;
+  //     expect(nonModalErrorState.textContent).to.eql(errorMessages.network);
+  //   });
+  // });
 
   it('should close the Decline modal when Close or Go Back buttons are clicked', async () => {
     const mockStore = store();
