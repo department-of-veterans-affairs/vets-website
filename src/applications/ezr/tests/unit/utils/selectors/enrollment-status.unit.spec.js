@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
 
 describe('ezr enrollment status selectors', () => {
   const getData = ({

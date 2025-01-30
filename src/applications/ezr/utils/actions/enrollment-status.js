@@ -1,5 +1,5 @@
 import environment from 'platform/utilities/environment';
-import { selectEnrollmentStatus } from '../selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../selectors/enrollment-status';
 import { ENROLLMENT_STATUS_ACTIONS } from '../constants';
 import { callAPI, callFakeSuccess } from '../helpers/enrollment-status';
 

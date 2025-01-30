@@ -64,7 +64,7 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
 };
 
-// declare initial state for entrollment status reducer
+// declare initial state for enrollment status reducer
 export const ENROLLMENT_STATUS_INIT_STATE = {
   hasServerError: false,
   parsedStatus: null,

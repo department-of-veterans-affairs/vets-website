@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -19,10 +18,9 @@ import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInf
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
+const IntroductionPage = ({ fetchEnrollmentStatus, route, location }) => {
   const { isLoading } = useSelector(selectEnrollmentStatus);
   const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
-  const location = useLocation();
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
@@ -97,6 +95,7 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
 IntroductionPage.propTypes = {
   fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
+  location: PropTypes.object,
 };
 
 const mapDispatchToProps = {
