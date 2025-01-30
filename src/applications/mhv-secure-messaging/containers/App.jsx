@@ -23,7 +23,7 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
-import { downtimeNotificationParams } from '../util/constants';
+import { downtimeNotificationParams, Paths } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 
 const App = ({ isPilot }) => {
@@ -42,6 +42,13 @@ const App = ({ isPilot }) => {
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
+  const removeLandingPage = useSelector(
+    state =>
+      state.featureToggles?.[
+        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
+      ],
   );
 
   const mhvMockSessionFlag = useSelector(
@@ -139,11 +146,18 @@ const App = ({ isPilot }) => {
   // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
   // When removing the landing page changes are fully implemented, update manifest.json to set
   // rootURL to /my-health/secure-messages-pilot/inbox
-  if (isPilot && !cernerPilotSmFeatureFlag) {
-    window.location.replace(manifest.rootUrl);
+
+  if (isPilot) {
+    if (!cernerPilotSmFeatureFlag) {
+      const url = removeLandingPage
+        ? `/my-health/secure-messages${Paths.INBOX}`
+        : `${manifest.rootUrl}/`;
+      window.location.replace(url);
+    } else if (removeLandingPage) {
+      window.location.replace(`/my-health/secure-messages-pilot${Paths.INBOX}`);
+    }
     return <></>;
   }
-
   return (
     <RequiredLoginView
       user={user}
