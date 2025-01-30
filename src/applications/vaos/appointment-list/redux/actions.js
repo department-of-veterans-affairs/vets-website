@@ -2,7 +2,9 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
+  selectFeatureCCDirectScheduling,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
@@ -41,6 +43,7 @@ import {
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
 import { captureError, has400LevelError } from '../../utils/error';
 import { selectAppointmentById } from './selectors';
+import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -89,6 +92,15 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
+      getState(),
+    );
+    const patientFacilities = selectPatientFacilities(getState());
+
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
+    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
@@ -117,6 +129,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
+          includeEPS,
         }),
       ];
       if (includeRequests) {
@@ -129,6 +142,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
+            includeEPS,
           })
             .then(requests => {
               dispatch({
@@ -241,6 +255,16 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       getState(),
     );
 
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
+      getState(),
+    );
+    const patientFacilities = selectPatientFacilities(getState());
+
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
+    );
+
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -256,6 +280,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         endDate,
         avs: true,
         fetchClaimStatus: true,
+        includeEPS,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));

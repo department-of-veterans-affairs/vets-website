@@ -1,0 +1,273 @@
+{
+    "type": "FeatureCollection",
+    "query": [
+        "austin"
+    ],
+    "features": [
+        {
+            "id": "place.15042796",
+            "type": "Feature",
+            "place_type": [
+                "place"
+            ],
+            "relevance": 1,
+            "properties": {
+                "mapbox_id": "dXJuOm1ieHBsYzo1WWpz",
+                "wikidata": "Q16559"
+            },
+            "text": "Austin",
+            "place_name": "Austin, Texas, United States",
+            "bbox": [
+                -98.076759,
+                30.067944,
+                -97.541669,
+                30.519669
+            ],
+            "center": [
+                -97.742805,
+                30.268072
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -97.742805,
+                    30.268072
+                ]
+            },
+            "context": [
+                {
+                    "id": "district.23095020",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBV0JtN0E",
+                    "wikidata": "Q110426",
+                    "text": "Travis County"
+                },
+                {
+                    "id": "region.181484",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBc1Rz",
+                    "wikidata": "Q1439",
+                    "short_code": "US-TX",
+                    "text": "Texas"
+                },
+                {
+                    "id": "country.8940",
+                    "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+                    "wikidata": "Q30",
+                    "short_code": "us",
+                    "text": "United States"
+                }
+            ]
+        },
+        {
+            "id": "place.15124716",
+            "type": "Feature",
+            "place_type": [
+                "place"
+            ],
+            "relevance": 1,
+            "properties": {
+                "mapbox_id": "dXJuOm1ieHBsYzo1c2pz",
+                "wikidata": "Q780944"
+            },
+            "text": "Austin",
+            "place_name": "Austin, Minnesota, United States",
+            "bbox": [
+                -93.169096,
+                43.543037,
+                -92.749217,
+                43.813872
+            ],
+            "center": [
+                -92.974815,
+                43.668335
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -92.974815,
+                    43.668335
+                ]
+            },
+            "context": [
+                {
+                    "id": "district.16598764",
+                    "mapbox_id": "dXJuOm1ieHBsYzovVWJz",
+                    "wikidata": "Q490450",
+                    "text": "Mower County"
+                },
+                {
+                    "id": "region.230636",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBNFRz",
+                    "wikidata": "Q1527",
+                    "short_code": "US-MN",
+                    "text": "Minnesota"
+                },
+                {
+                    "id": "country.8940",
+                    "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+                    "wikidata": "Q30",
+                    "short_code": "us",
+                    "text": "United States"
+                }
+            ]
+        },
+        {
+            "id": "place.15108332",
+            "type": "Feature",
+            "place_type": [
+                "place"
+            ],
+            "relevance": 1,
+            "properties": {
+                "mapbox_id": "dXJuOm1ieHBsYzo1b2pz",
+                "wikidata": "Q1810383"
+            },
+            "text": "Austin",
+            "place_name": "Austin, Indiana, United States",
+            "bbox": [
+                -85.900442,
+                38.713764,
+                -85.707363,
+                38.815749
+            ],
+            "center": [
+                -85.80739,
+                38.75769
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.80739,
+                    38.75769
+                ]
+            },
+            "context": [
+                {
+                    "id": "district.20932332",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBVDltN0E",
+                    "wikidata": "Q366871",
+                    "text": "Scott County"
+                },
+                {
+                    "id": "region.165100",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBb1Rz",
+                    "wikidata": "Q1415",
+                    "short_code": "US-IN",
+                    "text": "Indiana"
+                },
+                {
+                    "id": "country.8940",
+                    "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+                    "wikidata": "Q30",
+                    "short_code": "us",
+                    "text": "United States"
+                }
+            ]
+        },
+        {
+            "id": "place.15083756",
+            "type": "Feature",
+            "place_type": [
+                "place"
+            ],
+            "relevance": 1,
+            "properties": {
+                "mapbox_id": "dXJuOm1ieHBsYzo1aWpz",
+                "wikidata": "Q80158"
+            },
+            "text": "Austin",
+            "place_name": "Austin, Arkansas, United States",
+            "bbox": [
+                -92.120439,
+                34.911692,
+                -91.825729,
+                35.076289
+            ],
+            "center": [
+                -91.98405,
+                34.998955
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -91.98405,
+                    34.998955
+                ]
+            },
+            "context": [
+                {
+                    "id": "district.14026476",
+                    "mapbox_id": "dXJuOm1ieHBsYzoxZ2Jz",
+                    "wikidata": "Q61143",
+                    "text": "Lonoke County"
+                },
+                {
+                    "id": "region.296172",
+                    "mapbox_id": "dXJuOm1ieHBsYzpCSVRz",
+                    "wikidata": "Q1612",
+                    "short_code": "US-AR",
+                    "text": "Arkansas"
+                },
+                {
+                    "id": "country.8940",
+                    "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+                    "wikidata": "Q30",
+                    "short_code": "us",
+                    "text": "United States"
+                }
+            ]
+        },
+        {
+            "id": "place.15067372",
+            "type": "Feature",
+            "place_type": [
+                "place"
+            ],
+            "relevance": 1,
+            "properties": {
+                "mapbox_id": "dXJuOm1ieHBsYzo1ZWpz"
+            },
+            "text": "Austin",
+            "place_name": "Austin, Nevada, United States",
+            "bbox": [
+                -117.806786,
+                39.093425,
+                -116.590046,
+                40.00117
+            ],
+            "center": [
+                -117.07127,
+                39.492928
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -117.07127,
+                    39.492928
+                ]
+            },
+            "context": [
+                {
+                    "id": "district.12936940",
+                    "mapbox_id": "dXJuOm1ieHBsYzp4V2Jz",
+                    "wikidata": "Q495349",
+                    "text": "Lander County"
+                },
+                {
+                    "id": "region.74988",
+                    "mapbox_id": "dXJuOm1ieHBsYzpBU1Rz",
+                    "wikidata": "Q1227",
+                    "short_code": "US-NV",
+                    "text": "Nevada"
+                },
+                {
+                    "id": "country.8940",
+                    "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+                    "wikidata": "Q30",
+                    "short_code": "us",
+                    "text": "United States"
+                }
+            ]
+        }
+    ],
+    "attribution": "NOTICE: © 2025 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained."
+}

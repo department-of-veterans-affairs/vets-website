@@ -6,6 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { CustomTopContent } from '../components/breadcrumbs';
+import { employersPages } from '../pages/employers';
 
 /** @type {FormConfig} */
 const minimalFlowProps = {
@@ -72,6 +73,10 @@ const formConfig = {
           schema: exampleRadio.schema,
         },
       },
+    },
+    employersChapter: {
+      title: 'Employers',
+      pages: employersPages,
     },
   },
 };

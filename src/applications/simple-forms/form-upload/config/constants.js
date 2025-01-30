@@ -29,9 +29,13 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       onCloseEvent={onCloseEvent}
     >
       {variant === 'name-and-zip-code' ? (
-        <h2 slot="headline">Name and zip code must match your form</h2>
+        <h3 slot="headline">
+          Veteran’s name and postal code must match your pdf
+        </h3>
       ) : (
-        <h2 slot="headline">Identification information must match your form</h2>
+        <h3 slot="headline">
+          Veteran’s identification information must match your pdf
+        </h3>
       )}
       {isLoa3 ? (
         <p>
@@ -40,15 +44,28 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
         </p>
       ) : null}
       {variant === 'name-and-zip-code' ? (
-        <p>
-          If the name and postal code you enter here don’t match your form, it
-          will cause processing delays.
-        </p>
+        <>
+          <p>
+            Since you’re signed in to your account, we prefilled this page based
+            on your account details.
+          </p>
+
+          <p>
+            If the Veteran’s name and postal code here don’t match your uploaded
+            pdf, it will cause processing delays.
+          </p>
+        </>
       ) : (
-        <p>
-          If the identification information you enter here doesn’t match your
-          form, it will cause processing delays.
-        </p>
+        <>
+          <p>
+            Since you’re signed in to your account, we prefilled part of this
+            page based on your account details.
+          </p>
+          <p>
+            If the Veteran’s identification information you enter here doesn’t
+            match your uploaded pdf, it will cause processing delays.
+          </p>
+        </>
       )}
     </VaAlert>
   );
