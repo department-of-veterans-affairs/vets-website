@@ -146,18 +146,14 @@ const App = ({ isPilot }) => {
   // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
   // When removing the landing page changes are fully implemented, update manifest.json to set
   // rootURL to /my-health/secure-messages-pilot/inbox
-
-  if (isPilot) {
-    if (!cernerPilotSmFeatureFlag) {
-      const url = removeLandingPage
-        ? `/my-health/secure-messages${Paths.INBOX}`
-        : `${manifest.rootUrl}/`;
-      window.location.replace(url);
-    } else if (removeLandingPage) {
-      window.location.replace(`/my-health/secure-messages-pilot${Paths.INBOX}`);
-    }
+  if (isPilot && !cernerPilotSmFeatureFlag) {
+    const url = removeLandingPage
+      ? `/my-health/secure-messages${Paths.INBOX}`
+      : `${manifest.rootUrl}`;
+    window.location.replace(url);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}

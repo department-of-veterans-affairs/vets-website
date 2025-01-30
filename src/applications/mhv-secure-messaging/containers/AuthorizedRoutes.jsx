@@ -46,8 +46,17 @@ const AuthorizedRoutes = () => {
       ],
   );
 
+  const cernerPilotSmFeatureFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
   if (removeLandingPage && location.pathname === `/`) {
-    window.location.replace(`/my-health/secure-messages${Paths.INBOX}`);
+    window.location.replace(
+      cernerPilotSmFeatureFlag
+        ? `/my-health/secure-messages-pilot${Paths.INBOX}`
+        : `/my-health/secure-messages${Paths.INBOX}`,
+    );
     return <></>;
   }
 
