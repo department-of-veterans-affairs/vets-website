@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import {
   capitalizeFirstLetter,
   formatResultCount,
+  isSmallScreen,
   showLcParams,
   showMultipleNames,
   updateStateDropdown,
@@ -27,6 +28,7 @@ export default function LicenseCertificationSearchResults({
   const location = useLocation();
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState(1);
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
@@ -59,6 +61,14 @@ export default function LicenseCertificationSearchResults({
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const checkScreen = () => {
+      setSmallScreen(isSmallScreen());
+    };
+
+    window.addEventListener('resize', checkScreen);
+
+    return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
   const handlePageChange = page => {
@@ -186,7 +196,7 @@ export default function LicenseCertificationSearchResults({
                 </h1>
                 <div className="lc-result-info-wrapper">
                   <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                    <p className="vads-u-color--gray-dark vads-u-margin--0">
+                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       Showing{' '}
                       {filteredResults.length - 1 === 0
                         ? ' 0 results for:'
@@ -200,8 +210,14 @@ export default function LicenseCertificationSearchResults({
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="column small-4 vads-u-padding--0">
+              <div className="row lc-results-wrapper">
+                <div
+                  className={
+                    !smallScreen
+                      ? 'column small-4 vads-u-padding--0'
+                      : 'column small-12 vads-u-padding--0'
+                  }
+                >
                   <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                     <LicenseCertificationFilterAccordion
                       button="Filter your results"
@@ -215,7 +231,14 @@ export default function LicenseCertificationSearchResults({
                   </div>
                 </div>
                 {filteredResults.length - 1 > 0 ? (
-                  <ul className="column small-7 lc-result-cards-wrapper">
+                  <ul
+                    className={
+                      !smallScreen
+                        ? 'column small-8 vads-u-padding--0 vads-u-padding-left--2 lc-result-cards-wrapper vads-u-margin-top--0 '
+                        : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
+                    }
+                  >
+                    {/* <ul className="column small-8 lc-result-cards-wrapper vads-u-margin-top--0 vads-u-padding-left--2"> */}
                     {currentResults.map((result, index) => {
                       if (index === 0) return null;
                       return (
@@ -230,7 +253,7 @@ export default function LicenseCertificationSearchResults({
                                 {ADDRESS_DATA.states[result.state]}
                               </p>
                             )}
-                            <va-link-action
+                            <va-link
                               href={`/lc-search/results/${result.enrichedId}`}
                               text={`View test amount details for ${
                                 result.lacNm

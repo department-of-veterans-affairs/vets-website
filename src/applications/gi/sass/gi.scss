@@ -366,6 +366,13 @@
   }
 }
 
+.lc-results-wrapper {
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .lc-result-cards-wrapper {
   list-style: none;
   // padding-left: 0;
