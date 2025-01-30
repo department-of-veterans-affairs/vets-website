@@ -2,6 +2,7 @@ import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
 import React from 'react';
+import { clockIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
   CategoryBenefitsIssuesOutsidetheUS,
@@ -672,23 +673,24 @@ export const getVAStatusFromCRM = status => {
   }
 };
 
-export const getDescriptiveTextFromCRM = status => {
-  switch (status.toLowerCase()) {
-    case 'new':
-      return 'Your inquiry is current in queue to be reviewed.';
-    case 'in progress':
-      return 'Your inquiry is currently being reviewed by an agent.';
-    case 'solved':
-      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
-    case 'reopened':
-      return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
-    case 'closed':
-      return 'Closed.';
-    case 'reference number not found':
-      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
-    default:
-      return 'error';
-  }
+export const getVAStatusIconAndMessage = {
+  Solved: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+  },
+  New: {
+    icon: starIcon,
+    message: "We received your question. We'll review it soon.",
+  },
+  'In progress': {
+    icon: clockIcon,
+    message: "We're reviewing your question.",
+  },
+  Reopened: {
+    icon: clockIcon,
+    message: "We received your reply. We'll respond soon.",
+  },
 };
 
 // Function to convert date to Response Inbox format using date-fns
@@ -757,11 +759,11 @@ export const getFiles = files => {
 };
 
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
-  const sizeMb = fileSize * 0.001;
+  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
 
   return (
     <a href={fileUrl} download={fileName}>
-      {`${fileName} (${sizeMb.toFixed(2)} MB)`}
+      {`${fileName}${fileSizeText}`}
     </a>
   );
 };

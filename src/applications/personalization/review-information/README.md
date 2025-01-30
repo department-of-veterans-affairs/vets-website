@@ -12,7 +12,7 @@ yarn watch --env entry=welcome-va-setup-review-information
 The form runs at this location:
 
 ```
-http://localhost:3001/my-va/welcome-va-setup/review-information/contact-information
+http://localhost:3001/my-va/welcome-va-setup/contact-information
 ```
 
 ## Testing

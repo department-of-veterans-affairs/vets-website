@@ -1,4 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
@@ -11,10 +12,11 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   it('Verify folder header', () => {
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    PatientMessagesSentPage.verifyResponseBodyLength();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Inbox');
-    PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
   it('checks for "End of conversations in this folder" text', () => {

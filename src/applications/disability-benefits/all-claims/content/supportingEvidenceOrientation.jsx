@@ -25,7 +25,7 @@ export const supportingEvidenceOrientation = ({ formData }) => {
         </strong>
       </p>
       <va-alert status="info">
-        <h2>Notice of evidence needed</h2>
+        <h3>Notice of evidence needed</h3>
         <p>
           We’re required by law to tell you what evidence you’ll need to submit
           to support your disability claim.
