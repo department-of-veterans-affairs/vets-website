@@ -22,6 +22,10 @@ const addressSchema = {
     address,
   },
 };
+const mouseClick = new MouseEvent('click', {
+  bubbles: true,
+  cancelable: true,
+});
 
 describe('Forms library address definition', () => {
   it('should render address', () => {
@@ -154,10 +158,6 @@ describe('Forms library address definition', () => {
     fireEvent.change(zip, { target: { value: '12345' } });
 
     const submitButton = form.getByRole('button', { name: 'Submit' });
-    const mouseClick = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
 
     fireEvent(submitButton, mouseClick);
 
@@ -175,10 +175,6 @@ describe('Forms library address definition', () => {
     const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
 
     const submitButton = form.getByRole('button', { name: 'Submit' });
-    const mouseClick = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
 
     fireEvent(submitButton, mouseClick);
 
@@ -206,10 +202,6 @@ describe('Forms library address definition', () => {
     fireEvent.change(zip, { target: { value: '12345' } });
 
     const submitButton = form.getByRole('button', { name: 'Submit' });
-    const mouseClick = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
 
     fireEvent(submitButton, mouseClick);
 

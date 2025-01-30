@@ -2,8 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import ReactTestUtils from 'react-dom/test-utils';
 
 const mouseClick = new MouseEvent('click', {
   bubbles: true,
@@ -49,7 +49,6 @@ describe('Edu personId', () => {
       const vaFileNumber = form.container.querySelector('#root_vaFileNumber');
       expect(vaFileNumber).to.be.null;
     });
-
     const checkbox = form.getByLabelText(
       /I don’t have a Social Security number/,
     );
