@@ -1,6 +1,7 @@
 import {
   textUI,
   textareaUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   eventDetailsPageTitle,
@@ -17,10 +18,14 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
+import { arrayBuilderEventPageTitleUI } from '../../utils/form0781';
 
-export const uiSchema = index => ({
-  'ui:title': titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
-  [`event${index}`]: {
+export default {
+  uiSchema: {
+    ...arrayBuilderEventPageTitleUI({
+      title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
+      editTitle: 'details',
+    }),
     details: textareaUI({
       title: eventDetailsPrompt,
       hint: eventDetailsHint,
@@ -36,36 +41,24 @@ export const uiSchema = index => ({
       title: eventTimingQuestion,
       hint: eventTimingHint,
     }),
+    'view:mentalHealthSupportAlert': {
+      'ui:description': mentalHealthSupportAlert,
+    },
   },
-  'view:mentalHealthSupportAlert': {
-    'ui:description': mentalHealthSupportAlert,
-  },
-});
-
-export const schema = index => ({
-  type: 'object',
-  properties: {
-    [`event${index}`]: {
-      type: 'object',
-      properties: {
-        details: {
-          type: 'string',
-        },
-        'view:eventExamplesAdditionalInfo': {
-          type: 'object',
-          properties: {},
-        },
-        location: {
-          type: 'string',
-        },
-        timing: {
-          type: 'string',
-        },
+  schema: {
+    type: 'object',
+    properties: {
+      details: textSchema,
+      'view:eventExamplesAdditionalInfo': {
+        type: 'object',
+        properties: {},
+      },
+      location: textSchema,
+      timing: textSchema,
+      'view:mentalHealthSupportAlert': {
+        type: 'object',
+        properties: {},
       },
     },
-    'view:mentalHealthSupportAlert': {
-      type: 'object',
-      properties: {},
-    },
   },
-});
+};
