@@ -117,15 +117,13 @@ const formConfig = {
     },
     submissionInstructionsChapter: {
       title: 'Submission instructions',
+      hideOnReviewPage: true,
       pages: {
         submissionInstructions: {
           path: 'submission-instructions',
           title: '',
           uiSchema: {
             'ui:description': SubmissionInstructions,
-            'ui:options': {
-              hideOnReview: true,
-            },
           },
           schema: {
             type: 'object',
