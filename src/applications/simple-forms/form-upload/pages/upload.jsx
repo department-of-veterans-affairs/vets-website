@@ -21,9 +21,7 @@ const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
-    'view:uploadGuidelines': {
-      'ui:description': UPLOAD_GUIDELINES,
-    },
+    'ui:title': UPLOAD_GUIDELINES,
     uploadedFile: {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
@@ -49,10 +47,6 @@ export const uploadPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:uploadGuidelines': {
-        type: 'object',
-        properties: {},
-      },
       uploadedFile: fileInputSchema,
     },
     required: ['uploadedFile'],
