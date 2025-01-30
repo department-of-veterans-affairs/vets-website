@@ -33,6 +33,8 @@ import responseVeteranHealthIdentificationCard from './ask_va_api/v0/contents/su
 import responseVeteranIdCardForDiscount from './ask_va_api/v0/contents/subtopics/veteran-id-card-for-discounts.json';
 import responseWorkStudy from './ask_va_api/v0/contents/subtopics/work-study.json';
 
+import responseHealthFacilities from './ask_va_api/v0/health-facilities.json';
+
 // Helper function to create cy.intercept for multiple endpoints
 const interceptTopics = [
   {
@@ -182,6 +184,12 @@ export const interceptAskVaResponses = () => {
       response,
     );
   });
+
+  cy.intercept(
+    'POST',
+    `/ask_va_api/v0/health_facilities*`,
+    responseHealthFacilities,
+  );
 };
 
 export default interceptAskVaResponses;

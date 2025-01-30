@@ -9,6 +9,7 @@ import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
 import STEPS from './actions';
 
 import testsToRun from './fixtures/tests-to-run.json';
+import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 const EMPTY_FLOW_YML = `
 flow:
@@ -145,11 +146,13 @@ describe('YAML tests', () => {
         // Intercept all relevant API calls for the Ask VA page
         interceptAskVaResponses();
         interceptVaGovResponses();
+        intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
         cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
         cy.login();
 
+        // TODO: This should be in the interceptAskVaResponses function -- Joe
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
