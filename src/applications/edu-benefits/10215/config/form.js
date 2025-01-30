@@ -12,6 +12,8 @@ import { getFTECalcs } from '../helpers';
 // Components
 import GetFormHelp from '../components/GetFormHelp';
 import StatementOfTruth from '../components/StatementOfTruth';
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -113,6 +115,25 @@ const formConfig = {
           schema: programInfo.schema,
         }),
       })),
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };
