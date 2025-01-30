@@ -79,7 +79,7 @@ class FacilityDetail extends Component {
             </p>
           )}
         <div>
-          <LocationDirectionsLink location={facility} from="FacilityDetail" />
+          <LocationDirectionsLink location={facility} />
         </div>
         {phone &&
           phone.main &&
