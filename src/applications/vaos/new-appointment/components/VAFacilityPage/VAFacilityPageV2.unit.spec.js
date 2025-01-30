@@ -1268,6 +1268,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       expect(await screen.findByRole('radio', { name: /Facility 1/i }));
       expect(screen.getByRole('radio', { name: /Facility 3/i }));
+      expect(screen.queryByText(/Facility 2/i)).not.to.exist;
     });
   });
 
