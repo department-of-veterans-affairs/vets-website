@@ -8,7 +8,7 @@ const SearchAreaControl = ({
   isMobile,
   mobileMapUpdateEnabled,
   query,
-  setMobileMapPin,
+  selectMobileMapPin,
 }) => {
   const containerClass = () => {
     const mobileClass = isMobile
@@ -28,7 +28,7 @@ const SearchAreaControl = ({
     if (e) e.preventDefault();
 
     if (isMobile && mobileMapUpdateEnabled) {
-      setMobileMapPin(null);
+      selectMobileMapPin(null);
     }
 
     if (isEnabled) {

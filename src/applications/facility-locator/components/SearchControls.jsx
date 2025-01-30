@@ -27,7 +27,7 @@ const SearchControls = props => {
     geolocateUser,
     onChange,
     onSubmit,
-    setMobileMapPin,
+    selectMobileMapPin,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -122,7 +122,7 @@ const SearchControls = props => {
       'fl-current-zoom-depth': zoomLevel,
     });
 
-    setMobileMapPin(null);
+    selectMobileMapPin(null);
     onSubmit();
   };
 
