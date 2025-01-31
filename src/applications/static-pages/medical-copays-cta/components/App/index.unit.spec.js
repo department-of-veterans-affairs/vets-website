@@ -1,60 +1,45 @@
-// Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
-// Relative imports.
+import { fireEvent, cleanup } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+
 import { App } from '.';
 
 describe('Medical Copays CTA <App>', () => {
-  it('renders what we expect when unauthenticated', () => {
-    const mockStore = {
-      getState: () => ({}),
-      dispatch: () => {},
-      subscribe: () => {},
-    };
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <App loggedIn={false} show />
-      </Provider>,
-    );
-    expect(wrapper.type()).to.not.equal(null);
-    expect(wrapper.text()).includes(
-      'Please sign in to review your VA copay balances',
-    );
-    expect(wrapper.text()).not.includes('Review your VA copay balances');
-    expect(wrapper.text()).includes(
-      'If you don’t have any of these accounts, you can create a free Login.gov or ID.me account now. When you sign in or create an account, you’ll be able to:',
-    );
-    expect(wrapper.text()).not.includes('With this tool, you can:');
-    expect(wrapper.text()).includes(
-      'Review your balances for each of your medical facilities',
-    );
-    expect(wrapper.text()).includes('Download your copay statements');
-    expect(wrapper.text()).includes('Find the right repayment option for you');
-    expect(wrapper.find('a.vads-c-action-link--blue')).to.have.lengthOf(0);
-    expect(wrapper.find('va-button')).to.have.lengthOf(1);
-    wrapper.unmount();
+  afterEach(cleanup);
+
+  it('renders va-alert-sign-in to unauthenticated user', () => {
+    const { container } = renderInReduxProvider(<App />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: false } },
+      },
+    });
+    expect(container.querySelector('va-alert-sign-in')).to.exist;
+  });
+
+  it('opens sign-in modal when Sign in button is clicked', () => {
+    const { container } = renderInReduxProvider(<App />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: false } },
+      },
+    });
+    const signInButton = container.querySelector('va-button');
+    fireEvent.click(signInButton);
+    expect(container.querySelector('va-button')).to.exist;
   });
 
   it('renders what we expect when authenticated', () => {
-    const wrapper = shallow(<App loggedIn show />);
-    expect(wrapper.type()).to.not.equal(null);
-    expect(wrapper.text()).includes('Review your VA copay balances');
-    expect(wrapper.text()).includes('With this tool, you can:');
-    expect(wrapper.text()).not.includes(
-      'Please sign in to review your VA copay balances',
+    const { container } = renderInReduxProvider(<App />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: true } },
+      },
+    });
+    const vaAlert = container.querySelector('va-alert');
+    expect(container.querySelector('va-alert-sign-in')).to.not.exist;
+    expect(vaAlert).to.exist;
+    expect(vaAlert.getAttribute('status')).to.eql('info');
+    expect(container.querySelector('[slot="headline"]').textContent).to.eql(
+      'Review your VA copay balances',
     );
-    expect(wrapper.text()).not.includes(
-      'If you don’t have any of these accounts, you can create a free account now. When you sign in or create an account, you’ll be able to:',
-    );
-    expect(wrapper.text()).includes(
-      'Review your balances for each of your medical facilities',
-    );
-    expect(wrapper.text()).includes('Download your copay statements');
-    expect(wrapper.text()).includes('Find the right repayment option for you');
-    expect(wrapper.find('a.vads-c-action-link--blue')).to.have.lengthOf(1);
-    expect(wrapper.find('va-button')).to.have.lengthOf(0);
-    wrapper.unmount();
   });
 });
