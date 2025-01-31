@@ -16,6 +16,8 @@ const MedicationsListCard = ({ rx }) => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const pendingMed =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
   let showRefillRemaining = false;
 
@@ -33,7 +35,7 @@ const MedicationsListCard = ({ rx }) => {
   };
 
   const cardBodyContent = () => {
-    if (rx.prescriptionSource === 'PD' && rx.dispStatus === 'Renew') {
+    if (pendingRenewal) {
       return (
         <>
           <div className="vads-u-display--flex vads-u-margin-top--2">
@@ -114,7 +116,7 @@ const MedicationsListCard = ({ rx }) => {
   return (
     <div
       className={`no-print rx-card-container ${
-        pendingMed
+        pendingMed || pendingRenewal
           ? 'vads-u-background-color--gray-lightest'
           : 'vads-u-background-color--white'
       } vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--base-dark no-break`}

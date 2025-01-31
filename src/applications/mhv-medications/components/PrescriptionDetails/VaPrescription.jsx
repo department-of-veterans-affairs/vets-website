@@ -128,7 +128,7 @@ const VaPrescription = prescription => {
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                   data-testid="recent-rx"
                 >
-                  {pendingMed ? (
+                  {pendingMed || pendingRenewal ? (
                     <>About this prescription</>
                   ) : (
                     <>Most recent prescription</>
@@ -664,14 +664,14 @@ const VaPrescription = prescription => {
                     refillHistory[0].dispensedDate === undefined && (
                       <p>You haven’t filled this prescription yet.</p>
                     )}
-                  {showGroupingContent &&
-                    prescription?.groupedMedications?.length > 0 && (
-                      <GroupedMedications
-                        groupedMedicationsList={prescription.groupedMedications}
-                      />
-                    )}
                 </>
               )}
+              {showGroupingContent &&
+                prescription?.groupedMedications?.length > 0 && (
+                  <GroupedMedications
+                    groupedMedicationsList={prescription.groupedMedications}
+                  />
+                )}
             </div>
           )}
         </>
