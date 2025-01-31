@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
-
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { focusElement } from 'platform/utilities/ui';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
@@ -13,7 +13,16 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index }) => {
+const Covid19Result = ({ location, index, query, headerRef = null }) => {
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef.current);
+      }
+    },
+    [headerRef],
+  );
+
   const {
     name,
     website,
@@ -46,6 +55,7 @@ const Covid19Result = ({ location, index }) => {
             className="vads-u-margin-y--0"
             onClick={clickHandler}
             onKeyDown={clickHandler}
+            ref={headerRef}
             tabIndex={0}
           >
             <va-link href={website} text={name} />
@@ -55,6 +65,7 @@ const Covid19Result = ({ location, index }) => {
             className="vads-u-margin-y--0"
             onClick={clickHandler}
             onKeyDown={clickHandler}
+            ref={headerRef}
             tabIndex={0}
           >
             <Link to={`facility/${location.id}`}>{name}</Link>
@@ -66,7 +77,11 @@ const Covid19Result = ({ location, index }) => {
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink
+          location={location}
+          from="SearchResult"
+          query={query}
+        />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
@@ -100,6 +115,10 @@ const Covid19Result = ({ location, index }) => {
 };
 
 Covid19Result.propTypes = {
+  headerRef: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.shape({ current: PropTypes.object }),
+  ]),
   index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,

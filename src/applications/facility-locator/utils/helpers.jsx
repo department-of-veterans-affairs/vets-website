@@ -28,27 +28,47 @@ export const clearLocationMarkers = () => {
   );
 };
 
-export const buildMarker = (type, values) => {
+export const buildMarker = (type, values, selectMobileMapPin) => {
   if (type === 'location') {
     const { loc, attrs } = values;
     const markerElement = document.createElement('span');
+
     markerElement.className = 'i-pin-card-map';
     markerElement.style.cursor = 'pointer';
     markerElement.textContent = attrs.letter;
-    markerElement.addEventListener('click', function() {
+
+    markerElement.addEventListener('click', () => {
       const locationElement = document.getElementById(loc.id);
+
+      selectMobileMapPin({
+        ...loc,
+        markerText: attrs.letter,
+        attributes: {
+          ...loc.attributes,
+          distance: loc.distance,
+        },
+      });
+
       if (locationElement) {
         Array.from(document.getElementsByClassName('facility-result')).forEach(
           e => {
             e.classList.remove('active');
           },
         );
+
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
-        document.getElementById('searchResultsContainer').scrollTop =
-          locationElement.offsetTop;
+
+        const searchResultsContainer = document.getElementById(
+          'searchResultsContainer',
+        );
+
+        if (searchResultsContainer) {
+          searchResultsContainer.scrollTop = locationElement.offsetTop;
+        }
       }
     });
+
     return markerElement;
   }
 
