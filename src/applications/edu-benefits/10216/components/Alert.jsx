@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-const Alert = ({ isAccredited }) => {
-  const [pathname, setPathname] = useState(window.location.pathname);
-  useEffect(() => {
-    const handlePathnameChange = () => {
-      setPathname(window.location.pathname);
-    };
-    window.addEventListener('popstate', handlePathnameChange);
-    return () => {
-      window.removeEventListener('popstate', handlePathnameChange);
-    };
-  }, []);
+const Alert = () => {
+  const pathname = useSelector(state => state?.navigation?.route?.path);
+  const isAccredited = localStorage.getItem('isAccredited') === 'true';
 
   return (
     <va-alert

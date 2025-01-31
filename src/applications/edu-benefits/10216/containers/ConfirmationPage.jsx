@@ -18,7 +18,7 @@ export const ConfirmationPage = ({ router, route }) => {
   };
   const childContent = (
     <div>
-      <Alert isAccredited={isAccredited} />
+      <Alert />
 
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
