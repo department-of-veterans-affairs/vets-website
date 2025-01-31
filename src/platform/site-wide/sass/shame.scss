@@ -645,6 +645,16 @@ div[data-widget-type="events"] {
   height: 59px;
   width: 264px;
 }
+input[type=radio].va-radio-option__input {
+  height: 1.25rem !important;
+}
+.va-checkbox__input {
+  height: 1.25rem !important;
+  width: 1.25rem !important;
+}
+.form-radio-buttons label {
+  margin-top: 0;
+}
 /* ~~~ Used on some static pages such as /search */
 .highlight,
 .va-h-ruled {
