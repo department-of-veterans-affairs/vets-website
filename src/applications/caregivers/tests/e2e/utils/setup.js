@@ -87,8 +87,7 @@ export const pageHooks = {
   },
   confirmation: ({ afterHook }) => {
     afterHook(() => {
-      cy.get('va-link')
-        .contains(content['button-download'])
+      cy.get(`va-link[text="${content['button-download']}"]`)
         .as('downloadButton')
         .click();
 
