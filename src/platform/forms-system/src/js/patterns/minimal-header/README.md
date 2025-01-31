@@ -1,10 +1,18 @@
 # Minimal Header Pattern
 
+## Features
+- Smaller header
+- Back link at top instead of back button at bottom
+- No breadcrumbs or form title for every page within a form
+- H1s for page titles
+
+## Example
 You can see an example of the minimal header pattern here: https://staging.va.gov/mock-form-minimal-header
 
+## Usage:
 To use the minimal header pattern, you must make two changes. One in content-build, and one to your formConfig.
 
-## Content-build registry.json
+### Change #1: Content-build registry.json
 ```js
 // registry.json
   {
@@ -22,7 +30,7 @@ To use the minimal header pattern, you must make two changes. One in content-bui
     }
   },
 ```
-## FormConfig
+### Change #2: formConfig
 ```js
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  focusByOrder,
-  focusElement,
-  scrollTo,
-  // waitForRenderThenFocus,
-} from 'platform/utilities/ui';
+import { focusByOrder, focusElement, scrollTo } from 'platform/utilities/ui';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { createBreadcrumbListFromPath } from '../../routing';
@@ -59,8 +54,6 @@ const Breadcrumbs = ({ breadcrumbList, homeVeteransAffairs }) => (
 const minimalHeaderScrollAndFocus = () => {
   scrollTo('header-minimal');
 
-  // If we have something with `label-header-level`, then that is likely
-  // the title of the page, so we should focus on that.
   const radioHeader = document.querySelector(
     'va-radio[label-header-level="1"]',
   );
