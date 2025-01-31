@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import moment from 'moment';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -176,12 +175,12 @@ export const serviceDowntimeErrorMessage = (
 export const genericErrorMessage = (
   <div>
     <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
-    <Link
+    <va-link
       className="usa-button usa-button-primary"
       to="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
     >
       Back to Post-9/11 GI Bill
-    </Link>
+    </va-link>
   </div>
 );
 
@@ -215,9 +214,9 @@ export const authenticationErrorMessage = (
           <li>
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
             <br />
-            <Link to="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
+            <va-link to="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
               Apply for education benefits
-            </Link>
+            </va-link>
           </li>
           <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
           <li>
