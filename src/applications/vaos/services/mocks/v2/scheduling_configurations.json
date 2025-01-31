@@ -78,13 +78,13 @@
               { "primary": "502", "secondary": "509" },
               { "primary": "502", "secondary": "510" }
             ],
-            "direct": { "canCancel": true, "enabled": false },
+            "direct": { "canCancel": true, "enabled": true },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
