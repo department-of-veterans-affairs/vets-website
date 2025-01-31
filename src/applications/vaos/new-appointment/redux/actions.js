@@ -13,6 +13,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -20,6 +21,8 @@ import {
   getFormData,
   getTypeOfCareFacilities,
   getCCEType,
+  selectRecentLocations,
+  selectIsRecentLocationsFetched,
 } from './selectors';
 import {
   getLocation,
@@ -64,7 +67,10 @@ import {
   fetchPatientRelationships,
 } from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { getCommunityCareV2 } from '../../services/vaos/index';
+import {
+  getCommunityCareV2,
+  getPatientRecentLocations,
+} from '../../services/vaos/index';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -152,6 +158,12 @@ export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
+export const FORM_FETCH_RECENT_LOCATIONS =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS';
+export const FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED';
+export const FORM_FETCH_RECENT_LOCATIONS_FAILED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -333,6 +345,37 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
+      const typeOfCareName = typeOfCare?.idV2;
+      let recentLocations = selectRecentLocations(initialState);
+      const isRecentLocationsFetchted = selectIsRecentLocationsFetched(
+        initialState,
+      );
+      const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
+        initialState,
+      );
+      if (featureRecentLocationsFilter) {
+        if (!isRecentLocationsFetchted) {
+          try {
+            dispatch({
+              type: FORM_FETCH_RECENT_LOCATIONS,
+            });
+            const getRecentLocations = await getPatientRecentLocations(
+              typeOfCareName,
+            );
+            recentLocations = getRecentLocations;
+            dispatch({
+              type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
+              recentLocations,
+            });
+          } catch (e) {
+            captureError(e, true, 'recent locations - facility page');
+            dispatch({
+              type: FORM_FETCH_RECENT_LOCATIONS_FAILED,
+            });
+          }
+        }
+        recordItemsRetrieved('recent-locations', recentLocations?.length || 0);
+      }
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
         const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
@@ -359,11 +402,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
           facilities: typeOfCareFacilities || [],
+          recentLocations: recentLocations || [],
           typeOfCareId,
           schema,
           uiSchema,
           cernerSiteIds,
           address: selectVAPResidentialAddress(initialState),
+          featureRecentLocationsFilter,
         });
 
         // If we have an already selected location or only have a single location
@@ -459,9 +504,21 @@ export function updateCCProviderSortMethod(sortMethod, selectedFacility = {}) {
 
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
+    const initialState = getState();
+    const { newAppointment } = initialState;
+    const typeOfCare = getTypeOfCare(newAppointment.data);
+    const typeOfCareName = typeOfCare?.idV2;
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
+    const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
+      initialState,
+    );
+    let recentLocations = selectRecentLocations(initialState);
+    const isRecentLocationsFetchted = selectIsRecentLocationsFetched(
+      initialState,
+    );
+
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -471,6 +528,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
+      recentLocations,
     };
 
     if (
@@ -502,11 +560,41 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           sortMethod,
           uiSchema,
           cernerSiteIds,
+          recentLocations,
         });
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
+    } else if (
+      sortMethod === FACILITY_SORT_METHODS.recentLocations &&
+      featureRecentLocationsFilter
+    ) {
+      if (!isRecentLocationsFetchted) {
+        try {
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS,
+          });
+          const getRecentLocations = await getPatientRecentLocations(
+            typeOfCareName,
+          );
+          recentLocations = getRecentLocations;
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
+            recentLocations,
+          });
+        } catch (e) {
+          captureError(e, true, 'recent locations - facility page');
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS_FAILED,
+          });
+        }
+      }
+      dispatch({
+        ...action,
+        recentLocations,
+        address: selectVAPResidentialAddress(initialState),
+      });
     } else {
       dispatch(action);
     }
