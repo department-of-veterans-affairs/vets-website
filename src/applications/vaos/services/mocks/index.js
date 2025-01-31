@@ -363,22 +363,23 @@ const responses = {
       data: providerUtils.createProviderDetails(5, req.params.providerId),
     });
   },
-  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
+  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+    const { referralId } = req.body;
+
     // Provider 3 throws error
-    if (req.params.referralId === '3') {
+    if (referralId === '3') {
       return res.status(500).json({ error: true });
     }
+
     // Provider 0 has no available slots
-    if (req.params.referralId === '0') {
+    if (referralId === '0') {
       return res.json({
-        data: providerUtils.createDraftAppointmentInfo(
-          0,
-          req.params.referralId,
-        ),
+        data: providerUtils.createDraftAppointmentInfo(0, referralId),
       });
     }
+
     return res.json({
-      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
+      data: providerUtils.createDraftAppointmentInfo(5, referralId),
     });
   },
   // Required v0 APIs
