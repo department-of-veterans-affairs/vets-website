@@ -98,7 +98,9 @@ function AddressTypeahead({
   const debouncedUpdateSearch = vaDebounce(500, updateSearch);
 
   const onBlur = () => {
-    onChange({ searchString: inputValue || '' });
+    const iv = inputValue?.trim();
+    onChange({ searchString: ' ' });
+    onChange({ searchString: iv || '' });
     // not expected to search when user leaves the field
   };
 
@@ -113,7 +115,6 @@ function AddressTypeahead({
       return;
     }
 
-    setShowAddressError(false);
     debouncedUpdateSearch(iv);
   };
 
@@ -121,11 +122,10 @@ function AddressTypeahead({
     () => {
       // If the location is changed, and there is no value in searchString or inputValue then show the error
       setShowAddressError(
-        (locationChanged &&
+        locationChanged &&
           !geolocationInProgress &&
           !searchString?.length &&
-          !inputValue) ||
-          (!searchString?.length && !inputValue && isTouched), // not null but empty string (null on start)
+          !inputValue, // not null but empty string (null on start)
       );
     },
     [
@@ -165,7 +165,7 @@ function AddressTypeahead({
       downshiftInputProps={{
         // none are required
         id: 'street-city-state-zip', // not required to provide an id
-        onFocus: () => {}, // not required
+        onFocus: () => setIsTouched(true), // not required
         onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
         disabled: false,
         autoCorrect: 'off',
