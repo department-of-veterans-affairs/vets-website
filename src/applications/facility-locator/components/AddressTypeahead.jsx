@@ -165,7 +165,7 @@ function AddressTypeahead({
       downshiftInputProps={{
         // none are required
         id: 'street-city-state-zip', // not required to provide an id
-        onFocus: () => setIsTouched(true), // not required
+        onFocus: () => {}, // not required
         onBlur, // override the onBlur to handle that we want to keep the data and update the search in redux
         disabled: false,
         autoCorrect: 'off',

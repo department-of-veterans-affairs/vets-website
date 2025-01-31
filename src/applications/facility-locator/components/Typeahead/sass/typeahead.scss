@@ -12,9 +12,10 @@ div[id$="-typeahead-container"] {
       margin-left: -0.9rem; // matching Facility Type - can override
     }
   }
-  div[id$="-typeahead-label-container"] {
+  div[class$="-typeahead-label-container"] {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
