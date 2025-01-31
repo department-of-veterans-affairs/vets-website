@@ -13,26 +13,22 @@ describe('ResultMapper', () => {
   it('should return a Covid19Result when the matching attributes are given', () => {
     // Facility type: VA health
     // Service type: COVID-19 vaccines
-    const { container } = render(
-      <ResultMapper
-        index={0}
-        result={{ id: 0 }}
-        searchQuery={{
-          serviceType: 'Covid19Vaccine',
-          facilityType: 'health',
-        }}
-      />,
+    const result = ResultMapper(
+      { id: 0 },
+      {
+        serviceType: 'Covid19Vaccine',
+        facilityType: 'health',
+      },
+      0,
     );
 
-    console.log('result: ', container.innerHTML);
-
-    // expect(result.type).to.equal(Covid19Result);
+    expect(result.type).to.equal(Covid19Result);
   });
 
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: VA health
   //   // Service type: All VA health services
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: 'null',
@@ -47,7 +43,7 @@ describe('ResultMapper', () => {
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: VA health
   //   // Service type: Gynecology
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: 'Gynecology',
@@ -62,7 +58,7 @@ describe('ResultMapper', () => {
   // it('should return a CCProviderResult when the matching attributes are given', () => {
   //   // Facility type: Community providers (in VA's network)
   //   // Service type: Optometrist
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: '152W00000X',
@@ -77,7 +73,7 @@ describe('ResultMapper', () => {
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: Urgent care
   //   // Service type: All in-network urgent care
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: null,
@@ -92,7 +88,7 @@ describe('ResultMapper', () => {
   // it('should return an UrgentCareResult when the matching attributes are given', () => {
   //   // Facility type: Community providers (in VA's network)
   //   // Service type: Clinic/Center - Urgent Care
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: '261QU0200X',
@@ -107,7 +103,7 @@ describe('ResultMapper', () => {
   // it('should return an EmergencyCareResult when the matching attributes are given', () => {
   //   // Facility type: Community providers (in VA's network)
   //   // Service type: Clinic/Center - Emergency Care
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: '261QE0002X',
@@ -122,7 +118,7 @@ describe('ResultMapper', () => {
   // it('should return a PharmacyResult when the matching attributes are given', () => {
   //   // Facility type: Community pharmacies (in VA's network)
   //   // Service type: N/A
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: null,
@@ -137,7 +133,7 @@ describe('ResultMapper', () => {
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: VA benefits
   //   // Service type: N/A - All VA benefit services
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: null,
@@ -152,7 +148,7 @@ describe('ResultMapper', () => {
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: VA cemeteries
   //   // Service type: N/A
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: null,
@@ -167,7 +163,7 @@ describe('ResultMapper', () => {
   // it('should return a VaFacilityResult when the matching attributes are given', () => {
   //   // Facility type: Vet Centers
   //   // Service type: N/A
-  //   const result = resultMapper(
+  //   const result = ResultMapper(
   //     { id: 0 },
   //     {
   //       serviceType: null,

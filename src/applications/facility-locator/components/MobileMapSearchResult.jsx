@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import ResultMapper from './search-results-items/common/ResultMapper';
+import { ResultMapper } from './search-results-items/common/ResultMapper';
 
 const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
   const headerRef = useRef(null);
@@ -14,12 +14,7 @@ const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
       )}
       {mobileMapPinSelected && (
         <div className="mobile-search-result">
-          <ResultMapper
-            headerRef={headerRef}
-            index={0}
-            searchQuery={query}
-            result={mobileMapPinSelected}
-          />
+          {ResultMapper(mobileMapPinSelected, query, 0, headerRef)}
         </div>
       )}
     </>
