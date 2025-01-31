@@ -2,7 +2,7 @@ import { vitalTypeDisplayNames } from '../constants';
 
 export const generateVitalsIntro = (records, lastUpdated) => {
   return {
-    title: vitalTypeDisplayNames[records[0].type],
+    typeDisplayName: vitalTypeDisplayNames[records[0].type], // Assigning a key for display name
     subject: 'VA Medical Record',
     subtitles: [
       lastUpdated,
