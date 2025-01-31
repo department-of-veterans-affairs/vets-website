@@ -69,11 +69,11 @@ const formConfig = (pathname = null) => {
     },
     chapters: {
       personalInformationChapter: {
-        title: 'Personal information',
+        title: 'Veteran information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
-            title: 'Personal information',
+            title: 'Veteran information',
             uiSchema: nameAndZipCodePage.uiSchema,
             schema: nameAndZipCodePage.schema,
             CustomPage: NameAndZipCodePage,

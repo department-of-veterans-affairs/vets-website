@@ -49,4 +49,15 @@
       margin-right: 4px;
     }
   }
+
+  .il-print{
+    display: block;
+  }
+
+  @media print {
+    [data-testid=il-print],
+    [data-testid=il-results-back] {
+      display: none;
+    }
+  }
 }

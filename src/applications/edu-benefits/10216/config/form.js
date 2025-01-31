@@ -40,7 +40,13 @@ const formConfig = {
   },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage
+      isAccredited={isAccredited}
+      router={router}
+      route={route}
+    />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {

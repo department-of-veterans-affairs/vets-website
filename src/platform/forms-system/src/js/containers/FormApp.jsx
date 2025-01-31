@@ -54,7 +54,11 @@ const FormApp = props => {
       : formConfig.subTitle;
   const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
   const notProd = !environment.isProduction();
-  const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+  const hasHiddenFormTitle = hideFormTitle(
+    formConfig,
+    trimmedPathname,
+    formData,
+  );
   let useTopBackLink = false;
 
   let formTitle;
@@ -110,7 +114,7 @@ const FormApp = props => {
           {CustomTopContent && (
             <CustomTopContent currentLocation={currentLocation} />
           )}
-          {useTopBackLink && <BackLink />}
+          {useTopBackLink && <BackLink text={formConfig?.backLinkText} />}
           {notProd && noTitle ? null : formTitle}
           {notProd && noTopNav ? null : formNav}
           <Element name="topContentElement" />
@@ -135,6 +139,7 @@ FormApp.propTypes = {
   }),
   formConfig: PropTypes.shape({
     additionalRoutes: PropTypes.array,
+    backLinkText: PropTypes.string,
     footerContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     formOptions: PropTypes.shape({}),
     subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
