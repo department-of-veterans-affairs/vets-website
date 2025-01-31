@@ -1,16 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 
-const BreadcrumbsComponent = () => {
-  const location = useLocation();
-  const { pathname } = location;
+const Breadcrumbs = ({ pathname }) => {
   const crumbs = [
     {
       href: '/',
       label: 'Home',
     },
-    ...(pathname.endsWith('/10215/')
+    ...(pathname === '/'
       ? [
           {
             href: '/find-forms/',
@@ -48,11 +46,8 @@ const BreadcrumbsComponent = () => {
     </div>
   );
 };
-
-const Breadcrumbs = () => (
-  <Router>
-    <BreadcrumbsComponent />
-  </Router>
-);
+Breadcrumbs.propTypes = {
+  pathname: PropTypes.string.isRequired,
+};
 
 export default Breadcrumbs;

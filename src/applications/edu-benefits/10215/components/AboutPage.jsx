@@ -18,7 +18,7 @@ const AboutPage = ({ props }) => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
       <div className="vads-u-margin-top--neg2p5">
-        <Breadcrumbs />
+        <Breadcrumbs pathname={props?.router?.location?.pathname} />
       </div>
       <h1>About VA Form 22-10215</h1>
       <p>
@@ -67,6 +67,9 @@ const AboutPage = ({ props }) => {
 };
 AboutPage.propTypes = {
   props: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,

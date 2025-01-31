@@ -8,7 +8,7 @@ import AboutPage from './components/AboutPage';
 const route = [
   {
     path: '/calculation-instructions',
-    component: CalculationInstructions,
+    component: props => <CalculationInstructions props={props} />,
   },
   {
     path: '/',

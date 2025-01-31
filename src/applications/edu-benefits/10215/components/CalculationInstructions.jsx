@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NeedHelp from './NeedHelp';
-import BreadcrumbInstructionPage from './Breadcrumbs';
+import Breadcrumbs from './Breadcrumbs';
 
-export const CalculationInstructions = () => {
+export const CalculationInstructions = ({ props }) => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
       <div className="desktop-lg:vads-u-padding-left--0">
-        <BreadcrumbInstructionPage />
+        <Breadcrumbs pathname={props?.router?.location?.pathname} />
       </div>
       <h1 className="vads-u-margin-top--2">
         Calculation instructions for VA Form 22-10215: Statement of Assurance of
@@ -244,4 +245,14 @@ export const CalculationInstructions = () => {
       <NeedHelp />
     </div>
   );
+};
+
+CalculationInstructions.propTypes = {
+  props: PropTypes.shape({
+    router: PropTypes.shape({
+      location: PropTypes.shape({
+        pathname: PropTypes.string,
+      }),
+    }),
+  }),
 };
